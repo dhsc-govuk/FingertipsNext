@@ -109,9 +109,13 @@ jobs:
     name: Validate Terraform
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        tf-dir: ["account", "environment"]
+
     defaults:
       run:
-        working-directory: terraform
+        working-directory: terraform/${{ matrix.tf-dir }}
 
     steps:
       - name: Checkout source
