@@ -15,7 +15,7 @@ variable "region" {
 variable "environment" {
   type        = string
   sensitive   = false
-  description = "value"
+  description = "The name of the environment to be deployed."
 }
 
 variable "subscription_id" {
@@ -45,7 +45,7 @@ variable "registry_server_password" {
 variable "api_repository_name" {
   type        = string
   sensitive   = false
-  description = "The name of the repository within the container registry to pull API container images from. E.g. dhsc.fingertipsnext.api"
+  description = "The name of the repository within the container registry to pull API container images from."
   default     = "dhsc.fingertipsnext.api"
 }
 
@@ -59,7 +59,7 @@ variable "api_container_tag" {
 variable "frontend_repository_name" {
   type        = string
   sensitive   = false
-  description = "The name of the repository within the container registry to pull frontend container images from. E.g. dhsc.fingertipsnext.frontend"
+  description = "The name of the repository within the container registry to pull frontend container images from."
   default     = "dhsc.fingertipsnext.frontend"
 }
 
