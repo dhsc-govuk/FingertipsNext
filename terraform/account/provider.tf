@@ -1,7 +1,6 @@
 terraform {
   backend "azurerm" {
-    container_name = "tfstate"
-    key            = "terraform-account.tfstate"
+    key = "terraform-account.tfstate"
   }
 }
 
