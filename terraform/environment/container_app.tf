@@ -2,12 +2,14 @@
 resource "azurerm_resource_group" "acarg" {
   name     = "${local.resource_prefix}-rg-aca"
   location = var.region
+  tags     = local.tags
 }
 
 resource "azurerm_container_app_environment" "container_app_environment" {
   name                = "${local.resource_prefix}-container-app-environment"
   location            = var.region
   resource_group_name = azurerm_resource_group.acarg.name
+  tags                = local.tags
 }
 
 resource "azurerm_container_app" "api_container_app" {
@@ -15,6 +17,7 @@ resource "azurerm_container_app" "api_container_app" {
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   resource_group_name          = azurerm_resource_group.acarg.name
   revision_mode                = "Single"
+  tags                         = local.tags
 
   secret {
     name  = "${local.resource_prefix}-api-container-app-secret"
@@ -51,6 +54,7 @@ resource "azurerm_container_app" "frontend_container_app" {
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
   resource_group_name          = azurerm_resource_group.acarg.name
   revision_mode                = "Single"
+  tags                         = local.tags
 
   secret {
     name  = "${local.resource_prefix}-frontend-container-app-secret"
