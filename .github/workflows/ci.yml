@@ -10,30 +10,6 @@ on:
       - main
 
 jobs:
-  git-version:
-    name: Determine semantic version number
-    runs-on: ubuntu-latest
-
-    outputs:
-      sem-ver: ${{ steps.version_step.outputs.semVer }}
-      full-sem-ver: ${{ steps.version_step.outputs.fullSemVer }}
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          # GitVersion requires the entire history
-          fetch-depth: 0
-
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.0.0
-        with:
-          versionSpec: "6.x"
-
-      - name: Generate semantic version
-        id: version_step
-        uses: gittools/actions/gitversion/execute@v3.0.0
-
   frontend-build:
     name: Build frontend
     runs-on: ubuntu-latest
@@ -76,7 +52,6 @@ jobs:
   container-build:
     name: Build container
     runs-on: ubuntu-latest
-    needs: git-version
 
     strategy:
       matrix:
@@ -118,8 +93,8 @@ jobs:
             type=ref,event=pr
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=${{ needs.git-version.outputs.sem-ver }}
-            type=raw,value=${{ needs.git-version.outputs.full-sem-ver }}
+            type=raw,value=${{ github.run_id  }}
+            type=raw,value=${{ github.run_id  }}-${{ github.run_attempt }}
 
       - name: Build and push container
         uses: docker/build-push-action@v6
