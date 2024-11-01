@@ -18,19 +18,19 @@ resource "azurerm_container_app" "api_container_app" {
 
   secret {
     name  = "${local.resource_prefix}-api-container-app-secret"
-    value = var.docker_registry_server_password
+    value = var.registry_server_password
   }
 
   registry {
-    server               = var.docker_registry_server_url
-    username             = var.docker_registry_server_username
+    server               = var.registry_server_url
+    username             = var.registry_server_username
     password_secret_name = "${local.resource_prefix}-api-container-app-secret"
   }
 
   template {
     container {
       name   = "${local.resource_prefix}-api"
-      image  = "${var.docker_registry_server_url}/${var.api_repository_name}:${var.api_container_tag}"
+      image  = "${var.registry_server_url}/${var.api_repository_name}:${var.api_container_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
     }
@@ -54,19 +54,19 @@ resource "azurerm_container_app" "frontend_container_app" {
 
   secret {
     name  = "${local.resource_prefix}-frontend-container-app-secret"
-    value = var.docker_registry_server_password
+    value = var.registry_server_password
   }
 
   registry {
-    server               = var.docker_registry_server_url
-    username             = var.docker_registry_server_username
+    server               = var.registry_server_url
+    username             = var.registry_server_username
     password_secret_name = "${local.resource_prefix}-frontend-container-app-secret"
   }
 
   template {
     container {
       name   = "${local.resource_prefix}-api"
-      image  = "${var.docker_registry_server_url}/${var.frontend_repository_name}:${var.frontend_container_tag}"
+      image  = "${var.registry_server_url}/${var.frontend_repository_name}:${var.frontend_container_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
     }
