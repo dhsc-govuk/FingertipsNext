@@ -1,10 +1,14 @@
 services:
   frontend:
+    profiles:
+      - frontend
     build: frontend/fingertips-frontend
     ports:
       - 3000:3000
 
   api:
+    profiles:
+      - api
     build: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
     ports:
       - 5144:8080

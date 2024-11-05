@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"npm run api:start\" \"npm run dev:standalone\" && npm run api:stop",
+    "dev:standalone": "next dev",
     "build": "next build",
     "start": "next start",
+    "api:start": "docker compose --profile api up --build",
+    "api:stop": "docker compose --profile api down",
     "lint": "next lint",
     "typecheck": "tsc"
   },
@@ -20,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "concurrently": "^9.1.0",
     "eslint": "^9.13.0",
     "eslint-config-next": "15.0.1",
     "postcss": "^8",

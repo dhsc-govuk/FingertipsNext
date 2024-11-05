@@ -28,7 +28,7 @@ npm run typecheck
 
 ### Running the Development Server
 
-To run the Next development server:
+To run the Next development server, as well as the containers required for the API backend, you will need to have Docker running and then run the following NPM script:
 
 ```bash
 npm run dev
@@ -37,6 +37,12 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can then start editing the application and your browser will auto-update as you edit the files.
+
+You can also run the Next development server without running the API containers by using the following command:
+
+```bash
+npm run dev:standalone
+```
 
 ## Building
 
