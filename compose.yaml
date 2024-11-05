@@ -1,13 +1,18 @@
 services:
   frontend:
     profiles:
+      - all
       - frontend
+
     build: frontend/fingertips-frontend
+    environment:
+      - FINGERTIPS_API_URL=http://api:8080
     ports:
       - 3000:3000
 
   api:
     profiles:
+      - all
       - api
     build: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
     ports:

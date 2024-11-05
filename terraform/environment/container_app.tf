@@ -73,6 +73,10 @@ resource "azurerm_container_app" "frontend_container_app" {
       image  = "${var.registry_server_url}/${var.frontend_repository_name}:${var.frontend_container_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
+      env {
+        name  = "FINGERTIPS_API_URL"
+        value = "http://${azurerm_container_app.api_container_app.ingress[0].fqdn}"
+      }
     }
   }
 

@@ -9,7 +9,7 @@ A [Docker compose](https://docs.docker.com/compose/) definition is provided (see
 To build the application containers you will need Docker installed: <https://docs.docker.com/engine/install/>. Once Docker is installed, you can start the whole application with the following command:
 
 ```bash
-docker compose up --build -d
+docker compose --profile all up --build -d
 ```
 
 This will build and then start the containers in the background. You can view the frontend application at [http://localhost:3000/](http://localhost:3000/) and the API at [http://localhost:5144/](http://localhost:5144/).
@@ -18,25 +18,20 @@ It is also possible to start a subset of the application's containers using Dock
 
 | Profile Name | Services Included        |
 | ------------ | ------------------------ |
+| all          | All application services |
 | frontend     | The frontend application |
 | api          | The API application      |
 
-You can start a specific profile by providing the `--profile <profile_name>` argument to the `docker compose` command. For example:
+You can start a specific profile by providing the `--profile <profile_name>` argument to the `docker compose` command. For example the following command will start only the API:
 
 ```bash
 docker compose --profile api up --build -d
 ```
 
-Finally, you can stop all of the running containers with the following command:
+Finally, you can stop all of the running containers with the following command, where `<profile_name>` is the profile name you provided to the `up` command:
 
 ```bash
-docker compose down
-```
-
-If you have started a specific profile, you'll need to provide it with the `--profile <profile_name>` argument:
-
-```bash
-docker compose --profile api down
+docker compose down --profile <profile_name>
 ```
 
 ## Deploying the Application
