@@ -6,18 +6,32 @@ Temporary home for FingerTipsNext.
 
 A [Docker compose](https://docs.docker.com/compose/) definition is provided (see [compose.yaml](compose.yaml)) to allow the individual application containers to be run locally.
 
-To build the application containers you will need Docker installed: <https://docs.docker.com/engine/install/>. Once Docker is installed, you can start the application with the following command:
+To build the application containers you will need Docker installed: <https://docs.docker.com/engine/install/>. Once Docker is installed, you can start the whole application with the following command:
 
 ```bash
-docker compose up --build -d
+docker compose --profile all up --build -d
 ```
 
 This will build and then start the containers in the background. You can view the frontend application at [http://localhost:3000/](http://localhost:3000/) and the API at [http://localhost:5144/](http://localhost:5144/).
 
-You can stop all of the containers with the following command:
+It is also possible to start a subset of the application's containers using Docker's support for profiles. The following profiles have been defined:
+
+| Profile Name | Services Included        |
+| ------------ | ------------------------ |
+| all          | All application services |
+| frontend     | The frontend application |
+| api          | The API application      |
+
+You can start a specific profile by providing the `--profile <profile_name>` argument to the `docker compose` command. For example the following command will start only the API:
 
 ```bash
-docker compose down
+docker compose --profile api up --build -d
+```
+
+Finally, you can stop all of the running containers with the following command, where `<profile_name>` is the profile name you provided to the `up` command:
+
+```bash
+docker compose down --profile <profile_name>
 ```
 
 ## Deploying the Application
