@@ -1,33 +1,33 @@
 
-resource "azurerm_resource_group" "acarg" {
-  name     = "${local.resource_prefix}-rg-aca"
+resource "azurerm_resource_group" "aca_rg" {
+  name     = "${local.resource_prefix}-rg-ca"
   location = var.region
   tags     = local.tags
 }
 
 resource "azurerm_container_app_environment" "container_app_environment" {
-  name                = "${local.resource_prefix}-container-app-environment"
+  name                = "${local.resource_prefix}-cae"
   location            = var.region
-  resource_group_name = azurerm_resource_group.acarg.name
+  resource_group_name = azurerm_resource_group.aca_rg.name
   tags                = local.tags
 }
 
 resource "azurerm_container_app" "api_container_app" {
-  name                         = "${local.resource_prefix}-api-ca"
+  name                         = "${local.resource_prefix}-ca-api"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
-  resource_group_name          = azurerm_resource_group.acarg.name
+  resource_group_name          = azurerm_resource_group.aca_rg.name
   revision_mode                = "Single"
   tags                         = local.tags
 
   secret {
-    name  = "${local.resource_prefix}-api-container-app-secret"
+    name  = "${local.resource_prefix}-ca-api-secret"
     value = var.registry_server_password
   }
 
   registry {
     server               = var.registry_server_url
     username             = var.registry_server_username
-    password_secret_name = "${local.resource_prefix}-api-container-app-secret"
+    password_secret_name = "${local.resource_prefix}-ca-api-secret"
   }
 
   template {
@@ -50,21 +50,21 @@ resource "azurerm_container_app" "api_container_app" {
 }
 
 resource "azurerm_container_app" "frontend_container_app" {
-  name                         = "${local.resource_prefix}-fe-ca"
+  name                         = "${local.resource_prefix}-ca-fe"
   container_app_environment_id = azurerm_container_app_environment.container_app_environment.id
-  resource_group_name          = azurerm_resource_group.acarg.name
+  resource_group_name          = azurerm_resource_group.aca_rg.name
   revision_mode                = "Single"
   tags                         = local.tags
 
   secret {
-    name  = "${local.resource_prefix}-frontend-container-app-secret"
+    name  = "${local.resource_prefix}-ca-frontend-secret"
     value = var.registry_server_password
   }
 
   registry {
     server               = var.registry_server_url
     username             = var.registry_server_username
-    password_secret_name = "${local.resource_prefix}-frontend-container-app-secret"
+    password_secret_name = "${local.resource_prefix}-ca-frontend-secret"
   }
 
   template {
