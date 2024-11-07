@@ -8,7 +8,11 @@
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="PostDeployment" />
     <Folder Include="Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="PostDeployment\PopulateWeatherForecast.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
