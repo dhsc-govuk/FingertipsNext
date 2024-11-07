@@ -182,3 +182,10 @@ jobs:
 
       - name: Build database project
         run: dotnet build fingertips-db.sqlproj
+
+      - name: Upload .dacpac file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacpac
+          path: bin/**/fingertips-db.dacpac
+          if-no-files-found: error
