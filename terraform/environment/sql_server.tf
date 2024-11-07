@@ -46,3 +46,10 @@ resource "azurerm_mssql_server" "sql_server" {
 
   tags = local.tags
 }
+
+resource "azurerm_mssql_firewall_rule" "sql_server_firewall_rule_allow_azure_services" {
+  name             = "${local.resource_prefix}-sql-fwr-azure-services"
+  server_id        = azurerm_mssql_server.sql_server.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
