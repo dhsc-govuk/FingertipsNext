@@ -1,5 +1,8 @@
 name: Fingertips CI
 
+env:
+  dotnet-version: 9.0.x
+
 on:
   push:
     branches:
@@ -130,7 +133,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  validate-terraform:
+  terraform-build:
     name: Validate Terraform
     runs-on: ubuntu-latest
 
@@ -159,3 +162,33 @@ jobs:
 
       - name: Check Terraform formatting
         run: terraform fmt -recursive -check -diff
+
+  database-build:
+    name: Build database project
+    runs-on: ubuntu-latest
+
+    env:
+      database-directory: database/fingertips-db
+
+    defaults:
+      run:
+        working-directory: ${{ env.database-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.dotnet-version }}
+
+      - name: Build database project
+        run: dotnet build fingertips-db.sqlproj
+
+      - name: Upload .dacpac file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacpac
+          path: ${{ env.database-directory }}/bin/**/fingertips-db.dacpac
+          if-no-files-found: error
