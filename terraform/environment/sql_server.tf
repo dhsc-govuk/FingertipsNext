@@ -9,6 +9,8 @@ resource "random_string" "sql_server_username" {
 }
 
 resource "azurerm_key_vault_secret" "sql_server_username_secret" {
+  depends_on = [azurerm_key_vault_access_policy.terraform_kv_access_policy]
+
   name         = "${local.resource_prefix}-kvs-sql-username"
   value        = random_string.sql_server_username.result
   key_vault_id = azurerm_key_vault.kv.id
@@ -28,6 +30,8 @@ resource "random_password" "sql_server_password" {
 }
 
 resource "azurerm_key_vault_secret" "sql_server_password_secret" {
+  depends_on = [azurerm_key_vault_access_policy.terraform_kv_access_policy]
+
   name         = "${local.resource_prefix}-kvs-sql-password"
   value        = random_password.sql_server_password.result
   key_vault_id = azurerm_key_vault.kv.id

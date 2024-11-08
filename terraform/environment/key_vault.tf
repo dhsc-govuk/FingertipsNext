@@ -14,19 +14,17 @@ resource "azurerm_key_vault" "kv" {
   sku_name            = "standard"
 
   tags = local.tags
+}
 
-  # TODO: Assess whether this is necessary
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
+resource "azurerm_key_vault_access_policy" "terraform_kv_access_policy" {
+  key_vault_id = azurerm_key_vault.kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
 
-    secret_permissions = [
-      "List",
-      "Set",
-      "Get",
-      "Delete",
-      "Purge",
-      "Recover"
-    ]
-  }
+  secret_permissions = [
+    "Set",
+    "Get",
+    "Delete",
+    "Purge"
+  ]
 }

@@ -50,7 +50,7 @@ public class WeatherForecastController : ControllerBase
             await using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            const string sql = "SELECT TOP (1000) [Id], [Date], [TemperatureC], [Summary] FROM [fingertips-db].[dbo].[WeatherForecast]";
+            const string sql = "SELECT TOP (1000) [Id], [Date], [TemperatureC], [Summary] FROM [WeatherForecast]";
             await using var command = new SqlCommand(sql, connection);
             await using var reader = await command.ExecuteReaderAsync();
 
