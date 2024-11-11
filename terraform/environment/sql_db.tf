@@ -5,9 +5,9 @@ resource "azurerm_mssql_database" "sql_db" {
   min_capacity                        = 0.5
   max_size_gb                         = 1
   sku_name                            = "GP_S_Gen5_1"
-  storage_account_type                = "Zone"
+  storage_account_type                = "Local"
   transparent_data_encryption_enabled = true
-  zone_redundant                      = true
+  zone_redundant                      = false
 
   tags = local.tags
 }
