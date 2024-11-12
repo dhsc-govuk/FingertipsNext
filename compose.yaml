@@ -16,7 +16,8 @@ services:
       - api
 
     depends_on:
-      - db
+      db-setup:
+        condition: service_completed_successfully
 
     build: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
     environment:
