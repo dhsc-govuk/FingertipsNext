@@ -16,11 +16,12 @@ This will build and then start the containers in the background. You can view th
 
 It is also possible to start a subset of the application's containers using Docker's support for profiles. The following profiles have been defined:
 
-| Profile Name | Services Included        |
-| ------------ | ------------------------ |
-| all          | All application services |
-| frontend     | The frontend application |
-| api          | The API application      |
+| Profile Name | Services Included              |
+| ------------ | ------------------------------ |
+| all          | All application services       |
+| frontend     | The frontend application       |
+| api          | The API application & database |
+| db           | The SQL Server database        |
 
 You can start a specific profile by providing the `--profile <profile_name>` argument to the `docker compose` command. For example the following command will start only the API:
 

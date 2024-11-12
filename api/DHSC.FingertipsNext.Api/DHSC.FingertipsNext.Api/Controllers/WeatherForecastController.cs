@@ -36,6 +36,7 @@ public class WeatherForecastController : ControllerBase
             UserID = dbUser,
             Password = dbPassword,
             InitialCatalog = dbName,
+            TrustServerCertificate = true // TODO: Need to deal with self-signed certificate locally
         };
 
         _connectionString = builder.ConnectionString;
