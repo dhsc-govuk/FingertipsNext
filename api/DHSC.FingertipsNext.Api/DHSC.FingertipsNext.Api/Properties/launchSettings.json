@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "http": {
@@ -11,7 +11,8 @@
         "DB_SERVER": "localhost",
         "DB_NAME": "fingertips-db",
         "DB_USER": "<username>",
-        "DB_PASSWORD": "<password>"
+        "DB_PASSWORD": "<password>",
+        "TRUST_CERT": "True"
       }
     },
     "https": {
@@ -24,7 +25,8 @@
         "DB_SERVER": "localhost",
         "DB_NAME": "fingertips-db",
         "DB_USER": "<username>",
-        "DB_PASSWORD": "<password>"
+        "DB_PASSWORD": "<password>",
+        "TRUST_CERT": "True"
       }
     }
   }

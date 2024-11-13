@@ -12,8 +12,9 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
     private readonly string _connectionString;
+
+    private readonly ILogger<WeatherForecastController> _logger;
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger)
     {
@@ -30,13 +31,23 @@ public class WeatherForecastController : ControllerBase
                                         "Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
         }
 
+        var trustServerCertificate = false;
+        trustServerCertificate = Boolean.TryParse(Environment.GetEnvironmentVariable("TRUST_CERT"),
+            out trustServerCertificate);
+
+        if (trustServerCertificate)
+        {
+            _logger.LogWarning("Server certificate validation has been disabled (by setting the TRUST_CERT " +
+                               "environment variable). This should only be done for local development!");
+        }
+
         var builder = new SqlConnectionStringBuilder
         {
             DataSource = dbServer,
             UserID = dbUser,
             Password = dbPassword,
             InitialCatalog = dbName,
-            TrustServerCertificate = true // TODO: Need to deal with self-signed certificate locally
+            TrustServerCertificate = trustServerCertificate
         };
 
         _connectionString = builder.ConnectionString;
