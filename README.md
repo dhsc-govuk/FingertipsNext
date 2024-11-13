@@ -6,7 +6,7 @@ Temporary home for FingerTipsNext.
 
 A [Docker compose](https://docs.docker.com/compose/) definition is provided (see [compose.yaml](compose.yaml)) to allow the individual application containers to be run locally.
 
-To build the application containers you will need Docker installed: <https://docs.docker.com/engine/install/>. You will also need to copy of the `.env.template` file to one called `.env` and populate the `DB_PASSWORD` environment variable with a password value that meets the [SQL Server password policy](https://learn.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver16).
+To build the application containers you will need Docker installed: <https://docs.docker.com/engine/install/>. You will also need to copy the `.env.template` file to one called `.env` and populate the `DB_PASSWORD` environment variable with a password value that meets the [SQL Server password policy](https://learn.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver16).
 
 Once Docker is installed and the `.env` file is in place, you can start the whole application with the following command:
 

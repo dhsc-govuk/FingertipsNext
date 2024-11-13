@@ -27,8 +27,7 @@ public class WeatherForecastController : ControllerBase
 
         if (dbServer == null || dbName == null || dbUser == null || dbPassword == null)
         {
-            throw new ArgumentException("Invalid environment variables provided. " +
-                                        "Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
+            throw new ArgumentException("Invalid environment variables provided. Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
         }
 
         var trustServerCertificate = false;
@@ -37,8 +36,7 @@ public class WeatherForecastController : ControllerBase
 
         if (trustServerCertificate)
         {
-            _logger.LogWarning("Server certificate validation has been disabled (by setting the TRUST_CERT " +
-                               "environment variable). This should only be done for local development!");
+            _logger.LogWarning("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
         }
 
         var builder = new SqlConnectionStringBuilder
