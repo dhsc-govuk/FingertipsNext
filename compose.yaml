@@ -6,7 +6,7 @@ services:
 
     build: frontend/fingertips-frontend
     environment:
-      - FINGERTIPS_API_URL=http://api:8080
+      FINGERTIPS_API_URL: "http://api:8080"
     ports:
       - 3000:3000
 
@@ -14,6 +14,47 @@ services:
     profiles:
       - all
       - api
+
+    depends_on:
+      db-setup:
+        condition: service_completed_successfully
+
     build: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
+    environment:
+      DB_SERVER: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      TRUST_CERT: "True"
     ports:
       - 5144:8080
+
+  db-setup:
+    profiles:
+      - all
+      - api
+      - db
+
+    depends_on:
+      - db
+
+    build: database/fingertips-db
+    environment:
+      DB_SERVER: db
+      DB_NAME: ${DB_NAME}
+      SA_USERNAME: ${DB_USER}
+      SA_PASSWORD: ${DB_PASSWORD}
+      TRUST_CERT: "True"
+
+  db:
+    profiles:
+      - all
+      - api
+      - db
+
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 1433:1433

@@ -1,5 +1,5 @@
 -- This file contains SQL statements that will be executed after the build script.
-
+TRUNCATE TABLE WeatherForecast;
 INSERT INTO WeatherForecast
   ([Date], [Summary], [TemperatureC])
 VALUES
