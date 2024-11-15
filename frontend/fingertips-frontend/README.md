@@ -8,6 +8,7 @@ The Fingertips frontend. A [Next.js](https://nextjs.org) project.
 
 Before starting development on this application you need to do the following:
 
+1. Ensure you are using the correct Node.js version. The currently-supported version is specified in the [.nvmrc](.nvmrc) file. It is recommended you install nvm and use it to manage your Node.js version. With nvm installed you can install and use the correct Node.js version by running `nvm install` in this directory.
 1. Install the necessary dependencies: `npm install`
 
 ### Linting
@@ -56,10 +57,10 @@ To perform a production build of the application, do the following:
 
 ### Building the Container
 
-A Dockerfile is provided to allow a container image to be built for the application. You can build and run a container by doing the following:
+A [Dockerfile](Dockerfile) is provided to allow a container image to be built for the application. You can build and run a container by doing the following:
 
 1. [Install Docker](https://docs.docker.com/get-docker/) on your machine, if required
-1. Build your container: `docker build -t fingertipsnext-frontend .`
-1. Run your container: `docker run -p 3000:3000 fingertipsnext-frontend`
+1. Build your container: `docker build -t fingertips-frontend .`
+1. Run your container: `docker run -p 3000:3000 fingertips-frontend`
 
 You can then open [http://localhost:3000](http://localhost:3000) with your browser to see the application. You can also view the images created with `docker images`.

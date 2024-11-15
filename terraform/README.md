@@ -5,7 +5,7 @@ Fingertips uses [Terraform](https://developer.hashicorp.com/terraform) to define
 - Account-scoped resources, deployed once and shared between all Fingertips environments, defined in the [account](account) directory
 - Environment-scoped resources, deployed for each Fingertips environment, defined in the [environment](environment) directory
 
-## Pre-requisites
+## Prerequisites
 
 To deploy the application from your local machine you will need the following tools:
 
