@@ -1,6 +1,6 @@
-# fingertipsnext
+# FingertipsNext
 
-Temporary home for FingerTipsNext.
+FingerTipsNext is the next version of Fingertips, a comprehensive public health data collection platform managed by the Department of Health and Social Care (DHSC) in the UK.
 
 ## Starting the Application Locally
 
