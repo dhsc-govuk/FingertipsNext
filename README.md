@@ -37,9 +37,16 @@ Finally, you can stop all of the running containers with the following command, 
 docker compose down --profile <profile_name>
 ```
 
-## Deploying the Application
+## Making Changes to the Application
 
-[Terraform](https://developer.hashicorp.com/terraform) is used to define the infrastructure for the Fingertips application and allow for repeatable deployments of Fingertips environments. Fingertips' Terraform is defined in the [terraform](terraform) directory, along with details of how to run it locally.
+There are several components to the application:
+
+- The [frontend](frontend/fingertips-frontend/), a Next.js application which provides the UI
+- The [api](api/DHSC.FingertipsNext.Api/), a .NET application which provides the API layer
+- The [database](database/fingertips-db/) project, a SQL Server Database Project that defines the database structure
+- The [terraform](terraform/), which provides the Infrastructure as Code used to deploy the application to Azure
+
+Each component directory has a README.md file providing details of how to contribute to it.
 
 ## Workflows
 
