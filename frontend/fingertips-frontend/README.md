@@ -8,6 +8,7 @@ The Fingertips frontend. A [Next.js](https://nextjs.org) project.
 
 Before starting development on this application you need to do the following:
 
+1. Ensure you are using the correct Node.js version. The currently-supported version is specified in the [.nvmrc](.nvmrc) file. It is recommended you install nvm and use it to manage your Node.js version. With nvm installed you can install and use the correct Node.js version by running `nvm install` in this directory.
 1. Install the necessary dependencies: `npm install`
 
 ### Linting
