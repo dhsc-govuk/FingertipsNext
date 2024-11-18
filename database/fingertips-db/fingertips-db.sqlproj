@@ -3,9 +3,10 @@
   <Sdk Name="Microsoft.Build.Sql" Version="0.2.0-preview" />
   <PropertyGroup>
     <Name>fingertips-db</Name>
-    <ProjectGuid>{AE804CEA-8B4D-4297-86FB-DC39E46CC918}</ProjectGuid>
+    <ProjectGuid>{ae804cea-8b4d-4297-86fb-dc39e46cc918}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="PostDeployment" />
@@ -13,6 +14,9 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateWeatherForecast.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\WeatherForecast.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
