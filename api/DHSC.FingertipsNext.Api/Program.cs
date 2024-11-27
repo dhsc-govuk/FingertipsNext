@@ -30,16 +30,8 @@ public class Program
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-            
-        RegisterModules(builder.Services, builder.Configuration);
-//=====
-        var a = builder.Configuration.Sources.ToList();
 
-        var json = JsonSerializer.Serialize(
-            builder.Configuration.AsEnumerable()
-                .ToDictionary(c => c.Key, c => c.Value)
-            );
-//============
+        RegisterModules(builder.Services, builder.Configuration);
 
         var app = builder.Build();
 
