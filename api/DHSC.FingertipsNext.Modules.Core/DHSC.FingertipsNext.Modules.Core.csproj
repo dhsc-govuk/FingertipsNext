@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Asp.Versioning.Abstractions" Version="8.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3"/>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DHSC.Fingertips.Monolith\DHSC.Fingertips.Monolith.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Interfaces\DHSC.FingertipsNext.Modules.Core.Interfaces.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Service\DHSC.FingertipsNext.Modules.Core.Service.csproj" />
+    </ItemGroup>
+
+</Project>
