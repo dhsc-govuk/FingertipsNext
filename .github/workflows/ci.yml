@@ -90,7 +90,7 @@ jobs:
             context-location: frontend/fingertips-frontend
           - application: API
             container-tag: dhsc.fingertipsnext.api
-            context-location: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
+            context-location: api/DHSC.FingertipsNext.Api
 
     steps:
       - name: Checkout source
