@@ -1,3 +1,6 @@
+import { FTContainer } from "@/components/layouts/container";
+import { FTFooter } from "@/components/molecules/Footer";
+import { FTHeader } from "@/components/molecules/Header";
 import StyledComponentsRegistry from "@/lib/registry";
 import type { Metadata } from "next";
 
@@ -15,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <FTHeader />
+          <FTContainer>{children}</FTContainer>
+          <FTFooter />
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
