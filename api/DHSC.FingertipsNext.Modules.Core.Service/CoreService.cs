@@ -2,17 +2,10 @@
 
 namespace DHSC.FingertipsNext.Modules.Core.Service;
 
-public class CoreService : ICoreService
+public class CoreService(ISearchClient searchClient) : ICoreService
 {
-    private ISearchClient _searchClient;
-    
-    public CoreService(ISearchClient searchClient)
-    {
-        _searchClient = searchClient;
-    }
-    
     public string DoThing(string searchTerm)
     {
-        return _searchClient.Search(searchTerm);
+        return searchClient.Search(searchTerm);
     }
 }

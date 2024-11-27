@@ -5,7 +5,7 @@ using Scalar.AspNetCore;
 
 namespace DHSC.FingerTipsNext.Api;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
