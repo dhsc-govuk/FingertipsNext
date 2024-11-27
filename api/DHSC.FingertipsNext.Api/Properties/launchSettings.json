@@ -7,7 +7,12 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5144",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_SERVER": "localhost",
+        "DB_NAME": "fingertips-db",
+        "DB_USER": "<username>",
+        "DB_PASSWORD": "<password>",
+        "TRUST_CERT": "True"
       }
     },
     "https": {
@@ -16,7 +21,12 @@
       "launchBrowser": false,
       "applicationUrl": "https://localhost:7130;http://localhost:5144",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_SERVER": "localhost",
+        "DB_NAME": "fingertips-db",
+        "DB_USER": "<username>",
+        "DB_PASSWORD": "<password>",
+        "TRUST_CERT": "True"
       }
     }
   }
