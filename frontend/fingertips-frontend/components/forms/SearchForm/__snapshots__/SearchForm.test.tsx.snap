@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test - renders the form 1`] = `
+<DocumentFragment>
+  <form>
+    <label
+      class="src__Label-sc-iqzvxn-0 kEOogx"
+      data-testid="input-indicator-search"
+    >
+      <span
+        class="src__LabelText-sc-1lbxenh-0 fznhHQ"
+      >
+        Indicator id or keyword
+      </span>
+      <span
+        class="src__HintText-sc-tq1z5r-0 cMlbGB"
+      >
+        Type in here the IndicatorId.
+      </span>
+      <input
+        class="src__Input-sc-1ch9crp-0 bupTtW"
+      />
+    </label>
+    <button
+      class="src__StyledButton-sc-19ocyxv-0 ckHZHw"
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
+</DocumentFragment>
+`;
