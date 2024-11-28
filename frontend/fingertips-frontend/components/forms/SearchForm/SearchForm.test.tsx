@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { SearchForm } from '.';
+import { SearchForm } from '@/components/forms/SearchForm';
 
 test('snapshot test - renders the form', () => {
   const container = render(
