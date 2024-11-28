@@ -21,4 +21,10 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search\DHSC.FingertipsNext.Modules.Search.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\..\.gitignore">
+        <Link>.gitignore</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>
