@@ -7,14 +7,9 @@ namespace DHSC.FingertipsNext.Modules.Search.Controllers.V1;
 
 [ApiController]
 [Route("[controller]")]
-public class SearchController : ControllerBase, ISearchController
+public class SearchController(ILogger<SearchController> logger) : ControllerBase, ISearchController
 {
-    private readonly ILogger<SearchController> _logger;
-
-    public SearchController(ILogger<SearchController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<SearchController> _logger = logger;
 
     [HttpGet]
     public string Search([FromQuery] string searchTerm)

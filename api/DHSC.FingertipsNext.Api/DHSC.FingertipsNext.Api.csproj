@@ -16,13 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\DHSC.Fingertips.Monolith\DHSC.Fingertips.Monolith.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core\DHSC.FingertipsNext.Modules.Core.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search\DHSC.FingertipsNext.Modules.Search.csproj" />
     </ItemGroup>

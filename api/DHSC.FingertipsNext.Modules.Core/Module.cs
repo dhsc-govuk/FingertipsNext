@@ -1,8 +1,8 @@
-using DHSC.Fingertips.Monolith;
 using DHSC.FingertipsNext.Modules.Core.Controllers.V1;
-using DHSC.FingertipsNext.Modules.Core.Interfaces;
+using DHSC.FingertipsNext.Modules.Core.ModuleInterfaces;
 using DHSC.FingertipsNext.Modules.Core.SearchAPI;
 using DHSC.FingertipsNext.Modules.Core.Service;
+using DHSC.FingertipsNext.Monolith;
 
 namespace DHSC.FingertipsNext.Modules.Core;
 

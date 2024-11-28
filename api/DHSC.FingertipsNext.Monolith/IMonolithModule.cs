@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DHSC.Fingertips.Monolith;
+namespace DHSC.FingertipsNext.Monolith;
 
 public interface IMonolithModule
 {

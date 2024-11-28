@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Asp.Versioning;
-using DHSC.Fingertips.Monolith;
+using DHSC.FingertipsNext.Monolith;
 using Scalar.AspNetCore;
 
 namespace DHSC.FingerTipsNext.Api;

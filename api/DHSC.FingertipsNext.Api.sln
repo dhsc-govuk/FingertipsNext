@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core", "DHSC.FingertipsNext.Modules.Core\DHSC.FingertipsNext.Modules.Core.csproj", "{2249CC8B-D291-490A-BA4F-81784DBBB16A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.Fingertips.Monolith", "DHSC.Fingertips.Monolith\DHSC.Fingertips.Monolith.csproj", "{51C01F75-C62B-4C82-8FCA-306B4C8B5657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Monolith", "DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj", "{51C01F75-C62B-4C82-8FCA-306B4C8B5657}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{68620BFB-ED52-4B92-B37E-BBDF367D3830}"
 EndProject
@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core.UnitTests", "DHSC.FingertipsNext.Modules.Core.UnitTests\DHSC.FingertipsNext.Modules.Core.UnitTests.csproj", "{37ADB951-3E0F-4A89-A48F-1BE9273FA631}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core.Interfaces", "DHSC.FingertipsNext.Modules.Core.Interfaces\DHSC.FingertipsNext.Modules.Core.Interfaces.csproj", "{0BC06378-0BC2-4AA9-87E4-809B15E237B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core.ModuleInterfaces", "DHSC.FingertipsNext.Modules.Core.ModuleInterfaces\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces.csproj", "{0BC06378-0BC2-4AA9-87E4-809B15E237B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Search.Interfaces", "DHSC.FingertipsNext.Modules.Search.Interfaces\DHSC.FingertipsNext.Modules.Search.Interfaces.csproj", "{861E33C4-10D8-4EA9-B241-F2641DF116DE}"
 EndProject

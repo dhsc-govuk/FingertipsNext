@@ -1,5 +1,5 @@
 using Asp.Versioning;
-using DHSC.FingertipsNext.Modules.Core.Interfaces;
+using DHSC.FingertipsNext.Modules.Core.ModuleInterfaces;
 using DHSC.FingertipsNext.Modules.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 

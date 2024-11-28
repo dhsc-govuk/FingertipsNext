@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.Fingertips.Monolith\DHSC.Fingertips.Monolith.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search.Interfaces\DHSC.FingertipsNext.Modules.Search.Interfaces.csproj" />
     </ItemGroup>
 
