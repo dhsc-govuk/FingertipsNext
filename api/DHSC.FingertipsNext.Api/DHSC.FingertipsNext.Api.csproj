@@ -25,6 +25,9 @@
       <Content Include="..\..\.gitignore">
         <Link>.gitignore</Link>
       </Content>
+      <Content Include="..\Dockerfile">
+        <Link>Dockerfile</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
