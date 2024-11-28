@@ -91,7 +91,6 @@ jobs:
           - application: API
             container-tag: dhsc.fingertipsnext.api
             context-location: api
-            
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
