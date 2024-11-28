@@ -91,9 +91,6 @@ jobs:
             - name: Checkout source
               uses: actions/checkout@v4
 
-            - name: Install dependencies
-              run: npm ci
-
             - name: Restore Packages
               run: dotnet restore
 
