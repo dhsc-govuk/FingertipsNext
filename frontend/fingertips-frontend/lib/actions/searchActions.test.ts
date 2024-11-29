@@ -32,7 +32,7 @@ describe('Search actions', () => {
     await searchIndicator(initialState, formData);
 
     expect(redirectMock).toHaveBeenCalledWith(
-      '/search?indicator=boom',
+      '/search/results?indicator=boom',
     );
   });
 });
