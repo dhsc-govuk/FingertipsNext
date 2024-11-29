@@ -1,4 +1,4 @@
-namespace DHSC.FingerTipsNext.Api;
+namespace DHSC.FingertipsNext.Modules.Core;
 
 public class WeatherForecast
 {

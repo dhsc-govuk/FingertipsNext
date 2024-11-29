@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>DHSC.FingerTipsNext.Api</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+        <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3"/>
+        <PackageReference Include="Scalar.AspNetCore" Version="1.2.42" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core\DHSC.FingertipsNext.Modules.Core.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search\DHSC.FingertipsNext.Modules.Search.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.gitignore">
+        <Link>.gitignore</Link>
+      </Content>
+      <Content Include="..\Dockerfile">
+        <Link>Dockerfile</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>

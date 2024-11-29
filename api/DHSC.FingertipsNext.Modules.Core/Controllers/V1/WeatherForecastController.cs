@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
-namespace DHSC.FingerTipsNext.Api.Controllers;
+namespace DHSC.FingertipsNext.Modules.Core.Controllers.V1;
 
 [ApiController]
-[Route("/")]//[controller]
+[Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
