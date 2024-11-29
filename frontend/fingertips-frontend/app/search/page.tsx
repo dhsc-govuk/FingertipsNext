@@ -1,7 +1,14 @@
 import { SearchForm } from "@/components/forms/SearchForm";
 
-export default async function Page() {
+export default async function Page(props: {
+  searchParams?: Promise<{
+    indicator?: string;
+  }>
+}) {
+  const searchParams = await props.searchParams;
+  const indicator = searchParams?.indicator || '';
+
   return (
-    <SearchForm />
+    <SearchForm indicator={indicator} />
   );
 }

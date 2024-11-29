@@ -2,9 +2,11 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  <form>
+  <form
+    action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
+  >
     <label
-      class="src__Label-sc-iqzvxn-0 kEOogx"
+      class="src__Label-sc-iqzvxn-0 kEOogx sc-5cd5cf15-0 kNsDax"
       data-testid="input-indicator-search"
     >
       <span
@@ -19,6 +21,9 @@ exports[`snapshot test - renders the form 1`] = `
       </span>
       <input
         class="src__Input-sc-1ch9crp-0 bupTtW"
+        id="indicator"
+        name="indicator"
+        value=""
       />
     </label>
     <button

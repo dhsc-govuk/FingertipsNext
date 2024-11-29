@@ -3,14 +3,14 @@ import { SearchForm } from '@/components/forms/SearchForm';
 
 test('snapshot test - renders the form', () => {
   const container = render(
-    <SearchForm />
+    <SearchForm indicator='' />
   )
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 test('should have an input field to input the indicatorId', () => {
-  render(<SearchForm />);
+  render(<SearchForm indicator='' />);
 
   expect(screen.getByTestId('input-indicator-search')).toBeInTheDocument();
 });

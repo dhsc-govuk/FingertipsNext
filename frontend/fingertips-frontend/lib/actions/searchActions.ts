@@ -22,8 +22,6 @@ export type SearchForm = z.infer<typeof $SearchFormSchema>;
 export type SearchFormState<T = SearchForm> = State & T;
 
 export async function searchIndicator(prevState: SearchFormState, formData: FormData) {
-  console.log(`formData ${JSON.stringify(formData)}`);
-
   const validatedFields = $SearchFormSchema.safeParse({
     indicator: formData.get('indicator'),
   });
@@ -36,8 +34,6 @@ export async function searchIndicator(prevState: SearchFormState, formData: Form
   }
 
   const { indicator } = validatedFields.data;
-
-  console.log(`indicator ${indicator}`);
 
   redirect(`/search?indicator=${indicator}`);
 }
