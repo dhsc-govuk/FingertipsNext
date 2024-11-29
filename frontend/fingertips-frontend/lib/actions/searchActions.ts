@@ -35,5 +35,5 @@ export async function searchIndicator(prevState: SearchFormState, formData: Form
 
   const { indicator } = validatedFields.data;
 
-  redirect(`/search?indicator=${indicator}`);
+  redirect(`/search/results?indicator=${indicator}`);
 }
