@@ -77,9 +77,9 @@ jobs:
         run: npm run lint
 
       - name: run e2e cypress tests
-        uses: cypress-io/github-action@v6
         with: 
           working-directory: ${{ env.frontend-directory }}
+        uses: cypress-io/github-action@v6
       - run: npm run test-e2e-ci
 
   container-build:
