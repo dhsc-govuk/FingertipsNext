@@ -1,4 +1,4 @@
-import { searchIndicator, SearchFormState } from "./searchActions";
+import { searchIndicator, SearchFormState } from './searchActions';
 import { mockDeep } from 'jest-mock-extended';
 import { redirect } from 'next/navigation';
 
@@ -22,8 +22,8 @@ export const getMockFormData = (formData: Record<string, string>) =>
   });
 
 const initialState: SearchFormState = {
-  indicator: 'boom'
-}
+  indicator: 'boom',
+};
 
 describe('Search actions', () => {
   it('should redirect to search with query param', async () => {
@@ -31,8 +31,6 @@ describe('Search actions', () => {
 
     await searchIndicator(initialState, formData);
 
-    expect(redirectMock).toHaveBeenCalledWith(
-      '/search/results?indicator=boom',
-    );
+    expect(redirectMock).toHaveBeenCalledWith('/search/results?indicator=boom');
   });
 });

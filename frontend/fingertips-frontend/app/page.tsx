@@ -1,5 +1,5 @@
-import { HomePage } from "@/components/pages/home";
-import { connection } from "next/server";
+import { HomePage } from '@/components/pages/home';
+import { connection } from 'next/server';
 
 export type Forecast = {
   date: string;
@@ -16,7 +16,7 @@ export default async function Home() {
 
   if (!apiUrl) {
     throw new Error(
-      "No API URL set. Have you set the FINGERTIPS_API_URL environment variable?"
+      'No API URL set. Have you set the FINGERTIPS_API_URL environment variable?'
     );
   }
 
@@ -26,7 +26,5 @@ export default async function Home() {
   });
   const forecasts: Forecast[] = await weatherData.json();
 
-  return (
-    <HomePage forecasts={forecasts} />
-  );
+  return <HomePage forecasts={forecasts} />;
 }

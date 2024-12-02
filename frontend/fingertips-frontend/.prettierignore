@@ -1,0 +1,7 @@
+**/*.md
+**/*.woff
+**/*.ico
+**/*.css
+Dockerfile
+.prettierignore
+.gitignore

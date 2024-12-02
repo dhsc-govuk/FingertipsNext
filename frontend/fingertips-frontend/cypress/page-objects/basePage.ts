@@ -1,20 +1,19 @@
 const baseUrl = Cypress.config('baseUrl');
 
 export default class basePage {
-    readonly headerLocator =
-      'top-nav-inner__TopNavInner-sc-15yph1v-0 gdTVHU';
-    readonly footerLocator = 'src__FooterContainer-sc-1t3c5e2-0 dtonUY'
-    readonly backLink = 'src__StyledBackLink-sc-159gh4v-0 bRAlsd'
+  readonly headerLocator = 'top-nav-inner__TopNavInner-sc-15yph1v-0 gdTVHU';
+  readonly footerLocator = 'src__FooterContainer-sc-1t3c5e2-0 dtonUY';
+  readonly backLink = 'src__StyledBackLink-sc-159gh4v-0 bRAlsd';
 
-    checkURL = (checkURL: string) => {
-        return cy.url().should('contain', `${baseUrl}${checkURL}`);
-      };
+  checkURL = (checkURL: string) => {
+    return cy.url().should('contain', `${baseUrl}${checkURL}`);
+  };
 
-      navigateTo = (page: string) => {
-        return cy.visit(`${baseUrl}${page}`);
-      };
+  navigateTo = (page: string) => {
+    return cy.visit(`${baseUrl}${page}`);
+  };
 
-      clickBackLink = () => {
-        return cy.getByClass(this.backLink);
-      }
+  clickBackLink = () => {
+    return cy.getByClass(this.backLink);
+  };
 }

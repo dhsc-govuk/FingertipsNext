@@ -1,10 +1,14 @@
 'use client';
 
-import { Forecast } from "@/app/page";
-import { H1, Paragraph, Table } from "govuk-react";
-import Image from "next/image";
+import { Forecast } from '@/app/page';
+import { H1, Paragraph, Table } from 'govuk-react';
+import Image from 'next/image';
 
-export function HomePage({ forecasts }: { forecasts: Readonly<Array<Forecast>> }) {
+export function HomePage({
+  forecasts,
+}: {
+  forecasts: Readonly<Array<Forecast>>;
+}) {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">

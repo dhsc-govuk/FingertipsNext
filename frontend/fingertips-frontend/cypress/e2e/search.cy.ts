@@ -3,7 +3,7 @@ import * as Pages from '../page-objects/pageFactory';
 describe('Search Page', () => {
   it('search via indicator', () => {
     // Arrange
-    const indicator = '123'
+    const indicator = '123';
     Pages.searchPage.navigateToSearch();
 
     // Act
@@ -13,5 +13,5 @@ describe('Search Page', () => {
     // Assert
     Pages.resultsPage.checkURL(`search/results?indicator=${indicator}`);
     Pages.resultsPage.checkSearchResults(indicator);
-  })
-})
+  });
+});

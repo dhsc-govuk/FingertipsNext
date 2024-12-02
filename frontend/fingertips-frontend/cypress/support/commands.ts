@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { getByClass, getById, getByType } from "./selectorHelpers";
+import { getByClass, getById, getByType } from './selectorHelpers';
 
 declare global {
   namespace Cypress {
