@@ -1,6 +1,6 @@
 'use client';
 
-import { searchIndicator, State } from '@/lib/actions/searchActions';
+import { searchIndicator, SearchFormState } from '@/lib/actions/searchActions';
 import { Button, InputField } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
@@ -11,7 +11,7 @@ const StyledInputField = styled(InputField)(
 );
 
 export const SearchForm = ({ indicator }: { indicator: string }) => {
-  const initialState: State = { message: null, errors: {} };
+  const initialState: SearchFormState = { indicator: '', message: null, errors: {} };
   const [state, formAction] = useActionState(searchIndicator, initialState);
 
   console.log(`state ${JSON.stringify(state)}`);
