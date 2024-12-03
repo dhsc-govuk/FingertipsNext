@@ -5,3 +5,6 @@
 Dockerfile
 .prettierignore
 .gitignore
+.dockerignore
+.nvmrc
+package-lock.json

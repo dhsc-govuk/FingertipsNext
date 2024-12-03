@@ -27,5 +27,5 @@ export default async function Home() {
   // const forecasts: Forecast[] = await weatherData.json();
 
   // return <HomePage forecasts={forecasts} />;
-  return (<h1/>)
+  return <h1 />;
 }

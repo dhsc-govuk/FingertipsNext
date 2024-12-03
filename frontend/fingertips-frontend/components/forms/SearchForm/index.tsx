@@ -11,7 +11,11 @@ const StyledInputField = styled(InputField)(
 );
 
 export const SearchForm = ({ indicator }: { indicator: string }) => {
-  const initialState: SearchFormState = { indicator: '', message: null, errors: {} };
+  const initialState: SearchFormState = {
+    indicator: '',
+    message: null,
+    errors: {},
+  };
   const [state, formAction] = useActionState(searchIndicator, initialState);
 
   console.log(`state ${JSON.stringify(state)}`);
