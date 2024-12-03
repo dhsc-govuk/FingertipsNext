@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals';
 import { searchIndicator, SearchFormState } from './searchActions';
 import { mockDeep } from 'jest-mock-extended';
 import { redirect } from 'next/navigation';
