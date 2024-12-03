@@ -81,6 +81,9 @@ jobs:
 
       - name: run e2e cypress tests
         uses: cypress-io/github-action@v6
+        with:
+          working-directory: ${{ env.frontend-directory }}
+          install: false
 
   container-build:
     name: Build container
