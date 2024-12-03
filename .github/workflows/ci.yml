@@ -68,7 +68,7 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       # - name: Perform type checking
       #   run: npm run typecheck
@@ -77,11 +77,12 @@ jobs:
         run: npm run lint
 
       - name: Build and launch standalone frontend
-        run: npm run dev:standalone
+        run: npm run dev:standalone & npx wait-on http://localhost:3000
 
       - name: run e2e cypress tests
         uses: cypress-io/github-action@v6
-        with: 
+        with:
+          working-directory: ${{ env.frontend-directory }}
           install: false
 
   container-build:
