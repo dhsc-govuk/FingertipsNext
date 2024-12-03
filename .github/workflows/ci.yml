@@ -68,7 +68,7 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       # - name: Perform type checking
       #   run: npm run typecheck
@@ -81,8 +81,6 @@ jobs:
 
       - name: run e2e cypress tests
         uses: cypress-io/github-action@v6
-        with: 
-          install: false
 
   container-build:
     name: Build container
