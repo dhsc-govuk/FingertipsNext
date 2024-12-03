@@ -76,8 +76,8 @@ jobs:
       - name: Lint code
         run: npm run lint
 
-      - name: Launch frontend
-        run: npm run dev
+      - name: Build and launch standalone frontend
+        run: npm run dev:standalone
 
       - name: run e2e cypress tests
         uses: cypress-io/github-action@v6
