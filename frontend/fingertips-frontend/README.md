@@ -19,6 +19,14 @@ You can lint the code base (using [ESLint](https://eslint.org/)) by running:
 npm run lint
 ```
 
+### Prettier
+
+You can format the code base (using [Prettier](https://prettier.io/docs/en/)) by running:
+
+```bash
+npm run prettier
+```
+
 ### Type Checking
 
 You can type check the code base (using the Typescript compiler) by running:
