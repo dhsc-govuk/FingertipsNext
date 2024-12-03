@@ -6,7 +6,7 @@ services:
 
     build: frontend/fingertips-frontend
     environment:
-      FINGERTIPS_API_URL: "http://api:8080"
+      FINGERTIPS_API_URL: "http://api:8080/WeatherForecast"
     ports:
       - 3000:3000
 
@@ -19,7 +19,7 @@ services:
       db-setup:
         condition: service_completed_successfully
 
-    build: api/DHSC.FingertipsNext.Api/DHSC.FingertipsNext.Api
+    build: api
     environment:
       DB_SERVER: db
       DB_NAME: ${DB_NAME}
