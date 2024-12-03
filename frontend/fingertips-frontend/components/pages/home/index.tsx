@@ -46,9 +46,6 @@ export function HomePage({
                 <Table.Cell numeric>{f.temperatureF}</Table.Cell>
                 <Table.Cell>{f.summary}</Table.Cell>
               </Table.Row>
-              // <li key={f.date}>
-              //   {f.date}, {f.temperatureC}, {f.temperatureF}, {f.summary}
-              // </li>
             ))}
           </Table>
         </div>
