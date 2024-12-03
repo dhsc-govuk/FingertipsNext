@@ -1,4 +1,4 @@
-import BasePage from '../BasePage';
+import BasePage from '../basePage';
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'You searched for indicator';

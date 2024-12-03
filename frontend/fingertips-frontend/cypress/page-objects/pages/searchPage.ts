@@ -1,4 +1,4 @@
-import BasePage from '../BasePage';
+import BasePage from '../basePage';
 
 export default class SearchPage extends BasePage {
   readonly indicatorField = 'indicator';

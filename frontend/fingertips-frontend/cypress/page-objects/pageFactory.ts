@@ -1,5 +1,5 @@
-import SearchPage from './pages/SearchPage';
-import ResultsPage from './pages/ResultsPage';
+import SearchPage from './pages/searchPage';
+import ResultsPage from './pages/resultsPage';
 
 export const searchPage = new SearchPage();
 export const resultsPage = new ResultsPage();
