@@ -1,6 +1,29 @@
+'use client';
+
 import { expect } from '@jest/globals';
+// import { useFormState } from 'react-dom';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
+import { SearchFormState } from '@/lib/actions/searchActions';
+
+jest.mock('react', () => {
+  const originalModule = jest.requireActual('react');
+
+  return {
+    ...originalModule,
+    useActionState: jest
+      .fn()
+      .mockImplementation(
+        (
+          _: (
+            formState: SearchFormState,
+            formData: FormData
+          ) => Promise<SearchFormState>,
+          initialState: SearchFormState
+        ) => [initialState, '/action']
+      ),
+  };
+});
 
 test('snapshot test - renders the form', () => {
   const container = render(<SearchForm indicator="" />);
