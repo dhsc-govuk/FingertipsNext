@@ -30,6 +30,7 @@ export async function searchIndicator(
 
   if (!validatedFields.success) {
     return {
+      indicator: formData.get('indicator')?.toString() || '',
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields',
     };
