@@ -81,6 +81,7 @@ jobs:
         with: 
           working-directory: ${{ env.frontend-directory }}
           install: false
+      - run: npm run dev
       - run: npm run test-e2e-ci
 
   container-build:

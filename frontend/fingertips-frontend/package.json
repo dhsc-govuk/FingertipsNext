@@ -13,7 +13,7 @@
     "typecheck": "tsc",
     "test": "jest",
     "test-e2e": "cypress open",
-    "test-e2e-ci": "cypress run",
+    "test-e2e-ci": "TZ=Europe/London cypress run --headless",
     "prettier": "prettier --write ."
   },
   "dependencies": {
