@@ -37,8 +37,8 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
 
-  frontend-build:
-    name: Build frontend
+  frontend-build-and-test:
+    name: Build frontend and run tests
     runs-on: ubuntu-latest
 
     env:
@@ -76,12 +76,16 @@ jobs:
       - name: Lint code
         run: npm run lint
 
-      - name: Build and launch standalone frontend
+      - name: Execute jest unit tests
+        run: npm run test-ci
+
+      - name: Launch standalone frontend
         run: npm run dev:standalone & npx wait-on http://localhost:3000
 
-      - name: run e2e cypress tests
+      - name: Execute e2e cypress tests - chrome
         uses: cypress-io/github-action@v6
         with:
+          browser: chrome
           working-directory: ${{ env.frontend-directory }}
           install: false
 
