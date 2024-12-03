@@ -76,13 +76,13 @@ jobs:
       - name: Lint code
         run: npm run lint
 
+      - name: Build and launch standalone frontend
+        run: npm run dev:standalone
+
       - name: run e2e cypress tests
         uses: cypress-io/github-action@v6
         with: 
-          working-directory: ${{ env.frontend-directory }}
           install: false
-      - run: npm run dev
-      - run: npm run test-e2e-ci
 
   container-build:
     name: Build container
