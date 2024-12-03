@@ -1,7 +1,4 @@
-'use client';
-
 import { expect } from '@jest/globals';
-// import { useFormState } from 'react-dom';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from '@/lib/actions/searchActions';
