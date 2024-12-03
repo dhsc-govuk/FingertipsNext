@@ -72,3 +72,29 @@ A [Dockerfile](Dockerfile) is provided to allow a container image to be built fo
 1. Run your container: `docker run -p 3000:3000 fingertips-frontend`
 
 You can then open [http://localhost:3000](http://localhost:3000) with your browser to see the application. You can also view the images created with `docker images`.
+
+## Testing
+
+We use Jest + React Testing Library for unit testing and Cypress for e2e testing.
+
+### Running the Unit tests
+
+```bash
+npm run test
+```
+
+### Running the E2E tests
+
+Once you have the web application running on http://localhost:3000 do:
+
+```bash
+npm run test-e2e
+```
+
+If you wish to run the E2E tests headless do:
+
+```bash
+npx cypress run
+```
+
+Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
