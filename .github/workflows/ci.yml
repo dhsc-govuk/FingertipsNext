@@ -79,9 +79,10 @@ jobs:
       - name: Build and launch standalone frontend
         run: npm run dev:standalone & npx wait-on http://localhost:3000
 
-      - name: run e2e cypress tests
+      - name: run e2e cypress tests - chrome
         uses: cypress-io/github-action@v6
         with:
+          browser: chrome
           working-directory: ${{ env.frontend-directory }}
           install: false
 
