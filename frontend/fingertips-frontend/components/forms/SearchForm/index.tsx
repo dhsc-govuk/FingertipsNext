@@ -1,6 +1,6 @@
 'use client';
 
-import { searchIndicator, SearchFormState } from '@/lib/actions/searchActions';
+import { searchIndicator, SearchFormState } from './searchActions';
 import { Button, InputField } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
