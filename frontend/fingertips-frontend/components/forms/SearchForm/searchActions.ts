@@ -23,7 +23,7 @@ export type SearchFormState<T = SearchForm> = State & T;
 export async function searchIndicator(
   prevState: SearchFormState,
   formData: FormData
-) {
+): Promise<SearchFormState> {
   const validatedFields = $SearchFormSchema.safeParse({
     indicator: formData.get('indicator'),
   });

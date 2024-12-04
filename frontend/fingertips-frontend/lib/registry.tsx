@@ -9,8 +9,8 @@ export default function StyledComponentsRegistry({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Only create stylesheet once with lazy initial state
-  // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
+  // This is the recommended approach for getting Styled components to be rendered server side
+  // https://nextjs.org/docs/app/building-your-application/styling/css-in-js#styled-components
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
   useServerInsertedHTML(() => {

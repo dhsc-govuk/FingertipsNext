@@ -23,7 +23,7 @@ export const getMockFormData = (formData: Record<string, string>) =>
   });
 
 const initialState: SearchFormState = {
-  indicator: 'boom',
+  indicator: '',
 };
 
 describe('Search actions', () => {
