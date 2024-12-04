@@ -98,3 +98,12 @@ npx cypress run
 ```
 
 Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
+
+## Code structure
+
+The `app` folder contains the pages that are rendered server side. The pages are in folders that will correspond to the route.
+These server pages are responsible for making any calls to fetch any data. Then passing this data to a corresponding page component via props.
+
+The page components are pure react components and must have the `use client` directive at the top. This is needed for the purpose of using the `govuk-react` component library. This library uses `styled-components` and react hooks and therefore need to be client components.
+
+However, Next.js will still use these component to render the page server-side.
