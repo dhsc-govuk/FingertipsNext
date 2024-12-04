@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
-import { SearchFormState } from '@/lib/actions/searchActions';
+import { SearchFormState } from './searchActions';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
