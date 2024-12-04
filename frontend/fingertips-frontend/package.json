@@ -14,7 +14,8 @@
     "test": "jest",
     "test-ci": "jest --ci --silent",
     "test-e2e": "cypress open",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prettier-ci": "prettier ."
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",

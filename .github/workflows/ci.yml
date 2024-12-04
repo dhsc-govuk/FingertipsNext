@@ -76,6 +76,9 @@ jobs:
       - name: Lint code
         run: npm run lint
 
+      - name: Check code formatting
+        run: npm run prettier-ci
+
       - name: Execute jest unit tests
         run: npm run test-ci
 
