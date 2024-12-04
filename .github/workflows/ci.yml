@@ -79,15 +79,14 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
-      - name: Launch standalone frontend
-        run: npm run dev:standalone & npx wait-on http://localhost:3000/search
-
       - name: Execute e2e cypress tests - chrome
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           working-directory: ${{ env.frontend-directory }}
           install: false
+          start: npm run dev:standalone
+          wait-on: "http://localhost:3000/search"
 
   container-build:
     name: Build container
