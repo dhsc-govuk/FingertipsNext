@@ -16,8 +16,7 @@ export const SearchForm = ({ indicator }: { indicator: string }) => {
     message: null,
     errors: {},
   };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, formAction] = useActionState(searchIndicator, initialState);
+  const [_state, formAction] = useActionState(searchIndicator, initialState);
 
   return (
     <form action={formAction}>

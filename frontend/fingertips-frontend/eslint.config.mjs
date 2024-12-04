@@ -15,6 +15,11 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-namespace': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        {
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ];
