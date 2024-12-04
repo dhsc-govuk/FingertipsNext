@@ -31,5 +31,5 @@ test('snapshot test - renders the form', () => {
 test('should have an input field to input the indicatorId', () => {
   render(<SearchForm indicator="" />);
 
-  expect(screen.getByTestId('input-indicator-search-1')).toBeInTheDocument();
+  expect(screen.getByTestId('input-indicator-search')).toBeInTheDocument();
 });
