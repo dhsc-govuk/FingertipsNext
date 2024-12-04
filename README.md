@@ -34,7 +34,7 @@ docker compose --profile api up --build -d
 Finally, you can stop all of the running containers with the following command, where `<profile_name>` is the profile name you provided to the `up` command:
 
 ```bash
-docker compose down --profile <profile_name>
+docker compose --profile <profile_name> down
 ```
 
 ## Making Changes to the Application
