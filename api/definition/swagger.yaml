@@ -1,26 +1,26 @@
 openapi: 3.0.0
 servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/ANDREWJEVANS/fingertips-next-api/1.0.0
+  # Added by API Auto Mocking Plugin
+  - description: API server
+    url: https://fingertips-next-api/1.0.0
 info:
   description: An API to query public health indicator data.
   version: "1.0.0"
   title: Fingertips API
   contact:
-    email: you@your-company.com
+    email:  ProfileFeedback@dhsc.gov.uk
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
 paths:
-  /indicators:
+  /indicators/summary:
     get:
       tags:
         - indicators
-      summary: searches indicators
-      operationId: searchIndicators
+      summary: Get indicator summaries & filter results
+      operationId: filterIndicators
       description: |
-        By passing in the appropriate options, you can search for
-        public health indicators
+        Get summaries of public health indicators, by passing in the appropriate options you can filter the results
       parameters:
         - $ref: "#/components/parameters/indicator_ids"
       responses:
@@ -63,7 +63,10 @@ paths:
     get:
       tags:
         - indicators
-      summary: Get health data for an indicator
+      summary: Get health data for indicators
+      description: Get data for public health indicators. Supply one or more unique indicator
+        ids in the query string. This will return all data for all areas and all years for those indicators. Optionally filter the results by supplying one
+        or more area codes and one or more years in the query string.
       responses:
         "200":
           content:
@@ -74,7 +77,7 @@ paths:
                   $ref: "#/components/schemas/HealthDataForIndicatorAndArea"
                 title: GetHealthDataForAnIndicatorOk
           description: Data containing the health data points for the indicators, years
-            and geaographical areas requested
+            and geographical areas requested
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
@@ -82,9 +85,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/indicator_ids"
         - $ref: "#/components/parameters/area_codes"
-      description: Get health data for indicators. Supply one or more unique indicator
-        ids in the query string. Optionally filter the results by supplying one
-        or more area codes and one or more years in the query string.
+        - $ref: "#/components/parameters/years"
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
@@ -146,22 +147,19 @@ components:
           description: The year that the data point is for
         count:
           type: number
-          format: int32
           example: 222
           description: The count
         value:
           type: number
-          format: int32
           example: 506.60912
           description: The value
         lowerCi:
           type: number
-          format: int32
           example: 441.69151
           description: The lower confidence interval
         upperCi:
           type: number
-          format: int32
+          format: float
           example: 578.32766
           description: The upper confidence interval
     HealthDataForIndicatorAndArea:
@@ -177,7 +175,7 @@ components:
         areaCode:
           type: string
           example: A1426
-          description: The unique area code that the health data is are for
+          description: The unique area code that the health data for
         indicatorId:
           type: integer
           format: int32
