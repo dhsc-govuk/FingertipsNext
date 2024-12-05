@@ -37,47 +37,8 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
 
-  frontend-build-and-test-windows:
-    name: Windows - Build frontend and run tests
-    runs-on: windows-latest
-
-    env:
-      frontend-directory: ./frontend/fingertips-frontend
-
-      # Disable Next.js telemetry tracking (https://nextjs.org/telemetry)
-      NEXT_TELEMETRY_DISABLED: true
-
-    strategy:
-      matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: ["22.x"]
-
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
-
-      - name: Execute e2e cypress tests - chrome
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          working-directory: ${{ env.frontend-directory }}
-          install: true
-          start: npm run dev:standalone
-          wait-on: "http://localhost:3000/search"
-
-  frontend-build-and-test-safari:
-    name: MacOS - Build frontend and run tests
+  frontend-build-and-test:
+    name: Build frontend and run tests
     runs-on: macos-latest
 
     env:
@@ -129,6 +90,15 @@ jobs:
           install: false
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
+
+      - name: Execute e2e cypress tests - chrome
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          working-directory: ${{ env.frontend-directory }}
+          install: true
+          start: npm run dev:standalone
+          wait-on: "http://localhost:3001/search"
 
   container-build:
     name: Build container
