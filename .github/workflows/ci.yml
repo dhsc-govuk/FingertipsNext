@@ -39,7 +39,7 @@ jobs:
 
   frontend-build-and-test:
     name: Build frontend and run tests
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     env:
       frontend-directory: ./frontend/fingertips-frontend
