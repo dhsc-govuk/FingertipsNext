@@ -67,27 +67,12 @@ jobs:
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Perform type checking
-        run: npm run typecheck
-
-      - name: Lint code
-        run: npm run lint
-
-      - name: Check code formatting
-        run: npm run prettier-ci
-
-      - name: Execute jest unit tests
-        run: npm run test-ci
-
       - name: Execute e2e cypress tests - chrome
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           working-directory: ${{ env.frontend-directory }}
-          install: false
+          install: true
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
 
@@ -123,6 +108,18 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Perform type checking
+        run: npm run typecheck
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Check code formatting
+        run: npm run prettier-ci
+
+      - name: Execute jest unit tests
+        run: npm run test-ci
 
       - name: Execute e2e cypress tests - webkit
         uses: cypress-io/github-action@v6
