@@ -40,7 +40,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.0.0
 
   frontend-unit-test-and-static-analysis:
-    name: Execute static analysis and unit tests against frontend
+    name: Run unit tests and static analysis against frontend
     runs-on: ubuntu-latest
 
     strategy:
