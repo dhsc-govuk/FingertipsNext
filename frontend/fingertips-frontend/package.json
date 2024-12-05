@@ -57,6 +57,8 @@
   },
   "overrides": {
     "react": "$react",
-    "react-dom": "$react-dom"
+    "react-dom": "$react-dom",
+    "ajv": "^8.17.1",
+    "whatwg-url": "^14.0.0"
   }
 }
