@@ -1,0 +1,12 @@
+**/*.md
+**/*.woff
+**/*.ico
+**/*.css
+Dockerfile
+.prettierignore
+.gitignore
+.dockerignore
+.nvmrc
+package-lock.json
+public
+
