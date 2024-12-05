@@ -82,21 +82,21 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+      - name: Execute e2e cypress tests - chrome
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          working-directory: ${{ env.frontend-directory }}
+          install: false
+          start: npm run dev:standalone
+          wait-on: "http://localhost:3000/search"
+
       - name: Execute e2e cypress tests - webkit
         uses: cypress-io/github-action@v6
         with:
           browser: webkit
           working-directory: ${{ env.frontend-directory }}
           install: false
-          start: npm run dev:standalone
-          wait-on: "http://localhost:3000/search"
-
-      - name: Execute e2e cypress tests - chrome
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          working-directory: ${{ env.frontend-directory }}
-          install: true
           start: npm run dev:standalone
           wait-on: "http://localhost:3001/search"
 
