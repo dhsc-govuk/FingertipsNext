@@ -99,7 +99,7 @@ If you wish to run the E2E tests headless do:
 npx cypress run
 ```
 
-Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
+Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests are executed in parallel using Chrome and Webkit.
 
 ### Accessibility Testing:
 
