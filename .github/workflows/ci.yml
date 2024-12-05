@@ -67,8 +67,8 @@ jobs:
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
 
       - name: Perform type checking
         run: npm run typecheck
