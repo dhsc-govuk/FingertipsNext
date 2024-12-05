@@ -39,7 +39,7 @@ jobs:
 
   frontend-build-and-test:
     name: Build frontend and run tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     env:
       frontend-directory: ./frontend/fingertips-frontend
@@ -68,7 +68,7 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci && npx playwright install-deps webkit
 
       - name: Perform type checking
         run: npm run typecheck
