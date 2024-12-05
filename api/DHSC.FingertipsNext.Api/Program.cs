@@ -64,7 +64,6 @@ public static class Program
             .SelectMany(s => s.GetTypes())
             .Where(t => type.IsAssignableFrom(t) && t != type && !t.IsAbstract)
             .ToList();
-
         types.ForEach(x =>
         {
             var module = Activator.CreateInstance(x) as IMonolithModule;

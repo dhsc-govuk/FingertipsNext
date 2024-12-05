@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: 'standalone',
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 export default nextConfig;
