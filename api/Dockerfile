@@ -6,7 +6,7 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR "/src/DHSC.FingertipsNext.Api"
+WORKDIR "/src/api"
 COPY ["/", "."]
 RUN dotnet restore "DHSC.FingertipsNext.Api.sln"
 COPY . .
@@ -14,7 +14,7 @@ RUN dotnet build "DHSC.FingertipsNext.Api.sln" -c $BUILD_CONFIGURATION -o /app/b
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-WORKDIR "/src/DHSC.FingertipsNext.Api"
+WORKDIR "/src/api"
 RUN dotnet publish "DHSC.FingertipsNext.Api.sln" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
