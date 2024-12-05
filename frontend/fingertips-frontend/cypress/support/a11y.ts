@@ -31,11 +31,6 @@ export const a11y = (): Cypress.Chainable => {
         type: 'tag',
         values: WCAG_LEVEL,
       },
-      // Each exception below has been added to allow the tests suite to pass. Typically when a violation occurs a bug would be raised and the issue addressed in the source code.
-      // The exception may be temporarily added until the issue is resolved to ensure no blockages. The exception should then be removed as part of the resolution.
-      rules: {
-        'color-contrast': { enabled: false }, // FTN-123
-      },
     },
     terminalLog
   );
