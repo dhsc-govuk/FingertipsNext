@@ -38,7 +38,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.0.0
 
   frontend-build-and-test-windows:
-    name: Build frontend and run tests on windows
+    name: Windows - Build frontend and run tests
     runs-on: windows-latest
 
     env:
@@ -92,7 +92,7 @@ jobs:
           wait-on: "http://localhost:3000/search"
 
   frontend-build-and-test-safari:
-    name: Build frontend and run tests on mac
+    name: MacOS - Build frontend and run tests
     runs-on: macos-latest
 
     env:
@@ -131,7 +131,7 @@ jobs:
           working-directory: ${{ env.frontend-directory }}
           install: false
           start: npm run dev:standalone
-          wait-on: "http://localhost:3001/search"
+          wait-on: "http://localhost:3000/search"
 
   container-build:
     name: Build container
