@@ -70,3 +70,10 @@ You must also set the following [secrets](https://docs.github.com/en/actions/sec
 | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | CONTAINER_REGISTRY_USERNAME | The username to use when authenticating to the container registry defined in the `CONTAINER_REGISTRY` variable. |
 | CONTAINER_REGISTRY_PASSWORD | The password to use when authenticating to the container registry defined in the `CONTAINER_REGISTRY` variable. |
+
+## API Design First & OpenAPI Development
+
+The approach we are taking with the API is 'design first'. The API is designed before it is coded using the [OpenAPI 3.0](https://swagger.io/docs/specification/v3_0/about/) standard and then that design is implemented in the .NET web API. The API design can also be used to help develop the website. A [swagger.yaml](api/definition/swagger.yaml) file is the API design artifact and defines how the API should look. To make changes to the yaml file you can either edit the file directly (fine for smaller changes) or use a visual editor (handy for major changes).
+A useful visual editor is [SwaggerHub](https://swagger.io/), which has a free tier.
+There is a handy VS Code extension [OpenAPI Editor](https://docs.42crunch.com/latest/content/tasks/integrate_vs_code.htm) which makes editing the yaml file easier and highlights any issues. 
+
