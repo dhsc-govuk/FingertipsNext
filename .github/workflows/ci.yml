@@ -105,6 +105,7 @@ jobs:
       - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
+          working-directory: ${{ env.frontend-directory }}
           # install WebKit browser dependencies
           build: npx playwright install-deps webkit
           runTests: false
