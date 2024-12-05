@@ -2,6 +2,8 @@ name: Fingertips CI
 
 env:
   dotnet-version: 9.0.x
+  frontend-directory: ./frontend/fingertips-frontend
+  NEXT_TELEMETRY_DISABLED: true
 
 on:
   push:
@@ -37,15 +39,9 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
 
-  frontend-build-and-test:
-    name: Build frontend and run tests
+  frontend-unit-test-and-static-analysis:
+    name: Execute static analysis and unit tests against frontend
     runs-on: ubuntu-latest
-
-    env:
-      frontend-directory: ./frontend/fingertips-frontend
-
-      # Disable Next.js telemetry tracking (https://nextjs.org/telemetry)
-      NEXT_TELEMETRY_DISABLED: true
 
     strategy:
       matrix:
@@ -67,8 +63,8 @@ jobs:
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      # - name: Install dependencies
-      #   run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
       - name: Perform type checking
         run: npm run typecheck
@@ -82,14 +78,36 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+  e2e-test-chrome:
+    name: Run e2e tests against chrome
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
       - name: Execute e2e cypress tests - chrome
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           working-directory: ${{ env.frontend-directory }}
-          install: false
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
+
+  e2e-test-safari:
+    name: Run e2e tests against safari
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: cypress-io/github-action@v6
+        with:
+          # install WebKit browser dependencies
+          build: npx playwright install-deps webkit
+          runTests: false
 
       - name: Execute e2e cypress tests - webkit
         uses: cypress-io/github-action@v6
