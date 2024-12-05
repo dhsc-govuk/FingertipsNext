@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using DHSC.FingertipsNext.Modules.Search.Interfaces;
+using DHSC.FingertipsNext.Modules.Search.ModuleInterfaces;
 
 namespace DHSC.FingertipsNext.Modules.Search.Controllers.V1;
 
