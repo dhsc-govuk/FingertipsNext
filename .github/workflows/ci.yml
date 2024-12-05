@@ -117,7 +117,7 @@ jobs:
           working-directory: ${{ env.frontend-directory }}
           install: false
           start: npm run dev:standalone
-          wait-on: "http://localhost:3001/search"
+          wait-on: "http://localhost:3000/search"
 
   container-build:
     name: Build container
