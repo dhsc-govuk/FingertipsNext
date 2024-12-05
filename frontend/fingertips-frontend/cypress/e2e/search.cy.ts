@@ -6,6 +6,9 @@ describe('Search Page', () => {
     const indicator = '123';
     Pages.searchPage.navigateToSearch();
 
+    // Assert
+    Pages.searchPage.checkA11Y();
+
     // Act
     Pages.searchPage.typeIndicator(indicator);
     Pages.searchPage.clickSearchButton();
@@ -13,5 +16,6 @@ describe('Search Page', () => {
     // Assert
     Pages.resultsPage.checkURLIsCorrect(indicator);
     Pages.resultsPage.checkSearchResults(indicator);
+    Pages.resultsPage.checkA11Y();
   });
 });

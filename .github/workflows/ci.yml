@@ -91,6 +91,13 @@ jobs:
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
 
+      - name: Execute e2e cypress tests - webkit
+        uses: cypress-io/github-action@v6
+        with:
+          browser: webkit
+          working-directory: ${{ env.frontend-directory }}
+          install: false
+
   container-build:
     name: Build container
     runs-on: ubuntu-latest

@@ -8,4 +8,8 @@ export default class BasePage {
   navigateTo = (page: string) => {
     return cy.visit(`${baseUrl}${page}`);
   };
+
+  checkA11Y = () => {
+    return cy.a11y();
+  };
 }

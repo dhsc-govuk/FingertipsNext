@@ -101,6 +101,16 @@ npx cypress run
 
 Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
 
+### Accessibility Testing:
+
+Currently performed at the E2E stage. Libraries used: axe-core (https://github.com/dequelabs/axe-core) and cypress-axe (https://github.com/component-driven/cypress-axe). 
+
+Configured to the WCAG2.2 AA standard in the following file cypress/support/a11y.ts.
+
+To check accessibility call .checkA11Y() from the basePage.
+
+Any violations of this standard cause a test failure unless the rule violated has been accepted in cypress/support/a11y.ts.
+
 ## Code structure
 
 The `app` folder contains the pages that are rendered server side. The pages are in folders that will correspond to the route.
