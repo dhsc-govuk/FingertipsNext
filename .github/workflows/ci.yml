@@ -37,9 +37,9 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
 
-  frontend-build-and-test:
-    name: Build frontend and run tests
-    runs-on: ubuntu-latest
+  frontend-build-and-test-windows:
+    name: Build frontend and run tests on windows
+    runs-on: windows-latest
 
     env:
       frontend-directory: ./frontend/fingertips-frontend
@@ -68,7 +68,7 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci && npx playwright install-deps webkit
+        run: npm ci
 
       - name: Perform type checking
         run: npm run typecheck
@@ -90,6 +90,39 @@ jobs:
           install: false
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
+
+  frontend-build-and-test-safari:
+    name: Build frontend and run tests on mac
+    runs-on: macos-latest
+
+    env:
+      frontend-directory: ./frontend/fingertips-frontend
+
+      # Disable Next.js telemetry tracking (https://nextjs.org/telemetry)
+      NEXT_TELEMETRY_DISABLED: true
+
+    strategy:
+      matrix:
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: ["22.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Execute e2e cypress tests - webkit
         uses: cypress-io/github-action@v6
