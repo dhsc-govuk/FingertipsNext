@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
-  - description: API server
+  - description: SwaggerHub API Auto Mocking
     url: https://fingertips-next-api/1.0.0
 info:
   description: An API to query public health indicator data.
@@ -13,7 +13,7 @@ tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
 paths:
-  /indicators/summary:
+  /indicators:
     get:
       tags:
         - indicators
@@ -59,13 +59,12 @@ paths:
         Fetches details of a specific indicator by its unique identifier. The
         response includes the indicator's metadata
       operationId: getIndicator
-  /indicators/data:
+  /indicators/{indicator_id}/data:
     get:
       tags:
         - indicators
-      summary: Get health data for indicators
-      description: Get data for public health indicators. Supply one or more unique indicator
-        ids in the query string. This will return all data for all areas and all years for those indicators. Optionally filter the results by supplying one
+      summary: Get health data for an indicator
+      description: Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
         or more area codes and one or more years in the query string.
       responses:
         "200":
@@ -74,16 +73,16 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/HealthDataForIndicatorAndArea"
+                  $ref: "#/components/schemas/HealthDataForArea"
                 title: GetHealthDataForAnIndicatorOk
-          description: Data containing the health data points for the indicators, years
+          description: Data containing the health data points for the indicator, years
             and geographical areas requested
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
       parameters:
-        - $ref: "#/components/parameters/indicator_ids"
+        - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
       operationId: getHealthDataForAnIndicator
@@ -93,10 +92,10 @@ components:
       type: object
       description: A summary of a public health indicator
       required:
-        - id
+        - indicator_id
         - title
       properties:
-        id:
+        indicator_id:
           type: integer
           format: int32
           example: 3456
@@ -109,11 +108,11 @@ components:
       type: object
       description: A public health indicator
       required:
-        - id
+        - indicator_id
         - title
         - definition
       properties:
-        id:
+        indicator_id:
           type: integer
           format: int32
           example: 3456
@@ -162,25 +161,18 @@ components:
           format: float
           example: 578.32766
           description: The upper confidence interval
-    HealthDataForIndicatorAndArea:
+    HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
-        geographical area (represented by it's unique code) and indicator
-        (represented by it's unique identifier).
+        geographical area (represented by it's unique code).
       required:
         - areaCode
         - healthData
-        - indicatorId
       properties:
         areaCode:
           type: string
           example: A1426
           description: The unique area code that the health data for
-        indicatorId:
-          type: integer
-          format: int32
-          example: 1234
-          description: The unique identifier of the indicator that the health data points are for
         healthData:
           type: array
           items:
