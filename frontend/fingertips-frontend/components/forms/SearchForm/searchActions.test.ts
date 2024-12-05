@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { searchIndicator, SearchFormState } from './searchActions';
 import { mockDeep } from 'jest-mock-extended';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
@@ -32,6 +32,9 @@ describe('Search actions', () => {
 
     await searchIndicator(initialState, formData);
 
-    expect(redirectMock).toHaveBeenCalledWith('/search/results?indicator=boom');
+    expect(redirectMock).toHaveBeenCalledWith(
+      '/search/results?indicator=boom',
+      RedirectType.push
+    );
   });
 });
