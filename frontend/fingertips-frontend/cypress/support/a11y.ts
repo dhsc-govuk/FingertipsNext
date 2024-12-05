@@ -28,7 +28,7 @@ export const a11y = (): Cypress.Chainable => {
     undefined,
     {
       runOnly: {
-        type: 'tag',
+        type: 'tags',
         values: WCAG_LEVEL,
       },
     },
