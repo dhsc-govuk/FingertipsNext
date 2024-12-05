@@ -1,7 +1,7 @@
 import * as Pages from '../page-objects/pageFactory';
 
 describe('Search Page', () => {
-  it('search via indicator', () => {
+  it('search via indicator and assert results', () => {
     // Arrange
     const indicator = '123';
     Pages.searchPage.navigateToSearch();
@@ -11,7 +11,7 @@ describe('Search Page', () => {
     Pages.searchPage.clickSearchButton();
 
     // Assert
-    Pages.resultsPage.checkURL(`search/results?indicator=${indicator}`);
+    Pages.resultsPage.checkURLIsCorrect(indicator);
     Pages.resultsPage.checkSearchResults(indicator);
   });
 });

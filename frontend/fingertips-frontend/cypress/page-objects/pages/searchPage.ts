@@ -13,7 +13,6 @@ export default class SearchPage extends BasePage {
   };
 
   navigateToSearch = () => {
-    const basePage = new BasePage();
-    basePage.navigateTo('search');
+    this.navigateTo('search');
   };
 }
