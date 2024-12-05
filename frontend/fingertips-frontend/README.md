@@ -77,7 +77,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-We use Jest + React Testing Library for unit testing and Cypress for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Cypress for e2e testing.
 
 ### Running the Unit tests
 
