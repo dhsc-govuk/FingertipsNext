@@ -39,7 +39,7 @@ jobs:
 
   frontend-build-and-test:
     name: Build frontend and run tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     env:
       frontend-directory: ./frontend/fingertips-frontend
