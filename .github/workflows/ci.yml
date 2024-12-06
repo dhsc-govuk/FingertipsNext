@@ -81,9 +81,6 @@ jobs:
   e2e-test-chrome:
     name: Run e2e tests against chrome
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ["22.x"]
 
     steps:
       - name: Checkout source
@@ -106,9 +103,6 @@ jobs:
   e2e-test-safari:
     name: Run e2e tests against safari
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ["22.x"]
 
     steps:
       - name: Checkout source
