@@ -92,40 +92,36 @@ jobs:
           wait-on: "http://localhost:3000/search"
 
   api-build:
-            name: Build API
-            runs-on: ubuntu-latest
+    name: Build API
+    runs-on: ubuntu-latest
 
-            env:
-              api-directory: ./api
+    env:
+      api-directory: ./api
+    strategy:
+      matrix:
+        dotnet-version: [ '9.0.x' ]
 
-            strategy:
-                matrix:
-                  dotnet-version: [ '9.0.x' ]
+    defaults:
+      run:
+        working-directory: ${{ env.api-directory }}
 
-            defaults:
-              run:
-                working-directory: ${{ env.api-directory }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-            steps:
-              - name: Checkout source
-                uses: actions/checkout@v4
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
 
-              - name: Setup dotnet ${{ matrix.dotnet-version }}
-                uses: actions/setup-dotnet@v3
-                with:
-                  dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Restore Packages
+        run: dotnet restore
 
-              - name: Display dotnet version
-                run: dotnet --version
+      - name: Build API
+        run: dotnet build
 
-              - name: Restore Packages
-                run: dotnet restore
-
-              - name: Build API
-                run: dotnet build
-
-              - name: Run Unit Tests
-                run: dotnet test
+      - name: Run Unit Tests
+        run: dotnet test
 
   container-build:
     name: Build container
