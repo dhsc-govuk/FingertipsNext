@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 const $SearchFormSchema = z.object({
   indicator: z.string({
@@ -38,5 +38,5 @@ export async function searchIndicator(
 
   const { indicator } = validatedFields.data;
 
-  redirect(`/search/results?indicator=${indicator}`);
+  redirect(`/search/results?indicator=${indicator}`, RedirectType.push);
 }

@@ -77,7 +77,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-We use Jest + React Testing Library for unit testing and Cypress for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Cypress for e2e testing.
 
 ### Running the Unit tests
 
@@ -99,7 +99,17 @@ If you wish to run the E2E tests headless do:
 npx cypress run
 ```
 
-Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
+Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests are executed in parallel using Chrome and Webkit.
+
+### Accessibility Testing:
+
+Currently performed at the E2E stage. Libraries used: axe-core (https://github.com/dequelabs/axe-core) and cypress-axe (https://github.com/component-driven/cypress-axe). 
+
+Configured to the WCAG2.2 AA standard in the following file cypress/support/a11y.ts.
+
+To check accessibility call .checkA11Y() from the basePage.
+
+Any violations of this standard cause a test failure unless the rule violated has been accepted in cypress/support/a11y.ts.
 
 ## Code structure
 
