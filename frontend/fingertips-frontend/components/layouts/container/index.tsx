@@ -11,5 +11,5 @@ export function FTContainer({
     minHeight: '80vh',
   });
 
-  return <StyledMain>{children}</StyledMain>;
+  return <StyledMain role="main">{children}</StyledMain>;
 }

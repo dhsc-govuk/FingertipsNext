@@ -3,5 +3,5 @@
 import { TopNav } from 'govuk-react';
 
 export function FTHeader() {
-  return <TopNav />;
+  return <TopNav role="banner" />;
 }
