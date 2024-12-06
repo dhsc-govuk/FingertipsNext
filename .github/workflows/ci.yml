@@ -94,6 +94,7 @@ jobs:
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
       - uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
