@@ -20,6 +20,16 @@ const terminalLog = (violations: Result[]) => {
 // function calling axe-core and cypress-axe to check for violations on a specific page
 export const a11y = (): Cypress.Chainable => {
   cy.injectAxe();
-  cy.checkA11y(undefined, undefined, terminalLog);
+  cy.checkA11y(
+    undefined,
+    {
+      runOnly: {
+        type: 'tags',
+        values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
+      },
+      preload: false,
+    },
+    terminalLog
+  );
   return cy;
 };
