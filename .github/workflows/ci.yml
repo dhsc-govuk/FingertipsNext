@@ -124,6 +124,12 @@ jobs:
           install: false
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ${{ env.frontend-directory }}/cypress/screenshots
+          if-no-files-found: ignore
 
   container-build:
     name: Build container
