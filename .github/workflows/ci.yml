@@ -97,6 +97,7 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
+          working-directory: ${{ env.frontend-directory }}
           path: cypress/screenshots
           if-no-files-found: ignore
 
