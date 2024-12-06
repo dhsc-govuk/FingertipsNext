@@ -7,6 +7,7 @@ describe('Search Page', () => {
     Pages.searchPage.navigateToSearch();
 
     // Assert
+    Pages.searchPage.checkURLIsCorrect();
     Pages.searchPage.checkA11Y();
 
     // Act

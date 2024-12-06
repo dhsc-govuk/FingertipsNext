@@ -15,4 +15,8 @@ export default class SearchPage extends BasePage {
   navigateToSearch = () => {
     this.navigateTo('search');
   };
+
+  checkURLIsCorrect = () => {
+    return this.checkURL(`search`);
+  };
 }
