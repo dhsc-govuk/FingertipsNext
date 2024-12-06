@@ -1,9 +1,5 @@
 import { Result } from 'axe-core';
 
-// The WCAG level we want to test to, note that a set of rules apply to each item in the array
-// so they are cumulative so to define to high level you need to specify each lower level
-const WCAG_LEVEL = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
-
 // function to export to terminal the details of a11y violations
 const terminalLog = (violations: Result[]) => {
   cy.task(
@@ -30,7 +26,7 @@ export const a11y = (): Cypress.Chainable => {
     {
       runOnly: {
         type: 'tag',
-        values: WCAG_LEVEL,
+        values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
       },
     },
     terminalLog
