@@ -97,8 +97,7 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          working-directory: ${{ env.frontend-directory }}
-          path: cypress/screenshots
+          path: ${{ env.frontend-directory }}/cypress/screenshots
           if-no-files-found: ignore
 
   e2e-test-safari:
