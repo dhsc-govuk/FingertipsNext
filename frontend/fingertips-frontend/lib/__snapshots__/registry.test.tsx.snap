@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StyledComponentsRegistry should include the stylesheets when on the server side 1`] = `
+<DocumentFragment>
+  Hello World
+</DocumentFragment>
+`;
