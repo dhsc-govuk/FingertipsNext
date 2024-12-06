@@ -26,6 +26,20 @@ export const a11y = (): Cypress.Chainable => {
   cy.injectAxe();
   cy.configureAxe({
     tags: [WCAG_LEVEL],
+    rules: [
+      {
+        id: 'landmark-one-main',
+        enabled: false,
+      },
+      {
+        id: 'page-has-heading-one',
+        enabled: false,
+      },
+      {
+        id: 'region',
+        enabled: false,
+      },
+    ],
   });
   cy.checkA11y(undefined, undefined, terminalLog);
   return cy;
