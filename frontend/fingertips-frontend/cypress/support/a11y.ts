@@ -24,6 +24,7 @@ const terminalLog = (violations: Result[]) => {
 // function calling axe-core and cypress-axe to check for violations on a specific page
 export const a11y = (): Cypress.Chainable => {
   cy.injectAxe();
+  cy.configureAxe();
   cy.checkA11y(
     undefined,
     {
