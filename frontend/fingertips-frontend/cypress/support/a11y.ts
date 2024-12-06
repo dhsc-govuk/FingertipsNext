@@ -27,7 +27,6 @@ export const a11y = (): Cypress.Chainable => {
         type: 'tags',
         values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
       },
-      preload: false,
     },
     terminalLog
   );
