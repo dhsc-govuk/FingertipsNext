@@ -93,6 +93,11 @@ jobs:
           working-directory: ${{ env.frontend-directory }}
           start: npm run dev:standalone
           wait-on: "http://localhost:3000/search"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
 
   e2e-test-safari:
     name: Run e2e tests against safari
