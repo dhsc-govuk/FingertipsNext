@@ -34,7 +34,9 @@ export const SearchForm = ({ indicator }: { indicator: string }) => {
           Indicator id or keyword
         </StyledInputField>
 
-        <Button data-testid="search-form-button-submit" type="submit"></Button>
+        <Button data-testid="search-form-button-submit" type="submit">
+          Search
+        </Button>
       </form>
     </>
   );
