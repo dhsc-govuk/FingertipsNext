@@ -1,6 +1,6 @@
 import { Result } from 'axe-core';
 
-// The WCAG level we want to test to, note that a set of rules apply to each item in the array array
+// The WCAG level we want to test to, note that a set of rules apply to each item in the array
 // so they are cumulative so to define to high level you need to specify each lower level
 const WCAG_LEVEL = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
@@ -24,15 +24,9 @@ const terminalLog = (violations: Result[]) => {
 // function calling axe-core and cypress-axe to check for violations on a specific page
 export const a11y = (): Cypress.Chainable => {
   cy.injectAxe();
-  cy.checkA11y(
-    undefined,
-    {
-      runOnly: {
-        type: 'tags',
-        values: WCAG_LEVEL,
-      },
-    },
-    terminalLog
-  );
+  cy.configureAxe({
+    tags: [WCAG_LEVEL],
+  });
+  cy.checkA11y(undefined, undefined, terminalLog);
   return cy;
 };
