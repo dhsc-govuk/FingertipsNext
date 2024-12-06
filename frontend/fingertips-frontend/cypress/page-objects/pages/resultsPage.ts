@@ -2,14 +2,14 @@ import BasePage from '../basePage';
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'You searched for indicator';
-  readonly backLink = 'src__StyledBackLink-sc-159gh4v-0 bRAlsd';
+  readonly backLink = 'search-results-back-link';
 
   checkSearchResults = (searchTerm: string) => {
     return cy.contains(this.resultsText + ` "${searchTerm}"`);
   };
 
   clickBackLink = () => {
-    return cy.getByClass(this.backLink);
+    return cy.getByDataTestId(this.backLink);
   };
 
   checkURLIsCorrect = (indicator: string) => {

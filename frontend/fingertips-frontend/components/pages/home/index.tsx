@@ -40,7 +40,7 @@ export function HomePage({
             }
           >
             {forecasts.map((f) => (
-              <Table.Row key={f.date}>
+              <Table.Row key={`${f.date}-${f.temperatureC}`}>
                 <Table.Cell>{f.date}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureC}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureF}</Table.Cell>

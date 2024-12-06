@@ -27,12 +27,14 @@ export const SearchForm = ({ indicator }: { indicator: string }) => {
           defaultValue: indicator,
         }}
         hint={<>Type in here the IndicatorId.</>}
-        data-testid="input-indicator-search"
+        data-testid="search-form-input-indicator"
       >
         Indicator id or keyword
       </StyledInputField>
 
-      <Button type="submit">Search</Button>
+      <Button data-testid="search-form-button-submit" type="submit">
+        Search
+      </Button>
     </form>
   );
 };

@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
-import { getByClass, getById, getByType } from './selectorHelpers';
+import {
+  getByClass,
+  getById,
+  getByType,
+  getByDataTestId,
+} from './selectorHelpers';
 
 declare global {
   namespace Cypress {
@@ -8,6 +13,7 @@ declare global {
       getById: typeof getById;
       getByClass: typeof getByClass;
       getByType: typeof getByType;
+      getByDataTestId: typeof getByDataTestId;
     }
   }
 }
@@ -15,3 +21,4 @@ declare global {
 Cypress.Commands.add('getById', getById);
 Cypress.Commands.add('getByClass', getByClass);
 Cypress.Commands.add('getByType', getByType);
+Cypress.Commands.add('getByDataTestId', getByDataTestId);
