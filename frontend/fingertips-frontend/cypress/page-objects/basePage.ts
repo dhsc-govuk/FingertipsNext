@@ -9,7 +9,7 @@ export default class BasePage {
     return cy.visit(`${baseUrl}${page}`);
   };
 
-  checkA11Y = () => {
+  checkA11y = () => {
     return cy.a11y();
   };
 }

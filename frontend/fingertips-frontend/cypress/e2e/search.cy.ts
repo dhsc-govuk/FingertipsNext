@@ -8,7 +8,7 @@ describe('Search Page', () => {
 
     // Assert
     Pages.searchPage.checkURLIsCorrect();
-    Pages.searchPage.checkA11Y();
+    Pages.searchPage.checkA11y();
 
     // Act
     Pages.searchPage.typeIndicator(indicator);
@@ -16,7 +16,7 @@ describe('Search Page', () => {
 
     // Assert
     Pages.resultsPage.checkURLIsCorrect(indicator);
-    Pages.resultsPage.checkA11Y();
+    Pages.resultsPage.checkA11y();
     Pages.resultsPage.checkSearchResults(indicator);
   });
 });
