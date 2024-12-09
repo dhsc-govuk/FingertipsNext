@@ -1,15 +1,15 @@
 import BasePage from '../basePage';
 
 export default class SearchPage extends BasePage {
-  readonly indicatorField = 'indicator';
-  readonly searchButton = 'submit';
+  readonly indicatorField = 'search-form-input-indicator';
+  readonly searchButton = 'search-form-button-submit';
 
   typeIndicator = (indicator: string) => {
-    return cy.getById(this.indicatorField).type(indicator);
+    return cy.getByDataTestId(this.indicatorField).type(indicator);
   };
 
   clickSearchButton = () => {
-    return cy.getByType(this.searchButton).click();
+    return cy.getByDataTestId(this.searchButton).click();
   };
 
   navigateToSearch = () => {

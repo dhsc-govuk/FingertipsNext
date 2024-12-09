@@ -278,7 +278,7 @@ exports[`snapshot test - renders the form 1`] = `
   >
     <label
       class="c0 c1"
-      data-testid="input-indicator-search"
+      data-testid="search-form-input-indicator"
     >
       <span
         class="c2"
@@ -299,6 +299,7 @@ exports[`snapshot test - renders the form 1`] = `
     </label>
     <button
       class="c5"
+      data-testid="search-form-button-submit"
       type="submit"
     >
       Search
