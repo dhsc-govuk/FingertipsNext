@@ -42,11 +42,24 @@ jobs:
   e2e-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: ["22.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
