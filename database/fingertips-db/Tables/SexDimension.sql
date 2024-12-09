@@ -1,9 +1,10 @@
-﻿CREATE TABLE [dbo].[SexDimension](
-	[SexKey] [tinyint] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](50) NOT NULL,
-	[IsFemale] [bit] NOT NULL,
-	[HasValue] [bit] NOT NULL,
-	[SexId] [tinyint] NOT NULL,
+﻿--Male, Female or everyone
+CREATE TABLE [dbo].[SexDimension](
+	[SexKey] [tinyint] IDENTITY(1,1) NOT NULL,			--The surrogate key
+	[Name] [nvarchar](50) NOT NULL,						--The name of the sex e.g. Female
+	[IsFemale] [bit] NOT NULL,							--A flag to indicate if the data is for females
+	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all persons)
+	[SexId] [tinyint] NOT NULL,							--The original ID of the sex taken from the original Fingertips Pholio database.
  CONSTRAINT [PK_SexDimension] PRIMARY KEY CLUSTERED 
 (
 	[SexKey] ASC

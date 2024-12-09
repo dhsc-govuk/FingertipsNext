@@ -1,9 +1,10 @@
-﻿CREATE TABLE [dbo].[IndicatorDimension](
-	[IndicatorKey] [smallint] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](255) NOT NULL,
-	[IndicatorId] [int] NOT NULL,
-	[StartDate] [datetime2](7) NOT NULL,
-	[EndDate] [datetime2](7) NOT NULL,
+﻿--All the public health indicators
+CREATE TABLE [dbo].[IndicatorDimension](
+	[IndicatorKey] [smallint] IDENTITY(1,1) NOT NULL,		--The surrogate key
+	[Name] [nvarchar](255) NOT NULL,						--The name of the indicator e.g. Under 75 mortality rate from all causes
+	[IndicatorId] [int] NOT NULL,							--The original ID of the indicator taken from the original Fingertips Pholio database.
+	[StartDate] [datetime2](7) NOT NULL,					--The start data that this row was relevant for, to support slowly changing dimensions if an indicator changes over time
+	[EndDate] [datetime2](7) NOT NULL,						--The end data that this row was relevant for, to support slowly changing dimensions if an indicator changes over time
  CONSTRAINT [PK_IndicatorDimension] PRIMARY KEY CLUSTERED 
 (
 	[IndicatorKey] ASC

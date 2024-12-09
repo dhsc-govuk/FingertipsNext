@@ -1,14 +1,15 @@
-﻿CREATE TABLE [dbo].[HealthMeasure](
-	[HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL,
-	[AreaKey] [int] NOT NULL,
-	[IndicatorKey] [smallint] NOT NULL,
-	[SexKey] [tinyint] NOT NULL,
-	[AgeKey] [smallint] NOT NULL,
-	[Count] [float] NOT NULL,
-	[Value] [float] NOT NULL,
-	[LowerCI] [float] NOT NULL,
-	[UpperCI] [float] NOT NULL,
-	[Year] [smallint] NOT NULL,
+﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
+CREATE TABLE [dbo].[HealthMeasure](
+	[HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 	--The surrogate key
+	[AreaKey] [int] NOT NULL,							--Foreign key to the area - what geography is this row for
+	[IndicatorKey] [smallint] NOT NULL,					--Foreign key to the indicator - what indicator is this row for
+	[SexKey] [tinyint] NOT NULL,						--Foreign key to the sex - what sex is this row for
+	[AgeKey] [smallint] NOT NULL,						--Foreign key to the age - what age is this row for
+	[Count] [float] NOT NULL,							--How many were counted for this data - e.g. how many people were counted in order to create this row			
+	[Value] [float] NOT NULL,							--The value of the data e.g. how many people per 100 000. This is the key piece of data for this row 
+	[LowerCI] [float] NOT NULL,							--The lower confidence interval value - a statistically calculated value using methodology described n the indicator metadata
+	[UpperCI] [float] NOT NULL,							--The upper confidence interval value - a statistically calculated value using methodology described n the indicator metadata
+	[Year] [smallint] NOT NULL,							--A junk dimension of the year that this row is for e.g. 2022
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED 
 (
 	[HealthMeasureKey] ASC
