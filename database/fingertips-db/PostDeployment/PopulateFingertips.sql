@@ -16,13 +16,20 @@ VALUES
   ('2024-11-01', 'Scorching', 55);
   
 --delete all existing data so we always start from a known position
-  
 TRUNCATE TABLE [dbo].[HealthMeasure]
 DELETE FROM [dbo].[AgeDimension]
 DELETE FROM [dbo].[AreaDimension]
 DELETE FROM  [dbo].[IndicatorDimension]
 DELETE FROM [dbo].[SexDimension]
 
+--reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
+DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
+DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[AreaDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
+
+--create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON 
 
 INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (321, N'All ages', 1)
@@ -33,6 +40,7 @@ SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 
 SET IDENTITY_INSERT [dbo].[AreaDimension] ON 
 
+--create some area dimension data
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (17, N'A81633', N'Foundations -Harris Street', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (64, N'A84032', N'Cheviot Medical Group', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (72, N'A85003', N'Rowlands Gill Medical Centre', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
@@ -242,6 +250,8 @@ INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate])
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (70660, N'nE54000018', N'NHS Coventry and Warwickshire Integrated Care Board - QWU', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 SET IDENTITY_INSERT [dbo].[AreaDimension] OFF
 GO
+
+--create some indicator dimension data
 SET IDENTITY_INSERT [dbo].[IndicatorDimension] ON 
 
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (1, N'Under 75 mortality rate from all causes', 108, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
@@ -309,6 +319,8 @@ INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [Start
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (1760, N'Under 75 mortality rate from chronic lower respiratory disease', 94074, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 SET IDENTITY_INSERT [dbo].[IndicatorDimension] OFF
 GO
+
+--create some sex dimension data
 SET IDENTITY_INSERT [dbo].[SexDimension] ON 
 
 INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (1, N'Male', 0, 1, 1)
@@ -316,6 +328,8 @@ INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) 
 INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (3, N'All', 0, 0, 4)
 SET IDENTITY_INSERT [dbo].[SexDimension] OFF
 GO
+
+--create some health measure data
 SET IDENTITY_INSERT [dbo].[HealthMeasure] ON 
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (69851, 17, 6, 3, 321, 17, 1.0712, 0.66988, 1.70883, 2021)
