@@ -1,4 +1,5 @@
 -- This file contains SQL statements that will be executed after the build script.
+--leaving the WeatherForecast in for now as it will break the skeleton app if removed
 TRUNCATE TABLE WeatherForecast;
 INSERT INTO WeatherForecast
   ([Date], [Summary], [TemperatureC])
@@ -13,7 +14,8 @@ VALUES
   ('2024-11-01', 'Hot', 30),
   ('2024-11-01', 'Sweltering', 40),
   ('2024-11-01', 'Scorching', 55);
-
+  
+--delete all existing data so we always start from a known position
   
 TRUNCATE TABLE [dbo].[HealthMeasure]
 DELETE FROM [dbo].[AgeDimension]
