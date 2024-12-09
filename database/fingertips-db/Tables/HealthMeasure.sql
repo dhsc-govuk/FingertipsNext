@@ -38,3 +38,4 @@ REFERENCES [dbo].[SexDimension] ([SexKey])
 GO
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_SexDimension]
+GO

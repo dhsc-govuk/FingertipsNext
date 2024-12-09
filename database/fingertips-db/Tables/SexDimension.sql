@@ -13,3 +13,4 @@ GO
 ALTER TABLE [dbo].[SexDimension] ADD  CONSTRAINT [DF_SexDimension_IsFemale]  DEFAULT ((0)) FOR [IsFemale]
 GO
 ALTER TABLE [dbo].[SexDimension] ADD  CONSTRAINT [DF_SexDimension_HasValue]  DEFAULT ((0)) FOR [HasValue]
+GO
