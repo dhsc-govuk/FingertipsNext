@@ -25,7 +25,7 @@ describe('shouldForwardProp', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false if propName is valid but correctly camelCased', () => {
+    it('should return true if propName is valid but correctly camelCased', () => {
       const result = shouldForwardProp('cellSpacing', 'some target');
       expect(result).toBe(true);
     });
