@@ -7,16 +7,25 @@
     <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultFileStructure>BySchemaType</DefaultFileStructure>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="PostDeployment" />
     <Folder Include="Tables" />
+    <Folder Include="Scripts\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="PostDeployment\PopulateWeatherForecast.sql" />
+    <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\WeatherForecast.sql" />
+    <Build Include="Tables\AgeDimension.sql" />
+    <Build Include="Tables\AreaDimension.sql" />
+    <Build Include="Tables\HealthMeasure.sql" />
+    <Build Include="Tables\IndicatorDimension.sql" />
+    <Build Include="Tables\SexDimension.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

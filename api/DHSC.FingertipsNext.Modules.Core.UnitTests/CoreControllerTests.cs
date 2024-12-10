@@ -1,7 +1,6 @@
-using FluentAssertions;
-
 namespace DHSC.FingertipsNext.Modules.Core.UnitTests;
 
+using FluentAssertions;
 public class CoreControllerTests
 {
     [Fact]

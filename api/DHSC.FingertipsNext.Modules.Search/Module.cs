@@ -1,5 +1,5 @@
 using DHSC.FingertipsNext.Modules.Search.Controllers.V1;
-using DHSC.FingertipsNext.Modules.Search.Interfaces;
+using DHSC.FingertipsNext.Modules.Search.ModuleInterfaces;
 using DHSC.FingertipsNext.Monolith;
 
 namespace DHSC.FingertipsNext.Modules.Search;
