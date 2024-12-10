@@ -77,7 +77,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Cypress for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
 
 ### Running the Unit tests
 
@@ -87,29 +87,29 @@ npm run test
 
 ### Running the E2E tests
 
-Once you have the web application running on http://localhost:3000 do:
+To run the e2e tests headless do:
 
 ```bash
 npm run test-e2e
 ```
 
-If you wish to run the E2E tests headless do:
+To run the e2e tests headed do:
 
 ```bash
-npx cypress run
+npx playwright test --headed
 ```
 
-Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests are executed in parallel using Chrome and Webkit.
+Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests are executed in parallel using Chromium and Webkit.
 
 ### Accessibility Testing:
 
-Currently performed at the E2E stage. Libraries used: axe-core (https://github.com/dequelabs/axe-core) and cypress-axe (https://github.com/component-driven/cypress-axe). 
+Currently performed at the E2E stage. Libraries used: @axe-core/playwright and axe-playwright. 
 
-Configured to the WCAG2.2 AA standard in the following file cypress/support/a11y.ts.
+Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
-To check accessibility call .checkA11Y() from the basePage.
+To check there are 0 accessibility violations call expect((await axeBuilder.analyze()).violations).toEqual([]);.
 
-Any violations of this standard cause a test failure unless the rule violated has been accepted in cypress/support/a11y.ts.
+Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
 ## Code structure
 
