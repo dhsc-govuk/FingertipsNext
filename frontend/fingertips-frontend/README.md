@@ -27,7 +27,7 @@ You can format the code base (using [Prettier](https://prettier.io/docs/en/)) by
 npm run prettier
 ```
 
-Recommend you configure prettier as part of your IDE using the recommeded [extension](https://prettier.io/docs/en/editors.html)
+Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html)
 
 ### Type Checking
 
@@ -99,7 +99,7 @@ To run the e2e tests headed do:
 npx playwright test --headed
 ```
 
-Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests are executed in parallel using Chromium and Webkit.
+Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts.
 
 ### Accessibility Testing:
 
