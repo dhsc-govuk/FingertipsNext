@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run api:start\" \"npm run dev:standalone\" && npm run api:stop",
     "dev:standalone": "next dev",
+    "dev:local-dev": "MOCK_SERVER=true next dev",
     "build": "next build",
     "start": "next start",
     "api:start": "docker compose --profile api up --build",
@@ -45,6 +46,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-mock-extended": "^4.0.0-beta1",
     "jest-styled-components": "^7.2.0",
+    "msw": "^2.6.8",
     "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "ts-jest": "^29.2.5",
