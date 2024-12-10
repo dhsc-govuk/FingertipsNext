@@ -2,6 +2,7 @@
 **/*.woff
 **/*.ico
 **/*.css
+**/__snapshots__/**
 Dockerfile
 .prettierignore
 .gitignore
