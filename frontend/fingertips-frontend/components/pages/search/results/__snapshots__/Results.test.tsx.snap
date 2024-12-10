@@ -1,0 +1,686 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Results Suite snapshot test 1`] = `
+<DocumentFragment>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 14px;
+  text-decoration: none;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c0:link,
+.c0:visited,
+.c0:hover,
+.c0:active,
+.c0:focus {
+  color: #0b0c0c;
+}
+
+.c0[href] {
+  border-bottom: 1px solid #0b0c0c;
+}
+
+.c0 ::before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  clip-path: polygon(0% 50%, 100% 100%, 100% 0%);
+  border-width: 5px 6px 5px 0;
+  border-right-color: inherit;
+  content: '';
+  position: absolute;
+  top: -1px;
+  bottom: 1px;
+  left: 0;
+  margin: auto;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c0 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c0:link,
+  .c0:visited,
+  .c0:hover,
+  .c0:active,
+  .c0:focus {
+    color: #000;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+<a
+    class="c0"
+    href="/search?indicator="
+  >
+    Back
+  </a>
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.09375;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 48px;
+    line-height: 1.0416666666666667;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    margin-bottom: 50px;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+<h1
+    class="c0"
+  >
+    Search results
+  </h1>
+  .c0 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c0 >p {
+  margin: 0;
+}
+
+.c0 >p>code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c0 >pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c0 >pre>code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <p>
+      You searched for indicator "****"
+    </p>
+  </div>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.c0 .c0 {
+  margin-top: 10px;
+}
+
+.c1 >.c2 {
+  margin-bottom: 5px;
+}
+
+.c4 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c5 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c5 >p {
+  margin: 0;
+}
+
+.c5 >p>code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c5 >pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c5 >pre>code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+  .c4 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c4 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    margin-bottom: 20px;
+  }
+}
+
+<ul
+    class="c0 c1 result"
+  >
+    <li
+      class="c2 c3"
+      data-testid="search-result"
+    >
+      <h5
+        class="c4"
+      >
+        NHS
+      </h5>
+      <div
+        class="c5"
+      >
+        <p>
+          Latest data period: 2023
+        </p>
+      </div>
+      <div
+        class="c5"
+      >
+        <p>
+          Data source: NHS website
+        </p>
+      </div>
+      <div
+        class="c5"
+      >
+        <p>
+          Last updated: 06 December 2024
+        </p>
+      </div>
+    </li>
+    <li
+      class="c2 c3"
+      data-testid="search-result"
+    >
+      <h5
+        class="c4"
+      >
+        DHSC
+      </h5>
+      <div
+        class="c5"
+      >
+        <p>
+          Latest data period: 2022
+        </p>
+      </div>
+      <div
+        class="c5"
+      >
+        <p>
+          Data source: Student article
+        </p>
+      </div>
+      <div
+        class="c5"
+      >
+        <p>
+          Last updated: 05 November 2023
+        </p>
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

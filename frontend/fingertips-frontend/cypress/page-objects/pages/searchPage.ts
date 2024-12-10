@@ -15,4 +15,8 @@ export default class SearchPage extends BasePage {
   navigateToSearch = () => {
     this.navigateTo('search');
   };
+
+  checkIsDisplayed = () => {
+    return cy.getById(this.indicatorField).should('exist');
+  };
 }

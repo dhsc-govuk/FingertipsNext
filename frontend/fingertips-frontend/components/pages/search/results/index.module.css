@@ -1,0 +1,18 @@
+.result {
+  padding-inline-start: 0;
+}
+
+.result li {
+    border-bottom: 1px solid;
+    list-style: none;
+    padding: 2% 5% 0;
+}
+
+.result li:first-child {
+  border-top: 1px solid
+}
+
+.result li p {
+  font-size: 15px;
+  line-height: 10%;
+}

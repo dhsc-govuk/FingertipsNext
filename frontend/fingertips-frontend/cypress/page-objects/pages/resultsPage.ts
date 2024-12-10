@@ -15,4 +15,8 @@ export default class ResultsPage extends BasePage {
   checkURLIsCorrect = (indicator: string) => {
     return this.checkURL(`search/results?indicator=${indicator}`);
   };
+
+  checkResultsAreDisplayed = () => {
+    return cy.get('[data-testid="search-result"]').should('have.length', 2);
+  };
 }
