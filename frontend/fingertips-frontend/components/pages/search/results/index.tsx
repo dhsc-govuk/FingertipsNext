@@ -17,7 +17,10 @@ export default function SearchResults({
 }: Readonly<SearchResultsProps>) {
   return (
     <>
-      <BackLink href={`/search?indicator=${indicator}`} />
+      <BackLink
+        href={`/search?indicator=${indicator}`}
+        data-testid="search-results-back-link"
+      />
       <H1>Search results</H1>
       <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
       {searchResults.length ? (
