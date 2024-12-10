@@ -6,8 +6,6 @@ import styled from 'styled-components';
 
 jest.mock('./utils');
 
-const mockIsBrowser = isBrowser as jest.MockedFunction<typeof isBrowser>;
-
 const StyledDiv = styled('div')<{ bgColor: string }>(({ bgColor, color }) => ({
   backgroundColor: bgColor,
   color,
@@ -23,7 +21,7 @@ const SomeComponent = () => {
 
 describe('StyledComponentsRegistry', () => {
   it('should return inline styles when rendering the wrapped component client side', () => {
-    mockIsBrowser.mockReturnValue(true);
+    jest.mocked(isBrowser).mockReturnValue(true);
 
     const container = render(
       <StyledComponentsRegistry>
@@ -35,7 +33,7 @@ describe('StyledComponentsRegistry', () => {
   });
 
   it('should not return inline styles when rendering the wrapped component server side', () => {
-    mockIsBrowser.mockReturnValue(false);
+    jest.mocked(isBrowser).mockReturnValue(false);
 
     const container = render(
       <StyledComponentsRegistry>

@@ -3,7 +3,7 @@
 exports[`StyledComponentsRegistry should not return inline styles when rendering the wrapped component server side 1`] = `
 <DocumentFragment>
   <div
-    class="iOplSZ"
+    class="gFlaSj"
   />
 </DocumentFragment>
 `;
