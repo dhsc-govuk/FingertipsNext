@@ -1,26 +1,25 @@
-import { test } from '../page-objects/pageFactory';
+import { expect, test } from '../page-objects/pageFactory';
 
 const indicator = '123';
 
-test.describe('Search Page', () => {
-  test.beforeEach(async ({ searchPage }) => {
-    // Arrange
-    await searchPage.navigateToSearch();
-  });
+test('Search via indicator and assert results', async ({
+  searchPage,
+  resultsPage,
+  axeBuilder,
+}) => {
+  // Arrange
+  await searchPage.navigateToSearch();
 
-  test('via indicator and assert results', async ({
-    searchPage,
-    resultsPage,
-  }) => {
-    // Assert
-    await searchPage.checkURLIsCorrect();
+  // Assert
+  await searchPage.checkURLIsCorrect();
+  expect((await axeBuilder.analyze()).violations).toEqual([]);
 
-    // Act
-    await searchPage.typeIndicator(indicator);
-    await searchPage.clickSearchButton();
+  // Act
+  await searchPage.typeIndicator(indicator);
+  await searchPage.clickSearchButton();
 
-    // Assert
-    await resultsPage.checkURLIsCorrect(indicator);
-    await resultsPage.checkSearchResults(indicator);
-  });
+  // Assert
+  await resultsPage.checkURLIsCorrect(indicator);
+  expect((await axeBuilder.analyze()).violations).toEqual([]);
+  await resultsPage.checkSearchResults(indicator);
 });

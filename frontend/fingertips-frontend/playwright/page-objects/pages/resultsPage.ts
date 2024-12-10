@@ -18,12 +18,4 @@ export default class ResultsPage extends BasePage {
   async checkURLIsCorrect(indicator: string) {
     await this.checkURL(`search/results?indicator=${indicator}`);
   }
-
-  async navigateToHighcharts() {
-    await this.navigateTo('highcharts');
-  }
-
-  async checkHighChartsURLIsCorrect() {
-    await this.checkURL(`highcharts`);
-  }
 }
