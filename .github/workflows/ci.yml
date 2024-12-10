@@ -40,7 +40,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.0.0
 
   e2e-tests:
-    timeout-minutes: 60
+    name: Execute e2e tests
     runs-on: ubuntu-latest
 
     strategy:
@@ -74,7 +74,7 @@ jobs:
           retention-days: 30
 
   frontend-unit-test-and-static-analysis:
-    name: Run unit tests and static analysis against frontend
+    name: Execute unit tests and static analysis against frontend
     runs-on: ubuntu-latest
 
     strategy:
