@@ -1,14 +1,19 @@
-import { LineChart } from "@/components/pages/chart";
-import Highcharts from "highcharts";
+import { LineChart } from '@/components/pages/chart';
 
-export default async function LineChartPage(
-) {
-    const lineChartData: Highcharts.Options = {
-        chart: { type: 'line' },
-        title: { text: 'Line Chart Example' },
-        xAxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] },
-        series: [{ type: 'line', name: 'Monitored value', data: [2, 2, 3, 6, 5, 6] }],
-    };
+async function fetchLineChartData() {
+  const response = await fetch('http://localhost:5144/weatherforecast');
+  if (!response.ok) {
+    throw new Error('Failed to fetch forecast data');
+  }
+  return await response.json();
+}
 
-    return <LineChart options={lineChartData} />;
+export default async function getLineChartData() {
+  const data = await fetchLineChartData();
+
+  if (!data) {
+    return <div>Failed to load data.</div>;
+  }
+
+  return <LineChart data={data}></LineChart>;
 }
