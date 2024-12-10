@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import StyledComponentsRegistry from './registry';
 import { isBrowser } from './utils';
 import styled from 'styled-components';
