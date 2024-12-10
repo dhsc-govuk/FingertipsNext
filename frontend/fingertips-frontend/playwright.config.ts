@@ -5,14 +5,12 @@ const url = 'http://localhost:3000/search';
 export default defineConfig({
   testDir: './playwright/tests',
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
+  forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
     baseURL: url,
-
     trace: 'on-first-retry',
   },
 
