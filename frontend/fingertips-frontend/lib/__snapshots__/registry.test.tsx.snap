@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StyledComponentsRegistry should not return inline styles when rendering the wrapped component server side 1`] = `
-<DocumentFragment>
-  <div
-    class="eEnTxN"
-  />
-</DocumentFragment>
-`;
-
 exports[`StyledComponentsRegistry should return inline styles when rendering the wrapped component client side 1`] = `
 <DocumentFragment>
   .c0 {

@@ -153,6 +153,30 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
 <a
     class="c0"
     data-testid="search-results-back-link"
@@ -256,6 +280,30 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
 
 }
 
@@ -406,6 +454,30 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
 <div
     class="c0"
   >
@@ -413,7 +485,7 @@ exports[`Search Results Suite snapshot test 1`] = `
       You searched for indicator "****"
     </p>
   </div>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -433,18 +505,19 @@ exports[`Search Results Suite snapshot test 1`] = `
   color: #0b0c0c;
   margin-top: 0;
   margin-bottom: 15px;
-  padding-left: 20px;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .c0 .c0 {
   margin-top: 10px;
 }
 
-.c1 >.c2 {
+.c1 >.c3 {
   margin-bottom: 5px;
 }
 
-.c4 {
+.c6 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -457,7 +530,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c5 {
+.c7 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -468,11 +541,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c5 >p {
+.c7 >p {
   margin: 0;
 }
 
-.c5 >p>code {
+.c7 >p>code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -480,7 +553,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c5 >pre {
+.c7 >pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -489,7 +562,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c5 >pre>code {
+.c7 >pre>code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -499,6 +572,28 @@ exports[`Search Results Suite snapshot test 1`] = `
   word-wrap: normal;
 }
 
+.c2 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0.5;
+}
+
+.c5 {
+  padding-top: 15px;
+  padding-bottom: 0;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 @media print {
 
 }
@@ -516,14 +611,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c3 {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
@@ -572,116 +667,167 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c4 {
+  .c6 {
     color: #000;
   }
 }
 
 @media print {
-  .c4 {
+  .c6 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c4 {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c4 {
+  .c6 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c5 {
+  .c7 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 {
+  .c7 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 {
+  .c7 {
     margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    padding-top: 15px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    padding-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    padding-left: 40px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    padding-right: 40px;
   }
 }
 
 <ul
-    class="c0 c1 result"
+    class="c0 c1"
+    liststyletype="none"
   >
+    <hr
+      class="c2"
+      visible="true"
+    />
     <li
-      class="c2 c3"
+      class="c3 c4 c5"
       data-testid="search-result"
     >
       <h5
-        class="c4"
+        class="c6"
       >
         NHS
       </h5>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Latest data period: 2023
         </p>
       </div>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Data source: NHS website
         </p>
       </div>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Last updated: 06 December 2024
         </p>
       </div>
     </li>
+    <hr
+      class="c2"
+      visible="true"
+    />
     <li
-      class="c2 c3"
+      class="c3 c4 c5"
       data-testid="search-result"
     >
       <h5
-        class="c4"
+        class="c6"
       >
         DHSC
       </h5>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Latest data period: 2022
         </p>
       </div>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Data source: Student article
         </p>
       </div>
       <div
-        class="c5"
+        class="c7 c8"
       >
         <p>
           Last updated: 05 November 2023
         </p>
       </div>
     </li>
+    <hr
+      class="c2"
+      visible="true"
+    />
   </ul>
 </DocumentFragment>
 `;

@@ -3,6 +3,76 @@
 exports[`Search Result Suite snapshot test 1`] = `
 <DocumentFragment>
   .c0 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+<hr
+    class="c0"
+    visible="true"
+  />
+  .c0 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -12,7 +82,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c1 {
+.c2 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -25,7 +95,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c2 {
+.c3 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,11 +106,11 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c2 >p {
+.c3 >p {
   margin: 0;
 }
 
-.c2 >p>code {
+.c3 >p>code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -48,7 +118,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c2 >pre {
+.c3 >pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -57,7 +127,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c2 >pre>code {
+.c3 >pre>code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -67,6 +137,22 @@ exports[`Search Result Suite snapshot test 1`] = `
   word-wrap: normal;
 }
 
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0.5;
+}
+
+.c1 {
+  padding-top: 15px;
+  padding-bottom: 0;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 @media print {
   .c0 {
     font-size: 14px;
@@ -82,76 +168,114 @@ exports[`Search Result Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c1 {
+  .c2 {
     color: #000;
   }
 }
 
 @media print {
-  .c1 {
+  .c2 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c1 {
+  .c2 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c1 {
+  .c2 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c2 {
+  .c3 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c2 {
+  .c3 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c2 {
+  .c3 {
     margin-bottom: 20px;
   }
 }
 
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    padding-top: 15px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    padding-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    padding-left: 40px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    padding-right: 40px;
+  }
+}
+
 <li
-    class="c0"
+    class="c0 c1"
     data-testid="search-result"
   >
     <h5
-      class="c1"
+      class="c2"
     >
       NHS
     </h5>
     <div
-      class="c2"
+      class="c3 c4"
     >
       <p>
         Latest data period: 2023
       </p>
     </div>
     <div
-      class="c2"
+      class="c3 c4"
     >
       <p>
         Data source: NHS website
       </p>
     </div>
     <div
-      class="c2"
+      class="c3 c4"
     >
       <p>
         Last updated: 06 December 2024

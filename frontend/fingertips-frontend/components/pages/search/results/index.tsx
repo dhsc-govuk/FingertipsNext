@@ -1,6 +1,12 @@
 'use client';
 
-import { BackLink, H1, Paragraph, UnorderedList } from 'govuk-react';
+import {
+  BackLink,
+  H1,
+  Paragraph,
+  SectionBreak,
+  UnorderedList,
+} from 'govuk-react';
 import SearchResult from '@/components/molecules/Search/result';
 
 import { SearchResultInterface } from '@/app/search/results/search-result-data';
@@ -27,9 +33,11 @@ export default function SearchResults({
           {searchResults.map((result) => (
             <SearchResult key={result.id} result={result} />
           ))}
+          <SectionBreak visible="true" />
         </UnorderedList>
-      ) : null}
-      {!searchResults.length && <Paragraph>No results found</Paragraph>}
+      ) : (
+        <Paragraph>No results found</Paragraph>
+      )}
     </>
   );
 }

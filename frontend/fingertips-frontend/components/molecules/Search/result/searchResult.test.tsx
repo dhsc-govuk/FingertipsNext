@@ -1,33 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import SearchResult from '.';
-import {
-  SearchResultInterface,
-  MOCK_DATA,
-} from '@/app/search/results/search-result-data';
+import { MOCK_DATA } from '@/app/search/results/search-result-data';
 
 describe('Search Result Suite', () => {
   test('should have search result list item', () => {
-    const result: SearchResultInterface = MOCK_DATA[0];
-
-    render(<SearchResult result={result} />);
+    render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
   });
 
   test('should contain 3 paragraphs and a heading', () => {
-    const result: SearchResultInterface = MOCK_DATA[0];
-
-    render(<SearchResult result={result} />);
+    render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getAllByRole('paragraph')).toHaveLength(3);
     expect(screen.getByRole('heading')).toBeInTheDocument();
   });
 
   test('should contain expected text', () => {
-    const result: SearchResultInterface = MOCK_DATA[0];
-
-    render(<SearchResult result={result} />);
+    render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('heading').textContent).toContain('NHS');
     expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
@@ -42,9 +33,7 @@ describe('Search Result Suite', () => {
   });
 
   test('snapshot test', () => {
-    const result: SearchResultInterface = MOCK_DATA[0];
-
-    const container = render(<SearchResult result={result} />);
+    const container = render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });
