@@ -26,7 +26,7 @@ export function HomePage({
 
           <Paragraph>
             Fingertips is a large public health data collection. Data is
-            organised into themed profiles.
+            organised into themed profiles. Test.
           </Paragraph>
 
           <Table
