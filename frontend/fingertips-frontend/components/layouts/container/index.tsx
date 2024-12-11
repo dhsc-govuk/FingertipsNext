@@ -11,5 +11,9 @@ const StyledMain = styled(Main)({
 export function FTContainer({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return <StyledMain>{children}</StyledMain>;
+  return (
+    <main>
+      <StyledMain>{children}</StyledMain>
+    </main>
+  );
 }
