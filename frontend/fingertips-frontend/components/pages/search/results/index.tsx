@@ -4,7 +4,6 @@ import { BackLink, H1, Paragraph, UnorderedList } from 'govuk-react';
 import SearchResult from '@/components/molecules/Search/result';
 
 import { SearchResultInterface } from '@/app/search/results/search-result-data';
-import classes from './index.module.css';
 
 type SearchResultsProps = {
   indicator: string;
@@ -24,7 +23,7 @@ export default function SearchResults({
       <H1>Search results</H1>
       <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
       {searchResults.length ? (
-        <UnorderedList className={classes['result']}>
+        <UnorderedList listStyleType="none">
           {searchResults.map((result) => (
             <SearchResult key={result.id} result={result} />
           ))}

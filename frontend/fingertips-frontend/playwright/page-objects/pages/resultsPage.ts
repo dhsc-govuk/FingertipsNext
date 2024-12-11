@@ -4,6 +4,7 @@ import { expect } from '../pageFactory';
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'You searched for indicator';
   readonly backLink = 'search-results-back-link';
+  readonly searchResult = 'search-result';
 
   async checkSearchResults(searchTerm: string) {
     await expect(
@@ -12,10 +13,14 @@ export default class ResultsPage extends BasePage {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink);
+    await this.page.getByTestId(this.backLink).click();
   }
 
   async checkURLIsCorrect(indicator: string) {
     await this.checkURL(`search/results?indicator=${indicator}`);
+  }
+
+  async checkResultsAreDisplayed() {
+    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(2);
   }
 }
