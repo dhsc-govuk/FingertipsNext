@@ -1,7 +1,7 @@
 'use client';
 
 import { searchIndicator, SearchFormState } from './searchActions';
-import { Button, InputField } from 'govuk-react';
+import { H1, Button, InputField } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
 import styled from 'styled-components';
@@ -19,20 +19,25 @@ export const SearchForm = ({ indicator }: { indicator: string }) => {
   const [_state, formAction] = useActionState(searchIndicator, initialState);
 
   return (
-    <form action={formAction}>
-      <StyledInputField
-        input={{
-          id: 'indicator',
-          name: 'indicator',
-          defaultValue: indicator,
-        }}
-        hint={<>Type in here the IndicatorId.</>}
-        data-testid="input-indicator-search"
-      >
-        Indicator id or keyword
-      </StyledInputField>
+    <>
+      <H1>Search</H1>
+      <form action={formAction}>
+        <StyledInputField
+          input={{
+            id: 'indicator',
+            name: 'indicator',
+            defaultValue: indicator,
+          }}
+          hint={<>Type in here the IndicatorId.</>}
+          data-testid="search-form-input-indicator"
+        >
+          Indicator id or keyword
+        </StyledInputField>
 
-      <Button type="submit">Search</Button>
-    </form>
+        <Button data-testid="search-form-button-submit" type="submit">
+          Search
+        </Button>
+      </form>
+    </>
   );
 };

@@ -27,7 +27,7 @@ You can format the code base (using [Prettier](https://prettier.io/docs/en/)) by
 npm run prettier
 ```
 
-Recommend you configure prettier as part of your IDE using the recommeded [extension](https://prettier.io/docs/en/editors.html)
+Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html)
 
 ### Type Checking
 
@@ -77,7 +77,7 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-We use Jest + React Testing Library for unit testing and Cypress for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
 
 ### Running the Unit tests
 
@@ -87,19 +87,29 @@ npm run test
 
 ### Running the E2E tests
 
-Once you have the web application running on http://localhost:3000 do:
+To run the e2e tests headless do:
 
 ```bash
 npm run test-e2e
 ```
 
-If you wish to run the E2E tests headless do:
+To run the e2e tests headed do:
 
 ```bash
-npx cypress run
+npx playwright test --headed
 ```
 
-Note that this command will use the bundled Electron browser when executing the tests headlessly. In the CI job these tests will execute using chrome, safari will be added in a future PR.
+Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts.
+
+### Accessibility Testing:
+
+Currently performed at the E2E stage. Libraries used: @axe-core/playwright and axe-playwright. 
+
+Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
+
+To check there are 0 accessibility violations call expect((await axeBuilder.analyze()).violations).toEqual([]);.
+
+Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
 ## Code structure
 
