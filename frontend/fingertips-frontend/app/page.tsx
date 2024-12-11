@@ -1,5 +1,5 @@
 import { HomePage } from '@/components/pages/home';
-import { IndicatorsApi } from '@/generated-sources/openapi';
+import { IndicatorsApi } from '@/generated-sources/openapi/src';
 import { connection } from 'next/server';
 
 export type Forecast = {
