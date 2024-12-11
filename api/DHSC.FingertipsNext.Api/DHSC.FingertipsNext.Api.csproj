@@ -20,6 +20,7 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core\DHSC.FingertipsNext.Modules.Core.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search\DHSC.FingertipsNext.Modules.Search.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators\DHSC.FingertipsNext.Modules.Indicators.csproj" />
     </ItemGroup>
 
     <ItemGroup>
