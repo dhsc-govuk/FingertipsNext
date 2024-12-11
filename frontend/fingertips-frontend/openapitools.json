@@ -9,7 +9,7 @@
         "inputSpec": "./../../api/definition/swagger.yaml",
         "output": "generated-sources/openapi",
         "additionalProperties": {
-          "npmName": "ApiClient",
+          "npmName": "api-client",
           "npmVersion": "10.9.0",
           "supportsES6": true,
           "withInterfaces": true
