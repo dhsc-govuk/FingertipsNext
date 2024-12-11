@@ -2,6 +2,8 @@ name: Fingertips CI
 
 env:
   dotnet-version: 9.0.x
+  frontend-directory: ./frontend/fingertips-frontend
+  NEXT_TELEMETRY_DISABLED: true
 
 on:
   push:
@@ -37,15 +39,9 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
 
-  frontend-build-and-test:
-    name: Build frontend and run tests
+  frontend-unit-test-and-static-analysis:
+    name: Execute unit tests and static analysis against frontend
     runs-on: ubuntu-latest
-
-    env:
-      frontend-directory: ./frontend/fingertips-frontend
-
-      # Disable Next.js telemetry tracking (https://nextjs.org/telemetry)
-      NEXT_TELEMETRY_DISABLED: true
 
     strategy:
       matrix:
@@ -82,15 +78,6 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
-      - name: Execute e2e cypress tests - chrome
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          working-directory: ${{ env.frontend-directory }}
-          install: false
-          start: npm run dev:standalone
-          wait-on: "http://localhost:3000/search"
-
   api-build:
     name: Build API
     runs-on: ubuntu-latest
@@ -99,7 +86,7 @@ jobs:
       api-directory: ./api
     strategy:
       matrix:
-        dotnet-version: [ '9.0.x' ]
+        dotnet-version: ["9.0.x"]
 
     defaults:
       run:
@@ -122,6 +109,43 @@ jobs:
 
       - name: Run Unit Tests
         run: dotnet test
+
+  e2e-tests:
+    name: Execute e2e tests
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.49.0-jammy
+      options: --user 1001
+
+    strategy:
+      matrix:
+        node-version: ["22.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   container-build:
     name: Build container
