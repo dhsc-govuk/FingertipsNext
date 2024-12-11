@@ -6,7 +6,7 @@
     "dev": "concurrently \"npm run api:start\" \"npm run dev:standalone\" && npm run api:stop",
     "dev:standalone": "next dev",
     "dev:local-dev": "MOCK_SERVER=true next dev",
-    "codegen": "openapi-generator-cli generate -i ./../../api/definition/swagger.yaml -g node -o generated-sources/openapi",
+    "codegen": "openapi-generator-cli generate",
     "build": "next build",
     "start": "next start",
     "api:start": "docker compose --profile api up --build",

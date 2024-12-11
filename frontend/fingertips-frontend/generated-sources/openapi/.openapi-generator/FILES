@@ -1,0 +1,17 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/IndicatorsApi.ts
+src/apis/index.ts
+src/index.ts
+src/models/FilterIndicators400Response.ts
+src/models/HealthDataForArea.ts
+src/models/HealthDataPoint.ts
+src/models/Indicator.ts
+src/models/IndicatorSummary.ts
+src/models/index.ts
+src/runtime.ts
+tsconfig.esm.json
+tsconfig.json

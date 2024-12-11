@@ -1,4 +1,5 @@
 import { HomePage } from '@/components/pages/home';
+import { IndicatorsApi } from '@/generated-sources/openapi/dist';
 import { connection } from 'next/server';
 
 export type Forecast = {
@@ -19,6 +20,10 @@ export default async function Home() {
       'No API URL set. Have you set the FINGERTIPS_API_URL environment variable?'
     );
   }
+
+  const indicatorApi = new IndicatorsApi();
+  const indicator = await indicatorApi.getIndicator({ indicatorId: 123 });
+  console.log(`indicator definition ${indicator.definition}`);
 
   const weatherData = await fetch(apiUrl, {
     // Cache the data for 60s
