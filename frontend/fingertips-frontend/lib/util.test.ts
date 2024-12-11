@@ -20,14 +20,14 @@ describe('shouldForwardProp', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false if propName is valid but incorrectly camelCased', () => {
-      const result = shouldForwardProp('bgColor', 'some target');
+    it('should return false if propName is valid but incorrectly cased', () => {
+      const result = shouldForwardProp('cellspacing', 'some target');
       expect(result).toBe(false);
     });
 
-    it('should return false if propName is valid but correctly cased', () => {
-      const result = shouldForwardProp('bgcolor', 'some target');
-      expect(result).toBe(false);
+    it('should return true if propName is valid but correctly camelCased', () => {
+      const result = shouldForwardProp('cellSpacing', 'some target');
+      expect(result).toBe(true);
     });
   });
 });

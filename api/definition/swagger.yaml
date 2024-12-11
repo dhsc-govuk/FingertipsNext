@@ -1,0 +1,263 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://fingertips-next-api/1.0.0
+info:
+  description: An API to query public health indicator data.
+  version: "1.0.0"
+  title: Fingertips API
+  contact:
+    email:  ProfileFeedback@dhsc.gov.uk
+tags:
+  - name: indicators
+    description: Endpoints dealing with public health indicators
+paths:
+  /indicators:
+    get:
+      tags:
+        - indicators
+      summary: Get indicator summaries & filter results
+      operationId: filterIndicators
+      description: |
+        Get summaries of public health indicators, by passing in the appropriate options you can filter the results
+      parameters:
+        - $ref: "#/components/parameters/indicator_ids"
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IndicatorSummary'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /indicators/{indicator_id}:
+    get:
+      tags:
+        - indicators
+      summary: Get indicator
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Indicator"
+          description: The request was successful, and the server has returned the
+            requested resource in the response body.
+        '404':
+          $ref: "#/components/responses/NotFound"
+        '500':
+           $ref: "#/components/responses/InternalServerErrror"
+      parameters:
+        - $ref: "#/components/parameters/indicator_id"
+      description: >
+        Fetches details of a specific indicator by its unique identifier. The
+        response includes the indicator's metadata
+      operationId: getIndicator
+  /indicators/{indicator_id}/data:
+    get:
+      tags:
+        - indicators
+      summary: Get health data for an indicator
+      description: Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
+        or more area codes and one or more years in the query string.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HealthDataForArea"
+                title: GetHealthDataForAnIndicatorOk
+          description: Data containing the health data points for the indicator, years
+            and geographical areas requested
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerErrror"
+      parameters:
+        - $ref: "#/components/parameters/indicator_id"
+        - $ref: "#/components/parameters/area_codes"
+        - $ref: "#/components/parameters/years"
+      operationId: getHealthDataForAnIndicator
+components:
+  schemas:
+    IndicatorSummary:
+      type: object
+      description: A summary of a public health indicator
+      required:
+        - indicator_id
+        - title
+      properties:
+        indicator_id:
+          type: integer
+          format: int32
+          example: 3456
+          description: The unique identifier of the indicator
+        title:
+          type: string
+          example: "Hypertension: QOF prevalence (all ages)"
+          description: The title of the indicator
+    Indicator:
+      type: object
+      description: A public health indicator
+      required:
+        - indicator_id
+        - title
+        - definition
+      properties:
+        indicator_id:
+          type: integer
+          format: int32
+          example: 3456
+          description: The unique identifier of the indicator
+        title:
+          type: string
+          example: "Hypertension: QOF prevalence (all ages)"
+          description: The title of the indicator
+        definition:
+          type: string
+          example: "The percentage of patients with established hypertension, as
+              recorded on practice disease registers (proportion of total list
+              size)"
+          description: The definition of the indicator
+    HealthDataPoint:
+      type: object
+      description: Represents a health data point for a public health indicator with a
+        count, value, upper confidence interval, lower confidence interval and a
+        year.
+      required:
+        - year
+        - count
+        - value
+        - lowerCi
+        - upperCi
+      properties:
+        year:
+          type: integer
+          format: int32
+          example: 2023
+          description: The year that the data point is for
+        count:
+          type: number
+          example: 222
+          description: The count
+        value:
+          type: number
+          example: 506.60912
+          description: The value
+        lowerCi:
+          type: number
+          example: 441.69151
+          description: The lower confidence interval
+        upperCi:
+          type: number
+          format: float
+          example: 578.32766
+          description: The upper confidence interval
+    HealthDataForArea:
+      type: object
+      description: Associates a list of health data points with the relevant
+        geographical area (represented by it's unique code).
+      required:
+        - areaCode
+        - healthData
+      properties:
+        areaCode:
+          type: string
+          example: A1426
+          description: The unique area code that the health data for
+        healthData:
+          type: array
+          items:
+            $ref: "#/components/schemas/HealthDataPoint"
+          description: The health data points for the area and indicator
+  parameters:
+    years:
+      in: query
+      name: years
+      description: A list of years, up to 10 years can be requested
+      style: form
+      schema:
+        type: array
+        items:
+          type: integer
+          example: 2023
+        maxItems: 10
+    area_codes:
+      in: query
+      name: area_codes
+      description: A list of area codes, up to 10 area codes can be requested
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          example: G82109
+        maxItems: 10
+    indicator_id:
+      in: path
+      name: indicator_id
+      style: simple
+      schema:
+        type: integer
+        example: 1234
+        minimum: 1
+      explode: false
+      required: true
+      description: The unique identifier of the indicator
+    indicator_ids:
+      in: query
+      name: indicator_ids
+      description: A list of indicator_ids, up to 10 can be requested
+      style: form
+      schema:
+        type: array
+        items:
+          type: integer
+          example: 1234
+        maxItems: 10
+  responses:
+    NotFound:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+      description: The server cannot find the requested resource. The endpoint may be
+        invalid or the resource may no longer exist.
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+      description: The server could not understand the request due to invalid syntax.
+        The client should modify the request and try again.
+    InternalServerErrror:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string
+      description: The server encountered an unexpected condition that prevented it
+        from fulfilling the request. Report the issue to the support team if it
+        persists.

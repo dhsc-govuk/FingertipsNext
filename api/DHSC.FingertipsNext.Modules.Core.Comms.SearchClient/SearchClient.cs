@@ -1,4 +1,4 @@
-using DHSC.FingertipsNext.Modules.Search.Interfaces;
+using DHSC.FingertipsNext.Modules.Search.ModuleInterfaces;
 
 namespace DHSC.FingertipsNext.Modules.Core.SearchAPI;
 

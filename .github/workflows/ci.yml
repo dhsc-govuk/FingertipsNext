@@ -115,6 +115,38 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+  api-build:
+    name: Build API
+    runs-on: ubuntu-latest
+
+    env:
+      api-directory: ./api
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.api-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore Packages
+        run: dotnet restore
+
+      - name: Build API
+        run: dotnet build
+
+      - name: Run Unit Tests
+        run: dotnet test
+
   container-build:
     name: Build container
     runs-on: ubuntu-latest
