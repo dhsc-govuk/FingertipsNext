@@ -12,7 +12,6 @@
 
 # testing
 /coverage
-*.png
 
 # next.js
 /.next/

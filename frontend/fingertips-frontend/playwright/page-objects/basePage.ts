@@ -9,11 +9,10 @@ export default class BasePage {
   }
 
   async navigateTo(page: string) {
-    //Variables for retry logic
     let retryAttempt = 0;
     const maxRetries = 3;
-
     let pageNavigation;
+
     //Retry logic for page navigation
     while (retryAttempt < maxRetries) {
       try {
@@ -21,7 +20,6 @@ export default class BasePage {
         break;
       } catch (error) {
         retryAttempt++;
-        //Throw error if max retries reached
         if (retryAttempt === maxRetries) {
           throw new Error(error + 'Page navigation failed');
         }
