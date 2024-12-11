@@ -1,6 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Controllers.V1;
-using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
-using DHSC.FingertipsNext.Modules.Indicators.Services;
+﻿using DHSC.FingertipsNext.Modules.Indicators.Services;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +10,7 @@ public class Module  : AbstractMonolithModule, IMonolithModule
     
     public override void RegisterModule(IServiceCollection services)
     {
-        services.AddTransient<IIndicatorsController, IndicatorsController>();
-        services.AddTransient<IIndicatorsService, IndicatorServiceWithHardcodedData>();
+        services.AddTransient<IIndicatorsService, IndicatorService>();
+        services.AddTransient<IIndicatorsDataProvider, IndicatorDataProvider>();
     }
 }

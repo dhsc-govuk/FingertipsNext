@@ -3,34 +3,38 @@
 namespace DHSC.FingertipsNext.Modules.Indicators.Services;
 
 /// <summary>
-/// Simple service to provide some hard coded test data for the Indicators endpoint.
+///
 /// </summary>
-[Obsolete("This class will be replaced by something that accesses real data.")]
-public class IndicatorServiceWithHardcodedData : IIndicatorsService
+public class IndicatorDataProvider : IIndicatorsDataProvider
 {
-    public IEnumerable<HealthDataForArea> GetIndicatorData(
+    // TODO: FTN-?? - replace hard coded data and logic with something that fetches real data from database
+    
+    public Task<IEnumerable<HealthDataForArea>> GetIndicatorData(
         int indicatorId,
         string[] areaCodes,
         int[] years
     )
     {
         if (!HardCodedData.SampleIndicatorIds.Contains(indicatorId))
-            return [];
+            return Task.FromResult((IEnumerable<HealthDataForArea>)[]);
 
-        Func<string, bool> isAreacodeToReturn = ac => areaCodes.Length == 0 || areaCodes.Contains(ac);
+        Func<string, bool> isAreacodeToReturn = ac =>
+            areaCodes.Length == 0 || areaCodes.Contains(ac);
 
         Func<HealthDataPoint, bool> isYearToReturn = dataPoint =>
             years.Length == 0 || years.Contains(dataPoint.Year);
 
-        return HardCodedData
-            .SampleAreaCodes.Where(isAreacodeToReturn)
-            .Select(areaCode => new HealthDataForArea
-            {
-                AreaCode = areaCode,
-                HealthData = HardCodedData
-                    .SampleDatapointsForAllAreas.Where(isYearToReturn)
-                    .ToArray(),
-            });
+        return Task.FromResult(
+            HardCodedData
+                .SampleAreaCodes.Where(isAreacodeToReturn)
+                .Select(areaCode => new HealthDataForArea
+                {
+                    AreaCode = areaCode,
+                    HealthData = HardCodedData
+                        .SampleDatapointsForAllAreas.Where(isYearToReturn)
+                        .ToArray(),
+                })
+        );
     }
 }
 
