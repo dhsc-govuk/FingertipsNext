@@ -10,7 +10,8 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
 });
-export default js.configs = [
+
+const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     rules: {
@@ -23,3 +24,5 @@ export default js.configs = [
     },
   },
 ];
+
+export default eslintConfig;
