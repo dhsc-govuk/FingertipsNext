@@ -3,5 +3,9 @@
 import { Footer } from 'govuk-react';
 
 export function FTFooter() {
-  return <Footer role="contentinfo" />;
+  return (
+    <footer>
+      <Footer />
+    </footer>
+  );
 }
