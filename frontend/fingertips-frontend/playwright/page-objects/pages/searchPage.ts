@@ -16,7 +16,7 @@ export default class SearchPage extends BasePage {
     await this.navigateTo('search');
   }
 
-  async checkURLIsCorrect() {
-    await this.checkURL(`search`);
+  async checkURLIsCorrect(queryParams = '') {
+    await this.checkURL('search' + queryParams);
   }
 }
