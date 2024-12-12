@@ -1,0 +1,19 @@
+﻿### get some sample data
+GET http://localhost:5144/Indicators/100/data
+    ?areaCodes=WF10%204TA
+    &years=1970
+    &years=1980
+    &areaCodes=AA1%201AA
+
+###
+
+### attempt to use invalid indicatorId
+GET http://localhost:5144/Indicators/sausage/data
+
+###
+
+### attempt to use invalid years
+GET http://localhost:5144/Indicators/100/data
+    ?years=sausage
+
+###
