@@ -10,11 +10,11 @@ import {
 } from 'govuk-react';
 import { SearchResult } from '@/components/molecules/Search/result';
 
-import { SearchResultInterface } from '@/app/search/results/search-result-data';
+import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 
 type SearchResultsProps = {
   indicator: string;
-  searchResults: SearchResultInterface[];
+  searchResults: IndicatorSearchResult[];
 };
 
 export default function SearchResults({

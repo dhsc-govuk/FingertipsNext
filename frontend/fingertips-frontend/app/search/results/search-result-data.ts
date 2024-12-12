@@ -1,4 +1,4 @@
-export interface SearchResultInterface {
+export interface IndicatorSearchResult {
   id: number;
   topic: string;
   latestDataPeriod: string;
@@ -6,7 +6,7 @@ export interface SearchResultInterface {
   lastUpdated: string;
 }
 
-export const MOCK_DATA: SearchResultInterface[] = [
+export const MOCK_DATA: IndicatorSearchResult[] = [
   {
     id: 1,
     topic: 'NHS',
@@ -31,6 +31,6 @@ function formatDate(date: Date): string {
   return `${day} ${month} ${year}`;
 }
 
-export const getSearchData = (): SearchResultInterface[] => {
+export const getSearchData = (): IndicatorSearchResult[] => {
   return MOCK_DATA;
 };
