@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { mockWeatherForecasts } from './../data/forecasts';
+import { mockWeatherForecasts } from '../data/forecasts';
 
 const baseURL = process.env.FINGERTIPS_API_URL;
 
@@ -13,35 +13,29 @@ const next = () => {
 
 export const handlers = [
   http.get(`${baseURL}/HealthCheck`, async () => {
-    const resultArray = [
-      [await getGetHealthCheck200Response(), { status: 200 }],
-    ];
+    const resultArray = [[getGetHealthCheck200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/Core/forecast`, async () => {
-    const resultArray = [
-      [await getGetCoreForecast200Response(), { status: 200 }],
-    ];
+    const resultArray = [[getGetCoreForecast200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/Core/search-forecast`, async () => {
     const resultArray = [
-      [await getGetCoreSearchForecast200Response(), { status: 200 }],
+      [getGetCoreSearchForecast200Response(), { status: 200 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [
-      [await getGetWeatherForecast200Response(), { status: 200 }],
-    ];
+    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/Search`, async () => {
-    const resultArray = [[await getGetSearch200Response(), { status: 200 }]];
+    const resultArray = [[getGetSearch200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
