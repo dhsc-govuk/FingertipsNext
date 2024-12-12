@@ -8,7 +8,5 @@ export default async function Home() {
   const forecastApi = new WeatherForecastApi();
   const forecasts = await forecastApi.getWeatherForecast();
 
-  if (forecasts.length > 0) {
-    return <HomePage forecasts={forecasts} />;
-  }
+  return <HomePage forecasts={forecasts} />;
 }
