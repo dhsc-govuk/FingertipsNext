@@ -7,7 +7,7 @@
     "dev:standalone": "next dev",
     "dev:local-dev": "MOCK_SERVER=true next dev",
     "codegen": "openapi-generator-cli generate",
-    "build-openapi-client": "npm --prefix ./generated-sources/openapi ci",
+    "build-openapi-client": "npm --prefix ./generated-sources/openapi install",
     "build": "next build",
     "start": "next start",
     "api:start": "docker compose --profile api up --build",
