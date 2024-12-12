@@ -3,6 +3,7 @@ using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
 using DHSC.FingertipsNext.Modules.Indicators.Services;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.Equivalency;
 
 namespace DHSC.FingertipsNext.Modules.Indicators.Tests.Controllers.V1;
 
@@ -27,8 +28,8 @@ public class IndicatorControllerTests
             .Received()
             .GetIndicatorData(
                 1,
-                Arg.Is<string[]>(x => x.SequenceEqual(new[] { "ac1", "ac2" })),
-                Arg.Is<int[]>(x => x.SequenceEqual(new[] { 1999, 2024 }))
+                ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
+                ArgEx.IsEquivalentTo<int[]>([ 1999, 2024 ])
             );
     }
 

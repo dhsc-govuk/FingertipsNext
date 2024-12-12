@@ -56,10 +56,10 @@ static class HardCodedData
 
     public static readonly string[] SampleAreaCodes =
     [
-        "AA1 1AA",
-        "WF10 4TA",
-        "SW1A 1AA",
-        "LS1 4HR",
+        "areaCode1",
+        "areaCode2",
+        "areaCode3",
+        "areaCode4",
     ];
 
     public static readonly HealthDataPoint[] SampleDatapointsForAllAreas =
