@@ -16,12 +16,11 @@ interface DataProp {
   data: Response[];
 }
 
-if(typeof Highcharts !== 'object') {
-  Accessibility(Highcharts)
+if (typeof Highcharts !== 'object') {
+  Accessibility(Highcharts);
 }
 
 export function LineChart({ data }: DataProp) {
-    
   const categories = data.map((item) => item.date);
   const temperatureData = data.map((item) => item.temperatureC);
 
@@ -41,14 +40,18 @@ export function LineChart({ data }: DataProp) {
     ],
     accessibility: {
       enabled: true,
-      description: 'A line chart showing temperature data over 6 months.'
-    }
+      description: 'A line chart showing temperature data over 6 months.',
+    },
   };
   return (
     <>
       <H1>Line Chart</H1>
       <div>
-        <HighchartsReact containerProps={{ 'data-testid': 'highcharts-react-component' }} highcharts={Highcharts} options={lineChartOptions} />
+        <HighchartsReact
+          containerProps={{ 'data-testid': 'highcharts-react-component' }}
+          highcharts={Highcharts}
+          options={lineChartOptions}
+        />
       </div>
     </>
   );
