@@ -2,12 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import SearchResults from '.';
+import { registryWrapper } from '@/lib/testutils';
 
 describe('Search Results Suite', () => {
   const indicator = 'test';
 
   test('should render elements', async () => {
-    render(<SearchResults indicator={indicator} searchResults={[]} />);
+    render(
+      registryWrapper(
+        <SearchResults indicator={indicator} searchResults={[]} />
+      )
+    );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
@@ -17,7 +22,11 @@ describe('Search Results Suite', () => {
   });
 
   test('should render search results', () => {
-    render(<SearchResults indicator={indicator} searchResults={MOCK_DATA} />);
+    render(
+      registryWrapper(
+        <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
+      )
+    );
 
     expect(screen.getAllByTestId('search-result')).toHaveLength(
       MOCK_DATA.length
@@ -26,7 +35,9 @@ describe('Search Results Suite', () => {
   });
 
   test('should not render elements when no indicator is entered', () => {
-    render(<SearchResults indicator="" searchResults={MOCK_DATA} />);
+    render(
+      registryWrapper(<SearchResults indicator="" searchResults={MOCK_DATA} />)
+    );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/no indicator entered/i)).toBeInTheDocument();
@@ -35,7 +46,11 @@ describe('Search Results Suite', () => {
   });
 
   test('should render no results found', () => {
-    render(<SearchResults indicator={indicator} searchResults={[]} />);
+    render(
+      registryWrapper(
+        <SearchResults indicator={indicator} searchResults={[]} />
+      )
+    );
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
@@ -44,7 +59,9 @@ describe('Search Results Suite', () => {
 
   test('snapshot test', () => {
     const container = render(
-      <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
+      registryWrapper(
+        <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
+      )
     );
 
     expect(container.asFragment()).toMatchSnapshot();

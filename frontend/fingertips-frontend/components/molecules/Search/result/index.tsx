@@ -35,7 +35,7 @@ export function SearchResult({ result }: Readonly<SearchResultProps>) {
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <H5>{result.topic}</H5>
+          <H5>{result.indicatorName}</H5>
           <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
           <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
           <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>

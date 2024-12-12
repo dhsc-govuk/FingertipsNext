@@ -1,6 +1,6 @@
 export interface IndicatorSearchResult {
   id: number;
-  topic: string;
+  indicatorName: string;
   latestDataPeriod: string;
   dataSource: string;
   lastUpdated: string;
@@ -9,14 +9,14 @@ export interface IndicatorSearchResult {
 export const MOCK_DATA: IndicatorSearchResult[] = [
   {
     id: 1,
-    topic: 'NHS',
+    indicatorName: 'NHS',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdated: formatDate(new Date('December 6, 2024')),
   },
   {
     id: 2,
-    topic: 'DHSC',
+    indicatorName: 'DHSC',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdated: formatDate(new Date('November 5, 2023')),

@@ -2,23 +2,24 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { registryWrapper } from '@/lib/testutils';
 
 describe('Search Result Suite', () => {
   test('should have search result list item', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
   });
 
   test('should contain 3 paragraphs and a heading', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getAllByRole('paragraph')).toHaveLength(3);
     expect(screen.getByRole('heading')).toBeInTheDocument();
   });
 
   test('should contain expected text', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getByRole('heading').textContent).toContain('NHS');
     expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
@@ -33,7 +34,9 @@ describe('Search Result Suite', () => {
   });
 
   test('snapshot test', () => {
-    const container = render(<SearchResult result={MOCK_DATA[0]} />);
+    const container = render(
+      registryWrapper(<SearchResult result={MOCK_DATA[0]} />)
+    );
 
     expect(container.asFragment()).toMatchSnapshot();
   });

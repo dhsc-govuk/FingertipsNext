@@ -805,14 +805,12 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 <ul
     class="c0 c1"
-    liststyletype="none"
   >
     <li
       class="c2 c3"
     >
       <hr
         class="c4"
-        visible="true"
       />
     </li>
     <li
@@ -855,7 +853,6 @@ exports[`Search Results Suite snapshot test 1`] = `
       </div>
       <hr
         class="c4"
-        visible="true"
       />
     </li>
     <li
@@ -898,7 +895,6 @@ exports[`Search Results Suite snapshot test 1`] = `
       </div>
       <hr
         class="c4"
-        visible="true"
       />
     </li>
   </ul>
