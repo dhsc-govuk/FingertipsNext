@@ -1,6 +1,8 @@
 import { http, HttpResponse } from 'msw';
-import user from './data/forecasts.json';
+import { mockWeatherForecasts } from './data/forecasts';
 
 export const handlers = [
-  http.get(`${process.env.FINGERTIPS_API_URL}`, () => HttpResponse.json(user)),
+  http.get(`${process.env.FINGERTIPS_API_URL}/WeatherForecast`, () =>
+    HttpResponse.json(mockWeatherForecasts)
+  ),
 ];
