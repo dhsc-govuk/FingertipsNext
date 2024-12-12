@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 
 const $SearchFormSchema = z.object({
-  indicator: z.string({
-    invalid_type_error: 'Please enter an indicator id',
-  }),
+  indicator: z
+    .string()
+    .trim()
+    .min(1, { message: 'Please enter an indicator id' }),
 });
 
 export type State = {
@@ -30,9 +31,9 @@ export async function searchIndicator(
 
   if (!validatedFields.success) {
     return {
-      indicator: formData.get('indicator')?.toString() ?? '',
+      indicator: formData.get('indicator')?.toString().trim() ?? '',
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields',
+      message: 'Please enter a value for the indicator field',
     };
   }
 
