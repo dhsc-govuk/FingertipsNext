@@ -3,6 +3,7 @@
 import { H1 } from 'govuk-react';
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
+import Accessibility from 'highcharts/modules/accessibility.js';
 
 interface Response {
   date: string;
@@ -13,6 +14,10 @@ interface Response {
 
 interface DataProp {
   data: Response[];
+}
+
+if(typeof Highcharts !== 'object') {
+  Accessibility(Highcharts)
 }
 
 export function LineChart({ data }: DataProp) {
@@ -34,12 +39,16 @@ export function LineChart({ data }: DataProp) {
         data: temperatureData,
       },
     ],
+    accessibility: {
+      enabled: true,
+      description: 'A line chart showing temperature data over 6 months.'
+    }
   };
   return (
     <>
       <H1>Line Chart</H1>
       <div>
-        <HighchartsReact highcharts={Highcharts} options={lineChartOptions} />
+        <HighchartsReact containerProps={{ 'data-testid': 'highcharts-react-component' }} highcharts={Highcharts} options={lineChartOptions} />
       </div>
     </>
   );
