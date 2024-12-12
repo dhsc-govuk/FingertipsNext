@@ -12,11 +12,11 @@ public class HealthDataForArea
     /// The unique area code that the health data is for
     /// </summary>
     [JsonPropertyName("areaCode")]
-    public string AreaCode { get; init; }
+    public string AreaCode { get; init; } = String.Empty;
 
     /// <summary>
     /// The health data points for the area and indicator
     /// </summary>
     [JsonPropertyName("healthData")]
-    public HealthDataPoint[] HealthData { get; init; }
+    public HealthDataPoint[] HealthData { get; init; } = [];
 }

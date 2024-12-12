@@ -17,11 +17,11 @@ public class Indicator
     /// The title of the indicator
     /// </summary>
     [JsonPropertyName("title")]
-    public string Title { get; init; }
+    public string Title { get; init; } = String.Empty;
     
     /// <summary>
     /// The definition of the indicator
     /// </summary>
     [JsonPropertyName("definition")]
-    public string Definition  { get; init; }
+    public string Definition  { get; init; } = String.Empty;
 }

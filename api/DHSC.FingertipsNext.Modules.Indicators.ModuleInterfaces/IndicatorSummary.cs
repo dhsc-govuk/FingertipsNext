@@ -17,5 +17,5 @@ public class IndicatorSummary
     /// The title of the indicator
     /// </summary>
     [JsonPropertyName("title")]
-    public string Title { get; init; }
+    public string Title { get; init; } = String.Empty;
 }

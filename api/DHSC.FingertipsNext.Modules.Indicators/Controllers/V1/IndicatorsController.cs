@@ -1,6 +1,5 @@
 ﻿using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
 using DHSC.FingertipsNext.Modules.Indicators.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.Indicators.Controllers.V1;
