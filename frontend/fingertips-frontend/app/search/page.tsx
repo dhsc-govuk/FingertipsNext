@@ -12,7 +12,7 @@ export default async function Page(
   const initialState = {
     indicator: indicator,
     message: null,
-    errors: {}
+    errors: {},
   };
 
   return <SearchForm searchFormState={initialState} />;

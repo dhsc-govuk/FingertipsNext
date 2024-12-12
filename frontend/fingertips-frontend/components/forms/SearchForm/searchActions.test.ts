@@ -45,6 +45,5 @@ describe('Search actions', () => {
 
     expect(state.indicator).toBe('');
     expect(state.message).toBe('Please enter a value for the indicator field');
-    
   });
 });

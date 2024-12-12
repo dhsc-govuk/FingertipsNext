@@ -7,7 +7,7 @@ const $SearchFormSchema = z.object({
   indicator: z
     .string()
     .trim()
-    .min(1, { message: 'Please enter an indicator id',}),
+    .min(1, { message: 'Please enter an indicator id' }),
 });
 
 export type State = {

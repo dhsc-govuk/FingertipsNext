@@ -26,12 +26,14 @@ jest.mock('react', () => {
 const initialState: SearchFormState = {
   indicator: '',
   message: null,
-  errors: {}
+  errors: {},
 };
 
 test('snapshot test - renders the form', () => {
-  const container = render(registryWrapper(<SearchForm searchFormState={initialState} />));
-  
+  const container = render(
+    registryWrapper(<SearchForm searchFormState={initialState} />)
+  );
+
   expect(container.asFragment()).toMatchSnapshot();
 });
 
@@ -41,13 +43,13 @@ test('should have an input field to input the indicatorId', () => {
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
 test('should display the error summary component when there is a validation error', () => {
-  const errorState : SearchFormState = {
+  const errorState: SearchFormState = {
     indicator: '',
     message: 'Error message',
-    errors: {}
+    errors: {},
   };
-  
+
   render(registryWrapper(<SearchForm searchFormState={errorState} />));
 
-  expect(screen.getByTestId('error-summary')).toBeInTheDocument();  
+  expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
 });
