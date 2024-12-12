@@ -17,7 +17,7 @@ type SearchResultsProps = {
   searchResults: IndicatorSearchResult[];
 };
 
-export default function SearchResults({
+export function SearchResults({
   indicator,
   searchResults,
 }: Readonly<SearchResultsProps>) {
