@@ -8,13 +8,21 @@ namespace DHSC.FingertipsNext.Modules.Indicators.Services;
 public class IndicatorDataProvider : IIndicatorsDataProvider
 {
     // TODO: FTN-?? - replace hard coded data and logic with something that fetches real data from database
-    
+
     public Task<IEnumerable<HealthDataForArea>> GetIndicatorData(
         int indicatorId,
         string[] areaCodes,
         int[] years
     )
     {
+        if (indicatorId < 0)
+        {
+            // TODO: FTN-?? - for TEST PURPOSES ONLY negative number indicator IDs generate an error
+            throw new InvalidOperationException(
+                "for TEST PURPOSES ONLY negative number indicator IDs generate an error"
+            );
+        }
+
         if (!HardCodedData.SampleIndicatorIds.Contains(indicatorId))
             return Task.FromResult((IEnumerable<HealthDataForArea>)[]);
 

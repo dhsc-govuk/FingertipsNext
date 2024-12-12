@@ -1,9 +1,15 @@
 ﻿### get some sample data
 GET http://localhost:5144/Indicators/100/data
-    ?areaCodes=WF10%204TA
+    ?areaCodes=areaCode1
     &years=1970
     &years=1980
-    &areaCodes=AA1%201AA
+    &areaCodes=unknownAreaCode
+    &areaCodes=areaCode2
+
+###
+
+### attempt to use indicatorId hardcoded to generate exception
+GET http://localhost:5144/Indicators/-1/data
 
 ###
 
