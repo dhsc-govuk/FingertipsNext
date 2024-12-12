@@ -23,9 +23,10 @@ public class IndicatorService(IIndicatorsDataProvider provider) : IIndicatorsSer
         int[] years
     )
     {
-        areaCodes = areaCodes.Take(10).Distinct().ToArray();
-        years = years.Take(10).Distinct().ToArray();
-        
-        return provider.GetIndicatorData(indicatorId, areaCodes, years);
+        return provider.GetIndicatorData(
+            indicatorId,
+            areaCodes.Take(10).Distinct().ToArray(),
+            years.Take(10).Distinct().ToArray()
+        );
     }
 }
