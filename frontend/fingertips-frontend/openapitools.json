@@ -6,7 +6,7 @@
     "generators": {
       "v1.0": {
         "generatorName": "typescript-fetch",
-        "inputSpec": "./../../api/definition/swagger.yaml",
+        "inputSpec": "./../../api/definition/weather.json",
         "output": "generated-sources/openapi",
         "additionalProperties": {
           "npmName": "api-client",
