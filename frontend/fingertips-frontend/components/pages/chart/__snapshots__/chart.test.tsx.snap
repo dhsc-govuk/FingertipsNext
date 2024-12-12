@@ -1,0 +1,546 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test - should render the chart 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.09375;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 48px;
+    line-height: 1.0416666666666667;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    margin-bottom: 50px;
+  }
+}
+
+<h1
+    class="c0"
+  >
+    Line Chart
+  </h1>
+  @media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+<div>
+    <div
+      aria-hidden="false"
+      aria-label="Weather Forecast. Highcharts interactive chart."
+      data-highcharts-chart="0"
+      data-testid="highcharts-react-component"
+      role="region"
+      style="overflow: hidden;"
+    >
+      <div
+        aria-hidden="false"
+        id="highcharts-screen-reader-region-before-0"
+        style="position: relative;"
+      >
+        <div
+          aria-hidden="false"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        >
+          <h2>
+            Weather Forecast
+          </h2>
+          <div>
+            Line chart with 2 data points.
+          </div>
+          <div>
+            A line chart showing temperature data over 6 months.
+          </div>
+          <div>
+            The chart has 1 X axis displaying Date. 
+          </div>
+          <div>
+            The chart has 1 Y axis displaying Temperature (°C). Data ranges from -30 to 0.
+          </div>
+        </div>
+      </div>
+      <div
+        aria-hidden="false"
+        class="highcharts-announcer-container"
+        style="position: relative;"
+      >
+        <div
+          aria-atomic="true"
+          aria-hidden="false"
+          aria-live="polite"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        />
+        <div
+          aria-atomic="true"
+          aria-hidden="false"
+          aria-live="assertive"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        />
+        <div
+          aria-atomic="true"
+          aria-hidden="false"
+          aria-live="polite"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        />
+        <div
+          aria-atomic="true"
+          aria-hidden="false"
+          aria-live="polite"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        />
+      </div>
+      <div
+        aria-hidden="false"
+        class="highcharts-container "
+        dir="ltr"
+        id="highcharts-mf5eu6t-0"
+        style="position: relative; overflow: hidden; width: 600px; height: 400px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
+        tabindex="0"
+      >
+        <div
+          aria-hidden="false"
+          class="highcharts-a11y-proxy-container-before"
+          style="top: 0px; left: 0px; white-space: nowrap; position: absolute;"
+        />
+        <svg
+          aria-hidden="false"
+          aria-label="Interactive chart"
+          class="highcharts-root"
+          height="400"
+          style="font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: 1rem;"
+          version="1.1"
+          viewBox="0 0 600 400"
+          width="600"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <desc
+            aria-hidden="true"
+          >
+            Created with Highcharts 12.0.2
+          </desc>
+          <defs
+            aria-hidden="true"
+          >
+            <filter
+              id="highcharts-drop-shadow-0"
+            >
+              <fedropshadow
+                dx="1"
+                dy="1"
+                flood-color="#000000"
+                flood-opacity="0.75"
+                stdDeviation="2.5"
+              />
+            </filter>
+            <clippath
+              id="highcharts-mf5eu6t-6-"
+            >
+              <rect
+                fill="none"
+                height="NaN"
+                width="NaN"
+                x="0"
+                y="0"
+              />
+            </clippath>
+            <clippath
+              id="highcharts-mf5eu6t-7-"
+            >
+              <rect
+                class="highcharts-animating"
+                fill="none"
+                height="NaNNaN"
+                width="NaN"
+                x="0"
+                y="0"
+              />
+            </clippath>
+            <clippath
+              id="highcharts-mf5eu6t-8-"
+            >
+              <rect
+                fill="none"
+                height="NaN"
+                width="99"
+                x="-99"
+                y="-99"
+              />
+            </clippath>
+          </defs>
+          <rect
+            aria-hidden="true"
+            class="highcharts-background"
+            fill="#ffffff"
+            filter="none"
+            height="400"
+            rx="0"
+            ry="0"
+            width="600"
+            x="0"
+            y="0"
+          />
+          <rect
+            aria-hidden="true"
+            class="highcharts-plot-background"
+            fill="none"
+            filter="none"
+            height="NaN"
+            width="NaN"
+            x="NaN"
+            y="10"
+          />
+          <g
+            aria-hidden="true"
+            class="highcharts-grid highcharts-xaxis-grid"
+            data-z-index="1"
+          >
+            <path
+              class="highcharts-grid-line"
+              d="M 0 0"
+              data-z-index="1"
+              fill="none"
+              opacity="1"
+              stroke="#e6e6e6"
+              stroke-dasharray="none"
+              stroke-width="0"
+            />
+            <path
+              class="highcharts-grid-line"
+              d="M 0 0"
+              data-z-index="1"
+              fill="none"
+              opacity="1"
+              stroke="#e6e6e6"
+              stroke-dasharray="none"
+              stroke-width="0"
+            />
+            <path
+              class="highcharts-grid-line"
+              d="M 0 0"
+              data-z-index="1"
+              fill="none"
+              opacity="1"
+              stroke="#e6e6e6"
+              stroke-dasharray="none"
+              stroke-width="0"
+            />
+          </g>
+          <g
+            aria-hidden="true"
+            class="highcharts-grid highcharts-yaxis-grid"
+            data-z-index="1"
+          />
+          <rect
+            aria-hidden="true"
+            class="highcharts-plot-border"
+            data-z-index="1"
+            fill="none"
+            height="0"
+            stroke="#cccccc"
+            stroke-width="0"
+            width="0"
+            x="0"
+            y="10"
+          />
+          <g
+            aria-hidden="true"
+            class="highcharts-axis highcharts-xaxis"
+            data-z-index="2"
+          >
+            <text
+              class="highcharts-axis-title"
+              data-z-index="7"
+              style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
+              text-anchor="middle"
+              transform="translate(0,0)"
+              x="NaN"
+              y="NaN"
+            >
+              Date
+            </text>
+            <path
+              class="highcharts-axis-line"
+              d="M 0 0"
+              data-z-index="7"
+              fill="none"
+              stroke="#333333"
+              stroke-width="1"
+            />
+          </g>
+          <g
+            aria-hidden="true"
+            class="highcharts-axis highcharts-yaxis"
+            data-z-index="2"
+          >
+            <text
+              class="highcharts-axis-title"
+              data-z-index="7"
+              style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
+              text-anchor="middle"
+              transform="translate(0,0) rotate(270 NaN NaN)"
+              x="NaN"
+              y="NaN"
+            >
+              Temperature (°C)
+            </text>
+            <path
+              class="highcharts-axis-line"
+              d="M 0 0"
+              data-z-index="7"
+              fill="none"
+              stroke="#333333"
+              stroke-width="0"
+            />
+          </g>
+          <g
+            aria-hidden="false"
+            class="highcharts-series-group"
+            data-z-index="3"
+            filter="none"
+          >
+            <g
+              aria-hidden="false"
+              class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-0"
+              clip-path="url(#highcharts-mf5eu6t-7-)"
+              data-z-index="0.1"
+              opacity="1"
+              transform="translate(NaN,10) scale(1 1)"
+            />
+            <g
+              aria-hidden="true"
+              class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-0"
+              clip-path="url(#highcharts-mf5eu6t-8-)"
+              data-z-index="0.1"
+              opacity="1"
+              transform="translate(NaN,10) scale(1 1)"
+            />
+          </g>
+          <text
+            aria-hidden="true"
+            class="highcharts-title"
+            data-z-index="4"
+            style="font-size: 1.2em; color: rgb(51, 51, 51); font-weight: bold; fill: #333333;"
+            text-anchor="middle"
+            transform="translate(0,0) scale(1 1)"
+            transform-origin="10 4"
+            x="300"
+            y="10"
+          >
+            Weather Forecast
+          </text>
+          <text
+            aria-hidden="true"
+            class="highcharts-subtitle"
+            data-z-index="4"
+            style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
+            text-anchor="middle"
+            transform="translate(0,0) scale(1 1)"
+            transform-origin="10 3"
+            x="300"
+            y="10"
+          />
+          <text
+            aria-hidden="true"
+            class="highcharts-caption"
+            data-z-index="4"
+            style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
+            text-anchor="start"
+            transform="translate(0,0) scale(1 1)"
+            transform-origin="10 3"
+            x="10"
+            y="387"
+          />
+          <g
+            aria-hidden="true"
+            class="highcharts-legend highcharts-no-tooltip"
+            data-z-index="7"
+            transform="translate(300,367)"
+          >
+            <rect
+              class="highcharts-legend-box"
+              fill="none"
+              filter="none"
+              rx="0"
+              ry="0"
+              stroke="#999999"
+              stroke-width="0"
+            />
+            <g
+              data-z-index="1"
+            >
+              <g>
+                <g
+                  class="highcharts-legend-item highcharts-line-series highcharts-color-0 highcharts-series-0"
+                  data-z-index="1"
+                  transform="translate(8,3)"
+                >
+                  <path
+                    class="highcharts-graph"
+                    d="M 1 4 L 15 4"
+                    fill="none"
+                    stroke="#2caffe"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                  />
+                  <path
+                    class="highcharts-point"
+                    d="M 8 4 A 0 0 0 1 1 8 4 Z"
+                    fill="#2caffe"
+                    opacity="1"
+                    stroke="#ffffff"
+                    stroke-width="0"
+                  />
+                  <text
+                    data-z-index="2"
+                    style="color: rgb(51, 51, 51); cursor: pointer; font-size: 0.8em; text-decoration: none; fill: #333333;"
+                    text-anchor="start"
+                    x="21"
+                    y="5"
+                  >
+                    Temperature (°C)
+                  </text>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g
+            aria-hidden="true"
+            class="highcharts-axis-labels highcharts-xaxis-labels"
+            data-z-index="7"
+          >
+            <text
+              style="color: rgb(51, 51, 51); cursor: default; font-size: 0.8em; fill: #333333;"
+              x="0"
+            >
+              x
+            </text>
+            <text
+              style="color: rgb(51, 51, 51); cursor: default; font-size: 0.8em; fill: #333333;"
+              text-anchor="middle"
+              transform="translate(0,0)"
+              x="0"
+            >
+              2024-11-01
+            </text>
+            <text
+              style="color: rgb(51, 51, 51); cursor: default; font-size: 0.8em; fill: #333333;"
+              text-anchor="middle"
+              transform="translate(0,0)"
+              x="0"
+            >
+              2024-11-01
+            </text>
+          </g>
+          <g
+            aria-hidden="true"
+            class="highcharts-axis-labels highcharts-yaxis-labels"
+            data-z-index="7"
+          />
+          <text
+            aria-hidden="false"
+            aria-label="Chart credits: Highcharts.com"
+            class="highcharts-credits"
+            data-z-index="8"
+            style="cursor: pointer; color: rgb(153, 153, 153); font-size: 0.6em; fill: #999999;"
+            text-anchor="end"
+            x="590"
+            y="395"
+          >
+            Highcharts.com
+          </text>
+        </svg>
+        <div
+          aria-hidden="false"
+          class="highcharts-a11y-proxy-container-after"
+          style="top: 0px; left: 0px; white-space: nowrap; position: absolute;"
+        >
+          <div
+            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-zoom"
+          />
+          <div
+            aria-label="Toggle series visibility, Weather Forecast"
+            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-legend"
+            role="region"
+          >
+            <ul
+              role="list"
+            >
+              <li
+                style="list-style: none;"
+              >
+                <button
+                  aria-label="Show Temperature (°C)"
+                  aria-pressed="true"
+                  class="highcharts-a11y-proxy-element"
+                  style="border-width: 0px; background-color: transparent; cursor: pointer; outline: none; opacity: 0.001; filter: alpha(opacity=1); z-index: 999; overflow: hidden; padding: 0px; margin: 0px; display: block; position: absolute; width: 1px; height: 1px; left: 0px; top: 0px;"
+                  tabindex="-1"
+                />
+              </li>
+            </ul>
+          </div>
+          <div
+            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-chartMenu"
+          />
+        </div>
+      </div>
+      <div
+        aria-hidden="false"
+        id="highcharts-screen-reader-region-after-0"
+        style="position: relative;"
+      >
+        <div
+          aria-hidden="false"
+          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
+        >
+          <div
+            aria-hidden="false"
+            class="highcharts-exit-anchor"
+            id="highcharts-end-of-chart-marker-0"
+            tabindex="0"
+          >
+            End of interactive chart.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
