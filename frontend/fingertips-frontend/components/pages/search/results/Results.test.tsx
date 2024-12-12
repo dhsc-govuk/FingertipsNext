@@ -4,8 +4,9 @@ import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import SearchResults from '.';
 
 describe('Search Results Suite', () => {
+  const indicator = 'test';
+
   test('should render elements', async () => {
-    const indicator = 'test';
     render(<SearchResults indicator={indicator} searchResults={[]} />);
 
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -16,7 +17,7 @@ describe('Search Results Suite', () => {
   });
 
   test('should render search results', () => {
-    render(<SearchResults indicator="" searchResults={MOCK_DATA} />);
+    render(<SearchResults indicator={indicator} searchResults={MOCK_DATA} />);
 
     expect(screen.getAllByTestId('search-result')).toHaveLength(
       MOCK_DATA.length
@@ -24,8 +25,17 @@ describe('Search Results Suite', () => {
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
 
+  test('should not render elements when no indicator is entered', () => {
+    render(<SearchResults indicator="" searchResults={MOCK_DATA} />);
+
+    expect(screen.getByRole('link')).toBeInTheDocument();
+    expect(screen.getByText(/no indicator entered/i)).toBeInTheDocument();
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
+  });
+
   test('should render no results found', () => {
-    render(<SearchResults indicator="" searchResults={[]} />);
+    render(<SearchResults indicator={indicator} searchResults={[]} />);
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
@@ -34,7 +44,7 @@ describe('Search Results Suite', () => {
 
   test('snapshot test', () => {
     const container = render(
-      <SearchResults indicator="" searchResults={MOCK_DATA} />
+      <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
     );
 
     expect(container.asFragment()).toMatchSnapshot();

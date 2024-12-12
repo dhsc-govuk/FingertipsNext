@@ -3,11 +3,12 @@
 import {
   BackLink,
   H1,
+  ListItem,
   Paragraph,
   SectionBreak,
   UnorderedList,
 } from 'govuk-react';
-import SearchResult from '@/components/molecules/Search/result';
+import { SearchResult } from '@/components/molecules/Search/result';
 
 import { SearchResultInterface } from '@/app/search/results/search-result-data';
 
@@ -26,17 +27,25 @@ export default function SearchResults({
         href={`/search?indicator=${indicator}`}
         data-testid="search-results-back-link"
       />
-      <H1>Search results</H1>
-      <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
-      {searchResults.length ? (
-        <UnorderedList listStyleType="none">
-          {searchResults.map((result) => (
-            <SearchResult key={result.id} result={result} />
-          ))}
-          <SectionBreak visible="true" />
-        </UnorderedList>
+      {indicator ? (
+        <>
+          <H1>Search results</H1>
+          <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
+          {searchResults.length ? (
+            <UnorderedList listStyleType="none">
+              <ListItem>
+                <SectionBreak visible="true" />
+              </ListItem>
+              {searchResults.map((result) => (
+                <SearchResult key={result.id} result={result} />
+              ))}
+            </UnorderedList>
+          ) : (
+            <Paragraph>No results found</Paragraph>
+          )}
+        </>
       ) : (
-        <Paragraph>No results found</Paragraph>
+        <Paragraph>No indicator entered</Paragraph>
       )}
     </>
   );

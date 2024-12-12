@@ -3,76 +3,6 @@
 exports[`Search Result Suite snapshot test 1`] = `
 <DocumentFragment>
   .c0 {
-  margin: 0;
-  border: 0;
-  border-bottom: 1px solid #bfc1c3;
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-<hr
-    class="c0"
-    visible="true"
-  />
-  .c0 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -82,7 +12,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c2 {
+.c4 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -95,7 +25,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c3 {
+.c5 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -106,11 +36,11 @@ exports[`Search Result Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c3 >p {
+.c5 >p {
   margin: 0;
 }
 
-.c3 >p>code {
+.c5 >p>code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -118,7 +48,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c3 >pre {
+.c5 >pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -127,7 +57,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c3 >pre>code {
+.c5 >pre>code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -137,7 +67,25 @@ exports[`Search Result Suite snapshot test 1`] = `
   word-wrap: normal;
 }
 
-.c4 {
+.c3 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c1 {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c7 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -146,7 +94,7 @@ exports[`Search Result Suite snapshot test 1`] = `
   line-height: 0.5;
 }
 
-.c1 {
+.c2 {
   padding-top: 15px;
   padding-bottom: 0;
   padding-left: 25px;
@@ -168,119 +116,144 @@ exports[`Search Result Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c2 {
+  .c4 {
     color: #000;
   }
 }
 
 @media print {
-  .c2 {
+  .c4 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c2 {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c2 {
+  .c4 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c3 {
+  .c5 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c3 {
+  .c5 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c3 {
+  .c5 {
     margin-bottom: 20px;
   }
 }
 
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 0.5;
-  }
-}
-
 @media only screen and (min-width: 641px) {
-  .c4 {
-    font-size: 19px;
-    line-height: 0.5;
+  .c3 {
+    flex-grow: 1;
+    flex-shrink: 1;
   }
 }
 
 @media only screen and (min-width: 641px) {
   .c1 {
+    flex-direction: row;
+  }
+}
+
+@media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c6 {
+    font-size: 19px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c2 {
     padding-top: 15px;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c1 {
+  .c2 {
     padding-bottom: 0;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c1 {
+  .c2 {
     padding-left: 40px;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c1 {
+  .c2 {
     padding-right: 40px;
   }
 }
 
 <li
-    class="c0 c1"
+    class="c0"
     data-testid="search-result"
   >
-    <h5
-      class="c2"
-    >
-      NHS
-    </h5>
     <div
-      class="c3 c4"
+      class="c1 c2"
     >
-      <p>
-        Latest data period: 2023
-      </p>
+      <div
+        class="c3"
+      >
+        <h5
+          class="c4"
+        >
+          NHS
+        </h5>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Latest data period: 2023
+          </p>
+        </div>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Data source: NHS website
+          </p>
+        </div>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Last updated: 06 December 2024
+          </p>
+        </div>
+      </div>
     </div>
-    <div
-      class="c3 c4"
-    >
-      <p>
-        Data source: NHS website
-      </p>
-    </div>
-    <div
-      class="c3 c4"
-    >
-      <p>
-        Last updated: 06 December 2024
-      </p>
-    </div>
+    <hr
+      class="c7"
+      visible="true"
+    />
   </li>
 </DocumentFragment>
 `;

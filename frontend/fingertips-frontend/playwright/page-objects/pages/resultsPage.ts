@@ -10,6 +10,7 @@ export default class ResultsPage extends BasePage {
     await expect(
       this.page.getByText(this.resultsText + ` "${searchTerm}"`)
     ).toBeVisible();
+    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(2);
   }
 
   async clickBackLink() {
@@ -18,9 +19,5 @@ export default class ResultsPage extends BasePage {
 
   async checkURLIsCorrect(indicator: string) {
     await this.checkURL(`search/results?indicator=${indicator}`);
-  }
-
-  async checkResultsAreDisplayed() {
-    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(2);
   }
 }

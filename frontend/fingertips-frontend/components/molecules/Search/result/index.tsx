@@ -1,4 +1,11 @@
-import { H5, Paragraph, ListItem, SectionBreak } from 'govuk-react';
+import {
+  H5,
+  Paragraph,
+  ListItem,
+  SectionBreak,
+  GridRow,
+  GridCol,
+} from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
 import { SearchResultInterface } from '@/app/search/results/search-result-data';
@@ -12,7 +19,7 @@ const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 19, lineHeight: '0.5' })
 );
 
-const StyledListItem = styled(ListItem)(
+const StyledRow = styled(GridRow)(
   spacing.withWhiteSpace({
     padding: [
       { size: 3, direction: 'top' },
@@ -23,16 +30,18 @@ const StyledListItem = styled(ListItem)(
   })
 );
 
-export default function SearchResult({ result }: Readonly<SearchResultProps>) {
+export function SearchResult({ result }: Readonly<SearchResultProps>) {
   return (
-    <>
+    <ListItem data-testid="search-result">
+      <StyledRow>
+        <GridCol>
+          <H5>{result.topic}</H5>
+          <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
+          <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
+          <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+        </GridCol>
+      </StyledRow>
       <SectionBreak visible="true" />
-      <StyledListItem data-testid="search-result">
-        <H5>{result.topic}</H5>
-        <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-        <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-        <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
-      </StyledListItem>
-    </>
+    </ListItem>
   );
 }
