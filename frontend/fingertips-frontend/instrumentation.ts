@@ -3,7 +3,7 @@ export async function register() {
     process.env.NEXT_RUNTIME === 'nodejs' &&
     process.env.MOCK_SERVER === 'true'
   ) {
-    const { server } = await import('./mock/node');
+    const { server } = await import('./mock/server/node');
     server.listen();
   }
 }

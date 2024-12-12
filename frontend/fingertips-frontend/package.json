@@ -7,6 +7,7 @@
     "dev:standalone": "next dev",
     "dev:local-dev": "MOCK_SERVER=true next dev",
     "codegen": "openapi-generator-cli generate",
+    "generate-mocks": "npx msw-auto-mock ./../../api/definition/weather.json -o ./mock/server",
     "build": "next build",
     "start": "next start",
     "api:start": "docker compose --profile api up --build",
