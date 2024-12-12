@@ -25,7 +25,7 @@ export const SearchForm = ({ searchFormState }: { searchFormState: SearchFormSta
                 text: 'Indicator field'
               }
             ]}
-            data-testid="error-summary"
+            data-testid="search-form-error-summary"
           />
         }
         <H1>Find public health data</H1>
