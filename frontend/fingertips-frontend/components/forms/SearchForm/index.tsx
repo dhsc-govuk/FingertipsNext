@@ -36,6 +36,11 @@ export const SearchForm = ({
             },
           ]}
           data-testid="search-form-error-summary"
+          onHandleErrorClick={(targetName: string) => {
+            const indicator = document.getElementById(targetName);
+            indicator?.scrollIntoView(true);
+            indicator?.focus();
+          }}
         />
       )}
       <H1>Find public health data</H1>
@@ -54,8 +59,12 @@ export const SearchForm = ({
           defaultValue: searchFormState.indicator,
         }}
         hint={
-          <>For example diabetes, public health indicator, or indicator ID241</>
+          <>For example diabetes, public health indicator, or indicator ID</>
         }
+        meta={{
+          touched: !!state.message,
+          error: 'This field value may be required',
+        }}
         data-testid="search-form-input-indicator"
       >
         Search by subject

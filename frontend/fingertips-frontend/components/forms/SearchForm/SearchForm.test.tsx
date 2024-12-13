@@ -51,9 +51,8 @@ test('should set the input field with indicator value from the form state', () =
   };
   render(registryWrapper(<SearchForm searchFormState={indicatorState} />));
 
-  expect(screen.getByDisplayValue('test value')).toHaveAttribute(
-    'id',
-    'indicator'
+  expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+    'test value'
   );
 });
 

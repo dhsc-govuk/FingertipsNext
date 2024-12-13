@@ -431,7 +431,7 @@ exports[`snapshot test - renders the form 1`] = `
       <span
         class="c6"
       >
-        For example diabetes, public health indicator, or indicator ID241
+        For example diabetes, public health indicator, or indicator ID
       </span>
       <input
         class="c7"
