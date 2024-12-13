@@ -13,7 +13,6 @@ export default async function Home() {
   await connection();
 
   const apiUrl = process.env.FINGERTIPS_API_URL;
-  console.log('apiUrl === ', apiUrl);
 
   if (!apiUrl) {
     throw new Error(

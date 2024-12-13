@@ -36,3 +36,9 @@ test('should pass the options to highcharts', () => {
   expect(chart).toHaveTextContent('Weather Forecast');
   expect(chart).toHaveTextContent('Temperature (°C)');
 });
+
+test('should fallback to noscript table when JavaScript is disabled', () => {
+  render(<LineChart data={mockData} />);
+  
+  expect(screen.getByTestId('noscript-table')).toBeInTheDocument();
+});

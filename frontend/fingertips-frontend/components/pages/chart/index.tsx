@@ -1,9 +1,9 @@
 'use client';
 
-import { H1 } from 'govuk-react';
+import {H1, Table} from 'govuk-react';
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import Accessibility from 'highcharts/modules/accessibility.js';
+import StyledComponentsRegistry from "@/lib/registry";
 
 interface Response {
   date: string;
@@ -14,10 +14,6 @@ interface Response {
 
 interface DataProp {
   data: Response[];
-}
-
-if (typeof Highcharts !== 'object') {
-  Accessibility(Highcharts);
 }
 
 export function LineChart({ data }: DataProp) {
@@ -46,6 +42,29 @@ export function LineChart({ data }: DataProp) {
   return (
     <>
       <H1>Line Chart</H1>
+      <noscript data-testid="noscript-table">
+        <StyledComponentsRegistry>
+          <Table
+              head={
+                <Table.Row>
+                  <Table.CellHeader date>Date</Table.CellHeader>
+                  <Table.CellHeader numeric>Temperature C</Table.CellHeader>
+                  <Table.CellHeader numeric>Temperature F</Table.CellHeader>
+                  <Table.CellHeader>Summary</Table.CellHeader>
+                </Table.Row>
+              }
+          >
+            {data.map((item) => (
+                <Table.Row key={`${item.date}-${item.temperatureC}`}>
+                  <Table.Cell>{item.date}</Table.Cell>
+                  <Table.Cell numeric>{item.temperatureC}</Table.Cell>
+                  <Table.Cell numeric>{item.temperatureF}</Table.Cell>
+                  <Table.Cell>{item.summary}</Table.Cell>
+                </Table.Row>
+            ))}
+          </Table>
+          </StyledComponentsRegistry>
+      </noscript>
       <div>
         <HighchartsReact
           containerProps={{ 'data-testid': 'highcharts-react-component' }}

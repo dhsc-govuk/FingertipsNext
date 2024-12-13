@@ -62,103 +62,52 @@ exports[`snapshot test - should render the chart 1`] = `
 
 }
 
+<noscript
+    data-testid="noscript-table"
+  />
+  @media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
 <div>
     <div
-      aria-hidden="false"
-      aria-label="Weather Forecast. Highcharts interactive chart."
       data-highcharts-chart="0"
       data-testid="highcharts-react-component"
-      role="region"
       style="overflow: hidden;"
     >
       <div
-        aria-hidden="false"
-        id="highcharts-screen-reader-region-before-0"
-        style="position: relative;"
-      >
-        <div
-          aria-hidden="false"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        >
-          <h2>
-            Weather Forecast
-          </h2>
-          <div>
-            Line chart with 2 data points.
-          </div>
-          <div>
-            A line chart showing temperature data over 6 months.
-          </div>
-          <div>
-            The chart has 1 X axis displaying Date. 
-          </div>
-          <div>
-            The chart has 1 Y axis displaying Temperature (°C). Data ranges from -30 to 0.
-          </div>
-        </div>
-      </div>
-      <div
-        aria-hidden="false"
-        class="highcharts-announcer-container"
-        style="position: relative;"
-      >
-        <div
-          aria-atomic="true"
-          aria-hidden="false"
-          aria-live="polite"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        />
-        <div
-          aria-atomic="true"
-          aria-hidden="false"
-          aria-live="assertive"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        />
-        <div
-          aria-atomic="true"
-          aria-hidden="false"
-          aria-live="polite"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        />
-        <div
-          aria-atomic="true"
-          aria-hidden="false"
-          aria-live="polite"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        />
-      </div>
-      <div
-        aria-hidden="false"
         class="highcharts-container "
         dir="ltr"
-        id="highcharts-mf5eu6t-0"
+        id="highcharts-sh9mbpu-0"
         style="position: relative; overflow: hidden; width: 600px; height: 400px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
-        tabindex="0"
       >
-        <div
-          aria-hidden="false"
-          class="highcharts-a11y-proxy-container-before"
-          style="top: 0px; left: 0px; white-space: nowrap; position: absolute;"
-        />
         <svg
-          aria-hidden="false"
-          aria-label="Interactive chart"
+          aria-label="Weather Forecast"
           class="highcharts-root"
           height="400"
+          role="img"
           style="font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: 1rem;"
           version="1.1"
           viewBox="0 0 600 400"
           width="600"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <desc
-            aria-hidden="true"
-          >
+          <desc>
             Created with Highcharts 12.0.2
           </desc>
-          <defs
-            aria-hidden="true"
-          >
+          <defs>
             <filter
               id="highcharts-drop-shadow-0"
             >
@@ -171,7 +120,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </filter>
             <clippath
-              id="highcharts-mf5eu6t-6-"
+              id="highcharts-sh9mbpu-6-"
             >
               <rect
                 fill="none"
@@ -182,7 +131,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-mf5eu6t-7-"
+              id="highcharts-sh9mbpu-7-"
             >
               <rect
                 class="highcharts-animating"
@@ -194,7 +143,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-mf5eu6t-8-"
+              id="highcharts-sh9mbpu-8-"
             >
               <rect
                 fill="none"
@@ -206,7 +155,6 @@ exports[`snapshot test - should render the chart 1`] = `
             </clippath>
           </defs>
           <rect
-            aria-hidden="true"
             class="highcharts-background"
             fill="#ffffff"
             filter="none"
@@ -218,7 +166,6 @@ exports[`snapshot test - should render the chart 1`] = `
             y="0"
           />
           <rect
-            aria-hidden="true"
             class="highcharts-plot-background"
             fill="none"
             filter="none"
@@ -228,7 +175,6 @@ exports[`snapshot test - should render the chart 1`] = `
             y="10"
           />
           <g
-            aria-hidden="true"
             class="highcharts-grid highcharts-xaxis-grid"
             data-z-index="1"
           >
@@ -264,12 +210,10 @@ exports[`snapshot test - should render the chart 1`] = `
             />
           </g>
           <g
-            aria-hidden="true"
             class="highcharts-grid highcharts-yaxis-grid"
             data-z-index="1"
           />
           <rect
-            aria-hidden="true"
             class="highcharts-plot-border"
             data-z-index="1"
             fill="none"
@@ -281,7 +225,6 @@ exports[`snapshot test - should render the chart 1`] = `
             y="10"
           />
           <g
-            aria-hidden="true"
             class="highcharts-axis highcharts-xaxis"
             data-z-index="2"
           >
@@ -306,7 +249,6 @@ exports[`snapshot test - should render the chart 1`] = `
             />
           </g>
           <g
-            aria-hidden="true"
             class="highcharts-axis highcharts-yaxis"
             data-z-index="2"
           >
@@ -331,30 +273,26 @@ exports[`snapshot test - should render the chart 1`] = `
             />
           </g>
           <g
-            aria-hidden="false"
             class="highcharts-series-group"
             data-z-index="3"
             filter="none"
           >
             <g
-              aria-hidden="false"
               class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-mf5eu6t-7-)"
+              clip-path="url(#highcharts-sh9mbpu-7-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
             />
             <g
-              aria-hidden="true"
               class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-mf5eu6t-8-)"
+              clip-path="url(#highcharts-sh9mbpu-8-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
             />
           </g>
           <text
-            aria-hidden="true"
             class="highcharts-title"
             data-z-index="4"
             style="font-size: 1.2em; color: rgb(51, 51, 51); font-weight: bold; fill: #333333;"
@@ -367,7 +305,6 @@ exports[`snapshot test - should render the chart 1`] = `
             Weather Forecast
           </text>
           <text
-            aria-hidden="true"
             class="highcharts-subtitle"
             data-z-index="4"
             style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
@@ -378,7 +315,6 @@ exports[`snapshot test - should render the chart 1`] = `
             y="10"
           />
           <text
-            aria-hidden="true"
             class="highcharts-caption"
             data-z-index="4"
             style="color: rgb(102, 102, 102); font-size: 0.8em; fill: #666666;"
@@ -389,7 +325,6 @@ exports[`snapshot test - should render the chart 1`] = `
             y="387"
           />
           <g
-            aria-hidden="true"
             class="highcharts-legend highcharts-no-tooltip"
             data-z-index="7"
             transform="translate(300,367)"
@@ -442,7 +377,6 @@ exports[`snapshot test - should render the chart 1`] = `
             </g>
           </g>
           <g
-            aria-hidden="true"
             class="highcharts-axis-labels highcharts-xaxis-labels"
             data-z-index="7"
           >
@@ -470,13 +404,10 @@ exports[`snapshot test - should render the chart 1`] = `
             </text>
           </g>
           <g
-            aria-hidden="true"
             class="highcharts-axis-labels highcharts-yaxis-labels"
             data-z-index="7"
           />
           <text
-            aria-hidden="false"
-            aria-label="Chart credits: Highcharts.com"
             class="highcharts-credits"
             data-z-index="8"
             style="cursor: pointer; color: rgb(153, 153, 153); font-size: 0.6em; fill: #999999;"
@@ -487,58 +418,6 @@ exports[`snapshot test - should render the chart 1`] = `
             Highcharts.com
           </text>
         </svg>
-        <div
-          aria-hidden="false"
-          class="highcharts-a11y-proxy-container-after"
-          style="top: 0px; left: 0px; white-space: nowrap; position: absolute;"
-        >
-          <div
-            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-zoom"
-          />
-          <div
-            aria-label="Toggle series visibility, Weather Forecast"
-            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-legend"
-            role="region"
-          >
-            <ul
-              role="list"
-            >
-              <li
-                style="list-style: none;"
-              >
-                <button
-                  aria-label="Show Temperature (°C)"
-                  aria-pressed="true"
-                  class="highcharts-a11y-proxy-element"
-                  style="border-width: 0px; background-color: transparent; cursor: pointer; outline: none; opacity: 0.001; filter: alpha(opacity=1); z-index: 999; overflow: hidden; padding: 0px; margin: 0px; display: block; position: absolute; width: 1px; height: 1px; left: 0px; top: 0px;"
-                  tabindex="-1"
-                />
-              </li>
-            </ul>
-          </div>
-          <div
-            class="highcharts-a11y-proxy-group highcharts-a11y-proxy-group-chartMenu"
-          />
-        </div>
-      </div>
-      <div
-        aria-hidden="false"
-        id="highcharts-screen-reader-region-after-0"
-        style="position: relative;"
-      >
-        <div
-          aria-hidden="false"
-          style="position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip: rect(1px, 1px, 1px, 1px); margin-top: -3px; filter: alpha(opacity=1); opacity: 0.01;"
-        >
-          <div
-            aria-hidden="false"
-            class="highcharts-exit-anchor"
-            id="highcharts-end-of-chart-marker-0"
-            tabindex="0"
-          >
-            End of interactive chart.
-          </div>
-        </div>
       </div>
     </div>
   </div>
