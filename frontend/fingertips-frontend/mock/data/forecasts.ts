@@ -1,4 +1,4 @@
-import { WeatherForecast } from '@/generated-sources/openapi/src';
+import { WeatherForecast } from '@/generated-sources/api-client/src';
 
 export const mockWeatherForecasts: WeatherForecast[] = [
   {

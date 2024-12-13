@@ -1,5 +1,5 @@
 import { HomePage } from '@/components/pages/home';
-import { WeatherForecastApi } from '@/generated-sources/openapi/src';
+import { WeatherForecastApi } from '@/generated-sources/api-client/src';
 import { connection } from 'next/server';
 
 export default async function Home() {

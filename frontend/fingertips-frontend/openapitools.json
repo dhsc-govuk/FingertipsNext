@@ -7,7 +7,7 @@
       "v1.0": {
         "generatorName": "typescript-fetch",
         "inputSpec": "./../../api/definition/weather.json",
-        "output": "generated-sources/openapi",
+        "output": "generated-sources/api-client",
         "additionalProperties": {
           "npmName": "api-client",
           "npmVersion": "10.9.0",
