@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Result Suite snapshot test 1`] = `
+<DocumentFragment>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.c4 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c5 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c5 >p {
+  margin: 0;
+}
+
+.c5 >p>code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c5 >pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c5 >pre>code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c3 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c1 {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -15px;
+}
+
+.c7 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0.5;
+}
+
+.c2 {
+  padding-top: 15px;
+  padding-bottom: 0;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c4 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c4 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c3 {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c1 {
+    flex-direction: row;
+  }
+}
+
+@media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c6 {
+    font-size: 19px;
+    line-height: 0.5;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c2 {
+    padding-top: 15px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c2 {
+    padding-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c2 {
+    padding-left: 40px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c2 {
+    padding-right: 40px;
+  }
+}
+
+<li
+    class="c0"
+    data-testid="search-result"
+  >
+    <div
+      class="c1 c2"
+    >
+      <div
+        class="c3"
+      >
+        <h5
+          class="c4"
+        >
+          NHS
+        </h5>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Latest data period: 2023
+          </p>
+        </div>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Data source: NHS website
+          </p>
+        </div>
+        <div
+          class="c5 c6"
+        >
+          <p>
+            Last updated: 06 December 2024
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="c7"
+    />
+  </li>
+</DocumentFragment>
+`;
