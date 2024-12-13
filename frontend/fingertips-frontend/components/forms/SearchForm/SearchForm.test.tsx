@@ -51,7 +51,10 @@ test('should set the input field with indicator value from the form state', () =
   };
   render(registryWrapper(<SearchForm searchFormState={indicatorState} />));
 
-  expect(screen.getByDisplayValue('test value')).toHaveAttribute('id', 'indicator');
+  expect(screen.getByDisplayValue('test value')).toHaveAttribute(
+    'id',
+    'indicator'
+  );
 });
 
 test('should display the error summary component when there is a validation error', () => {

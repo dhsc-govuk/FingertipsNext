@@ -54,9 +54,7 @@ export const SearchForm = ({
           defaultValue: searchFormState.indicator,
         }}
         hint={
-          <>
-            For example diabetes, public health indicator, or indicator ID241
-          </>
+          <>For example diabetes, public health indicator, or indicator ID241</>
         }
         data-testid="search-form-input-indicator"
       >
