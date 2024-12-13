@@ -90,7 +90,7 @@ exports[`snapshot test - should render the chart 1`] = `
       <div
         class="highcharts-container "
         dir="ltr"
-        id="highcharts-sh9mbpu-0"
+        id="highcharts-gfz9z2r-0"
         style="position: relative; overflow: hidden; width: 600px; height: 400px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
       >
         <svg
@@ -120,7 +120,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </filter>
             <clippath
-              id="highcharts-sh9mbpu-6-"
+              id="highcharts-gfz9z2r-6-"
             >
               <rect
                 fill="none"
@@ -131,7 +131,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-sh9mbpu-7-"
+              id="highcharts-gfz9z2r-7-"
             >
               <rect
                 class="highcharts-animating"
@@ -143,7 +143,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-sh9mbpu-8-"
+              id="highcharts-gfz9z2r-8-"
             >
               <rect
                 fill="none"
@@ -279,14 +279,14 @@ exports[`snapshot test - should render the chart 1`] = `
           >
             <g
               class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-sh9mbpu-7-)"
+              clip-path="url(#highcharts-gfz9z2r-7-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
             />
             <g
               class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-sh9mbpu-8-)"
+              clip-path="url(#highcharts-gfz9z2r-8-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
