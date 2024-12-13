@@ -39,6 +39,6 @@ test('should pass the options to highcharts', () => {
 
 test('should fallback to noscript table when JavaScript is disabled', () => {
   render(<LineChart data={mockData} />);
-  
+
   expect(screen.getByTestId('noscript-table')).toBeInTheDocument();
 });

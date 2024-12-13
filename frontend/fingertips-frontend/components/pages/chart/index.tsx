@@ -1,9 +1,9 @@
 'use client';
 
-import {H1, Table} from 'govuk-react';
+import { H1, Table } from 'govuk-react';
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import StyledComponentsRegistry from "@/lib/registry";
+import StyledComponentsRegistry from '@/lib/registry';
 
 interface Response {
   date: string;
@@ -45,25 +45,25 @@ export function LineChart({ data }: DataProp) {
       <noscript data-testid="noscript-table">
         <StyledComponentsRegistry>
           <Table
-              head={
-                <Table.Row>
-                  <Table.CellHeader date>Date</Table.CellHeader>
-                  <Table.CellHeader numeric>Temperature C</Table.CellHeader>
-                  <Table.CellHeader numeric>Temperature F</Table.CellHeader>
-                  <Table.CellHeader>Summary</Table.CellHeader>
-                </Table.Row>
-              }
+            head={
+              <Table.Row>
+                <Table.CellHeader date>Date</Table.CellHeader>
+                <Table.CellHeader numeric>Temperature C</Table.CellHeader>
+                <Table.CellHeader numeric>Temperature F</Table.CellHeader>
+                <Table.CellHeader>Summary</Table.CellHeader>
+              </Table.Row>
+            }
           >
             {data.map((item) => (
-                <Table.Row key={`${item.date}-${item.temperatureC}`}>
-                  <Table.Cell>{item.date}</Table.Cell>
-                  <Table.Cell numeric>{item.temperatureC}</Table.Cell>
-                  <Table.Cell numeric>{item.temperatureF}</Table.Cell>
-                  <Table.Cell>{item.summary}</Table.Cell>
-                </Table.Row>
+              <Table.Row key={`${item.date}-${item.temperatureC}`}>
+                <Table.Cell>{item.date}</Table.Cell>
+                <Table.Cell numeric>{item.temperatureC}</Table.Cell>
+                <Table.Cell numeric>{item.temperatureF}</Table.Cell>
+                <Table.Cell>{item.summary}</Table.Cell>
+              </Table.Row>
             ))}
           </Table>
-          </StyledComponentsRegistry>
+        </StyledComponentsRegistry>
       </noscript>
       <div>
         <HighchartsReact
