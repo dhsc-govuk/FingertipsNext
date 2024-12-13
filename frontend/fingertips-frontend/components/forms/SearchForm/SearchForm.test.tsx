@@ -42,6 +42,18 @@ test('should have an input field to input the indicatorId', () => {
 
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
+
+test('should set the input field with indicator value from the form state', () => {
+  const indicatorState: SearchFormState = {
+    indicator: 'test value',
+    message: '',
+    errors: {},
+  };
+  render(registryWrapper(<SearchForm searchFormState={indicatorState} />));
+
+  expect(screen.getByDisplayValue('test value')).toHaveAttribute('id', 'indicator');
+});
+
 test('should display the error summary component when there is a validation error', () => {
   const errorState: SearchFormState = {
     indicator: '',

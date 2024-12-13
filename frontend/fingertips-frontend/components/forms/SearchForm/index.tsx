@@ -25,49 +25,47 @@ export const SearchForm = ({
   const [state, formAction] = useActionState(searchIndicator, searchFormState);
 
   return (
-    <main>
-      <form action={formAction}>
-        {state.message && (
-          <ErrorSummary
-            description="At least one of the following fields must be populated:"
-            errors={[
-              {
-                targetName: 'indicator',
-                text: 'Indicator field',
-              },
-            ]}
-            data-testid="search-form-error-summary"
-          />
-        )}
-        <H1>Find public health data</H1>
-        <LeadParagraph>
-          Find public health data by subjects, and health or local authority
-          areas.
-        </LeadParagraph>
-        <InsetText>
-          Use both search options to help you find the most accurate data
-          available.
-        </InsetText>
-        <StyledInputField
-          input={{
-            id: 'indicator',
-            name: 'indicator',
-            defaultValue: searchFormState.indicator,
-          }}
-          hint={
-            <>
-              For example diabetes, public health indicator, or indicator ID241
-            </>
-          }
-          data-testid="search-form-input-indicator"
-        >
-          Search by subject
-        </StyledInputField>
+    <form action={formAction}>
+      {state.message && (
+        <ErrorSummary
+          description="At least one of the following fields must be populated:"
+          errors={[
+            {
+              targetName: 'indicator',
+              text: 'Indicator field',
+            },
+          ]}
+          data-testid="search-form-error-summary"
+        />
+      )}
+      <H1>Find public health data</H1>
+      <LeadParagraph>
+        Find public health data by subjects, and health or local authority
+        areas.
+      </LeadParagraph>
+      <InsetText>
+        Use both search options to help you find the most accurate data
+        available.
+      </InsetText>
+      <StyledInputField
+        input={{
+          id: 'indicator',
+          name: 'indicator',
+          defaultValue: searchFormState.indicator,
+        }}
+        hint={
+          <>
+            For example diabetes, public health indicator, or indicator ID241
+          </>
+        }
+        data-testid="search-form-input-indicator"
+      >
+        Search by subject
+      </StyledInputField>
 
-        <Button type="submit" data-testid="search-form-button-submit">
-          Search
-        </Button>
-      </form>
-    </main>
+      <Button type="submit" data-testid="search-form-button-submit">
+        Search
+      </Button>
+    </form>
   );
 };

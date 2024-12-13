@@ -401,54 +401,52 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-<main>
-    <form
-      action="/action"
+<form
+    action="/action"
+  >
+    <h1
+      class="c0"
     >
-      <h1
-        class="c0"
+      Find public health data
+    </h1>
+    <p
+      class="c1"
+    >
+      Find public health data by subjects, and health or local authority areas.
+    </p>
+    <div
+      class="c2"
+    >
+      Use both search options to help you find the most accurate data available.
+    </div>
+    <label
+      class="c3 c4"
+      data-testid="search-form-input-indicator"
+    >
+      <span
+        class="c5"
       >
-        Find public health data
-      </h1>
-      <p
-        class="c1"
+        Search by subject
+      </span>
+      <span
+        class="c6"
       >
-        Find public health data by subjects, and health or local authority areas.
-      </p>
-      <div
-        class="c2"
-      >
-        Use both search options to help you find the most accurate data available.
-      </div>
-      <label
-        class="c3 c4"
-        data-testid="search-form-input-indicator"
-      >
-        <span
-          class="c5"
-        >
-          Search by subject
-        </span>
-        <span
-          class="c6"
-        >
-          For example diabetes, public health indicator, or indicator ID241
-        </span>
-        <input
-          class="c7"
-          id="indicator"
-          name="indicator"
-          value=""
-        />
-      </label>
-      <button
-        class="c8"
-        data-testid="search-form-button-submit"
-        type="submit"
-      >
-        Search
-      </button>
-    </form>
-  </main>
+        For example diabetes, public health indicator, or indicator ID241
+      </span>
+      <input
+        class="c7"
+        id="indicator"
+        name="indicator"
+        value=""
+      />
+    </label>
+    <button
+      class="c8"
+      data-testid="search-form-button-submit"
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
 </DocumentFragment>
 `;
