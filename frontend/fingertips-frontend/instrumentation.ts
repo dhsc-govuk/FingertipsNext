@@ -5,7 +5,8 @@ if (process.env.NEXT_RUNTIME === 'nodejs') {
         const { useAzureMonitor } = require("@azure/monitor-opentelemetry");
         useAzureMonitor();
         console.log('Application Insights monitoring enabled')
-    }else {
+    }
+    else {
         console.log('** Application Insights Connection String missing - monitoring disabled **')
     }
 }
