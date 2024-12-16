@@ -3,21 +3,26 @@ using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Azure.Monitor.OpenTelemetry.Exporter;
 using DHSC.FingertipsNext.Monolith;
+using Microsoft.VisualBasic;
 using Scalar.AspNetCore;
 
 namespace DHSC.FingerTipsNext.Api;
 
 public static class Program
 {
+    private static readonly string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         
         builder.Services
-            .AddLogging()
-            .AddOpenTelemetry()
-            .UseAzureMonitor();
-        
+            .AddLogging();
+
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable(ApplicationInsightsConnectionString)))
+        {
+            builder.Services.AddOpenTelemetry().UseAzureMonitor();
+        }
+
         builder.Services.AddControllers().AddControllersAsServices();
         
         builder.Services.AddOpenApi()       

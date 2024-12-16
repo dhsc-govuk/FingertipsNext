@@ -33,16 +33,6 @@ public class CoreController : ControllerBase, ICoreController
     [Route("search-forecast")]
     public string SearchForecast([FromQuery] string searchTerm)
     {
-        try
-        {
-            throw new ArgumentException("Some logger message should go here!");
-
-        }
-        catch (Exception ex)
-        {
-            _logger.LogExample(ex, "search-forecast");
-        }
-        
         return _coreService.DoThing(searchTerm);
     }
 }
