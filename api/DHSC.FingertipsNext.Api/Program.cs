@@ -1,11 +1,8 @@
 using System.Text.Json;
 using Asp.Versioning;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Azure.Monitor.OpenTelemetry.Exporter;
 using DHSC.FingertipsNext.Monolith;
-using OpenTelemetry;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
 namespace DHSC.FingerTipsNext.Api;
@@ -15,14 +12,11 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        builder.Services.AddOpenTelemetry()
-            .ConfigureResource(resource => resource.AddService("FingertipsNextApi"))
-            .WithLogging(logging =>
-            {
-                logging.AddConsoleExporter();
-                
-            });
+        
+        builder.Services
+            .AddLogging()
+            .AddOpenTelemetry()
+            .UseAzureMonitor();
         
         builder.Services.AddControllers().AddControllersAsServices();
         
