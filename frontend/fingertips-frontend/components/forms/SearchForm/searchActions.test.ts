@@ -27,7 +27,7 @@ const initialState: SearchFormState = {
 };
 
 describe('Search actions', () => {
-  it('should redirect to search with query param', async () => {
+  it('should redirect to search results with query param', async () => {
     const formData = getMockFormData({ indicator: 'boom' });
 
     await searchIndicator(initialState, formData);
@@ -36,5 +36,14 @@ describe('Search actions', () => {
       '/search/results?indicator=boom',
       RedirectType.push
     );
+  });
+
+  it('should return an appropriate message if no indicator is provided', async () => {
+    const formData = getMockFormData({ indicator: '  ' });
+
+    const state = await searchIndicator(initialState, formData);
+
+    expect(state.indicator).toBe('');
+    expect(state.message).toBe('Please enter a value for the indicator field');
   });
 });
