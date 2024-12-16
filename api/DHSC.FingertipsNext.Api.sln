@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core.ModuleInterfaces", "DHSC.FingertipsNext.Modules.Core.ModuleInterfaces\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces.csproj", "{0BC06378-0BC2-4AA9-87E4-809B15E237B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Search.Interfaces", "DHSC.FingertipsNext.Modules.Search.Interfaces\DHSC.FingertipsNext.Modules.Search.Interfaces.csproj", "{861E33C4-10D8-4EA9-B241-F2641DF116DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Search.ModuleInterfaces", "DHSC.FingertipsNext.Modules.Search.ModuleInterfaces\DHSC.FingertipsNext.Modules.Search.ModuleInterfaces.csproj", "{861E33C4-10D8-4EA9-B241-F2641DF116DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

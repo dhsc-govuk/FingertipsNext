@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c5 {
+  .c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,35 +27,35 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c5:focus {
+.c8:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c5:link,
-.c5:visited,
-.c5:active,
-.c5:hover {
+.c8:link,
+.c8:visited,
+.c8:active,
+.c8:hover {
   color: #ffffff;
   text-decoration: none;
 }
 
-.c5::-moz-focus-inner {
+.c8::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c5:hover,
-.c5:focus {
+.c8:hover,
+.c8:focus {
   background-color: #00572e;
 }
 
-.c5 :active {
+.c8 :active {
   top: 2px;
   box-shadow: none;
 }
 
-.c5 ::before {
+.c8 ::before {
   content: "";
   display: block;
   position: absolute;
@@ -66,34 +66,34 @@ exports[`snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c5:active::before {
+.c8:active::before {
   top: -4px;
 }
 
-.c5 :disabled {
+.c8 :disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c5 :disabled :hover {
+.c8 :disabled :hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c5 :disabled :focus {
+.c8 :disabled :focus {
   outline: none;
 }
 
-.c5 :disabled :active {
+.c8 :disabled :active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c5 svg {
+.c8 svg {
   max-width: 15px;
 }
 
-.c3 {
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -105,7 +105,7 @@ exports[`snapshot test - renders the form 1`] = `
   color: #6f777b;
 }
 
-.c2 {
+.c5 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -119,7 +119,7 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c4 {
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -137,81 +137,208 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c4:focus {
+.c7:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c4::-webkit-outer-spin-button,
-.c4::-webkit-inner-spin-button {
+.c7::-webkit-outer-spin-button,
+.c7::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.c4[type="number"] {
+.c7[type="number"] {
   -moz-appearance: textfield;
 }
 
-.c0 {
+.c3 {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   margin-bottom: 0;
 }
 
-.c0 :after {
+.c3 :after {
   content: '';
   display: table;
   clear: both;
 }
 
+.c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.09375;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  padding: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  clear: both;
+  border-left: 10px solid #bfc1c3;
+}
+
+.c2 :first-child {
+  margin-top: 0;
+}
+
+.c2 :only-child,
+.c2 :last-child {
+  margin-bottom: 0;
+}
+
 .c1 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.1111111111111112;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c4 {
   margin-bottom: 20px;
 }
 
 @media print {
-  .c5 {
+  .c8 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 {
+  .c8 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 {
+  .c8 {
     width: auto;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 svg {
+  .c8 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c5 {
+  .c8 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c3 {
+  .c6 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c3 {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c5 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c7 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c7 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c3 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 48px;
+    line-height: 1.0416666666666667;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    margin-bottom: 50px;
   }
 }
 
@@ -237,33 +364,28 @@ exports[`snapshot test - renders the form 1`] = `
 
 @media only screen and (min-width: 641px) {
   .c2 {
-    margin-bottom: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
 
 @media print {
-  .c4 {
-    font-size: 14px;
+  .c1 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 18px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width: 641px) {
-  .c4 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width: 641px) {
-  .c4 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width: 641px) {
-  .c0 {
-    margin-bottom: 0;
+  .c1 {
+    font-size: 24px;
+    line-height: 1.25;
   }
 }
 
@@ -273,32 +395,54 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
+@media only screen and (min-width: 641px) {
+  .c4 {
+    margin-bottom: 30px;
+  }
+}
+
 <form
     action="/action"
   >
+    <h1
+      class="c0"
+    >
+      Find public health data
+    </h1>
+    <p
+      class="c1"
+    >
+      Find public health data by subjects, and health or local authority areas.
+    </p>
+    <div
+      class="c2"
+    >
+      Use both search options to help you find the most accurate data available.
+    </div>
     <label
-      class="c0 c1"
-      data-testid="input-indicator-search"
+      class="c3 c4"
+      data-testid="search-form-input-indicator"
     >
       <span
-        class="c2"
+        class="c5"
       >
-        Indicator id or keyword
+        Search by subject
       </span>
       <span
-        class="c3"
+        class="c6"
       >
-        Type in here the IndicatorId.
+        For example diabetes, public health indicator, or indicator ID
       </span>
       <input
-        class="c4"
+        class="c7"
         id="indicator"
         name="indicator"
         value=""
       />
     </label>
     <button
-      class="c5"
+      class="c8"
+      data-testid="search-form-button-submit"
       type="submit"
     >
       Search

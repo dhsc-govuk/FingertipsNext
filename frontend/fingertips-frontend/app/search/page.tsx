@@ -9,6 +9,11 @@ export default async function Page(
 ) {
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
+  const initialState = {
+    indicator: indicator,
+    message: null,
+    errors: {},
+  };
 
-  return <SearchForm indicator={indicator} />;
+  return <SearchForm searchFormState={initialState} />;
 }

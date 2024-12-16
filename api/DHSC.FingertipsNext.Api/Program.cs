@@ -1,12 +1,11 @@
-using System.Text.Json;
+namespace DHSC.FingertipsNext.Api;
+
 using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Azure.Monitor.OpenTelemetry.Exporter;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.VisualBasic;
 using Scalar.AspNetCore;
-
-namespace DHSC.FingerTipsNext.Api;
 
 public static class Program
 {
@@ -24,8 +23,8 @@ public static class Program
         }
 
         builder.Services.AddControllers().AddControllersAsServices();
-        
-        builder.Services.AddOpenApi()       
+
+        builder.Services.AddOpenApi()
             .AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
@@ -48,7 +47,7 @@ public static class Program
         var app = builder.Build();
 
         app.MapOpenApi();
-        
+
         if (app.Environment.IsDevelopment())
         {
             app.MapScalarApiReference(options =>
@@ -77,7 +76,6 @@ public static class Program
             .SelectMany(s => s.GetTypes())
             .Where(t => type.IsAssignableFrom(t) && t != type && !t.IsAbstract)
             .ToList();
-        
         types.ForEach(x =>
         {
             var module = Activator.CreateInstance(x) as IMonolithModule;
