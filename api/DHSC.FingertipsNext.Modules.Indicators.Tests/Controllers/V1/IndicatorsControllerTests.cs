@@ -1,5 +1,5 @@
 ﻿using DHSC.FingertipsNext.Modules.Indicators.Controllers.V1;
-using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
+using DHSC.FingertipsNext.Modules.Indicators.Schemas;
 using DHSC.FingertipsNext.Modules.Indicators.Services;
 using FluentAssertions;
 using NSubstitute;

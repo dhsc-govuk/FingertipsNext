@@ -1,10 +1,13 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
+﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.Indicators.Services;
 
 /// <summary>
-///
+/// The business logic for accessing indicator data.
 /// </summary>
+/// <remarks>
+/// Does not include anything specific to the hosting technology being used.
+/// </remarks>
 public class IndicatorService(IIndicatorsDataProvider provider) : IIndicatorsService
 {
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
+﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
 using DHSC.FingertipsNext.Modules.Indicators.Services;
 using Microsoft.AspNetCore.Mvc;
 

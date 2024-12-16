@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Indicators", "Indicators", "{F7FD1D55-CD32-4B34-87D3-694462789777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces", "DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces\DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces.csproj", "{296FC4BA-E4FE-4D12-AFB8-3E6C775466CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Indicators.Schemas", "DHSC.FingertipsNext.Modules.Indicators.Schemas\DHSC.FingertipsNext.Modules.Indicators.Schemas.csproj", "{296FC4BA-E4FE-4D12-AFB8-3E6C775466CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Indicators", "DHSC.FingertipsNext.Modules.Indicators\DHSC.FingertipsNext.Modules.Indicators.csproj", "{19B3140B-56E5-441B-8965-E1F38BA44832}"
 EndProject

@@ -1,20 +1,34 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
+﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.Indicators.Services;
 
 /// <summary>
-///
+/// Provides a copy of the requested indicator data.
 /// </summary>
 public class IndicatorDataProvider : IIndicatorsDataProvider
 {
     // TODO: FTN-?? - replace hard coded data and logic with something that fetches real data from database
 
+    /// <summary>
+    /// Get data for a public health indicator. Returns all data for all
+    /// areas and all years for the indicators. Optionally filter the results by
+    /// supplying one or more area codes and one or more years in the query string.
+    /// </summary>
+    /// <param name="indicatorId">The unique identifier of the indicator.</param>
+    /// <param name="areaCodes">A list of area codes.</param>
+    /// <param name="years">A list of years.</param>
+    /// <returns></returns>
     public Task<IEnumerable<HealthDataForArea>> GetIndicatorData(
         int indicatorId,
         string[] areaCodes,
         int[] years
     )
     {
+        //
+        // All the logic below is purely for accessing the hardcoded test data
+        // and performing some basic functional testing thereof.
+        //
+        
         if (indicatorId < 0)
         {
             // TODO: FTN-?? - for TEST PURPOSES ONLY negative number indicator IDs generate an error

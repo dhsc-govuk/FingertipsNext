@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces;
+namespace DHSC.FingertipsNext.Modules.Indicators.Schemas;
 
 /// <summary>
 ///  summary of a public health indicator

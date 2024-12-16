@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces\DHSC.FingertipsNext.Modules.Indicators.ModuleInterfaces.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators.Schemas\DHSC.FingertipsNext.Modules.Indicators.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators\DHSC.FingertipsNext.Modules.Indicators.csproj" />
     </ItemGroup>
 
