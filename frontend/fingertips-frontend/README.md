@@ -57,7 +57,7 @@ npm run dev:standalone
 
 ### Running the NextJS application against MSW
 
-To run the Next development server against the MSW (Mock Service Worker) rather than the real api. Then run the following command;
+To run the Next development server against the MSW (Mock Service Worker) rather than the real api, run the following command:
 
 ```bash
 npm run dev:local
