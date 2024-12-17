@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/CoreApi.ts
 apis/HealthCheckApi.ts
 apis/SearchApi.ts
