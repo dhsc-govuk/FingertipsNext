@@ -55,6 +55,14 @@ You can also run the Next development server without running the API containers 
 npm run dev:standalone
 ```
 
+### Running the NextJS application against MSW
+
+To run the Next development server against the MSW (Mock Service Worker) rather than the real api. Then run the following command;
+
+```bash
+npm run dev:local
+```
+
 ## Building
 
 ### Building the Next Application
