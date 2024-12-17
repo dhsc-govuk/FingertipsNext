@@ -41,7 +41,7 @@ export function HomePage({
           >
             {forecasts.map((f) => (
               <Table.Row key={`${f.date?.toISOString()}-${f.temperatureC}`}>
-                <Table.Cell>{f.date?.toLocaleDateString()}</Table.Cell>
+                <Table.Cell>{f.date?.toLocaleDateString('en-GB')}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureC}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureF}</Table.Cell>
                 <Table.Cell>{f.summary}</Table.Cell>

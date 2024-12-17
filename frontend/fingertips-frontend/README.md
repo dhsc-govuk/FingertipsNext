@@ -130,11 +130,12 @@ However, Next.js will still use these component to render the page server-side.
 
 ## Auto generate scripts
 
-CAUTION: Running these scripts will overwrite previously generated code.
+CAUTION: Running these scripts will overwrite previously generated code. This should only need to be done when the API contract has been updated and we need to re-generate the api client and mocks based upon the new contract as defined by the openapi specification.
 
 ### Generating the API Client
 
 The following script will autogenerate the api client code from an openapi spec.
+NOTE: this will require Java configured on your path in order for this to work. See https://www.npmjs.com/package/@openapitools/openapi-generator-cli for details.
 
 ```bash
 npm run generate:api-client
@@ -146,7 +147,7 @@ The generated code is held within `generated-sources/api-client` folder. Please 
 
 ### Generating mock handlers
 
-The following script will autogenerate mock handlers from an open-api spec.
+The following script will autogenerate mock handlers from an open-api spec. See https://github.com/zoubingwu/msw-auto-mock for details.
 
 ```bash
 npm run generate:mocks
