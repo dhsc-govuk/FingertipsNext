@@ -137,7 +137,7 @@ CAUTION: Running these scripts will overwrite previously generated code.
 The following script will autogenerate the api client code from an openapi spec.
 
 ```bash
-npm run generate:api-client"
+npm run generate:api-client
 ```
 
 The generated code is held within `generated-sources/api-client` folder. Please do not make any manual changes to code within this folder. This is auto-generated and will be overwritten if the script is ran again.
