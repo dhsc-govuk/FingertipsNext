@@ -7,7 +7,7 @@
     "dev:standalone": "next dev",
     "dev": "MOCK_SERVER=true next dev",
     "generate:api-client": "openapi-generator-cli generate",
-    "generate:mocks": "npx msw-auto-mock ./../../api/definition/weather.json -o ./mock/server2",
+    "generate:mocks": "npx msw-auto-mock ./../../api/definition/weather.json -o ./mock/server",
     "build": "next build",
     "start": "next start",
     "api:start": "docker compose --profile api up --build",

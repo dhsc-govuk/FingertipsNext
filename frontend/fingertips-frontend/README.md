@@ -160,3 +160,5 @@ If you wish to autogenerate the mock handlers again the preferred method is to c
 ```bash
 npx msw-auto-mock ./../../api/definition/weather.json -o .{SOME/OTHER/PATH}
 ```
+
+`msw-auto-mock` will generate mock service workers for `browser`, `native` and `node`. We only need `node` so the other 2 can be deleted. These files are also `.js` files. Rename `handler.js` and `node.js` to `handler.ts` and `node.ts`.
