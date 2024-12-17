@@ -20,7 +20,7 @@ export default async function Home() {
     );
   }
 
-  const weatherData = await fetch(apiUrl, {
+  const weatherData = await fetch(`${apiUrl}/WeatherForecast`, {
     // Cache the data for 60s
     next: { revalidate: 60 },
   });
