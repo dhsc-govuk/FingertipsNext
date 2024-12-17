@@ -1,6 +1,6 @@
 'use client';
 
-import { WeatherForecast } from '@/generated-sources/api-client/src';
+import { WeatherForecast } from '@/generated-sources/api-client';
 import { H1, Paragraph, Table } from 'govuk-react';
 import Image from 'next/image';
 

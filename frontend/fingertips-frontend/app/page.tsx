@@ -2,7 +2,8 @@ import { HomePage } from '@/components/pages/home';
 import {
   Configuration,
   WeatherForecastApi,
-} from '@/generated-sources/api-client/src';
+} from '@/generated-sources/api-client';
+
 import { connection } from 'next/server';
 
 export default async function Home() {

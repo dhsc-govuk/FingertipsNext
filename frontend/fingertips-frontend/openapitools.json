@@ -9,8 +9,6 @@
         "inputSpec": "./../../api/definition/weather.json",
         "output": "generated-sources/api-client",
         "additionalProperties": {
-          "npmName": "api-client",
-          "npmVersion": "10.9.0",
           "supportsES6": true,
           "withInterfaces": true
         }
