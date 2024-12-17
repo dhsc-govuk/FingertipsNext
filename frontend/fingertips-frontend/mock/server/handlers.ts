@@ -12,51 +12,15 @@ const next = () => {
 };
 
 export const handlers = [
-  http.get(`${baseURL}/HealthCheck`, async () => {
-    const resultArray = [[getGetHealthCheck200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
-  http.get(`${baseURL}/Core/forecast`, async () => {
-    const resultArray = [[getGetCoreForecast200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
-  http.get(`${baseURL}/Core/search-forecast`, async () => {
-    const resultArray = [
-      [getGetCoreSearchForecast200Response(), { status: 200 }],
-    ];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
   http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
-  http.get(`${baseURL}/Search`, async () => {
-    const resultArray = [[getGetSearch200Response(), { status: 200 }]];
+    const resultArray = [
+      [await getGetWeatherForecast200Response(), { status: 200 }],
+    ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
 ];
 
-export function getGetHealthCheck200Response() {
-  return null;
-}
-
-export function getGetCoreForecast200Response() {
-  return null;
-}
-
-export function getGetCoreSearchForecast200Response() {
-  return null;
-}
-
 export function getGetWeatherForecast200Response() {
   return mockWeatherForecasts;
-}
-
-export function getGetSearch200Response() {
-  return null;
 }

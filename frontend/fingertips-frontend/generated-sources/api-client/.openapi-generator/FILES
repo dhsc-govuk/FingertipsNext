@@ -1,6 +1,4 @@
-apis/CoreApi.ts
-apis/HealthCheckApi.ts
-apis/SearchApi.ts
+.openapi-generator-ignore
 apis/WeatherForecastApi.ts
 apis/index.ts
 index.ts
