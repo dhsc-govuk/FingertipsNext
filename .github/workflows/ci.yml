@@ -183,8 +183,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           # TODO: Tag with the registry name when we have Azure access
-          # images: ${{ vars.CONTAINER_REGISTRY }}/${{ matrix.container-tag }}
-          images: ${{ matrix.container-tag }}
+          images: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/${{ matrix.container-tag }}
+          #images: ${{ matrix.container-tag }}
           tags: |
             type=ref,event=branch
             type=ref,event=tag
