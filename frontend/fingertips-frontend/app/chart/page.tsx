@@ -1,5 +1,5 @@
 import { LineChart } from '@/components/pages/chart';
-import { fetchData2 } from '@/lib/fetchData';
+import { fetchData } from '@/lib/fetchData';
 
 export default async function ChartPage() {
   const data = await fetchData2();
