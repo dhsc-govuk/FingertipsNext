@@ -2,7 +2,7 @@ import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class ChartPage extends BasePage {
-  readonly highchartsReactComponent = 'highcharts-react-component';
+  readonly linechartComponent = 'lineChart-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -13,8 +13,6 @@ export default class ChartPage extends BasePage {
   }
 
   async checkChart() {
-    await expect(
-      this.page.getByTestId(this.highchartsReactComponent)
-    ).toBeVisible();
+    await expect(this.page.getByTestId(this.linechartComponent)).toBeVisible();
   }
 }

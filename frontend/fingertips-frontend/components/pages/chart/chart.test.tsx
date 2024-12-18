@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
-import {WeatherForecast} from "@/generated-sources/api-client";
+import { WeatherForecast } from '@/generated-sources/api-client';
 
 const mockData: WeatherForecast[] = [
   {
@@ -26,14 +26,14 @@ test('snapshot test - should render the chart', () => {
 
 test('should render the LineChart component with the correct props', () => {
   render(<Chart data={mockData} />);
-  
+
   const lineChartTitle = screen.getByText('Line Chart');
   expect(lineChartTitle).toBeInTheDocument();
 });
 
 test('should render the PlainTable component', () => {
   render(<Chart data={mockData} />);
-  
+
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
 });

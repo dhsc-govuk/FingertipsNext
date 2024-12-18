@@ -43,5 +43,9 @@ export function LineChart({
     },
   };
 
-  return <HighchartsReact highcharts={Highcharts} options={lineChartOptions} />;
+  return (
+    <div data-testid="lineChart-component">
+      <HighchartsReact highcharts={Highcharts} options={lineChartOptions} />
+    </div>
+  );
 }
