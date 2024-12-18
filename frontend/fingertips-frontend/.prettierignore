@@ -10,4 +10,4 @@ Dockerfile
 .nvmrc
 package-lock.json
 public
-
+**/generated-sources/**
