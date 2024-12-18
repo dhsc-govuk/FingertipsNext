@@ -17,7 +17,7 @@ public class HealthMeasureController : ControllerBase
         this.healthMeasureService = healthMeasureService;
     }
 
-    [HttpGet(Name = "HealthMeasure")]
+    [HttpGet(Name = "GetHealthMeasure")]
     public async Task<HealthMeasure> Get()
     {
         return await healthMeasureService.GetFirstHealthMeasure();
