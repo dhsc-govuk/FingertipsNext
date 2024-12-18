@@ -199,7 +199,7 @@ jobs:
         with:
           context: ${{ matrix.context-location }}
           # TODO: Re-enable pushing the image to the repository when we have Azure access
-          # push: true
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
