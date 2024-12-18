@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Repository\DHSC.FingertipsNext.Modules.Core.Repository.csproj" />
     </ItemGroup>
 
 </Project>
