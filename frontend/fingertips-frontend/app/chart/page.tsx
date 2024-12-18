@@ -1,5 +1,12 @@
-import { Chart } from '@/components/pages/chart';
+import { Chart } from '@/components/pages/chart/index2';
+import { fetchData } from '@/lib/fetchData';
 
 export default async function ChartPage() {
-  return <Chart/>;
+  const data = await fetchData();
+
+  if (!data) {
+    return <div>Failed to load data.</div>;
+  }
+
+  return <Chart data={data} />;
 }

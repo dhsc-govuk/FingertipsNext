@@ -1,19 +1,28 @@
+import {
+  Configuration,
+  WeatherForecast,
+  WeatherForecastApi,
+} from '@/generated-sources/api-client';
 import { connection } from 'next/server';
 
-export async function fetchData(): Promise<any> {
+export async function fetchData(): Promise<WeatherForecast[]> {
   // We don't want to render this page statically
   await connection();
 
   const apiUrl = process.env.FINGERTIPS_API_URL;
 
-  const response = await fetch(`${apiUrl}/weatherforecast`, {
-    // Cache the data for 60s
-    next: { revalidate: 60 },
+  if (!apiUrl) {
+    throw new Error(
+      'No API URL set. Have you set the FINGERTIPS_API_URL environment variable?'
+    );
+  }
+
+  const config: Configuration = new Configuration({
+    basePath: apiUrl,
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  console.log(typeof response.json);
-  return await response.json();
+  const forecastApi = new WeatherForecastApi(config);
+  const forecasts = await forecastApi.getWeatherForecast();
+
+  return forecasts;
 }
