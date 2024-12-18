@@ -174,7 +174,8 @@ jobs:
       - name: Login to container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          registry: ${{ secrets.AZURE_CONTAINERREGISTRY_NAME }}
           username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
 
