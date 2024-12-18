@@ -41,6 +41,26 @@ exports[`snapshot test - should render the chart 1`] = `
   }
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
 <h1
     class="c0"
   >
@@ -62,10 +82,7 @@ exports[`snapshot test - should render the chart 1`] = `
 
 }
 
-<noscript
-    data-testid="noscript-table"
-  />
-  @media print {
+@media print {
 
 }
 
@@ -77,6 +94,10 @@ exports[`snapshot test - should render the chart 1`] = `
 
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width: 641px) {
 
 }
@@ -84,13 +105,12 @@ exports[`snapshot test - should render the chart 1`] = `
 <div>
     <div
       data-highcharts-chart="0"
-      data-testid="highcharts-react-component"
       style="overflow: hidden;"
     >
       <div
         class="highcharts-container "
         dir="ltr"
-        id="highcharts-gfz9z2r-0"
+        id="highcharts-t43pau1-0"
         style="position: relative; overflow: hidden; width: 600px; height: 400px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
       >
         <svg
@@ -120,7 +140,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </filter>
             <clippath
-              id="highcharts-gfz9z2r-6-"
+              id="highcharts-t43pau1-6-"
             >
               <rect
                 fill="none"
@@ -131,7 +151,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-gfz9z2r-7-"
+              id="highcharts-t43pau1-7-"
             >
               <rect
                 class="highcharts-animating"
@@ -143,7 +163,7 @@ exports[`snapshot test - should render the chart 1`] = `
               />
             </clippath>
             <clippath
-              id="highcharts-gfz9z2r-8-"
+              id="highcharts-t43pau1-8-"
             >
               <rect
                 fill="none"
@@ -279,14 +299,14 @@ exports[`snapshot test - should render the chart 1`] = `
           >
             <g
               class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-gfz9z2r-7-)"
+              clip-path="url(#highcharts-t43pau1-7-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
             />
             <g
               class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-0"
-              clip-path="url(#highcharts-gfz9z2r-8-)"
+              clip-path="url(#highcharts-t43pau1-8-)"
               data-z-index="0.1"
               opacity="1"
               transform="translate(NaN,10) scale(1 1)"
@@ -392,7 +412,7 @@ exports[`snapshot test - should render the chart 1`] = `
               transform="translate(0,0)"
               x="0"
             >
-              2024-11-01
+              01/11/2024
             </text>
             <text
               style="color: rgb(51, 51, 51); cursor: default; font-size: 0.8em; fill: #333333;"
@@ -400,7 +420,7 @@ exports[`snapshot test - should render the chart 1`] = `
               transform="translate(0,0)"
               x="0"
             >
-              2024-11-01
+              01/11/2024
             </text>
           </g>
           <g
@@ -420,6 +440,200 @@ exports[`snapshot test - should render the chart 1`] = `
         </svg>
       </div>
     </div>
+  </div>
+  .c1 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c1 :last-child {
+  padding-right: 0;
+}
+
+.c2 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: right;
+  font-weight: 700;
+}
+
+.c2 :last-child {
+  padding-right: 0;
+}
+
+.c3 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c3 :last-child {
+  padding-right: 0;
+}
+
+.c4 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: right;
+  font-family: "ntatabularnumbers","nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+}
+
+.c4 :last-child {
+  padding-right: 0;
+}
+
+.c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media only screen and (min-width: 641px) {
+
+}
+
+@media print {
+  .c4 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  .c0 {
+    margin-bottom: 30px;
+  }
+}
+
+<div>
+    <table
+      class="c0"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c1"
+          >
+            Date
+          </th>
+          <th
+            class="c2"
+          >
+            Temperature C
+          </th>
+          <th
+            class="c2"
+          >
+            Temperature F
+          </th>
+          <th
+            class="c1"
+          >
+            Summary
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            01/11/2024
+          </td>
+          <td
+            class="c4"
+          >
+            -30
+          </td>
+          <td
+            class="c4"
+          >
+            -21
+          </td>
+          <td
+            class="c3"
+          >
+            Freezing
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            01/11/2024
+          </td>
+          <td
+            class="c4"
+          >
+            0
+          </td>
+          <td
+            class="c4"
+          >
+            32
+          </td>
+          <td
+            class="c3"
+          >
+            Bracing
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </DocumentFragment>
 `;

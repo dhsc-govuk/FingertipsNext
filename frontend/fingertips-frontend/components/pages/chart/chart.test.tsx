@@ -1,16 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { LineChart } from '@/components/pages/chart/index';
+import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
+import {WeatherForecast} from "@/generated-sources/api-client";
 
-const mockData = [
+const mockData: WeatherForecast[] = [
   {
-    date: '2024-11-01',
+    date: new Date('2024-11-01T00:00:00.000Z'),
     temperatureC: -30,
     temperatureF: -21,
     summary: 'Freezing',
   },
   {
-    date: '2024-11-01',
+    date: new Date('2024-11-01T00:00:00.000Z'),
     temperatureC: 0,
     temperatureF: 32,
     summary: 'Bracing',
@@ -18,27 +19,21 @@ const mockData = [
 ];
 
 test('snapshot test - should render the chart', () => {
-  const container = render(<LineChart data={mockData} />);
+  const container = render(<Chart data={mockData} />);
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-test('should render the HighchartsReact component', () => {
-  render(<LineChart data={mockData} />);
-
-  expect(screen.getByTestId('highcharts-react-component')).toBeInTheDocument();
+test('should render the LineChart component with the correct props', () => {
+  render(<Chart data={mockData} />);
+  
+  const lineChartTitle = screen.getByText('Line Chart');
+  expect(lineChartTitle).toBeInTheDocument();
 });
 
-test('should pass the options to highcharts', () => {
-  render(<LineChart data={mockData} />);
-
-  const chart = screen.getByTestId('highcharts-react-component');
-  expect(chart).toHaveTextContent('Weather Forecast');
-  expect(chart).toHaveTextContent('Temperature (°C)');
-});
-
-test('should fallback to noscript table when JavaScript is disabled', () => {
-  render(<LineChart data={mockData} />);
-
-  expect(screen.getByTestId('noscript-table')).toBeInTheDocument();
+test('should render the PlainTable component', () => {
+  render(<Chart data={mockData} />);
+  
+  const table = screen.getByRole('table');
+  expect(table).toBeInTheDocument();
 });

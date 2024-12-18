@@ -22,7 +22,5 @@ export async function fetchData(): Promise<WeatherForecast[]> {
   });
 
   const forecastApi = new WeatherForecastApi(config);
-  const forecasts = await forecastApi.getWeatherForecast();
-
-  return forecasts;
+  return await forecastApi.getWeatherForecast();
 }
