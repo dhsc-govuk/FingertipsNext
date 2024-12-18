@@ -1,7 +1,7 @@
 resource "azurerm_resource_group" "az_search_rg" {
   name     = "${local.resource_prefix}-rg-search"
   location = var.region
-  tags = local.tags
+  tags     = local.tags
 }
 
 resource "azurerm_search_service" "search" {

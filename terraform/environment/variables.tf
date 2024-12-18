@@ -73,9 +73,9 @@ variable "frontend_container_tag" {
 
 variable "ai_search_sku" {
   type        = string
-  sensitive = false
+  sensitive   = false
   description = "The pricing tier of the search service you want to create (for example, basic or standard)."
-  default = "free"
+  default     = "free"
   validation {
     condition     = contains(["free", "basic", "standard", "standard2", "standard3", "storage_optimized_l1", "storage_optimized_l2"], var.ai_search_sku)
     error_message = "The sku must be one of the following values: free, basic, standard, standard2, standard3, storage_optimized_l1, storage_optimized_l2."
@@ -84,7 +84,7 @@ variable "ai_search_sku" {
 
 variable "ai_search_replica_count" {
   type        = number
-  sensitive = false
+  sensitive   = false
   description = "Replicas distribute search workloads across the service. You need at least two replicas to support high availability of query workloads (not applicable to the free tier)."
   default     = 1
   validation {
@@ -95,7 +95,7 @@ variable "ai_search_replica_count" {
 
 variable "ai_search_partition_count" {
   type        = number
-  sensitive = false
+  sensitive   = false
   description = "Partitions allow for scaling of document count as well as faster indexing by sharding your index over multiple search units."
   default     = 1
   validation {
