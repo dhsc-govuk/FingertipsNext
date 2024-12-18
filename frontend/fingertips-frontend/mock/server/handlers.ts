@@ -13,9 +13,7 @@ const next = () => {
 
 export const handlers = [
   http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [
-      [await getGetWeatherForecast200Response(), { status: 200 }],
-    ];
+    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
