@@ -1,13 +1,13 @@
 'use client';
 
-import { Forecast } from '@/app/page';
+import { WeatherForecast } from '@/generated-sources/api-client';
 import { H1, Paragraph, Table } from 'govuk-react';
 import Image from 'next/image';
 
 export function HomePage({
   forecasts,
 }: Readonly<{
-  forecasts: Array<Forecast>;
+  forecasts: Array<WeatherForecast>;
 }>) {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -40,8 +40,8 @@ export function HomePage({
             }
           >
             {forecasts.map((f) => (
-              <Table.Row key={`${f.date}-${f.temperatureC}`}>
-                <Table.Cell>{f.date}</Table.Cell>
+              <Table.Row key={`${f.date?.toISOString()}-${f.temperatureC}`}>
+                <Table.Cell>{f.date?.toLocaleDateString('en-GB')}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureC}</Table.Cell>
                 <Table.Cell numeric>{f.temperatureF}</Table.Cell>
                 <Table.Cell>{f.summary}</Table.Cell>
