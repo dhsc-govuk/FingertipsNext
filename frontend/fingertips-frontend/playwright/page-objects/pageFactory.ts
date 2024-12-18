@@ -2,7 +2,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import SearchPage from './pages/searchPage';
 import ResultsPage from './pages/resultsPage';
-import ChartPage from '@/playwright/page-objects/pages/chartPage';
+import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
 
 type pages = {

@@ -1,6 +1,6 @@
 import { expect, test } from '../page-objects/pageFactory';
 
-test('Search via indicator and assert results', async ({
+test('View a line chart', async ({
   chartPage,
   axeBuilder,
 }) => {
