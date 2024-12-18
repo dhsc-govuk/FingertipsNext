@@ -14,6 +14,6 @@ export async function fetchData(): Promise<any> {
     if (!response.ok) {
         throw new Error('Failed to fetch data');
     }
-    console.log(typeof response.json)
+    
     return await response.json();
 }
