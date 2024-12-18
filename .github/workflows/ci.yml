@@ -169,8 +169,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # TODO: Re-enable this when we have Azure access
-      # TODO: Investigate the use of OpenID Connect for authentication: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect
       - name: Azure Container Registry Login
         uses: Azure/docker-login@v1
         with:
@@ -182,9 +180,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # TODO: Tag with the registry name when we have Azure access
           images: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/${{ matrix.container-tag }}
-          #images: ${{ matrix.container-tag }}
           tags: |
             type=ref,event=branch
             type=ref,event=tag
@@ -198,7 +194,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context-location }}
-          # TODO: Re-enable pushing the image to the repository when we have Azure access
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
