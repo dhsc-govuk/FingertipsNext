@@ -10,7 +10,7 @@ import {
 } from 'govuk-react';
 import { SearchResult } from '@/components/molecules/Search/result';
 
-import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
+import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 
 type SearchResultsProps = {
   indicator: string;

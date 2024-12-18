@@ -1,5 +1,5 @@
 import { SearchResults } from '@/components/pages/search/results';
-import { getSearchData } from './search-result-data';
+import { getSearchService } from '@/lib/search/searchResultData';
 
 export default async function Page(
   props: Readonly<{
@@ -12,7 +12,7 @@ export default async function Page(
   const indicator = searchParams?.indicator ?? '';
 
   // Perform async API call using indicator prop
-  const searchResults = getSearchData();
+  const searchResults = await getSearchService().searchByIndicator(indicator);
 
   return <SearchResults indicator={indicator} searchResults={searchResults} />;
 }
