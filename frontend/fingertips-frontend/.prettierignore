@@ -11,3 +11,4 @@ Dockerfile
 package-lock.json
 public
 **/generated-sources/**
+sonar-project.properties
