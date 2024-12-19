@@ -113,7 +113,7 @@ exports[`snapshot test - should render the chart 1`] = `
         <div
           class="highcharts-container "
           dir="ltr"
-          id="highcharts-4lg14yq-0"
+          id="highcharts-mklk6oc-0"
           style="position: relative; overflow: hidden; width: 600px; height: 400px; text-align: left; line-height: normal; z-index: 0; user-select: none; outline: none; padding: 0px;"
         >
           <svg
@@ -143,7 +143,7 @@ exports[`snapshot test - should render the chart 1`] = `
                 />
               </filter>
               <clippath
-                id="highcharts-4lg14yq-6-"
+                id="highcharts-mklk6oc-6-"
               >
                 <rect
                   fill="none"
@@ -154,7 +154,7 @@ exports[`snapshot test - should render the chart 1`] = `
                 />
               </clippath>
               <clippath
-                id="highcharts-4lg14yq-7-"
+                id="highcharts-mklk6oc-7-"
               >
                 <rect
                   class="highcharts-animating"
@@ -166,7 +166,7 @@ exports[`snapshot test - should render the chart 1`] = `
                 />
               </clippath>
               <clippath
-                id="highcharts-4lg14yq-8-"
+                id="highcharts-mklk6oc-8-"
               >
                 <rect
                   fill="none"
@@ -302,14 +302,14 @@ exports[`snapshot test - should render the chart 1`] = `
             >
               <g
                 class="highcharts-series highcharts-series-0 highcharts-line-series highcharts-color-0"
-                clip-path="url(#highcharts-4lg14yq-7-)"
+                clip-path="url(#highcharts-mklk6oc-7-)"
                 data-z-index="0.1"
                 opacity="1"
                 transform="translate(NaN,10) scale(1 1)"
               />
               <g
                 class="highcharts-markers highcharts-series-0 highcharts-line-series highcharts-color-0"
-                clip-path="url(#highcharts-4lg14yq-8-)"
+                clip-path="url(#highcharts-mklk6oc-8-)"
                 data-z-index="0.1"
                 opacity="1"
                 transform="translate(NaN,10) scale(1 1)"
