@@ -99,6 +99,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -232,6 +252,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -432,6 +472,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -551,7 +611,99 @@ exports[`Search Results Suite snapshot test 1`] = `
       "
     </p>
   </div>
-  .c8 {
+  .c14 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c14:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c14:link,
+.c14:visited,
+.c14:active,
+.c14:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c14::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c14:hover,
+.c14:focus {
+  background-color: #00572e;
+}
+
+.c14:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c14::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c14:active::before {
+  top: -4px;
+}
+
+.c14:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c14:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c14:disabled:focus {
+  outline: none;
+}
+
+.c14:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c14 svg {
+  max-width: 15px;
+}
+
+.c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -772,6 +924,38 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+  .c14 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
   .c8 {
     font-size: 14px;
     line-height: 1.15;
@@ -951,124 +1135,138 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-<ul
-    class="c0 c1"
+<form
+    action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
   >
-    <li
-      class="c2 c3"
+    <ul
+      class="c0 c1"
     >
-      <hr
-        class="c4"
-      />
-    </li>
-    <li
-      class="c2 c3"
-      data-testid="search-result"
-    >
-      <div
-        class="c5 c6"
+      <li
+        class="c2 c3"
+      >
+        <hr
+          class="c4"
+        />
+      </li>
+      <li
+        class="c2 c3"
+        data-testid="search-result"
       >
         <div
-          class="c7"
+          class="c5 c6"
         >
-          <label
-            class="c8"
+          <div
+            class="c7"
           >
-            <input
-              class="c9"
-              type="checkbox"
-            />
-            <span
-              class="c10"
+            <label
+              class="c8"
             >
-              <h5
-                class="c11"
+              <input
+                class="c9"
+                name="indicators"
+                type="checkbox"
+                value="1"
+              />
+              <span
+                class="c10"
               >
-                NHS
-              </h5>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Latest data period: 2023
-                </p>
-              </div>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Data source: NHS website
-                </p>
-              </div>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Last updated: 06 December 2024
-                </p>
-              </div>
-            </span>
-          </label>
+                <h5
+                  class="c11"
+                >
+                  NHS
+                </h5>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Latest data period: 2023
+                  </p>
+                </div>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Data source: NHS website
+                  </p>
+                </div>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Last updated: 06 December 2024
+                  </p>
+                </div>
+              </span>
+            </label>
+          </div>
         </div>
-      </div>
-      <hr
-        class="c4"
-      />
-    </li>
-    <li
-      class="c2 c3"
-      data-testid="search-result"
-    >
-      <div
-        class="c5 c6"
+        <hr
+          class="c4"
+        />
+      </li>
+      <li
+        class="c2 c3"
+        data-testid="search-result"
       >
         <div
-          class="c7"
+          class="c5 c6"
         >
-          <label
-            class="c8"
+          <div
+            class="c7"
           >
-            <input
-              class="c9"
-              type="checkbox"
-            />
-            <span
-              class="c10"
+            <label
+              class="c8"
             >
-              <h5
-                class="c11"
+              <input
+                class="c9"
+                name="indicators"
+                type="checkbox"
+                value="2"
+              />
+              <span
+                class="c10"
               >
-                DHSC
-              </h5>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Latest data period: 2022
-                </p>
-              </div>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Data source: Student article
-                </p>
-              </div>
-              <div
-                class="c12 c13"
-              >
-                <p>
-                  Last updated: 05 November 2023
-                </p>
-              </div>
-            </span>
-          </label>
+                <h5
+                  class="c11"
+                >
+                  DHSC
+                </h5>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Latest data period: 2022
+                  </p>
+                </div>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Data source: Student article
+                  </p>
+                </div>
+                <div
+                  class="c12 c13"
+                >
+                  <p>
+                    Last updated: 05 November 2023
+                  </p>
+                </div>
+              </span>
+            </label>
+          </div>
         </div>
-      </div>
-      <hr
-        class="c4"
-      />
-    </li>
-  </ul>
+        <hr
+          class="c4"
+        />
+      </li>
+    </ul>
+    <button
+      class="c14"
+      type="submit"
+    >
+      View charts
+    </button>
+  </form>
 </DocumentFragment>
 `;

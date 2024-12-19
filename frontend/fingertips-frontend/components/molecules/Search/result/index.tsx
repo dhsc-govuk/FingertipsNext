@@ -36,7 +36,7 @@ export function SearchResult({ result }: Readonly<SearchResultProps>) {
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <Checkbox>
+          <Checkbox name={`indicators`} value={result.id}>
             <H5>{result.indicatorName}</H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
