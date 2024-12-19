@@ -1,4 +1,6 @@
 
+using Microsoft.Data.SqlClient;
+
 namespace DHSC.FingertipsNext.Modules.Core;
 
 using Microsoft.EntityFrameworkCore;
@@ -23,36 +25,41 @@ public class Module : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IHealthMeasureService, HealthMeasureService>();
         _RegisterDbContext(services, configuration);
     }
-    private void _RegisterDbContext(IServiceCollection services, IConfiguration configuration)
+    private static void _RegisterDbContext(IServiceCollection services, IConfiguration configuration)
     {
-        // why don't we just store the connection string as the env variable instead of the bits
-
+        const string dbServerEnvironmentVariable = "DB_SERVER";
         const string dbNameEnvironmentVariable = "DB_NAME";
         const string dbUserEnvironmentVariable = "DB_USER";
         const string dbPasswordEnvironmentVariable = "DB_PASSWORD";
 
-            var dbName = configuration.GetValue<string>(dbNameEnvironmentVariable);
-        if (string.IsNullOrWhiteSpace(dbName))
-        {
-            throw new InvalidOperationException($"Environment variable {dbNameEnvironmentVariable} must be set");
-        }
-
+        var dbServer = configuration.GetValue<string>(dbServerEnvironmentVariable);
+        var dbName = configuration.GetValue<string>(dbNameEnvironmentVariable);
         var dbUser = configuration.GetValue<string>(dbUserEnvironmentVariable);
-        if (string.IsNullOrWhiteSpace(dbUser))
-        {
-            throw new InvalidOperationException($"Environment variable {dbUserEnvironmentVariable} must be set");
-        }
-
         var dbPassword = configuration.GetValue<string>(dbPasswordEnvironmentVariable);
-        if (string.IsNullOrWhiteSpace(dbPassword))
+        
+        if (string.IsNullOrWhiteSpace(dbServer) || string.IsNullOrWhiteSpace(dbName) || string.IsNullOrWhiteSpace(dbUser) || string.IsNullOrWhiteSpace(dbPassword))
         {
-            throw new InvalidOperationException($"Environment variable {dbPasswordEnvironmentVariable} must be set");
+            throw new ArgumentException("Invalid environment variables provided. Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
         }
 
-        var connectionString = $"Server=host.docker.internal,1433;Database={dbName};User Id={dbUser};Password={dbPassword};TrustServerCertificate=Yes;";
+        var trustServerCertificate = false;
+        trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
         
-        Console.WriteLine(connectionString);
+        if (trustServerCertificate)
+        {
+            // TODO - replace with a real logger
+            Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
+        }
 
-        services.AddDbContext<RepositoryDbContext>(options => options.UseSqlServer(connectionString));
+        var builder = new SqlConnectionStringBuilder
+        {
+            DataSource = dbServer,
+            UserID = dbUser,
+            Password = dbPassword,
+            InitialCatalog = dbName,
+            TrustServerCertificate = trustServerCertificate
+        };
+
+        services.AddDbContext<RepositoryDbContext>(options => options.UseSqlServer(builder.ConnectionString));
     }
 }
