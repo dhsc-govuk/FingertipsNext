@@ -17,15 +17,26 @@ import { SomeState, viewCharts } from './searchResultsActions';
 
 type SearchResultsProps = {
   indicator: string;
+  indicatorsSelected?: string[];
   searchResults: IndicatorSearchResult[];
+};
+
+const isIndicatorSelected = (
+  state: SomeState,
+  result: IndicatorSearchResult
+): boolean => {
+  return state.indicators
+    ? state.indicators?.some((ind) => ind === result.id.toString())
+    : false;
 };
 
 export function SearchResults({
   indicator,
+  indicatorsSelected,
   searchResults,
 }: Readonly<SearchResultsProps>) {
-  const initialState: SomeState = { indicators: [] };
-  const [_state, formAction] = useActionState(viewCharts, initialState);
+  const initialState: SomeState = { indicators: indicatorsSelected };
+  const [state, formAction] = useActionState(viewCharts, initialState);
 
   return (
     <>
@@ -44,7 +55,11 @@ export function SearchResults({
                   <SectionBreak visible={true} />
                 </ListItem>
                 {searchResults.map((result) => (
-                  <SearchResult key={result.id} result={result} />
+                  <SearchResult
+                    key={result.id}
+                    result={result}
+                    indicatorSelected={isIndicatorSelected(state, result)}
+                  />
                 ))}
               </UnorderedList>
             ) : (

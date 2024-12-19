@@ -7,7 +7,7 @@ import { registryWrapper } from '@/lib/testutils';
 describe('Search Results Suite', () => {
   const indicator = 'test';
 
-  test('should render elements', async () => {
+  it('should render elements', async () => {
     render(
       registryWrapper(
         <SearchResults indicator={indicator} searchResults={[]} />
@@ -21,7 +21,7 @@ describe('Search Results Suite', () => {
     );
   });
 
-  test('should render search results', () => {
+  it('should render search results', () => {
     render(
       registryWrapper(
         <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
@@ -34,7 +34,7 @@ describe('Search Results Suite', () => {
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
 
-  test('should not render elements when no indicator is entered', () => {
+  it('should not render elements when no indicator is entered', () => {
     render(
       registryWrapper(<SearchResults indicator="" searchResults={MOCK_DATA} />)
     );
@@ -45,7 +45,7 @@ describe('Search Results Suite', () => {
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
   });
 
-  test('should render no results found', () => {
+  it('should render no results found', () => {
     render(
       registryWrapper(
         <SearchResults indicator={indicator} searchResults={[]} />
@@ -57,7 +57,22 @@ describe('Search Results Suite', () => {
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
   });
 
-  test('snapshot test', () => {
+  it('should mark indicators selected as checked', () => {
+    render(
+      registryWrapper(
+        <SearchResults
+          indicator={indicator}
+          searchResults={MOCK_DATA}
+          indicatorsSelected={['1']}
+        />
+      )
+    );
+
+    expect(screen.getByRole('checkbox', { name: /NHS/i })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: /DHSC/i })).not.toBeChecked();
+  });
+
+  it('snapshot test', () => {
     const container = render(
       registryWrapper(
         <SearchResults indicator={indicator} searchResults={MOCK_DATA} />

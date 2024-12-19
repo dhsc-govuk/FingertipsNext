@@ -14,6 +14,7 @@ import styled from 'styled-components';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;
+  indicatorSelected?: boolean;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -31,12 +32,19 @@ const StyledRow = styled(GridRow)(
   })
 );
 
-export function SearchResult({ result }: Readonly<SearchResultProps>) {
+export function SearchResult({
+  result,
+  indicatorSelected,
+}: Readonly<SearchResultProps>) {
   return (
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <Checkbox name={`indicators`} value={result.id}>
+          <Checkbox
+            name="indicator"
+            value={result.id}
+            defaultChecked={indicatorSelected}
+          >
             <H5>{result.indicatorName}</H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
