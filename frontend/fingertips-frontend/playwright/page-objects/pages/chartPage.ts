@@ -2,7 +2,8 @@ import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class ChartPage extends BasePage {
-  readonly linechartComponent = 'lineChart-component';
+  readonly lineChartComponent = 'lineChart-component';
+  readonly plainTableComponent = 'plainTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -13,6 +14,7 @@ export default class ChartPage extends BasePage {
   }
 
   async checkChart() {
-    await expect(this.page.getByTestId(this.linechartComponent)).toBeVisible();
+    await expect(this.page.getByTestId(this.lineChartComponent)).toBeVisible();
+    await expect(this.page.getByTestId(this.plainTableComponent)).toBeVisible();
   }
 }

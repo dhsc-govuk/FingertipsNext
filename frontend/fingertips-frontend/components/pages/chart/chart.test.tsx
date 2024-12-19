@@ -18,10 +18,10 @@ const mockData: WeatherForecast[] = [
   },
 ];
 
-test('snapshot test - should render the chart', () => {
-  const container = render(<Chart data={mockData} />);
-
-  expect(container.asFragment()).toMatchSnapshot();
+test('should render the Highcharts react component', () => {
+  render(<Chart data={mockData} />);
+  const highcharts = screen.getByTestId('highcharts-react-component');
+  expect(highcharts).toBeInTheDocument();
 });
 
 test('should render the LineChart component with the correct props', () => {

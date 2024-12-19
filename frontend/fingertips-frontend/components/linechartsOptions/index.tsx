@@ -45,7 +45,11 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <HighchartsReact highcharts={Highcharts} options={lineChartOptions} />
+      <HighchartsReact
+        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        highcharts={Highcharts}
+        options={lineChartOptions}
+      />
     </div>
   );
 }
