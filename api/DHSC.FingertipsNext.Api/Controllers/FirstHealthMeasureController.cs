@@ -1,5 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.Core.Repository;
-using DHSC.FingertipsNext.Modules.Core.Service;
+﻿using DHSC.FingertipsNext.Modules.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Api.Controllers;
@@ -17,8 +16,9 @@ public class FirstHealthMeasureController : ControllerBase
     }
 
     [HttpGet(Name = "GetFirstHealthMeasure")]
-    public HealthMeasure GetFirstHealthMeasure()
+    public IActionResult GetFirstHealthMeasure()
     {
-        return _healthMeasureService.GetFirstHealthMeasure();
+        var healthMeasure = _healthMeasureService.GetFirstHealthMeasure();
+        return healthMeasure == null ? NotFound() : Ok(healthMeasure);
     }
 }

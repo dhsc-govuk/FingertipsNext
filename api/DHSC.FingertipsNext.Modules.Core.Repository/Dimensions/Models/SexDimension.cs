@@ -6,7 +6,7 @@ namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
     public class SexDimension
     {
         [Key]
-        public required int SexKey { get; set; }
+        public required byte SexKey { get; set; }
         [MaxLength(50)]
         public required string Name { get; set; }
         public required bool IsFemale { get; set; }
