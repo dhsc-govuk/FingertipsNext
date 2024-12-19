@@ -6,7 +6,7 @@ services:
 
     build: frontend/fingertips-frontend
     environment:
-      FINGERTIPS_API_URL: "http://api:8080/WeatherForecast"
+      FINGERTIPS_API_URL: "http://api:8080"
     ports:
       - 3000:3000
 
