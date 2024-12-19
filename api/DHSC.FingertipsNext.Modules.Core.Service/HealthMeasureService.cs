@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DHSC.FingertipsNext.Modules.Core.Repository;
-using DHSC.FingertipsNext.Modules.Repository;
+﻿using DHSC.FingertipsNext.Modules.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
     public sealed class HealthMeasureService : IHealthMeasureService
     {
-        private readonly RepositoryDbContext dbContext;
+        private readonly RepositoryDbContext _dbContext;
 
         public HealthMeasureService(RepositoryDbContext repositoryDbContext)
         {
-            this.dbContext = repositoryDbContext ?? throw new ArgumentNullException(nameof(repositoryDbContext));
+            _dbContext = repositoryDbContext ?? throw new ArgumentNullException(nameof(repositoryDbContext));
         }
 
-        public async Task<HealthMeasure> GetFirstHealthMeasure()
+        public  HealthMeasure GetFirstHealthMeasure()
         {
-            var healthMeasures = await dbContext.HealthMeasures.ToListAsync();
-            return healthMeasures.First();
+            var query = (from hm in _dbContext.HealthMeasure
+                orderby hm.HealthMeasureKey
+                select hm).First();
+
+            return query;
         }
     }
 }

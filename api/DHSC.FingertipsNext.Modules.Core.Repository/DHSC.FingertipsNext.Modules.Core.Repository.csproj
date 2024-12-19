@@ -10,4 +10,10 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search.ModuleInterfaces\DHSC.FingertipsNext.Modules.Search.ModuleInterfaces.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
+    </ItemGroup>
+
 </Project>

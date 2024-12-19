@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DHSC.FingertipsNext.Modules.Repository.Dimensions.Models
+namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
 {
     [Serializable]
-    public sealed class SexDimension
+    public class SexDimension
     {
+        [Key]
+        public required int SexKey { get; set; }
+        [MaxLength(50)]
         public required string Name { get; set; }
         public required bool IsFemale { get; set; }
         public required bool HasValue { get; set; }
-        public required byte  SexID { get; set; }
+        public required byte SexId { get; set; }
     }
 }

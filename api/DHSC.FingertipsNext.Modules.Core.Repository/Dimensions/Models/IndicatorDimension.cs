@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DHSC.FingertipsNext.Modules.Repository.Dimensions.Models
+namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
 {
     [Serializable]
-    public sealed class IndicatorDimension
+    public class IndicatorDimension
     {
+        [Key]
+        public required int IndicatorKey { get; set; }
+        [MaxLength(255)]
         public required string Name { get; set; }
-        public required int IndicatorID { get; set; }
+        public required int IndicatorId { get; set; }
         public required DateTime StartDate {  get; set; }
         public required DateTime EndDate { get; set; }
     }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace DHSC.FingertipsNext.Modules.Repository.Dimensions.Models
+namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
 {
     [Serializable]
-    public sealed class AgeDimension
+    public class AgeDimension
     {
+        [Key]
+        public required short AgeKey {  get; set; }
+        [MaxLength(50)]
         public required string Name {  get; set; }
         public required short AgeID {  get; set; }
     }

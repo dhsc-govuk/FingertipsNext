@@ -1,23 +1,21 @@
-﻿using DHSC.FingertipsNext.Modules.Repository.Dimensions.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace DHSC.FingertipsNext.Modules.Repository
+namespace DHSC.FingertipsNext.Modules.Core.Repository
 {
     [Serializable]
-    public sealed class HealthMeasure
+    public class HealthMeasure
     {
-        public required AreaDimension AreaDimension { get; set; }
-        public required IndicatorDimension IndicatorDimension { get; set; }
-        public required SexDimension SexDimension { get; set; }
-        public required AgeDimension AgeDimension { get; set; }
-        public required float Count { get; set; }
-        public required float Value { get; set; }
-        public required float LowerCI { get; set; }
-        public required float UpperCI { get; set; }
+        [Key]
+        public required int HealthMeasureKey { get; set; }
+        public required int AreaKey { get; set; }
+        public required short IndicatorKey  { get; set; }
+        public required byte SexKey { get; set; }
+        public required short AgeKey { get; set; }
+        public required double Count { get; set; }
+        public required double Value { get; set; }
+        public required double LowerCI { get; set; }
+        public required double UpperCI { get; set; }
         public required short Year { get; set; }
     }
 }
