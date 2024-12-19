@@ -17,5 +17,6 @@ public class Module : AbstractMonolithModule, IMonolithModule
         services.AddTransient<ICoreController, CoreController>();
         services.AddTransient<ICoreService, CoreService>();
         services.AddTransient<ISearchClient, SearchClient>();
+        services.AddTransient<IHealthMeasureService, HealthMeasureService>();
     }
 }

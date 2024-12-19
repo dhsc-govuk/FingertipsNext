@@ -2,7 +2,10 @@ namespace DHSC.FingertipsNext.Api;
 
 using Asp.Versioning;
 using DHSC.FingertipsNext.Monolith;
+using DHSC.FingertipsNext.Modules.Core.Repository;
 using Scalar.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 public static class Program
 {
@@ -30,6 +33,7 @@ public static class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
+        RegisterDbContext(builder.Services, builder.Configuration);
         RegisterModules(builder.Services, builder.Configuration);
 
         var app = builder.Build();
@@ -70,5 +74,36 @@ public static class Program
             module?.RegisterModule(services);
             module?.RegisterConfiguration(configuration);
         });
+    }
+
+    private static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        // why don't we just store the connection string as the env variable instead of the bits?
+
+        const string DbNameEnvironmentVariable = "DB_NAME";
+        const string DbUserEnvironmentVariable = "DB_USER";
+        const string DbPasswordEnvironmentVariable = "DB_PASSWORD";
+
+        var dbName = configuration.GetValue<string>(DbNameEnvironmentVariable);
+        if (string.IsNullOrWhiteSpace(dbName))
+        {
+            throw new InvalidOperationException($"Environment variable {DbNameEnvironmentVariable} must be set");
+        }
+
+        var dbUser = configuration.GetValue<string>(DbUserEnvironmentVariable);
+        if (string.IsNullOrWhiteSpace(dbUser))
+        {
+            throw new InvalidOperationException($"Environment variable {DbUserEnvironmentVariable} must be set");
+        }
+
+        var dbPassword = configuration.GetValue<string>(DbPasswordEnvironmentVariable);
+        if (string.IsNullOrWhiteSpace(dbPassword))
+        {
+            throw new InvalidOperationException($"Environment variable {DbPasswordEnvironmentVariable} must be set");
+        }
+
+        var connectionString = $"Server=localhost;Database={dbName};User Id={dbUser};Password={dbPassword};";
+
+        services.AddDbContext<RepositoryDbContext>(options => options.UseSqlServer(connectionString));
     }
 }
