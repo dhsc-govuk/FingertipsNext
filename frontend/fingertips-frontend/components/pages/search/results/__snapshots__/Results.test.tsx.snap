@@ -17,6 +17,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-top: 15px;
   margin-bottom: 15px;
   padding-left: 14px;
+  -webkit-text-decoration: none;
   text-decoration: none;
 }
 
@@ -38,13 +39,14 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-bottom: 1px solid #0b0c0c;
 }
 
-.c0 ::before {
+.c0::before {
   display: block;
   width: 0;
   height: 0;
   border-style: solid;
   border-color: transparent;
-  clip-path: polygon(0% 50%, 100% 100%, 100% 0%);
+  -webkit-clip-path: polygon(0% 50%,100% 100%,100% 0%);
+  clip-path: polygon(0% 50%,100% 100%,100% 0%);
   border-width: 5px 6px 5px 0;
   border-right-color: inherit;
   content: '';
@@ -62,7 +64,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 16px;
     line-height: 1.25;
@@ -89,7 +91,11 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -97,7 +103,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -105,7 +111,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -113,15 +119,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -133,31 +131,11 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -165,23 +143,59 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media print {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media print {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -209,7 +223,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -225,7 +239,11 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -233,7 +251,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -241,7 +259,15 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -258,14 +284,14 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 48px;
     line-height: 1.0416666666666667;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 50px;
   }
@@ -279,31 +305,11 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -311,23 +317,43 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -347,11 +373,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c0 >p {
+.c0 > p {
   margin: 0;
 }
 
-.c0 >p>code {
+.c0 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -359,7 +385,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c0 >pre {
+.c0 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -368,7 +394,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c0 >pre>code {
+.c0 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -382,7 +408,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -398,7 +424,11 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -406,7 +436,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -414,7 +444,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -422,15 +452,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width: 641px) {
-
-}
-
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -442,11 +464,27 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -457,24 +495,24 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 20px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -482,23 +520,23 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -513,7 +551,85 @@ exports[`Search Results Suite snapshot test 1`] = `
       "
     </p>
   </div>
-  .c3 {
+  .c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  position: relative;
+  min-height: 40px;
+  padding: 0 0 0 40px;
+  clear: left;
+  margin-bottom: 10px;
+}
+
+.c9 {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.c9:checked + span:after {
+  opacity: 1;
+}
+
+.c9:focus + span:before {
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #ffdd00;
+}
+
+.c9 + span {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.c10 {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 15px 5px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.c10::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  background: transparent;
+}
+
+.c10::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 18px;
+  height: 7px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border: solid;
+  border-width: 0 0 5px 5px;
+  border-top-color: transparent;
+  background: transparent;
+  opacity: 0;
+}
+
+.c3 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -541,11 +657,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-top: 10px;
 }
 
-.c1 >.c2 {
+.c1 > .c2 {
   margin-bottom: 5px;
 }
 
-.c8 {
+.c11 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -558,7 +674,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 {
+.c12 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -569,11 +685,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 >p {
+.c12 > p {
   margin: 0;
 }
 
-.c9 >p>code {
+.c12 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -581,7 +697,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c9 >pre {
+.c12 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -590,7 +706,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c9 >pre>code {
+.c12 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -607,7 +723,12 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 .c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   margin: 0 -15px;
 }
@@ -618,7 +739,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c10 {
+.c13 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -638,7 +759,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -648,6 +769,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 @media print {
 
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    margin-bottom: 10px;
+  }
 }
 
 @media print {
@@ -657,7 +798,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c3 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -671,7 +812,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c1 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -684,7 +825,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 20px;
   }
@@ -698,106 +839,113 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
 @media print {
-  .c8 {
+  .c11 {
     color: #000;
   }
 }
 
 @media print {
-  .c8 {
+  .c11 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .c8 {
+@media only screen and (min-width:641px) {
+  .c11 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .c8 {
+@media only screen and (min-width:641px) {
+  .c11 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c9 {
+  .c12 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .c9 {
+@media only screen and (min-width:641px) {
+  .c12 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .c9 {
+@media only screen and (min-width:641px) {
+  .c12 {
     margin-bottom: 20px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c7 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
     flex-shrink: 1;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c5 {
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
     flex-direction: row;
   }
 }
 
 @media print {
-  .c10 {
+  .c13 {
     font-size: 14px;
     line-height: 0.5;
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .c10 {
+@media only screen and (min-width:641px) {
+  .c13 {
     font-size: 19px;
     line-height: 0.5;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c6 {
     padding-top: 15px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c6 {
     padding-bottom: 0;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c6 {
     padding-left: 40px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c6 {
     padding-right: 40px;
   }
@@ -823,32 +971,44 @@ exports[`Search Results Suite snapshot test 1`] = `
         <div
           class="c7"
         >
-          <h5
+          <label
             class="c8"
           >
-            NHS
-          </h5>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Latest data period: 2023
-            </p>
-          </div>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Data source: NHS website
-            </p>
-          </div>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Last updated: 06 December 2024
-            </p>
-          </div>
+            <input
+              class="c9"
+              type="checkbox"
+            />
+            <span
+              class="c10"
+            >
+              <h5
+                class="c11"
+              >
+                NHS
+              </h5>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Latest data period: 2023
+                </p>
+              </div>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Data source: NHS website
+                </p>
+              </div>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Last updated: 06 December 2024
+                </p>
+              </div>
+            </span>
+          </label>
         </div>
       </div>
       <hr
@@ -865,32 +1025,44 @@ exports[`Search Results Suite snapshot test 1`] = `
         <div
           class="c7"
         >
-          <h5
+          <label
             class="c8"
           >
-            DHSC
-          </h5>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Latest data period: 2022
-            </p>
-          </div>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Data source: Student article
-            </p>
-          </div>
-          <div
-            class="c9 c10"
-          >
-            <p>
-              Last updated: 05 November 2023
-            </p>
-          </div>
+            <input
+              class="c9"
+              type="checkbox"
+            />
+            <span
+              class="c10"
+            >
+              <h5
+                class="c11"
+              >
+                DHSC
+              </h5>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Latest data period: 2022
+                </p>
+              </div>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Data source: Student article
+                </p>
+              </div>
+              <div
+                class="c12 c13"
+              >
+                <p>
+                  Last updated: 05 November 2023
+                </p>
+              </div>
+            </span>
+          </label>
         </div>
       </div>
       <hr

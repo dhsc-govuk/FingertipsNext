@@ -5,6 +5,7 @@ import {
   SectionBreak,
   GridRow,
   GridCol,
+  Checkbox,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
@@ -35,13 +36,15 @@ export function SearchResult({ result }: Readonly<SearchResultProps>) {
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <H5>{result.indicatorName}</H5>
-          <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-          <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-          <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          <Checkbox>
+            <H5>{result.indicatorName}</H5>
+            <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
+            <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          </Checkbox>
         </GridCol>
       </StyledRow>
-      <SectionBreak visible="true" />
+      <SectionBreak visible={true} />
     </ListItem>
   );
 }

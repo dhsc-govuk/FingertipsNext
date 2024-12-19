@@ -34,7 +34,7 @@ export function SearchResults({
           {searchResults.length ? (
             <UnorderedList listStyleType="none">
               <ListItem>
-                <SectionBreak visible="true" />
+                <SectionBreak visible={true} />
               </ListItem>
               {searchResults.map((result) => (
                 <SearchResult key={result.id} result={result} />
