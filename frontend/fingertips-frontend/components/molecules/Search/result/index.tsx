@@ -5,6 +5,7 @@ import {
   SectionBreak,
   GridRow,
   GridCol,
+  Checkbox,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
@@ -13,6 +14,7 @@ import styled from 'styled-components';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;
+  indicatorSelected?: boolean;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -30,18 +32,27 @@ const StyledRow = styled(GridRow)(
   })
 );
 
-export function SearchResult({ result }: Readonly<SearchResultProps>) {
+export function SearchResult({
+  result,
+  indicatorSelected,
+}: Readonly<SearchResultProps>) {
   return (
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <H5>{result.indicatorName}</H5>
-          <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-          <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-          <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          <Checkbox
+            name="indicator"
+            value={result.id}
+            defaultChecked={indicatorSelected}
+          >
+            <H5>{result.indicatorName}</H5>
+            <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
+            <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          </Checkbox>
         </GridCol>
       </StyledRow>
-      <SectionBreak visible="true" />
+      <SectionBreak visible={true} />
     </ListItem>
   );
 }
