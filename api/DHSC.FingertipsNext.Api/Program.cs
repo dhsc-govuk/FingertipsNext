@@ -56,7 +56,8 @@ public static class Program
                     .WithTitle("Fingertips Next API")
                     .WithDownloadButton(true)
                     .WithTheme(ScalarTheme.Purple)
-                    .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Axios);
+                    .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Axios)
+                    .WithModels(true);
             });
         }
 
