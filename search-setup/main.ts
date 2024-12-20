@@ -27,7 +27,7 @@ async function main(): Promise<void> {
 
   const searchClient = indexClient.getSearchClient<Data>(indexName);
 
-  await populateIndex(searchClient, sampleData, indexName);
+  await populateIndex(searchClient, sampleData);
 }
 
 main().catch((err: Error) => {
