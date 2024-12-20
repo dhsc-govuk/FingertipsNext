@@ -1,5 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.Core.Repository;
-using DHSC.FingertipsNext.Modules.Core.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.Core.Schema;
 
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
