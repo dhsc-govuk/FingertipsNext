@@ -15,6 +15,12 @@ using System.Diagnostics.CodeAnalysis;
 public class Module : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "core";
+    private static ILogger<Module> _logger;
+
+    public Module(ILogger<Module> logger)
+    {
+        _logger = logger;
+    }
 
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
@@ -25,6 +31,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IHealthMeasureService, HealthMeasureService>();
         _RegisterDbContext(services, configuration);
     }
+
     private static void _RegisterDbContext(IServiceCollection services, IConfiguration configuration)
     {
         const string dbServerEnvironmentVariable = "DB_SERVER";
@@ -36,19 +43,20 @@ public class Module : AbstractMonolithModule, IMonolithModule
         var dbName = configuration.GetValue<string>(dbNameEnvironmentVariable);
         var dbUser = configuration.GetValue<string>(dbUserEnvironmentVariable);
         var dbPassword = configuration.GetValue<string>(dbPasswordEnvironmentVariable);
-        
-        if (string.IsNullOrWhiteSpace(dbServer) || string.IsNullOrWhiteSpace(dbName) || string.IsNullOrWhiteSpace(dbUser) || string.IsNullOrWhiteSpace(dbPassword))
+
+        if (string.IsNullOrWhiteSpace(dbServer) || string.IsNullOrWhiteSpace(dbName) ||
+            string.IsNullOrWhiteSpace(dbUser) || string.IsNullOrWhiteSpace(dbPassword))
         {
-            throw new ArgumentException("Invalid environment variables provided. Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
+            throw new ArgumentException(
+                "Invalid environment variables provided. Check DB_SERVER, DB_NAME, DB_USER & DB_PASSWORD have been set appropriately");
         }
 
         var trustServerCertificate = false;
         trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
-        
+
         if (trustServerCertificate)
         {
-            // TODO - replace with a real logger
-            Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
+            _logger.LogTrustCert();
         }
 
         var builder = new SqlConnectionStringBuilder
