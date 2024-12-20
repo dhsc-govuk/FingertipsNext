@@ -1265,6 +1265,7 @@ exports[`Search Results Suite snapshot test 1`] = `
     </ul>
     <button
       class="c14"
+      data-testid="search-results-button-submit"
       type="submit"
     >
       View charts
