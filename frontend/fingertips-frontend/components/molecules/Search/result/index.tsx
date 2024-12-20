@@ -58,6 +58,7 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
+            data-testid={`search-results-indicator-${result.id}`}
             name="indicator"
             value={result.id}
             defaultChecked={indicatorSelected}
