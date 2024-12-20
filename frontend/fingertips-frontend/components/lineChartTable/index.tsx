@@ -1,20 +1,22 @@
+'use client';
+
 import { Table } from 'govuk-react';
 import { WeatherForecast } from '@/generated-sources/api-client';
 
-interface tableProps {
+interface TableProps {
   data: WeatherForecast[];
+  headings: string[];
 }
 
-export function PlainTable({ data }: Readonly<tableProps>) {
+export function LineChartTable({ data, headings }: Readonly<TableProps>) {
   return (
-    <div data-testid="plainTable-component">
+    <div data-testid="lineChartTable-component">
       <Table
         head={
           <Table.Row>
-            <Table.CellHeader date>Date</Table.CellHeader>
-            <Table.CellHeader numeric>Temperature C</Table.CellHeader>
-            <Table.CellHeader numeric>Temperature F</Table.CellHeader>
-            <Table.CellHeader>Summary</Table.CellHeader>
+            {headings?.map((heading, index) => (
+              <Table.CellHeader key={index}>{heading}</Table.CellHeader>
+            ))}
           </Table.Row>
         }
       >

@@ -18,20 +18,20 @@ const mockData: WeatherForecast[] = [
   },
 ];
 
-test('should render the Highcharts react component', () => {
+test('should render the LineChart component', () => {
   render(<Chart data={mockData} />);
-  const highcharts = screen.getByTestId('highcharts-react-component');
-  expect(highcharts).toBeInTheDocument();
+  const lineChart = screen.getByTestId('lineChart-component');
+  expect(lineChart).toBeInTheDocument();
 });
 
-test('should render the LineChart component with the correct props', () => {
+test('should render the LineChart component title', () => {
   render(<Chart data={mockData} />);
 
   const lineChartTitle = screen.getByText('Line Chart');
   expect(lineChartTitle).toBeInTheDocument();
 });
 
-test('should render the PlainTable component', () => {
+test('should render the LineChartTable component', () => {
   render(<Chart data={mockData} />);
 
   const table = screen.getByRole('table');

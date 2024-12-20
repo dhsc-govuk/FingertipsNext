@@ -3,27 +3,26 @@
 import { LineChart } from '@/components/linechartsOptions';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { H1 } from 'govuk-react';
-import { PlainTable } from '@/components/table';
+import { LineChartTable } from '@/components/lineChartTable';
 
 type ChartProps = {
   data: WeatherForecast[];
 };
 
+const headings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
+
 export function Chart({ data }: Readonly<ChartProps>) {
   return (
     <>
       <H1>Line Chart</H1>
-      <div>
-        <LineChart
-          data={data}
-          title="Weather Forecast"
-          xAxisTitle="Date"
-          yAxisTitle="Temperature (°C)"
-        />
-      </div>
-      <div>
-        <PlainTable data={data}></PlainTable>
-      </div>
+      <LineChart
+        data={data}
+        title="Weather Forecast"
+        xAxisTitle="Date"
+        yAxisTitle="Temperature (°C)"
+        accessibilityLabel="A line chart showing weather forecast"
+      />
+      <LineChartTable data={data} headings={headings}></LineChartTable>
     </>
   );
 }

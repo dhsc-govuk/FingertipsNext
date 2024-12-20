@@ -7,13 +7,15 @@ interface LineChartProps {
   title?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
+  accessibilityLabel?: string;
 }
 
 export function LineChart({
   data,
-  title = 'Weather Forecast',
-  xAxisTitle = 'Date',
-  yAxisTitle = 'Temperature (°C)',
+  title,
+  xAxisTitle,
+  yAxisTitle,
+  accessibilityLabel,
 }: Readonly<LineChartProps>) {
   const categories = data.map(
     (item) => item.date?.toLocaleDateString('en-GB') ?? ''
@@ -38,8 +40,8 @@ export function LineChart({
       },
     ],
     accessibility: {
-      enabled: true,
-      description: 'A line chart showing temperature data over time.',
+      enabled: false,
+      description: accessibilityLabel,
     },
   };
 

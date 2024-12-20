@@ -1,14 +1,6 @@
-import {
-  Configuration,
-  WeatherForecast,
-  WeatherForecastApi,
-} from '@/generated-sources/api-client';
-import { connection } from 'next/server';
+import { Configuration } from '@/generated-sources/api-client';
 
-export async function fetchData(): Promise<WeatherForecast[]> {
-  // We don't want to render this page statically
-  await connection();
-
+export function getApiConfiguration(): Configuration {
   const apiUrl = process.env.FINGERTIPS_API_URL;
 
   if (!apiUrl) {
@@ -21,6 +13,5 @@ export async function fetchData(): Promise<WeatherForecast[]> {
     basePath: apiUrl,
   });
 
-  const forecastApi = new WeatherForecastApi(config);
-  return await forecastApi.getWeatherForecast();
+  return config;
 }

@@ -1,12 +1,15 @@
 import { Chart } from '@/components/pages/chart';
-import { fetchData } from '@/lib/fetchData';
+import { getApiConfiguration } from '@/lib/fetchData';
+import { connection } from 'next/server';
+import { WeatherForecastApi } from '@/generated-sources/api-client';
 
 export default async function ChartPage() {
-  const data = await fetchData();
+  // We don't want to render this page statically
+  await connection();
 
-  if (!data) {
-    return <div>Failed to load data.</div>;
-  }
+  const config = getApiConfiguration();
+  const forecastApi = new WeatherForecastApi(config);
+  const data = await forecastApi.getWeatherForecast();
 
   return <Chart data={data} />;
 }
