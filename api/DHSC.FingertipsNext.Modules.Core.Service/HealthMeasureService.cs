@@ -1,9 +1,9 @@
 ﻿using DHSC.FingertipsNext.Modules.Core.Repository;
-using DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models;
+using DHSC.FingertipsNext.Modules.Core.Repository.Models;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
-    public sealed class HealthMeasureService : IHealthMeasureService
+    public class HealthMeasureService : IHealthMeasureService
     {
         private readonly RepositoryDbContext _dbContext;
 
@@ -19,7 +19,8 @@ namespace DHSC.FingertipsNext.Modules.Core.Service
                 select healthMeasure;
 
             
-            // TODO JH - add a separate schema for a populated health measure with the dimensions below  
+            // TODO JH - add a separate schema for a populated health measure with the dimensions below
+            // this might duplicate work done in FTN-73
             return query.FirstOrDefault();
         }
 

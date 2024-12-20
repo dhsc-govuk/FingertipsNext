@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
+namespace DHSC.FingertipsNext.Modules.Core.Repository.Models
 {
     [Serializable]
     public class AgeDimension

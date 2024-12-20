@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models
+namespace DHSC.FingertipsNext.Modules.Core.Repository.Models
 {
     [Serializable]
     public class AreaDimension

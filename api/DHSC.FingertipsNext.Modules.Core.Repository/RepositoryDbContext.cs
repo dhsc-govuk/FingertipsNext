@@ -1,4 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.Core.Repository.Dimensions.Models;
+﻿using DHSC.FingertipsNext.Modules.Core.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Core.Repository
