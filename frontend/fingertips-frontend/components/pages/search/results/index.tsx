@@ -69,7 +69,9 @@ export function SearchResults({
               <Paragraph>No results found</Paragraph>
             )}
 
-            <Button type="submit">View charts</Button>
+            <Button type="submit" data-testid="search-results-button-submit">
+              View charts
+            </Button>
           </form>
         </>
       ) : (
