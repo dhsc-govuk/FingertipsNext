@@ -1,31 +1,4 @@
-export interface IndexFields {
-  name: string;
-  key: boolean;
-  complex: boolean;
-  fields?: string[];
-}
-
-export interface Data {
-  IID: string;
-  Descriptive: {
-    Name: string;
-    Definition: string;
-  };
-}
-
-export const fields: IndexFields[] = [
-  {
-    name: "IID",
-    key: true,
-    complex: false,
-  },
-  {
-    name: "Descriptive",
-    key: false,
-    complex: true,
-    fields: ["Name", "Definition"],
-  },
-];
+import { Data } from "./types";
 
 export const sampleData: Data[] = [
   {
