@@ -1,6 +1,6 @@
 import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
 import { createSearchIndex, populateIndex } from "./indexOperations.js";
-import { Data } from "./types.js";
+import { IndicatorSearchData } from "./types.js";
 import { sampleData } from "./sample-data.js";
 
 function getEnvironmentVariable(variableName: string): string {
@@ -25,7 +25,8 @@ async function main(): Promise<void> {
 
   await createSearchIndex(indexClient, indexName);
 
-  const searchClient = indexClient.getSearchClient<Data>(indexName);
+  const searchClient =
+    indexClient.getSearchClient<IndicatorSearchData>(indexName);
 
   await populateIndex(searchClient, sampleData);
 }
