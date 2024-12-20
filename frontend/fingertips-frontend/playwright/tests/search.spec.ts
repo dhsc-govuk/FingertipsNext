@@ -48,3 +48,26 @@ test('Should return to search page upon results page back link click', async ({
   // Assert
   await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
 });
+
+test('Should navigate to chart page', async ({
+  searchPage,
+  resultsPage,
+  chartPage,
+}) => {
+  await searchPage.navigateToSearch();
+  await searchPage.checkURLIsCorrect();
+
+  await searchPage.typeIndicator(indicator);
+  await searchPage.clickSearchButton();
+
+  await resultsPage.checkURLIsCorrect(indicator);
+  await resultsPage.checkSearchResults(indicator);
+  await resultsPage.clickIndicatorCheckbox('1');
+  await resultsPage.clickIndicatorCheckbox('2');
+  await resultsPage.clickViewChartsButton();
+
+  // Assert
+  await chartPage.checkURLIsCorrect(
+    `?indicatorsSelected=${encodeURIComponent('1,2')}`
+  );
+});
