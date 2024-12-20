@@ -21,6 +21,7 @@ export function Chart({
   return (
     <>
       <BackLink
+        data-testid="chart-page-back-link"
         href={`/search/results?indicator=${indicator}&indicatorsSelected=${encodeURIComponent(indicatorsSelected?.join(','))}`}
       />
       <H1>Line Chart</H1>

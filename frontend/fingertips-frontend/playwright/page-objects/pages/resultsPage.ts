@@ -29,6 +29,12 @@ export default class ResultsPage extends BasePage {
       .click();
   }
 
+  async checkIndicatorCheckboxChecked(indicatorId: string) {
+    await this.page
+      .getByTestId(`${this.indicatorCheckboxPrefix}-${indicatorId}`)
+      .isChecked();
+  }
+
   async clickViewChartsButton() {
     await this.page.getByTestId(this.viewChartsButton).click();
   }

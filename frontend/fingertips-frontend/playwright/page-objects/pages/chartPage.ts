@@ -2,6 +2,7 @@ import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class ChartPage extends BasePage {
+  readonly backLink = 'chart-page-back-link';
   readonly lineChartComponent = 'lineChart-component';
   readonly lineChartTableComponent = 'lineChartTable-component';
 
@@ -11,6 +12,10 @@ export default class ChartPage extends BasePage {
 
   async checkURLIsCorrect(queryParams = '') {
     await this.checkURL(`chart${queryParams}`);
+  }
+
+  async clickBackLink() {
+    await this.page.getByTestId(this.backLink).click();
   }
 
   async checkChart() {
