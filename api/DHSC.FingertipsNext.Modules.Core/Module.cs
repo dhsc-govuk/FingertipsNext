@@ -15,12 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 public class Module : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "core";
-    private static ILogger<Module> _logger;
-
-    public Module(ILogger<Module> logger)
-    {
-        _logger = logger;
-    }
 
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
@@ -56,7 +50,8 @@ public class Module : AbstractMonolithModule, IMonolithModule
 
         if (trustServerCertificate)
         {
-            _logger.LogTrustCert();
+            // TODO - work out logging
+           // _logger.LogTrustCert();
         }
 
         var builder = new SqlConnectionStringBuilder
