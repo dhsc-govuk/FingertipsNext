@@ -22,22 +22,18 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/indicators`, async () => {
-    const resultArray = [
-      [getFilterIndicators200Response(), { status: 200 }]
-    ];
+    const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/indicators/:indicatorId`, async () => {
-    const resultArray = [
-      [getGetIndicator200Response(), { status: 200 }]
-    ];
+    const resultArray = [[getGetIndicator200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/indicators/:indicatorId/data`, async () => {
     const resultArray = [
-      [getGetHealthDataForAnIndicator200Response(), { status: 200 }]
+      [getGetHealthDataForAnIndicator200Response(), { status: 200 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
