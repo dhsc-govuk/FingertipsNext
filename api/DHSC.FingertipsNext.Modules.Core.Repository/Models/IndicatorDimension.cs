@@ -6,7 +6,7 @@ namespace DHSC.FingertipsNext.Modules.Core.Repository.Models
     public class IndicatorDimension
     {
         [Key]
-        public required int IndicatorKey { get; set; }
+        public required short IndicatorKey { get; set; }
         [MaxLength(255)]
         public required string Name { get; set; }
         public required int IndicatorId { get; set; }
