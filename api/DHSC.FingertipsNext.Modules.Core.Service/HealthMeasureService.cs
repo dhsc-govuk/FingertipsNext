@@ -4,6 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
+    
+    // TODO JH - maybe the linq over the dbsets should live in the Repository module so we can test the logic here (e.g. missing dimensions)
+    // or elsewhere without needing to worry about structuring our data properly.
+    
     public class HealthMeasureService : IHealthMeasureService
     {
         private readonly ILogger _logger;
