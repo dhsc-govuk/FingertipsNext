@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { LineChart } from '@/components/organisms/linechartsOptions/index';
+import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { registryWrapper } from '@/lib/testutils';

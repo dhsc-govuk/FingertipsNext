@@ -1,9 +1,9 @@
 'use client';
 
-import { LineChart } from '@/components/organisms/linechartsOptions';
+import { LineChart } from '@/components/organisms/LineChart';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { H1 } from 'govuk-react';
-import { LineChartTable } from '@/components/organisms/lineChartTable';
+import { LineChartTable } from '@/components/organisms/LineChartTable';
 
 type ChartProps = {
   data: WeatherForecast[];
