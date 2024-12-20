@@ -30,9 +30,7 @@ export const handlers = [
   }),
   http.get(`${baseURL}/indicators/:indicatorId`, async () => {
     const resultArray = [
-      [getGetIndicator200Response(), { status: 200 }],
-      [getGetIndicator404Response(), { status: 404 }],
-      [getGetIndicator500Response(), { status: 500 }],
+      [getGetIndicator200Response(), { status: 200 }]
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
