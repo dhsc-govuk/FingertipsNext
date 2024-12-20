@@ -3,6 +3,22 @@ import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { registryWrapper } from '@/lib/testutils';
+import { userEvent } from '@testing-library/user-event';
+
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: jest.fn(),
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
 
 describe('Search Result Suite', () => {
   it('should have search result list item', () => {
@@ -51,6 +67,18 @@ describe('Search Result Suite', () => {
     );
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
+  });
+
+  it('should update the path when an indicator is checked', async () => {
+    const user = userEvent.setup();
+
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+
+    await user.click(screen.getByRole('checkbox'));
+
+    expect(mockReplace).toBeCalledWith(`${mockPath}?indicatorsSelected=1`, {
+      scroll: false,
+    });
   });
 
   it('snapshot test', () => {

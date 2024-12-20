@@ -18,7 +18,7 @@ describe('Search Results Actions', () => {
       await viewCharts(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
-        '/chart?indicatorsSelected=1,2',
+        `/chart?indicatorsSelected=${encodeURIComponent('1,2')}`,
         RedirectType.push
       );
     });

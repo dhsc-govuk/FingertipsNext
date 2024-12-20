@@ -22,11 +22,11 @@ type SearchResultsProps = {
 };
 
 const isIndicatorSelected = (
-  state: SomeState,
-  result: IndicatorSearchResult
+  indicatorId: string,
+  state?: SomeState
 ): boolean => {
-  return state.indicators
-    ? state.indicators?.some((ind) => ind === result.id.toString())
+  return state?.indicators
+    ? state.indicators?.some((ind) => ind === indicatorId)
     : false;
 };
 
@@ -58,7 +58,10 @@ export function SearchResults({
                   <SearchResult
                     key={result.id}
                     result={result}
-                    indicatorSelected={isIndicatorSelected(state, result)}
+                    indicatorSelected={isIndicatorSelected(
+                      result.id.toString(),
+                      state
+                    )}
                   />
                 ))}
               </UnorderedList>

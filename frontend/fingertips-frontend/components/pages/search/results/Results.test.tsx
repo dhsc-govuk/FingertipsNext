@@ -1,8 +1,27 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { SearchResults } from '.';
 import { registryWrapper } from '@/lib/testutils';
+import { userEvent } from '@testing-library/user-event';
+import { viewCharts } from './searchResultsActions';
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: jest.fn(),
+    useSearchParams: jest.fn(),
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: jest.fn(),
+    })),
+  };
+});
+
+jest.mock('./searchResultsActions', () => ({
+  viewCharts: jest.fn(),
+}));
 
 describe('Search Results Suite', () => {
   const indicator = 'test';
@@ -59,17 +78,49 @@ describe('Search Results Suite', () => {
 
   it('should mark indicators selected as checked', () => {
     render(
-      registryWrapper(
-        <SearchResults
-          indicator={indicator}
-          searchResults={MOCK_DATA}
-          indicatorsSelected={['1']}
-        />
-      )
+      <SearchResults
+        indicator={indicator}
+        searchResults={MOCK_DATA}
+        indicatorsSelected={['1']}
+      />
     );
 
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toBeChecked();
     expect(screen.getByRole('checkbox', { name: /DHSC/i })).not.toBeChecked();
+  });
+
+  it('should provide the correct state and formData to the action', async () => {
+    const user = userEvent.setup();
+    const expectedFormData = new FormData();
+    expectedFormData.append('indicator', '1');
+    expectedFormData.append('indicator', '2');
+
+    render(
+      <SearchResults
+        indicator={indicator}
+        searchResults={MOCK_DATA}
+        indicatorsSelected={['1']}
+      />
+    );
+
+    expect(screen.getByRole('checkbox', { name: /DHSC/i })).not.toBeChecked();
+
+    await user.click(screen.getByRole('checkbox', { name: /DHSC/i }));
+    await waitFor(() => {
+      expect(screen.getByRole('checkbox', { name: /DHSC/i })).toBeChecked();
+    });
+
+    const viewChartsButton = screen.getByRole('button', {
+      name: /View charts/i,
+    });
+
+    await user.click(viewChartsButton);
+    await waitFor(() => {
+      expect(viewCharts).toHaveBeenCalledWith(
+        { indicators: ['1'] },
+        expectedFormData
+      );
+    });
   });
 
   it('snapshot test', () => {

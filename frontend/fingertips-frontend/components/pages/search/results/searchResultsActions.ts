@@ -13,7 +13,7 @@ export async function viewCharts(
   const indicatorsSelected = formData.getAll('indicator')?.toString();
 
   redirect(
-    `/chart?indicatorsSelected=${indicatorsSelected}`,
+    `/chart?indicatorsSelected=${encodeURIComponent(indicatorsSelected)}`,
     RedirectType.push
   );
 }
