@@ -92,6 +92,7 @@ describe('Search Results Suite', () => {
   it('should provide the correct state and formData to the action', async () => {
     const user = userEvent.setup();
     const expectedFormData = new FormData();
+    expectedFormData.append('searchedIndicator', 'test');
     expectedFormData.append('indicator', '1');
     expectedFormData.append('indicator', '2');
 

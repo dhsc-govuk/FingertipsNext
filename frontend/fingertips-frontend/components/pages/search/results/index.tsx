@@ -13,7 +13,7 @@ import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/Search/result';
 
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
-import { SomeState, viewCharts } from './searchResultsActions';
+import { SearchResultState, viewCharts } from './searchResultsActions';
 
 type SearchResultsProps = {
   indicator: string;
@@ -23,7 +23,7 @@ type SearchResultsProps = {
 
 const isIndicatorSelected = (
   indicatorId: string,
-  state?: SomeState
+  state?: SearchResultState
 ): boolean => {
   return state?.indicators
     ? state.indicators?.some((ind) => ind === indicatorId)
@@ -35,7 +35,7 @@ export function SearchResults({
   indicatorsSelected,
   searchResults,
 }: Readonly<SearchResultsProps>) {
-  const initialState: SomeState = { indicators: indicatorsSelected };
+  const initialState: SearchResultState = { indicators: indicatorsSelected };
   const [state, formAction] = useActionState(viewCharts, initialState);
 
   return (
@@ -49,6 +49,7 @@ export function SearchResults({
           <H1>Search results</H1>
           <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
           <form action={formAction}>
+            <input name="searchedIndicator" defaultValue={indicator} hidden />
             {searchResults.length ? (
               <UnorderedList listStyleType="none">
                 <ListItem>

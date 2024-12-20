@@ -2,18 +2,20 @@
 
 import { redirect, RedirectType } from 'next/navigation';
 
-export type SomeState = {
+export type SearchResultState = {
+  indicator?: string;
   indicators?: string[];
 };
 
 export async function viewCharts(
-  prevState: SomeState,
+  prevState: SearchResultState,
   formData: FormData
-): Promise<SomeState> {
+): Promise<SearchResultState> {
+  const indicator = prevState.indicator ?? formData.get('searchedIndicator');
   const indicatorsSelected = formData.getAll('indicator')?.toString();
 
   redirect(
-    `/chart?indicatorsSelected=${encodeURIComponent(indicatorsSelected)}`,
+    `/chart?indicator=${indicator}&indicatorsSelected=${encodeURIComponent(indicatorsSelected)}`,
     RedirectType.push
   );
 }
