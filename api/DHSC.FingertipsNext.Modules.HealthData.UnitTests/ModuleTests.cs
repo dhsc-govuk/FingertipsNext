@@ -9,6 +9,6 @@ public class ModuleTests
     [Fact]
     public void ModuleName_IsNamed_Indicators()
     {
-        _module.ModuleName.Should().Be("indicators");
+        _module.ModuleName.Should().Be("healthdata");
     }
 }
