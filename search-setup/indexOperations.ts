@@ -18,11 +18,10 @@ export async function createSearchIndex(
 
 export async function populateIndex(
   searchClient: SearchClient<Data>,
-  indexData: Data[],
-  indexName: string
+  indexData: Data[]
 ): Promise<void> {
   await searchClient.mergeOrUploadDocuments(indexData);
-  console.log(`Uploaded data to index with name: ${indexName}`);
+  console.log(`Uploaded data to index with name: ${searchClient.indexName}`);
 }
 
 function buildSearchIndex(name: string): SearchIndex {
