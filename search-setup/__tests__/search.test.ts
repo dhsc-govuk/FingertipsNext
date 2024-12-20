@@ -3,7 +3,7 @@ import { DocumentResponse, SearchIndexResponse } from "../types";
 
 config();
 
-const searchEndpoint = process.env["AI_SEARCH_SERVICE_ENDPOINT"] ?? "";
+const searchEndpoint = process.env["AI_SEARCH_SERVICE_ENDPOINT"];
 const indexName = process.env["AI_SEARCH_INDEX_NAME"];
 const apiKey = process.env["AI_SEARCH_API_KEY"] ?? "";
 
@@ -28,11 +28,24 @@ describe("AI search index creation and data loading", () => {
     expect(index.fields.at(0)?.type).toBe("Edm.String");
     expect(index.fields.at(0)?.key).toBe(true);
     expect(index.fields.at(0)?.retrievable).toBe(true);
+    expect(index.fields.at(0)?.searchable).toBe(true);
+    expect(index.fields.at(0)?.sortable).toBe(true);
+    expect(index.fields.at(0)?.filterable).toBe(true);
     expect(index.fields.at(1)?.name).toBe("Descriptive");
     expect(index.fields.at(1)?.type).toBe("Edm.ComplexType");
     expect(index.fields.at(1)?.fields?.length).toBe(2);
     expect(index.fields.at(1)?.fields?.at(0)?.name).toBe("Name");
+    expect(index.fields.at(1)?.fields?.at(0)?.type).toBe("Edm.String");
+    expect(index.fields.at(1)?.fields?.at(0)?.retrievable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(0)?.searchable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(0)?.sortable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(0)?.filterable).toBe(true);
     expect(index.fields.at(1)?.fields?.at(1)?.name).toBe("Definition");
+    expect(index.fields.at(1)?.fields?.at(1)?.type).toBe("Edm.String");
+    expect(index.fields.at(1)?.fields?.at(1)?.retrievable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(1)?.searchable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(1)?.sortable).toBe(true);
+    expect(index.fields.at(1)?.fields?.at(1)?.filterable).toBe(true);
   });
 
   test("should populate index with data", async () => {
