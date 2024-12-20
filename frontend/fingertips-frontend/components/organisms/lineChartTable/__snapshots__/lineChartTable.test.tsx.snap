@@ -9,7 +9,7 @@ exports[`snapshot test - should match snapshot 1`] = `
   font-weight: 700;
 }
 
-.c1 :last-child {
+.c1:last-child {
   padding-right: 0;
 }
 
@@ -19,7 +19,7 @@ exports[`snapshot test - should match snapshot 1`] = `
   text-align: left;
 }
 
-.c2 :last-child {
+.c2:last-child {
   padding-right: 0;
 }
 
@@ -33,7 +33,7 @@ exports[`snapshot test - should match snapshot 1`] = `
   font-weight: 400;
 }
 
-.c3 :last-child {
+.c3:last-child {
   padding-right: 0;
 }
 
@@ -64,7 +64,7 @@ exports[`snapshot test - should match snapshot 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -77,7 +77,7 @@ exports[`snapshot test - should match snapshot 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 30px;
   }

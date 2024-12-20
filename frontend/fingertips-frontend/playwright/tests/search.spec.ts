@@ -48,3 +48,30 @@ test('Should return to search page upon results page back link click', async ({
   // Assert
   await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
 });
+
+test('Should navigate to chart page and clicking back should keep checkboxes and search term selected', async ({
+  searchPage,
+  resultsPage,
+  chartPage,
+}) => {
+  await searchPage.navigateToSearch();
+  await searchPage.checkURLIsCorrect();
+
+  await searchPage.typeIndicator(indicator);
+  await searchPage.clickSearchButton();
+
+  await resultsPage.checkURLIsCorrect(indicator);
+  await resultsPage.checkSearchResults(indicator);
+  await resultsPage.clickIndicatorCheckbox('1');
+  await resultsPage.clickIndicatorCheckbox('2');
+  await resultsPage.clickViewChartsButton();
+
+  await chartPage.checkURLIsCorrect(
+    `?indicator=${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
+  );
+  await chartPage.clickBackLink();
+
+  await resultsPage.checkSearchResults(indicator);
+  await resultsPage.checkIndicatorCheckboxChecked('1');
+  await resultsPage.checkIndicatorCheckboxChecked('2');
+});
