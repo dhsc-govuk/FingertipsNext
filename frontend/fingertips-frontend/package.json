@@ -74,8 +74,6 @@
     "npm": ">=10.9.0"
   },
   "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom",
     "whatwg-url": "^14.0.0"
   }
 }
