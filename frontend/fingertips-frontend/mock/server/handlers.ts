@@ -23,9 +23,7 @@ export const handlers = [
   }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [
-      [getFilterIndicators200Response(), { status: 200 }],
-      [getFilterIndicators400Response(), { status: 400 }],
-      [getFilterIndicators500Response(), { status: 500 }],
+      [getFilterIndicators200Response(), { status: 200 }]
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
