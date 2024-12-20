@@ -1,7 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DHSC.FingertipsNext.Api.Controllers;
+namespace DHSC.FingertipsNext.Modules.Core.Controllers.V1;
 
 [ApiController]
 [Route("[controller]")]
