@@ -1,14 +1,17 @@
 ﻿using DHSC.FingertipsNext.Modules.Core.Repository;
 using DHSC.FingertipsNext.Modules.Core.Schema;
+using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
     public class HealthMeasureService : IHealthMeasureService
     {
+        private readonly ILogger _logger;
         private readonly RepositoryDbContext _dbContext;
-
-        public HealthMeasureService(RepositoryDbContext repositoryDbContext)
+        
+        public HealthMeasureService(ILogger<HealthMeasureService> logger, RepositoryDbContext repositoryDbContext)
         {
+            _logger = logger;
             _dbContext = repositoryDbContext ?? throw new ArgumentNullException(nameof(repositoryDbContext));
         }
 
@@ -23,17 +26,33 @@ namespace DHSC.FingertipsNext.Modules.Core.Service
                 return null;
             }
 
-            var ageDimension = _GetAgeDimension(query.AgeKey);
-            var indicatorDimension = _GetIndicatorDimension(query.IndicatorKey);
-            var sexDimension = _GetSexDimension(query.SexKey);
             var areaDimension = _GetAreaDimension(query.AreaKey);
-
-            if (areaDimension == null || indicatorDimension == null || sexDimension == null || ageDimension == null)
+            if (areaDimension == null)
             {
-                // TODO logging? exception?
+                _logger.LogUnexpectedEmptyField("areaDimension", query.AreaKey.ToString());
+                return null;
+            } 
+            
+            var indicatorDimension = _GetIndicatorDimension(query.IndicatorKey);
+            if (indicatorDimension == null)
+            {
+                _logger.LogUnexpectedEmptyField("indicatorDimension", query.IndicatorKey.ToString());
+                return null;
+            } 
+            
+            var sexDimension = _GetSexDimension(query.SexKey);
+            if (sexDimension == null)
+            {
+                _logger.LogUnexpectedEmptyField("sexDimension", query.SexKey.ToString());
+                return null;
+            } 
+            
+            var ageDimension = _GetAgeDimension(query.AgeKey);
+            if (ageDimension == null)
+            {
+                _logger.LogUnexpectedEmptyField("ageDimension", query.AgeKey.ToString());
                 return null;
             }
-
 
             return new HealthMeasure
                 {
