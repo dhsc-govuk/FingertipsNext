@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Schemas;
+namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
-///  summary of a public health indicator
+/// A public health indicator
 /// </summary>
-public class IndicatorSummary
+public class Indicator
 {
     /// <summary>
     /// The unique identifier of the indicator
@@ -18,4 +18,10 @@ public class IndicatorSummary
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; init; } = String.Empty;
+    
+    /// <summary>
+    /// The definition of the indicator
+    /// </summary>
+    [JsonPropertyName("definition")]
+    public string Definition  { get; init; } = String.Empty;
 }

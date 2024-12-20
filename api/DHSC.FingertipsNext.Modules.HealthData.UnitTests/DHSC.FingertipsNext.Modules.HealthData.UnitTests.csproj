@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>DHSC.FingertipsNext.Modules.HealthData.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,8 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators.Schemas\DHSC.FingertipsNext.Modules.Indicators.Schemas.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators\DHSC.FingertipsNext.Modules.Indicators.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData\DHSC.FingertipsNext.Modules.HealthData.csproj" />
     </ItemGroup>
 
 </Project>

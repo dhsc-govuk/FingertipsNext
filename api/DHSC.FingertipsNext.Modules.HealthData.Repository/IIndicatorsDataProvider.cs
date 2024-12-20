@@ -1,6 +1,6 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Services;
+namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 /// <summary>
 /// Provides a copy of the requested indicator data.

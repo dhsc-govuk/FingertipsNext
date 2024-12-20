@@ -1,11 +1,11 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Controllers.V1;
-using DHSC.FingertipsNext.Modules.Indicators.Schemas;
-using DHSC.FingertipsNext.Modules.Indicators.Services;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Service;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.Equivalency;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Tests.Controllers.V1;
+namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Controllers.V1;
 
 public class IndicatorControllerTests
 {

@@ -9,12 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Indicators.Schemas\DHSC.FingertipsNext.Modules.Indicators.Schemas.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Service\DHSC.FingertipsNext.Modules.HealthData.Service.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
       <PackageReference Include="NSubstitute" Version="5.3.0" />
       <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
         <PrivateAssets>all</PrivateAssets>
@@ -23,12 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
-        <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\9.0.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Mvc.Core">
-        <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\9.0.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
-      </Reference>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

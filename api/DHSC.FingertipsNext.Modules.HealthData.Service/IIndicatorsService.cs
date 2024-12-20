@@ -1,6 +1,6 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Services;
+namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 /// <summary>
 /// Interface to the business logic for accessing indicator data.

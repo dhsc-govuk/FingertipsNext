@@ -1,8 +1,8 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Schemas;
-using DHSC.FingertipsNext.Modules.Indicators.Services;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Controllers.V1;
+namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 
 [ApiController]
 [Route("indicators")]

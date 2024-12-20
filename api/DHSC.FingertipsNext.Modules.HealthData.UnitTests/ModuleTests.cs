@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Tests;
+namespace DHSC.FingertipsNext.Modules.HealthData.Tests;
 
 public class ModuleTests
 {

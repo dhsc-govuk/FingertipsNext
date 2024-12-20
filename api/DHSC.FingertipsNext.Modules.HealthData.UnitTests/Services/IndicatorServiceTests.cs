@@ -1,8 +1,9 @@
-﻿using DHSC.FingertipsNext.Modules.Indicators.Services;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
+using DHSC.FingertipsNext.Modules.HealthData.Service;
 using NSubstitute;
 using NSubstitute.Equivalency;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Tests.Services;
+namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
 
 public class IndicatorServiceTests
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Schemas;
+namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
 /// Associates a list of health data points with the relevant

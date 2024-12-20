@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DHSC.FingertipsNext.Modules.Indicators.Schemas;
+namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
 /// Represents a health data point for a public health indicator with
