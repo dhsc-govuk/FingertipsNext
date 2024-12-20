@@ -1163,6 +1163,7 @@ exports[`Search Results Suite snapshot test 1`] = `
             >
               <input
                 class="c9"
+                data-testid="search-results-indicator-1"
                 name="indicator"
                 type="checkbox"
                 value="1"
@@ -1219,6 +1220,7 @@ exports[`Search Results Suite snapshot test 1`] = `
             >
               <input
                 class="c9"
+                data-testid="search-results-indicator-2"
                 name="indicator"
                 type="checkbox"
                 value="2"
