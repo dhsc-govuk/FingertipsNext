@@ -21,5 +21,5 @@ public abstract class AbstractMonolithModule : IMonolithModule
         configurationBuilder.AddConfiguration(config);
     }
 
-    public abstract void RegisterModule(IServiceCollection services);
+    public abstract void RegisterModule(IServiceCollection services, IConfiguration configuration);
 }

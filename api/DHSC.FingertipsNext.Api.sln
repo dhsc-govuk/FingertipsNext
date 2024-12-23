@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.HealthData.Repository", "DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj", "{028747AA-D99E-402F-98C3-01C9D546E2DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.Core.Schema", "DHSC.FingertipsNext.Modules.Core.Schema\DHSC.FingertipsNext.Modules.Core.Schema.csproj", "{1AD89E7E-56C4-48E6-A2F8-563C383EE501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8142E87-5092-4EA3-8B0B-2DCB5052C441} = {68620BFB-ED52-4B92-B37E-BBDF367D3830}
@@ -122,5 +128,6 @@ Global
 		{AF880A03-9A7E-44DB-971B-9D6239C2A62E} = {F7FD1D55-CD32-4B34-87D3-694462789777}
 		{028747AA-D99E-402F-98C3-01C9D546E2DB} = {F7FD1D55-CD32-4B34-87D3-694462789777}
 		{58323DA6-9274-4D40-B74F-A3D3E6FFCD2A} = {F7FD1D55-CD32-4B34-87D3-694462789777}
+		{1AD89E7E-56C4-48E6-A2F8-563C383EE501} = {C8142E87-5092-4EA3-8B0B-2DCB5052C441}
 	EndGlobalSection
 EndGlobal
