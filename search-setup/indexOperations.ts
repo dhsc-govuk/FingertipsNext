@@ -7,13 +7,12 @@ import {
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "./types.js";
 
-export async function createSearchIndex(
+export async function createIndex(
   indexClient: SearchIndexClient,
-  indexName: string
+  index: SearchIndex
 ): Promise<void> {
-  const index = buildSearchIndex(indexName);
   await indexClient.createOrUpdateIndex(index);
-  console.log(`Created or modified index with name: ${indexName}`);
+  console.log(`Created or modified index with name: ${index.name}`);
 }
 
 export async function populateIndex<
@@ -23,7 +22,7 @@ export async function populateIndex<
   console.log(`Uploaded data to index with name: ${searchClient.indexName}`);
 }
 
-function buildSearchIndex(name: string): SearchIndex {
+export function buildIndicatorSearchIndex(name: string): SearchIndex {
   return {
     name,
     fields: [
@@ -43,7 +42,7 @@ function buildSearchIndex(name: string): SearchIndex {
   };
 }
 
-function buildGeographySearchIndex(name: string): SearchIndex {
+export function buildGeographySearchIndex(name: string): SearchIndex {
   return {
     name,
     fields: [
@@ -83,7 +82,13 @@ function buildGeographySearchIndex(name: string): SearchIndex {
         ],
       },
     ],
-    // suggesters: [{}],
+    suggesters: [
+      {
+        name: "sg",
+        searchMode: "analyzingInfixMatching",
+        sourceFields: ["Name", "Address/AddressLine1", "Address/Postcode"],
+      },
+    ],
   };
 }
 

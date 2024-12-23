@@ -1,7 +1,16 @@
-import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
-import { createSearchIndex, populateIndex } from "./indexOperations.js";
-import { IndicatorSearchData } from "./types.js";
-import { sampleData } from "./sample-data.js";
+import {
+  SearchIndexClient,
+  AzureKeyCredential,
+  SearchIndex,
+} from "@azure/search-documents";
+import {
+  buildGeographySearchIndex,
+  buildIndicatorSearchIndex,
+  createIndex,
+  populateIndex,
+} from "./indexOperations.js";
+import { GeographySearchData, IndicatorSearchData } from "./types.js";
+import { sampleGeographyData, sampleIndicatorData } from "./sample-data.js";
 
 function getEnvironmentVariable(variableName: string): string {
   const variableValue = process.env[variableName];
@@ -13,22 +22,47 @@ function getEnvironmentVariable(variableName: string): string {
   return variableValue;
 }
 
+async function createAndPopulateIndex<
+  T extends IndicatorSearchData | GeographySearchData
+>(
+  indexClient: SearchIndexClient,
+  buildIndexFunction: (arg: string) => SearchIndex,
+  indexName: string,
+  data: T[]
+) {
+  await createIndex(indexClient, buildIndexFunction(indexName));
+
+  await populateIndex<T>(indexClient.getSearchClient<T>(indexName), data);
+}
+
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
   const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
-  const indexName = getEnvironmentVariable("AI_SEARCH_INDEX_NAME");
+  const indicatorSearchIndexName = getEnvironmentVariable(
+    "AI_SEARCH_BY_INDICATOR_INDEX_NAME"
+  );
+  const geographySearchIndexName = getEnvironmentVariable(
+    "AI_SEARCH_BY_GEOGRAPHY_INDEX_NAME"
+  );
 
   const indexClient = new SearchIndexClient(
     endpoint,
     new AzureKeyCredential(apiKey)
   );
 
-  await createSearchIndex(indexClient, indexName);
+  await createAndPopulateIndex(
+    indexClient,
+    buildIndicatorSearchIndex,
+    indicatorSearchIndexName,
+    sampleIndicatorData
+  );
 
-  const searchClient =
-    indexClient.getSearchClient<IndicatorSearchData>(indexName);
-
-  await populateIndex(searchClient, sampleData);
+  await createAndPopulateIndex(
+    indexClient,
+    buildGeographySearchIndex,
+    geographySearchIndexName,
+    sampleGeographyData
+  );
 }
 
 main().catch((err: Error) => {
