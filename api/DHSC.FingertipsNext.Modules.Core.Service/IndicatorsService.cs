@@ -5,26 +5,22 @@ using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
-    public class HealthMeasureService : IHealthMeasureService
+    public class IndicatorsService : IIndicatorsService
     {
         private readonly ILogger _logger;
         private readonly IRepository _repository;
         
-        public HealthMeasureService(ILogger<HealthMeasureService> logger, HealthMeasureDbContext dbContext)
+        public IndicatorsService(ILogger<IndicatorsService> logger, HealthMeasureDbContext dbContext)
         {
             _logger = logger;
             _repository = new Repository.Repository(dbContext);
         }
 
-        public HealthMeasure? GetFirstHealthMeasure()
+        public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
         {
-            var healthMeasure = _repository.GetFirstHealthMeasure();
-            if (healthMeasure == null)
-            {
-                return null;
-            }
+            var indicatorData = _repository.GetIndicatorData(indicatorId, areaCodes, years);
 
-            return BuildHealthMeasure(healthMeasure);
+            return indicatorData.Select(BuildHealthMeasure);
         }
 
         private static HealthMeasure BuildHealthMeasure(Repository.Models.HealthMeasure healthMeasure)

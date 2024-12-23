@@ -4,5 +4,5 @@ namespace DHSC.FingertipsNext.Modules.Core.Repository;
 
 public interface IRepository
 {
-    HealthMeasure? GetFirstHealthMeasure();
+    IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[]areaCodes, int[]years);
 }

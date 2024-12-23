@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.Core.Controllers.V1;
@@ -19,7 +18,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         services.AddTransient<ICoreController, CoreController>();
         services.AddTransient<ICoreService, CoreService>();
         services.AddTransient<ISearchClient, SearchClient>();
-        services.AddTransient<IHealthMeasureService, HealthMeasureService>();
+        services.AddTransient<IIndicatorsService, IndicatorsService>();
         _RegisterDbContext(services, configuration);
     }
 
@@ -47,7 +46,6 @@ public class Module : AbstractMonolithModule, IMonolithModule
 
         if (trustServerCertificate)
         {
-            // TODO - work out logging
             Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
         }
 
