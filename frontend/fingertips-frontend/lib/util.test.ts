@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { shouldForwardProp } from './utils';
+import { shouldForwardProp, getEnvironmentVariable } from './utils';
 
 describe('shouldForwardProp', () => {
   describe('when target is not type string', () => {
@@ -28,6 +28,21 @@ describe('shouldForwardProp', () => {
     it('should return true if propName is valid but correctly camelCased', () => {
       const result = shouldForwardProp('cellSpacing', 'some target');
       expect(result).toBe(true);
+    });
+  });
+});
+
+describe('getEnvironmentVariable', () => {
+  describe('if the environment is not configured', () => {
+    it('should throw an error on reading the missing environment variable', () => {
+      expect(() => {getEnvironmentVariable('MISSING_ENVIRONMENT_VARIABLE')}).toThrow(Error);
+    });
+  });
+  describe('if the environment is configured', () => {
+    process.env.CONFIGURED_ENVIRONMENT_VARIABLE = 'test-value';
+    it('should return the value of the environment variable', () => {
+      const value = getEnvironmentVariable('CONFIGURED_ENVIRONMENT_VARIABLE');
+      expect(value).toBe('test-value');
     });
   });
 });

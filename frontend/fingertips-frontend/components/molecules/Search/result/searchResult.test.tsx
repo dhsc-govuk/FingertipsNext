@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { SearchResult } from '.';
-import { MOCK_DATA } from '@/lib/search/searchResultData';
+import { BasicSearchResult } from '.';
+import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { registryWrapper } from '@/lib/testutils';
 
 describe('Search Result Suite', () => {

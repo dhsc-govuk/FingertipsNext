@@ -12,7 +12,7 @@ export default async function Page(
   const indicator = searchParams?.indicator ?? '';
 
   // Perform async API call using indicator prop
-  const searchResults = await getSearchService().searchByIndicator(indicator);
+  const searchResults = await getSearchService().searchWith(indicator);
 
   return <SearchResults indicator={indicator} searchResults={searchResults} />;
 }
