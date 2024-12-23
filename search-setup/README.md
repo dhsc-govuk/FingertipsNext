@@ -25,3 +25,13 @@ npm install
 ```
 npm run create-index
 ```
+
+## Testing
+
+This project uses Jest for unit testing.
+
+### Running the Unit tests
+
+```bash
+npm run test
+```
