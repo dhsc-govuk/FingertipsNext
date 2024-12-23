@@ -1,18 +1,14 @@
 ﻿using DHSC.FingertipsNext.Modules.Core.Repository;
 using DHSC.FingertipsNext.Modules.Core.Schema;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
     public class IndicatorsService : IIndicatorsService
     {
-        private readonly ILogger _logger;
         private readonly IRepository _repository;
         
-        public IndicatorsService(ILogger<IndicatorsService> logger, HealthMeasureDbContext dbContext)
+        public IndicatorsService(HealthMeasureDbContext dbContext)
         {
-            _logger = logger;
             _repository = new Repository.Repository(dbContext);
         }
 
