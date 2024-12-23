@@ -24,7 +24,7 @@ export interface DocumentResponse {
   value: DocumentValue[];
 }
 
-interface DocumentValue extends Data {
+interface DocumentValue extends IndicatorSearchData {
   "@search.score": number;
 }
 
