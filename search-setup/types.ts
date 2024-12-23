@@ -20,7 +20,7 @@ export interface SearchIndexResponse {
   fields: IndexField[];
 }
 
-interface IndexField {
+export interface IndexField {
   name: string;
   type: string;
   searchable?: boolean;
