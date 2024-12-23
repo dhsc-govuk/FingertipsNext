@@ -2,11 +2,13 @@
 import AxeBuilder from '@axe-core/playwright';
 import SearchPage from './pages/searchPage';
 import ResultsPage from './pages/resultsPage';
+import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
 
 type pages = {
   searchPage: SearchPage;
   resultsPage: ResultsPage;
+  chartPage: ChartPage;
 };
 
 const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
@@ -49,6 +51,9 @@ export const test = testBase.extend<pages>({
   },
   resultsPage: async ({ page }, use) => {
     await use(new ResultsPage(page));
+  },
+  chartPage: async ({ page }, use) => {
+    await use(new ChartPage(page));
   },
 });
 
