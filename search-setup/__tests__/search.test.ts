@@ -25,7 +25,7 @@ describe("AI search index creation and data loading", () => {
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
 
-    test("should create index with expected fields", async () => {
+    test("should create indicator index with expected fields", async () => {
       const url = `${urlPrefix}${URL_SUFFIX}`;
 
       const response = await fetch(url, {
@@ -87,7 +87,7 @@ describe("AI search index creation and data loading", () => {
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
 
-    test("should create index with expected fields", async () => {
+    test("should create geography index with expected fields", async () => {
       const url = `${urlPrefix}${URL_SUFFIX}`;
 
       const response = await fetch(url, {
