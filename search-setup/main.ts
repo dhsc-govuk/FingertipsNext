@@ -11,16 +11,7 @@ import {
 } from "./indexOperations.js";
 import { GeographySearchData, IndicatorSearchData } from "./types.js";
 import { sampleGeographyData, sampleIndicatorData } from "./sample-data.js";
-
-function getEnvironmentVariable(variableName: string): string {
-  const variableValue = process.env[variableName];
-
-  if (!variableValue) {
-    throw new Error(`Could not load environment variable ${variableName}!`);
-  }
-
-  return variableValue;
-}
+import { getEnvironmentVariable } from "./utils/helpers.js";
 
 async function createAndPopulateIndex<
   T extends IndicatorSearchData | GeographySearchData

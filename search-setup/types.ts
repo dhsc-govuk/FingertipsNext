@@ -18,3 +18,30 @@ export interface GeographySearchData {
     Postcode: string;
   };
 }
+
+export interface DocumentResponse {
+  "@odata.context": string;
+  value: DocumentValue[];
+}
+
+interface DocumentValue extends Data {
+  "@search.score": number;
+}
+
+export interface SearchIndexResponse {
+  name: string;
+  fields: IndexField[];
+}
+
+export interface IndexField {
+  name: string;
+  type: string;
+  searchable?: boolean;
+  filterable?: boolean;
+  retrievable?: boolean;
+  stored?: boolean;
+  sortable?: boolean;
+  facetable?: boolean;
+  key?: boolean;
+  fields?: IndexField[];
+}
