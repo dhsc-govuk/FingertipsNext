@@ -1,8 +1,5 @@
-
+using System.Diagnostics;
 using Microsoft.Data.SqlClient;
-
-namespace DHSC.FingertipsNext.Modules.Core;
-
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.Core.Controllers.V1;
 using DHSC.FingertipsNext.Modules.Core.ModuleInterfaces;
@@ -10,8 +7,8 @@ using DHSC.FingertipsNext.Modules.Core.Repository;
 using DHSC.FingertipsNext.Modules.Core.SearchAPI;
 using DHSC.FingertipsNext.Modules.Core.Service;
 using DHSC.FingertipsNext.Monolith;
-using System.Diagnostics.CodeAnalysis;
 
+namespace DHSC.FingertipsNext.Modules.Core;
 public class Module : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "core";
@@ -51,7 +48,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         if (trustServerCertificate)
         {
             // TODO - work out logging
-           // _logger.LogTrustCert();
+            Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
         }
 
         var builder = new SqlConnectionStringBuilder
@@ -63,6 +60,6 @@ public class Module : AbstractMonolithModule, IMonolithModule
             TrustServerCertificate = trustServerCertificate
         };
 
-        services.AddDbContext<RepositoryDbContext>(options => options.UseSqlServer(builder.ConnectionString));
+        services.AddDbContext<HealthMeasureDbContext>(options => options.UseSqlServer(builder.ConnectionString));
     }
 }

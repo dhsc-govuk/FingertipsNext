@@ -1,146 +1,94 @@
 ﻿using DHSC.FingertipsNext.Modules.Core.Repository;
 using DHSC.FingertipsNext.Modules.Core.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace DHSC.FingertipsNext.Modules.Core.Service
 {
-    
-    // TODO JH - maybe the linq over the dbsets should live in the Repository module so we can test the logic here (e.g. missing dimensions)
-    // or elsewhere without needing to worry about structuring our data properly.
-    
     public class HealthMeasureService : IHealthMeasureService
     {
         private readonly ILogger _logger;
-        private readonly RepositoryDbContext _dbContext;
+        private readonly IRepository _repository;
         
-        public HealthMeasureService(ILogger<HealthMeasureService> logger, RepositoryDbContext repositoryDbContext)
+        public HealthMeasureService(ILogger<HealthMeasureService> logger, HealthMeasureDbContext dbContext)
         {
             _logger = logger;
-            _dbContext = repositoryDbContext ?? throw new ArgumentNullException(nameof(repositoryDbContext));
+            _repository = new Repository.Repository(dbContext);
         }
 
-        public  HealthMeasure? GetFirstHealthMeasure()
+        public HealthMeasure? GetFirstHealthMeasure()
         {
-            var query = (from healthMeasure in _dbContext.HealthMeasure
-                orderby healthMeasure.HealthMeasureKey
-                select healthMeasure).FirstOrDefault();
-
-            if (query == null)
+            var healthMeasure = _repository.GetFirstHealthMeasure();
+            if (healthMeasure == null)
             {
                 return null;
             }
 
-            var areaDimension = _GetAreaDimension(query.AreaKey);
-            if (areaDimension == null)
-            {
-                _logger.LogUnexpectedEmptyField("areaDimension", query.AreaKey.ToString());
-                return null;
-            } 
-            
-            var indicatorDimension = _GetIndicatorDimension(query.IndicatorKey);
-            if (indicatorDimension == null)
-            {
-                _logger.LogUnexpectedEmptyField("indicatorDimension", query.IndicatorKey.ToString());
-                return null;
-            } 
-            
-            var sexDimension = _GetSexDimension(query.SexKey);
-            if (sexDimension == null)
-            {
-                _logger.LogUnexpectedEmptyField("sexDimension", query.SexKey.ToString());
-                return null;
-            } 
-            
-            var ageDimension = _GetAgeDimension(query.AgeKey);
-            if (ageDimension == null)
-            {
-                _logger.LogUnexpectedEmptyField("ageDimension", query.AgeKey.ToString());
-                return null;
-            }
+            return BuildHealthMeasure(healthMeasure);
+        }
 
+        private static HealthMeasure BuildHealthMeasure(Repository.Models.HealthMeasure healthMeasure)
+        {
             return new HealthMeasure
-                {
-                    HealthMeasureKey = query.HealthMeasureKey,
-                    AreaDimension = areaDimension,
-                    IndicatorDimension = indicatorDimension,
-                    SexDimension = sexDimension,
-                    AgeDimension = ageDimension,
-                    Count = query.Count,
-                    Value = query.Value,
-                    LowerCi = query.LowerCI,
-                    UpperCi = query.UpperCI,
-                    Year = query.Year,
-                };
+            {
+                HealthMeasureKey = healthMeasure.HealthMeasureKey,
+                AreaDimension = BuildAreaDimension(healthMeasure.AreaDimension),
+                IndicatorDimension = BuildIndicatorDimension(healthMeasure.IndicatorDimension),
+                SexDimension = BuildSexDimension(healthMeasure.SexDimension),
+                AgeDimension = BuildAgeDimension(healthMeasure.AgeDimension),
+                Count = healthMeasure.Count,
+                Value = healthMeasure.Value,
+                LowerCi = healthMeasure.LowerCI,
+                UpperCi = healthMeasure.UpperCI,
+                Year = healthMeasure.Year,
+            };
+
         }
 
-        private AgeDimension? _GetAgeDimension(short id)
+        private static AreaDimension BuildAreaDimension(Repository.Models.AreaDimension areaDimension)
         {
-            var query = (from dimension in _dbContext.AgeDimension
-                where dimension.AgeKey == id
-                select dimension).FirstOrDefault();
-
-            return query == null
-                ? null
-                : new AgeDimension
-                {
-                    AgeKey = query.AgeKey,
-                    Name = query.Name,
-                    AgeId = query.AgeID
-                };
+            return new AreaDimension
+            {
+                AreaKey = areaDimension.AreaKey,
+                Code = areaDimension.Code,
+                Name = areaDimension.Name,
+                StartDate = areaDimension.StartDate,
+                EndDate = areaDimension.EndDate
+            };
         }
 
-        private AreaDimension? _GetAreaDimension(int id)
+        private static IndicatorDimension BuildIndicatorDimension(Repository.Models.IndicatorDimension indicatorDimension)
         {
-            var query = (from dimension in _dbContext.AreaDimension
-                where dimension.AreaKey == id
-                select dimension).FirstOrDefault();
-
-            return query == null
-                ? null
-                : new AreaDimension
-                {
-                    AreaKey = query.AreaKey,
-                    Code = query.Code,
-                    Name = query.Name,
-                    StartDate = query.StartDate,
-                    EndDate = query.EndDate
-                };
+            return new IndicatorDimension
+            {
+                IndicatorKey = indicatorDimension.IndicatorKey,
+                Name = indicatorDimension.Name,
+                IndicatorId = indicatorDimension.IndicatorId,
+                StartDate = indicatorDimension.StartDate,
+                EndDate = indicatorDimension.EndDate
+            };
         }
 
-        private IndicatorDimension? _GetIndicatorDimension(int id)
+        private static SexDimension BuildSexDimension(Repository.Models.SexDimension sexDimension)
         {
-            var query = (from dimension in _dbContext.IndicatorDimension
-                where dimension.IndicatorKey == id
-                select dimension).FirstOrDefault();
-
-            return query == null
-                ? null
-                : new IndicatorDimension
-                {
-                    IndicatorKey = query.IndicatorKey,
-                    Name = query.Name,
-                    IndicatorId = query.IndicatorId,
-                    StartDate = query.StartDate,
-                    EndDate = query.EndDate
-                };
+            return new SexDimension
+            {
+                SexKey = sexDimension.SexKey,
+                Name = sexDimension.Name,
+                IsFemale = sexDimension.IsFemale,
+                HasValue = sexDimension.HasValue,
+                SexId = sexDimension.SexId
+            };
         }
 
-        private SexDimension? _GetSexDimension(byte id)
+        private static AgeDimension BuildAgeDimension(Repository.Models.AgeDimension ageDimension)
         {
-            var query = (from dimension in _dbContext.SexDimension
-                where dimension.SexKey == id
-                select dimension).FirstOrDefault();
-
-            return query == null
-                ? null
-                : new SexDimension
-                {
-                    SexKey = query.SexKey,
-                    Name = query.Name,
-                    IsFemale = query.IsFemale,
-                    HasValue = query.HasValue,
-                    SexId = query.SexId
-                };
+            return new AgeDimension
+            {
+                AgeKey = ageDimension.AgeKey,
+                Name = ageDimension.Name,
+                AgeId = ageDimension.AgeID
+            };
         }
     }
 }

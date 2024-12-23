@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DHSC.FingertipsNext.Modules.Core.Schema
 {
@@ -7,10 +8,10 @@ namespace DHSC.FingertipsNext.Modules.Core.Schema
     {
         [Key]
         public required int HealthMeasureKey { get; set; }
-        public AreaDimension AreaDimension { get; set; }
-        public IndicatorDimension IndicatorDimension  { get; set; }
-        public SexDimension SexDimension { get; set; }
-        public AgeDimension AgeDimension { get; set; }
+        public required AreaDimension AreaDimension { get; set; }
+        public required IndicatorDimension IndicatorDimension  { get; set; }
+        public required SexDimension SexDimension { get; set; }
+        public required AgeDimension AgeDimension { get; set; }
         public required double Count { get; set; }
         public required double Value { get; set; }
         public required double LowerCi { get; set; }

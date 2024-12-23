@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Core.Repository
 {
-    public class RepositoryDbContext : DbContext
+    public class HealthMeasureDbContext : DbContext
     {
 
-        public RepositoryDbContext() 
+        public HealthMeasureDbContext() 
         {
         }
 
-        public RepositoryDbContext(DbContextOptions options)
+        public HealthMeasureDbContext(DbContextOptions options)
             : base(options)
         {
         }
