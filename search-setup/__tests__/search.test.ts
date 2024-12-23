@@ -1,16 +1,216 @@
 import { config } from "dotenv";
-import { DocumentResponse, SearchIndexResponse, IndexField } from "../types";
+import {
+  DocumentResponse,
+  SearchIndexResponse,
+  IndexField,
+  AutoCompleteResult,
+  TypeAheadBody,
+  SuggestionResult,
+} from "../types";
 import { getEnvironmentVariable } from "../utils/helpers";
 
 config();
 
 const searchEndpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
-const indexName = getEnvironmentVariable("AI_SEARCH_INDEX_NAME");
 const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
 
 describe("AI search index creation and data loading", () => {
-  const URL_PREFIX = `${searchEndpoint}/indexes('${indexName}')`;
+  let indexName: string;
+  let urlPrefix: string;
   const URL_SUFFIX = "?api-version=2024-07-01";
+
+  describe("Search by indicator", () => {
+    beforeEach(() => {
+      indexName = getEnvironmentVariable("AI_SEARCH_BY_INDICATOR_INDEX_NAME");
+      urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
+    });
+
+    test("should create index with expected fields", async () => {
+      const url = `${urlPrefix}${URL_SUFFIX}`;
+
+      const response = await fetch(url, {
+        headers: {
+          "api-key": apiKey,
+        },
+      });
+
+      const index: SearchIndexResponse = await response.json();
+
+      expect(index.name).toBe(indexName);
+      expect(index.fields.length).toBe(2);
+      expectFieldToMatch(
+        index.fields.at(0),
+        "IID",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expect(index.fields.at(0)?.key).toBe(true);
+      expectComplexFieldToMatch(index.fields.at(1), "Descriptive", 2);
+      expectFieldToMatch(
+        index.fields.at(1)?.fields?.at(0),
+        "Name",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expectFieldToMatch(
+        index.fields.at(1)?.fields?.at(1),
+        "Definition",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+    });
+
+    test("should populate indicator index with data", async () => {
+      await expectIndexToPopulated();
+    });
+  });
+
+  describe("Search by geography", () => {
+    const SEARCH_TERM = "man";
+    const SUGGESTER_NAME = "sg";
+    const REQUEST_BODY: TypeAheadBody = {
+      search: SEARCH_TERM,
+      suggesterName: SUGGESTER_NAME,
+    };
+
+    beforeEach(() => {
+      indexName = getEnvironmentVariable("AI_SEARCH_BY_GEOGRAPHY_INDEX_NAME");
+      urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
+    });
+
+    test("should create index with expected fields", async () => {
+      const url = `${urlPrefix}${URL_SUFFIX}`;
+
+      const response = await fetch(url, {
+        headers: {
+          "api-key": apiKey,
+        },
+      });
+
+      const index: SearchIndexResponse = await response.json();
+
+      expect(index.name).toBe(indexName);
+      expect(index.fields.length).toBe(4);
+      expect(index.fields.at(0)?.key).toBe(true);
+      expectFieldToMatch(
+        index.fields.at(0),
+        "ID",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expectFieldToMatch(
+        index.fields.at(1),
+        "Name",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expectFieldToMatch(
+        index.fields.at(2),
+        "Type",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expectComplexFieldToMatch(index.fields.at(3), "Address", 5);
+      expectFieldToMatch(
+        index.fields.at(3)?.fields?.at(0),
+        "AddressLine1",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+      expectFieldToMatch(
+        index.fields.at(3)?.fields?.at(1),
+        "AddressLine2",
+        "Edm.String",
+        true,
+        true,
+        false,
+        false
+      );
+      expectFieldToMatch(
+        index.fields.at(3)?.fields?.at(2),
+        "AddressLine3",
+        "Edm.String",
+        true,
+        true,
+        false,
+        false
+      );
+      expectFieldToMatch(
+        index.fields.at(3)?.fields?.at(3),
+        "AddressLine4",
+        "Edm.String",
+        true,
+        true,
+        false,
+        false
+      );
+      expectFieldToMatch(
+        index.fields.at(3)?.fields?.at(4),
+        "Postcode",
+        "Edm.String",
+        true,
+        true,
+        true,
+        true
+      );
+    });
+
+    test("should populate geography index with data", async () => {
+      await expectIndexToPopulated();
+    });
+
+    test("should have autocomplete enabled", async () => {
+      const url = `${urlPrefix}/docs/search.post.autocomplete${URL_SUFFIX}`;
+
+      const response = await makeTypeAheadRequest(url);
+
+      const results: AutoCompleteResult = await response.json();
+
+      expect(results.value.length).toBeGreaterThan(0);
+    });
+
+    test("should have suggestions enabled", async () => {
+      const url = `${urlPrefix}/docs/search.post.suggest${URL_SUFFIX}`;
+
+      const response = await makeTypeAheadRequest(url);
+
+      const results: SuggestionResult = await response.json();
+
+      expect(results.value.length).toBeGreaterThan(0);
+    });
+
+    const makeTypeAheadRequest = async (url: string) => {
+      return await fetch(url, {
+        headers: {
+          "api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(REQUEST_BODY),
+        method: "POST",
+      });
+    };
+  });
 
   const expectFieldToMatch = (
     field: IndexField | undefined,
@@ -39,52 +239,8 @@ describe("AI search index creation and data loading", () => {
     expect(field?.fields?.length).toBe(fieldLength);
   };
 
-  test("should create index with expected fields", async () => {
-    const url = `${URL_PREFIX}${URL_SUFFIX}`;
-
-    const response = await fetch(url, {
-      headers: {
-        "api-key": apiKey,
-      },
-    });
-
-    const index: SearchIndexResponse = await response.json();
-
-    expect(index.name).toBe(indexName);
-    expect(index.fields.length).toBe(2);
-    expectFieldToMatch(
-      index.fields.at(0),
-      "IID",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-    expect(index.fields.at(0)?.key).toBe(true);
-    expectComplexFieldToMatch(index.fields.at(1), "Descriptive", 2);
-    expectFieldToMatch(
-      index.fields.at(1)?.fields?.at(0),
-      "Name",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-    expectFieldToMatch(
-      index.fields.at(1)?.fields?.at(1),
-      "Definition",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-  });
-
-  test("should populate index with data", async () => {
-    const url = `${URL_PREFIX}/docs${URL_SUFFIX}`;
+  const expectIndexToPopulated = async () => {
+    const url = `${urlPrefix}/docs${URL_SUFFIX}`;
 
     const response = await fetch(url, {
       headers: {
@@ -95,5 +251,5 @@ describe("AI search index creation and data loading", () => {
     const documents: DocumentResponse = await response.json();
 
     expect(documents.value.length).toBeGreaterThan(0);
-  });
+  };
 });

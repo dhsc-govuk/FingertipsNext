@@ -45,3 +45,16 @@ export interface IndexField {
   key?: boolean;
   fields?: IndexField[];
 }
+
+export interface TypeAheadBody {
+  search: string;
+  suggesterName: string;
+}
+
+export interface AutoCompleteResult {
+  value: { text: string; queryPlusText: string }[];
+}
+
+export interface SuggestionResult {
+  value: { "@search.text": string }[];
+}
