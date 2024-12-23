@@ -12,7 +12,7 @@ namespace DHSC.FingertipsNext.Modules.Core.Service
             _repository = new Repository.Repository(dbContext);
         }
 
-        public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
+        public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, short[] years)
         {
             var indicatorData = _repository.GetIndicatorData(indicatorId, areaCodes, years);
 

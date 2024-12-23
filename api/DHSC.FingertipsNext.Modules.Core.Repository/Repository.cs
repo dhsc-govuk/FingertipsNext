@@ -12,7 +12,7 @@ public class Repository : IRepository
         _dbContext = healthMeasureDbContext ?? throw new ArgumentNullException(nameof(healthMeasureDbContext));
     }
 
-    public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[]areaCodes, int[]years)
+    public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[]areaCodes, short[]years)
     {
         return _dbContext.HealthMeasure.OrderBy(hm => hm.Year)
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)

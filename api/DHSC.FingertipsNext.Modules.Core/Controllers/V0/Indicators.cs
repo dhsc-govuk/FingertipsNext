@@ -21,7 +21,7 @@ public class Indicators : ControllerBase
     public IActionResult GetIndicatorData(
         [FromRoute] int indicatorId,
         [FromQuery] string[]? areaCodes = null,
-        [FromQuery] int []? years = null
+        [FromQuery] short []? years = null
         )
     {
         var indicatorData = _indicatorsService.GetIndicatorData(indicatorId, areaCodes ?? [], years ?? []).ToArray();
