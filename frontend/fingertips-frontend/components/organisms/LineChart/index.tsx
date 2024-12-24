@@ -1,4 +1,3 @@
-import { WeatherForecast } from '@/generated-sources/api-client';
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 
@@ -10,7 +9,7 @@ interface HealthCareData {
     value: number;
     lowerCi: number;
     upperCi: number;   
-  };
+  }[];
 }
 
 interface LineChartProps {
@@ -28,21 +27,27 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const value = data.map((item) => item.healthData?.value);
-  const categories = data.map((item) => item.healthData?.year);
+  const value = data.map((item) => (item.healthData.map((point => point.value))));
+  const categories = data.map((item => (item.healthData.map((point => point.year)))));
+
   console.log('categories', categories);
 
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line' },
     title: { text: title },
     xAxis: {
-      categories: categories,
+      categories: categories.map((item => item.toString())),
       title: { text: xAxisTitle },
     },
     yAxis: {
       title: { text: yAxisTitle },
     },
     series: [
+      {
+        type: 'line',
+        name: yAxisTitle,
+        data: value,
+      },
       {
         type: 'line',
         name: yAxisTitle,

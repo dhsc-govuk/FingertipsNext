@@ -1,7 +1,6 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { WeatherForecast } from '@/generated-sources/api-client';
 import { H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 
@@ -13,7 +12,7 @@ interface HealthCareData {
     value: number;     
     lowerCi: number;     
     upperCi: number;   
-  };
+  }[];
 }
 
 type ChartProps = {
@@ -28,7 +27,7 @@ export function Chart({ data }: Readonly<ChartProps>) {
       <H1>Line Chart</H1>
       <LineChart
         data={data}
-        title="HealthCare Data"
+        title="Healthcare Data"
         xAxisTitle="Year"
         yAxisTitle="Value"
         accessibilityLabel="A line chart showing weather forecast"
