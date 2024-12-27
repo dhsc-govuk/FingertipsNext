@@ -4,17 +4,6 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 
-interface HealthCareData {
-  areaCode: string;   
-  healthData: {     
-    year: number;     
-    count: number;     
-    value: number;     
-    lowerCi: number;     
-    upperCi: number;   
-  }[];
-}
-
 type ChartProps = {
   data: HealthCareData[];
 };
