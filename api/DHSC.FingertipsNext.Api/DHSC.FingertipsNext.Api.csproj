@@ -5,12 +5,21 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
         <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+        <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3"/>
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.12" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
         <PackageReference Include="Scalar.AspNetCore" Version="1.2.42" />
     </ItemGroup>
 
@@ -18,6 +27,7 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core\DHSC.FingertipsNext.Modules.Core.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Search\DHSC.FingertipsNext.Modules.Search.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData\DHSC.FingertipsNext.Modules.HealthData.csproj" />
     </ItemGroup>
 
     <ItemGroup>
