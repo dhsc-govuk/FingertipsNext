@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { BasicSearchResult } from '.';
+import { SearchResult } from '.';
 import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { registryWrapper } from '@/lib/testutils';
 
