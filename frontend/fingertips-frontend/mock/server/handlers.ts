@@ -91,12 +91,15 @@ export function getGetHealthDataForAnIndicator200Response() {
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
   ].map((_) => ({
     areaCode: 'A1426',
+    // areaCode: faker.location.zipCode(),
     healthData: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
     ].map((_) => ({
       year: 2023,
+      // year: faker.date.past({ years: 21 }).getFullYear(),
       count: 222,
       value: 506.60912,
+      // value: faker.number.float({ min: 100, max: 1000 }),
       lowerCi: 441.69151,
       upperCi: 578.32766,
     })),

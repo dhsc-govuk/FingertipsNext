@@ -98,22 +98,32 @@ exports[`snapshot test - should match snapshot 1`] = `
           <th
             class="c1"
           >
-            Date
+            Area Code
           </th>
           <th
             class="c1"
           >
-            TemperatureC
+            Year
           </th>
           <th
             class="c1"
           >
-            TemperatureF
+            Count
           </th>
           <th
             class="c1"
           >
-            Summary
+            Value
+          </th>
+          <th
+            class="c1"
+          >
+            LowerCi
+          </th>
+          <th
+            class="c1"
+          >
+            UpperCi
           </th>
         </tr>
       </thead>
@@ -125,23 +135,92 @@ exports[`snapshot test - should match snapshot 1`] = `
         >
           <td
             class="c2"
+            rowspan="3"
           >
-            01/11/2024
+            A1426
           </td>
           <td
             class="c3"
           >
-            -30
+            2023
           </td>
           <td
             class="c3"
           >
-            -21
+            506.60912
           </td>
           <td
-            class="c2"
+            class="c3"
           >
-            Freezing
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2023
+          </td>
+          <td
+            class="c3"
+          >
+            506.60912
+          </td>
+          <td
+            class="c3"
+          >
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2023
+          </td>
+          <td
+            class="c3"
+          >
+            506.60912
+          </td>
+          <td
+            class="c3"
+          >
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
           </td>
         </tr>
         <tr
@@ -149,23 +228,63 @@ exports[`snapshot test - should match snapshot 1`] = `
         >
           <td
             class="c2"
+            rowspan="2"
           >
-            01/11/2024
+            A1426
           </td>
           <td
             class="c3"
           >
-            0
+            2023
           </td>
           <td
             class="c3"
           >
-            32
+            506.60912
           </td>
           <td
-            class="c2"
+            class="c3"
           >
-            Bracing
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2023
+          </td>
+          <td
+            class="c3"
+          >
+            506.60912
+          </td>
+          <td
+            class="c3"
+          >
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
           </td>
         </tr>
       </tbody>

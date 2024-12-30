@@ -6,6 +6,7 @@ export default async function ChartPage(
   props: Readonly<{
     searchParams?: Promise<{
       indicator?: string;
+      areaCode?: string;
     }>;
   }>
 ) {
@@ -14,13 +15,21 @@ export default async function ChartPage(
 
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
+  const areaCode = searchParams?.areaCode ?? '';
 
   const endpoint = getGetHealthDataForAnIndicator200Response();
 
-  const data: HealthCareData[] = endpoint.map((item) => ({
-    areaCode: item.areaCode,
-    healthData: item.healthData,
-  }));
+  // const data: HealthCareData[] = endpoint.map((item) => ({
+  //   areaCode: item.areaCode,
+  //   healthData: item.healthData,
+  // }));
+  
+  const data = endpoint
+    .filter((item) => areaCode === '' || item.areaCode === areaCode)
+    .map((item) => ({
+      areaCode: item.areaCode,
+      healthData: item.healthData,
+    }));
 
   return <Chart data={data} />;
 }

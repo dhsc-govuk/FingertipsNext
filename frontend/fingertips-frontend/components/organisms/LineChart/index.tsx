@@ -16,26 +16,22 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  
-  const years = data.map((item) =>
-    item.healthData.map((point) => point.year)
-  );
-  const formatYear = years.flat().map((year) => year.toString())
+  const years = data.map((item) => item.healthData.map((point) => point.year));
+  const formatYear = years.flat().map((year) => year.toString());
 
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line' },
     title: { text: title },
     xAxis: {
-      categories: Array.from(new Set(
-        formatYear)),
-      title: { text: xAxisTitle}
+      categories: Array.from(new Set(formatYear)),
+      title: { text: xAxisTitle },
     },
     yAxis: {
       title: { text: yAxisTitle },
     },
     series: data.map((item, index) => ({
       type: 'line',
-      name: `AreaCode ${item.areaCode}`, 
+      name: `AreaCode ${item.areaCode}`,
       data: item.healthData.map((point) => point.value),
     })),
     accessibility: {

@@ -6,9 +6,10 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 
 type ChartProps = {
   data: HealthCareData[];
+  indicator?: string;
 };
 
-const headings = ['Year', 'Count', 'Value', 'LowerCi', 'UpperCi'];
+const headings = ['Area Code', 'Year', 'Count', 'Value', 'LowerCi', 'UpperCi'];
 
 export function Chart({ data }: Readonly<ChartProps>) {
   return (
