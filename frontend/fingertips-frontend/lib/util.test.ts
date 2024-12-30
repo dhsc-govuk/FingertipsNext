@@ -35,7 +35,9 @@ describe('shouldForwardProp', () => {
 describe('getEnvironmentVariable', () => {
   describe('if the environment is not configured', () => {
     it('should throw an error on reading the missing environment variable', () => {
-      expect(() => {getEnvironmentVariable('MISSING_ENVIRONMENT_VARIABLE')}).toThrow(Error);
+      expect(() => {
+        getEnvironmentVariable('MISSING_ENVIRONMENT_VARIABLE');
+      }).toThrow(Error);
     });
   });
   describe('if the environment is configured', () => {
