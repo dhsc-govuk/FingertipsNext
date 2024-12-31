@@ -47,7 +47,7 @@ export function getGetWeatherForecast200Response() {
 export function getFilterIndicators200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
+  ].map(() => ({
     indicator_id: 3456,
     title: 'Hypertension: QOF prevalence (all ages)',
   }));
@@ -89,11 +89,11 @@ export function getGetIndicator500Response() {
 export function getGetHealthDataForAnIndicator200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
+  ].map(() => ({
     areaCode: 'A1426',
     healthData: [
       ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
+    ].map(() => ({
       year: 2023,
       count: 222,
       value: 506.60912,
