@@ -5,7 +5,6 @@
   "scripts": {
     "dev:local-api": "concurrently \"npm run api:start\" \"next dev\" && npm run api:stop",
     "dev": "cross-env MOCK_SERVER=true next dev",
-    "devMSWOFF": "cross-env MOCK_SERVER=false next dev",
     "generate:api-client": "openapi-generator-cli generate",
     "generate:mocks": "npx msw-auto-mock ./../../api/definition/weather.json -o ./mock/server",
     "generate:ft-mocks": "npx msw-auto-mock ./../../api/definition/swagger.yaml -o ./mock/server",
