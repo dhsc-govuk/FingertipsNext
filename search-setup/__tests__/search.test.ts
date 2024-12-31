@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { DocumentResponse, SearchIndexResponse, IndexField } from "../types";
+import { DocumentResponse, SearchIndexResponse, IndexField, ScoringProfile } from "../types";
 import { getEnvironmentVariable } from "../utils/helpers";
 
 config();
@@ -37,6 +37,17 @@ describe("AI search index creation and data loading", () => {
     expect(field?.name).toBe(name);
     expect(field?.type).toBe("Edm.ComplexType");
     expect(field?.fields?.length).toBe(fieldLength);
+  };
+
+  const expectScoringProfileToMatch = (
+    profile: ScoringProfile,
+    profileName: string,
+    fieldName: string,
+    weight: number
+  ) => {
+    expect(profile?.name).toBe(profileName);
+    expect(profile?.text?.weights).toHaveProperty(fieldName);
+    expect(profile?.text?.weights[fieldName]).toBe(weight);
   };
 
   test("should create index with expected fields", async () => {
@@ -81,6 +92,9 @@ describe("AI search index creation and data loading", () => {
       true,
       true
     );
+    expectScoringProfileToMatch(index.scoringProfiles[0], "IndicatorScoringProfile", "IID", 20);
+    expectScoringProfileToMatch(index.scoringProfiles[1], "NameScoringProfile", "IID", 10);
+    expectScoringProfileToMatch(index.scoringProfiles[2], "DefinitionScoringProfile", "IID", 5);
   });
 
   test("should populate index with data", async () => {
