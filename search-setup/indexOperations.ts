@@ -5,26 +5,24 @@ import {
   SearchClient,
   SearchFieldDataType,
 } from "@azure/search-documents";
-import { Data } from "./types.js";
+import { GeographySearchData, IndicatorSearchData } from "./types.js";
 
-export async function createSearchIndex(
+export async function createIndex(
   indexClient: SearchIndexClient,
-  indexName: string
+  index: SearchIndex
 ): Promise<void> {
-  const index = buildSearchIndex(indexName);
   await indexClient.createOrUpdateIndex(index);
-  console.log(`Created or modified index with name: ${indexName}`);
+  console.log(`Created or modified index with name: ${index.name}`);
 }
 
-export async function populateIndex(
-  searchClient: SearchClient<Data>,
-  indexData: Data[]
-): Promise<void> {
+export async function populateIndex<
+  T extends IndicatorSearchData | GeographySearchData
+>(searchClient: SearchClient<T>, indexData: T[]): Promise<void> {
   await searchClient.mergeOrUploadDocuments(indexData);
   console.log(`Uploaded data to index with name: ${searchClient.indexName}`);
 }
 
-function buildSearchIndex(name: string): SearchIndex {
+export function buildIndicatorSearchIndex(name: string): SearchIndex {
   return {
     name,
     fields: [
@@ -44,19 +42,69 @@ function buildSearchIndex(name: string): SearchIndex {
   };
 }
 
+export function buildGeographySearchIndex(name: string): SearchIndex {
+  return {
+    name,
+    fields: [
+      {
+        key: true,
+        ...buildSearchIndexField("ID", "Edm.String", true, true, true),
+      },
+      buildSearchIndexField("Name", "Edm.String", true, true, true),
+      buildSearchIndexField("Type", "Edm.String", true, true, true),
+      {
+        name: "Address",
+        type: "Edm.ComplexType",
+        fields: [
+          buildSearchIndexField("AddressLine1", "Edm.String", true, true, true),
+          buildSearchIndexField(
+            "AddressLine2",
+            "Edm.String",
+            true,
+            false,
+            false
+          ),
+          buildSearchIndexField(
+            "AddressLine3",
+            "Edm.String",
+            true,
+            false,
+            false
+          ),
+          buildSearchIndexField(
+            "AddressLine4",
+            "Edm.String",
+            true,
+            false,
+            false
+          ),
+          buildSearchIndexField("Postcode", "Edm.String", true, true, true),
+        ],
+      },
+    ],
+    suggesters: [
+      {
+        name: "sg",
+        searchMode: "analyzingInfixMatching",
+        sourceFields: ["Name", "Address/AddressLine1", "Address/Postcode"],
+      },
+    ],
+  };
+}
+
 function buildSearchIndexField(
   name: string,
   type: SearchFieldDataType,
-  sortable: boolean,
   searchable: boolean,
+  sortable: boolean,
   filterable: boolean,
   hidden: boolean = false
 ): SearchField {
   return {
     name,
     type,
-    sortable,
     searchable,
+    sortable,
     filterable,
     hidden,
   };
