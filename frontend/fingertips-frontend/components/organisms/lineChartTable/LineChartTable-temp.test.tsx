@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { registryWrapper } from '@/lib/testutils';
-import { LineChartTable } from '@/components/organisms/lineChartTable';
+import { LineChartTable } from '@/components/organisms/LineChartTable';
 
 const mockData: WeatherForecast[] = [
   {
