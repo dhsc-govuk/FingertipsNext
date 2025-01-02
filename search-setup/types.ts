@@ -42,3 +42,7 @@ export interface ScoringProfile {
     }
   }
 }
+
+export interface ScoringWeight {
+  [propertyName: string]: number;
+}

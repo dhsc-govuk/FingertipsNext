@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { DocumentResponse, SearchIndexResponse, IndexField, ScoringProfile } from "../types";
+import { DocumentResponse, SearchIndexResponse, IndexField, ScoringProfile, ScoringWeight } from "../types";
 import { getEnvironmentVariable } from "../utils/helpers";
 
 config();
@@ -42,12 +42,15 @@ describe("AI search index creation and data loading", () => {
   const expectScoringProfileToMatch = (
     profile: ScoringProfile,
     profileName: string,
-    fieldName: string,
-    weight: number
+    weights: ScoringWeight[]
   ) => {
     expect(profile?.name).toBe(profileName);
-    expect(profile?.text?.weights).toHaveProperty(fieldName);
-    expect(profile?.text?.weights[fieldName]).toBe(weight);
+    for (const weighting of weights) {
+      for (const key of Object.keys(weighting)) {
+        expect(profile?.text?.weights).toHaveProperty(key);
+        expect(profile?.text?.weights[key]).toBe(weighting[key]);
+      }
+    }
   };
 
   test("should create index with expected fields", async () => {
@@ -92,9 +95,13 @@ describe("AI search index creation and data loading", () => {
       true,
       true
     );
-    expectScoringProfileToMatch(index.scoringProfiles[0], "IndicatorScoringProfile", "IID", 20);
-    expectScoringProfileToMatch(index.scoringProfiles[1], "NameScoringProfile", "IID", 10);
-    expectScoringProfileToMatch(index.scoringProfiles[2], "DefinitionScoringProfile", "IID", 5);
+    expectScoringProfileToMatch(index.scoringProfiles[0],
+      "BasicScoringProfile",
+      [
+        { "IID": 20 },
+        { "Descriptive/Name": 10 },
+        { "Descriptive/Definition": 5 },
+      ]);
   });
 
   test("should populate index with data", async () => {

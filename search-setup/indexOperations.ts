@@ -6,7 +6,7 @@ import {
   SearchFieldDataType,
   ScoringProfile,
 } from "@azure/search-documents";
-import { Data } from "./types.js";
+import { Data, ScoringWeight } from "./types.js";
 
 export async function createSearchIndex(
   indexClient: SearchIndexClient,
@@ -43,9 +43,14 @@ function buildSearchIndex(name: string): SearchIndex {
       },
     ],
     scoringProfiles: [
-      buildScoringProfile("IndicatorScoringProfile", "IID", 20),
-      buildScoringProfile("NameScoringProfile", "Descriptive/Name", 10),
-      buildScoringProfile("DefinitionScoringProfile", "Descriptive/Definition", 5),
+      buildScoringProfile(
+        "BasicScoringProfile",
+        [
+          { "IID": 20 },
+          { "Descriptive/Name": 10 },
+          { "Descriptive/Definition": 5 },
+        ]
+      )
     ],
   };
 }
@@ -70,15 +75,20 @@ function buildSearchIndexField(
 
 function buildScoringProfile(
   name: string,
-  field: string,
-  weight: number
+  weights: ScoringWeight[]
 ): ScoringProfile {
-  return {
+  let scoringProfile: ScoringProfile = 
+   {
     name: name,
     textWeights: {
       weights: {
-        [field]: weight
       }
     }
   };
+
+  for (const weighting of weights) {
+    scoringProfile.textWeights!.weights = { ...scoringProfile.textWeights!.weights, ...weighting };
+  }
+
+  return scoringProfile;
 }
