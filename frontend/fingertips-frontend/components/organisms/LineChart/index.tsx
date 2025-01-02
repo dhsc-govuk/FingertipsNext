@@ -1,6 +1,10 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthCareData } from '@/app/chart/health-data';
+import {
+  formatYearsForXAxis,
+  generateSeriesData,
+} from '@/components/pages/chart/helper';
 
 interface LineChartProps {
   data: HealthCareData[];
@@ -17,24 +21,20 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const years = data.map((item) => item.healthData.map((point) => point.year));
-  const formatYear = years.flat().map((year) => year.toString());
+  const categoriesXAxis = formatYearsForXAxis(data);
+  const seriesData = generateSeriesData(data);
 
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line' },
     title: { text: title },
     xAxis: {
-      categories: Array.from(new Set(formatYear)),
+      categories: categoriesXAxis,
       title: { text: xAxisTitle },
     },
     yAxis: {
       title: { text: yAxisTitle },
     },
-    series: data.map((item) => ({
-      type: 'line',
-      name: `AreaCode ${item.areaCode}`,
-      data: item.healthData.map((point) => point.value),
-    })),
+    series: seriesData,
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

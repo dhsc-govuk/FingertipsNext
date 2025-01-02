@@ -25,5 +25,5 @@ export default async function ChartPage(
     areaCodes: [areaCode],
   });
 
-  return <Chart data={data} />;
+  return <Chart data={data} indicator={indicator} />;
 }

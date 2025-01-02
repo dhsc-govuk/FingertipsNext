@@ -2,75 +2,22 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { registryWrapper } from '@/lib/testutils';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
-import { HealthCareData } from '@/app/chart/health-data';
-
-const mockData: HealthCareData[] = [
-  {
-    areaCode: 'A1426',
-    healthData: [
-      {
-        year: 2023,
-        count: 222,
-        value: 506.60912,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-      },
-      {
-        year: 2023,
-        count: 222,
-        value: 506.60912,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-      },
-      {
-        year: 2023,
-        count: 222,
-        value: 506.60912,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-      },
-    ],
-  },
-  {
-    areaCode: 'A1426',
-    healthData: [
-      {
-        year: 2023,
-        count: 222,
-        value: 506.60912,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-      },
-      {
-        year: 2023,
-        count: 222,
-        value: 506.60912,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-      },
-    ],
-  },
-];
-
-const mockHeadings = [
-  'Area Code',
-  'Year',
-  'Count',
-  'Value',
-  'LowerCi',
-  'UpperCi',
-];
+import { mockHeadings, mockHealthData } from '@/mock/data/healthdata';
 
 test('snapshot test - should match snapshot', () => {
   const container = render(
-    registryWrapper(<LineChartTable data={mockData} headings={mockHeadings} />)
+    registryWrapper(
+      <LineChartTable data={mockHealthData} headings={mockHeadings} />
+    )
   );
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 test('should render the LineChartTable component', () => {
   render(
-    registryWrapper(<LineChartTable data={mockData} headings={mockHeadings} />)
+    registryWrapper(
+      <LineChartTable data={mockHealthData} headings={mockHeadings} />
+    )
   );
   const lineChart = screen.getByTestId('lineChartTable-component');
   expect(lineChart).toBeInTheDocument();
