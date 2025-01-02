@@ -8,15 +8,15 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
-import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
+import { BasicSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 
 type SearchResultProps = {
-  result: IndicatorSearchResult;
+  result: BasicSearchResult;
 };
 
 const StyledParagraph = styled(Paragraph)(
-  typography.font({ size: 19, lineHeight: '0.5' })
+  typography.font({ size: 19, lineHeight: '1.2' })
 );
 
 const StyledRow = styled(GridRow)(

@@ -1,21 +1,15 @@
-export interface IndicatorSearchResult {
-  id: number;
-  indicatorName: string;
-  latestDataPeriod: string;
-  dataSource: string;
-  lastUpdated: string;
-}
+import { Search, BasicSearchResult } from './searchResultData';
 
-export const MOCK_DATA: IndicatorSearchResult[] = [
+export const MOCK_DATA: BasicSearchResult[] = [
   {
-    id: 1,
+    id: '1',
     indicatorName: 'NHS',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdated: formatDate(new Date('December 6, 2024')),
   },
   {
-    id: 2,
+    id: '2',
     indicatorName: 'DHSC',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
@@ -31,6 +25,9 @@ function formatDate(date: Date): string {
   return `${day} ${month} ${year}`;
 }
 
-export const getSearchData = (): IndicatorSearchResult[] => {
-  return MOCK_DATA;
-};
+export class SearchServiceMock implements Search {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  searchWith(indicator: string): Promise<BasicSearchResult[]> {
+    return Promise.resolve(MOCK_DATA);
+  }
+}
