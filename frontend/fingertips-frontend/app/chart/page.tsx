@@ -17,10 +17,13 @@ export default async function ChartPage(
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
   const areaCode = searchParams?.areaCode ?? '';
-  
+
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
-  const data = await indicatorApi.getHealthDataForAnIndicator({indicatorId: Number(indicator), areaCodes: [areaCode]});
+  const data = await indicatorApi.getHealthDataForAnIndicator({
+    indicatorId: Number(indicator),
+    areaCodes: [areaCode],
+  });
 
   return <Chart data={data} />;
 }
