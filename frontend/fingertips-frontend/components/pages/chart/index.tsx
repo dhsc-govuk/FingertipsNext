@@ -20,7 +20,7 @@ export function Chart({ data }: Readonly<ChartProps>) {
         title="Healthcare Data"
         xAxisTitle="Year"
         yAxisTitle="Value"
-        accessibilityLabel="A line chart showing weather forecast"
+        accessibilityLabel="A line chart showing healthcare data"
       />
       <LineChartTable data={data} headings={headings}></LineChartTable>
     </>

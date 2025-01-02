@@ -1,6 +1,7 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
-import { getGetHealthDataForAnIndicator200Response } from '@/mock/server/handlers';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import { getApiConfiguration } from '@/lib/getApiConfiguration';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -16,20 +17,10 @@ export default async function ChartPage(
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
   const areaCode = searchParams?.areaCode ?? '';
-
-  const endpoint = getGetHealthDataForAnIndicator200Response();
-
-  // const data: HealthCareData[] = endpoint.map((item) => ({
-  //   areaCode: item.areaCode,
-  //   healthData: item.healthData,
-  // }));
   
-  const data = endpoint
-    .filter((item) => areaCode === '' || item.areaCode === areaCode)
-    .map((item) => ({
-      areaCode: item.areaCode,
-      healthData: item.healthData,
-    }));
+  const config = getApiConfiguration();
+  const indicatorApi = new IndicatorsApi(config);
+  const data = await indicatorApi.getHealthDataForAnIndicator({indicatorId: Number(indicator), areaCodes: [areaCode]});
 
   return <Chart data={data} />;
 }
