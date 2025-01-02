@@ -3,7 +3,7 @@
 import { LineChart } from '@/components/organisms/linechartsOptions';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { BackLink, H1 } from 'govuk-react';
-import { LineChartTable } from '@/components/organisms/LineChartTable2';
+import { LineChartTable } from '@/components/organisms/LineChartTable';
 
 type ChartProps = {
   data: WeatherForecast[];
