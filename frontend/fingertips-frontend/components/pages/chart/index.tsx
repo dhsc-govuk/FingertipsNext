@@ -3,6 +3,7 @@
 import { LineChart } from '@/components/organisms/LineChart';
 import { H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { HealthCareData } from '@/app/chart/health-data';
 
 type ChartProps = {
   data: HealthCareData[];

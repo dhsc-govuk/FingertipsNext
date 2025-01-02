@@ -1,4 +1,4 @@
-interface HealthCareData {
+export interface HealthCareData {
   areaCode: string;
   healthData: {
     year: number;

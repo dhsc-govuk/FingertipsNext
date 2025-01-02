@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { registryWrapper } from '@/lib/testutils';
+import { HealthCareData } from '@/app/chart/health-data';
 
 const mockData: HealthCareData[] = [
   {

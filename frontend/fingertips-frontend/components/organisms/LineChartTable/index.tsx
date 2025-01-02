@@ -1,6 +1,7 @@
 'use client';
 
 import { Table } from 'govuk-react';
+import { HealthCareData } from '@/app/chart/health-data';
 
 interface TableProps {
   data: HealthCareData[];

@@ -1,5 +1,6 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
+import { HealthCareData } from '@/app/chart/health-data';
 
 interface LineChartProps {
   data: HealthCareData[];
@@ -29,7 +30,7 @@ export function LineChart({
     yAxis: {
       title: { text: yAxisTitle },
     },
-    series: data.map((item, index) => ({
+    series: data.map((item) => ({
       type: 'line',
       name: `AreaCode ${item.areaCode}`,
       data: item.healthData.map((point) => point.value),
