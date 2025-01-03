@@ -48,7 +48,7 @@ export function getGetWeatherForecast200Response() {
 export function getFilterIndicators200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
+  ].map(() => ({
     indicator_id: 3456,
     title: 'Hypertension: QOF prevalence (all ages)',
   }));
