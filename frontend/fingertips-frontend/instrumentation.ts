@@ -4,7 +4,9 @@ const startMockServer = async () => {
     process.env.MOCK_SERVER === 'true'
   ) {
     const { server } = await import('./mock/server/node');
-    server.listen();
+    server.listen({
+      onUnhandledRequest: 'bypass',
+    });
   }
 };
 

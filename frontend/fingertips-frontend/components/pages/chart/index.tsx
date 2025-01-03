@@ -2,18 +2,29 @@
 
 import { LineChart } from '@/components/organisms/LineChart';
 import { WeatherForecast } from '@/generated-sources/api-client';
-import { H1 } from 'govuk-react';
+import { BackLink, H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type ChartProps = {
   data: WeatherForecast[];
+  indicator?: string;
+  indicatorsSelected?: string[];
 };
 
 const headings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
 
-export function Chart({ data }: Readonly<ChartProps>) {
+export function Chart({
+  data,
+  indicator,
+  indicatorsSelected = [],
+}: Readonly<ChartProps>) {
+  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
+  const backLinkPath = searchState.generatePath('/search/results');
+
   return (
     <>
+      <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H1>Line Chart</H1>
       <LineChart
         data={data}
