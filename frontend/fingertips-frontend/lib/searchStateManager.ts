@@ -1,3 +1,5 @@
+export const encodedCommaSeperator = encodeURIComponent(',');
+
 export class SearchStateManager {
   private indicator: string | undefined | null;
   private indicatorsSelected: string[] | undefined | null;
@@ -23,7 +25,7 @@ export class SearchStateManager {
 
   private addIndicatorsSelectedToPath(): string | undefined {
     if (this.indicatorsSelected && this.indicatorsSelected.length > 0) {
-      return `&indicatorsSelected=${this.indicatorsSelected.join(encodeURIComponent(','))}`;
+      return `&indicatorsSelected=${this.indicatorsSelected.join(encodedCommaSeperator)}`;
     }
   }
 
@@ -40,7 +42,7 @@ export class SearchStateManager {
   public setStateFromParams(params: URLSearchParams) {
     this.indicator = params.get('indicator');
     this.indicatorsSelected =
-      params.get('indicatorsSelected')?.split(encodeURI(',')) ?? [];
+      params.get('indicatorsSelected')?.split(encodedCommaSeperator) ?? [];
   }
 
   public generatePath(path: string) {

@@ -1,6 +1,7 @@
-import { SearchStateManager } from './searchStateManager';
-
-const encodedCommaSeperator = encodeURIComponent(',');
+import {
+  SearchStateManager,
+  encodedCommaSeperator,
+} from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
