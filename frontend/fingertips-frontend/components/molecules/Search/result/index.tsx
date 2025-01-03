@@ -11,7 +11,7 @@ import { spacing, typography } from '@govuk-react/lib';
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { updateIndicatorsSelectedUrlParam } from './clientActions';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;
@@ -44,13 +44,16 @@ export function SearchResult({
   const handleClick = (indicatorId: string, checked: boolean) => {
     const params = new URLSearchParams(searchParams);
 
-    const updatedParams = updateIndicatorsSelectedUrlParam(
-      params,
-      indicatorId,
-      checked
-    );
+    const searchState = new SearchStateManager();
+    searchState.setStateFromParams(params);
 
-    replace(`${pathname}?${updatedParams.toString()}`, { scroll: false });
+    if (checked) {
+      searchState.addIndicatorSelected(indicatorId);
+    } else {
+      searchState.removeIndicatorSelected(indicatorId);
+    }
+
+    replace(searchState.generatePath(pathname), { scroll: false });
   };
 
   return (

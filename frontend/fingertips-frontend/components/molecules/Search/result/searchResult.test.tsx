@@ -7,13 +7,14 @@ import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
+
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: jest.fn(),
+    useSearchParams: () => ({ indicator: 'test' }),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -76,9 +77,12 @@ describe('Search Result Suite', () => {
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toBeCalledWith(`${mockPath}?indicatorsSelected=1`, {
-      scroll: false,
-    });
+    expect(mockReplace).toBeCalledWith(
+      `${mockPath}?indicator=test&indicatorsSelected=1`,
+      {
+        scroll: false,
+      }
+    );
   });
 
   it('snapshot test', () => {

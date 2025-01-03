@@ -4,6 +4,7 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { WeatherForecast } from '@/generated-sources/api-client';
 import { BackLink, H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type ChartProps = {
   data: WeatherForecast[];
@@ -18,12 +19,12 @@ export function Chart({
   indicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
+  const searchState = new SearchStateManager(indicator, indicatorsSelected);
+  const backLinkPath = searchState.generatePath('/search/results');
+
   return (
     <>
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={`/search/results?indicator=${indicator}&indicatorsSelected=${encodeURIComponent(indicatorsSelected?.join(','))}`}
-      />
+      <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H1>Line Chart</H1>
       <LineChart
         data={data}

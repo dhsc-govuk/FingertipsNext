@@ -1,5 +1,6 @@
 'use server';
 
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
 
 export type SearchResultState = {
@@ -11,11 +12,13 @@ export async function viewCharts(
   prevState: SearchResultState,
   formData: FormData
 ): Promise<SearchResultState> {
-  const indicator = prevState.indicator ?? formData.get('searchedIndicator');
-  const indicatorsSelected = formData.getAll('indicator')?.toString();
+  const indicator =
+    prevState.indicator ?? formData.get('searchedIndicator')?.toString();
+  const indicatorsSelected = formData
+    .getAll('indicator')
+    ?.toString()
+    .split(',');
 
-  redirect(
-    `/chart?indicator=${indicator}&indicatorsSelected=${encodeURIComponent(indicatorsSelected)}`,
-    RedirectType.push
-  );
+  const searchState = new SearchStateManager(indicator, indicatorsSelected);
+  redirect(searchState.generatePath('/chart'), RedirectType.push);
 }

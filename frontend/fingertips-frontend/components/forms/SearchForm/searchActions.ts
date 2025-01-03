@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 const $SearchFormSchema = z.object({
   indicator: z
@@ -39,5 +40,6 @@ export async function searchIndicator(
 
   const { indicator } = validatedFields.data;
 
-  redirect(`/search/results?indicator=${indicator}`, RedirectType.push);
+  const searchState = new SearchStateManager(indicator);
+  redirect(searchState.generatePath('/search/results'), RedirectType.push);
 }
