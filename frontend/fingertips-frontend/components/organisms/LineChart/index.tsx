@@ -4,7 +4,7 @@ import { HealthCareData } from '@/app/chart/health-data';
 import {
   formatYearsForXAxis,
   generateSeriesData,
-} from '@/components/pages/chart/helper';
+} from '@/lib/chartHelpers/formatLineChartValues';
 
 interface LineChartProps {
   data: HealthCareData[];
