@@ -5,10 +5,8 @@ export function formatYearsForXAxis(data: HealthCareData[]) {
   const years = data.flatMap((item) =>
     item.healthData.map((point) => point.year)
   );
-  const formatYear = years.map((year) => year.toString());
-  return Array.from(new Set(formatYear)).sort(
-    (a, b) => parseInt(a) - parseInt(b)
-  );
+  const orderYears = Array.from(new Set(years)).sort((a, b) => a - b);
+  return orderYears.map((year) => year.toString());
 }
 
 export function generateSeriesData(
