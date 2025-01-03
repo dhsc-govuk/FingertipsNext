@@ -1,6 +1,6 @@
 export class SearchStateManager {
-  indicator: string | undefined | null;
-  indicatorsSelected: string[] | undefined | null;
+  private indicator: string | undefined | null;
+  private indicatorsSelected: string[] | undefined | null;
 
   constructor(indicator?: string, indicatorsSelected?: string[]) {
     this.indicator = indicator;
