@@ -1,4 +1,5 @@
-import { Configuration } from '@/generated-sources/api-client';
+import { Configuration } from '@/generated-sources/ft-api-client';
+
 
 export function getApiConfiguration(): Configuration {
   const apiUrl = process.env.FINGERTIPS_API_URL;
