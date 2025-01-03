@@ -1,16 +1,22 @@
 export const encodedCommaSeperator = encodeURIComponent(',');
 
-export class SearchStateManager {
-  private indicator: string | undefined | null;
-  private indicatorsSelected: string[] | undefined | null;
+export type SearchState = {
+  indicator?: string | null;
+  indicatorsSelected?: string[] | null;
+};
 
-  constructor(indicator?: string, indicatorsSelected?: string[]) {
-    this.indicator = indicator;
-    this.indicatorsSelected = indicatorsSelected ?? [];
+export class SearchStateManager {
+  private searchState: SearchState | undefined | null;
+
+  constructor(searchState?: SearchState) {
+    this.searchState = {
+      indicator: searchState?.indicator,
+      indicatorsSelected: searchState?.indicatorsSelected ?? [],
+    };
   }
 
   private hasState() {
-    if (this.indicator || this.indicatorsSelected) {
+    if (this.searchState?.indicator || this.searchState?.indicatorsSelected) {
       return true;
     }
 
@@ -18,31 +24,41 @@ export class SearchStateManager {
   }
 
   private addIndicatorToPath(): string | undefined {
-    if (this.indicator) {
-      return `?indicator=${this.indicator}`;
+    if (this.searchState?.indicator) {
+      return `?indicator=${this.searchState.indicator}`;
     }
   }
 
   private addIndicatorsSelectedToPath(): string | undefined {
-    if (this.indicatorsSelected && this.indicatorsSelected.length > 0) {
-      return `&indicatorsSelected=${this.indicatorsSelected.join(encodedCommaSeperator)}`;
+    if (
+      this.searchState?.indicatorsSelected &&
+      this.searchState?.indicatorsSelected.length > 0
+    ) {
+      return `&indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`;
     }
   }
 
   public addIndicatorSelected(indicatorId: string) {
-    this.indicatorsSelected?.push(indicatorId);
+    this.searchState?.indicatorsSelected?.push(indicatorId);
   }
 
   public removeIndicatorSelected(indicatorId: string) {
-    this.indicatorsSelected = this.indicatorsSelected?.filter((ind) => {
-      return ind !== indicatorId;
-    });
+    this.searchState = {
+      ...this.searchState,
+      indicatorsSelected: this.searchState?.indicatorsSelected?.filter(
+        (ind) => {
+          return ind !== indicatorId;
+        }
+      ),
+    };
   }
 
   public setStateFromParams(params: URLSearchParams) {
-    this.indicator = params.get('indicator');
-    this.indicatorsSelected =
-      params.get('indicatorsSelected')?.split(encodedCommaSeperator) ?? [];
+    this.searchState = {
+      ...this.searchState,
+      indicator: params.get('indicator'),
+      indicatorsSelected: params.get('indicatorsSelected')?.split(',') ?? [],
+    };
   }
 
   public generatePath(path: string) {

@@ -19,6 +19,6 @@ export async function viewCharts(
     ?.toString()
     .split(',');
 
-  const searchState = new SearchStateManager(indicator, indicatorsSelected);
+  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
   redirect(searchState.generatePath('/chart'), RedirectType.push);
 }

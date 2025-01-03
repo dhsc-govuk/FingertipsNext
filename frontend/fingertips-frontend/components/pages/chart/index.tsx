@@ -19,7 +19,7 @@ export function Chart({
   indicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager(indicator, indicatorsSelected);
+  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
   const backLinkPath = searchState.generatePath('/search/results');
 
   return (

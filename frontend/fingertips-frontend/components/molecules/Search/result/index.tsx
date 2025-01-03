@@ -43,7 +43,6 @@ export function SearchResult({
 
   const handleClick = (indicatorId: string, checked: boolean) => {
     const params = new URLSearchParams(searchParams);
-
     const searchState = new SearchStateManager();
     searchState.setStateFromParams(params);
 
