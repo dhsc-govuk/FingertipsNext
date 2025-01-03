@@ -1,6 +1,6 @@
 import { expect, test } from '../page-objects/pageFactory';
 
-test('View a line chart', async ({ chartPage, axeBuilder }) => {
+test('View a line chart and table', async ({ chartPage, axeBuilder }) => {
   // Arrange
   await chartPage.navigateToChart();
 
