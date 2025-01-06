@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { SearchResults } from '.';
-import { registryWrapper } from '@/lib/testutils';
 import { userEvent } from '@testing-library/user-event';
 import { viewCharts } from './searchResultsActions';
 
@@ -27,11 +26,7 @@ describe('Search Results Suite', () => {
   const indicator = 'test';
 
   it('should render elements', async () => {
-    render(
-      registryWrapper(
-        <SearchResults indicator={indicator} searchResults={[]} />
-      )
-    );
+    render(<SearchResults indicator={indicator} searchResults={[]} />);
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
@@ -41,11 +36,7 @@ describe('Search Results Suite', () => {
   });
 
   it('should render search results', () => {
-    render(
-      registryWrapper(
-        <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
-      )
-    );
+    render(<SearchResults indicator={indicator} searchResults={MOCK_DATA} />);
 
     expect(screen.getAllByTestId('search-result')).toHaveLength(
       MOCK_DATA.length
@@ -54,9 +45,7 @@ describe('Search Results Suite', () => {
   });
 
   it('should not render elements when no indicator is entered', () => {
-    render(
-      registryWrapper(<SearchResults indicator="" searchResults={MOCK_DATA} />)
-    );
+    render(<SearchResults indicator="" searchResults={MOCK_DATA} />);
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/no indicator entered/i)).toBeInTheDocument();
@@ -65,11 +54,7 @@ describe('Search Results Suite', () => {
   });
 
   it('should render no results found', () => {
-    render(
-      registryWrapper(
-        <SearchResults indicator={indicator} searchResults={[]} />
-      )
-    );
+    render(<SearchResults indicator={indicator} searchResults={[]} />);
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
@@ -126,9 +111,7 @@ describe('Search Results Suite', () => {
 
   it('snapshot test', () => {
     const container = render(
-      registryWrapper(
-        <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
-      )
+      <SearchResults indicator={indicator} searchResults={MOCK_DATA} />
     );
 
     expect(container.asFragment()).toMatchSnapshot();

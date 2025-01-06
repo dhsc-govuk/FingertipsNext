@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
-import { registryWrapper } from '@/lib/testutils';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 
 const mockData: WeatherForecast[] = [
@@ -24,15 +23,13 @@ const mockHeadings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
 
 test('snapshot test - should match snapshot', () => {
   const container = render(
-    registryWrapper(<LineChartTable data={mockData} headings={mockHeadings} />)
+    <LineChartTable data={mockData} headings={mockHeadings} />
   );
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 test('should render the LineChartTable component', () => {
-  render(
-    registryWrapper(<LineChartTable data={mockData} headings={mockHeadings} />)
-  );
+  render(<LineChartTable data={mockData} headings={mockHeadings} />);
   const lineChart = screen.getByTestId('lineChartTable-component');
   expect(lineChart).toBeInTheDocument();
 });
