@@ -2,7 +2,7 @@ import { expect, test } from '../page-objects/pageFactory';
 
 const indicator = '123';
 
-test.only('Search via indicator assert results and chart displayed then navigate back', async ({
+test('Search via indicator assert results and chart displayed then navigate back', async ({
   searchPage,
   resultsPage,
   chartPage,
