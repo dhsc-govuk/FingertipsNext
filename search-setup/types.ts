@@ -18,7 +18,10 @@ interface DocumentValue extends Data {
 export interface SearchIndexResponse {
   name: string;
   fields: IndexField[];
+<<<<<<< HEAD
   scoringProfiles: ScoringProfile[];
+=======
+>>>>>>> main
 }
 
 export interface IndexField {
@@ -33,6 +36,7 @@ export interface IndexField {
   key?: boolean;
   fields?: IndexField[];
 }
+<<<<<<< HEAD
 
 export interface ScoringProfile {
   name: string;
@@ -46,3 +50,5 @@ export interface ScoringProfile {
 export interface ScoringWeight {
   [propertyName: string]: number;
 }
+=======
+>>>>>>> main
