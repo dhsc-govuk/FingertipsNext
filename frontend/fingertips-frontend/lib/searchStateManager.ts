@@ -1,12 +1,12 @@
 export const encodedCommaSeperator = encodeURIComponent(',');
 
 export type SearchState = {
-  indicator?: string | null;
-  indicatorsSelected?: string[] | null;
+  indicator?: string;
+  indicatorsSelected?: string[];
 };
 
 export class SearchStateManager {
-  private searchState: SearchState | undefined | null;
+  private searchState: SearchState | undefined;
 
   constructor(searchState?: SearchState) {
     this.searchState = {
@@ -56,7 +56,7 @@ export class SearchStateManager {
   public setStateFromParams(params: URLSearchParams) {
     this.searchState = {
       ...this.searchState,
-      indicator: params.get('indicator'),
+      indicator: params.get('indicator') ?? undefined,
       indicatorsSelected: params.get('indicatorsSelected')?.split(',') ?? [],
     };
   }
