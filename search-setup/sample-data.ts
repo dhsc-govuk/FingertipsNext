@@ -8,6 +8,7 @@ export const sampleData: Data[] = [
       Definition:
         "Directly age-standardised mortality rate for all deaths, per 100,000 population, in those aged under 75 years",
     },
+    LatestDataPeriod: "2022",
   },
   {
     IID: "113",
@@ -16,6 +17,7 @@ export const sampleData: Data[] = [
       Definition:
         "<p>Deaths attributable to smoking, directly age standardised rate for persons aged 35 years +. Relative risks by ICD10 code from The Information Centre for Health and Social Care, Statistics on Smoking: England 2010. A full description of the methodology is available in the APHO Health Profiles user guide.</p>",
     },
+    LatestDataPeriod: "2022",
   },
   {
     IID: "114",
@@ -23,6 +25,7 @@ export const sampleData: Data[] = [
       Name: "QOF Total List Size",
       Definition: "Total number of patients registered with the practice",
     },
+    LatestDataPeriod: "2024",
   },
   {
     IID: "200",
@@ -31,6 +34,7 @@ export const sampleData: Data[] = [
       Definition:
         "The percentage of patients with learning disabilities, as recorded on practice disease registers",
     },
+    LatestDataPeriod: "2019",
   },
   {
     IID: "212",
@@ -39,6 +43,7 @@ export const sampleData: Data[] = [
       Definition:
         "The percentage of patients with stroke or transient ischaemic attack (TIA), as recorded on practice disease registers (proportion of total list size).",
     },
+    LatestDataPeriod: "2007",
   },
   {
     IID: "300",
@@ -47,6 +52,7 @@ export const sampleData: Data[] = [
       Definition:
         "Proportion of eligible children measured in the National Child Measurement Programme (NCMP)",
     },
+    LatestDataPeriod: "2023",
   },
   {
     IID: "310",
@@ -54,6 +60,7 @@ export const sampleData: Data[] = [
       Name: "Rate of admissions due to liver disease in per 300,000 population",
       Definition: "Directly age-standardised rate of hospital admissions due to liver disease in per 300,000 population",
     },
+    LatestDataPeriod: "2009",
   },
   {
     IID: "316",
@@ -62,6 +69,7 @@ export const sampleData: Data[] = [
       Definition: 
         "The annual proportion of drug sensitive TB notifications expected to complete treatment within 310 days of treatment start date",
     },
+    LatestDataPeriod: "2024",
   },
   {
     IID: "327",
@@ -70,6 +78,7 @@ export const sampleData: Data[] = [
       Definition: 
         "Study across 316 hospitals of the number of service requests with first treatment appointment in the month where the individual had a significant wait",
     },
+    LatestDataPeriod: "2023",
   },
   {
     IID: "330",
@@ -78,5 +87,6 @@ export const sampleData: Data[] = [
       Definition: 
         "Study of the number of service requests with first treatment appointment in the month where the individual had a > 310 day wait",
     },
+    LatestDataPeriod: "2024",
   },
 ];

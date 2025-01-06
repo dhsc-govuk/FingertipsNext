@@ -45,6 +45,9 @@ function buildSearchIndex(name: string): SearchIndex {
           buildSearchIndexField("Definition", "Edm.String", true, true, true),
         ],
       },
+      {
+        ...buildSearchIndexField("LatestDataPeriod", "Edm.String", true, true, true),
+      },
     ],
     scoringProfiles: [
       buildScoringProfile(
