@@ -1,5 +1,9 @@
 import { Search, BasicSearchResult } from './searchResultData';
-import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
+import {
+  AzureKeyCredential,
+  SearchClient,
+  SearchOptions,
+} from '@azure/search-documents';
 import { getEnvironmentVariable } from '../utils';
 
 type Indicator = {
@@ -20,9 +24,13 @@ export class SearchService implements Search {
   readonly apiKey: string;
 
   constructor() {
-    this.serviceUrl = getEnvironmentVariable('DHSC_AI_SEARCH_SERVICE_URL');
-    this.indexName = getEnvironmentVariable('DHSC_AI_SEARCH_INDEX_NAME');
-    this.apiKey = getEnvironmentVariable('DHSC_AI_SEARCH_API_KEY');
+    this.serviceUrl = getEnvironmentVariable(
+      'DHSC_AI_SEARCH_SERVICE_URL'
+    ) as string;
+    this.indexName = getEnvironmentVariable(
+      'DHSC_AI_SEARCH_INDEX_NAME'
+    ) as string;
+    this.apiKey = getEnvironmentVariable('DHSC_AI_SEARCH_API_KEY') as string;
   }
 
   async searchWith(searchTerm: string): Promise<BasicSearchResult[]> {
@@ -34,10 +42,20 @@ export class SearchService implements Search {
       new AzureKeyCredential(this.apiKey)
     );
 
-    const searchResponse = await searchClient.search(query, {
+    const searchOptions: SearchOptions<Indicator> = {
       queryType: 'full',
       includeTotalCount: true,
-    });
+    };
+
+    const scoringProfile = getEnvironmentVariable(
+      'DHSC_AI_SEARCH_SCORING_PROFILE',
+      false
+    );
+    if (scoringProfile) {
+      searchOptions.scoringProfile = scoringProfile;
+    }
+
+    const searchResponse = await searchClient.search(query, searchOptions);
 
     const results: BasicSearchResult[] = [];
     for await (const result of searchResponse.results) {

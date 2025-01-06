@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  H1,
-  Link,
-  Paragraph,
-} from 'govuk-react';
+import { H1, Link, Paragraph } from 'govuk-react';
 
 type ErrorPageProps = {
   errorText: string;
@@ -15,7 +11,7 @@ type ErrorPageProps = {
 export function ErrorPage({
   errorText,
   errorLink,
-  errorLinkText
+  errorLinkText,
 }: Readonly<ErrorPageProps>) {
   return (
     <>

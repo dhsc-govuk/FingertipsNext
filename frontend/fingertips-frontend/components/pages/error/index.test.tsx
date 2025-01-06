@@ -11,18 +11,28 @@ describe('Error Page', () => {
   test('should render elements', async () => {
     render(
       registryWrapper(
-        <ErrorPage errorText={errorText} errorLink={errorLink} errorLinkText={errorLinkText} />
+        <ErrorPage
+          errorText={errorText}
+          errorLink={errorLink}
+          errorLinkText={errorLinkText}
+        />
       )
     );
 
     expect(screen.getByText(/test error text/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'test error link text' })).toHaveAttribute('href', '/test-link');
+    expect(
+      screen.getByRole('link', { name: 'test error link text' })
+    ).toHaveAttribute('href', '/test-link');
   });
 
   test('snapshot test', () => {
     const container = render(
       registryWrapper(
-        <ErrorPage errorText={errorText} errorLink={errorLink} errorLinkText={errorLinkText} />
+        <ErrorPage
+          errorText={errorText}
+          errorLink={errorLink}
+          errorLinkText={errorLinkText}
+        />
       )
     );
 

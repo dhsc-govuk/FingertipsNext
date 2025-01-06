@@ -11,11 +11,16 @@ export const shouldForwardProp = (
 
 export const isBrowser = () => typeof window !== 'undefined';
 
-export const getEnvironmentVariable = (name: string): string => {
+export const getEnvironmentVariable = (
+  name: string,
+  throwOnError: boolean = true
+): string | void => {
   return (
     process.env[name] ??
     (() => {
-      throw new Error(`Missing environment variable ${name}`);
+      if (throwOnError) {
+        throw new Error(`Missing environment variable ${name}`);
+      }
     })()
   );
 };
