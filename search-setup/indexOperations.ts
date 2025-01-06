@@ -6,6 +6,7 @@ import {
   SearchFieldDataType,
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "./types.js";
+import { getEnvironmentVariable } from "./utils/helpers.js";
 
 export async function createIndex(
   indexClient: SearchIndexClient,
@@ -52,41 +53,15 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
       },
       buildSearchIndexField("Name", "Edm.String", true, true, true),
       buildSearchIndexField("Type", "Edm.String", true, true, true),
-      {
-        name: "Address",
-        type: "Edm.ComplexType",
-        fields: [
-          buildSearchIndexField("AddressLine1", "Edm.String", true, true, true),
-          buildSearchIndexField(
-            "AddressLine2",
-            "Edm.String",
-            true,
-            false,
-            false
-          ),
-          buildSearchIndexField(
-            "AddressLine3",
-            "Edm.String",
-            true,
-            false,
-            false
-          ),
-          buildSearchIndexField(
-            "AddressLine4",
-            "Edm.String",
-            true,
-            false,
-            false
-          ),
-          buildSearchIndexField("Postcode", "Edm.String", true, true, true),
-        ],
-      },
+      buildSearchIndexField("Postcode", "Edm.String", true, true, true),
     ],
     suggesters: [
       {
-        name: "sg",
+        name: getEnvironmentVariable(
+          "AI_SEARCH_BY_GEOGRAPHY_INDEX_SUGGESTER_NAME"
+        ),
         searchMode: "analyzingInfixMatching",
-        sourceFields: ["Name", "Address/AddressLine1", "Address/Postcode"],
+        sourceFields: ["Name", "Postcode"],
       },
     ],
   };

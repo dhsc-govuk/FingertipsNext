@@ -47,32 +47,18 @@ export const sampleGeographyData: GeographySearchData[] = [
     ID: "1",
     Name: "Manchester",
     Type: "City",
-    Address: {
-      AddressLine1: "One Piccadilly Place",
-      AddressLine2: "1 Auburn St",
-      AddressLine3: "Old Trafford",
-      AddressLine4: "DeansGate",
-      Postcode: "M1 3DG",
-    },
+    Postcode: "M1 3DG",
   },
   {
     ID: "2",
     Name: "Blackburn",
     Type: "City",
-    Address: {
-      AddressLine1: "Suite 402",
-      AddressLine2: "Daisyfield Business Centre",
-      AddressLine3: "Appleby St",
-      Postcode: "BB1 3BL",
-    },
+    Postcode: "BB1 3BL",
   },
   {
     ID: "3",
     Name: "London",
     Type: "City",
-    Address: {
-      AddressLine1: "200 Westminster Bridge Rd",
-      Postcode: "SE1 7UT",
-    },
+    Postcode: "BB1 3BL",
   },
 ];

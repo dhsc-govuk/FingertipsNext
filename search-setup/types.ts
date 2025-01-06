@@ -10,22 +10,12 @@ export interface GeographySearchData {
   ID: string;
   Name: string;
   Type: string;
-  Address: {
-    AddressLine1: string;
-    AddressLine2?: string;
-    AddressLine3?: string;
-    AddressLine4?: string;
-    Postcode: string;
-  };
+  Postcode: string;
 }
 
 export interface DocumentResponse {
   "@odata.context": string;
-  value: DocumentValue[];
-}
-
-interface DocumentValue extends IndicatorSearchData {
-  "@search.score": number;
+  value: IndicatorSearchData[] | GeographySearchData[];
 }
 
 export interface SearchIndexResponse {

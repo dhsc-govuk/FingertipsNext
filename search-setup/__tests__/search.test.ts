@@ -20,7 +20,7 @@ describe("AI search index creation and data loading", () => {
   const URL_SUFFIX = "?api-version=2024-07-01";
 
   describe("Search by indicator", () => {
-    beforeEach(() => {
+    beforeAll(() => {
       indexName = getEnvironmentVariable("AI_SEARCH_BY_INDICATOR_INDEX_NAME");
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
@@ -70,7 +70,9 @@ describe("AI search index creation and data loading", () => {
     });
 
     test("should populate indicator index with data", async () => {
-      await expectIndexToBePopulated();
+      const url = `${urlPrefix}/docs${URL_SUFFIX}`;
+
+      await expectIndexToBePopulated(url);
     });
   });
 
@@ -82,7 +84,7 @@ describe("AI search index creation and data loading", () => {
       suggesterName: SUGGESTER_NAME,
     };
 
-    beforeEach(() => {
+    beforeAll(() => {
       indexName = getEnvironmentVariable("AI_SEARCH_BY_GEOGRAPHY_INDEX_NAME");
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
@@ -128,45 +130,8 @@ describe("AI search index creation and data loading", () => {
         true,
         true
       );
-      expectComplexFieldToMatch(index.fields.at(3), "Address", 5);
       expectFieldToMatch(
-        index.fields.at(3)?.fields?.at(0),
-        "AddressLine1",
-        "Edm.String",
-        true,
-        true,
-        true,
-        true
-      );
-      expectFieldToMatch(
-        index.fields.at(3)?.fields?.at(1),
-        "AddressLine2",
-        "Edm.String",
-        true,
-        true,
-        false,
-        false
-      );
-      expectFieldToMatch(
-        index.fields.at(3)?.fields?.at(2),
-        "AddressLine3",
-        "Edm.String",
-        true,
-        true,
-        false,
-        false
-      );
-      expectFieldToMatch(
-        index.fields.at(3)?.fields?.at(3),
-        "AddressLine4",
-        "Edm.String",
-        true,
-        true,
-        false,
-        false
-      );
-      expectFieldToMatch(
-        index.fields.at(3)?.fields?.at(4),
+        index.fields.at(3),
         "Postcode",
         "Edm.String",
         true,
@@ -177,7 +142,9 @@ describe("AI search index creation and data loading", () => {
     });
 
     test("should populate geography index with data", async () => {
-      await expectIndexToBePopulated();
+      const url = `${urlPrefix}/docs${URL_SUFFIX}`;
+
+      await expectIndexToBePopulated(url);
     });
 
     test("should have autocomplete enabled", async () => {
@@ -239,9 +206,7 @@ describe("AI search index creation and data loading", () => {
     expect(field?.fields?.length).toBe(fieldLength);
   };
 
-  const expectIndexToBePopulated = async () => {
-    const url = `${urlPrefix}/docs${URL_SUFFIX}`;
-
+  const expectIndexToBePopulated = async (url: string) => {
     const response = await fetch(url, {
       headers: {
         "api-key": apiKey,
