@@ -17,6 +17,7 @@ describe('SearchService', () => {
   describe('if the environment is not configured it', () => {
     it('should throw an error on attempting to instantiate the service', () => {
       expect(() => {
+        // NOSONAR
         new SearchService();
       }).toThrow(Error);
     });
@@ -104,7 +105,7 @@ describe('SearchService', () => {
       ]);
     });
   });
-  
+
   describe('if the environment configuration includes a scoring profile', () => {
     beforeEach(() => {
       process.env.DHSC_AI_SEARCH_SERVICE_URL = 'test-url';
