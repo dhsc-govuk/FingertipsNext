@@ -13,6 +13,7 @@ type Indicator = {
     Definition: string;
     DataSource: string;
   };
+  LatestDataPeriod: string;
   DataChange: {
     LastUploadedAt: string;
   };
@@ -62,7 +63,7 @@ export class SearchService implements Search {
       results.push({
         id: result?.document?.IID,
         indicatorName: result?.document?.Descriptive?.Name,
-        latestDataPeriod: undefined,
+        latestDataPeriod: result?.document?.LatestDataPeriod,
         dataSource: result.document?.Descriptive?.DataSource,
         lastUpdated: result.document?.DataChange?.LastUploadedAt,
       });
