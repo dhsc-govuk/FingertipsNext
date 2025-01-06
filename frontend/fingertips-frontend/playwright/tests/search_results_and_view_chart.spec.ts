@@ -2,7 +2,7 @@ import { expect, test } from '../page-objects/pageFactory';
 
 const indicator = '123';
 
-test('Search via indicator assert results and chart displayed then navigate back', async ({
+test('Search via indicator and assert displayed results, check the chart is displayed finally navigate back through to search page', async ({
   searchPage,
   resultsPage,
   chartPage,
@@ -40,6 +40,9 @@ test('Search via indicator assert results and chart displayed then navigate back
   await chartPage.clickBackLink();
 
   // Assert
+  await resultsPage.checkURLIsCorrect(
+    `${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
+  );
   await resultsPage.checkSearchResults(indicator);
   await resultsPage.checkIndicatorCheckboxChecked('1');
   await resultsPage.checkIndicatorCheckboxChecked('2');
