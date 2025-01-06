@@ -65,7 +65,7 @@ describe('SearchStateManager', () => {
   });
 
   describe('generatePath', () => {
-    it('should just return the path provided when there is no state', () => {
+    it('should only return the path provided when there is no state', () => {
       const stateManager = new SearchStateManager();
       const generatedPath = stateManager.generatePath('/some-path');
 

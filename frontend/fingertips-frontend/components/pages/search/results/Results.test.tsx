@@ -40,6 +40,15 @@ describe('Search Results Suite', () => {
     );
   });
 
+  it('should render the backLink', () => {
+    render(<SearchResults indicator={indicator} searchResults={[]} />);
+
+    expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /back/i }).getAttribute('href')
+    ).toBe('/search?indicator=test');
+  });
+
   it('should render search results', () => {
     render(
       registryWrapper(
