@@ -18,7 +18,7 @@ export default class ChartPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async checkChart() {
+  async checkChartAndChartTable() {
     await expect(this.page.getByTestId(this.lineChartComponent)).toBeVisible();
     await expect(
       this.page.getByTestId(this.lineChartTableComponent)

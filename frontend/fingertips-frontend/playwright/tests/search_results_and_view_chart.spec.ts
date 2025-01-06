@@ -2,9 +2,10 @@ import { expect, test } from '../page-objects/pageFactory';
 
 const indicator = '123';
 
-test('Search via indicator and assert results', async ({
+test.only('Search via indicator assert results and chart displayed then navigate back', async ({
   searchPage,
   resultsPage,
+  chartPage,
   axeBuilder,
 }) => {
   // Arrange
@@ -22,56 +23,30 @@ test('Search via indicator and assert results', async ({
   await resultsPage.checkURLIsCorrect(indicator);
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await resultsPage.checkSearchResults(indicator);
-});
-
-test('Should return to search page upon results page back link click', async ({
-  searchPage,
-  resultsPage,
-}) => {
-  // Arrange
-  await searchPage.navigateToSearch();
-
-  // Assert
-  await searchPage.checkURLIsCorrect();
 
   // Act
-  await searchPage.typeIndicator(indicator);
-  await searchPage.clickSearchButton();
+  await resultsPage.clickIndicatorCheckbox('1');
+  await resultsPage.clickIndicatorCheckbox('2');
+  await resultsPage.clickViewChartsButton();
 
   // Assert
-  await resultsPage.checkURLIsCorrect(indicator);
+  await chartPage.checkURLIsCorrect(
+    `?indicator=${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
+  );
+  expect((await axeBuilder.analyze()).violations).toEqual([]);
+  await chartPage.checkChartAndChartTable();
+
+  // Act
+  await chartPage.clickBackLink();
+
+  // Assert
   await resultsPage.checkSearchResults(indicator);
+  await resultsPage.checkIndicatorCheckboxChecked('1');
+  await resultsPage.checkIndicatorCheckboxChecked('2');
 
   // Act
   await resultsPage.clickBackLink();
 
   // Assert
   await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
-});
-
-test('Should navigate to chart page and clicking back should keep checkboxes and search term selected', async ({
-  searchPage,
-  resultsPage,
-  chartPage,
-}) => {
-  await searchPage.navigateToSearch();
-  await searchPage.checkURLIsCorrect();
-
-  await searchPage.typeIndicator(indicator);
-  await searchPage.clickSearchButton();
-
-  await resultsPage.checkURLIsCorrect(indicator);
-  await resultsPage.checkSearchResults(indicator);
-  await resultsPage.clickIndicatorCheckbox('1');
-  await resultsPage.clickIndicatorCheckbox('2');
-  await resultsPage.clickViewChartsButton();
-
-  await chartPage.checkURLIsCorrect(
-    `?indicator=${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
-  );
-  await chartPage.clickBackLink();
-
-  await resultsPage.checkSearchResults(indicator);
-  await resultsPage.checkIndicatorCheckboxChecked('1');
-  await resultsPage.checkIndicatorCheckboxChecked('2');
 });
