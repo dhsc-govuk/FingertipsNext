@@ -114,8 +114,7 @@ jobs:
     name: Execute e2e tests
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.49.0-jammy
-      options: --user 1001
+      image: mcr.microsoft.com/playwright:v1.49.1-jammy
 
     strategy:
       matrix:
