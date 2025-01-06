@@ -1,5 +1,5 @@
 import { Chart } from '@/components/pages/chart';
-import { getApiConfiguration } from '@/lib/fetchData';
+import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { connection } from 'next/server';
 import { WeatherForecastApi } from '@/generated-sources/api-client';
 
