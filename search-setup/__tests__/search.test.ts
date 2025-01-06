@@ -1,9 +1,5 @@
 import { config } from "dotenv";
-<<<<<<< HEAD
 import { DocumentResponse, SearchIndexResponse, IndexField, ScoringProfile, ScoringWeight } from "../types";
-=======
-import { DocumentResponse, SearchIndexResponse, IndexField } from "../types";
->>>>>>> main
 import { getEnvironmentVariable } from "../utils/helpers";
 
 config();
@@ -43,7 +39,6 @@ describe("AI search index creation and data loading", () => {
     expect(field?.fields?.length).toBe(fieldLength);
   };
 
-<<<<<<< HEAD
   const expectScoringProfileToMatch = (
     profile: ScoringProfile,
     profileName: string,
@@ -58,8 +53,6 @@ describe("AI search index creation and data loading", () => {
     }
   };
 
-=======
->>>>>>> main
   test("should create index with expected fields", async () => {
     const url = `${URL_PREFIX}${URL_SUFFIX}`;
 
@@ -102,7 +95,6 @@ describe("AI search index creation and data loading", () => {
       true,
       true
     );
-<<<<<<< HEAD
     expectScoringProfileToMatch(index.scoringProfiles[0],
       "BasicScoringProfile",
       [
@@ -110,8 +102,6 @@ describe("AI search index creation and data loading", () => {
         { "Descriptive/Name": 10 },
         { "Descriptive/Definition": 5 },
       ]);
-=======
->>>>>>> main
   });
 
   test("should populate index with data", async () => {
