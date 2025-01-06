@@ -70,7 +70,7 @@ describe("AI search index creation and data loading", () => {
     });
 
     test("should populate indicator index with data", async () => {
-      await expectIndexToPopulated();
+      await expectIndexToBePopulated();
     });
   });
 
@@ -177,7 +177,7 @@ describe("AI search index creation and data loading", () => {
     });
 
     test("should populate geography index with data", async () => {
-      await expectIndexToPopulated();
+      await expectIndexToBePopulated();
     });
 
     test("should have autocomplete enabled", async () => {
@@ -239,7 +239,7 @@ describe("AI search index creation and data loading", () => {
     expect(field?.fields?.length).toBe(fieldLength);
   };
 
-  const expectIndexToPopulated = async () => {
+  const expectIndexToBePopulated = async () => {
     const url = `${urlPrefix}/docs${URL_SUFFIX}`;
 
     const response = await fetch(url, {
