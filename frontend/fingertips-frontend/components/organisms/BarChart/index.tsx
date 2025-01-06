@@ -33,7 +33,7 @@ export function BarChart({
   );
   const orderYears = Array.from(new Set(years)).sort((a, b) => a - b);
   
-  const lineChartOptions: Highcharts.Options = {
+  const barChartOptions: Highcharts.Options = {
     chart: { type: 'bar' },
     title: { text: title },
     xAxis: {
@@ -55,11 +55,11 @@ export function BarChart({
   };
 
   return (
-    <div data-testid="lineChart-component">
+    <div data-testid="barChart-component">
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
-        options={lineChartOptions}
+        options={barChartOptions}
       />
     </div>
   );
