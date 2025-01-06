@@ -25,7 +25,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     /// If more than 10 area codes are supplied only data for the first 10 distinct area codes will be returned.
     /// </remarks>
     [HttpGet]
-    [Route("{indicatorId}/data")]
+    [Route("{indicatorId}/data/V1")]
     public async Task<HealthDataForArea[]> GetIndicatorData(
         [FromRoute] int indicatorId,
         [FromQuery] string[]? areaCodes = null,
@@ -39,5 +39,21 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         );
 
         return indicatorData.ToArray();
+    }
+
+    [HttpGet]
+    [Route("{indicatorId}/data")]
+    public IActionResult GetIndcatorData_(
+        [FromRoute] int indicatorId,
+        [FromQuery] string[]? areaCodes = null,
+        [FromQuery] int[]? years = null)
+    {
+        var indicatorData = _indicatorsService.GetIndicatorData_(
+            indicatorId,
+            areaCodes ?? [],
+            years ?? []
+            ).ToArray();
+
+        return indicatorData.Length == 0 ? NotFound() : Ok(indicatorData);
     }
 }

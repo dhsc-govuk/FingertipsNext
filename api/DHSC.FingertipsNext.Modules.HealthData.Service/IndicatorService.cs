@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
+﻿using AutoMapper;
+using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -9,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 /// Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IIndicatorsDataProvider provider) : IIndicatorsService
+public class IndicatorService(IIndicatorsDataProvider provider, IRepository _repository, IMapper _mapper) : IIndicatorsService
 {
     /// <summary>
     /// Obtain health point data for a single indicator.
@@ -32,5 +33,15 @@ public class IndicatorService(IIndicatorsDataProvider provider) : IIndicatorsSer
             areaCodes.Take(10).Distinct().ToArray(),
             years.Take(10).Distinct().ToArray()
         );
+    }
+
+    public IEnumerable<HealthMeasureDto> GetIndicatorData_(int indicatorId, string[] areaCodes, int[] years)
+    {
+        return _mapper.Map<IEnumerable<HealthMeasureDto>>(
+            _repository.GetIndicatorData(
+            indicatorId,
+            areaCodes.Take(10).Distinct().ToArray(),
+            years.Take(10).Distinct().ToArray())
+            );
     }
 }
