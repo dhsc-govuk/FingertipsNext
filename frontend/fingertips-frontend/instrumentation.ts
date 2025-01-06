@@ -8,14 +8,16 @@ const startMockServer = async () => {
   }
 };
 
-const configureApplicationInsights = () => {
+const configureApplicationInsights = async () => {
   console.log('Configuring logging');
 
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-      const { useAzureMonitor } = require('@azure/monitor-opentelemetry');
+      const { useAzureMonitor } = await import('@azure/monitor-opentelemetry');
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useAzureMonitor();
+
       console.log('Application Insights monitoring enabled');
     } else {
       console.log(

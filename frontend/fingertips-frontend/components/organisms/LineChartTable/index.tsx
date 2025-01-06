@@ -14,8 +14,10 @@ export function LineChartTable({ data, headings }: Readonly<TableProps>) {
       <Table
         head={
           <Table.Row>
-            {headings?.map((heading, index) => (
-              <Table.CellHeader key={index}>{heading}</Table.CellHeader>
+            {headings?.map((heading) => (
+              <Table.CellHeader key={`header-${heading}`}>
+                {heading}
+              </Table.CellHeader>
             ))}
           </Table.Row>
         }
