@@ -17,7 +17,6 @@ describe('SearchService', () => {
   describe('if the environment is not configured it', () => {
     it('should throw an error on attempting to instantiate the service', () => {
       expect(() => {
-        // NOSONAR
         new SearchService();
       }).toThrow(Error);
     });
