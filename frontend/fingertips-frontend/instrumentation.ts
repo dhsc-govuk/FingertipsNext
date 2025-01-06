@@ -28,6 +28,6 @@ const configureApplicationInsights = async () => {
 };
 
 export async function register() {
-  configureApplicationInsights();
+  await configureApplicationInsights();
   await startMockServer();
 }
