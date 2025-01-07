@@ -10,7 +10,7 @@ interface TableProps {
 }
 
 export function LineChartTable({ data, headings }: Readonly<TableProps>) {
-  data = orderedValues(data)
+  data = orderedValues(data);
   return (
     <div data-testid="lineChartTable-component">
       <Table

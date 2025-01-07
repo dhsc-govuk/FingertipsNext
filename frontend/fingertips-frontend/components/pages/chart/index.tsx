@@ -13,9 +13,7 @@ type ChartProps = {
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
-export function Chart({
-  data
-}: Readonly<ChartProps>) {
+export function Chart({ data }: Readonly<ChartProps>) {
   return (
     <>
       <H1>Line Chart</H1>

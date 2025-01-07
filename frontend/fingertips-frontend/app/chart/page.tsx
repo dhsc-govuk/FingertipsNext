@@ -19,20 +19,20 @@ export default async function ChartPage(
   const indicator = searchParams?.indicator ?? '';
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
   const areaCodes = searchParams?.areaCodes ?? '';
-  
+
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicator),
     areaCodes: [areaCodes],
   });
-  
+
   const filteredData = data
-  .filter((item) => areaCodes === '' || item.areaCode === areaCodes)
-  .map((item) => ({
-    areaCode: item.areaCode,
-    healthData: item.healthData,
-  }));
+    .filter((item) => areaCodes === '' || item.areaCode === areaCodes)
+    .map((item) => ({
+      areaCode: item.areaCode,
+      healthData: item.healthData,
+    }));
 
   return (
     <Chart
