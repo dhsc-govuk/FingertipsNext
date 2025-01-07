@@ -7,34 +7,47 @@ export type SearchState = {
 
 export class SearchStateManager {
   private searchState: SearchState;
+  private readonly generatedPath: string[];
 
   constructor(searchState: SearchState) {
     this.searchState = {
       indicator: searchState.indicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
     };
+    this.generatedPath = [];
   }
 
-  private hasState() {
-    if (this.searchState.indicator || this.searchState.indicatorsSelected) {
-      return true;
+  private addPathName(pathName: string) {
+    this.generatedPath.push(pathName);
+  }
+
+  private constructPath() {
+    return this.generatedPath.join('');
+  }
+
+  private determineQueryPathSymbol() {
+    if (this.generatedPath.length === 1) {
+      return '?';
     }
-
-    return false;
+    return '&';
   }
 
-  private addIndicatorToPath(): string | undefined {
+  private addIndicatorToPath() {
     if (this.searchState.indicator) {
-      return `?indicator=${this.searchState.indicator}`;
+      this.generatedPath.push(
+        `${this.determineQueryPathSymbol()}indicator=${this.searchState.indicator}`
+      );
     }
   }
 
-  private addIndicatorsSelectedToPath(): string | undefined {
+  private addIndicatorsSelectedToPath() {
     if (
       this.searchState.indicatorsSelected &&
       this.searchState.indicatorsSelected.length > 0
     ) {
-      return `&indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`;
+      this.generatedPath.push(
+        `${this.determineQueryPathSymbol()}indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`
+      );
     }
   }
 
@@ -64,14 +77,11 @@ export class SearchStateManager {
   }
 
   public generatePath(path: string) {
-    const generatedPath = [];
-    generatedPath.push(path);
+    this.addPathName(path);
 
-    if (this.hasState()) {
-      generatedPath.push(this.addIndicatorToPath());
-      generatedPath.push(this.addIndicatorsSelectedToPath());
-    }
+    this.addIndicatorToPath();
+    this.addIndicatorsSelectedToPath();
 
-    return generatedPath.join('');
+    return this.constructPath();
   }
 }
