@@ -10,7 +10,7 @@ type ChartProps = {
   indicator?: string;
 };
 
-const headings = ['Area Code', 'Year', 'Count', 'Value', 'LowerCi', 'UpperCi'];
+const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({ data }: Readonly<ChartProps>) {
   return (

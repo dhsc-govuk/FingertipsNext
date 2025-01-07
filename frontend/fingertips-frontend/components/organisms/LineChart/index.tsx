@@ -2,8 +2,8 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthCareData } from '@/app/chart/health-data';
 import {
-  formatYearsForXAxis,
   generateSeriesData,
+  orderedValues,
 } from '@/lib/chartHelpers/formatLineChartValues';
 
 interface LineChartProps {
@@ -21,18 +21,20 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const categoriesXAxis = formatYearsForXAxis(data);
-  const seriesData = generateSeriesData(data);
+  const orderedSeriesValues = orderedValues(data);
+  const seriesData = generateSeriesData(orderedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line' },
     title: { text: title },
     xAxis: {
-      categories: categoriesXAxis,
       title: { text: xAxisTitle },
     },
     yAxis: {
       title: { text: yAxisTitle },
+    },
+    legend: {
+      verticalAlign: 'top',
     },
     series: seriesData,
     accessibility: {

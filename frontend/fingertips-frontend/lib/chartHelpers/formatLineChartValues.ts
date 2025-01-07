@@ -1,12 +1,11 @@
 import { HealthCareData } from '@/app/chart/health-data';
 import Highcharts from 'highcharts';
 
-export function formatYearsForXAxis(data: HealthCareData[]) {
-  const years = data.flatMap((item) =>
-    item.healthData.map((point) => point.year)
-  );
-  const orderYears = Array.from(new Set(years)).sort((a, b) => a - b);
-  return orderYears.map((year) => year.toString());
+export function orderedValues(data: HealthCareData[]): HealthCareData[] {
+  return data.map((item) => ({
+    ...item,
+    healthData: item.healthData.sort((a, b) => a.year - b.year),
+  }));
 }
 
 export function generateSeriesData(
@@ -15,6 +14,6 @@ export function generateSeriesData(
   return data.map((item) => ({
     type: 'line',
     name: `AreaCode ${item.areaCode}`,
-    data: item.healthData.map((point) => point.value),
+    data: item.healthData.map((point) => [point.year, point.value]),
   }));
 }

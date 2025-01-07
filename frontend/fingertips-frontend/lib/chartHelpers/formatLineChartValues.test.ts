@@ -1,28 +1,57 @@
 import {
-  formatYearsForXAxis,
   generateSeriesData,
+  orderedValues,
 } from '@/lib/chartHelpers/formatLineChartValues';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-describe('formatYearsForAxis', () => {
-  it('should format strings and sort them in ascending order', async () => {
-    const result = formatYearsForXAxis(mockHealthData);
-    const expected = [
-      '2004',
-      '2005',
-      '2006',
-      '2007',
-      '2008',
-      '2010',
-      '2012',
-      '2017',
-      '2018',
-      '2020',
-      '2022',
-      '2023',
-      '2024',
+describe('orderedValues', () => {
+  it('should order the healthcare data values in ascending year', async () => {
+    const data = [
+      {
+        areaCode: 'A1425',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+          },
+        ],
+      },
     ];
-    expect(result).toEqual(expected);
+
+    const orderedData = [
+      {
+        areaCode: 'A1425',
+        healthData: [
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+          },
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+          },
+        ],
+      },
+    ];
+    const result = orderedValues(data);
+
+    expect(result).toEqual(orderedData);
   });
 });
 
