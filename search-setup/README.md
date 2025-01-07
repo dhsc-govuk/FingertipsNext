@@ -28,9 +28,9 @@ npm run create-index
 
 ## Testing
 
-This project uses Jest for unit testing.
+This project uses Jest for testing.
 
-### Running the Unit tests
+### Running the Integration tests
 
 ```bash
 npm run test
