@@ -2,16 +2,7 @@ import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
 import { createSearchIndex, populateIndex } from "./indexOperations.js";
 import { Data } from "./types.js";
 import { sampleData } from "./sample-data.js";
-
-function getEnvironmentVariable(variableName: string): string {
-  const variableValue = process.env[variableName];
-
-  if (!variableValue) {
-    throw new Error(`Could not load environment variable ${variableName}!`);
-  }
-
-  return variableValue;
-}
+import { getEnvironmentVariable } from "./utils/helpers.js";
 
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
