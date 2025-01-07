@@ -1,6 +1,6 @@
-import { Data } from "./types";
+import { GeographySearchData, IndicatorSearchData } from "./types";
 
-export const sampleData: Data[] = [
+export const sampleIndicatorData: IndicatorSearchData[] = [
   {
     IID: "108",
     Descriptive: {
@@ -39,5 +39,26 @@ export const sampleData: Data[] = [
       Definition:
         "The percentage of patients with stroke or transient ischaemic attack (TIA), as recorded on practice disease registers (proportion of total list size).",
     },
+  },
+];
+
+export const sampleGeographyData: GeographySearchData[] = [
+  {
+    ID: "1",
+    Name: "Manchester",
+    Type: "City",
+    Postcode: "M1 3DG",
+  },
+  {
+    ID: "2",
+    Name: "Blackburn",
+    Type: "City",
+    Postcode: "BB1 3BL",
+  },
+  {
+    ID: "3",
+    Name: "London",
+    Type: "City",
+    Postcode: "BB1 3BL",
   },
 ];
