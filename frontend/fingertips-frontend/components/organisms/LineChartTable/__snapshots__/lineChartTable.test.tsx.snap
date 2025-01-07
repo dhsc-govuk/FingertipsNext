@@ -142,35 +142,6 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            2008
-          </td>
-          <td
-            class="c3"
-          >
-            890.305692
-          </td>
-          <td
-            class="c3"
-          >
-            222
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
             2004
           </td>
           <td
@@ -200,17 +171,17 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            2012
+            2006
           </td>
           <td
             class="c3"
           >
-            602.820845
+            278.29134
           </td>
           <td
             class="c3"
           >
-            300
+            389
           </td>
           <td
             class="c3"
@@ -229,17 +200,46 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            2006
+            2008
           </td>
           <td
             class="c3"
           >
-            278.29134
+            890.305692
           </td>
           <td
             class="c3"
           >
-            389
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2012
+          </td>
+          <td
+            class="c3"
+          >
+            602.820845
+          </td>
+          <td
+            class="c3"
+          >
+            300
           </td>
           <td
             class="c3"
@@ -290,6 +290,93 @@ exports[`snapshot test - should match snapshot 1`] = `
           >
             A1426
           </td>
+          <td
+            class="c3"
+          >
+            2005
+          </td>
+          <td
+            class="c3"
+          >
+            135.149304
+          </td>
+          <td
+            class="c3"
+          >
+            222
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2006
+          </td>
+          <td
+            class="c3"
+          >
+            478.996862
+          </td>
+          <td
+            class="c3"
+          >
+            452
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2007
+          </td>
+          <td
+            class="c3"
+          >
+            890.328253
+          </td>
+          <td
+            class="c3"
+          >
+            131
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
           <td
             class="c3"
           >
@@ -349,93 +436,6 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c3"
-          >
-            2005
-          </td>
-          <td
-            class="c3"
-          >
-            135.149304
-          </td>
-          <td
-            class="c3"
-          >
-            222
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
-            2007
-          </td>
-          <td
-            class="c3"
-          >
-            890.328253
-          </td>
-          <td
-            class="c3"
-          >
-            131
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
-            2006
-          </td>
-          <td
-            class="c3"
-          >
-            478.996862
-          </td>
-          <td
-            class="c3"
-          >
-            452
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
             class="c2"
             rowspan="5"
           >
@@ -444,46 +444,17 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            2024
+            2004
           </td>
           <td
             class="c3"
           >
-            579.848756
+            775.129883
           </td>
           <td
             class="c3"
           >
-            411
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
-            2018
-          </td>
-          <td
-            class="c3"
-          >
-            383.964067
-          </td>
-          <td
-            class="c3"
-          >
-            367
+            356
           </td>
           <td
             class="c3"
@@ -531,17 +502,17 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            2004
+            2018
           </td>
           <td
             class="c3"
           >
-            775.129883
+            383.964067
           </td>
           <td
             class="c3"
           >
-            356
+            367
           </td>
           <td
             class="c3"
@@ -587,12 +558,6 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c2"
-            rowspan="5"
-          >
-            A1428
-          </td>
-          <td
             class="c3"
           >
             2024
@@ -600,41 +565,12 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
-            400.848756
+            579.848756
           </td>
           <td
             class="c3"
           >
-            311
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
-            2019
-          </td>
-          <td
-            class="c3"
-          >
-            320.964067
-          </td>
-          <td
-            class="c3"
-          >
-            469
+            411
           </td>
           <td
             class="c3"
@@ -651,34 +587,11 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c3"
+            class="c2"
+            rowspan="5"
           >
-            2015
+            A1428
           </td>
-          <td
-            class="c3"
-          >
-            600.163104
-          </td>
-          <td
-            class="c3"
-          >
-            120
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
           <td
             class="c3"
           >
@@ -738,69 +651,98 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
+            class="c3"
+          >
+            2015
+          </td>
+          <td
+            class="c3"
+          >
+            600.163104
+          </td>
+          <td
+            class="c3"
+          >
+            120
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2019
+          </td>
+          <td
+            class="c3"
+          >
+            320.964067
+          </td>
+          <td
+            class="c3"
+          >
+            469
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2024
+          </td>
+          <td
+            class="c3"
+          >
+            400.848756
+          </td>
+          <td
+            class="c3"
+          >
+            311
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
             class="c2"
             rowspan="5"
           >
             A1429
           </td>
-          <td
-            class="c3"
-          >
-            2006
-          </td>
-          <td
-            class="c3"
-          >
-            472.650389
-          </td>
-          <td
-            class="c3"
-          >
-            322
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
-          <td
-            class="c3"
-          >
-            2018
-          </td>
-          <td
-            class="c3"
-          >
-            472.7613425
-          </td>
-          <td
-            class="c3"
-          >
-            234
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
-        </tr>
-        <tr
-          class=""
-        >
           <td
             class="c3"
           >
@@ -833,6 +775,35 @@ exports[`snapshot test - should match snapshot 1`] = `
           <td
             class="c3"
           >
+            2006
+          </td>
+          <td
+            class="c3"
+          >
+            472.650389
+          </td>
+          <td
+            class="c3"
+          >
+            322
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
             2017
           </td>
           <td
@@ -844,6 +815,35 @@ exports[`snapshot test - should match snapshot 1`] = `
             class="c3"
           >
             435
+          </td>
+          <td
+            class="c3"
+          >
+            441.69151
+          </td>
+          <td
+            class="c3"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c3"
+          >
+            2018
+          </td>
+          <td
+            class="c3"
+          >
+            472.7613425
+          </td>
+          <td
+            class="c3"
+          >
+            234
           </td>
           <td
             class="c3"

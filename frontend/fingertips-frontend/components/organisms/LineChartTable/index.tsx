@@ -2,6 +2,7 @@
 
 import { Table } from 'govuk-react';
 import { HealthCareData } from '@/app/chart/health-data';
+import { orderedValues } from '@/lib/chartHelpers/formatLineChartValues';
 
 interface TableProps {
   data: HealthCareData[];
@@ -9,6 +10,7 @@ interface TableProps {
 }
 
 export function LineChartTable({ data, headings }: Readonly<TableProps>) {
+  data = orderedValues(data)
   return (
     <div data-testid="lineChartTable-component">
       <Table

@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 export function orderedValues(data: HealthCareData[]): HealthCareData[] {
   return data.map((item) => ({
     ...item,
-    healthData: item.healthData.sort((a, b) => a.year - b.year),
+    healthData: item.healthData.toSorted((a, b) => a.year - b.year),
   }));
 }
 

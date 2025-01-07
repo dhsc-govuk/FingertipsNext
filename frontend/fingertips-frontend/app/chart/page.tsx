@@ -7,7 +7,8 @@ export default async function ChartPage(
   props: Readonly<{
     searchParams?: Promise<{
       indicator?: string;
-      areaCode?: string;
+      indicatorsSelected?: string;
+      areaCodes?: string;
     }>;
   }>
 ) {
@@ -16,14 +17,28 @@ export default async function ChartPage(
 
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
-  const areaCode = searchParams?.areaCode ?? '';
-
+  const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
+  const areaCodes = searchParams?.areaCodes ?? '';
+  
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicator),
-    areaCodes: [areaCode],
+    areaCodes: [areaCodes],
   });
+  
+  const filteredData = data
+  .filter((item) => areaCodes === '' || item.areaCode === areaCodes)
+  .map((item) => ({
+    areaCode: item.areaCode,
+    healthData: item.healthData,
+  }));
 
-  return <Chart data={data} indicator={indicator} />;
+  return (
+    <Chart
+      data={filteredData}
+      indicator={indicator}
+      indicatorsSelected={indicatorsSelected}
+    />
+  );
 }
