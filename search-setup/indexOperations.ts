@@ -6,7 +6,7 @@ import {
   SearchFieldDataType,
   ScoringProfile,
 } from "@azure/search-documents";
-import { Data, ScoringWeight } from "./types.js";
+import { Data, ScoringWeight } from "./types";
 
 export async function createSearchIndex(
   indexClient: SearchIndexClient,
