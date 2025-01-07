@@ -1,5 +1,11 @@
 import { config } from "dotenv";
-import { DocumentResponse, SearchIndexResponse, IndexField, ScoringProfile, ScoringWeight } from "../types";
+import {
+  DocumentResponse,
+  SearchIndexResponse,
+  IndexField,
+  ScoringProfile,
+  ScoringWeight,
+} from "../types";
 import { getEnvironmentVariable } from "../utils/helpers";
 
 config();
@@ -14,38 +20,45 @@ describe("AI search index creation and data loading", () => {
 
   const expectFieldToMatch = (
     field: IndexField | undefined,
-    name: string,
-    type: string,
-    retrievable: boolean,
-    searchable: boolean,
-    sortable: boolean,
-    filterable: boolean
+    expected: {
+      name: string;
+      type: string;
+      retrievable: boolean;
+      searchable: boolean;
+      sortable: boolean;
+      filterable: boolean;
+    }
   ) => {
-    expect(field?.name).toBe(name);
-    expect(field?.type).toBe(type);
-    expect(field?.retrievable).toBe(retrievable);
-    expect(field?.searchable).toBe(searchable);
-    expect(field?.sortable).toBe(sortable);
-    expect(field?.filterable).toBe(filterable);
+    expect(field).toBeTruthy();
+    if (field) {
+      expect(field).toMatchObject(expected);
+    }
   };
 
   const expectComplexFieldToMatch = (
     field: IndexField | undefined,
-    name: string,
-    fieldLength: number
+    expected: {
+      name: string;
+      fieldLength: number;
+    }
   ) => {
-    expect(field?.name).toBe(name);
-    expect(field?.type).toBe("Edm.ComplexType");
-    expect(field?.fields?.length).toBe(fieldLength);
+    expect(field).toBeTruthy();
+    if (field) {
+      expect(field?.name).toBe(expected.name);
+      expect(field?.type).toBe("Edm.ComplexType");
+      expect(field?.fields?.length).toBe(expected.fieldLength);
+    }
   };
 
   const expectScoringProfileToMatch = (
     profile: ScoringProfile,
-    profileName: string,
-    weights: ScoringWeight[]
+    expected: {
+      profileName: string;
+      weights: ScoringWeight[];
+    }
   ) => {
-    expect(profile?.name).toBe(profileName);
-    for (const weighting of weights) {
+    expect(profile?.name).toBe(expected.profileName);
+    for (const weighting of expected.weights) {
       for (const key of Object.keys(weighting)) {
         expect(profile?.text?.weights).toHaveProperty(key);
         expect(profile?.text?.weights[key]).toBe(weighting[key]);
@@ -53,68 +66,91 @@ describe("AI search index creation and data loading", () => {
     }
   };
 
-  test("should create index with expected fields", async () => {
-    const url = `${URL_PREFIX}${URL_SUFFIX}`;
+  describe("Index structure from indexes url", () => {
+    let index: SearchIndexResponse;
 
-    const response = await fetch(url, {
-      headers: {
-        "api-key": apiKey,
-      },
+    beforeAll(async () => {
+      const url = `${URL_PREFIX}${URL_SUFFIX}`;
+      const response = await fetch(url, {
+        headers: {
+          "api-key": apiKey,
+        },
+      });
+      index = await response.json();
     });
 
-    const index: SearchIndexResponse = await response.json();
+    it("should have correct index name and number of fields", async () => {
+      expect(index.name).toBe(indexName);
+      expect(index.fields.length).toBe(2);
+    });
 
-    expect(index.name).toBe(indexName);
-    expect(index.fields.length).toBe(2);
-    expectFieldToMatch(
-      index.fields.at(0),
-      "IID",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-    expect(index.fields.at(0)?.key).toBe(true);
-    expectComplexFieldToMatch(index.fields.at(1), "Descriptive", 2);
-    expectFieldToMatch(
-      index.fields.at(1)?.fields?.at(0),
-      "Name",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-    expectFieldToMatch(
-      index.fields.at(1)?.fields?.at(1),
-      "Definition",
-      "Edm.String",
-      true,
-      true,
-      true,
-      true
-    );
-    expectScoringProfileToMatch(index.scoringProfiles[0],
-      "BasicScoringProfile",
-      [
-        { "IID": 20 },
-        { "Descriptive/Name": 10 },
-        { "Descriptive/Definition": 5 },
-      ]);
+    it("should have correct IID field configuration", () => {
+      const iidField = index.fields[0];
+      expectFieldToMatch(iidField, {
+        name: "IID",
+        type: "Edm.String",
+        retrievable: true,
+        searchable: true,
+        sortable: true,
+        filterable: true,
+      });
+      expect(iidField.key).toBe(true);
+    });
+
+    it("should have correct Descriptive field configuration", () => {
+      const descriptiveField = index.fields[1];
+      expectComplexFieldToMatch(descriptiveField, {
+        name: "Descriptive",
+        fieldLength: 2,
+      });
+      expectFieldToMatch(descriptiveField.fields![0], {
+        name: "Name",
+        type: "Edm.String",
+        retrievable: true,
+        searchable: true,
+        sortable: true,
+        filterable: true,
+      });
+      expectFieldToMatch(descriptiveField.fields![1], {
+        name: "Definition",
+        type: "Edm.String",
+        retrievable: true,
+        searchable: true,
+        sortable: true,
+        filterable: true,
+      });
+    });
+
+    it("should have correct scoring profile configuration", () => {
+      expectScoringProfileToMatch(index.scoringProfiles[0], {
+        profileName: "BasicScoringProfile",
+        weights: [
+          { IID: 20 },
+          { "Descriptive/Name": 10 },
+          { "Descriptive/Definition": 5 },
+        ],
+      });
+    });
   });
 
-  test("should populate index with data", async () => {
-    const url = `${URL_PREFIX}/docs${URL_SUFFIX}`;
+  describe("Index data from docs url", () => {
+    test("should populate data", async () => {
+      const url = `${URL_PREFIX}/docs${URL_SUFFIX}`;
+      const response = await fetch(url, {
+        headers: {
+          "api-key": apiKey,
+        },
+      });
+      const documents: DocumentResponse = await response.json();
 
-    const response = await fetch(url, {
-      headers: {
-        "api-key": apiKey,
-      },
+      expect(documents.value).toBeDefined();
+      expect(documents.value.length).toBeGreaterThan(0);
+
+      const firstDocument = documents.value[0];
+      expect(firstDocument).toHaveProperty("IID");
+      expect(firstDocument).toHaveProperty("Descriptive");
+      expect(firstDocument.Descriptive).toHaveProperty("Name");
+      expect(firstDocument.Descriptive).toHaveProperty("Definition");
     });
-
-    const documents: DocumentResponse = await response.json();
-
-    expect(documents.value.length).toBeGreaterThan(0);
   });
 });
