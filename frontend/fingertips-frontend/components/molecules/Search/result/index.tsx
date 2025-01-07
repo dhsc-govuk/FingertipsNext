@@ -43,8 +43,7 @@ export function SearchResult({
 
   const handleClick = (indicatorId: string, checked: boolean) => {
     const params = new URLSearchParams(searchParams);
-    const searchState = new SearchStateManager();
-    searchState.setStateFromParams(params);
+    const searchState = SearchStateManager.setStateFromParams(params);
 
     if (checked) {
       searchState.addIndicatorSelected(indicatorId);
