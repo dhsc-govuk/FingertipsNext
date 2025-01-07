@@ -1,0 +1,2 @@
+# set EOF to be windows compatible for docker
+*.sh text eol=lf
