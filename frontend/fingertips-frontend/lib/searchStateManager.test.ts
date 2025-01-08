@@ -54,8 +54,7 @@ describe('SearchStateManager', () => {
         `1${encodedCommaSeperator}2${encodedCommaSeperator}3`
       );
 
-      const stateManager = new SearchStateManager();
-      stateManager.setStateFromParams(params);
+      const stateManager = SearchStateManager.setStateFromParams(params);
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
@@ -65,8 +64,8 @@ describe('SearchStateManager', () => {
   });
 
   describe('generatePath', () => {
-    it('should just return the path provided when there is no state', () => {
-      const stateManager = new SearchStateManager();
+    it('should only return the path provided when there is no state', () => {
+      const stateManager = new SearchStateManager({});
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe('/some-path');

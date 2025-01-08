@@ -43,8 +43,7 @@ export function SearchResult({
 
   const handleClick = (indicatorId: string, checked: boolean) => {
     const params = new URLSearchParams(searchParams);
-    const searchState = new SearchStateManager();
-    searchState.setStateFromParams(params);
+    const searchState = SearchStateManager.setStateFromParams(params);
 
     if (checked) {
       searchState.addIndicatorSelected(indicatorId);
@@ -60,6 +59,7 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
+            id={result.id.toString()}
             data-testid={`search-results-indicator-${result.id}`}
             name="indicator"
             value={result.id}

@@ -1136,7 +1136,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 <form
-    action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
+    action="/action"
   >
     <input
       hidden=""
@@ -1169,6 +1169,7 @@ exports[`Search Results Suite snapshot test 1`] = `
               <input
                 class="c9"
                 data-testid="search-results-indicator-1"
+                id="1"
                 name="indicator"
                 type="checkbox"
                 value="1"
@@ -1226,6 +1227,7 @@ exports[`Search Results Suite snapshot test 1`] = `
               <input
                 class="c9"
                 data-testid="search-results-indicator-2"
+                id="2"
                 name="indicator"
                 type="checkbox"
                 value="2"

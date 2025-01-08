@@ -1,75 +1,88 @@
 export const encodedCommaSeperator = encodeURIComponent(',');
 
 export type SearchState = {
-  indicator?: string | null;
-  indicatorsSelected?: string[] | null;
+  indicator?: string;
+  indicatorsSelected?: string[];
 };
 
 export class SearchStateManager {
-  private searchState: SearchState | undefined | null;
+  private searchState: SearchState;
+  private generatedPath: string[];
 
-  constructor(searchState?: SearchState) {
+  constructor(searchState: SearchState) {
     this.searchState = {
-      indicator: searchState?.indicator,
-      indicatorsSelected: searchState?.indicatorsSelected ?? [],
+      indicator: searchState.indicator,
+      indicatorsSelected: searchState.indicatorsSelected ?? [],
     };
+    this.generatedPath = [];
   }
 
-  private hasState() {
-    if (this.searchState?.indicator || this.searchState?.indicatorsSelected) {
-      return true;
+  private addPathName(pathName: string) {
+    this.generatedPath = [];
+    this.generatedPath.push(pathName);
+  }
+
+  private constructPath() {
+    return this.generatedPath.join('');
+  }
+
+  private determineQueryPathSymbol() {
+    if (this.generatedPath.length === 1) {
+      return '?';
     }
-
-    return false;
+    return '&';
   }
 
-  private addIndicatorToPath(): string | undefined {
-    if (this.searchState?.indicator) {
-      return `?indicator=${this.searchState.indicator}`;
+  private addIndicatorToPath() {
+    if (this.searchState.indicator) {
+      this.generatedPath.push(
+        `${this.determineQueryPathSymbol()}indicator=${this.searchState.indicator}`
+      );
     }
   }
 
-  private addIndicatorsSelectedToPath(): string | undefined {
+  private addIndicatorsSelectedToPath() {
     if (
-      this.searchState?.indicatorsSelected &&
-      this.searchState?.indicatorsSelected.length > 0
+      this.searchState.indicatorsSelected &&
+      this.searchState.indicatorsSelected.length > 0
     ) {
-      return `&indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`;
+      this.generatedPath.push(
+        `${this.determineQueryPathSymbol()}indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`
+      );
     }
   }
 
   public addIndicatorSelected(indicatorId: string) {
-    this.searchState?.indicatorsSelected?.push(indicatorId);
+    this.searchState.indicatorsSelected?.push(indicatorId);
   }
 
   public removeIndicatorSelected(indicatorId: string) {
     this.searchState = {
       ...this.searchState,
-      indicatorsSelected: this.searchState?.indicatorsSelected?.filter(
-        (ind) => {
-          return ind !== indicatorId;
-        }
-      ),
+      indicatorsSelected: this.searchState.indicatorsSelected?.filter((ind) => {
+        return ind !== indicatorId;
+      }),
     };
   }
 
-  public setStateFromParams(params: URLSearchParams) {
-    this.searchState = {
-      ...this.searchState,
-      indicator: params.get('indicator'),
-      indicatorsSelected: params.get('indicatorsSelected')?.split(',') ?? [],
-    };
+  public static setStateFromParams(params: URLSearchParams) {
+    const indicator = params.get('indicator') ?? undefined;
+    const indicatorsSelected =
+      params.get('indicatorsSelected')?.split(',') ?? [];
+
+    const searchStateManager = new SearchStateManager({
+      indicator,
+      indicatorsSelected,
+    });
+    return searchStateManager;
   }
 
   public generatePath(path: string) {
-    const generatedPath = [];
-    generatedPath.push(path);
+    this.addPathName(path);
 
-    if (this.hasState()) {
-      generatedPath.push(this.addIndicatorToPath());
-      generatedPath.push(this.addIndicatorsSelectedToPath());
-    }
+    this.addIndicatorToPath();
+    this.addIndicatorsSelectedToPath();
 
-    return generatedPath.join('');
+    return this.constructPath();
   }
 }

@@ -76,6 +76,18 @@ describe('Search Result Suite', () => {
     );
   });
 
+  it('should update the path when an indicator is unchecked', async () => {
+    const user = userEvent.setup();
+
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+
+    await user.click(screen.getByRole('checkbox'));
+
+    expect(mockReplace).toBeCalledWith(`${mockPath}?indicator=test`, {
+      scroll: false,
+    });
+  });
+
   it('snapshot test', () => {
     const container = render(<SearchResult result={MOCK_DATA[0]} />);
 
