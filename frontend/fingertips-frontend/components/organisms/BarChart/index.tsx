@@ -26,6 +26,7 @@ export function BarChart({
 }: Readonly<ChartProps>) {
   const barChartOptions: Highcharts.Options = {
     chart: { type: 'bar', height: '100%', spacingTop: 50 },
+    title: undefined,
     xAxis: {
       categories: data.map((item) => item.areaCode),
     },
