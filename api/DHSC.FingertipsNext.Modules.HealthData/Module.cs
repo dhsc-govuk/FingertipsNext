@@ -16,7 +16,6 @@ public class Module : AbstractMonolithModule, IMonolithModule
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IIndicatorsService, IndicatorService>();
-        services.AddTransient<IIndicatorsDataProvider, IndicatorDataProvider>();
         services.AddTransient<IRepository, HealthDataRepository>();
         services.AddAutoMapper(typeof(AutoMapperProfiles));
         RegisterDbContext(services, configuration);
