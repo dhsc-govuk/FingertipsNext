@@ -147,6 +147,8 @@ describe("AI search index creation and data loading", () => {
           { "Descriptive/Definition": 5 },
         ],
       });
+
+      expect(index.defaultScoringProfile).toBe("BasicScoringProfile");
     });
 
     it("should populate indicator index with data", async () => {

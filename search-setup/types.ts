@@ -22,6 +22,7 @@ export interface SearchIndexResponse {
   name: string;
   fields: IndexField[];
   scoringProfiles: ScoringProfile[];
+  defaultScoringProfile: string;
 }
 
 export interface IndexField {
@@ -40,9 +41,7 @@ export interface IndexField {
 export interface ScoringProfile {
   name: string;
   text: {
-    weights: {
-      [propertyName: string]: number;
-    }
+    weights: ScoringWeight
   }
 }
 
