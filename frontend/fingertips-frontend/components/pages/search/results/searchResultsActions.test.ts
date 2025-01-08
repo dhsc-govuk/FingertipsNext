@@ -5,7 +5,7 @@ jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
 
 const initialState: SearchResultState = {
-  indicators: [],
+  indicatorsSelected: [],
 };
 
 describe('Search Results Actions', () => {
@@ -22,6 +22,15 @@ describe('Search Results Actions', () => {
         `/chart?indicator=boom&indicatorsSelected=${encodeURIComponent('1,2')}`,
         RedirectType.push
       );
+    });
+
+    it('should return an error message when no indicators are selected', async () => {
+      const formData: FormData = new FormData();
+      formData.append('searchedIndicator', 'boom');
+
+      const state = await viewCharts(initialState, formData);
+
+      expect(state.message).toBe('Please select at least one indicator');
     });
   });
 });

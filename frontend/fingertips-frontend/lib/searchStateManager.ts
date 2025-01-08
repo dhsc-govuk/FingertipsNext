@@ -7,7 +7,7 @@ export type SearchState = {
 
 export class SearchStateManager {
   private searchState: SearchState;
-  private readonly generatedPath: string[];
+  private generatedPath: string[];
 
   constructor(searchState: SearchState) {
     this.searchState = {
@@ -18,6 +18,7 @@ export class SearchStateManager {
   }
 
   private addPathName(pathName: string) {
+    this.generatedPath = [];
     this.generatedPath.push(pathName);
   }
 
