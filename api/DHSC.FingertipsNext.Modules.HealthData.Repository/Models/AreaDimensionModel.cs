@@ -3,13 +3,14 @@
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Serializable]
-public class IndicatorDimension
+public class AreaDimensionModel
 {
     [Key]
-    public required short IndicatorKey { get; set; }
+    public required int AreaKey { get; set; }
+    [MaxLength(20)]
+    public required string Code { get; set; }
     [MaxLength(255)]
     public required string Name { get; set; }
-    public required int IndicatorId { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
 }

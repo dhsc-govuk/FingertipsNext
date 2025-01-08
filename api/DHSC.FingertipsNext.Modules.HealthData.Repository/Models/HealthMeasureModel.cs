@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Serializable]
-public class HealthMeasure
+public class HealthMeasureModel
 {
     [Key]
     public required int HealthMeasureKey { get; set; }
-    public required AreaDimension AreaDimension { get; set; }
+    public required AreaDimensionModel AreaDimension { get; set; }
     [ForeignKey("AreaDimension")]
     public required int AreaKey { get; set; }
-    public required IndicatorDimension IndicatorDimension { get; set; }
+    public required IndicatorDimensionModel IndicatorDimension { get; set; }
     [ForeignKey("IndicatorDimension")]
     public required short IndicatorKey { get; set; }
-    public required SexDimension SexDimension { get; set; }
+    public required SexDimensionModel SexDimension { get; set; }
     [ForeignKey("SexDimension")]
     public required byte SexKey { get; set; }
-    public required AgeDimension AgeDimension { get; set; }
+    public required AgeDimensionModel AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
     public required short AgeKey { get; set; }
     public required double Count { get; set; }

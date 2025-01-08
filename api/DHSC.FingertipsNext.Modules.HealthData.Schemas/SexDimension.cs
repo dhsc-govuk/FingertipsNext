@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DHSC.FingertipsNext.Modules.Core.Schema
+namespace DHSC.FingertipsNext.Modules.HealthData.Schemas
 {
     [Serializable]
     public class SexDimension
     {
-        [Key]
         public required int SexKey { get; set; }
         [MaxLength(50)]
         public required string Name { get; set; }

@@ -3,7 +3,7 @@
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Serializable]
-public class AgeDimension
+public class AgeDimensionModel
 {
     [Key]
     public required short AgeKey { get; set; }

@@ -3,7 +3,7 @@
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Serializable]
-public class SexDimension
+public class SexDimensionModel
 {
     [Key]
     public required byte SexKey { get; set; }

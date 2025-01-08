@@ -8,10 +8,10 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<HealthMeasure, HealthMeasureDto>();
-        CreateMap<AgeDimension, AgeDimensionDto>();
-        CreateMap<AreaDimension, AreaDimensionDto>();
-        CreateMap<IndicatorDimension, IndicatorDimensionDto>();
-        CreateMap<SexDimension, SexDimensionDto>();
+        CreateMap<HealthMeasureModel, HealthMeasure>();
+        CreateMap<AgeDimensionModel, AgeDimension>();
+        CreateMap<AreaDimensionModel, AreaDimension>();
+        CreateMap<IndicatorDimensionModel, IndicatorDimension>();
+        CreateMap<SexDimensionModel, SexDimension>();
     }
 }

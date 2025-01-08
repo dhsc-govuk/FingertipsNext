@@ -3,9 +3,8 @@
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas
 {
     [Serializable]
-    public class AgeDimensionDto
+    public class AgeDimension
     {
-        [Key]
         public required int AgeKey { get; set; }
         [MaxLength(50)]
         public required string Name { get; set; }

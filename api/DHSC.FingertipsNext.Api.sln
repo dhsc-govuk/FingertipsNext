@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules.Search.ModuleInterfaces", "DHSC.FingertipsNext.Modules.Search.ModuleInterfaces\DHSC.FingertipsNext.Modules.Search.ModuleInterfaces.csproj", "{861E33C4-10D8-4EA9-B241-F2641DF116DE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Indicators", "Indicators", "{F7FD1D55-CD32-4B34-87D3-694462789777}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HealthData", "HealthData", "{F7FD1D55-CD32-4B34-87D3-694462789777}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules.HealthData.Schemas", "DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj", "{296FC4BA-E4FE-4D12-AFB8-3E6C775466CE}"
 EndProject
@@ -40,8 +40,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules.HealthData.Service", "DHSC.FingertipsNext.Modules.HealthData.Service\DHSC.FingertipsNext.Modules.HealthData.Service.csproj", "{AF880A03-9A7E-44DB-971B-9D6239C2A62E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules.HealthData.Repository", "DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj", "{028747AA-D99E-402F-98C3-01C9D546E2DB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DHSC.FingertipsNext.Modules.Core.Schema", "DHSC.FingertipsNext.Modules.Core.Schema\DHSC.FingertipsNext.Modules.Core.Schema.csproj", "{1AD89E7E-56C4-48E6-A2F8-563C383EE501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,10 +107,6 @@ Global
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{028747AA-D99E-402F-98C3-01C9D546E2DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AD89E7E-56C4-48E6-A2F8-563C383EE501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,7 +128,6 @@ Global
 		{58323DA6-9274-4D40-B74F-A3D3E6FFCD2A} = {F7FD1D55-CD32-4B34-87D3-694462789777}
 		{AF880A03-9A7E-44DB-971B-9D6239C2A62E} = {F7FD1D55-CD32-4B34-87D3-694462789777}
 		{028747AA-D99E-402F-98C3-01C9D546E2DB} = {F7FD1D55-CD32-4B34-87D3-694462789777}
-		{1AD89E7E-56C4-48E6-A2F8-563C383EE501} = {C8142E87-5092-4EA3-8B0B-2DCB5052C441}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {745A1299-79AE-4D97-8156-A825611994C6}

@@ -5,19 +5,20 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 public class HealthDataRepository : IRepository
 {
-    private readonly HealthMeasureDbContext _dbContext;
+    private readonly HealthDataDbContext _dbContext;
 
-    public HealthDataRepository(HealthMeasureDbContext healthMeasureDbContext)
+    public HealthDataRepository(HealthDataDbContext healthDataDbContext)
     {
-        _dbContext = healthMeasureDbContext ?? throw new ArgumentNullException(nameof(healthMeasureDbContext));
+        _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
     }
 
-    public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
+    public IEnumerable<HealthMeasureModel> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
     {
-        return _dbContext.HealthMeasure.OrderBy(hm => hm.Year)
+        return _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || areaCodes.Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
+            .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.SexDimension)

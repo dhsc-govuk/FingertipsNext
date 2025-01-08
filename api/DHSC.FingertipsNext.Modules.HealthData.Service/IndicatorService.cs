@@ -10,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 /// Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IIndicatorsDataProvider provider, IRepository _repository, IMapper _mapper) : IIndicatorsService
+public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndicatorsService
 {
     /// <summary>
     /// Obtain health point data for a single indicator.
@@ -22,26 +22,13 @@ public class IndicatorService(IIndicatorsDataProvider provider, IRepository _rep
     /// only the first 10 are used. If the array is empty all years are retrieved.</param>
     /// <returns>An enumerable of <c>HealthDataForArea</c> matching the criteria,
     /// otherwise an empty enumerable.</returns>
-    public Task<IEnumerable<HealthDataForArea>> GetIndicatorData(
-        int indicatorId,
-        string[] areaCodes,
-        int[] years
-    )
+    public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
     {
-        return provider.GetIndicatorData(
-            indicatorId,
-            areaCodes.Take(10).Distinct().ToArray(),
-            years.Take(10).Distinct().ToArray()
-        );
-    }
-
-    public IEnumerable<HealthMeasureDto> GetIndicatorData_(int indicatorId, string[] areaCodes, int[] years)
-    {
-        return _mapper.Map<IEnumerable<HealthMeasureDto>>(
+        return _mapper.Map<IEnumerable<HealthMeasure>>(
             _repository.GetIndicatorData(
             indicatorId,
-            areaCodes.Take(10).Distinct().ToArray(),
-            years.Take(10).Distinct().ToArray())
+            areaCodes.Distinct().Take(10).ToArray(),
+            years.Distinct().Take(10).ToArray())
             );
     }
 }
