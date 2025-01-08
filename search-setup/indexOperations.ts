@@ -6,8 +6,12 @@ import {
   SearchFieldDataType,
   ScoringProfile,
 } from "@azure/search-documents";
-import { ScoringWeight, GeographySearchData, IndicatorSearchData } from "./types";
-import { getEnvironmentVariable } from "./utils/helpers";
+import {
+  ScoringWeight,
+  GeographySearchData,
+  IndicatorSearchData,
+} from "./types";
+import { getEnvironmentVariable } from "./utils/helpers.js";
 
 export async function createIndex(
   indexClient: SearchIndexClient,
@@ -42,14 +46,11 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       },
     ],
     scoringProfiles: [
-      buildScoringProfile(
-        "BasicScoringProfile",
-        [
-          { "IID": 20 },
-          { "Descriptive/Name": 10 },
-          { "Descriptive/Definition": 5 },
-        ]
-      )
+      buildScoringProfile("BasicScoringProfile", [
+        { IID: 20 },
+        { "Descriptive/Name": 10 },
+        { "Descriptive/Definition": 5 },
+      ]),
     ],
   };
 }
@@ -100,17 +101,18 @@ function buildScoringProfile(
   name: string,
   weights: ScoringWeight[]
 ): ScoringProfile {
-  let scoringProfile: ScoringProfile = 
-   {
+  let scoringProfile: ScoringProfile = {
     name: name,
     textWeights: {
-      weights: {
-      }
-    }
+      weights: {},
+    },
   };
 
   for (const weighting of weights) {
-    scoringProfile.textWeights!.weights = { ...scoringProfile.textWeights!.weights, ...weighting };
+    scoringProfile.textWeights!.weights = {
+      ...scoringProfile.textWeights!.weights,
+      ...weighting,
+    };
   }
 
   return scoringProfile;
