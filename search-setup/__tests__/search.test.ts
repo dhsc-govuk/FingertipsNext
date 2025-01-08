@@ -39,7 +39,7 @@ describe("AI search index creation and data loading", () => {
     expect(field?.fields?.length).toBe(fieldLength);
   };
 
-  test("should create index with expected fields", async () => {
+  it("should create index with expected fields", async () => {
     const url = `${URL_PREFIX}${URL_SUFFIX}`;
 
     const response = await fetch(url, {
@@ -83,7 +83,7 @@ describe("AI search index creation and data loading", () => {
     );
   });
 
-  test("should populate index with data", async () => {
+  it("should populate index with data", async () => {
     const url = `${URL_PREFIX}/docs${URL_SUFFIX}`;
 
     const response = await fetch(url, {

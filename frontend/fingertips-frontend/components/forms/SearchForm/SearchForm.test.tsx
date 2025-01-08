@@ -30,7 +30,7 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-test('snapshot test - renders the form', () => {
+it('snapshot test - renders the form', () => {
   const container = render(
     registryWrapper(<SearchForm searchFormState={initialState} />)
   );
@@ -38,13 +38,13 @@ test('snapshot test - renders the form', () => {
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-test('should have an input field to input the indicatorId', () => {
+it('should have an input field to input the indicatorId', () => {
   render(registryWrapper(<SearchForm searchFormState={initialState} />));
 
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
 
-test('should set the input field with indicator value from the form state', () => {
+it('should set the input field with indicator value from the form state', () => {
   const indicatorState: SearchFormState = {
     indicator: 'test value',
     message: '',
@@ -57,7 +57,7 @@ test('should set the input field with indicator value from the form state', () =
   );
 });
 
-test('should display the error summary component when there is a validation error', () => {
+it('should display the error summary component when there is a validation error', () => {
   const errorState: SearchFormState = {
     indicator: '',
     message: 'Error message',
@@ -69,7 +69,7 @@ test('should display the error summary component when there is a validation erro
   expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
 });
 
-test('should display the error summary component when there is a validation error', async () => {
+it('should display the error summary component when there is a validation error', async () => {
   // Add missing function to jsdom
   const scrollMock = jest.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollMock;

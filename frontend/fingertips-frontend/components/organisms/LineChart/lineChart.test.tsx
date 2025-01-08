@@ -19,7 +19,7 @@ const mockData: WeatherForecast[] = [
   },
 ];
 
-test('should render the Highcharts react component', () => {
+it('should render the Highcharts react component', () => {
   render(registryWrapper(<LineChart data={mockData} />));
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
