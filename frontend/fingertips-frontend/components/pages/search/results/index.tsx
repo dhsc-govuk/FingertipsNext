@@ -42,7 +42,7 @@ export function SearchResults({
   return (
     <>
       <BackLink
-        href={`/search?indicator=${state.indicator}`}
+        href={`/search?indicator=${searchResultsFormState.indicator}`}
         data-testid="search-results-back-link"
       />
       {searchResultsFormState.indicator ? (
