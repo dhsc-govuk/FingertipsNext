@@ -35,6 +35,9 @@ export class SearchService implements Search {
   }
 
   async searchWith(searchTerm: string): Promise<IndicatorSearchResult[]> {
+    // Search with both full search term and wildcard for now to allow for
+    // observed behaviour where wildcard match of full term did not always return
+    // the matching document.
     const query = `${searchTerm} /.*${searchTerm}.*/`;
 
     const searchClient = new SearchClient<Indicator>(
