@@ -24,7 +24,13 @@ export function Chart({ data }: Readonly<ChartProps>) {
         accessibilityLabel="A line chart showing weather forecast"
       />
       <LineChartTable data={data} headings={headings}></LineChartTable>
-      <PopulationPyramid />
+      <PopulationPyramid
+        data={data}
+        title="Weather Forecast"
+        xAxisTitle="Date"
+        yAxisTitle="Temperature (°)"
+        accessibilityLabel="A pyramid chart showing weather forecast in celcuis and fahrenheit"
+      />
     </>
   );
 }
