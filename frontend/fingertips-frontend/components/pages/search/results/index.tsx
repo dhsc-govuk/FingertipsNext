@@ -3,6 +3,7 @@
 import {
   BackLink,
   Button,
+  ErrorSummary,
   H1,
   ListItem,
   Paragraph,
@@ -16,8 +17,7 @@ import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 
 type SearchResultsProps = {
-  indicator: string;
-  indicatorsSelected?: string[];
+  searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
 };
 
@@ -25,31 +25,53 @@ const isIndicatorSelected = (
   indicatorId: string,
   state?: SearchResultState
 ): boolean => {
-  return state?.indicators
-    ? state.indicators?.some((ind) => ind === indicatorId)
+  return state?.indicatorsSelected
+    ? state.indicatorsSelected?.some((ind) => ind === indicatorId)
     : false;
 };
 
 export function SearchResults({
-  indicator,
-  indicatorsSelected,
+  searchResultsFormState,
   searchResults,
 }: Readonly<SearchResultsProps>) {
-  const initialState: SearchResultState = { indicators: indicatorsSelected };
-  const [state, formAction] = useActionState(viewCharts, initialState);
+  const [state, formAction] = useActionState(
+    viewCharts,
+    searchResultsFormState
+  );
 
   return (
     <>
       <BackLink
-        href={`/search?indicator=${indicator}`}
+        href={`/search?indicator=${state.indicator}`}
         data-testid="search-results-back-link"
       />
-      {indicator ? (
+      {searchResultsFormState.indicator ? (
         <>
+          {state.message && (
+            <ErrorSummary
+              description={state.message}
+              errors={[
+                {
+                  targetName: searchResults[0].id.toString(),
+                  text: 'Available indicators',
+                },
+              ]}
+              data-testid="search-result-form-error-summary"
+              onHandleErrorClick={(targetName: string) => {
+                const indicator = document.getElementById(targetName);
+                indicator?.scrollIntoView(true);
+                indicator?.focus();
+              }}
+            />
+          )}
           <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${indicator}**"`}</Paragraph>
+          <Paragraph>{`You searched for indicator "**${searchResultsFormState.indicator}**"`}</Paragraph>
           <form action={formAction}>
-            <input name="searchedIndicator" defaultValue={indicator} hidden />
+            <input
+              name="searchedIndicator"
+              defaultValue={searchResultsFormState.indicator}
+              hidden
+            />
             {searchResults.length ? (
               <UnorderedList listStyleType="none">
                 <ListItem>

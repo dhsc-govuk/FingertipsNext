@@ -16,11 +16,17 @@ export default async function Page(
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
 
+  const initialState = {
+    indicator: indicator,
+    indicatorsSelected: indicatorsSelected,
+    message: null,
+    errors: {},
+  };
+
   return (
     <SearchResults
-      indicator={indicator}
+      searchResultsFormState={initialState}
       searchResults={searchResults}
-      indicatorsSelected={indicatorsSelected}
     />
   );
 }
