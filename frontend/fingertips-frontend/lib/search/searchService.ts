@@ -1,4 +1,4 @@
-import { Search, BasicSearchResult } from './searchResultData';
+import { Search, IndicatorSearchResult } from './searchResultData';
 import {
   AzureKeyCredential,
   SearchClient,
@@ -34,7 +34,7 @@ export class SearchService implements Search {
     this.apiKey = getEnvironmentVariable('DHSC_AI_SEARCH_API_KEY') as string;
   }
 
-  async searchWith(searchTerm: string): Promise<BasicSearchResult[]> {
+  async searchWith(searchTerm: string): Promise<IndicatorSearchResult[]> {
     const query = `${searchTerm} /.*${searchTerm}.*/`;
 
     const searchClient = new SearchClient<Indicator>(
@@ -58,7 +58,7 @@ export class SearchService implements Search {
 
     const searchResponse = await searchClient.search(query, searchOptions);
 
-    const results: BasicSearchResult[] = [];
+    const results: IndicatorSearchResult[] = [];
     for await (const result of searchResponse.results) {
       results.push({
         id: result?.document?.IID,

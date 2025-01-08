@@ -1,6 +1,6 @@
-import { Search, BasicSearchResult } from './searchResultData';
+import { Search, IndicatorSearchResult } from './searchResultData';
 
-export const MOCK_DATA: BasicSearchResult[] = [
+export const MOCK_DATA: IndicatorSearchResult[] = [
   {
     id: '1',
     indicatorName: 'NHS',
@@ -27,7 +27,7 @@ function formatDate(date: Date): string {
 
 export class SearchServiceMock implements Search {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchWith(indicator: string): Promise<BasicSearchResult[]> {
+  searchWith(indicator: string): Promise<IndicatorSearchResult[]> {
     return Promise.resolve(MOCK_DATA);
   }
 }

@@ -8,11 +8,11 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
-import { BasicSearchResult } from '@/lib/search/searchResultData';
+import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 
 type SearchResultProps = {
-  result: BasicSearchResult;
+  result: IndicatorSearchResult;
 };
 
 const StyledParagraph = styled(Paragraph)(

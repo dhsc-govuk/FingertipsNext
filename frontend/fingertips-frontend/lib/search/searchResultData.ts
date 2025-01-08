@@ -1,7 +1,7 @@
 import { SearchService } from './searchService';
 import { SearchServiceMock } from './searchServiceMock';
 
-export interface BasicSearchResult {
+export interface IndicatorSearchResult {
   id: string;
   indicatorName: string;
   latestDataPeriod?: string;
@@ -10,7 +10,7 @@ export interface BasicSearchResult {
 }
 
 export interface Search {
-  searchWith(searchTerm: string): Promise<BasicSearchResult[]>;
+  searchWith(searchTerm: string): Promise<IndicatorSearchResult[]>;
 }
 
 let searchService: Search;
