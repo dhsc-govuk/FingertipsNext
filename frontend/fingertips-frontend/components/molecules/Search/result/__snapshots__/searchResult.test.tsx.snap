@@ -338,7 +338,7 @@ exports[`Search Result Suite snapshot test 1`] = `
           <input
             class="c5"
             data-testid="search-results-indicator-1"
-            id="1"
+            id="search-results-indicator-1"
             name="indicator"
             type="checkbox"
             value="1"
