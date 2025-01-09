@@ -25,7 +25,7 @@ describe("AI search index creation and data loading", () => {
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
 
-    test("should create indicator index with expected fields", async () => {
+    it("should create indicator index with expected fields", async () => {
       const url = `${urlPrefix}${URL_SUFFIX}`;
 
       const response = await fetch(url, {
@@ -69,7 +69,7 @@ describe("AI search index creation and data loading", () => {
       );
     });
 
-    test("should populate indicator index with data", async () => {
+    it("should populate indicator index with data", async () => {
       const url = `${urlPrefix}/docs${URL_SUFFIX}`;
 
       await expectIndexToBePopulated(url);
@@ -89,7 +89,7 @@ describe("AI search index creation and data loading", () => {
       urlPrefix = `${searchEndpoint}/indexes('${indexName}')`;
     });
 
-    test("should create geography index with expected fields", async () => {
+    it("should create geography index with expected fields", async () => {
       const url = `${urlPrefix}${URL_SUFFIX}`;
 
       const response = await fetch(url, {
@@ -141,13 +141,13 @@ describe("AI search index creation and data loading", () => {
       );
     });
 
-    test("should populate geography index with data", async () => {
+    it("should populate geography index with data", async () => {
       const url = `${urlPrefix}/docs${URL_SUFFIX}`;
 
       await expectIndexToBePopulated(url);
     });
 
-    test("should have autocomplete enabled", async () => {
+    it("should have autocomplete enabled", async () => {
       const url = `${urlPrefix}/docs/search.post.autocomplete${URL_SUFFIX}`;
 
       const response = await makeTypeAheadRequest(url);
@@ -157,7 +157,7 @@ describe("AI search index creation and data loading", () => {
       expect(results.value.length).toBeGreaterThan(0);
     });
 
-    test("should have suggestions enabled", async () => {
+    it("should have suggestions enabled", async () => {
       const url = `${urlPrefix}/docs/search.post.suggest${URL_SUFFIX}`;
 
       const response = await makeTypeAheadRequest(url);

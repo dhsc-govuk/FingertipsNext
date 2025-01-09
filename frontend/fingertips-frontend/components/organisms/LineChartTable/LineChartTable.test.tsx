@@ -21,14 +21,14 @@ const mockData: WeatherForecast[] = [
 
 const mockHeadings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
 
-test('snapshot test - should match snapshot', () => {
+it('snapshot test - should match snapshot', () => {
   const container = render(
     <LineChartTable data={mockData} headings={mockHeadings} />
   );
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-test('should render the LineChartTable component', () => {
+it('should render the LineChartTable component', () => {
   render(<LineChartTable data={mockData} headings={mockHeadings} />);
   const lineChart = screen.getByTestId('lineChartTable-component');
   expect(lineChart).toBeInTheDocument();
