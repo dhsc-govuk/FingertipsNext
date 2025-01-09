@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { SearchResults } from '.';
-import { registryWrapper } from '@/lib/testutils';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 
@@ -53,12 +52,7 @@ describe('Search Results Suite', () => {
 
   it('should render elements', async () => {
     render(
-      registryWrapper(
-        <SearchResults
-          searchResultsFormState={initialState}
-          searchResults={[]}
-        />
-      )
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -81,12 +75,10 @@ describe('Search Results Suite', () => {
 
   it('should render search results', () => {
     render(
-      registryWrapper(
-        <SearchResults
-          searchResultsFormState={initialState}
-          searchResults={MOCK_DATA}
-        />
-      )
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={MOCK_DATA}
+      />
     );
 
     expect(screen.getAllByTestId('search-result')).toHaveLength(
@@ -101,12 +93,10 @@ describe('Search Results Suite', () => {
       indicator: undefined,
     };
     render(
-      registryWrapper(
-        <SearchResults
-          searchResultsFormState={initialStateWithNoIndicator}
-          searchResults={MOCK_DATA}
-        />
-      )
+      <SearchResults
+        searchResultsFormState={initialStateWithNoIndicator}
+        searchResults={MOCK_DATA}
+      />
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -117,12 +107,7 @@ describe('Search Results Suite', () => {
 
   it('should render no results found', () => {
     render(
-      registryWrapper(
-        <SearchResults
-          searchResultsFormState={initialState}
-          searchResults={[]}
-        />
-      )
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
@@ -193,12 +178,10 @@ describe('Search Results Suite', () => {
 
   it('snapshot test', () => {
     const container = render(
-      registryWrapper(
-        <SearchResults
-          searchResultsFormState={initialState}
-          searchResults={MOCK_DATA}
-        />
-      )
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={MOCK_DATA}
+      />
     );
 
     expect(container.asFragment()).toMatchSnapshot();
