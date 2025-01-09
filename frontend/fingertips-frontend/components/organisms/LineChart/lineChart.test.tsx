@@ -4,7 +4,7 @@ import { expect } from '@jest/globals';
 import { registryWrapper } from '@/lib/testutils';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-test('should render the Highcharts react component', () => {
+test('should render the Highcharts react component within the LineChart component', () => {
   render(registryWrapper(<LineChart data={mockHealthData} />));
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();

@@ -3,10 +3,10 @@
 import { LineChart } from '@/components/organisms/LineChart';
 import { H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { HealthCareData } from '@/app/chart/health-data';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 type ChartProps = {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   indicator?: string;
   indicatorsSelected?: string[];
 };

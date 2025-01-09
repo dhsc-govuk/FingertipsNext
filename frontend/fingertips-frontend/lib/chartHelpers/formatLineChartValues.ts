@@ -1,7 +1,9 @@
-import { HealthCareData } from '@/app/chart/health-data';
 import Highcharts from 'highcharts';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
-export function orderedValues(data: HealthCareData[]): HealthCareData[] {
+export function sortHealthDataByDate(
+  data: HealthDataForArea[]
+): HealthDataForArea[] {
   return data.map((item) => ({
     ...item,
     healthData: item.healthData.toSorted((a, b) => a.year - b.year),
@@ -9,7 +11,7 @@ export function orderedValues(data: HealthCareData[]): HealthCareData[] {
 }
 
 export function generateSeriesData(
-  data: HealthCareData[]
+  data: HealthDataForArea[]
 ): Highcharts.SeriesLineOptions[] {
   return data.map((item) => ({
     type: 'line',

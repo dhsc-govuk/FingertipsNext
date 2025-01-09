@@ -1,6 +1,6 @@
 import {
   generateSeriesData,
-  orderedValues,
+  sortHealthDataByDate,
 } from '@/lib/chartHelpers/formatLineChartValues';
 
 const mockData = [
@@ -25,9 +25,9 @@ const mockData = [
   },
 ];
 
-describe('orderedValues', () => {
-  it('should order the healthcare data values in ascending year', async () => {
-    const mockOrderedData = [
+describe('sortHealthDataByDate', () => {
+  it('should sort the healthcare data values in ascending year', async () => {
+    const mockSortedData = [
       {
         areaCode: 'A1425',
         healthData: [
@@ -48,9 +48,9 @@ describe('orderedValues', () => {
         ],
       },
     ];
-    const result = orderedValues(mockData);
+    const result = sortHealthDataByDate(mockData);
 
-    expect(result).toEqual(mockOrderedData);
+    expect(result).toEqual(mockSortedData);
   });
 });
 

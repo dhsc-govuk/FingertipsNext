@@ -27,16 +27,9 @@ export default async function ChartPage(
     areaCodes: [areaCodes],
   });
 
-  const filteredData = data
-    .filter((item) => areaCodes === '' || item.areaCode === areaCodes)
-    .map((item) => ({
-      areaCode: item.areaCode,
-      healthData: item.healthData,
-    }));
-
   return (
     <Chart
-      data={filteredData}
+      data={data}
       indicator={indicator}
       indicatorsSelected={indicatorsSelected}
     />

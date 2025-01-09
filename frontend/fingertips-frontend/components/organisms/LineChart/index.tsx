@@ -1,13 +1,13 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { HealthCareData } from '@/app/chart/health-data';
 import {
   generateSeriesData,
-  orderedValues,
+  sortHealthDataByDate,
 } from '@/lib/chartHelpers/formatLineChartValues';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface LineChartProps {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   title?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -21,7 +21,7 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const orderedSeriesValues = orderedValues(data);
+  const orderedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(orderedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
