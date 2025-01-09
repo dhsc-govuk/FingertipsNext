@@ -161,7 +161,7 @@ describe('Search Results Suite', () => {
     ).toBeInTheDocument();
   });
 
-  it('should focus to the first checkbox when there clicking on the error link in the summary', async () => {
+  it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
     const scrollMock = jest.fn();
     window.HTMLElement.prototype.scrollIntoView = scrollMock;
 

@@ -59,7 +59,7 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
-            id={result.id.toString()}
+            id={`search-results-indicator-${result.id.toString()}`}
             data-testid={`search-results-indicator-${result.id}`}
             name="indicator"
             value={result.id}
