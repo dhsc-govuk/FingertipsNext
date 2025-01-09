@@ -51,10 +51,7 @@ describe('SearchStateManager', () => {
     it('should set the search state from URLSearchParams provided', () => {
       const params = new URLSearchParams();
       params.set('searchedIndicator', 'bang');
-      params.set(
-        'indicatorsSelected',
-        `1${encodedCommaSeperator}2${encodedCommaSeperator}3`
-      );
+      params.set('indicatorsSelected', `1,2,3`);
 
       const stateManager = SearchStateManager.setStateFromParams(params);
 
