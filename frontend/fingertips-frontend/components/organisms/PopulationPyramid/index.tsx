@@ -1,6 +1,7 @@
 import { WeatherForecast } from '@/generated-sources/api-client';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import accessibility from 'highcharts';
 
 interface PyramidChartProps {
   data: WeatherForecast[];
@@ -31,12 +32,12 @@ export function PopulationPyramid({
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
     title: { text: title },
-    // TODO: DW understand what this does
-    // accessibility: {
-    //   point: {
-    //     valueDescriptionFormat: '{index}. Age {xDescription}, {value}%.',
-    //   },
-    // },
+    accessibility: {
+      point: {
+        valueDescriptionFormat:
+          '{point.category} Temperature: {(point.y)}°{initial series.name}',
+      },
+    },
     xAxis: [
       {
         categories: dateCategories,
@@ -45,23 +46,23 @@ export function PopulationPyramid({
         labels: {
           step: 50,
         },
-        // accessibility: {
-        //   description: 'Age (male)',
-        // },
+        accessibility: {
+          description: '{xAxisTitle} degrees {series.name}',
+        },
       },
       {
         // mirror axis on right side
         opposite: true,
-        reversed: false,
+        reversed: true,
         categories: dateCategories,
         title: { text: xAxisTitle },
         linkedTo: 0,
         labels: {
           step: 1,
         },
-        // accessibility: {
-        //   description: 'Age (female)',
-        // },
+        accessibility: {
+          description: '{xAxisTitle} degrees {series.name}',
+        },
       },
     ],
     yAxis: {
