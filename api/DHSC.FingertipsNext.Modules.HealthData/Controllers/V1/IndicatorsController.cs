@@ -31,7 +31,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         [FromQuery] string[]? areaCodes = null,
         [FromQuery] int[]? years = null)
     {
-        IEnumerable<HealthMeasure> indicatorData = await _indicatorsService.GetIndicatorDataAsync(
+        var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? []
