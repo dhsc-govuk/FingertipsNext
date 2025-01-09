@@ -52,7 +52,7 @@ export function SearchResults({
               description={state.message}
               errors={[
                 {
-                  targetName: searchResults[0].id.toString(),
+                  targetName: `search-results-indicator-${searchResults[0].id.toString()}`,
                   text: 'Available indicators',
                 },
               ]}

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { registryWrapper } from '@/lib/testutils';
 import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
@@ -22,20 +23,20 @@ jest.mock('next/navigation', () => {
 
 describe('Search Result Suite', () => {
   it('should have search result list item', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
   });
 
   it('should contain 3 paragraphs and a heading', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getAllByRole('paragraph')).toHaveLength(3);
     expect(screen.getByRole('heading')).toBeInTheDocument();
   });
 
   it('should contain expected text', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(registryWrapper(<SearchResult result={MOCK_DATA[0]} />));
 
     expect(screen.getByRole('heading').textContent).toContain('NHS');
     expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
@@ -50,13 +51,21 @@ describe('Search Result Suite', () => {
   });
 
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+    render(
+      registryWrapper(
+        <SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />
+      )
+    );
 
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should mark the checkbox as not checked if indicatorSelected is false', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+    render(
+      registryWrapper(
+        <SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />
+      )
+    );
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
@@ -89,7 +98,9 @@ describe('Search Result Suite', () => {
   });
 
   it('snapshot test', () => {
-    const container = render(<SearchResult result={MOCK_DATA[0]} />);
+    const container = render(
+      registryWrapper(<SearchResult result={MOCK_DATA[0]} />)
+    );
 
     expect(container.asFragment()).toMatchSnapshot();
   });

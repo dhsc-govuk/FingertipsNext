@@ -34,7 +34,7 @@ export async function viewCharts(
 
   if (!validatedFields.success) {
     return {
-      indicator: formData.get('indicator')?.toString() ?? '',
+      indicator: formData.get('searchedIndicator')?.toString() ?? '',
       indicatorsSelected: formData.getAll('indicator')?.toString().split(','),
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Please select at least one indicator',
