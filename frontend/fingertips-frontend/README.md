@@ -89,16 +89,16 @@ npm run test
 
 ### Running the E2E tests
 
-To run the e2e tests headless do:
+To run the e2e tests locally headless do:
 
 ```bash
 npm run test-e2e
 ```
 
-To run the e2e tests headed do:
+To debug e2e test failures its best to run them using UI Mode:
 
 ```bash
-npx playwright test --headed
+npx playwright test --ui
 ```
 
 Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts.
