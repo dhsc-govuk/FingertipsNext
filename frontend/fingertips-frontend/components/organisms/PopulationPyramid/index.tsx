@@ -1,9 +1,9 @@
-import { WeatherForecast } from '@/generated-sources/api-client';
+import { HealthCareData } from '@/app/chart/health-data';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 
 interface PyramidChartProps {
-  data: WeatherForecast[];
+  data: HealthCareData[];
   title?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -17,43 +17,41 @@ export function PopulationPyramid({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<PyramidChartProps>) {
+  // helper functions
   Highcharts.Templating.helpers.initial = (label) => label.charAt(0);
 
-  // temperature categories:
-  const dateCategories = data.map(
-    (datapoint) => datapoint.date?.toLocaleDateString('en-GB') ?? ''
-  );
+  const areaCategories = data.map((datapoint) => datapoint.areaCode ?? '');
 
-  // temp data
-  const tempC = data.map((datapoint) => datapoint.temperatureC ?? null);
-  const tempF = data.map((datapoint) => datapoint.temperatureF ?? null);
+  const singleYearValues = data.map(
+    (datapoint) => datapoint.healthData[0].value ?? null
+  );
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
     title: { text: title },
-    accessibility: {
-      point: {
-        valueDescriptionFormat:
-          '{point.category} Temperature: {(point.y)}°{initial series.name}',
-      },
-    },
+    // accessibility: {
+    //   point: {
+    //     valueDescriptionFormat:
+    //       '{point.category} Temperature: {(point.y)}°{initial series.name}',
+    //   },
+    // },
     xAxis: [
       {
-        categories: dateCategories,
+        categories: areaCategories,
         title: { text: xAxisTitle },
         reversed: false,
         labels: {
-          step: 50,
+          step: 1,
         },
-        accessibility: {
-          description: '{xAxisTitle} degrees {series.name}',
-        },
+        // accessibility: {
+        //   description: '{xAxisTitle} degrees {series.name}',
+        // },
       },
       {
         // mirror axis on right side
         opposite: true,
         reversed: true,
-        categories: dateCategories,
+        categories: areaCategories,
         title: { text: xAxisTitle },
         linkedTo: 0,
         labels: {
@@ -83,22 +81,22 @@ export function PopulationPyramid({
       },
     },
 
-    tooltip: {
-      format:
-        '<b>{point.category}</b><br/>' +
-        'Temperature: {(point.y)}°{initial series.name}',
-    },
+    // tooltip: {
+    //   format:
+    //     '<b>{point.category}</b><br/>' +
+    //     'Temperature: {(point.y)}°{initial series.name}',
+    // },
 
     series: [
       {
-        name: 'Celcius',
+        name: 'Data',
         type: 'bar',
-        data: tempC,
+        data: singleYearValues,
       },
       {
-        name: 'Fahrenheit',
+        name: 'negative of Data',
         type: 'bar',
-        data: tempF,
+        data: singleYearValues.map((datapoint) => -datapoint),
       },
     ],
   };

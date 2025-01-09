@@ -28,10 +28,10 @@ export function Chart({ data }: Readonly<ChartProps>) {
       <LineChartTable data={data} headings={headings}></LineChartTable>
       <PopulationPyramid
         data={data}
-        title="Weather Forecast"
-        xAxisTitle="Date"
-        yAxisTitle="Temperature (°)"
-        accessibilityLabel="A pyramid chart showing weather forecast in celcuis and fahrenheit"
+        title="Healthcare Data"
+        xAxisTitle="Area"
+        yAxisTitle="Value (unit)"
+        accessibilityLabel="A pyramid chart showing some data"
       />
     </>
   );
