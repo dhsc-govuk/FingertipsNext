@@ -20,7 +20,7 @@ export default class ResultsPage extends BasePage {
   }
 
   async checkURLIsCorrect(indicator: string) {
-    await this.checkURL(`search/results?indicator=${indicator}`);
+    await this.checkURL(`search/results?searchedIndicator=${indicator}`);
   }
 
   async clickIndicatorCheckbox(indicatorId: string) {

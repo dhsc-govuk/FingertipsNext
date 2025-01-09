@@ -6,13 +6,13 @@ import { WeatherForecastApi } from '@/generated-sources/api-client';
 export default async function ChartPage(
   props: Readonly<{
     searchParams?: Promise<{
-      indicator?: string;
+      searchedIndicator?: string;
       indicatorsSelected?: string;
     }>;
   }>
 ) {
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator;
+  const searchedIndicator = searchParams?.searchedIndicator;
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
   // We don't want to render this page statically
   await connection();
@@ -24,7 +24,7 @@ export default async function ChartPage(
   return (
     <Chart
       data={data}
-      indicator={indicator}
+      searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />
   );

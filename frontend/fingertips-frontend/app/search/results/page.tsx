@@ -4,21 +4,21 @@ import { getSearchData } from './search-result-data';
 export default async function Page(
   props: Readonly<{
     searchParams?: Promise<{
-      indicator?: string;
+      searchedIndicator?: string;
       indicatorsSelected?: string;
     }>;
   }>
 ) {
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator ?? '';
+  const searchedIndicator = searchParams?.searchedIndicator ?? '';
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
 
   const initialState = {
-    indicator: indicator,
-    indicatorsSelected: indicatorsSelected,
+    searchedIndicator,
+    indicatorsSelected,
     message: null,
     errors: {},
   };

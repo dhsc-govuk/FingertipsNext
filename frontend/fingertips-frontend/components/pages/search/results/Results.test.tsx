@@ -39,9 +39,9 @@ jest.mock('react', () => {
 });
 
 describe('Search Results Suite', () => {
-  const indicator = 'test';
+  const searchedIndicator = 'test';
   const initialState: SearchResultState = {
-    indicator,
+    searchedIndicator,
     indicatorsSelected: [],
     message: null,
   };
@@ -58,7 +58,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
     expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
-      indicator
+      searchedIndicator
     );
   });
 
@@ -70,7 +70,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe('/search?indicator=test');
+    ).toBe('/search?searchedIndicator=test');
   });
 
   it('should render search results', () => {
@@ -90,7 +90,7 @@ describe('Search Results Suite', () => {
   it('should not render elements when no indicator is entered', () => {
     const initialStateWithNoIndicator = {
       ...initialState,
-      indicator: undefined,
+      searchedIndicator: undefined,
     };
     render(
       <SearchResults

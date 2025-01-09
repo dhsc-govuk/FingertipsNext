@@ -20,12 +20,16 @@ const mockData: WeatherForecast[] = [
 
 it('should render the backLink', () => {
   render(
-    <Chart data={mockData} indicator="test" indicatorsSelected={['1', '2']} />
+    <Chart
+      data={mockData}
+      searchedIndicator="test"
+      indicatorsSelected={['1', '2']}
+    />
   );
 
   expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /back/i }).getAttribute('href')).toBe(
-    '/search/results?indicator=test&indicatorsSelected=1%2C2'
+    '/search/results?searchedIndicator=test&indicatorsSelected=1%2C2'
   );
 });
 

@@ -8,7 +8,7 @@ import { SearchStateManager } from '@/lib/searchStateManager';
 
 type ChartProps = {
   data: WeatherForecast[];
-  indicator?: string;
+  searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
 
@@ -16,10 +16,13 @@ const headings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
 
 export function Chart({
   data,
-  indicator,
+  searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
+  const searchState = new SearchStateManager({
+    searchedIndicator,
+    indicatorsSelected,
+  });
   const backLinkPath = searchState.generatePath('/search/results');
 
   return (

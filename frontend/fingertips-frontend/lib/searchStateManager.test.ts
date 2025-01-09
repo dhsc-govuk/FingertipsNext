@@ -6,18 +6,20 @@ import {
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
     it('should add to the indicators selected array when initialy empty', () => {
-      const stateManager = new SearchStateManager({ indicator: 'bang' });
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+      });
       stateManager.addIndicatorSelected('1');
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?indicator=bang&indicatorsSelected=1`
+        `/some-path?searchedIndicator=bang&indicatorsSelected=1`
       );
     });
 
     it('should add to the indicators selected array', () => {
       const stateManager = new SearchStateManager({
-        indicator: 'bang',
+        searchedIndicator: 'bang',
         indicatorsSelected: ['1'],
       });
       stateManager.addIndicatorSelected('2');
@@ -25,7 +27,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?indicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?searchedIndicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
       );
     });
   });
@@ -33,14 +35,14 @@ describe('SearchStateManager', () => {
   describe('removeIndicatorSelected', () => {
     it('should remove from the indicators selected array', () => {
       const stateManager = new SearchStateManager({
-        indicator: 'bang',
+        searchedIndicator: 'bang',
         indicatorsSelected: ['1', '2', '3'],
       });
       stateManager.removeIndicatorSelected('1');
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?indicator=bang&indicatorsSelected=2${encodedCommaSeperator}3`
+        `/some-path?searchedIndicator=bang&indicatorsSelected=2${encodedCommaSeperator}3`
       );
     });
   });
@@ -48,7 +50,7 @@ describe('SearchStateManager', () => {
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
       const params = new URLSearchParams();
-      params.set('indicator', 'bang');
+      params.set('searchedIndicator', 'bang');
       params.set(
         'indicatorsSelected',
         `1${encodedCommaSeperator}2${encodedCommaSeperator}3`
@@ -58,7 +60,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?indicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?searchedIndicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
       );
     });
   });
@@ -72,22 +74,24 @@ describe('SearchStateManager', () => {
     });
 
     it('should return the indicator param to path', () => {
-      const stateManager = new SearchStateManager({ indicator: 'bang' });
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+      });
 
       const generatedPath = stateManager.generatePath('/some-path');
 
-      expect(generatedPath).toBe('/some-path?indicator=bang');
+      expect(generatedPath).toBe('/some-path?searchedIndicator=bang');
     });
 
     it('should return the indicatorsSelected to the generatedPath', () => {
       const stateManager = new SearchStateManager({
-        indicator: 'bang',
+        searchedIndicator: 'bang',
         indicatorsSelected: ['1'],
       });
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe(
-        '/some-path?indicator=bang&indicatorsSelected=1'
+        '/some-path?searchedIndicator=bang&indicatorsSelected=1'
       );
     });
   });

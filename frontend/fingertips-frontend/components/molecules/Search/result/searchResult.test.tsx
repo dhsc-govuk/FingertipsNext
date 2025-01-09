@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({ indicator: 'test' }),
+    useSearchParams: () => ({ searchedIndicator: 'test' }),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -69,7 +69,7 @@ describe('Search Result Suite', () => {
     await user.click(screen.getByRole('checkbox'));
 
     expect(mockReplace).toBeCalledWith(
-      `${mockPath}?indicator=test&indicatorsSelected=1`,
+      `${mockPath}?searchedIndicator=test&indicatorsSelected=1`,
       {
         scroll: false,
       }
@@ -83,7 +83,7 @@ describe('Search Result Suite', () => {
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toBeCalledWith(`${mockPath}?indicator=test`, {
+    expect(mockReplace).toBeCalledWith(`${mockPath}?searchedIndicator=test`, {
       scroll: false,
     });
   });

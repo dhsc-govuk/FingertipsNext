@@ -1,7 +1,7 @@
 export const encodedCommaSeperator = encodeURIComponent(',');
 
 export type SearchState = {
-  indicator?: string;
+  searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
 
@@ -11,7 +11,7 @@ export class SearchStateManager {
 
   constructor(searchState: SearchState) {
     this.searchState = {
-      indicator: searchState.indicator,
+      searchedIndicator: searchState.searchedIndicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
     };
     this.generatedPath = [];
@@ -33,10 +33,10 @@ export class SearchStateManager {
     return '&';
   }
 
-  private addIndicatorToPath() {
-    if (this.searchState.indicator) {
+  private addSearchedIndicatorToPath() {
+    if (this.searchState.searchedIndicator) {
       this.generatedPath.push(
-        `${this.determineQueryPathSymbol()}indicator=${this.searchState.indicator}`
+        `${this.determineQueryPathSymbol()}searchedIndicator=${this.searchState.searchedIndicator}`
       );
     }
   }
@@ -66,12 +66,12 @@ export class SearchStateManager {
   }
 
   public static setStateFromParams(params: URLSearchParams) {
-    const indicator = params.get('indicator') ?? undefined;
+    const searchedIndicator = params.get('searchedIndicator') ?? undefined;
     const indicatorsSelected =
       params.get('indicatorsSelected')?.split(',') ?? [];
 
     const searchStateManager = new SearchStateManager({
-      indicator,
+      searchedIndicator,
       indicatorsSelected,
     });
     return searchStateManager;
@@ -80,7 +80,7 @@ export class SearchStateManager {
   public generatePath(path: string) {
     this.addPathName(path);
 
-    this.addIndicatorToPath();
+    this.addSearchedIndicatorToPath();
     this.addIndicatorsSelectedToPath();
 
     return this.constructPath();

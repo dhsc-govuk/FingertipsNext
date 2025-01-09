@@ -51,7 +51,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await resultsPage.clickBackLink();
 
   // Assert - check search text previously entered is prepopulated
-  await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
+  await searchPage.checkURLIsCorrect(`?searchedIndicator=${indicator}`);
   await searchPage.checkSearchFieldIsPrePopulatedWith(indicator);
 
   // Act - clear the prepopulated search field and click search
@@ -59,7 +59,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await searchPage.clickSearchButton();
 
   // Assert - should be on the same page with search field still cleared and validation message displayed
-  await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
+  await searchPage.checkURLIsCorrect(`?searchedIndicator=${indicator}`);
   await searchPage.checkSearchFieldIsPrePopulatedWith();
   await searchPage.checkSummaryValidation(
     `There is a problemAt least one of the following fields must be populated:Indicator field`

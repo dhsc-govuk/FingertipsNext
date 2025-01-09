@@ -19,7 +19,7 @@ describe('Search Results Actions', () => {
       await viewCharts(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
-        `/chart?indicator=boom&indicatorsSelected=${encodeURIComponent('1,2')}`,
+        `/chart?searchedIndicator=boom&indicatorsSelected=${encodeURIComponent('1,2')}`,
         RedirectType.push
       );
     });
