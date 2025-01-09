@@ -9,7 +9,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 public class HealthDataRepositoryTests
 {
     private readonly HealthDataDbContext _dbContext;
-    private HealthDataRepository? _repository;
+    private HealthDataRepository _repository;
 
     public HealthDataRepositoryTests()
     {
@@ -19,12 +19,13 @@ public class HealthDataRepositoryTests
             );
 
         _dbContext = new HealthDataDbContext(dbOptions.Options);
+        _repository = new HealthDataRepository(_dbContext);
     }
 
     [Fact]
     public void RepositoryInitialization_ShouldThrowError_IfNullDBContextIsProvided()
     {
-        var act = () => _repository = new HealthDataRepository(null);
+        var act = () => _repository = new HealthDataRepository(null!);
 
         act.Should()
             .Throw<ArgumentNullException>()
@@ -35,7 +36,6 @@ public class HealthDataRepositoryTests
     public void Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
     {
         // arrange
-        _repository = new HealthDataRepository(_dbContext);
         PopulateDatabase();
 
         // act
@@ -49,7 +49,6 @@ public class HealthDataRepositoryTests
     public void Repository_ShouldReturnExpectedResult_IfIndicatorIsFound()
     {
         // arrange
-        _repository = new HealthDataRepository(_dbContext);
         PopulateDatabase();
 
         // act
