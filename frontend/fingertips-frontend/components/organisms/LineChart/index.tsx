@@ -8,35 +8,41 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface LineChartProps {
   data: HealthDataForArea[];
-  title?: string;
   xAxisTitle?: string;
-  yAxisTitle?: string;
   accessibilityLabel?: string;
 }
 
 export function LineChart({
   data,
-  title,
   xAxisTitle,
-  yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const orderedSeriesValues = sortHealthDataByDate(data);
-  const seriesData = generateSeriesData(orderedSeriesValues);
+  const sortedSeriesValues = sortHealthDataByDate(data);
+  const seriesData = generateSeriesData(sortedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
-    chart: { type: 'line' },
-    title: { text: title },
-    xAxis: {
-      title: { text: xAxisTitle },
-    },
+    chart: { type: 'line', height: '50%', spacingTop: 50 },
+    title: undefined,
     yAxis: {
-      title: { text: yAxisTitle },
+      title: undefined,
+    },
+    xAxis: {
+      title: { text: xAxisTitle, margin: 20 },
+      tickLength: 0,
     },
     legend: {
       verticalAlign: 'top',
     },
     series: seriesData,
+    tooltip: {
+      formatter: function () {
+        return `
+        <b>${this.series.name}</b>
+        <br/>Year: ${this.x}<br/>
+        <br/><span style="color:${this.color}">●</span> Value ${this.y}
+      `;
+      },
+    },
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

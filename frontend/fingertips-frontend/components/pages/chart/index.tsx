@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H1 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
@@ -16,12 +16,10 @@ const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 export function Chart({ data }: Readonly<ChartProps>) {
   return (
     <>
-      <H1>Line Chart</H1>
+      <H3>See how the indicator has changed over time for the area</H3>
       <LineChart
         data={data}
-        title="Healthcare Data"
         xAxisTitle="Year"
-        yAxisTitle="Value"
         accessibilityLabel="A line chart showing healthcare data"
       />
       <LineChartTable data={data} headings={headings}></LineChartTable>
