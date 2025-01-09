@@ -3,6 +3,7 @@ import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { userEvent } from '@testing-library/user-event';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -13,7 +14,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({ searchedIndicator: 'test' }),
+    useSearchParams: () => ({ [SearchParams.SearchedIndicator]: 'test' }),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -69,7 +70,7 @@ describe('Search Result Suite', () => {
     await user.click(screen.getByRole('checkbox'));
 
     expect(mockReplace).toBeCalledWith(
-      `${mockPath}?searchedIndicator=test&indicatorsSelected=1`,
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1`,
       {
         scroll: false,
       }
@@ -83,9 +84,12 @@ describe('Search Result Suite', () => {
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toBeCalledWith(`${mockPath}?searchedIndicator=test`, {
-      scroll: false,
-    });
+    expect(mockReplace).toBeCalledWith(
+      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      {
+        scroll: false,
+      }
+    );
   });
 
   it('snapshot test', () => {

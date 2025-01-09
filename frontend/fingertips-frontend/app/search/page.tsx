@@ -1,10 +1,9 @@
 import { SearchForm } from '@/components/forms/SearchForm';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function Page(
   props: Readonly<{
-    searchParams?: Promise<{
-      searchedIndicator?: string;
-    }>;
+    searchParams?: Promise<SearchStateParams>;
   }>
 ) {
   const searchParams = await props.searchParams;

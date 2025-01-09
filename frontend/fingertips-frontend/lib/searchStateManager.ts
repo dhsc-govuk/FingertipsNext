@@ -1,8 +1,18 @@
 export const encodedCommaSeperator = encodeURIComponent(',');
 
+export enum SearchParams {
+  SearchedIndicator = 'searchedIndicator',
+  IndicatorsSelected = 'indicatorsSelected',
+}
+
+export type SearchStateParams = {
+  [SearchParams.SearchedIndicator]?: string;
+  [SearchParams.IndicatorsSelected]?: string;
+};
+
 export type SearchState = {
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
+  [SearchParams.SearchedIndicator]?: string;
+  [SearchParams.IndicatorsSelected]?: string[];
 };
 
 export class SearchStateManager {
@@ -27,7 +37,7 @@ export class SearchStateManager {
   private addSearchedIndicatorToPath() {
     if (this.searchState.searchedIndicator) {
       this.searchStateParams.set(
-        'searchedIndicator',
+        SearchParams.SearchedIndicator,
         this.searchState.searchedIndicator
       );
     }
@@ -39,7 +49,7 @@ export class SearchStateManager {
       this.searchState.indicatorsSelected.length > 0
     ) {
       this.searchStateParams.set(
-        'indicatorsSelected',
+        SearchParams.IndicatorsSelected,
         this.searchState.indicatorsSelected.join(',')
       );
     }
@@ -59,9 +69,10 @@ export class SearchStateManager {
   }
 
   public static setStateFromParams(params: URLSearchParams) {
-    const searchedIndicator = params.get('searchedIndicator') ?? undefined;
+    const searchedIndicator =
+      params.get(SearchParams.SearchedIndicator) ?? undefined;
     const indicatorsSelected =
-      params.get('indicatorsSelected')?.split(',') ?? [];
+      params.get(SearchParams.IndicatorsSelected)?.split(',') ?? [];
 
     const searchStateManager = new SearchStateManager({
       searchedIndicator,

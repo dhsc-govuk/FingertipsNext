@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const mockData: WeatherForecast[] = [
   {
@@ -29,7 +30,7 @@ it('should render the backLink', () => {
 
   expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /back/i }).getAttribute('href')).toBe(
-    '/search/results?searchedIndicator=test&indicatorsSelected=1%2C2'
+    `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1%2C2`
   );
 });
 

@@ -1,4 +1,5 @@
 import {
+  SearchParams,
   SearchStateManager,
   encodedCommaSeperator,
 } from './searchStateManager';
@@ -13,7 +14,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?searchedIndicator=bang&indicatorsSelected=1`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1`
       );
     });
 
@@ -27,7 +28,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?searchedIndicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
       );
     });
   });
@@ -42,7 +43,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?searchedIndicator=bang&indicatorsSelected=2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=2${encodedCommaSeperator}3`
       );
     });
   });
@@ -50,14 +51,14 @@ describe('SearchStateManager', () => {
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
       const params = new URLSearchParams();
-      params.set('searchedIndicator', 'bang');
-      params.set('indicatorsSelected', `1,2,3`);
+      params.set(SearchParams.SearchedIndicator, 'bang');
+      params.set(SearchParams.IndicatorsSelected, `1,2,3`);
 
       const stateManager = SearchStateManager.setStateFromParams(params);
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?searchedIndicator=bang&indicatorsSelected=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
       );
     });
   });
@@ -77,7 +78,9 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
 
-      expect(generatedPath).toBe('/some-path?searchedIndicator=bang');
+      expect(generatedPath).toBe(
+        `/some-path?${SearchParams.SearchedIndicator}=bang`
+      );
     });
 
     it('should return the indicatorsSelected to the generatedPath', () => {
@@ -88,7 +91,7 @@ describe('SearchStateManager', () => {
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe(
-        '/some-path?searchedIndicator=bang&indicatorsSelected=1'
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1`
       );
     });
   });

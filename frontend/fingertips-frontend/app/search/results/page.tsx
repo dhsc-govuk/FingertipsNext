@@ -1,12 +1,10 @@
 import { SearchResults } from '@/components/pages/search/results';
 import { getSearchData } from './search-result-data';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function Page(
   props: Readonly<{
-    searchParams?: Promise<{
-      searchedIndicator?: string;
-      indicatorsSelected?: string;
-    }>;
+    searchParams?: Promise<SearchStateParams>;
   }>
 ) {
   const searchParams = await props.searchParams;

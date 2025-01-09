@@ -1,3 +1,4 @@
+import { SearchParams } from '@/lib/searchStateManager';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { redirect, RedirectType } from 'next/navigation';
 
@@ -19,7 +20,7 @@ describe('Search Results Actions', () => {
       await viewCharts(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
-        `/chart?searchedIndicator=boom&indicatorsSelected=${encodeURIComponent('1,2')}`,
+        `/chart?${SearchParams.SearchedIndicator}=boom&${SearchParams.IndicatorsSelected}=${encodeURIComponent('1,2')}`,
         RedirectType.push
       );
     });

@@ -2,13 +2,11 @@ import { Chart } from '@/components/pages/chart';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { connection } from 'next/server';
 import { WeatherForecastApi } from '@/generated-sources/api-client';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function ChartPage(
   props: Readonly<{
-    searchParams?: Promise<{
-      searchedIndicator?: string;
-      indicatorsSelected?: string;
-    }>;
+    searchParams?: Promise<SearchStateParams>;
   }>
 ) {
   const searchParams = await props.searchParams;

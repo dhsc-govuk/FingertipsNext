@@ -4,6 +4,7 @@ import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
+import { SearchParams } from '@/lib/searchStateManager';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -70,7 +71,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe('/search?searchedIndicator=test');
+    ).toBe(`/search?${SearchParams.SearchedIndicator}=test`);
   });
 
   it('should render search results', () => {
