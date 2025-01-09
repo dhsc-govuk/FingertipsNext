@@ -29,6 +29,7 @@ export function PopulationPyramid({
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
     title: { text: title },
+    legend: { verticalAlign: 'top' },
     // accessibility: {
     //   point: {
     //     valueDescriptionFormat:
@@ -38,11 +39,20 @@ export function PopulationPyramid({
     xAxis: [
       {
         categories: areaCategories,
-        title: { text: xAxisTitle },
-        reversed: false,
-        labels: {
-          step: 1,
+        title: {
+          text: xAxisTitle,
+          align: 'high',
+          offset: 2,
+          rotation: 0,
         },
+        tickWidth: 1,
+        tickLength: 10,
+        tickmarkPlacement: 'on',
+
+        // reversed: false,
+        // labels: {
+        //   step: 1,
+        // },
         // accessibility: {
         //   description: '{xAxisTitle} degrees {series.name}',
         // },
@@ -51,12 +61,15 @@ export function PopulationPyramid({
         // mirror axis on right side
         opposite: true,
         reversed: true,
-        categories: areaCategories,
-        title: { text: xAxisTitle },
-        linkedTo: 0,
-        labels: {
-          step: 1,
+        title: {
+          text: xAxisTitle,
+          align: 'high',
+          offset: 2,
+          rotation: 0,
         },
+        tickWidth: 1,
+        tickLength: 10,
+        tickmarkPlacement: 'on',
         accessibility: {
           description: '{xAxisTitle} degrees {series.name}',
         },
@@ -66,6 +79,11 @@ export function PopulationPyramid({
       title: {
         text: yAxisTitle,
       },
+      lineWidth: 5,
+      lineColor: '#FF0000',
+      tickWidth: 1,
+      tickLength: 5,
+      gridLineWidth: 0,
       labels: {
         format: '{value}',
       },
@@ -92,11 +110,35 @@ export function PopulationPyramid({
         name: 'Data',
         type: 'bar',
         data: singleYearValues,
+        dataLabels: {
+          enabled: true,
+          inside: false,
+          format: '{(point.y):.0f}',
+          color: '#000000',
+          style: {
+            fontWeight: 'normal',
+          },
+        },
+      },
+      {
+        name: 'Data / 2',
+        type: 'line',
+        data: singleYearValues.map((datapoint) => datapoint / 2),
+        marker: { symbol: 'diamond' },
       },
       {
         name: 'negative of Data',
         type: 'bar',
         data: singleYearValues.map((datapoint) => -datapoint),
+        dataLabels: {
+          enabled: true,
+          inside: false,
+          format: '{(point.y):.0f}',
+          color: '#000000',
+          style: {
+            fontWeight: 'normal',
+          },
+        },
       },
     ],
   };
