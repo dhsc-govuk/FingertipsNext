@@ -20,8 +20,8 @@ public class IndicatorServiceTests
     {
         var profiles = new AutoMapperProfiles();
         var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profiles));
-        _repository = Substitute.For<IRepository>();
         _mapper = new Mapper(configuration);
+        _repository = Substitute.For<IRepository>();
         _indicatorService = new IndicatorService(_repository, _mapper);
     }
 

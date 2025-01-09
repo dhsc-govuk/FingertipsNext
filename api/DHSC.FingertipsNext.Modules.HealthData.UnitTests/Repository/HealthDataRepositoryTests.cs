@@ -2,7 +2,6 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
