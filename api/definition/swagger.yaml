@@ -12,7 +12,175 @@ info:
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
+  - name: areas
+    description: Endpoints dealing with areas / geography
 paths:
+  /area/hierarchies:
+    get:
+      tags:
+        - areas
+      summary: Get hierarchies
+      description: Get all available hierarchy types
+      operationId: getAreaHierarchies
+      responses:
+        '200':
+          description: The available hierarchy types, e.g. NHS or Administrative
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/areatypes:
+    get:
+      tags:
+        - areas
+      summary: Get area types
+      description: Get area types, optionally filtering by hierarchy type
+      operationId: getAreaTypes
+      parameters:
+        - $ref: "#/components/parameters/hierarchy_type"
+      responses:
+        '200':
+          description: The available area types e.g. CCB, PCN or GP Surgery
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/{area_code}:
+    get:
+      tags:
+        - areas
+      summary: Get area
+      description: Get the full details of a given area, including it's parent, optionally including it's children, siblings, cousins and ancestors
+      operationId: getArea
+      parameters:
+        - $ref: "#/components/parameters/area_code"
+        - $ref: "#/components/parameters/includeChildren"
+        - $ref: "#/components/parameters/includeSiblings"
+        - $ref: "#/components/parameters/includeCousins"
+        - $ref: "#/components/parameters/includeAncestors"
+      responses:
+        '200':
+          description: The area node
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreaWithRelations'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/root:
+    get:
+      tags:
+        - areas
+      summary: Get root
+      description: Get the root node of the area hierarchy
+      operationId: getAreaRoot
+      responses:
+        '200':
+          description: The root area node
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RootArea'
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/{area_code}/children:
+    get:
+      tags:
+        - areas
+      summary: Get child
+      description: Get child nodes for a given area
+      operationId: getAreaChildren
+      parameters:
+        - $ref: "#/components/parameters/area_code"
+      responses:
+        '200':
+          description: The child nodes for the area
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/{area_code}/ancestors:
+    get:
+      tags:
+        - areas
+      summary: Get ancestors
+      description: Get ancestor nodes (parent, grandparent etc.) for a given area
+      operationId: getAreaAncestors
+      parameters:
+        - $ref: "#/components/parameters/area_code"
+      responses:
+        '200':
+          description: The ancestor nodes for the area
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /area/{area_code}/siblings:
+    get:
+      tags:
+        - areas
+      summary: Get siblings
+      description: Get sibling nodes (nodes with the same parent) for a given area
+      operationId: getAreaSiblings
+      parameters:
+        - $ref: "#/components/parameters/area_code"
+      responses:
+        '200':
+          description: The sibling nodes for the area, includes the area itself
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
+  /geography/{area_code}/siblingscousins:
+    get:
+      tags:
+        - geography
+      summary: Get siblings
+      description: Get nodes at the same level as the given geography, in the same hierarchy type. This includes siblings and cousins
+      operationId: getGeographySiblingsAndCousins
+      parameters:
+        - $ref: "#/components/parameters/area_code"
+      responses:
+        '200':
+          description: The sibling and cousin nodes for the geography, includes the geography itself
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerErrror"
   /indicators:
     get:
       tags:
@@ -88,6 +256,69 @@ paths:
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
+    RootArea:
+      type: object
+      description: The root node of the area / geography hierarchies
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          example: "E92000001"
+          description: The unique area code of the area / geography
+        name:
+          type: string
+          example: "England"
+          description: The name of the area / geography
+    Area:
+      type: object
+      description: A area or geography that has associated public health data
+      required:
+        - code
+        - name
+        - hierarchyType
+        - areaType
+      properties:
+        code:
+          type: string
+          example: "E06000047"
+          description: The unique area code of the area / geography
+        name:
+          type: string
+          example: "County Durham"
+          description: The name of the area / geography
+        hierarchyType:
+          type: string
+          example: "NHS"
+          description: The name of the associated hierarchy for the area / geography
+        areaType:
+          type: string
+          example: "PCN"
+          description: The type of the area / geography
+    AreaWithRelations:
+      allOf:
+        - $ref: "#/components/schemas/Area"
+        - type: object
+          properties:
+            parent:
+              $ref: "#/components/schemas/Area"
+            children:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
+            siblings:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
+            cousins:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
+            ancestors:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
     IndicatorSummary:
       type: object
       description: A summary of a public health indicator
@@ -190,6 +421,40 @@ components:
           type: integer
           example: 2023
         maxItems: 10
+    area_code:
+      in: path
+      name: area_code
+      style: simple
+      schema:
+        type: string
+        example: G82109
+      explode: false
+      required: true
+      description: The area code of the area/ geography
+    includeChildren:
+      in: query
+      name: includeChildren
+      description: include the child areas
+      schema:
+        type: boolean
+    includeSiblings:
+      in: query
+      name: includeSiblings
+      description: include the sibling areas
+      schema:
+        type: boolean
+    includeCousins:
+      in: query
+      name: includeCousins
+      description: include the cousin areas
+      schema:
+        type: boolean
+    includeAncestors:
+      in: query
+      name: includeAncestors
+      description: include the ancestor areas
+      schema:
+        type: boolean
     area_codes:
       in: query
       name: area_codes
@@ -223,6 +488,14 @@ components:
           type: integer
           example: 1234
         maxItems: 10
+    hierarchy_type:
+      in: query
+      name: hierarchy_type
+      style: form
+      schema:
+        type: string
+        example: NHS
+      description: The name of the hierarchy type
   responses:
     NotFound:
       content:
