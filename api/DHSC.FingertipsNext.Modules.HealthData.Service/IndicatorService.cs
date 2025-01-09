@@ -22,10 +22,10 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     /// only the first 10 are used. If the array is empty all years are retrieved.</param>
     /// <returns>An enumerable of <c>HealthMeasure</c> matching the criteria,
     /// otherwise an empty enumerable.</returns>
-    public IEnumerable<HealthMeasure> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthMeasure>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years)
     {
         return _mapper.Map<IEnumerable<HealthMeasure>>(
-            _repository.GetIndicatorData(
+            await _repository.GetIndicatorDataAsync(
             indicatorId,
             areaCodes.Distinct().Take(10).ToArray(),
             years.Distinct().Take(10).ToArray())

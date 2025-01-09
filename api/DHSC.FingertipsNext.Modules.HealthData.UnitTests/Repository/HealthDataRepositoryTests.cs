@@ -22,7 +22,7 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public void RepositoryInitialization_ShouldThrowError_IfNullDBContextIsProvided()
+    public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
     {
         var act = () => _repository = new HealthDataRepository(null!);
 
@@ -32,26 +32,26 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public void Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
+    public async Task Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
     {
         // arrange
         PopulateDatabase();
 
         // act
-        var result = _repository.GetIndicatorData(3, [], []);
+        var result = await _repository.GetIndicatorDataAsync(3, [], []);
 
         // assert
         result.Should().BeEmpty();
     }
 
     [Fact]
-    public void Repository_ShouldReturnExpectedResult_IfIndicatorIsFound()
+    public async Task Repository_ShouldReturnExpectedResult_IfIndicatorIsFound()
     {
         // arrange
         PopulateDatabase();
 
         // act
-        var result = _repository.GetIndicatorData(1, [], []);
+        var result = await _repository.GetIndicatorDataAsync(1, [], []);
 
         // assert
         result.Should().NotBeEmpty();

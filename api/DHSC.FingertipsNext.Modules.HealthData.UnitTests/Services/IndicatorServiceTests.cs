@@ -53,21 +53,21 @@ public class IndicatorServiceTests
 
     [Theory]
     [MemberData(nameof(TestData))]
-    public void GetIndicatorData_PassesFirst10DistinctFiltersToRepository_WhenSuppliedMore(string[] inputAreaCodes,
+    public async Task GetIndicatorData_PassesFirst10DistinctFiltersToRepository_WhenSuppliedMore(string[] inputAreaCodes,
                                                                                            int[] inputYears,
                                                                                            string[] expectedAreaCodes,
                                                                                            int[] expectedYears)
     {
-        _indicatorService.GetIndicatorData(
+        await _indicatorService.GetIndicatorDataAsync(
             1,
             inputAreaCodes,
             inputYears
         );
 
         // expect
-        _repository
+        await _repository
             .Received()
-            .GetIndicatorData(
+            .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(expectedAreaCodes),
                 ArgEx.IsEquivalentTo<int[]>(expectedYears)
@@ -75,15 +75,15 @@ public class IndicatorServiceTests
     }
 
     [Fact]
-    public void GetIndicatorData_DelegatesToRepository()
+    public async Task GetIndicatorData_DelegatesToRepository()
     {
-        _indicatorService.GetIndicatorData(1, [], []);
+        await _indicatorService.GetIndicatorDataAsync(1, [], []);
 
-        _repository.Received().GetIndicatorData(1, [], []);
+        await _repository.Received().GetIndicatorDataAsync(1, [], []);
     }
 
     [Fact]
-    public void GetIndicatorData_ShouldReturnExpectedResult()
+    public async Task GetIndicatorData_ShouldReturnExpectedResult()
     {
         var areaDimension = new AreaDimensionModel
         {
@@ -133,10 +133,10 @@ public class IndicatorServiceTests
             SexDimension = sexDimension
         };
 
-        _repository.GetIndicatorData(1, [], []).Returns([healthMeasure]);
+        _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure]);
         var mappingResult = _mapper.Map<HealthMeasure>(healthMeasure);
 
-        var result = _indicatorService.GetIndicatorData(1, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
 
         result.Should().NotBeEmpty();
         result.Should().HaveCount(1);

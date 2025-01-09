@@ -20,14 +20,14 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public void GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
+    public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        _controller.GetIndicatorData(1, ["ac1", "ac2"], [1999, 2024]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], [1999, 2024]);
 
         // expect
-        _indicatorService
+        await _indicatorService
             .Received()
-            .GetIndicatorData(
+            .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
                 ArgEx.IsEquivalentTo<int[]>([ 1999, 2024 ])
@@ -35,22 +35,22 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public void GetIndicatorData_DelegatesToServiceWithDefaults_WhenOptionalParametersNotSpecified()
+    public async Task GetIndicatorData_DelegatesToServiceWithDefaults_WhenOptionalParametersNotSpecified()
     {
-        _controller.GetIndicatorData(2);
+        await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        _indicatorService.Received().GetIndicatorData(2, [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], []);
     }
 
     [Fact]
-    public void GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
+    public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorData(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
             .Returns(SampleHealthData);
 
-        var response = _controller.GetIndicatorData(3) as ObjectResult;
+        var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
         // expect
         response?.StatusCode.Equals(200);
@@ -58,13 +58,13 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public void GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
+    public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-           .GetIndicatorData(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
+           .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
            .Returns([]);
 
-        var response = _controller.GetIndicatorData(3) as ObjectResult;
+        var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
         // expect
         response?.StatusCode.Equals(404);

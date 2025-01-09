@@ -12,9 +12,9 @@ public class HealthDataRepository : IRepository
         _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
     }
 
-    public IEnumerable<HealthMeasureModel> GetIndicatorData(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years)
     {
-        return _dbContext.HealthMeasure
+        return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || areaCodes.Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
@@ -22,6 +22,7 @@ public class HealthDataRepository : IRepository
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.SexDimension)
-            .Include(hm => hm.AgeDimension);
+            .Include(hm => hm.AgeDimension)
+            .ToArrayAsync();
     }
 }

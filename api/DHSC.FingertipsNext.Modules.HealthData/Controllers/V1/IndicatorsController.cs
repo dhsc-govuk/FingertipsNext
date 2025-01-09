@@ -26,17 +26,17 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     /// </remarks>
     [HttpGet]
     [Route("{indicatorId:int}/data")]
-    public IActionResult GetIndicatorData(
+    public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery] string[]? areaCodes = null,
         [FromQuery] int[]? years = null)
     {
-        var indicatorData = _indicatorsService.GetIndicatorData(
+        IEnumerable<HealthMeasure> indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? []
-            ).ToArray();
+            );
 
-        return indicatorData.Length == 0 ? NotFound() : Ok(indicatorData);
+        return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
     }
 }
