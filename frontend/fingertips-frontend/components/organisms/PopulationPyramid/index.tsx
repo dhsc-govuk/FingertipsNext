@@ -45,10 +45,11 @@ export function PopulationPyramid({
           offset: 2,
           rotation: 0,
         },
+        lineColor: '#D7D7D7',
         tickWidth: 1,
         tickLength: 10,
         tickmarkPlacement: 'on',
-
+        tickColor: '#D7D7D7',
         // reversed: false,
         // labels: {
         //   step: 1,
@@ -67,9 +68,11 @@ export function PopulationPyramid({
           offset: 2,
           rotation: 0,
         },
+        lineColor: '#D7D7D7',
         tickWidth: 1,
         tickLength: 10,
         tickmarkPlacement: 'on',
+        tickColor: '#D7D7D7',
         accessibility: {
           description: '{xAxisTitle} degrees {series.name}',
         },
@@ -79,10 +82,11 @@ export function PopulationPyramid({
       title: {
         text: yAxisTitle,
       },
-      lineWidth: 5,
-      lineColor: '#FF0000',
+      lineWidth: 1,
+      lineColor: '#D7D7D7',
       tickWidth: 1,
       tickLength: 5,
+      tickColor: '#D7D7D7',
       gridLineWidth: 0,
       labels: {
         format: '{value}',
@@ -110,13 +114,30 @@ export function PopulationPyramid({
         name: 'Data',
         type: 'bar',
         data: singleYearValues,
+        color: '#5352BE',
         dataLabels: {
           enabled: true,
           inside: false,
           format: '{(point.y):.0f}',
           color: '#000000',
           style: {
-            fontWeight: 'normal',
+            fontWeight: 'light',
+          },
+        },
+      },
+
+      {
+        name: 'Negative of Data',
+        type: 'bar',
+        data: singleYearValues.map((datapoint) => -datapoint),
+        color: '#57AEF8',
+        dataLabels: {
+          enabled: true,
+          inside: false,
+          format: '{(point.y):.0f}',
+          color: '#000000',
+          style: {
+            fontWeight: 'light',
           },
         },
       },
@@ -124,21 +145,18 @@ export function PopulationPyramid({
         name: 'Data / 2',
         type: 'line',
         data: singleYearValues.map((datapoint) => datapoint / 2),
-        marker: { symbol: 'diamond' },
+        color: '#3D3D3D',
+        marker: { symbol: 'circle' },
+        dataLabels: { enabled: false },
       },
       {
-        name: 'negative of Data',
-        type: 'bar',
-        data: singleYearValues.map((datapoint) => -datapoint),
-        dataLabels: {
-          enabled: true,
-          inside: false,
-          format: '{(point.y):.0f}',
-          color: '#000000',
-          style: {
-            fontWeight: 'normal',
-          },
-        },
+        name: 'Data / 3',
+        type: 'line',
+        data: singleYearValues.map((datapoint) => datapoint / 3),
+        color: '#28A197',
+        dashStyle: 'Dash',
+        marker: { symbol: 'diamond' },
+        dataLabels: { enabled: false },
       },
     ],
   };

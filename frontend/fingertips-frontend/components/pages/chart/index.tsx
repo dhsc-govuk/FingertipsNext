@@ -29,7 +29,7 @@ export function Chart({ data }: Readonly<ChartProps>) {
       <PopulationPyramid
         data={data}
         title="Healthcare Data"
-        xAxisTitle="Area"
+        xAxisTitle="Area Code"
         yAxisTitle="Value (unit)"
         accessibilityLabel="A pyramid chart showing some data"
       />
