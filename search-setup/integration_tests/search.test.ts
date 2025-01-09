@@ -195,7 +195,7 @@ describe("AI search index creation and data loading", () => {
       expect(index.fields.length).toBe(4);
     });
 
-    it("should have correct ID field configuration", () => {
+    it("should have correct field configurations", () => {
       const idField = index.fields[0];
       expectFieldToMatch(idField, {
         name: "ID",
@@ -206,9 +206,7 @@ describe("AI search index creation and data loading", () => {
         filterable: true,
       });
       expect(idField.key).toBe(true);
-    });
-
-    it("should have correct Address fields", () => {
+  
       expectFieldToMatch(index.fields[1], {
         name: "Name",
         type: "Edm.String",
