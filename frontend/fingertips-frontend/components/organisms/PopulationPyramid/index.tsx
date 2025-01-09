@@ -1,7 +1,6 @@
 import { WeatherForecast } from '@/generated-sources/api-client';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
-import accessibility from 'highcharts';
 
 interface PyramidChartProps {
   data: WeatherForecast[];
