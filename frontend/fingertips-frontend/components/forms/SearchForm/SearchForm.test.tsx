@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
-import { registryWrapper } from '@/lib/testutils';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -30,16 +29,14 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-it('snapshot test - renders the form', () => {
-  const container = render(
-    registryWrapper(<SearchForm searchFormState={initialState} />)
-  );
+test('snapshot test - renders the form', () => {
+  const container = render(<SearchForm searchFormState={initialState} />);
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-it('should have an input field to input the indicatorId', () => {
-  render(registryWrapper(<SearchForm searchFormState={initialState} />));
+test('should have an input field to input the indicatorId', () => {
+  render(<SearchForm searchFormState={initialState} />);
 
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
@@ -50,7 +47,7 @@ it('should set the input field with indicator value from the form state', () => 
     message: '',
     errors: {},
   };
-  render(registryWrapper(<SearchForm searchFormState={indicatorState} />));
+  render(<SearchForm searchFormState={indicatorState} />);
 
   expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
     'test value'
@@ -64,7 +61,7 @@ it('should display the error summary component when there is a validation error'
     errors: {},
   };
 
-  render(registryWrapper(<SearchForm searchFormState={errorState} />));
+  render(<SearchForm searchFormState={errorState} />);
 
   expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
 });
@@ -82,7 +79,7 @@ it('should display the error summary component when there is a validation error'
     errors: {},
   };
 
-  render(registryWrapper(<SearchForm searchFormState={errorState} />));
+  render(<SearchForm searchFormState={errorState} />);
 
   const anchor = screen.getByText('Indicator field').closest('a');
   if (anchor) {

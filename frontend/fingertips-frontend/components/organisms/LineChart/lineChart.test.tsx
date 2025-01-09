@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
-import { registryWrapper } from '@/lib/testutils';
 
 const mockData: WeatherForecast[] = [
   {
@@ -19,8 +18,8 @@ const mockData: WeatherForecast[] = [
   },
 ];
 
-it('should render the Highcharts react component', () => {
-  render(registryWrapper(<LineChart data={mockData} />));
+test('should render the Highcharts react component', () => {
+  render(<LineChart data={mockData} />);
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
 });

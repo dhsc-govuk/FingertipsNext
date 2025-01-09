@@ -1,4 +1,4 @@
-export interface Data {
+export interface IndicatorSearchData {
   IID: string;
   Descriptive: {
     Name: string;
@@ -6,13 +6,16 @@ export interface Data {
   };
 }
 
-export interface DocumentResponse {
-  "@odata.context": string;
-  value: DocumentValue[];
+export interface GeographySearchData {
+  ID: string;
+  Name: string;
+  Type: string;
+  Postcode: string;
 }
 
-interface DocumentValue extends Data {
-  "@search.score": number;
+export interface DocumentResponse {
+  "@odata.context": string;
+  value: IndicatorSearchData[] | GeographySearchData[];
 }
 
 export interface SearchIndexResponse {
@@ -31,4 +34,17 @@ export interface IndexField {
   facetable?: boolean;
   key?: boolean;
   fields?: IndexField[];
+}
+
+export interface TypeAheadBody {
+  search: string;
+  suggesterName: string;
+}
+
+export interface AutoCompleteResult {
+  value: { text: string; queryPlusText: string }[];
+}
+
+export interface SuggestionResult {
+  value: { "@search.text": string }[];
 }

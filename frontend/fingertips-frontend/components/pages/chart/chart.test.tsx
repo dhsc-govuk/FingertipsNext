@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { WeatherForecast } from '@/generated-sources/api-client';
-import { registryWrapper } from '@/lib/testutils';
 
 const mockData: WeatherForecast[] = [
   {
@@ -30,21 +29,21 @@ it('should render the backLink', () => {
   );
 });
 
-it('should render the LineChart component', () => {
-  render(registryWrapper(<Chart data={mockData} />));
+test('should render the LineChart component', () => {
+  render(<Chart data={mockData} />);
   const lineChart = screen.getByTestId('lineChart-component');
   expect(lineChart).toBeInTheDocument();
 });
 
-it('should render the LineChart component title', () => {
-  render(registryWrapper(<Chart data={mockData} />));
+test('should render the LineChart component title', () => {
+  render(<Chart data={mockData} />);
 
   const lineChartTitle = screen.getByText('Line Chart');
   expect(lineChartTitle).toBeInTheDocument();
 });
 
-it('should render the LineChartTable component', () => {
-  render(registryWrapper(<Chart data={mockData} />));
+test('should render the LineChartTable component', () => {
+  render(<Chart data={mockData} />);
 
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
