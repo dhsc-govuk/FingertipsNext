@@ -29,13 +29,13 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
-test('snapshot test - renders the form', () => {
+it('snapshot test - renders the form', () => {
   const container = render(<SearchForm searchFormState={initialState} />);
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-test('should have an input field to input the indicatorId', () => {
+it('should have an input field to input the indicatorId', () => {
   render(<SearchForm searchFormState={initialState} />);
 
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();

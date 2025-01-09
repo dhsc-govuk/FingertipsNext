@@ -28,7 +28,7 @@ it('snapshot test - should match snapshot', () => {
   expect(container.asFragment()).toMatchSnapshot();
 });
 
-test('should render the LineChartTable component', () => {
+it('should render the LineChartTable component', () => {
   render(<LineChartTable data={mockData} headings={mockHeadings} />);
   const lineChart = screen.getByTestId('lineChartTable-component');
   expect(lineChart).toBeInTheDocument();
