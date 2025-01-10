@@ -3,16 +3,19 @@ export const encodedCommaSeperator = encodeURIComponent(',');
 export enum SearchParams {
   SearchedIndicator = 'searchedIndicator',
   IndicatorsSelected = 'indicatorsSelected',
+  SearchedAreaCode = 'searchedAreaCode',
 }
 
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string;
+  [SearchParams.SearchedAreaCode]?: string;
 };
 
 export type SearchState = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string[];
+  [SearchParams.SearchedAreaCode]?: string;
 };
 
 export class SearchStateManager {

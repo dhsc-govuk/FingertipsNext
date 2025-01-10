@@ -1,6 +1,11 @@
 import { HttpResponse, http } from 'msw';
 import { mockWeatherForecasts } from '../data/forecasts';
 import { faker } from '@faker-js/faker';
+import {
+  mockAreaData,
+  mockAvailableAreasInGroup,
+  mockAvailableGroupTypes,
+} from '../data/area';
 
 faker.seed(1);
 
@@ -38,6 +43,15 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
+  // http.get(`${baseURL}/area/:areaCode`, () => {
+  //   return HttpResponse.json(mockAreaData);
+  // }),
+  // http.get(`${baseURL}/area/groupType/:groupTypeId`, () => {
+  //   return HttpResponse.json(mockAvailableGroupTypes);
+  // }),
+  // http.get(`${baseURL}/area/group/:groupId`, () => {
+  //   return HttpResponse.json(mockAvailableAreasInGroup);
+  // }),
 ];
 
 export function getGetWeatherForecast200Response() {

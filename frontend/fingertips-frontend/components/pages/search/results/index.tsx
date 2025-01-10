@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import {
@@ -23,6 +24,10 @@ import { GeographyFilter } from '@/components/organisms/GeographyFilter';
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
+  selectedAreaCodeData: any;
+  availableGroupTypes: any[];
+  availableGroups: any[];
+  availableAreasInGroup: any[];
 };
 
 const isIndicatorSelected = (
@@ -37,6 +42,10 @@ const isIndicatorSelected = (
 export function SearchResults({
   searchResultsFormState,
   searchResults,
+  selectedAreaCodeData,
+  availableGroupTypes,
+  availableGroups,
+  availableAreasInGroup,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -77,7 +86,11 @@ export function SearchResults({
           <GridRow>
             <GridCol setWidth="one-third">
               <GeographyFilter
-                selectedAreas={'Greater Manchester ICB - 00T sub-location'}
+                // selectedAreas={'Greater Manchester ICB - 00T sub-location'}
+                selectedAreas={selectedAreaCodeData.name}
+                availableGroupTypes={availableGroupTypes}
+                availableGroups={availableGroups}
+                availableAreasInGroup={availableAreasInGroup}
               />
             </GridCol>
             <GridCol>

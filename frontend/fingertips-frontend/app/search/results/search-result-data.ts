@@ -1,3 +1,10 @@
+import {
+  mockAreaData,
+  mockAvailableAreasInGroup,
+  mockAvailableGroup,
+  mockAvailableGroupTypes,
+} from '@/mock/data/area';
+
 export interface IndicatorSearchResult {
   id: number;
   indicatorName: string;
@@ -33,4 +40,24 @@ function formatDate(date: Date): string {
 
 export const getSearchData = (): IndicatorSearchResult[] => {
   return MOCK_DATA;
+};
+
+export const getAreaData = (selectedAreaCode: string) => {
+  console.log(`selectedAreaCode ${selectedAreaCode}`);
+  return mockAreaData;
+};
+
+export const getAvailableGroupTypes = (groupTypeCode: string) => {
+  console.log(`groupTypeCode ${groupTypeCode}`);
+  return mockAvailableGroupTypes;
+};
+
+export const getAvailableGroups = (groupCode: string) => {
+  console.log(`groupCode ${groupCode}`);
+  return mockAvailableGroup;
+};
+
+export const getAvailableAreasInGroup = (groupCode: string) => {
+  console.log(`group ${groupCode}`);
+  return mockAvailableAreasInGroup;
 };

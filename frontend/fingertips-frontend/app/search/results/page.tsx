@@ -1,5 +1,11 @@
 import { SearchResults } from '@/components/pages/search/results';
-import { getSearchData } from './search-result-data';
+import {
+  getAreaData,
+  getAvailableAreasInGroup,
+  getAvailableGroups,
+  getAvailableGroupTypes,
+  getSearchData,
+} from './search-result-data';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function Page(
@@ -10,9 +16,18 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const searchedIndicator = searchParams?.searchedIndicator ?? '';
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
+  const searchedAreaCode = searchParams?.searchedAreaCode ?? '00T';
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
+  const selectedAreaCodeData = getAreaData(searchedAreaCode);
+  const availableGroupTypes = getAvailableGroupTypes(
+    selectedAreaCodeData.groupType
+  );
+  const availableGroups = getAvailableGroups(selectedAreaCodeData.group);
+  const availableAreasInGroup = getAvailableAreasInGroup(
+    selectedAreaCodeData.group
+  );
 
   const initialState = {
     searchedIndicator,
@@ -25,6 +40,10 @@ export default async function Page(
     <SearchResults
       searchResultsFormState={initialState}
       searchResults={searchResults}
+      selectedAreaCodeData={selectedAreaCodeData}
+      availableGroupTypes={availableGroupTypes}
+      availableGroups={availableGroups}
+      availableAreasInGroup={availableAreasInGroup}
     />
   );
 }
