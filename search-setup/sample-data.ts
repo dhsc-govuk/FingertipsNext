@@ -44,21 +44,18 @@ export const sampleIndicatorData: IndicatorSearchData[] = [
 
 export const sampleGeographyData: GeographySearchData[] = [
   {
-    id: "1",
     areaName: "Manchester",
     areaType: "City",
-    areaCode: "M1 3DG",
+    areaCode: "M13DG",
   },
   {
-    id: "2",
     areaName: "Blackburn",
     areaType: "City",
-    areaCode: "BB1 3BL",
+    areaCode: "BB13BL",
   },
   {
-    id: "3",
     areaName: "London",
     areaType: "City",
-    areaCode: "BB1 3BL",
+    areaCode: "BB13BL",
   },
 ];

@@ -1,3 +1,4 @@
+import fs from "fs";
 import {
   SearchIndexClient,
   AzureKeyCredential,
@@ -49,11 +50,15 @@ async function main(): Promise<void> {
     sampleIndicatorData
   );
 
+  const geoData = JSON.parse(
+    fs.readFileSync("./assets/geographyData.json", "utf-8")
+  );
+
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
     geographySearchIndexName,
-    sampleGeographyData
+    geoData
   );
 }
 

@@ -62,11 +62,10 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField("ID", "Edm.String", true, true, true),
+        ...buildSearchIndexField("areaCode", "Edm.String", true, true, true),
       },
       buildSearchIndexField("areaName", "Edm.String", true, true, true),
       buildSearchIndexField("areaType", "Edm.String", true, true, true),
-      buildSearchIndexField("areaCode", "Edm.String", true, true, true),
     ],
     suggesters: [
       {

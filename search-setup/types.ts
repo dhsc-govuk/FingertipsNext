@@ -7,7 +7,6 @@ export interface IndicatorSearchData {
 }
 
 export interface GeographySearchData {
-  id: string;
   areaName: string;
   areaType: string;
   areaCode: string;
