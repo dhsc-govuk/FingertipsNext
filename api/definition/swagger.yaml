@@ -110,7 +110,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PopulationDataForArea_ASIS"
+                  $ref: "#/components/schemas/PopulationDataForArea"
                 title: GetPopulationDataForAnAreaOk
         "400":
           $ref: "#/components/responses/BadRequest"
