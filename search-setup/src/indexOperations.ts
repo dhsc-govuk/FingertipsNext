@@ -6,7 +6,7 @@ import {
   SearchFieldDataType,
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "../types";
-import { getEnvironmentVariable } from "./utils/helpers.js";
+import { geographySearchSuggesterName } from "./constants.js";
 
 export async function createIndex(
   indexClient: SearchIndexClient,
@@ -69,9 +69,7 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     ],
     suggesters: [
       {
-        name: getEnvironmentVariable(
-          "AI_SEARCH_BY_GEOGRAPHY_INDEX_SUGGESTER_NAME"
-        ),
+        name: geographySearchSuggesterName,
         searchMode: "analyzingInfixMatching",
         sourceFields: ["areaName", "areaCode"],
       },

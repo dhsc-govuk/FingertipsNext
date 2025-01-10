@@ -11,8 +11,9 @@ import {
   populateIndex,
 } from "./indexOperations.js";
 import { GeographySearchData, IndicatorSearchData } from "../types.js";
-import { sampleGeographyData, sampleIndicatorData } from "./sample-data.js";
+import { sampleIndicatorData } from "./sample-data.js";
 import { getEnvironmentVariable } from "./utils/helpers.js";
+import { geographySearchIndexName, indicatorSearchIndexName } from "./constants.js";
 
 async function createAndPopulateIndex<
   T extends IndicatorSearchData | GeographySearchData
@@ -31,12 +32,6 @@ async function createAndPopulateIndex<
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
   const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
-  const indicatorSearchIndexName = getEnvironmentVariable(
-    "AI_SEARCH_BY_INDICATOR_INDEX_NAME"
-  );
-  const geographySearchIndexName = getEnvironmentVariable(
-    "AI_SEARCH_BY_GEOGRAPHY_INDEX_NAME"
-  );
 
   const indexClient = new SearchIndexClient(
     endpoint,
