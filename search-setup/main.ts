@@ -21,6 +21,7 @@ async function createAndPopulateIndex<
   indexName: string,
   data: T[]
 ) {
+  console.log(`CreatingIndex ${indexName}`);
   await createIndex(indexClient, buildIndexFunction(indexName));
 
   await populateIndex<T>(indexClient.getSearchClient<T>(indexName), data);
@@ -57,5 +58,5 @@ async function main(): Promise<void> {
 }
 
 main().catch((err: Error) => {
-  console.error(err.message);
+  console.error(err);
 });

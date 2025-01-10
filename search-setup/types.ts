@@ -7,10 +7,10 @@ export interface IndicatorSearchData {
 }
 
 export interface GeographySearchData {
-  ID: string;
-  Name: string;
-  Type: string;
-  Postcode: string;
+  id: string;
+  areaName: string;
+  areaType: string;
+  areaCode: string;
 }
 
 export interface DocumentResponse {
@@ -41,8 +41,8 @@ export interface IndexField {
 export interface ScoringProfile {
   name: string;
   text: {
-    weights: ScoringWeight
-  }
+    weights: ScoringWeight;
+  };
 }
 
 export interface ScoringWeight {

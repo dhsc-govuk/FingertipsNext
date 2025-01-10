@@ -160,7 +160,7 @@ describe("AI search index creation and data loading", () => {
 
   describe("Search by geography", () => {
     const SEARCH_TERM = "man";
-    const SUGGESTER_NAME = "sg";
+    const SUGGESTER_NAME = "geographySuggester";
     const REQUEST_BODY: TypeAheadBody = {
       search: SEARCH_TERM,
       suggesterName: SUGGESTER_NAME,
@@ -198,7 +198,7 @@ describe("AI search index creation and data loading", () => {
     it("should have correct field configurations", () => {
       const idField = index.fields[0];
       expectFieldToMatch(idField, {
-        name: "ID",
+        name: "id",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -206,9 +206,9 @@ describe("AI search index creation and data loading", () => {
         filterable: true,
       });
       expect(idField.key).toBe(true);
-  
+
       expectFieldToMatch(index.fields[1], {
-        name: "Name",
+        name: "areaName",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -216,7 +216,7 @@ describe("AI search index creation and data loading", () => {
         filterable: true,
       });
       expectFieldToMatch(index.fields[2], {
-        name: "Type",
+        name: "areaType",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -224,7 +224,7 @@ describe("AI search index creation and data loading", () => {
         filterable: true,
       });
       expectFieldToMatch(index.fields[3], {
-        name: "Postcode",
+        name: "areaCode",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
