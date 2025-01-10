@@ -13,7 +13,7 @@ To run the application, ensure you have the following:
 
 1. **Install dependencies**
 
-```
+```bash
 npm install
 ```
 
@@ -22,7 +22,7 @@ npm install
 
 3. **Run the app**
 
-```
+```bash
 npm run create-index
 ```
 
