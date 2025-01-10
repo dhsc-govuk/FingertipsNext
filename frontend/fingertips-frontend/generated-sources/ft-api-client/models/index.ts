@@ -5,3 +5,5 @@ export * from './HealthDataForArea';
 export * from './HealthDataPoint';
 export * from './Indicator';
 export * from './IndicatorSummary';
+export * from './PopulationDataForArea';
+export * from './PopulationDataPoint';
