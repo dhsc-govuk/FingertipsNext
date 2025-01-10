@@ -5,7 +5,7 @@ servers:
     url: https://fingertips-next-api/1.1.0
 info:
   description: An API to query public health indicator data.
-  version: "1.0.0"
+  version: "1.1.0"
   title: Fingertips API
   contact:
     email: ProfileFeedback@dhsc.gov.uk
@@ -89,12 +89,10 @@ paths:
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
       operationId: getHealthDataForAnIndicator
-
   /areas/population/data:
     get:
       tags:
         - areas
-        - population
       summary: Get population data for up to 10 area codes
       description: Get population data for requested areas
       parameters:
