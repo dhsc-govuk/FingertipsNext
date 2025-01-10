@@ -23,6 +23,6 @@ public class HealthDataRepository : IRepository
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.SexDimension)
             .Include(hm => hm.AgeDimension)
-            .ToArrayAsync();
+            .ToListAsync();
     }
 }
