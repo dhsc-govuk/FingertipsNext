@@ -9,8 +9,13 @@
 
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Abstractions" Version="8.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3" />
         <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,6 +23,7 @@
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient\DHSC.FingertipsNext.Modules.Core.Comms.SearchClient.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces\DHSC.FingertipsNext.Modules.Core.ModuleInterfaces.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Service\DHSC.FingertipsNext.Modules.Core.Service.csproj" />
+	  <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Repository\DHSC.FingertipsNext.Modules.Core.Repository.csproj" />
     </ItemGroup>
 
 </Project>

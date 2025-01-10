@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
-import { isBrowser, shouldForwardProp } from './utils';
+
+const isBrowser = () => typeof window !== 'undefined';
 
 export default function StyledComponentsRegistry({
   children,
@@ -21,19 +22,12 @@ export default function StyledComponentsRegistry({
   });
 
   if (isBrowser()) {
-    return (
-      <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-        {children}
-      </StyleSheetManager>
-    );
+    return <>{children}</>;
   }
 
   return (
-    <StyleSheetManager
-      sheet={styledComponentsStyleSheet.instance}
-      shouldForwardProp={shouldForwardProp}
-    >
-      {children}
+    <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
+      <>{children}</>
     </StyleSheetManager>
   );
 }

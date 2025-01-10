@@ -25,3 +25,13 @@ npm install
 ```
 npm run create-index
 ```
+
+## Testing
+
+This project uses Jest for testing.
+
+### Running the Integration tests
+
+```bash
+npm run test
+```
