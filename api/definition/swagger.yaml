@@ -89,19 +89,16 @@ paths:
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
       operationId: getHealthDataForAnIndicator
-  /areas/population:
-    parameters:
-      - name: area_codes
-        in: query
-        required: true
-        schema:
 
+  /areas/population:
     get:
       tags:
         - areas
         - population
       summary: Get population data for up to 10 area codes
-      description: describe the population Data
+      description: Get population data for requested areas
+      parameters:
+        - $ref: "#/components/parameters/area_codes"
       responses:
         "200":
           description: |
@@ -119,6 +116,7 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
+
 components:
   schemas:
     IndicatorSummary:
@@ -218,7 +216,7 @@ components:
 
     PopulationDataForArea:
       type: object
-      description: Population data for a requested area (represented by it's unique code).
+      description: Population data for a requested area
       required:
         - areaCode
       properties:
@@ -254,6 +252,10 @@ components:
           type: string
           example: G82109
         maxItems: 10
+      example:
+        - A1426
+        - U64053
+        - U68213
     indicator_id:
       in: path
       name: indicator_id
