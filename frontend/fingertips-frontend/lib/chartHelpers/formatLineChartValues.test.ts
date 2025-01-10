@@ -63,7 +63,7 @@ describe('generateSeriesData', () => {
           [2006, 278.29134],
           [2004, 703.420759],
         ],
-        name: 'AreaCode A1425',
+        name: 'A1425',
         type: 'line',
       },
     ];
