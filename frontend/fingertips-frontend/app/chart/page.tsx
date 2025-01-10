@@ -2,6 +2,7 @@ import { Chart } from '@/components/pages/chart';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { connection } from 'next/server';
 import { WeatherForecastApi } from '@/generated-sources/api-client';
+import { AreasApi } from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -21,9 +22,16 @@ export default async function ChartPage(
   const forecastApi = new WeatherForecastApi(config);
   const data = await forecastApi.getWeatherForecast();
 
+  const populationDataApi = new AreasApi();
+  const populationData = await populationDataApi.areasPopulationDataGet({
+    areaCodes: ['area'],
+    years: [2023],
+  });
+
   return (
     <Chart
       data={data}
+      populationData={populationData}
       indicator={indicator}
       indicatorsSelected={indicatorsSelected}
     />
