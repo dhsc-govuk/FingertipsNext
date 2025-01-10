@@ -23,7 +23,12 @@ export function LineChart({
 
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line', height: '50%', spacingTop: 50 },
-    title: undefined,
+    title: {
+      text: 'See how the indicator has changed over time for the area',
+      style: {
+        display: 'none',
+      },
+    },
     yAxis: {
       title: undefined,
     },
