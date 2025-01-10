@@ -7,8 +7,9 @@ interface SelectedFilterTagProps {
 
 const StyledFilterTagDiv = styled('div')({
   backgroundColor: 'white',
-  border: '1px black solid',
+  border: '2px black solid',
   display: 'flex',
+  padding: '0.25em',
 });
 
 const StyledFilterLabelDiv = styled('div')({
@@ -19,13 +20,17 @@ const StyledFilterIconDiv = styled('div')({
   marginLeft: 'auto',
 });
 
+const StyledParagragh = styled(Paragraph)({
+  marginBottom: '0em',
+});
+
 export function SelectedFilterTag({
   selectedFilterName,
 }: Readonly<SelectedFilterTagProps>) {
   return (
     <StyledFilterTagDiv>
       <StyledFilterLabelDiv>
-        <Paragraph>{selectedFilterName}</Paragraph>
+        <StyledParagragh>{selectedFilterName}</StyledParagragh>
       </StyledFilterLabelDiv>
       <StyledFilterIconDiv>
         <Paragraph>**x**</Paragraph>
