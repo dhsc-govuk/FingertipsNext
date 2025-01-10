@@ -13,7 +13,7 @@ test('should render the LineChart component', () => {
 test('should render the LineChart component title', () => {
   render(registryWrapper(<Chart data={mockHealthData} />));
 
-  const lineChartTitle = screen.getByText('Line Chart');
+  const lineChartTitle = screen.getByText('See how the indicator has changed over time for the area');
   expect(lineChartTitle).toBeInTheDocument();
 });
 

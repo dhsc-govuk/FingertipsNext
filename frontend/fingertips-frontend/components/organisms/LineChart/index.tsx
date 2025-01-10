@@ -1,3 +1,5 @@
+'use client';
+
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
@@ -34,15 +36,15 @@ export function LineChart({
       verticalAlign: 'top',
     },
     series: seriesData,
-    tooltip: {
-      formatter: function () {
-        return `
-        <b>${this.series.name}</b>
-        <br/>Year: ${this.x}<br/>
-        <br/><span style="color:${this.color}">●</span> Value ${this.y}
-      `;
-      },
-    },
+    // tooltip: {
+    //   formatter: function () {
+    //     return `
+    //     <b>${this.series.name}</b>
+    //     <br/>Year: ${this.x}<br/>
+    //     <br/><span style="color:${this.color}">●</span> Value ${this.y}
+    //   `;
+    //   },
+    // },
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

@@ -10,7 +10,7 @@ export default class ChartPage extends BasePage {
   }
 
   async checkURLIsCorrect() {
-    await this.checkURL(`chart`);
+    await this.checkURL('chart');
   }
 
   async checkChart() {
