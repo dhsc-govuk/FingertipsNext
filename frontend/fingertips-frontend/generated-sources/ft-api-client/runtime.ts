@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "https://fingertips-next-api/1.1.0".replace(/\/+$/, "");
+export const BASE_PATH = "https://fingertips-next-api/1.0.0".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

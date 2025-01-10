@@ -28,7 +28,7 @@ import {
  */
 export interface HealthDataForArea {
     /**
-     * The unique area code that the health data are for
+     * The unique area code that the health data for
      * @type {string}
      * @memberof HealthDataForArea
      */
