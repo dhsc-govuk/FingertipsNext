@@ -5,7 +5,7 @@ import {
   SearchClient,
   SearchFieldDataType,
 } from "@azure/search-documents";
-import { GeographySearchData, IndicatorSearchData } from "./types";
+import { GeographySearchData, IndicatorSearchData } from "../types";
 import { getEnvironmentVariable } from "./utils/helpers.js";
 
 export async function createIndex(

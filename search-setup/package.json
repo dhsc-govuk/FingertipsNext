@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "create-index": "tsc && node --env-file=.env main.js",
+    "create-index": "tsc && node --env-file=.env ./dist/src/main.js",
     "test": "jest"
   },
   "devDependencies": {

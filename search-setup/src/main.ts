@@ -10,7 +10,7 @@ import {
   createIndex,
   populateIndex,
 } from "./indexOperations.js";
-import { GeographySearchData, IndicatorSearchData } from "./types.js";
+import { GeographySearchData, IndicatorSearchData } from "../types.js";
 import { sampleGeographyData, sampleIndicatorData } from "./sample-data.js";
 import { getEnvironmentVariable } from "./utils/helpers.js";
 
