@@ -4,6 +4,8 @@ import {
   BackLink,
   Button,
   ErrorSummary,
+  GridCol,
+  GridRow,
   H1,
   ListItem,
   Paragraph,
@@ -16,6 +18,7 @@ import { SearchResult } from '@/components/molecules/Search/result';
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { GeographyFilter } from '@/components/organisms/GeographyFilter';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -70,36 +73,49 @@ export function SearchResults({
           )}
           <H1>Search results</H1>
           <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
-          <form action={formAction}>
-            <input
-              name="searchedIndicator"
-              defaultValue={searchResultsFormState.searchedIndicator}
-              hidden
-            />
-            {searchResults.length ? (
-              <UnorderedList listStyleType="none">
-                <ListItem>
-                  <SectionBreak visible={true} />
-                </ListItem>
-                {searchResults.map((result) => (
-                  <SearchResult
-                    key={result.id}
-                    result={result}
-                    indicatorSelected={isIndicatorSelected(
-                      result.id.toString(),
-                      state
-                    )}
-                  />
-                ))}
-              </UnorderedList>
-            ) : (
-              <Paragraph>No results found</Paragraph>
-            )}
 
-            <Button type="submit" data-testid="search-results-button-submit">
-              View charts
-            </Button>
-          </form>
+          <GridRow>
+            <GridCol setWidth="one-third">
+              <GeographyFilter
+                selectedAreas={'Greater Manchester ICB - 00T sub-location'}
+              />
+            </GridCol>
+            <GridCol>
+              <form action={formAction}>
+                <input
+                  name="searchedIndicator"
+                  defaultValue={searchResultsFormState.searchedIndicator}
+                  hidden
+                />
+                {searchResults.length ? (
+                  <UnorderedList listStyleType="none">
+                    <ListItem>
+                      <SectionBreak visible={true} />
+                    </ListItem>
+                    {searchResults.map((result) => (
+                      <SearchResult
+                        key={result.id}
+                        result={result}
+                        indicatorSelected={isIndicatorSelected(
+                          result.id.toString(),
+                          state
+                        )}
+                      />
+                    ))}
+                  </UnorderedList>
+                ) : (
+                  <Paragraph>No results found</Paragraph>
+                )}
+
+                <Button
+                  type="submit"
+                  data-testid="search-results-button-submit"
+                >
+                  View charts
+                </Button>
+              </form>
+            </GridCol>
+          </GridRow>
         </>
       ) : (
         <Paragraph>No indicator entered</Paragraph>
