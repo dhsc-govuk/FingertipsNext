@@ -38,6 +38,16 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
+  http.get(`${baseURL}/areas/population/data`, async () => {
+    const resultArray = [
+      [await getGetAreasPopulationData200Response(), { status: 200 }],
+      [await getGetAreasPopulationData400Response(), { status: 400 }],
+      [await getGetAreasPopulationData404Response(), { status: 404 }],
+      [await getGetAreasPopulationData500Response(), { status: 500 }],
+    ];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
 ];
 
 export function getGetWeatherForecast200Response() {
@@ -110,6 +120,43 @@ export function getGetHealthDataForAnIndicator400Response() {
 }
 
 export function getGetHealthDataForAnIndicator500Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetAreasPopulationData200Response() {
+  return [
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => ({
+    areaCode: 'A1426',
+    areaName: 'England',
+    year: 2023,
+    populationData: [
+      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+    ].map((_) => ({
+      age_band: '0-4',
+      total_female: 1568625,
+      total_male: 1496012,
+      value_female: 2.72,
+      value_male: 2.59,
+    })),
+  }));
+}
+
+export function getGetAreasPopulationData400Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetAreasPopulationData404Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetAreasPopulationData500Response() {
   return {
     message: faker.lorem.words(),
   };
