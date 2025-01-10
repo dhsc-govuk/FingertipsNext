@@ -5,9 +5,11 @@ import { WeatherForecast } from '@/generated-sources/api-client';
 import { BackLink, H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { PopulationDataForArea } from '@/generated-sources/ft-api-client';
 
 type ChartProps = {
   data: WeatherForecast[];
+  populationData: PopulationDataForArea[];
   indicator?: string;
   indicatorsSelected?: string[];
 };
@@ -16,6 +18,7 @@ const headings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
 
 export function Chart({
   data,
+  populationData,
   indicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
