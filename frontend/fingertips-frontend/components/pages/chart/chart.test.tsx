@@ -27,10 +27,10 @@ it('should render the LineChart component', () => {
 it('should render the LineChart component title', () => {
   render(<Chart data={mockHealthData} />);
 
-  const lineChartTitle = screen.getByText(
+  const HTag = screen.getByRole('heading', { level: 3 });
+  expect(HTag).toHaveTextContent(
     'See how the indicator has changed over time for the area'
   );
-  expect(lineChartTitle).toBeInTheDocument();
 });
 
 it('should render the LineChartTable component', () => {

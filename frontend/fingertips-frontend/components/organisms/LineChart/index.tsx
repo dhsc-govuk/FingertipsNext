@@ -24,7 +24,7 @@ export function LineChart({
   const lineChartOptions: Highcharts.Options = {
     chart: { type: 'line', height: '50%', spacingTop: 50 },
     title: {
-      text: 'See how the indicator has changed over time for the area',
+      text: 'Line chart to show how the indicator has changed over time for the area',
       style: {
         display: 'none',
       },
