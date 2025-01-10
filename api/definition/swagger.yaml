@@ -90,7 +90,7 @@ paths:
         - $ref: "#/components/parameters/years"
       operationId: getHealthDataForAnIndicator
 
-  /areas/population:
+  /areas/population/data:
     get:
       tags:
         - areas
@@ -99,17 +99,19 @@ paths:
       description: Get population data for requested areas
       parameters:
         - $ref: "#/components/parameters/area_codes"
+        - $ref: "#/components/parameters/years"
       responses:
         "200":
           description: |
             The request was successful, and the server has returned the
-            requested resource in the response body.
+            requested population data in the response body.
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/PopulationDataForArea"
+                title: GetPopulationDataForAnAreaOk
         "400":
           $ref: "#/components/responses/BadRequest"
         "404":
@@ -212,18 +214,74 @@ components:
           description: The health data points for the area and indicator
     PopulationDataPoint:
       type: object
-      description: TBC, the data returned may be different depending on area type, need to work this out!
-
+      description: |
+        Represents a population data point with age band, total female, total male, percentage value female and percentage value male.
+        percentage value.
+      required:
+        - age_band
+        - total_female
+        - total_male
+        - percent_female
+        - percent_male
+      properties:
+        age_band:
+          type: string
+          example: "0-4"
+          enum:
+            - "0-4"
+            - "5-9"
+            - "10-14"
+            - "15-19"
+            - "20-24"
+            - "25-29"
+            - "30-34"
+            - "35-39"
+            - "40-44"
+            - "45-49"
+            - "50-54"
+            - "55-59"
+            - "60-64"
+            - "65-69"
+            - "70-74"
+            - "75-79"
+            - "80-84"
+            - "85-89"
+            - "90+"
+        total_female:
+          type: integer
+          example: 1568625
+          description: total female population given age band
+        total_male:
+          type: integer
+          example: 1496012
+          description: total male population given age band
+        value_female:
+          type: number
+          example: 2.72
+          description: percentage value female population given age band
+        value_male:
+          type: number
+          example: 2.59
+          description: percentage value male population given age band
     PopulationDataForArea:
       type: object
       description: Population data for a requested area
       required:
         - areaCode
+        - populationData
       properties:
         areaCode:
           type: string
           example: A1426
-          description: The unique area code that the health data are for
+          description: The unique area code that the population data are for.
+        areaName:
+          type: string
+          example: England
+          description: The name of the area code that the population data are for.
+        year:
+          type: integer
+          example: 2023
+          description: The year which the population data are for.
         populationData:
           type: array
           items:
@@ -239,8 +297,9 @@ components:
         type: array
         items:
           type: integer
-          example: 2023
         maxItems: 10
+      example:
+        - 2023
     area_codes:
       in: query
       name: area_codes
@@ -250,9 +309,9 @@ components:
         type: array
         items:
           type: string
-          example: G82109
         maxItems: 10
       example:
+        - G82109
         - A1426
         - U64053
         - U68213
