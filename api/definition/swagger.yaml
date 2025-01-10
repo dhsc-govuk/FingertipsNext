@@ -296,6 +296,10 @@ components:
           type: string
           example: "PCN"
           description: The type of the area / geography
+        level:
+          type: integer
+          example: "3"
+          description: The level in the hierarchy
     AreaWithRelations:
       allOf:
         - $ref: "#/components/schemas/Area"
