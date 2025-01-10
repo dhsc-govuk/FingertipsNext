@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
 
-
 const mockHeadings = [
   'Area Code',
   'Year',
@@ -52,8 +51,6 @@ const mockData = [
     ],
   },
 ];
-
-
 
 it('snapshot test - should match snapshot', () => {
   const container = render(

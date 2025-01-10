@@ -13,7 +13,6 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
 }
-
 export function LineChart({
   data,
   xAxisTitle,
@@ -36,15 +35,11 @@ export function LineChart({
       verticalAlign: 'top',
     },
     series: seriesData,
-    // tooltip: {
-    //   formatter: function () {
-    //     return `
-    //     <b>${this.series.name}</b>
-    //     <br/>Year: ${this.x}<br/>
-    //     <br/><span style="color:${this.color}">●</span> Value ${this.y}
-    //   `;
-    //   },
-    // },
+    tooltip: {
+      format:
+        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    },
+
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

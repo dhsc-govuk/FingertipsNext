@@ -3,10 +3,13 @@ import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-
 it('should render the backLink', () => {
   render(
-    <Chart data={mockHealthData} indicator="test" indicatorsSelected={['1', '2']} />
+    <Chart
+      data={mockHealthData}
+      indicator="test"
+      indicatorsSelected={['1', '2']}
+    />
   );
 
   expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
@@ -16,15 +19,17 @@ it('should render the backLink', () => {
 });
 
 it('should render the LineChart component', () => {
-  render(<Chart data={ mockHealthData } />);
+  render(<Chart data={mockHealthData} />);
   const lineChart = screen.getByTestId('lineChart-component');
   expect(lineChart).toBeInTheDocument();
 });
 
 it('should render the LineChart component title', () => {
-  render(<Chart data={mockHealthData } />);
+  render(<Chart data={mockHealthData} />);
 
-  const lineChartTitle = screen.getByText('See how the indicator has changed over time for the area\'');
+  const lineChartTitle = screen.getByText(
+    'See how the indicator has changed over time for the area'
+  );
   expect(lineChartTitle).toBeInTheDocument();
 });
 

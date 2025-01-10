@@ -14,7 +14,11 @@ type ChartProps = {
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
-export function Chart({ data, indicator, indicatorsSelected = [], }: Readonly<ChartProps>) {
+export function Chart({
+  data,
+  indicator,
+  indicatorsSelected = [],
+}: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({ indicator, indicatorsSelected });
   const backLinkPath = searchState.generatePath('/search/results');
   return (

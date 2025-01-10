@@ -11,7 +11,7 @@ export default class ChartPage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL(`chart?indicator=${queryParams}`);
+    await this.checkURL(`chart${queryParams}`);
   }
 
   async clickBackLink() {

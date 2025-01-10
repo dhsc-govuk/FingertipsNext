@@ -9,5 +9,5 @@ test('View a line chart and table', async ({ chartPage, axeBuilder }) => {
   expect((await axeBuilder.analyze()).violations).toEqual([]);
 
   // Act
-  await chartPage.checkChart();
+  await chartPage.checkChartAndChartTable();
 });
