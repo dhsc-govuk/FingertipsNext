@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://fingertips-next-api/1.0.0
+    url: https://fingertips-next-api/1.1.0
 info:
   description: An API to query public health indicator data.
   version: "1.0.0"
@@ -287,93 +287,6 @@ components:
           items:
             $ref: "#/components/schemas/PopulationDataPoint"
           description: The population data point for the area
-    PopulationDataForArea_ASIS:
-      type: object
-      description: Population data for a requested area using format from AS-IS api e.g. "https://fingertips.phe.org.uk/api/quinary_population?area_code=E92000001&area_type_id=15"
-      required:
-        - Code
-        - Values
-        - PopulationTotals
-        - Labels
-        - IndicatorName
-        - IndicatorId
-        - Period
-        - ChildAreaCount
-      properties:
-        Code:
-          type: string
-          example: England
-          description: The name of the area code that the population data are for.
-        Values:
-          type: object
-          description: object of arrays of values for each sexCode
-        PopulationTotals:
-          type: object
-          description: object of arrays of populaton totals for each sexCode
-        Labels:
-          type: array
-          description: array of labels for age bands
-          example:
-            - "0-4"
-            - "5-9"
-            - "10-14"
-            - "15-19"
-            - "20-24"
-            - "25-29"
-            - "30-34"
-            - "35-39"
-            - "40-44"
-            - "45-49"
-            - "50-54"
-            - "55-59"
-            - "60-64"
-            - "65-69"
-            - "70-74"
-            - "75-79"
-            - "80-84"
-            - "85-89"
-            - "90+"
-          enum:
-            - "0-4"
-            - "5-9"
-            - "10-14"
-            - "15-19"
-            - "20-24"
-            - "25-29"
-            - "30-34"
-            - "35-39"
-            - "40-44"
-            - "45-49"
-            - "50-54"
-            - "55-59"
-            - "60-64"
-            - "65-69"
-            - "70-74"
-            - "75-79"
-            - "80-84"
-            - "85-89"
-            - "90+"
-        IndicatorName:
-          type: string
-          description: name of indicator
-          example: Resident population
-          enum:
-            - Resident population
-            - GP registered population by sex and quinary age band
-        IndicatorId:
-          type: integer
-          description: indicator ID
-          example: 92708
-          enum:
-            - 92708
-            - 337
-        Period:
-          type: string
-          description: time period for data
-          example: 2023
-        ChildAreaCount:
-          type: integer
-          example: 1
   parameters:
     years:
       in: query
