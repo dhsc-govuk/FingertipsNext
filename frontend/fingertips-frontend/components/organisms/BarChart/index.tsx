@@ -28,6 +28,7 @@ export function BarChart({
     },
     xAxis: {
       categories: data.map((item) => item.areaCode),
+      lineWidth: 0,
     },
     yAxis: {
       title: { text: yAxisTitle, margin: 20 },
