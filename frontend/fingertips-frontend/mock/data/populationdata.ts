@@ -3,10 +3,10 @@ import { PopulationDataForArea } from '@/generated-sources/ft-api-client';
 // source for mock data https://fingertips.phe.org.uk/api/quinary_population?area_code=E92000001&area_type_id=15
 export const mockPopulationData: PopulationDataForArea = {
   areaCode: 'E92000001',
-  areaName: '',
+  areaName: 'England',
   year: 2023,
   indicatorId: 92708,
-  indicatorName: '',
+  indicatorName: 'resident population',
   populationData: [
     { ageBand: '0-4', totalFemale: 1496012, totalMale: 1568625 },
     { ageBand: '5-9', totalFemale: 1635842, totalMale: 1712925 },
