@@ -218,8 +218,6 @@ components:
         - age_band
         - total_female
         - total_male
-        - value_female
-        - value_male
       properties:
         age_band:
           type: string
@@ -252,14 +250,6 @@ components:
           type: integer
           example: 1496012
           description: total male population given age band
-        value_female:
-          type: number
-          example: 2.72
-          description: percentage value female population given age band
-        value_male:
-          type: number
-          example: 2.59
-          description: percentage value male population given age band
     PopulationDataForArea:
       type: object
       description: Population data for a requested area
