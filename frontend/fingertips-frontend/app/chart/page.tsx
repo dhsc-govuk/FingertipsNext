@@ -12,7 +12,7 @@ export default async function ChartPage(
   const searchParams = await props.searchParams;
   const searchedIndicator = searchParams?.searchedIndicator;
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
-  const areaCodes = searchParams?.areaCodes?.split(',') ?? [];
+  const areaCodes = searchParams?.areasSelected?.split(',') ?? [];
 
   // We don't want to render this page statically
   await connection();
