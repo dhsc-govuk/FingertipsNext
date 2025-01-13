@@ -1,4 +1,4 @@
-import { GeographySearchData, IndicatorSearchData } from "../types";
+import { IndicatorSearchData } from "../types";
 
 export const sampleIndicatorData: IndicatorSearchData[] = [
   {

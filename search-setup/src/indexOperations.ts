@@ -6,7 +6,10 @@ import {
   SearchFieldDataType,
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "../types";
-import { geographySearchSuggesterName } from "./constants.js";
+import {
+  GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+  GeographySearchIndexColumnNames,
+} from "./constants.js";
 
 export async function createIndex(
   indexClient: SearchIndexClient,
@@ -67,16 +70,37 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField("areaCode", "Edm.String", true, true, true),
+        ...buildSearchIndexField(
+          GeographySearchIndexColumnNames.AREA_CODE,
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
       },
-      buildSearchIndexField("areaName", "Edm.String", true, true, true),
-      buildSearchIndexField("areaType", "Edm.String", true, true, true),
+      buildSearchIndexField(
+        GeographySearchIndexColumnNames.AREA_NAME,
+        "Edm.String",
+        true,
+        true,
+        true
+      ),
+      buildSearchIndexField(
+        GeographySearchIndexColumnNames.AREA_TYPE,
+        "Edm.String",
+        true,
+        true,
+        true
+      ),
     ],
     suggesters: [
       {
-        name: geographySearchSuggesterName,
+        name: GEOGRAPHY_SEARCH_SUGGESTER_NAME,
         searchMode: "analyzingInfixMatching",
-        sourceFields: ["areaName", "areaCode"],
+        sourceFields: [
+          GeographySearchIndexColumnNames.AREA_NAME,
+          GeographySearchIndexColumnNames.AREA_CODE,
+        ],
       },
     ],
   };

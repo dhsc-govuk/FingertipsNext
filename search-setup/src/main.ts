@@ -13,7 +13,10 @@ import {
 import { GeographySearchData, IndicatorSearchData } from "../types.js";
 import { sampleIndicatorData } from "./sample-data.js";
 import { getEnvironmentVariable } from "./utils/helpers.js";
-import { geographySearchIndexName, indicatorSearchIndexName } from "./constants.js";
+import {
+  GEOGRAPHY_SEARCH_INDEX_NAME,
+  INDICATOR_SEARCH_INDEX_NAME,
+} from "./constants.js";
 
 async function createAndPopulateIndex<
   T extends IndicatorSearchData | GeographySearchData
@@ -41,7 +44,7 @@ async function main(): Promise<void> {
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,
-    indicatorSearchIndexName,
+    INDICATOR_SEARCH_INDEX_NAME,
     sampleIndicatorData
   );
 
@@ -52,7 +55,7 @@ async function main(): Promise<void> {
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
-    geographySearchIndexName,
+    GEOGRAPHY_SEARCH_INDEX_NAME,
     geoData
   );
 }

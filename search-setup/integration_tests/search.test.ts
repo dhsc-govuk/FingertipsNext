@@ -10,9 +10,10 @@ import {
 } from "../types";
 import { getEnvironmentVariable } from "../src/utils/helpers";
 import {
-  geographySearchIndexName,
-  geographySearchSuggesterName,
-  indicatorSearchIndexName,
+  GEOGRAPHY_SEARCH_INDEX_NAME,
+  GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+  GeographySearchIndexColumnNames,
+  INDICATOR_SEARCH_INDEX_NAME,
 } from "../src/constants";
 
 let index: SearchIndexResponse;
@@ -89,7 +90,7 @@ describe("AI search index creation and data loading", () => {
 
   describe("Search by indicator", () => {
     beforeAll(async () => {
-      urlPrefix = `${searchEndpoint}/indexes('${indicatorSearchIndexName}')`;
+      urlPrefix = `${searchEndpoint}/indexes('${INDICATOR_SEARCH_INDEX_NAME}')`;
 
       const url = `${urlPrefix}${URL_SUFFIX}`;
       const response = await fetch(url, {
@@ -101,7 +102,7 @@ describe("AI search index creation and data loading", () => {
     });
 
     it("should have correct index name and number of fields", async () => {
-      expect(index.name).toBe(indicatorSearchIndexName);
+      expect(index.name).toBe(INDICATOR_SEARCH_INDEX_NAME);
       expect(index.fields.length).toBe(2);
     });
 
@@ -166,7 +167,7 @@ describe("AI search index creation and data loading", () => {
     const SEARCH_TERM = "man";
     const REQUEST_BODY: TypeAheadBody = {
       search: SEARCH_TERM,
-      suggesterName: geographySearchSuggesterName,
+      suggesterName: GEOGRAPHY_SEARCH_SUGGESTER_NAME,
     };
 
     const makeTypeAheadRequest = async (url: string) => {
@@ -181,7 +182,7 @@ describe("AI search index creation and data loading", () => {
     };
 
     beforeAll(async () => {
-      urlPrefix = `${searchEndpoint}/indexes('${geographySearchIndexName}')`;
+      urlPrefix = `${searchEndpoint}/indexes('${GEOGRAPHY_SEARCH_INDEX_NAME}')`;
 
       const url = `${urlPrefix}${URL_SUFFIX}`;
       const response = await fetch(url, {
@@ -193,15 +194,13 @@ describe("AI search index creation and data loading", () => {
     });
 
     it("should have correct index name and number of fields", async () => {
-      expect(index.name).toBe(geographySearchIndexName);
+      expect(index.name).toBe(GEOGRAPHY_SEARCH_INDEX_NAME);
       expect(index.fields.length).toBe(3);
     });
 
     it("should have correct field configurations", () => {
-      const idField = index.fields[0];
-
       expectFieldToMatch(index.fields[0], {
-        name: "areaCode",
+        name: GeographySearchIndexColumnNames.AREA_CODE,
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -210,7 +209,7 @@ describe("AI search index creation and data loading", () => {
       });
       expect(index.fields[0].key).toBe(true);
       expectFieldToMatch(index.fields[1], {
-        name: "areaName",
+        name: GeographySearchIndexColumnNames.AREA_NAME,
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -218,7 +217,7 @@ describe("AI search index creation and data loading", () => {
         filterable: true,
       });
       expectFieldToMatch(index.fields[2], {
-        name: "areaType",
+        name: GeographySearchIndexColumnNames.AREA_TYPE,
         type: "Edm.String",
         retrievable: true,
         searchable: true,
