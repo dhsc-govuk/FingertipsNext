@@ -12,8 +12,10 @@ test('should render the BarChart component', () => {
 
 test('should render the BarChart component title', () => {
   render(registryWrapper(<Bar data={mockHealthData} />));
-  const barChartTitle = screen.getByText('Bar Chart');
-  expect(barChartTitle).toBeInTheDocument();
+  const HTag = screen.getByRole('heading', { level: 1 });
+  expect(HTag).toHaveTextContent(
+    'Bar Chart'
+  );
 });
 
 test('should render the BarChartTable component', () => {
