@@ -22,6 +22,9 @@ export function LineChart({
   const seriesData = generateSeriesData(sortedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
+    credits: {
+      enabled: false
+    },
     chart: { type: 'line', height: '50%', spacingTop: 50 },
     title: {
       text: 'Line chart to show how the indicator has changed over time for the area',
