@@ -116,7 +116,6 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
-
 components:
   schemas:
     IndicatorSummary:
@@ -219,8 +218,8 @@ components:
         - age_band
         - total_female
         - total_male
-        - percent_female
-        - percent_male
+        - value_female
+        - value_male
       properties:
         age_band:
           type: string
@@ -266,6 +265,10 @@ components:
       description: Population data for a requested area
       required:
         - areaCode
+        - areaName
+        - year
+        - indicator_id
+        - indicator_name
         - populationData
       properties:
         areaCode:
@@ -280,6 +283,15 @@ components:
           type: integer
           example: 2023
           description: The year which the population data are for.
+        indicator_id:
+          type: integer
+          example: 92708
+          minimum: 1
+          description: The unique identifier of the indicator
+        indicator_name:
+          type: string
+          example: Resident population
+          description: The name of the indicator.
         populationData:
           type: array
           items:
