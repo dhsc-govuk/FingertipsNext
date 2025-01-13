@@ -1,44 +1,53 @@
-import { WeatherForecast } from '@/generated-sources/api-client';
+'use client';
+
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
+import {
+  generateSeriesData,
+  sortHealthDataByDate,
+} from '@/lib/chartHelpers/formatLineChartValues';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface LineChartProps {
-  data: WeatherForecast[];
-  title?: string;
+  data: HealthDataForArea[];
   xAxisTitle?: string;
-  yAxisTitle?: string;
   accessibilityLabel?: string;
 }
-
 export function LineChart({
   data,
-  title,
   xAxisTitle,
-  yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const categories = data.map(
-    (item) => item.date?.toLocaleDateString('en-GB') ?? ''
-  );
-  const temperatureData = data.map((item) => item.temperatureC ?? '');
+  const sortedSeriesValues = sortHealthDataByDate(data);
+  const seriesData = generateSeriesData(sortedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
-    chart: { type: 'line' },
-    title: { text: title },
-    xAxis: {
-      categories: categories,
-      title: { text: xAxisTitle },
+    credits: {
+      enabled: false,
+    },
+    chart: { type: 'line', height: '50%', spacingTop: 50 },
+    title: {
+      text: 'Line chart to show how the indicator has changed over time for the area',
+      style: {
+        display: 'none',
+      },
     },
     yAxis: {
-      title: { text: yAxisTitle },
+      title: undefined,
     },
-    series: [
-      {
-        type: 'line',
-        name: yAxisTitle,
-        data: temperatureData,
-      },
-    ],
+    xAxis: {
+      title: { text: xAxisTitle, margin: 20 },
+      tickLength: 0,
+    },
+    legend: {
+      verticalAlign: 'top',
+    },
+    series: seriesData,
+    tooltip: {
+      format:
+        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    },
+
     accessibility: {
       enabled: false,
       description: accessibilityLabel,
