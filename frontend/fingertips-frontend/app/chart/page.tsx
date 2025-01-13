@@ -2,7 +2,7 @@ import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -10,9 +10,11 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator = searchParams?.searchedIndicator;
-  const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
-  const areaCodes = searchParams?.areasSelected?.split(',') ?? [];
+  const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
+  const indicatorsSelected =
+    searchParams?.[SearchParams.IndicatorsSelected]?.split(',') ?? [];
+  const areaCodes =
+    searchParams?.[SearchParams.AreasSelected]?.split(',') ?? [];
 
   // We don't want to render this page statically
   await connection();

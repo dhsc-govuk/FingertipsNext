@@ -1,6 +1,6 @@
 import { SearchResults } from '@/components/pages/search/results';
 import { getSearchData } from './search-result-data';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function Page(
   props: Readonly<{
@@ -8,8 +8,10 @@ export default async function Page(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator = searchParams?.searchedIndicator ?? '';
-  const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
+  const searchedIndicator =
+    searchParams?.[SearchParams.SearchedIndicator] ?? '';
+  const indicatorsSelected =
+    searchParams?.[SearchParams.IndicatorsSelected]?.split(',') ?? [];
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
