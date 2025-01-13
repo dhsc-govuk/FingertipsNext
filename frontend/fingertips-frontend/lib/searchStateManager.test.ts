@@ -1,8 +1,4 @@
-import {
-  SearchParams,
-  SearchStateManager,
-  encodedCommaSeperator,
-} from './searchStateManager';
+import { SearchParams, SearchStateManager } from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
