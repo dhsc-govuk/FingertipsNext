@@ -23,7 +23,7 @@ export function LineChart({
 
   const lineChartOptions: Highcharts.Options = {
     credits: {
-      enabled: false
+      enabled: false,
     },
     chart: { type: 'line', height: '50%', spacingTop: 50 },
     title: {
