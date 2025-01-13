@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { BarChartTable } from '@/components/organisms/BarChartTable/index';
 
 const mockHeadings = [
@@ -56,15 +55,13 @@ const mockData = [
 
 test('snapshot test - should match snapshot', () => {
   const container = render(
-      <BarChartTable data={mockData} headings={mockHeadings} />
+    <BarChartTable data={mockData} headings={mockHeadings} />
   );
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 test('should render the BarChartTable component', () => {
-  render(
-      <BarChartTable data={mockData} headings={mockHeadings} />
-  );
+  render(<BarChartTable data={mockData} headings={mockHeadings} />);
   const barChart = screen.getByTestId('barChartTable-component');
   expect(barChart).toBeInTheDocument();
 });

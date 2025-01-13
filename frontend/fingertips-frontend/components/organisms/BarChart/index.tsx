@@ -20,7 +20,8 @@ export function BarChart({
       enabled: false,
     },
     chart: { type: 'bar', height: '100%', spacingTop: 50 },
-    title: { text: 'Bar chart to show how the indicator has changed over time for the area',
+    title: {
+      text: 'Bar chart to show how the indicator has changed over time for the area',
       style: {
         display: 'none',
       },
