@@ -1,7 +1,7 @@
 import { Chart } from '@/components/pages/chart';
-import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { connection } from 'next/server';
-import { WeatherForecastApi } from '@/generated-sources/api-client';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export default async function ChartPage(
@@ -12,12 +12,17 @@ export default async function ChartPage(
   const searchParams = await props.searchParams;
   const searchedIndicator = searchParams?.searchedIndicator;
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
+  const areaCodes = searchParams?.areaCodes?.split(',') ?? [];
+
   // We don't want to render this page statically
   await connection();
 
   const config = getApiConfiguration();
-  const forecastApi = new WeatherForecastApi(config);
-  const data = await forecastApi.getWeatherForecast();
+  const indicatorApi = new IndicatorsApi(config);
+  const data = await indicatorApi.getHealthDataForAnIndicator({
+    indicatorId: Number(searchedIndicator),
+    areaCodes: areaCodes,
+  });
 
   return (
     <Chart
