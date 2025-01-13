@@ -15,7 +15,7 @@ tags:
   - name: areas
     description: Endpoints dealing with areas / geography
 paths:
-  /area/hierarchies:
+  /areas/hierarchies:
     get:
       tags:
         - areas
@@ -33,7 +33,7 @@ paths:
                   type: string
         '500':
           $ref: "#/components/responses/InternalServerErrror"
-  /area/areatypes:
+  /areas/areatypes:
     get:
       tags:
         - areas
@@ -53,7 +53,7 @@ paths:
                   type: string
         '500':
           $ref: "#/components/responses/InternalServerErrror"
-  /area/{area_code}:
+  /areas/{area_code}:
     get:
       tags:
         - areas
@@ -77,7 +77,7 @@ paths:
           $ref: "#/components/responses/BadRequest"
         '500':
           $ref: "#/components/responses/InternalServerErrror"
-  /area/root:
+  /areas/root:
     get:
       tags:
         - areas
