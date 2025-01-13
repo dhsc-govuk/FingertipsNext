@@ -3005,5 +3005,3 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
-INSERT [Areas].[Areas]  
-values
