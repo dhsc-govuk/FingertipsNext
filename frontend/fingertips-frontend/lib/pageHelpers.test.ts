@@ -1,4 +1,4 @@
-import { asArray } from './pageHelper';
+import { asArray } from './pageHelpers';
 
 describe('asArray', () => {
   it('should return an empty array if no value is provided', () => {

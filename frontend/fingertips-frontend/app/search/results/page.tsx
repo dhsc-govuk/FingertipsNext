@@ -1,7 +1,7 @@
 import { SearchResults } from '@/components/pages/search/results';
 import { getSearchData } from './search-result-data';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelper';
+import { asArray } from '@/lib/pageHelpers';
 
 export default async function Page(
   props: Readonly<{

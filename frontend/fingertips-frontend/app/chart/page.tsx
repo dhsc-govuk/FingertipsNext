@@ -3,7 +3,7 @@ import { connection } from 'next/server';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelper';
+import { asArray } from '@/lib/pageHelpers';
 
 export default async function ChartPage(
   props: Readonly<{
