@@ -2,19 +2,10 @@
 
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-interface HealthCareData {
-  areaCode: string;
-  healthData: {
-    year: number;
-    count: number;
-    value: number;
-    lowerCi: number;
-    upperCi: number;
-  }[];
-}
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface ChartProps {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   yAxisTitle?: string;
   accessibilityLabel?: string;
 }
@@ -25,8 +16,15 @@ export function BarChart({
   accessibilityLabel,
 }: Readonly<ChartProps>) {
   const barChartOptions: Highcharts.Options = {
+    credits: {
+      enabled: false,
+    },
     chart: { type: 'bar', height: '100%', spacingTop: 50 },
-    title: undefined,
+    title: { text: 'Bar chart to show how the indicator has changed over time for the area',
+      style: {
+        display: 'none',
+      },
+    },
     xAxis: {
       categories: data.map((item) => item.areaCode),
     },
@@ -52,6 +50,10 @@ export function BarChart({
         },
       ],
     },
+    tooltip: {
+      format:
+        '<b>{point.series.name}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    },
     plotOptions: {
       bar: {
         dataLabels: {
@@ -62,7 +64,7 @@ export function BarChart({
       },
     },
     series: data.map((item) => ({
-      name: 'Value',
+      name: `${item.areaCode}`,
       type: 'bar',
       data: item.healthData.map((point) => point.value),
     })),

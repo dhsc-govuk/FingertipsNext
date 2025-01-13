@@ -5,14 +5,28 @@ export default async function Page(
   props: Readonly<{
     searchParams?: Promise<{
       indicator?: string;
+      indicatorsSelected?: string;
     }>;
   }>
 ) {
   const searchParams = await props.searchParams;
   const indicator = searchParams?.indicator ?? '';
+  const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
 
-  return <SearchResults indicator={indicator} searchResults={searchResults} />;
+  const initialState = {
+    indicator: indicator,
+    indicatorsSelected: indicatorsSelected,
+    message: null,
+    errors: {},
+  };
+
+  return (
+    <SearchResults
+      searchResultsFormState={initialState}
+      searchResults={searchResults}
+    />
+  );
 }

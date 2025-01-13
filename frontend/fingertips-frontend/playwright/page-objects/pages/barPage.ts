@@ -13,7 +13,7 @@ export default class BarPage extends BasePage {
     await this.checkURL(`bar`);
   }
 
-  async checkChart() {
+  async checkChartAndChartTable() {
     await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
     await expect(
       this.page.getByTestId(this.barChartTableComponent)

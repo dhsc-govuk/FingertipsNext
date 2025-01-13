@@ -2,20 +2,10 @@
 import { H1 } from 'govuk-react';
 import { BarChart } from '@/components/organisms/BarChart';
 import { BarChartTable } from '@/components/organisms/BarChartTable';
-
-interface HealthCareData {
-  areaCode: string;
-  healthData: {
-    year: number;
-    count: number;
-    value: number;
-    lowerCi: number;
-    upperCi: number;
-  }[];
-}
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 type BarChartProps = {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
 };
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];

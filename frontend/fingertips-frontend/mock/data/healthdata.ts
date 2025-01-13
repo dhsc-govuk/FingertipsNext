@@ -1,14 +1,6 @@
-interface HealthCareData {
-  areaCode: string;
-  healthData: {
-    year: number;
-    count: number;
-    value: number;
-    lowerCi: number;
-    upperCi: number;
-  }[];
-}
-export const mockHealthData: HealthCareData[] = [
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+
+export const mockHealthData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     healthData: [
@@ -21,28 +13,28 @@ export const mockHealthData: HealthCareData[] = [
       },
       {
         year: 2004,
-        count: 222,
+        count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2012,
-        count: 222,
+        count: 300,
         value: 602.820845,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2006,
-        count: 222,
+        count: 389,
         value: 278.29134,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2020,
-        count: 222,
+        count: 200,
         value: 971.435418,
         lowerCi: 441.69151,
         upperCi: 578.32766,
@@ -54,14 +46,14 @@ export const mockHealthData: HealthCareData[] = [
     healthData: [
       {
         year: 2010,
-        count: 222,
+        count: 157,
         value: 723.090354,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2022,
-        count: 222,
+        count: 256,
         value: 905.145997,
         lowerCi: 441.69151,
         upperCi: 578.32766,
@@ -75,14 +67,14 @@ export const mockHealthData: HealthCareData[] = [
       },
       {
         year: 2007,
-        count: 222,
+        count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2006,
-        count: 222,
+        count: 452,
         value: 478.996862,
         lowerCi: 441.69151,
         upperCi: 578.32766,
@@ -94,35 +86,35 @@ export const mockHealthData: HealthCareData[] = [
     healthData: [
       {
         year: 2024,
-        count: 222,
+        count: 411,
         value: 579.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2018,
-        count: 222,
+        count: 367,
         value: 383.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
-        year: 2018,
-        count: 222,
+        year: 2010,
+        count: 289,
         value: 851.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2004,
-        count: 222,
+        count: 356,
         value: 775.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
-        year: 2018,
-        count: 222,
+        year: 2019,
+        count: 489,
         value: 290.465304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
@@ -134,35 +126,35 @@ export const mockHealthData: HealthCareData[] = [
     healthData: [
       {
         year: 2024,
-        count: 222,
+        count: 311,
         value: 400.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
-        year: 2018,
-        count: 222,
+        year: 2019,
+        count: 469,
         value: 320.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
-        year: 2018,
-        count: 222,
+        year: 2015,
+        count: 120,
         value: 600.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2004,
-        count: 222,
+        count: 250,
         value: 650.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2006,
-        count: 222,
+        count: 344,
         value: 500.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
@@ -174,48 +166,39 @@ export const mockHealthData: HealthCareData[] = [
     healthData: [
       {
         year: 2006,
-        count: 222,
+        count: 322,
         value: 472.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2018,
-        count: 222,
+        count: 234,
         value: 472.7613425,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2005,
-        count: 222,
+        count: 299,
         value: 582.306765,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2017,
-        count: 222,
+        count: 435,
         value: 563.4002,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
       {
         year: 2023,
-        count: 222,
+        count: 277,
         value: 627.899536,
         lowerCi: 441.69151,
         upperCi: 578.32766,
       },
     ],
   },
-];
-
-export const mockHeadings = [
-  'Area Code',
-  'Year',
-  'Count',
-  'Value',
-  'LowerCi',
-  'UpperCi',
 ];

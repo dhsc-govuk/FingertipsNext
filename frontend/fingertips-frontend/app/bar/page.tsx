@@ -13,7 +13,7 @@ export default async function BarChartPage(
   // We don't want to render this page statically
   await connection();
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator ?? '';
+  const indicator = searchParams?.indicator;
 
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);

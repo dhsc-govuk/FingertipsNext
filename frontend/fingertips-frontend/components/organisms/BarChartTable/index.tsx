@@ -1,19 +1,10 @@
 'use client';
 
 import { Table } from 'govuk-react';
-interface HealthCareData {
-  areaCode: string;
-  healthData: {
-    year: number;
-    count: number;
-    value: number;
-    lowerCi: number;
-    upperCi: number;
-  }[];
-}
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface TableProps {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   headings: string[];
 }
 
