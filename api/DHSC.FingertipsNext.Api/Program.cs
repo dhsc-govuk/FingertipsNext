@@ -5,6 +5,8 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Azure.Monitor.OpenTelemetry.Exporter;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.VisualBasic;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
 public static class Program
@@ -13,7 +15,7 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services
             .AddLogging();
 
@@ -21,6 +23,21 @@ public static class Program
         {
             builder.Services.AddOpenTelemetry().UseAzureMonitor();
         }
+
+        var serviceName = "DHSC.FingertipsNext.Api";
+        var serviceVersion = "1.0.0";
+
+        builder.Services.AddOpenTelemetry().WithTracing(tcb =>
+        {
+            tcb.AddSource(serviceName)
+                .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                    .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation();
+            // .AddConsoleExporter();
+        });
+
+        builder.Services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
 
         builder.Services.AddControllers().AddControllersAsServices();
 
@@ -41,7 +58,7 @@ public static class Program
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-        
+
         RegisterModules(builder.Services, builder.Configuration);
 
         var app = builder.Build();
