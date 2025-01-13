@@ -44,7 +44,7 @@ paths:
         - $ref: "#/components/parameters/hierarchy_type"
       responses:
         '200':
-          description: The available area types e.g. CCB, PCN or GP Surgery
+          description: The available area types e.g. ICB, PCN or GP Surgery
           content:
             application/json:
               schema:
@@ -189,7 +189,7 @@ components:
       required:
         - code
         - name
-        - hierarchyType
+        - hierarchyName
         - areaType
       properties:
         code:
@@ -200,7 +200,7 @@ components:
           type: string
           example: "County Durham"
           description: The name of the area / geography
-        hierarchyType:
+        hierarchyName:
           type: string
           example: "NHS"
           description: The name of the associated hierarchy for the area / geography
