@@ -26,7 +26,7 @@ export interface PopulationDataPoint {
      * @type {string}
      * @memberof PopulationDataPoint
      */
-    ageBand: PopulationDataPointAgeBandEnum;
+    ageBand: string;
     /**
      * total female population given age band
      * @type {number}
@@ -40,34 +40,6 @@ export interface PopulationDataPoint {
      */
     totalMale: number;
 }
-
-
-/**
- * @export
- */
-export const PopulationDataPointAgeBandEnum = {
-    _04: '0-4',
-    _59: '5-9',
-    _1014: '10-14',
-    _1519: '15-19',
-    _2024: '20-24',
-    _2529: '25-29',
-    _3034: '30-34',
-    _3539: '35-39',
-    _4044: '40-44',
-    _4549: '45-49',
-    _5054: '50-54',
-    _5559: '55-59',
-    _6064: '60-64',
-    _6569: '65-69',
-    _7074: '70-74',
-    _7579: '75-79',
-    _8084: '80-84',
-    _8589: '85-89',
-    _90: '90+'
-} as const;
-export type PopulationDataPointAgeBandEnum = typeof PopulationDataPointAgeBandEnum[keyof typeof PopulationDataPointAgeBandEnum];
-
 
 /**
  * Check if a given object implements the PopulationDataPoint interface.
