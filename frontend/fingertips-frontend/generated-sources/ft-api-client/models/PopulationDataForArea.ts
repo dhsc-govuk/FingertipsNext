@@ -38,13 +38,25 @@ export interface PopulationDataForArea {
      * @type {string}
      * @memberof PopulationDataForArea
      */
-    areaName?: string;
+    areaName: string;
     /**
      * The year which the population data are for.
      * @type {number}
      * @memberof PopulationDataForArea
      */
-    year?: number;
+    year: number;
+    /**
+     * The unique identifier of the indicator
+     * @type {number}
+     * @memberof PopulationDataForArea
+     */
+    indicatorId: number;
+    /**
+     * The name of the indicator.
+     * @type {string}
+     * @memberof PopulationDataForArea
+     */
+    indicatorName: string;
     /**
      * The population data point for the area
      * @type {Array<PopulationDataPoint>}
@@ -58,6 +70,10 @@ export interface PopulationDataForArea {
  */
 export function instanceOfPopulationDataForArea(value: object): value is PopulationDataForArea {
     if (!('areaCode' in value) || value['areaCode'] === undefined) return false;
+    if (!('areaName' in value) || value['areaName'] === undefined) return false;
+    if (!('year' in value) || value['year'] === undefined) return false;
+    if (!('indicatorId' in value) || value['indicatorId'] === undefined) return false;
+    if (!('indicatorName' in value) || value['indicatorName'] === undefined) return false;
     if (!('populationData' in value) || value['populationData'] === undefined) return false;
     return true;
 }
@@ -73,8 +89,10 @@ export function PopulationDataForAreaFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'areaCode': json['areaCode'],
-        'areaName': json['areaName'] == null ? undefined : json['areaName'],
-        'year': json['year'] == null ? undefined : json['year'],
+        'areaName': json['areaName'],
+        'year': json['year'],
+        'indicatorId': json['indicator_id'],
+        'indicatorName': json['indicator_name'],
         'populationData': ((json['populationData'] as Array<any>).map(PopulationDataPointFromJSON)),
     };
 }
@@ -93,6 +111,8 @@ export function PopulationDataForAreaToJSONTyped(value?: PopulationDataForArea |
         'areaCode': value['areaCode'],
         'areaName': value['areaName'],
         'year': value['year'],
+        'indicator_id': value['indicatorId'],
+        'indicator_name': value['indicatorName'],
         'populationData': ((value['populationData'] as Array<any>).map(PopulationDataPointToJSON)),
     };
 }

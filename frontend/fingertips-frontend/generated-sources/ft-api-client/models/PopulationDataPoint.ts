@@ -39,18 +39,6 @@ export interface PopulationDataPoint {
      * @memberof PopulationDataPoint
      */
     totalMale: number;
-    /**
-     * percentage value female population given age band
-     * @type {number}
-     * @memberof PopulationDataPoint
-     */
-    valueFemale?: number;
-    /**
-     * percentage value male population given age band
-     * @type {number}
-     * @memberof PopulationDataPoint
-     */
-    valueMale?: number;
 }
 
 
@@ -104,8 +92,6 @@ export function PopulationDataPointFromJSONTyped(json: any, ignoreDiscriminator:
         'ageBand': json['age_band'],
         'totalFemale': json['total_female'],
         'totalMale': json['total_male'],
-        'valueFemale': json['value_female'] == null ? undefined : json['value_female'],
-        'valueMale': json['value_male'] == null ? undefined : json['value_male'],
     };
 }
 
@@ -123,8 +109,6 @@ export function PopulationDataPointToJSONTyped(value?: PopulationDataPoint | nul
         'age_band': value['ageBand'],
         'total_female': value['totalFemale'],
         'total_male': value['totalMale'],
-        'value_female': value['valueFemale'],
-        'value_male': value['valueMale'],
     };
 }
 
