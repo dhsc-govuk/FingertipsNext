@@ -16,9 +16,9 @@ export default async function ChartPage(
   await connection();
 
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator ?? '';
+  const indicator = searchParams?.indicator;
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
-  const areaCodes = searchParams?.areaCodes ?? '';
+  const areaCodes = searchParams?.areaCodes?.split(',') ?? [];
 
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
