@@ -12,6 +12,11 @@ export async function createIndex(
   indexClient: SearchIndexClient,
   index: SearchIndex
 ): Promise<void> {
+  try {
+    console.log("Trying to delete an existing index");
+    await indexClient.deleteIndex(index);
+  } catch {}
+
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
 }
