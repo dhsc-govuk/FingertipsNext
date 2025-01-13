@@ -1,5 +1,6 @@
 import { HttpResponse, http } from 'msw';
 import { mockWeatherForecasts } from '../data/forecasts';
+import { mockPopulationData } from '../data/populationdata';
 import { faker } from '@faker-js/faker';
 
 faker.seed(1);
@@ -126,22 +127,7 @@ export function getGetHealthDataForAnIndicator500Response() {
 }
 
 export function getGetAreasPopulationData200Response() {
-  return [
-    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
-    areaCode: 'A1426',
-    areaName: 'England',
-    year: 2023,
-    populationData: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      age_band: '0-4',
-      total_female: 1568625,
-      total_male: 1496012,
-      value_female: 2.72,
-      value_male: 2.59,
-    })),
-  }));
+  return mockPopulationData;
 }
 
 export function getGetAreasPopulationData400Response() {
