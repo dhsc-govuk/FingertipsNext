@@ -2,7 +2,7 @@
 
 import { LineChart } from '@/components/organisms/LineChart';
 import { WeatherForecast } from '@/generated-sources/api-client';
-import { BackLink, H1 } from 'govuk-react';
+import { BackLink, H1, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { PopulationDataForArea } from '@/generated-sources/ft-api-client';
@@ -28,6 +28,10 @@ export function Chart({
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
+      <div>
+        <H2>Mock population data</H2>
+        <p>{populationData[0].areaCode}</p>
+      </div>
       <H1>Line Chart</H1>
       <LineChart
         data={data}
