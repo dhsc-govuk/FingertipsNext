@@ -3004,3 +3004,6 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687408, 46405, 1760, 3, 483, 1343, 16.41459, 15.54743, 17.31749, 2023)
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
+
+INSERT [Areas].[Areas]  
+values
