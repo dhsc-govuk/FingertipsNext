@@ -20,7 +20,7 @@ describe('Search Results Actions', () => {
       await viewCharts(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
-        `/chart?${SearchParams.SearchedIndicator}=boom&${SearchParams.IndicatorsSelected}=${encodeURIComponent('1,2')}`,
+        `/chart?${SearchParams.SearchedIndicator}=boom&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
         RedirectType.push
       );
     });

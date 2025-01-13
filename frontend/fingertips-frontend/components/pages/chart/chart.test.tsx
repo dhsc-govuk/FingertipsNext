@@ -15,7 +15,7 @@ it('should render the backLink', () => {
 
   expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /back/i }).getAttribute('href')).toBe(
-    `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1%2C2`
+    `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
 });
 
