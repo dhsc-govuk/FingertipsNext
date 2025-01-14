@@ -42,10 +42,7 @@ export const handlers = [
   }),
   http.get(`${baseURL}/areas/population/data`, async () => {
     const resultArray = [
-      [await getGetAreasPopulationData200Response(), { status: 200 }],
-      [await getGetAreasPopulationData400Response(), { status: 400 }],
-      [await getGetAreasPopulationData404Response(), { status: 404 }],
-      [await getGetAreasPopulationData500Response(), { status: 500 }],
+      [getGetAreasPopulationData200Response(), { status: 200 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);

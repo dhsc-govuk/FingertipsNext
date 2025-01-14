@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H3, BackLink } from 'govuk-react';
+import { H3, BackLink, H2, H1 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -29,7 +29,19 @@ export function Chart({
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <div>
         <H2>Mock population data</H2>
-        <p>{populationData[0].areaCode}</p>
+        <p>
+          {populationData[0].areaName}({populationData[0].areaCode}) -{' '}
+          {populationData[0].indicatorName}({populationData[0].indicatorId}){' '}
+          {populationData[0].year}
+        </p>
+        <ul>
+          {populationData[0].populationData.map((datapoint, index) => (
+            <li key={index}>
+              {datapoint.ageBand}: F{datapoint.totalFemale} M
+              {datapoint.totalMale}
+            </li>
+          ))}
+        </ul>
       </div>
       <H1>Line Chart</H1>
       <LineChart

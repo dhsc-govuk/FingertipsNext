@@ -61,9 +61,9 @@ export function PopulationDataPointFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'ageBand': json['age_band'],
-        'totalFemale': json['total_female'],
-        'totalMale': json['total_male'],
+        'ageBand': json['ageBand'],
+        'totalFemale': json['totalFemale'],
+        'totalMale': json['totalMale'],
     };
 }
 
@@ -78,9 +78,9 @@ export function PopulationDataPointToJSONTyped(value?: PopulationDataPoint | nul
 
     return {
         
-        'age_band': value['ageBand'],
-        'total_female': value['totalFemale'],
-        'total_male': value['totalMale'],
+        'ageBand': value['ageBand'],
+        'totalFemale': value['totalFemale'],
+        'totalMale': value['totalMale'],
     };
 }
 

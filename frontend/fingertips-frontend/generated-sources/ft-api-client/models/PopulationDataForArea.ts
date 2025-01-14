@@ -91,8 +91,8 @@ export function PopulationDataForAreaFromJSONTyped(json: any, ignoreDiscriminato
         'areaCode': json['areaCode'],
         'areaName': json['areaName'],
         'year': json['year'],
-        'indicatorId': json['indicator_id'],
-        'indicatorName': json['indicator_name'],
+        'indicatorId': json['indicatorId'],
+        'indicatorName': json['indicatorName'],
         'populationData': ((json['populationData'] as Array<any>).map(PopulationDataPointFromJSON)),
     };
 }
@@ -111,8 +111,8 @@ export function PopulationDataForAreaToJSONTyped(value?: PopulationDataForArea |
         'areaCode': value['areaCode'],
         'areaName': value['areaName'],
         'year': value['year'],
-        'indicator_id': value['indicatorId'],
-        'indicator_name': value['indicatorName'],
+        'indicatorId': value['indicatorId'],
+        'indicatorName': value['indicatorName'],
         'populationData': ((value['populationData'] as Array<any>).map(PopulationDataPointToJSON)),
     };
 }

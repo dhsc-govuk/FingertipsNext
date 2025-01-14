@@ -1,9 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './FilterIndicators400Response';
+export * from './Area';
+export * from './AreaWithRelations';
+export * from './GetAreaHierarchies500Response';
 export * from './HealthDataForArea';
 export * from './HealthDataPoint';
 export * from './Indicator';
 export * from './IndicatorSummary';
 export * from './PopulationDataForArea';
 export * from './PopulationDataPoint';
+export * from './RootArea';

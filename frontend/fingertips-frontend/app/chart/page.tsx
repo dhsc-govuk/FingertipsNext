@@ -3,6 +3,7 @@ import { connection } from 'next/server';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { AreasApi } from '@/generated-sources/ft-api-client';
+import { mockPopulationData } from '@/mock/data/populationdata';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -28,11 +29,13 @@ export default async function ChartPage(
     areaCodes: areaCodes,
   });
 
-  const populationDataApi = new AreasApi();
-  const populationData = await populationDataApi.areasPopulationDataGet({
+  const populationDataApi = new AreasApi(config);
+  let populationData = await populationDataApi.areasPopulationDataGet({
     areaCodes: ['area'],
     years: [2023],
   });
+
+  // populationData = mockPopulationData;
 
   return (
     <Chart
