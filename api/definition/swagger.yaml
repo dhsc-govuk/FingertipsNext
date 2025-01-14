@@ -314,11 +314,10 @@ components:
           format: float
           example: 578.32766
           description: The upper confidence interval
-        age:
-          type: number
-          format: integer
-          example: 22
-          description: Age which the data are for.
+        ageBand:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
         sex:
           type: string
           example: Female
