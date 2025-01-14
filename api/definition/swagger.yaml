@@ -8,7 +8,7 @@ info:
   version: "1.0.0"
   title: Fingertips API
   contact:
-    email:  ProfileFeedback@dhsc.gov.uk
+    email: ProfileFeedback@dhsc.gov.uk
 tags:
   - name: indicators
     description: Endpoints dealing with public health indicators
@@ -23,7 +23,7 @@ paths:
       description: Get all available hierarchy types
       operationId: getAreaHierarchies
       responses:
-        '200':
+        "200":
           description: The available hierarchy types, e.g. NHS or Administrative
           content:
             application/json:
@@ -31,7 +31,7 @@ paths:
                 type: array
                 items:
                   type: string
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerErrror"
   /areas/areatypes:
     get:
@@ -43,7 +43,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/hierarchy_type"
       responses:
-        '200':
+        "200":
           description: The available area types e.g. ICB, PCN or GP Surgery
           content:
             application/json:
@@ -51,7 +51,7 @@ paths:
                 type: array
                 items:
                   type: string
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerErrror"
   /areas/{area_code}:
     get:
@@ -67,15 +67,15 @@ paths:
         - $ref: "#/components/parameters/includeCousins"
         - $ref: "#/components/parameters/includeAncestors"
       responses:
-        '200':
+        "200":
           description: The area node
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AreaWithRelations'
-        '400':
+                $ref: "#/components/schemas/AreaWithRelations"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerErrror"
   /areas/root:
     get:
@@ -85,13 +85,13 @@ paths:
       description: Get the root node of the area hierarchy
       operationId: getAreaRoot
       responses:
-        '200':
+        "200":
           description: The root area node
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RootArea'
-        '500':
+                $ref: "#/components/schemas/RootArea"
+        "500":
           $ref: "#/components/responses/InternalServerErrror"
   /indicators:
     get:
@@ -104,17 +104,17 @@ paths:
       parameters:
         - $ref: "#/components/parameters/indicator_ids"
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/IndicatorSummary'
-        '400':
+                  $ref: "#/components/schemas/IndicatorSummary"
+        "400":
           $ref: "#/components/responses/BadRequest"
-        '500':
+        "500":
           $ref: "#/components/responses/InternalServerErrror"
   /indicators/{indicator_id}:
     get:
@@ -122,17 +122,18 @@ paths:
         - indicators
       summary: Get indicator
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Indicator"
-          description: The request was successful, and the server has returned the
+          description:
+            The request was successful, and the server has returned the
             requested resource in the response body.
-        '404':
+        "404":
           $ref: "#/components/responses/NotFound"
-        '500':
-           $ref: "#/components/responses/InternalServerErrror"
+        "500":
+          $ref: "#/components/responses/InternalServerErrror"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
       description: >
@@ -144,7 +145,8 @@ paths:
       tags:
         - indicators
       summary: Get health data for an indicator
-      description: Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
+      description:
+        Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
         or more area codes and one or more years in the query string.
       responses:
         "200":
@@ -155,7 +157,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/HealthDataForArea"
                 title: GetHealthDataForAnIndicatorOk
-          description: Data containing the health data points for the indicator, years
+          description:
+            Data containing the health data points for the indicator, years
             and geographical areas requested
         "400":
           $ref: "#/components/responses/BadRequest"
@@ -271,12 +274,13 @@ components:
         definition:
           type: string
           example: "The percentage of patients with established hypertension, as
-              recorded on practice disease registers (proportion of total list
-              size)"
+            recorded on practice disease registers (proportion of total list
+            size)"
           description: The definition of the indicator
     HealthDataPoint:
       type: object
-      description: Represents a health data point for a public health indicator with a
+      description:
+        Represents a health data point for a public health indicator with a
         count, value, upper confidence interval, lower confidence interval and a
         year.
       required:
@@ -285,6 +289,8 @@ components:
         - value
         - lowerCi
         - upperCi
+        - age
+        - sex
       properties:
         year:
           type: integer
@@ -308,6 +314,14 @@ components:
           format: float
           example: 578.32766
           description: The upper confidence interval
+        ageBand:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        sex:
+          type: string
+          example: Female
+          description: Sex which the data are for.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
@@ -423,7 +437,8 @@ components:
             properties:
               message:
                 type: string
-      description: The server cannot find the requested resource. The endpoint may be
+      description:
+        The server cannot find the requested resource. The endpoint may be
         invalid or the resource may no longer exist.
     BadRequest:
       content:
@@ -435,7 +450,8 @@ components:
             properties:
               message:
                 type: string
-      description: The server could not understand the request due to invalid syntax.
+      description:
+        The server could not understand the request due to invalid syntax.
         The client should modify the request and try again.
     InternalServerErrror:
       content:
@@ -447,6 +463,7 @@ components:
             properties:
               message:
                 type: string
-      description: The server encountered an unexpected condition that prevented it
+      description:
+        The server encountered an unexpected condition that prevented it
         from fulfilling the request. Report the issue to the support team if it
         persists.
