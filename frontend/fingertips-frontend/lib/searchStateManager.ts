@@ -7,7 +7,7 @@ export enum SearchParams {
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string | string[];
-  [SearchParams.AreasSelected]?: string[];
+  [SearchParams.AreasSelected]?: string | string[];
 };
 
 export type SearchState = {
