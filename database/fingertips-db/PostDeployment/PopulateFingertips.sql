@@ -3005,3 +3005,40 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
+INSERT [Areas].[Areas]   
+VALUES
+-- root level data
+('/', 0,'E92000001','England', 'Country','All') 
+
+-- first level data
+,('/1/',1,'E12000001','North East region (statistical)','Regions Statistical','Admin')
+,('/2/',1,'E12000002','North West region (statistical)','Regions Statistical','Admin')
+,('/3/',1,'E12000003','Yorkshire and the Humber region (statistical)','Regions Statistical','Admin')
+,('/4/',1,'E40000007','East of England NHS Region','NHS region','NHS')
+,('/5/',1,'E40000003','London NHS Region','NHS region','NHS')
+,('/6/',1,'E40000005','South East NHS Region','NHS region','NHS')
+,('/7/',1,'E40000006','South West NHS Region','NHS region','NHS')
+,('/8/',1,'E40000010','North West NHS Region','NHS region','NHS')
+,('/9/',1,'E40000011','Midlands NHS Region','NHS region','NHS')
+,('/10/',1,'E40000012','North East and Yorkshire NHS Region','NHS region','NHS')
+
+-- second level data 
+,('/1/1/',2,'E06000047','County Durham','Counties & UAs','Admin')
+,('/1/2/',2,'E06000005','Darlington','Counties & UAs','Admin')
+,('/1/3/',2,'E08000037','Gateshead','Counties & UAs','Admin')
+,('/4/1/',2,'E38000007','NHS Basildon And Brentwood ICB','ICB','NHS')
+,('/4/2/',2,'E38000026','NHS Cambridgeshire and Peterborough ICB','ICB','NHS')
+,('/5/1/',2,'E38000240','NHS North Central London ICB','ICB','NHS')
+,('/5/2/',2,'E38000244','NHS South East London ICB','ICB','NHS')
+ 
+-- third level data
+,('/4/1/1/',3,'U15488','East Basildon PCN','PCN','NHS')
+,('/4/1/2/',3,'U55146','Central Basildon PCN','PCN','NHS')
+,('/5/1/1/',3,'U02795','North 2 Islington PCN','PCN','NHS')
+,('/5/1/2/',3,'U05885','South Camden PCN','PCN','NHS')
+
+-- fourth level data
+,('/4/1/1/1/',4,'F81186','Felmores Medical Centre','GP','NHS')
+,('/4/1/1/2/',4,'F81640','Aryan Medical Centre','GP','NHS')
+,('/5/1/1/1/',4,'F83004','Archway Medical Centre','GP','NHS')
+,('/5/1/1/2/',4,'F83008','The Goodinge Group Practice','GP','NHS')
