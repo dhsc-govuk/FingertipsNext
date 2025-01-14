@@ -18,7 +18,6 @@ import {
 
 let index: SearchIndexResponse;
 let searchEndpoint: string;
-let indexName: string;
 let apiKey: string;
 let urlPrefix: string;
 const URL_SUFFIX = "?api-version=2024-07-01";

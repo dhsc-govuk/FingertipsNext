@@ -18,6 +18,8 @@ import {
   INDICATOR_SEARCH_INDEX_NAME,
 } from "./constants.js";
 
+import geoData from "../assets/geographyData.json" with {type:"json"};
+
 async function createAndPopulateIndex<
   T extends IndicatorSearchData | GeographySearchData
 >(
@@ -26,7 +28,7 @@ async function createAndPopulateIndex<
   indexName: string,
   data: T[]
 ) {
-  console.log(`CreatingIndex ${indexName}`);
+  console.log(`Creating index ${indexName}`);
   await createIndex(indexClient, buildIndexFunction(indexName));
 
   await populateIndex<T>(indexClient.getSearchClient<T>(indexName), data);
@@ -46,10 +48,6 @@ async function main(): Promise<void> {
     buildIndicatorSearchIndex,
     INDICATOR_SEARCH_INDEX_NAME,
     sampleIndicatorData
-  );
-
-  const geoData = JSON.parse(
-    fs.readFileSync("./assets/geographyData.json", "utf-8")
   );
 
   await createAndPopulateIndex(
