@@ -13,7 +13,7 @@ To run the application, ensure you have the following:
 
 1. **Install dependencies**
 
-```
+```bash
 npm install
 ```
 
@@ -22,7 +22,7 @@ npm install
 
 3. **Run the app**
 
-```
+```bash
 npm run create-index
 ```
 
@@ -35,3 +35,7 @@ This project uses Jest for testing.
 ```bash
 npm run test
 ```
+
+### Postman Collection
+
+A postman collection has been added to the assets directory including some AI-Search queries. At present this only includes geographic search suggestions but can be expanded to include others as helpful. This collection can be imported into Postman and used. Note: it will be necessary to configure the Postman environment to hold the API-KEY AI_SEARCH_API_KEY from Azure AI-Search.
