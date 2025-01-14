@@ -162,7 +162,7 @@ export function PopulationPyramid({
   };
 
   return (
-    <div data-testid="populationPyramid-component">
+    <div data-testid="PopulationPyramid-component">
       <HighchartsReact
         highcharts={Highcharts}
         options={populationPyramidOptions}

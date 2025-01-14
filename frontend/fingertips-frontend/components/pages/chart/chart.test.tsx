@@ -39,3 +39,10 @@ it('should render the LineChartTable component', () => {
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
 });
+
+it('should render the PopulationPyramid component', () => {
+  render(<Chart data={mockHealthData} />);
+
+  const PyramidPlot = screen.getByTestId('PopulationPyramid-component');
+  expect(PyramidPlot).toBeInTheDocument();
+});
