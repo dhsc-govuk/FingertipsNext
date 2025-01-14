@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { MOCK_DATA } from '@/app/results/search-result-data';
 import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
