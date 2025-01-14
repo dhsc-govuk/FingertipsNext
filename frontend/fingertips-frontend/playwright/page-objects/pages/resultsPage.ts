@@ -1,3 +1,4 @@
+import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
@@ -20,7 +21,9 @@ export default class ResultsPage extends BasePage {
   }
 
   async checkURLIsCorrect(indicator: string) {
-    await this.checkURL(`search/results?indicator=${indicator}`);
+    await this.checkURL(
+      `search/results?${SearchParams.SearchedIndicator}=${indicator}`
+    );
   }
 
   async clickIndicatorCheckbox(indicatorId: string) {
