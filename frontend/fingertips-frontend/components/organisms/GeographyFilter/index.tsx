@@ -11,7 +11,11 @@ import {
   SectionBreak,
   Select,
 } from 'govuk-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import { updateAreasSelected } from './server-actions';
+import { SearchState, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchResultState } from '@/components/pages/search/results/searchResultsActions';
 
 interface GeographyFilterProps {
   selectedAreas: string;
@@ -34,12 +38,36 @@ const StyledFilterSelect2 = styled(Select)({
   width: '450px',
 });
 
+const isAreaSelected = (areaId: string, state?: SearchState): boolean => {
+  return state?.areasSelected
+    ? state.areasSelected?.some((area) => area === areaId)
+    : false;
+};
+
 export function GeographyFilter({
   selectedAreas,
   availableGroupTypes,
   availableGroups,
   availableAreasInGroup,
 }: Readonly<GeographyFilterProps>) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const existingParams = new URLSearchParams(searchParams);
+  const searchState = SearchStateManager.setStateFromParams(existingParams);
+
+  const handleSelectAreaClick = async (areaId: string, checked: boolean) => {
+    if (checked) {
+      searchState.addAreaSelected(areaId);
+    } else {
+      searchState.removeAreaSelected(areaId);
+    }
+    replace(searchState.generatePath(pathname), { scroll: false });
+    // const operation = checked ? 'ADD' : 'REMOVE';
+    // await updateAreasSelected(areaId, operation, searchState.getSearchState());
+  };
+
   return (
     <StyledFilterDiv>
       <H3>Filters</H3>
@@ -78,7 +106,18 @@ export function GeographyFilter({
           </Checkbox>
           <SectionBreak visible={true} />
           {availableAreasInGroup.map((area) => (
-            <Checkbox key={area.id} value={area.id} sizeVariant="SMALL">
+            <Checkbox
+              key={area.id}
+              value={area.id}
+              sizeVariant="SMALL"
+              defaultChecked={isAreaSelected(
+                area.id,
+                searchState.getSearchState()
+              )}
+              onChange={async (e) => {
+                await handleSelectAreaClick(area.id, e.target.checked);
+              }}
+            >
               {area.name}
             </Checkbox>
           ))}

@@ -24,6 +24,7 @@ export class SearchStateManager {
     this.searchState = {
       searchedIndicator: searchState.searchedIndicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
+      areasSelected: searchState.areasSelected ?? [],
     };
     this.searchStateParams = new URLSearchParams();
   }
@@ -58,6 +59,17 @@ export class SearchStateManager {
     }
   }
 
+  private addAreasSelectedToPath() {
+    if (
+      this.searchState.areasSelected &&
+      this.searchState.areasSelected.length > 0
+    ) {
+      this.searchState.areasSelected?.forEach((area) => {
+        this.searchStateParams.append(SearchParams.AreasSelected, area);
+      });
+    }
+  }
+
   public addIndicatorSelected(indicatorId: string) {
     this.searchState.indicatorsSelected?.push(indicatorId);
   }
@@ -71,15 +83,35 @@ export class SearchStateManager {
     };
   }
 
+  public addAreaSelected(areaId: string) {
+    this.searchState.areasSelected?.push(areaId);
+  }
+
+  public removeAreaSelected(areaId: string) {
+    this.searchState = {
+      ...this.searchState,
+      areasSelected: this.searchState.areasSelected?.filter((area) => {
+        return area !== areaId;
+      }),
+    };
+  }
+
+  public getSearchState() {
+    return this.searchState;
+  }
+
   public static setStateFromParams(params: URLSearchParams) {
+    console.log(`setStateFromParams param ${JSON.stringify(params)}`);
     const searchedIndicator =
       params.get(SearchParams.SearchedIndicator) ?? undefined;
     const indicatorsSelected =
       params.getAll(SearchParams.IndicatorsSelected) ?? [];
+    const areasSelected = params.getAll(SearchParams.AreasSelected) ?? [];
 
     const searchStateManager = new SearchStateManager({
       searchedIndicator,
       indicatorsSelected,
+      areasSelected,
     });
     return searchStateManager;
   }
@@ -89,6 +121,7 @@ export class SearchStateManager {
 
     this.addSearchedIndicatorToPath();
     this.addIndicatorsSelectedToPath();
+    this.addAreasSelectedToPath();
 
     return this.constructPath(path);
   }

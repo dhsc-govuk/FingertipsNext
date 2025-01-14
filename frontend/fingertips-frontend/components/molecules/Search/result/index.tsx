@@ -6,6 +6,7 @@ import {
   GridRow,
   GridCol,
   Checkbox,
+  Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
@@ -41,10 +42,10 @@ export function SearchResult({
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleClick = (indicatorId: string, checked: boolean) => {
-    const params = new URLSearchParams(searchParams);
-    const searchState = SearchStateManager.setStateFromParams(params);
+  const params = new URLSearchParams(searchParams);
+  const searchState = SearchStateManager.setStateFromParams(params);
 
+  const handleClick = (indicatorId: string, checked: boolean) => {
     if (checked) {
       searchState.addIndicatorSelected(indicatorId);
     } else {
@@ -53,6 +54,9 @@ export function SearchResult({
 
     replace(searchState.generatePath(pathname), { scroll: false });
   };
+
+  searchState.addIndicatorSelected(result.id.toString());
+  const indicatorLink = searchState.generatePath('chart');
 
   return (
     <ListItem data-testid="search-result">
@@ -68,7 +72,9 @@ export function SearchResult({
               handleClick(result.id.toString(), e.target.checked);
             }}
           >
-            <H5>{result.indicatorName}</H5>
+            <H5>
+              <Link href={indicatorLink}>{result.indicatorName}</Link>
+            </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
             <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>

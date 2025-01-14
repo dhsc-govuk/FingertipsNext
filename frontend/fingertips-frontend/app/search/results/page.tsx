@@ -6,7 +6,7 @@ import {
   getAvailableGroupTypes,
   getSearchData,
 } from './search-result-data';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 
 export default async function Page(
