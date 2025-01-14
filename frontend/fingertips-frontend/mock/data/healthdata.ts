@@ -10,7 +10,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 0,
+        ageBand: '0-4',
         sex: 'Female',
       },
       {
@@ -19,7 +19,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 5,
+        ageBand: '5-9',
         sex: 'Female',
       },
       {
@@ -28,7 +28,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 10,
+        ageBand: '10-14',
         sex: 'Female',
       },
       {
@@ -37,7 +37,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 15,
+        ageBand: '15-19',
         sex: 'Female',
       },
       {
@@ -46,7 +46,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 20,
+        ageBand: '20-24',
         sex: 'Female',
       },
       {
@@ -55,7 +55,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 25,
+        ageBand: '25-29',
         sex: 'Female',
       },
       {
@@ -64,7 +64,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 30,
+        ageBand: '30-34',
         sex: 'Female',
       },
       {
@@ -73,7 +73,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 35,
+        ageBand: '35-39',
         sex: 'Female',
       },
       {
@@ -82,7 +82,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 40,
+        ageBand: '40-44',
         sex: 'Female',
       },
       {
@@ -91,7 +91,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 45,
+        ageBand: '45-49',
         sex: 'Female',
       },
       {
@@ -100,7 +100,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 50,
+        ageBand: '50-54',
         sex: 'Female',
       },
       {
@@ -109,7 +109,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 55,
+        ageBand: '55-59',
         sex: 'Female',
       },
       {
@@ -118,7 +118,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 60,
+        ageBand: '60-64',
         sex: 'Female',
       },
       {
@@ -127,7 +127,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 65,
+        ageBand: '65-69',
         sex: 'Female',
       },
       {
@@ -136,7 +136,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 70,
+        ageBand: '70-74',
         sex: 'Female',
       },
       {
@@ -145,7 +145,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 75,
+        ageBand: '75-79',
         sex: 'Female',
       },
       {
@@ -154,7 +154,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 80,
+        ageBand: '80-84',
         sex: 'Female',
       },
       {
@@ -163,7 +163,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 85,
+        ageBand: '85-89',
         sex: 'Female',
       },
       {
@@ -172,7 +172,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 90,
+        ageBand: '90+',
         sex: 'Female',
       },
     ],
@@ -186,7 +186,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 0,
+        ageBand: '0-4',
         sex: 'Male',
       },
       {
@@ -195,7 +195,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 5,
+        ageBand: '5-9',
         sex: 'Male',
       },
       {
@@ -204,7 +204,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 10,
+        ageBand: '10-14',
         sex: 'Male',
       },
       {
@@ -213,7 +213,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 15,
+        ageBand: '15-19',
         sex: 'Male',
       },
       {
@@ -222,7 +222,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 20,
+        ageBand: '20-24',
         sex: 'Male',
       },
       {
@@ -231,7 +231,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 25,
+        ageBand: '25-29',
         sex: 'Male',
       },
       {
@@ -240,7 +240,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 30,
+        ageBand: '30-34',
         sex: 'Male',
       },
       {
@@ -249,7 +249,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 35,
+        ageBand: '35-39',
         sex: 'Male',
       },
       {
@@ -258,7 +258,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 40,
+        ageBand: '40-44',
         sex: 'Male',
       },
       {
@@ -267,7 +267,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 45,
+        ageBand: '45-49',
         sex: 'Male',
       },
       {
@@ -276,7 +276,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 50,
+        ageBand: '50-54',
         sex: 'Male',
       },
       {
@@ -285,7 +285,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 55,
+        ageBand: '55-59',
         sex: 'Male',
       },
       {
@@ -294,7 +294,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 60,
+        ageBand: '60-64',
         sex: 'Male',
       },
       {
@@ -303,7 +303,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 65,
+        ageBand: '65-69',
         sex: 'Male',
       },
       {
@@ -312,7 +312,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 70,
+        ageBand: '70-74',
         sex: 'Male',
       },
       {
@@ -321,7 +321,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 75,
+        ageBand: '75-79',
         sex: 'Male',
       },
       {
@@ -330,7 +330,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 80,
+        ageBand: '80-84',
         sex: 'Male',
       },
       {
@@ -339,7 +339,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 85,
+        ageBand: '85-89',
         sex: 'Male',
       },
       {
@@ -348,7 +348,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 0,
         lowerCi: 0,
         upperCi: 0,
-        age: 90,
+        ageBand: '90+',
         sex: 'Male',
       },
     ],
@@ -362,7 +362,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 890.305692,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -371,7 +371,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 703.420759,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -380,7 +380,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 602.820845,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -389,7 +389,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 278.29134,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -398,7 +398,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 971.435418,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
     ],
@@ -412,7 +412,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 723.090354,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -421,7 +421,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 905.145997,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -430,7 +430,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 135.149304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -439,7 +439,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 890.328253,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -448,7 +448,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 478.996862,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
     ],
@@ -462,7 +462,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 579.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -471,7 +471,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 383.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -480,7 +480,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 851.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -489,7 +489,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 775.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -498,7 +498,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 290.465304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
     ],
@@ -512,7 +512,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 400.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -521,7 +521,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 320.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -530,7 +530,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 600.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -539,7 +539,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 650.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -548,7 +548,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 500.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
     ],
@@ -562,7 +562,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 472.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -571,7 +571,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 472.7613425,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -580,7 +580,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 582.306765,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -589,7 +589,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 563.4002,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
       {
@@ -598,7 +598,7 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 627.899536,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        age: 0,
+        ageBand: '',
         sex: '',
       },
     ],
