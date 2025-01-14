@@ -62,6 +62,8 @@ export function SearchResults({
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
       {searchResultsFormState.searchedIndicator ? (
+      <BackLink href={backLinkPath} data-testid="search-results-back-link" />
+      {searchResultsFormState.searchedIndicator ? (
         <>
           {state.message && (
             <ErrorSummary
