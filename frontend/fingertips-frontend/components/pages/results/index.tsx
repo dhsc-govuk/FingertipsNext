@@ -11,7 +11,7 @@ import {
   UnorderedList,
 } from 'govuk-react';
 import { useActionState } from 'react';
-import { SearchResult } from '@/components/molecules/Search/result';
+import { SearchResult } from '@/components/molecules/result';
 
 import { IndicatorSearchResult } from '@/app/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
