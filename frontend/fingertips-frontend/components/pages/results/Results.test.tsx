@@ -71,7 +71,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe(`/results?${SearchParams.SearchedIndicator}=test`);
+    ).toBe(`/?${SearchParams.SearchedIndicator}=test`);
   });
 
   it('should render search results', () => {
