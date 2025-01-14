@@ -10,6 +10,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 890.305692,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2004,
@@ -17,6 +19,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 703.420759,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2012,
@@ -24,6 +28,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 602.820845,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2006,
@@ -31,6 +37,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 278.29134,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2020,
@@ -38,6 +46,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 971.435418,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
     ],
   },
@@ -50,6 +60,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 723.090354,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2022,
@@ -57,6 +69,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 905.145997,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2005,
@@ -64,6 +78,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 135.149304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2007,
@@ -71,6 +87,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 890.328253,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2006,
@@ -78,6 +96,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 478.996862,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
     ],
   },
@@ -90,6 +110,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 579.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2018,
@@ -97,6 +119,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 383.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2010,
@@ -104,6 +128,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 851.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2004,
@@ -111,6 +137,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 775.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2019,
@@ -118,6 +146,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 290.465304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
     ],
   },
@@ -130,6 +160,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 400.848756,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2019,
@@ -137,6 +169,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 320.964067,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2015,
@@ -144,6 +178,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 600.163104,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2004,
@@ -151,6 +187,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 650.129883,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2006,
@@ -158,6 +196,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 500.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
     ],
   },
@@ -170,6 +210,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 472.650389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2018,
@@ -177,6 +219,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 472.7613425,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2005,
@@ -184,6 +228,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 582.306765,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2017,
@@ -191,6 +237,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 563.4002,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
       {
         year: 2023,
@@ -198,6 +246,8 @@ export const mockHealthData: HealthDataForArea[] = [
         value: 627.899536,
         lowerCi: 441.69151,
         upperCi: 578.32766,
+        age: 0,
+        sex: '',
       },
     ],
   },
