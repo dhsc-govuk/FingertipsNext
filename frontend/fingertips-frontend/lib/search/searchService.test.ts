@@ -1,5 +1,6 @@
 import { SearchService } from './searchService';
 import { SearchClient, AzureKeyCredential } from '@azure/search-documents';
+import { EnvironmentContext } from '../environmentContext';
 
 jest.mock('@azure/search-documents', () => ({
   SearchClient: jest.fn(),
@@ -7,21 +8,6 @@ jest.mock('@azure/search-documents', () => ({
 }));
 
 describe('SearchService', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    delete process.env.DHSC_AI_SEARCH_SERVICE_URL;
-    delete process.env.DHSC_AI_SEARCH_INDEX_NAME;
-    delete process.env.DHSC_AI_SEARCH_API_KEY;
-  });
-
-  describe('if the environment is not configured it', () => {
-    it('should throw an error on attempting to instantiate the service', () => {
-      expect(() => {
-        new SearchService();
-      }).toThrow(Error);
-    });
-  });
-
   describe('if the environment is configured it', () => {
     const mockSearch = jest.fn();
 
@@ -35,6 +21,7 @@ describe('SearchService', () => {
       process.env.DHSC_AI_SEARCH_SERVICE_URL = 'test-url';
       process.env.DHSC_AI_SEARCH_INDEX_NAME = 'test-index';
       process.env.DHSC_AI_SEARCH_API_KEY = 'test-api-key';
+      EnvironmentContext.reset();
 
       (AzureKeyCredential as jest.Mock).mockImplementation(() => ({
         key: 'test-api-key',
@@ -111,6 +98,7 @@ describe('SearchService', () => {
       process.env.DHSC_AI_SEARCH_INDEX_NAME = 'test-index';
       process.env.DHSC_AI_SEARCH_API_KEY = 'test-api-key';
       process.env.DHSC_AI_SEARCH_SCORING_PROFILE = 'test-scoring-profile';
+      EnvironmentContext.reset();
 
       (AzureKeyCredential as jest.Mock).mockImplementation(() => ({
         key: 'test-api-key',

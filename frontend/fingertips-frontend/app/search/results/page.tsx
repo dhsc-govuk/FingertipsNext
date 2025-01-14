@@ -20,9 +20,8 @@ export default async function Page(
     );
   } catch (error) {
     // Log error response
-    // TBC
     console.log(
-      `Error response received from call to Search service: ${error}`
+      `Error response received from call to the Indicator Search service: ${error}`
     );
     return (
       <ErrorPage
