@@ -1,25 +1,56 @@
 import { render, screen } from '@testing-library/react';
-
 import { expect } from '@jest/globals';
-import { WeatherForecast } from '@/generated-sources/api-client';
-import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { LineChartTable } from '@/components/organisms/LineChartTable/index';
 
-const mockData: WeatherForecast[] = [
-  {
-    date: new Date('2024-11-01T00:00:00.000Z'),
-    temperatureC: -30,
-    temperatureF: -21,
-    summary: 'Freezing',
-  },
-  {
-    date: new Date('2024-11-01T00:00:00.000Z'),
-    temperatureC: 0,
-    temperatureF: 32,
-    summary: 'Bracing',
-  },
+const mockHeadings = [
+  'Area Code',
+  'Year',
+  'Value',
+  'Count',
+  'LowerCi',
+  'UpperCi',
 ];
 
-const mockHeadings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
+const mockData = [
+  {
+    areaCode: 'A1425',
+    healthData: [
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+      },
+    ],
+  },
+  {
+    areaCode: 'A1426',
+    healthData: [
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+      },
+    ],
+  },
+];
 
 it('snapshot test - should match snapshot', () => {
   const container = render(

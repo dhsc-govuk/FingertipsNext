@@ -1,17 +1,15 @@
-namespace DHSC.FingertipsNext.Modules.Core;
-
 using DHSC.FingertipsNext.Modules.Core.Controllers.V1;
 using DHSC.FingertipsNext.Modules.Core.ModuleInterfaces;
 using DHSC.FingertipsNext.Modules.Core.SearchAPI;
 using DHSC.FingertipsNext.Modules.Core.Service;
 using DHSC.FingertipsNext.Monolith;
-using System.Diagnostics.CodeAnalysis;
 
+namespace DHSC.FingertipsNext.Modules.Core;
 public class Module : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "core";
 
-    public override void RegisterModule(IServiceCollection services)
+    public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IWeatherFactory, WeatherFactory>();
         services.AddTransient<ICoreController, CoreController>();

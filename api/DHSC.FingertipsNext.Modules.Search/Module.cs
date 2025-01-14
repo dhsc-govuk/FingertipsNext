@@ -7,7 +7,7 @@ namespace DHSC.FingertipsNext.Modules.Search;
 public class Module : AbstractMonolithModule, IMonolithModule
 {
     public override string ModuleName => "search";
-    public override void RegisterModule(IServiceCollection services)
+    public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<ISearchController, SearchController>();
     }

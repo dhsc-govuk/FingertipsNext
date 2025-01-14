@@ -2,6 +2,7 @@ import { HttpResponse, http } from 'msw';
 import { mockWeatherForecasts } from '../data/forecasts';
 import { mockPopulationData } from '../data/populationdata';
 import { faker } from '@faker-js/faker';
+import { mockHealthData } from '@/mock/data/healthdata';
 
 faker.seed(1);
 
@@ -98,20 +99,7 @@ export function getGetIndicator500Response() {
 }
 
 export function getGetHealthDataForAnIndicator200Response() {
-  return [
-    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map(() => ({
-    areaCode: 'A1426',
-    healthData: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map(() => ({
-      year: 2023,
-      count: 222,
-      value: 506.60912,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-    })),
-  }));
+  return mockHealthData;
 }
 
 export function getGetHealthDataForAnIndicator400Response() {

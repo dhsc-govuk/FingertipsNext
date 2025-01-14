@@ -1,20 +1,20 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { WeatherForecast } from '@/generated-sources/api-client';
-import { BackLink, H1, H2 } from 'govuk-react';
+import { H3, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { PopulationDataForArea } from '@/generated-sources/ft-api-client';
 
 type ChartProps = {
-  data: WeatherForecast[];
+  data: HealthDataForArea[];
   populationData: PopulationDataForArea[];
   indicator?: string;
   indicatorsSelected?: string[];
 };
 
-const headings = ['Date', 'TemperatureC', 'TemperatureF', 'Summary'];
+const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
@@ -24,7 +24,6 @@ export function Chart({
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({ indicator, indicatorsSelected });
   const backLinkPath = searchState.generatePath('/search/results');
-
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
@@ -35,10 +34,8 @@ export function Chart({
       <H1>Line Chart</H1>
       <LineChart
         data={data}
-        title="Weather Forecast"
-        xAxisTitle="Date"
-        yAxisTitle="Temperature (°C)"
-        accessibilityLabel="A line chart showing weather forecast"
+        xAxisTitle="Year"
+        accessibilityLabel="A line chart showing healthcare data"
       />
       <LineChartTable data={data} headings={headings}></LineChartTable>
     </>

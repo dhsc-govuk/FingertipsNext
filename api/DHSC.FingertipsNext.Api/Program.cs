@@ -41,7 +41,7 @@ public static class Program
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-
+        
         RegisterModules(builder.Services, builder.Configuration);
 
         var app = builder.Build();
@@ -80,7 +80,7 @@ public static class Program
         types.ForEach(x =>
         {
             var module = Activator.CreateInstance(x) as IMonolithModule;
-            module?.RegisterModule(services);
+            module?.RegisterModule(services, configuration);
             module?.RegisterConfiguration(configuration);
         });
     }
