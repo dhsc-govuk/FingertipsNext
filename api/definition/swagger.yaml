@@ -192,8 +192,6 @@ paths:
                 title: GetPopulationDataForAnAreaOk
         "400":
           $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
 components:
@@ -362,18 +360,18 @@ components:
         Represents a population data point with age band, total female, total male, percentage value female and percentage value male.
         percentage value.
       required:
-        - age_band
-        - total_female
-        - total_male
+        - ageBand
+        - totalFemale
+        - totalMale
       properties:
-        age_band:
+        ageBand:
           type: string
           example: "0-4"
-        total_female:
+        totalFemale:
           type: integer
           example: 1568625
           description: total female population given age band
-        total_male:
+        totalMale:
           type: integer
           example: 1496012
           description: total male population given age band
@@ -384,8 +382,8 @@ components:
         - areaCode
         - areaName
         - year
-        - indicator_id
-        - indicator_name
+        - indicatorId
+        - indicatorName
         - populationData
       properties:
         areaCode:
@@ -400,12 +398,12 @@ components:
           type: integer
           example: 2023
           description: The year which the population data are for.
-        indicator_id:
+        indicatorId:
           type: integer
           example: 92708
           minimum: 1
           description: The unique identifier of the indicator
-        indicator_name:
+        indicatorName:
           type: string
           example: Resident population
           description: The name of the indicator.
