@@ -18,7 +18,7 @@ import { SearchState, SearchStateManager } from '@/lib/searchStateManager';
 import { SearchResultState } from '@/components/pages/search/results/searchResultsActions';
 
 interface GeographyFilterProps {
-  selectedAreas: string;
+  selectedAreaCodesData: any[];
   availableGroupTypes: any[];
   availableGroups: any[];
   availableAreasInGroup: any[];
@@ -45,7 +45,7 @@ const isAreaSelected = (areaId: string, state?: SearchState): boolean => {
 };
 
 export function GeographyFilter({
-  selectedAreas,
+  selectedAreaCodesData,
   availableGroupTypes,
   availableGroups,
   availableAreasInGroup,
@@ -74,7 +74,12 @@ export function GeographyFilter({
       <SectionBreak visible={true} />
       <br />
       <LabelText>Areas Selected</LabelText>
-      <SelectedFilterTag selectedFilterName={selectedAreas} />
+      {selectedAreaCodesData.map((selectedArea) => (
+        <SelectedFilterTag
+          key={selectedArea.id}
+          selectedFilterName={selectedArea.name}
+        />
+      ))}
       <br />
       <Details summary="Add or change areas" open={true}>
         <StyledFilterSelect label="Select an area type">
@@ -126,7 +131,6 @@ export function GeographyFilter({
         <br />
         <br />
         <LabelText>Selected areas</LabelText>
-        <SelectedFilterTag selectedFilterName={selectedAreas} />
       </Details>
     </StyledFilterDiv>
   );

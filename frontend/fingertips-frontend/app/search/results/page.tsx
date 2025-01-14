@@ -20,17 +20,20 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
-  const searchedAreaCode = '00T';
+  const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
-  const selectedAreaCodeData = getAreaData(searchedAreaCode);
-  const availableGroupTypes = getAvailableGroupTypes(
-    selectedAreaCodeData.groupType
+  const selectedAreaCodesData = areasSelected.map((areaSelected) =>
+    getAreaData(areaSelected)
   );
-  const availableGroups = getAvailableGroups(selectedAreaCodeData.group);
+  // const selectedAreaCodeData = getAreaData(searchedAreaCode);
+  const availableGroupTypes = getAvailableGroupTypes(
+    selectedAreaCodesData[0].groupType
+  );
+  const availableGroups = getAvailableGroups(selectedAreaCodesData[0].group);
   const availableAreasInGroup = getAvailableAreasInGroup(
-    selectedAreaCodeData.group
+    selectedAreaCodesData[0].group
   );
 
   const initialState = {
@@ -44,7 +47,7 @@ export default async function Page(
     <SearchResults
       searchResultsFormState={initialState}
       searchResults={searchResults}
-      selectedAreaCodeData={selectedAreaCodeData}
+      selectedAreaCodesData={selectedAreaCodesData}
       availableGroupTypes={availableGroupTypes}
       availableGroups={availableGroups}
       availableAreasInGroup={availableAreasInGroup}

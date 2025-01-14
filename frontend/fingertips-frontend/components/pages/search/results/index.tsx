@@ -24,7 +24,7 @@ import { GeographyFilter } from '@/components/organisms/GeographyFilter';
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
-  selectedAreaCodeData: any;
+  selectedAreaCodesData: any[];
   availableGroupTypes: any[];
   availableGroups: any[];
   availableAreasInGroup: any[];
@@ -42,7 +42,7 @@ const isIndicatorSelected = (
 export function SearchResults({
   searchResultsFormState,
   searchResults,
-  selectedAreaCodeData,
+  selectedAreaCodesData,
   availableGroupTypes,
   availableGroups,
   availableAreasInGroup,
@@ -87,7 +87,7 @@ export function SearchResults({
             <GridCol setWidth="one-third">
               <GeographyFilter
                 // selectedAreas={'Greater Manchester ICB - 00T sub-location'}
-                selectedAreas={selectedAreaCodeData.name}
+                selectedAreaCodesData={selectedAreaCodesData}
                 availableGroupTypes={availableGroupTypes}
                 availableGroups={availableGroups}
                 availableAreasInGroup={availableAreasInGroup}

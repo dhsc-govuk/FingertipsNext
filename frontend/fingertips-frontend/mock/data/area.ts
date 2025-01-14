@@ -1,9 +1,9 @@
-export const mockAreaData = {
-  id: '00T',
-  name: 'Greater Manchester ICB - 00T sub-location',
-  groupType: 'GT-001',
+export const mockAreaData = (id: string) => ({
+  id,
+  name: `Greater Manchester ICB - ${id} sub-location`,
+  groupType: `GT-${id}`,
   group: 'QOP',
-};
+});
 
 export const mockAvailableGroupTypes = [
   {

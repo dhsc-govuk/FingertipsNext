@@ -44,7 +44,7 @@ export const getSearchData = (): IndicatorSearchResult[] => {
 
 export const getAreaData = (selectedAreaCode: string) => {
   console.log(`selectedAreaCode ${selectedAreaCode}`);
-  return mockAreaData;
+  return mockAreaData(selectedAreaCode);
 };
 
 export const getAvailableGroupTypes = (groupTypeCode: string) => {
