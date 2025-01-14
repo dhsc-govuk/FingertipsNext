@@ -222,7 +222,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 <a
     class="c0"
     data-testid="search-results-back-link"
-    href="/results?indicator=test"
+    href="/results?si=test"
   >
     Back
   </a>

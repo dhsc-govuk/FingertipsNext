@@ -4,6 +4,7 @@ import { MOCK_DATA } from '@/app/results/search-result-data';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
+import { SearchParams } from '@/lib/searchStateManager';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -39,9 +40,9 @@ jest.mock('react', () => {
 });
 
 describe('Search Results Suite', () => {
-  const indicator = 'test';
+  const searchedIndicator = 'test';
   const initialState: SearchResultState = {
-    indicator,
+    searchedIndicator,
     indicatorsSelected: [],
     message: null,
   };
@@ -58,7 +59,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
     expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
-      indicator
+      searchedIndicator
     );
   });
 
@@ -70,7 +71,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe('/results?indicator=test');
+    ).toBe(`/results?${SearchParams.SearchedIndicator}=test`);
   });
 
   it('should render search results', () => {
@@ -90,7 +91,7 @@ describe('Search Results Suite', () => {
   it('should not render elements when no indicator is entered', () => {
     const initialStateWithNoIndicator = {
       ...initialState,
-      indicator: undefined,
+      searchedIndicator: undefined,
     };
     render(
       <SearchResults

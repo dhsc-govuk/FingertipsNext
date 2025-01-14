@@ -40,6 +40,6 @@ export async function searchIndicator(
 
   const { indicator } = validatedFields.data;
 
-  const searchState = new SearchStateManager({ indicator });
+  const searchState = new SearchStateManager({ searchedIndicator: indicator });
   redirect(searchState.generatePath('/results'), RedirectType.push);
 }
