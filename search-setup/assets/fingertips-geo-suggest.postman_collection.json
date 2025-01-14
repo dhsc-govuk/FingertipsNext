@@ -39,22 +39,13 @@
 					}
 				],
 				"body": {
-					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"manc\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"mode": "urlencoded",
+					"urlencoded": []
 				},
 				"url": {
-					"raw": "https://fingertips-ai-search.search.windows.net/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"protocol": "https",
+					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
 					"host": [
-						"fingertips-ai-search",
-						"search",
-						"windows",
-						"net"
+						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
 					],
 					"path": [
 						"indexes",
@@ -106,7 +97,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"D81066\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+					"raw": "    {  \n      \"search\": \"manh\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -114,13 +105,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://fingertips-ai-search.search.windows.net/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"protocol": "https",
+					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
 					"host": [
-						"fingertips-ai-search",
-						"search",
-						"windows",
-						"net"
+						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
 					],
 					"path": [
 						"indexes",
@@ -172,7 +159,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"D81066\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+					"raw": "    {  \n      \"search\": \"leeds\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -180,13 +167,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://fingertips-ai-search.search.windows.net/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"protocol": "https",
+					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
 					"host": [
-						"fingertips-ai-search",
-						"search",
-						"windows",
-						"net"
+						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
 					],
 					"path": [
 						"indexes",
@@ -238,7 +221,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"D81066\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+					"raw": "    {  \n      \"search\": \"B86110\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -246,13 +229,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://fingertips-ai-search.search.windows.net/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"protocol": "https",
+					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
 					"host": [
-						"fingertips-ai-search",
-						"search",
-						"windows",
-						"net"
+						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
 					],
 					"path": [
 						"indexes",
@@ -304,7 +283,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"D81066\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+					"raw": "    {  \n      \"search\": \"B86\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -312,13 +291,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://fingertips-ai-search.search.windows.net/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"protocol": "https",
+					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
 					"host": [
-						"fingertips-ai-search",
-						"search",
-						"windows",
-						"net"
+						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
 					],
 					"path": [
 						"indexes",
