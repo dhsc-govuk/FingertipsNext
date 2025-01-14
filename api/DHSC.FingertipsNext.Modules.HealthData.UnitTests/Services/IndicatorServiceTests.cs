@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
+using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.Equivalency;
@@ -85,61 +85,52 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_ShouldReturnExpectedResult()
     {
-        var areaDimension = new AreaDimensionModel
+        var healthMeasure = TestHelper.BuildHealthMeasureModel("Code1", 2007, DateTime.Now);
+        var expectedHealthData = _mapper.Map<HealthDataPoint>(healthMeasure);
+        var expected = new HealthDataForArea
         {
-            AreaKey = 1,
-            Code = "Code",
-            Name = "Name",
-            StartDate = DateTime.Now,
-            EndDate = DateTime.Now,
+            AreaCode = "Code1",
+            HealthData = [expectedHealthData]
         };
-        var indicatorDimension = new IndicatorDimensionModel
-        {
-            IndicatorKey = 1,
-            Name = "Name",
-            IndicatorId = 1,
-            StartDate = DateTime.Now,
-            EndDate = DateTime.Now,
-        };
-        var sexDimension = new SexDimensionModel
-        {
-            SexKey = 1,
-            Name = "Name",
-            IsFemale = true,
-            HasValue = true,
-            SexId = 1,
-        };
-        var ageDimension = new AgeDimensionModel
-        {
-            AgeKey = 1,
-            AgeID = 1,
-            Name = "Name"
-        };
-        var healthMeasure = new HealthMeasureModel
-        {
-            HealthMeasureKey = 1,
-            Count = 1.0,
-            Value = 1.0,
-            LowerCI = 1.0,
-            UpperCI = 1.0,
-            Year = 2007,
-            AreaKey = 1,
-            AgeKey = 1,
-            IndicatorKey = 1,
-            SexKey = 1,
-            AreaDimension = areaDimension,
-            AgeDimension = ageDimension,
-            IndicatorDimension = indicatorDimension,
-            SexDimension = sexDimension
-        };
-
         _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure]);
-        var mappingResult = _mapper.Map<HealthMeasure>(healthMeasure);
+
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
 
         result.Should().NotBeEmpty();
         result.Should().HaveCount(1);
-        result.ElementAt(0).Should().BeEquivalentTo(mappingResult);
+        result.ElementAt(0).Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldReturnExpectedResult_ForSingleAreaCode_WithMultipleData()
+    {
+        var healthMeasure1 = TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Now);
+        var healthMeasure2 = TestHelper.BuildHealthMeasureModel("Code2", 2024, DateTime.Now);
+        var healthMeasure3 = TestHelper.BuildHealthMeasureModel("Code1", 2020, DateTime.Now);
+        var expected = new HealthDataForArea[]
+        {
+            new() 
+            {
+                AreaCode = "Code1",
+                HealthData =
+                [
+                    _mapper.Map<HealthDataPoint>(healthMeasure1),
+                    _mapper.Map<HealthDataPoint>(healthMeasure3)
+                ]
+            },
+            new()
+            {
+                AreaCode = "Code2",
+                HealthData = [_mapper.Map<HealthDataPoint>(healthMeasure2) ]  
+            }
+        };
+        _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure1, healthMeasure2, healthMeasure3]);
+
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
+
+        result.Should().NotBeEmpty();
+        result.Should().HaveCount(2);
+        result.Should().BeEquivalentTo(expected);
     }
 }

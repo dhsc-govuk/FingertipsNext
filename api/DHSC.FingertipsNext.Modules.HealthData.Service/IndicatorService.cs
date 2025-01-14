@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -22,13 +23,38 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     /// only the first 10 are used. If the array is empty all years are retrieved.</param>
     /// <returns>An enumerable of <c>HealthMeasure</c> matching the criteria,
     /// otherwise an empty enumerable.</returns>
-    public async Task<IEnumerable<HealthMeasure>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years)
     {
-        return _mapper.Map<IEnumerable<HealthMeasure>>(
-            await _repository.GetIndicatorDataAsync(
+        var healthMeasureData = await _repository.GetIndicatorDataAsync(
             indicatorId,
             areaCodes.Distinct().Take(10).ToArray(),
-            years.Distinct().Take(10).ToArray())
-            );
+            years.Distinct().Take(10).ToArray());
+
+        var result = healthMeasureData.Aggregate(new List<HealthDataForArea>(), (acc, item) =>
+        {
+            var area = acc.Find(data => data.AreaCode == item.AreaDimension.Code);
+            if (area is null)
+            {
+                var healthDataForArea = MapToHealthDataForArea(item);
+                acc.Add(healthDataForArea);
+            }
+            else
+            {
+                area.HealthData = [.. area.HealthData, _mapper.Map<HealthDataPoint>(item)];
+            }
+            return acc;
+        });
+
+        return result;
+    }
+
+    private HealthDataForArea MapToHealthDataForArea(HealthMeasureModel healthMeasure)
+    {
+        var healthData = _mapper.Map<HealthDataPoint>(healthMeasure);
+        return new HealthDataForArea
+        {
+            AreaCode = healthMeasure.AreaDimension.Code,
+            HealthData = [healthData]
+        };
     }
 }
