@@ -1,3 +1,4 @@
+import { SearchParams } from '@/lib/searchStateManager';
 import { expect, test } from '../page-objects/pageFactory';
 
 const indicator = '123';
@@ -31,7 +32,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert
   await chartPage.checkURLIsCorrect(
-    `${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
+    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await chartPage.checkChartAndChartTable();
@@ -41,7 +42,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert - check indicator selections previously made are prepopulated
   await resultsPage.checkURLIsCorrect(
-    `${indicator}&indicatorsSelected=${encodeURIComponent('1,2')}`
+    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
   await resultsPage.checkSearchResults(indicator);
   await resultsPage.checkIndicatorCheckboxChecked('1');
@@ -51,7 +52,9 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await resultsPage.clickBackLink();
 
   // Assert - check search text previously entered is prepopulated
-  await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
+  await searchPage.checkURLIsCorrect(
+    `?${SearchParams.SearchedIndicator}=${indicator}`
+  );
   await searchPage.checkSearchFieldIsPrePopulatedWith(indicator);
 
   // Act - clear the prepopulated search field and click search
@@ -59,7 +62,9 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await searchPage.clickSearchButton();
 
   // Assert - should be on the same page with search field still cleared and validation message displayed
-  await searchPage.checkURLIsCorrect(`?indicator=${indicator}`);
+  await searchPage.checkURLIsCorrect(
+    `?${SearchParams.SearchedIndicator}=${indicator}`
+  );
   await searchPage.checkSearchFieldIsPrePopulatedWith();
   await searchPage.checkSummaryValidation(
     `There is a problemAt least one of the following fields must be populated:Indicator field`

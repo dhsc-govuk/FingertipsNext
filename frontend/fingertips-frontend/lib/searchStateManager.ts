@@ -1,42 +1,45 @@
-export const encodedCommaSeperator = encodeURIComponent(',');
+export enum SearchParams {
+  SearchedIndicator = 'si',
+  IndicatorsSelected = 'is',
+  AreasSelected = 'as',
+}
+
+export type SearchStateParams = {
+  [SearchParams.SearchedIndicator]?: string;
+  [SearchParams.IndicatorsSelected]?: string | string[];
+  [SearchParams.AreasSelected]?: string | string[];
+};
 
 export type SearchState = {
-  indicator?: string;
+  searchedIndicator?: string;
   indicatorsSelected?: string[];
+  areasSelected?: string[];
 };
 
 export class SearchStateManager {
   private searchState: SearchState;
-  private generatedPath: string[];
+  private searchStateParams: URLSearchParams;
 
   constructor(searchState: SearchState) {
     this.searchState = {
-      indicator: searchState.indicator,
+      searchedIndicator: searchState.searchedIndicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
     };
-    this.generatedPath = [];
+    this.searchStateParams = new URLSearchParams();
   }
 
-  private addPathName(pathName: string) {
-    this.generatedPath = [];
-    this.generatedPath.push(pathName);
-  }
-
-  private constructPath() {
-    return this.generatedPath.join('');
-  }
-
-  private determineQueryPathSymbol() {
-    if (this.generatedPath.length === 1) {
-      return '?';
+  private constructPath(path: string) {
+    if (this.searchStateParams.size === 0) {
+      return path;
     }
-    return '&';
+    return `${path}?${this.searchStateParams.toString()}`;
   }
 
-  private addIndicatorToPath() {
-    if (this.searchState.indicator) {
-      this.generatedPath.push(
-        `${this.determineQueryPathSymbol()}indicator=${this.searchState.indicator}`
+  private addSearchedIndicatorToPath() {
+    if (this.searchState.searchedIndicator) {
+      this.searchStateParams.append(
+        SearchParams.SearchedIndicator,
+        this.searchState.searchedIndicator
       );
     }
   }
@@ -46,9 +49,12 @@ export class SearchStateManager {
       this.searchState.indicatorsSelected &&
       this.searchState.indicatorsSelected.length > 0
     ) {
-      this.generatedPath.push(
-        `${this.determineQueryPathSymbol()}indicatorsSelected=${this.searchState.indicatorsSelected.join(encodedCommaSeperator)}`
-      );
+      this.searchState.indicatorsSelected?.forEach((indicator) => {
+        this.searchStateParams.append(
+          SearchParams.IndicatorsSelected,
+          indicator
+        );
+      });
     }
   }
 
@@ -66,23 +72,24 @@ export class SearchStateManager {
   }
 
   public static setStateFromParams(params: URLSearchParams) {
-    const indicator = params.get('indicator') ?? undefined;
+    const searchedIndicator =
+      params.get(SearchParams.SearchedIndicator) ?? undefined;
     const indicatorsSelected =
-      params.get('indicatorsSelected')?.split(',') ?? [];
+      params.getAll(SearchParams.IndicatorsSelected) ?? [];
 
     const searchStateManager = new SearchStateManager({
-      indicator,
+      searchedIndicator,
       indicatorsSelected,
     });
     return searchStateManager;
   }
 
   public generatePath(path: string) {
-    this.addPathName(path);
+    this.searchStateParams = new URLSearchParams();
 
-    this.addIndicatorToPath();
+    this.addSearchedIndicatorToPath();
     this.addIndicatorsSelectedToPath();
 
-    return this.constructPath();
+    return this.constructPath(path);
   }
 }
