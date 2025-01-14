@@ -32,7 +32,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert
   await chartPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=${encodeURIComponent('1,2')}`
+    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await chartPage.checkChartAndChartTable();
@@ -42,7 +42,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert - check indicator selections previously made are prepopulated
   await resultsPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=${encodeURIComponent('1,2')}`
+    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
   await resultsPage.checkSearchResults(indicator);
   await resultsPage.checkIndicatorCheckboxChecked('1');

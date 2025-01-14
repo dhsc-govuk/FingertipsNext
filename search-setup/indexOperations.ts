@@ -5,7 +5,10 @@ import {
   SearchClient,
   SearchFieldDataType,
 } from "@azure/search-documents";
-import { GeographySearchData, IndicatorSearchData } from "./types.js";
+import {
+  GeographySearchData,
+  IndicatorSearchData,
+} from "./types";
 import { getEnvironmentVariable } from "./utils/helpers.js";
 
 export async function createIndex(
@@ -40,6 +43,19 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         ],
       },
     ],
+    scoringProfiles: [
+      {
+        name: "BasicScoringProfile",
+        textWeights: {
+          weights: {
+            "IID": 20,
+            "Descriptive/Name": 10,
+            "Descriptive/Definition": 5,
+          },
+        },
+      },
+    ],
+    defaultScoringProfile: "BasicScoringProfile",
   };
 }
 

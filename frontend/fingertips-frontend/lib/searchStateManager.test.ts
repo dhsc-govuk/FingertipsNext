@@ -1,8 +1,4 @@
-import {
-  SearchParams,
-  SearchStateManager,
-  encodedCommaSeperator,
-} from './searchStateManager';
+import { SearchParams, SearchStateManager } from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
@@ -28,7 +24,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
       );
     });
   });
@@ -43,7 +39,7 @@ describe('SearchStateManager', () => {
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
       );
     });
   });
@@ -51,14 +47,16 @@ describe('SearchStateManager', () => {
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
       const params = new URLSearchParams();
-      params.set(SearchParams.SearchedIndicator, 'bang');
-      params.set(SearchParams.IndicatorsSelected, `1,2,3`);
+      params.append(SearchParams.SearchedIndicator, 'bang');
+      params.append(SearchParams.IndicatorsSelected, '1');
+      params.append(SearchParams.IndicatorsSelected, '2');
+      params.append(SearchParams.IndicatorsSelected, '3');
 
       const stateManager = SearchStateManager.setStateFromParams(params);
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1${encodedCommaSeperator}2${encodedCommaSeperator}3`
+        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
       );
     });
   });
