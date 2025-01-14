@@ -20,7 +20,7 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
-  const searchedAreaCode = searchParams?.searchedAreaCode ?? '00T';
+  const searchedAreaCode = '00T';
 
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
