@@ -5,6 +5,7 @@ import { H3, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 
 type ChartProps = {
   data: HealthDataForArea[];
