@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { MOCK_DATA } from '@/app/results/search-result-data';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
@@ -70,7 +70,7 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe('/search?indicator=test');
+    ).toBe('/results?indicator=test');
   });
 
   it('should render search results', () => {

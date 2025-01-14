@@ -13,7 +13,7 @@ import {
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/Search/result';
 
-import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
+import { IndicatorSearchResult } from '@/app/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 
 type SearchResultsProps = {
@@ -42,7 +42,7 @@ export function SearchResults({
   return (
     <>
       <BackLink
-        href={`/search?indicator=${searchResultsFormState.indicator}`}
+        href={`/results?indicator=${searchResultsFormState.indicator}`}
         data-testid="search-results-back-link"
       />
       {searchResultsFormState.indicator ? (

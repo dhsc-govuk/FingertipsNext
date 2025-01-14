@@ -14,11 +14,11 @@ export default class SearchPage extends BasePage {
   }
 
   async navigateToSearch() {
-    await this.navigateTo('search');
+    await this.navigateTo('/');
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('search' + queryParams);
+    await this.checkURL('results' + queryParams);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
