@@ -5,13 +5,21 @@ import {
   SearchClient,
   SearchFieldDataType,
 } from "@azure/search-documents";
-import { GeographySearchData, IndicatorSearchData } from "./types.js";
-import { getEnvironmentVariable } from "./utils/helpers.js";
+import { GeographySearchData, IndicatorSearchData } from "../types";
+import {
+  GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+  GeographySearchIndexColumnNames,
+} from "./constants.js";
 
 export async function createIndex(
   indexClient: SearchIndexClient,
   index: SearchIndex
 ): Promise<void> {
+  try {
+    console.log("Trying to delete an existing index");
+    await indexClient.deleteIndex(index);
+  } catch {}
+
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
 }
@@ -40,6 +48,19 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         ],
       },
     ],
+    scoringProfiles: [
+      {
+        name: "BasicScoringProfile",
+        textWeights: {
+          weights: {
+            IID: 20,
+            "Descriptive/Name": 10,
+            "Descriptive/Definition": 5,
+          },
+        },
+      },
+    ],
+    defaultScoringProfile: "BasicScoringProfile",
   };
 }
 
@@ -49,19 +70,37 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField("ID", "Edm.String", true, true, true),
+        ...buildSearchIndexField(
+          GeographySearchIndexColumnNames.AREA_CODE,
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
       },
-      buildSearchIndexField("Name", "Edm.String", true, true, true),
-      buildSearchIndexField("Type", "Edm.String", true, true, true),
-      buildSearchIndexField("Postcode", "Edm.String", true, true, true),
+      buildSearchIndexField(
+        GeographySearchIndexColumnNames.AREA_NAME,
+        "Edm.String",
+        true,
+        true,
+        true
+      ),
+      buildSearchIndexField(
+        GeographySearchIndexColumnNames.AREA_TYPE,
+        "Edm.String",
+        true,
+        true,
+        true
+      ),
     ],
     suggesters: [
       {
-        name: getEnvironmentVariable(
-          "AI_SEARCH_BY_GEOGRAPHY_INDEX_SUGGESTER_NAME"
-        ),
+        name: GEOGRAPHY_SEARCH_SUGGESTER_NAME,
         searchMode: "analyzingInfixMatching",
-        sourceFields: ["Name", "Postcode"],
+        sourceFields: [
+          GeographySearchIndexColumnNames.AREA_NAME,
+          GeographySearchIndexColumnNames.AREA_CODE,
+        ],
       },
     ],
   };

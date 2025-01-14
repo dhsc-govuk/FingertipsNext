@@ -16,27 +16,20 @@ export default async function ChartPage(
   await connection();
 
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator ?? '';
+  const indicator = searchParams?.indicator;
   const indicatorsSelected = searchParams?.indicatorsSelected?.split(',') ?? [];
-  const areaCodes = searchParams?.areaCodes ?? '';
+  const areaCodes = searchParams?.areaCodes?.split(',') ?? [];
 
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicator),
-    areaCodes: [areaCodes],
+    areaCodes: areaCodes,
   });
-
-  const filteredData = data
-    .filter((item) => areaCodes === '' || item.areaCode === areaCodes)
-    .map((item) => ({
-      areaCode: item.areaCode,
-      healthData: item.healthData,
-    }));
 
   return (
     <Chart
-      data={filteredData}
+      data={data}
       indicator={indicator}
       indicatorsSelected={indicatorsSelected}
     />

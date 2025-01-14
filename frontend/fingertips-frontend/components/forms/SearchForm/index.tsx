@@ -56,7 +56,7 @@ export const SearchForm = ({
         input={{
           id: 'indicator',
           name: 'indicator',
-          defaultValue: searchFormState.indicator,
+          defaultValue: state.indicator ?? searchFormState.indicator,
         }}
         hint={
           <>For example diabetes, public health indicator, or indicator ID</>

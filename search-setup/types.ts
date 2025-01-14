@@ -7,10 +7,9 @@ export interface IndicatorSearchData {
 }
 
 export interface GeographySearchData {
-  ID: string;
-  Name: string;
-  Type: string;
-  Postcode: string;
+  areaName: string;
+  areaType: string;
+  areaCode: string;
 }
 
 export interface DocumentResponse {
@@ -21,6 +20,8 @@ export interface DocumentResponse {
 export interface SearchIndexResponse {
   name: string;
   fields: IndexField[];
+  scoringProfiles: ScoringProfile[];
+  defaultScoringProfile: string;
 }
 
 export interface IndexField {
@@ -34,6 +35,17 @@ export interface IndexField {
   facetable?: boolean;
   key?: boolean;
   fields?: IndexField[];
+}
+
+export interface ScoringProfile {
+  name: string;
+  text: {
+    weights: ScoringWeight;
+  };
+}
+
+export interface ScoringWeight {
+  [propertyName: string]: number;
 }
 
 export interface TypeAheadBody {

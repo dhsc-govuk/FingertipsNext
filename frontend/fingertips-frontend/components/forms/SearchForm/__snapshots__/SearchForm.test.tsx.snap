@@ -37,6 +37,7 @@ exports[`snapshot test - renders the form 1`] = `
 .c8:active,
 .c8:hover {
   color: #ffffff;
+  -webkit-text-decoration: none;
   text-decoration: none;
 }
 
@@ -50,12 +51,12 @@ exports[`snapshot test - renders the form 1`] = `
   background-color: #00572e;
 }
 
-.c8 :active {
+.c8:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c8 ::before {
+.c8::before {
   content: "";
   display: block;
   position: absolute;
@@ -70,21 +71,21 @@ exports[`snapshot test - renders the form 1`] = `
   top: -4px;
 }
 
-.c8 :disabled {
+.c8:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c8 :disabled :hover {
+.c8:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c8 :disabled :focus {
+.c8:disabled:focus {
   outline: none;
 }
 
-.c8 :disabled :active {
+.c8:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
@@ -133,6 +134,8 @@ exports[`snapshot test - renders the form 1`] = `
   padding: 5px;
   border: 2px solid #0b0c0c;
   border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
   margin-bottom: 0;
 }
@@ -153,13 +156,18 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 .c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   box-sizing: border-box;
   margin-bottom: 0;
 }
 
-.c3 :after {
+.c3:after {
   content: '';
   display: table;
   clear: both;
@@ -193,12 +201,12 @@ exports[`snapshot test - renders the form 1`] = `
   border-left: 10px solid #bfc1c3;
 }
 
-.c2 :first-child {
+.c2:first-child {
   margin-top: 0;
 }
 
-.c2 :only-child,
-.c2 :last-child {
+.c2:only-child,
+.c2:last-child {
   margin-bottom: 0;
 }
 
@@ -225,26 +233,26 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c8 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c8 {
     width: auto;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c8 svg {
     margin-left: 10px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c8 {
     margin-bottom: 32px;
   }
@@ -257,7 +265,7 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -271,7 +279,7 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c5 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -284,7 +292,7 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c5 {
     margin-bottom: 0;
   }
@@ -297,20 +305,20 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c7 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c7 {
     margin-bottom: 0;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c3 {
     margin-bottom: 0;
   }
@@ -329,14 +337,14 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 48px;
     line-height: 1.0416666666666667;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 50px;
   }
@@ -349,7 +357,7 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c2 {
     font-size: 19px;
     line-height: 1.3157894736842106;
@@ -362,7 +370,7 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c2 {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -382,20 +390,20 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c1 {
     font-size: 24px;
     line-height: 1.25;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c1 {
     margin-bottom: 30px;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c4 {
     margin-bottom: 30px;
   }

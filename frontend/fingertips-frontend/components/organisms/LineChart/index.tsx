@@ -1,42 +1,53 @@
+'use client';
+
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { HealthCareData } from '@/app/chart/health-data';
 import {
   generateSeriesData,
-  orderedValues,
+  sortHealthDataByDate,
 } from '@/lib/chartHelpers/formatLineChartValues';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface LineChartProps {
-  data: HealthCareData[];
-  title?: string;
+  data: HealthDataForArea[];
   xAxisTitle?: string;
-  yAxisTitle?: string;
   accessibilityLabel?: string;
 }
-
 export function LineChart({
   data,
-  title,
   xAxisTitle,
-  yAxisTitle,
   accessibilityLabel,
 }: Readonly<LineChartProps>) {
-  const orderedSeriesValues = orderedValues(data);
-  const seriesData = generateSeriesData(orderedSeriesValues);
+  const sortedSeriesValues = sortHealthDataByDate(data);
+  const seriesData = generateSeriesData(sortedSeriesValues);
 
   const lineChartOptions: Highcharts.Options = {
-    chart: { type: 'line' },
-    title: { text: title },
-    xAxis: {
-      title: { text: xAxisTitle },
+    credits: {
+      enabled: false,
+    },
+    chart: { type: 'line', height: '50%', spacingTop: 50 },
+    title: {
+      text: 'Line chart to show how the indicator has changed over time for the area',
+      style: {
+        display: 'none',
+      },
     },
     yAxis: {
-      title: { text: yAxisTitle },
+      title: undefined,
+    },
+    xAxis: {
+      title: { text: xAxisTitle, margin: 20 },
+      tickLength: 0,
     },
     legend: {
       verticalAlign: 'top',
     },
     series: seriesData,
+    tooltip: {
+      format:
+        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+    },
+
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

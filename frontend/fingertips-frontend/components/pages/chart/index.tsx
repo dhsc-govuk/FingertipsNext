@@ -1,28 +1,33 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H1 } from 'govuk-react';
+import { H3, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { HealthCareData } from '@/app/chart/health-data';
-import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type ChartProps = {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   indicator?: string;
   indicatorsSelected?: string[];
 };
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
-export function Chart({ data }: Readonly<ChartProps>) {
+export function Chart({
+  data,
+  indicator,
+  indicatorsSelected = [],
+}: Readonly<ChartProps>) {
+  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
+  const backLinkPath = searchState.generatePath('/search/results');
   return (
     <>
-      <H1>Line Chart</H1>
+      <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
+      <H3>See how the indicator has changed over time for the area</H3>
       <LineChart
         data={data}
-        title="Healthcare Data"
         xAxisTitle="Year"
-        yAxisTitle="Value"
         accessibilityLabel="A line chart showing healthcare data"
       />
       <LineChartTable data={data} headings={headings}></LineChartTable>

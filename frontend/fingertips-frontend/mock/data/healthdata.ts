@@ -1,6 +1,6 @@
-import { HealthCareData } from '@/app/chart/health-data';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
-export const mockHealthData: HealthCareData[] = [
+export const mockHealthData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     healthData: [
@@ -201,13 +201,4 @@ export const mockHealthData: HealthCareData[] = [
       },
     ],
   },
-];
-
-export const mockHeadings = [
-  'Area Code',
-  'Year',
-  'Value',
-  'Count',
-  'LowerCi',
-  'UpperCi',
 ];
