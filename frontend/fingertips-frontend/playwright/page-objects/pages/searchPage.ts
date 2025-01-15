@@ -18,7 +18,7 @@ export default class SearchPage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('results' + queryParams);
+    await this.checkURL('/' + queryParams);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
