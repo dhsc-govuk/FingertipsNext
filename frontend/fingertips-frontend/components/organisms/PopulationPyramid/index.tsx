@@ -20,6 +20,7 @@ export function PopulationPyramid({
 }: Readonly<PyramidChartProps>) {
   // helper functions
   Highcharts.Templating.helpers.initial = (label) => label.charAt(0);
+  Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
   // get list of all the areas returned
   // max is expected to be 3 (selected, England & benchmark) but mock data does not yet support this
@@ -28,6 +29,7 @@ export function PopulationPyramid({
   // sort the data
   // NOTE: for mock data this is just the first area, it will need to become for selected/england/baseline
   const ageSortedHealthData = data[0].healthData.sort((a, b) =>
+    // TODO: get the first number, as a number and compare these
     a.ageBand > b.ageBand ? -1 : 1
   );
 
@@ -109,7 +111,7 @@ export function PopulationPyramid({
       tickColor: '#D7D7D7',
       gridLineWidth: 0,
       labels: {
-        format: '{value}',
+        format: '{abs value}',
       },
       accessibility: {
         enabled: false,
@@ -137,7 +139,7 @@ export function PopulationPyramid({
         dataLabels: {
           enabled: true,
           inside: false,
-          format: '{(point.y):.0f}',
+          format: '{(abs point.y):.0f}',
           color: '#000000',
           style: {
             fontWeight: 'light',
@@ -153,7 +155,7 @@ export function PopulationPyramid({
         dataLabels: {
           enabled: true,
           inside: false,
-          format: '{(point.y):.0f}',
+          format: '{(abs point.y):.0f}',
           color: '#000000',
           style: {
             fontWeight: 'light',
