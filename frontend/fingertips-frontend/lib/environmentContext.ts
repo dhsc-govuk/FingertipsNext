@@ -13,7 +13,8 @@ const loadEnvironmentContext = (): Map<string, string> => {
   const map: Map<string, string> = new Map();
 
   const mockService = getEnvironmentVariable(
-    DHSC_AI_SEARCH_USE_MOCK_SERVICE, false
+    DHSC_AI_SEARCH_USE_MOCK_SERVICE,
+    false
   ) as string;
   map.set(DHSC_AI_SEARCH_USE_MOCK_SERVICE, mockService);
   const useMock: boolean = mockService === 'true';
