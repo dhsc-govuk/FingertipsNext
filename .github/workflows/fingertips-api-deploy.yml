@@ -40,5 +40,6 @@ jobs:
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 5144
+          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure

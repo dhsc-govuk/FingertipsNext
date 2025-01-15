@@ -41,5 +41,6 @@ jobs:
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 3000
           environmentVariables: 'FINGERTIPS_API_URL=fingertips-api.ashytree-e4f66340.uksouth.azurecontainerapps.io'
+          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure
