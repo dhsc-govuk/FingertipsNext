@@ -39,3 +39,12 @@ jobs:
           registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          targetPort: 3000
+
+      - name: Create A Record
+        run: |
+          az network private-dns record-set a add-record \
+            --resource-group rg-fingertips-dev-uks-001 \
+            --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io \
+            --record-set-name fingertips-frontend \
+            --ipv4-address 10.0.0.62
