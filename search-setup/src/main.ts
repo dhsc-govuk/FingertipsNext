@@ -9,9 +9,15 @@ import {
   createIndex,
   populateIndex,
 } from "./indexOperations.js";
-import { GeographySearchData, IndicatorSearchData } from "./types.js";
-import { sampleGeographyData, sampleIndicatorData } from "./sample-data.js";
+import { GeographySearchData, IndicatorSearchData } from "../types.js";
+import { sampleIndicatorData } from "./sample-data.js";
 import { getEnvironmentVariable } from "./utils/helpers.js";
+import {
+  GEOGRAPHY_SEARCH_INDEX_NAME,
+  INDICATOR_SEARCH_INDEX_NAME,
+} from "./constants.js";
+
+import geoData from "../assets/geographyData.json" with {type:"json"};
 
 async function createAndPopulateIndex<
   T extends IndicatorSearchData | GeographySearchData
@@ -21,6 +27,7 @@ async function createAndPopulateIndex<
   indexName: string,
   data: T[]
 ) {
+  console.log(`Creating index ${indexName}`);
   await createIndex(indexClient, buildIndexFunction(indexName));
 
   await populateIndex<T>(indexClient.getSearchClient<T>(indexName), data);
@@ -29,12 +36,6 @@ async function createAndPopulateIndex<
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
   const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
-  const indicatorSearchIndexName = getEnvironmentVariable(
-    "AI_SEARCH_BY_INDICATOR_INDEX_NAME"
-  );
-  const geographySearchIndexName = getEnvironmentVariable(
-    "AI_SEARCH_BY_GEOGRAPHY_INDEX_NAME"
-  );
 
   const indexClient = new SearchIndexClient(
     endpoint,
@@ -44,18 +45,18 @@ async function main(): Promise<void> {
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,
-    indicatorSearchIndexName,
+    INDICATOR_SEARCH_INDEX_NAME,
     sampleIndicatorData
   );
 
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
-    geographySearchIndexName,
-    sampleGeographyData
+    GEOGRAPHY_SEARCH_INDEX_NAME,
+    geoData
   );
 }
 
 main().catch((err: Error) => {
-  console.error(err.message);
+  console.error(err);
 });
