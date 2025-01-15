@@ -2,7 +2,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export const mockHealthData: HealthDataForArea[] = [
   {
-    areaCode: 'MOCK - E92000001',
+    areaCode: 'POPULATION MOCK - E92000001',
     healthData: [
       {
         year: 2023,
@@ -175,11 +175,6 @@ export const mockHealthData: HealthDataForArea[] = [
         ageBand: '90+',
         sex: 'Female',
       },
-    ],
-  },
-  {
-    areaCode: 'MOCK - E92000001',
-    healthData: [
       {
         year: 2023,
         count: 1568625,
