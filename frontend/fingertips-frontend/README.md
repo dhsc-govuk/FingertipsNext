@@ -101,7 +101,7 @@ To debug e2e test failures its best to run them using UI Mode:
 npx playwright test --ui
 ```
 
-Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts.
+Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. Also note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our e2e testing as close to real world as possible.
 
 ### Accessibility Testing:
 
