@@ -1,16 +1,12 @@
 name: Fingertips Frontend Deploy
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - frontend/fingertips-frontend/**
   push:
     branches:
       - feature/DHSCFT-189_create_fe_deployment_workflow
     paths:
       - frontend/fingertips-frontend/**
+      - .github/workflows/fingertips-frontend-deploy.yml
   workflow_dispatch:
 
 jobs:
