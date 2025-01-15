@@ -1,12 +1,12 @@
-name: Fingertips Frontend Deploy
+name: Fingertips API Deploy
 
 on:
   push:
     branches:
       - feature/DHSCFT-189_create_fe_deployment_workflow
     paths:
-      - frontend/fingertips-frontend/**
-      - .github/workflows/fingertips-frontend-deploy.yml
+      - api/**
+      - .github/workflows/fingertips-api-deploy.yml
   workflow_dispatch:
 
 jobs:
@@ -32,17 +32,17 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:latest"
-          containerAppName: fingertips-frontend
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.api:latest"
+          containerAppName: fingertips-api
           resourceGroup: rg-fingertips-dev-uks-001
           containerAppEnvironment: cae-fingertips-dev-uks-002
           registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          targetPort: 3000
+          targetPort: 8080
 
       - name: Create A Record
         run: |
-          if [ $(az network private-dns record-set a show --name fingertips-frontend --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io) = false ]; then
-            az network private-dns record-set a add-record --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io --record-set-name fingertips-frontend --ipv4-address 10.0.0.62
+          if [ $(az network private-dns record-set a show --name fingertips-api --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io) = false ]; then
+            az network private-dns record-set a add-record --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io --record-set-name fingertips-api --ipv4-address 10.0.0.62
           fi
