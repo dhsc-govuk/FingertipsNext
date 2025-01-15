@@ -8,7 +8,7 @@ on:
       - frontend/fingertips-frontend/**
   push:
     branches:
-      - main
+      - feature/DHSCFT-189_create_fe_deployment_workflow
     paths:
       - frontend/fingertips-frontend/**
   workflow_dispatch:
