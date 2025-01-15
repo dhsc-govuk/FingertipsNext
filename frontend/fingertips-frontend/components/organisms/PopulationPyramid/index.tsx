@@ -30,7 +30,7 @@ export function PopulationPyramid({
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar', height: 1086 },
     title: { style: { display: 'none' } },
-    legend: { verticalAlign: 'top', floating: true },
+    legend: { verticalAlign: 'bottom', layout: 'vertical' },
     xAxis: [
       {
         categories: populationDataForSelectedArea.ageCategories,
