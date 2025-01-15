@@ -5,6 +5,7 @@ import { H3, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { useSearchParams } from 'next/navigation';
 
 type ChartProps = {
   data: HealthDataForArea[];
@@ -19,11 +20,12 @@ export function Chart({
   searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({
-    searchedIndicator,
-    indicatorsSelected,
-  });
-  const backLinkPath = searchState.generatePath('/search/results');
+  const searchParams = useSearchParams();
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+
+  const backLinkPath = searchStateManager.generatePath('/search/results');
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />

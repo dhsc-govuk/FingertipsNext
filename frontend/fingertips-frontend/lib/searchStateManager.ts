@@ -2,18 +2,21 @@ export enum SearchParams {
   SearchedIndicator = 'si',
   IndicatorsSelected = 'is',
   AreasSelected = 'as',
+  AreaGroupFilter = 'agf',
 }
 
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string | string[];
-  [SearchParams.AreasSelected]?: string[];
+  [SearchParams.AreasSelected]?: string | string[];
+  [SearchParams.AreaGroupFilter]?: string;
 };
 
 export type SearchState = {
   searchedIndicator?: string;
   indicatorsSelected?: string[];
   areasSelected?: string[];
+  areaGroupFilter?: string;
 };
 
 export class SearchStateManager {
@@ -25,6 +28,7 @@ export class SearchStateManager {
       searchedIndicator: searchState.searchedIndicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
       areasSelected: searchState.areasSelected ?? [],
+      areaGroupFilter: searchState.areaGroupFilter,
     };
     this.searchStateParams = new URLSearchParams();
   }
@@ -41,6 +45,15 @@ export class SearchStateManager {
       this.searchStateParams.append(
         SearchParams.SearchedIndicator,
         this.searchState.searchedIndicator
+      );
+    }
+  }
+
+  private addAreaGroupFilterSelectedToPath() {
+    if (this.searchState.areaGroupFilter) {
+      this.searchStateParams.append(
+        SearchParams.AreaGroupFilter,
+        this.searchState.areaGroupFilter
       );
     }
   }
@@ -100,6 +113,10 @@ export class SearchStateManager {
     return this.searchState;
   }
 
+  public setAreaGroupFilter(groupId: string) {
+    this.searchState.areaGroupFilter = groupId;
+  }
+
   public static setStateFromParams(params: URLSearchParams) {
     console.log(`setStateFromParams param ${JSON.stringify(params)}`);
     const searchedIndicator =
@@ -107,11 +124,14 @@ export class SearchStateManager {
     const indicatorsSelected =
       params.getAll(SearchParams.IndicatorsSelected) ?? [];
     const areasSelected = params.getAll(SearchParams.AreasSelected) ?? [];
+    const areaGroupFilter =
+      params.get(SearchParams.AreaGroupFilter) ?? undefined;
 
     const searchStateManager = new SearchStateManager({
       searchedIndicator,
       indicatorsSelected,
       areasSelected,
+      areaGroupFilter,
     });
     return searchStateManager;
   }
@@ -122,6 +142,7 @@ export class SearchStateManager {
     this.addSearchedIndicatorToPath();
     this.addIndicatorsSelectedToPath();
     this.addAreasSelectedToPath();
+    this.addAreaGroupFilterSelectedToPath();
 
     return this.constructPath(path);
   }

@@ -20,6 +20,7 @@ import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { GeographyFilter } from '@/components/organisms/GeographyFilter';
+import { useSearchParams } from 'next/navigation';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -47,21 +48,32 @@ export function SearchResults({
   availableGroups,
   availableAreasInGroup,
 }: Readonly<SearchResultsProps>) {
+  const searchParams = useSearchParams();
+
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+  const searchState = searchStateManager.getSearchState();
+  // const viewChartsWithState = viewCharts.bind(
+  //   null,
+  //   searchState.getSearchState()
+  // );
+
   const [state, formAction] = useActionState(
     viewCharts,
     searchResultsFormState
   );
 
-  const searchState = new SearchStateManager({
-    searchedIndicator: searchResultsFormState.searchedIndicator,
-  });
+  // const searchState = new SearchStateManager({
+  //   searchedIndicator: searchResultsFormState.searchedIndicator,
+  // });
 
-  const backLinkPath = searchState.generatePath('/search');
+  const backLinkPath = searchStateManager.generatePath('/search');
 
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
-      {searchResultsFormState.searchedIndicator ? (
+      {searchState.searchedIndicator ? (
         <>
           {state.message && (
             <ErrorSummary
@@ -81,7 +93,7 @@ export function SearchResults({
             />
           )}
           <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
+          <Paragraph>{`You searched for indicator "**${searchState.searchedIndicator}**"`}</Paragraph>
 
           <GridRow>
             <GridCol setWidth="one-third">
@@ -96,8 +108,8 @@ export function SearchResults({
             <GridCol>
               <form action={formAction}>
                 <input
-                  name="searchedIndicator"
-                  defaultValue={searchResultsFormState.searchedIndicator}
+                  name="searchState"
+                  defaultValue={JSON.stringify(searchState)}
                   hidden
                 />
                 {searchResults.length ? (

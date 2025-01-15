@@ -57,13 +57,36 @@ export function GeographyFilter({
   const existingParams = new URLSearchParams(searchParams);
   const searchState = SearchStateManager.setStateFromParams(existingParams);
 
+  console.log(`existingParams - ${JSON.stringify(existingParams)}`);
+
+  const handleGroupSelect = async (groupIdSelected: string) => {
+    console.log(
+      `handleGroupSelect existingParams - ${JSON.stringify(existingParams)}`
+    );
+
+    console.log(`handleGroupSelect ${groupIdSelected}`);
+    searchState.setAreaGroupFilter(groupIdSelected);
+    replace(searchState.generatePath(pathname), { scroll: false });
+  };
+
   const handleSelectAreaClick = async (areaId: string, checked: boolean) => {
+    console.log(
+      `handleSelectAreaClick existingParams - ${JSON.stringify(existingParams)}`
+    );
+
     if (checked) {
       searchState.addAreaSelected(areaId);
     } else {
       searchState.removeAreaSelected(areaId);
     }
     replace(searchState.generatePath(pathname), { scroll: false });
+
+    /*
+     * If we want to use server-action to handle the change. Need to pass the state as an object
+     * Since this a POST request to the next server. We can't pass classes or functions.
+     * Works but causes the page to render and scroll back to the top of the page
+     * which isn't ideal UX.
+     */
     // const operation = checked ? 'ADD' : 'REMOVE';
     // await updateAreasSelected(areaId, operation, searchState.getSearchState());
   };
@@ -98,7 +121,21 @@ export function GeographyFilter({
               ))}
             </StyledFilterSelect2>
             <br />
-            <StyledFilterSelect2 label="2. Select a group">
+            <StyledFilterSelect2
+              label="2. Select a group"
+              input={{
+                onChange: (e) => {
+                  handleGroupSelect(e.target.value);
+                },
+                defaultValue:
+                  searchState.getSearchState().areaGroupFilter ??
+                  selectedAreaCodesData[0].group,
+              }}
+              // onChangeCapture={}
+              // onChangeCapture={async (e) => {
+              //   await handleGroupSelect(e.currentTarget.value);
+              // }}
+            >
               {availableGroups.map((group) => (
                 <option key={group.id} value={group.id}>
                   {group.name}

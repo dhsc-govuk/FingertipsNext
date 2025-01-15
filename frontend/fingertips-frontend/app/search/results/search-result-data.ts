@@ -1,6 +1,7 @@
 import {
   mockAreaData,
-  mockAvailableAreasInGroup,
+  mockAvailableAreasInGroupLOP,
+  mockAvailableAreasInGroupQOP,
   mockAvailableGroup,
   mockAvailableGroupTypes,
 } from '@/mock/data/area';
@@ -59,5 +60,8 @@ export const getAvailableGroups = (groupCode: string) => {
 
 export const getAvailableAreasInGroup = (groupCode: string) => {
   console.log(`group ${groupCode}`);
-  return mockAvailableAreasInGroup;
+  if (groupCode === 'LOP') {
+    return mockAvailableAreasInGroupLOP;
+  }
+  return mockAvailableAreasInGroupQOP;
 };

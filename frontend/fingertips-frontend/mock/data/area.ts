@@ -1,9 +1,13 @@
-export const mockAreaData = (id: string) => ({
-  id,
-  name: `Greater Manchester ICB - ${id} sub-location`,
-  groupType: `GT-${id}`,
-  group: 'QOP',
-});
+export const mockAreaData = (id: string) => {
+  const areaName = Number(id) > 100 ? 'Leeds' : 'Greater Manchester';
+  const group = Number(id) > 100 ? 'QOP' : 'LOP';
+  return {
+    id,
+    name: `${areaName} ICB - ${id} sub-location`,
+    groupType: `GT-${id}`,
+    group,
+  };
+};
 
 export const mockAvailableGroupTypes = [
   {
@@ -35,7 +39,7 @@ export const mockAvailableGroup = [
   },
 ];
 
-export const mockAvailableAreasInGroup = [
+export const mockAvailableAreasInGroupQOP = [
   {
     id: '001',
     name: 'Greater Manchester ICN - 001',
@@ -70,10 +74,53 @@ export const mockAvailableAreasInGroup = [
   },
   {
     id: '009',
-    name: 'Greater Manchester ICN - 008',
+    name: 'Greater Manchester ICN - 009',
   },
   {
     id: '010',
     name: 'Greater Manchester ICN - 010',
+  },
+];
+
+export const mockAvailableAreasInGroupLOP = [
+  {
+    id: '101',
+    name: 'Leeds ICN - 101',
+  },
+  {
+    id: '102',
+    name: 'Leeds ICN - 102',
+  },
+  {
+    id: '103',
+    name: 'Leeds ICN - 103',
+  },
+  {
+    id: '104',
+    name: 'Leeds ICN - 104',
+  },
+  {
+    id: '105',
+    name: 'Leeds ICN - 105',
+  },
+  {
+    id: '106',
+    name: 'Leeds ICN - 106',
+  },
+  {
+    id: '107',
+    name: 'Leeds ICN - 107',
+  },
+  {
+    id: '108',
+    name: 'Leeds ICN - 108',
+  },
+  {
+    id: '109',
+    name: 'Leeds ICN - 109',
+  },
+  {
+    id: '110',
+    name: 'Leeds ICN - 110',
   },
 ];

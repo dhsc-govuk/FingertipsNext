@@ -10,7 +10,7 @@ import {
   InputField,
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
-import { useActionState } from 'react';
+import { ChangeEventHandler, useActionState } from 'react';
 import styled from 'styled-components';
 
 const StyledInputField = styled(InputField)(
@@ -57,6 +57,9 @@ export const SearchForm = ({
           id: 'indicator',
           name: 'indicator',
           defaultValue: state.indicator ?? searchFormState.indicator,
+          onChange: (e) => {
+            console.log(e);
+          },
         }}
         hint={
           <>For example diabetes, public health indicator, or indicator ID</>

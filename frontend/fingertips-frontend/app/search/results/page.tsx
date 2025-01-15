@@ -22,18 +22,19 @@ export default async function Page(
   );
   const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
+  const areaGroupFilterSelected = searchParams?.[SearchParams.AreaGroupFilter];
+
   // Perform async API call using indicator prop
   const searchResults = getSearchData();
   const selectedAreaCodesData = areasSelected.map((areaSelected) =>
     getAreaData(areaSelected)
   );
-  // const selectedAreaCodeData = getAreaData(searchedAreaCode);
   const availableGroupTypes = getAvailableGroupTypes(
     selectedAreaCodesData[0].groupType
   );
   const availableGroups = getAvailableGroups(selectedAreaCodesData[0].group);
   const availableAreasInGroup = getAvailableAreasInGroup(
-    selectedAreaCodesData[0].group
+    areaGroupFilterSelected ?? selectedAreaCodesData[0].group
   );
 
   const initialState = {
