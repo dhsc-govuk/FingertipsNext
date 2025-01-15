@@ -24,7 +24,7 @@ it('should render the LineChart component', () => {
   expect(lineChart).toBeInTheDocument();
 });
 
-it('should render the LineChart component title', () => {
+it('should render the Chart component title', () => {
   render(<Chart data={mockHealthData} />);
 
   const HTag = screen.getByRole('heading', { level: 3 });
@@ -38,4 +38,10 @@ it('should render the LineChartTable component', () => {
 
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
+});
+
+it('should render the BarChart component', () => {
+  render(<Chart data={mockHealthData} />);
+  const barChart = screen.getByTestId('barChart-component');
+  expect(barChart).toBeInTheDocument();
 });

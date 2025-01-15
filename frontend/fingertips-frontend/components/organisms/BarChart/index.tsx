@@ -8,18 +8,20 @@ interface ChartProps {
   data: HealthDataForArea[];
   yAxisTitle?: string;
   accessibilityLabel?: string;
+  benchmarkLabel?: string;
 }
 
 export function BarChart({
   data,
   yAxisTitle,
   accessibilityLabel,
+  benchmarkLabel,
 }: Readonly<ChartProps>) {
   const barChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
     },
-    chart: { type: 'bar', height: '100%', spacingTop: 50 },
+    chart: { type: 'bar', height: '50%', spacingTop: 50, spacingBottom: 50 },
     title: {
       text: 'Bar chart to show how the indicator has changed over time for the area',
       style: {
@@ -39,7 +41,7 @@ export function BarChart({
           value: 750,
           zIndex: 5,
           label: {
-            text: 'England',
+            text: benchmarkLabel,
             align: 'center',
             verticalAlign: 'top',
             rotation: 0,
@@ -54,22 +56,27 @@ export function BarChart({
     },
     tooltip: {
       format:
-        '<b>{point.series.name}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
     },
     plotOptions: {
       bar: {
         dataLabels: {
           enabled: true,
         },
-        pointPadding: 0.1,
-        groupPadding: 0.1,
+        pointPadding: 0.3,
+        groupPadding: 0,
       },
     },
-    series: data.map((item) => ({
-      name: `${item.areaCode}`,
-      type: 'bar',
-      data: item.healthData.map((point) => point.value),
-    })),
+    series: [
+      {
+        type: 'bar',
+        data: data.map((item) => ({
+          y: item.healthData[0].value,
+          name: item.areaCode,
+        })),
+        colorByPoint: true,
+      },
+    ],
     legend: {
       enabled: false,
     },

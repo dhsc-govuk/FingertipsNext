@@ -5,7 +5,7 @@ import { HighchartsReact } from 'highcharts-react-official';
 import {
   generateSeriesData,
   sortHealthDataByDate,
-} from '@/lib/chartHelpers/formatLineChartValues';
+} from '@/lib/chartHelpers/formatChartValues';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface LineChartProps {

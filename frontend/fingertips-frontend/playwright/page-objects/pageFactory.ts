@@ -3,14 +3,12 @@ import AxeBuilder from '@axe-core/playwright';
 import SearchPage from './pages/searchPage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
-import BarPage from '@/playwright/page-objects/pages/barPage';
 import { test as baseTest } from '@playwright/test';
 
 type pages = {
   searchPage: SearchPage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
-  barPage: BarPage;
 };
 
 const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
@@ -56,9 +54,6 @@ export const test = testBase.extend<pages>({
   },
   chartPage: async ({ page }, use) => {
     await use(new ChartPage(page));
-  },
-  barPage: async ({ page }, use) => {
-    await use(new BarPage(page));
   },
 });
 

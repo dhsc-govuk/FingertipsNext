@@ -5,6 +5,7 @@ import { H3, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { BarChart } from '@/components/organisms/BarChart';
 
 type ChartProps = {
   data: HealthDataForArea[];
@@ -30,6 +31,8 @@ export function Chart({
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
+      <BarChart data={data} yAxisTitle="Value" benchmarkLabel="England" />
+      <br />
       <LineChartTable data={data} headings={headings}></LineChartTable>
     </>
   );

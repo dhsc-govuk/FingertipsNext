@@ -5,6 +5,7 @@ export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
   readonly lineChartComponent = 'lineChart-component';
   readonly lineChartTableComponent = 'lineChartTable-component';
+  readonly barChartComponent = 'barChart-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -23,5 +24,6 @@ export default class ChartPage extends BasePage {
     await expect(
       this.page.getByTestId(this.lineChartTableComponent)
     ).toBeVisible();
+    await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
   }
 }
