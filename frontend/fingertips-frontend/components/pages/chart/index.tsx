@@ -25,8 +25,9 @@ export function Chart({
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
-      <H3>See how the indicator has changed over time for the area</H3>
+      <H3>Title for the chart page</H3>
       <LineChart
+        LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
@@ -34,7 +35,7 @@ export function Chart({
       <LineChartTable data={data} headings={headings}></LineChartTable>
       <PopulationPyramid
         data={data}
-        title="Healthcare Data"
+        title="Population data for this area"
         xAxisTitle="Area Code"
         yAxisTitle="Value (unit)"
         accessibilityLabel="A pyramid chart showing some data"

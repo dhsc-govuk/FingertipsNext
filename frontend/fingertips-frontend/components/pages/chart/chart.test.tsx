@@ -28,9 +28,7 @@ it('should render the LineChart component title', () => {
   render(<Chart data={mockHealthData} />);
 
   const HTag = screen.getByRole('heading', { level: 3 });
-  expect(HTag).toHaveTextContent(
-    'See how the indicator has changed over time for the area'
-  );
+  expect(HTag).toHaveTextContent('Title for the chart page');
 });
 
 it('should render the LineChartTable component', () => {
