@@ -43,8 +43,13 @@ jobs:
 
       - name: Create A Record
         run: |
-          az network private-dns record-set a add-record \
-            --resource-group rg-fingertips-core-uks-001 \
-            --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io \
-            --record-set-name fingertips-frontend \
-            --ipv4-address 10.0.0.62
+          if [ $(az network private-dns record-set a show \
+            --name fingertips-frontend \
+            -resource-group rg-fingertips-core-uks-001 \
+            --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io) = false ]; then
+            az network private-dns record-set a add-record \
+              --resource-group rg-fingertips-core-uks-001 \
+              --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io \
+              --record-set-name fingertips-frontend \
+              --ipv4-address 10.0.0.62
+          fi
