@@ -28,10 +28,10 @@ export function Chart({
       <H3>Title for the chart page</H3>
       <PopulationPyramid
         data={data}
-        populationPyramidTitle="Population data for this area"
+        populationPyramidTitle="Population MEASURE for SELECTED area"
         xAxisTitle="Age"
-        yAxisTitle="Value (unit)"
-        accessibilityLabel="A pyramid chart showing some data"
+        yAxisTitle="Percentage %"
+        accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
       />
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"

@@ -28,14 +28,9 @@ export function PopulationPyramid({
   );
 
   const populationPyramidOptions: Highcharts.Options = {
-    chart: { type: 'bar' },
-    title: {
-      text: populationPyramidTitle,
-      style: {
-        display: 'none',
-      },
-    },
-    legend: { verticalAlign: 'top' },
+    chart: { type: 'bar', height: 1086 },
+    title: { style: { display: 'none' } },
+    legend: { verticalAlign: 'top', floating: true },
     xAxis: [
       {
         categories: populationDataForSelectedArea.ageCategories,
@@ -95,13 +90,16 @@ export function PopulationPyramid({
         stacking: 'normal',
       },
     },
-
-    // tooltip: {
-    //   format:
-    //     '<b>{point.category}</b><br/>' +
-    //     'Temperature: {(point.y)}°{firstChar series.name}',
-    // },
-
+    tooltip: {
+      padding: 20,
+      format:
+        // TODO: add symbol
+        '<span style="font-weight: bold">AreaName</span><br/>' +
+        '<span>Age {point.category}</span><br/></br>' +
+        '<span>{point.graphic.symbolName}</span><br/>' +
+        '<span>Value {point.y}%</span><br/>' +
+        '<span>{series.name}</span><br/>',
+    },
     series: [
       {
         name: 'Female',
@@ -111,14 +109,13 @@ export function PopulationPyramid({
         dataLabels: {
           enabled: true,
           inside: false,
-          format: '{(abs point.y):.0f}',
+          format: '{(abs point.y):.1f}%',
           color: '#000000',
           style: {
             fontWeight: 'light',
           },
         },
       },
-
       {
         name: 'Male',
         type: 'bar',
@@ -129,7 +126,7 @@ export function PopulationPyramid({
         dataLabels: {
           enabled: true,
           inside: false,
-          format: '{(abs point.y):.0f}',
+          format: '{(abs point.y):.1f}%',
           color: '#000000',
           style: {
             fontWeight: 'light',
@@ -139,8 +136,8 @@ export function PopulationPyramid({
       {
         name: 'Female / 2',
         type: 'line',
-        data: populationDataForSelectedArea.femaleSeries.map(
-          (datapoint) => datapoint / 2
+        data: populationDataForSelectedArea.femaleSeries.map((datapoint) =>
+          parseFloat((datapoint / 2).toFixed(2))
         ),
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
@@ -149,8 +146,8 @@ export function PopulationPyramid({
       {
         name: 'Female / 3',
         type: 'line',
-        data: populationDataForSelectedArea.femaleSeries.map(
-          (datapoint) => datapoint / 3
+        data: populationDataForSelectedArea.femaleSeries.map((datapoint) =>
+          parseFloat((datapoint / 3).toFixed(2))
         ),
         color: '#28A197',
         dashStyle: 'Dash',
