@@ -35,7 +35,7 @@ export function Chart({
       <LineChartTable data={data} headings={headings}></LineChartTable>
       <PopulationPyramid
         data={data}
-        title="Population data for this area"
+        populationPyramidTitle="Population data for this area"
         xAxisTitle="Area Code"
         yAxisTitle="Value (unit)"
         accessibilityLabel="A pyramid chart showing some data"

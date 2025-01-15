@@ -1,10 +1,11 @@
-import { HealthCareData } from '@/app/chart/health-data';
-import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import { HighchartsReact } from 'highcharts-react-official';
+import { HealthCareData } from '@/app/chart/health-data';
+import { H3, H4 } from 'govuk-react';
 
 interface PyramidChartProps {
   data: HealthCareData[];
-  title?: string;
+  populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
   accessibilityLabel?: string;
@@ -12,7 +13,7 @@ interface PyramidChartProps {
 
 export function PopulationPyramid({
   data,
-  title,
+  populationPyramidTitle: populationPyramidTitle,
   xAxisTitle,
   yAxisTitle,
   accessibilityLabel,
@@ -28,7 +29,9 @@ export function PopulationPyramid({
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
-    title: { text: title },
+    title: {
+      text: populationPyramidTitle,
+    },
     legend: { verticalAlign: 'top' },
     // accessibility: {
     //   point: {
@@ -163,7 +166,9 @@ export function PopulationPyramid({
 
   return (
     <div data-testid="PopulationPyramid-component">
+      <H4>{populationPyramidTitle}</H4>
       <HighchartsReact
+        containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
         options={populationPyramidOptions}
       />
