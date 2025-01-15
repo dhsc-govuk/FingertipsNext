@@ -6,6 +6,8 @@ namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
 /// <summary>
 ///
 /// </summary>
+[ApiController]
+[Route("areas ")]
 public class AreaController : ControllerBase
 {
     private readonly IAreaService _areaService;
