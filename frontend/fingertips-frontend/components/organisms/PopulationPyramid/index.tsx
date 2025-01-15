@@ -2,6 +2,7 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H4 } from 'govuk-react';
+import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 interface PyramidChartProps {
   data: HealthDataForArea[];
@@ -22,34 +23,9 @@ export function PopulationPyramid({
   Highcharts.Templating.helpers.initial = (label) => label.charAt(0);
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
-  // get list of all the areas returned
-  // max is expected to be 3 (selected, England & benchmark) but mock data does not yet support this
-  const areaSeries = data.map((area) => area.areaCode ?? '');
-
-  // sort the data
-  // NOTE: for mock data this is just the first area, it will need to become for selected/england/baseline
-  const ageSortedHealthData = data[0].healthData.sort((a, b) =>
-    // TODO: get the first number, as a number and compare these
-    a.ageBand > b.ageBand ? -1 : 1
+  const populationDataForSelectedArea = preparePopulationData(
+    data[0].healthData
   );
-
-  // get the age categories
-  let ageCategories = ageSortedHealthData.map(
-    (healthDataPoint) => healthDataPoint.ageBand
-  );
-  ageCategories = [...new Set(ageCategories)];
-
-  // get the male and female data
-  const FemaleHealthData = ageSortedHealthData.filter(
-    (healthDataPoint) => healthDataPoint.sex === 'Female'
-  );
-  const MaleHealthData = ageSortedHealthData.filter(
-    (healthDataPoint) => healthDataPoint.sex === 'Male'
-  );
-
-  // needs to become a %age
-  const femaleSeries = FemaleHealthData.map((datapoint) => datapoint.count);
-  const maleSeries = FemaleHealthData.map((datapoint) => -datapoint.count);
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
@@ -68,7 +44,7 @@ export function PopulationPyramid({
     // },
     xAxis: [
       {
-        categories: ageCategories,
+        categories: populationDataForSelectedArea.ageCategories,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -84,10 +60,12 @@ export function PopulationPyramid({
       {
         // mirror axis on right side
         opposite: true,
+        categories: populationDataForSelectedArea.ageCategories,
+        linkedTo: 0,
         title: {
           text: xAxisTitle,
           align: 'high',
-          offset: 2,
+          offset: 4,
           rotation: 0,
         },
         lineColor: '#D7D7D7',
@@ -134,7 +112,7 @@ export function PopulationPyramid({
       {
         name: 'Female',
         type: 'bar',
-        data: femaleSeries,
+        data: populationDataForSelectedArea.femaleSeries,
         color: '#5352BE',
         dataLabels: {
           enabled: true,
@@ -150,7 +128,9 @@ export function PopulationPyramid({
       {
         name: 'Male',
         type: 'bar',
-        data: maleSeries,
+        data: populationDataForSelectedArea.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
         color: '#57AEF8',
         dataLabels: {
           enabled: true,
@@ -165,7 +145,9 @@ export function PopulationPyramid({
       {
         name: 'Female / 2',
         type: 'line',
-        data: femaleSeries.map((datapoint) => datapoint / 2),
+        data: populationDataForSelectedArea.femaleSeries.map(
+          (datapoint) => datapoint / 2
+        ),
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
         dataLabels: { enabled: false },
@@ -173,7 +155,9 @@ export function PopulationPyramid({
       {
         name: 'Female / 3',
         type: 'line',
-        data: femaleSeries.map((datapoint) => datapoint / 3),
+        data: populationDataForSelectedArea.femaleSeries.map(
+          (datapoint) => datapoint / 3
+        ),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
