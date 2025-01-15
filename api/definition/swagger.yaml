@@ -62,8 +62,8 @@ paths:
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/includeChildren"
-        - $ref: "#/components/parameters/includeAncestors"
+        - $ref: "#/components/parameters/include_children"
+        - $ref: "#/components/parameters/include_ancestors"
         - $ref: "#/components/parameters/child_area_type"
       responses:
         '200':
@@ -347,15 +347,15 @@ components:
         type: string
         example: PCN
       description: The type of area to request children for
-    includeChildren:
+    include_children:
       in: query
-      name: includeChildren
+      name: include_children
       description: Optionally, include the child areas. By default this is the direct children, to get children at a lower level supply the optional query paramter for child area type.
       schema:        
         type: boolean
-    includeAncestors:
+    include_ancestors:
       in: query
-      name: includeAncestors
+      name: include_ancestors
       description: Optionally, include the ancestor areas
       schema:
         type: boolean
