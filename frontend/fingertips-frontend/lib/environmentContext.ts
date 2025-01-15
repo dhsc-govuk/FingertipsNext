@@ -12,9 +12,8 @@ const loadEnvironmentContext = (): Map<string, string> => {
   console.log('Loading environment variables ...');
   const map: Map<string, string> = new Map();
 
-  // Set required environment variables
   const mockService = getEnvironmentVariable(
-    DHSC_AI_SEARCH_USE_MOCK_SERVICE
+    DHSC_AI_SEARCH_USE_MOCK_SERVICE, false
   ) as string;
   map.set(DHSC_AI_SEARCH_USE_MOCK_SERVICE, mockService);
   const useMock: boolean = mockService === 'true';
