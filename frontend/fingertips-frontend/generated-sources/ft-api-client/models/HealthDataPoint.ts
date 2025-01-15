@@ -54,7 +54,7 @@ export interface HealthDataPoint {
      * @type {string}
      * @memberof HealthDataPoint
      */
-    ageBand?: string;
+    ageBand: string;
     /**
      * Sex which the data are for.
      * @type {string}

@@ -1,10 +1,10 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { HealthCareData } from '@/app/chart/health-data';
-import { H3, H4 } from 'govuk-react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { H4 } from 'govuk-react';
 
 interface PyramidChartProps {
-  data: HealthCareData[];
+  data: HealthDataForArea[];
   populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -21,16 +21,41 @@ export function PopulationPyramid({
   // helper functions
   Highcharts.Templating.helpers.initial = (label) => label.charAt(0);
 
-  const areaCategories = data.map((datapoint) => datapoint.areaCode ?? '');
+  // get list of all the areas returned
+  // max is expected to be 3 (selected, England & benchmark) but mock data does not yet support this
+  const areaSeries = data.map((area) => area.areaCode ?? '');
 
-  const singleYearValues = data.map(
-    (datapoint) => datapoint.healthData[0].value ?? null
+  // sort the data
+  // NOTE: for mock data this is just the first area, it will need to become for selected/england/baseline
+  const ageSortedHealthData = data[0].healthData.sort((a, b) =>
+    a.ageBand > b.ageBand ? -1 : 1
   );
+
+  // get the age categories
+  let ageCategories = ageSortedHealthData.map(
+    (healthDataPoint) => healthDataPoint.ageBand
+  );
+  ageCategories = [...new Set(ageCategories)];
+
+  // get the male and female data
+  const FemaleHealthData = ageSortedHealthData.filter(
+    (healthDataPoint) => healthDataPoint.sex === 'Female'
+  );
+  const MaleHealthData = ageSortedHealthData.filter(
+    (healthDataPoint) => healthDataPoint.sex === 'Male'
+  );
+
+  // needs to become a %age
+  const femaleSeries = FemaleHealthData.map((datapoint) => datapoint.count);
+  const maleSeries = FemaleHealthData.map((datapoint) => -datapoint.count);
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar' },
     title: {
       text: populationPyramidTitle,
+      style: {
+        display: 'none',
+      },
     },
     legend: { verticalAlign: 'top' },
     // accessibility: {
@@ -41,7 +66,7 @@ export function PopulationPyramid({
     // },
     xAxis: [
       {
-        categories: areaCategories,
+        categories: ageCategories,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -53,18 +78,10 @@ export function PopulationPyramid({
         tickLength: 10,
         tickmarkPlacement: 'on',
         tickColor: '#D7D7D7',
-        // reversed: false,
-        // labels: {
-        //   step: 1,
-        // },
-        // accessibility: {
-        //   description: '{xAxisTitle} degrees {series.name}',
-        // },
       },
       {
         // mirror axis on right side
         opposite: true,
-        reversed: true,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -99,7 +116,6 @@ export function PopulationPyramid({
         description: accessibilityLabel,
       },
     },
-
     plotOptions: {
       series: {
         stacking: 'normal',
@@ -114,9 +130,9 @@ export function PopulationPyramid({
 
     series: [
       {
-        name: 'Data',
+        name: 'Female',
         type: 'bar',
-        data: singleYearValues,
+        data: femaleSeries,
         color: '#5352BE',
         dataLabels: {
           enabled: true,
@@ -130,9 +146,9 @@ export function PopulationPyramid({
       },
 
       {
-        name: 'Negative of Data',
+        name: 'Male',
         type: 'bar',
-        data: singleYearValues.map((datapoint) => -datapoint),
+        data: maleSeries,
         color: '#57AEF8',
         dataLabels: {
           enabled: true,
@@ -145,17 +161,17 @@ export function PopulationPyramid({
         },
       },
       {
-        name: 'Data / 2',
+        name: 'Female / 2',
         type: 'line',
-        data: singleYearValues.map((datapoint) => datapoint / 2),
+        data: femaleSeries.map((datapoint) => datapoint / 2),
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
         dataLabels: { enabled: false },
       },
       {
-        name: 'Data / 3',
+        name: 'Female / 3',
         type: 'line',
-        data: singleYearValues.map((datapoint) => datapoint / 3),
+        data: femaleSeries.map((datapoint) => datapoint / 3),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
