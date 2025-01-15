@@ -19,10 +19,10 @@ export function PopulationPyramid({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<PyramidChartProps>) {
-  // helper functions
-  Highcharts.Templating.helpers.initial = (label) => label.charAt(0);
+  // helper functions for HighCharts
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
+  // NOTE: for mock data this is just the first area [0], it will need to become for selected/england/baseline
   const populationDataForSelectedArea = preparePopulationData(
     data[0].healthData
   );
@@ -36,12 +36,6 @@ export function PopulationPyramid({
       },
     },
     legend: { verticalAlign: 'top' },
-    // accessibility: {
-    //   point: {
-    //     valueDescriptionFormat:
-    //       '{point.category} Temperature: {(point.y)}°{initial series.name}',
-    //   },
-    // },
     xAxis: [
       {
         categories: populationDataForSelectedArea.ageCategories,
@@ -105,7 +99,7 @@ export function PopulationPyramid({
     // tooltip: {
     //   format:
     //     '<b>{point.category}</b><br/>' +
-    //     'Temperature: {(point.y)}°{initial series.name}',
+    //     'Temperature: {(point.y)}°{firstChar series.name}',
     // },
 
     series: [

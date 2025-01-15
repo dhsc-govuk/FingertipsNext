@@ -13,9 +13,7 @@ export interface PopulationData {
 export function preparePopulationData(
   healthData: HealthDataPoint[]
 ): PopulationData {
-  // NOTE: for mock data this is just the first area, it will need to become for selected/england/baseline
   const dataSortedByAgeBand = sortByAgeBand(healthData);
-  // get the age categories
   let ageCategories = dataSortedByAgeBand.map(
     (healthDataPoint) => healthDataPoint.ageBand
   );
