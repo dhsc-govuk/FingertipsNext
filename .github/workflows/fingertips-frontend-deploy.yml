@@ -28,7 +28,7 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
           imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:latest"
-          containerAppName: ca-fingertips-frontend-dev-uks-001
+          containerAppName: fingertips-frontend
           resourceGroup: rg-fingertips-dev-uks-001
           containerAppEnvironment: cae-fingertips-dev-uks-002
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
