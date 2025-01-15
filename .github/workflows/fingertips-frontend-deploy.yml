@@ -17,6 +17,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Azure Container Registry Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
