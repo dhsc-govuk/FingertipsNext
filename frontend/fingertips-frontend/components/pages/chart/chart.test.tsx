@@ -27,10 +27,8 @@ it('should render the LineChart component', () => {
 it('should render the Chart component title', () => {
   render(<Chart data={mockHealthData} />);
 
-  const HTag = screen.getByRole('heading', { level: 3 });
-  expect(HTag).toHaveTextContent(
-    'See how the indicator has changed over time for the area'
-  );
+  const HTag = screen.getByRole('heading', { level: 2 });
+  expect(HTag).toHaveTextContent('View Dementia QOF prevalence');
 });
 
 it('should render the LineChartTable component', () => {

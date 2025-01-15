@@ -3,12 +3,14 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { H3 } from 'govuk-react';
 
-interface ChartProps {
+interface BarChartProps {
   data: HealthDataForArea[];
   yAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkLabel?: string;
+  benchmarkValue?: number;
 }
 
 export function BarChart({
@@ -16,12 +18,13 @@ export function BarChart({
   yAxisTitle,
   accessibilityLabel,
   benchmarkLabel,
-}: Readonly<ChartProps>) {
+  benchmarkValue,
+}: Readonly<BarChartProps>) {
   const barChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
     },
-    chart: { type: 'bar', height: '50%', spacingTop: 50, spacingBottom: 50 },
+    chart: { type: 'bar', height: '50%', spacingTop: 20, spacingBottom: 50 },
     title: {
       text: 'Bar chart to show how the indicator has changed over time for the area',
       style: {
@@ -38,7 +41,7 @@ export function BarChart({
         {
           color: 'black',
           width: 2,
-          value: 750,
+          value: benchmarkValue,
           zIndex: 5,
           label: {
             text: benchmarkLabel,
@@ -88,6 +91,7 @@ export function BarChart({
 
   return (
     <div data-testid="barChart-component">
+      <H3>See how inequalities vary for a single period in time</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}

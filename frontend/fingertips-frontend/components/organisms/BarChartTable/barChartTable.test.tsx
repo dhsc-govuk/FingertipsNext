@@ -13,7 +13,6 @@ const mockHeadings = [
 
 const mockData = [
   {
-    summary: 'Freezing',
     areaCode: 'A1425',
     healthData: [
       {

@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H3, BackLink } from 'govuk-react';
+import { H2, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -25,13 +25,21 @@ export function Chart({
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
-      <H3>See how the indicator has changed over time for the area</H3>
+      <H2>View Dementia QOF prevalence</H2>
+      <br />
       <LineChart
         data={data}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
-      <BarChart data={data} yAxisTitle="Value" benchmarkLabel="England" />
+      <br />
+      <BarChart
+        data={data}
+        yAxisTitle="Value"
+        benchmarkLabel="England"
+        benchmarkValue={800}
+        accessibilityLabel="A bar chart showing healthcare data"
+      />
       <br />
       <LineChartTable data={data} headings={headings}></LineChartTable>
     </>
