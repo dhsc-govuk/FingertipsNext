@@ -24,6 +24,11 @@ jobs:
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
@@ -31,6 +36,6 @@ jobs:
           containerAppName: fingertips-frontend
           resourceGroup: rg-fingertips-dev-uks-001
           containerAppEnvironment: cae-fingertips-dev-uks-002
-          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
-          acrUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
