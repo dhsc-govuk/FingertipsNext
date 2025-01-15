@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  frontend-deploy:
+  api-deploy:
     runs-on: ubuntu-latest
     name: 'Frontend Deploy'
     steps:
@@ -40,3 +40,5 @@ jobs:
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 5144
+        env:
+          AZURE_CONFIG_DIR: $HOME/.azure
