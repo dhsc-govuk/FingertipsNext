@@ -289,7 +289,7 @@ components:
         - value
         - lowerCi
         - upperCi
-        - age
+        - ageBand
         - sex
       properties:
         year:
