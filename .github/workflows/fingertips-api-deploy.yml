@@ -39,10 +39,4 @@ jobs:
           registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          targetPort: 8080
-
-      - name: Create A Record
-        run: |
-          if [ $(az network private-dns record-set a show --name fingertips-api --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io) = false ]; then
-            az network private-dns record-set a add-record --resource-group rg-fingertips-core-uks-001 --zone-name ashytree-e4f66340.uksouth.azurecontainerapps.io --record-set-name fingertips-api --ipv4-address 10.0.0.62
-          fi
+          targetPort: 5144
