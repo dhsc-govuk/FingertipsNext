@@ -92,6 +92,11 @@ describe('Search Result Suite', () => {
     );
   });
 
+  it('should have a direct link to the indicator chart in the indicator title', async () => {
+    render(<SearchResult result={MOCK_DATA[0]} />);
+    expect(screen.getByRole('link')).toHaveAttribute('href');
+  });
+
   it('snapshot test', () => {
     const container = render(<SearchResult result={MOCK_DATA[0]} />);
 
