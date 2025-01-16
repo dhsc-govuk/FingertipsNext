@@ -6,9 +6,11 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { PreparedPopulationData } from '@/app/chart/page';
 
 type ChartProps = {
   data: HealthDataForArea[];
+  preparedPopulationData: PreparedPopulationData;
   indicator?: string;
   indicatorsSelected?: string[];
 };
@@ -17,6 +19,7 @@ const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
+  preparedPopulationData,
   indicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
@@ -26,8 +29,9 @@ export function Chart({
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H3>Title for the chart page</H3>
+      {/* TODO: Business logic for which chart to render */}
       <PopulationPyramid
-        data={data}
+        data={preparedPopulationData}
         populationPyramidTitle="Population MEASURE for SELECTED area"
         xAxisTitle="Age"
         yAxisTitle="Percentage of total population"

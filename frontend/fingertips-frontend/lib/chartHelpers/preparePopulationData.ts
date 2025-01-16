@@ -1,8 +1,4 @@
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
-import { accumulateViewport } from 'next/dist/lib/metadata/resolve-metadata';
+import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 
 export interface PopulationData {
   ageCategories: Array<string>;

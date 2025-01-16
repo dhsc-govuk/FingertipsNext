@@ -1,11 +1,11 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H4 } from 'govuk-react';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PreparedPopulationData } from '@/app/chart/page';
 
 interface PyramidChartProps {
-  data: HealthDataForArea[];
+  data: PreparedPopulationData;
   populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -14,29 +14,13 @@ interface PyramidChartProps {
 
 export function PopulationPyramid({
   data,
-  populationPyramidTitle: populationPyramidTitle,
+  populationPyramidTitle,
   xAxisTitle,
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<PyramidChartProps>) {
   // helper functions for HighCharts
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
-
-  // TODO: prepare data in higher level PopulationContainer when PopulationTable is added
-  // NOTE: for mock data this is just the first area [0], it will need to become for selected/england/baseline
-  const populationDataForSelectedArea = preparePopulationData(
-    data[0].healthData
-  );
-  const populationDataForEngland = preparePopulationData(data[0].healthData);
-  const populationDataForBaseline = preparePopulationData(data[0].healthData);
-
-  // faking comapator data
-  for (const i in populationDataForEngland.ageCategories) {
-    populationDataForEngland.femaleSeries[i] = 1;
-    populationDataForEngland.maleSeries[i] = 0.5;
-    populationDataForBaseline.femaleSeries[i] = -1;
-    populationDataForBaseline.maleSeries[i] = -0.5;
-  }
 
   // ensure symetrical axes
   // TODO: fix magic number - see getExtremes/setExtremes
@@ -48,7 +32,7 @@ export function PopulationPyramid({
     legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
       {
-        categories: populationDataForSelectedArea.ageCategories,
+        categories: data.dataForSelectedArea.ageCategories,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -64,7 +48,7 @@ export function PopulationPyramid({
       {
         // mirror axis on right side
         opposite: true,
-        categories: populationDataForSelectedArea.ageCategories,
+        categories: data.dataForSelectedArea.ageCategories,
         linkedTo: 0,
         title: {
           text: xAxisTitle,
@@ -120,7 +104,7 @@ export function PopulationPyramid({
       {
         name: 'Female',
         type: 'bar',
-        data: populationDataForSelectedArea.femaleSeries,
+        data: data.dataForSelectedArea.femaleSeries,
         xAxis: 0,
         color: '#5352BE',
         dataLabels: {
@@ -136,7 +120,7 @@ export function PopulationPyramid({
       {
         name: 'Male',
         type: 'bar',
-        data: populationDataForSelectedArea.maleSeries.map(
+        data: data.dataForSelectedArea.maleSeries.map(
           (datapoint) => -datapoint
         ),
         xAxis: 1,
@@ -154,7 +138,7 @@ export function PopulationPyramid({
       {
         name: 'FAKE England Female',
         type: 'line',
-        data: populationDataForEngland.femaleSeries,
+        data: data.dataForEngland.femaleSeries,
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
         dataLabels: {
@@ -166,7 +150,7 @@ export function PopulationPyramid({
       {
         name: 'FAKE England Male',
         type: 'line',
-        data: populationDataForEngland.maleSeries,
+        data: data.dataForEngland.maleSeries,
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
         dataLabels: {
@@ -178,7 +162,7 @@ export function PopulationPyramid({
       {
         name: 'FAKE Baseline Female',
         type: 'line',
-        data: populationDataForBaseline.femaleSeries,
+        data: data.dataForBaseline.femaleSeries,
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -187,7 +171,7 @@ export function PopulationPyramid({
       {
         name: 'FAKE Baseline Male',
         type: 'line',
-        data: populationDataForBaseline.maleSeries,
+        data: data.dataForBaseline.maleSeries,
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
