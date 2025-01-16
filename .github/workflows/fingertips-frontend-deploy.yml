@@ -17,8 +17,15 @@ on:
 #       - feature/DHSCFT-189_create_fe_deployment_workflow
 
 jobs:
+  determine-version:
+    uses: ./.github/workflows/determine-semver.yml
+    with:
+      fetch-depth: 0
+      gitversion-version: '6.0.x'
+
   frontend-deploy:
     runs-on: ubuntu-latest
+    needs: determine-version
     strategy:
       matrix:
         environment: 
@@ -39,23 +46,13 @@ jobs:
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Download Semver Tag
-        uses: actions/download-artifact@v4
-        with:
-          name: semver-tag
-
       - name: Load Semver Tag
         run: echo "semver_tag=$(cat semver-tag.txt)" >> $GITHUB_ENV
 
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:latest"
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
           # imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ env.semver_tag }}"
           containerAppName: fingertips-frontend
           resourceGroup: ${{ vars.RESOURCE_GROUP }}

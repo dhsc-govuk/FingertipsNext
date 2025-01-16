@@ -63,15 +63,6 @@ jobs:
             type=raw,value=${{ inputs.git-semver }}
             type=raw,value
 
-      - name: Save Semver Tag
-        run: echo "${{ inputs.git-semver }}" > semver-tag.txt
-    
-      - name: Upload Semver Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: semver-tag
-          path: semver-tag.txt
-
       - name: Build and push container
         uses: docker/build-push-action@v6
         with:
