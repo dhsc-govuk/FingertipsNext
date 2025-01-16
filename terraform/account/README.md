@@ -16,7 +16,7 @@ container_name       = "<state storage container's name>
 
 Next, to avoid having to specify configuration variables on the command line repeatedly, you will need to create a `.tfvars` file containing your configuration values. The easiest way is to copy the [example.tfvars](example.tfvars) file to one named for the subscription you want to deploy to (e.g. `subscription-name.tfvars`) and update the values specified in it to match your subscription.
 
-Neither of these `.tfvars` files should be comitted (they will be automatically ignored by Git due to our .gitignore configuration), as they will contain sensitive information.
+Neither of these `.tfvars` files should be committed (they will be automatically ignored by Git due to our .gitignore configuration), as they will contain sensitive information.
 
 ### Running the Terraform
 

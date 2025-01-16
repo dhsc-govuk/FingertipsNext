@@ -5,14 +5,18 @@ import {
   SectionBreak,
   GridRow,
   GridCol,
+  Checkbox,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
 import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;
+  indicatorSelected?: boolean;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -30,15 +34,46 @@ const StyledRow = styled(GridRow)(
   })
 );
 
-export function SearchResult({ result }: Readonly<SearchResultProps>) {
+export function SearchResult({
+  result,
+  indicatorSelected,
+}: Readonly<SearchResultProps>) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleClick = (indicatorId: string, checked: boolean) => {
+    const params = new URLSearchParams(searchParams);
+    const searchState = SearchStateManager.setStateFromParams(params);
+
+    if (checked) {
+      searchState.addIndicatorSelected(indicatorId);
+    } else {
+      searchState.removeIndicatorSelected(indicatorId);
+    }
+
+    replace(searchState.generatePath(pathname), { scroll: false });
+  };
+
   return (
     <ListItem data-testid="search-result">
       <StyledRow>
         <GridCol>
-          <H5>{result.indicatorName}</H5>
-          <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-          <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-          <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          <Checkbox
+            id={`search-results-indicator-${result.id.toString()}`}
+            data-testid={`search-results-indicator-${result.id}`}
+            name="indicator"
+            value={result.id}
+            defaultChecked={indicatorSelected}
+            onChange={(e) => {
+              handleClick(result.id.toString(), e.target.checked);
+            }}
+          >
+            <H5>{result.indicatorName}</H5>
+            <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
+            <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+          </Checkbox>
         </GridCol>
       </StyledRow>
       <SectionBreak visible={true} />

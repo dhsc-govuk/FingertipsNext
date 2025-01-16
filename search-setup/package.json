@@ -1,11 +1,13 @@
 {
   "type": "module",
   "scripts": {
-    "create-index": "tsc && node --env-file=.env main.js"
+    "create-index": "tsc && node --env-file=.env ./dist/src/main.js",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.2"

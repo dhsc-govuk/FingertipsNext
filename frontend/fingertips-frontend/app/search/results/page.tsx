@@ -1,22 +1,37 @@
 import { SearchResults } from '@/components/pages/search/results';
 import { ErrorPage } from '@/components/pages/error';
 import { getSearchService } from '@/lib/search/searchResultData';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { asArray } from '@/lib/pageHelpers';
 
 export default async function Page(
   props: Readonly<{
-    searchParams?: Promise<{
-      indicator?: string;
-    }>;
+    searchParams?: Promise<SearchStateParams>;
   }>
 ) {
   const searchParams = await props.searchParams;
-  const indicator = searchParams?.indicator ?? '';
+  const searchedIndicator =
+    searchParams?.[SearchParams.SearchedIndicator] ?? '';
+  const indicatorsSelected = asArray(
+    searchParams?.[SearchParams.IndicatorsSelected]
+  );
+
+  const initialState = {
+    searchedIndicator,
+    indicatorsSelected,
+    message: null,
+    errors: {},
+  };
 
   try {
     // Perform async API call using indicator prop
-    const searchResults = await getSearchService().searchWith(indicator);
+    const searchResults =
+      await getSearchService().searchWith(searchedIndicator);
     return (
-      <SearchResults indicator={indicator} searchResults={searchResults} />
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={searchResults}
+      />
     );
   } catch (error) {
     // Log error response

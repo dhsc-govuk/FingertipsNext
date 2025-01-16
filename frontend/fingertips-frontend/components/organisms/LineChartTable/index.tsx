@@ -1,35 +1,45 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { WeatherForecast } from '@/generated-sources/api-client';
+import { sortHealthDataByDate } from '@/lib/chartHelpers/formatChartValues';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface TableProps {
-  data: WeatherForecast[];
+  data: HealthDataForArea[];
   headings: string[];
 }
 
 export function LineChartTable({ data, headings }: Readonly<TableProps>) {
+  data = sortHealthDataByDate(data);
   return (
     <div data-testid="lineChartTable-component">
       <Table
         head={
           <Table.Row>
-            {headings?.map((heading, index) => (
-              <Table.CellHeader key={index}>{heading}</Table.CellHeader>
+            {headings?.map((heading) => (
+              <Table.CellHeader key={`header-${heading}`}>
+                {heading}
+              </Table.CellHeader>
             ))}
           </Table.Row>
         }
       >
-        {data.map((item) => (
-          <Table.Row key={`${item.date}-${item.temperatureC}`}>
-            <Table.Cell>
-              {item.date?.toLocaleDateString('en-GB') ?? ''}
-            </Table.Cell>
-            <Table.Cell numeric>{item.temperatureC}</Table.Cell>
-            <Table.Cell numeric>{item.temperatureF}</Table.Cell>
-            <Table.Cell>{item.summary}</Table.Cell>
-          </Table.Row>
-        ))}
+        {data.map((item) =>
+          item.healthData.map((point, index) => (
+            <Table.Row key={`${item.areaCode}-${point.year}--${index}`}>
+              {index === 0 && (
+                <Table.Cell rowSpan={item.healthData.length}>
+                  {item.areaCode}
+                </Table.Cell>
+              )}
+              <Table.Cell numeric>{point.year}</Table.Cell>
+              <Table.Cell numeric>{point.value}</Table.Cell>
+              <Table.Cell numeric>{point.count}</Table.Cell>
+              <Table.Cell numeric>{point.lowerCi}</Table.Cell>
+              <Table.Cell numeric>{point.upperCi}</Table.Cell>
+            </Table.Row>
+          ))
+        )}
       </Table>
     </div>
   );

@@ -1,6 +1,6 @@
-import { Data } from "./types";
+import { IndicatorSearchData } from "../types";
 
-export const sampleData: Data[] = [
+export const sampleIndicatorData: IndicatorSearchData[] = [
   {
     IID: "108",
     Descriptive: {

@@ -17,7 +17,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
     },
     {
       name: 'webkit',
@@ -25,7 +25,7 @@ export default defineConfig({
     },
   ],
 
-  //Run your local dev server before starting the tests
+  // Run your local dev server before starting the tests
   webServer: {
     command: 'npm run dev',
     url: url,

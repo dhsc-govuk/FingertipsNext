@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace DHSC.FingerTipsNext.Api.Controllers;
+namespace DHSC.FingertipsNext.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

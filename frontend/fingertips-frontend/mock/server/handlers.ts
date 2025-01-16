@@ -1,6 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { mockWeatherForecasts } from '../data/forecasts';
 import { faker } from '@faker-js/faker';
+import { mockHealthData } from '@/mock/data/healthdata';
 
 faker.seed(1);
 
@@ -47,7 +48,7 @@ export function getGetWeatherForecast200Response() {
 export function getFilterIndicators200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
+  ].map(() => ({
     indicator_id: 3456,
     title: 'Hypertension: QOF prevalence (all ages)',
   }));
@@ -87,20 +88,7 @@ export function getGetIndicator500Response() {
 }
 
 export function getGetHealthDataForAnIndicator200Response() {
-  return [
-    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-  ].map((_) => ({
-    areaCode: 'A1426',
-    healthData: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      year: 2023,
-      count: 222,
-      value: 506.60912,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-    })),
-  }));
+  return mockHealthData;
 }
 
 export function getGetHealthDataForAnIndicator400Response() {
