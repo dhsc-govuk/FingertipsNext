@@ -61,7 +61,10 @@ jobs:
 
   build-container:
     uses: ./.github/workflows/build-container.yml
-    needs: frontend-unit-test-and-static-analysis
+    needs: [
+      determine-version,
+      frontend-unit-test-and-static-analysis
+    ]
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
