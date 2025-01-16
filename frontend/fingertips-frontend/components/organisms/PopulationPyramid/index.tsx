@@ -22,7 +22,10 @@ export function PopulationPyramid({
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
   const populationPyramidOptions: Highcharts.Options = {
-    chart: { type: 'bar', height: 1086 },
+    chart: {
+      type: 'bar',
+      height: 1086,
+    },
     title: { style: { display: 'none' } },
     legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
@@ -98,6 +101,7 @@ export function PopulationPyramid({
         data: data.dataForSelectedArea.femaleSeries,
         xAxis: 0,
         color: '#5352BE',
+        pointWidth: 17,
         dataLabels: {
           enabled: true,
           inside: false,
@@ -116,6 +120,7 @@ export function PopulationPyramid({
         ),
         xAxis: 1,
         color: '#57AEF8',
+        pointWidth: 17,
         dataLabels: {
           enabled: true,
           inside: false,
