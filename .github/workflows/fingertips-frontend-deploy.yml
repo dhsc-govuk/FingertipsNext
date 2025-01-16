@@ -2,10 +2,10 @@ name: Fingertips Frontend Deploy
 
 on:
   workflow_run:
-    workflows: ["Fingertips Frontend Build"]
-    types: [completed]
-    branches:
-      - 'feature/DHSCFT-189_create_fe_deployment_workflow'
+    workflows:
+      - Fingertips Frontend Build
+    types:
+      - completed
 
 jobs:
   frontend-deploy:
@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Azure Container Registry Login
         uses: Azure/docker-login@v1

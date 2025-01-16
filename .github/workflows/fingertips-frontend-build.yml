@@ -3,6 +3,7 @@ name: Fingertips Frontend Build
 env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
+  test: placeholder
 
 on:
   push:
