@@ -6,7 +6,7 @@ on:
       - feature/DHSCFT-189_create_fe_deployment_workflow
     paths:
       - api/**
-      - .github/workflows/fingertips-api-deploy.yml
+      - .github/workflows/fingertips-frontend-deploy.yml
 
 # on:
 #   workflow_run:
