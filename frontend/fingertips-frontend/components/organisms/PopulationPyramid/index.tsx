@@ -21,10 +21,6 @@ export function PopulationPyramid({
   // helper functions for HighCharts
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
-  // ensure symetrical axes
-  // TODO: fix magic number - see getExtremes/setExtremes
-  const yAxisLimit = 4;
-
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar', height: 1086 },
     title: { style: { display: 'none' } },
@@ -84,8 +80,6 @@ export function PopulationPyramid({
         enabled: false,
         description: accessibilityLabel,
       },
-      max: yAxisLimit,
-      min: -yAxisLimit,
     },
     tooltip: {
       padding: 20,
