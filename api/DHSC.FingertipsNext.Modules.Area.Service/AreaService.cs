@@ -1,12 +1,27 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Schemas;
+﻿using AutoMapper;
+using DHSC.FingertipsNext.Modules.Area.Repository;
+using DHSC.FingertipsNext.Modules.Area.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.Area.Service;
 
 /// <summary>
-/// 
+///
 /// </summary>
-public class AreaService: IAreaService
+public class AreaService : IAreaService
 {
+    private readonly IAreaRepository _areaRepository;
+    private readonly IMapper _mapper;
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="areaRepository"></param>
+    public AreaService(IAreaRepository areaRepository, IMapper mapper)
+    {
+        _areaRepository = areaRepository;
+        _mapper = mapper;
+    }
+
     /// <summary>
     /// Get all available hierarchy types
     /// </summary>
@@ -41,14 +56,21 @@ public class AreaService: IAreaService
     /// <param name="includeAncestors"></param>
     /// /// <param name="childAreaType"></param>
     /// <returns>The requested area node, or null if it cannot be located.</returns>
-    public Task<AreaWithRelations?> GetAreaDetails(
+    public async Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
         bool? includeChildren,
         bool? includeAncestors,
         string? childAreaType
     )
     {
-        throw new NotImplementedException();
+        var areaDetails = await _areaRepository.GetAreaData(areaCode);
+
+        if (areaDetails.Count == 0)
+            return null;
+
+        var first = areaDetails.First();
+        
+        return _mapper.Map<AreaWithRelations>(first);
     }
 
     /// <summary>

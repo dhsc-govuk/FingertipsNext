@@ -72,8 +72,6 @@ public static class Program
 
     private static void RegisterModules(IServiceCollection services, ConfigurationManager configuration)
     {
-        var ass1 = AppDomain.CurrentDomain.GetAssemblies();
-        
         var type = typeof(IMonolithModule);
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())

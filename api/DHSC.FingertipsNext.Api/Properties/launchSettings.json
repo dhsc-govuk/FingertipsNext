@@ -10,8 +10,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DB_SERVER": "localhost",
         "DB_NAME": "fingertips-db",
-        "DB_USER": "<username>",
-        "DB_PASSWORD": "<password>",
+        "DB_USER": "sa",
+        "DB_PASSWORD": "Password01!",
         "TRUST_CERT": "True"
       }
     },

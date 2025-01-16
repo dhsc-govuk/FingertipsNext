@@ -1,10 +1,9 @@
 ﻿### get some sample data
-GET http://localhost:5144/Indicators/100/data
-    ?areaCodes=areaCode1
-    &years=1970
-    &years=1980
-    &areaCodes=unknownAreaCode
-    &areaCodes=areaCode2
+# sample indicators: 1, 6, 40, 41, 355
+# sample area: E38000058, E38000071, E38000115
+
+GET http://localhost:5144/Indicators/1/data
+   
 
 ###
 
@@ -19,7 +18,7 @@ GET http://localhost:5144/Indicators/sausage/data
 ###
 
 ### attempt to use invalid years
-GET http://localhost:5144/Indicators/100/data
+GET http://localhost:5144/Indicators/355/data
     ?years=sausage
 
 ###
