@@ -1,5 +1,6 @@
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { Home } from '@/components/pages/home';
 
 export default async function Page(
   props: Readonly<{
@@ -15,5 +16,10 @@ export default async function Page(
     errors: {},
   };
 
-  return <SearchForm searchFormState={initialState} />;
+  return (
+    <>
+      <Home />
+      <SearchForm searchFormState={initialState} />
+    </>
+  );
 }
