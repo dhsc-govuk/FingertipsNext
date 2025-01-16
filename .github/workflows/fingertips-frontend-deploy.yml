@@ -2,7 +2,7 @@ name: Fingertips Frontend Deploy
 on:
   workflow_run:
     workflows:
-      - Fingertips Build
+      - Fingertips Frontend Build
     types:
       - completed
     branches:

@@ -13,6 +13,13 @@ on:
         required: false
         default: '6.0.x'
         type: string
+    outputs:
+      sem-ver:
+        description: "Semantic version number"
+        value: ${{ jobs.determine-semver.outputs.semVer }}
+      full-sem-ver:
+        description: "Full semantic version number"
+        value: ${{ jobs.determine-semver.outputs.fullSemVer }}
 
 jobs:
   determine-semver:

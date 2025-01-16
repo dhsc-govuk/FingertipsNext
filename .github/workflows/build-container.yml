@@ -71,4 +71,12 @@ jobs:
         with:
           name: semver-tag
           path: semver-tag.txt
+
+      - name: Build and push container
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context-location }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       
