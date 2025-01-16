@@ -30,7 +30,7 @@ export function Chart({
         data={data}
         populationPyramidTitle="Population MEASURE for SELECTED area"
         xAxisTitle="Age"
-        yAxisTitle="Percentage %"
+        yAxisTitle="Percentage of total population"
         accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
       />
       <LineChart
