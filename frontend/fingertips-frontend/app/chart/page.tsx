@@ -9,8 +9,8 @@ import {
 
 export type PreparedPopulationData = {
   dataForSelectedArea: PopulationData;
-  dataForEngland: PopulationData;
-  dataForBaseline: PopulationData;
+  dataForEngland?: PopulationData;
+  dataForBaseline?: PopulationData;
 };
 
 export default async function ChartPage(
