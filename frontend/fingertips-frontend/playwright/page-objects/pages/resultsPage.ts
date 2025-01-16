@@ -22,7 +22,7 @@ export default class ResultsPage extends BasePage {
 
   async checkURLIsCorrect(indicator: string) {
     await this.checkURL(
-      `/results?${SearchParams.SearchedIndicator}=${indicator}`
+      `results?${SearchParams.SearchedIndicator}=${indicator}`
     );
   }
 

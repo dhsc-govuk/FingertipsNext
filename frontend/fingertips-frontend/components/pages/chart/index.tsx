@@ -23,7 +23,7 @@ export function Chart({
     searchedIndicator,
     indicatorsSelected,
   });
-  const backLinkPath = searchState.generatePath('/search/results');
+  const backLinkPath = searchState.generatePath('/results');
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
