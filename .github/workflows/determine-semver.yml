@@ -16,10 +16,10 @@ on:
     outputs:
       sem-ver:
         description: "Semantic version number"
-        value: ${{ jobs.determine-semver.outputs.semVer }}
+        value: ${{ jobs.determine-semver.outputs.sem-ver }}
       full-sem-ver:
         description: "Full semantic version number"
-        value: ${{ jobs.determine-semver.outputs.fullSemVer }}
+        value: ${{ jobs.determine-semver.outputs.full-sem-ver }}
 
 jobs:
   determine-semver:

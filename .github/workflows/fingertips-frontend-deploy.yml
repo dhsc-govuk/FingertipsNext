@@ -2,12 +2,10 @@ name: Fingertips Frontend Deploy
 
 on:
   workflow_run:
-    workflows:
-      - Fingertips Frontend Build
-    types:
-      - completed
+    workflows: ["Fingertips Frontend Build"]
+    types: [completed]
     branches:
-      - feature/DHSCFT-189_create_fe_deployment_workflow
+      - 'feature/DHSCFT-189_create_fe_deployment_workflow'
   workflow_dispatch:
 
 jobs:
