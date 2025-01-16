@@ -22,15 +22,30 @@ export function PopulationPyramid({
   // helper functions for HighCharts
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
+  // TODO: prepare data in higher level PopulationContainer when PopulationTable is added
   // NOTE: for mock data this is just the first area [0], it will need to become for selected/england/baseline
   const populationDataForSelectedArea = preparePopulationData(
     data[0].healthData
   );
+  const populationDataForEngland = preparePopulationData(data[0].healthData);
+  const populationDataForBaseline = preparePopulationData(data[0].healthData);
+
+  // faking comapator data
+  for (const i in populationDataForEngland.ageCategories) {
+    populationDataForEngland.femaleSeries[i] = 1;
+    populationDataForEngland.maleSeries[i] = 0.5;
+    populationDataForBaseline.femaleSeries[i] = -1;
+    populationDataForBaseline.maleSeries[i] = -0.5;
+  }
+
+  // ensure symetrical axes
+  // TODO: fix magic number - see getExtremes/setExtremes
+  const yAxisLimit = 7;
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar', height: 1086 },
     title: { style: { display: 'none' } },
-    legend: { verticalAlign: 'bottom', layout: 'vertical' },
+    legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
       {
         categories: populationDataForSelectedArea.ageCategories,
@@ -78,17 +93,18 @@ export function PopulationPyramid({
       tickColor: '#D7D7D7',
       gridLineWidth: 0,
       labels: {
-        format: '{abs value}',
+        format: '{abs value}%',
       },
+      tickInterval: 1,
       accessibility: {
         enabled: false,
         description: accessibilityLabel,
       },
+      max: yAxisLimit,
+      min: -yAxisLimit,
     },
     plotOptions: {
-      series: {
-        stacking: 'normal',
-      },
+      series: { stacking: 'normal' },
     },
     tooltip: {
       padding: 20,
@@ -105,6 +121,7 @@ export function PopulationPyramid({
         name: 'Female',
         type: 'bar',
         data: populationDataForSelectedArea.femaleSeries,
+        xAxis: 0,
         color: '#5352BE',
         dataLabels: {
           enabled: true,
@@ -122,6 +139,7 @@ export function PopulationPyramid({
         data: populationDataForSelectedArea.maleSeries.map(
           (datapoint) => -datapoint
         ),
+        xAxis: 1,
         color: '#57AEF8',
         dataLabels: {
           enabled: true,
@@ -134,21 +152,42 @@ export function PopulationPyramid({
         },
       },
       {
-        name: 'Female / 2',
+        name: 'FAKE England Female',
         type: 'line',
-        data: populationDataForSelectedArea.femaleSeries.map((datapoint) =>
-          parseFloat((datapoint / 2).toFixed(2))
-        ),
+        data: populationDataForEngland.femaleSeries,
         color: '#3D3D3D',
         marker: { symbol: 'circle' },
+        dataLabels: {
+          enabled: true,
+          format: '{(point.y):.3f}%',
+        },
+        yAxis: 0,
+      },
+      {
+        name: 'FAKE England Male',
+        type: 'line',
+        data: populationDataForEngland.maleSeries,
+        color: '#3D3D3D',
+        marker: { symbol: 'circle' },
+        dataLabels: {
+          enabled: true,
+          format: '{(point.y):.3f}%',
+        },
+        yAxis: 0,
+      },
+      {
+        name: 'FAKE Baseline Female',
+        type: 'line',
+        data: populationDataForBaseline.femaleSeries,
+        color: '#28A197',
+        dashStyle: 'Dash',
+        marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
       },
       {
-        name: 'Female / 3',
+        name: 'FAKE Baseline Male',
         type: 'line',
-        data: populationDataForSelectedArea.femaleSeries.map((datapoint) =>
-          parseFloat((datapoint / 3).toFixed(2))
-        ),
+        data: populationDataForBaseline.maleSeries,
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
