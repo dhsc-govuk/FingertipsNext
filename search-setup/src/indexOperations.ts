@@ -4,12 +4,17 @@ import {
   SearchField,
   SearchClient,
   SearchFieldDataType,
+  ScoringProfile,
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "../types";
 import {
   GEOGRAPHY_SEARCH_SUGGESTER_NAME,
   GeographySearchIndexColumnNames,
 } from "./constants.js";
+
+interface ScoringWeight {
+  [fieldName: string]: number;
+}
 
 export async function createIndex(
   indexClient: SearchIndexClient,
@@ -47,18 +52,22 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
           buildSearchIndexField("Definition", "Edm.String", true, true, true),
         ],
       },
+      {
+        ...buildSearchIndexField(
+          "LatestDataPeriod",
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
+      },
     ],
     scoringProfiles: [
-      {
-        name: "BasicScoringProfile",
-        textWeights: {
-          weights: {
-            IID: 20,
-            "Descriptive/Name": 10,
-            "Descriptive/Definition": 5,
-          },
-        },
-      },
+      buildScoringProfile("BasicScoringProfile", [
+        { IID: 20 },
+        { "Descriptive/Name": 10 },
+        { "Descriptive/Definition": 5 },
+      ]),
     ],
     defaultScoringProfile: "BasicScoringProfile",
   };
@@ -122,4 +131,25 @@ function buildSearchIndexField(
     filterable,
     hidden,
   };
+}
+
+function buildScoringProfile(
+  name: string,
+  weights: ScoringWeight[]
+): ScoringProfile {
+  let scoringProfile: ScoringProfile = {
+    name: name,
+    textWeights: {
+      weights: {},
+    },
+  };
+
+  for (const weighting of weights) {
+    scoringProfile.textWeights!.weights = {
+      ...scoringProfile.textWeights!.weights,
+      ...weighting,
+    };
+  }
+
+  return scoringProfile;
 }

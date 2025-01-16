@@ -102,7 +102,7 @@ describe("AI search index creation and data loading", () => {
 
     it("should have correct index name and number of fields", async () => {
       expect(index.name).toBe(INDICATOR_SEARCH_INDEX_NAME);
-      expect(index.fields.length).toBe(2);
+      expect(index.fields.length).toBe(3);
     });
 
     it("should have correct IID field configuration", () => {
