@@ -167,19 +167,13 @@ describe('processPopulationData', () => {
   });
   // Female Data
   it('should return an object with female population data as a percentage sorted by age band old to youngest', () => {
-    const expected = [
-      // 347835, 547342, 1936763, 1692751, 1652231, 1721746, 1635842, 1496012,
-      1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78,
-    ];
+    const expected = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
     const actual: PopulationData = preparePopulationData(mockData);
     expect(actual.femaleSeries).toEqual(expected);
   });
 
   it('should return an object with male population data as a percentage sorted by age band sorted old to youngest', () => {
-    const expected = [
-      // 173456, 377979, 1872253, 1763621, 1752832, 1807194, 1712925, 1568625,
-      0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11,
-    ];
+    const expected = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
     const actual: PopulationData = preparePopulationData(mockData);
     expect(actual.maleSeries).toEqual(expected);
   });
