@@ -3,13 +3,14 @@ name: Fingertips Frontend Deploy
 on:
   workflow_run:
     workflows:
-      - Fingertips Frontend Build
+      - "Fingertips Frontend Build"
     types:
       - completed
 
 jobs:
   frontend-deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Frontend Deploy'
     steps:
       - name: Checkout source
