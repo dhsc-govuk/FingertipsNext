@@ -87,9 +87,6 @@ export function PopulationPyramid({
       max: yAxisLimit,
       min: -yAxisLimit,
     },
-    plotOptions: {
-      // series: { stacking: 'normal' },
-    },
     tooltip: {
       padding: 20,
       format:
