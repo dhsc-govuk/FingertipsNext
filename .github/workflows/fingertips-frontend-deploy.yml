@@ -1,12 +1,12 @@
 name: Fingertips Frontend Deploy
-
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Fingertips Build
+    types:
+      - completed
     branches:
       - feature/DHSCFT-189_create_fe_deployment_workflow
-    paths:
-      - frontend/fingertips-frontend/**
-      - .github/workflows/fingertips-frontend-deploy.yml
   workflow_dispatch:
 
 jobs:
@@ -29,10 +29,18 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Download Semver Tag
+        uses: actions/download-artifact@v4
+        with:
+          name: semver-tag
+
+      - name: Load Semver Tag
+        run: echo "semver_tag=$(cat semver-tag.txt)" >> $GITHUB_ENV
+
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:latest"
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ env.semver_tag }}"
           containerAppName: fingertips-frontend
           resourceGroup: rg-fingertips-dev-uks-001
           containerAppEnvironment: cae-fingertips-dev-uks-002
