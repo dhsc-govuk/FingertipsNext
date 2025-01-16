@@ -1,15 +1,24 @@
 name: Fingertips Frontend Deploy
 
 on:
-  workflow_run:
-    workflows:
-      - "Fingertips Frontend Build"
-    types:
-      - completed
+  workflow_dispatch
+
+# on:
+#   workflow_run:
+#     workflows: [Fingertips Frontend Build]
+#     types:
+#       - completed
+#     branches:
+#       - feature/DHSCFT-189_create_fe_deployment_workflow
 
 jobs:
   frontend-deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: 
+          - development
+    environment: ${{ matrix.environment }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Frontend Deploy'
     steps:
@@ -41,15 +50,16 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ env.semver_tag }}"
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:latest"
+          # imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ env.semver_tag }}"
           containerAppName: fingertips-frontend
-          resourceGroup: rg-fingertips-dev-uks-001
-          containerAppEnvironment: cae-fingertips-dev-uks-002
+          resourceGroup: ${{ vars.RESOURCE_GROUP }}
+          containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
           registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 3000
-          environmentVariables: 'FINGERTIPS_API_URL=https://fingertips-api.ashytree-e4f66340.uksouth.azurecontainerapps.io'
+          environmentVariables: 'FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }}'
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure
