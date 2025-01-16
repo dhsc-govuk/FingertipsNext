@@ -74,6 +74,19 @@ describe('Search Results Suite', () => {
     ).toBe(`/?${SearchParams.SearchedIndicator}=test`);
   });
 
+  it('should render the geography filter pane', () => {
+    render(
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={MOCK_DATA}
+      />
+    );
+
+    expect(
+      screen.getByTestId('geography-filter-container')
+    ).toBeInTheDocument();
+  });
+
   it('should render search results', () => {
     render(
       <SearchResults

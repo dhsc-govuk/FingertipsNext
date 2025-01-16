@@ -1,6 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { GeographyFilter } from '.';
 
+const availableAreaTypes = [
+  {
+    id: '001',
+    name: 'area type 001',
+  },
+  {
+    id: '002',
+    name: 'area type 002',
+  },
+];
+
 describe('Geography Filter', () => {
   it('snapshot test', () => {
     const container = render(<GeographyFilter availableAreaTypes={[]} />);
@@ -9,7 +20,7 @@ describe('Geography Filter', () => {
   });
 
   it('should render the Filters heading', () => {
-    render(<GeographyFilter availableAreaTypes={[]} />);
+    render(<GeographyFilter />);
 
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
@@ -18,7 +29,6 @@ describe('Geography Filter', () => {
     render(
       <GeographyFilter
         selectedAreas={[{ id: '001', name: 'selected area 001' }]}
-        availableAreaTypes={[]}
       />
     );
 
@@ -29,11 +39,20 @@ describe('Geography Filter', () => {
   });
 
   it('should render the select area type drop down if there are no selected areas', () => {
-    render(<GeographyFilter availableAreaTypes={[]} />);
+    render(<GeographyFilter availableAreaTypes={availableAreaTypes} />);
 
     expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
     ).toBeInTheDocument();
+  });
+
+  it('should render all the available areaTypes', () => {
+    render(<GeographyFilter availableAreaTypes={availableAreaTypes} />);
+
+    expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('combobox', { name: /Select an area type/i })
+    ).toHaveLength(2);
   });
 });

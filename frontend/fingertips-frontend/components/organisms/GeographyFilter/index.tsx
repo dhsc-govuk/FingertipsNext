@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface GeographyFilterProps {
   selectedAreas?: any[];
-  availableAreaTypes: any[];
+  availableAreaTypes?: any[];
 }
 
 const StyledFilterDiv = styled('div')({
@@ -23,7 +23,7 @@ export function GeographyFilter({
   availableAreaTypes,
 }: Readonly<GeographyFilterProps>) {
   return (
-    <StyledFilterDiv>
+    <StyledFilterDiv data-testid="geography-filter-container">
       <H3>Filters</H3>
       <SectionBreak visible={true} />
 
