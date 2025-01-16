@@ -5,8 +5,9 @@ import { HighchartsReact } from 'highcharts-react-official';
 import {
   generateSeriesData,
   sortHealthDataByDate,
-} from '@/lib/chartHelpers/formatLineChartValues';
+} from '@/lib/chartHelpers/formatChartValues';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { H3 } from 'govuk-react';
 
 interface LineChartProps {
   data: HealthDataForArea[];
@@ -25,7 +26,7 @@ export function LineChart({
     credits: {
       enabled: false,
     },
-    chart: { type: 'line', height: '50%', spacingTop: 50 },
+    chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
     title: {
       text: 'Line chart to show how the indicator has changed over time for the area',
       style: {
@@ -56,6 +57,7 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
+      <H3>See how the indicator has changed over time for the area</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
