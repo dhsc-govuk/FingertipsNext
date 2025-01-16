@@ -28,7 +28,10 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
-
+ARG DHSC_AI_SEARCH_SERVICE_URL: "https://dummyurl.search.windows.net"
+ARG DHSC_AI_SEARCH_INDEX_NAME: "indicator-search-index"
+ARG DHSC_AI_SEARCH_API_KEY: "placeholder-api-key-value"
+ARG DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
