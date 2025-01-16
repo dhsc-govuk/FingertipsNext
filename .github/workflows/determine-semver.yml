@@ -1,0 +1,46 @@
+name: Determine Semantic Version
+
+on:
+  workflow_call:
+    inputs:
+      fetch-depth:
+        description: 'Git fetch depth for checking out the repository'
+        required: false
+        default: 0
+        type: number
+      gitversion-version:
+        description: 'Version of GitVersion to use'
+        required: false
+        default: '6.0.x'
+        type: string
+    outputs:
+      sem-ver:
+        description: "Semantic version number"
+        value: ${{ jobs.determine-semver.outputs.sem-ver }}
+      full-sem-ver:
+        description: "Full semantic version number"
+        value: ${{ jobs.determine-semver.outputs.full-sem-ver }}
+
+jobs:
+  determine-semver:
+    name: Determine Semantic Version Number
+    runs-on: ubuntu-latest
+
+    outputs:
+      sem-ver: ${{ steps.version_step.outputs.semVer }}
+      full-sem-ver: ${{ steps.version_step.outputs.fullSemVer }}
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: ${{ inputs.gitversion-version }}
+
+      - name: Generate Semantic Version
+        id: version_step
+        uses: gittools/actions/gitversion/execute@v3.0.0
