@@ -44,12 +44,16 @@ exports[`Pill Suite snapshot test 1`] = `
   word-wrap: normal;
 }
 
+.c5 {
+  cursor: pointer;
+}
+
 .c0 {
   background-color: white;
-  border: 2px black solid;
-  padding: 10px 20px;
+  border: 0.1em black solid;
+  padding: 0.3125em 0.3125em;
   max-width: 40%;
-  margin: 5px;
+  margin: 0.3125em;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -85,10 +89,6 @@ exports[`Pill Suite snapshot test 1`] = `
   font-weight: 400;
   font-size: 14px;
   line-height: 1.1428571428571428;
-}
-
-.c5 {
-  cursor: pointer;
 }
 
 @media print {
@@ -127,7 +127,7 @@ exports[`Pill Suite snapshot test 1`] = `
 
 <div
     class="c0"
-    data-testid="main-container"
+    data-testid="pill-container"
   >
     <div
       class="c1"

@@ -5,7 +5,7 @@ describe('Pill Suite', () => {
   it('should render expected elements', () => {
     render(<Pill selectedFilterName="Dementia" />);
 
-    expect(screen.getByTestId('main-container')).toBeInTheDocument();
+    expect(screen.getByTestId('pill-container')).toBeInTheDocument();
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();
     expect(screen.getByTestId('remove-icon-div')).toBeInTheDocument();
     expect(screen.getByRole('paragraph')).toBeInTheDocument();
