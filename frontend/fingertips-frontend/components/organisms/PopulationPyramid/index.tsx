@@ -1,7 +1,6 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { H4 } from 'govuk-react';
-import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { PreparedPopulationData } from '@/app/chart/page';
 
 interface PyramidChartProps {
@@ -135,6 +134,12 @@ export function PopulationPyramid({
           },
         },
       },
+    ],
+  };
+
+  // add comparitors to series if they exist
+  if (data.dataForEngland && populationPyramidOptions.series) {
+    populationPyramidOptions.series.push(
       {
         name: 'FAKE England Female',
         type: 'line',
@@ -158,7 +163,11 @@ export function PopulationPyramid({
           format: '{(point.y):.3f}%',
         },
         yAxis: 0,
-      },
+      }
+    );
+  }
+  if (data.dataForBaseline && populationPyramidOptions.series) {
+    populationPyramidOptions.series.push(
       {
         name: 'FAKE Baseline Female',
         type: 'line',
@@ -176,9 +185,9 @@ export function PopulationPyramid({
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
-      },
-    ],
-  };
+      }
+    );
+  }
 
   return (
     <div data-testid="PopulationPyramid-component">
