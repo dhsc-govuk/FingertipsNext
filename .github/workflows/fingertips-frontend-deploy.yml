@@ -1,7 +1,12 @@
 name: Fingertips Frontend Deploy
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - feature/DHSCFT-189_create_fe_deployment_workflow
+    paths:
+      - api/**
+      - .github/workflows/fingertips-api-deploy.yml
 
 # on:
 #   workflow_run:
