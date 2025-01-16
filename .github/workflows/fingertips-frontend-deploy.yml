@@ -6,7 +6,6 @@ on:
     types: [completed]
     branches:
       - 'feature/DHSCFT-189_create_fe_deployment_workflow'
-  workflow_dispatch:
 
 jobs:
   frontend-deploy:

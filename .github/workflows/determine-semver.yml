@@ -27,8 +27,8 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      sem-ver: ${{ steps.sem_ver.outputs.semVer }}
-      full-sem-ver: ${{ steps.full-sem-ver.outputs.fullSemVer }}
+      sem-ver: ${{ steps.version_step.outputs.semVer }}
+      full-sem-ver: ${{ steps.version_step.outputs.fullSemVer }}
 
     steps:
       - name: Checkout Source
@@ -44,9 +44,3 @@ jobs:
       - name: Generate Semantic Version
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.0.0
-      
-      - id: sem_ver
-        run: echo "semVer=${{ steps.version_step.outputs.semVer }}" >> $GITHUB_OUTPUT
-
-      - id: full-sem-ver
-        run: echo "fullSemVer=${{ steps.version_step.outputs.fullSemVer }}" >> $GITHUB_OUTPUT
