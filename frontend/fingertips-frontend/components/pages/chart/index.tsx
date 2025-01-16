@@ -32,7 +32,7 @@ export function Chart({
       {/* TODO: Business logic for which chart to render */}
       <PopulationPyramid
         data={preparedPopulationData}
-        populationPyramidTitle="Population MEASURE for SELECTED area"
+        populationPyramidTitle="Population INDICATOR for SELECTED area"
         xAxisTitle="Age"
         yAxisTitle="Percentage of total population"
         accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"

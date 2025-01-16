@@ -63,8 +63,8 @@ export default async function ChartPage(
   // setting values for fake data so they don't overlay on plot
   for (const i in populationDataForEngland.ageCategories) {
     populationDataForEngland.femaleSeries[i] = 1;
-    populationDataForEngland.maleSeries[i] = 0.5;
-    populationDataForBaseline.femaleSeries[i] = -1;
+    populationDataForEngland.maleSeries[i] = -1;
+    populationDataForBaseline.femaleSeries[i] = 0.5;
     populationDataForBaseline.maleSeries[i] = -0.5;
   }
 

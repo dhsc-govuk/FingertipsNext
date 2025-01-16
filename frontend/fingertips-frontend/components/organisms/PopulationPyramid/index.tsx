@@ -23,7 +23,7 @@ export function PopulationPyramid({
 
   // ensure symetrical axes
   // TODO: fix magic number - see getExtremes/setExtremes
-  const yAxisLimit = 7;
+  const yAxisLimit = 4;
 
   const populationPyramidOptions: Highcharts.Options = {
     chart: { type: 'bar', height: 1086 },
@@ -47,6 +47,7 @@ export function PopulationPyramid({
       {
         // mirror axis on right side
         opposite: true,
+        reversed: false,
         categories: data.dataForSelectedArea.ageCategories,
         linkedTo: 0,
         title: {
@@ -87,7 +88,7 @@ export function PopulationPyramid({
       min: -yAxisLimit,
     },
     plotOptions: {
-      series: { stacking: 'normal' },
+      // series: { stacking: 'normal' },
     },
     tooltip: {
       padding: 20,
@@ -142,9 +143,10 @@ export function PopulationPyramid({
     populationPyramidOptions.series.push(
       {
         name: 'FAKE England Female',
-        type: 'line',
         data: data.dataForEngland.femaleSeries,
+        type: 'line',
         color: '#3D3D3D',
+        dashStyle: 'Solid',
         marker: { symbol: 'circle' },
         dataLabels: {
           enabled: true,
@@ -154,14 +156,11 @@ export function PopulationPyramid({
       },
       {
         name: 'FAKE England Male',
-        type: 'line',
         data: data.dataForEngland.maleSeries,
+        type: 'line',
         color: '#3D3D3D',
+        dashStyle: 'Solid',
         marker: { symbol: 'circle' },
-        dataLabels: {
-          enabled: true,
-          format: '{(point.y):.3f}%',
-        },
         yAxis: 0,
       }
     );
