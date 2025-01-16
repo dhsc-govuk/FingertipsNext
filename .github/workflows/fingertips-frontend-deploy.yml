@@ -1,20 +1,10 @@
 name: Fingertips Frontend Deploy
 
 on:
-  push:
-    branches:
-      - feature/DHSCFT-189_create_fe_deployment_workflow
-    paths:
-      - api/**
-      - .github/workflows/fingertips-frontend-deploy.yml
-
-# on:
-#   workflow_run:
-#     workflows: [Fingertips Frontend Build]
-#     types:
-#       - completed
-#     branches:
-#       - feature/DHSCFT-189_create_fe_deployment_workflow
+  workflow_run:
+    workflows: [Fingertips Frontend Build]
+    types:
+      - completed
 
 jobs:
   determine-version:
@@ -31,13 +21,13 @@ jobs:
         environment: 
           - development
     environment: ${{ matrix.environment }}
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Frontend Deploy'
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-        # with:
-        #   ref: ${{ github.event.workflow_run.head_branch }}
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Azure Container Registry Login
         uses: Azure/docker-login@v1
@@ -46,14 +36,10 @@ jobs:
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
-      - name: Load Semver Tag
-        run: echo "semver_tag=$(cat semver-tag.txt)" >> $GITHUB_ENV
-
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
           imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-          # imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ env.semver_tag }}"
           containerAppName: fingertips-frontend
           resourceGroup: ${{ vars.RESOURCE_GROUP }}
           containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
