@@ -28,14 +28,14 @@ exports[`Error Page snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 48px;
     line-height: 1.0416666666666667;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 50px;
   }
@@ -53,11 +53,11 @@ exports[`Error Page snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -77,11 +77,11 @@ exports[`Error Page snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c0 >p {
+.c0 > p {
   margin: 0;
 }
 
-.c0 >p>code {
+.c0 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -89,7 +89,7 @@ exports[`Error Page snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c0 >pre {
+.c0 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -98,7 +98,7 @@ exports[`Error Page snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c0 >pre>code {
+.c0 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -116,11 +116,11 @@ exports[`Error Page snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -139,14 +139,14 @@ exports[`Error Page snapshot test 1`] = `
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
   .c0 {
     margin-bottom: 20px;
   }
@@ -171,23 +171,23 @@ exports[`Error Page snapshot test 1`] = `
   background-color: #ffdd00;
 }
 
-.c0 :link {
+.c0:link {
   color: #1d70b8;
 }
 
-.c0 :visited {
+.c0:visited {
   color: #4c2c92;
 }
 
-.c0 :hover {
+.c0:hover {
   color: #2b8cc4;
 }
 
-.c0 :active {
+.c0:active {
   color: #2b8cc4;
 }
 
-.c0 :focus {
+.c0:focus {
   color: #0b0c0c;
 }
 
@@ -199,11 +199,11 @@ exports[`Error Page snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
@@ -227,11 +227,11 @@ exports[`Error Page snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width:641px) {
 
 }
 
