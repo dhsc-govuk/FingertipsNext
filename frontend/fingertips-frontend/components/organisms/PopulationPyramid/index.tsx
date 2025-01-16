@@ -139,11 +139,6 @@ export function PopulationPyramid({
         color: '#3D3D3D',
         dashStyle: 'Solid',
         marker: { symbol: 'circle' },
-        dataLabels: {
-          enabled: true,
-          format: '{(point.y):.3f}%',
-        },
-        yAxis: 0,
       },
       {
         name: 'FAKE England Male',
@@ -152,7 +147,7 @@ export function PopulationPyramid({
         color: '#3D3D3D',
         dashStyle: 'Solid',
         marker: { symbol: 'circle' },
-        yAxis: 0,
+        showInLegend: false,
       }
     );
   }
@@ -175,6 +170,7 @@ export function PopulationPyramid({
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
+        showInLegend: false,
       }
     );
   }
