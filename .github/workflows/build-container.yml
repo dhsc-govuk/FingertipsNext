@@ -47,7 +47,7 @@ jobs:
         with:
           username: ${{ secrets.acr-username }}
           password: ${{ secrets.acr-password }}
-          login-server: ${{ inputs.acr-server }}
+          login-server: ${{ secrets.acr-server }}
 
       - name: Generate container metadata
         id: meta
