@@ -41,7 +41,7 @@ export function SearchResult({ result }: Readonly<SearchResultProps>) {
           <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
         </GridCol>
       </StyledRow>
-      <SectionBreak visible="true" />
+      <SectionBreak visible={true} />
     </ListItem>
   );
 }
