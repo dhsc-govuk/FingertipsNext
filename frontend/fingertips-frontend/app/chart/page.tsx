@@ -23,9 +23,7 @@ export default async function ChartPage(
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
   const data = await indicatorApi.getHealthDataForAnIndicator({
-    // TODO: remove hard-code to mock
-    // indicatorId: Number(indicatorsSelected[0]),
-    indicatorId: 1,
+    indicatorId: Number(indicatorsSelected[0]),
     areaCodes: areaCodes,
   });
 
