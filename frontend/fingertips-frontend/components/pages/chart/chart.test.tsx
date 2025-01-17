@@ -25,7 +25,7 @@ it('should render the LineChart component', () => {
   expect(lineChart).toBeInTheDocument();
 });
 
-it('should render the LineChart component title', () => {
+it('should render the Chart component title', () => {
   render(<Chart data={mockHealthData[1]} />);
 
   const HTag = screen.getByRole('heading', { level: 2 });
