@@ -5,6 +5,7 @@ import {
 } from '@/generated-sources/api-client';
 
 import { connection } from 'next/server';
+import { trace, context } from '@opentelemetry/api';
 
 export default async function Home() {
   await connection();
@@ -23,6 +24,10 @@ export default async function Home() {
 
   const forecastApi = new WeatherForecastApi(config);
   const forecasts = await forecastApi.getWeatherForecast();
+
+  console.log(
+    `traceId: ${trace.getSpan(context.active())?.spanContext().traceId}`
+  );
 
   return <HomePage forecasts={forecasts} />;
 }
