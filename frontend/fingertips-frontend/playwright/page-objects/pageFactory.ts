@@ -40,6 +40,7 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
         'Auto-accessibility test failed.'
       ).toEqual([]);
     },
+
     //Auto is set to true, so the fixture will be automatically used in all tests, scope is set to 'test' to create a new AxeScanner per test
     { scope: 'test', auto: true },
   ],
