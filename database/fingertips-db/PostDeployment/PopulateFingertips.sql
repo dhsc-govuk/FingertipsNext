@@ -3005,10 +3005,13 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
-INSERT [Areas].[Areas]   
+--delete all existing data so we always start from a known position
+DELETE FROM [Areas].[Areas]
+
+INSERT [Areas].[Areas]
 VALUES
 -- root level data
-('/', 0,'E92000001','England', 'Country','All') 
+('/', 0,'E92000001','England', 'Country','All')
 
 -- first level data
 ,('/1/',1,'E12000001','North East region (statistical)','Regions Statistical','Admin')
@@ -3022,7 +3025,7 @@ VALUES
 ,('/9/',1,'E40000011','Midlands NHS Region','NHS region','NHS')
 ,('/10/',1,'E40000012','North East and Yorkshire NHS Region','NHS region','NHS')
 
--- second level data 
+-- second level data
 ,('/1/1/',2,'E06000047','County Durham','Counties & UAs','Admin')
 ,('/1/2/',2,'E06000005','Darlington','Counties & UAs','Admin')
 ,('/1/3/',2,'E08000037','Gateshead','Counties & UAs','Admin')
@@ -3030,7 +3033,7 @@ VALUES
 ,('/4/2/',2,'E38000026','NHS Cambridgeshire and Peterborough ICB','ICB','NHS')
 ,('/5/1/',2,'E38000240','NHS North Central London ICB','ICB','NHS')
 ,('/5/2/',2,'E38000244','NHS South East London ICB','ICB','NHS')
- 
+
 -- third level data
 ,('/4/1/1/',3,'U15488','East Basildon PCN','PCN','NHS')
 ,('/4/1/2/',3,'U55146','Central Basildon PCN','PCN','NHS')
