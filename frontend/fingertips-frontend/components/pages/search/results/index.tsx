@@ -56,7 +56,7 @@ export function SearchResults({
               description={state.message}
               errors={[
                 {
-                  targetName: `search-results-indicator-${searchResults[0].id.toString()}`,
+                  targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
                   text: 'Available indicators',
                 },
               ]}
@@ -83,10 +83,10 @@ export function SearchResults({
                 </ListItem>
                 {searchResults.map((result) => (
                   <SearchResult
-                    key={result.id}
+                    key={result.indicatorId}
                     result={result}
                     indicatorSelected={isIndicatorSelected(
-                      result.id.toString(),
+                      result.indicatorId.toString(),
                       state
                     )}
                   />

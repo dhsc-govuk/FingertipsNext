@@ -13,16 +13,12 @@ import {
 } from '../environmentContext';
 
 type Indicator = {
-  IID: string;
-  Descriptive: {
-    Name: string;
-    Definition: string;
-    DataSource: string;
-  };
-  LatestDataPeriod: string;
-  DataChange: {
-    LastUploadedAt: string;
-  };
+  indicatorId: string;
+  name: string;
+  definition: string;
+  dataSource: string;
+  latestDataPeriod: string;
+  lastUpdated: Date;
 };
 
 export class SearchService implements Search {
@@ -67,11 +63,11 @@ export class SearchService implements Search {
     const results: IndicatorSearchResult[] = [];
     for await (const result of searchResponse.results) {
       results.push({
-        id: result?.document?.IID,
-        indicatorName: result?.document?.Descriptive?.Name,
-        latestDataPeriod: result?.document?.LatestDataPeriod,
-        dataSource: result.document?.Descriptive?.DataSource,
-        lastUpdated: result.document?.DataChange?.LastUploadedAt,
+        indicatorId: result?.document?.indicatorId,
+        indicatorName: result?.document?.name,
+        latestDataPeriod: result?.document?.latestDataPeriod,
+        dataSource: result.document?.dataSource,
+        lastUpdated: result.document?.lastUpdated,
       });
     }
 

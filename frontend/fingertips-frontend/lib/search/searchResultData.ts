@@ -6,11 +6,11 @@ import {
 } from '../environmentContext';
 
 export interface IndicatorSearchResult {
-  id: string;
+  indicatorId: string;
   indicatorName: string;
   latestDataPeriod?: string;
   dataSource?: string;
-  lastUpdated?: string;
+  lastUpdated?: Date;
 }
 
 export interface Search {

@@ -7,7 +7,7 @@ import {
   TypeAheadBody,
   AutoCompleteResult,
   SuggestionResult,
-} from "../types";
+} from "../src/types";
 import { getEnvironmentVariable } from "../src/utils/helpers";
 import {
   GEOGRAPHY_SEARCH_INDEX_NAME,
@@ -102,13 +102,13 @@ describe("AI search index creation and data loading", () => {
 
     it("should have correct index name and number of fields", async () => {
       expect(index.name).toBe(INDICATOR_SEARCH_INDEX_NAME);
-      expect(index.fields.length).toBe(3);
+      expect(index.fields.length).toBe(6);
     });
 
-    it("should have correct IID field configuration", () => {
+    it("should have correct indicatorId field configuration", () => {
       const iidField = index.fields[0];
       expectFieldToMatch(iidField, {
-        name: "IID",
+        name: "indicatorId",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -117,23 +117,21 @@ describe("AI search index creation and data loading", () => {
       });
       expect(iidField.key).toBe(true);
     });
-
-    it("should have correct Descriptive field configurations", () => {
-      const descriptiveField = index.fields[1];
-      expectComplexFieldToMatch(descriptiveField, {
-        name: "Descriptive",
-        fieldLength: 2,
-      });
-      expectFieldToMatch(descriptiveField.fields![0], {
-        name: "Name",
+    it("should have correct name field configuration", () => {
+      const field = index.fields[1];
+      expectFieldToMatch(field, {
+        name: "name",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
         sortable: true,
         filterable: true,
       });
-      expectFieldToMatch(descriptiveField.fields![1], {
-        name: "Definition",
+    });
+    it("should have correct definition field configuration", () => {
+      const field = index.fields[2];
+      expectFieldToMatch(field, {
+        name: "definition",
         type: "Edm.String",
         retrievable: true,
         searchable: true,
@@ -145,11 +143,7 @@ describe("AI search index creation and data loading", () => {
     it("should have correct scoring profile configuration", () => {
       expectScoringProfileToMatch(index.scoringProfiles[0], {
         profileName: "BasicScoringProfile",
-        weights: [
-          { IID: 20 },
-          { "Descriptive/Name": 10 },
-          { "Descriptive/Definition": 5 },
-        ],
+        weights: [{ indicatorId: 20 }, { name: 10 }, { definition: 5 }],
       });
 
       expect(index.defaultScoringProfile).toBe("BasicScoringProfile");

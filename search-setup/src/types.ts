@@ -1,11 +1,11 @@
 export interface IndicatorSearchData {
-  IID: string;
-  Descriptive: {
-    Name: string;
-    Definition: string;
-  };
+  indicatorId: string;
+  name: string;
+  definition: string;
   // Most recent value held in database column 'Year'.
-  LatestDataPeriod: string;
+  latestDataPeriod: string;
+  dataSource: string;
+  lastUpdated: Date;
 }
 
 export interface GeographySearchData {

@@ -6,7 +6,7 @@ import {
   SearchFieldDataType,
   ScoringProfile,
 } from "@azure/search-documents";
-import { GeographySearchData, IndicatorSearchData } from "../types";
+import { GeographySearchData, IndicatorSearchData } from "./types";
 import {
   GEOGRAPHY_SEARCH_SUGGESTER_NAME,
   GeographySearchIndexColumnNames,
@@ -42,21 +42,31 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField("IID", "Edm.String", true, true, true),
+        ...buildSearchIndexField("indicatorId", "Edm.String", true, true, true),
       },
       {
-        name: "Descriptive",
-        type: "Edm.ComplexType",
-        fields: [
-          buildSearchIndexField("Name", "Edm.String", true, true, true),
-          buildSearchIndexField("Definition", "Edm.String", true, true, true),
-        ],
+        ...buildSearchIndexField("name", "Edm.String", true, true, true),
+      },
+      {
+        ...buildSearchIndexField("definition", "Edm.String", true, true, true),
       },
       {
         ...buildSearchIndexField(
-          "LatestDataPeriod",
+          "latestDataPeriod",
           "Edm.String",
+          false,
           true,
+          true
+        ),
+      },
+      {
+        ...buildSearchIndexField("dataSource", "Edm.String", false, true, true),
+      },
+      {
+        ...buildSearchIndexField(
+          "lastUpdated",
+          "Edm.DateTimeOffset",
+          false,
           true,
           true
         ),
@@ -64,9 +74,9 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     ],
     scoringProfiles: [
       buildScoringProfile("BasicScoringProfile", [
-        { IID: 20 },
-        { "Descriptive/Name": 10 },
-        { "Descriptive/Definition": 5 },
+        { indicatorId: 20 },
+        { name: 10 },
+        { definition: 5 },
       ]),
     ],
     defaultScoringProfile: "BasicScoringProfile",

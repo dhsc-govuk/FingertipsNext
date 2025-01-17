@@ -60,14 +60,10 @@ describe('SearchService', () => {
         results: [
           {
             document: {
-              IID: '123',
-              Descriptive: {
-                Name: 'Test Indicator',
-                DataSource: 'Test Source',
-              },
-              DataChange: {
-                LastUploadedAt: '2024-01-01',
-              },
+              indicatorId: '123',
+              name: 'Test Indicator',
+              dataSource: 'Test Source',
+              lastUpdated: '2024-01-01',
             },
           },
         ],
@@ -82,7 +78,7 @@ describe('SearchService', () => {
 
       expect(results).toEqual([
         {
-          id: '123',
+          indicatorId: '123',
           indicatorName: 'Test Indicator',
           latestDataPeriod: undefined,
           dataSource: 'Test Source',
