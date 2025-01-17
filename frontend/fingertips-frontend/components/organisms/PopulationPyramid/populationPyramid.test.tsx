@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationPyramid } from '.';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 

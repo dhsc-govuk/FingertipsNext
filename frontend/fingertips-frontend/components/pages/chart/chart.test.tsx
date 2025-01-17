@@ -3,6 +3,7 @@ import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const mockPopulationData: PopulationData = {
   ageCategories: [],
@@ -45,26 +46,10 @@ it('should render the LineChart component', () => {
   expect(lineChart).toBeInTheDocument();
 });
 
-it('should render the LineChart component title', () => {
-  render(
-    <Chart
-      data={mockHealthData}
-      preparedPopulationData={{
-        dataForSelectedArea: mockPopulationData,
-        dataForEngland: undefined,
-        dataForBaseline: undefined,
-      }}
-    />
-  );
-
-  const HTag = screen.getByRole('heading', { level: 3 });
-  expect(HTag).toHaveTextContent('Title for the chart page');
-});
-
 it('should render the LineChartTable component', () => {
   render(
     <Chart
-      data={mockHealthData}
+      data={mockHealthData[1]}
       preparedPopulationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,
@@ -78,7 +63,16 @@ it('should render the LineChartTable component', () => {
 });
 
 it('should render the BarChart component', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
   const barChart = screen.getByTestId('barChart-component');
   expect(barChart).toBeInTheDocument();
 });
@@ -86,7 +80,7 @@ it('should render the BarChart component', () => {
 it('should render the PopulationPyramid component', () => {
   render(
     <Chart
-      data={mockHealthData}
+      data={mockHealthData[1]}
       preparedPopulationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,

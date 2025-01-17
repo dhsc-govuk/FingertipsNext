@@ -13,7 +13,7 @@ it('should render the line chart title', () => {
   render(
     <LineChart
       LineChartTitle={'VALID line chart title'}
-      data={mockHealthData}
+      data={mockHealthData[1]}
     />
   );
   const HTag = screen.getByRole('heading', { level: 4 });
