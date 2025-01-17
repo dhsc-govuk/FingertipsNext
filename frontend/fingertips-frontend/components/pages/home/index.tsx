@@ -20,7 +20,6 @@ export const Home = ({searchFormState}: {searchFormState: SearchFormState;}) => 
         </ListItem>
         <ListItem>Download datasets and visualisations</ListItem>
         <ListItem>Access raw data via an application programming interface (API)</ListItem>
-        <br />
       </UnorderedList>
       <Paragraph>
         All data comes from trusted sources such as the NHS and Office of

@@ -26,7 +26,7 @@ export function Chart({
   const backLinkPath = searchState.generatePath('/results');
   return (
     <>
-      <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
+      <BackLink data-testid="chart-page-back-link" href={backLinkPath} aria-label="Go back to the previous page"/>
       <H3>See how the indicator has changed over time for the area</H3>
       <LineChart
         data={data}
