@@ -41,9 +41,9 @@ export function SearchResult({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
 
   const handleClick = (indicatorId: string, checked: boolean) => {
-    const params = new URLSearchParams(searchParams);
     const searchState = SearchStateManager.setStateFromParams(params);
 
     if (checked) {
@@ -55,8 +55,7 @@ export function SearchResult({
     replace(searchState.generatePath(pathname), { scroll: false });
   };
 
-  const generatePath = (indicatorId: string): string => {
-    const params = new URLSearchParams(searchParams);
+  const generateIndicatorChartPath = (indicatorId: string): string => {
     const searchState = SearchStateManager.setStateFromParams(params);
     const chartPath = '/chart';
     searchState.removeAllIndicatorSelected();
@@ -80,7 +79,7 @@ export function SearchResult({
             }}
           >
             <H5>
-              <Link href={generatePath(result.id.toString())}>
+              <Link href={generateIndicatorChartPath(result.id.toString())}>
                 {result.indicatorName}
               </Link>
             </H5>
