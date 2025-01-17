@@ -11,6 +11,41 @@ interface PyramidChartProps {
   accessibilityLabel?: string;
 }
 
+enum SymbolsEnum {
+  Circle = '\u25CF',
+  Square = '\u25a0',
+  Diamond = '\u25c6',
+  Triangle = '\u25b2',
+  TriangleDown = '\u25bC',
+}
+
+const symbolEncoder: Record<string, string> = {
+  'circle': SymbolsEnum.Circle,
+  'square': SymbolsEnum.Square,
+  'diamond': SymbolsEnum.Diamond,
+  'triangle': SymbolsEnum.Triangle,
+  'triangle-down': SymbolsEnum.TriangleDown,
+};
+
+// any required to allow customisation of Highcharts tooltips
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pointFormatterHelper = (point: any) => {
+  const symbol = symbolEncoder[point.graphic.symbolName] ?? SymbolsEnum.Circle;
+
+  const tooltipPointString =
+    '<span style="color:' +
+    point.series.color +
+    ' font-size="large">' +
+    symbol +
+    '</span><span>' +
+    ' Value ' +
+    point.y +
+    '%<br/>' +
+    point.series.name +
+    '</span>';
+  return tooltipPointString;
+};
+
 export function PopulationPyramid({
   data,
   populationPyramidTitle,
@@ -24,7 +59,7 @@ export function PopulationPyramid({
   const populationPyramidOptions: Highcharts.Options = {
     chart: {
       type: 'bar',
-      height: 1086,
+      height: 800,
     },
     title: { style: { display: 'none' } },
     legend: { verticalAlign: 'top', layout: 'horizontal' },
@@ -85,14 +120,15 @@ export function PopulationPyramid({
       },
     },
     tooltip: {
-      padding: 20,
-      format:
-        // TODO: add symbol
+      padding: 10,
+      headerFormat:
         '<span style="font-weight: bold">AreaName</span><br/>' +
-        '<span>Age {point.category}</span><br/></br>' +
-        '<span>{point.graphic.symbolName}</span><br/>' +
-        '<span>Value {point.y}%</span><br/>' +
-        '<span>{series.name}</span><br/>',
+        '<span>Age {key}</span><br/>' +
+        '<span>{point.graphic.symbolName}<br/></span>',
+      pointFormatter: function (this: Highcharts.Point) {
+        return pointFormatterHelper(this);
+      },
+      useHTML: true,
     },
     series: [
       {
