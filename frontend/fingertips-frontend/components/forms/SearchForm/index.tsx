@@ -7,6 +7,7 @@ import {
   InsetText,
   Button,
   InputField, Paragraph,
+  H3,
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
@@ -44,7 +45,7 @@ export const SearchForm = ({
       )}
       <br />
       <div data-testid="search-form" style={{backgroundColor: "#ddd", padding: "20px 20px 0px 20px"}}>
-      <H4>Find public health data</H4>
+      <H3>Find public health data</H3>
       <Paragraph>
         Search for data to compare at local, regional and national levels.
       </Paragraph>
@@ -59,7 +60,7 @@ export const SearchForm = ({
           defaultValue: state.indicator ?? searchFormState.indicator,
         }}
         hint={
-          <>For example diabetes, public health indicator, or indicator ID</>
+          <div style={{color: "black"}}>For example diabetes, public health indicator, or indicator ID</div>
         }
         meta={{
           touched: !!state.message,
@@ -77,7 +78,7 @@ export const SearchForm = ({
           defaultValue: state.indicator ?? searchFormState.indicator,
         }}
         hint={
-          <>For example postcode, county, local authority, NHS Trust or General Practice name or code</>
+          <div style={{color: "black"}}>For example postcode, county, local authority, NHS Trust or General Practice name or code</div>
         }
         meta={{
           touched: !!state.message,
