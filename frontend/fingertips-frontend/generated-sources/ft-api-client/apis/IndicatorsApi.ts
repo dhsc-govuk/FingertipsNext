@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  FilterIndicators400Response,
+  GetAreaHierarchies500Response,
   HealthDataForArea,
   Indicator,
   IndicatorSummary,
 } from '../models/index';
 import {
-    FilterIndicators400ResponseFromJSON,
-    FilterIndicators400ResponseToJSON,
+    GetAreaHierarchies500ResponseFromJSON,
+    GetAreaHierarchies500ResponseToJSON,
     HealthDataForAreaFromJSON,
     HealthDataForAreaToJSON,
     IndicatorFromJSON,
