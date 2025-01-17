@@ -58,14 +58,13 @@ paths:
       tags:
         - areas
       summary: Get area
-      description: Get the full details of a given area, including it's parent, optionally including it's children, siblings, cousins and ancestors
+      description: Get the full details of a given area, including it's parent, optionally including it's children and ancestors
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/includeChildren"
-        - $ref: "#/components/parameters/includeSiblings"
-        - $ref: "#/components/parameters/includeCousins"
-        - $ref: "#/components/parameters/includeAncestors"
+        - $ref: "#/components/parameters/include_children"
+        - $ref: "#/components/parameters/include_ancestors"
+        - $ref: "#/components/parameters/child_area_type"
       responses:
         '200':
           description: The area node
@@ -132,7 +131,7 @@ paths:
         '404':
           $ref: "#/components/responses/NotFound"
         '500':
-           $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerErrror"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
       description: >
@@ -220,14 +219,6 @@ components:
             parent:
               $ref: "#/components/schemas/Area"
             children:
-              type: array
-              items:
-                $ref: "#/components/schemas/Area"
-            siblings:
-              type: array
-              items:
-                $ref: "#/components/schemas/Area"
-            cousins:
               type: array
               items:
                 $ref: "#/components/schemas/Area"
@@ -347,28 +338,25 @@ components:
       explode: false
       required: true
       description: The area code of the area/ geography
-    includeChildren:
+    child_area_type:
       in: query
-      name: includeChildren
-      description: include the child areas
+      name: child_area_type
+      style: form
+      required: false
+      schema:
+        type: string
+        example: PCN
+      description: The type of area to request children for
+    include_children:
+      in: query
+      name: include_children
+      description: Optionally, include the child areas. By default this is the direct children, to get children at a lower level supply the optional query paramter for child area type.
       schema:
         type: boolean
-    includeSiblings:
+    include_ancestors:
       in: query
-      name: includeSiblings
-      description: include the sibling areas
-      schema:
-        type: boolean
-    includeCousins:
-      in: query
-      name: includeCousins
-      description: include the cousin areas
-      schema:
-        type: boolean
-    includeAncestors:
-      in: query
-      name: includeAncestors
-      description: include the ancestor areas
+      name: include_ancestors
+      description: Optionally, include the ancestor areas
       schema:
         type: boolean
     area_codes:

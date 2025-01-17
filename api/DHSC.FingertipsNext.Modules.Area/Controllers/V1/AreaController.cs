@@ -53,20 +53,21 @@ public class AreaController : ControllerBase
     }
 
     /// <summary>
-    /// Get the full details of a given area, including its parent, optionally including its children, siblings,
-    /// cousins and ancestors
+    /// Get the full details of a given area, including its parent, optionally including
+    /// its children and ancestors.
     /// </summary>
-    /// <param name="areaCode"></param>
-    /// <param name="includeChildren"></param>
-    /// <param name="includeAncestors"></param>
-    /// <param name="child_area_type"></param>
+    /// <param name="area_code">The area code of the area/geography</param>
+    /// <param name="include_children">Optionally, include the child areas. By default, this is the direct children,
+    /// to get children at a lower level supply the optional query parameter for child area type.</param>
+    /// <param name="include_ancestors">Optionally, include the ancestor areas.</param>
+    /// <param name="child_area_type">The type of area to request children for.</param>
     /// <returns></returns>
     [HttpGet]
     [Route("{areaCode}")]
     public async Task<IActionResult> GetAreaDetailsAsync(
-        [FromRoute] string areaCode,
-        [FromQuery] bool? includeChildren = null,
-        [FromQuery] bool? includeAncestors = null,
+        [FromRoute] string area_code,
+        [FromQuery] bool? include_children = null,
+        [FromQuery] bool? include_ancestors = null,
         [FromQuery] string? child_area_type = null
     )
     {
@@ -74,9 +75,9 @@ public class AreaController : ControllerBase
         // The area node
 
         var areaDetails = await _areaService.GetAreaDetails(
-            areaCode,
-            includeChildren,
-            includeAncestors,
+            area_code,
+            include_children,
+            include_ancestors,
             child_area_type
         );
 
