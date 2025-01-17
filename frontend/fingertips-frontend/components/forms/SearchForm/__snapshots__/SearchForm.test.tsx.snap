@@ -179,8 +179,8 @@ exports[`snapshot test - renders the form 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 700;
-  font-size: 16px;
-  line-height: 1.25;
+  font-size: 18px;
+  line-height: 1.1111111111111112;
   display: block;
   margin-top: 0;
   margin-bottom: 15px;
@@ -362,15 +362,15 @@ exports[`snapshot test - renders the form 1`] = `
 
 @media print {
   .c0 {
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
+    font-size: 24px;
+    line-height: 1.25;
   }
 }
 
@@ -438,14 +438,14 @@ exports[`snapshot test - renders the form 1`] = `
   >
     <br />
     <div
-      id="search-form"
+      data-testid="search-form"
       style="background-color: rgb(221, 221, 221); padding: 20px 20px 0px 20px;"
     >
-      <h4
+      <h3
         class="c0"
       >
         Find public health data
-      </h4>
+      </h3>
       <div
         class="c1"
       >
@@ -470,7 +470,11 @@ exports[`snapshot test - renders the form 1`] = `
         <span
           class="c6"
         >
-          For example diabetes, public health indicator, or indicator ID
+          <div
+            style="color: black;"
+          >
+            For example diabetes, public health indicator, or indicator ID
+          </div>
         </span>
         <input
           class="c7"
@@ -492,7 +496,11 @@ exports[`snapshot test - renders the form 1`] = `
         <span
           class="c6"
         >
-          For example postcode, county, local authority, NHS Trust or General Practice name or code
+          <div
+            style="color: black;"
+          >
+            For example postcode, county, local authority, NHS Trust or General Practice name or code
+          </div>
         </span>
         <input
           class="c7"
