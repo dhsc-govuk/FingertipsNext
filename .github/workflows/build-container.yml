@@ -61,7 +61,7 @@ jobs:
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ inputs.git-semver }}
-            type=raw,value
+            type=raw,value=${{ inputs.full-sem-ver }}
 
       - name: Build and push container
         uses: docker/build-push-action@v6
