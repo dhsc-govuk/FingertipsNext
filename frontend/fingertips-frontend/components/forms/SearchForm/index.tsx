@@ -4,10 +4,9 @@ import { searchIndicator, SearchFormState } from './searchActions';
 import {
   H4,
   ErrorSummary,
-  LeadParagraph,
   InsetText,
   Button,
-  InputField, Label, Paragraph,
+  InputField, Paragraph,
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
@@ -44,6 +43,7 @@ export const SearchForm = ({
         />
       )}
       <br />
+      <div id="search-form" style={{backgroundColor: "#ddd", padding: "20px 20px 0px 20px"}}>
       <H4>Find public health data</H4>
       <Paragraph>
         Search for data to compare at local, regional and national levels.
@@ -87,12 +87,13 @@ export const SearchForm = ({
       >
         Search for an area by location or organisation
       </StyledInputField>
-        <p style={{ textDecoration: "underline", marginTop:"5px" }}>Or filter by area</p>
+        <p style={{ textDecoration: "underline", margin:"8px 0px 0px", fontSize: "18px" }}>Or filter by area</p>
       </>
       <br/>
       <Button type="submit" data-testid="search-form-button-submit">
         Search
       </Button>
+      </div>
     </form>
   );
 };
