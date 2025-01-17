@@ -50,7 +50,7 @@ describe('SearchStateManager', () => {
         searchedIndicator: 'bang',
         indicatorsSelected: ['1', '2', '3'],
       });
-      stateManager.removeIndicatorSelected('1');
+      stateManager.removeAllIndicatorSelected();
 
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
