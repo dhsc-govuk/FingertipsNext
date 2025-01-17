@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pill Suite snapshot test 1`] = `
+<DocumentFragment>
+  .c2 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c2 > p {
+  margin: 0;
+}
+
+.c2 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c2 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c2 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c5 {
+  cursor: pointer;
+}
+
+.c0 {
+  background-color: white;
+  border: 0.1em black solid;
+  padding: 0.3125em 0.3125em;
+  max-width: 40%;
+  margin: 0.3125em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.c4 {
+  margin-left: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="pill-container"
+  >
+    <div
+      class="c1"
+      data-testid="filter-name"
+    >
+      <div
+        class="c2 c3"
+      >
+        <p>
+          Dementia
+        </p>
+      </div>
+    </div>
+    <div
+      class="c4"
+      data-testid="remove-icon-div"
+    >
+      <svg
+        class="c5"
+        data-testid="x-icon"
+        fill="none"
+        height="20"
+        stroke="#000000"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 25 25"
+        width="20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="18"
+          x2="6"
+          y1="6"
+          y2="18"
+        />
+        <line
+          x1="6"
+          x2="18"
+          y1="6"
+          y2="18"
+        />
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;
