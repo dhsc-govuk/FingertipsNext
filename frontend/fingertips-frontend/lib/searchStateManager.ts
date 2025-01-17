@@ -2,18 +2,21 @@ export enum SearchParams {
   SearchedIndicator = 'si',
   IndicatorsSelected = 'is',
   AreasSelected = 'as',
+  AreaTypeSelected = 'ats',
 }
 
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
   [SearchParams.IndicatorsSelected]?: string | string[];
   [SearchParams.AreasSelected]?: string | string[];
+  [SearchParams.AreaTypeSelected]?: string;
 };
 
 export type SearchState = {
   searchedIndicator?: string;
   indicatorsSelected?: string[];
   areasSelected?: string[];
+  areaTypeSelected?: string;
 };
 
 export class SearchStateManager {
@@ -24,6 +27,7 @@ export class SearchStateManager {
     this.searchState = {
       searchedIndicator: searchState.searchedIndicator,
       indicatorsSelected: searchState.indicatorsSelected ?? [],
+      areaTypeSelected: searchState.areaTypeSelected,
     };
     this.searchStateParams = new URLSearchParams();
   }
@@ -44,6 +48,15 @@ export class SearchStateManager {
     }
   }
 
+  private addAreaTypeSelectedToPath() {
+    if (this.searchState.areaTypeSelected) {
+      this.searchStateParams.append(
+        SearchParams.AreaTypeSelected,
+        this.searchState.areaTypeSelected
+      );
+    }
+  }
+
   private addIndicatorsSelectedToPath() {
     if (
       this.searchState.indicatorsSelected &&
@@ -56,6 +69,10 @@ export class SearchStateManager {
         );
       });
     }
+  }
+
+  public setAreaTypeSelected(areaTypeSelected: string) {
+    this.searchState.areaTypeSelected = areaTypeSelected;
   }
 
   public addIndicatorSelected(indicatorId: string) {
@@ -76,12 +93,19 @@ export class SearchStateManager {
       params.get(SearchParams.SearchedIndicator) ?? undefined;
     const indicatorsSelected =
       params.getAll(SearchParams.IndicatorsSelected) ?? [];
+    const areaTypeSelected =
+      params.get(SearchParams.AreaTypeSelected) ?? undefined;
 
     const searchStateManager = new SearchStateManager({
       searchedIndicator,
       indicatorsSelected,
+      areaTypeSelected,
     });
     return searchStateManager;
+  }
+
+  public getSearchState() {
+    return this.searchState;
   }
 
   public generatePath(path: string) {
@@ -89,6 +113,7 @@ export class SearchStateManager {
 
     this.addSearchedIndicatorToPath();
     this.addIndicatorsSelectedToPath();
+    this.addAreaTypeSelectedToPath();
 
     return this.constructPath(path);
   }

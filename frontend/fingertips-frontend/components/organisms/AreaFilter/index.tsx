@@ -1,5 +1,7 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 
 interface AreaFilterProps {
@@ -23,6 +25,20 @@ export function AreaFilter({
   selectedAreas,
   availableAreaTypes,
 }: Readonly<AreaFilterProps>) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+  const searchState = searchStateManager.getSearchState();
+
+  const handleAreaTypeSelect = (areaTypeSelected: string) => {
+    searchStateManager.setAreaTypeSelected(areaTypeSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
   return (
     <StyledFilterDiv data-testid="geography-filter-container">
       <H3>Filters</H3>
@@ -42,7 +58,13 @@ export function AreaFilter({
       <div>
         <LabelText>Filter by area</LabelText>
         {!selectedAreas || selectedAreas.length === 0 ? (
-          <StyledFilterSelect label="Select an area type">
+          <StyledFilterSelect
+            label="Select an area type"
+            input={{
+              onChange: (e) => handleAreaTypeSelect(e.target.value),
+              defaultValue: searchState.areaTypeSelected,
+            }}
+          >
             {availableAreaTypes?.map((areaType) => (
               <option key={areaType} value={areaType}>
                 {areaType}

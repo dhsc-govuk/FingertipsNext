@@ -26,10 +26,7 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/areas/areatypes`, async () => {
-    const resultArray = [
-      [await getGetAreaTypes200Response(), { status: 200 }],
-      [await getGetAreaTypes500Response(), { status: 500 }],
-    ];
+    const resultArray = [[getGetAreaTypes200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -93,12 +90,6 @@ export function getGetAreaTypes200Response() {
     'Integrated Care Board hub-locations',
     'Integrated Care Board tub-locations',
   ];
-}
-
-export function getGetAreaTypes500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
 }
 
 export function getGetArea200Response() {
