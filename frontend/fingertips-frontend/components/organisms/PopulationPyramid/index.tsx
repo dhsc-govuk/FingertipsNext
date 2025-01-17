@@ -2,6 +2,7 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { H4 } from 'govuk-react';
 import { PreparedPopulationData } from '@/app/chart/page';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 interface PyramidChartProps {
   data: PreparedPopulationData;
@@ -11,41 +12,41 @@ interface PyramidChartProps {
   accessibilityLabel?: string;
 }
 
-enum SymbolsEnum {
-  Circle = '\u25CF',
-  Square = '\u25a0',
-  Diamond = '\u25c6',
-  Triangle = '\u25b2',
-  TriangleDown = '\u25bC',
-}
+// enum SymbolsEnum {
+//   Circle = '\u25CF',
+//   Square = '\u25a0',
+//   Diamond = '\u25c6',
+//   Triangle = '\u25b2',
+//   TriangleDown = '\u25bC',
+// }
 
-const symbolEncoder: Record<string, string> = {
-  'circle': SymbolsEnum.Circle,
-  'square': SymbolsEnum.Square,
-  'diamond': SymbolsEnum.Diamond,
-  'triangle': SymbolsEnum.Triangle,
-  'triangle-down': SymbolsEnum.TriangleDown,
-};
+// const symbolEncoder: Record<string, string> = {
+//   'circle': SymbolsEnum.Circle,
+//   'square': SymbolsEnum.Square,
+//   'diamond': SymbolsEnum.Diamond,
+//   'triangle': SymbolsEnum.Triangle,
+//   'triangle-down': SymbolsEnum.TriangleDown,
+// };
 
-// TODO: move to util function with tests
-// any required to allow customisation of Highcharts tooltips
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pointFormatterHelper = (point: any) => {
-  const symbol = symbolEncoder[point.graphic.symbolName] ?? SymbolsEnum.Circle;
+// // TODO: move to util function with tests
+// // any required to allow customisation of Highcharts tooltips
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// const pointFormatterHelper = (point: any) => {
+//   const symbol = symbolEncoder[point.graphic.symbolName] ?? SymbolsEnum.Circle;
 
-  const tooltipPointString =
-    '<span style="color:' +
-    point.series.color +
-    ' font-size="large">' +
-    symbol +
-    '</span><span>' +
-    ' Value ' +
-    point.y +
-    '%<br/>' +
-    point.series.name +
-    '</span>';
-  return tooltipPointString;
-};
+//   const tooltipPointString =
+//     '<span style="color:' +
+//     point.series.color +
+//     ' font-size="large">' +
+//     symbol +
+//     '</span><span>' +
+//     ' Value ' +
+//     point.y +
+//     '%<br/>' +
+//     point.series.name +
+//     '</span>';
+//   return tooltipPointString;
+// };
 
 export function PopulationPyramid({
   data,

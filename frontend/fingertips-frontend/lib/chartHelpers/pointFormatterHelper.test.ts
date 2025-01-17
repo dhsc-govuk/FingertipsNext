@@ -1,4 +1,3 @@
-import { seriesType } from 'highcharts';
 import { pointFormatterHelper } from './pointFormatterHelper';
 
 const mockPoint = {
