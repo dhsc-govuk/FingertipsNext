@@ -1,17 +1,18 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H3, BackLink } from 'govuk-react';
+import { H2, BackLink } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PreparedPopulationData } from '@/app/chart/page';
 
 type ChartProps = {
   data: HealthDataForArea[];
   preparedPopulationData: PreparedPopulationData;
-  indicator?: string;
+  searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
 
@@ -20,10 +21,13 @@ const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 export function Chart({
   data,
   preparedPopulationData,
-  indicator,
+  searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({ indicator, indicatorsSelected });
+  const searchState = new SearchStateManager({
+    searchedIndicator,
+    indicatorsSelected,
+  });
   const backLinkPath = searchState.generatePath('/search/results');
   return (
     <>
@@ -43,6 +47,15 @@ export function Chart({
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
+      <br />
+      <BarChart
+        data={data}
+        yAxisTitle="Value"
+        benchmarkLabel="England"
+        benchmarkValue={800}
+        accessibilityLabel="A bar chart showing healthcare data"
+      />
+      <br />
       <LineChartTable data={data} headings={headings}></LineChartTable>
     </>
   );

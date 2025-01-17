@@ -13,8 +13,8 @@ const mockPopulationData: PopulationData = {
 it('should render the backLink', () => {
   render(
     <Chart
-      data={mockHealthData}
-      indicator="test"
+      data={mockHealthData[1]}
+      searchedIndicator="test"
       indicatorsSelected={['1', '2']}
       preparedPopulationData={{
         dataForSelectedArea: mockPopulationData,
@@ -26,14 +26,14 @@ it('should render the backLink', () => {
 
   expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /back/i }).getAttribute('href')).toBe(
-    '/search/results?indicator=test&indicatorsSelected=1%2C2'
+    `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
 });
 
 it('should render the LineChart component', () => {
   render(
     <Chart
-      data={mockHealthData}
+      data={mockHealthData[1]}
       preparedPopulationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,
@@ -75,6 +75,12 @@ it('should render the LineChartTable component', () => {
 
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
+});
+
+it('should render the BarChart component', () => {
+  render(<Chart data={mockHealthData[1]} />);
+  const barChart = screen.getByTestId('barChart-component');
+  expect(barChart).toBeInTheDocument();
 });
 
 it('should render the PopulationPyramid component', () => {

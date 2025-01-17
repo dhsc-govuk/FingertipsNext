@@ -1,7 +1,7 @@
 import {
   generateSeriesData,
   sortHealthDataByDate,
-} from '@/lib/chartHelpers/formatLineChartValues';
+} from '@/lib/chartHelpers/formatChartValues';
 
 const mockData = [
   {
