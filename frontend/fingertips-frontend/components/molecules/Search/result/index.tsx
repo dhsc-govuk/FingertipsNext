@@ -12,7 +12,7 @@ import { spacing, typography } from '@govuk-react/lib';
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;
