@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { H3, LabelText, SectionBreak, Select } from 'govuk-react';
 import styled from 'styled-components';
 
 interface AreaFilterProps {
-  selectedAreas?: any[];
+  selectedAreas?: AreaWithRelations[];
   availableAreaTypes?: string[];
 }
 
@@ -33,7 +32,7 @@ export function AreaFilter({
         <div>
           <LabelText>Areas Selected</LabelText>
           {selectedAreas?.map((selectedArea) => (
-            <p key={selectedArea.id}>{selectedArea.name}</p>
+            <p key={selectedArea.code}>{selectedArea.name}</p>
           ))}
         </div>
       ) : (

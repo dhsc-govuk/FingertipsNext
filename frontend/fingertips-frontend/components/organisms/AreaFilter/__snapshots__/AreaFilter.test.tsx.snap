@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Geography Filter snapshot test 1`] = `
+exports[`Area Filter snapshot test 1`] = `
 <DocumentFragment>
   .c5 {
   font-family: "nta",Arial,sans-serif;
