@@ -43,7 +43,7 @@ export const SearchForm = ({
         />
       )}
       <br />
-      <div id="search-form" style={{backgroundColor: "#ddd", padding: "20px 20px 0px 20px"}}>
+      <div data-testid="search-form" style={{backgroundColor: "#ddd", padding: "20px 20px 0px 20px"}}>
       <H4>Find public health data</H4>
       <Paragraph>
         Search for data to compare at local, regional and national levels.
@@ -83,7 +83,7 @@ export const SearchForm = ({
           touched: !!state.message,
           error: 'This field value may be required',
         }}
-        data-testid="search-form-input-indicator"
+        data-testid="search-form-input-area"
       >
         Search for an area by location or organisation
       </StyledInputField>

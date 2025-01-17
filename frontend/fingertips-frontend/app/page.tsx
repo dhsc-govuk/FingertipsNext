@@ -15,9 +15,5 @@ export default async function Page(
     errors: {},
   };
 
-  return (
-    <>
-      <Home searchFormState={initialState} />
-    </>
-  );
+  return <Home searchFormState={initialState} />;
 }

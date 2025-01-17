@@ -179,11 +179,53 @@ exports[`snapshot test - renders the form 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 700;
-  font-size: 32px;
-  line-height: 1.09375;
+  font-size: 16px;
+  line-height: 1.25;
   display: block;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+}
+
+.c1 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c1 > p {
+  margin: 0;
+}
+
+.c1 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c1 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c1 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
 }
 
 .c2 {
@@ -208,18 +250,6 @@ exports[`snapshot test - renders the form 1`] = `
 .c2:only-child,
 .c2:last-child {
   margin-bottom: 0;
-}
-
-.c1 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.1111111111111112;
-  margin-top: 0;
-  margin-bottom: 20px;
 }
 
 .c4 {
@@ -332,21 +362,41 @@ exports[`snapshot test - renders the form 1`] = `
 
 @media print {
   .c0 {
-    font-size: 32px;
+    font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c0 {
-    font-size: 48px;
-    line-height: 1.0416666666666667;
+    font-size: 19px;
+    line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c0 {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 20px;
   }
 }
 
@@ -377,32 +427,6 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 18px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 24px;
-    line-height: 1.25;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 30px;
-  }
-}
-
 @media only screen and (min-width:641px) {
   .c4 {
     margin-bottom: 30px;
@@ -412,49 +436,85 @@ exports[`snapshot test - renders the form 1`] = `
 <form
     action="/action"
   >
-    <h1
-      class="c0"
-    >
-      Find public health data
-    </h1>
-    <p
-      class="c1"
-    >
-      Find public health data by subjects, and health or local authority areas.
-    </p>
+    <br />
     <div
-      class="c2"
+      id="search-form"
+      style="background-color: rgb(221, 221, 221); padding: 20px 20px 0px 20px;"
     >
-      Use both search options to help you find the most accurate data available.
+      <h4
+        class="c0"
+      >
+        Find public health data
+      </h4>
+      <div
+        class="c1"
+      >
+        <p>
+          Search for data to compare at local, regional and national levels.
+        </p>
+      </div>
+      <div
+        class="c2"
+      >
+        Use both search options to help you find the most accurate data available.
+      </div>
+      <label
+        class="c3 c4"
+        data-testid="search-form-input-indicator"
+      >
+        <span
+          class="c5"
+        >
+          Search by subject
+        </span>
+        <span
+          class="c6"
+        >
+          For example diabetes, public health indicator, or indicator ID
+        </span>
+        <input
+          class="c7"
+          id="indicator"
+          name="indicator"
+          value=""
+        />
+      </label>
+      <label
+        class="c3 c4"
+        data-testid="search-form-input-area"
+        style="margin-bottom: 0px;"
+      >
+        <span
+          class="c5"
+        >
+          Search for an area by location or organisation
+        </span>
+        <span
+          class="c6"
+        >
+          For example postcode, county, local authority, NHS Trust or General Practice name or code
+        </span>
+        <input
+          class="c7"
+          id="indicator"
+          name="indicator"
+          value=""
+        />
+      </label>
+      <p
+        style="text-decoration: underline; margin: 8px 0px 0px; font-size: 18px;"
+      >
+        Or filter by area
+      </p>
+      <br />
+      <button
+        class="c8"
+        data-testid="search-form-button-submit"
+        type="submit"
+      >
+        Search
+      </button>
     </div>
-    <label
-      class="c3 c4"
-      data-testid="search-form-input-indicator"
-    >
-      <span
-        class="c5"
-      >
-        Search by subject
-      </span>
-      <span
-        class="c6"
-      >
-        For example diabetes, public health indicator, or indicator ID
-      </span>
-      <input
-        class="c7"
-        id="indicator"
-        name="indicator"
-        value=""
-      />
-    </label>
-    <button
-      class="c8"
-      data-testid="search-form-button-submit"
-      type="submit"
-    >
-      Search
-    </button>
   </form>
 </DocumentFragment>
 `;
