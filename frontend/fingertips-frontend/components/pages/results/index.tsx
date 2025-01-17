@@ -4,6 +4,8 @@ import {
   BackLink,
   Button,
   ErrorSummary,
+  GridCol,
+  GridRow,
   H1,
   ListItem,
   Paragraph,
@@ -16,10 +18,12 @@ import { SearchResult } from '@/components/molecules/result';
 import { IndicatorSearchResult } from '@/app/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { AreaFilter } from '@/components/organisms/AreaFilter';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
+  availableAreaTypes?: string[];
 };
 
 const isIndicatorSelected = (
@@ -34,6 +38,7 @@ const isIndicatorSelected = (
 export function SearchResults({
   searchResultsFormState,
   searchResults,
+  availableAreaTypes,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -70,36 +75,46 @@ export function SearchResults({
           )}
           <H1>Search results</H1>
           <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
-          <form action={formAction}>
-            <input
-              name="searchedIndicator"
-              defaultValue={searchResultsFormState.searchedIndicator}
-              hidden
-            />
-            {searchResults.length ? (
-              <UnorderedList listStyleType="none">
-                <ListItem>
-                  <SectionBreak visible={true} />
-                </ListItem>
-                {searchResults.map((result) => (
-                  <SearchResult
-                    key={result.id}
-                    result={result}
-                    indicatorSelected={isIndicatorSelected(
-                      result.id.toString(),
-                      state
-                    )}
-                  />
-                ))}
-              </UnorderedList>
-            ) : (
-              <Paragraph>No results found</Paragraph>
-            )}
+          <GridRow>
+            <GridCol setWidth="one-third">
+              <AreaFilter availableAreaTypes={availableAreaTypes} />
+            </GridCol>
+            <GridCol>
+              <form action={formAction}>
+                <input
+                  name="searchedIndicator"
+                  defaultValue={searchResultsFormState.searchedIndicator}
+                  hidden
+                />
+                {searchResults.length ? (
+                  <UnorderedList listStyleType="none">
+                    <ListItem>
+                      <SectionBreak visible={true} />
+                    </ListItem>
+                    {searchResults.map((result) => (
+                      <SearchResult
+                        key={result.id}
+                        result={result}
+                        indicatorSelected={isIndicatorSelected(
+                          result.id.toString(),
+                          state
+                        )}
+                      />
+                    ))}
+                  </UnorderedList>
+                ) : (
+                  <Paragraph>No results found</Paragraph>
+                )}
 
-            <Button type="submit" data-testid="search-results-button-submit">
-              View charts
-            </Button>
-          </form>
+                <Button
+                  type="submit"
+                  data-testid="search-results-button-submit"
+                >
+                  View charts
+                </Button>
+              </form>
+            </GridCol>
+          </GridRow>
         </>
       ) : (
         <Paragraph>No indicator entered</Paragraph>

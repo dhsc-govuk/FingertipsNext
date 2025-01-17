@@ -2,6 +2,9 @@ import { SearchResults } from '@/components/pages/results';
 import { getSearchData } from './search-result-data';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
+import { connection } from 'next/server';
+import { getApiConfiguration } from '@/lib/getApiConfiguration';
+import { AreasApi } from '@/generated-sources/ft-api-client';
 
 export default async function Page(
   props: Readonly<{
@@ -16,6 +19,12 @@ export default async function Page(
   );
 
   // Perform async API call using indicator prop
+  await connection();
+
+  const config = getApiConfiguration();
+  const areasApi = new AreasApi(config);
+  const availableAreaTypes = await areasApi.getAreaTypes();
+
   const searchResults = getSearchData();
 
   const initialState = {
@@ -29,6 +38,7 @@ export default async function Page(
     <SearchResults
       searchResultsFormState={initialState}
       searchResults={searchResults}
+      availableAreaTypes={availableAreaTypes}
     />
   );
 }

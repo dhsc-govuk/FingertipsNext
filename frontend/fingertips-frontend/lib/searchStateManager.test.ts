@@ -1,4 +1,8 @@
-import { SearchParams, SearchStateManager } from './searchStateManager';
+import {
+  SearchParams,
+  SearchState,
+  SearchStateManager,
+} from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
@@ -44,20 +48,56 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('getSearchState', () => {
+    it('should return the current state', () => {
+      const searchState: SearchState = {
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2'],
+        areasSelected: ['A001', 'A002'],
+        areaTypeSelected: 'Some area type',
+      };
+
+      const stateManager = new SearchStateManager(searchState);
+
+      expect(stateManager.getSearchState()).toEqual(searchState);
+    });
+  });
+
+  describe('setAreaTypeSelected', () => {
+    it('should set the areaTypeSelected', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+      });
+      stateManager.setAreaTypeSelected('Some area type');
+
+      expect(stateManager.getSearchState().areaTypeSelected).toEqual(
+        'Some area type'
+      );
+    });
+  });
+
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
+      const expectedPath = [
+        `/some-path?${SearchParams.SearchedIndicator}=bang`,
+        `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`,
+        `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
+        `&${SearchParams.AreaTypeSelected}=Some+area+type`,
+      ].join('');
+
       const params = new URLSearchParams();
       params.append(SearchParams.SearchedIndicator, 'bang');
       params.append(SearchParams.IndicatorsSelected, '1');
       params.append(SearchParams.IndicatorsSelected, '2');
       params.append(SearchParams.IndicatorsSelected, '3');
+      params.append(SearchParams.AreasSelected, 'A001');
+      params.append(SearchParams.AreasSelected, 'A002');
+      params.append(SearchParams.AreaTypeSelected, 'Some area type');
 
       const stateManager = SearchStateManager.setStateFromParams(params);
 
       const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
-      );
+      expect(generatedPath).toBe(expectedPath);
     });
   });
 

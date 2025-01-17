@@ -74,6 +74,17 @@ describe('Search Results Suite', () => {
     ).toBe(`/?${SearchParams.SearchedIndicator}=test`);
   });
 
+  it('should render the area filter pane', () => {
+    render(
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={MOCK_DATA}
+      />
+    );
+
+    expect(screen.getByTestId('area-filter-container')).toBeInTheDocument();
+  });
+
   it('should render search results', () => {
     render(
       <SearchResults

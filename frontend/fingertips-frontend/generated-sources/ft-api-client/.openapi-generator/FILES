@@ -1,11 +1,14 @@
-.openapi-generator-ignore
+apis/AreasApi.ts
 apis/IndicatorsApi.ts
 apis/index.ts
 index.ts
-models/FilterIndicators400Response.ts
+models/Area.ts
+models/AreaWithRelations.ts
+models/GetAreaHierarchies500Response.ts
 models/HealthDataForArea.ts
 models/HealthDataPoint.ts
 models/Indicator.ts
 models/IndicatorSummary.ts
+models/RootArea.ts
 models/index.ts
 runtime.ts
