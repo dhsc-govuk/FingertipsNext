@@ -3,15 +3,21 @@ import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-it('should render the Highcharts react component within the LineChart component', () => {
-  render(<LineChart data={mockHealthData} />);
+it('should render the Highcharts react component with passed parameters within the LineChart component', () => {
+  const xAxisPropsTitle = 'DifferentXTitle';
+  render(<LineChart data={mockHealthData} xAxisTitle={`${xAxisPropsTitle}`} />);
+
   const highcharts = screen.getByTestId('highcharts-react-component');
+
   expect(highcharts).toBeInTheDocument();
+  expect(highcharts).toHaveTextContent(xAxisPropsTitle);
 });
 
 it('should render the LineChart title', () => {
   render(<LineChart data={mockHealthData} />);
+
   const title = screen.getByRole('heading', { level: 3 });
+
   expect(title).toHaveTextContent(
     'See how the indicator has changed over time for the area'
   );
