@@ -33,10 +33,12 @@ describe('Area Filter', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render the select area type drop down if there are no selected areas', () => {
+  it('should render the select area type drop down and indicate there are no areas selected', () => {
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
-    expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/There are no areas selected/i)
+    ).toBeInTheDocument();
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
     ).toBeInTheDocument();
@@ -45,7 +47,6 @@ describe('Area Filter', () => {
   it('should render all the available areaTypes', () => {
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
-    expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
     ).toHaveLength(2);

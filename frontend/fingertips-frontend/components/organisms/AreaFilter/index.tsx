@@ -1,5 +1,5 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { H3, LabelText, SectionBreak, Select } from 'govuk-react';
+import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
 import styled from 'styled-components';
 
 interface AreaFilterProps {
@@ -28,22 +28,29 @@ export function AreaFilter({
       <H3>Filters</H3>
       <SectionBreak visible={true} />
 
-      {selectedAreas && selectedAreas.length > 0 ? (
-        <div>
-          <LabelText>Areas Selected</LabelText>
-          {selectedAreas?.map((selectedArea) => (
-            <p key={selectedArea.code}>{selectedArea.name}</p>
-          ))}
-        </div>
-      ) : (
-        <StyledFilterSelect label="Select an area type">
-          {availableAreaTypes?.map((areaType) => (
-            <option key={areaType} value={areaType}>
-              {areaType}
-            </option>
-          ))}
-        </StyledFilterSelect>
-      )}
+      <div>
+        <LabelText>Areas Selected</LabelText>
+        {selectedAreas && selectedAreas.length > 0 ? (
+          selectedAreas?.map((selectedArea) => (
+            <Paragraph key={selectedArea.code}>{selectedArea.name}</Paragraph>
+          ))
+        ) : (
+          <Paragraph>There are no areas selected</Paragraph>
+        )}
+      </div>
+
+      <div>
+        <LabelText>Filter by area</LabelText>
+        {!selectedAreas || selectedAreas.length === 0 ? (
+          <StyledFilterSelect label="Select an area type">
+            {availableAreaTypes?.map((areaType) => (
+              <option key={areaType} value={areaType}>
+                {areaType}
+              </option>
+            ))}
+          </StyledFilterSelect>
+        ) : null}
+      </div>
     </StyledFilterDiv>
   );
 }

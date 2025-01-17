@@ -859,7 +859,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   max-width: 15px;
 }
 
-.c15 {
+.c16 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -874,7 +874,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 10px;
 }
 
-.c16 {
+.c17 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -885,22 +885,22 @@ exports[`Search Results Suite snapshot test 1`] = `
   cursor: pointer;
 }
 
-.c16:checked + span:after {
+.c17:checked + span:after {
   opacity: 1;
 }
 
-.c16:focus + span:before {
+.c17:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c16 + span {
+.c17 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c17 {
+.c18 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -908,7 +908,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   touch-action: manipulation;
 }
 
-.c17::before {
+.c18::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -920,7 +920,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c17::after {
+.c18::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -937,7 +937,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   opacity: 0;
 }
 
-.c7 {
+.c5 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -951,7 +951,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -963,13 +963,13 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c5:after {
+.c7:after {
   content: '';
   display: table;
   clear: both;
 }
 
-.c13 {
+.c14 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -979,7 +979,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c11 {
+.c12 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -993,11 +993,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding-left: 0;
 }
 
-.c10 .c10 {
+.c11 .c11 {
   margin-top: 10px;
 }
 
-.c11 > .c12 {
+.c12 > .c13 {
   margin-bottom: 5px;
 }
 
@@ -1014,7 +1014,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c18 {
+.c19 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1027,7 +1027,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c19 {
+.c6 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1038,11 +1038,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c19 > p {
+.c6 > p {
   margin: 0;
 }
 
-.c19 > p > code {
+.c6 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -1050,7 +1050,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c19 > pre {
+.c6 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -1059,7 +1059,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c19 > pre > code {
+.c6 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -1075,7 +1075,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding-left: 15px;
 }
 
-.c9 {
+.c10 {
   box-sizing: border-box;
   padding-right: 15px;
   padding-left: 15px;
@@ -1098,7 +1098,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c8 {
+.c9 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1112,7 +1112,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border: 2px solid #0b0c0c;
 }
 
-.c8:focus {
+.c9:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
@@ -1126,7 +1126,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   line-height: 0.5;
 }
 
-.c14 {
+.c15 {
   padding-top: 15px;
   padding-bottom: 0;
   padding-left: 25px;
@@ -1139,7 +1139,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding: 0.5em;
 }
 
-.c6 select {
+.c8 select {
   width: 100%;
 }
 
@@ -1192,48 +1192,42 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c15 {
+  .c16 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c16 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c16 {
     margin-bottom: 10px;
   }
 }
 
 @media print {
-  .c7 {
+  .c5 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c5 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c7 {
+  .c5 {
     color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    margin-bottom: 0;
   }
 }
 
@@ -1243,42 +1237,48 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 0;
+  }
+}
+
 @media print {
-  .c13 {
+  .c14 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c14 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c11 {
+  .c12 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
+  .c12 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c11 {
+  .c12 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
+  .c12 {
     margin-bottom: 20px;
   }
 }
@@ -1326,47 +1326,47 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c18 {
+  .c19 {
     color: #000;
   }
 }
 
 @media print {
-  .c18 {
+  .c19 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c18 {
+  .c19 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c18 {
+  .c19 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c19 {
+  .c6 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c6 {
     margin-bottom: 20px;
   }
 }
@@ -1385,7 +1385,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c10 {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
@@ -1405,21 +1405,21 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c8 {
+  .c9 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c9 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c9 {
     width: 50%;
     height: 38px;
   }
@@ -1440,25 +1440,25 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c15 {
     padding-top: 15px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c15 {
     padding-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c15 {
     padding-left: 40px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c15 {
     padding-right: 40px;
   }
 }
@@ -1481,22 +1481,43 @@ exports[`Search Results Suite snapshot test 1`] = `
         <hr
           class="c4"
         />
-        <label
-          class="c5 c6"
-        >
+        <div>
           <span
-            class="c7"
+            class="c5"
           >
-            Select an area type
+            Areas Selected
           </span>
-          <select
-            class="c8"
-          />
-        </label>
+          <div
+            class="c6"
+          >
+            <p>
+              There are no areas selected
+            </p>
+          </div>
+        </div>
+        <div>
+          <span
+            class="c5"
+          >
+            Filter by area
+          </span>
+          <label
+            class="c7 c8"
+          >
+            <span
+              class="c5"
+            >
+              Select an area type
+            </span>
+            <select
+              class="c9"
+            />
+          </label>
+        </div>
       </div>
     </div>
     <div
-      class="c9"
+      class="c10"
     >
       <form
         action="/action"
@@ -1507,30 +1528,30 @@ exports[`Search Results Suite snapshot test 1`] = `
           value="test"
         />
         <ul
-          class="c10 c11"
+          class="c11 c12"
         >
           <li
-            class="c12 c13"
+            class="c13 c14"
           >
             <hr
               class="c4"
             />
           </li>
           <li
-            class="c12 c13"
+            class="c13 c14"
             data-testid="search-result"
           >
             <div
-              class="c0 c14"
+              class="c0 c15"
             >
               <div
-                class="c9"
+                class="c10"
               >
                 <label
-                  class="c15"
+                  class="c16"
                 >
                   <input
-                    class="c16"
+                    class="c17"
                     data-testid="search-results-indicator-1"
                     id="search-results-indicator-1"
                     name="indicator"
@@ -1538,29 +1559,29 @@ exports[`Search Results Suite snapshot test 1`] = `
                     value="1"
                   />
                   <span
-                    class="c17"
+                    class="c18"
                   >
                     <h5
-                      class="c18"
+                      class="c19"
                     >
                       NHS
                     </h5>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Latest data period: 2023
                       </p>
                     </div>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Data source: NHS website
                       </p>
                     </div>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Last updated: 06 December 2024
@@ -1575,20 +1596,20 @@ exports[`Search Results Suite snapshot test 1`] = `
             />
           </li>
           <li
-            class="c12 c13"
+            class="c13 c14"
             data-testid="search-result"
           >
             <div
-              class="c0 c14"
+              class="c0 c15"
             >
               <div
-                class="c9"
+                class="c10"
               >
                 <label
-                  class="c15"
+                  class="c16"
                 >
                   <input
-                    class="c16"
+                    class="c17"
                     data-testid="search-results-indicator-2"
                     id="search-results-indicator-2"
                     name="indicator"
@@ -1596,29 +1617,29 @@ exports[`Search Results Suite snapshot test 1`] = `
                     value="2"
                   />
                   <span
-                    class="c17"
+                    class="c18"
                   >
                     <h5
-                      class="c18"
+                      class="c19"
                     >
                       DHSC
                     </h5>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Latest data period: 2022
                       </p>
                     </div>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Data source: Student article
                       </p>
                     </div>
                     <div
-                      class="c19 c20"
+                      class="c6 c20"
                     >
                       <p>
                         Last updated: 05 November 2023
