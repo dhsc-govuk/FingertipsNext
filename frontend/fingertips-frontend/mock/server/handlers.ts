@@ -18,10 +18,7 @@ const next = () => {
 
 export const handlers = [
   http.get(`${baseURL}/areas/hierarchies`, async () => {
-    const resultArray = [
-      [await getGetAreaHierarchies200Response(), { status: 200 }],
-      [await getGetAreaHierarchies500Response(), { status: 500 }],
-    ];
+    const resultArray = [[getGetAreaHierarchies200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -31,19 +28,12 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/areas/:areaCode`, async () => {
-    const resultArray = [
-      [await getGetArea200Response(), { status: 200 }],
-      [await getGetArea400Response(), { status: 400 }],
-      [await getGetArea500Response(), { status: 500 }],
-    ];
+    const resultArray = [[getGetArea200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/areas/root`, async () => {
-    const resultArray = [
-      [await getGetAreaRoot200Response(), { status: 200 }],
-      [await getGetAreaRoot500Response(), { status: 500 }],
-    ];
+    const resultArray = [[getGetAreaRoot200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -75,12 +65,6 @@ export function getGetAreaHierarchies200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
   ].map((_) => faker.lorem.words());
-}
-
-export function getGetAreaHierarchies500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
 }
 
 export function getGetAreaTypes200Response() {
@@ -145,28 +129,10 @@ export function getGetArea200Response() {
   };
 }
 
-export function getGetArea400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getGetArea500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
 export function getGetAreaRoot200Response() {
   return {
     code: 'E92000001',
     name: 'England',
-  };
-}
-
-export function getGetAreaRoot500Response() {
-  return {
-    message: faker.lorem.words(),
   };
 }
 
@@ -183,18 +149,6 @@ export function getFilterIndicators200Response() {
   }));
 }
 
-export function getFilterIndicators400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getFilterIndicators500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
 export function getGetIndicator200Response() {
   return {
     indicator_id: 3456,
@@ -204,30 +158,6 @@ export function getGetIndicator200Response() {
   };
 }
 
-export function getGetIndicator404Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getGetIndicator500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
 export function getGetHealthDataForAnIndicator200Response() {
   return mockHealthData;
-}
-
-export function getGetHealthDataForAnIndicator400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getGetHealthDataForAnIndicator500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
 }
