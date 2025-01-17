@@ -4,9 +4,6 @@ env:
   dotnet-version: 9.0.x
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
-  DHSC_AI_SEARCH_SERVICE_URL: "https://dummyurl.search.windows.net"
-  DHSC_AI_SEARCH_INDEX_NAME: "indicator-search-index"
-  DHSC_AI_SEARCH_API_KEY: "placeholder-api-key-value"
   DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
 
 on:

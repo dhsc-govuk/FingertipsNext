@@ -73,11 +73,10 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       },
     ],
     scoringProfiles: [
-      buildScoringProfile("BasicScoringProfile", [
-        { indicatorId: 20 },
-        { name: 10 },
-        { definition: 5 },
-      ]),
+      {
+        name: "BasicScoringProfile",
+        textWeights: { weights: { indicatorId: 20, name: 10, definition: 5 } },
+      },
     ],
     defaultScoringProfile: "BasicScoringProfile",
   };
@@ -141,25 +140,4 @@ function buildSearchIndexField(
     filterable,
     hidden,
   };
-}
-
-function buildScoringProfile(
-  name: string,
-  weights: ScoringWeight[]
-): ScoringProfile {
-  let scoringProfile: ScoringProfile = {
-    name: name,
-    textWeights: {
-      weights: {},
-    },
-  };
-
-  for (const weighting of weights) {
-    scoringProfile.textWeights!.weights = {
-      ...scoringProfile.textWeights!.weights,
-      ...weighting,
-    };
-  }
-
-  return scoringProfile;
 }

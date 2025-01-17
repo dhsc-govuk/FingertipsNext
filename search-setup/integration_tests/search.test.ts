@@ -43,21 +43,6 @@ describe("AI search index creation and data loading", () => {
     }
   };
 
-  const expectComplexFieldToMatch = (
-    field: IndexField | undefined,
-    expected: {
-      name: string;
-      fieldLength: number;
-    }
-  ) => {
-    expect(field).toBeTruthy();
-    if (field) {
-      expect(field?.name).toBe(expected.name);
-      expect(field?.type).toBe("Edm.ComplexType");
-      expect(field?.fields?.length).toBe(expected.fieldLength);
-    }
-  };
-
   const expectScoringProfileToMatch = (
     profile: ScoringProfile,
     expected: {
