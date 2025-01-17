@@ -33,7 +33,12 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/indicators/:indicatorId/data`, async ({ params }) => {
-    const indicatorId = params.indicatorId?.toString() ?? '1';
+    const indicatorId = params.indicatorId;
+    if (typeof indicatorId !== 'string') {
+      return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
+        status: 400,
+      });
+    }
     const resultArray = [
       [getGetHealthDataForAnIndicator200Response(indicatorId), { status: 200 }],
     ];
