@@ -71,6 +71,13 @@ export class SearchStateManager {
     };
   }
 
+  public removeAllIndicatorSelected() {
+    this.searchState = {
+      ...this.searchState,
+      indicatorsSelected: [],
+    };
+  }
+
   public static setStateFromParams(params: URLSearchParams) {
     const searchedIndicator =
       params.get(SearchParams.SearchedIndicator) ?? undefined;

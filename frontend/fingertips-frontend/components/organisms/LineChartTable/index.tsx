@@ -1,7 +1,7 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { sortHealthDataByDate } from '@/lib/chartHelpers/formatLineChartValues';
+import { sortHealthDataByDate } from '@/lib/chartHelpers/formatChartValues';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface TableProps {
