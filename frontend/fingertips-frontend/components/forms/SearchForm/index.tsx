@@ -7,7 +7,7 @@ import {
   LeadParagraph,
   InsetText,
   Button,
-  InputField, Label,
+  InputField, Label, Paragraph,
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import { useActionState } from 'react';
@@ -45,9 +45,9 @@ export const SearchForm = ({
       )}
       <br />
       <H4>Find public health data</H4>
-      <p className="govuk-body">
+      <Paragraph>
         Search for data to compare at local, regional and national levels.
-      </p>
+      </Paragraph>
       <InsetText>
         Use both search options to help you find the most accurate data
         available.
