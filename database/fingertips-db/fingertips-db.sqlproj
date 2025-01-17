@@ -25,7 +25,8 @@
     <Build Include="Tables\HealthMeasure.sql" />
     <Build Include="Tables\IndicatorDimension.sql" />
     <Build Include="Tables\SexDimension.sql" />
-    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="Security\Areas.sql" />
+    <Build Include="Tables\Areas.sql" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />

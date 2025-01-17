@@ -15,6 +15,7 @@ import { SearchResult } from '@/components/molecules/Search/result';
 
 import { IndicatorSearchResult } from '@/app/search/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -39,13 +40,16 @@ export function SearchResults({
     searchResultsFormState
   );
 
+  const searchState = new SearchStateManager({
+    searchedIndicator: searchResultsFormState.searchedIndicator,
+  });
+
+  const backLinkPath = searchState.generatePath('/search');
+
   return (
     <>
-      <BackLink
-        href={`/search?indicator=${searchResultsFormState.indicator}`}
-        data-testid="search-results-back-link"
-      />
-      {searchResultsFormState.indicator ? (
+      <BackLink href={backLinkPath} data-testid="search-results-back-link" />
+      {searchResultsFormState.searchedIndicator ? (
         <>
           {state.message && (
             <ErrorSummary
@@ -65,11 +69,11 @@ export function SearchResults({
             />
           )}
           <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.indicator}**"`}</Paragraph>
+          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
           <form action={formAction}>
             <input
               name="searchedIndicator"
-              defaultValue={searchResultsFormState.indicator}
+              defaultValue={searchResultsFormState.searchedIndicator}
               hidden
             />
             {searchResults.length ? (
