@@ -94,7 +94,11 @@ export function getGetIndicator500Response() {
 }
 
 export function getGetHealthDataForAnIndicator200Response(indicatorId: string) {
-  return mockHealthData[indicatorId];
+  if (indicatorId in mockHealthData) {
+    return mockHealthData[indicatorId];
+  }
+
+  return mockHealthData[1];
 }
 
 export function getGetHealthDataForAnIndicator400Response() {
