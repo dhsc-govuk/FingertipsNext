@@ -225,7 +225,7 @@ exports[`Area Filter snapshot test 1`] = `
 
 <div
     class="c0"
-    data-testid="geography-filter-container"
+    data-testid="area-filter-container"
   >
     <h3
       class="c1"

@@ -82,9 +82,7 @@ describe('Search Results Suite', () => {
       />
     );
 
-    expect(
-      screen.getByTestId('geography-filter-container')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('area-filter-container')).toBeInTheDocument();
   });
 
   it('should render search results', () => {

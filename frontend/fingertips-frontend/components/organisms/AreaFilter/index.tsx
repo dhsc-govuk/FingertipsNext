@@ -40,7 +40,7 @@ export function AreaFilter({
   };
 
   return (
-    <StyledFilterDiv data-testid="geography-filter-container">
+    <StyledFilterDiv data-testid="area-filter-container">
       <H3>Filters</H3>
       <SectionBreak visible={true} />
 

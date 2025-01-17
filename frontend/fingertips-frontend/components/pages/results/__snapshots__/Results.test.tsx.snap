@@ -1471,7 +1471,7 @@ exports[`Search Results Suite snapshot test 1`] = `
     >
       <div
         class="c2"
-        data-testid="geography-filter-container"
+        data-testid="area-filter-container"
       >
         <h3
           class="c3"
