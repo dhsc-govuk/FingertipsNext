@@ -5,6 +5,8 @@ on:
     workflows: [Fingertips Frontend Build]
     types:
       - completed
+    branches:
+      - main
 
 jobs:
   determine-version:
