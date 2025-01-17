@@ -35,16 +35,12 @@ const configureTracing = async () => {
     const {
       UndiciInstrumentation,
     } = require('@opentelemetry/instrumentation-undici');
-    const {
-      SimpleSpanProcessor,
-      ConsoleSpanExporter,
-    } = require('@opentelemetry/sdk-trace-node');
+    const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
     const { Resource } = require('@opentelemetry/resources');
     const {
       ATTR_SERVICE_NAME,
     } = require('@opentelemetry/semantic-conventions');
 
-    // const spanProcessor = new SimpleSpanProcessor(new ConsoleSpanExporter())
     const spanProcessor = new SimpleSpanProcessor();
     const instrumentation = new UndiciInstrumentation();
 

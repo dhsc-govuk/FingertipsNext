@@ -2,9 +2,7 @@ namespace DHSC.FingertipsNext.Api;
 
 using Asp.Versioning;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Azure.Monitor.OpenTelemetry.Exporter;
 using DHSC.FingertipsNext.Monolith;
-using Microsoft.VisualBasic;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
@@ -33,8 +31,8 @@ public static class Program
                 .SetResourceBuilder(ResourceBuilder.CreateDefault()
                     .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
                 .AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation();
-            // .AddConsoleExporter();
+                .AddHttpClientInstrumentation()
+                .AddEntityFrameworkCoreInstrumentation();
         });
 
         builder.Services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
