@@ -30,31 +30,12 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
             areaCodes.Distinct().Take(10).ToArray(),
             years.Distinct().Take(10).ToArray());
 
-        var result = healthMeasureData.Aggregate(new List<HealthDataForArea>(), (acc, item) =>
-        {
-            var area = acc.Find(data => data.AreaCode == item.AreaDimension.Code);
-            if (area is null)
+        return healthMeasureData
+            .GroupBy(data => data.AreaDimension.Code)
+            .Select(group => new HealthDataForArea
             {
-                var healthDataForArea = MapToHealthDataForArea(item);
-                acc.Add(healthDataForArea);
-            }
-            else
-            {
-                area.HealthData = [.. area.HealthData, _mapper.Map<HealthDataPoint>(item)];
-            }
-            return acc;
-        });
-
-        return result;
-    }
-
-    private HealthDataForArea MapToHealthDataForArea(HealthMeasureModel healthMeasure)
-    {
-        var healthData = _mapper.Map<HealthDataPoint>(healthMeasure);
-        return new HealthDataForArea
-        {
-            AreaCode = healthMeasure.AreaDimension.Code,
-            HealthData = [healthData]
-        };
+                AreaCode = group.Key,
+                HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+            });
     }
 }

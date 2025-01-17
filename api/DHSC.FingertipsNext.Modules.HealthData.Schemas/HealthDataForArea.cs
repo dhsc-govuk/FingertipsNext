@@ -18,5 +18,5 @@ public class HealthDataForArea
     /// The health data points for the area and indicator
     /// </summary>
     [JsonPropertyName("healthData")]
-    public HealthDataPoint[] HealthData { get; set; } = [];
+    public IEnumerable<HealthDataPoint> HealthData { get; init; } = [];
 }
