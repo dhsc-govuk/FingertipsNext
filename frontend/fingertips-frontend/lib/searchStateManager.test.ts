@@ -2,7 +2,7 @@ import { SearchParams, SearchStateManager } from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
-    it('should add to the indicators selected array when initialy empty', () => {
+    it('should add to the indicators selected array when initially empty', () => {
       const stateManager = new SearchStateManager({
         searchedIndicator: 'bang',
       });
