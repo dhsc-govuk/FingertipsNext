@@ -78,8 +78,8 @@ exports[`Geography Filter snapshot test 1`] = `
   padding: 0.5em;
 }
 
-.c4 {
-  width: 500px;
+.c4 select {
+  width: 100%;
 }
 
 @media print {

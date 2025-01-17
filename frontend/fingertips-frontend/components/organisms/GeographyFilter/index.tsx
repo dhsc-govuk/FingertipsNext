@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface GeographyFilterProps {
   selectedAreas?: any[];
-  availableAreaTypes?: any[];
+  availableAreaTypes?: string[];
 }
 
 const StyledFilterDiv = styled('div')({
@@ -15,7 +15,9 @@ const StyledFilterDiv = styled('div')({
 });
 
 const StyledFilterSelect = styled(Select)({
-  width: '500px',
+  select: {
+    width: '100%',
+  },
 });
 
 export function GeographyFilter({
@@ -37,8 +39,8 @@ export function GeographyFilter({
       ) : (
         <StyledFilterSelect label="Select an area type">
           {availableAreaTypes?.map((areaType) => (
-            <option key={areaType.id} value={areaType.id}>
-              {areaType.name}
+            <option key={areaType} value={areaType}>
+              {areaType}
             </option>
           ))}
         </StyledFilterSelect>

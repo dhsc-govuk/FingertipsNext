@@ -1,16 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { GeographyFilter } from '.';
 
-const availableAreaTypes = [
-  {
-    id: '001',
-    name: 'area type 001',
-  },
-  {
-    id: '002',
-    name: 'area type 002',
-  },
-];
+const availableAreaTypes = ['area type 001', 'area type 002'];
 
 describe('Geography Filter', () => {
   it('snapshot test', () => {

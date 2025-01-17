@@ -1139,8 +1139,8 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding: 0.5em;
 }
 
-.c6 {
-  width: 500px;
+.c6 select {
+  width: 100%;
 }
 
 @media print {

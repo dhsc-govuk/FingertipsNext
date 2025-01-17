@@ -23,6 +23,7 @@ import { GeographyFilter } from '@/components/organisms/GeographyFilter';
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
+  availableAreaTypes: string[];
 };
 
 const isIndicatorSelected = (
@@ -37,6 +38,7 @@ const isIndicatorSelected = (
 export function SearchResults({
   searchResultsFormState,
   searchResults,
+  availableAreaTypes,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -75,7 +77,7 @@ export function SearchResults({
           <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
           <GridRow>
             <GridCol setWidth="one-third">
-              <GeographyFilter availableAreaTypes={[]} />
+              <GeographyFilter availableAreaTypes={availableAreaTypes} />
             </GridCol>
             <GridCol>
               <form action={formAction}>
