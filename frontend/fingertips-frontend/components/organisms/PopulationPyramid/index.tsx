@@ -27,6 +27,7 @@ const symbolEncoder: Record<string, string> = {
   'triangle-down': SymbolsEnum.TriangleDown,
 };
 
+// TODO: move to util function with tests
 // any required to allow customisation of Highcharts tooltips
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pointFormatterHelper = (point: any) => {
