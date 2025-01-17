@@ -5,6 +5,7 @@ env:
   NEXT_TELEMETRY_DISABLED: true
 
 on:
+  workflow_dispatch:
   push:
     branches:
       ## ** is required to match branches with / in their name
