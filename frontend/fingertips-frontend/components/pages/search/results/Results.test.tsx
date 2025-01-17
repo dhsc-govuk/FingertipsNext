@@ -179,8 +179,8 @@ describe('Search Results Suite', () => {
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
     const expectedPaths = [
-      `/chart?is=${MOCK_DATA[0].id.toString()}`,
-      `/chart?is=${MOCK_DATA[1].id.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].id.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].id.toString()}`,
     ];
 
     render(
