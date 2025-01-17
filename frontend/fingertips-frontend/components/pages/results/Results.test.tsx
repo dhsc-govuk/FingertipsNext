@@ -74,7 +74,7 @@ describe('Search Results Suite', () => {
     ).toBe(`/?${SearchParams.SearchedIndicator}=test`);
   });
 
-  it('should render the geography filter pane', () => {
+  it('should render the area filter pane', () => {
     render(
       <SearchResults
         searchResultsFormState={initialState}

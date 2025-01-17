@@ -23,7 +23,7 @@ import { AreaFilter } from '@/components/organisms/AreaFilter';
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
-  availableAreaTypes: string[];
+  availableAreaTypes?: string[];
 };
 
 const isIndicatorSelected = (
