@@ -32,9 +32,10 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/indicators/:indicatorId/data`, async () => {
+  http.get(`${baseURL}/indicators/:indicatorId/data`, async ({ params }) => {
+    const indicatorId = params.indicatorId?.toString() ?? '1';
     const resultArray = [
-      [getGetHealthDataForAnIndicator200Response(), { status: 200 }],
+      [getGetHealthDataForAnIndicator200Response(indicatorId), { status: 200 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
@@ -87,8 +88,8 @@ export function getGetIndicator500Response() {
   };
 }
 
-export function getGetHealthDataForAnIndicator200Response() {
-  return mockHealthData;
+export function getGetHealthDataForAnIndicator200Response(indicatorId: string) {
+  return mockHealthData[indicatorId];
 }
 
 export function getGetHealthDataForAnIndicator400Response() {
