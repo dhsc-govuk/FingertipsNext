@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { MOCK_DATA } from '@/app/search/results/search-result-data';
 import { SearchResults } from '.';
@@ -51,7 +51,7 @@ describe('Search Results Suite', () => {
     indicatorsSelected: ['1'],
   };
 
-  it('should render elements', async () => {
+  it('should render elements', () => {
     render(
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
@@ -68,10 +68,13 @@ describe('Search Results Suite', () => {
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
 
-    expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe(`/search?${SearchParams.SearchedIndicator}=test`);
+    const backLink = screen.getByRole('link', { name: /back/i });
+
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('data-testid', 'search-results-back-link');
+    expect(backLink.getAttribute('href')!).toBe(
+      `/search?${SearchParams.SearchedIndicator}=${searchedIndicator}`
+    );
   });
 
   it('should render search results', () => {
@@ -82,9 +85,15 @@ describe('Search Results Suite', () => {
       />
     );
 
-    expect(screen.getAllByTestId('search-result')).toHaveLength(
-      MOCK_DATA.length
-    );
+    const searchResults = screen.getAllByTestId('search-result');
+
+    expect(searchResults).toHaveLength(MOCK_DATA.length);
+    searchResults.forEach((searchResult, index) => {
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].lastUpdated);
+    });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
 
@@ -93,6 +102,7 @@ describe('Search Results Suite', () => {
       ...initialState,
       searchedIndicator: undefined,
     };
+
     render(
       <SearchResults
         searchResultsFormState={initialStateWithNoIndicator}
@@ -129,9 +139,10 @@ describe('Search Results Suite', () => {
   });
 
   it('should render the error summary component when there is a validation error', () => {
+    const errorMessage = 'There was an error';
     const errorState: SearchResultState = {
       ...initialState,
-      message: 'Some error',
+      message: errorMessage,
       errors: {},
     };
 
@@ -145,6 +156,7 @@ describe('Search Results Suite', () => {
     expect(
       screen.getByTestId('search-result-form-error-summary')
     ).toBeInTheDocument();
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
   it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
@@ -166,14 +178,11 @@ describe('Search Results Suite', () => {
       />
     );
 
-    const errorLink = screen.getByText('Available indicators').closest('a');
-    if (errorLink) {
-      await user.click(errorLink);
-    }
+    const errorLink = screen.getByText('Available indicators').closest('a')!;
 
-    await waitFor(() => {
-      expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
-    });
+    await user.click(errorLink);
+
+    expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
   });
 
