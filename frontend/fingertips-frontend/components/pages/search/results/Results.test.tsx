@@ -177,6 +177,27 @@ describe('Search Results Suite', () => {
     expect(scrollMock).toBeCalledTimes(1);
   });
 
+  it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
+    const expectedPaths = [
+      `/chart?is=${MOCK_DATA[0].id.toString()}`,
+      `/chart?is=${MOCK_DATA[1].id.toString()}`,
+    ];
+
+    render(
+      <SearchResults
+        searchResultsFormState={initialStateIndicatorSelected}
+        searchResults={MOCK_DATA}
+      />
+    );
+
+    expect(
+      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
+    ).toHaveAttribute('href', expectedPaths[0]);
+    expect(
+      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
+    ).toHaveAttribute('href', expectedPaths[1]);
+  });
+
   it('snapshot test', () => {
     const container = render(
       <SearchResults
