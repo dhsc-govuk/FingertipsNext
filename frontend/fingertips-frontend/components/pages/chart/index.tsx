@@ -27,7 +27,11 @@ export function Chart({
   const backLinkPath = searchState.generatePath('/results');
   return (
     <>
-      <BackLink data-testid="chart-page-back-link" href={backLinkPath} aria-label="Go back to the previous page"/>
+      <BackLink
+        data-testid="chart-page-back-link"
+        href={backLinkPath}
+        aria-label="Go back to the previous page"
+      />
       <H2>View Dementia QOF prevalence</H2>
       <br />
       <LineChart
