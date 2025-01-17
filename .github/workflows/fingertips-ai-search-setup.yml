@@ -1,0 +1,47 @@
+name: Search Setup Workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - search-setup/**
+
+jobs:
+  search-setup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: ["22.x"]
+        environment: ["development"]
+    environment: ${{ matrix.environment }}
+    env:
+      AI_SEARCH_SERVICE_ENDPOINT: ${{ secrets.AI_SEARCH_SERVICE_ENDPOINT }}
+      AI_SEARCH_API_KEY: ${{ secrets.AI_SEARCH_API_KEY }}
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Set up Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ./search-setup/package-lock.json
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Create index
+      - name: Create index
+        run: npm run create-index
+
+      # Run tests
+      - name: Run tests
+        run: npm run test
