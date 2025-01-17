@@ -3,7 +3,7 @@
 import { H3, LabelText, SectionBreak, Select } from 'govuk-react';
 import styled from 'styled-components';
 
-interface GeographyFilterProps {
+interface AreaFilterProps {
   selectedAreas?: any[];
   availableAreaTypes?: string[];
 }
@@ -20,10 +20,10 @@ const StyledFilterSelect = styled(Select)({
   },
 });
 
-export function GeographyFilter({
+export function AreaFilter({
   selectedAreas,
   availableAreaTypes,
-}: Readonly<GeographyFilterProps>) {
+}: Readonly<AreaFilterProps>) {
   return (
     <StyledFilterDiv data-testid="geography-filter-container">
       <H3>Filters</H3>

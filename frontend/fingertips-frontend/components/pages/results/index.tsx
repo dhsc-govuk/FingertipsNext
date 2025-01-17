@@ -18,7 +18,7 @@ import { SearchResult } from '@/components/molecules/result';
 import { IndicatorSearchResult } from '@/app/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
-import { GeographyFilter } from '@/components/organisms/GeographyFilter';
+import { AreaFilter } from '@/components/organisms/AreaFilter';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -77,7 +77,7 @@ export function SearchResults({
           <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
           <GridRow>
             <GridCol setWidth="one-third">
-              <GeographyFilter availableAreaTypes={availableAreaTypes} />
+              <AreaFilter availableAreaTypes={availableAreaTypes} />
             </GridCol>
             <GridCol>
               <form action={formAction}>

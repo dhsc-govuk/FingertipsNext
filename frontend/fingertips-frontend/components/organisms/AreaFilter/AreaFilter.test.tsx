@@ -1,26 +1,24 @@
 import { render, screen } from '@testing-library/react';
-import { GeographyFilter } from '.';
+import { AreaFilter } from '.';
 
 const availableAreaTypes = ['area type 001', 'area type 002'];
 
-describe('Geography Filter', () => {
+describe('Area Filter', () => {
   it('snapshot test', () => {
-    const container = render(<GeographyFilter availableAreaTypes={[]} />);
+    const container = render(<AreaFilter availableAreaTypes={[]} />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });
 
   it('should render the Filters heading', () => {
-    render(<GeographyFilter />);
+    render(<AreaFilter />);
 
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
 
   it('should render the selected areas and not the area type drop down when there are areas selected', () => {
     render(
-      <GeographyFilter
-        selectedAreas={[{ id: '001', name: 'selected area 001' }]}
-      />
+      <AreaFilter selectedAreas={[{ id: '001', name: 'selected area 001' }]} />
     );
 
     expect(screen.getByText(/Areas Selected/i)).toBeInTheDocument();
@@ -30,7 +28,7 @@ describe('Geography Filter', () => {
   });
 
   it('should render the select area type drop down if there are no selected areas', () => {
-    render(<GeographyFilter availableAreaTypes={availableAreaTypes} />);
+    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
     expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
     expect(
@@ -39,7 +37,7 @@ describe('Geography Filter', () => {
   });
 
   it('should render all the available areaTypes', () => {
-    render(<GeographyFilter availableAreaTypes={availableAreaTypes} />);
+    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
     expect(screen.queryByText(/Areas Selected/i)).not.toBeInTheDocument();
     expect(
