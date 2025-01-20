@@ -1,3 +1,5 @@
+import { EnvironmentContext } from './lib/environmentContext';
+
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
@@ -60,5 +62,7 @@ const configureTracing = async () => {
 export async function register() {
   configureApplicationInsights();
   configureTracing();
+  // Load environment variables
+  EnvironmentContext.getEnvironmentMap();
   await startMockServer();
 }
