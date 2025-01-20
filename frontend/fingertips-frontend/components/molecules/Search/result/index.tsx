@@ -89,7 +89,9 @@ export function SearchResult({
             }}
           >
             <H5>
-              <Link href={generateIndicatorChartPath(result.id.toString())}>
+              <Link
+                href={generateIndicatorChartPath(result.indicatorId.toString())}
+              >
                 {result.indicatorName}
               </Link>
             </H5>

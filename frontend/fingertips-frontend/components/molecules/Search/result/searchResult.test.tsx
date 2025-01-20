@@ -96,7 +96,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].id.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
     render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
