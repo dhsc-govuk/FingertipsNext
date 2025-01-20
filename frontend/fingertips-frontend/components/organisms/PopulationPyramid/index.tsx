@@ -28,6 +28,7 @@ export function PopulationPyramid({
       type: 'bar',
       height: 800,
     },
+    credits: { enabled: false },
     title: { style: { display: 'none' } },
     legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
