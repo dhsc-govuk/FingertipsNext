@@ -113,7 +113,6 @@ jobs:
   e2e-tests:
     name: Execute e2e tests
     runs-on: ubuntu-latest
-    if: github.event.deployment_status.state == 'success'
     container:
       image: mcr.microsoft.com/playwright:v1.49.1-jammy
 
