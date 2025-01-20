@@ -135,6 +135,10 @@ export function PopulationPyramid({
         },
       },
     ],
+    accessibility: {
+      enabled: false,
+      description: accessibilityLabel,
+    },
   };
 
   // add comparitors to series if they exist
