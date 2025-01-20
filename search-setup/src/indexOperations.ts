@@ -4,7 +4,6 @@ import {
   SearchField,
   SearchClient,
   SearchFieldDataType,
-  ScoringProfile,
 } from "@azure/search-documents";
 import { GeographySearchData, IndicatorSearchData } from "./types";
 import {

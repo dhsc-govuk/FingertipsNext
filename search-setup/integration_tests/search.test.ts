@@ -1,9 +1,6 @@
 import {
   DocumentResponse,
   SearchIndexResponse,
-  IndexField,
-  ScoringProfile,
-  ScoringWeight,
   TypeAheadBody,
   AutoCompleteResult,
   SuggestionResult,
