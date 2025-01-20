@@ -2,7 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
+
+const mockPopulationData: PopulationData = {
+  ageCategories: [],
+  femaleSeries: [],
+  maleSeries: [],
+};
 
 it('should render the backLink', () => {
   render(
@@ -10,6 +17,11 @@ it('should render the backLink', () => {
       data={mockHealthData[1]}
       searchedIndicator="test"
       indicatorsSelected={['1', '2']}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
     />
   );
 
@@ -20,27 +32,79 @@ it('should render the backLink', () => {
 });
 
 it('should render the LineChart component', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
   const lineChart = screen.getByTestId('lineChart-component');
   expect(lineChart).toBeInTheDocument();
 });
 
 it('should render the Chart component title', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
 
   const HTag = screen.getByRole('heading', { level: 2 });
   expect(HTag).toHaveTextContent('View Dementia QOF prevalence');
 });
 
 it('should render the LineChartTable component', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
 
   const table = screen.getByRole('table');
   expect(table).toBeInTheDocument();
 });
 
 it('should render the BarChart component', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
   const barChart = screen.getByTestId('barChart-component');
   expect(barChart).toBeInTheDocument();
+});
+
+it('should render the PopulationPyramid component', () => {
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
+
+  const PyramidPlot = screen.getByTestId('PopulationPyramid-component');
+  expect(PyramidPlot).toBeInTheDocument();
 });

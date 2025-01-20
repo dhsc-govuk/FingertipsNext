@@ -9,10 +9,13 @@ it('should render the Highcharts react component within the LineChart component'
   expect(highcharts).toBeInTheDocument();
 });
 
-it('should render the LineChart title', () => {
-  render(<LineChart data={mockHealthData[1]} />);
-  const title = screen.getByRole('heading', { level: 3 });
-  expect(title).toHaveTextContent(
-    'See how the indicator has changed over time for the area'
+it('should render the line chart title', () => {
+  render(
+    <LineChart
+      LineChartTitle={'VALID line chart title'}
+      data={mockHealthData[1]}
+    />
   );
+  const HTag = screen.getByRole('heading', { level: 3 });
+  expect(HTag).toHaveTextContent('VALID line chart title');
 });
