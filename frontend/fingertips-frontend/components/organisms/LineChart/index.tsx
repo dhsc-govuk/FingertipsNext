@@ -7,7 +7,7 @@ import {
   sortHealthDataByDate,
 } from '@/lib/chartHelpers/formatChartValues';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { H4 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -59,7 +59,7 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H4>{lineCharTitle}</H4>
+      <H3>{lineCharTitle}</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
