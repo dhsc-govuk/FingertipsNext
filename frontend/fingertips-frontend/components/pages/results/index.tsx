@@ -19,11 +19,13 @@ import { IndicatorSearchResult } from '@/app/results/search-result-data';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorSearchResult[];
   availableAreaTypes?: string[];
+  selectedAreas?: AreaWithRelations[];
 };
 
 const isIndicatorSelected = (
@@ -39,6 +41,7 @@ export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  selectedAreas,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -77,7 +80,10 @@ export function SearchResults({
           <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
           <GridRow>
             <GridCol setWidth="one-third">
-              <AreaFilter availableAreaTypes={availableAreaTypes} />
+              <AreaFilter
+                availableAreaTypes={availableAreaTypes}
+                selectedAreas={selectedAreas}
+              />
             </GridCol>
             <GridCol>
               <form action={formAction}>

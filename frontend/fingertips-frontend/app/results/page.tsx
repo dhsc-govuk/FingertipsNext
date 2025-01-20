@@ -17,13 +17,22 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
+  const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
   // Perform async API call using indicator prop
   await connection();
 
   const config = getApiConfiguration();
   const areasApi = new AreasApi(config);
-  const availableAreaTypes = await areasApi.getAreaTypes();
+
+  const availableAreaTypes =
+    areasSelected.length === 0 ? await areasApi.getAreaTypes() : undefined;
+  const selectedAreasData =
+    areasSelected.length > 0
+      ? await Promise.all(
+          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+        )
+      : [];
 
   const searchResults = getSearchData();
 
@@ -39,6 +48,7 @@ export default async function Page(
       searchResultsFormState={initialState}
       searchResults={searchResults}
       availableAreaTypes={availableAreaTypes}
+      selectedAreas={selectedAreasData}
     />
   );
 }

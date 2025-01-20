@@ -14,7 +14,7 @@ const StyledDivContainer = styled('div')({
   backgroundColor: 'white',
   border: '0.1em black solid',
   padding: '0.3125em 0.3125em',
-  maxWidth: '40%',
+  maxWidth: '100%',
   margin: '0.3125em',
   display: 'flex',
 });

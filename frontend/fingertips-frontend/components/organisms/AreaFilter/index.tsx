@@ -1,3 +1,4 @@
+import { Pill } from '@/components/molecules/Pill';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
@@ -48,7 +49,10 @@ export function AreaFilter({
         <LabelText>Areas Selected</LabelText>
         {selectedAreas && selectedAreas.length > 0 ? (
           selectedAreas?.map((selectedArea) => (
-            <Paragraph key={selectedArea.code}>{selectedArea.name}</Paragraph>
+            <Pill
+              key={selectedArea.code}
+              selectedFilterName={selectedArea.name}
+            />
           ))
         ) : (
           <Paragraph>There are no areas selected</Paragraph>

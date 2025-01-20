@@ -22,12 +22,20 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockArea: AreaWithRelations = {
-  code: '001',
-  name: 'selected area 001',
-  hierarchyName: 'some hierarchy name',
-  areaType: 'Integrated Care Board sub-locations',
-};
+const mockSelectedAreasData: AreaWithRelations[] = [
+  {
+    code: '001',
+    name: 'selected area 001',
+    hierarchyName: 'some hierarchy name',
+    areaType: 'Integrated Care Board sub-locations',
+  },
+  {
+    code: '002',
+    name: 'selected area 002',
+    hierarchyName: 'some hierarchy name',
+    areaType: 'Integrated Care Board sub-locations',
+  },
+];
 
 const availableAreaTypes = ['area type 001', 'area type 002'];
 
@@ -45,9 +53,10 @@ describe('Area Filter', () => {
   });
 
   it('should render the selected areas and not the area type drop down when there are areas selected', () => {
-    render(<AreaFilter selectedAreas={[mockArea]} />);
+    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
 
     expect(screen.getByText(/Areas Selected/i)).toBeInTheDocument();
+    expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
     expect(
       screen.queryByRole('combobox', { name: /Select an area type/i })
     ).not.toBeInTheDocument();
