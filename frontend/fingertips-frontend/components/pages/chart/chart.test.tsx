@@ -47,7 +47,16 @@ it('should render the LineChart component', () => {
 });
 
 it('should render the Chart component title', () => {
-  render(<Chart data={mockHealthData[1]} />);
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      preparedPopulationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
 
   const HTag = screen.getByRole('heading', { level: 2 });
   expect(HTag).toHaveTextContent('View Dementia QOF prevalence');

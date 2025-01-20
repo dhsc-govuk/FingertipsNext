@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H3 } from 'govuk-react';
+import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -32,7 +32,7 @@ export function Chart({
   return (
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
-      <H3>Title for the chart page</H3>
+      <H2>View Dementia QOF prevalence</H2>
       {/* TODO: Business logic for which chart to render */}
       <PopulationPyramid
         data={preparedPopulationData}
