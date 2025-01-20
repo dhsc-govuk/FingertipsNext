@@ -12,7 +12,6 @@ import { getEnvironmentVariable } from "../src/utils/helpers";
 import {
   GEOGRAPHY_SEARCH_INDEX_NAME,
   GEOGRAPHY_SEARCH_SUGGESTER_NAME,
-  GeographySearchIndexColumnNames,
   INDICATOR_SEARCH_INDEX_NAME,
 } from "../src/constants";
 
@@ -25,39 +24,6 @@ const URL_SUFFIX = "?api-version=2024-07-01";
 describe("AI search index creation and data loading", () => {
   searchEndpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
   apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
-
-  const expectFieldToMatch = (
-    field: IndexField | undefined,
-    expected: {
-      name: string;
-      type: string;
-      retrievable: boolean;
-      searchable: boolean;
-      sortable: boolean;
-      filterable: boolean;
-    }
-  ) => {
-    expect(field).toBeTruthy();
-    if (field) {
-      expect(field).toMatchObject(expected);
-    }
-  };
-
-  const expectScoringProfileToMatch = (
-    profile: ScoringProfile,
-    expected: {
-      profileName: string;
-      weights: ScoringWeight[];
-    }
-  ) => {
-    expect(profile?.name).toBe(expected.profileName);
-    for (const weighting of expected.weights) {
-      for (const key of Object.keys(weighting)) {
-        expect(profile?.text?.weights).toHaveProperty(key);
-        expect(profile?.text?.weights[key]).toBe(weighting[key]);
-      }
-    }
-  };
 
   const expectIndexToBePopulated = async (url: string) => {
     const response = await fetch(url, {
