@@ -12,10 +12,11 @@ describe('SearchStateManager', () => {
       });
       stateManager.addIndicatorSelected('1');
 
-      const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1`
-      );
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1'],
+        areasSelected: [],
+      });
     });
 
     it('should add to the indicators selected array', () => {
@@ -26,10 +27,11 @@ describe('SearchStateManager', () => {
       stateManager.addIndicatorSelected('2');
       stateManager.addIndicatorSelected('3');
 
-      const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
-      );
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2', '3'],
+        areasSelected: [],
+      });
     });
   });
 
@@ -41,10 +43,11 @@ describe('SearchStateManager', () => {
       });
       stateManager.removeIndicatorSelected('1');
 
-      const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
-      );
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['2', '3'],
+        areasSelected: [],
+      });
     });
   });
 
@@ -130,22 +133,16 @@ describe('SearchStateManager', () => {
       });
       stateManager.removeAllIndicatorSelected();
 
-      const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang`
-      );
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: [],
+        areasSelected: [],
+      });
     });
   });
 
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
-      const expectedPath = [
-        `/some-path?${SearchParams.SearchedIndicator}=bang`,
-        `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`,
-        `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
-        `&${SearchParams.AreaTypeSelected}=Some+area+type`,
-      ].join('');
-
       const params = new URLSearchParams();
       params.append(SearchParams.SearchedIndicator, 'bang');
       params.append(SearchParams.IndicatorsSelected, '1');
@@ -157,8 +154,12 @@ describe('SearchStateManager', () => {
 
       const stateManager = SearchStateManager.setStateFromParams(params);
 
-      const generatedPath = stateManager.generatePath('/some-path');
-      expect(generatedPath).toBe(expectedPath);
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2', '3'],
+        areasSelected: ['A001', 'A002'],
+        areaTypeSelected: 'Some area type',
+      });
     });
   });
 
@@ -183,15 +184,52 @@ describe('SearchStateManager', () => {
     });
 
     it('should return the indicatorsSelected to the generatedPath', () => {
+      const expectedPath = [
+        `/some-path?${SearchParams.SearchedIndicator}=bang`,
+        `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+      ].join('');
+
       const stateManager = new SearchStateManager({
         searchedIndicator: 'bang',
-        indicatorsSelected: ['1'],
+        indicatorsSelected: ['1', '2'],
       });
       const generatedPath = stateManager.generatePath('/some-path');
 
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=1`
-      );
+      expect(generatedPath).toBe(expectedPath);
+    });
+
+    it('should return the areasSelected to the generatedPath', () => {
+      const expectedPath = [
+        `/some-path?${SearchParams.SearchedIndicator}=bang`,
+        `&${SearchParams.IndicatorsSelected}=1`,
+        `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
+      ].join('');
+
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1'],
+        areasSelected: ['A001', 'A002'],
+      });
+      const generatedPath = stateManager.generatePath('/some-path');
+
+      expect(generatedPath).toBe(expectedPath);
+    });
+
+    it('should return the areaTypeSelected to the generatedPath', () => {
+      const expectedPath = [
+        `/some-path?${SearchParams.SearchedIndicator}=bang`,
+        `&${SearchParams.IndicatorsSelected}=1`,
+        `&${SearchParams.AreaTypeSelected}=Some+area+type`,
+      ].join('');
+
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1'],
+        areaTypeSelected: 'Some area type',
+      });
+      const generatedPath = stateManager.generatePath('/some-path');
+
+      expect(generatedPath).toBe(expectedPath);
     });
   });
 });
