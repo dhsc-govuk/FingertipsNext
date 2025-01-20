@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 
@@ -21,35 +21,37 @@ jest.mock('next/navigation', () => {
   };
 });
 
-describe('Search Result Suite', () => {
-  it('should have search result list item', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+afterEach(() => {
+  mockReplace.mockClear();
+});
 
-    expect(screen.getByRole('listitem')).toBeInTheDocument();
-  });
+it('should have search result list item', () => {
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
-  it('should contain 3 paragraphs and a heading', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+  expect(screen.getByRole('listitem')).toBeInTheDocument();
+});
 
-    expect(screen.getAllByRole('paragraph')).toHaveLength(3);
-    expect(screen.getByRole('heading')).toBeInTheDocument();
-  });
+it('should contain 3 paragraphs and a heading', () => {
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
-  it('should contain expected text', () => {
-    render(<SearchResult result={MOCK_DATA[0]} />);
+  expect(screen.getAllByRole('paragraph')).toHaveLength(3);
+  expect(screen.getByRole('heading')).toBeInTheDocument();
+});
 
-    expect(screen.getByRole('heading').textContent).toContain('NHS');
-    expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
-      '2023'
-    );
-    expect(screen.getAllByRole('paragraph').at(1)?.textContent).toContain(
-      'NHS website'
-    );
-    expect(screen.getAllByRole('paragraph').at(2)?.textContent).toContain(
-      '06 December 2024'
-    );
-  });
+it('should contain expected text', () => {
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
+  expect(screen.getByRole('heading').textContent).toContain('NHS');
+  expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
+  expect(screen.getAllByRole('paragraph').at(1)?.textContent).toContain(
+    'NHS website'
+  );
+  expect(screen.getAllByRole('paragraph').at(2)?.textContent).toContain(
+    '06 December 2024'
+  );
+});
+
+describe('Indicator Checkbox', () => {
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
     render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
 
@@ -64,6 +66,7 @@ describe('Search Result Suite', () => {
 
   it('should update the path when an indicator is checked', async () => {
     const user = userEvent.setup();
+    mockReplace.mockClear();
 
     render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
 
@@ -90,6 +93,13 @@ describe('Search Result Suite', () => {
         scroll: false,
       }
     );
+  });
+
+  it('should have a direct link to the indicator chart', () => {
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
+    render(<SearchResult result={MOCK_DATA[0]} />);
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
   it('snapshot test', () => {

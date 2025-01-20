@@ -37,6 +37,27 @@ Finally, you can stop all of the running containers with the following command, 
 docker compose --profile <profile_name> down
 ```
 
+### Mock AI Search Data
+
+The system uses Azure AI Search for finding indicators and geographies. When not running against a deployed environment then a MOCK is built into the system to reply with some static data.
+
+The Mock is enabled in the frontend app using the following environment variable.
+DHSC_AI_SEARCH_USE_MOCK_SERVICE=true
+
+This is set in:
+
+- fingertips-frontend/.env.development so that it is used when the nextjs app is run in dev mode
+- compose.yaml so that it is set when the frontend container is started
+- ci.yml so that it is set when the frontend is run in CI
+- fingertips-frontend-deploy.yml as a temporary measure until the Azure AI search is configured
+- fingertips-frontend/Dockerfile as it is currently needed at build time (this may be refactored away)
+
+To enable the system to connect to the Azure AI Search the following environment variables will need to be configured.
+
+- DHSC_AI_SEARCH_SERVICE_URL=< the url the Azure AI Search instance is exposed on >
+- DHSC_AI_SEARCH_INDEX_NAME="indicator-search-index"
+- DHSC_AI_SEARCH_API_KEY=< the read only api key for the AI Search instance >
+
 ## Making Changes to the Application
 
 There are several components to the application:
@@ -75,5 +96,4 @@ You must also set the following [secrets](https://docs.github.com/en/actions/sec
 
 The approach we are taking with the API is 'design first'. The API is designed before it is coded using the [OpenAPI 3.0](https://swagger.io/docs/specification/v3_0/about/) standard and then that design is implemented in the .NET web API. The API design can also be used to help develop the website. A [swagger.yaml](api/definition/swagger.yaml) file is the API design artifact and defines how the API should look. To make changes to the yaml file you can either edit the file directly (fine for smaller changes) or use a visual editor (handy for major changes).
 A useful visual editor is [SwaggerHub](https://swagger.io/), which has a free tier.
-There is a handy VS Code extension [OpenAPI Editor](https://docs.42crunch.com/latest/content/tasks/integrate_vs_code.htm) which makes editing the yaml file easier and highlights any issues. 
-
+There is a handy VS Code extension [OpenAPI Editor](https://docs.42crunch.com/latest/content/tasks/integrate_vs_code.htm) which makes editing the yaml file easier and highlights any issues.
