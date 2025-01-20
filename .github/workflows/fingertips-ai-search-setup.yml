@@ -1,5 +1,5 @@
-name: Search Setup Workflow
-# test workflow
+name: Fingertips Search Setup Workflow
+
 on:
   workflow_dispatch:
   push:
@@ -7,6 +7,7 @@ on:
       - feature/DHSCFT-205_azure_ai_search_workflow
     paths:
       - search-setup/**
+      - .github/workflows/fingertips-ai-search-setup.yml
 
 jobs:
   search-setup:
