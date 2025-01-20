@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { BarChart } from '@/components/organisms/BarChart/index';
 
-it('should render the Highcharts react component with passed yAxisPropsTitle parameter', async () => {
+it('should render the Highcharts react component with passed yAxisPropsTitle parameter', () => {
   const yAxisPropsTitle = 'DifferentYTitle';
 
   render(<BarChart data={mockHealthData[1]} yAxisTitle={yAxisPropsTitle} />);

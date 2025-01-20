@@ -7,7 +7,7 @@ describe('Error Page', () => {
   const errorLink = '/test-link';
   const errorLinkText = 'test error link text';
 
-  test('should render elements', async () => {
+  test('should render elements', () => {
     render(
       <ErrorPage
         errorText={errorText}

@@ -8,11 +8,14 @@ const redirectMock = jest.mocked(redirect);
 const initialState: SearchResultState = {
   indicatorsSelected: [],
 };
+let formData: FormData;
 
 describe('Search Results Actions', () => {
   describe('viewCharts', () => {
+    beforeEach(() => {
+      formData = new FormData();
+    });
     it('should redirect to the charts page with the indicators selected in the query params', async () => {
-      const formData: FormData = new FormData();
       formData.append('searchedIndicator', 'boom');
       formData.append('indicator', '1');
       formData.append('indicator', '2');
@@ -26,7 +29,6 @@ describe('Search Results Actions', () => {
     });
 
     it('should return an error message when no indicators are selected', async () => {
-      const formData: FormData = new FormData();
       formData.append('searchedIndicator', 'boom');
 
       const state = await viewCharts(initialState, formData);

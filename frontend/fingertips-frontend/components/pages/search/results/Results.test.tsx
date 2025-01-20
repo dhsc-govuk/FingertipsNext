@@ -191,7 +191,7 @@ describe('Search Results Suite', () => {
     expect(scrollMock).toBeCalledTimes(1);
   });
 
-  it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
+  it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
     const expectedPaths = [
       `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
       `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
