@@ -87,50 +87,11 @@ describe("AI search index creation and data loading", () => {
 
     it("should have correct index name and number of fields", async () => {
       expect(index.name).toBe(INDICATOR_SEARCH_INDEX_NAME);
-      expect(index.fields.length).toBe(6);
-    });
-
-    it("should have correct indicatorId field configuration", () => {
-      const iidField = index.fields[0];
-      expectFieldToMatch(iidField, {
-        name: "indicatorId",
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
-      expect(iidField.key).toBe(true);
-    });
-    it("should have correct name field configuration", () => {
-      const field = index.fields[1];
-      expectFieldToMatch(field, {
-        name: "name",
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
-    });
-    it("should have correct definition field configuration", () => {
-      const field = index.fields[2];
-      expectFieldToMatch(field, {
-        name: "definition",
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
+      expect(index.fields).toMatchSnapshot();
     });
 
     it("should have correct scoring profile configuration", () => {
-      expectScoringProfileToMatch(index.scoringProfiles[0], {
-        profileName: "BasicScoringProfile",
-        weights: [{ indicatorId: 20 }, { name: 10 }, { definition: 5 }],
-      });
-
+      expect(index.scoringProfiles).toMatchSnapshot();
       expect(index.defaultScoringProfile).toBe("BasicScoringProfile");
     });
 
@@ -173,35 +134,7 @@ describe("AI search index creation and data loading", () => {
 
     it("should have correct index name and number of fields", async () => {
       expect(index.name).toBe(GEOGRAPHY_SEARCH_INDEX_NAME);
-      expect(index.fields.length).toBe(3);
-    });
-
-    it("should have correct field configurations", () => {
-      expectFieldToMatch(index.fields[0], {
-        name: GeographySearchIndexColumnNames.AREA_CODE,
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
-      expect(index.fields[0].key).toBe(true);
-      expectFieldToMatch(index.fields[1], {
-        name: GeographySearchIndexColumnNames.AREA_NAME,
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
-      expectFieldToMatch(index.fields[2], {
-        name: GeographySearchIndexColumnNames.AREA_TYPE,
-        type: "Edm.String",
-        retrievable: true,
-        searchable: true,
-        sortable: true,
-        filterable: true,
-      });
+      expect(index.fields).toMatchSnapshot();
     });
 
     it("should populate geography index with data", async () => {

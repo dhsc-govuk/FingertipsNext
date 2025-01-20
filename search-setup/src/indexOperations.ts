@@ -12,10 +12,6 @@ import {
   GeographySearchIndexColumnNames,
 } from "./constants.js";
 
-interface ScoringWeight {
-  [fieldName: string]: number;
-}
-
 export async function createIndex(
   indexClient: SearchIndexClient,
   index: SearchIndex
