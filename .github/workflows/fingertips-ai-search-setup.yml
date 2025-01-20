@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feature/DHSCFT-205_azure_ai_search_workflow
+      - feature/DHSCFT-205_azure-ai-search-workflow
     paths:
       - search-setup/**
       - .github/workflows/fingertips-ai-search-setup.yml
