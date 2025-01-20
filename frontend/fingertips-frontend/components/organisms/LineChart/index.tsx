@@ -16,7 +16,7 @@ interface LineChartProps {
   accessibilityLabel?: string;
 }
 export function LineChart({
-  LineChartTitle: lineCharTitle,
+  LineChartTitle: lineChartTitle,
   data,
   xAxisTitle,
   accessibilityLabel,
@@ -59,7 +59,7 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H3>{lineCharTitle}</H3>
+      <H3>{lineChartTitle}</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
