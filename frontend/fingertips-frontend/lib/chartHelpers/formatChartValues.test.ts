@@ -6,6 +6,7 @@ import {
 const mockData = [
   {
     areaCode: 'A1425',
+    areaName: 'Area 1425',
     healthData: [
       {
         count: 389,
@@ -34,6 +35,7 @@ describe('sortHealthDataByDate', () => {
     const mockSortedData = [
       {
         areaCode: 'A1425',
+        areaName: 'Area 1425',
         healthData: [
           {
             count: 267,
@@ -71,7 +73,7 @@ describe('generateSeriesData', () => {
           [2006, 278.29134],
           [2004, 703.420759],
         ],
-        name: 'A1425',
+        name: 'Area 1425',
         type: 'line',
       },
     ];
