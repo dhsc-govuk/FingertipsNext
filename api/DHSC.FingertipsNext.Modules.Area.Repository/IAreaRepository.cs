@@ -4,5 +4,5 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
 public interface IAreaRepository
 {
-    Task <IReadOnlyCollection<AreaDimensionModel>> GetAreaData(string areaCode);
+    Task <IReadOnlyCollection<AreaModel>> GetAreaData(string areaCode);
 }

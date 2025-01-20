@@ -20,8 +20,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IAreaService, AreaService>();
         services.AddTransient<IAreaRepository, AreaRepository>();
         
-        services.AddAutoMapper(typeof(AutoMapperProfiles));
-        
+        AreaService.RegisterMappings(services);        
         RegisterDbContext(services, configuration);
     }
     
@@ -49,12 +48,4 @@ public class Module : AbstractMonolithModule, IMonolithModule
 
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>
         configuration.GetValue<string>(name) ?? throw new ArgumentException($"Invalid environment variables provided. Check {name} has been set appropriately");
-}
-
-public class AutoMapperProfiles : Profile
-{
-    public AutoMapperProfiles()
-    {
-        CreateMap<AreaDimensionModel, AreaWithRelations>();
-    }
 }

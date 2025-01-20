@@ -63,7 +63,7 @@ public class AreaController : ControllerBase
     /// <param name="child_area_type">The type of area to request children for.</param>
     /// <returns></returns>
     [HttpGet]
-    [Route("{areaCode}")]
+    [Route("{area_code}")]
     public async Task<IActionResult> GetAreaDetailsAsync(
         [FromRoute] string area_code,
         [FromQuery] bool? include_children = null,

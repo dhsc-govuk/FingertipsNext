@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.Area.Repository;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DHSC.FingertipsNext.Modules.Area.Service;
 
@@ -83,5 +84,10 @@ public class AreaService : IAreaService
         // The root area node
 
         throw new NotImplementedException();
+    }
+
+    public static void RegisterMappings(IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(AutoMapperProfiles));
     }
 }
