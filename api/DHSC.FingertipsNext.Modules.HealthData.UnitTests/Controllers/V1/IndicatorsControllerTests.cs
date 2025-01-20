@@ -1,7 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.Equivalency;
@@ -54,7 +54,7 @@ public class IndicatorControllerTests
 
         // expect
         response?.StatusCode.Equals(200);
-        response?.Value.Should().BeEquivalentTo(SampleHealthData);
+        response?.Value.ShouldBeEquivalentTo(SampleHealthData);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class IndicatorControllerTests
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
         // expect
-        response?.StatusCode.Equals(404);
+        response?.StatusCode.ShouldBe(404);
     }
 
     private static readonly List<HealthDataForArea> SampleHealthData =

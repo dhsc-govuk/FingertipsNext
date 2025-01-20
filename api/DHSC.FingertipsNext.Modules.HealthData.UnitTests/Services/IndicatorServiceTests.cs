@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Mappings;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
-using FluentAssertions;
+using Shouldly;
 using NSubstitute;
 using NSubstitute.Equivalency;
 
@@ -86,20 +87,19 @@ public class IndicatorServiceTests
     public async Task GetIndicatorData_ShouldReturnExpectedResult()
     {
         var healthMeasure = TestHelper.BuildHealthMeasureModel("Code1", 2007, DateTime.Now);
-        var expectedHealthData = _mapper.Map<HealthDataPoint>(healthMeasure);
-        var expected = new HealthDataForArea
-        {
-            AreaCode = "Code1",
-            HealthData = [expectedHealthData]
+        var expectedHealthData = new List<HealthDataPoint>() { _mapper.Map<HealthDataPoint>(healthMeasure)};
+        var expected = new HealthDataForArea() {
+                AreaCode = "Code1",
+                HealthData = expectedHealthData
         };
+        
         _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure]);
-
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
 
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(1);
-        result.ElementAt(0).Should().BeEquivalentTo(expected);
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ElementAt(0).ShouldBeEquivalentTo(expected);
     }
 
     [Fact]
@@ -108,29 +108,31 @@ public class IndicatorServiceTests
         var healthMeasure1 = TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Now);
         var healthMeasure2 = TestHelper.BuildHealthMeasureModel("Code2", 2024, DateTime.Now);
         var healthMeasure3 = TestHelper.BuildHealthMeasureModel("Code1", 2020, DateTime.Now);
-        var expected = new HealthDataForArea[]
+        var expected = new List<HealthDataForArea>()
         {
-            new() 
+            new ()
             {
                 AreaCode = "Code1",
-                HealthData =
-                [
+                HealthData = new List<HealthDataPoint>() {
                     _mapper.Map<HealthDataPoint>(healthMeasure1),
                     _mapper.Map<HealthDataPoint>(healthMeasure3)
-                ]
+                }
             },
-            new()
+            new ()
             {
                 AreaCode = "Code2",
-                HealthData = [_mapper.Map<HealthDataPoint>(healthMeasure2) ]  
+                HealthData = new List<HealthDataPoint>()
+                {
+                    _mapper.Map<HealthDataPoint>(healthMeasure2) 
+                }
             }
         };
-        _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure1, healthMeasure2, healthMeasure3]);
+        _repository.GetIndicatorDataAsync(1, [], []).Returns((IEnumerable<HealthMeasureModel>) new List<HealthMeasureModel>() {healthMeasure1, healthMeasure2, healthMeasure3});
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [])).ToList();
 
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(2);
-        result.Should().BeEquivalentTo(expected);
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(expected);
     }
 }
