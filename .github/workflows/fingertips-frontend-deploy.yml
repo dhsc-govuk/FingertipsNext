@@ -22,7 +22,9 @@ jobs:
       matrix:
         environment: 
           - development
-    environment: ${{ matrix.environment }}
+    environment:
+      name: ${{ matrix.environment }}
+      url: http://4.158.39.145/
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Frontend Deploy'
     steps:
