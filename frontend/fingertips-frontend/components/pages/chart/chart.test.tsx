@@ -5,14 +5,15 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchParams } from '@/lib/searchStateManager';
 
 describe('Page structure', () => {
-  const props = {
-    data: mockHealthData,
-    searchedIndicator: 'test',
-    indicatorsSelected: ['1', '2'],
-  };
   describe('Navigation', () => {
     it('should render back link with correct search parameters', () => {
-      render(<Chart {...props} />);
+      render(
+        <Chart
+          data={mockHealthData[1]}
+          searchedIndicator="test"
+          indicatorsSelected={['1', '2']}
+        />
+      );
 
       const backLink = screen.getByRole('link', { name: /back/i });
       const expectedUrl = `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`;
@@ -25,7 +26,7 @@ describe('Page structure', () => {
 
   describe('Content', () => {
     beforeEach(() => {
-      render(<Chart {...props} />);
+      render(<Chart data={mockHealthData[1]} />);
     });
 
     it('should render the title with correct text', () => {

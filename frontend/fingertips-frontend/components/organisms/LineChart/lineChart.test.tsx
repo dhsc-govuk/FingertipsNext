@@ -5,7 +5,9 @@ import { mockHealthData } from '@/mock/data/healthdata';
 
 it('should render the Highcharts react component with passed parameters within the LineChart component', () => {
   const xAxisPropsTitle = 'DifferentXTitle';
-  render(<LineChart data={mockHealthData} xAxisTitle={`${xAxisPropsTitle}`} />);
+  render(
+    <LineChart data={mockHealthData[1]} xAxisTitle={`${xAxisPropsTitle}`} />
+  );
 
   const highcharts = screen.getByTestId('highcharts-react-component');
 
@@ -14,7 +16,7 @@ it('should render the Highcharts react component with passed parameters within t
 });
 
 it('should render the LineChart title', () => {
-  render(<LineChart data={mockHealthData} />);
+  render(<LineChart data={mockHealthData[1]} />);
 
   const title = screen.getByRole('heading', { level: 3 });
 

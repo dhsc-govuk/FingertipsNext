@@ -6,7 +6,7 @@ import { BarChart } from '@/components/organisms/BarChart/index';
 it('should render the Highcharts react component with passed yAxisPropsTitle parameter', async () => {
   const yAxisPropsTitle = 'DifferentYTitle';
 
-  render(<BarChart data={mockHealthData} yAxisTitle={yAxisPropsTitle} />);
+  render(<BarChart data={mockHealthData[1]} yAxisTitle={yAxisPropsTitle} />);
 
   const highcharts = screen.getByTestId('highcharts-react-component');
 
@@ -15,7 +15,7 @@ it('should render the Highcharts react component with passed yAxisPropsTitle par
 });
 
 it('should render the BarChart title', () => {
-  render(<BarChart data={mockHealthData} />);
+  render(<BarChart data={mockHealthData[1]} />);
 
   const title = screen.getByRole('heading', { level: 3 });
 

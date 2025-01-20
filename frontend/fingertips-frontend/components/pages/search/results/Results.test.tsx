@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { MOCK_DATA } from '@/app/search/results/search-result-data';
+import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
@@ -184,6 +184,27 @@ describe('Search Results Suite', () => {
 
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
+  });
+
+  it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
+    const expectedPaths = [
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
+    ];
+
+    render(
+      <SearchResults
+        searchResultsFormState={initialStateIndicatorSelected}
+        searchResults={MOCK_DATA}
+      />
+    );
+
+    expect(
+      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
+    ).toHaveAttribute('href', expectedPaths[0]);
+    expect(
+      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
+    ).toHaveAttribute('href', expectedPaths[1]);
   });
 
   it('snapshot test', () => {

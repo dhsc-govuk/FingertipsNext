@@ -44,6 +44,21 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('removeAllIndicatorSelected', () => {
+    it('should remove all items from the indicators selected array', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2', '3'],
+      });
+      stateManager.removeAllIndicatorSelected();
+
+      const generatedPath = stateManager.generatePath('/some-path');
+      expect(generatedPath).toBe(
+        `/some-path?${SearchParams.SearchedIndicator}=bang`
+      );
+    });
+  });
+
   describe('setStateFromParams', () => {
     it('should set the search state from URLSearchParams provided', () => {
       const params = new URLSearchParams();
