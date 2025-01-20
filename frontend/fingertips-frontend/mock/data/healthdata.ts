@@ -4,6 +4,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
   '92708': [
     {
       areaCode: 'POPULATION MOCK - E92000001',
+      areaName: 'England',
       healthData: [
         {
           year: 2023,
@@ -353,6 +354,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
   '1': [
     {
       areaCode: 'A1425',
+      areaName: 'Area 1425',
       healthData: [
         {
           year: 2008,
@@ -403,6 +405,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'A1426',
+      areaName: 'Area 1426',
       healthData: [
         {
           year: 2010,
@@ -453,6 +456,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'A1427',
+      areaName: 'Area 1427',
       healthData: [
         {
           year: 2024,
@@ -503,6 +507,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'A1428',
+      areaName: 'Area 1428',
       healthData: [
         {
           year: 2024,
@@ -553,6 +558,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'A1429',
+      areaName: 'Area 1429',
       healthData: [
         {
           year: 2006,
