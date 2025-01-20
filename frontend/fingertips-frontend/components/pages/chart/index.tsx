@@ -41,6 +41,7 @@ export function Chart({
         yAxisTitle="Percentage of total population"
         accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
       />
+      <br />
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
