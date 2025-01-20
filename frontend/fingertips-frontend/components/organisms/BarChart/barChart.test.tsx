@@ -3,28 +3,15 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { BarChart } from '@/components/organisms/BarChart/index';
 
-it('should render the Highcharts react component with passed parameters within the BarChart component', async () => {
+it('should render the Highcharts react component with passed yAxisPropsTitle parameter', async () => {
   const yAxisPropsTitle = 'DifferentYTitle';
-  const benchmarkPropsLabel = 'PassedBenchmarkLabel';
-  const benchmarkPropsValue = 1831;
 
-  render(
-    <BarChart
-      data={mockHealthData}
-      yAxisTitle={yAxisPropsTitle}
-      benchmarkLabel={benchmarkPropsLabel}
-      benchmarkValue={benchmarkPropsValue}
-    />
-  );
+  render(<BarChart data={mockHealthData} yAxisTitle={yAxisPropsTitle} />);
 
   const highcharts = screen.getByTestId('highcharts-react-component');
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);
-  // await waitFor(() => {
-  //   expect(highcharts).toHaveTextContent(benchmarkPropsLabel);
-  // });
-  // expect(highcharts).toHaveTextContent(benchmarkPropsValue.toString());
 });
 
 it('should render the BarChart title', () => {
