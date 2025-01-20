@@ -33,6 +33,10 @@ public static class Program
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation();
+            
+            #if DEBUG
+            tcb.AddConsoleExporter();
+            #endif
         });
 
         builder.Services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
