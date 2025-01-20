@@ -1,4 +1,4 @@
-import { SearchService } from './searchService';
+import { IndicatorSearchService } from './indicatorSearchService';
 import { SearchClient, AzureKeyCredential } from '@azure/search-documents';
 import { EnvironmentContext } from '../environmentContext';
 
@@ -29,14 +29,14 @@ describe('SearchService', () => {
     });
 
     it('should successfully create a search service instance', () => {
-      const searchService = new SearchService();
-      expect(searchService).toBeInstanceOf(SearchService);
+      const searchService = new IndicatorSearchService();
+      expect(searchService).toBeInstanceOf(IndicatorSearchService);
     });
 
     it('should call search client with correct parameters', async () => {
       const searchTerm = 'test-search';
 
-      const searchService = new SearchService();
+      const searchService = new IndicatorSearchService();
       await searchService.searchWith(searchTerm);
 
       expect(SearchClient).toHaveBeenCalledWith(
@@ -73,7 +73,7 @@ describe('SearchService', () => {
         search: jest.fn().mockResolvedValue(mockSearchResults),
       }));
 
-      const searchService = new SearchService();
+      const searchService = new IndicatorSearchService();
       const results = await searchService.searchWith('test-search');
 
       expect(results).toEqual([
@@ -111,7 +111,7 @@ describe('SearchService', () => {
 
       mockSearch.mockResolvedValue({ results: [] });
 
-      const searchService = new SearchService();
+      const searchService = new IndicatorSearchService();
       await searchService.searchWith(searchTerm);
 
       expect(SearchClient).toHaveBeenCalledWith(

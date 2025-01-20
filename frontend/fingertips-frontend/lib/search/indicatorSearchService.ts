@@ -1,4 +1,3 @@
-import { Search, IndicatorSearchResult } from './searchResultData';
 import {
   AzureKeyCredential,
   SearchClient,
@@ -11,6 +10,7 @@ import {
   DHSC_AI_SEARCH_SCORING_PROFILE,
   EnvironmentContext,
 } from '../environmentContext';
+import { IIndicatorSearchClient, IndicatorSearchResult } from './searchTypes';
 
 type Indicator = {
   indicatorId: string;
@@ -21,7 +21,7 @@ type Indicator = {
   lastUpdated: Date;
 };
 
-export class SearchService implements Search {
+export class IndicatorSearchService implements IIndicatorSearchClient {
   readonly searchClient: SearchClient<Indicator>;
 
   constructor() {

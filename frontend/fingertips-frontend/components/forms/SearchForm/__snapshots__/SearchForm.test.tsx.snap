@@ -448,6 +448,21 @@ exports[`snapshot test - renders the form 1`] = `
         value=""
       />
     </label>
+    <label
+      class="c3 c4"
+      data-testid="search-form-input-geography"
+    >
+      <span
+        class="c5"
+      >
+        Filter by geography
+      </span>
+      <input
+        class="c7"
+        id="geography"
+        name="geography"
+      />
+    </label>
     <button
       class="c8"
       data-testid="search-form-button-submit"

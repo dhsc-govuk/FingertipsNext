@@ -3,6 +3,9 @@
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { AreaSearchService } from '@/lib/search/areaSearchService';
+import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaSearchServiceMock } from '@/lib/search/areaSearchServiceMock';
 
 const $SearchFormSchema = z.object({
   indicator: z
@@ -42,4 +45,22 @@ export async function searchIndicator(
 
   const searchState = new SearchStateManager({ searchedIndicator: indicator });
   redirect(searchState.generatePath('/search/results'), RedirectType.push);
+}
+
+export async function getSearchSuggestions(
+  partialAreaName: string
+): Promise<AreaDocument[]> {
+  console.log(partialAreaName);
+  console.log(process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE);
+  try {
+    const areaSearchService =
+      process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE === 'true'
+        ? AreaSearchServiceMock.getInstance()
+        : AreaSearchService.getInstance();
+
+    return areaSearchService.getAreaSuggestions(partialAreaName);
+  } catch (e) {
+    console.log(e);
+  }
+  return [];
 }

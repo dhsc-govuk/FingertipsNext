@@ -1,4 +1,4 @@
-import { Search, IndicatorSearchResult } from './searchResultData';
+import { IIndicatorSearchClient, IndicatorSearchResult } from './searchTypes';
 
 export const MOCK_DATA: IndicatorSearchResult[] = [
   {
@@ -17,7 +17,7 @@ export const MOCK_DATA: IndicatorSearchResult[] = [
   },
 ];
 
-export class SearchServiceMock implements Search {
+export class IndicatorSearchServiceMock implements IIndicatorSearchClient {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchWith(indicator: string): Promise<IndicatorSearchResult[]> {
     return Promise.resolve(MOCK_DATA);

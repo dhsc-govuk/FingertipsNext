@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { MOCK_DATA } from '@/lib/search/searchServiceMock';
+import { MOCK_DATA } from '@/lib/search/indicatorSearchServiceMock';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';

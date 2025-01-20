@@ -1,6 +1,10 @@
 'use client';
 
-import { searchIndicator, SearchFormState } from './searchActions';
+import {
+  searchIndicator,
+  SearchFormState,
+  getSearchSuggestions,
+} from './searchActions';
 import {
   H1,
   ErrorSummary,
@@ -68,6 +72,18 @@ export const SearchForm = ({
         data-testid="search-form-input-indicator"
       >
         Search by subject
+      </StyledInputField>
+      <StyledInputField
+        input={{
+          id: 'geography',
+          name: 'geography',
+          onChange: async (e) => {
+            console.log(await getSearchSuggestions(e.target.value));
+          },
+        }}
+        data-testid="search-form-input-geography"
+      >
+        Filter by geography
       </StyledInputField>
 
       <Button type="submit" data-testid="search-form-button-submit">
