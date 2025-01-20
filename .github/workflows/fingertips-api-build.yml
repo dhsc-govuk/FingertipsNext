@@ -10,9 +10,13 @@ on:
     branches:
       ## ** is required to match branches with / in their name
       - "**"
+    paths:
+      - api/**
   pull_request:
     branches:
       - main
+    paths:
+      - api/**
 
 jobs:
   determine-version:

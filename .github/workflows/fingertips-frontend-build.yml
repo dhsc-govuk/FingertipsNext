@@ -10,9 +10,13 @@ on:
     branches:
       ## ** is required to match branches with / in their name
       - "**"
+    paths:
+      - frontend/fingertips-frontend/**
   pull_request:
     branches:
       - main
+    paths:
+      - frontend/fingertips-frontend/**
 
 jobs:
   determine-version:
