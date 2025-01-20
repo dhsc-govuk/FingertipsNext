@@ -17,14 +17,26 @@ jobs:
         node-version: ["22.x"]
         environment: ["development"]
     environment: ${{ matrix.environment }}
-    env:
-      AI_SEARCH_SERVICE_ENDPOINT: ${{ secrets.AI_SEARCH_SERVICE_ENDPOINT }}
-      AI_SEARCH_API_KEY: ${{ secrets.AI_SEARCH_API_KEY }}
 
     steps:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'Get secrets'
+        id: azure-keyvault-secrets
+        run: |
+          secrets_get=(fingertips-ai-search-url fingertips-ai-search-api-key)
+          for secret_get in ${secrets_get[@]}
+          do
+            value=$(az keyvault secret show --name $secret_get --vault-name ${{ vars.AZURE_KEY_VAULT }} --query value --output tsv)
+            echo "::add-mask::$value"
+            echo "$secret_get=$value" >> $GITHUB_OUTPUT
+          done
 
         # Set up Node.js
       - name: Use Node.js ${{ matrix.node-version }}
@@ -41,7 +53,12 @@ jobs:
       # Create index
       - name: Create index
         run: npm run create-index
-
+        env:
+          AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
+          AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
       # Run tests
       - name: Run tests
         run: npm run test
+        env:
+          AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
+          AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
