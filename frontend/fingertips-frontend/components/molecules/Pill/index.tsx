@@ -8,6 +8,8 @@ import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 
 interface PillProps {
   selectedFilterName: string;
+  selectedFilterId: string;
+  handleSelectedFilterRemoval: (selectedFilterToRemove: string) => void;
 }
 
 const StyledDivContainer = styled('div')({
@@ -38,13 +40,20 @@ const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
-export function Pill({ selectedFilterName }: Readonly<PillProps>) {
+export function Pill({
+  selectedFilterName,
+  selectedFilterId,
+  handleSelectedFilterRemoval,
+}: Readonly<PillProps>) {
   return (
     <StyledDivContainer data-testid="pill-container">
       <StyledFilterNameDiv data-testid="filter-name">
         <StyledParagraph>{selectedFilterName}</StyledParagraph>
       </StyledFilterNameDiv>
-      <StyledIconDiv data-testid="remove-icon-div">
+      <StyledIconDiv
+        data-testid="remove-icon-div"
+        onClick={() => handleSelectedFilterRemoval(selectedFilterId)}
+      >
         <RemoveIcon width="20" height="20" color="#000000" />
       </StyledIconDiv>
     </StyledDivContainer>

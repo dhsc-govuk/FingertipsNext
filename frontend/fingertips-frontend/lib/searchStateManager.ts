@@ -100,6 +100,19 @@ export class SearchStateManager {
     };
   }
 
+  public addAreaSelected(areaCode: string) {
+    this.searchState.areasSelected?.push(areaCode);
+  }
+
+  public removeAreaSelected(areaCode: string) {
+    this.searchState = {
+      ...this.searchState,
+      areasSelected: this.searchState.areasSelected?.filter((area) => {
+        return area !== areaCode;
+      }),
+    };
+  }
+
   public removeAllIndicatorSelected() {
     this.searchState = {
       ...this.searchState,

@@ -40,6 +40,11 @@ export function AreaFilter({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
+  const handleRemoveSelectedArea = (areaCode: string) => {
+    searchStateManager.removeAreaSelected(areaCode);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
   return (
     <StyledFilterDiv data-testid="area-filter-container">
       <H3>Filters</H3>
@@ -52,6 +57,8 @@ export function AreaFilter({
             <Pill
               key={selectedArea.code}
               selectedFilterName={selectedArea.name}
+              selectedFilterId={selectedArea.code}
+              handleSelectedFilterRemoval={handleRemoveSelectedArea}
             />
           ))
         ) : (

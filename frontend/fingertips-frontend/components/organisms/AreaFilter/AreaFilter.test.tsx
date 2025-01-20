@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { AreaFilter } from '.';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
@@ -13,9 +13,11 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({
-      [SearchParams.AreaTypeSelected]: 'area type 002',
-    }),
+    useSearchParams: () => [
+      [[SearchParams.AreaTypeSelected], 'area type 002'],
+      [[SearchParams.AreasSelected], '001'],
+      [[SearchParams.AreasSelected], '002'],
+    ],
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -62,6 +64,26 @@ describe('Area Filter', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=002`,
+      `&${SearchParams.AreaTypeSelected}=area+type+002`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+
+    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+    await user.click(
+      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+    );
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+      scroll: false,
+    });
+  });
+
   it('should render the select area type drop down and indicate there are no areas selected', () => {
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
@@ -90,8 +112,13 @@ describe('Area Filter', () => {
   });
 
   it('should add the selected areaType to the url', async () => {
-    const user = userEvent.setup();
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=001&${SearchParams.AreasSelected}=002`,
+      `&${SearchParams.AreaTypeSelected}=area+type+001`,
+    ].join('');
 
+    const user = userEvent.setup();
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
     await user.selectOptions(
@@ -99,11 +126,8 @@ describe('Area Filter', () => {
       'area type 001'
     );
 
-    expect(mockReplace).toBeCalledWith(
-      `${mockPath}?${SearchParams.AreaTypeSelected}=area+type+001`,
-      {
-        scroll: false,
-      }
-    );
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+      scroll: false,
+    });
   });
 });

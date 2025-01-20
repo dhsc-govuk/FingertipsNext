@@ -48,6 +48,52 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('addAreaSelected', () => {
+    it('should add to the areas selected array when initialy empty', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+      });
+      stateManager.addAreaSelected('1');
+
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: [],
+        areasSelected: ['1'],
+      });
+    });
+
+    it('should add to the areas selected array', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        areasSelected: ['1'],
+      });
+      stateManager.addAreaSelected('2');
+      stateManager.addAreaSelected('3');
+
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: [],
+        areasSelected: ['1', '2', '3'],
+      });
+    });
+  });
+
+  describe('removeAreaSelected', () => {
+    it('should remove from the areas selected array', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        areasSelected: ['1', '2', '3'],
+      });
+      stateManager.removeAreaSelected('1');
+
+      expect(stateManager.getSearchState()).toEqual({
+        searchedIndicator: 'bang',
+        indicatorsSelected: [],
+        areasSelected: ['2', '3'],
+      });
+    });
+  });
+
   describe('getSearchState', () => {
     it('should return the current state', () => {
       const searchState: SearchState = {
