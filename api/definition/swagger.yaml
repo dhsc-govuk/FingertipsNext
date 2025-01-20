@@ -317,23 +317,28 @@ components:
         ageBand:
           type: string
           example: 0-4
-          description: Age band which the data are for.
+          description: Age band which the data is for.
         sex:
           type: string
           example: Female
-          description: Sex which the data are for.
+          description: Sex which the data is for.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
         geographical area (represented by it's unique code).
       required:
         - areaCode
+        - areaName
         - healthData
       properties:
         areaCode:
           type: string
           example: A1426
-          description: The unique area code that the health data for
+          description: The unique area code that the health data is from
+        areaName:
+          type: string
+          example: Scarfolk Medical Center
+          description: The name of the area that the health data is from
         healthData:
           type: array
           items:
