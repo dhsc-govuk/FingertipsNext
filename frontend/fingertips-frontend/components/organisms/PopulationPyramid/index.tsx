@@ -90,8 +90,7 @@ export function PopulationPyramid({
       padding: 10,
       headerFormat:
         '<span style="font-weight: bold">AreaName</span><br/>' +
-        '<span>Age {key}</span><br/>' +
-        '<span>{point.graphic.symbolName}<br/></span>',
+        '<span>Age {key}</span><br/>',
       pointFormatter: function (this: Highcharts.Point) {
         return pointFormatterHelper(this);
       },
