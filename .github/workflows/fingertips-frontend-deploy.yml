@@ -1,0 +1,55 @@
+name: Fingertips Frontend Deploy
+
+on:
+  workflow_run:
+    workflows: [Fingertips Frontend Build]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  determine-version:
+    uses: ./.github/workflows/determine-semver.yml
+    with:
+      fetch-depth: 0
+      gitversion-version: '6.0.x'
+
+  frontend-deploy:
+    runs-on: ubuntu-latest
+    needs: determine-version
+    strategy:
+      matrix:
+        environment: 
+          - development
+    environment: ${{ matrix.environment }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: 'Frontend Deploy'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Azure Container Registry Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
+          containerAppName: fingertips-frontend
+          resourceGroup: ${{ vars.RESOURCE_GROUP }}
+          containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
+          registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          targetPort: 3000
+          environmentVariables: 'FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }}'
+          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
+        env:
+          AZURE_CONFIG_DIR: $HOME/.azure
