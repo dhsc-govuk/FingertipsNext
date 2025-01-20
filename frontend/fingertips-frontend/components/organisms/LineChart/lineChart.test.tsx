@@ -16,6 +16,6 @@ it('should render the line chart title', () => {
       data={mockHealthData[1]}
     />
   );
-  const HTag = screen.getByRole('heading', { level: 4 });
+  const HTag = screen.getByRole('heading', { level: 3 });
   expect(HTag).toHaveTextContent('VALID line chart title');
 });
