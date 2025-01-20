@@ -12,6 +12,9 @@ on:
 jobs:
   search-setup:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: search-setup
     strategy:
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
