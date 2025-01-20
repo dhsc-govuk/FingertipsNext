@@ -11,7 +11,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           value: 0,
           lowerCi: 0,
           upperCi: 0,
-          ageBand: 'All',
+          ageBand: '0-4',
           sex: 'Female',
         },
         {
