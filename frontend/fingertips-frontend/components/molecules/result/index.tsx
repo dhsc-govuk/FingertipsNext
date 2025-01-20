@@ -6,6 +6,7 @@ import {
   GridRow,
   GridCol,
   Checkbox,
+  Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import { IndicatorSearchResult } from '@/app/results/search-result-data';
@@ -40,9 +41,9 @@ export function SearchResult({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
 
   const handleClick = (indicatorId: string, checked: boolean) => {
-    const params = new URLSearchParams(searchParams);
     const searchState = SearchStateManager.setStateFromParams(params);
 
     if (checked) {
@@ -52,6 +53,15 @@ export function SearchResult({
     }
 
     replace(searchState.generatePath(pathname), { scroll: false });
+  };
+
+  const generateIndicatorChartPath = (indicatorId: string): string => {
+    const searchState = SearchStateManager.setStateFromParams(params);
+    const chartPath = '/chart';
+    searchState.removeAllIndicatorSelected();
+    searchState.addIndicatorSelected(indicatorId);
+
+    return searchState.generatePath(chartPath);
   };
 
   return (
@@ -68,7 +78,11 @@ export function SearchResult({
               handleClick(result.id.toString(), e.target.checked);
             }}
           >
-            <H5>{result.indicatorName}</H5>
+            <H5>
+              <Link href={generateIndicatorChartPath(result.id.toString())}>
+                {result.indicatorName}
+              </Link>
+            </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
             <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>

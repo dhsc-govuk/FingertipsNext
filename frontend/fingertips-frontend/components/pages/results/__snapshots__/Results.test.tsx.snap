@@ -215,6 +215,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -438,6 +446,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
 
 }
 
@@ -689,6 +705,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
   .c0 {
     font-size: 14px;
     line-height: 1.15;
@@ -767,7 +791,7 @@ exports[`Search Results Suite snapshot test 1`] = `
       "
     </p>
   </div>
-  .c21 {
+  .c22 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -792,36 +816,36 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 22px;
 }
 
-.c21:focus {
+.c22:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c21:link,
-.c21:visited,
-.c21:active,
-.c21:hover {
+.c22:link,
+.c22:visited,
+.c22:active,
+.c22:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c21::-moz-focus-inner {
+.c22::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c21:hover,
-.c21:focus {
+.c22:hover,
+.c22:focus {
   background-color: #00572e;
 }
 
-.c21:active {
+.c22:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c21::before {
+.c22::before {
   content: "";
   display: block;
   position: absolute;
@@ -832,30 +856,30 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c21:active::before {
+.c22:active::before {
   top: -4px;
 }
 
-.c21:disabled {
+.c22:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c21:disabled:hover {
+.c22:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c21:disabled:focus {
+.c22:disabled:focus {
   outline: none;
 }
 
-.c21:disabled:active {
+.c22:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c21 svg {
+.c22 svg {
   max-width: 15px;
 }
 
@@ -1027,6 +1051,38 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
+.c20 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c20:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c20:link {
+  color: #1d70b8;
+}
+
+.c20:visited {
+  color: #4c2c92;
+}
+
+.c20:hover {
+  color: #2b8cc4;
+}
+
+.c20:active {
+  color: #2b8cc4;
+}
+
+.c20:focus {
+  color: #0b0c0c;
+}
+
 .c6 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
@@ -1117,7 +1173,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   outline-offset: 0;
 }
 
-.c20 {
+.c21 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1160,33 +1216,33 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c21 {
+  .c22 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c21 {
+  .c22 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c21 {
+  .c22 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c21 svg {
+  .c22 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c21 {
+  .c22 {
     margin-bottom: 32px;
   }
 }
@@ -1352,6 +1408,22 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+  .c20 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c20[href^="/"]::after,
+  .c20[href^="http://"]::after,
+  .c20[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+@media print {
   .c6 {
     font-size: 14px;
     line-height: 1.15;
@@ -1426,14 +1498,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c20 {
+  .c21 {
     font-size: 14px;
     line-height: 0.5;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c20 {
+  .c21 {
     font-size: 19px;
     line-height: 0.5;
   }
@@ -1564,24 +1636,29 @@ exports[`Search Results Suite snapshot test 1`] = `
                     <h5
                       class="c19"
                     >
-                      NHS
+                      <a
+                        class="c20"
+                        href="/chart?is=1"
+                      >
+                        NHS
+                      </a>
                     </h5>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Latest data period: 2023
                       </p>
                     </div>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Data source: NHS website
                       </p>
                     </div>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Last updated: 06 December 2024
@@ -1622,24 +1699,29 @@ exports[`Search Results Suite snapshot test 1`] = `
                     <h5
                       class="c19"
                     >
-                      DHSC
+                      <a
+                        class="c20"
+                        href="/chart?is=2"
+                      >
+                        DHSC
+                      </a>
                     </h5>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Latest data period: 2022
                       </p>
                     </div>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Data source: Student article
                       </p>
                     </div>
                     <div
-                      class="c6 c20"
+                      class="c6 c21"
                     >
                       <p>
                         Last updated: 05 November 2023
@@ -1655,7 +1737,7 @@ exports[`Search Results Suite snapshot test 1`] = `
           </li>
         </ul>
         <button
-          class="c21"
+          class="c22"
           data-testid="search-results-button-submit"
           type="submit"
         >
