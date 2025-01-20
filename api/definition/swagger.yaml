@@ -281,8 +281,8 @@ components:
       type: object
       description:
         Represents a health data point for a public health indicator with a
-        count, value, upper confidence interval, lower confidence interval and a
-        year.
+        count, value, upper confidence interval, lower confidence interval,
+        year, age band and sex.
       required:
         - year
         - count

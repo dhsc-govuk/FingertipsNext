@@ -1,0 +1,77 @@
+name: Fingertips Frontend Build
+
+env:
+  frontend-directory: ./frontend/fingertips-frontend
+  NEXT_TELEMETRY_DISABLED: true
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      ## ** is required to match branches with / in their name
+      - "**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  determine-version:
+    uses: ./.github/workflows/determine-semver.yml
+    with:
+      fetch-depth: 0
+      gitversion-version: '6.0.x'
+
+  frontend-unit-test-and-static-analysis:
+    name: Execute unit tests and static analysis against frontend
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: ["22.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Perform type checking
+        run: npm run typecheck
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Check code formatting
+        run: npm run prettier-ci
+
+      - name: Execute jest unit tests
+        run: npm run test-ci
+
+  build-container:
+    uses: ./.github/workflows/build-container.yml
+    needs: [
+      determine-version,
+      frontend-unit-test-and-static-analysis
+    ]
+    with:
+      context-location: frontend/fingertips-frontend
+      container-tag: dhsc.fingertipsnext.frontend
+      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
+      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
+    secrets:
+      acr-username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+      acr-password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+      acr-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+

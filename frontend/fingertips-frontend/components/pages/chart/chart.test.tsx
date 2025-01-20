@@ -46,6 +46,13 @@ it('should render the LineChart component', () => {
   expect(lineChart).toBeInTheDocument();
 });
 
+it('should render the Chart component title', () => {
+  render(<Chart data={mockHealthData[1]} />);
+
+  const HTag = screen.getByRole('heading', { level: 2 });
+  expect(HTag).toHaveTextContent('View Dementia QOF prevalence');
+});
+
 it('should render the LineChartTable component', () => {
   render(
     <Chart
