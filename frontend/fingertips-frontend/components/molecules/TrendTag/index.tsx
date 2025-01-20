@@ -1,58 +1,62 @@
 'use client';
 
 import React from 'react';
-import { Trend } from '@/lib/common-types';
+import { Direction, Trend, TrendCondition } from '@/lib/common-types';
 import styled from 'styled-components';
 import { Paragraph, Tag } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
+import { Arrow } from '@/components/atoms/Arrow';
 
 interface TagProps {
-  displayedText: string;
-  color:
-    | 'SOLID'
-    | 'GREY'
-    | 'GREEN'
-    | 'TURQUOISE'
-    | 'BLUE'
-    | 'PURPLE'
-    | 'PINK'
-    | 'RED'
-    | 'ORANGE'
-    | 'YELLOW'
-    | undefined;
   trend: Trend;
+  trendCondition?: TrendCondition;
 }
 
 const StyledDivContainer = styled('div')({
   display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
-const StyledSpan = styled('span')({});
 
 const StyledDefaultTag = styled(Tag)({
   textTransform: 'unset',
+  margin: '0.3125em',
 });
 
 const StyledParagraph = styled(Paragraph)(
   {
     marginBottom: '0',
+    marginLeft: '0.3125em',
   },
-  typography.font({ size: 16 })
+  typography.font({ size: 14 })
 );
 
-export function TrendTag({ displayedText, color, trend }: Readonly<TagProps>) {
+export function TrendTag({ trend, trendCondition }: Readonly<TagProps>) {
+  const color =
+    trend === Trend.NO_SIGNIFICANT_CHANGE
+      ? 'YELLOW'
+      : !trendCondition
+        ? 'GREY'
+        : trendCondition === TrendCondition.GETTING_BETTER
+          ? 'GREEN'
+          : 'RED';
   return (
-    <div>
+    <div data-testid="trendTag-container">
       <StyledDefaultTag tint={color}>
-        <StyledDivContainer>
+        <StyledDivContainer data-testid="tag-component">
           <div>
-            {trend === Trend.INCREASING && (
-              <StyledParagraph>UP</StyledParagraph>
+            {trend === Trend.INCREASING && <Arrow direction={Direction.UP} />}
+            {trend === Trend.DECREASING && <Arrow direction={Direction.DOWN} />}
+            {trend === Trend.NO_SIGNIFICANT_CHANGE && (
+              <Arrow direction={Direction.RIGHT} />
             )}
-            {trend === Trend.DECREASING && 'DOWN'}
-            {trend === Trend.NO_SIGNIFICANT_CHANGE && 'NO SIG'}
           </div>
           <div>
-            <StyledParagraph>{displayedText}</StyledParagraph>
+            <StyledParagraph>
+              {trend === Trend.NO_SIGNIFICANT_CHANGE
+                ? trend
+                : trend + ' ' + (trendCondition ?? '')}
+            </StyledParagraph>
           </div>
         </StyledDivContainer>
       </StyledDefaultTag>
