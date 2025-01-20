@@ -26,12 +26,11 @@ export function preparePopulationData(
 }
 
 function sortByAgeBand(healthData: HealthDataPoint[]): HealthDataPoint[] {
-  const dataSortedByAgeBand = healthData.sort((a, b) => {
+  return healthData.sort((a, b) => {
     const youngestA = parseInt(a.ageBand.split(/[+-]/)[0]);
     const youngestB = parseInt(b.ageBand.split(/[+-]/)[0]);
     return youngestA > youngestB ? -1 : 1;
   });
-  return dataSortedByAgeBand;
 }
 
 function generatePopulationSeries(
