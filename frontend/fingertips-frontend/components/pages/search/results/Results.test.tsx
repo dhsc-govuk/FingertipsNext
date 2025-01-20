@@ -5,6 +5,7 @@ import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { formatDate } from '@/components/molecules/Search/result';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -90,9 +91,13 @@ describe('Search Results Suite', () => {
     expect(searchResults).toHaveLength(MOCK_DATA.length);
     searchResults.forEach((searchResult, index) => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].lastUpdated);
+      expect(searchResult).toHaveTextContent(
+        MOCK_DATA[index].latestDataPeriod!
+      );
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource!);
+      expect(searchResult).toHaveTextContent(
+        formatDate(new Date(MOCK_DATA[index].lastUpdated!))
+      );
     });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
