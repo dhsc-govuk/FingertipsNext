@@ -44,9 +44,8 @@ function generatePopulationSeries(
   const filteredHealthData = healthData.filter(
     (healthDataPoint) => healthDataPoint.sex === requestedKey
   );
-  const seriesData = filteredHealthData.map((datapoint) => {
+  return filteredHealthData.map((datapoint) => {
     const percentage = (datapoint.count / totalPopulation) * 100;
     return parseFloat(percentage.toFixed(2));
   });
-  return seriesData;
 }
