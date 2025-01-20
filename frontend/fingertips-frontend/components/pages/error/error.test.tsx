@@ -7,7 +7,7 @@ describe('Error Page', () => {
   const errorLink = '/test-link';
   const errorLinkText = 'test error link text';
 
-  test('should render elements', () => {
+  it('should render elements', () => {
     render(
       <ErrorPage
         errorText={errorText}
@@ -22,7 +22,7 @@ describe('Error Page', () => {
     ).toHaveAttribute('href', '/test-link');
   });
 
-  test('snapshot test', () => {
+  it('snapshot test', () => {
     const container = render(
       <ErrorPage
         errorText={errorText}
