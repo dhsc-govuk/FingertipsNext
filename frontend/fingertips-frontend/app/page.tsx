@@ -1,28 +1,19 @@
-import { HomePage } from '@/components/pages/home';
-import {
-  Configuration,
-  WeatherForecastApi,
-} from '@/generated-sources/api-client';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { Home } from '@/components/pages/home';
 
-import { connection } from 'next/server';
+export default async function Page(
+  props: Readonly<{
+    searchParams?: Promise<SearchStateParams>;
+  }>
+) {
+  const searchParams = await props.searchParams;
+  const searchedIndicator =
+    searchParams?.[SearchParams.SearchedIndicator] ?? '';
+  const initialState = {
+    indicator: searchedIndicator,
+    message: null,
+    errors: {},
+  };
 
-export default async function Home() {
-  await connection();
-
-  const apiUrl = process.env.FINGERTIPS_API_URL;
-
-  if (!apiUrl) {
-    throw new Error(
-      'No API URL set. Have you set the FINGERTIPS_API_URL environment variable?'
-    );
-  }
-
-  const config: Configuration = new Configuration({
-    basePath: apiUrl,
-  });
-
-  const forecastApi = new WeatherForecastApi(config);
-  const forecasts = await forecastApi.getWeatherForecast();
-
-  return <HomePage forecasts={forecasts} />;
+  return <Home searchFormState={initialState} />;
 }

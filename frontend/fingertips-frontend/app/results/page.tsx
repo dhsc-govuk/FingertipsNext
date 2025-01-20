@@ -1,4 +1,4 @@
-import { SearchResults } from '@/components/pages/search/results';
+import { SearchResults } from '@/components/pages/results';
 import { getSearchData } from './search-result-data';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';

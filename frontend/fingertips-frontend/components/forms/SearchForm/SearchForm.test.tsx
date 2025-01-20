@@ -41,6 +41,12 @@ it('should have an input field to input the indicatorId', () => {
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
 
+it('should have an input field to input the area by location or organisation', () => {
+  render(<SearchForm searchFormState={initialState} />);
+
+  expect(screen.getByTestId('search-form-input-area')).toBeInTheDocument();
+});
+
 it('should set the input field with indicator value from the form state', () => {
   const indicatorState: SearchFormState = {
     indicator: 'test value',
