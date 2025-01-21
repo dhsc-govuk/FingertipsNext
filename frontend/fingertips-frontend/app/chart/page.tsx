@@ -39,13 +39,12 @@ export default async function ChartPage(
   });
 
   const populationData = await indicatorApi.getHealthDataForAnIndicator({
-    // TODO: define business logic for population data indicator. These are either:
-    //  - 92708 (resident population) for adminastrative areas or,
-    //  - 93468 (Proportion of GP registered populations by age group) for healthcare areas
     indicatorId: 92708,
     areaCodes: [areaCodes[0], areaCodeForEngland],
   });
 
+  // TODO: try catch on api call and pass null if population data not available
+  // TODO: debulk by moving to util function (including type def?)
   // mock provides sample popultation data on [0]
   const populationDataForSelectedArea = preparePopulationData(
     populationData[0].healthData

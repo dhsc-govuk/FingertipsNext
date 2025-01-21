@@ -33,7 +33,7 @@ export function Chart({
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H2>View Dementia QOF prevalence</H2>
-      {/* TODO: Business logic for which chart to render */}
+      {/* TODO: Selectively render PopulationPyramid if populationData != null */}
       <PopulationPyramid
         data={preparedPopulationData}
         populationPyramidTitle="Population INDICATOR for SELECTED area"
