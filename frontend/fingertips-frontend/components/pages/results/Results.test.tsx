@@ -73,7 +73,7 @@ describe('Search Results Suite', () => {
 
     expect(backLink).toBeInTheDocument();
     expect(backLink).toHaveAttribute('data-testid', 'search-results-back-link');
-    expect(backLink.getAttribute('href')!).toBe(
+    expect(backLink.getAttribute('href')).toBe(
       `/?${SearchParams.SearchedIndicator}=${searchedIndicator}`
     );
   });
