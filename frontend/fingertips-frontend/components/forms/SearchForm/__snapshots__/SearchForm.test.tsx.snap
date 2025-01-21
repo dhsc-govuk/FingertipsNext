@@ -483,7 +483,7 @@ exports[`snapshot test - renders the form 1`] = `
 
 <div
     data-testid="search-form"
-    style="background-color: rgb(221, 221, 221); padding: 20px 20px 0px 20px;"
+    style="background-color: rgb(243, 242, 241); padding: 20px 20px 0px 20px;"
   >
     <h3
       class="c0"
@@ -515,7 +515,7 @@ exports[`snapshot test - renders the form 1`] = `
         class="c6"
       >
         <div
-          style="color: black;"
+          style="color: rgb(80, 90, 95);"
         >
           For example diabetes, public health indicator, or indicator ID
         </div>
@@ -541,7 +541,7 @@ exports[`snapshot test - renders the form 1`] = `
         class="c6"
       >
         <div
-          style="color: black;"
+          style="color: rgb(80, 90, 95);"
         >
           For example postcode, county, local authority, NHS Trust or General Practice name or code
         </div>

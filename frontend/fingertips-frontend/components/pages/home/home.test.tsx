@@ -1,8 +1,8 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen /*, waitFor, within */ } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
-import { userEvent } from '@testing-library/user-event';
+// import { userEvent } from '@testing-library/user-event';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -67,8 +67,8 @@ it('should display the error summary component when there is a validation error'
 //
 //   render(<Home searchFormState={errorState} />);
 //
-//
-//   const anchor = screen.getByText('Indicator field').closest('a');
+// const searchForm = screen.getByTestId('search-form')
+//   const anchor = within(searchForm).getByText('Indicator field').closest('a');
 //   if (anchor) {
 //     await user.click(anchor);
 //   }
