@@ -4,12 +4,12 @@
  */
 /* eslint-disable */
 /* tslint:disable */
-import { HttpResponse, http } from "msw";
-import { faker } from "@faker-js/faker";
+import { HttpResponse, http } from 'msw';
+import { faker } from '@faker-js/faker';
 
 faker.seed(1);
 
-const baseURL = "";
+const baseURL = '';
 const MAX_ARRAY_LENGTH = 20;
 
 let i = 0;
