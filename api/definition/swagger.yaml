@@ -334,11 +334,11 @@ components:
         areaCode:
           type: string
           example: A1426
-          description: The unique area code that the health data is from
+          description: The unique area code that the health data is for
         areaName:
           type: string
           example: Scarfolk Medical Center
-          description: The name of the area that the health data is from
+          description: The name of the area that the health data is for
         healthData:
           type: array
           items:
