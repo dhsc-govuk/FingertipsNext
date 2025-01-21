@@ -145,7 +145,7 @@ export function PopulationPyramid({
   if (data.dataForEngland && populationPyramidOptions.series) {
     populationPyramidOptions.series.push(
       {
-        name: 'FAKE England Female',
+        name: 'England',
         data: data.dataForEngland.femaleSeries,
         type: 'line',
         color: '#3D3D3D',
@@ -153,8 +153,8 @@ export function PopulationPyramid({
         marker: { symbol: 'circle' },
       },
       {
-        name: 'FAKE England Male',
-        data: data.dataForEngland.maleSeries,
+        name: 'England',
+        data: data.dataForEngland.maleSeries.map((datapoint) => -datapoint),
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -166,7 +166,7 @@ export function PopulationPyramid({
   if (data.dataForBaseline && populationPyramidOptions.series) {
     populationPyramidOptions.series.push(
       {
-        name: 'FAKE Baseline Female',
+        name: 'Baseline',
         type: 'line',
         data: data.dataForBaseline.femaleSeries,
         color: '#28A197',
@@ -177,7 +177,7 @@ export function PopulationPyramid({
       {
         name: 'FAKE Baseline Male',
         type: 'line',
-        data: data.dataForBaseline.maleSeries,
+        data: data.dataForBaseline.maleSeries.map((datapoint) => -datapoint),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
