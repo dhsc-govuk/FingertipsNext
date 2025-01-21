@@ -17,15 +17,13 @@ jobs:
         working-directory: search-setup
     strategy:
       matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: ["22.x"]
         environment: ["development"]
     environment: ${{ matrix.environment }}
 
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: Azure/login@v1
         with:
@@ -52,7 +50,7 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       # Create index
       - name: Create index
