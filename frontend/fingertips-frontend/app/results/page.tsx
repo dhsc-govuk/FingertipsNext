@@ -1,5 +1,6 @@
 import { SearchResults } from '@/components/pages/results';
-import { getSearchData } from './search-result-data';
+import { ErrorPage } from '@/components/pages/error';
+import { getSearchService } from '@/lib/search/searchResultData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 
@@ -15,9 +16,6 @@ export default async function Page(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
 
-  // Perform async API call using indicator prop
-  const searchResults = getSearchData();
-
   const initialState = {
     searchedIndicator,
     indicatorsSelected,
@@ -25,10 +23,27 @@ export default async function Page(
     errors: {},
   };
 
-  return (
-    <SearchResults
-      searchResultsFormState={initialState}
-      searchResults={searchResults}
-    />
-  );
+  try {
+    // Perform async API call using indicator prop
+    const searchResults =
+      await getSearchService().searchWith(searchedIndicator);
+    return (
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={searchResults}
+      />
+    );
+  } catch (error) {
+    // Log error response
+    console.log(
+      `Error response received from call to the Indicator Search service: ${error}`
+    );
+    return (
+      <ErrorPage
+        errorText="An error has been returned by the search service. Please try again."
+        errorLink="/search"
+        errorLinkText="Return to Search"
+      />
+    );
+  }
 }

@@ -49,6 +49,18 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     upperCi: number;
+    /**
+     * Age band which the data are for.
+     * @type {string}
+     * @memberof HealthDataPoint
+     */
+    ageBand: string;
+    /**
+     * Sex which the data are for.
+     * @type {string}
+     * @memberof HealthDataPoint
+     */
+    sex: string;
 }
 
 /**
@@ -60,6 +72,8 @@ export function instanceOfHealthDataPoint(value: object): value is HealthDataPoi
     if (!('value' in value) || value['value'] === undefined) return false;
     if (!('lowerCi' in value) || value['lowerCi'] === undefined) return false;
     if (!('upperCi' in value) || value['upperCi'] === undefined) return false;
+    if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
+    if (!('sex' in value) || value['sex'] === undefined) return false;
     return true;
 }
 
@@ -78,6 +92,8 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'value': json['value'],
         'lowerCi': json['lowerCi'],
         'upperCi': json['upperCi'],
+        'ageBand': json['ageBand'],
+        'sex': json['sex'],
     };
 }
 
@@ -97,6 +113,8 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'value': value['value'],
         'lowerCi': value['lowerCi'],
         'upperCi': value['upperCi'],
+        'ageBand': value['ageBand'],
+        'sex': value['sex'],
     };
 }
 

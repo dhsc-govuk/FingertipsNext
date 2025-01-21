@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/app/results/search-result-data';
-import { userEvent } from '@testing-library/user-event';
+import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { SearchParams } from '@/lib/searchStateManager';
+import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -96,7 +96,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].id.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
     render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);

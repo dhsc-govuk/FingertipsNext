@@ -12,8 +12,7 @@ import {
 } from 'govuk-react';
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
-
-import { IndicatorSearchResult } from '@/app/results/search-result-data';
+import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
 
@@ -56,7 +55,7 @@ export function SearchResults({
               description={state.message}
               errors={[
                 {
-                  targetName: `search-results-indicator-${searchResults[0].id.toString()}`,
+                  targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
                   text: 'Available indicators',
                 },
               ]}
@@ -83,10 +82,10 @@ export function SearchResults({
                 </ListItem>
                 {searchResults.map((result) => (
                   <SearchResult
-                    key={result.id}
+                    key={result.indicatorId}
                     result={result}
                     indicatorSelected={isIndicatorSelected(
-                      result.id.toString(),
+                      result.indicatorId.toString(),
                       state
                     )}
                   />

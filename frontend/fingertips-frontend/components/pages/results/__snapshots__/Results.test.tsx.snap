@@ -953,7 +953,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
-  line-height: 0.5;
+  line-height: 1.2;
 }
 
 .c6 {
@@ -1172,14 +1172,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 @media print {
   .c14 {
     font-size: 14px;
-    line-height: 0.5;
+    line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c14 {
     font-size: 19px;
-    line-height: 0.5;
+    line-height: 1.2;
   }
 }
 

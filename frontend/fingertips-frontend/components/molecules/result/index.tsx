@@ -9,7 +9,7 @@ import {
   Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
-import { IndicatorSearchResult } from '@/app/results/search-result-data';
+import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -20,7 +20,7 @@ type SearchResultProps = {
 };
 
 const StyledParagraph = styled(Paragraph)(
-  typography.font({ size: 19, lineHeight: '0.5' })
+  typography.font({ size: 19, lineHeight: '1.2' })
 );
 
 const StyledRow = styled(GridRow)(
@@ -33,6 +33,15 @@ const StyledRow = styled(GridRow)(
     ],
   })
 );
+
+function formatDate(date: Date | undefined): string {
+  if (!date) return 'unknown';
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = date.toLocaleString('en-GB', { month: 'long' });
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
 
 export function SearchResult({
   result,
@@ -69,23 +78,25 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
-            id={`search-results-indicator-${result.id.toString()}`}
-            data-testid={`search-results-indicator-${result.id}`}
+            id={`search-results-indicator-${result.indicatorId.toString()}`}
+            data-testid={`search-results-indicator-${result.indicatorId}`}
             name="indicator"
-            value={result.id}
+            value={result.indicatorId}
             defaultChecked={indicatorSelected}
             onChange={(e) => {
-              handleClick(result.id.toString(), e.target.checked);
+              handleClick(result.indicatorId.toString(), e.target.checked);
             }}
           >
             <H5>
-              <Link href={generateIndicatorChartPath(result.id.toString())}>
+              <Link
+                href={generateIndicatorChartPath(result.indicatorId.toString())}
+              >
                 {result.indicatorName}
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-            <StyledParagraph>{`Last updated: ${result.lastUpdated}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdated)}`}</StyledParagraph>
           </Checkbox>
         </GridCol>
       </StyledRow>
