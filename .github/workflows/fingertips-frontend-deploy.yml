@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - feature/DHSCFT-208_configure_e2e_tests
+      - main
 
 jobs:
   determine-version:
@@ -46,21 +46,21 @@ jobs:
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
-      # - name: Build and deploy Container App
-      #   uses: azure/container-apps-deploy-action@v1
-      #   with:
-      #     imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-      #     containerAppName: fingertips-frontend
-      #     resourceGroup: ${{ vars.RESOURCE_GROUP }}
-      #     containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
-      #     registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
-      #     registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-      #     registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-      #     targetPort: 3000
-      #     environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
-      #     azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
-      #   env:
-      #     AZURE_CONFIG_DIR: $HOME/.azure
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
+          containerAppName: fingertips-frontend
+          resourceGroup: ${{ vars.RESOURCE_GROUP }}
+          containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
+          registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
+          targetPort: 3000
+          environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
+          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
+        env:
+          AZURE_CONFIG_DIR: $HOME/.azure
 
   e2e-tests:
     uses: ./.github/workflows/e2e-tests.yml
