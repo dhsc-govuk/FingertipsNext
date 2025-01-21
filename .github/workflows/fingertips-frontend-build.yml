@@ -3,7 +3,6 @@ name: Fingertips Frontend Build
 env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
-  url: http://4.158.39.145/search
 
 on:
   workflow_dispatch:
