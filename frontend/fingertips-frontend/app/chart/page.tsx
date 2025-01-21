@@ -42,16 +42,9 @@ export default async function ChartPage(
   }
 
   if (rawPopulationData) {
-    // hardcode selected area data for mocks
+    // hardcode selected area data for mocks while no population data are in dbase
     preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
   }
-  // // setting values for fake data so they don't overlay on plot
-  // for (const i in populationDataForEngland.ageCategories) {
-  //   populationDataForEngland.femaleSeries[i] = 1;
-  //   populationDataForEngland.maleSeries[i] = -1;
-  //   populationDataForBaseline.femaleSeries[i] = 0.5;
-  //   populationDataForBaseline.maleSeries[i] = -0.5;
-  // }
 
   return (
     <Chart
