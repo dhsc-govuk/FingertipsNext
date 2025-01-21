@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
@@ -6,6 +7,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 /// A area or geography that has associated public health data
 /// </summary>
 [Serializable]
+[Table("Areas", Schema = "Areas")]
 public class AreaModel
 {
     /// <summary>
@@ -29,10 +31,12 @@ public class AreaModel
     /// <summary>
     /// The type of the area / geography
     /// </summary>
+    [MaxLength(20)]
     public required string AreaType { get; set; }
 
     /// <summary>
     /// The name of the associated hierarchy for the area / geography
     /// </summary>
+    [MaxLength(20)]
     public required string HierarchyType { get; set; }
 }

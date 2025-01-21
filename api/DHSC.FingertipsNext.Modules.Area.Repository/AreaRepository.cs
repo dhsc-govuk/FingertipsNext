@@ -3,51 +3,54 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
+/// <summary>
+/// 
+/// </summary>
 public class AreaRepository : IAreaRepository
 {
     private readonly AreaRepositoryDbContext _dbContext;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public AreaRepository(AreaRepositoryDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<string[]> GetHierarchiesAsync()
     {
-        // TODO: check result when no hierarchies
-
-        var hierarchies = await _dbContext.Hierarchies.
-            FromSql($"""
-                     SELECT
-                         distinct HierarchyType
-                     FROM
-                         [Areas].[Areas]
-                     ORDER BY HierarchyType
-                     """)
+        var hierarchies = await _dbContext.Area
+            .Select(h => h.HierarchyType).Distinct()
             .ToArrayAsync();
-
-        return hierarchies.Select(h => h.HierarchyType).ToArray();
+            
+        return hierarchies;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hierarchyType"></param>
+    /// <returns></returns>
     public async Task<string[]> GetAreaTypesAsync(string? hierarchyType)
     {
-        // TODO: check result when no types
-        // TODO: support no hierarchyType
-
-        var areaTypes = await _dbContext.AreaTypes.
-            FromSqlInterpolated($"""
-                      SELECT
-                          distinct AreaType
-                      FROM
-                          [Areas].[Areas]
-                      WHERE
-                          HierarchyType = {hierarchyType}
-                      ORDER BY AreaType
-                      """
-                )
+        if (string.IsNullOrEmpty(hierarchyType))
+        {
+            return await _dbContext.Area
+                .Select(am => am.AreaType).Distinct()
+                .ToArrayAsync();
+        }
+        
+        return await _dbContext.Area
+            .Where(am => am.HierarchyType == hierarchyType)
+            .Select(am => am.AreaType).Distinct()
             .ToArrayAsync();
-
-        return areaTypes.Select(atm => atm.AreaType).ToArray();
     }
 
     public async Task<AreaWithRelationsModel?> GetAreaAsync(string areaCode, bool includeChildren, bool includeAncestors, string? childAreaType)
@@ -115,7 +118,7 @@ public class AreaRepository : IAreaRepository
                     SET @areacode={areaCode}
                     
                     DECLARE @areatype nvarchar(50)
-                    SET @areatype='ICB'
+                    SET @areatype={childAreaType}
                     
                     --get the level of the parent
                     DECLARE @parentlevel smallint =(SELECT [Level] FROM [Areas].[Areas] WHERE AreaCode=@areacode)
