@@ -57,7 +57,7 @@ jobs:
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 3000
-          environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }}"
+          environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure

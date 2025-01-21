@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests;
 
@@ -9,6 +9,6 @@ public class ModuleTests
     [Fact]
     public void ModuleName_IsNamed_Indicators()
     {
-        _module.ModuleName.Should().Be("healthdata");
+        _module.ModuleName.ShouldBe("healthdata");
     }
 }

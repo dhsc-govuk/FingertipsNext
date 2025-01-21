@@ -4,7 +4,7 @@ env:
   dotnet-version: 9.0.x
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
-  url: http://4.158.39.145/search
+  DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
 
 on:
   push:

@@ -21,8 +21,6 @@ public class HealthDataRepository : IRepository
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.IndicatorDimension)
-            .Include(hm => hm.SexDimension)
-            .Include(hm => hm.AgeDimension)
             .ToListAsync();
     }
 }
