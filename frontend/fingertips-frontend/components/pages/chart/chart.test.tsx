@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
 
-const mockPopulationData: PopulationData = {
+const mockPopulationData: PopulationDataForArea = {
   ageCategories: [],
   femaleSeries: [],
   maleSeries: [],
@@ -93,7 +93,7 @@ it('should render the BarChart component', () => {
   expect(barChart).toBeInTheDocument();
 });
 
-it('should render the PopulationPyramid component', () => {
+it('should render the PopulationPyramid component when Population data are provided', () => {
   render(
     <Chart
       data={mockHealthData[1]}

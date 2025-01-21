@@ -2,18 +2,11 @@ import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
-import {
-  PopulationData,
-  preparePopulationData,
-} from '@/lib/chartHelpers/preparePopulationData';
+import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
-export type PreparedPopulationData = {
-  dataForSelectedArea: PopulationData;
-  dataForEngland?: PopulationData;
-  dataForBaseline?: PopulationData;
-};
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -26,7 +19,6 @@ export default async function ChartPage(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  const areaCodeForEngland = 'E92000001';
 
   // We don't want to render this page statically
   await connection();
@@ -38,38 +30,25 @@ export default async function ChartPage(
     areaCodes: areaCodes,
   });
 
-  const populationData = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: 92708,
-    areaCodes: [areaCodes[0], areaCodeForEngland],
-  });
+  let rawPopulationData = undefined;
+  let preparedPopulationData = undefined;
+  try {
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
+      indicatorId: 92708,
+      areaCodes: [areaCodes[0], areaCodeForEngland],
+    });
+  } catch (error) {}
 
-  // TODO: try catch on api call and pass null if population data not available
-  // TODO: debulk by moving to util function (including type def?)
-  // mock provides sample popultation data on [0]
-  const populationDataForSelectedArea = preparePopulationData(
-    populationData[0].healthData
-  );
-  // faking compartor data
-  const populationDataForEngland = preparePopulationData(
-    populationData[0].healthData
-  );
-  const populationDataForBaseline = preparePopulationData(
-    populationData[0].healthData
-  );
-
-  // setting values for fake data so they don't overlay on plot
-  for (const i in populationDataForEngland.ageCategories) {
-    populationDataForEngland.femaleSeries[i] = 1;
-    populationDataForEngland.maleSeries[i] = -1;
-    populationDataForBaseline.femaleSeries[i] = 0.5;
-    populationDataForBaseline.maleSeries[i] = -0.5;
+  if (rawPopulationData) {
+    preparedPopulationData = preparePopulationData(rawPopulationData);
   }
-
-  const preparedPopulationData = {
-    dataForSelectedArea: populationDataForSelectedArea,
-    dataForEngland: populationDataForEngland,
-    dataForBaseline: populationDataForBaseline,
-  };
+  // // setting values for fake data so they don't overlay on plot
+  // for (const i in populationDataForEngland.ageCategories) {
+  //   populationDataForEngland.femaleSeries[i] = 1;
+  //   populationDataForEngland.maleSeries[i] = -1;
+  //   populationDataForBaseline.femaleSeries[i] = 0.5;
+  //   populationDataForBaseline.maleSeries[i] = -0.5;
+  // }
 
   return (
     <Chart
