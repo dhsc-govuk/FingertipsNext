@@ -1,8 +1,8 @@
-import { render, screen /*, waitFor, within */ } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
-// import { userEvent } from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -51,30 +51,31 @@ it('should display the error summary component when there is a validation error'
   expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
 });
 
-// it('should display the error summary component when there is a validation error', async () => {
-//   // Add missing function to jsdom
-//   const scrollMock = jest.fn();
-//   window.HTMLElement.prototype.scrollIntoView = scrollMock;
-//
-//   const user = userEvent.setup();
-//
-//   const errorState: SearchFormState = {
-//     indicator: '',
-//     areaSearched: '',
-//     message: 'Error message',
-//     errors: {},
-//   };
-//
-//   render(<Home searchFormState={errorState} />);
-//
-// const searchForm = screen.getByTestId('search-form')
-//   const anchor = within(searchForm).getByText('Indicator field').closest('a');
-//   if (anchor) {
-//     await user.click(anchor);
-//   }
-//
-//   await waitFor(() => {
-//     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveFocus();
-//   });
-//   expect(scrollMock).toBeCalledTimes(1);
-// });
+it('should focus on the input boxes when there is a validation error', async () => {
+  // Add missing function to jsdom
+  const scrollMock = jest.fn();
+  window.HTMLElement.prototype.scrollIntoView = scrollMock;
+
+  const user = userEvent.setup();
+
+  const errorState: SearchFormState = {
+    indicator: '',
+    areaSearched: '',
+    message: 'Error message',
+    errors: {},
+  };
+
+  render(<Home searchFormState={errorState} />);
+
+  const anchor = screen.getByText('Search subject').closest('a');
+  if (anchor) {
+    await user.click(anchor);
+  }
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole('textbox', { name: /Search by subject/i })
+    ).toHaveFocus();
+  });
+  expect(scrollMock).toBeCalledTimes(1);
+});
