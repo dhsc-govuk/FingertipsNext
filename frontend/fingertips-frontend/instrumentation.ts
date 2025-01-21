@@ -31,8 +31,37 @@ const configureApplicationInsights = async () => {
   }
 };
 
+const configureTracing = async () => {
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const opentelemetry = require('@opentelemetry/sdk-node');
+    const {
+      UndiciInstrumentation,
+    } = require('@opentelemetry/instrumentation-undici');
+    const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
+    const { Resource } = require('@opentelemetry/resources');
+    const {
+      ATTR_SERVICE_NAME,
+    } = require('@opentelemetry/semantic-conventions');
+
+    const spanProcessor = new SimpleSpanProcessor();
+    const instrumentation = new UndiciInstrumentation();
+
+    const sdk = new opentelemetry.NodeSDK({
+      resource: new Resource({
+        [ATTR_SERVICE_NAME]: 'ftn_fe',
+      }),
+      traceExporter: null,
+      spanProcessors: [spanProcessor],
+      instrumentations: [instrumentation],
+    });
+
+    sdk.start();
+  }
+};
+
 export async function register() {
   configureApplicationInsights();
+  configureTracing();
   // Load environment variables
   EnvironmentContext.getEnvironmentMap();
   await startMockServer();
