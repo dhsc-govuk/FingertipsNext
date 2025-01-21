@@ -1,33 +1,30 @@
-import {
-  AreaDocument,
-  IAreaSearchClient as IAreaSearchService,
-} from './searchTypes';
+import { IAreaSearchService, AreaDocument } from './searchTypes';
 
 export class AreaSearchServiceMock implements IAreaSearchService {
   public static getInstance(): AreaSearchServiceMock {
-    if (!AreaSearchServiceMock.#instance) {
-      AreaSearchServiceMock.#instance = new AreaSearchServiceMock();
-    }
+    if (!AreaSearchServiceMock.#instance)
+      throw new Error("Instance doesn't exist");
     return AreaSearchServiceMock.#instance;
   }
 
   static #instance: AreaSearchServiceMock;
 
-  private constructor() {}
+  mockAreaData: AreaDocument[];
+
+  constructor(areaData: AreaDocument[]) {
+    this.mockAreaData = areaData;
+  }
 
   public async getAreaSuggestions(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _partialAreaName: string
+    partialAreaName: string
   ): Promise<AreaDocument[]> {
-    console.log('AreaSearchServiceMock::getAreaSuggestions');
-    const suggestions = [
-      { areaCode: '1234', areaType: 'Region', areaName: 'Birmingham' },
-      { areaCode: '2345', areaType: 'Region', areaName: 'Manchester' },
-      { areaCode: '3456', areaType: 'Region', areaName: 'Bristol' },
-      { areaCode: '4567', areaType: 'Region', areaName: 'London' },
-      { areaCode: '5678', areaType: 'Region', areaName: 'Leeds' },
-    ];
-
-    return suggestions;
+    return this.mockAreaData
+      .filter((areaDoc) => {
+        return (
+          areaDoc.areaCode.includes(partialAreaName) ||
+          areaDoc.areaName.includes(partialAreaName)
+        );
+      })
+      .slice(0, 20);
   }
 }

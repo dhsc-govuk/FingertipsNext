@@ -54,9 +54,9 @@ This is set in:
 
 To enable the system to connect to the Azure AI Search the following environment variables will need to be configured.
 
-- DHSC_AI_SEARCH_SERVICE_URL=< the url the Azure AI Search instance is exposed on >
+- DHSC_AI_SEARCH_SERVICE_URL="https://\<subdomain\>.search.windows.net"
 - DHSC_AI_SEARCH_INDEX_NAME="indicator-search-index"
-- DHSC_AI_SEARCH_API_KEY=< the read only api key for the AI Search instance >
+- DHSC_AI_SEARCH_API_KEY=\<the read only api key for the AI Search instance\>
 
 ## Making Changes to the Application
 

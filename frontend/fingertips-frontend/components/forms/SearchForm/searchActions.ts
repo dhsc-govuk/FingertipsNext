@@ -3,9 +3,11 @@
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
+
+import mockAreaData from '../../../assets/areaData.json';
 import { AreaSearchService } from '@/lib/search/areaSearchService';
-import { AreaDocument } from '@/lib/search/searchTypes';
 import { AreaSearchServiceMock } from '@/lib/search/areaSearchServiceMock';
+import { IAreaSearchService, AreaDocument } from '@/lib/search/searchTypes';
 
 const $SearchFormSchema = z.object({
   indicator: z
@@ -47,18 +49,27 @@ export async function searchIndicator(
   redirect(searchState.generatePath('/search/results'), RedirectType.push);
 }
 
+function getAreaSearchClient(): IAreaSearchService {
+  try {
+    return process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE === 'true'
+      ? AreaSearchServiceMock.getInstance()
+      : AreaSearchService.getInstance();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_err) {
+    return process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE === 'true'
+      ? new AreaSearchServiceMock(mockAreaData)
+      : new AreaSearchService(
+          process.env.DHSC_AI_SEARCH_SERVICE_URL!,
+          process.env.DHSC_AI_SEARCH_API_KEY!
+        );
+  }
+}
+
 export async function getSearchSuggestions(
   partialAreaName: string
 ): Promise<AreaDocument[]> {
-  console.log(partialAreaName);
-  console.log(process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE);
   try {
-    const areaSearchService =
-      process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE === 'true'
-        ? AreaSearchServiceMock.getInstance()
-        : AreaSearchService.getInstance();
-
-    return areaSearchService.getAreaSuggestions(partialAreaName);
+    return getAreaSearchClient().getAreaSuggestions(partialAreaName);
   } catch (e) {
     console.log(e);
   }

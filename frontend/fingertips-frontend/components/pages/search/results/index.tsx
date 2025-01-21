@@ -13,9 +13,9 @@ import {
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/Search/result';
 
-import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { IndicatorSearchResult } from '@/lib/search/searchTypes';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;

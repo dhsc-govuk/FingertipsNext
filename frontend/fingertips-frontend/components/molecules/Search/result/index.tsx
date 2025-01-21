@@ -10,10 +10,10 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 
-import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { IndicatorSearchResult } from '@/lib/search/searchTypes';
 
 type SearchResultProps = {
   result: IndicatorSearchResult;

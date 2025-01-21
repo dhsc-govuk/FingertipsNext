@@ -1,18 +1,15 @@
 import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 import {
+  AREA_SEARCH_INDEX_NAME,
+  AREA_SEARCH_SUGGESTER_NAME,
   AreaDocument,
-  IAreaSearchClient as IAreaSearchService,
+  IAreaSearchService,
 } from './searchTypes';
 
 export class AreaSearchService implements IAreaSearchService {
-  public static getInstance(_url?: string): AreaSearchService {
+  public static getInstance(): AreaSearchService {
     if (!AreaSearchService.#instance) {
-      const url = _url || process.env.DHSC_AI_SEARCH_SERVICE_URL || 'null';
-      const apiKey = process.env.DHSC_AI_SEARCH_API_KEY || 'null';
-      AreaSearchService.#instance = new AreaSearchService(
-        url,
-        new AzureKeyCredential(apiKey)
-      );
+      throw new Error('Instance does not exist');
     }
     return AreaSearchService.#instance;
   }
@@ -20,8 +17,10 @@ export class AreaSearchService implements IAreaSearchService {
   static #instance: AreaSearchService;
   private searchClient: SearchClient<AreaDocument>;
 
-  private constructor(url: string, credentials: AzureKeyCredential) {
-    const indexName = 'geography-search-index';
+  constructor(url: string, apiKey: string) {
+    const indexName = AREA_SEARCH_INDEX_NAME;
+    const credentials = new AzureKeyCredential(apiKey);
+
     this.searchClient = new SearchClient<AreaDocument>(
       url,
       indexName,
@@ -32,11 +31,9 @@ export class AreaSearchService implements IAreaSearchService {
   public async getAreaSuggestions(
     partialAreaName: string
   ): Promise<AreaDocument[]> {
-    console.log('AreaSearchService::getAreaSuggestions');
-
     const suggestions = await this.searchClient.suggest(
       partialAreaName,
-      'geographySuggester',
+      AREA_SEARCH_SUGGESTER_NAME,
       {
         searchFields: ['areaCode', 'areaName'],
         select: ['areaCode', 'areaType', 'areaName'],
