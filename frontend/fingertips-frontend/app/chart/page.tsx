@@ -26,6 +26,7 @@ export default async function ChartPage(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
+  const areaCodeForEngland = 'E92000001';
 
   // We don't want to render this page statically
   await connection();
@@ -42,10 +43,7 @@ export default async function ChartPage(
     //  - 92708 (resident population) for adminastrative areas or,
     //  - 93468 (Proportion of GP registered populations by age group) for healthcare areas
     indicatorId: 92708,
-    // TODO: define business logic for comparitors (i.e. England and baseline).
-    // Suggest England is always fetched on 'E92000001' (is this the same code for both admin and health areas?).
-    // How will baseline be defined?
-    areaCodes: [areaCodes[0], 'E92000001', 'baselineAreaCode'],
+    areaCodes: [areaCodes[0], areaCodeForEngland],
   });
 
   // mock provides sample popultation data on [0]
