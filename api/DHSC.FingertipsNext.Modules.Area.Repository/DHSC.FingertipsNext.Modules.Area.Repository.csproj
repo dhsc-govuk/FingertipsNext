@@ -7,9 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="dotMorten.Microsoft.SqlServer.Types" Version="2.5.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
+      <PackageReference Include="Microsoft.SqlServer.Types" Version="160.1000.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Data.SqlClient">
+        <HintPath>..\DHSC.FingertipsNext.Api\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

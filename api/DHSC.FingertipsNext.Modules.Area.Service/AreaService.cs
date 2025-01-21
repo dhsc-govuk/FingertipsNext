@@ -27,12 +27,12 @@ public class AreaService : IAreaService
     /// Get all available hierarchy types
     /// </summary>
     /// <returns></returns>
-    public Task<IEnumerable<string>> GetHierarchies()
+    public Task<string[]> GetHierarchies()
     {
         // 200 string[]
         // The available hierarchy types, e.g. NHS or Administrative
 
-        throw new NotImplementedException();
+        return _areaRepository.GetHierarchiesAsync();
     }
 
     /// <summary>
@@ -40,12 +40,12 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<IEnumerable<string>> GetAreaTypes(string? hierarchyType = null)
+    public Task<string[]> GetAreaTypes(string? hierarchyType = null)
     {
         // 200 string[]
         // The available area types e.g. ICB, PCN or GP Surgery
 
-        throw new NotImplementedException();
+        return _areaRepository.GetAreaTypesAsync(hierarchyType);
     }
 
     /// <summary>
@@ -64,26 +64,31 @@ public class AreaService : IAreaService
         string? childAreaType
     )
     {
-        var areaDetails = await _areaRepository.GetAreaData(areaCode);
+        var area = await _areaRepository.GetAreaAsync(areaCode, includeChildren ?? false, includeAncestors ?? false, childAreaType);
 
-        if (areaDetails.Count == 0)
+        if (area == null)
             return null;
 
-        var first = areaDetails.First();
-        
-        return _mapper.Map<AreaWithRelations>(first);
+        // TODO: mapper
+        return null;
+        //return _mapper.Map<AreaWithRelations>(first);
     }
 
     /// <summary>
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns></returns>
-    public Task<RootArea> GetRootArea()
+    public async Task<RootArea?> GetRootArea()
     {
         // 200 RootArea
         // The root area node
 
-        throw new NotImplementedException();
+        var rootArea = await _areaRepository.GetRootAreaAsync();
+
+        if (rootArea == null)
+            return null;
+
+        return _mapper.Map<RootArea>(rootArea);
     }
 
     public static void RegisterMappings(IServiceCollection services)

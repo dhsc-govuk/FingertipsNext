@@ -32,8 +32,7 @@ public class AreaController : ControllerBase
         // 200 string[]
         // The available hierarchy types, e.g. NHS or Administrative
 
-        // return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
-        return NotFound();
+        return Ok(await _areaService.GetHierarchies());
     }
 
     /// <summary>
@@ -48,8 +47,7 @@ public class AreaController : ControllerBase
         // 200 string[]
         // The available area types e.g. ICB, PCN or GP Surgery
 
-        // return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
-        return NotFound();
+        return Ok(await _areaService.GetAreaTypes(hierarchy_type));
     }
 
     /// <summary>
@@ -74,6 +72,8 @@ public class AreaController : ControllerBase
         // 200 AreaWithRelations
         // The area node
 
+        // TODO: check what happens with no area code
+        
         var areaDetails = await _areaService.GetAreaDetails(
             area_code,
             include_children,
@@ -95,7 +95,11 @@ public class AreaController : ControllerBase
         // 200 RootArea
         // The root area node
 
-        // return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
-        return NotFound();
+        var rootArea = await _areaService.GetRootArea();
+        
+        if(rootArea == null)
+            return NotFound();
+        
+        return Ok(rootArea);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Types;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -15,21 +17,14 @@ public class AreaRepositoryDbContext : DbContext
     {
     }
 
-    public DbSet<AreaDimensionModel> AreaDimension { get; set; }
     public DbSet<AreaModel> Area { get; set; }
+
+    public DbSet<AreaTypesModel> AreaTypes { get; set; }
+
+    public DbSet<HierarchiesModel> Hierarchies { get; set; }
+    
+    public DbSet<AreaModel> RootArea { get; set; }
 }
 
 
-[Serializable]
-public class AreaModel
-{
-    [Key]
-    public required byte[] Node { get; set; }
-    public int Level { get; set; }
-    [MaxLength(20)]
-    public required string AreaCode { get; set; }
-    [MaxLength(255)]
-    public required string AreaName { get; set; }
-    public required string AreaType { get; set; }
-    public required string HierarchyType { get; set; }
-}
+

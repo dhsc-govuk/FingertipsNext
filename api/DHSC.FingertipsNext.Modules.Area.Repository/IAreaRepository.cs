@@ -4,5 +4,11 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
 public interface IAreaRepository
 {
-    Task <IReadOnlyCollection<AreaModel>> GetAreaData(string areaCode);
+    Task<string[]> GetHierarchiesAsync();
+
+    Task<string[]> GetAreaTypesAsync(string? hierarchyType);
+
+    Task<AreaWithRelationsModel?> GetAreaAsync(string areaCode, bool includeChildren, bool includeAncestors, string? childAreaType);
+
+    Task<AreaModel?> GetRootAreaAsync();
 }
