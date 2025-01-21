@@ -22,11 +22,11 @@ export const pointFormatterHelper = (point: any) => {
   const tooltipPointString =
     '<span style="color:' +
     point.series.color +
-    ' font-size="large">' +
+    '">' +
     symbol +
     '</span><span>' +
     ' Value ' +
-    point.y +
+    Math.abs(point.y) +
     '%<br/>' +
     point.series.name +
     '</span>';
