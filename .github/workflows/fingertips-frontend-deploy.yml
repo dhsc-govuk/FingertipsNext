@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - main
+      - feature/DHSCFT-208_configure_e2e_tests
 
 jobs:
   determine-version:
