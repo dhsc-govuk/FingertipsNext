@@ -25,7 +25,7 @@ export const SearchForm = ({
     <>
       <div
         data-testid="search-form"
-        // style={{ backgroundColor: '#ddd', padding: '20px 20px 0px 20px' }}
+        style={{ backgroundColor: '#f3f2f1', padding: '20px 20px 0px 20px' }}
       >
         <H3>Find public health data</H3>
         <Paragraph>
@@ -42,7 +42,7 @@ export const SearchForm = ({
             defaultValue: searchFormState.indicator,
           }}
           hint={
-            <div style={{ color: 'black' }}>
+            <div style={{ color: '#505a5f' }}>
               For example diabetes, public health indicator, or indicator ID
             </div>
           }
@@ -62,7 +62,7 @@ export const SearchForm = ({
             defaultValue: searchFormState.areaSearched,
           }}
           hint={
-            <div style={{ color: 'black' }}>
+            <div style={{ color: '#505a5f' }}>
               For example postcode, county, local authority, NHS Trust or
               General Practice name or code
             </div>

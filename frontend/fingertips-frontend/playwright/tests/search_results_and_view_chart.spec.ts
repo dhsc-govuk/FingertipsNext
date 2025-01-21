@@ -67,6 +67,6 @@ test('Search via indicator and assert displayed results, check the chart is disp
   );
   await searchPage.checkSearchFieldIsPrePopulatedWith();
   await searchPage.checkSummaryValidation(
-    `There is a problemAt least one of the following fields must be populated:Indicator field`
+    `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
   );
 });
