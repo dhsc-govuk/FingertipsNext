@@ -20,6 +20,9 @@ const page = () => {
       <TrendTag trend={Trend.NO_SIGNIFICANT_CHANGE} />
       <TrendTag trend={Trend.DECREASING} />
       <TrendTag trend={Trend.INCREASING} />
+      <TrendTag trend={Trend.BETTER} useArrow={false} />
+      <TrendTag trend={Trend.WORSE} useArrow={false} />
+      <TrendTag trend={Trend.SIMILAR} useArrow={false} />
     </div>
   );
 };

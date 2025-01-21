@@ -29,7 +29,7 @@ describe('Trend Tag Suite', () => {
 
       expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent(
-        'Decreasing getting better'
+        'Decreasing and getting better'
       );
     });
 
@@ -43,7 +43,7 @@ describe('Trend Tag Suite', () => {
 
       expect(screen.getByTestId('arrow-up')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent(
-        'Increasing getting worse'
+        'Increasing and getting worse'
       );
     });
 
@@ -68,6 +68,13 @@ describe('Trend Tag Suite', () => {
 
       expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent('Decreasing');
+    });
+
+    it('should not render arrow when useArrow prop is false', () => {
+      render(<TrendTag trend={Trend.BETTER} useArrow={false} />);
+
+      expect(screen.queryByTestId('arrow-icon')).not.toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent('Better');
     });
   });
 
