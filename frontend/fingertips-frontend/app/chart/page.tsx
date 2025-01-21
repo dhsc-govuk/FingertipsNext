@@ -37,10 +37,13 @@ export default async function ChartPage(
       indicatorId: 92708,
       areaCodes: [areaCodes[0], areaCodeForEngland],
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log('error getting population data ', error);
+  }
 
   if (rawPopulationData) {
-    preparedPopulationData = preparePopulationData(rawPopulationData);
+    // hardcode selected area data for mocks
+    preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
   }
   // // setting values for fake data so they don't overlay on plot
   // for (const i in populationDataForEngland.ageCategories) {

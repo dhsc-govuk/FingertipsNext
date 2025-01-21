@@ -1,4 +1,3 @@
-// import { areaCodeForEngland } from '@/app/chart/page';
 import {
   HealthDataForArea,
   HealthDataPoint,
