@@ -11,14 +11,14 @@ public interface IAreaService
     /// Get all available hierarchy types
     /// </summary>
     /// <returns></returns>
-    public Task<IEnumerable<string>> GetHierarchies();
+    public Task<string[]> GetHierarchies();
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<IEnumerable<string>> GetAreaTypes(string? hierarchyType = null);
+    public Task<string[]> GetAreaTypes(string? hierarchyType = null);
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its
@@ -40,5 +40,5 @@ public interface IAreaService
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns></returns>
-    public Task<RootArea> GetRootArea();
+    public Task<RootArea?> GetRootArea();
 }
