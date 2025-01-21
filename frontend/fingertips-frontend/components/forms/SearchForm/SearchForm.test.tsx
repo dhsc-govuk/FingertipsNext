@@ -65,4 +65,4 @@ it('should display the filter by area link', () => {
   render(<SearchForm searchFormState={initialState} />);
   const link = screen.getByTestId('search-form-link-filter-area');
   expect(link).toBeInTheDocument();
-})
+});

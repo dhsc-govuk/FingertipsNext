@@ -9,7 +9,7 @@ const $SearchFormSchema = z.object({
     .string()
     .trim()
     .min(1, { message: 'Please enter an indicator id' }),
-  areaSearched: z.string().optional()
+  areaSearched: z.string().optional(),
 });
 
 export type State = {

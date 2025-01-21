@@ -1,7 +1,7 @@
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
-export default class SearchPage extends BasePage {
+export default class HomePage extends BasePage {
   readonly indicatorField = 'search-form-input-indicator';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';

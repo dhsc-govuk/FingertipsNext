@@ -22,9 +22,10 @@ export const SearchForm = ({
   searchFormState: SearchFormState;
 }) => {
   return (
+    <>
       <div
         data-testid="search-form"
-        style={{ backgroundColor: '#ddd', padding: '20px 20px 0px 20px' }}
+        // style={{ backgroundColor: '#ddd', padding: '20px 20px 0px 20px' }}
       >
         <H3>Find public health data</H3>
         <Paragraph>
@@ -74,11 +75,18 @@ export const SearchForm = ({
         >
           Search for an area by location or organisation
         </StyledInputField>
-        <Link href='#' data-testid="search-form-link-filter-area">Or filter by area</Link>
-        <br/>
-        <Button type="submit" data-testid="search-form-button-submit" style={{marginTop: '25px'}}>
+        <Link href="#" data-testid="search-form-link-filter-area">
+          Or filter by area
+        </Link>
+        <br />
+        <Button
+          type="submit"
+          data-testid="search-form-button-submit"
+          style={{ marginTop: '25px' }}
+        >
           Search
         </Button>
       </div>
+    </>
   );
 };

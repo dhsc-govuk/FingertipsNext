@@ -10,7 +10,10 @@ import {
   UnorderedList,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
-import { SearchFormState, searchIndicator } from '@/components/forms/SearchForm/searchActions';
+import {
+  SearchFormState,
+  searchIndicator,
+} from '@/components/forms/SearchForm/searchActions';
 import { useActionState } from 'react';
 
 export const Home = ({
@@ -19,7 +22,7 @@ export const Home = ({
   searchFormState: SearchFormState;
 }) => {
   const [state, formAction] = useActionState(searchIndicator, searchFormState);
-  
+
   return (
     <form action={formAction}>
       {state.message && (

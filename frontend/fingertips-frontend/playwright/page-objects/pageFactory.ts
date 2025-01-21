@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import AxeBuilder from '@axe-core/playwright';
-import SearchPage from './pages/searchPage';
+import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
 
 type pages = {
-  searchPage: SearchPage;
+  searchPage: HomePage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
 };
@@ -48,7 +48,7 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
 
 export const test = testBase.extend<pages>({
   searchPage: async ({ page }, use) => {
-    await use(new SearchPage(page));
+    await use(new HomePage(page));
   },
   resultsPage: async ({ page }, use) => {
     await use(new ResultsPage(page));
