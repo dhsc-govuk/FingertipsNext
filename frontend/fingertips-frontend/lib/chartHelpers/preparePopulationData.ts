@@ -1,14 +1,54 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+// import { areaCodeForEngland } from '@/app/chart/page';
+import {
+  HealthDataForArea,
+  HealthDataPoint,
+} from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from './constants';
 
-export interface PopulationData {
+export interface PopulationDataForArea {
   ageCategories: Array<string>;
   femaleSeries: Array<number>;
   maleSeries: Array<number>;
 }
 
+export type PreparedPopulationData = {
+  dataForSelectedArea?: PopulationDataForArea;
+  dataForEngland?: PopulationDataForArea;
+  dataForBaseline?: PopulationDataForArea;
+};
+
 export function preparePopulationData(
-  healthData: HealthDataPoint[]
-): PopulationData {
+  rawData: HealthDataForArea[],
+  selectedAreaCode?: string,
+  baselineAreaCode?: string
+): PreparedPopulationData {
+  const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
+    (dataForArea) => dataForArea.areaCode == areaCodeForEngland
+  );
+  const rawDataForSelected: HealthDataForArea | undefined = rawData.find(
+    (dataForArea) => dataForArea.areaCode == selectedAreaCode
+  );
+  const rawDataForBaseline: HealthDataForArea | undefined = rawData.find(
+    (dataForArea) => dataForArea.areaCode == baselineAreaCode
+  );
+
+  return {
+    dataForSelectedArea: preparePopulationDataForArea(
+      rawDataForSelected?.healthData
+    ),
+    dataForEngland: preparePopulationDataForArea(rawDataForEngland?.healthData),
+    dataForBaseline: preparePopulationDataForArea(
+      rawDataForBaseline?.healthData
+    ),
+  };
+}
+
+export function preparePopulationDataForArea(
+  healthData?: HealthDataPoint[]
+): PopulationDataForArea | undefined {
+  if (!healthData) {
+    return undefined;
+  }
   const dataSortedByAgeBand = sortByAgeBand(healthData);
   let ageCategories = dataSortedByAgeBand.map(
     (healthDataPoint) => healthDataPoint.ageBand
