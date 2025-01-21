@@ -1,12 +1,12 @@
 namespace DHSC.FingertipsNext.Modules.Core.UnitTests;
 
-using FluentAssertions;
+using Shouldly;
 public class CoreControllerTests
 {
     [Fact]
     public void Test1()
     {
         bool results = true;
-        results.Should().BeTrue();
+        results.ShouldBeTrue();
     }
 }

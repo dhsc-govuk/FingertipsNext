@@ -81,10 +81,9 @@ it('should display the error summary component when there is a validation error'
 
   render(<SearchForm searchFormState={errorState} />);
 
-  const anchor = screen.getByText('Indicator field').closest('a');
-  if (anchor) {
-    await user.click(anchor);
-  }
+  const anchor = screen.getByText('Indicator field').closest('a')!;
+
+  await user.click(anchor);
 
   await waitFor(() => {
     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveFocus();
