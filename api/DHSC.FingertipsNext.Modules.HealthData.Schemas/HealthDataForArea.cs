@@ -17,6 +17,7 @@ public class HealthDataForArea
     /// <summary>
     /// The name of the geographical area
     /// </summary>
+    [JsonPropertyName("areaName")]
     public string AreaName { get; init; } = String.Empty;
 
     /// <summary>
