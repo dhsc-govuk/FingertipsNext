@@ -7,7 +7,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       healthData: [
         {
           year: 2023,
-          count: 1496012,
+          count: 200,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -16,7 +16,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1635842,
+          count: 200,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -25,7 +25,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1721746,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -34,7 +34,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1652231,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -43,7 +43,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1692751,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -52,7 +52,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1905676,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -61,7 +61,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 2065216,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -70,7 +70,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 2043718,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -79,7 +79,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1942508,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -88,7 +88,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1744723,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -97,7 +97,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1936763,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -106,7 +106,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1968410,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -115,7 +115,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1768357,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -124,7 +124,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1482260,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -133,7 +133,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1357594,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -142,7 +142,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1275145,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -151,7 +151,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 823120,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -160,7 +160,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 547342,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -169,7 +169,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 347835,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -178,7 +178,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1568625,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -187,7 +187,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1712925,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -196,7 +196,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1807194,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -205,7 +205,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1752832,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -214,7 +214,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1763621,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -223,7 +223,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1872173,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -232,7 +232,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1948207,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -241,7 +241,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1907182,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -250,7 +250,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1840894,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -259,7 +259,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1689551,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -268,7 +268,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1872253,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -277,7 +277,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1895440,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -286,7 +286,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1702386,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -295,7 +295,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1400611,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -304,7 +304,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1232400,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -313,7 +313,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1111980,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -322,7 +322,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 653365,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -331,7 +331,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 377979,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -340,7 +340,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 173456,
+          count: 500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -701,7 +701,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       healthData: [
         {
           year: 2023,
-          count: 1496012,
+          count: 200,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -710,7 +710,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1635842,
+          count: 200,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -719,7 +719,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1721746,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -728,7 +728,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1652231,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -737,7 +737,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1692751,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -746,7 +746,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1905676,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -755,7 +755,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 2065216,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -764,7 +764,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 2043718,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -773,7 +773,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1942508,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -782,7 +782,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1744723,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -791,7 +791,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1936763,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -800,7 +800,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1968410,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -809,7 +809,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1768357,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -818,7 +818,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1482260,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -827,7 +827,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1357594,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -836,7 +836,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1275145,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -845,7 +845,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 823120,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -854,7 +854,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 547342,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -863,7 +863,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 347835,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -872,7 +872,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1568625,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -881,7 +881,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1712925,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -890,7 +890,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1807194,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -899,7 +899,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1752832,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -908,7 +908,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1763621,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -917,7 +917,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1872173,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -926,7 +926,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1948207,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -935,7 +935,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1907182,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -944,7 +944,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1840894,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -953,7 +953,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1689551,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -962,7 +962,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1872253,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -971,7 +971,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1895440,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -980,7 +980,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1702386,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -989,7 +989,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1400611,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -998,7 +998,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1232400,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -1007,7 +1007,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 1111980,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -1016,7 +1016,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 653365,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -1025,7 +1025,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 377979,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
@@ -1034,7 +1034,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
         },
         {
           year: 2023,
-          count: 173456,
+          count: 2500,
           value: 0,
           lowerCi: 0,
           upperCi: 0,
