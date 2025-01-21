@@ -7,11 +7,11 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { PreparedPopulationData } from '@/app/chart/page';
+import { PreparedPopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 type ChartProps = {
   data: HealthDataForArea[];
-  preparedPopulationData: PreparedPopulationData;
+  preparedPopulationData?: PreparedPopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
@@ -33,15 +33,18 @@ export function Chart({
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H2>View Dementia QOF prevalence</H2>
-      {/* TODO: Selectively render PopulationPyramid if populationData != null */}
-      <PopulationPyramid
-        data={preparedPopulationData}
-        populationPyramidTitle="Population INDICATOR for SELECTED area"
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of total population"
-        accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
-      />
-      <br />
+      {!preparedPopulationData?.dataForSelectedArea ? null : (
+        <>
+          <PopulationPyramid
+            data={preparedPopulationData}
+            populationPyramidTitle="Population INDICATOR for SELECTED area"
+            xAxisTitle="Age"
+            yAxisTitle="Percentage of total population"
+            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
+          />
+          <br />
+        </>
+      )}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
