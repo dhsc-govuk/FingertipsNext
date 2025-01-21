@@ -1,7 +1,10 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
@@ -26,9 +29,7 @@ public class HealthDataRepositoryTests
     {
         var act = () => _repository = new HealthDataRepository(null!);
 
-        act.Should()
-            .Throw<ArgumentNullException>()
-            .WithMessage("Value cannot be null. (Parameter 'healthDataDbContext')");
+        act.ShouldThrow<ArgumentNullException>().Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(3, [], []);
 
         // assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -54,10 +55,12 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(1, [], []);
 
         // assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(1);
-        result.Should()
-              .BeEquivalentTo([TestHelper.BuildHealthMeasureModel("Code", 2020, DateTime.Parse("2024-03-21 13:26"))]);
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            TestHelper.BuildHealthMeasureModel("Code", 2020, DateTime.Parse("2024-03-21 13:26"))
+        });
     }
 
     [Fact]
@@ -72,13 +75,13 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(500, ["Code2"], []);
 
         // assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(2);
-        result.Should()
-            .BeEquivalentTo([
-                TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
-                TestHelper.BuildHealthMeasureModel("Code2", 2022, DateTime.Parse("2024-03-21 13:26"), 3, 500),
-                ]);
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            TestHelper.BuildHealthMeasureModel("Code2", 2022, DateTime.Parse("2024-03-21 13:26"), 3, 500),
+            TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
+        });
     }
 
     [Fact]
@@ -91,7 +94,7 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], []);
 
         // assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -107,13 +110,13 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(500, [], [2022, 2023]);
 
         // assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(3);
-        result.Should().BeEquivalentTo([
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(3);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
                 TestHelper.BuildHealthMeasureModel("Code3", 2022, DateTime.Parse("2024-03-21 13:26"), 4, 500),
                 TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
                 TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 3, 500),
-            ]);
+            });
     }
 
     [Fact]
@@ -127,7 +130,7 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(500, [], [2019]);
 
         // assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -143,11 +146,11 @@ public class HealthDataRepositoryTests
         var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023]);
 
         // assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(1);
-        result.Should().BeEquivalentTo([
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
                 TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
-            ]);
+            });
     }
 
     private async Task PopulateDatabase(string code, short year, int id = 1, int? indicatorId = null)
