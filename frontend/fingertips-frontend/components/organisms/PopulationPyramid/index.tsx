@@ -2,8 +2,8 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { H3 } from 'govuk-react';
-import { PreparedPopulationData } from '@/app/chart/page';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { PreparedPopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 interface PyramidChartProps {
   data: PreparedPopulationData;

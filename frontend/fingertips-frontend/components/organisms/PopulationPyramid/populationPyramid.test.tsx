@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { PopulationPyramid } from '.';
-import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 
-const mockPopulationData: PopulationData = {
+const mockPopulationData: PopulationDataForArea = {
   ageCategories: [
     '90+',
     '85-89',
