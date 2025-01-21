@@ -18,8 +18,6 @@ public class AreaRepositoryDbContext : DbContext
     }
 
     public DbSet<AreaModel> Area { get; set; }
-
-    public DbSet<AreaModel> RootArea { get; set; }
 }
 
 

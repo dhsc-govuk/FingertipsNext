@@ -58,7 +58,9 @@ public class AreaController : ControllerBase
     /// <param name="include_children">Optionally, include the child areas. By default, this is the direct children,
     /// to get children at a lower level supply the optional query parameter for child area type.</param>
     /// <param name="include_ancestors">Optionally, include the ancestor areas.</param>
-    /// <param name="child_area_type">The type of area to request children for.</param>
+    /// <param name="child_area_type">Optional. Functions only when include_children is true. The type of area to
+    /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
+    /// will be retrieved.</param>
     /// <returns></returns>
     [HttpGet]
     [Route("{area_code}")]

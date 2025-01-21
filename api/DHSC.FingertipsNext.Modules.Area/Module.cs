@@ -5,9 +5,9 @@ using DHSC.FingertipsNext.Modules.Area.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area;
 
@@ -19,11 +19,11 @@ public class Module : AbstractMonolithModule, IMonolithModule
     {
         services.AddTransient<IAreaService, AreaService>();
         services.AddTransient<IAreaRepository, AreaRepository>();
-        
-        AreaService.RegisterMappings(services);        
+
+        AreaService.RegisterMappings(services);
         RegisterDbContext(services, configuration);
     }
-    
+
     private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
     {
         var trustServerCertificate = false;
@@ -31,7 +31,9 @@ public class Module : AbstractMonolithModule, IMonolithModule
 
         if (trustServerCertificate)
         {
-            Console.WriteLine("Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!");
+            Console.WriteLine(
+                "Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!"
+            );
         }
 
         var builder = new SqlConnectionStringBuilder
@@ -40,12 +42,17 @@ public class Module : AbstractMonolithModule, IMonolithModule
             UserID = GetEnvironmentValue(configuration, "DB_USER"),
             Password = GetEnvironmentValue(configuration, "DB_PASSWORD"),
             InitialCatalog = GetEnvironmentValue(configuration, "DB_NAME"),
-            TrustServerCertificate = trustServerCertificate
+            TrustServerCertificate = trustServerCertificate,
         };
 
-        services.AddDbContext<AreaRepositoryDbContext>(options => options.UseSqlServer(builder.ConnectionString));
+        services.AddDbContext<AreaRepositoryDbContext>(options =>
+            options.UseSqlServer(builder.ConnectionString, x => x.UseHierarchyId())
+        );
     }
 
     private static string GetEnvironmentValue(IConfiguration configuration, string name) =>
-        configuration.GetValue<string>(name) ?? throw new ArgumentException($"Invalid environment variables provided. Check {name} has been set appropriately");
+        configuration.GetValue<string>(name)
+        ?? throw new ArgumentException(
+            $"Invalid environment variables provided. Check {name} has been set appropriately"
+        );
 }

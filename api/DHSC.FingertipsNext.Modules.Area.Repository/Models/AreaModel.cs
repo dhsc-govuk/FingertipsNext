@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
@@ -11,10 +12,15 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 public class AreaModel
 {
     /// <summary>
+    /// 
+    /// </summary>
+    [Key]
+    public required HierarchyId Node { get; set; }
+
+    /// <summary>
     /// The unique area code of the area / geography
     /// </summary>
     [MaxLength(20)]
-    [Key]
     public required string AreaCode { get; set; }
 
     /// <summary>
