@@ -30,7 +30,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        if: ${{ inputs.env-url == null }}
+
       - name: Use Node.js ${{ matrix.node-version }}
+        if: ${{ inputs.env-url == null }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
@@ -38,6 +41,7 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
+        if: ${{ inputs.env-url == null }}
         run: npm ci
 
       - name: Run Playwright tests
