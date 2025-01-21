@@ -105,6 +105,6 @@ it('should render the PopulationPyramid component when Population data are provi
     />
   );
 
-  const PyramidPlot = screen.getByTestId('PopulationPyramid-component');
+  const PyramidPlot = screen.getByTestId('populationPyramid-component');
   expect(PyramidPlot).toBeInTheDocument();
 });

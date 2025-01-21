@@ -33,7 +33,7 @@ export function Chart({
     <>
       <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
       <H2>View Dementia QOF prevalence</H2>
-      {!preparedPopulationData?.dataForSelectedArea ? null : (
+      {!preparedPopulationData ? null : (
         <>
           <PopulationPyramid
             data={preparedPopulationData}

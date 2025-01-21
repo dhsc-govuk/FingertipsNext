@@ -33,7 +33,7 @@ export function PopulationPyramid({
     legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
       {
-        categories: data.dataForSelectedArea.ageCategories,
+        categories: data.dataForSelectedArea?.ageCategories,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -50,7 +50,7 @@ export function PopulationPyramid({
         // mirror axis on right side
         opposite: true,
         reversed: false,
-        categories: data.dataForSelectedArea.ageCategories,
+        categories: data.dataForSelectedArea?.ageCategories,
         linkedTo: 0,
         title: {
           text: xAxisTitle,
@@ -101,7 +101,7 @@ export function PopulationPyramid({
       {
         name: 'Female',
         type: 'bar',
-        data: data.dataForSelectedArea.femaleSeries,
+        data: data.dataForSelectedArea?.femaleSeries,
         xAxis: 0,
         color: '#5352BE',
         pointWidth: 17,
@@ -118,7 +118,7 @@ export function PopulationPyramid({
       {
         name: 'Male',
         type: 'bar',
-        data: data.dataForSelectedArea.maleSeries.map(
+        data: data.dataForSelectedArea?.maleSeries.map(
           (datapoint) => -datapoint
         ),
         xAxis: 1,
@@ -188,7 +188,7 @@ export function PopulationPyramid({
   }
 
   return (
-    <div data-testid="PopulationPyramid-component">
+    <div data-testid="populationPyramid-component">
       <H3>{populationPyramidTitle}</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
