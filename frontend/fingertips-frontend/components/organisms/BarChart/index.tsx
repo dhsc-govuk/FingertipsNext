@@ -89,8 +89,6 @@ export function BarChart({
     },
   };
 
-  console.log(barChartOptions.series ? barChartOptions.series[0] : '');
-
   return (
     <div data-testid="barChart-component">
       <H3>See how inequalities vary for a single period in time</H3>
