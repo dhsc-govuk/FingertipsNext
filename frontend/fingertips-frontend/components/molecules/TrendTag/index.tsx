@@ -45,6 +45,10 @@ function getColour(trend: Trend, trendCondition: TrendCondition | undefined) {
   return 'GREY';
 }
 
+function displayTrendCondition(trendCondition: TrendCondition | undefined) {
+  return trendCondition ? `and ${trendCondition}` : '';
+}
+
 export function TrendTag({
   trend,
   useArrow = true,
@@ -70,7 +74,7 @@ export function TrendTag({
             <StyledParagraph>
               {trend === Trend.NO_SIGNIFICANT_CHANGE
                 ? trend
-                : trend + ' ' + (trendCondition ? `and ${trendCondition}` : '')}
+                : trend + ' ' + displayTrendCondition(trendCondition)}
             </StyledParagraph>
           </div>
         </StyledDivContainer>

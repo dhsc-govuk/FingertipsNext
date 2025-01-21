@@ -74,7 +74,7 @@ describe('Trend Tag Suite', () => {
       render(<TrendTag trend={Trend.BETTER} useArrow={false} />);
 
       expect(screen.queryByTestId('arrow-icon')).not.toBeInTheDocument();
-      expect(screen.getByRole('paragraph')).toHaveTextContent('Better');
+      expect(screen.getByRole('paragraph')).toHaveTextContent('Better 95%');
     });
   });
 
