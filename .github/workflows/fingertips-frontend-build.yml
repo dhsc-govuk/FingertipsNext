@@ -3,6 +3,7 @@ name: Fingertips Frontend Build
 env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
+  url: http://4.158.39.145/search
 
 on:
   workflow_dispatch:
@@ -19,7 +20,7 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: '6.0.x'
+      gitversion-version: "6.0.x"
 
   frontend-unit-test-and-static-analysis:
     name: Execute unit tests and static analysis against frontend
@@ -61,10 +62,7 @@ jobs:
 
   build-container:
     uses: ./.github/workflows/build-container.yml
-    needs: [
-      determine-version,
-      frontend-unit-test-and-static-analysis
-    ]
+    needs: [determine-version, frontend-unit-test-and-static-analysis]
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
@@ -75,3 +73,40 @@ jobs:
       acr-password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
       acr-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
+  e2e-tests:
+    name: Execute e2e tests
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.49.1-jammy
+
+    strategy:
+      matrix:
+        node-version: ["22.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          FINGERTIPS_FRONTEND_URL: ${{ env.url }}
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

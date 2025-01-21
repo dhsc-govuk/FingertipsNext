@@ -1,9 +1,5 @@
 name: Fingertips Frontend Deploy
 
-env:
-  frontend-directory: ./frontend/fingertips-frontend
-  url: http://4.158.39.145/search
-
 on:
   workflow_run:
     workflows: [Fingertips Frontend Build]
@@ -26,6 +22,9 @@ jobs:
       matrix:
         environment:
           - development
+    environment:
+      name: ${{ matrix.environment }}
+      url: http://4.158.39.145/
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: "Frontend Deploy"
     steps:
@@ -56,41 +55,3 @@ jobs:
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure
-
-  e2e-tests:
-    name: Execute e2e tests
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.49.1-jammy
-
-    strategy:
-      matrix:
-        node-version: ["22.x"]
-
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Playwright tests
-        run: npx playwright test
-        env:
-          FINGERTIPS_FRONTEND_URL: ${{ env.url }}
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ failure() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
