@@ -40,9 +40,9 @@ export const Home = ({
           ]}
           data-testid="search-form-error-summary"
           onHandleErrorClick={(targetName: string) => {
-            const indicator = document.getElementById(targetName);
-            indicator?.scrollIntoView(true);
-            indicator?.focus();
+            const targetElement = document.getElementById(targetName);
+            targetElement?.scrollIntoView(true);
+            targetElement?.focus();
           }}
         />
       )}

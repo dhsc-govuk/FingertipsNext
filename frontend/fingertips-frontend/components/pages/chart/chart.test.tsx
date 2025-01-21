@@ -15,22 +15,6 @@ describe('Page structure', () => {
         />
       );
 
-      expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
-      expect(
-        screen.getByRole('link', { name: /back/i }).getAttribute('href')
-      ).toBe(
-        `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
-      );
-    });
-
-    it('should render back link', () => {
-      render(
-        <Chart
-          data={mockHealthData[1]}
-          searchedIndicator="test"
-          indicatorsSelected={['1', '2']}
-        />
-      );
       const backLink = screen.getByRole('link', { name: /back/i });
       const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`;
 
