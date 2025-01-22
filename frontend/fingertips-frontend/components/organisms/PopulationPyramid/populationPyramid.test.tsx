@@ -44,6 +44,8 @@ it('Should render the PopulationPyramid component title', () => {
     />
   );
 
-  const HTag = screen.getByRole('heading', { level: 3 });
-  expect(HTag).toHaveTextContent('VALID population pyramid title');
+  const populationPyramidHeader = screen.getByRole('heading', { level: 3 });
+  expect(populationPyramidHeader).toHaveTextContent(
+    'VALID population pyramid title'
+  );
 });
