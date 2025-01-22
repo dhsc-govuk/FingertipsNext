@@ -37,7 +37,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      {!populationData ? null : (
+      {populationData ? (
         <>
           <PopulationPyramid
             data={populationData}
@@ -48,7 +48,7 @@ export function Chart({
           />
           <br />
         </>
-      )}
+      ) : null}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
