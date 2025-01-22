@@ -6,7 +6,7 @@ import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
 
 type pages = {
-  searchPage: HomePage;
+  homePage: HomePage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
 };
@@ -47,7 +47,7 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
 });
 
 export const test = testBase.extend<pages>({
-  searchPage: async ({ page }, use) => {
+  homePage: async ({ page }, use) => {
     await use(new HomePage(page));
   },
   resultsPage: async ({ page }, use) => {

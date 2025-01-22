@@ -67,10 +67,8 @@ it('should focus on the input boxes when there is a validation error', async () 
 
   render(<Home searchFormState={errorState} />);
 
-  const anchor = screen.getByText('Search subject').closest('a');
-  if (anchor) {
-    await user.click(anchor);
-  }
+  const anchor = screen.getByText('Search subject').closest('a')!;
+  await user.click(anchor);
 
   await waitFor(() => {
     expect(
