@@ -17,21 +17,18 @@ describe('pointFormatterHelper', () => {
     expect(actual).toContain('\u25CF');
   });
 
-  it('should return a string with the correct symbol code', () => {
-    const symbolNames = [
-      'circle',
-      'square',
-      'diamond',
-      'triangle',
-      'triangle-down',
-    ];
-
-    const symbolCodes = ['\u25CF', '\u25a0', '\u25c6', '\u25b2', '\u25bC'];
-
-    symbolNames.forEach((name, i) => {
-      mockPoint.graphic.symbolName = name;
+  it.each([
+    ['circle', '\u25CF'],
+    ['square', '\u25a0'],
+    ['diamond', '\u25c6'],
+    ['triangle', '\u25b2'],
+    ['triangle-down', '\u25bC'],
+  ])(
+    'should return a string with the correct symbol code',
+    (symbolName, symbolCode) => {
+      mockPoint.graphic.symbolName = symbolName;
       const actual = pointFormatterHelper(mockPoint);
-      expect(actual).toContain(symbolCodes[i]);
-    });
-  });
+      expect(actual).toContain(symbolCode);
+    }
+  );
 });
