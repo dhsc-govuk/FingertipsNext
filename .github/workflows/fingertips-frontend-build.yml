@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: '6.0.x'
+      gitversion-version: "6.0.x"
 
   frontend-unit-test-and-static-analysis:
     name: Execute unit tests and static analysis against frontend
@@ -59,12 +59,13 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+  e2e-tests:
+    uses: ./.github/workflows/e2e-tests.yml
+
   build-container:
     uses: ./.github/workflows/build-container.yml
-    needs: [
-      determine-version,
-      frontend-unit-test-and-static-analysis
-    ]
+    needs:
+      [determine-version, frontend-unit-test-and-static-analysis, e2e-tests]
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
@@ -74,4 +75,3 @@ jobs:
       acr-username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
       acr-password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
       acr-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
-
