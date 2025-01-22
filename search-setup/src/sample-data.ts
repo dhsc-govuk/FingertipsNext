@@ -46,6 +46,15 @@ export const sampleIndicatorData: IndicatorSearchData[] = [
     lastUpdated: new Date("20-Jan-24"),
   },
   {
+    indicatorId: "219",
+    name: "Hypertension: QOF prevalence (all ages)",
+    definition:
+      "The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size).",
+    latestDataPeriod: "2024",
+    dataSource: "Quality and Outcomes Framework (QOF), NHS England",
+    lastUpdated: new Date("24-Sep-24"),
+  },
+  {
     indicatorId: "300",
     name: "Participation rate, total",
     definition:
