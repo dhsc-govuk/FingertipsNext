@@ -22,6 +22,7 @@ jobs:
       matrix:
         environment:
           - development
+    environment: ${{ matrix.environment }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: "Frontend Deploy"
     steps:
