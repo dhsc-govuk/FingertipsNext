@@ -15,7 +15,7 @@ jobs:
       fetch-depth: 0
       gitversion-version: '6.0.x'
 
-  frontend-deploy:
+  api-deploy:
     runs-on: ubuntu-latest
     needs: determine-version
     strategy:
@@ -56,7 +56,7 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
           containerAppName: fingertips-api
           resourceGroup: ${{ vars.RESOURCE_GROUP }}
           containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}

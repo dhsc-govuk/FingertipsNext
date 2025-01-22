@@ -1,8 +1,7 @@
 name: Fingertips API Build
 
 env:
-  frontend-directory: ./api
-  NEXT_TELEMETRY_DISABLED: true
+  api-directory: ./api
 
 on:
   workflow_dispatch:
@@ -28,9 +27,6 @@ jobs:
   api-build:
     name: Build API
     runs-on: ubuntu-latest
-
-    env:
-      api-directory: ./api
     strategy:
       matrix:
         dotnet-version: ["9.0.x"]
