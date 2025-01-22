@@ -27,7 +27,7 @@ public class AreaRepository : IAreaRepository
     public async Task<string[]> GetHierarchiesAsync()
     {
         var hierarchies = await _dbContext
-            .Area.Select(h => h.HierarchyType)
+            .Area.Select(a => a.HierarchyType)
             .Distinct()
             .ToArrayAsync();
 
@@ -125,31 +125,26 @@ public class AreaRepository : IAreaRepository
             var ancestors = await _dbContext
                 .Area.FromSqlInterpolated(
                     $"""
-                    --given an areacode return the children that are of a defined area type
-                                    
-                    DECLARE @areacode nvarchar(50)
-                    SET @areacode={areaCode}
-
-                    DECLARE @areatype nvarchar(50)
-                    SET @areatype={childAreaType}
-
-                    --get the level of the parent
-                    DECLARE @parentlevel smallint =(SELECT [Level] FROM [Areas].[Areas] WHERE AreaCode=@areacode)
-                    DECLARE @myarea hierarchyid = (SELECT Node FROM [Areas].[Areas] WHERE AreaCode = @areacode )
-
-                    --GET the level of the areatype we are looking for
-                    DECLARE @level smallint =(SELECT top 1 [Level] FROM [Areas].[Areas] WHERE AreaType=@areatype)
-
-                    --use the get ancestor functor with a variable level based on the difference between the things we are looking for and the group
+                    --get all the parents recursively up the hierarchy
                     SELECT
-                        *
+                        parent.*
                     FROM
-                        [Areas].[Areas]
+                        [Areas].[Areas] startingPoint
+                    INNER JOIN
+                        [Areas].[Areas] parent
+                    ON
+                        startingPoint.Node.IsDescendantOf(parent.Node) = 1
                     WHERE
-                        Node.GetAncestor(@level - @parentlevel) = @myarea
+                        startingPoint.AreaCode = {areaCode}
+                    AND
+                        parent.AreaCode!={areaCode}
+                    ORDER BY
+                        parent.[Level] desc
                     """
                 )
                 .ToListAsync();
+            
+            aresWithRelations.Ancestors = ancestors.ToArray();
         }
 
         return aresWithRelations;
