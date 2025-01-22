@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/lib/search/indicatorSearchServiceMock';
 import { userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { IndicatorSearchResult } from '@/lib/search/searchTypes';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -21,25 +21,34 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const dummyIndicatorResult: IndicatorSearchResult = {
+  indicatorId: '1',
+  name: 'NHS',
+  definition: 'Total number of patients registered with the practice',
+  latestDataPeriod: '2023',
+  dataSource: 'NHS website',
+  lastUpdated: new Date('December 6, 2024'),
+};
+
 afterEach(() => {
   mockReplace.mockClear();
 });
 
 it('should have search result list item', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(<SearchResult result={dummyIndicatorResult} />);
 
   expect(screen.getByRole('listitem')).toBeInTheDocument();
 });
 
 it('should contain 3 paragraphs and a heading', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(<SearchResult result={dummyIndicatorResult} />);
 
   expect(screen.getAllByRole('paragraph')).toHaveLength(3);
   expect(screen.getByRole('heading')).toBeInTheDocument();
 });
 
 it('should contain expected text', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(<SearchResult result={dummyIndicatorResult} />);
 
   expect(screen.getByRole('heading').textContent).toContain('NHS');
   expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
@@ -53,13 +62,17 @@ it('should contain expected text', () => {
 
 describe('Indicator Checkbox', () => {
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+    render(
+      <SearchResult result={dummyIndicatorResult} indicatorSelected={true} />
+    );
 
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should mark the checkbox as not checked if indicatorSelected is false', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+    render(
+      <SearchResult result={dummyIndicatorResult} indicatorSelected={false} />
+    );
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
@@ -68,7 +81,9 @@ describe('Indicator Checkbox', () => {
     const user = userEvent.setup();
     mockReplace.mockClear();
 
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+    render(
+      <SearchResult result={dummyIndicatorResult} indicatorSelected={false} />
+    );
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -83,7 +98,9 @@ describe('Indicator Checkbox', () => {
   it('should update the path when an indicator is unchecked', async () => {
     const user = userEvent.setup();
 
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+    render(
+      <SearchResult result={dummyIndicatorResult} indicatorSelected={true} />
+    );
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -96,14 +113,14 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${dummyIndicatorResult.indicatorId.toString()}`;
+    render(<SearchResult result={dummyIndicatorResult} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
   it('snapshot test', () => {
-    const container = render(<SearchResult result={MOCK_DATA[0]} />);
+    const container = render(<SearchResult result={dummyIndicatorResult} />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });

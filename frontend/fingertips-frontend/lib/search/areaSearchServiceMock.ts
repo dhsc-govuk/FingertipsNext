@@ -1,14 +1,6 @@
 import { IAreaSearchService, AreaDocument } from './searchTypes';
 
 export class AreaSearchServiceMock implements IAreaSearchService {
-  public static getInstance(): AreaSearchServiceMock {
-    if (!AreaSearchServiceMock.#instance)
-      throw new Error("Instance doesn't exist");
-    return AreaSearchServiceMock.#instance;
-  }
-
-  static #instance: AreaSearchServiceMock;
-
   mockAreaData: AreaDocument[];
 
   constructor(areaData: AreaDocument[]) {

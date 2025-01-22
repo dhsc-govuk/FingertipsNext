@@ -7,22 +7,14 @@ import {
 } from './searchTypes';
 
 export class AreaSearchService implements IAreaSearchService {
-  public static getInstance(): AreaSearchService {
-    if (!AreaSearchService.#instance) {
-      throw new Error('Instance does not exist');
-    }
-    return AreaSearchService.#instance;
-  }
-
-  static #instance: AreaSearchService;
   private searchClient: SearchClient<AreaDocument>;
 
-  constructor(url: string, apiKey: string) {
+  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
     const indexName = AREA_SEARCH_INDEX_NAME;
     const credentials = new AzureKeyCredential(apiKey);
 
     this.searchClient = new SearchClient<AreaDocument>(
-      url,
+      fingertipsAzureAiSearchUrl,
       indexName,
       credentials
     );
@@ -38,6 +30,7 @@ export class AreaSearchService implements IAreaSearchService {
         searchFields: ['areaCode', 'areaName'],
         select: ['areaCode', 'areaType', 'areaName'],
         useFuzzyMatching: true,
+        top: 20,
       }
     );
     const areaDocs = suggestions.results.map((suggestion) => {

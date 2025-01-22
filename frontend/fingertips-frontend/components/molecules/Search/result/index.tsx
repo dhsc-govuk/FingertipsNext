@@ -92,7 +92,7 @@ export function SearchResult({
               <Link
                 href={generateIndicatorChartPath(result.indicatorId.toString())}
               >
-                {result.indicatorName}
+                {result.name}
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>

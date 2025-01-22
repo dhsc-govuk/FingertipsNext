@@ -1,10 +1,29 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { MOCK_DATA } from '@/lib/search/indicatorSearchServiceMock';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { IndicatorSearchResult } from '@/lib/search/searchTypes';
+
+const dummyIndicatorResults: IndicatorSearchResult[] = [
+  {
+    indicatorId: '1',
+    name: 'NHS',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2023',
+    dataSource: 'NHS website',
+    lastUpdated: new Date('December 6, 2024'),
+  },
+  {
+    indicatorId: '2',
+    name: 'DHSC',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2022',
+    dataSource: 'Student article',
+    lastUpdated: new Date('November 5, 2023'),
+  },
+];
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -78,12 +97,12 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={initialState}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
     expect(screen.getAllByTestId('search-result')).toHaveLength(
-      MOCK_DATA.length
+      dummyIndicatorResults.length
     );
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
@@ -96,7 +115,7 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={initialStateWithNoIndicator}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
@@ -120,7 +139,7 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
@@ -138,7 +157,7 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={errorState}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
@@ -162,7 +181,7 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={errorState}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
@@ -179,22 +198,22 @@ describe('Search Results Suite', () => {
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
     const expectedPaths = [
-      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
-      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${dummyIndicatorResults[0].indicatorId.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${dummyIndicatorResults[1].indicatorId.toString()}`,
     ];
 
     render(
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
+      screen.getByRole('link', { name: dummyIndicatorResults[0].name })
     ).toHaveAttribute('href', expectedPaths[0]);
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
+      screen.getByRole('link', { name: dummyIndicatorResults[1].name })
     ).toHaveAttribute('href', expectedPaths[1]);
   });
 
@@ -202,7 +221,7 @@ describe('Search Results Suite', () => {
     const container = render(
       <SearchResults
         searchResultsFormState={initialState}
-        searchResults={MOCK_DATA}
+        searchResults={dummyIndicatorResults}
       />
     );
 

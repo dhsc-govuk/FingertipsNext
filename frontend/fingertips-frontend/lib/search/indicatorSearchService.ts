@@ -3,40 +3,25 @@ import {
   SearchClient,
   SearchOptions,
 } from '@azure/search-documents';
+
 import {
-  DHSC_AI_SEARCH_SERVICE_URL,
-  DHSC_AI_SEARCH_INDEX_NAME,
-  DHSC_AI_SEARCH_API_KEY,
-  DHSC_AI_SEARCH_SCORING_PROFILE,
-  EnvironmentContext,
-} from '../environmentContext';
-import { IIndicatorSearchClient, IndicatorSearchResult } from './searchTypes';
+  IIndicatorSearchService,
+  INDICATOR_SEARCH_INDEX_NAME,
+  IndicatorDocument,
+  IndicatorSearchResult,
+} from './searchTypes';
 
-type Indicator = {
-  indicatorId: string;
-  name: string;
-  definition: string;
-  dataSource: string;
-  latestDataPeriod: string;
-  lastUpdated: Date;
-};
+export class IndicatorSearchService implements IIndicatorSearchService {
+  readonly searchClient: SearchClient<IndicatorDocument>;
 
-export class IndicatorSearchService implements IIndicatorSearchClient {
-  readonly searchClient: SearchClient<Indicator>;
+  constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
+    const indexName = INDICATOR_SEARCH_INDEX_NAME;
+    const credentials = new AzureKeyCredential(apiKey);
 
-  constructor() {
-    this.searchClient = new SearchClient<Indicator>(
-      EnvironmentContext.getEnvironmentMap().get(
-        DHSC_AI_SEARCH_SERVICE_URL
-      ) as string,
-      EnvironmentContext.getEnvironmentMap().get(
-        DHSC_AI_SEARCH_INDEX_NAME
-      ) as string,
-      new AzureKeyCredential(
-        EnvironmentContext.getEnvironmentMap().get(
-          DHSC_AI_SEARCH_API_KEY
-        ) as string
-      )
+    this.searchClient = new SearchClient<IndicatorDocument>(
+      fingertipsAzureAiSearchUrl,
+      indexName,
+      credentials
     );
   }
 
@@ -46,29 +31,17 @@ export class IndicatorSearchService implements IIndicatorSearchClient {
     // the matching document.
     const query = `${searchTerm} /.*${searchTerm}.*/`;
 
-    const searchOptions: SearchOptions<Indicator> = {
+    const searchOptions: SearchOptions<IndicatorDocument> = {
       queryType: 'full',
       includeTotalCount: true,
+      top: 100,
     };
 
-    const scoringProfile = EnvironmentContext.getEnvironmentMap().get(
-      DHSC_AI_SEARCH_SCORING_PROFILE
-    );
-    if (scoringProfile) {
-      searchOptions.scoringProfile = scoringProfile;
-    }
-
     const searchResponse = await this.searchClient.search(query, searchOptions);
-
     const results: IndicatorSearchResult[] = [];
+
     for await (const result of searchResponse.results) {
-      results.push({
-        indicatorId: result?.document?.indicatorId,
-        indicatorName: result?.document?.name,
-        latestDataPeriod: result?.document?.latestDataPeriod,
-        dataSource: result.document?.dataSource,
-        lastUpdated: result.document?.lastUpdated,
-      });
+      results.push(result.document as IndicatorDocument);
     }
 
     return results;
