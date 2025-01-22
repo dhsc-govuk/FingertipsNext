@@ -23,35 +23,35 @@ describe('Page structure', () => {
       );
 
       const backLink = screen.getByRole('link', { name: /back/i });
-      const expectedUrl = `/search/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`;
+      const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`;
 
       expect(backLink).toBeInTheDocument();
       expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
       expect(backLink).toHaveAttribute('href', expectedUrl);
     });
   });
+});
 
-  describe('Content', () => {
-    beforeEach(() => {
-      render(<Chart data={mockHealthData[1]} />);
-    });
+describe('Content', () => {
+  beforeEach(() => {
+    render(<Chart data={mockHealthData[1]} />);
+  });
 
-    it('should render the title with correct text', () => {
-      const heading = screen.getByRole('heading', { level: 2 });
+  it('should render the title with correct text', () => {
+    const heading = screen.getByRole('heading', { level: 2 });
 
-      expect(heading).toBeInTheDocument();
-      expect(heading).toHaveTextContent('View Dementia QOF prevalence');
-    });
+    expect(heading).toBeInTheDocument();
+    expect(heading).toHaveTextContent('View Dementia QOF prevalence');
+  });
 
-    it('should render the chart components', () => {
-      const lineChart = screen.getByTestId('lineChart-component');
-      const barChart = screen.getByTestId('barChart-component');
-      const lineChartTable = screen.getByTestId('lineChartTable-component');
+  it('should render the chart components', () => {
+    const lineChart = screen.getByTestId('lineChart-component');
+    const barChart = screen.getByTestId('barChart-component');
+    const lineChartTable = screen.getByTestId('lineChartTable-component');
 
-      expect(lineChart).toBeInTheDocument();
-      expect(barChart).toBeInTheDocument();
-      expect(lineChartTable).toBeInTheDocument();
-    });
+    expect(lineChart).toBeInTheDocument();
+    expect(barChart).toBeInTheDocument();
+    expect(lineChartTable).toBeInTheDocument();
   });
 });
 
