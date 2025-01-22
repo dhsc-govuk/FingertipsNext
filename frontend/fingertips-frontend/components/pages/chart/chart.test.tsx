@@ -59,7 +59,7 @@ it('should render the PopulationPyramid component when Population data are provi
   render(
     <Chart
       data={mockHealthData[1]}
-      preparedPopulationData={{
+      populationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,
         dataForBaseline: undefined,
@@ -67,6 +67,6 @@ it('should render the PopulationPyramid component when Population data are provi
     />
   );
 
-  const PyramidPlot = screen.getByTestId('populationPyramid-component');
-  expect(PyramidPlot).toBeInTheDocument();
+  const populationPyramid = screen.getByTestId('populationPyramid-component');
+  expect(populationPyramid).toBeInTheDocument();
 });
