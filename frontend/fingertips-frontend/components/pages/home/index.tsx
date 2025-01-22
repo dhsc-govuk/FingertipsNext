@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  ErrorSummary,
   H3,
   H6,
   LeadParagraph,
@@ -9,15 +10,42 @@ import {
   UnorderedList,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
-import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
+import {
+  SearchFormState,
+  searchIndicator,
+} from '@/components/forms/SearchForm/searchActions';
+import { useActionState } from 'react';
 
 export const Home = ({
   searchFormState,
 }: {
   searchFormState: SearchFormState;
 }) => {
+  const [state, formAction] = useActionState(searchIndicator, searchFormState);
+
   return (
-    <>
+    <form action={formAction}>
+      {state.message && (
+        <ErrorSummary
+          description="At least one of the following fields must be populated:"
+          errors={[
+            {
+              targetName: 'indicator',
+              text: 'Search subject',
+            },
+            {
+              targetName: 'areaSearched',
+              text: 'Search area',
+            },
+          ]}
+          data-testid="search-form-error-summary"
+          onHandleErrorClick={(targetName: string) => {
+            const targetElement = document.getElementById(targetName);
+            targetElement?.scrollIntoView(true);
+            targetElement?.focus();
+          }}
+        />
+      )}
       <H3>Access public health data</H3>
       <LeadParagraph>
         This is a free government service providing access to a wide range of
@@ -40,7 +68,7 @@ export const Home = ({
         health and wellbeing data sets known as [indicators](#indicators), and
         themed topics known as [profiles](#profiles).
       </Paragraph>
-      <SearchForm searchFormState={searchFormState}></SearchForm>
+      <SearchForm searchFormState={state}></SearchForm>
       <br />
       <br />
       <H6>What are indicators and profiles</H6>
@@ -72,6 +100,6 @@ export const Home = ({
         public health in England.
       </Paragraph>
       <br />
-    </>
+    </form>
   );
 };

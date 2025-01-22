@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using OpenTelemetry.Trace;
 
 namespace DHSC.FingertipsNext.Modules.Core.Controllers.V1;
 
@@ -54,6 +55,8 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IEnumerable<WeatherForecast>> Get()
     {
+        var traceId = Tracer.CurrentSpan.Context.TraceId;
+        Console.WriteLine($"TraceId: {traceId}");
 
         try
         {

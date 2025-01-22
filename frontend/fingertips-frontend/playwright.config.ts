@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const url = 'http://localhost:3000';
+const url = process.env.FINGERTIPS_FRONTEND_URL ?? 'http://localhost:3000';
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -29,6 +29,6 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: url,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !!process.env.CI,
   },
 });

@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/app/results/search-result-data';
-import { userEvent } from '@testing-library/user-event';
+
+import { MOCK_DATA } from '@/lib/search/searchServiceMock';
+import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
-
+let user: UserEvent;
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 
@@ -21,8 +22,9 @@ jest.mock('next/navigation', () => {
   };
 });
 
-afterEach(() => {
+beforeEach(() => {
   mockReplace.mockClear();
+  user = userEvent.setup();
 });
 
 it('should have search result list item', () => {
@@ -65,9 +67,6 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should update the path when an indicator is checked', async () => {
-    const user = userEvent.setup();
-    mockReplace.mockClear();
-
     render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
 
     await user.click(screen.getByRole('checkbox'));
@@ -81,8 +80,6 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should update the path when an indicator is unchecked', async () => {
-    const user = userEvent.setup();
-
     render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
 
     await user.click(screen.getByRole('checkbox'));
@@ -96,7 +93,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].id.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
     render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
