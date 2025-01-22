@@ -192,12 +192,14 @@ describe('preparePopulationData', () => {
         preparePopulationDataForArea(mockData);
       expect(actual?.ageCategories).toEqual(expected);
     });
+
     it('should return an object with female population data as a percentage sorted by age band old to youngest', () => {
       const expected = mockFemaleSeries;
       const actual: PopulationDataForArea | undefined =
         preparePopulationDataForArea(mockData);
       expect(actual?.femaleSeries).toEqual(expected);
     });
+
     it('should return an object with male population data as a percentage sorted by age band sorted old to youngest', () => {
       const expected = mockMaleSeries;
       const actual: PopulationDataForArea | undefined =
@@ -205,6 +207,7 @@ describe('preparePopulationData', () => {
       expect(actual?.maleSeries).toEqual(expected);
     });
   });
+
   it('should return an object with prepared population data for the selected area', () => {
     const expected: PopulationData = {
       dataForSelectedArea: {
@@ -219,6 +222,7 @@ describe('preparePopulationData', () => {
     );
     expect(actual).toEqual(expected);
   });
+
   it('should return an object with prepared popultion data for the selected area and England', () => {
     const expected: PopulationData = {
       dataForSelectedArea: {
@@ -238,6 +242,7 @@ describe('preparePopulationData', () => {
     );
     expect(actual).toEqual(expected);
   });
+
   it('should return an object with prepared popultion data for the selected area, England and baseline area', () => {
     const expected: PopulationData = {
       dataForSelectedArea: {
