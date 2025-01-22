@@ -26,11 +26,10 @@ jobs:
         working-directory: ${{ env.frontend-directory }}
 
     steps:
-      - uses: actions/checkout@v4
-        if: ${{ inputs.env-url == null }}
+      - name: Checkout source
+        uses: actions/checkout@v4
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        if: ${{ inputs.env-url == null }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -38,7 +37,6 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
-        if: ${{ inputs.env-url == null }}
         run: npm ci
 
       - name: Run Playwright tests
@@ -46,7 +44,8 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload playwright report if e2e tests fail
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: playwright-report
