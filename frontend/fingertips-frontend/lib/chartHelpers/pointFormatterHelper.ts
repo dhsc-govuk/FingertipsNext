@@ -19,16 +19,10 @@ const symbolEncoder: Record<string, string> = {
 export const pointFormatterHelper = (point: any) => {
   const symbol = symbolEncoder[point.graphic.symbolName] ?? SymbolsEnum.Circle;
 
-  const tooltipPointString =
-    '<span style="color:' +
-    point.series.color +
-    '">' +
-    symbol +
-    '</span><span>' +
-    ' Value ' +
-    Math.abs(point.y) +
-    '%<br/>' +
-    point.series.name +
-    '</span>';
+  const tooltipPointString = [
+    `<span style="color:${point.series.color}">${symbol}</span>`,
+    `<span> Value ${Math.abs(point.y)}%<br/>${point.series.name}</span>`,
+  ].join('');
+
   return tooltipPointString;
 };
