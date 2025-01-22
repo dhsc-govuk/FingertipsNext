@@ -10,11 +10,13 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
 
 interface LineChartProps {
+  LineChartTitle?: string;
   data: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
 }
 export function LineChart({
+  LineChartTitle: lineChartTitle,
   data,
   xAxisTitle,
   accessibilityLabel,
@@ -57,7 +59,7 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H3>See how the indicator has changed over time for the area</H3>
+      <H3>{lineChartTitle}</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}

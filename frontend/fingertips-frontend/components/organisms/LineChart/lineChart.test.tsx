@@ -16,7 +16,12 @@ it('should render the Highcharts react component with passed parameters within t
 });
 
 it('should render the LineChart title', () => {
-  render(<LineChart data={mockHealthData[1]} />);
+  render(
+    <LineChart
+      data={mockHealthData[1]}
+      LineChartTitle="See how the indicator has changed over time for the area"
+    />
+  );
 
   const title = screen.getByRole('heading', { level: 3 });
 
