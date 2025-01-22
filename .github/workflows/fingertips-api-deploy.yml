@@ -77,5 +77,5 @@ jobs:
     uses: ./.github/workflows/e2e-tests.yml
     needs: api-deploy
     with:
-      env-url: http://4.158.39.145/search
+      env-url: http://4.158.39.145
         

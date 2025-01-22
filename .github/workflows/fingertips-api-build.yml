@@ -2,7 +2,6 @@ name: Fingertips API Build
 
 env:
   api-directory: ./api
-  dotnet-version: 9.0.x
 
 on:
   workflow_dispatch:
@@ -28,6 +27,9 @@ jobs:
   api-build:
     name: Build API
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.x"]
 
     defaults:
       run:
@@ -37,10 +39,10 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ env.dotnet-version }}
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.dotnet-version }}
+          dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore Packages
         run: dotnet restore
