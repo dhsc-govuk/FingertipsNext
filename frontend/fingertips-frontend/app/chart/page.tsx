@@ -48,7 +48,7 @@ export default async function ChartPage(
 
   return (
     <Chart
-      preparedPopulationData={preparedPopulationData}
+      populationData={preparedPopulationData}
       data={data}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
