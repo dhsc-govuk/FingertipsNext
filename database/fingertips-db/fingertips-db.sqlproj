@@ -19,7 +19,6 @@
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\WeatherForecast.sql" />
     <Build Include="Tables\AgeDimension.sql" />
     <Build Include="Tables\AreaDimension.sql" />
     <Build Include="Tables\HealthMeasure.sql" />

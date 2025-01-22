@@ -27,4 +27,8 @@
 	  <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Core.Repository\DHSC.FingertipsNext.Modules.Core.Repository.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\V1\" />
+    </ItemGroup>
+
 </Project>
