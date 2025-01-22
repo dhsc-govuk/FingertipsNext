@@ -4,21 +4,21 @@ import { expect, test } from '../page-objects/pageFactory';
 const indicator = '123';
 
 test('Search via indicator and assert displayed results, check the chart is displayed then navigate back through to search page', async ({
-  searchPage,
+  homePage,
   resultsPage,
   chartPage,
   axeBuilder,
 }) => {
   // Arrange
-  await searchPage.navigateToSearch();
+  await homePage.navigateToSearch();
 
   // Assert
-  await searchPage.checkURLIsCorrect();
+  await homePage.checkURLIsCorrect();
   expect((await axeBuilder.analyze()).violations).toEqual([]);
 
   // Act
-  await searchPage.typeIndicator(indicator);
-  await searchPage.clickSearchButton();
+  await homePage.typeIndicator(indicator);
+  await homePage.clickSearchButton();
 
   // Assert
   await resultsPage.checkURLIsCorrect(indicator);
@@ -52,21 +52,21 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await resultsPage.clickBackLink();
 
   // Assert - check search text previously entered is prepopulated
-  await searchPage.checkURLIsCorrect(
+  await homePage.checkURLIsCorrect(
     `?${SearchParams.SearchedIndicator}=${indicator}`
   );
-  await searchPage.checkSearchFieldIsPrePopulatedWith(indicator);
+  await homePage.checkSearchFieldIsPrePopulatedWith(indicator);
 
   // Act - clear the prepopulated search field and click search
-  await searchPage.clearSearchIndicatorField();
-  await searchPage.clickSearchButton();
+  await homePage.clearSearchIndicatorField();
+  await homePage.clickSearchButton();
 
   // Assert - should be on the same page with search field still cleared and validation message displayed
-  await searchPage.checkURLIsCorrect(
+  await homePage.checkURLIsCorrect(
     `?${SearchParams.SearchedIndicator}=${indicator}`
   );
-  await searchPage.checkSearchFieldIsPrePopulatedWith();
-  await searchPage.checkSummaryValidation(
-    `There is a problemAt least one of the following fields must be populated:Indicator field`
+  await homePage.checkSearchFieldIsPrePopulatedWith();
+  await homePage.checkSummaryValidation(
+    `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
   );
 });

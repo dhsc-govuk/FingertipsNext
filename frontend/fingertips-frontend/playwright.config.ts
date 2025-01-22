@@ -1,7 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const url =
-  process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000/search';
+const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 
 export default defineConfig({
   testDir: './playwright/tests',

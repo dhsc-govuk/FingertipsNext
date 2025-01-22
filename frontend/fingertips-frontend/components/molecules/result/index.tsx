@@ -9,7 +9,6 @@ import {
   Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
-
 import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';

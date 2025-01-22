@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c8 {
+  .c9 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c8:focus {
+.c9:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c8:link,
-.c8:visited,
-.c8:active,
-.c8:hover {
+.c9:link,
+.c9:visited,
+.c9:active,
+.c9:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c8::-moz-focus-inner {
+.c9::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c8:hover,
-.c8:focus {
+.c9:hover,
+.c9:focus {
   background-color: #00572e;
 }
 
-.c8:active {
+.c9:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c8::before {
+.c9::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c8:active::before {
+.c9:active::before {
   top: -4px;
 }
 
-.c8:disabled {
+.c9:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c8:disabled:hover {
+.c9:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c8:disabled:focus {
+.c9:disabled:focus {
   outline: none;
 }
 
-.c8:disabled:active {
+.c9:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c8 svg {
+.c9 svg {
   max-width: 15px;
 }
 
@@ -179,11 +179,85 @@ exports[`snapshot test - renders the form 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 700;
-  font-size: 32px;
-  line-height: 1.09375;
+  font-size: 18px;
+  line-height: 1.1111111111111112;
   display: block;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+}
+
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c8:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c8:link {
+  color: #1d70b8;
+}
+
+.c8:visited {
+  color: #4c2c92;
+}
+
+.c8:hover {
+  color: #2b8cc4;
+}
+
+.c8:active {
+  color: #2b8cc4;
+}
+
+.c8:focus {
+  color: #0b0c0c;
+}
+
+.c1 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c1 > p {
+  margin: 0;
+}
+
+.c1 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c1 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c1 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
 }
 
 .c2 {
@@ -210,50 +284,38 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c1 {
-  color: #0b0c0c;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.1111111111111112;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
 .c4 {
   margin-bottom: 20px;
 }
 
 @media print {
-  .c8 {
+  .c9 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c9 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c9 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 svg {
+  .c9 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c9 {
     margin-bottom: 32px;
   }
 }
@@ -332,21 +394,57 @@ exports[`snapshot test - renders the form 1`] = `
 
 @media print {
   .c0 {
-    font-size: 32px;
+    font-size: 18px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c0 {
-    font-size: 48px;
-    line-height: 1.0416666666666667;
+    font-size: 24px;
+    line-height: 1.25;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c0 {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c8 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c8[href^="/"]::after,
+  .c8[href^="http://"]::after,
+  .c8[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 20px;
   }
 }
 
@@ -377,51 +475,28 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 18px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 24px;
-    line-height: 1.25;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 30px;
-  }
-}
-
 @media only screen and (min-width:641px) {
   .c4 {
     margin-bottom: 30px;
   }
 }
 
-<form
-    action="/action"
+<div
+    data-testid="search-form"
+    style="background-color: rgb(243, 242, 241); padding: 20px 20px 0px 20px;"
   >
-    <h1
+    <h3
       class="c0"
     >
       Find public health data
-    </h1>
-    <p
+    </h3>
+    <div
       class="c1"
     >
-      Find public health data by subjects, and health or local authority areas.
-    </p>
+      <p>
+        Search for data to compare at local, regional and national levels.
+      </p>
+    </div>
     <div
       class="c2"
     >
@@ -439,7 +514,11 @@ exports[`snapshot test - renders the form 1`] = `
       <span
         class="c6"
       >
-        For example diabetes, public health indicator, or indicator ID
+        <div
+          style="color: rgb(80, 90, 95);"
+        >
+          For example diabetes, public health indicator, or indicator ID
+        </div>
       </span>
       <input
         class="c7"
@@ -448,13 +527,48 @@ exports[`snapshot test - renders the form 1`] = `
         value=""
       />
     </label>
-    <button
+    <label
+      class="c3 c4"
+      data-testid="search-form-input-area"
+      style="margin-bottom: 5px;"
+    >
+      <span
+        class="c5"
+      >
+        Search for an area by location or organisation
+      </span>
+      <span
+        class="c6"
+      >
+        <div
+          style="color: rgb(80, 90, 95);"
+        >
+          For example postcode, county, local authority, NHS Trust or General Practice name or code
+        </div>
+      </span>
+      <input
+        class="c7"
+        id="areaSearched"
+        name="areaSearched"
+        value=""
+      />
+    </label>
+    <a
       class="c8"
+      data-testid="search-form-link-filter-area"
+      href="#"
+    >
+      Or filter by area
+    </a>
+    <br />
+    <button
+      class="c9"
       data-testid="search-form-button-submit"
+      style="margin-top: 25px;"
       type="submit"
     >
       Search
     </button>
-  </form>
+  </div>
 </DocumentFragment>
 `;

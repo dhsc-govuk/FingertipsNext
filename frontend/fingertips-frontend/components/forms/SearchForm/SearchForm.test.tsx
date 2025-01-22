@@ -1,6 +1,5 @@
 import { expect } from '@jest/globals';
-import { render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
 
@@ -25,6 +24,7 @@ jest.mock('react', () => {
 
 const initialState: SearchFormState = {
   indicator: '',
+  areaSearched: '',
   message: null,
   errors: {},
 };
@@ -41,9 +41,16 @@ it('should have an input field to input the indicatorId', () => {
   expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
 });
 
+it('should have an input field to input the area by location or organisation', () => {
+  render(<SearchForm searchFormState={initialState} />);
+
+  expect(screen.getByTestId('search-form-input-area')).toBeInTheDocument();
+});
+
 it('should set the input field with indicator value from the form state', () => {
   const indicatorState: SearchFormState = {
     indicator: 'test value',
+    areaSearched: '',
     message: '',
     errors: {},
   };
@@ -54,39 +61,8 @@ it('should set the input field with indicator value from the form state', () => 
   );
 });
 
-it('should display the error summary component when there is a validation error', () => {
-  const errorState: SearchFormState = {
-    indicator: '',
-    message: 'Error message',
-    errors: {},
-  };
-
-  render(<SearchForm searchFormState={errorState} />);
-
-  expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
-});
-
-it('should display the error summary component when there is a validation error', async () => {
-  // Add missing function to jsdom
-  const scrollMock = jest.fn();
-  window.HTMLElement.prototype.scrollIntoView = scrollMock;
-
-  const user = userEvent.setup();
-
-  const errorState: SearchFormState = {
-    indicator: '',
-    message: 'Error message',
-    errors: {},
-  };
-
-  render(<SearchForm searchFormState={errorState} />);
-
-  const anchor = screen.getByText('Indicator field').closest('a')!;
-
-  await user.click(anchor);
-
-  await waitFor(() => {
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveFocus();
-  });
-  expect(scrollMock).toBeCalledTimes(1);
+it('should display the filter by area link', () => {
+  render(<SearchForm searchFormState={initialState} />);
+  const link = screen.getByTestId('search-form-link-filter-area');
+  expect(link).toBeInTheDocument();
 });

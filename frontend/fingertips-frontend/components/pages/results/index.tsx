@@ -11,8 +11,7 @@ import {
   UnorderedList,
 } from 'govuk-react';
 import { useActionState } from 'react';
-import { SearchResult } from '@/components/molecules/Search/result';
-
+import { SearchResult } from '@/components/molecules/result';
 import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -44,7 +43,7 @@ export function SearchResults({
     searchedIndicator: searchResultsFormState.searchedIndicator,
   });
 
-  const backLinkPath = searchState.generatePath('/search');
+  const backLinkPath = searchState.generatePath('/');
 
   return (
     <>

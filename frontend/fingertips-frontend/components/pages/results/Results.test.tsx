@@ -5,7 +5,7 @@ import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
-import { formatDate } from '@/components/molecules/Search/result';
+import { formatDate } from '@/components/molecules/result';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -73,8 +73,8 @@ describe('Search Results Suite', () => {
 
     expect(backLink).toBeInTheDocument();
     expect(backLink).toHaveAttribute('data-testid', 'search-results-back-link');
-    expect(backLink.getAttribute('href')!).toBe(
-      `/search?${SearchParams.SearchedIndicator}=${searchedIndicator}`
+    expect(backLink.getAttribute('href')).toBe(
+      `/?${SearchParams.SearchedIndicator}=${searchedIndicator}`
     );
   });
 
