@@ -10,7 +10,7 @@ export interface PopulationDataForArea {
   maleSeries: Array<number>;
 }
 
-export type PreparedPopulationData = {
+export type PopulationData = {
   dataForSelectedArea?: PopulationDataForArea;
   dataForEngland?: PopulationDataForArea;
   dataForBaseline?: PopulationDataForArea;
@@ -20,7 +20,7 @@ export function preparePopulationData(
   rawData: HealthDataForArea[],
   selectedAreaCode?: string,
   baselineAreaCode?: string
-): PreparedPopulationData {
+): PopulationData {
   const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
     (dataForArea) => dataForArea.areaCode == areaCodeForEngland
   );

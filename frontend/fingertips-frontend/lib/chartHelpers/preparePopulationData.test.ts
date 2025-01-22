@@ -5,7 +5,7 @@ import {
 import {
   PopulationDataForArea,
   preparePopulationData,
-  PreparedPopulationData,
+  PopulationData,
   preparePopulationDataForArea,
 } from './preparePopulationData';
 import { areaCodeForEngland } from './constants';
@@ -206,21 +206,21 @@ describe('preparePopulationData', () => {
     });
   });
   it('should return an object with prepared population data for the selected area', () => {
-    const expected: PreparedPopulationData = {
+    const expected: PopulationData = {
       dataForSelectedArea: {
         ageCategories: mockAgeCategories,
         femaleSeries: mockFemaleSeries,
         maleSeries: mockMaleSeries,
       },
     };
-    const actual: PreparedPopulationData = preparePopulationData(
+    const actual: PopulationData = preparePopulationData(
       [mockHealthDataForSelectedArea],
       'selected'
     );
     expect(actual).toEqual(expected);
   });
   it('should return an object with prepared popultion data for the selected area and England', () => {
-    const expected: PreparedPopulationData = {
+    const expected: PopulationData = {
       dataForSelectedArea: {
         ageCategories: mockAgeCategories,
         femaleSeries: mockFemaleSeries,
@@ -232,14 +232,14 @@ describe('preparePopulationData', () => {
         maleSeries: mockMaleSeries,
       },
     };
-    const actual: PreparedPopulationData = preparePopulationData(
+    const actual: PopulationData = preparePopulationData(
       [mockHealthDataForSelectedArea, mockHealthDataForEngland],
       'selected'
     );
     expect(actual).toEqual(expected);
   });
   it('should return an object with prepared popultion data for the selected area, England and baseline area', () => {
-    const expected: PreparedPopulationData = {
+    const expected: PopulationData = {
       dataForSelectedArea: {
         ageCategories: mockAgeCategories,
         femaleSeries: mockFemaleSeries,
@@ -256,7 +256,7 @@ describe('preparePopulationData', () => {
         maleSeries: mockMaleSeries,
       },
     };
-    const actual: PreparedPopulationData = preparePopulationData(
+    const actual: PopulationData = preparePopulationData(
       [
         mockHealthDataForSelectedArea,
         mockHealthDataForEngland,

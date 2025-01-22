@@ -7,11 +7,11 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { PreparedPopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 type ChartProps = {
   data: HealthDataForArea[];
-  preparedPopulationData?: PreparedPopulationData;
+  populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
@@ -20,7 +20,7 @@ const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
-  preparedPopulationData,
+  populationData,
   searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
@@ -37,10 +37,10 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      {!preparedPopulationData ? null : (
+      {!populationData ? null : (
         <>
           <PopulationPyramid
-            data={preparedPopulationData}
+            data={populationData}
             populationPyramidTitle="Population INDICATOR for SELECTED area"
             xAxisTitle="Age"
             yAxisTitle="Percentage of total population"

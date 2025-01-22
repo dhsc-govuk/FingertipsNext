@@ -1,12 +1,13 @@
 'use client';
+
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { H3 } from 'govuk-react';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { PreparedPopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 interface PyramidChartProps {
-  data: PreparedPopulationData;
+  data: PopulationData;
   populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -20,7 +21,6 @@ export function PopulationPyramid({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<PyramidChartProps>) {
-  // helper functions for HighCharts
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
   const populationPyramidOptions: Highcharts.Options = {
