@@ -24,6 +24,8 @@ jobs:
           - development
     environment: ${{ matrix.environment }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      frontend-dev-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
     name: 'API Deploy'
     steps:
       - name: Checkout source
@@ -77,5 +79,5 @@ jobs:
     uses: ./.github/workflows/e2e-tests.yml
     needs: api-deploy
     with:
-      env-url: http://4.158.39.145
+      env-url: ${{ needs.frontend-deploy.outputs.frontend-dev-url }}
         
