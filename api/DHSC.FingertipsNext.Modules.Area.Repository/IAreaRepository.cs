@@ -2,10 +2,22 @@
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
+/// <summary>
+/// 
+/// </summary>
 public interface IAreaRepository
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     Task<string[]> GetHierarchiesAsync();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hierarchyType"></param>
+    /// <returns></returns>
     Task<string[]> GetAreaTypesAsync(string? hierarchyType);
 
     /// <summary>
@@ -19,8 +31,12 @@ public interface IAreaRepository
     /// <param name="childAreaType">Optional. Functions only when include_children is true. The type of area to
     /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
     /// will be retrieved.</param>
-    /// <returns>The requested area node, or null if it cannot be located.</returns>
+    /// <returns>The requested area, or null if it cannot be located.</returns>
     Task<AreaWithRelationsModel?> GetAreaAsync(string areaCode, bool includeChildren, bool includeAncestors, string? childAreaType);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     Task<AreaModel?> GetRootAreaAsync();
 }

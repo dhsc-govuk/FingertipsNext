@@ -54,17 +54,13 @@ public class AreaRepository : IAreaRepository
     }
 
     /// <summary>
-    /// Get the full details of a given area, including its parent, optionally including
-    /// its children and ancestors.
+    /// 
     /// </summary>
-    /// <param name="areaCode">The area code of the area/geography</param>
-    /// <param name="includeChildren">Optionally, include the child areas. By default, this is the direct children,
-    /// to get children at a lower level supply the optional query parameter for child area type.</param>
-    /// <param name="includeAncestors">Optionally, include the ancestor areas.</param>
-    /// <param name="childAreaType">Optional. Functions only when include_children is true. The type of area to
-    /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
-    /// will be retrieved.</param>
-    /// <returns>The requested area node, or null if it cannot be located.</returns>
+    /// <param name="areaCode"></param>
+    /// <param name="includeChildren"></param>
+    /// <param name="includeAncestors"></param>
+    /// <param name="childAreaType"></param>
+    /// <returns></returns>
     public async Task<AreaWithRelationsModel?> GetAreaAsync(
         string areaCode,
         bool includeChildren,
@@ -137,7 +133,7 @@ public class AreaRepository : IAreaRepository
                     WHERE
                         startingPoint.AreaCode = {areaCode}
                     AND
-                        parent.AreaCode!={areaCode}
+                        parent.AreaCode != {areaCode}
                     ORDER BY
                         parent.[Level] desc
                     """
@@ -150,6 +146,10 @@ public class AreaRepository : IAreaRepository
         return aresWithRelations;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<AreaModel?> GetRootAreaAsync()
     {
         var rootArea = await _dbContext

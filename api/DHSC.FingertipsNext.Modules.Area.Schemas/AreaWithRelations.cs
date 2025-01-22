@@ -52,12 +52,21 @@ public class AreaWithRelations
     [JsonPropertyName("level")]
     public int Level { get; init; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [JsonPropertyName("parent")]
     public Area? Parent { get; init; } = null;
 
+    /// <summary>
+    /// 
+    /// </summary>
     [JsonPropertyName("children")]
     public Area[] Children { get; init; } = [];
 
+    /// <summary>
+    /// 
+    /// </summary>
     [JsonPropertyName("ancestors")]
     public Area[] Ancestors { get; init; } = [];
 }

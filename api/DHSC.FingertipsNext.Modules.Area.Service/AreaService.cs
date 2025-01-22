@@ -14,9 +14,10 @@ public class AreaService : IAreaService
     private readonly IMapper _mapper;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <param name="areaRepository"></param>
+    /// <param name="mapper"></param>
     public AreaService(IAreaRepository areaRepository, IMapper mapper)
     {
         _areaRepository = areaRepository;
@@ -24,42 +25,32 @@ public class AreaService : IAreaService
     }
 
     /// <summary>
-    /// Get all available hierarchy types
+    /// 
     /// </summary>
     /// <returns></returns>
     public Task<string[]> GetHierarchies()
     {
-        // 200 string[]
-        // The available hierarchy types, e.g. NHS or Administrative
-
         return _areaRepository.GetHierarchiesAsync();
     }
 
     /// <summary>
-    /// Get area types, optionally filtering by hierarchy type
+    /// 
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
     public Task<string[]> GetAreaTypes(string? hierarchyType = null)
     {
-        // 200 string[]
-        // The available area types e.g. ICB, PCN or GP Surgery
-
         return _areaRepository.GetAreaTypesAsync(hierarchyType);
     }
 
     /// <summary>
-    /// Get the full details of a given area, including its parent, optionally including
-    /// its children and ancestors.
+    /// 
     /// </summary>
-    /// <param name="areaCode">The area code of the area/geography</param>
-    /// <param name="includeChildren">Optionally, include the child areas. By default, this is the direct children,
-    /// to get children at a lower level supply the optional query parameter for child area type.</param>
-    /// <param name="includeAncestors">Optionally, include the ancestor areas.</param>
-    /// <param name="childAreaType">Optional. Functions only when include_children is true. The type of area to
-    /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
-    /// will be retrieved.</param>
-    /// <returns>The requested area node, or null if it cannot be located.</returns>
+    /// <param name="areaCode"></param>
+    /// <param name="includeChildren"></param>
+    /// <param name="includeAncestors"></param>
+    /// <param name="childAreaType"></param>
+    /// <returns></returns>
     public async Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
         bool? includeChildren,
@@ -69,31 +60,24 @@ public class AreaService : IAreaService
     {
         var area = await _areaRepository.GetAreaAsync(areaCode, includeChildren ?? false, includeAncestors ?? false, childAreaType);
 
-        if (area == null)
-            return null;
-
-        // TODO: mapper
-        return null;
-        //return _mapper.Map<AreaWithRelations>(first);
+        return area == null ? null : _mapper.Map<AreaWithRelations>(area);
     }
 
     /// <summary>
-    /// Get the root node of the area hierarchy
+    /// 
     /// </summary>
     /// <returns></returns>
     public async Task<RootArea?> GetRootArea()
     {
-        // 200 RootArea
-        // The root area node
-
         var rootArea = await _areaRepository.GetRootAreaAsync();
 
-        if (rootArea == null)
-            return null;
-
-        return _mapper.Map<RootArea>(rootArea);
+        return rootArea == null ? null : _mapper.Map<RootArea>(rootArea);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="services"></param>
     public static void RegisterMappings(IServiceCollection services)
     {
         services.AddAutoMapper(typeof(AutoMapperProfiles));

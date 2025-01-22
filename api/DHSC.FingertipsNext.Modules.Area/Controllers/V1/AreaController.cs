@@ -1,4 +1,6 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Service;
+﻿using DHSC.FingertipsNext.Modules.Area.Schemas;
+using DHSC.FingertipsNext.Modules.Area.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.Area.Controllers.V1;
@@ -26,6 +28,7 @@ public class AreaController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(string[]), StatusCodes.Status200OK)]
     [Route("hierarchies")]
     public async Task<IActionResult> GetHierarchiesAsync()
     {
@@ -39,8 +42,9 @@ public class AreaController : ControllerBase
     /// Get area types, optionally filtering by hierarchy type
     /// </summary>
     /// <param name="hierarchy_type"></param>
-    /// <returns></returns>
+    /// <returns>The available area types e.g. ICB, PCN or GP Surgery</returns>
     [HttpGet]
+    [ProducesResponseType(typeof(string[]), StatusCodes.Status200OK)]
     [Route("areatypes")]
     public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null)
     {
@@ -63,6 +67,8 @@ public class AreaController : ControllerBase
     /// will be retrieved.</param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(AreaWithRelations), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("{area_code}")]
     public async Task<IActionResult> GetAreaDetailsAsync(
         [FromRoute] string area_code,
@@ -71,11 +77,6 @@ public class AreaController : ControllerBase
         [FromQuery] string? child_area_type = null
     )
     {
-        // 200 AreaWithRelations
-        // The area node
-
-        // TODO: check what happens with no area code
-        
         var areaDetails = await _areaService.GetAreaDetails(
             area_code,
             include_children,
@@ -91,6 +92,8 @@ public class AreaController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(RootArea), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("root")]
     public async Task<IActionResult> GetRootAreaAsync()
     {
