@@ -3,6 +3,7 @@ name: Execute e2e tests
 env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
+  NODE_VERSION: 22.x
 
 on:
   workflow_call:
@@ -24,11 +25,6 @@ jobs:
       run:
         working-directory: ${{ env.frontend-directory }}
 
-    strategy:
-      matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: ["22.x"]
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -36,7 +32,7 @@ jobs:
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version}}
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
