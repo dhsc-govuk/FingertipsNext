@@ -117,7 +117,11 @@ export function Chart({
       <br />
       <LineChartTable data={data} headings={headings}></LineChartTable>
       <br />
-      <HeatmapChart areaCodes={areaCodes} data={heatmapData}></HeatmapChart>
+      <HeatmapChart
+        areaCodes={areaCodes}
+        data={heatmapData}
+        accessibilityLabel='A heatmap chart showing healthcare data'
+      />
     </>
   );
 }

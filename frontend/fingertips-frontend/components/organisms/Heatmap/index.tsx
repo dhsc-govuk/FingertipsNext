@@ -5,6 +5,7 @@ import Heatmap from 'highcharts/modules/heatmap';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PointOptionsObject } from 'highcharts';
+import { H3 } from 'govuk-react';
 
 // Initialize the Heatmap module
 if (typeof window === 'undefined') {
@@ -20,24 +21,28 @@ export interface IndicatorRowData {
 interface HeatmapChartProps {
   areaCodes: Array<string>; // Set of area codes to display the heatmap for (x-axis)
   data: Array<IndicatorRowData>; // Set of indicators to display along with associated indicator data (y-axis)
+  accessibilityLabel: string;
 }
 
-export function HeatmapChart({ areaCodes, data }: Readonly<HeatmapChartProps>) {
+export function HeatmapChart({ areaCodes, data, accessibilityLabel }: Readonly<HeatmapChartProps>) {
   const options: Highcharts.Options = {
     title: {
-      text: 'Test chart',
+      text: 'Heatmap Chart Title',
+      style: {
+        display: 'none',
+      },
     },
     chart: {
       type: 'heatmap',
       height: '50%',
       spacingBottom: 50,
       spacingTop: 20,
-      marginLeft: 200,
+      marginLeft: 300,
     },
     series: [
       {
         type: 'heatmap',
-        name: 'Heatmap',
+        name: 'Heatmap Series',
         borderWidth: 1,
         data: generateHeatmapData(data, areaCodes),
         dataLabels: {
@@ -75,10 +80,18 @@ export function HeatmapChart({ areaCodes, data }: Readonly<HeatmapChartProps>) {
         },
       },
     },
+    accessibility: {
+      enabled: false,
+      description: accessibilityLabel,
+    },
+    credits: {
+      enabled: false,
+    },
   };
 
   return (
     <div data-testid="heatmapChart-component">
+      <H3>Heatmap Chart Title</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
@@ -90,7 +103,7 @@ export function HeatmapChart({ areaCodes, data }: Readonly<HeatmapChartProps>) {
 
 function formatIndicatorLabel(label: string): string {
   const [indicator, year] = label.split('|');
-  return `<a href='/'>${indicator}</a> ${year}`;
+  return `<table width='250px'><tr><td><a href='/'>${indicator}</a></td><td>${year}</td></tr></table>`;
 }
 
 function generateHeatmapData(
@@ -106,6 +119,8 @@ function generateHeatmapData(
         x: areaColumn,
         y: indicatorRow,
         value: getValueForAreaCode(areaCode, indicatorData),
+        // Colour can be set here as required e.g.
+        // color:'#FFFF00',
       };
       heatmapData.push(pointData);
       areaColumn++;
