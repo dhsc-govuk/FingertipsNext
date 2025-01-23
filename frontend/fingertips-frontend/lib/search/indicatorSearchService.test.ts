@@ -8,7 +8,7 @@ jest.mock('@azure/search-documents', () => ({
   AzureKeyCredential: jest.fn(),
 }));
 
-describe('SearchService', () => {
+describe('IndicatorSearchService', () => {
   const mockSearch = jest.fn();
 
   (SearchClient as jest.Mock).mockImplementation(() => ({

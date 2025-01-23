@@ -1,8 +1,13 @@
 import { expect } from '@jest/globals';
-import { searchIndicator, SearchFormState } from './searchActions';
+import {
+  searchIndicator,
+  SearchFormState,
+  getSearchSuggestions,
+} from './searchActions';
 import { mockDeep } from 'jest-mock-extended';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
@@ -46,5 +51,24 @@ describe('Search actions', () => {
 
     expect(state.indicator).toBe('');
     expect(state.message).toBe('Please enter a value for the indicator field');
+  });
+});
+
+describe('getSearchSuggestions', () => {
+  it('should return search suggestions', async () => {
+    SearchServiceFactory.reset();
+    process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
+    expect(await getSearchSuggestions('Springwood')).toEqual([
+      {
+        areaCode: 'A81005',
+        areaName: 'Springwood Surgery',
+        areaType: 'GPs',
+      },
+    ]);
+  });
+  it('should return a maximum of 20 suggestions', async () => {
+    SearchServiceFactory.reset();
+    process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
+    expect((await getSearchSuggestions('Surgery')).length).toEqual(20);
   });
 });
