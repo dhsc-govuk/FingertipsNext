@@ -9,7 +9,6 @@ import {
   Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
-
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
@@ -35,7 +34,7 @@ const StyledRow = styled(GridRow)(
   })
 );
 
-function formatDate(date: Date | undefined): string {
+export function formatDate(date: Date | undefined): string {
   if (!date) return 'unknown';
   const day = String(date.getDate()).padStart(2, '0');
   const month = date.toLocaleString('en-GB', { month: 'long' });

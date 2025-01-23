@@ -1,12 +1,26 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { formatDate } from '@/components/molecules/result';
 import { IndicatorSearchResult } from '@/lib/search/searchTypes';
 
-const dummyIndicatorResults: IndicatorSearchResult[] = [
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: jest.fn(),
+    useSearchParams: jest.fn(),
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: jest.fn(),
+    })),
+  };
+});
+
+const MOCK_DATA: IndicatorSearchResult[] = [
   {
     indicatorId: '1',
     name: 'NHS',
@@ -24,19 +38,6 @@ const dummyIndicatorResults: IndicatorSearchResult[] = [
     lastUpdated: new Date('November 5, 2023'),
   },
 ];
-
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
-
-  return {
-    ...originalModule,
-    usePathname: jest.fn(),
-    useSearchParams: jest.fn(),
-    useRouter: jest.fn().mockImplementation(() => ({
-      replace: jest.fn(),
-    })),
-  };
-});
 
 function setupMockUseActionState<T>() {
   return jest
@@ -70,7 +71,7 @@ describe('Search Results Suite', () => {
     indicatorsSelected: ['1'],
   };
 
-  it('should render elements', async () => {
+  it('should render elements', () => {
     render(
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
@@ -87,23 +88,36 @@ describe('Search Results Suite', () => {
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
 
-    expect(screen.getByRole('link', { name: /back/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /back/i }).getAttribute('href')
-    ).toBe(`/search?${SearchParams.SearchedIndicator}=test`);
+    const backLink = screen.getByRole('link', { name: /back/i });
+
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('data-testid', 'search-results-back-link');
+    expect(backLink.getAttribute('href')).toBe(
+      `/?${SearchParams.SearchedIndicator}=${searchedIndicator}`
+    );
   });
 
   it('should render search results', () => {
     render(
       <SearchResults
         searchResultsFormState={initialState}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
-    expect(screen.getAllByTestId('search-result')).toHaveLength(
-      dummyIndicatorResults.length
-    );
+    const searchResults = screen.getAllByTestId('search-result');
+
+    expect(searchResults).toHaveLength(MOCK_DATA.length);
+    searchResults.forEach((searchResult, index) => {
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].name);
+      expect(searchResult).toHaveTextContent(
+        MOCK_DATA[index].latestDataPeriod!
+      );
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource!);
+      expect(searchResult).toHaveTextContent(
+        formatDate(new Date(MOCK_DATA[index].lastUpdated!))
+      );
+    });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
   });
 
@@ -112,10 +126,11 @@ describe('Search Results Suite', () => {
       ...initialState,
       searchedIndicator: undefined,
     };
+
     render(
       <SearchResults
         searchResultsFormState={initialStateWithNoIndicator}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
@@ -139,7 +154,7 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
@@ -148,22 +163,24 @@ describe('Search Results Suite', () => {
   });
 
   it('should render the error summary component when there is a validation error', () => {
+    const errorMessage = 'There was an error';
     const errorState: SearchResultState = {
       ...initialState,
-      message: 'Some error',
+      message: errorMessage,
       errors: {},
     };
 
     render(
       <SearchResults
         searchResultsFormState={errorState}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
     expect(
       screen.getByTestId('search-result-form-error-summary')
     ).toBeInTheDocument();
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
   it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
@@ -181,39 +198,36 @@ describe('Search Results Suite', () => {
     render(
       <SearchResults
         searchResultsFormState={errorState}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
-    const errorLink = screen.getByText('Available indicators').closest('a');
-    if (errorLink) {
-      await user.click(errorLink);
-    }
+    const errorLink = screen.getByText('Available indicators').closest('a')!;
 
-    await waitFor(() => {
-      expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
-    });
+    await user.click(errorLink);
+
+    expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
   });
 
-  it('should have appropriate direct link for each indicator regardless of checkbox state', async () => {
+  it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
     const expectedPaths = [
-      `/chart?${SearchParams.IndicatorsSelected}=${dummyIndicatorResults[0].indicatorId.toString()}`,
-      `/chart?${SearchParams.IndicatorsSelected}=${dummyIndicatorResults[1].indicatorId.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
+      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
     ];
 
     render(
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 
     expect(
-      screen.getByRole('link', { name: dummyIndicatorResults[0].name })
+      screen.getByRole('link', { name: MOCK_DATA[0].name })
     ).toHaveAttribute('href', expectedPaths[0]);
     expect(
-      screen.getByRole('link', { name: dummyIndicatorResults[1].name })
+      screen.getByRole('link', { name: MOCK_DATA[1].name })
     ).toHaveAttribute('href', expectedPaths[1]);
   });
 
@@ -221,7 +235,7 @@ describe('Search Results Suite', () => {
     const container = render(
       <SearchResults
         searchResultsFormState={initialState}
-        searchResults={dummyIndicatorResults}
+        searchResults={MOCK_DATA}
       />
     );
 

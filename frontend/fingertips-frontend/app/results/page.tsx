@@ -1,4 +1,4 @@
-import { SearchResults } from '@/components/pages/search/results';
+import { SearchResults } from '@/components/pages/results';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';

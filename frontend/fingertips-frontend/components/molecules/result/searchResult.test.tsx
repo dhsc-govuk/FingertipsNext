@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { userEvent } from '@testing-library/user-event';
+import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 import { IndicatorSearchResult } from '@/lib/search/searchTypes';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
-
+let user: UserEvent;
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 
@@ -21,34 +21,45 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const dummyIndicatorResult: IndicatorSearchResult = {
-  indicatorId: '1',
-  name: 'NHS',
-  definition: 'Total number of patients registered with the practice',
-  latestDataPeriod: '2023',
-  dataSource: 'NHS website',
-  lastUpdated: new Date('December 6, 2024'),
-};
+const MOCK_DATA: IndicatorSearchResult[] = [
+  {
+    indicatorId: '1',
+    name: 'NHS',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2023',
+    dataSource: 'NHS website',
+    lastUpdated: new Date('December 6, 2024'),
+  },
+  {
+    indicatorId: '2',
+    name: 'DHSC',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2022',
+    dataSource: 'Student article',
+    lastUpdated: new Date('November 5, 2023'),
+  },
+];
 
-afterEach(() => {
+beforeEach(() => {
   mockReplace.mockClear();
+  user = userEvent.setup();
 });
 
 it('should have search result list item', () => {
-  render(<SearchResult result={dummyIndicatorResult} />);
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
   expect(screen.getByRole('listitem')).toBeInTheDocument();
 });
 
 it('should contain 3 paragraphs and a heading', () => {
-  render(<SearchResult result={dummyIndicatorResult} />);
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
   expect(screen.getAllByRole('paragraph')).toHaveLength(3);
   expect(screen.getByRole('heading')).toBeInTheDocument();
 });
 
 it('should contain expected text', () => {
-  render(<SearchResult result={dummyIndicatorResult} />);
+  render(<SearchResult result={MOCK_DATA[0]} />);
 
   expect(screen.getByRole('heading').textContent).toContain('NHS');
   expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
@@ -62,28 +73,19 @@ it('should contain expected text', () => {
 
 describe('Indicator Checkbox', () => {
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
-    render(
-      <SearchResult result={dummyIndicatorResult} indicatorSelected={true} />
-    );
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
 
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should mark the checkbox as not checked if indicatorSelected is false', () => {
-    render(
-      <SearchResult result={dummyIndicatorResult} indicatorSelected={false} />
-    );
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 
   it('should update the path when an indicator is checked', async () => {
-    const user = userEvent.setup();
-    mockReplace.mockClear();
-
-    render(
-      <SearchResult result={dummyIndicatorResult} indicatorSelected={false} />
-    );
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -96,11 +98,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should update the path when an indicator is unchecked', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <SearchResult result={dummyIndicatorResult} indicatorSelected={true} />
-    );
+    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -113,14 +111,14 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${dummyIndicatorResult.indicatorId.toString()}`;
-    render(<SearchResult result={dummyIndicatorResult} />);
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
+    render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
   it('snapshot test', () => {
-    const container = render(<SearchResult result={dummyIndicatorResult} />);
+    const container = render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(container.asFragment()).toMatchSnapshot();
   });
