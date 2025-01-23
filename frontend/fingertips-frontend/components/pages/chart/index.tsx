@@ -28,7 +28,7 @@ export function Chart({
   });
 
   // Temporary test data for Heatmap
-  const areaCodes: Array<string> = [ 'area1', 'area2' ];
+  const areaCodes: Array<string> = ['area1', 'area2', 'area3'];
   const heatmapData: Array<IndicatorRowData> = [
     {
       indicator: 'Indicator1',
@@ -42,15 +42,15 @@ export function Chart({
               count: 3,
               value: 27,
               upperCi: 8,
-              lowerCi: 2
+              lowerCi: 2,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       indicator: 'Indicator2',
-      year:2024,
+      year: 2024,
       rowData: [
         {
           areaCode: 'area1',
@@ -60,16 +60,16 @@ export function Chart({
               count: 5,
               value: 33,
               upperCi: 18,
-              lowerCi: 9
+              lowerCi: 9,
             },
             {
               year: 2024,
               count: 13,
               value: 11,
               upperCi: 23,
-              lowerCi: 3
+              lowerCi: 3,
             },
-          ]
+          ],
         },
         {
           areaCode: 'area2',
@@ -79,18 +79,18 @@ export function Chart({
               count: 3,
               value: 27,
               upperCi: 8,
-              lowerCi: 2
+              lowerCi: 2,
             },
             {
               year: 2024,
               count: 9,
               value: 82,
               upperCi: 99,
-              lowerCi: 2
+              lowerCi: 2,
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
   ];
   // End of temporary test data for Heatmap
