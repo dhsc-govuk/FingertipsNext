@@ -2,8 +2,11 @@ import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
+import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
+
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -27,8 +30,25 @@ export default async function ChartPage(
     areaCodes: areaCodes,
   });
 
+  let rawPopulationData = undefined;
+  let preparedPopulationData = undefined;
+  try {
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
+      indicatorId: 92708,
+      areaCodes: [areaCodes[0], areaCodeForEngland],
+    });
+  } catch (error) {
+    console.log('error getting population data ', error);
+  }
+
+  if (rawPopulationData) {
+    // hardcode selected area data for mocks while no population data are in dbase
+    preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
+  }
+
   return (
     <Chart
+      populationData={preparedPopulationData}
       data={data}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}

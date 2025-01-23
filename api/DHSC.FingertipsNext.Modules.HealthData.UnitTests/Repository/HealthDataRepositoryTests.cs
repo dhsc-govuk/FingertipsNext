@@ -1,7 +1,10 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using Microsoft.EntityFrameworkCore;
+using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
@@ -26,94 +29,134 @@ public class HealthDataRepositoryTests
     {
         var act = () => _repository = new HealthDataRepository(null!);
 
-        act.Should()
-            .Throw<ArgumentNullException>()
-            .WithMessage("Value cannot be null. (Parameter 'healthDataDbContext')");
+        act.ShouldThrow<ArgumentNullException>().Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
     }
 
     [Fact]
     public async Task Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
     {
         // arrange
-        PopulateDatabase();
+        await PopulateDatabase("Code", 2020);
 
         // act
         var result = await _repository.GetIndicatorDataAsync(3, [], []);
 
         // assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
-    public async Task Repository_ShouldReturnExpectedResult_IfIndicatorIsFound()
+    public async Task Repository_ShouldFindByOnlyIndicatorId_IfQueryParamsAreEmpty()
     {
         // arrange
-        PopulateDatabase();
+        await PopulateDatabase("Code", 2020);
 
         // act
         var result = await _repository.GetIndicatorDataAsync(1, [], []);
 
         // assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(1);
-        result.Should().BeEquivalentTo([GetHealthMeasure()]);
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            TestHelper.BuildHealthMeasureModel("Code", 2020, DateTime.Parse("2024-03-21 13:26"))
+        });
     }
 
-    private void PopulateDatabase()
+    [Fact]
+    public async Task Repository_ShouldFilterResultsByAreaCodes_WhenAreaCodesProvided()
     {
-        _dbContext.HealthMeasure.Add(GetHealthMeasure());
-        _dbContext.SaveChanges();
+        // arrange
+        await PopulateDatabase("Code1", 2020, 1, 500);
+        await PopulateDatabase("Code2", 2023, 2, 500);
+        await PopulateDatabase("Code2", 2022, 3, 500);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, ["Code2"], []);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            TestHelper.BuildHealthMeasureModel("Code2", 2022, DateTime.Parse("2024-03-21 13:26"), 3, 500),
+            TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
+        });
     }
 
-    private static HealthMeasureModel GetHealthMeasure()
+    [Fact]
+    public async Task Repository_ShouldReturnEmptyList_IfAreaCodeNotFound()
     {
-        var areaDimension = new AreaDimensionModel
-        {
-            AreaKey = 1,
-            Code = "Code",
-            Name = "Name",
-            StartDate = DateTime.Parse("2024-03-21 13:26"),
-            EndDate = DateTime.Parse("2024-03-21 13:26"),
-        };
-        var indicatorDimension = new IndicatorDimensionModel
-        {
-            IndicatorKey = 1,
-            Name = "Name",
-            IndicatorId = 1,
-            StartDate = DateTime.Parse("2024-03-21 13:26"),
-            EndDate = DateTime.Parse("2024-03-21 13:26"),
-        };
-        var sexDimension = new SexDimensionModel
-        {
-            SexKey = 1,
-            Name = "Name",
-            IsFemale = true,
-            HasValue = true,
-            SexId = 1,
-        };
-        var ageDimension = new AgeDimensionModel
-        {
-            AgeKey = 1,
-            AgeID = 1,
-            Name = "Name"
-        };
+        // arrange
+        await PopulateDatabase("Code1", 2020);
 
-        return new HealthMeasureModel
-        {
-            HealthMeasureKey = 1,
-            Count = 1.0,
-            Value = 1.0,
-            LowerCI = 1.0,
-            UpperCI = 1.0,
-            Year = 2007,
-            AreaKey = 1,
-            AgeKey = 1,
-            IndicatorKey = 1,
-            SexKey = 1,
-            AreaDimension = areaDimension,
-            AgeDimension = ageDimension,
-            IndicatorDimension = indicatorDimension,
-            SexDimension = sexDimension
-        };
+        // act
+        var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], []);
+
+        // assert
+        result.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task Repository_ShouldFilterResultsByYears_WhenYearsProvided()
+    {
+        // arrange
+        await PopulateDatabase("Code1", 2020, 1, 500);
+        await PopulateDatabase("Code1", 2023, 2, 500);
+        await PopulateDatabase("Code2", 2023, 3, 500);
+        await PopulateDatabase("Code3", 2022, 4, 500);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, [], [2022, 2023]);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(3);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
+                TestHelper.BuildHealthMeasureModel("Code3", 2022, DateTime.Parse("2024-03-21 13:26"), 4, 500),
+                TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
+                TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 3, 500),
+            });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldReturnEmptyList_IfYearsNotFound()
+    {
+        // arrange
+        await PopulateDatabase("Code1", 2020, 1, 500);
+        await PopulateDatabase("Code2", 2020, 2, 500);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, [], [2019]);
+
+        // assert
+        result.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task Repository_ShouldFilterResultsByAllThreeFilters_WhenProvided()
+    {
+        // arrange
+        await PopulateDatabase("Code1", 2020, 1, 500);
+        await PopulateDatabase("Code1", 2023, 2, 500);
+        await PopulateDatabase("Code2", 2023, 3, 500);
+        await PopulateDatabase("Code3", 2022, 4, 500);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023]);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
+                TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
+            });
+    }
+
+    private async Task PopulateDatabase(string code, short year, int id = 1, int? indicatorId = null)
+    {
+        await _dbContext.HealthMeasure
+            .AddAsync(TestHelper.BuildHealthMeasureModel(code, year, DateTime.Parse("2024-03-21 13:26"), id, indicatorId));
+        await _dbContext.SaveChangesAsync();
     }
 }
