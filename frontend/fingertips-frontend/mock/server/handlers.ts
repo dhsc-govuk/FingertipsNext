@@ -1,5 +1,4 @@
 import { HttpResponse, http } from 'msw';
-import { mockWeatherForecasts } from '../data/forecasts';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
 
@@ -17,11 +16,6 @@ const next = () => {
 };
 
 export const handlers = [
-  http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
 
@@ -46,10 +40,6 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
 ];
-
-export function getGetWeatherForecast200Response() {
-  return mockWeatherForecasts;
-}
 
 export function getFilterIndicators200Response() {
   return [
