@@ -87,60 +87,12 @@ public class AreaRepository : IAreaRepository
         
         if (includeChildren)
         {
-            if (string.IsNullOrWhiteSpace(childAreaType))
-            {
-                // direct children
-                var directChildren = await _dbContext.Area
-                    .Where(a => a.Node.GetAncestor(1) == area.Node)
-                    .ToListAsync();
-
-                aresWithRelations.Children = directChildren.ToArray();
-            }
-            else
-            {
-                // children lower down the hierarchy
-                var singleChildOfType = await _dbContext.Area
-                    .Where(a => a.AreaType == childAreaType)
-                    .FirstOrDefaultAsync();
-
-                if (singleChildOfType != null)
-                {
-                    int parentLevel = area.Level;
-
-                    var distantChildren = await _dbContext.Area
-                        .Where(a => a.Node.GetAncestor(singleChildOfType.Level - parentLevel) == area.Node)
-                        .ToListAsync();
-
-                    aresWithRelations.Children = distantChildren.ToArray();
-                }
-            }
+            await AddChildAreas(aresWithRelations, childAreaType, area);
         }
 
         if (includeAncestors)
         {
-            var ancestors = await _dbContext
-                .Area.FromSqlInterpolated(
-                    $"""
-                    --get all the parents recursively up the hierarchy
-                    SELECT
-                        parent.*
-                    FROM
-                        [Areas].[Areas] startingPoint
-                    INNER JOIN
-                        [Areas].[Areas] parent
-                    ON
-                        startingPoint.Node.IsDescendantOf(parent.Node) = 1
-                    WHERE
-                        startingPoint.AreaCode = {areaCode}
-                    AND
-                        parent.AreaCode != {areaCode}
-                    ORDER BY
-                        parent.[Level] desc
-                    """
-                )
-                .ToListAsync();
-            
-            aresWithRelations.Ancestors = ancestors.ToArray();
+            await AddAncestorAreas(aresWithRelations, areaCode);
         }
 
         return aresWithRelations;
@@ -157,5 +109,64 @@ public class AreaRepository : IAreaRepository
             .FirstOrDefaultAsync();
 
         return rootArea;
+    }
+
+    private async Task AddChildAreas(AreaWithRelationsModel aresWithRelations, string? childAreaType, AreaModel area)
+    {
+        if (string.IsNullOrWhiteSpace(childAreaType))
+        {
+            // direct children
+            var directChildren = await _dbContext.Area
+                .Where(a => a.Node.GetAncestor(1) == area.Node)
+                .ToListAsync();
+
+            aresWithRelations.Children = directChildren.ToArray();
+        }
+        else
+        {
+            // children lower down the hierarchy
+            var singleChildOfType = await _dbContext.Area
+                .Where(a => a.AreaType == childAreaType)
+                .FirstOrDefaultAsync();
+
+            if (singleChildOfType != null)
+            {
+                int parentLevel = area.Level;
+
+                var distantChildren = await _dbContext.Area
+                    .Where(a => a.Node.GetAncestor(singleChildOfType.Level - parentLevel) == area.Node)
+                    .ToListAsync();
+
+                aresWithRelations.Children = distantChildren.ToArray();
+            }
+        }
+    }
+
+    
+    private async Task AddAncestorAreas(AreaWithRelationsModel aresWithRelations, string areaCode)
+    {
+        var ancestors = await _dbContext
+                        .Area.FromSqlInterpolated(
+                            $"""
+                    --get all the parents recursively up the hierarchy
+                    SELECT
+                        parent.*
+                    FROM
+                        [Areas].[Areas] startingPoint
+                    INNER JOIN
+                        [Areas].[Areas] parent
+                    ON
+                        startingPoint.Node.IsDescendantOf(parent.Node) = 1
+                    WHERE
+                        startingPoint.AreaCode = {areaCode}
+                    AND
+                        parent.AreaCode != {areaCode}
+                    ORDER BY
+                        parent.[Level] desc
+                    """
+                        )
+                        .ToListAsync();
+
+        aresWithRelations.Ancestors = ancestors.ToArray();
     }
 }
