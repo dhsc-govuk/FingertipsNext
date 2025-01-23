@@ -20,8 +20,8 @@ const mockIndicatorSearchResults: IndicatorSearchResult[] = [
 const mockGetAreaTypes = jest.fn();
 const mockSearchWith = jest.fn();
 
-jest.mock('../../lib/getApiConfiguration');
-jest.mock('../../generated-sources/ft-api-client', () => {
+jest.mock('@/lib/getApiConfiguration');
+jest.mock('@/generated-sources/ft-api-client', () => {
   return {
     AreasApi: jest.fn().mockImplementation(() => {
       return {
@@ -31,7 +31,7 @@ jest.mock('../../generated-sources/ft-api-client', () => {
   };
 });
 
-jest.mock('../../lib/search/searchResultData', () => {
+jest.mock('@/lib/search/searchResultData', () => {
   return {
     getSearchService: jest.fn().mockImplementation(() => {
       return {
@@ -41,7 +41,7 @@ jest.mock('../../lib/search/searchResultData', () => {
   };
 });
 
-jest.mock('../../components/pages/results/index');
+jest.mock('@/components/pages/results');
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
