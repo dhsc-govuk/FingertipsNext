@@ -8,7 +8,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: process.env.CI ? [['github'], ['html']] : [['list'], ['html']],
+  reporter: process.env.CI
+    ? [['@estruyf/github-actions-reporter'], ['html']]
+    : [['list'], ['html']],
   use: {
     baseURL: url,
     trace: 'on-first-retry',
