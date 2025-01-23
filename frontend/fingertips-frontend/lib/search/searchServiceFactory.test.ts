@@ -16,6 +16,8 @@ describe('Search Service Factory', () => {
   });
   it('Should build real instances', () => {
     process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = undefined;
+    process.env.DHSC_AI_SEARCH_SERVICE_URL = 'someUrl';
+    process.env.DHSC_AI_SEARCH_API_KEY = 'someKey';
     SearchServiceFactory.reset();
     expect(SearchServiceFactory.getAreaSearchService()).toBeInstanceOf(
       AreaSearchService
