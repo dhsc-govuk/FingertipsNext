@@ -7,7 +7,7 @@ import {
 } from './searchTypes';
 
 export class AreaSearchService implements IAreaSearchService {
-  private searchClient: SearchClient<AreaDocument>;
+  private readonly searchClient: SearchClient<AreaDocument>;
 
   constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
     const indexName = AREA_SEARCH_INDEX_NAME;

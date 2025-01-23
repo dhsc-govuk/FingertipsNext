@@ -5,7 +5,7 @@ import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 import { formatDate } from '@/components/molecules/result';
-import { IndicatorSearchResult } from '@/lib/search/searchTypes';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -20,7 +20,7 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const MOCK_DATA: IndicatorSearchResult[] = [
+const MOCK_DATA: IndicatorDocument[] = [
   {
     indicatorId: '1',
     name: 'NHS',
@@ -110,12 +110,10 @@ describe('Search Results Suite', () => {
     expect(searchResults).toHaveLength(MOCK_DATA.length);
     searchResults.forEach((searchResult, index) => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].name);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
-        MOCK_DATA[index].latestDataPeriod!
-      );
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource!);
-      expect(searchResult).toHaveTextContent(
-        formatDate(new Date(MOCK_DATA[index].lastUpdated!))
+        formatDate(new Date(MOCK_DATA[index].lastUpdated))
       );
     });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();

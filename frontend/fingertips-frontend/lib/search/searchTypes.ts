@@ -23,11 +23,8 @@ export type AreaDocument = {
   areaName: string;
 };
 
-export type IndicatorSearchResult = IndicatorDocument;
-export type AreaSearchResult = AreaDocument;
-
 export interface IIndicatorSearchService {
-  searchWith(searchTerm: string): Promise<IndicatorSearchResult[]>;
+  searchWith(searchTerm: string): Promise<IndicatorDocument[]>;
 }
 
 export interface IAreaSearchService {

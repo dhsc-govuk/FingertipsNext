@@ -8,7 +8,6 @@ import {
   IIndicatorSearchService,
   INDICATOR_SEARCH_INDEX_NAME,
   IndicatorDocument,
-  IndicatorSearchResult,
 } from './searchTypes';
 
 export class IndicatorSearchService implements IIndicatorSearchService {
@@ -25,7 +24,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     );
   }
 
-  async searchWith(searchTerm: string): Promise<IndicatorSearchResult[]> {
+  async searchWith(searchTerm: string): Promise<IndicatorDocument[]> {
     // Search with both full search term and wildcard for now to allow for
     // observed behaviour where wildcard match of full term did not always return
     // the matching document.
@@ -38,7 +37,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     };
 
     const searchResponse = await this.searchClient.search(query, searchOptions);
-    const results: IndicatorSearchResult[] = [];
+    const results: IndicatorDocument[] = [];
 
     for await (const result of searchResponse.results) {
       results.push(result.document as IndicatorDocument);

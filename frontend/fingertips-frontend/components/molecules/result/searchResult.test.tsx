@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
-import { IndicatorSearchResult } from '@/lib/search/searchTypes';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -21,7 +21,7 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const MOCK_DATA: IndicatorSearchResult[] = [
+const MOCK_DATA: IndicatorDocument[] = [
   {
     indicatorId: '1',
     name: 'NHS',

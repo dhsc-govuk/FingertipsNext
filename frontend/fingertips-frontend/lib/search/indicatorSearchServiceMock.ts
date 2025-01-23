@@ -1,8 +1,4 @@
-import {
-  IIndicatorSearchService,
-  IndicatorDocument,
-  IndicatorSearchResult,
-} from './searchTypes';
+import { IIndicatorSearchService, IndicatorDocument } from './searchTypes';
 
 export class IndicatorSearchServiceMock implements IIndicatorSearchService {
   mockIndicatorData: IndicatorDocument[];
@@ -11,9 +7,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     this.mockIndicatorData = indicatorData;
   }
 
-  public async searchWith(
-    searchText: string
-  ): Promise<IndicatorSearchResult[]> {
+  public async searchWith(searchText: string): Promise<IndicatorDocument[]> {
     return this.mockIndicatorData
       .filter((indicator) => {
         return (

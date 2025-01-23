@@ -8,8 +8,8 @@ import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 
 export class SearchServiceFactory {
-  static #areaSearchServiceInstance: IAreaSearchService | null;
-  static #indicatorSearchServiceInstance: IIndicatorSearchService | null;
+  private static areaSearchServiceInstance: IAreaSearchService | null;
+  private static indicatorSearchServiceInstance: IIndicatorSearchService | null;
 
   private static buildAreaSearchService(): IAreaSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
@@ -44,21 +44,21 @@ export class SearchServiceFactory {
   }
 
   public static getAreaSearchService(): IAreaSearchService {
-    if (!this.#areaSearchServiceInstance)
-      this.#areaSearchServiceInstance = this.buildAreaSearchService();
+    if (!this.areaSearchServiceInstance)
+      this.areaSearchServiceInstance = this.buildAreaSearchService();
 
-    return this.#areaSearchServiceInstance;
+    return this.areaSearchServiceInstance;
   }
 
   public static getIndicatorSearchService(): IIndicatorSearchService {
-    if (!this.#indicatorSearchServiceInstance)
-      this.#indicatorSearchServiceInstance = this.buildIndicatorSearchService();
+    if (!this.indicatorSearchServiceInstance)
+      this.indicatorSearchServiceInstance = this.buildIndicatorSearchService();
 
-    return this.#indicatorSearchServiceInstance;
+    return this.indicatorSearchServiceInstance;
   }
 
   public static reset() {
-    this.#areaSearchServiceInstance = null;
-    this.#indicatorSearchServiceInstance = null;
+    this.areaSearchServiceInstance = null;
+    this.indicatorSearchServiceInstance = null;
   }
 }
