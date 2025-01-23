@@ -4,8 +4,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
 /// Represents a health data point for a public health indicator with
-/// a count, value, upper confidence interval, lower confidence interval
-/// and a year.
+/// a count, value, upper confidence interval, lower confidence interval, year, ageBand and sex.
 /// </summary>
 public class HealthDataPoint
 {
