@@ -19,21 +19,21 @@ export default async function Page(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
 
-  // Perform async API call using indicator prop
-  await connection();
-
-  const config = getApiConfiguration();
-  const areasApi = new AreasApi(config);
-  const availableAreaTypes = await areasApi.getAreaTypes();
-
-  const initialState = {
-    searchedIndicator,
-    indicatorsSelected,
-    message: null,
-    errors: {},
-  };
-
   try {
+    // Perform async API call using indicator prop
+    await connection();
+
+    const config = getApiConfiguration();
+    const areasApi = new AreasApi(config);
+    const availableAreaTypes = await areasApi.getAreaTypes();
+
+    const initialState = {
+      searchedIndicator,
+      indicatorsSelected,
+      message: null,
+      errors: {},
+    };
+
     // Perform async API call using indicator prop
     const searchResults =
       await getSearchService().searchWith(searchedIndicator);
@@ -46,12 +46,10 @@ export default async function Page(
     );
   } catch (error) {
     // Log error response
-    console.log(
-      `Error response received from call to the Indicator Search service: ${error}`
-    );
+    console.log(`Error response received from call: ${error}`);
     return (
       <ErrorPage
-        errorText="An error has been returned by the search service. Please try again."
+        errorText="An error has been returned by the service. Please try again."
         errorLink="/search"
         errorLinkText="Return to Search"
       />
