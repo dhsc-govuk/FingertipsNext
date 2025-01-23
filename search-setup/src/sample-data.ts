@@ -1,43 +1,93 @@
-import { IndicatorSearchData } from "../types";
+import { IndicatorSearchData } from "./types";
 
 export const sampleIndicatorData: IndicatorSearchData[] = [
   {
-    IID: "108",
-    Descriptive: {
-      Name: "Under 75 mortality rate from all causes",
-      Definition:
-        "Directly age-standardised mortality rate for all deaths, per 100,000 population, in those aged under 75 years",
-    },
+    indicatorId: "108",
+    name: "Under 75 mortality rate from all causes",
+    definition:
+      "Directly age-standardised mortality rate for all deaths, per 100,000 population, in those aged under 75 years",
+    latestDataPeriod: "2022",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
   },
   {
-    IID: "113",
-    Descriptive: {
-      Name: "Smoking attributable mortality (old method)",
-      Definition:
-        "<p>Deaths attributable to smoking, directly age standardised rate for persons aged 35 years +. Relative risks by ICD10 code from The Information Centre for Health and Social Care, Statistics on Smoking: England 2010. A full description of the methodology is available in the APHO Health Profiles user guide.</p>",
-    },
+    indicatorId: "113",
+    name: "Smoking attributable mortality (old method)",
+    definition:
+      "<p>Deaths attributable to smoking, directly age standardised rate for persons aged 35 years +. Relative risks by ICD10 code from The Information Centre for Health and Social Care, Statistics on Smoking: England 2010. A full description of the methodology is available in the APHO Health Profiles user guide.</p>",
+    latestDataPeriod: "2022",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
   },
   {
-    IID: "114",
-    Descriptive: {
-      Name: "QOF Total List Size",
-      Definition: "Total number of patients registered with the practice",
-    },
+    indicatorId: "114",
+    name: "QOF Total List Size",
+    definition: "Total number of patients registered with the practice",
+    latestDataPeriod: "2024",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
   },
   {
-    IID: "200",
-    Descriptive: {
-      Name: "Learning disability: QOF prevalence (all ages)",
-      Definition:
-        "The percentage of patients with learning disabilities, as recorded on practice disease registers",
-    },
+    indicatorId: "200",
+    name: "Learning disability: QOF prevalence (all ages)",
+    definition:
+      "The percentage of patients with learning disabilities, as recorded on practice disease registers",
+    latestDataPeriod: "2019",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
   },
   {
-    IID: "212",
-    Descriptive: {
-      Name: "Stroke: QOF prevalence (all ages)",
-      Definition:
-        "The percentage of patients with stroke or transient ischaemic attack (TIA), as recorded on practice disease registers (proportion of total list size).",
-    },
+    indicatorId: "212",
+    name: "Stroke: QOF prevalence (all ages)",
+    definition:
+      "The percentage of patients with stroke or transient ischaemic attack (TIA), as recorded on practice disease registers (proportion of total list size).",
+    latestDataPeriod: "2007",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
+  },
+  {
+    indicatorId: "300",
+    name: "Participation rate, total",
+    definition:
+      "Proportion of eligible children measured in the National Child Measurement Programme (NCMP)",
+    latestDataPeriod: "2023",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
+  },
+  {
+    indicatorId: "310",
+    name: "Rate of admissions due to liver disease in per 300,000 population",
+    definition:
+      "Directly age-standardised rate of hospital admissions due to liver disease in per 300,000 population",
+    latestDataPeriod: "2009",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
+  },
+  {
+    indicatorId: "316",
+    name: "Study of of drug sensitive TB notifications across full course of treatment",
+    definition:
+      "The annual proportion of drug sensitive TB notifications expected to complete treatment within 310 days of treatment start date",
+    latestDataPeriod: "2024",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
+  },
+  {
+    indicatorId: "327",
+    name: "Waiting < 310 days to enter IAPT treatment ",
+    definition:
+      "Study across 316 hospitals of the number of service requests with first treatment appointment in the month where the individual had a significant wait",
+    latestDataPeriod: "2023",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
+  },
+  {
+    indicatorId: "330",
+    name: "Waiting > 310 days to enter IAPT treatment ",
+    definition:
+      "Study of the number of service requests with first treatment appointment in the month where the individual had a > 310 day wait",
+    latestDataPeriod: "2024",
+    dataSource: "NHS",
+    lastUpdated: new Date("20-Jan-24"),
   },
 ];

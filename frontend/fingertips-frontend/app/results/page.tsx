@@ -1,10 +1,11 @@
 import { SearchResults } from '@/components/pages/results';
-import { getSearchData } from './search-result-data';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
-import { AreasApi } from '@/generated-sources/ft-api-client';
+import { AreasApi, AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { ErrorPage } from '@/components/pages/error';
+import { getSearchService } from '@/lib/search/searchResultData';
 
 export default async function Page(
   props: Readonly<{
@@ -19,36 +20,69 @@ export default async function Page(
   );
   const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
-  // Perform async API call using indicator prop
-  await connection();
+  try {
+    // Perform async API call using indicator prop
+    await connection();
 
-  const config = getApiConfiguration();
-  const areasApi = new AreasApi(config);
+    const config = getApiConfiguration();
+    const areasApi = new AreasApi(config);
 
-  const availableAreaTypes =
-    areasSelected.length === 0 ? await areasApi.getAreaTypes() : undefined;
-  const selectedAreasData =
-    areasSelected.length > 0
+    /**
+    const availableAreaTypes = await areasApi.getAreaTypes();
+    const selectedAreasData =
+      areasSelected.length > 0
       ? await Promise.all(
           areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
         )
       : [];
+    */
 
-  const searchResults = getSearchData();
+    // When DHSCFT-210 is complete The following try catch can be removed
+    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
+    let availableAreaTypes: string[];
+    let selectedAreasData: AreaWithRelations[];
 
-  const initialState = {
-    searchedIndicator,
-    indicatorsSelected,
-    message: null,
-    errors: {},
-  };
+    try {
+      availableAreaTypes = await areasApi.getAreaTypes();
+      selectedAreasData =
+        areasSelected.length > 0
+          ? await Promise.all(
+              areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+            )
+          : [];
+    } catch (error) {
+      console.log(`Error from areasApi ${error}`);
+      availableAreaTypes = [];
+      selectedAreasData = [];
+    }
 
-  return (
-    <SearchResults
-      searchResultsFormState={initialState}
-      searchResults={searchResults}
-      availableAreaTypes={availableAreaTypes}
-      selectedAreas={selectedAreasData}
-    />
-  );
+    const initialState = {
+      searchedIndicator,
+      indicatorsSelected,
+      message: null,
+      errors: {},
+    };
+
+    // Perform async API call using indicator prop
+    const searchResults =
+      await getSearchService().searchWith(searchedIndicator);
+    return (
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={searchResults}
+        availableAreaTypes={availableAreaTypes}
+        selectedAreas={selectedAreasData}
+      />
+    );
+  } catch (error) {
+    // Log error response
+    console.log(`Error response received from call: ${error}`);
+    return (
+      <ErrorPage
+        errorText="An error has been returned by the service. Please try again."
+        errorLink="/search"
+        errorLinkText="Return to Search"
+      />
+    );
+  }
 }

@@ -16,8 +16,6 @@ public class HealthDataDbContext : DbContext
     }
 
     public DbSet<HealthMeasureModel> HealthMeasure { get; set; }
-    public DbSet<AgeDimensionModel> AgeDimension { get; set; }
     public DbSet<AreaDimensionModel> AreaDimension { get; set; }
     public DbSet<IndicatorDimensionModel> IndicatorDimension { get; set; }
-    public DbSet<SexDimensionModel> SexDimension { get; set; }
 }
