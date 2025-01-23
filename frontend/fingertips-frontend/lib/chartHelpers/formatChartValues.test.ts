@@ -31,7 +31,7 @@ const mockData = [
 ];
 
 describe('sortHealthDataByDate', () => {
-  it('should sort the healthcare data values in ascending year', async () => {
+  it('should sort the healthcare data values in ascending year', () => {
     const mockSortedData = [
       {
         areaCode: 'A1425',
@@ -65,7 +65,7 @@ describe('sortHealthDataByDate', () => {
 });
 
 describe('generateSeriesData', () => {
-  it('should generate series data', async () => {
+  it('should generate series data', () => {
     const result = generateSeriesData(mockData);
     const mockSeriesData = [
       {

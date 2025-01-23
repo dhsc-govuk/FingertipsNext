@@ -53,3 +53,9 @@ jobs:
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure
+
+  e2e-tests:
+    uses: ./.github/workflows/e2e-tests.yml
+    needs: frontend-deploy
+    with:
+      env-url: http://4.158.39.145/

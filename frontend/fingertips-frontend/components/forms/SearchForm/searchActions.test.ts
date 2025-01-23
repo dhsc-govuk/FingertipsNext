@@ -34,7 +34,7 @@ describe('Search actions', () => {
     await searchIndicator(initialState, formData);
 
     expect(redirectMock).toHaveBeenCalledWith(
-      `/search/results?${SearchParams.SearchedIndicator}=boom`,
+      `/results?${SearchParams.SearchedIndicator}=boom`,
       RedirectType.push
     );
   });
