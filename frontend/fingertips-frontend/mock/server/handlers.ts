@@ -1,5 +1,4 @@
 import { HttpResponse, http } from 'msw';
-import { mockWeatherForecasts } from '../data/forecasts';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
 
@@ -34,11 +33,6 @@ export const handlers = [
   }),
   http.get(`${baseURL}/areas/root`, async () => {
     const resultArray = [[getGetAreaRoot200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
-  http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -140,10 +134,6 @@ export function getGetAreaRoot200Response() {
     code: 'E92000001',
     name: 'England',
   };
-}
-
-export function getGetWeatherForecast200Response() {
-  return mockWeatherForecasts;
 }
 
 export function getFilterIndicators200Response() {

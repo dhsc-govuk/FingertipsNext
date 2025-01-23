@@ -1,8 +1,8 @@
-name: Fingertips Frontend Deploy
+name: Fingertips API Deploy
 
 on:
   workflow_run:
-    workflows: [Fingertips Frontend Build]
+    workflows: [Fingertips API Build]
     types:
       - completed
     branches:
@@ -13,20 +13,20 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: "6.0.x"
+      gitversion-version: '6.0.x'
 
-  frontend-deploy:
+  api-deploy:
     runs-on: ubuntu-latest
     needs: determine-version
     strategy:
       matrix:
-        environment:
+        environment: 
           - development
     environment: ${{ matrix.environment }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
       frontend-dev-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-    name: "Frontend Deploy"
+    name: 'API Deploy'
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -40,24 +40,44 @@ jobs:
           password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
 
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'Get secrets'
+        id: azure-keyvault-secrets
+        run: |
+          secrets_get=(fingertips-sql-hostname fingertips-db-name fingertips-sql-username fingertips-sql-password)
+          for secret_get in ${secrets_get[@]}
+          do
+            value=$(az keyvault secret show --name $secret_get --vault-name ${{ vars.AZURE_KEY_VAULT }} --query value --output tsv)
+            echo "::add-mask::$value"
+            echo "$secret_get=$value" >> $GITHUB_OUTPUT
+          done
+
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-          containerAppName: fingertips-frontend
+          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
+          containerAppName: fingertips-api
           resourceGroup: ${{ vars.RESOURCE_GROUP }}
           containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
           registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
           registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
           registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          targetPort: 3000
-          environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
+          targetPort: 8080
+          environmentVariables: |
+            DB_NAME=${{ steps.azure-keyvault-secrets.outputs.fingertips-sql-hostname }}
+            DB_SERVER=${{ steps.azure-keyvault-secrets.outputs.fingertips-db-name }}
+            DB_USER=${{ steps.azure-keyvault-secrets.outputs.fingertips-sql-username }}
+            DB_PASSWORD=${{ steps.azure-keyvault-secrets.outputs.fingertips-sql-password }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
           AZURE_CONFIG_DIR: $HOME/.azure
 
   e2e-tests:
     uses: ./.github/workflows/e2e-tests.yml
-    needs: frontend-deploy
+    needs: api-deploy
     with:
       env-url: ${{ needs.frontend-deploy.outputs.frontend-dev-url }}
+        

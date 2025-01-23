@@ -2,7 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
+
+const mockPopulationData: PopulationDataForArea = {
+  ageCategories: [],
+  femaleSeries: [],
+  maleSeries: [],
+};
 
 describe('Page structure', () => {
   describe('Navigation', () => {
@@ -46,4 +53,20 @@ describe('Content', () => {
     expect(barChart).toBeInTheDocument();
     expect(lineChartTable).toBeInTheDocument();
   });
+});
+
+it('should render the PopulationPyramid component when Population data are provided', () => {
+  render(
+    <Chart
+      data={mockHealthData[1]}
+      populationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
+  );
+
+  const populationPyramid = screen.getByTestId('populationPyramid-component');
+  expect(populationPyramid).toBeInTheDocument();
 });
