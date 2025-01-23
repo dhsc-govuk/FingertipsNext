@@ -6,14 +6,13 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
+import { headings } from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[];
   searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
-
-const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
@@ -44,7 +43,7 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data} headings={headings}></LineChartTable>
+      <LineChartTable data={data[0]} headings={headings}></LineChartTable>
     </>
   );
 }

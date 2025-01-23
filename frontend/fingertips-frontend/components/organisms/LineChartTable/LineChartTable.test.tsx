@@ -1,15 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
-
-const mockHeadings = [
-  'Area Code',
-  'Year',
-  'Value',
-  'Count',
-  'LowerCi',
-  'UpperCi',
-];
+import { headings } from '@/lib/chartHelpers/chartHelpers';
 
 const mockData = [
   {

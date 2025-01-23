@@ -19,3 +19,13 @@ export function generateSeriesData(
     data: item.healthData.map((point) => [point.year, point.value]),
   }));
 }
+
+export const headings = [
+  'Period',
+  'Trend',
+  'Count',
+  'Value',
+  'Lower',
+  'Upper',
+  'Value ',
+];
