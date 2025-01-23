@@ -26,15 +26,12 @@ public class AreaController : ControllerBase
     /// <summary>
     /// Get all available hierarchy types
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The available hierarchy types, e.g. NHS or Administrative</returns>
     [HttpGet]
     [ProducesResponseType(typeof(string[]), StatusCodes.Status200OK)]
     [Route("hierarchies")]
     public async Task<IActionResult> GetHierarchiesAsync()
     {
-        // 200 string[]
-        // The available hierarchy types, e.g. NHS or Administrative
-
         return Ok(await _areaService.GetHierarchies());
     }
 
@@ -48,9 +45,6 @@ public class AreaController : ControllerBase
     [Route("areatypes")]
     public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null)
     {
-        // 200 string[]
-        // The available area types e.g. ICB, PCN or GP Surgery
-
         return Ok(await _areaService.GetAreaTypes(hierarchy_type));
     }
 
@@ -90,21 +84,14 @@ public class AreaController : ControllerBase
     /// <summary>
     /// Get the root node of the area hierarchy
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The root area node</returns>
     [HttpGet]
     [ProducesResponseType(typeof(RootArea), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("root")]
     public async Task<IActionResult> GetRootAreaAsync()
     {
-        // 200 RootArea
-        // The root area node
-
         var rootArea = await _areaService.GetRootArea();
-        
-        if(rootArea == null)
-            return NotFound();
-        
-        return Ok(rootArea);
+        return rootArea == null ? NotFound() : Ok(rootArea);
     }
 }

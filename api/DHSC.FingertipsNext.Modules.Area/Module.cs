@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DHSC.FingertipsNext.Modules.Area.Controllers;
 using DHSC.FingertipsNext.Modules.Area.Repository;
 using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using DHSC.FingertipsNext.Modules.Area.Schemas;
@@ -19,40 +20,32 @@ public class Module : AbstractMonolithModule, IMonolithModule
     {
         services.AddTransient<IAreaService, AreaService>();
         services.AddTransient<IAreaRepository, AreaRepository>();
+        services.AddTransient<IAreaModuleConfig, AreaModuleConfig>();
 
         AreaService.RegisterMappings(services);
-        RegisterDbContext(services, configuration);
+        RegisterDbContext(services, new AreaModuleConfig(configuration));
     }
 
-    private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
+    private static void RegisterDbContext(IServiceCollection services, IAreaModuleConfig configuration)
     {
-        var trustServerCertificate = false;
-        trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
-
-        if (trustServerCertificate)
+        if (configuration.TrustServerCertificate)
         {
             Console.WriteLine(
-                "Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!"
+                "Module:Area: Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!"
             );
         }
 
         var builder = new SqlConnectionStringBuilder
         {
-            DataSource = GetEnvironmentValue(configuration, "DB_SERVER"),
-            UserID = GetEnvironmentValue(configuration, "DB_USER"),
-            Password = GetEnvironmentValue(configuration, "DB_PASSWORD"),
-            InitialCatalog = GetEnvironmentValue(configuration, "DB_NAME"),
-            TrustServerCertificate = trustServerCertificate,
+            DataSource = configuration.DataSource,
+            UserID = configuration.UserId,
+            Password = configuration.Password,
+            InitialCatalog = configuration.InitialCatalog,
+            TrustServerCertificate = configuration.TrustServerCertificate,
         };
 
         services.AddDbContext<AreaRepositoryDbContext>(options =>
             options.UseSqlServer(builder.ConnectionString, x => x.UseHierarchyId())
         );
     }
-
-    private static string GetEnvironmentValue(IConfiguration configuration, string name) =>
-        configuration.GetValue<string>(name)
-        ?? throw new ArgumentException(
-            $"Invalid environment variables provided. Check {name} has been set appropriately"
-        );
 }
