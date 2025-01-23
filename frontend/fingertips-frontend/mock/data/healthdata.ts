@@ -352,6 +352,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: '1',
+      areaName: 'Area 1',
       healthData: [
         {
           year: 2023,
@@ -699,6 +700,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: '2',
+      areaName: 'Area 2',
       healthData: [
         {
           year: 2023,
