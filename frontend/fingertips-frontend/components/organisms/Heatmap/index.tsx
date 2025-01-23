@@ -24,7 +24,11 @@ interface HeatmapChartProps {
   accessibilityLabel: string;
 }
 
-export function HeatmapChart({ areaCodes, data, accessibilityLabel }: Readonly<HeatmapChartProps>) {
+export function HeatmapChart({
+  areaCodes,
+  data,
+  accessibilityLabel,
+}: Readonly<HeatmapChartProps>) {
   const options: Highcharts.Options = {
     title: {
       text: 'Heatmap Chart Title',

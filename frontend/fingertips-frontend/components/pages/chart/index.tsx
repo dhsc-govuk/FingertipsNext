@@ -120,7 +120,7 @@ export function Chart({
       <HeatmapChart
         areaCodes={areaCodes}
         data={heatmapData}
-        accessibilityLabel='A heatmap chart showing healthcare data'
+        accessibilityLabel="A heatmap chart showing healthcare data"
       />
     </>
   );

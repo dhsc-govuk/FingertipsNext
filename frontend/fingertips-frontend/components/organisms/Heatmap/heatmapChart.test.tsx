@@ -28,15 +28,25 @@ const heatmapData: Array<IndicatorRowData> = [
 ];
 
 it('should render the Highcharts react component within the HeatmapChart component ', () => {
-  render(<HeatmapChart data={heatmapData} areaCodes={areaCodes} accessibilityLabel='A heatmap chart showing healthcare data'/>);
+  render(
+    <HeatmapChart
+      data={heatmapData}
+      areaCodes={areaCodes}
+      accessibilityLabel="A heatmap chart showing healthcare data"
+    />
+  );
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
 });
 
 it('should render the Heatmap title', () => {
-  render(<HeatmapChart data={heatmapData} areaCodes={areaCodes} accessibilityLabel='A heatmap chart showing healthcare data'/>);
-  const title = screen.getByRole('heading', { level: 3 });
-  expect(title).toHaveTextContent(
-    'Heatmap Chart Title'
+  render(
+    <HeatmapChart
+      data={heatmapData}
+      areaCodes={areaCodes}
+      accessibilityLabel="A heatmap chart showing healthcare data"
+    />
   );
+  const title = screen.getByRole('heading', { level: 3 });
+  expect(title).toHaveTextContent('Heatmap Chart Title');
 });
