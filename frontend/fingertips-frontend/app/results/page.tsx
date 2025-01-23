@@ -25,7 +25,19 @@ export default async function Page(
 
     const config = getApiConfiguration();
     const areasApi = new AreasApi(config);
-    const availableAreaTypes = await areasApi.getAreaTypes();
+
+    // const availableAreaTypes = await areasApi.getAreaTypes();
+
+    // When DHSCFT-210 is complete The following try catch can be removed
+    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
+    let availableAreaTypes: string[];
+    try {
+      availableAreaTypes = await areasApi.getAreaTypes();
+    } catch (error) {
+      console.log(`Error from areasApi ${error}`);
+
+      availableAreaTypes = [];
+    }
 
     const initialState = {
       searchedIndicator,
