@@ -38,4 +38,16 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("upperCi")]
     public float UpperConfidenceInterval { get; init; }
+
+    /// <summary>
+    /// The upper confidence interval
+    /// </summary>
+    [JsonPropertyName("ageBand")]
+    public string AgeBand { get; init; } = String.Empty;
+
+    /// <summary>
+    /// The upper confidence interval
+    /// </summary>
+    [JsonPropertyName("sex")]
+    public string Sex { get; init; } = String.Empty ;
 }
