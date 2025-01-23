@@ -44,12 +44,6 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
-      - name: Publish E2E Test Summary Results
-        uses: ctrf-io/github-test-reporter@v1
-        with:
-          report-path: ${{ env.frontend-directory }}/playwright-report/
-        if: always()
-
       - name: Upload playwright report if e2e tests fail
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
