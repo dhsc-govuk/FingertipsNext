@@ -63,7 +63,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert - should be on the same page with search field still cleared and validation message displayed
   await homePage.checkURLIsCorrect(
-    `?${SearchParams.SearchedIndicator}=ffff${indicator}`
+    `?${SearchParams.SearchedIndicator}=${indicator}`
   );
   await homePage.checkSearchFieldIsPrePopulatedWith();
   await homePage.checkSummaryValidation(
