@@ -1,29 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot test - should match snapshot 1`] = `
+exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c1 {
+  .c2 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
-}
-
-.c1:last-child {
-  padding-right: 0;
-}
-
-.c2 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
+  width: 100%;
 }
 
 .c2:last-child {
   padding-right: 0;
 }
 
-.c3 {
+.c4 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+  width: 100%;
+}
+
+.c4:last-child {
+  padding-right: 0;
+}
+
+.c6 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c6:last-child {
+  padding-right: 0;
+}
+
+.c7 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -33,7 +47,17 @@ exports[`snapshot test - should match snapshot 1`] = `
   font-weight: 400;
 }
 
-.c3:last-child {
+.c7:last-child {
+  padding-right: 0;
+}
+
+.c9 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c9:last-child {
   padding-right: 0;
 }
 
@@ -51,8 +75,38 @@ exports[`snapshot test - should match snapshot 1`] = `
   margin-bottom: 20px;
 }
 
+.c3 {
+  text-align: center;
+  padding: 0.3125em;
+}
+
+.c5 {
+  text-align: right;
+  padding-top: 0;
+}
+
+.c1 {
+  margin-bottom: 0.9375em;
+}
+
+.c8 {
+  text-align: left;
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    width: 75%;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    width: 25%;
+  }
+}
+
 @media print {
-  .c3 {
+  .c7 {
     font-family: sans-serif;
   }
 }
@@ -87,7 +141,7 @@ exports[`snapshot test - should match snapshot 1`] = `
     data-testid="lineChartTable-component"
   >
     <table
-      class="c0"
+      class="c0 c1"
     >
       <thead
         class=""
@@ -96,34 +150,87 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c1"
+            class="c2 c3"
           >
-            Area Code
+            a1425
           </th>
           <th
-            class="c1"
+            class="c4 c5"
           >
-            Year
+            England
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      />
+    </table>
+    <table
+      class="c0 c1"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c2 c5"
+          >
+            95% confidence limits
           </th>
           <th
-            class="c1"
+            class="c6"
+          />
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      />
+    </table>
+    <table
+      class="c0 c1"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c6"
           >
-            Value
+            Period
           </th>
           <th
-            class="c1"
+            class="c6"
+          >
+            Trend
+          </th>
+          <th
+            class="c6"
           >
             Count
           </th>
           <th
-            class="c1"
+            class="c6"
           >
-            LowerCi
+            Value
           </th>
           <th
-            class="c1"
+            class="c6"
           >
-            UpperCi
+            Lower
+          </th>
+          <th
+            class="c6"
+          >
+            Upper
+          </th>
+          <th
+            class="c6"
+          >
+            Value 
           </th>
         </tr>
       </thead>
@@ -134,129 +241,176 @@ exports[`snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c2"
-            rowspan="2"
+            class="c7 c8"
           >
-            A1425
+            2020
           </td>
           <td
-            class="c3"
+            class="c9 c8"
+          />
+          <td
+            class="c7 c8"
           >
-            2004
+            200
           </td>
           <td
-            class="c3"
+            class="c7 c8"
           >
-            703.420759
+            971.435418
           </td>
           <td
-            class="c3"
-          >
-            267
-          </td>
-          <td
-            class="c3"
+            class="c7 c8"
           >
             441.69151
           </td>
           <td
-            class="c3"
+            class="c7 c8"
           >
             578.32766
           </td>
+          <td
+            class="c9 c8"
+          />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c3"
+            class="c7 c8"
+          >
+            2012
+          </td>
+          <td
+            class="c9 c8"
+          />
+          <td
+            class="c7 c8"
+          >
+            300
+          </td>
+          <td
+            class="c7 c8"
+          >
+            602.820845
+          </td>
+          <td
+            class="c7 c8"
+          >
+            441.69151
+          </td>
+          <td
+            class="c7 c8"
+          >
+            578.32766
+          </td>
+          <td
+            class="c9 c8"
+          />
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c7 c8"
+          >
+            2008
+          </td>
+          <td
+            class="c9 c8"
+          />
+          <td
+            class="c7 c8"
+          >
+            222
+          </td>
+          <td
+            class="c7 c8"
+          >
+            890.305692
+          </td>
+          <td
+            class="c7 c8"
+          >
+            441.69151
+          </td>
+          <td
+            class="c7 c8"
+          >
+            578.32766
+          </td>
+          <td
+            class="c9 c8"
+          />
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c7 c8"
           >
             2006
           </td>
           <td
-            class="c3"
-          >
-            278.29134
-          </td>
+            class="c9 c8"
+          />
           <td
-            class="c3"
+            class="c7 c8"
           >
             389
           </td>
           <td
-            class="c3"
+            class="c7 c8"
+          >
+            278.29134
+          </td>
+          <td
+            class="c7 c8"
           >
             441.69151
           </td>
           <td
-            class="c3"
+            class="c7 c8"
           >
             578.32766
           </td>
+          <td
+            class="c9 c8"
+          />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c2"
-            rowspan="2"
-          >
-            A1426
-          </td>
-          <td
-            class="c3"
+            class="c7 c8"
           >
             2004
           </td>
           <td
-            class="c3"
-          >
-            703.420759
-          </td>
+            class="c9 c8"
+          />
           <td
-            class="c3"
+            class="c7 c8"
           >
             267
           </td>
           <td
-            class="c3"
+            class="c7 c8"
+          >
+            703.420759
+          </td>
+          <td
+            class="c7 c8"
           >
             441.69151
           </td>
           <td
-            class="c3"
+            class="c7 c8"
           >
             578.32766
           </td>
-        </tr>
-        <tr
-          class=""
-        >
           <td
-            class="c3"
-          >
-            2006
-          </td>
-          <td
-            class="c3"
-          >
-            278.29134
-          </td>
-          <td
-            class="c3"
-          >
-            389
-          </td>
-          <td
-            class="c3"
-          >
-            441.69151
-          </td>
-          <td
-            class="c3"
-          >
-            578.32766
-          </td>
+            class="c9 c8"
+          />
         </tr>
       </tbody>
     </table>

@@ -56,7 +56,7 @@ export function LineChartTable({ data, headings }: Readonly<TableProps>) {
               {data.areaCode}
             </StyledAlignCenterHeader>
             <StyledAlignRightHeader setWidth="one-quarter">
-              England Placeholder
+              England
             </StyledAlignRightHeader>
           </Table.Row>
         }
