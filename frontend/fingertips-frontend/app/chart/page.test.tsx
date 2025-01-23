@@ -5,6 +5,8 @@
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { mockHealthData } from '@/mock/data/healthdata';
+import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 const mockGetHealthData = jest.fn();
 
@@ -50,51 +52,39 @@ describe('Chart Page', () => {
     });
   });
 
-  // it('should pass the correct props to the SearchResults Page component', async () => {
-  //   mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
-  //   mockSearchWith.mockResolvedValue(mockIndicatorSearchResults);
+  it('should pass the correct props to the Chart page', async () => {
+    const expectedPopulateData = preparePopulationData(
+      mockHealthData['92708'],
+      '1',
+      '2'
+    );
 
-  //   const page = await ResultsPage({
-  //     searchParams: generateSearchParams(searchParams),
-  //   });
+    mockGetHealthData.mockResolvedValueOnce(mockHealthData['1']);
+    mockGetHealthData.mockResolvedValueOnce(mockHealthData['92708']);
 
-  //   expect(page.props.searchResultsFormState).toEqual({
-  //     errors: {},
-  //     indicatorsSelected: [],
-  //     message: null,
-  //     searchedIndicator: 'testing',
-  //   });
-  //   expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-  //   expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
-  // });
+    const page = await ChartPage({
+      searchParams: generateSearchParams(searchParams),
+    });
 
-  // // To unskip as part of DHSCFT-211
-  // it.skip('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
-  //   mockGetAreaTypes.mockRejectedValue('Some areas api error');
+    expect(page.props.data).toEqual(mockHealthData['1']);
+    expect(page.props.populationData).toEqual(expectedPopulateData);
+    expect(page.props.searchedIndicator).toEqual('testing');
+    expect(page.props.indicatorsSelected).toEqual(['1']);
+  });
 
-  //   const page = await ResultsPage({
-  //     searchParams: generateSearchParams(searchParams),
-  //   });
+  it('should pass undefined if there was an error getting population data', async () => {
+    mockGetHealthData.mockResolvedValueOnce(mockHealthData['1']);
+    mockGetHealthData.mockRejectedValueOnce(
+      'Some error getting population data'
+    );
 
-  //   expect(page.props.errorText).toEqual(
-  //     'An error has been returned by the service. Please try again.'
-  //   );
-  //   expect(page.props.errorLink).toEqual('/search');
-  //   expect(page.props.errorLinkText).toEqual('Return to Search');
-  // });
+    const page = await ChartPage({
+      searchParams: generateSearchParams(searchParams),
+    });
 
-  // it('should pass the correct props to the Error component when searchWith returns an error', async () => {
-  //   mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
-  //   mockSearchWith.mockRejectedValue('Some search-service error');
-
-  //   const page = await ResultsPage({
-  //     searchParams: generateSearchParams(searchParams),
-  //   });
-
-  //   expect(page.props.errorText).toEqual(
-  //     'An error has been returned by the service. Please try again.'
-  //   );
-  //   expect(page.props.errorLink).toEqual('/search');
-  //   expect(page.props.errorLinkText).toEqual('Return to Search');
-  // });
+    expect(page.props.data).toEqual(mockHealthData['1']);
+    expect(page.props.populationData).toEqual(undefined);
+    expect(page.props.searchedIndicator).toEqual('testing');
+    expect(page.props.indicatorsSelected).toEqual(['1']);
+  });
 });
