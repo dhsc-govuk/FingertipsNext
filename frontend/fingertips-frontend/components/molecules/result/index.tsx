@@ -9,13 +9,13 @@ import {
   Link,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
-import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type SearchResultProps = {
-  result: IndicatorSearchResult;
+  result: IndicatorDocument;
   indicatorSelected?: boolean;
 };
 
@@ -91,7 +91,7 @@ export function SearchResult({
               <Link
                 href={generateIndicatorChartPath(result.indicatorId.toString())}
               >
-                {result.indicatorName}
+                {result.name}
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>

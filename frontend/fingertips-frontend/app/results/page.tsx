@@ -5,7 +5,7 @@ import { connection } from 'next/server';
 import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { AreasApi } from '@/generated-sources/ft-api-client';
 import { ErrorPage } from '@/components/pages/error';
-import { getSearchService } from '@/lib/search/searchResultData';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -48,7 +48,10 @@ export default async function Page(
 
     // Perform async API call using indicator prop
     const searchResults =
-      await getSearchService().searchWith(searchedIndicator);
+      await SearchServiceFactory.getIndicatorSearchService().searchWith(
+        searchedIndicator
+      );
+
     return (
       <SearchResults
         searchResultsFormState={initialState}

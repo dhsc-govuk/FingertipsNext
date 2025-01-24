@@ -3,6 +3,8 @@
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { AreaDocument } from '@/lib/search/searchTypes';
 
 const $SearchFormSchema = z.object({
   indicator: z
@@ -46,4 +48,17 @@ export async function searchIndicator(
 
   const searchState = new SearchStateManager({ searchedIndicator: indicator });
   redirect(searchState.generatePath('/results'), RedirectType.push);
+}
+
+export async function getSearchSuggestions(
+  partialAreaName: string
+): Promise<AreaDocument[]> {
+  try {
+    return SearchServiceFactory.getAreaSearchService().getAreaSuggestions(
+      partialAreaName
+    );
+  } catch (e) {
+    console.log(e);
+  }
+  return [];
 }
