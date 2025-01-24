@@ -11,7 +11,6 @@ import { IndicatorRowData } from '@/components/organisms/Heatmap';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
-
 type ChartProps = {
   data: HealthDataForArea[];
   populationData?: PopulationData;
