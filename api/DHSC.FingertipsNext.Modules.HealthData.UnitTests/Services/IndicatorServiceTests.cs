@@ -90,11 +90,8 @@ public class IndicatorServiceTests
         const string expectedAreaName = "Area 1";
 
         var healthMeasure = new HealthMeasureModelHelper()
-            .WithAreaDimension(new AreaDimensionModelHelper()
-                .WithCode(expectedAreaCode)
-                .WithName((expectedAreaName))
-                .Build()
-            ).Build();
+            .WithAreaDimension(code: expectedAreaCode, name:(expectedAreaName))
+            .Build();
 
         var expectedHealthData = new List<HealthDataPoint>() { _mapper.Map<HealthDataPoint>(healthMeasure) };
         var expected = new HealthDataForArea()
@@ -118,15 +115,16 @@ public class IndicatorServiceTests
     {
         const string expectedAreaCode1 = "Code1";
         const string expectedAreaName1 = "Area 1";
-        var area1 = new AreaDimensionModelHelper().WithCode(expectedAreaCode1).WithName(expectedAreaName1).Build();
 
         const string expectedAreaCode2 = "Code2";
         const string expectedAreaName2 = "Area 2";
-        var area2 = new AreaDimensionModelHelper().WithCode(expectedAreaCode2).WithName(expectedAreaName2).Build();
         
-        var healthMeasure1 = new HealthMeasureModelHelper().WithAreaDimension(area1).WithYear(2023).Build();
-        var healthMeasure2 = new HealthMeasureModelHelper().WithAreaDimension(area2).WithYear(2024).Build();
-        var healthMeasure3 = new HealthMeasureModelHelper().WithAreaDimension(area1).WithYear(2020).Build();
+        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
+            .WithAreaDimension(code: expectedAreaCode1, name: expectedAreaName1).Build();
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2024)
+            .WithAreaDimension(code: expectedAreaCode2, name: expectedAreaName2).Build();
+        var healthMeasure3 = new HealthMeasureModelHelper(year: 2020)
+            .WithAreaDimension(code: expectedAreaCode1, name: expectedAreaName1).Build();
         var expected = new List<HealthDataForArea>()
         {
             new()

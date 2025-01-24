@@ -2,61 +2,153 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
-public class HealthMeasureModelHelper
+public class HealthMeasureModelHelper(
+    int key = 1, 
+    double count = 1.0,
+    double value = 1.0,
+    double lowerCi = 1.0,
+    double upperCi = 1.0,
+    short year = 2025
+    )
 {
-    private static readonly AreaDimensionModelHelper AreaDimensionModelHelper = new();
+    private AreaDimensionModel? _areaDimension;
+    private AgeDimensionModel? _ageDimension;
+    private IndicatorDimensionModel? _indicatorDimension;
+    private SexDimensionModel? _sexDimension;
 
-    private HealthMeasureModel _healthMeasure = new HealthMeasureModel
+    public HealthMeasureModelHelper WithAreaDimension(
+        string code = "AreaCode", 
+        string name = "area name",
+        DateTime? startDate = null,
+        DateTime? endDate = null
+        )
     {
-        HealthMeasureKey = 1,
-        Count = 1.0,
-        Value = 1.0,
-        LowerCI = 1.0,
-        UpperCI = 1.0,
-        Year = 2025,
-        AreaKey = 1,
-        AgeKey = 1,
-        IndicatorKey = 1,
-        SexKey = 1,
-        AreaDimension = AreaDimensionModelHelper.Build(),
-        AgeDimension = new AgeDimensionModel
+        _areaDimension = new AreaDimensionModel
         {
-            AgeKey = 1,
-            Name = "Name",
-            AgeID = 1
-        },
-        IndicatorDimension = new IndicatorDimensionModel
+            AreaKey = key,
+            Code = code,
+            Name = name,
+            StartDate = startDate ?? DateTime.Today,
+            EndDate = endDate ?? DateTime.Today.AddDays(1),
+        };
+        return this;
+    }
+    
+    private AreaDimensionModel DefaultAreaDimension()
+    {
+        return new AreaDimensionModel
         {
-            IndicatorKey = 1,
-            Name = "Name",
-            IndicatorId = 0,
+            AreaKey = key,
+            Code = "AreaCode",
+            Name = "area name",
             StartDate = DateTime.Today,
-            EndDate = DateTime.Today.AddDays(1),
-        },
-        SexDimension = new SexDimensionModel
-        {
-            SexKey = 1,
-            Name = "Name",
-            IsFemale = true,
-            HasValue = true,
-            SexId = 1,
-        }
-    };
+            EndDate =  DateTime.Today.AddDays(1),
+        };
+    }
 
-    public HealthMeasureModelHelper WithAreaDimension(AreaDimensionModel areaDimension)
+    public HealthMeasureModelHelper WithAgeDimension(
+        string name = "age name",
+        short ageId = 0
+        )
     {
-        _healthMeasure.AreaDimension = areaDimension;
+        _ageDimension = new AgeDimensionModel
+        {
+            AgeKey = (short)key,
+            Name = name,
+            AgeID = ageId
+        };
+
         return this;
     }
 
-    public HealthMeasureModelHelper WithYear(short year)
+    private AgeDimensionModel DefaultAgeDimension()
     {
-        _healthMeasure.Year = year;
+        return new AgeDimensionModel
+        {
+            AgeKey = (short)key,
+            Name = "age name",
+            AgeID = 0,
+        };
+    }
+
+    public HealthMeasureModelHelper WithIndicatorDimension(
+        string name = "indicator name",
+        short indicatorId = 1,
+        DateTime? startDate = null,
+        DateTime? endDate = null
+        )
+    {
+        _indicatorDimension = new IndicatorDimensionModel
+        {
+            IndicatorKey = (short)key,
+            Name = name,
+            IndicatorId = indicatorId,
+            StartDate = startDate ?? DateTime.Today,
+            EndDate = endDate ?? DateTime.Today.AddDays(1),
+        };
         return this;
+    }
+
+    private IndicatorDimensionModel DefaultIndicatorDimension()
+    {
+        return new IndicatorDimensionModel
+        {
+            IndicatorKey = (short)key,
+            Name = "indicator name",
+            IndicatorId = 1,
+            StartDate = DateTime.Today,
+            EndDate = DateTime.Today.AddDays(1),
+        };
+    }
+
+    public HealthMeasureModelHelper WithSexDimension(
+        string name = "sex name",
+        bool isFemale = false,
+        bool hasValue = false,
+        byte sexId = 0)
+    {
+        _sexDimension = new SexDimensionModel
+        {
+            SexKey = (byte)key,
+            Name = name,
+            IsFemale = isFemale,
+            HasValue = hasValue,
+            SexId = sexId
+        };
+
+        return this;
+    }
+
+    private SexDimensionModel DefaultSexDimension()
+    {
+        return new SexDimensionModel
+        {
+            SexKey = (byte)key,
+            Name = "sex name",
+            IsFemale = false,
+            HasValue = false,
+            SexId = 0
+        };
     }
 
     public HealthMeasureModel Build()
     {
-        return _healthMeasure;
+        return new HealthMeasureModel
+        {
+            HealthMeasureKey = key,
+            Count = count,
+            Value = value,
+            LowerCI = lowerCi,
+            UpperCI = upperCi,
+            Year = year,
+            AreaKey = key,
+            AgeKey = (short)key,
+            IndicatorKey = (short)key,
+            SexKey = (byte)key,
+            AreaDimension = _areaDimension ?? DefaultAreaDimension(),
+            AgeDimension = _ageDimension ?? DefaultAgeDimension(),
+            IndicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension(),
+            SexDimension = _sexDimension ?? DefaultSexDimension(),
+        };
     }
 }
