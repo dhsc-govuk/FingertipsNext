@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -34,6 +37,10 @@ async function generateSearchParams(value: SearchStateParams) {
 }
 
 describe('Chart Page', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should make 2 calls for get health data - first one for the indicator the next one for the population data', async () => {
     mockGetHealthData.mockResolvedValueOnce([]);
     mockGetHealthData.mockResolvedValueOnce([]);
@@ -48,19 +55,21 @@ describe('Chart Page', () => {
     });
     expect(mockGetHealthData).toHaveBeenNthCalledWith(2, {
       areaCodes: ['A001', areaCodeForEngland],
-      indicatorId: 92708,
+      indicatorId: indicatorIdForPopulation,
     });
   });
 
   it('should pass the correct props to the Chart page', async () => {
     const expectedPopulateData = preparePopulationData(
-      mockHealthData['92708'],
+      mockHealthData[`${indicatorIdForPopulation}`],
       '1',
       '2'
     );
 
     mockGetHealthData.mockResolvedValueOnce(mockHealthData['1']);
-    mockGetHealthData.mockResolvedValueOnce(mockHealthData['92708']);
+    mockGetHealthData.mockResolvedValueOnce(
+      mockHealthData[`${indicatorIdForPopulation}`]
+    );
 
     const page = await ChartPage({
       searchParams: generateSearchParams(searchParams),
