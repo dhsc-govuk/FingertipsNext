@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchFormState } from './searchActions';
+import { SearchFormState, getSearchSuggestions } from './searchActions';
 import {
   InsetText,
   Button,
@@ -59,6 +59,9 @@ export const SearchForm = ({
           id: 'areaSearched',
           name: 'areaSearched',
           defaultValue: searchFormState.areaSearched,
+          onChange: async (e) => {
+            console.log(await getSearchSuggestions(e.target.value));
+          },
         }}
         hint={
           <div style={{ color: '#505a5f' }}>

@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
-import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -20,6 +20,25 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
+
+const MOCK_DATA: IndicatorDocument[] = [
+  {
+    indicatorId: '1',
+    name: 'NHS',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2023',
+    dataSource: 'NHS website',
+    lastUpdated: new Date('December 6, 2024'),
+  },
+  {
+    indicatorId: '2',
+    name: 'DHSC',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2022',
+    dataSource: 'Student article',
+    lastUpdated: new Date('November 5, 2023'),
+  },
+];
 
 beforeEach(() => {
   mockReplace.mockClear();

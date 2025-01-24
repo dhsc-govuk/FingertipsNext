@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AI search index creation and data loading Search by geography should have correct index name and number of fields 1`] = `
+exports[`AI search index creation and data loading Search by area should have correct index name and number of fields 1`] = `
 [
   {
     "analyzer": null,
@@ -177,7 +177,7 @@ exports[`AI search index creation and data loading Search by indicator should ha
   {
     "functionAggregation": null,
     "functions": [],
-    "name": "BasicScoringProfile",
+    "name": "basicScoringProfile",
     "text": {
       "weights": {
         "definition": 5,
