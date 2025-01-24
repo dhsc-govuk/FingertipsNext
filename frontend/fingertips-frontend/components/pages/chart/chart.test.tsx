@@ -48,10 +48,12 @@ describe('Content', () => {
     const lineChart = screen.getByTestId('lineChart-component');
     const barChart = screen.getByTestId('barChart-component');
     const lineChartTable = screen.getByTestId('lineChartTable-component');
+    const scatterChart = screen.getByTestId('scatterChart-component');
 
     expect(lineChart).toBeInTheDocument();
     expect(barChart).toBeInTheDocument();
     expect(lineChartTable).toBeInTheDocument();
+    expect(scatterChart).toBeInTheDocument();
   });
 });
 

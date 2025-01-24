@@ -27,8 +27,7 @@ export function ScatterChart({
     chart: {
       type: 'scatter',
       height: '50%',
-      spacingBottom: 50,
-      spacingTop: 30,
+      spacingBottom: 50
     },
     title: {
       text: 'Scatter chart to show how the indicator has changed over time for the area',
@@ -40,8 +39,7 @@ export function ScatterChart({
       title: {
         text: xAxisTitle,
         style: {
-          fontWeight: 'bold',
-          fontSize: 20,
+          fontSize: 16,
         },
       },
       tickLength: 0,
@@ -50,19 +48,24 @@ export function ScatterChart({
       title: {
         text: yAxisTitle,
         style: {
-          fontWeight: 'bold',
-          fontSize: 20,
+          fontSize: 16,
         },
       },
     },
     series: [
       {
         type: 'scatter',
+        name: 'AreaCodes',
         data: data?.flatMap((item) =>
           item.healthData.map((healthItem, index) => [index, healthItem.value])
         ),
       },
     ],
+    legend: {
+      align: 'left',
+      verticalAlign: 'top',
+      margin: 30
+    },
     accessibility: {
       enabled: false,
       description: accessibilityLabel,
