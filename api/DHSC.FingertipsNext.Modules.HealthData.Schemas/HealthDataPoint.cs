@@ -45,7 +45,7 @@ public class HealthDataPoint
     public string AgeBand { get; init; } = String.Empty;
 
     /// <summary>
-    /// The upper confidence interval
+    /// Sex which the data are for.
     /// </summary>
     [JsonPropertyName("sex")]
     public string Sex { get; init; } = String.Empty ;
