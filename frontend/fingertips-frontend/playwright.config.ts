@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: './playwright/tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI
     ? [['list'], ['@estruyf/github-actions-reporter'], ['html']]
@@ -14,7 +14,7 @@ export default defineConfig({
   use: {
     baseURL: url,
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: 'on-first-failure',
   },
 
   projects: [
