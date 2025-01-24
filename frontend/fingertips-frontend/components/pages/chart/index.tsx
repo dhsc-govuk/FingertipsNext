@@ -107,7 +107,6 @@ export function Chart({
       ],
     },
   ];
-  // End of temporary test data for Heatmap
 
   const backLinkPath = searchState.generatePath('/results');
 

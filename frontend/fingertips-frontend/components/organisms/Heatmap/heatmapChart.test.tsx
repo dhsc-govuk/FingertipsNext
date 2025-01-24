@@ -37,6 +37,7 @@ it('should render the Highcharts react component within the HeatmapChart compone
       accessibilityLabel="A heatmap chart showing healthcare data"
     />
   );
+  
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
 });
@@ -49,6 +50,7 @@ it('should render the Heatmap title', () => {
       accessibilityLabel="A heatmap chart showing healthcare data"
     />
   );
+
   const title = screen.getByRole('heading', { level: 3 });
   expect(title).toHaveTextContent('Heatmap Chart Title');
 });
