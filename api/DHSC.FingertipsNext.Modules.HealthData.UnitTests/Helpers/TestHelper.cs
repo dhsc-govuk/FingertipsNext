@@ -57,17 +57,6 @@ public static class TestHelper
         };
     }
 
-    /// <summary>
-    /// build a HealtDataPoint 
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="count"></param>
-    /// <param name="value"></param>
-    /// <param name="lowerConfidenceInterval"></param>
-    /// <param name="upperConfidenceInterval"></param>
-    /// <param name="ageBand"></param>
-    /// <param name="sex"></param>
-    /// <returns></returns>
     public static HealthDataPoint BuildHealthDataPoint(int year, string ageBand, string sex,  float count = 1, float value = 1, float lowerConfidenceInterval = 1, float upperConfidenceInterval = 1)
     {
         return new HealthDataPoint
