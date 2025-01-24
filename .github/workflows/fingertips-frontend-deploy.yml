@@ -47,9 +47,6 @@ jobs:
           containerAppName: fingertips-frontend
           resourceGroup: ${{ vars.RESOURCE_GROUP }}
           containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
-          registryUrl: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
-          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 3000
           environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
