@@ -17,7 +17,7 @@ public class AutoMapperTests
 
     [Fact]
     public void
-        Mapper_ShouldMapAHeathMeasure_ToAHealthDataPoint()
+        Mapper_ShouldMapAHealthMeasure_ToAHealthDataPoint()
     {
         // arrange
         var healthMeasure = TestHelper.BuildHealthMeasureModel("Code1", 2007, DateTime.Now);
