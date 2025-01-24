@@ -1,9 +1,13 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect, test } from '../page-objects/pageFactory';
+import indicatorData from '../../../../search-setup/assets/indicatorData.json';
+import { getIndicatorIDByName } from '../testHelpers';
 
-const indicator = 'Waiting';
-const indicatorID1 = '327';
-const indicatorID2 = '330';
+const indicator = 'Waiting'; // we expect 2 matches against name property for this string in the mockData and ai search data
+const indicatorID1 = getIndicatorIDByName(indicatorData, indicator)[0]
+  .indicatorId;
+const indicatorID2 = getIndicatorIDByName(indicatorData, indicator)[1]
+  .indicatorId;
 
 test('Search via indicator and assert displayed results, check the chart is displayed then navigate back through to search page', async ({
   homePage,
