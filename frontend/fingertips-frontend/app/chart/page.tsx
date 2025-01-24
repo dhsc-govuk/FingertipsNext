@@ -6,7 +6,10 @@ import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData'
 
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -36,12 +39,8 @@ export default async function ChartPage(
   const availablePopulationAreas = ['nE38000240', 'E40000003'];
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: 337,
-      areaCodes: [
-        availablePopulationAreas[0],
-        areaCodeForEngland,
-        availablePopulationAreas[1],
-      ],
+      indicatorId: indicatorIdForPopulation,
+      areaCodes: [areaCodes[0], areaCodeForEngland],
     });
   } catch (error) {
     console.log('error getting population data ', error);

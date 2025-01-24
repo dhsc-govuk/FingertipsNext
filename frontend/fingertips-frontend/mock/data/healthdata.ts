@@ -1,7 +1,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export const mockHealthData: Record<string, HealthDataForArea[]> = {
-  '92708': [
+  '337': [
     {
       areaCode: 'E92000001',
       healthData: [
@@ -350,7 +350,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
-      areaCode: '1',
+      areaCode: 'A001',
       healthData: [
         {
           year: 2023,
