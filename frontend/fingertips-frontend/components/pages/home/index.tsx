@@ -77,7 +77,7 @@ export const Home = ({
           Indicators use data to show us how things are going and if there are
           any changes over time. For example if the number of people smoking in
           South West England has gone up or down in the last ten years. These
-          indicators can be used to compare public heath by areas, and see how
+          indicators can be used to compare public health by areas, and see how
           it is impacted by inequalities such as age, sex or ethnicity.
         </Paragraph>
       </div>

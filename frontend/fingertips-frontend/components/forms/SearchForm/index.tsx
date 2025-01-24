@@ -11,16 +11,31 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { AreaDocument } from '@/lib/search/searchTypes';
+import AreaSuggestionList from '@/components/molecules/AreaSuggestionList';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
+
+async function generateAreaSuggestions(
+  partialText: string
+): Promise<AreaDocument[]> {
+  if (partialText.length < 3) return [];
+  else {
+    const areas = await getSearchSuggestions(partialText);
+    return areas.slice(0, 20);
+  }
+}
 
 export const SearchForm = ({
   searchFormState,
 }: {
   searchFormState: SearchFormState;
 }) => {
+  const [suggestedAreas, setSuggestedAreas] = useState<AreaDocument[]>([]);
+
   return (
     <div
       data-testid="search-form"
@@ -60,7 +75,7 @@ export const SearchForm = ({
           name: 'areaSearched',
           defaultValue: searchFormState.areaSearched,
           onChange: async (e) => {
-            console.log(await getSearchSuggestions(e.target.value));
+            setSuggestedAreas(await generateAreaSuggestions(e.target.value));
           },
         }}
         hint={
@@ -77,6 +92,7 @@ export const SearchForm = ({
       >
         Search for an area by location or organisation
       </StyledInputField>
+      <AreaSuggestionList areas={suggestedAreas} />
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area
       </Link>
