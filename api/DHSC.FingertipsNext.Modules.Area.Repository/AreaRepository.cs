@@ -75,27 +75,27 @@ public class AreaRepository : IAreaRepository
         if (area == null)
             return null;
 
-        var aresWithRelations = new AreaWithRelationsModel { Area = area };
+        var areasWithRelations = new AreaWithRelationsModel { Area = area };
 
         var parentNodeId = area.Node.GetAncestor(1);
         var parent = await _dbContext.Area.Where(a => a.Node == parentNodeId).FirstOrDefaultAsync();
 
         if (parent != null)
         {
-            aresWithRelations.ParentArea = parent;
+            areasWithRelations.ParentArea = parent;
         }
         
         if (includeChildren)
         {
-            await AddChildAreas(aresWithRelations, childAreaType, area);
+            await AddChildAreas(areasWithRelations, childAreaType, area);
         }
 
         if (includeAncestors)
         {
-            await AddAncestorAreas(aresWithRelations, areaCode);
+            await AddAncestorAreas(areasWithRelations, areaCode);
         }
 
-        return aresWithRelations;
+        return areasWithRelations;
     }
 
     /// <summary>
