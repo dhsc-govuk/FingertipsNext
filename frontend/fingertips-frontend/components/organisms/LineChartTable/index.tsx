@@ -47,6 +47,7 @@ const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
 
 const StyledConfidenceLimitsHeader = styled(StyledTableCellHeader)({
   padding: '0.625em',
+  paddingLeft: '0',
 });
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
