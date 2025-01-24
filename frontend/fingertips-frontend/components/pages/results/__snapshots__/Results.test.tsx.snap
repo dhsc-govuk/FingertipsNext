@@ -135,6 +135,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -183,6 +203,22 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media print {
 
 }
@@ -192,6 +228,22 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -311,6 +363,26 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -369,6 +441,22 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
 @media print {
 
 }
@@ -378,6 +466,22 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
 
 }
 
@@ -524,7 +628,43 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -590,6 +730,22 @@ exports[`Search Results Suite snapshot test 1`] = `
   .c0 {
     margin-bottom: 20px;
   }
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
 }
 
 @media only screen and (min-width:641px) {
@@ -635,7 +791,7 @@ exports[`Search Results Suite snapshot test 1`] = `
       "
     </p>
   </div>
-  .c15 {
+  .c22 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -660,36 +816,36 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 22px;
 }
 
-.c15:focus {
+.c22:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c15:link,
-.c15:visited,
-.c15:active,
-.c15:hover {
+.c22:link,
+.c22:visited,
+.c22:active,
+.c22:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c15::-moz-focus-inner {
+.c22::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c15:hover,
-.c15:focus {
+.c22:hover,
+.c22:focus {
   background-color: #00572e;
 }
 
-.c15:active {
+.c22:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c15::before {
+.c22::before {
   content: "";
   display: block;
   position: absolute;
@@ -700,34 +856,34 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c15:active::before {
+.c22:active::before {
   top: -4px;
 }
 
-.c15:disabled {
+.c22:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c15:disabled:hover {
+.c22:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c15:disabled:focus {
+.c22:disabled:focus {
   outline: none;
 }
 
-.c15:disabled:active {
+.c22:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c15 svg {
+.c22 svg {
   max-width: 15px;
 }
 
-.c8 {
+.c16 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -742,7 +898,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 10px;
 }
 
-.c9 {
+.c17 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -753,22 +909,22 @@ exports[`Search Results Suite snapshot test 1`] = `
   cursor: pointer;
 }
 
-.c9:checked + span:after {
+.c17:checked + span:after {
   opacity: 1;
 }
 
-.c9:focus + span:before {
+.c17:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c9 + span {
+.c17 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c10 {
+.c18 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -776,7 +932,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   touch-action: manipulation;
 }
 
-.c10::before {
+.c18::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -788,7 +944,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c10::after {
+.c18::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -805,7 +961,39 @@ exports[`Search Results Suite snapshot test 1`] = `
   opacity: 0;
 }
 
-.c3 {
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.c7:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.c14 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -815,7 +1003,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c1 {
+.c12 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -829,15 +1017,28 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding-left: 0;
 }
 
-.c0 .c0 {
+.c11 .c11 {
   margin-top: 10px;
 }
 
-.c1 > .c2 {
+.c12 > .c13 {
   margin-bottom: 5px;
 }
 
-.c11 {
+.c3 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1111111111111112;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c19 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -850,39 +1051,39 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c12 {
+.c20 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c12:focus {
+.c20:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c12:link {
+.c20:link {
   color: #1d70b8;
 }
 
-.c12:visited {
+.c20:visited {
   color: #4c2c92;
 }
 
-.c12:hover {
+.c20:hover {
   color: #2b8cc4;
 }
 
-.c12:active {
+.c20:active {
   color: #2b8cc4;
 }
 
-.c12:focus {
+.c20:focus {
   color: #0b0c0c;
 }
 
-.c13 {
+.c6 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -893,11 +1094,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c13 > p {
+.c6 > p {
   margin: 0;
 }
 
-.c13 > p > code {
+.c6 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -905,7 +1106,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c13 > pre {
+.c6 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -914,7 +1115,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c13 > pre > code {
+.c6 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -924,13 +1125,19 @@ exports[`Search Results Suite snapshot test 1`] = `
   word-wrap: normal;
 }
 
-.c7 {
+.c1 {
   box-sizing: border-box;
   padding-right: 15px;
   padding-left: 15px;
 }
 
-.c5 {
+.c10 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -947,7 +1154,26 @@ exports[`Search Results Suite snapshot test 1`] = `
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c14 {
+.c9 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 33px;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
+}
+
+.c9:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c21 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -956,13 +1182,23 @@ exports[`Search Results Suite snapshot test 1`] = `
   line-height: 1.2;
 }
 
-.c6 {
+.c15 {
   padding-top: 15px;
   padding-bottom: 0;
   padding-left: 25px;
   padding-right: 25px;
 }
 
+.c2 {
+  background-color: #E1E2E3;
+  min-height: 100%;
+  padding: 0.5em;
+}
+
+.c8 select {
+  width: 100%;
+}
+
 @media print {
 
 }
@@ -980,149 +1216,207 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c15 {
+  .c22 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c22 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c22 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 svg {
+  .c22 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c22 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c8 {
+  .c16 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c16 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c16 {
     margin-bottom: 10px;
   }
 }
 
 @media print {
-  .c3 {
+  .c5 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c5 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c1 {
+  .c5 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 20px;
+  .c5 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 0;
   }
 }
 
 @media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-  .c11 {
-    color: #000;
-  }
-}
-
-@media print {
-  .c11 {
+  .c14 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
+  .c14 {
     font-size: 19px;
     line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c11 {
-    margin-bottom: 20px;
   }
 }
 
 @media print {
   .c12 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c12 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c3 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 18px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c19 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c19 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c19 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c19 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c20 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c12[href^="/"]::after,
-  .c12[href^="http://"]::after,
-  .c12[href^="https://"]::after {
+  .c20[href^="/"]::after,
+  .c20[href^="http://"]::after,
+  .c20[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -1130,27 +1424,40 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c13 {
+  .c6 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c6 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c6 {
     margin-bottom: 20px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c1 {
+    width: 33.3333%;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
@@ -1162,7 +1469,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c0 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -1170,195 +1477,274 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c14 {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    width: 50%;
+    height: 38px;
+  }
+}
+
+@media print {
+  .c21 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c21 {
     font-size: 19px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c15 {
     padding-top: 15px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c15 {
     padding-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c15 {
     padding-left: 40px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c15 {
     padding-right: 40px;
   }
 }
 
-<form
-    action="/action"
+<div
+    class="c0"
   >
-    <input
-      hidden=""
-      name="searchedIndicator"
-      value="test"
-    />
-    <ul
-      class="c0 c1"
+    <div
+      class="c1"
     >
-      <li
-        class="c2 c3"
+      <div
+        class="c2"
+        data-testid="area-filter-container"
       >
+        <h3
+          class="c3"
+        >
+          Filters
+        </h3>
         <hr
           class="c4"
         />
-      </li>
-      <li
-        class="c2 c3"
-        data-testid="search-result"
-      >
-        <div
-          class="c5 c6"
-        >
-          <div
-            class="c7"
+        <div>
+          <span
+            class="c5"
           >
-            <label
-              class="c8"
-            >
-              <input
-                class="c9"
-                data-testid="search-results-indicator-1"
-                id="search-results-indicator-1"
-                name="indicator"
-                type="checkbox"
-                value="1"
-              />
-              <span
-                class="c10"
-              >
-                <h5
-                  class="c11"
-                >
-                  <a
-                    class="c12"
-                    href="/chart?is=1"
-                  >
-                    NHS
-                  </a>
-                </h5>
-                <div
-                  class="c13 c14"
-                >
-                  <p>
-                    Latest data period: 2023
-                  </p>
-                </div>
-                <div
-                  class="c13 c14"
-                >
-                  <p>
-                    Data source: NHS website
-                  </p>
-                </div>
-                <div
-                  class="c13 c14"
-                >
-                  <p>
-                    Last updated: 06 December 2024
-                  </p>
-                </div>
-              </span>
-            </label>
+            Areas Selected
+          </span>
+          <div
+            class="c6"
+          >
+            <p>
+              There are no areas selected
+            </p>
           </div>
         </div>
-        <hr
-          class="c4"
-        />
-      </li>
-      <li
-        class="c2 c3"
-        data-testid="search-result"
-      >
-        <div
-          class="c5 c6"
-        >
-          <div
-            class="c7"
+        <div>
+          <span
+            class="c5"
           >
-            <label
-              class="c8"
+            Filter by area
+          </span>
+          <label
+            class="c7 c8"
+          >
+            <span
+              class="c5"
             >
-              <input
-                class="c9"
-                data-testid="search-results-indicator-2"
-                id="search-results-indicator-2"
-                name="indicator"
-                type="checkbox"
-                value="2"
-              />
-              <span
+              Select an area type
+            </span>
+            <select
+              class="c9"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="c10"
+    >
+      <form
+        action="/action"
+      >
+        <input
+          hidden=""
+          name="searchedIndicator"
+          value="test"
+        />
+        <ul
+          class="c11 c12"
+        >
+          <li
+            class="c13 c14"
+          >
+            <hr
+              class="c4"
+            />
+          </li>
+          <li
+            class="c13 c14"
+            data-testid="search-result"
+          >
+            <div
+              class="c0 c15"
+            >
+              <div
                 class="c10"
               >
-                <h5
-                  class="c11"
+                <label
+                  class="c16"
                 >
-                  <a
-                    class="c12"
-                    href="/chart?is=2"
+                  <input
+                    class="c17"
+                    data-testid="search-results-indicator-1"
+                    id="search-results-indicator-1"
+                    name="indicator"
+                    type="checkbox"
+                    value="1"
+                  />
+                  <span
+                    class="c18"
                   >
-                    DHSC
-                  </a>
-                </h5>
-                <div
-                  class="c13 c14"
+                    <h5
+                      class="c19"
+                    >
+                      <a
+                        class="c20"
+                        href="/chart?is=1"
+                      >
+                        NHS
+                      </a>
+                    </h5>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Latest data period: 2023
+                      </p>
+                    </div>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Data source: NHS website
+                      </p>
+                    </div>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Last updated: 06 December 2024
+                      </p>
+                    </div>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <hr
+              class="c4"
+            />
+          </li>
+          <li
+            class="c13 c14"
+            data-testid="search-result"
+          >
+            <div
+              class="c0 c15"
+            >
+              <div
+                class="c10"
+              >
+                <label
+                  class="c16"
                 >
-                  <p>
-                    Latest data period: 2022
-                  </p>
-                </div>
-                <div
-                  class="c13 c14"
-                >
-                  <p>
-                    Data source: Student article
-                  </p>
-                </div>
-                <div
-                  class="c13 c14"
-                >
-                  <p>
-                    Last updated: 05 November 2023
-                  </p>
-                </div>
-              </span>
-            </label>
-          </div>
-        </div>
-        <hr
-          class="c4"
-        />
-      </li>
-    </ul>
-    <button
-      class="c15"
-      data-testid="search-results-button-submit"
-      type="submit"
-    >
-      View charts
-    </button>
-  </form>
+                  <input
+                    class="c17"
+                    data-testid="search-results-indicator-2"
+                    id="search-results-indicator-2"
+                    name="indicator"
+                    type="checkbox"
+                    value="2"
+                  />
+                  <span
+                    class="c18"
+                  >
+                    <h5
+                      class="c19"
+                    >
+                      <a
+                        class="c20"
+                        href="/chart?is=2"
+                      >
+                        DHSC
+                      </a>
+                    </h5>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Latest data period: 2022
+                      </p>
+                    </div>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Data source: Student article
+                      </p>
+                    </div>
+                    <div
+                      class="c6 c21"
+                    >
+                      <p>
+                        Last updated: 05 November 2023
+                      </p>
+                    </div>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <hr
+              class="c4"
+            />
+          </li>
+        </ul>
+        <button
+          class="c22"
+          data-testid="search-results-button-submit"
+          type="submit"
+        >
+          View charts
+        </button>
+      </form>
+    </div>
+  </div>
 </DocumentFragment>
 `;
