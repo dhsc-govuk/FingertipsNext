@@ -45,7 +45,7 @@ jobs:
       - name: Azure Container Registry Login
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.ACR_SERVER }}
+          registry: ${{ secrets.acr-server }}
           username: ${{ secrets.arm-client-id }}
           password: ${{ secrets.arm-client-secret }}
 
