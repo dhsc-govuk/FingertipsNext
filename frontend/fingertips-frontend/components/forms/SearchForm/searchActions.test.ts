@@ -66,6 +66,7 @@ describe('getSearchSuggestions', () => {
       },
     ]);
   });
+
   it('should return a maximum of 20 suggestions', async () => {
     SearchServiceFactory.reset();
     process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
