@@ -50,6 +50,10 @@ async function generateSearchParams(value: SearchStateParams) {
 }
 
 describe('Results Page', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should have made calls to getAreaTypes and searchResults', async () => {
     mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
     mockIndicatorSearchService.searchWith.mockResolvedValue(

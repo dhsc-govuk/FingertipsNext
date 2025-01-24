@@ -32,6 +32,10 @@ const mockArea: AreaWithRelations = {
 const availableAreaTypes = ['area type 001', 'area type 002'];
 
 describe('Area Filter', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('snapshot test', () => {
     const container = render(<AreaFilter availableAreaTypes={[]} />);
 
