@@ -32,7 +32,7 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert
   await chartPage.checkURLIsCorrect(
-    `${indicator}&ffff${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
+    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
   );
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await chartPage.checkChartAndChartTable();
