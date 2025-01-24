@@ -15,6 +15,7 @@ const config: Config = {
   testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/$1',
+    '^@azure/(.*)$': '<rootDir>/node_modules/@azure/$1',
   },
 };
 
