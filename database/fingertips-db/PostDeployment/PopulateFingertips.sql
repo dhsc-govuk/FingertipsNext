@@ -42,9 +42,10 @@ INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (621, N'85-89 yrs
 INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (622, N'90+ yrs', 22);
 SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 
+--create some area dimension data
 SET IDENTITY_INSERT [dbo].[AreaDimension] ON 
 
---create some area dimension data
+INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (3333, N'E92000001', N'England', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (17, N'A81633', N'Foundations -Harris Street', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (64, N'A84032', N'Cheviot Medical Group', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (72, N'A85003', N'Rowlands Gill Medical Centre', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
