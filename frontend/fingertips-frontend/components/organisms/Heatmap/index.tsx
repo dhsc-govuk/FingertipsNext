@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import Heatmap from 'highcharts/modules/heatmap';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { PointOptionsObject } from 'highcharts';
+import { generateHeatmapData } from './heatmapUtil';
 import { H3 } from 'govuk-react';
 
 // Initialize the Heatmap module
@@ -108,48 +108,4 @@ export function HeatmapChart({
 function formatIndicatorLabel(label: string): string {
   const [indicator, year] = label.split('|');
   return `<table width='250px'><tr><td><a href='/'>${indicator}</a></td><td>${year}</td></tr></table>`;
-}
-
-function generateHeatmapData(
-  data: Array<IndicatorRowData>,
-  areaCodes: Array<string>
-): Array<PointOptionsObject> {
-  const heatmapData: Array<PointOptionsObject> = [];
-  let areaColumn = 0,
-    indicatorRow = 0;
-  for (const indicatorData of data) {
-    for (const areaCode of areaCodes) {
-      const pointData: PointOptionsObject = {
-        x: areaColumn,
-        y: indicatorRow,
-        value: getValueForAreaCode(areaCode, indicatorData),
-        // Colour can be set here as required e.g.
-        // color:'#FFFF00',
-      };
-      heatmapData.push(pointData);
-      areaColumn++;
-    }
-    indicatorRow++;
-    areaColumn = 0;
-  }
-  return heatmapData;
-}
-
-function getValueForAreaCode(
-  areaCode: string,
-  indicatorRowData: IndicatorRowData
-): number | null {
-  let result = null;
-  for (const healthDataForArea of indicatorRowData.rowData) {
-    if (healthDataForArea.areaCode === areaCode) {
-      for (const dataPoint of healthDataForArea.healthData) {
-        if (dataPoint.year === indicatorRowData.year) {
-          result = dataPoint.value;
-          break;
-        }
-      }
-      break;
-    }
-  }
-  return result;
 }
