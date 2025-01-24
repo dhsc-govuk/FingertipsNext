@@ -20,11 +20,11 @@ on:
         required: true
         type: string
     secrets:
-      acr-username:
-        description: 'Azure Container Registry username'
+      arm-client-id:
+        description: 'Service Principal Client ID'
         required: true
-      acr-password:
-        description: 'Azure Container Registry password'
+      arm-client-secret:
+        description: 'Service Principal Client Secret'
         required: true
       acr-server:
         description: 'Azure Container Registry server'
@@ -46,8 +46,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ secrets.ACR_SERVER }}
-          username: ${{ secrets.ARM_CLIENT_ID }}
-          password: ${{ secrets.ARM_CLIENT_SECRET }}
+          username: ${{ secrets.arm-client-id }}
+          password: ${{ secrets.arm-client-secret }}
 
       - name: Generate container metadata
         id: meta

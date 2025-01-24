@@ -76,6 +76,6 @@ jobs:
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
       git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
     secrets:
-      acr-username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-      acr-password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-      acr-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
