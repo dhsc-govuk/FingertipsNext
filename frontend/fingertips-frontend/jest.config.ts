@@ -13,6 +13,10 @@ const config: Config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/$1',
+    '^@azure/(.*)$': '<rootDir>/node_modules/@azure/$1',
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

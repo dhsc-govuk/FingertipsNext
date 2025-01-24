@@ -1,8 +1,8 @@
 import { SearchResults } from '@/components/pages/results';
 import { ErrorPage } from '@/components/pages/error';
-import { getSearchService } from '@/lib/search/searchResultData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -26,7 +26,9 @@ export default async function Page(
   try {
     // Perform async API call using indicator prop
     const searchResults =
-      await getSearchService().searchWith(searchedIndicator);
+      await SearchServiceFactory.getIndicatorSearchService().searchWith(
+        searchedIndicator
+      );
     return (
       <SearchResults
         searchResultsFormState={initialState}
