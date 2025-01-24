@@ -120,7 +120,7 @@ public class IndicatorServiceTests
         const string expectedAreaName1 = "Area 1";
         var area1 = new AreaDimensionModelHelper().WithCode(expectedAreaCode1).WithName(expectedAreaName1).Build();
 
-        const string expectedAreaCode2 = "Code1";
+        const string expectedAreaCode2 = "Code2";
         const string expectedAreaName2 = "Area 2";
         var area2 = new AreaDimensionModelHelper().WithCode(expectedAreaCode2).WithName(expectedAreaName2).Build();
         
