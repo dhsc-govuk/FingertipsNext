@@ -6,7 +6,10 @@ import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData'
 
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -34,7 +37,7 @@ export default async function ChartPage(
   let preparedPopulationData = undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: 92708,
+      indicatorId: indicatorIdForPopulation,
       areaCodes: [areaCodes[0], areaCodeForEngland],
     });
   } catch (error) {
