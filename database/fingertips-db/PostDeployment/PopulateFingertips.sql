@@ -256,7 +256,8 @@ GO
 
 --create some indicator dimension data
 SET IDENTITY_INSERT [dbo].[IndicatorDimension] ON 
-
+INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (3333, N'Resident population', 92708, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2));
+INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (3334, N'Proportion of GP registered populations by age group', 93468, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2));
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (1, N'Under 75 mortality rate from all causes', 108, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (6, N'Hypertension: QOF prevalence (all ages)', 219, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (40, N'Mortality rate from lung cancer, all ages', 1203, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
