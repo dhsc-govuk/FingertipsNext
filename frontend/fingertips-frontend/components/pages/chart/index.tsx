@@ -8,12 +8,14 @@ import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { ScatterChart } from '@/components/organisms/ScatterChart';
 
 type ChartProps = {
   data: HealthDataForArea[];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
+  scatterData?: HealthDataForArea[];
 };
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
@@ -23,6 +25,7 @@ export function Chart({
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
+  scatterData,
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
     searchedIndicator,
@@ -49,6 +52,13 @@ export function Chart({
           <br />
         </>
       ) : null}
+      <ScatterChart
+        data={scatterData}
+        ScatterChartTitle="Compare indicators within the area group"
+        yAxisTitle="y: Indicator 1 (value)"
+        xAxisTitle="x: Indicator 2 (value)"
+        accessibilityLabel="A scatter chart showing two indicators"
+      ></ScatterChart>
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}

@@ -30,6 +30,13 @@ export default async function ChartPage(
     areaCodes: areaCodes,
   });
 
+  const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
+    indicatorId: Number(indicatorsSelected[0]),
+    areaCodes: areaCodes,
+  });
+
+  const scatterData = [...data, ...dataSetTwo];
+
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
   try {
@@ -50,6 +57,7 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       data={data}
+      scatterData={scatterData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />
