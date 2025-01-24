@@ -29,3 +29,13 @@ export const headings = [
   'Upper',
   'Value ',
 ];
+
+export enum LineChartTableHeadingEnum {
+  AreaPeriod = 'Period',
+  AreaTrend = 'Trend',
+  AreaCount = 'Count',
+  AreaValue = 'Value',
+  AreaLower = 'Lower',
+  AreaUpper = 'Upper',
+  BenchmarkValue = 'Value ',
+}

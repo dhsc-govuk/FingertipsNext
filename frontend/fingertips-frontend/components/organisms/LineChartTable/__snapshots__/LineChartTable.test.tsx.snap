@@ -14,30 +14,18 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   padding-right: 0;
 }
 
-.c4 {
-  padding: 10px 20px 10px 0;
-  border-bottom: 1px solid #bfc1c3;
-  text-align: left;
-  font-weight: 700;
-  width: 100%;
-}
-
-.c4:last-child {
-  padding-right: 0;
-}
-
-.c6 {
+.c5 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c6:last-child {
+.c5:last-child {
   padding-right: 0;
 }
 
-.c7 {
+.c10 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -47,17 +35,17 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   font-weight: 400;
 }
 
-.c7:last-child {
+.c10:last-child {
   padding-right: 0;
 }
 
-.c9 {
+.c13 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c9:last-child {
+.c13:last-child {
   padding-right: 0;
 }
 
@@ -76,37 +64,72 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 }
 
 .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
+  padding-top: 0.3125em;
+}
+
+.c4 {
   text-align: center;
-  padding: 0.3125em;
 }
 
-.c5 {
+.c6 {
   text-align: right;
-  padding-top: 0;
+  padding-right: 0;
 }
 
-.c1 {
-  margin-bottom: 0.9375em;
+.c9 {
+  text-align: left;
 }
 
 .c8 {
+  padding: 0.625em;
+}
+
+.c7 {
+  background-color: #cbcbcb;
+}
+
+.c1 {
+  margin-bottom: 0;
+}
+
+.c11 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-right: 0;
+}
+
+.c12 {
   text-align: left;
+}
+
+.c14 {
+  text-align: right;
+}
+
+.c15 {
+  background-color: #cbcbcb;
+  border-top: solid white 0.09375em;
 }
 
 @media only screen and (min-width:641px) {
   .c2 {
-    width: 75%;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
     width: 25%;
   }
 }
 
 @media print {
-  .c7 {
+  .c10 {
     font-family: sans-serif;
   }
 }
@@ -137,6 +160,34 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   }
 }
 
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
 <div
     data-testid="lineChartTable-component"
   >
@@ -150,12 +201,39 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c2 c3"
+            class="c2 c3 c4"
+          />
+          <th
+            class="c2 c3 c4"
+          />
+          <th
+            class="c5 c3 c4"
           >
             a1425
           </th>
           <th
-            class="c4 c5"
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5 c3 c6 c7"
           >
             England
           </th>
@@ -175,13 +253,34 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c2 c5"
+            class="c2 c3 c6"
+          />
+          <th
+            class="c2 c3 c6"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5"
+          />
+          <th
+            class="c5 c3 c8"
           >
             95% confidence limits
           </th>
-          <th
-            class="c6"
-          />
         </tr>
       </thead>
       <tbody
@@ -198,37 +297,37 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c6"
+            class="c5 c3 c9"
           >
             Period
           </th>
           <th
-            class="c6"
+            class="c5 c3 c9"
           >
             Trend
           </th>
           <th
-            class="c6"
+            class="c5 c3 c6"
           >
             Count
           </th>
           <th
-            class="c6"
+            class="c5 c3 c6"
           >
             Value
           </th>
           <th
-            class="c6"
+            class="c5 c3 c6"
           >
             Lower
           </th>
           <th
-            class="c6"
+            class="c5 c3 c6"
           >
             Upper
           </th>
           <th
-            class="c6"
+            class="c5 c3 c6 c7"
           >
             Value 
           </th>
@@ -241,175 +340,175 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c7 c8"
+            class="c10 c11 c12"
           >
             2020
           </td>
           <td
-            class="c9 c8"
+            class="c13 c11 c12"
           />
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
             200
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            971.435418
+            971.4
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            441.69151
+            441.7
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            578.32766
+            578.3
           </td>
           <td
-            class="c9 c8"
+            class="0 c13 c11 c15"
           />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c7 c8"
+            class="c10 c11 c12"
           >
             2012
           </td>
           <td
-            class="c9 c8"
+            class="c13 c11 c12"
           />
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
             300
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            602.820845
+            602.8
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            441.69151
+            441.7
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            578.32766
+            578.3
           </td>
           <td
-            class="c9 c8"
+            class="0 c13 c11 c15"
           />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c7 c8"
+            class="c10 c11 c12"
           >
             2008
           </td>
           <td
-            class="c9 c8"
+            class="c13 c11 c12"
           />
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
             222
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            890.305692
+            890.3
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            441.69151
+            441.7
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            578.32766
+            578.3
           </td>
           <td
-            class="c9 c8"
+            class="0 c13 c11 c15"
           />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c7 c8"
+            class="c10 c11 c12"
           >
             2006
           </td>
           <td
-            class="c9 c8"
+            class="c13 c11 c12"
           />
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
             389
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            278.29134
+            278.3
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            441.69151
+            441.7
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            578.32766
+            578.3
           </td>
           <td
-            class="c9 c8"
+            class="0 c13 c11 c15"
           />
         </tr>
         <tr
           class=""
         >
           <td
-            class="c7 c8"
+            class="c10 c11 c12"
           >
             2004
           </td>
           <td
-            class="c9 c8"
+            class="c13 c11 c12"
           />
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
             267
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            703.420759
+            703.4
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            441.69151
+            441.7
           </td>
           <td
-            class="c7 c8"
+            class="c10 c11 c14"
           >
-            578.32766
+            578.3
           </td>
           <td
-            class="c9 c8"
+            class="0 c13 c11 c15"
           />
         </tr>
       </tbody>

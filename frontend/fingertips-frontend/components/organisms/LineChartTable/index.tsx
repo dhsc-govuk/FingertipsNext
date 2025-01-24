@@ -3,6 +3,9 @@
 import { Table } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
+import { ReactNode } from 'react';
+import { LineChartTableHeadingEnum } from '@/lib/chartHelpers/chartHelpers';
 
 interface TableProps {
   data: HealthDataForArea;
@@ -17,22 +20,58 @@ interface LineChartTableData {
   upper: number;
 }
 
-const StyledAlignCenterHeader = styled(Table.CellHeader)({
+const LIGHT_GREY = '#cbcbcb';
+
+const StyledTableCellHeader = styled(Table.CellHeader)(
+  typography.font({ size: 16 }),
+  {
+    fontWeight: 'bold',
+  },
+  {
+    paddingTop: '0.3125em',
+  }
+);
+
+const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
-  padding: '0.3125em',
 });
 
-const StyledAlignRightHeader = styled(Table.CellHeader)({
+const StyledAlignRightHeader = styled(StyledTableCellHeader)({
   textAlign: 'right',
-  paddingTop: '0',
+  paddingRight: '0',
+});
+
+const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
+  textAlign: 'left',
+});
+
+const StyledConfidenceLimitsHeader = styled(StyledTableCellHeader)({
+  padding: '0.625em',
+});
+
+const StyledGreyHeader = styled(StyledAlignRightHeader)({
+  backgroundColor: LIGHT_GREY,
 });
 
 const StyledTable = styled(Table)({
-  marginBottom: '0.9375em',
+  marginBottom: '0',
 });
 
-const StyledTableCell = styled(Table.Cell)({
+const StyledTableCell = styled(Table.Cell)(typography.font({ size: 16 }), {
+  paddingRight: '0',
+});
+
+const StyledAlignLeftTableCell = styled(StyledTableCell)({
   textAlign: 'left',
+});
+
+const StyledAlignRightTableCell = styled(StyledTableCell)({
+  textAlign: 'right',
+});
+
+const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
+  backgroundColor: LIGHT_GREY,
+  borderTop: 'solid white 0.09375em',
 });
 
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableData[] =>
@@ -44,53 +83,84 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableData[] =>
     upper: healthPoint.upperCi,
   }));
 
+function getCellHeader(heading: string): ReactNode {
+  return heading === LineChartTableHeadingEnum.BenchmarkValue ? (
+    <StyledGreyHeader key={`header-${heading}`}>{heading}</StyledGreyHeader>
+  ) : (
+    <StyledAlignRightHeader key={`header-${heading}`}>
+      {heading}
+    </StyledAlignRightHeader>
+  );
+}
+
 export function LineChartTable({ data, headings }: Readonly<TableProps>) {
   const tableData = mapToTableData(data);
-  tableData.sort((a, b) => b.period - a.period);
+  const dataSortedByPeriodDesc = tableData.toSorted(
+    (a, b) => b.period - a.period
+  );
   return (
     <div data-testid="lineChartTable-component">
       <StyledTable
         head={
           <Table.Row>
-            <StyledAlignCenterHeader setWidth="three-quarters">
-              {data.areaCode}
-            </StyledAlignCenterHeader>
-            <StyledAlignRightHeader setWidth="one-quarter">
-              England
-            </StyledAlignRightHeader>
-          </Table.Row>
-        }
-      ></StyledTable>
-      <StyledTable
-        head={
-          <Table.Row>
-            <StyledAlignRightHeader setWidth="three-quarters">
-              95% confidence limits
-            </StyledAlignRightHeader>
-            <Table.CellHeader></Table.CellHeader>
-          </Table.Row>
-        }
-      ></StyledTable>
-      <StyledTable
-        head={
-          <Table.Row>
-            {headings?.map((heading) => (
-              <Table.CellHeader key={`header-${heading}`}>
-                {heading}
-              </Table.CellHeader>
+            <StyledAlignCenterHeader setWidth="one-quarter"></StyledAlignCenterHeader>
+            <StyledAlignCenterHeader setWidth="one-quarter"></StyledAlignCenterHeader>
+            <StyledAlignCenterHeader>{data.areaCode}</StyledAlignCenterHeader>
+            {[...Array(7).keys()].map((i) => (
+              <Table.CellHeader key={i}></Table.CellHeader>
             ))}
+            <StyledGreyHeader>England</StyledGreyHeader>
+          </Table.Row>
+        }
+      ></StyledTable>
+      <StyledTable
+        head={
+          <Table.Row>
+            <StyledAlignRightHeader setWidth="one-quarter"></StyledAlignRightHeader>
+            <StyledAlignRightHeader setWidth="one-quarter"></StyledAlignRightHeader>
+            {[...Array(6).keys()].map((i) => (
+              <Table.CellHeader key={i}></Table.CellHeader>
+            ))}
+            <StyledConfidenceLimitsHeader>
+              95% confidence limits
+            </StyledConfidenceLimitsHeader>
+          </Table.Row>
+        }
+      ></StyledTable>
+      <StyledTable
+        head={
+          <Table.Row>
+            {headings?.map((heading) =>
+              heading === 'Period' || heading === 'Trend' ? (
+                <StyledAlignLeftHeader key={`header-${heading}`}>
+                  {heading}
+                </StyledAlignLeftHeader>
+              ) : (
+                getCellHeader(heading)
+              )
+            )}
           </Table.Row>
         }
       >
-        {tableData.map((point, index) => (
+        {dataSortedByPeriodDesc.map((point, index) => (
           <Table.Row key={`${data.areaCode}-${point.period}--${index}`}>
-            <StyledTableCell numeric>{point.period}</StyledTableCell>
-            <StyledTableCell></StyledTableCell>
-            <StyledTableCell numeric>{point.count}</StyledTableCell>
-            <StyledTableCell numeric>{point.value}</StyledTableCell>
-            <StyledTableCell numeric>{point.lower}</StyledTableCell>
-            <StyledTableCell numeric>{point.upper}</StyledTableCell>
-            <StyledTableCell></StyledTableCell>
+            <StyledAlignLeftTableCell numeric>
+              {point.period}
+            </StyledAlignLeftTableCell>
+            <StyledAlignLeftTableCell></StyledAlignLeftTableCell>
+            <StyledAlignRightTableCell numeric>
+              {point.count}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell numeric>
+              {point.value.toFixed(1)}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell numeric>
+              {point.lower.toFixed(1)}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell numeric>
+              {point.upper.toFixed(1)}
+            </StyledAlignRightTableCell>
+            <StyledBenchmarkValueTableCell></StyledBenchmarkValueTableCell>
           </Table.Row>
         ))}
       </StyledTable>

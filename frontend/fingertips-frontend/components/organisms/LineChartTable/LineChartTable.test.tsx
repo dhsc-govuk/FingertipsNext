@@ -29,7 +29,7 @@ describe('Line chart table suite', () => {
       .filter((heading) => heading.textContent?.includes('Value'));
 
     expect(screen.getAllByRole('table')).toHaveLength(3);
-    expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
+    expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
       MOCK_HEALTH_DATA.areaCode
     );
     expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
@@ -56,9 +56,6 @@ describe('Line chart table suite', () => {
       ),
     };
 
-    expect(screen.getAllByRole('cell')[CELLS_PER_ROW]).toHaveTextContent(
-      String(sortedHealthData.healthData[1].year)
-    );
     for (let i = 0; i < MOCK_HEALTH_DATA.healthData.length; i++) {
       expect(screen.getAllByRole('cell')[i * CELLS_PER_ROW]).toHaveTextContent(
         String(sortedHealthData.healthData[i].year)
