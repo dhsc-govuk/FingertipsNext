@@ -8,7 +8,6 @@ import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
-import { LineChartTableHeadingEnum } from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[];
@@ -63,10 +62,7 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable
-        data={data[0]}
-        headings={Object.values(LineChartTableHeadingEnum)}
-      ></LineChartTable>
+      <LineChartTable data={data[0]}></LineChartTable>
     </>
   );
 }

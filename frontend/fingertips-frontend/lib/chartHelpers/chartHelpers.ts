@@ -20,16 +20,6 @@ export function generateSeriesData(
   }));
 }
 
-export const headings = [
-  'Period',
-  'Trend',
-  'Count',
-  'Value',
-  'Lower',
-  'Upper',
-  'Value ',
-];
-
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
   AreaTrend = 'Trend',
@@ -39,3 +29,5 @@ export enum LineChartTableHeadingEnum {
   AreaUpper = 'Upper',
   BenchmarkValue = 'Value ',
 }
+
+export const LIGHT_GREY = '#b1b4b6';

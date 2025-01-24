@@ -5,14 +5,16 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ReactNode } from 'react';
-import { LineChartTableHeadingEnum } from '@/lib/chartHelpers/chartHelpers';
+import {
+  LIGHT_GREY,
+  LineChartTableHeadingEnum,
+} from '@/lib/chartHelpers/chartHelpers';
 
 interface TableProps {
   data: HealthDataForArea;
-  headings: string[];
 }
 
-interface LineChartTableData {
+interface LineChartTableRowData {
   period: number;
   count: number;
   value: number;
@@ -20,17 +22,9 @@ interface LineChartTableData {
   upper: number;
 }
 
-const LIGHT_GREY = '#cbcbcb';
-
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 16 }),
-  {
-    fontWeight: 'bold',
-  },
-  {
-    paddingTop: '0.3125em',
-  }
-);
+const StyledTableCellHeader = styled(Table.CellHeader)({
+  padding: '0.625em 0',
+});
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
@@ -45,17 +39,12 @@ const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   textAlign: 'left',
 });
 
-const StyledConfidenceLimitsHeader = styled(StyledTableCellHeader)({
-  padding: '0.625em',
-  paddingLeft: '0',
-});
-
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: LIGHT_GREY,
 });
 
 const StyledTable = styled(Table)({
-  marginBottom: '0',
+  width: '85%',
 });
 
 const StyledTableCell = styled(Table.Cell)(typography.font({ size: 16 }), {
@@ -75,7 +64,7 @@ const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
   borderTop: 'solid white 0.09375em',
 });
 
-const mapToTableData = (areaData: HealthDataForArea): LineChartTableData[] =>
+const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
   areaData.healthData.map((healthPoint) => ({
     period: healthPoint.year,
     count: healthPoint.count,
@@ -84,17 +73,25 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableData[] =>
     upper: healthPoint.upperCi,
   }));
 
-function getCellHeader(heading: string): ReactNode {
+function getCellHeader(heading: string, index: number): ReactNode {
   return heading === LineChartTableHeadingEnum.BenchmarkValue ? (
-    <StyledGreyHeader key={`header-${heading}`}>{heading}</StyledGreyHeader>
+    <StyledGreyHeader
+      data-testid={`header-${heading}-${index}`}
+      key={`header-${heading}`}
+    >
+      {heading}
+    </StyledGreyHeader>
   ) : (
-    <StyledAlignRightHeader key={`header-${heading}`}>
+    <StyledAlignRightHeader
+      data-testid={`header-${heading}-${index}`}
+      key={`header-${heading}`}
+    >
       {heading}
     </StyledAlignRightHeader>
   );
 }
 
-export function LineChartTable({ data, headings }: Readonly<TableProps>) {
+export function LineChartTable({ data }: Readonly<TableProps>) {
   const tableData = mapToTableData(data);
   const dataSortedByPeriodDesc = tableData.toSorted(
     (a, b) => b.period - a.period
@@ -103,44 +100,33 @@ export function LineChartTable({ data, headings }: Readonly<TableProps>) {
     <div data-testid="lineChartTable-component">
       <StyledTable
         head={
-          <Table.Row>
-            <StyledAlignCenterHeader setWidth="one-quarter"></StyledAlignCenterHeader>
-            <StyledAlignCenterHeader setWidth="one-quarter"></StyledAlignCenterHeader>
-            <StyledAlignCenterHeader>{data.areaCode}</StyledAlignCenterHeader>
-            {[...Array(7).keys()].map((i) => (
-              <Table.CellHeader key={i}></Table.CellHeader>
-            ))}
-            <StyledGreyHeader>England</StyledGreyHeader>
-          </Table.Row>
-        }
-      ></StyledTable>
-      <StyledTable
-        head={
-          <Table.Row>
-            <StyledAlignRightHeader setWidth="one-quarter"></StyledAlignRightHeader>
-            <StyledAlignRightHeader setWidth="one-quarter"></StyledAlignRightHeader>
-            {[...Array(6).keys()].map((i) => (
-              <Table.CellHeader key={i}></Table.CellHeader>
-            ))}
-            <StyledConfidenceLimitsHeader>
-              95% confidence limits
-            </StyledConfidenceLimitsHeader>
-          </Table.Row>
-        }
-      ></StyledTable>
-      <StyledTable
-        head={
-          <Table.Row>
-            {headings?.map((heading) =>
-              heading === 'Period' || heading === 'Trend' ? (
-                <StyledAlignLeftHeader key={`header-${heading}`}>
-                  {heading}
-                </StyledAlignLeftHeader>
-              ) : (
-                getCellHeader(heading)
-              )
-            )}
-          </Table.Row>
+          <>
+            <Table.Row>
+              <StyledAlignCenterHeader colSpan={6}>
+                {data.areaCode}
+              </StyledAlignCenterHeader>
+              <StyledGreyHeader>England</StyledGreyHeader>
+            </Table.Row>
+            <Table.Row>
+              <StyledAlignRightHeader colSpan={6}>
+                95% confidence limits
+              </StyledAlignRightHeader>
+            </Table.Row>
+            <Table.Row>
+              {Object.values(LineChartTableHeadingEnum).map((heading, index) =>
+                heading === 'Period' || heading === 'Trend' ? (
+                  <StyledAlignLeftHeader
+                    data-testid={`header-${heading}-${index}`}
+                    key={`header-${heading}`}
+                  >
+                    {heading}
+                  </StyledAlignLeftHeader>
+                ) : (
+                  getCellHeader(heading, index)
+                )
+              )}
+            </Table.Row>
+          </>
         }
       >
         {dataSortedByPeriodDesc.map((point, index) => (
@@ -161,7 +147,7 @@ export function LineChartTable({ data, headings }: Readonly<TableProps>) {
             <StyledAlignRightTableCell numeric>
               {point.upper.toFixed(1)}
             </StyledAlignRightTableCell>
-            <StyledBenchmarkValueTableCell></StyledBenchmarkValueTableCell>
+            <StyledBenchmarkValueTableCell data-testid="grey-table-cell"></StyledBenchmarkValueTableCell>
           </Table.Row>
         ))}
       </StyledTable>
