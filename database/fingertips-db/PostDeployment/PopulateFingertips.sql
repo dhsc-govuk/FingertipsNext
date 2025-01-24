@@ -21,6 +21,25 @@ INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (321, N'All ages'
 INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (483, N'<75 yrs', 163)
 INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (488, N'18+ yrs', 168)
 INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (538, N'12+ yrs', 227)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (604, N'0-4 yrs', 28);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (605, N'5-9 yrs', 4);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (606, N'10-14 yrs', 5);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (607, N'15-19 yrs', 6);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (608, N'20-24 yrs', 7);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (609, N'25-29 yrs', 8);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (610, N'30-34 yrs', 9);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (611, N'35-39 yrs', 10);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (612, N'40-44 yrs', 11);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (613, N'45-49 yrs', 12);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (614, N'50-54 yrs', 13);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (615, N'55-59 yrs', 14);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (616, N'60-64 yrs', 15);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (617, N'65-69 yrs', 16);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (618, N'70-74 yrs', 17);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (619, N'75-79 yrs', 18);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (620, N'80-84 yrs', 19);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (621, N'85-89 yrs', 21);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (622, N'90+ yrs', 22);
 SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 
 SET IDENTITY_INSERT [dbo].[AreaDimension] ON 
