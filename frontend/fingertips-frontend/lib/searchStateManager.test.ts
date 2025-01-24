@@ -2,7 +2,7 @@ import { SearchParams, SearchStateManager } from './searchStateManager';
 
 describe('SearchStateManager', () => {
   describe('addIndicatorSelected', () => {
-    it('should add to the indicators selected array when initialy empty', () => {
+    it('should add to the indicators selected array when initially empty', () => {
       const stateManager = new SearchStateManager({
         searchedIndicator: 'bang',
       });
@@ -40,6 +40,21 @@ describe('SearchStateManager', () => {
       const generatedPath = stateManager.generatePath('/some-path');
       expect(generatedPath).toBe(
         `/some-path?${SearchParams.SearchedIndicator}=bang&${SearchParams.IndicatorsSelected}=2&${SearchParams.IndicatorsSelected}=3`
+      );
+    });
+  });
+
+  describe('removeAllIndicatorSelected', () => {
+    it('should remove all items from the indicators selected array', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2', '3'],
+      });
+      stateManager.removeAllIndicatorSelected();
+
+      const generatedPath = stateManager.generatePath('/some-path');
+      expect(generatedPath).toBe(
+        `/some-path?${SearchParams.SearchedIndicator}=bang`
       );
     });
   });

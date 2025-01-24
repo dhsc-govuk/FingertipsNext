@@ -13,6 +13,8 @@ const mockData = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        sex: 'Persons',
+        ageBand: 'All',
       },
       {
         count: 267,
@@ -20,13 +22,15 @@ const mockData = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        sex: 'Persons',
+        ageBand: 'All',
       },
     ],
   },
 ];
 
 describe('sortHealthDataByDate', () => {
-  it('should sort the healthcare data values in ascending year', async () => {
+  it('should sort the healthcare data values in ascending year', () => {
     const mockSortedData = [
       {
         areaCode: 'A1425',
@@ -37,6 +41,8 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
           },
           {
             count: 389,
@@ -44,6 +50,8 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
           },
         ],
       },
@@ -55,7 +63,7 @@ describe('sortHealthDataByDate', () => {
 });
 
 describe('generateSeriesData', () => {
-  it('should generate series data', async () => {
+  it('should generate series data', () => {
     const result = generateSeriesData(mockData);
     const mockSeriesData = [
       {

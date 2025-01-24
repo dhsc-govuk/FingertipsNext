@@ -9,18 +9,19 @@ import {
   createIndex,
   populateIndex,
 } from "./indexOperations.js";
-import { GeographySearchData, IndicatorSearchData } from "../types.js";
-import { sampleIndicatorData } from "./sample-data.js";
 import { getEnvironmentVariable } from "./utils/helpers.js";
 import {
-  GEOGRAPHY_SEARCH_INDEX_NAME,
+  AREA_SEARCH_INDEX_NAME,
+  AreaDocument,
   INDICATOR_SEARCH_INDEX_NAME,
+  IndicatorDocument,
 } from "./constants.js";
 
-import geoData from "../assets/geographyData.json" with {type:"json"};
+import areaData from "../assets/areaData.json" with {type:"json"};
+import indicatorData from "../assets/indicatorData.json" with {type:"json"};
 
 async function createAndPopulateIndex<
-  T extends IndicatorSearchData | GeographySearchData
+  T extends IndicatorDocument | AreaDocument
 >(
   indexClient: SearchIndexClient,
   buildIndexFunction: (arg: string) => SearchIndex,
@@ -42,18 +43,25 @@ async function main(): Promise<void> {
     new AzureKeyCredential(apiKey)
   );
 
+  const typedIndicatorData = indicatorData.map((indicator)=>{
+    return {
+      ...indicator,
+      lastUpdated : new Date(indicator.lastUpdated)
+    }
+  })
+
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,
     INDICATOR_SEARCH_INDEX_NAME,
-    sampleIndicatorData
+    typedIndicatorData 
   );
 
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
-    GEOGRAPHY_SEARCH_INDEX_NAME,
-    geoData
+    AREA_SEARCH_INDEX_NAME,
+    areaData
   );
 }
 

@@ -1,24 +1,26 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect, test } from '../page-objects/pageFactory';
 
-const indicator = '123';
+const indicator = 'Waiting';
+const indicatorID1 = '327';
+const indicatorID2 = '330';
 
 test('Search via indicator and assert displayed results, check the chart is displayed then navigate back through to search page', async ({
-  searchPage,
+  homePage,
   resultsPage,
   chartPage,
   axeBuilder,
 }) => {
   // Arrange
-  await searchPage.navigateToSearch();
+  await homePage.navigateToSearch();
 
   // Assert
-  await searchPage.checkURLIsCorrect();
+  await homePage.checkURLIsCorrect();
   expect((await axeBuilder.analyze()).violations).toEqual([]);
 
   // Act
-  await searchPage.typeIndicator(indicator);
-  await searchPage.clickSearchButton();
+  await homePage.typeIndicator(indicator);
+  await homePage.clickSearchButton();
 
   // Assert
   await resultsPage.checkURLIsCorrect(indicator);
@@ -26,13 +28,13 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await resultsPage.checkSearchResults(indicator);
 
   // Act
-  await resultsPage.clickIndicatorCheckbox('1');
-  await resultsPage.clickIndicatorCheckbox('2');
+  await resultsPage.clickIndicatorCheckbox(indicatorID1);
+  await resultsPage.clickIndicatorCheckbox(indicatorID2);
   await resultsPage.clickViewChartsButton();
 
   // Assert
   await chartPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
+    `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
   );
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await chartPage.checkChartAndChartTable();
@@ -42,31 +44,31 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert - check indicator selections previously made are prepopulated
   await resultsPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
+    `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
   );
   await resultsPage.checkSearchResults(indicator);
-  await resultsPage.checkIndicatorCheckboxChecked('1');
-  await resultsPage.checkIndicatorCheckboxChecked('2');
+  await resultsPage.checkIndicatorCheckboxChecked(indicatorID1);
+  await resultsPage.checkIndicatorCheckboxChecked(indicatorID2);
 
   // Act
   await resultsPage.clickBackLink();
 
   // Assert - check search text previously entered is prepopulated
-  await searchPage.checkURLIsCorrect(
+  await homePage.checkURLIsCorrect(
     `?${SearchParams.SearchedIndicator}=${indicator}`
   );
-  await searchPage.checkSearchFieldIsPrePopulatedWith(indicator);
+  await homePage.checkSearchFieldIsPrePopulatedWith(indicator);
 
   // Act - clear the prepopulated search field and click search
-  await searchPage.clearSearchIndicatorField();
-  await searchPage.clickSearchButton();
+  await homePage.clearSearchIndicatorField();
+  await homePage.clickSearchButton();
 
   // Assert - should be on the same page with search field still cleared and validation message displayed
-  await searchPage.checkURLIsCorrect(
+  await homePage.checkURLIsCorrect(
     `?${SearchParams.SearchedIndicator}=${indicator}`
   );
-  await searchPage.checkSearchFieldIsPrePopulatedWith();
-  await searchPage.checkSummaryValidation(
-    `There is a problemAt least one of the following fields must be populated:Indicator field`
+  await homePage.checkSearchFieldIsPrePopulatedWith();
+  await homePage.checkSummaryValidation(
+    `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
   );
 });

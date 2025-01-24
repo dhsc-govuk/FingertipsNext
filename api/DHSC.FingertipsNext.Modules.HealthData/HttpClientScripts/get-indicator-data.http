@@ -1,5 +1,5 @@
 ﻿### get some sample data
-GET http://localhost:5144/Indicators/100/data
+GET http://localhost:5144/Indicators/108/data
     ?areaCodes=areaCode1
     &years=1970
     &years=1980

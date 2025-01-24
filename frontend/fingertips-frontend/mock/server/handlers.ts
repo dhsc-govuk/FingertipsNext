@@ -1,5 +1,4 @@
 import { HttpResponse, http } from 'msw';
-import { mockWeatherForecasts } from '../data/forecasts';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
 
@@ -17,11 +16,6 @@ const next = () => {
 };
 
 export const handlers = [
-  http.get(`${baseURL}/WeatherForecast`, async () => {
-    const resultArray = [[getGetWeatherForecast200Response(), { status: 200 }]];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
 
@@ -32,18 +26,20 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/indicators/:indicatorId/data`, async () => {
+  http.get(`${baseURL}/indicators/:indicatorId/data`, async ({ params }) => {
+    const indicatorId = params.indicatorId;
+    if (typeof indicatorId !== 'string') {
+      return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
+        status: 400,
+      });
+    }
     const resultArray = [
-      [getGetHealthDataForAnIndicator200Response(), { status: 200 }],
+      [getGetHealthDataForAnIndicator200Response(indicatorId), { status: 200 }],
     ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
 ];
-
-export function getGetWeatherForecast200Response() {
-  return mockWeatherForecasts;
-}
 
 export function getFilterIndicators200Response() {
   return [
@@ -87,8 +83,12 @@ export function getGetIndicator500Response() {
   };
 }
 
-export function getGetHealthDataForAnIndicator200Response() {
-  return mockHealthData;
+export function getGetHealthDataForAnIndicator200Response(indicatorId: string) {
+  if (indicatorId in mockHealthData) {
+    return mockHealthData[indicatorId];
+  }
+
+  return mockHealthData[1];
 }
 
 export function getGetHealthDataForAnIndicator400Response() {

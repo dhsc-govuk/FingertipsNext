@@ -20,6 +20,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 27,
             upperCi: 8,
             lowerCi: 2,
+            ageBand: 'ageBand',
+            sex: 'M',
           },
         ],
       },

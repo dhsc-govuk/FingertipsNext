@@ -1,16 +1,20 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H2, BackLink } from 'govuk-react';
+import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { HeatmapChart } from '@/components/organisms/Heatmap';
 import { IndicatorRowData } from '@/components/organisms/Heatmap';
+import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+
 
 type ChartProps = {
   data: HealthDataForArea[];
+  populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
@@ -19,6 +23,7 @@ const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
+  populationData,
   searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
@@ -43,6 +48,8 @@ export function Chart({
               value: 27,
               upperCi: 8,
               lowerCi: 2,
+              ageBand: 'ageBand',
+              sex: 'M',
             },
           ],
         },
@@ -61,6 +68,8 @@ export function Chart({
               value: 33,
               upperCi: 18,
               lowerCi: 9,
+              ageBand: 'ageBand',
+              sex: 'M',
             },
             {
               year: 2024,
@@ -68,6 +77,8 @@ export function Chart({
               value: 11,
               upperCi: 23,
               lowerCi: 3,
+              ageBand: 'ageBand',
+              sex: 'M',
             },
           ],
         },
@@ -80,6 +91,8 @@ export function Chart({
               value: 27,
               upperCi: 8,
               lowerCi: 2,
+              ageBand: 'ageBand',
+              sex: 'M',
             },
             {
               year: 2024,
@@ -87,6 +100,8 @@ export function Chart({
               value: 82,
               upperCi: 99,
               lowerCi: 2,
+              ageBand: 'ageBand',
+              sex: 'M',
             },
           ],
         },
@@ -95,13 +110,30 @@ export function Chart({
   ];
   // End of temporary test data for Heatmap
 
-  const backLinkPath = searchState.generatePath('/search/results');
+  const backLinkPath = searchState.generatePath('/results');
+
   return (
     <>
-      <BackLink data-testid="chart-page-back-link" href={backLinkPath} />
+      <BackLink
+        data-testid="chart-page-back-link"
+        href={backLinkPath}
+        aria-label="Go back to the previous page"
+      />
       <H2>View Dementia QOF prevalence</H2>
-      <br />
+      {populationData ? (
+        <>
+          <PopulationPyramid
+            data={populationData}
+            populationPyramidTitle="Population INDICATOR for SELECTED area"
+            xAxisTitle="Age"
+            yAxisTitle="Percentage of total population"
+            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
+          />
+          <br />
+        </>
+      ) : null}
       <LineChart
+        LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"

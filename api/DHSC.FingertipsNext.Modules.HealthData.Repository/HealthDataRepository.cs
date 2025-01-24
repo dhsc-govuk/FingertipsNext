@@ -20,9 +20,9 @@ public class HealthDataRepository : IRepository
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
-            .Include(hm => hm.IndicatorDimension)
-            .Include(hm => hm.SexDimension)
             .Include(hm => hm.AgeDimension)
+            .Include(hm => hm.SexDimension)
+            .Include(hm => hm.IndicatorDimension)
             .ToListAsync();
     }
 }
