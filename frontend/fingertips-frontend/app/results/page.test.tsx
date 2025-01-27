@@ -10,6 +10,8 @@ import {
 } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { AreasApi } from '@/generated-sources/ft-api-client';
 
 const mockAreaTypes = ['Some area type 1', 'Some area type 2'];
 
@@ -26,20 +28,15 @@ const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('2'),
 ];
 
-const mockGetAreaTypes = jest.fn();
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-
-jest.mock('@/lib/getApiConfiguration');
-jest.mock('@/generated-sources/ft-api-client', () => ({
-  AreasApi: jest.fn().mockImplementation(() => ({
-    getAreaTypes: mockGetAreaTypes,
-  })),
-}));
+const mockAreasApi = mockDeep<AreasApi>();
 
 jest.mock('@/components/pages/results');
 
 SearchServiceFactory.getIndicatorSearchService = () =>
   mockIndicatorSearchService;
+
+ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -55,7 +52,7 @@ describe('Results Page', () => {
   });
 
   it('should have made calls to getAreaTypes and searchResults', async () => {
-    mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
     );
@@ -64,14 +61,14 @@ describe('Results Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(mockGetAreaTypes).toHaveBeenCalled();
+    expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
       'testing'
     );
   });
 
   it('should pass the correct props to the SearchResults Page component', async () => {
-    mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
     );
@@ -92,7 +89,7 @@ describe('Results Page', () => {
 
   // To unskip as part of DHSCFT-211
   it.skip('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
-    mockGetAreaTypes.mockRejectedValue('Some areas api error');
+    mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
 
     const page = await ResultsPage({
       searchParams: generateSearchParams(searchParams),
@@ -106,7 +103,7 @@ describe('Results Page', () => {
   });
 
   it('should pass the correct props to the Error component when searchWith returns an error', async () => {
-    mockGetAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockIndicatorSearchService.searchWith.mockRejectedValue(
       'Some search-service error'
     );
