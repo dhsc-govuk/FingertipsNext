@@ -29,7 +29,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-      # Install the latest version of Terraform CLI
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
@@ -43,13 +43,13 @@ runs:
           -backend-config="storage_account_name=${{ inputs.terraform_state_storage_account }}" \
           -backend-config="container_name=${{ inputs.terraform_state_storage_container }}" \
           -backend-config="key=${{ inputs.terraform_state_key }}"
-    # Validate terraform files
+
     - name: Terraform Validate
       working-directory: ${{ inputs.terraform_directory }}
       shell: bash
       run: terraform validate
 
-    # Check Terraform formatting
+
     - name: Terraform Format
       working-directory: ${{ inputs.terraform_directory }}
       shell: bash
@@ -67,7 +67,6 @@ runs:
           echo "No Terraform variables provided."
         fi
 
-    # Generate an execution plan for Terraform
     - name: Terraform Plan
       working-directory: ${{ inputs.terraform_directory }}
       shell: bash
@@ -85,14 +84,12 @@ runs:
           exit 0
         fi
 
-    # Save plan to artifacts
     - name: Publish Terraform Plan
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
         path: tfplan
 
-    # Create string output of Terraform Plan
     - name: Create String Output
       shell: bash
       id: tf-plan-string
@@ -110,7 +107,6 @@ runs:
         echo "</details>" >> $GITHUB_OUTPUT
         echo "${delimiter}" >> $GITHUB_OUTPUT
 
-    # Publish Terraform Plan as task summary
     - name: Publish Terraform Plan to Task Summary
       shell: bash
       env:
@@ -118,7 +114,6 @@ runs:
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
-    # If this is a PR, post the changes
     - name: Push Terraform Output to PR
       shell: bash
       uses: actions/github-script@v7
