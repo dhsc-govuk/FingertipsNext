@@ -15,7 +15,7 @@ export function generateSeriesData(
 ): Highcharts.SeriesLineOptions[] {
   return data.map((item) => ({
     type: 'line',
-    name: `${item.areaCode}`,
+    name: `${item.areaName}`,
     data: item.healthData.map((point) => [point.year, point.value]),
   }));
 }
