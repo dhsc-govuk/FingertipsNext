@@ -86,13 +86,21 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_ShouldReturnExpectedResult()
     {
-        var healthMeasure = TestHelper.BuildHealthMeasureModel("Code1", 2007, DateTime.Now);
-        var expectedHealthData = new List<HealthDataPoint>() { _mapper.Map<HealthDataPoint>(healthMeasure)};
-        var expected = new HealthDataForArea() {
-                AreaCode = "Code1",
-                HealthData = expectedHealthData
+        const string expectedAreaCode = "Code1";
+        const string expectedAreaName = "Area 1";
+
+        var healthMeasure = new HealthMeasureModelHelper()
+            .WithAreaDimension(code: expectedAreaCode, name:(expectedAreaName))
+            .Build();
+
+        var expectedHealthData = new List<HealthDataPoint>() { _mapper.Map<HealthDataPoint>(healthMeasure) };
+        var expected = new HealthDataForArea()
+        {
+            AreaCode = expectedAreaCode,
+            AreaName = expectedAreaName,
+            HealthData = expectedHealthData
         };
-        
+
         _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure]);
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
@@ -105,29 +113,43 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_ShouldReturnExpectedResult_ForSingleAreaCode_WithMultipleData()
     {
-        var healthMeasure1 = TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Now);
-        var healthMeasure2 = TestHelper.BuildHealthMeasureModel("Code2", 2024, DateTime.Now);
-        var healthMeasure3 = TestHelper.BuildHealthMeasureModel("Code1", 2020, DateTime.Now);
+        const string expectedAreaCode1 = "Code1";
+        const string expectedAreaName1 = "Area 1";
+
+        const string expectedAreaCode2 = "Code2";
+        const string expectedAreaName2 = "Area 2";
+        
+        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
+            .WithAreaDimension(code: expectedAreaCode1, name: expectedAreaName1).Build();
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2024)
+            .WithAreaDimension(code: expectedAreaCode2, name: expectedAreaName2).Build();
+        var healthMeasure3 = new HealthMeasureModelHelper(year: 2020)
+            .WithAreaDimension(code: expectedAreaCode1, name: expectedAreaName1).Build();
         var expected = new List<HealthDataForArea>()
         {
-            new ()
+            new()
             {
-                AreaCode = "Code1",
-                HealthData = new List<HealthDataPoint>() {
+                AreaCode = expectedAreaCode1,
+                AreaName = expectedAreaName1,
+                HealthData = new List<HealthDataPoint>()
+                {
                     _mapper.Map<HealthDataPoint>(healthMeasure1),
                     _mapper.Map<HealthDataPoint>(healthMeasure3)
                 }
             },
-            new ()
+            new()
             {
-                AreaCode = "Code2",
+                AreaCode = expectedAreaCode2,
+                AreaName = expectedAreaName2,
                 HealthData = new List<HealthDataPoint>()
                 {
-                    _mapper.Map<HealthDataPoint>(healthMeasure2) 
+                    _mapper.Map<HealthDataPoint>(healthMeasure2)
                 }
             }
         };
-        _repository.GetIndicatorDataAsync(1, [], []).Returns((IEnumerable<HealthMeasureModel>) new List<HealthMeasureModel>() {healthMeasure1, healthMeasure2, healthMeasure3});
+        _repository.GetIndicatorDataAsync(1, [], []).Returns(
+            (IEnumerable<HealthMeasureModel>)new List<HealthMeasureModel>()
+                { healthMeasure1, healthMeasure2, healthMeasure3 });
 
         var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [])).ToList();
 

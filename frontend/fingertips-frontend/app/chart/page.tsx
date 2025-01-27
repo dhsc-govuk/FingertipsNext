@@ -8,6 +8,11 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -24,6 +29,7 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
 
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicatorsSelected[0]),
