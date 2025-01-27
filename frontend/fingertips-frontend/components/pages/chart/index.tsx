@@ -15,7 +15,7 @@ type ChartProps = {
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
-  scatterData?: HealthDataForArea[];
+  scatterData?: HealthDataForArea[][];
 };
 
 const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
@@ -55,8 +55,8 @@ export function Chart({
       <ScatterChart
         data={scatterData}
         ScatterChartTitle="Compare indicators within the area group"
-        yAxisTitle='<b>y: Indicator 1 (value)</b></br> rate per information'
-        xAxisTitle='<b>x: Indicator 2 (value)</b></br> rate per information'
+        yAxisTitle="<b>y: Indicator 1 (value)</b></br> rate per information"
+        xAxisTitle="<b>x: Indicator 2 (value)</b></br> rate per information"
         accessibilityLabel="A scatter chart showing two indicators"
       ></ScatterChart>
       <LineChart

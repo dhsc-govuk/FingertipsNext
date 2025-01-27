@@ -25,17 +25,18 @@ export default async function ChartPage(
 
   const config = getApiConfiguration();
   const indicatorApi = new IndicatorsApi(config);
+  
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicatorsSelected[0]),
     areaCodes: areaCodes,
   });
 
   const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
+    indicatorId: Number(indicatorsSelected[1]),
     areaCodes: areaCodes,
   });
 
-  const scatterData = [...data, ...dataSetTwo];
+  const scatterData = [data, dataSetTwo];
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
