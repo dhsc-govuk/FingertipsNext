@@ -1,0 +1,89 @@
+name: 'Reusable Terraform Plan/Apply'
+
+inputs:
+  terraform_directory:
+    description: 'The directory containing Terraform configuration files'
+    required: true
+    type: string
+  terraform_vars:
+    description: 'JSON object of Terraform variables (key-value pairs)'
+    required: false
+    type: string
+  terraform_state_rg:
+    description: 'Terraform state file resource group'
+    required: true
+    type: string
+  terraform_state_storage_account:
+    description: 'Terraform state file storage account'
+    required: true
+    type: string
+  terraform_state_storage_container:
+    description: 'Terraform state file storage container'
+    required: true
+    type: string
+  terraform_state_key:
+    description: 'Terraform state file name'
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      shell: bash
+      working-directory: ${{ inputs.terraform_directory }}
+      run: |
+        terraform init \
+          -backend-config="resource_group_name=${{ inputs.terraform_state_rg }}" \
+          -backend-config="storage_account_name=${{ inputs.terraform_state_storage_account }}" \
+          -backend-config="container_name=${{ inputs.terraform_state_storage_container }}" \
+          -backend-config="key=${{ inputs.terraform_state_key }}"
+
+    - name: Terraform Format
+      shell: bash
+      working-directory: ${{ inputs.terraform_directory }}
+      run: terraform fmt -check
+
+    - name: Parse and Export Terraform Variables
+      id: export-vars
+      shell: bash
+      run: |
+        if [[ -n "${{ inputs.terraform_vars }}" ]]; then
+          echo "Parsing Terraform variables..."
+          echo '${{ inputs.terraform_vars }}' | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > variables.env
+          cat variables.env >> $GITHUB_ENV
+        else
+          echo "No Terraform variables provided."
+        fi
+
+    - name: Terraform Plan
+      shell: bash
+      id: tf-plan
+      working-directory: ${{ inputs.terraform_directory }}
+      run: |
+        export exitcode=0
+        terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+
+        echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+        if [ $exitcode -eq 1 ]; then
+          echo Terraform Plan Failed!
+          exit 1
+        else 
+          exit 0
+        fi
+
+    - name: Publish Terraform Plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: tfplan
+        path: ${{ inputs.terraform_directory }}/tfplan
+
+    - name: Terraform Apply
+      shell: bash
+      working-directory: ${{ inputs.terraform_directory }}
+      run: terraform apply -auto-approve tfplan
