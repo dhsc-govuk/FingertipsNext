@@ -6,6 +6,7 @@ interface IndicatorDocument {
   latestDataPeriod: string;
   lastUpdated: string;
 }
+
 export function getIndicatorIDByName(
   indicators: IndicatorDocument[],
   searchTerm: string
