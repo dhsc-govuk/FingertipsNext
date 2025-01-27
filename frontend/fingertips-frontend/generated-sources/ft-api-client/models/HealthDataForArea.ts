@@ -28,11 +28,17 @@ import {
  */
 export interface HealthDataForArea {
     /**
-     * The unique area code that the health data for
+     * The unique area code that the health data is for
      * @type {string}
      * @memberof HealthDataForArea
      */
     areaCode: string;
+    /**
+     * The name of the area that the health data is for
+     * @type {string}
+     * @memberof HealthDataForArea
+     */
+    areaName: string;
     /**
      * The health data points for the area and indicator
      * @type {Array<HealthDataPoint>}
@@ -46,6 +52,7 @@ export interface HealthDataForArea {
  */
 export function instanceOfHealthDataForArea(value: object): value is HealthDataForArea {
     if (!('areaCode' in value) || value['areaCode'] === undefined) return false;
+    if (!('areaName' in value) || value['areaName'] === undefined) return false;
     if (!('healthData' in value) || value['healthData'] === undefined) return false;
     return true;
 }
@@ -61,6 +68,7 @@ export function HealthDataForAreaFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'areaCode': json['areaCode'],
+        'areaName': json['areaName'],
         'healthData': ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
     };
 }
@@ -77,6 +85,7 @@ export function HealthDataForAreaToJSONTyped(value?: HealthDataForArea | null, i
     return {
         
         'areaCode': value['areaCode'],
+        'areaName': value['areaName'],
         'healthData': ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),
     };
 }
