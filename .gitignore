@@ -495,4 +495,3 @@ search-setup/dist*/
 
 # asdf tool-versions is not used project wide but may be used by individuals
 .tool-versions
-/api/DHSC.FingertipsNext.Api/Properties/launchSettings.json
