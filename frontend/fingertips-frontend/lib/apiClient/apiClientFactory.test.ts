@@ -2,13 +2,13 @@ import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from './apiClientFactory';
 
 describe('apiClientFactory', () => {
-  it('getAreasApiClient return an instace of the AreasApi', () => {
+  it('getAreasApiClient return an instance of the AreasApi', () => {
     const apiClient = ApiClientFactory.getAreasApiClient();
 
     expect(apiClient).toBeInstanceOf(AreasApi);
   });
 
-  it('getIndicatorsApiClient return an instace of the IndicatorsApi', () => {
+  it('getIndicatorsApiClient return an instance of the IndicatorsApi', () => {
     const apiClient = ApiClientFactory.getIndicatorsApiClient();
 
     expect(apiClient).toBeInstanceOf(IndicatorsApi);
