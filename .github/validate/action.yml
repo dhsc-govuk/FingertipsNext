@@ -38,7 +38,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.terraform_directory }}
       run: |
-        terraform init \
+        terraform init -no-color \
           -backend-config="resource_group_name=${{ inputs.terraform_state_rg }}" \
           -backend-config="storage_account_name=${{ inputs.terraform_state_storage_account }}" \
           -backend-config="container_name=${{ inputs.terraform_state_storage_container }}" \
@@ -47,7 +47,7 @@ runs:
     - name: Terraform Validate
       working-directory: ${{ inputs.terraform_directory }}
       shell: bash
-      run: terraform validate
+      run: terraform validate -no-color
 
 
     - name: Terraform Format
