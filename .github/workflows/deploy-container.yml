@@ -39,10 +39,6 @@ on:
         description: 'Port number used for ingress on the Container App'
         required: true
         type: number
-      container_app_secrets:
-        description: 'Name of the container or service being deployed'
-        required: false
-        type: string
       container_liveness_probe:
         description: 'Liveness probe parameters required to check application health'
         required: true
@@ -102,7 +98,6 @@ jobs:
           TF_VAR_revision_suffix: ${{ inputs.revision_suffix }}
           TF_VAR_environment_variables: ${{ inputs.environment_variables }}
           TF_VAR_container_port: ${{ inputs.container_port }}
-          TF_VAR_container_app_secrets: ${{ inputs.container_app_secrets }}
           TF_VAR_liveness_probe: ${{ inputs.container_liveness_probe }}
           TF_LOG: INFO
           TF_INPUT: false
@@ -144,6 +139,6 @@ jobs:
           TF_VAR_revision_suffix: ${{ inputs.revision_suffix }}
           TF_VAR_environment_variables: ${{ inputs.environment_variables }}
           TF_VAR_container_port: ${{ inputs.container_port }}
-          TF_VAR_container_app_secrets: ${{ inputs.container_app_secrets }}
+          TF_VAR_liveness_probe: ${{ inputs.container_liveness_probe }}
           TF_LOG: INFO
           TF_INPUT: false
