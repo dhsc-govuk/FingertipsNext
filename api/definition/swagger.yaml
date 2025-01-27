@@ -44,13 +44,33 @@ paths:
         - $ref: "#/components/parameters/hierarchy_type"
       responses:
         "200":
-          description: The available area types e.g. ICB, PCN or GP Surgery
+          description: The available area types e.g. ICB, PCN or GP Surgery, together with related data
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: "#/components/schemas/AreaType"
+        "500":
+          $ref: "#/components/responses/InternalServerErrror"
+  /areas/areatypes/{area_type}/areas:
+    get:
+      tags:
+        - areas
+      summary: Get member areas for an area type
+      description: Get the areas that have a given area type
+      operationId: getAreaTypeMembers
+      parameters:
+        - $ref: "#/components/parameters/area_type"
+      responses:
+        "200":
+          description: The available areas for the area type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Area"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
   /areas/{area_code}:
@@ -64,7 +84,6 @@ paths:
         - $ref: "#/components/parameters/area_code"
         - $ref: "#/components/parameters/includeChildren"
         - $ref: "#/components/parameters/includeSiblings"
-        - $ref: "#/components/parameters/includeCousins"
         - $ref: "#/components/parameters/includeAncestors"
       responses:
         "200":
@@ -171,6 +190,26 @@ paths:
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
+    AreaType:
+      type: object
+      description: An area type e.g. PCN or GP
+      required:
+        - name
+        - level
+        - hierarchyName
+      properties:
+        name:
+          type: string
+          example: "PCN"
+          description: The name of the area type
+        level:
+          type: integer
+          example: "3"
+          description: The level in the hierarchy
+        hierarchyName:
+          type: string
+          example: "NHS"
+          description: The name of the associated hierarchy for the area / geography
     RootArea:
       type: object
       description: The root node of the area / geography hierarchies
@@ -227,10 +266,6 @@ components:
               items:
                 $ref: "#/components/schemas/Area"
             siblings:
-              type: array
-              items:
-                $ref: "#/components/schemas/Area"
-            cousins:
               type: array
               items:
                 $ref: "#/components/schemas/Area"
@@ -361,6 +396,16 @@ components:
       explode: false
       required: true
       description: The area code of the area/ geography
+    area_type:
+      in: path
+      name: area_type
+      style: simple
+      schema:
+        type: string
+        example: PCN
+      explode: false
+      required: true
+      description: The area type
     includeChildren:
       in: query
       name: includeChildren
