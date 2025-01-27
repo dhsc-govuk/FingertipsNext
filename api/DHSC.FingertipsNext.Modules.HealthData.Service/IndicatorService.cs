@@ -31,10 +31,11 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
             years.Distinct().Take(10).ToArray());
 
         return healthMeasureData
-            .GroupBy(data => data.AreaDimension.Code)
+            .GroupBy(data => new { code = data.AreaDimension.Code, name = data.AreaDimension.Name})
             .Select(group => new HealthDataForArea
             {
-                AreaCode = group.Key,
+                AreaCode = group.Key.code,
+                AreaName = group.Key.name,
                 HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
             });
     }

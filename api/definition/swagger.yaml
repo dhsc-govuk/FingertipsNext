@@ -328,12 +328,17 @@ components:
         geographical area (represented by it's unique code).
       required:
         - areaCode
+        - areaName
         - healthData
       properties:
         areaCode:
           type: string
-          example: A1426
-          description: The unique area code that the health data for
+          example: E92000001
+          description: The unique area code that the health data are for
+        areaName:
+          type: string
+          example: England
+          description: The name of the area that the health data are for
         healthData:
           type: array
           items:
