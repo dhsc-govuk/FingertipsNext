@@ -10,6 +10,7 @@ interface RemoveIconProps {
 
 const StyledIconSvg = styled('svg')({
   cursor: 'pointer',
+  // verticalAlign: 'middle',
 });
 
 export function RemoveIcon({
@@ -26,7 +27,7 @@ export function RemoveIcon({
       viewBox="0 0 25 25"
       fill="none"
       stroke={color}
-      strokeWidth="2"
+      strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
