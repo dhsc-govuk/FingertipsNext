@@ -61,7 +61,7 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
 
 const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
   backgroundColor: LIGHT_GREY,
-  borderTop: 'solid white 0.09375em',
+  borderTop: 'solid white 0.125em',
 });
 
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>

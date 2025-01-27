@@ -99,7 +99,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 
 .c12 {
   background-color: #b1b4b6;
-  border-top: solid white 0.09375em;
+  border-top: solid white 0.125em;
 }
 
 @media print {
