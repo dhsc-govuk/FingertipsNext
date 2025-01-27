@@ -43,6 +43,10 @@ on:
         description: 'Name of the container or service being deployed'
         required: false
         type: string
+      container_liveness_probe:
+        description: 'Liveness probe parameters required to check application health'
+        required: true
+        type: string
     secrets:
       arm-client-id:
         description: 'Azure Service Principal Client ID'
@@ -99,6 +103,7 @@ jobs:
           TF_VAR_environment_variables: ${{ inputs.environment_variables }}
           TF_VAR_container_port: ${{ inputs.container_port }}
           TF_VAR_container_app_secrets: ${{ inputs.container_app_secrets }}
+          TF_VAR_liveness_probe: ${{ inputs.container_liveness_probe }}
           TF_LOG: INFO
           TF_INPUT: false
 

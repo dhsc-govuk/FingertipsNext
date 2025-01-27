@@ -45,9 +45,9 @@ variable "environment_variables" {
 variable "liveness_probe" {
   description = "Configuration for the container's liveness probe."
   type = object({
-    path     = optional(string)
-    port     = optional(number)
-    protocol = optional(string)
+    path      = optional(string)
+    port      = optional(number)
+    transport = optional(string)
   })
   default = {}
 }
@@ -55,9 +55,9 @@ variable "liveness_probe" {
 variable "readiness_probe" {
   description = "Configuration for the container's readiness probe."
   type = object({
-    path     = optional(string)
-    port     = optional(number)
-    protocol = optional(string)
+    path      = optional(string)
+    port      = optional(number)
+    transport = optional(string)
   })
   default = {}
 }
@@ -65,9 +65,9 @@ variable "readiness_probe" {
 variable "startup_probe" {
   description = "Configuration for the container's startup probe."
   type = object({
-    path     = optional(string)
-    port     = optional(number)
-    protocol = optional(string)
+    path      = optional(string)
+    port      = optional(number)
+    transport = optional(string)
   })
   default = {}
 }

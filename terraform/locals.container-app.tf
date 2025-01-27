@@ -17,23 +17,7 @@ locals {
           memory  = var.container_memory
           env     = var.environment_variables
 
-          # liveness_probe = {
-          #   path      = var.liveness_probe.path
-          #   port      = var.liveness_probe.port
-          #   transport = var.liveness_probe.protocol
-          # }
-
-          # readiness_probe = {
-          #   path      = var.readiness_probe.path
-          #   port      = var.readiness_probe.port
-          #   transport = var.readiness_probe.protocol
-          # }
-
-          # startup_probe = {
-          #   path      = var.startup_probe.path
-          #   port      = var.startup_probe.port
-          #   transport = var.startup_probe.protocol
-          # }
+          liveness_probe = var.liveness_probe
 
           volume_mounts = []
         }

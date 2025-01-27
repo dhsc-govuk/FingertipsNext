@@ -50,6 +50,12 @@ jobs:
             value       = null
           }
         ]
+      container_liveness_probe: |
+        {
+          path      = "/healthcheck"
+          port      = 8080
+          transport = "HTTP"
+        }
     secrets:
       arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
       arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}

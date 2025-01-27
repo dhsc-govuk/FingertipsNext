@@ -1,12 +1,24 @@
 name: Fingertips Frontend Deploy
 
 on:
-  workflow_run:
-    workflows: [Fingertips Frontend Build]
-    types:
-      - completed
+  workflow_dispatch:
+  push:
     branches:
-      - main
+      ## ** is required to match branches with / in their name
+      - feature/DHSCFT-269_refactor-deployment-workflows
+    paths:
+      - api/**
+      - .github/workflows/fingertips-api-deploy.yml
+      - .github/workflows/deploy-container.yml
+      - terraform/**
+
+# on:
+#   workflow_run:
+#     workflows: [Fingertips Frontend Build]
+#     types:
+#       - completed
+#     branches:
+#       - main
 
 jobs:
   determine-version:
@@ -48,8 +60,19 @@ jobs:
             name        = "DHSC_AI_SEARCH_SERVICE_URL"
             secret_name = "fingertips-ai-search-url"
             value       = null
+          },
+          {
+            name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+            secret_name = "fingertips-frontend-application-insights"
+            value       = null
           }
         ]
+      container_liveness_probe: |
+        {
+          path      = "/"
+          port      = 3000
+          transport = "HTTP"
+        }
     secrets:
       arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
       arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}

@@ -88,7 +88,7 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: tfplan
-        path: tfplan
+        path: ${{ inputs.terraform_directory }}/tfplan
 
     - name: Create String Output
       shell: bash
