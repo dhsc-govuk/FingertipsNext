@@ -8,6 +8,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
 let user: UserEvent;
+
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
 

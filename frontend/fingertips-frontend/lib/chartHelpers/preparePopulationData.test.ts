@@ -172,14 +172,17 @@ const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
 
 const mockHealthDataForSelectedArea: HealthDataForArea = {
   areaCode: 'selected',
+  areaName: 'Selected Area',
   healthData: mockData,
 };
 const mockHealthDataForEngland: HealthDataForArea = {
   areaCode: areaCodeForEngland,
+  areaName: 'England',
   healthData: mockData,
 };
 const mockHealthDataForBaseline: HealthDataForArea = {
   areaCode: 'baseline',
+  areaName: 'Baseline Area',
   healthData: mockData,
 };
 
