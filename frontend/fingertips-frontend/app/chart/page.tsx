@@ -42,7 +42,7 @@ export default async function ChartPage(
   }
 
   if (rawPopulationData) {
-    // hardcode selected area data for mocks while no population data are in dbase
+    // hardcode selected area data for mocks while no population data is in the database
     preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
   }
 
