@@ -10,7 +10,6 @@ interface RemoveIconProps {
 
 const StyledIconSvg = styled('svg')({
   cursor: 'pointer',
-  // verticalAlign: 'middle',
 });
 
 export function RemoveIcon({
