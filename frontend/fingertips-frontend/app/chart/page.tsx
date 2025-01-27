@@ -32,12 +32,10 @@ export default async function ChartPage(
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
-  // hardcode areas to what is available in the database
-  const availablePopulationAreas = ['nE38000240', 'E40000003'];
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
-      areaCodes: [areaCodes[0], areaCodeForEngland],
+      areaCodes: [...areaCodes, areaCodeForEngland],
     });
   } catch (error) {
     console.log('error getting population data ', error);
@@ -46,8 +44,7 @@ export default async function ChartPage(
   if (rawPopulationData) {
     preparedPopulationData = preparePopulationData(
       rawPopulationData,
-      availablePopulationAreas[0],
-      availablePopulationAreas[1]
+      ...areaCodes
     );
   }
 
