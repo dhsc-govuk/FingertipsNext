@@ -1,7 +1,9 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect, test } from '../page-objects/pageFactory';
 
-const indicator = '123';
+const indicator = 'Waiting';
+const indicatorID1 = '327';
+const indicatorID2 = '330';
 
 test('Search via indicator and assert displayed results, check the chart is displayed then navigate back through to search page', async ({
   homePage,
@@ -26,13 +28,13 @@ test('Search via indicator and assert displayed results, check the chart is disp
   await resultsPage.checkSearchResults(indicator);
 
   // Act
-  await resultsPage.clickIndicatorCheckbox('1');
-  await resultsPage.clickIndicatorCheckbox('2');
+  await resultsPage.clickIndicatorCheckbox(indicatorID1);
+  await resultsPage.clickIndicatorCheckbox(indicatorID2);
   await resultsPage.clickViewChartsButton();
 
   // Assert
   await chartPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
+    `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
   );
   expect((await axeBuilder.analyze()).violations).toEqual([]);
   await chartPage.checkChartAndChartTable();
@@ -42,11 +44,11 @@ test('Search via indicator and assert displayed results, check the chart is disp
 
   // Assert - check indicator selections previously made are prepopulated
   await resultsPage.checkURLIsCorrect(
-    `${indicator}&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`
+    `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
   );
   await resultsPage.checkSearchResults(indicator);
-  await resultsPage.checkIndicatorCheckboxChecked('1');
-  await resultsPage.checkIndicatorCheckboxChecked('2');
+  await resultsPage.checkIndicatorCheckboxChecked(indicatorID1);
+  await resultsPage.checkIndicatorCheckboxChecked(indicatorID2);
 
   // Act
   await resultsPage.clickBackLink();

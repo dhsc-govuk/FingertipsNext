@@ -4,8 +4,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
 /// Represents a health data point for a public health indicator with
-/// a count, value, upper confidence interval, lower confidence interval
-/// and a year.
+/// a count, value, upper confidence interval, lower confidence interval, year, ageBand and sex.
 /// </summary>
 public class HealthDataPoint
 {
@@ -38,4 +37,16 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("upperCi")]
     public float UpperConfidenceInterval { get; init; }
+
+    /// <summary>
+    /// Age band which the data are for.
+    /// </summary>
+    [JsonPropertyName("ageBand")]
+    public string AgeBand { get; init; } = String.Empty;
+
+    /// <summary>
+    /// Sex which the data are for.
+    /// </summary>
+    [JsonPropertyName("sex")]
+    public string Sex { get; init; } = String.Empty ;
 }

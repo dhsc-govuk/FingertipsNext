@@ -5,10 +5,13 @@ import {
   SearchClient,
   SearchFieldDataType,
 } from "@azure/search-documents";
-import { GeographySearchData, IndicatorSearchData } from "./types";
 import {
-  GEOGRAPHY_SEARCH_SUGGESTER_NAME,
-  GeographySearchIndexColumnNames,
+  AREA_SEARCH_SUGGESTER_NAME,
+  AreaDocument,
+  AreaSearchIndexColumnNames,
+  INDICATOR_SEARCH_SCORING_PROFILE,
+  IndicatorDocument,
+  IndicatorSearchIndexColumnNames,
 } from "./constants.js";
 
 export async function createIndex(
@@ -24,9 +27,10 @@ export async function createIndex(
   console.log(`Created or modified index with name: ${index.name}`);
 }
 
-export async function populateIndex<
-  T extends IndicatorSearchData | GeographySearchData
->(searchClient: SearchClient<T>, indexData: T[]): Promise<void> {
+export async function populateIndex<T extends IndicatorDocument | AreaDocument>(
+  searchClient: SearchClient<T>,
+  indexData: T[]
+): Promise<void> {
   await searchClient.mergeOrUploadDocuments(indexData);
   console.log(`Uploaded data to index with name: ${searchClient.indexName}`);
 }
@@ -37,17 +41,35 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField("indicatorId", "Edm.String", true, true, true),
-      },
-      {
-        ...buildSearchIndexField("name", "Edm.String", true, true, true),
-      },
-      {
-        ...buildSearchIndexField("definition", "Edm.String", true, true, true),
+        ...buildSearchIndexField(
+          IndicatorSearchIndexColumnNames.INDICATOR_ID,
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
       },
       {
         ...buildSearchIndexField(
-          "latestDataPeriod",
+          IndicatorSearchIndexColumnNames.INDICATOR_NAME,
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
+      },
+      {
+        ...buildSearchIndexField(
+          IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
+          "Edm.String",
+          true,
+          true,
+          true
+        ),
+      },
+      {
+        ...buildSearchIndexField(
+          IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
           "Edm.String",
           false,
           true,
@@ -55,11 +77,17 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         ),
       },
       {
-        ...buildSearchIndexField("dataSource", "Edm.String", false, true, true),
+        ...buildSearchIndexField(
+          IndicatorSearchIndexColumnNames.INDICATOR_DATA_SOURCE,
+          "Edm.String",
+          false,
+          true,
+          true
+        ),
       },
       {
         ...buildSearchIndexField(
-          "lastUpdated",
+          IndicatorSearchIndexColumnNames.INDICATOR_LAST_UPDATED,
           "Edm.DateTimeOffset",
           false,
           true,
@@ -69,11 +97,11 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     ],
     scoringProfiles: [
       {
-        name: "BasicScoringProfile",
+        name: INDICATOR_SEARCH_SCORING_PROFILE,
         textWeights: { weights: { indicatorId: 20, name: 10, definition: 5 } },
       },
     ],
-    defaultScoringProfile: "BasicScoringProfile",
+    defaultScoringProfile: INDICATOR_SEARCH_SCORING_PROFILE,
   };
 }
 
@@ -84,7 +112,7 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
       {
         key: true,
         ...buildSearchIndexField(
-          GeographySearchIndexColumnNames.AREA_CODE,
+          AreaSearchIndexColumnNames.AREA_CODE,
           "Edm.String",
           true,
           true,
@@ -92,14 +120,14 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
         ),
       },
       buildSearchIndexField(
-        GeographySearchIndexColumnNames.AREA_NAME,
+        AreaSearchIndexColumnNames.AREA_NAME,
         "Edm.String",
         true,
         true,
         true
       ),
       buildSearchIndexField(
-        GeographySearchIndexColumnNames.AREA_TYPE,
+        AreaSearchIndexColumnNames.AREA_TYPE,
         "Edm.String",
         true,
         true,
@@ -108,11 +136,11 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     ],
     suggesters: [
       {
-        name: GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+        name: AREA_SEARCH_SUGGESTER_NAME,
         searchMode: "analyzingInfixMatching",
         sourceFields: [
-          GeographySearchIndexColumnNames.AREA_NAME,
-          GeographySearchIndexColumnNames.AREA_CODE,
+          AreaSearchIndexColumnNames.AREA_NAME,
+          AreaSearchIndexColumnNames.AREA_CODE,
         ],
       },
     ],

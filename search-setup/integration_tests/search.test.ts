@@ -1,16 +1,15 @@
-import {
-  DocumentResponse,
-  SearchIndexResponse,
-  TypeAheadBody,
-  AutoCompleteResult,
-  SuggestionResult,
-} from "../src/types";
 import { getEnvironmentVariable } from "../src/utils/helpers";
 import {
-  GEOGRAPHY_SEARCH_INDEX_NAME,
-  GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+  AREA_SEARCH_INDEX_NAME,
+  AREA_SEARCH_SUGGESTER_NAME,
   INDICATOR_SEARCH_INDEX_NAME,
 } from "../src/constants";
+import {
+  AutoCompleteResult,
+  SearchIndexResponse,
+  SuggestionResult,
+  TypeAheadBody,
+} from "../src/types";
 
 let index: SearchIndexResponse;
 let searchEndpoint: string;
@@ -29,7 +28,7 @@ describe("AI search index creation and data loading", () => {
       },
     });
 
-    const documents: DocumentResponse = await response.json();
+    const documents = await response.json();
 
     expect(documents.value).toBeDefined();
     expect(documents.value.length).toBeGreaterThan(0);
@@ -55,7 +54,7 @@ describe("AI search index creation and data loading", () => {
 
     it("should have correct scoring profile configuration", () => {
       expect(index.scoringProfiles).toMatchSnapshot();
-      expect(index.defaultScoringProfile).toBe("BasicScoringProfile");
+      expect(index.defaultScoringProfile).toBe("basicScoringProfile");
     });
 
     it("should populate indicator index with data", async () => {
@@ -65,11 +64,11 @@ describe("AI search index creation and data loading", () => {
     });
   });
 
-  describe("Search by geography", () => {
+  describe("Search by area", () => {
     const SEARCH_TERM = "man";
     const REQUEST_BODY: TypeAheadBody = {
       search: SEARCH_TERM,
-      suggesterName: GEOGRAPHY_SEARCH_SUGGESTER_NAME,
+      suggesterName: AREA_SEARCH_SUGGESTER_NAME,
     };
 
     const makeTypeAheadRequest = async (url: string) => {
@@ -84,7 +83,7 @@ describe("AI search index creation and data loading", () => {
     };
 
     beforeAll(async () => {
-      urlPrefix = `${searchEndpoint}/indexes('${GEOGRAPHY_SEARCH_INDEX_NAME}')`;
+      urlPrefix = `${searchEndpoint}/indexes('${AREA_SEARCH_INDEX_NAME}')`;
 
       const url = `${urlPrefix}${URL_SUFFIX}`;
       const response = await fetch(url, {
@@ -96,11 +95,11 @@ describe("AI search index creation and data loading", () => {
     });
 
     it("should have correct index name and number of fields", async () => {
-      expect(index.name).toBe(GEOGRAPHY_SEARCH_INDEX_NAME);
+      expect(index.name).toBe(AREA_SEARCH_INDEX_NAME);
       expect(index.fields).toMatchSnapshot();
     });
 
-    it("should populate geography index with data", async () => {
+    it("should populate area index with data", async () => {
       const url = `${urlPrefix}/docs${URL_SUFFIX}`;
 
       await expectIndexToBePopulated(url);
