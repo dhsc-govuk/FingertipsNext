@@ -24,12 +24,12 @@ public class AreaRepository : IAreaRepository
     ///
     /// </summary>
     /// <returns></returns>
-    public async Task<string[]> GetHierarchiesAsync()
+    public async Task<List<string>> GetHierarchiesAsync()
     {
         var hierarchies = await _dbContext
             .Area.Select(a => a.HierarchyType)
             .Distinct()
-            .ToArrayAsync();
+            .ToListAsync();
 
         return hierarchies;
     }
@@ -39,18 +39,18 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public async Task<string[]> GetAreaTypesAsync(string? hierarchyType)
+    public async Task<List<string>> GetAreaTypesAsync(string? hierarchyType)
     {
         if (string.IsNullOrEmpty(hierarchyType))
         {
-            return await _dbContext.Area.Select(am => am.AreaType).Distinct().ToArrayAsync();
+            return await _dbContext.Area.Select(am => am.AreaType).Distinct().ToListAsync();
         }
 
         return await _dbContext
             .Area.Where(am => am.HierarchyType == hierarchyType)
             .Select(am => am.AreaType)
             .Distinct()
-            .ToArrayAsync();
+            .ToListAsync();
     }
 
     /// <summary>
@@ -116,11 +116,9 @@ public class AreaRepository : IAreaRepository
         if (string.IsNullOrWhiteSpace(childAreaType))
         {
             // direct children
-            var directChildren = await _dbContext.Area
+            aresWithRelations.Children = await _dbContext.Area
                 .Where(a => a.Node.GetAncestor(1) == area.Node)
                 .ToListAsync();
-
-            aresWithRelations.Children = directChildren.ToArray();
         }
         else
         {
@@ -133,11 +131,9 @@ public class AreaRepository : IAreaRepository
             {
                 int parentLevel = area.Level;
 
-                var distantChildren = await _dbContext.Area
+                aresWithRelations.Children = await _dbContext.Area
                     .Where(a => a.Node.GetAncestor(singleChildOfType.Level - parentLevel) == area.Node)
                     .ToListAsync();
-
-                aresWithRelations.Children = distantChildren.ToArray();
             }
         }
     }
@@ -145,7 +141,7 @@ public class AreaRepository : IAreaRepository
     
     private async Task AddAncestorAreas(AreaWithRelationsModel aresWithRelations, string areaCode)
     {
-        var ancestors = await _dbContext
+        aresWithRelations.Ancestors = await _dbContext
                         .Area.FromSqlInterpolated(
                             $"""
                     --get all the parents recursively up the hierarchy
@@ -166,7 +162,5 @@ public class AreaRepository : IAreaRepository
                     """
                         )
                         .ToListAsync();
-
-        aresWithRelations.Ancestors = ancestors.ToArray();
     }
 }

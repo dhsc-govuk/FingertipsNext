@@ -28,7 +28,7 @@ public class AreaService : IAreaService
     /// 
     /// </summary>
     /// <returns></returns>
-    public Task<string[]> GetHierarchies()
+    public Task<List<string>> GetHierarchies()
     {
         return _areaRepository.GetHierarchiesAsync();
     }
@@ -38,7 +38,7 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<string[]> GetAreaTypes(string? hierarchyType = null)
+    public Task<List<string>> GetAreaTypes(string? hierarchyType = null)
     {
         return _areaRepository.GetAreaTypesAsync(hierarchyType);
     }

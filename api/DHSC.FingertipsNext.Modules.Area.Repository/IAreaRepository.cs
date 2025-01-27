@@ -11,14 +11,14 @@ public interface IAreaRepository
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<string[]> GetHierarchiesAsync();
+    Task<List<string>> GetHierarchiesAsync();
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    Task<string[]> GetAreaTypesAsync(string? hierarchyType);
+    Task<List<string>> GetAreaTypesAsync(string? hierarchyType);
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including
