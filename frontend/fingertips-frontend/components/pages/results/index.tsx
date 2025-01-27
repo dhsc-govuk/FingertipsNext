@@ -14,15 +14,15 @@ import {
 } from 'govuk-react';
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
-import { IndicatorSearchResult } from '@/lib/search/searchResultData';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
-  searchResults: IndicatorSearchResult[];
+  searchResults: IndicatorDocument[];
   availableAreaTypes?: string[];
   selectedAreas?: AreaWithRelations[];
 };

@@ -27,6 +27,7 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
+
   http.get(`${baseURL}/areas/:areaCode`, async ({ params }) => {
     const areaCode = params.areaCode;
 

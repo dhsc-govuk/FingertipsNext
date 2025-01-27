@@ -125,6 +125,34 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('getSearchState', () => {
+    it('should return the current state', () => {
+      const searchState: SearchState = {
+        searchedIndicator: 'bang',
+        indicatorsSelected: ['1', '2'],
+        areasSelected: ['A001', 'A002'],
+        areaTypeSelected: 'Some area type',
+      };
+
+      const stateManager = new SearchStateManager(searchState);
+
+      expect(stateManager.getSearchState()).toEqual(searchState);
+    });
+  });
+
+  describe('setAreaTypeSelected', () => {
+    it('should set the areaTypeSelected', () => {
+      const stateManager = new SearchStateManager({
+        searchedIndicator: 'bang',
+      });
+      stateManager.setAreaTypeSelected('Some area type');
+
+      expect(stateManager.getSearchState().areaTypeSelected).toEqual(
+        'Some area type'
+      );
+    });
+  });
+
   describe('removeAllIndicatorSelected', () => {
     it('should remove all items from the indicators selected array', () => {
       const stateManager = new SearchStateManager({

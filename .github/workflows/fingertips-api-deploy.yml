@@ -34,11 +34,11 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Azure Container Registry Login
-        uses: Azure/docker-login@v1
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
+          registry: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.ARM_CLIENT_ID }}
+          password: ${{ secrets.ARM_CLIENT_SECRET }}
 
       - uses: Azure/login@v1
         with:
@@ -58,13 +58,10 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
+          imageToDeploy: "${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
           containerAppName: fingertips-api
           resourceGroup: ${{ vars.RESOURCE_GROUP }}
           containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
-          registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
-          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
           targetPort: 8080
           environmentVariables: |
             DB_NAME=${{ steps.azure-keyvault-secrets.outputs.fingertips-sql-hostname }}

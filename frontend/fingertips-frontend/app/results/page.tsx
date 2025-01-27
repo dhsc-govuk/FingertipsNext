@@ -2,10 +2,10 @@ import { SearchResults } from '@/components/pages/results';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
-import { getApiConfiguration } from '@/lib/getApiConfiguration';
-import { AreasApi, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { ErrorPage } from '@/components/pages/error';
-import { getSearchService } from '@/lib/search/searchResultData';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export default async function Page(
   props: Readonly<{
@@ -23,9 +23,7 @@ export default async function Page(
   try {
     // Perform async API call using indicator prop
     await connection();
-
-    const config = getApiConfiguration();
-    const areasApi = new AreasApi(config);
+    const areasApi = ApiClientFactory.getAreasApiClient();
 
     /**
     const availableAreaTypes = await areasApi.getAreaTypes();
@@ -43,7 +41,8 @@ export default async function Page(
     let selectedAreasData: AreaWithRelations[];
 
     try {
-      availableAreaTypes = await areasApi.getAreaTypes();
+      availableAreaTypes =
+        areasSelected.length === 0 ? await areasApi.getAreaTypes() : [];
       selectedAreasData =
         areasSelected.length > 0
           ? await Promise.all(
@@ -65,7 +64,10 @@ export default async function Page(
 
     // Perform async API call using indicator prop
     const searchResults =
-      await getSearchService().searchWith(searchedIndicator);
+      await SearchServiceFactory.getIndicatorSearchService().searchWith(
+        searchedIndicator
+      );
+
     return (
       <SearchResults
         searchResultsFormState={initialState}

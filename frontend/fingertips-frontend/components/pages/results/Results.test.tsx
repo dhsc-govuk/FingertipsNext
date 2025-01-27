@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { MOCK_DATA } from '@/lib/search/searchServiceMock';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 import { formatDate } from '@/components/molecules/result';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -19,6 +19,25 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
+
+const MOCK_DATA: IndicatorDocument[] = [
+  {
+    indicatorId: '1',
+    name: 'NHS',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2023',
+    dataSource: 'NHS website',
+    lastUpdated: new Date('December 6, 2024'),
+  },
+  {
+    indicatorId: '2',
+    name: 'DHSC',
+    definition: 'Total number of patients registered with the practice',
+    latestDataPeriod: '2022',
+    dataSource: 'Student article',
+    lastUpdated: new Date('November 5, 2023'),
+  },
+];
 
 function setupMockUseActionState<T>() {
   return jest
@@ -90,13 +109,11 @@ describe('Search Results Suite', () => {
 
     expect(searchResults).toHaveLength(MOCK_DATA.length);
     searchResults.forEach((searchResult, index) => {
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].name);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
-        MOCK_DATA[index].latestDataPeriod!
-      );
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource!);
-      expect(searchResult).toHaveTextContent(
-        formatDate(new Date(MOCK_DATA[index].lastUpdated!))
+        formatDate(new Date(MOCK_DATA[index].lastUpdated))
       );
     });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
@@ -205,10 +222,10 @@ describe('Search Results Suite', () => {
     );
 
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
+      screen.getByRole('link', { name: MOCK_DATA[0].name })
     ).toHaveAttribute('href', expectedPaths[0]);
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
+      screen.getByRole('link', { name: MOCK_DATA[1].name })
     ).toHaveAttribute('href', expectedPaths[1]);
   });
 

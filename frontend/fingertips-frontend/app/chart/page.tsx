@@ -1,12 +1,13 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
-import { getApiConfiguration } from '@/lib/getApiConfiguration';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
-
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '@/lib/chartHelpers/constants';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -23,8 +24,7 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
 
-  const config = getApiConfiguration();
-  const indicatorApi = new IndicatorsApi(config);
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicatorsSelected[0]),
     areaCodes: areaCodes,
@@ -34,7 +34,7 @@ export default async function ChartPage(
   let preparedPopulationData = undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: 92708,
+      indicatorId: indicatorIdForPopulation,
       areaCodes: [areaCodes[0], areaCodeForEngland],
     });
   } catch (error) {
