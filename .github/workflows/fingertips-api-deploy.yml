@@ -23,6 +23,7 @@ jobs:
       environment: development
       tf_environment: dev
       source_branch: ${{ github.event.workflow_run.head_branch }}
+      source_trigger: ${{ github.event.workflow_run.event }}
       container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
       container_name: 'fingertips-api'
       revision_suffix: ${{ github.run_number }}
