@@ -23,7 +23,7 @@ interface LineChartTableRowData {
 }
 
 const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 16 }),
+  typography.font({ size: 14 }),
   {
     fontWeight: 'bold',
     padding: '0.625em 0',
@@ -47,7 +47,7 @@ const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: LIGHT_GREY,
 });
 
-const StyledTableCell = styled(Table.Cell)(typography.font({ size: 16 }), {
+const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
   paddingRight: '0',
 });
 
@@ -61,7 +61,7 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
 
 const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
   backgroundColor: LIGHT_GREY,
-  borderTop: 'solid white 0.125em',
+  borderTop: `solid white 0.1875em`,
 });
 
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>

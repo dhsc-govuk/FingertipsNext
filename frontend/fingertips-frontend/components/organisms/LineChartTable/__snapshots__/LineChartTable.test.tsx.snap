@@ -56,8 +56,8 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 12px;
+  line-height: 1.25;
   font-weight: bold;
   padding: 0.625em 0;
 }
@@ -84,8 +84,8 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  font-size: 12px;
+  line-height: 1.25;
   padding-right: 0;
 }
 
@@ -99,7 +99,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 
 .c12 {
   background-color: #b1b4b6;
-  border-top: solid white 0.125em;
+  border-top: solid white 0.1875em;
 }
 
 @media print {
@@ -136,29 +136,29 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 
 @media print {
   .c2 {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c2 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 14px;
+    line-height: 1.4285714285714286;
   }
 }
 
 @media print {
   .c8 {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c8 {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 14px;
+    line-height: 1.4285714285714286;
   }
 }
 
