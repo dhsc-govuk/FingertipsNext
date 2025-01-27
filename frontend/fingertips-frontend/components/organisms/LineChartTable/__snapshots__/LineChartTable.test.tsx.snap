@@ -2,18 +2,18 @@
 
 exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c2 {
+  .c1 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
   font-weight: 700;
 }
 
-.c2:last-child {
+.c1:last-child {
   padding-right: 0;
 }
 
-.c8 {
+.c7 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -23,17 +23,17 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   font-weight: 400;
 }
 
-.c8:last-child {
+.c7:last-child {
   padding-right: 0;
 }
 
-.c11 {
+.c10 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c11:last-child {
+.c10:last-child {
   padding-right: 0;
 }
 
@@ -51,32 +51,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   margin-bottom: 20px;
 }
 
-.c3 {
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
   padding: 0.625em 0;
 }
 
-.c4 {
+.c3 {
   text-align: center;
 }
 
-.c5 {
+.c4 {
   text-align: right;
   padding-right: 0;
 }
 
-.c7 {
+.c6 {
   text-align: left;
 }
 
-.c6 {
+.c5 {
   background-color: #b1b4b6;
 }
 
-.c1 {
-  width: 85%;
-}
-
-.c9 {
+.c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -86,21 +89,21 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
   padding-right: 0;
 }
 
-.c10 {
+.c9 {
   text-align: left;
 }
 
-.c12 {
+.c11 {
   text-align: right;
 }
 
-.c13 {
+.c12 {
   background-color: #b1b4b6;
   border-top: solid white 0.09375em;
 }
 
 @media print {
-  .c8 {
+  .c7 {
     font-family: sans-serif;
   }
 }
@@ -132,14 +135,28 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 }
 
 @media print {
-  .c9 {
+  .c2 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c2 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
     font-size: 16px;
     line-height: 1.25;
   }
@@ -149,7 +166,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
     data-testid="lineChartTable-component"
   >
     <table
-      class="c0 c1"
+      class="c0"
     >
       <thead
         class=""
@@ -158,13 +175,13 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c2 c3 c4"
+            class="c1 c2 c3"
             colspan="6"
           >
             a1425
           </th>
           <th
-            class="c2 c3 c5 c6"
+            class="c1 c2 c4 c5"
           >
             England
           </th>
@@ -173,7 +190,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c2 c3 c5"
+            class="c1 c2 c4"
             colspan="6"
           >
             95% confidence limits
@@ -183,43 +200,43 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <th
-            class="c2 c3 c7"
+            class="c1 c2 c6"
             data-testid="header-Period-0"
           >
             Period
           </th>
           <th
-            class="c2 c3 c7"
+            class="c1 c2 c6"
             data-testid="header-Trend-1"
           >
             Trend
           </th>
           <th
-            class="c2 c3 c5"
+            class="c1 c2 c4"
             data-testid="header-Count-2"
           >
             Count
           </th>
           <th
-            class="c2 c3 c5"
+            class="c1 c2 c4"
             data-testid="header-Value-3"
           >
             Value
           </th>
           <th
-            class="c2 c3 c5"
+            class="c1 c2 c4"
             data-testid="header-Lower-4"
           >
             Lower
           </th>
           <th
-            class="c2 c3 c5"
+            class="c1 c2 c4"
             data-testid="header-Upper-5"
           >
             Upper
           </th>
           <th
-            class="c2 c3 c5 c6"
+            class="c1 c2 c4 c5"
             data-testid="header-Value -6"
           >
             Value 
@@ -233,35 +250,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c8 c9 c10"
+            class="c7 c8 c9"
           >
             2020
           </td>
           <td
-            class="c11 c9 c10"
+            class="c10 c8 c9"
           />
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             200
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             971.4
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             441.7
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             578.3
           </td>
           <td
-            class="c11 c9 c13"
+            class="c10 c8 c12"
             data-testid="grey-table-cell"
           />
         </tr>
@@ -269,35 +286,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c8 c9 c10"
+            class="c7 c8 c9"
           >
             2012
           </td>
           <td
-            class="c11 c9 c10"
+            class="c10 c8 c9"
           />
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             300
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             602.8
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             441.7
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             578.3
           </td>
           <td
-            class="c11 c9 c13"
+            class="c10 c8 c12"
             data-testid="grey-table-cell"
           />
         </tr>
@@ -305,35 +322,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c8 c9 c10"
+            class="c7 c8 c9"
           >
             2008
           </td>
           <td
-            class="c11 c9 c10"
+            class="c10 c8 c9"
           />
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             222
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             890.3
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             441.7
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             578.3
           </td>
           <td
-            class="c11 c9 c13"
+            class="c10 c8 c12"
             data-testid="grey-table-cell"
           />
         </tr>
@@ -341,35 +358,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c8 c9 c10"
+            class="c7 c8 c9"
           >
             2006
           </td>
           <td
-            class="c11 c9 c10"
+            class="c10 c8 c9"
           />
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             389
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             278.3
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             441.7
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             578.3
           </td>
           <td
-            class="c11 c9 c13"
+            class="c10 c8 c12"
             data-testid="grey-table-cell"
           />
         </tr>
@@ -377,35 +394,35 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           class=""
         >
           <td
-            class="c8 c9 c10"
+            class="c7 c8 c9"
           >
             2004
           </td>
           <td
-            class="c11 c9 c10"
+            class="c10 c8 c9"
           />
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             267
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             703.4
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             441.7
           </td>
           <td
-            class="c8 c9 c12"
+            class="c7 c8 c11"
           >
             578.3
           </td>
           <td
-            class="c11 c9 c13"
+            class="c10 c8 c12"
             data-testid="grey-table-cell"
           />
         </tr>

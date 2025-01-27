@@ -22,9 +22,13 @@ interface LineChartTableRowData {
   upper: number;
 }
 
-const StyledTableCellHeader = styled(Table.CellHeader)({
-  padding: '0.625em 0',
-});
+const StyledTableCellHeader = styled(Table.CellHeader)(
+  typography.font({ size: 16 }),
+  {
+    fontWeight: 'bold',
+    padding: '0.625em 0',
+  }
+);
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
@@ -41,10 +45,6 @@ const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: LIGHT_GREY,
-});
-
-const StyledTable = styled(Table)({
-  width: '85%',
 });
 
 const StyledTableCell = styled(Table.Cell)(typography.font({ size: 16 }), {
@@ -98,7 +98,7 @@ export function LineChartTable({ data }: Readonly<TableProps>) {
   );
   return (
     <div data-testid="lineChartTable-component">
-      <StyledTable
+      <Table
         head={
           <>
             <Table.Row>
@@ -150,7 +150,7 @@ export function LineChartTable({ data }: Readonly<TableProps>) {
             <StyledBenchmarkValueTableCell data-testid="grey-table-cell"></StyledBenchmarkValueTableCell>
           </Table.Row>
         ))}
-      </StyledTable>
+      </Table>
     </div>
   );
 }
