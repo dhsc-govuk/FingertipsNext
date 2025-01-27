@@ -48,6 +48,7 @@ SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 --create some area dimension data
 SET IDENTITY_INSERT [dbo].[AreaDimension] ON 
 
+INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (5555, N'E40000003', N'London NHS Region', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (3333, N'E92000001', N'England', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (17, N'A81633', N'Foundations -Harris Street', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[AreaDimension] ([AreaKey], [Code], [Name], [StartDate], [EndDate]) VALUES (64, N'A84032', N'Cheviot Medical Group', CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
@@ -338,7 +339,7 @@ SET IDENTITY_INSERT [dbo].[SexDimension] OFF
 GO
 
 -- create some population healh measure data
--- England GP
+-- England GP, GP registered population by sex and quinary age band
 SET IDENTITY_INSERT [dbo].[HealthMeasure] ON 
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3333, 3333, 3334, 2, 604, 1457071, 0, 0, 0, 2024)
@@ -382,7 +383,7 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3371, 3333, 3334, 1, 630, 147615, 0, 0, 0, 2024)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3372, 3333, 3334, 1, 631, 32214, 0, 0, 0, 2024)
 
--- North Central London ICB GP
+-- North Central London ICB 337, GP registered population by sex and quinary age band
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (4444, 68430, 3334, 2, 604, 38738, 0, 0, 0, 2024)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (4445, 68430, 3334, 2, 605, 44173, 0, 0, 0, 2024)
@@ -424,6 +425,8 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (4481, 68430, 3334, 1, 621, 6759, 0, 0, 0, 2024)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (4482, 68430, 3334, 1, 630, 2809, 0, 0, 0, 2024)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (4483, 68430, 3334, 1, 631, 709, 0, 0, 0, 2024)
+
+-- London NHS Region, GP registered population by sex and quinary age band
 
 
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
