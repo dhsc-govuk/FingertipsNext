@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Schemas;
+﻿using System.Diagnostics.CodeAnalysis;
+using DHSC.FingertipsNext.Modules.Area.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,7 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(AreaWithRelations), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("{area_code}")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsAsync(
         [FromRoute] string area_code,
         [FromQuery] bool? include_children = null,
