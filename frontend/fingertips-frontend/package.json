@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev:local-api": "concurrently \"npm run api:start\" \"next dev\" && npm run api:stop",
-    "dev": "next dev",
+    "dev": "cross-env MOCK_SERVER=true next dev",
     "generate:api-client": "openapi-generator-cli generate",
     "generate:ft-mocks": "npx msw-auto-mock ./../../api/definition/swagger.yaml -o ./mock/server",
     "build": "next build",
