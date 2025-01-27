@@ -105,7 +105,9 @@ export function LineChartTable({ data }: Readonly<TableProps>) {
               <StyledAlignCenterHeader colSpan={6}>
                 {data.areaCode}
               </StyledAlignCenterHeader>
-              <StyledGreyHeader>England</StyledGreyHeader>
+              <StyledGreyHeader data-testid="england-header">
+                England
+              </StyledGreyHeader>
             </Table.Row>
             <Table.Row>
               <StyledAlignRightHeader colSpan={6}>

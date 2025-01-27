@@ -56,6 +56,9 @@ describe('Line chart table suite', () => {
         `header-${LineChartTableHeadingEnum.BenchmarkValue}-${benchmarkValueIndex}`
       )
     ).toHaveStyle(`background-color: ${LIGHT_GREY}`);
+    expect(screen.getByTestId('england-header')).toHaveStyle(
+      `background-color: ${LIGHT_GREY}`
+    );
   });
 
   it('should display table with periods sorted in descending order', () => {

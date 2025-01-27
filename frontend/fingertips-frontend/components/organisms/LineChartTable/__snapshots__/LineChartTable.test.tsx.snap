@@ -182,6 +182,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
           </th>
           <th
             class="c1 c2 c4 c5"
+            data-testid="england-header"
           >
             England
           </th>
