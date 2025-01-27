@@ -39,9 +39,23 @@ describe('Line chart table suite', () => {
         screen.getByTestId(`header-${heading}-${index}`)
       ).toBeInTheDocument()
     );
+  });
+
+  it('should have grey cell color for benchmark column', () => {
+    const benchmarkValueIndex = Object.values(
+      LineChartTableHeadingEnum
+    ).findIndex((value) => value === LineChartTableHeadingEnum.BenchmarkValue);
+
+    render(<LineChartTable data={MOCK_HEALTH_DATA} />);
+
     screen.getAllByTestId('grey-table-cell').forEach((greyCell) => {
       expect(greyCell).toHaveStyle(`background-color: ${LIGHT_GREY}`);
     });
+    expect(
+      screen.getByTestId(
+        `header-${LineChartTableHeadingEnum.BenchmarkValue}-${benchmarkValueIndex}`
+      )
+    ).toHaveStyle(`background-color: ${LIGHT_GREY}`);
   });
 
   it('should display table with periods sorted in descending order', () => {
