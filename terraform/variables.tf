@@ -1,13 +1,13 @@
 variable "environment" {
   type        = string
   default     = "uksouth"
-  description = "Region where the resources are deployed to"
+  description = "Region where the resources are deployed to."
 }
 
 variable "build_time" {
   type        = string
   default     = "null"
-  description = "Build time passed through from GitHub Actions"
+  description = "Build time passed through from GitHub Actions."
 }
 
 variable "container_name" {
