@@ -10,19 +10,13 @@ import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { mockDeep } from 'jest-mock-extended';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 
-const mockGetHealthData = jest.fn();
+const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 
-jest.mock('@/lib/getApiConfiguration');
-jest.mock('@/generated-sources/ft-api-client', () => {
-  return {
-    IndicatorsApi: jest.fn().mockImplementation(() => {
-      return {
-        getHealthDataForAnIndicator: mockGetHealthData,
-      };
-    }),
-  };
-});
+ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 jest.mock('@/components/pages/chart');
 
@@ -42,18 +36,22 @@ describe('Chart Page', () => {
   });
 
   it('should make 2 calls for get health data - first one for the indicator the next one for the population data', async () => {
-    mockGetHealthData.mockResolvedValueOnce([]);
-    mockGetHealthData.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
     await ChartPage({
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(mockGetHealthData).toHaveBeenNthCalledWith(1, {
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(1, {
       areaCodes: ['A001'],
       indicatorId: 1,
     });
-    expect(mockGetHealthData).toHaveBeenNthCalledWith(2, {
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(2, {
       areaCodes: ['A001', areaCodeForEngland],
       indicatorId: indicatorIdForPopulation,
     });
@@ -66,8 +64,10 @@ describe('Chart Page', () => {
       '2'
     );
 
-    mockGetHealthData.mockResolvedValueOnce(mockHealthData['1']);
-    mockGetHealthData.mockResolvedValueOnce(
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockHealthData['1']
+    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockHealthData[`${indicatorIdForPopulation}`]
     );
 
@@ -82,8 +82,10 @@ describe('Chart Page', () => {
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
-    mockGetHealthData.mockResolvedValueOnce(mockHealthData['1']);
-    mockGetHealthData.mockRejectedValueOnce(
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockHealthData['1']
+    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
       'Some error getting population data'
     );
 
