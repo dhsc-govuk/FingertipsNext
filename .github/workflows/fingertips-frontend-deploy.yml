@@ -1,24 +1,12 @@
 name: Fingertips Frontend Deploy
 
 on:
-  workflow_dispatch:
-  push:
+  workflow_run:
+    workflows: [Fingertips Frontend Build]
+    types:
+      - completed
     branches:
-      ## ** is required to match branches with / in their name
-      - feature/DHSCFT-269_refactor-deployment-workflows
-    paths:
-      - api/**
-      - .github/workflows/fingertips-api-deploy.yml
-      - .github/workflows/deploy-container.yml
-      - terraform/**
-
-# on:
-#   workflow_run:
-#     workflows: [Fingertips Frontend Build]
-#     types:
-#       - completed
-#     branches:
-#       - main
+      - main
 
 jobs:
   determine-version:
