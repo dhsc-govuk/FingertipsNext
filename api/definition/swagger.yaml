@@ -84,9 +84,9 @@ paths:
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/includeChildren"
-        - $ref: "#/components/parameters/includeSiblings"
-        - $ref: "#/components/parameters/includeAncestors"
+        - $ref: "#/components/parameters/include_children"
+        - $ref: "#/components/parameters/include_siblings"
+        - $ref: "#/components/parameters/include_ancestors"
       responses:
         "200":
           description: The area node
@@ -408,27 +408,21 @@ components:
       explode: false
       required: true
       description: The area type
-    includeChildren:
+    include_children:
       in: query
-      name: includeChildren
+      name: include_children
       description: include the child areas
       schema:
         type: boolean
-    includeSiblings:
+    include_siblings:
       in: query
-      name: includeSiblings
+      name: include_siblings
       description: include the sibling areas
       schema:
         type: boolean
-    includeCousins:
+    include_ancestors:
       in: query
-      name: includeCousins
-      description: include the cousin areas
-      schema:
-        type: boolean
-    includeAncestors:
-      in: query
-      name: includeAncestors
+      name: include_ancestors
       description: include the ancestor areas
       schema:
         type: boolean
