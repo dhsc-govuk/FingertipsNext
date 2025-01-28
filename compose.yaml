@@ -8,6 +8,7 @@ services:
     environment:
       FINGERTIPS_API_URL: "http://api:8080"
       DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
+      APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=5de15a04-6bf4-4aed-b8aa-7e36519f56ef;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/;ApplicationId=ddbf874e-dad3-42a4-afd7-aef6d54a3da7"
     ports:
       - 3000:3000
 

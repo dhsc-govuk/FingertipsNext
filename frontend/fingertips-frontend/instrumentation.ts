@@ -10,55 +10,33 @@ const startMockServer = async () => {
   }
 };
 
-const configureApplicationInsights = async () => {
-  console.log('Configuring logging');
+// const configureApplicationInsights = async () => {
+//   console.log('Configuring logging');
 
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-      const { useAzureMonitor } = await import('@azure/monitor-opentelemetry');
+//   if (process.env.NEXT_RUNTIME === 'nodejs') {
+//     if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+//       const { useAzureMonitor } = await import('@azure/monitor-opentelemetry');
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      useAzureMonitor();
+//       // eslint-disable-next-line react-hooks/rules-of-hooks
+//       useAzureMonitor();
 
-      console.log('Application Insights monitoring enabled');
-    } else {
-      console.log(
-        '** Application Insights Connection String missing - monitoring disabled **'
-      );
-    }
-  }
-};
+//       console.log('Application Insights monitoring enabled');
+//     } else {
+//       console.log(
+//         '** Application Insights Connection String missing - monitoring disabled **'
+//       );
+//     }
+//   }
+// };
 
 const configureTracing = async () => {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const opentelemetry = require('@opentelemetry/sdk-node');
-    const {
-      UndiciInstrumentation,
-    } = require('@opentelemetry/instrumentation-undici');
-    const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
-    const { Resource } = require('@opentelemetry/resources');
-    const {
-      ATTR_SERVICE_NAME,
-    } = require('@opentelemetry/semantic-conventions');
-
-    const spanProcessor = new SimpleSpanProcessor();
-    const instrumentation = new UndiciInstrumentation();
-
-    const sdk = new opentelemetry.NodeSDK({
-      resource: new Resource({
-        [ATTR_SERVICE_NAME]: 'ftn_fe',
-      }),
-      traceExporter: null,
-      spanProcessors: [spanProcessor],
-      instrumentations: [instrumentation],
-    });
-
-    sdk.start();
+    await import('./instrumentation.node');
   }
 };
 
 export async function register() {
-  configureApplicationInsights();
-  configureTracing();
-  await startMockServer();
+  // configureApplicationInsights();
+  // configureTracing();
+  await Promise.all([configureTracing(), startMockServer()]);
 }
