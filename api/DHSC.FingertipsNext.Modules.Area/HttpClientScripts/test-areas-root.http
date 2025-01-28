@@ -1,0 +1,11 @@
+﻿
+GET http://localhost:5144/areas/root
+
+> {%
+    client.test("Root node returned", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        
+        client.assert(response.body.code === "E92000001")
+        client.assert(response.body.name === "England")
+    });
+%}
