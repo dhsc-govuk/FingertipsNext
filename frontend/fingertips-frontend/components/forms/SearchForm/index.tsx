@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchFormState, getSearchSuggestions } from './searchActions';
+import { SearchFormState } from './searchActions';
 import {
   InsetText,
   Button,
@@ -11,31 +11,19 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { AreaDocument } from '@/lib/search/searchTypes';
-import AreaSuggestionList from '@/components/molecules/AreaSuggestionList';
+import AreaSelectWithSuggestions from '@/components/molecules/AreaSuggestionList';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { SearchStateManager } from '@/lib/searchStateManager';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
-
-async function generateAreaSuggestions(
-  partialText: string
-): Promise<AreaDocument[]> {
-  if (partialText.length < 3) return [];
-  else {
-    const areas = await getSearchSuggestions(partialText);
-    return areas.slice(0, 20);
-  }
-}
 
 export const SearchForm = ({
   searchFormState,
 }: {
   searchFormState: SearchFormState;
 }) => {
-  const [suggestedAreas, setSuggestedAreas] = useState<AreaDocument[]>([]);
-
   return (
     <div
       data-testid="search-form"
@@ -68,15 +56,16 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-      <StyledInputField
-        style={{ marginBottom: '5px' }}
+
+      <AreaSelectWithSuggestions
+        onSelectHandler={(areaCode) => {
+          console.log(`This area code has been selected: ${areaCode}`);
+          searchFormState.areaSearched = areaCode;
+        }}
         input={{
           id: 'areaSearched',
           name: 'areaSearched',
-          defaultValue: searchFormState.areaSearched,
-          onChange: async (e) => {
-            setSuggestedAreas(await generateAreaSuggestions(e.target.value));
-          },
+          value: searchFormState.areaSearched,
         }}
         hint={
           <div style={{ color: '#505a5f' }}>
@@ -89,10 +78,7 @@ export const SearchForm = ({
           error: 'This field value may be required',
         }}
         data-testid="search-form-input-area"
-      >
-        Search for an area by location or organisation
-      </StyledInputField>
-      <AreaSuggestionList areas={suggestedAreas} />
+      />
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area
       </Link>
