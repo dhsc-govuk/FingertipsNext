@@ -3,15 +3,15 @@ import { expect, test } from '../page-objects/pageFactory';
 import indicatorData from '../../../../search-setup/assets/indicatorData.json';
 import { getIndicatorIDByName } from '../testHelpers';
 
-const indicator = 'Waiting'; // we expect 2 matches against name property for this string in the mockData and ai search data
+const searchTerm = 'mortality';
 let indicatorID1: string = '';
 let indicatorID2: string = '';
 
 test.describe('Search via indicator', () => {
   test.beforeAll(() => {
-    indicatorID1 = getIndicatorIDByName(indicatorData, indicator)[0]
+    indicatorID1 = getIndicatorIDByName(indicatorData, searchTerm)[0]
       .indicatorId;
-    indicatorID2 = getIndicatorIDByName(indicatorData, indicator)[1]
+    indicatorID2 = getIndicatorIDByName(indicatorData, searchTerm)[1]
       .indicatorId;
   });
   test('assert displayed results, check the chart is displayed then navigate back through to search page', async ({
@@ -28,13 +28,13 @@ test.describe('Search via indicator', () => {
     expect((await axeBuilder.analyze()).violations).toEqual([]);
 
     // Act
-    await homePage.typeIndicator(indicator);
+    await homePage.typeIndicator(searchTerm);
     await homePage.clickSearchButton();
 
     // Assert
-    await resultsPage.checkURLIsCorrect(indicator);
+    await resultsPage.checkURLIsCorrect(searchTerm);
     expect((await axeBuilder.analyze()).violations).toEqual([]);
-    await resultsPage.checkSearchResults(indicator);
+    await resultsPage.checkSearchResults(searchTerm);
 
     // Act
     await resultsPage.clickIndicatorCheckbox(indicatorID1);
@@ -43,7 +43,7 @@ test.describe('Search via indicator', () => {
 
     // Assert
     await chartPage.checkURLIsCorrect(
-      `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
+      `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
     );
     expect((await axeBuilder.analyze()).violations).toEqual([]);
     await chartPage.checkChartAndChartTable();
@@ -53,9 +53,9 @@ test.describe('Search via indicator', () => {
 
     // Assert - check indicator selections previously made are prepopulated
     await resultsPage.checkURLIsCorrect(
-      `${indicator}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
+      `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
     );
-    await resultsPage.checkSearchResults(indicator);
+    await resultsPage.checkSearchResults(searchTerm);
     await resultsPage.checkIndicatorCheckboxChecked(indicatorID1);
     await resultsPage.checkIndicatorCheckboxChecked(indicatorID2);
 
@@ -64,9 +64,9 @@ test.describe('Search via indicator', () => {
 
     // Assert - check search text previously entered is prepopulated
     await homePage.checkURLIsCorrect(
-      `?${SearchParams.SearchedIndicator}=${indicator}`
+      `?${SearchParams.SearchedIndicator}=${searchTerm}`
     );
-    await homePage.checkSearchFieldIsPrePopulatedWith(indicator);
+    await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
 
     // Act - clear the prepopulated search field and click search
     await homePage.clearSearchIndicatorField();
@@ -74,7 +74,7 @@ test.describe('Search via indicator', () => {
 
     // Assert - should be on the same page with search field still cleared and validation message displayed
     await homePage.checkURLIsCorrect(
-      `?${SearchParams.SearchedIndicator}=${indicator}`
+      `?${SearchParams.SearchedIndicator}=${searchTerm}`
     );
     await homePage.checkSearchFieldIsPrePopulatedWith();
     await homePage.checkSummaryValidation(
