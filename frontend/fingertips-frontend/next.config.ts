@@ -15,9 +15,6 @@ const nextConfig: NextConfig = {
     '@opentelemetry/semantic-conventions',
     '@opentelemetry/exporter-jaeger',
   ],
-  typescript: {
-    tsconfigPath: 'tsconfig.json',
-  },
 };
 
 export default nextConfig;
