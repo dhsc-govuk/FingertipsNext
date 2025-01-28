@@ -19,6 +19,10 @@ on:
         description: 'Source branch ref used in checkout'
         required: true
         type: string
+      source_trigger:
+        description: 'Event name that triggered the source workflow'
+        required: true
+        type: string
       container_name:
         description: 'Name of the container or service being deployed'
         required: true
@@ -65,7 +69,7 @@ on:
 jobs:
   terraform-pr-validation:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: ${{ inputs.source_trigger == 'pull_request' }}
     name: Validate Container Deployment - ${{ inputs.container_name }}
     steps:
       - name: Checkout
@@ -104,7 +108,7 @@ jobs:
 
   terraform-apply:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch' }}
     name: Container Deploy - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
     outputs:
