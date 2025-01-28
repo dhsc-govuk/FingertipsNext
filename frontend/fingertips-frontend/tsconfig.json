@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "search-setup/**/*.json"
+    "**/*indicatorData.json"
   ],
   "exclude": ["node_modules"]
 }
