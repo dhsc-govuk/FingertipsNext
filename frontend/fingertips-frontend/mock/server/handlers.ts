@@ -28,9 +28,7 @@ export const handlers = [
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
   http.get(`${baseURL}/areas/areatypes/:areaType/areas`, async () => {
-    const resultArray = [
-      [await getGetAreaTypeMembers200Response(), { status: 200 }],
-    ];
+    const resultArray = [[getGetAreaTypeMembers200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
