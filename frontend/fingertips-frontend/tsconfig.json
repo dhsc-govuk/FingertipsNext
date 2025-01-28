@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/search-setup/*": ["../../../search-setup/*"]
     },
     "types": ["@testing-library/jest-dom"]
   },
@@ -28,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/*indicatorData.json"
+    "search-setup/*"
   ],
   "exclude": ["node_modules"]
 }
