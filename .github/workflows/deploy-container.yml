@@ -1,0 +1,148 @@
+name: Deploy Container
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'The environment name which is being deployed to'
+        required: true
+        type: string
+      tf_state_file_name:
+        description: 'The name of the state file used for the deployment'
+        required: true
+        type: string
+      tf_environment:
+        description: 'Environment suffix used by Terraform'
+        required: true
+        type: string
+      source_branch:
+        description: 'Source branch ref used in checkout'
+        required: true
+        type: string
+      source_trigger:
+        description: 'Event name that triggered the source workflow'
+        required: true
+        type: string
+      container_name:
+        description: 'Name of the container or service being deployed'
+        required: true
+        type: string
+      container_image_tag:
+        description: 'Docker container image to be pulled from the ACR'
+        required: true
+        type: string
+      revision_suffix:
+        description: 'Revision suffix used for the Container App Deployment'
+        required: true
+        type: string
+      environment_variables:
+        description: 'Environment variables to be referenced by the Container App'
+        required: false
+        type: string
+      container_port:
+        description: 'Port number used for ingress on the Container App'
+        required: true
+        type: number
+      container_liveness_probe:
+        description: 'Liveness probe parameters required to check application health'
+        required: true
+        type: string
+    secrets:
+      arm-client-id:
+        description: 'Azure Service Principal Client ID'
+        required: true
+      arm-client-secret:
+        description: 'Azure Service Principal Client Secret'
+        required: true
+      arm-subscription-id:
+        description: 'Azure Subscription ID'
+        required: true
+      arm-tenant-id:
+        description: 'Azure Tenant ID'
+        required: true
+    outputs:
+      frontend-dev-url:
+        description: 'Frontend URL used for e2e tests step'
+        value: ${{ jobs.terraform-apply.outputs.frontend-dev-url }}
+
+
+jobs:
+  terraform-pr-validation:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.source_trigger == 'pull_request' }}
+    name: Validate Container Deployment - ${{ inputs.container_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_branch }}
+
+      - name: Set current date and time
+        id: datetime
+        run: echo "datetime=$(date '+%Y%m%d_%H:%M')" >> $GITHUB_ENV
+
+      # PR Validation Job
+      - name: PR Validation
+        uses: ./.github/validate
+        with:
+          terraform_directory: 'terraform'
+          terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
+          terraform_state_storage_account: ${{ vars.STORAGE_ACCOUNT_NAME }}
+          terraform_state_storage_container: ${{ vars.STORAGE_ACCOUNT_CONTAINER }}
+          terraform_state_key: ${{ inputs.tf_state_file_name }}
+        env:
+          ARM_CLIENT_ID: ${{ secrets.arm-client-id }}
+          ARM_CLIENT_SECRET: ${{ secrets.arm-client-secret }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.arm-subscription-id }}
+          ARM_TENANT_ID: ${{ secrets.arm-tenant-id }}
+          TF_VAR_environment: ${{ inputs.tf_environment }}
+          TF_VAR_build_time: ${{ env.datetime }}
+          TF_VAR_container_name: ${{ inputs.container_name }}
+          TF_VAR_container_image_tag: ${{ inputs.container_image_tag }}
+          TF_VAR_revision_suffix: ${{ inputs.revision_suffix }}
+          TF_VAR_environment_variables: ${{ inputs.environment_variables }}
+          TF_VAR_container_port: ${{ inputs.container_port }}
+          TF_VAR_liveness_probe: ${{ inputs.container_liveness_probe }}
+          TF_LOG: INFO
+          TF_INPUT: false
+
+  terraform-apply:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch' }}
+    name: Container Deploy - ${{ inputs.container_name }}
+    environment: ${{ inputs.environment }}
+    outputs:
+      frontend-dev-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_branch }}
+
+      - name: Set current date and time
+        id: datetime
+        run: echo "datetime=$(date '+%Y%m%d_%H:%M')" >> $GITHUB_ENV
+
+      - name: Plan and Apply
+        uses: ./.github/apply
+        with:
+          terraform_directory: 'terraform'
+          terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
+          terraform_state_storage_account: ${{ vars.STORAGE_ACCOUNT_NAME }}
+          terraform_state_storage_container: ${{ vars.STORAGE_ACCOUNT_CONTAINER }}
+          terraform_state_key: ${{ inputs.tf_state_file_name }}
+        env:
+          ARM_CLIENT_ID: ${{ secrets.arm-client-id }}
+          ARM_CLIENT_SECRET: ${{ secrets.arm-client-secret }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.arm-subscription-id }}
+          ARM_TENANT_ID: ${{ secrets.arm-tenant-id }}
+          TF_VAR_environment: ${{ inputs.tf_environment }}
+          TF_VAR_build_time: ${{ env.datetime }}
+          TF_VAR_container_name: ${{ inputs.container_name }}
+          TF_VAR_container_image_tag: ${{ inputs.container_image_tag }}
+          TF_VAR_revision_suffix: ${{ inputs.revision_suffix }}
+          TF_VAR_environment_variables: ${{ inputs.environment_variables }}
+          TF_VAR_container_port: ${{ inputs.container_port }}
+          TF_VAR_liveness_probe: ${{ inputs.container_liveness_probe }}
+          TF_LOG: INFO
+          TF_INPUT: false

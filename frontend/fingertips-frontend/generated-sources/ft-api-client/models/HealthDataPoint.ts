@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval and a year.
+ * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
  * @export
  * @interface HealthDataPoint
  */
@@ -50,13 +50,13 @@ export interface HealthDataPoint {
      */
     upperCi: number;
     /**
-     * Age band which the data are for.
+     * Age band which the data is for.
      * @type {string}
      * @memberof HealthDataPoint
      */
     ageBand: string;
     /**
-     * Sex which the data are for.
+     * Sex which the data is for.
      * @type {string}
      * @memberof HealthDataPoint
      */

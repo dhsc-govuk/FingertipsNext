@@ -32,7 +32,7 @@ export function BarChart({
       },
     },
     xAxis: {
-      categories: data.map((item) => item.areaCode),
+      categories: data.map((item) => item.areaName),
       lineWidth: 0,
     },
     yAxis: {
@@ -75,7 +75,7 @@ export function BarChart({
         type: 'bar',
         data: data.map((item) => ({
           y: item.healthData[0].value,
-          name: item.areaCode,
+          name: item.areaName,
         })),
         colorByPoint: true,
       },
