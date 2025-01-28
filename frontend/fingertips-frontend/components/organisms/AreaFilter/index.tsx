@@ -69,6 +69,9 @@ const StyledFilterDetails = styled(Details)({
     borderLeft: 'none',
     padding: '1em 0em',
   },
+  summary: {
+    color: '#000000',
+  },
 });
 
 export function AreaFilter({

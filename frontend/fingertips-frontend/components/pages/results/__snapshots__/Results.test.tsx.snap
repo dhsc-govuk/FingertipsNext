@@ -1411,6 +1411,10 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding: 1em 0em;
 }
 
+.c12 summary {
+  color: #000000;
+}
+
 @media print {
 
 }

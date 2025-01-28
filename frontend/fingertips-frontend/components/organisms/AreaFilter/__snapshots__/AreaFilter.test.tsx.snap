@@ -264,6 +264,10 @@ exports[`Area Filter snapshot test 1`] = `
   padding: 1em 0em;
 }
 
+.c10 summary {
+  color: #000000;
+}
+
 @media print {
   .c7 {
     font-size: 14px;
