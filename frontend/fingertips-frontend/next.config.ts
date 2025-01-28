@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
     '@opentelemetry/semantic-conventions',
     '@opentelemetry/exporter-jaeger',
   ],
+  nextDontCompile: 'frontend/fingertips-frontend/playwright/testHelpers.ts',
+  extends: 'frontend/fingertips-frontend/tsconfig.json',
 };
 
 export default nextConfig;
