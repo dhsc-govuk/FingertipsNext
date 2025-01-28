@@ -1,0 +1,13 @@
+﻿
+GET http://localhost:5144/areas/hierarchies
+
+> {%
+    client.test("Three area hierarchies expected", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        
+        client.assert(response.body.length === 3, "three hierarchies expected")
+        client.assert(response.body.find(element => element === 'All') != null)
+        client.assert(response.body.find(element => element === 'Admin') != null)
+        client.assert(response.body.find(element => element === 'NHS') != null)
+    });
+%}
