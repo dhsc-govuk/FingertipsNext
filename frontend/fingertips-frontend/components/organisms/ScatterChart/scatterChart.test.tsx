@@ -6,7 +6,7 @@ import { expect } from '@jest/globals';
 it('should render the Highcharts react component with passed yAxisPropsTitle parameter', () => {
   const yAxisPropsTitle = 'DifferentYTitle';
   render(
-    <ScatterChart data={mockHealthData[1]} yAxisTitle={yAxisPropsTitle} />
+    <ScatterChart data={[mockHealthData[1]]} yAxisTitle={yAxisPropsTitle} />
   );
 
   const highcharts = screen.getByTestId('highcharts-react-component');
@@ -18,7 +18,7 @@ it('should render the Highcharts react component with passed yAxisPropsTitle par
 it('should render the ScatterChart title', () => {
   render(
     <ScatterChart
-      data={mockHealthData[1]}
+      data={[mockHealthData[1]]}
       ScatterChartTitle="Compare indicators within the area group"
     />
   );

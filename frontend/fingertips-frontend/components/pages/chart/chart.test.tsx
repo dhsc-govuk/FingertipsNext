@@ -48,12 +48,10 @@ describe('Content', () => {
     const lineChart = screen.getByTestId('lineChart-component');
     const barChart = screen.getByTestId('barChart-component');
     const lineChartTable = screen.getByTestId('lineChartTable-component');
-    const scatterChart = screen.getByTestId('scatterChart-component');
 
     expect(lineChart).toBeInTheDocument();
     expect(barChart).toBeInTheDocument();
     expect(lineChartTable).toBeInTheDocument();
-    expect(scatterChart).toBeInTheDocument();
   });
 });
 
@@ -71,4 +69,11 @@ it('should render the PopulationPyramid component when Population data are provi
 
   const populationPyramid = screen.getByTestId('populationPyramid-component');
   expect(populationPyramid).toBeInTheDocument();
+});
+
+it('should render the scatterChart component when scatter data is provided', () => {
+  render(<Chart data={mockHealthData[1]} scatterData={[mockHealthData[1]]} />);
+  const scatterChart = screen.getByTestId('scatterChart-component');
+
+  expect(scatterChart).toBeInTheDocument();
 });

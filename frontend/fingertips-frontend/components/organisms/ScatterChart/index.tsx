@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
-import { sortHealthDataByDate } from '@/lib/chartHelpers/formatChartValues';
+import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/scatterChartHelper';
 
 interface ScatterChartProps {
   ScatterChartTitle?: string;
@@ -21,13 +21,12 @@ export function ScatterChart({
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<ScatterChartProps>) {
-  
-  const sortedDataSet1 = sortHealthDataByDate(data[0]);
+  const sortedDataSet1 = sortHealthDataByYearDescending(data[0]);
   const dataSet1plotValues = sortedDataSet1.map(
     (item) => item.healthData[0].value
   );
 
-  const sortedDataSet2 = sortHealthDataByDate(data[1]);
+  const sortedDataSet2 = sortHealthDataByYearDescending(data[1]);
   const dataSet2plotValues = sortedDataSet2.map(
     (item) => item.healthData[1].value
   );
@@ -45,11 +44,21 @@ export function ScatterChart({
       type: 'scatter',
       height: '50%',
       spacingBottom: 50,
+      spacingTop: 40,
     },
     title: {
       text: 'Scatter chart to show how the indicator has changed over time for the area',
       style: {
         display: 'none',
+      },
+    },
+    legend: {
+      align: 'left',
+      verticalAlign: 'top',
+      y: -30,
+      margin: 40,
+      title: {
+        text: 'Selected areas',
       },
     },
     xAxis: {
@@ -76,11 +85,6 @@ export function ScatterChart({
         data: combinedDataPlots,
       },
     ],
-    legend: {
-      align: 'left',
-      verticalAlign: 'top',
-      margin: 30,
-    },
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

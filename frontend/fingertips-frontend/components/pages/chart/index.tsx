@@ -52,13 +52,15 @@ export function Chart({
           <br />
         </>
       ) : null}
-      <ScatterChart
-        data={scatterData}
-        ScatterChartTitle="Compare indicators within the area group"
-        yAxisTitle="<b>y: Indicator 1 (value)</b></br> rate per information"
-        xAxisTitle="<b>x: Indicator 2 (value)</b></br> rate per information"
-        accessibilityLabel="A scatter chart showing two indicators"
-      ></ScatterChart>
+      {scatterData ? (
+        <ScatterChart
+          data={scatterData}
+          ScatterChartTitle="Compare indicators within the area group"
+          yAxisTitle="<b>y: Indicator 1 (value)</b></br> rate per information"
+          xAxisTitle="<b>x: Indicator 2 (value)</b></br> rate per information"
+          accessibilityLabel="A scatter chart showing two indicators"
+        ></ScatterChart>
+      ) : null}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
