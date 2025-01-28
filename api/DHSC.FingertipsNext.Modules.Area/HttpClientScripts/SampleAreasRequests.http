@@ -1,0 +1,42 @@
+﻿### GET available hierarchy types
+
+GET http://localhost:5144/areas/hierarchies
+
+### GET available area types
+
+GET http://localhost:5144/areas/areatypes
+
+### GET available area types applicable to NHS
+
+GET http://localhost:5144/areas/areatypes?hierarchy_type=NHS
+
+### GET root area
+
+GET http://localhost:5144/areas/root
+
+### GET area details fully populated, including direct children
+
+# basildon PCN
+GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true
+
+### GET area details, including children of type
+
+# England
+GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=GP
+
+### GET area details, including DIRECT children
+
+# England
+GET http://localhost:5144/areas/E92000001?include_children=true
+
+### GET area details, no children, only ancestors
+
+# England
+GET http://localhost:5144/areas/E92000001?include_ancestors=true
+
+### GET area details, no children, no ancestors
+
+# England
+GET http://localhost:5144/areas/E92000001
+
+###

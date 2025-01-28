@@ -1,0 +1,56 @@
+﻿
+### CEHECK GET area details fully populated, including direct children
+
+# basildon PCN
+GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true
+
+> {%
+    client.test("Expected basildon data returned", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        let area = response.body;
+
+        client.assert(area.parent.code === "E38000007");
+        client.assert(area.parent.name === "NHS Basildon And Brentwood ICB");
+
+        client.assert(area.code === "U15488");
+        client.assert(area.name === "East Basildon PCN");
+
+        // 2 children expected in basildon
+        client.assert(area.children.length > 0);
+        client.assert(area.children.filter(x => x.code === "F81186").length === 1)
+        client.assert(area.children.filter(x => x.code === "F81640").length === 1)
+
+        // 3 ancestors expected for basildon
+        client.assert(area.ancestors.length > 0);
+        client.assert(area.ancestors.filter(x => x.code === "E38000007").length === 1) // "NHS Basildon And Brentwood ICB"
+        client.assert(area.ancestors.filter(x => x.code === "E40000007").length === 1) // "East of England NHS Region"
+        client.assert(area.ancestors.filter(x => x.code === "E92000001").length === 1) // "England"
+    });
+%}
+
+### CHECK GET area details, including children of type
+
+# England
+GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=GP
+
+> {%
+    client.test("Expected root area returned", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        let area = response.body;
+        
+        // England is a root, so has no parent
+        client.assert(!area.parent);
+        
+        client.assert(!area.ancestors || area.ancestors.length === 0);
+        client.assert(area.code === "E92000001");
+        client.assert(area.name === "England");
+
+        // check we have children and they are all GP
+        client.assert(area.children.length > 0);
+        client.assert(area.children.filter(x => x.areaType === "GP").length === area.children.length)
+    });
+%}
+
+###
