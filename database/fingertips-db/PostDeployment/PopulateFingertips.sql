@@ -338,7 +338,7 @@ INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) 
 SET IDENTITY_INSERT [dbo].[SexDimension] OFF
 GO
 
--- create some population healh measure data
+-- create some population health measure data
 SET IDENTITY_INSERT [dbo].[HealthMeasure] ON 
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3333, 3333, 3334, 2, 604, 1457071, 0, 0, 0, 2024)
