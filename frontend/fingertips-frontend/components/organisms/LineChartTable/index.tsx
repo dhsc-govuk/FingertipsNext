@@ -29,7 +29,7 @@ export function LineChartTable({ data, headings }: Readonly<TableProps>) {
             <Table.Row key={`${item.areaCode}-${point.year}--${index}`}>
               {index === 0 && (
                 <Table.Cell rowSpan={item.healthData.length}>
-                  {item.areaCode}
+                  {item.areaName}
                 </Table.Cell>
               )}
               <Table.Cell numeric>{point.year}</Table.Cell>
