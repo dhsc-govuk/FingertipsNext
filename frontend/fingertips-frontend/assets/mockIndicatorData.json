@@ -32,6 +32,14 @@
     "lastUpdated": "20-Jan-23"
   },
   {
+    "indicatorId": "219",
+    "name": "Hypertension: QOF prevalence (all ages)",
+    "definition": "The percentage of patients with established hypertension, as recorded on practice disease registers (proportion of total list size).",
+    "latestDataPeriod": "2024",
+    "dataSource": "Quality and Outcomes Framework (QOF), NHS England",
+    "lastUpdated": "24-Sep-24"
+  },
+  {
     "indicatorId": "212",
     "name": "Stroke: QOF prevalence (all ages)",
     "definition": "The percentage of patients with stroke or transient ischaemic attack (TIA), as recorded on practice disease registers (proportion of total list size).",
