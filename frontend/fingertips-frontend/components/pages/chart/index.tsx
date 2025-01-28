@@ -1,22 +1,26 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { H2, BackLink } from 'govuk-react';
+import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
+import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 type ChartProps = {
   data: HealthDataForArea[];
+  populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
 };
 
-const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
+const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
+  populationData,
   searchedIndicator,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
@@ -33,8 +37,20 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      <br />
+      {populationData ? (
+        <>
+          <PopulationPyramid
+            data={populationData}
+            populationPyramidTitle="Population INDICATOR for SELECTED area"
+            xAxisTitle="Age"
+            yAxisTitle="Percentage of total population"
+            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
+          />
+          <br />
+        </>
+      ) : null}
       <LineChart
+        LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"

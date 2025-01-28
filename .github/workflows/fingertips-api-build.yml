@@ -1,0 +1,71 @@
+name: Fingertips API Build
+
+env:
+  api-directory: ./api
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      ## ** is required to match branches with / in their name
+      - "**"
+    paths:
+      - api/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - api/**
+
+jobs:
+  determine-version:
+    uses: ./.github/workflows/determine-semver.yml
+    with:
+      fetch-depth: 0
+      gitversion-version: '6.0.x'
+
+  api-build:
+    name: Build API
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["9.0.x"]
+
+    defaults:
+      run:
+        working-directory: ${{ env.api-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore Packages
+        run: dotnet restore
+
+      - name: Build API
+        run: dotnet build
+
+      - name: Run Unit Tests
+        run: dotnet test
+
+  build-container:
+    uses: ./.github/workflows/build-container.yml
+    needs: [
+      determine-version,
+      api-build
+    ]
+    with:
+      context-location: api
+      container-tag: dhsc.fingertipsnext.api
+      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
+      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
+    secrets:
+      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+

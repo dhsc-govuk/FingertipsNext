@@ -1,0 +1,71 @@
+name: Fingertips API Deploy
+
+on:
+  workflow_run:
+    workflows: [Fingertips API Build]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  determine-version:
+    uses: ./.github/workflows/determine-semver.yml
+    with:
+      fetch-depth: 0
+      gitversion-version: '6.0.x'
+
+  api-deploy-development:
+    needs: determine-version
+    uses: ./.github/workflows/deploy-container.yml
+    with:
+      tf_state_file_name: fingertips.api.tfstate
+      environment: development
+      tf_environment: dev
+      source_branch: ${{ github.event.workflow_run.head_branch }}
+      source_trigger: ${{ github.event.workflow_run.event }}
+      container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
+      container_name: 'fingertips-api'
+      revision_suffix: ${{ github.run_number }}
+      container_port: 8080
+      environment_variables: |
+        [
+          {
+            name        = "DB_SERVER"
+            secret_name = "fingertips-sql-hostname"
+            value       = null
+          },
+          {
+            name        = "DB_NAME"
+            secret_name = "fingertips-db-name"
+            value       = null
+          },
+          {
+            name        = "DB_USER"
+            secret_name = "fingertips-sql-username"
+            value       = null
+          },
+          {
+            name        = "DB_PASSWORD"
+            secret_name = "fingertips-sql-password"
+            value       = null
+          }
+        ]
+      container_liveness_probe: |
+        {
+          path      = "/healthcheck"
+          port      = 8080
+          transport = "HTTP"
+        }
+    secrets:
+      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+  e2e-tests-development:
+    uses: ./.github/workflows/e2e-tests.yml
+    if: github.event_name == 'push'
+    needs: api-deploy-development
+    with:
+      env-url: ${{ needs.api-deploy-development.outputs.frontend-dev-url }}
