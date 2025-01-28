@@ -1,4 +1,4 @@
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import {
   Details,
@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
-  availableAreaTypes?: string[];
+  availableAreaTypes?: AreaType[];
 }
 
 const StyledFilterPane = styled('div')({});
@@ -113,8 +113,8 @@ export function AreaFilter({
             }}
           >
             {availableAreaTypes?.map((areaType) => (
-              <option key={areaType} value={areaType}>
-                {areaType}
+              <option key={areaType.name} value={areaType.name}>
+                {areaType.name}
               </option>
             ))}
           </StyledFilterSelect>

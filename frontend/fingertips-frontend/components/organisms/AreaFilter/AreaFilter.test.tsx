@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { AreaFilter } from '.';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 
@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => ({
-      [SearchParams.AreaTypeSelected]: 'area type 002',
+      [SearchParams.AreaTypeSelected]: 'A002',
     }),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
@@ -29,7 +29,16 @@ const mockArea: AreaWithRelations = {
   areaType: 'Integrated Care Board sub-locations',
 };
 
-const availableAreaTypes = ['area type 001', 'area type 002'];
+const generateAreaType = (name: string, level: number): AreaType => ({
+  name,
+  level,
+  hierarchyName: `hierarchyName for ${name}`,
+});
+
+const availableAreaTypes: AreaType[] = [
+  generateAreaType('A001', 1),
+  generateAreaType('A002', 2),
+];
 
 describe('Area Filter', () => {
   afterEach(() => {
@@ -86,7 +95,7 @@ describe('Area Filter', () => {
 
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toHaveValue('area type 002');
+    ).toHaveValue('A002');
   });
 
   it('should add the selected areaType to the url', async () => {
@@ -96,11 +105,11 @@ describe('Area Filter', () => {
 
     await user.selectOptions(
       screen.getByRole('combobox', { name: /Select an area type/i }),
-      'area type 001'
+      'A001'
     );
 
-    expect(mockReplace).toBeCalledWith(
-      `${mockPath}?${SearchParams.AreaTypeSelected}=area+type+001`,
+    expect(mockReplace).toHaveBeenCalledWith(
+      `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
       {
         scroll: false,
       }
