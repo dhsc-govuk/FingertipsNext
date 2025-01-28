@@ -1,5 +1,5 @@
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import indicatorData from '../../../search-setup/assets/indicatorData.json';
+import indicatorData from '../../../search-setup/assets/indicatorData.json' with { type: 'json' };
 
 export function getIndicatorIDByName(searchTerm: string): IndicatorDocument[] {
   const typedIndicatorData = indicatorData.map((indicator) => {
