@@ -18,7 +18,7 @@ type ChartProps = {
   scatterData?: HealthDataForArea[][];
 };
 
-const headings = ['Area Code', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
+const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,

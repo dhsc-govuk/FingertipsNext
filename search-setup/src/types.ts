@@ -1,23 +1,3 @@
-export interface IndicatorSearchData {
-  indicatorId: string;
-  name: string;
-  definition: string;
-  // Most recent value held in database column 'Year'.
-  latestDataPeriod: string;
-  dataSource: string;
-  lastUpdated: Date;
-}
-
-export interface GeographySearchData {
-  areaName: string;
-  areaType: string;
-  areaCode: string;
-}
-
-export interface DocumentResponse {
-  "@odata.context": string;
-  value: IndicatorSearchData[] | GeographySearchData[];
-}
 
 export interface SearchIndexResponse {
   name: string;

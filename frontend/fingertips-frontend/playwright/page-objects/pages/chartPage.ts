@@ -1,7 +1,6 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { screen } from '@testing-library/react';
 
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';

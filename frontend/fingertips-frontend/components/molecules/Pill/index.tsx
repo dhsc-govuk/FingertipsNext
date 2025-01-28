@@ -12,23 +12,22 @@ interface PillProps {
 
 const StyledDivContainer = styled('div')({
   backgroundColor: 'white',
-  border: '0.1em black solid',
+  border: '1px #D1D2D3 solid',
+  borderRadius: '5px',
   padding: '0.3125em 0.3125em',
-  maxWidth: '40%',
+  maxWidth: '100%',
   margin: '0.3125em',
   display: 'flex',
 });
 
 const StyledFilterNameDiv = styled('div')({
-  maxWidth: '80%',
   wordWrap: 'break-word',
+  paddingLeft: '0.5em',
 });
 
 const StyledIconDiv = styled('div')({
-  marginLeft: 'auto',
-  display: 'flex',
-  justifyContent: 'flex-start',
   alignItems: 'center',
+  display: 'flex',
 });
 
 const StyledParagraph = styled(Paragraph)(
@@ -41,12 +40,12 @@ const StyledParagraph = styled(Paragraph)(
 export function Pill({ selectedFilterName }: Readonly<PillProps>) {
   return (
     <StyledDivContainer data-testid="pill-container">
+      <StyledIconDiv data-testid="remove-icon-div">
+        <RemoveIcon width="12" height="12" color="#000000" />
+      </StyledIconDiv>
       <StyledFilterNameDiv data-testid="filter-name">
         <StyledParagraph>{selectedFilterName}</StyledParagraph>
       </StyledFilterNameDiv>
-      <StyledIconDiv data-testid="remove-icon-div">
-        <RemoveIcon width="20" height="20" color="#000000" />
-      </StyledIconDiv>
     </StyledDivContainer>
   );
 }

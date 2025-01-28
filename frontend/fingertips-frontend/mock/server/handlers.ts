@@ -16,6 +16,26 @@ const next = () => {
 };
 
 export const handlers = [
+  http.get(`${baseURL}/areas/hierarchies`, async () => {
+    const resultArray = [[getGetAreaHierarchies200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas/areatypes`, async () => {
+    const resultArray = [[getGetAreaTypes200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas/:areaCode`, async () => {
+    const resultArray = [[getGetArea200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas/root`, async () => {
+    const resultArray = [[getGetAreaRoot200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
   http.get(`${baseURL}/indicators`, async () => {
     const resultArray = [[getFilterIndicators200Response(), { status: 200 }]];
 
@@ -41,6 +61,81 @@ export const handlers = [
   }),
 ];
 
+export function getGetAreaHierarchies200Response() {
+  return [
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => faker.lorem.words());
+}
+
+export function getGetAreaTypes200Response() {
+  return [
+    'Integrated Care Board sub-locations',
+    'Integrated Care Board pub-locations',
+    'Integrated Care Board hub-locations',
+    'Integrated Care Board tub-locations',
+  ];
+}
+
+export function getGetArea200Response() {
+  return {
+    code: 'E06000047',
+    name: 'County Durham',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: '3',
+    parent: {
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'NHS',
+      areaType: 'PCN',
+      level: '3',
+    },
+    children: [
+      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+    ].map((_) => ({
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'NHS',
+      areaType: 'PCN',
+      level: '3',
+    })),
+    siblings: [
+      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+    ].map((_) => ({
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'NHS',
+      areaType: 'PCN',
+      level: '3',
+    })),
+    cousins: [
+      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+    ].map((_) => ({
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'NHS',
+      areaType: 'PCN',
+      level: '3',
+    })),
+    ancestors: [
+      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+    ].map((_) => ({
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'NHS',
+      areaType: 'PCN',
+      level: '3',
+    })),
+  };
+}
+
+export function getGetAreaRoot200Response() {
+  return {
+    code: 'E92000001',
+    name: 'England',
+  };
+}
+
 export function getFilterIndicators200Response() {
   return [
     ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
@@ -48,18 +143,6 @@ export function getFilterIndicators200Response() {
     indicator_id: 3456,
     title: 'Hypertension: QOF prevalence (all ages)',
   }));
-}
-
-export function getFilterIndicators400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getFilterIndicators500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
 }
 
 export function getGetIndicator200Response() {
@@ -83,22 +166,16 @@ export function getGetIndicator500Response() {
   };
 }
 
+export function getGetHealthDataForAnIndicator400Response() {
+  return {
+    message: 'No health data for indicator',
+  };
+}
+
 export function getGetHealthDataForAnIndicator200Response(indicatorId: string) {
   if (indicatorId in mockHealthData) {
     return mockHealthData[indicatorId];
   }
 
   return mockHealthData[1];
-}
-
-export function getGetHealthDataForAnIndicator400Response() {
-  return {
-    message: faker.lorem.words(),
-  };
-}
-
-export function getGetHealthDataForAnIndicator500Response() {
-  return {
-    message: faker.lorem.words(),
-  };
 }

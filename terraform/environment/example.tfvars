@@ -1,5 +1,0 @@
-subscription_id          = "<Azure Subscription ID>"
-environment              = "<Environment Name>"
-registry_server_url      = "<Registry Name>.azurecr.io"
-registry_server_username = "<Registry Server Username>"
-registry_server_password = "<Registry Server Username>"

@@ -1,8 +1,33 @@
+export const INDICATOR_SEARCH_SCORING_PROFILE = "basicScoringProfile";
 export const INDICATOR_SEARCH_INDEX_NAME = "indicator-search-index";
-export const GEOGRAPHY_SEARCH_INDEX_NAME = "geography-search-index";
-export const GEOGRAPHY_SEARCH_SUGGESTER_NAME = "geographySuggester";
+export const AREA_SEARCH_INDEX_NAME = "area-search-index";
+export const AREA_SEARCH_SUGGESTER_NAME = "areaSuggester";
 
-export enum GeographySearchIndexColumnNames {
+export interface IndicatorDocument {
+  indicatorId: string;
+  name: string;
+  definition: string;
+  dataSource: string;
+  latestDataPeriod: string; // Most recent value held in database column 'Year'.
+  lastUpdated: Date;
+}
+
+export interface AreaDocument {
+  areaCode: string;
+  areaType: string;
+  areaName: string;
+}
+
+export enum IndicatorSearchIndexColumnNames {
+  INDICATOR_ID = "indicatorId",
+  INDICATOR_NAME = "name",
+  INDICATOR_DEFINITION = "definition",
+  INDICATOR_LATEST_DATA_PERIOD = "latestDataPeriod",
+  INDICATOR_DATA_SOURCE = "dataSource",
+  INDICATOR_LAST_UPDATED = "lastUpdated",
+}
+
+export enum AreaSearchIndexColumnNames {
   AREA_CODE = "areaCode",
   AREA_NAME = "areaName",
   AREA_TYPE = "areaType",

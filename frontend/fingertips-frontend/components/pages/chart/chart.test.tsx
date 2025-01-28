@@ -5,6 +5,19 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
 
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: jest.fn(),
+    useSearchParams: jest.fn(),
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: jest.fn(),
+    })),
+  };
+});
+
 const mockPopulationData: PopulationDataForArea = {
   ageCategories: [],
   femaleSeries: [],
