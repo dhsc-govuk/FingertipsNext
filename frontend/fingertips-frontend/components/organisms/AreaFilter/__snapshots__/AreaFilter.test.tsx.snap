@@ -2,7 +2,7 @@
 
 exports[`Area Filter snapshot test 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,7 +16,7 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c5 {
+.c15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -28,10 +28,97 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c5:after {
+.c15:after {
   content: '';
   display: table;
   clear: both;
+}
+
+.c9 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.c12 {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 25px;
+  color: #1d70b8;
+  cursor: pointer;
+}
+
+.c12:hover {
+  color: #2b8cc4;
+}
+
+.c12:focus {
+  outline: 4px solid #ffdd00;
+  outline-offset: -1px;
+  color: #0b0c0c;
+  background: #ffdd00;
+}
+
+.c12::-webkit-details-marker {
+  display: none;
+}
+
+.c12:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  border-width: 7px 0 7px 12.124px;
+  border-left-color: inherit;
+}
+
+[open] > .c11:before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  border-width: 12.124px 7px 0 7px;
+  border-top-color: inherit;
+}
+
+.c13 {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c14 {
+  padding: 15px;
+  padding-left: 20px;
+  border-left: 5px solid #bfc1c3;
+}
+
+.c14 p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c14 > :last-child,
+.c14 p:last-child {
+  margin-bottom: 0;
 }
 
 .c1 {
@@ -47,7 +134,7 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c4 {
+.c2 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -58,11 +145,11 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c4 > p {
+.c2 > p {
   margin: 0;
 }
 
-.c4 > p > code {
+.c2 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -70,7 +157,7 @@ exports[`Area Filter snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c4 > pre {
+.c2 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -79,7 +166,7 @@ exports[`Area Filter snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c4 > pre > code {
+.c2 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -89,13 +176,13 @@ exports[`Area Filter snapshot test 1`] = `
   word-wrap: normal;
 }
 
-.c2 {
+.c4 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c7 {
+.c17 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -109,50 +196,129 @@ exports[`Area Filter snapshot test 1`] = `
   border: 2px solid #0b0c0c;
 }
 
-.c7:focus {
+.c17:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
 .c0 {
-  background-color: #E1E2E3;
-  min-height: 100%;
-  padding: 0.5em;
+  background-color: #D1D2D3;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: -1.3em;
+  padding: 0.5em 1em;
 }
 
-.c6 select {
+.c6 {
+  padding-bottom: 1.5em;
+}
+
+.c3 {
+  margin-left: auto;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  padding: 0em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c5 {
+  background-color: #E1E2E3;
+  min-height: 100%;
+  padding: 1.5em 1em;
+}
+
+.c8 {
+  font-weight: bold;
+  padding: 0em;
+}
+
+.c8 div div {
+  padding: 0em;
+}
+
+.c16 select {
   width: 100%;
 }
 
+.c10 div {
+  border-left: none;
+  padding: 1em 0em;
+}
+
 @media print {
-  .c3 {
+  .c7 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c7 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c3 {
+  .c7 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c7 {
     margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c15 {
     margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c9 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c9 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    margin-bottom: 30px;
   }
 }
 
@@ -183,90 +349,124 @@ exports[`Area Filter snapshot test 1`] = `
 }
 
 @media print {
-  .c4 {
+  .c2 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c2 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
+  .c2 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c7 {
+  .c17 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c17 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c17 {
     width: 50%;
     height: 38px;
   }
 }
 
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
 <div
-    class="c0"
+    class=""
     data-testid="area-filter-container"
   >
-    <h3
-      class="c1"
+    <div
+      class="c0"
     >
-      Filters
-    </h3>
-    <hr
-      class="c2"
-    />
-    <div>
-      <span
-        class="c3"
+      <h3
+        class="c1"
       >
-        Areas Selected
-      </span>
+        Filters
+      </h3>
       <div
-        class="c4"
+        class="c2 c3"
       >
         <p>
-          There are no areas selected
+          Hide filters
         </p>
       </div>
     </div>
-    <div>
-      <span
-        class="c3"
-      >
-        Filter by area
-      </span>
-      <label
-        class="c5 c6"
+    <hr
+      class="c4"
+    />
+    <div
+      class="c5"
+    >
+      <div
+        class="c6"
       >
         <span
-          class="c3"
+          class="c7 c8"
         >
-          Select an area type
+          Selected areas (0)
         </span>
-        <select
-          class="c7"
-        />
-      </label>
+      </div>
+      <details
+        class="c9 c10"
+      >
+        <summary
+          class="c11 c12"
+        >
+          <span
+            class="c13"
+          >
+            Add or change areas
+          </span>
+        </summary>
+        <div
+          class="c14"
+        >
+          <label
+            class="c15 c16"
+          >
+            <span
+              class="c7"
+            >
+              Select an area type
+            </span>
+            <select
+              class="c17"
+            />
+          </label>
+        </div>
+      </details>
     </div>
   </div>
 </DocumentFragment>
