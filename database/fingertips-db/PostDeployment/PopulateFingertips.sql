@@ -466,7 +466,7 @@ SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 
 
 --create some health measure data
-SET IDENTITY_INSERT [dbo].[HealthMeasure] ON SET IDENTITY_INSERT [dbo].[HealthMeasure] ON 
+SET IDENTITY_INSERT [dbo].[HealthMeasure] ON 
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (69851, 17, 6, 3, 321, 17, 1.0712, 0.66988, 1.70883, 2021)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (70025, 72, 6, 3, 321, 1182, 19.76589, 18.7761, 20.79449, 2021)
