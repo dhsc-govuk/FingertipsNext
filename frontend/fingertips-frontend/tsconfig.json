@@ -24,8 +24,5 @@
     "types": ["@testing-library/jest-dom"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": [
-    "node_modules",
-    "frontend/fingertips-frontend/playwright/testHelpers.ts"
-  ]
+  "exclude": ["node_modules", "./playwright/testHelpers.ts"]
 }
