@@ -1,6 +1,5 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect, test } from '../page-objects/pageFactory';
-import indicatorData from '../../../../search-setup/assets/indicatorData.json';
 import { getIndicatorIDByName } from '../testHelpers';
 
 const searchTerm = 'mortality';
@@ -9,10 +8,8 @@ let indicatorID2: string = '';
 
 test.describe('Search via indicator', () => {
   test.beforeAll(() => {
-    indicatorID1 = getIndicatorIDByName(indicatorData, searchTerm)[0]
-      .indicatorId;
-    indicatorID2 = getIndicatorIDByName(indicatorData, searchTerm)[1]
-      .indicatorId;
+    indicatorID1 = getIndicatorIDByName(searchTerm)[0].indicatorId;
+    indicatorID2 = getIndicatorIDByName(searchTerm)[1].indicatorId;
   });
   test('assert displayed results, check the chart is displayed then navigate back through to search page', async ({
     homePage,
