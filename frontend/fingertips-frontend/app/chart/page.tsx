@@ -31,12 +31,15 @@ export default async function ChartPage(
     areaCodes: areaCodes,
   });
 
-  const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[1]),
-    areaCodes: areaCodes,
-  });
+  const scatterData = [];
 
-  const scatterData = [data, dataSetTwo];
+  if (indicatorsSelected.length > 1) {
+    const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
+      indicatorId: Number(indicatorsSelected[1]),
+      areaCodes: areaCodes,
+    });
+    scatterData.push(data, dataSetTwo);
+  }
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
