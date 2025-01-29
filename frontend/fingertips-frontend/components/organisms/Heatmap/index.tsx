@@ -52,7 +52,8 @@ export function HeatmapChart({
         dataLabels: {
           enabled: true,
           formatter: function () {
-            return this.value ?? 'X';
+            const context = { ...this };
+            return context.value ?? 'X';
           },
           style: {
             fontSize: '20px',
@@ -65,7 +66,8 @@ export function HeatmapChart({
       labels: {
         useHTML: true,
         formatter: function () {
-          return formatIndicatorLabel(this.value as string);
+          const context = { ...this };
+          return formatIndicatorLabel(context.value as string);
         },
         style: {
           fontSize: '20px',
