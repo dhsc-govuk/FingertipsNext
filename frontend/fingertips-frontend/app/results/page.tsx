@@ -43,12 +43,9 @@ export default async function Page(
     try {
       availableAreaTypes =
         areasSelected.length === 0 ? await areasApi.getAreaTypes() : [];
-      selectedAreasData =
-        areasSelected.length > 0
-          ? await Promise.all(
-              areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-            )
-          : [];
+      selectedAreasData = await Promise.all(
+        areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+      );
     } catch (error) {
       console.log(`Error from areasApi ${error}`);
       availableAreaTypes = [];
