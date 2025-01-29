@@ -19,17 +19,10 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@/search-setup/*": ["../../../search-setup/*"]
+      "@/*": ["./*"]
     },
     "types": ["@testing-library/jest-dom"]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "search-setup/*"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
