@@ -56,8 +56,10 @@ export function Chart({
         <ScatterChart
           data={scatterData}
           ScatterChartTitle="Compare indicators within the area group"
-          yAxisTitle="<b>y: Indicator 1 (value)</b></br> rate per information"
-          xAxisTitle="<b>x: Indicator 2 (value)</b></br> rate per information"
+          yAxisTitle="y: Indicator 1 (value)"
+          yAxisSubtitle="rate per information"
+          xAxisTitle="x: Indicator 2 (value)"
+          xAxisSubtitle="rate per information"
           accessibilityLabel="A scatter chart showing two indicators"
         ></ScatterChart>
       ) : null}

@@ -10,7 +10,9 @@ interface ScatterChartProps {
   ScatterChartTitle?: string;
   data: HealthDataForArea[][];
   xAxisTitle?: string;
+  xAxisSubtitle?: string;
   yAxisTitle?: string;
+  yAxisSubtitle?: string;
   accessibilityLabel?: string;
 }
 
@@ -18,7 +20,9 @@ export function ScatterChart({
   ScatterChartTitle: scatterChartTitle,
   data,
   xAxisTitle,
+  xAxisSubtitle,
   yAxisTitle,
+  yAxisSubtitle,
   accessibilityLabel,
 }: Readonly<ScatterChartProps>) {
   const sortedDataSet1 = sortHealthDataByYearDescending(data[0]);
@@ -63,7 +67,8 @@ export function ScatterChart({
     },
     xAxis: {
       title: {
-        text: xAxisTitle,
+        text: `<span style="font-weight: bold">${xAxisTitle}</span><br><span>${xAxisSubtitle}</span>`,
+        useHTML: true,
         style: {
           fontSize: 16,
         },
@@ -72,7 +77,8 @@ export function ScatterChart({
     },
     yAxis: {
       title: {
-        text: yAxisTitle,
+        text: `<span style="font-weight: bold">${yAxisTitle}</span><br><span>${yAxisSubtitle}</span>`,
+        useHTML: true,
         style: {
           fontSize: 16,
         },
