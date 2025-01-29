@@ -7,7 +7,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : undefined,
+  expect: process.env.CI ? { timeout: 10_000 } : { timeout: 5_000 },
   reporter: process.env.CI
     ? [['list'], ['@estruyf/github-actions-reporter'], ['html']]
     : [['list'], ['html']],
