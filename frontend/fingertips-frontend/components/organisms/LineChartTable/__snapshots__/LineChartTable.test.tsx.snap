@@ -255,7 +255,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 
 .c8 {
   background-color: #b1b4b6;
-  border-top: solid #F3F2F1 0.0625em;
+  border-top: solid #F3F2F1 2px;
   width: 16%;
 }
 
@@ -279,7 +279,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 
 .c17 {
   background-color: #b1b4b6;
-  border-top: solid #F3F2F1 0.0625em;
+  border-top: solid #F3F2F1 2px;
 }
 
 .c11 {

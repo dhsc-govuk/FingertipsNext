@@ -65,7 +65,7 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: LIGHT_GREY,
-  borderTop: `solid #F3F2F1 0.0625em`,
+  borderTop: `solid #F3F2F1 2px`,
   width: '16%',
 });
 
@@ -83,7 +83,7 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
 
 const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
   backgroundColor: LIGHT_GREY,
-  borderTop: `solid #F3F2F1 0.0625em`,
+  borderTop: `solid #F3F2F1 2px`,
 });
 
 const StyledSpan = styled('span')({
