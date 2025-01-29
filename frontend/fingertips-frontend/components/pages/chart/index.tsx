@@ -6,8 +6,7 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
-import { HeatmapChart } from '@/components/organisms/Heatmap';
-import { IndicatorRowData } from '@/components/organisms/Heatmap';
+import { HeatmapChart, IndicatorRowData } from '@/components/organisms/Heatmap';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
