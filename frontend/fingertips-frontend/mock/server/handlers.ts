@@ -1,6 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { mockAreaTypes } from '../data/areaData';
 
 faker.seed(1);
 
@@ -23,6 +24,11 @@ export const handlers = [
   }),
   http.get(`${baseURL}/areas/areatypes`, async () => {
     const resultArray = [[getGetAreaTypes200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas/areatypes/:areaType/areas`, async () => {
+    const resultArray = [[getGetAreaTypeMembers200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -76,12 +82,19 @@ export function getGetAreaHierarchies200Response() {
 }
 
 export function getGetAreaTypes200Response() {
+  return mockAreaTypes;
+}
+
+export function getGetAreaTypeMembers200Response() {
   return [
-    'Integrated Care Board sub-locations',
-    'Integrated Care Board pub-locations',
-    'Integrated Care Board hub-locations',
-    'Integrated Care Board tub-locations',
-  ];
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => ({
+    code: 'E06000047',
+    name: 'County Durham',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: '3',
+  }));
 }
 
 export function getGetArea200Response() {
