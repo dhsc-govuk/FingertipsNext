@@ -5,14 +5,14 @@ import {
   IndicatorRowData,
 } from '@/components/organisms/Heatmap/index';
 
-const areaCodes: Array<string> = ['area1', 'area2', 'area3'];
+const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
 const heatmapData: Array<IndicatorRowData> = [
   {
     indicator: 'Indicator1',
     year: 2023,
     rowData: [
       {
-        areaCode: 'area1',
+        areaCode: 'a1',
         areaName: 'area1',
         healthData: [
           {

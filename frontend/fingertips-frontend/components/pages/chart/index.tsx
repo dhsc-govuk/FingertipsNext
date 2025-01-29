@@ -32,7 +32,7 @@ export function Chart({
   });
 
   // Temporary test data for Heatmap
-  const areaCodes: Array<string> = ['area1', 'area2', 'area3'];
+  const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
   const heatmapData: Array<IndicatorRowData> = [
     {
       indicator: 'Indicator1',

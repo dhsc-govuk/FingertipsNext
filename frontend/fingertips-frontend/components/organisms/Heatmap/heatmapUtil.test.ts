@@ -2,7 +2,7 @@ import { expect } from '@jest/globals';
 import { generateHeatmapData } from './heatmapUtil';
 import { IndicatorRowData } from '@/components/organisms/Heatmap/index';
 
-const areaCodes: Array<string> = ['area1', 'area2'];
+const areaCodes: Array<string> = ['a1', 'a2'];
 const heatmapData: Array<IndicatorRowData> = [
   {
     indicator: 'Indicator1',
