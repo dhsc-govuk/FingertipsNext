@@ -13,7 +13,10 @@
         <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
         <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
         <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.2.24474.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.HierarchyId" Version="9.0.1" />
+        <PackageReference Include="Microsoft.SqlServer.Types" Version="160.1000.6" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="OpenTelemetry" Version="1.11.0" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.0" />
@@ -28,6 +31,7 @@
     <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Monolith\DHSC.FingertipsNext.Monolith.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData\DHSC.FingertipsNext.Modules.HealthData.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area\DHSC.FingertipsNext.Modules.Area.csproj" />
     </ItemGroup>
 
     <ItemGroup>

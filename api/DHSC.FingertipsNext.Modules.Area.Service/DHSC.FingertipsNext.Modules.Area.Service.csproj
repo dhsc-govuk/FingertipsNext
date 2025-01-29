@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Repository\DHSC.FingertipsNext.Modules.Area.Repository.csproj" />
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Area.Schemas\DHSC.FingertipsNext.Modules.Area.Schemas.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+    </ItemGroup>
+
+</Project>
