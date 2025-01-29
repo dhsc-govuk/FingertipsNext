@@ -1,5 +1,5 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -35,7 +35,10 @@ export function AreaFilter({
   const searchState = searchStateManager.getSearchState();
 
   const handleAreaTypeSelect = (areaTypeSelected: string) => {
-    searchStateManager.setAreaTypeSelected(areaTypeSelected);
+    searchStateManager.addParamValueToState(
+      SearchParams.AreaTypeSelected,
+      areaTypeSelected
+    );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
@@ -62,7 +65,7 @@ export function AreaFilter({
             label="Select an area type"
             input={{
               onChange: (e) => handleAreaTypeSelect(e.target.value),
-              defaultValue: searchState.areaTypeSelected,
+              defaultValue: searchState[SearchParams.AreaTypeSelected],
             }}
           >
             {availableAreaTypes?.map((areaType) => (

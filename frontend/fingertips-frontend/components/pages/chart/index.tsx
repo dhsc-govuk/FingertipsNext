@@ -4,7 +4,7 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
@@ -25,8 +25,8 @@ export function Chart({
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
-    searchedIndicator,
-    indicatorsSelected,
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
   const backLinkPath = searchState.generatePath('/results');
   return (
