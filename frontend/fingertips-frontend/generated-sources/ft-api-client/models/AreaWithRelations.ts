@@ -80,12 +80,6 @@ export interface AreaWithRelations {
      * @type {Array<Area>}
      * @memberof AreaWithRelations
      */
-    cousins?: Array<Area>;
-    /**
-     * 
-     * @type {Array<Area>}
-     * @memberof AreaWithRelations
-     */
     ancestors?: Array<Area>;
 }
 
@@ -118,7 +112,6 @@ export function AreaWithRelationsFromJSONTyped(json: any, ignoreDiscriminator: b
         'parent': json['parent'] == null ? undefined : AreaFromJSON(json['parent']),
         'children': json['children'] == null ? undefined : ((json['children'] as Array<any>).map(AreaFromJSON)),
         'siblings': json['siblings'] == null ? undefined : ((json['siblings'] as Array<any>).map(AreaFromJSON)),
-        'cousins': json['cousins'] == null ? undefined : ((json['cousins'] as Array<any>).map(AreaFromJSON)),
         'ancestors': json['ancestors'] == null ? undefined : ((json['ancestors'] as Array<any>).map(AreaFromJSON)),
     };
 }
@@ -142,7 +135,6 @@ export function AreaWithRelationsToJSONTyped(value?: AreaWithRelations | null, i
         'parent': AreaToJSON(value['parent']),
         'children': value['children'] == null ? undefined : ((value['children'] as Array<any>).map(AreaToJSON)),
         'siblings': value['siblings'] == null ? undefined : ((value['siblings'] as Array<any>).map(AreaToJSON)),
-        'cousins': value['cousins'] == null ? undefined : ((value['cousins'] as Array<any>).map(AreaToJSON)),
         'ancestors': value['ancestors'] == null ? undefined : ((value['ancestors'] as Array<any>).map(AreaToJSON)),
     };
 }

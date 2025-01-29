@@ -50,13 +50,13 @@ export interface HealthDataPoint {
      */
     upperCi: number;
     /**
-     * Age band which the data is for.
+     * Age band which the data are for.
      * @type {string}
      * @memberof HealthDataPoint
      */
     ageBand: string;
     /**
-     * Sex which the data is for.
+     * Sex which the data are for.
      * @type {string}
      * @memberof HealthDataPoint
      */

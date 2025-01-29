@@ -28,13 +28,13 @@ import {
  */
 export interface HealthDataForArea {
     /**
-     * The unique area code that the health data is for
+     * The unique area code that the health data are for
      * @type {string}
      * @memberof HealthDataForArea
      */
     areaCode: string;
     /**
-     * The name of the area that the health data is for
+     * The name of the area that the health data are for
      * @type {string}
      * @memberof HealthDataForArea
      */

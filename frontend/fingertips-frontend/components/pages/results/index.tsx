@@ -18,11 +18,12 @@ import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaType } from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
-  availableAreaTypes?: string[];
+  availableAreaTypes?: AreaType[];
 };
 
 const isIndicatorSelected = (

@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './Area';
+export * from './AreaType';
 export * from './AreaWithRelations';
 export * from './GetAreaHierarchies500Response';
 export * from './HealthDataForArea';
