@@ -9,10 +9,10 @@ export enum SearchParams {
 
 export type SearchParamKeys = `${SearchParams}`;
 
-const multiValueTypes = [
+const multiValueParams = [
   SearchParams.IndicatorsSelected as string,
   SearchParams.AreasSelected as string,
-] as const;
+];
 
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
@@ -20,6 +20,9 @@ export type SearchStateParams = {
   [SearchParams.AreasSelected]?: string[];
   [SearchParams.AreaTypeSelected]?: string;
 };
+
+const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>
+  multiValueParams.includes(searchParamKey);
 
 export class SearchStateManager {
   private searchState: SearchStateParams;
@@ -53,7 +56,7 @@ export class SearchStateManager {
     searchParamKey: SearchParamKeys,
     paramToAdd: string
   ) {
-    if (multiValueTypes.includes(searchParamKey)) {
+    if (isMultiValueTypeParam(searchParamKey)) {
       const currentParamState = this.searchState[searchParamKey];
 
       const currentParamStateAsArray = asArray(currentParamState);
@@ -77,7 +80,7 @@ export class SearchStateManager {
     searchParamKey: SearchParamKeys,
     paramToRemove?: string
   ) {
-    if (multiValueTypes.includes(searchParamKey)) {
+    if (isMultiValueTypeParam(searchParamKey)) {
       const currentParamState = asArray(this.searchState[searchParamKey]);
 
       const newParamState = currentParamState?.filter((paramValue) => {
@@ -107,7 +110,7 @@ export class SearchStateManager {
   public static setStateFromParams(params: URLSearchParams) {
     const newState = Object.values(SearchParams).reduce<SearchStateParams>(
       (state, searchParamKey) => {
-        if (multiValueTypes.includes(searchParamKey)) {
+        if (isMultiValueTypeParam(searchParamKey)) {
           const paramValues = params.getAll(searchParamKey);
 
           if (paramValues.length > 0) {
