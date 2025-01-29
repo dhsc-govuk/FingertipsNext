@@ -13,14 +13,14 @@ const configureApplicationInsights = async () => {
   console.log('Configuring logging');
 
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    const { useAzureMonitor, AzureMonitorOpenTelemetryOptions  } = await require('@azure/monitor-opentelemetry');
+    const { useAzureMonitor, AzureMonitorOpenTelemetryOptions } =
+      await require('@azure/monitor-opentelemetry');
 
     const options: typeof AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
-          connectionString:
-              process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"]
+        connectionString: process.env['APPLICATIONINSIGHTS_CONNECTION_STRING'],
       },
-      enableLiveMetrics: false
+      enableLiveMetrics: false,
     };
 
     if (!telemetryInitialized) {
@@ -29,17 +29,23 @@ const configureApplicationInsights = async () => {
       console.log('Application Insights monitoring enabled');
     }
   } else {
-    console.log('** Application Insights Connection String missing - monitoring disabled **');
+    console.log(
+      '** Application Insights Connection String missing - monitoring disabled **'
+    );
   }
 };
 
 const configureTracing = async () => {
   if (!telemetryInitialized) {
     const { NodeSDK } = require('@opentelemetry/sdk-node');
-    const { UndiciInstrumentation } = require('@opentelemetry/instrumentation-undici');
+    const {
+      UndiciInstrumentation,
+    } = require('@opentelemetry/instrumentation-undici');
     const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
     const { Resource } = require('@opentelemetry/resources');
-    const { SEMRES_ATTR_SERVICE_NAME } = require('@opentelemetry/semantic-conventions');
+    const {
+      SEMRES_ATTR_SERVICE_NAME,
+    } = require('@opentelemetry/semantic-conventions');
 
     const spanProcessor = new SimpleSpanProcessor();
     const instrumentation = new UndiciInstrumentation();
