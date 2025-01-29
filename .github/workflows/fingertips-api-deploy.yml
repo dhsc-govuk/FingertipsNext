@@ -13,7 +13,7 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: '6.0.x'
+      gitversion-version: "6.0.x"
 
   api-deploy-development:
     needs: determine-version
@@ -24,8 +24,8 @@ jobs:
       tf_environment: dev
       source_branch: ${{ github.event.workflow_run.head_branch }}
       source_trigger: ${{ github.event.workflow_run.event }}
-      container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
-      container_name: 'fingertips-api'
+      container_image_tag: "dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
+      container_name: "fingertips-api"
       revision_suffix: ${{ github.run_number }}
       container_port: 8080
       environment_variables: |
@@ -65,7 +65,7 @@ jobs:
 
   e2e-tests-development:
     uses: ./.github/workflows/e2e-tests.yml
-    if: github.event_name == 'push'
+    if: ${{ github.event.workflow_run.event == 'push' }}
     needs: api-deploy-development
     with:
       env-url: ${{ needs.api-deploy-development.outputs.frontend-dev-url }}
