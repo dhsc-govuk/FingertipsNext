@@ -11,11 +11,11 @@ import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
 
 type ChartProps = {
-  data: HealthDataForArea[];
+  data: HealthDataForArea[][];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
-  scatterData?: HealthDataForArea[][];
+  // scatterData?: HealthDataForArea[][];
 };
 
 const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
@@ -25,7 +25,7 @@ export function Chart({
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
-  scatterData,
+  // scatterData,
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
     searchedIndicator,
@@ -52,9 +52,9 @@ export function Chart({
           <br />
         </>
       ) : null}
-      {scatterData ? (
+      {indicatorsSelected.length > 1 ? (
         <ScatterChart
-          data={scatterData}
+          data={data}
           ScatterChartTitle="Compare indicators within the area group"
           yAxisTitle="y: Indicator 1 (value)"
           yAxisSubtitle="rate per information"
@@ -65,20 +65,20 @@ export function Chart({
       ) : null}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
-        data={data}
+        data={data[0]}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
       <br />
       <BarChart
-        data={data}
+        data={data[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data} headings={headings}></LineChartTable>
+      <LineChartTable data={data[0]} headings={headings}></LineChartTable>
     </>
   );
 }

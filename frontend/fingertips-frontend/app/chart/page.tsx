@@ -26,20 +26,36 @@ export default async function ChartPage(
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const data = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodes,
-  });
+  // const data = await indicatorApi.getHealthDataForAnIndicator({
+  //   indicatorId: Number(indicatorsSelected[0]),
+  //   areaCodes: areaCodes,
+  // });
+  //
+  // const scatterData = [];
+  //
+  // if (indicatorsSelected.length > 1) {
+  //   const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
+  //     indicatorId: Number(indicatorsSelected[1]),
+  //     areaCodes: areaCodes,
+  //   });
+  //   scatterData.push(data, dataSetTwo);
+  // }
 
-  const scatterData = [];
+  
 
-  if (indicatorsSelected.length > 1) {
-    const dataSetTwo = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorsSelected[1]),
-      areaCodes: areaCodes,
-    });
-    scatterData.push(data, dataSetTwo);
-  }
+  const data = await Promise.all(
+    indicatorsSelected.map((indicatorId) =>
+      indicatorApi.getHealthDataForAnIndicator({
+        indicatorId: Number(indicatorId),
+        areaCodes: areaCodes,
+      }).then(data => (data.flat())) 
+    )
+  );
+  
+  // { [indicatorId]: data }
+  
+  
+  console.log('data ===', data)
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
@@ -64,7 +80,7 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       data={data}
-      scatterData={scatterData}
+      // scatterData={scatterData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />
