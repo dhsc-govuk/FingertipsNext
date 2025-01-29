@@ -45,7 +45,7 @@ export default async function ChartPage(
     preparedPopulationData = preparePopulationData(
       rawPopulationData,
       areaCodes[0],
-      areaCodes[1] // Passing the first two area codes until buiness logic to select baseline comparitor for pop pyramids is added
+      areaCodes[1] // Passing the first two area codes until business logic to select baseline comparison for pop pyramids is added
     );
   }
 
