@@ -19,11 +19,12 @@ import { SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaType } from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
-  availableAreaTypes?: string[];
+  availableAreaTypes?: AreaType[];
   selectedAreas?: AreaWithRelations[];
 };
 

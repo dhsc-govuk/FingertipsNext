@@ -1,24 +1,77 @@
 import { Pill } from '@/components/molecules/Pill';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchStateManager } from '@/lib/searchStateManager';
-import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
+import {
+  Details,
+  H3,
+  LabelText,
+  Paragraph,
+  SectionBreak,
+  Select,
+} from 'govuk-react';
+import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 
 interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
-  availableAreaTypes?: string[];
+  availableAreaTypes?: AreaType[];
 }
+
+const StyledFilterPane = styled('div')({});
+
+const StyledFilterPaneHeader = styled('div')({
+  backgroundColor: '#D1D2D3',
+  display: 'flex',
+  marginBottom: '-1.3em',
+  padding: '0.5em 1em',
+});
+
+const StyledFilterSelectedAreaDiv = styled('div')({
+  paddingBottom: '1.5em',
+});
+
+const StyledFilterToggle = styled(Paragraph)(
+  {
+    marginLeft: 'auto',
+    justifyContent: 'flex-start',
+    textDecoration: 'underline',
+    padding: '0em',
+    alignItems: 'center',
+    display: 'flex',
+  },
+  typography.font({ size: 16 })
+);
 
 const StyledFilterDiv = styled('div')({
   backgroundColor: '#E1E2E3',
   minHeight: '100%',
-  padding: '0.5em',
+  padding: '1.5em 1em',
+});
+
+const StyledFilterLabel = styled(LabelText)({
+  fontWeight: 'bold',
+  padding: '0em',
+  div: {
+    div: {
+      padding: '0em',
+    },
+  },
 });
 
 const StyledFilterSelect = styled(Select)({
   select: {
     width: '100%',
+  },
+});
+
+const StyledFilterDetails = styled(Details)({
+  div: {
+    borderLeft: 'none',
+    padding: '1em 0em',
+  },
+  summary: {
+    color: '#000000',
   },
 });
 
@@ -46,44 +99,46 @@ export function AreaFilter({
   };
 
   return (
-    <StyledFilterDiv data-testid="area-filter-container">
-      <H3>Filters</H3>
+    <StyledFilterPane data-testid="area-filter-container">
+      <StyledFilterPaneHeader>
+        <H3>Filters</H3>
+        <StyledFilterToggle>Hide filters</StyledFilterToggle>
+      </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
+      <StyledFilterDiv>
+        <StyledFilterSelectedAreaDiv>
+          <StyledFilterLabel>
+            {`Selected areas (${selectedAreas?.length ?? 0})`}
+          </StyledFilterLabel>
+          {selectedAreas && selectedAreas.length > 0
+            ? selectedAreas?.map((selectedArea) => (
+                <Pill
+                  key={selectedArea.code}
+                  selectedFilterName={selectedArea.name}
+                  selectedFilterId={selectedArea.code}
+                  handleSelectedFilterRemoval={handleRemoveSelectedArea}
+                />
+              ))
+            : null}
+        </StyledFilterSelectedAreaDiv>
 
-      <div>
-        <LabelText>Areas Selected</LabelText>
-        {selectedAreas && selectedAreas.length > 0 ? (
-          selectedAreas?.map((selectedArea) => (
-            <Pill
-              key={selectedArea.code}
-              selectedFilterName={selectedArea.name}
-              selectedFilterId={selectedArea.code}
-              handleSelectedFilterRemoval={handleRemoveSelectedArea}
-            />
-          ))
-        ) : (
-          <Paragraph>There are no areas selected</Paragraph>
-        )}
-      </div>
-
-      <div>
-        <LabelText>Filter by area</LabelText>
-        {!selectedAreas || selectedAreas.length === 0 ? (
+        <StyledFilterDetails summary="Add or change areas">
           <StyledFilterSelect
             label="Select an area type"
             input={{
               onChange: (e) => handleAreaTypeSelect(e.target.value),
               defaultValue: searchState.areaTypeSelected,
+              disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
             {availableAreaTypes?.map((areaType) => (
-              <option key={areaType} value={areaType}>
-                {areaType}
+              <option key={areaType.name} value={areaType.name}>
+                {areaType.name}
               </option>
             ))}
           </StyledFilterSelect>
-        ) : null}
-      </div>
-    </StyledFilterDiv>
+        </StyledFilterDetails>
+      </StyledFilterDiv>
+    </StyledFilterPane>
   );
 }

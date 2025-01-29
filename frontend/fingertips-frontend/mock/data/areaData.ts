@@ -1,10 +1,27 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaType } from '@/generated-sources/ft-api-client';
 
-export const mockAvailableAreaTypes = [
-  'Integrated Care Board sub-locations',
-  'Integrated Care Board pub-locations',
-  'Integrated Care Board hub-locations',
-  'Integrated Care Board tub-locations',
+export const mockAreaTypes: AreaType[] = [
+  {
+    name: 'Region',
+    level: 1,
+    hierarchyName: 'Region hierarchyName',
+  },
+  {
+    name: 'City',
+    level: 2,
+    hierarchyName: 'City hierarchyName',
+  },
+  {
+    name: 'Town',
+    level: 3,
+    hierarchyName: 'Town hierarchyName',
+  },
+  {
+    name: 'GP',
+    level: 4,
+    hierarchyName: 'GP hierarchyName',
+  },
 ];
 
 export const mockAreaData: Record<string, AreaWithRelations> = {

@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { mockAreaData, mockAvailableAreaTypes } from '../data/areaData';
+import { mockAreaData, mockAreaTypes } from '../data/areaData';
 
 faker.seed(1);
 
@@ -27,7 +27,6 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-
   http.get(`${baseURL}/areas/:areaCode`, async ({ params }) => {
     const areaCode = params.areaCode;
 
@@ -35,6 +34,11 @@ export const handlers = [
       return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
     }
     const resultArray = [[getGetArea200Response(areaCode), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/areas/areatypes/:areaType/areas`, async () => {
+    const resultArray = [[getGetAreaTypeMembers200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -75,7 +79,19 @@ export function getGetAreaHierarchies200Response() {
 }
 
 export function getGetAreaTypes200Response() {
-  return mockAvailableAreaTypes;
+  return mockAreaTypes;
+}
+
+export function getGetAreaTypeMembers200Response() {
+  return [
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => ({
+    code: 'E06000047',
+    name: 'County Durham',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: '3',
+  }));
 }
 
 export function getGetArea200Response(areaCode: string) {
