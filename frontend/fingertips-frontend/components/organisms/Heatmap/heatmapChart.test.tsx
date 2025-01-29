@@ -13,6 +13,7 @@ const heatmapData: Array<IndicatorRowData> = [
     rowData: [
       {
         areaCode: 'area1',
+        areaName: 'area1',
         healthData: [
           {
             year: 2023,
@@ -37,7 +38,7 @@ it('should render the Highcharts react component within the HeatmapChart compone
       accessibilityLabel="A heatmap chart showing healthcare data"
     />
   );
-  
+
   const highcharts = screen.getByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
 });

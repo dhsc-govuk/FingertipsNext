@@ -9,7 +9,8 @@ const heatmapData: Array<IndicatorRowData> = [
     year: 2023,
     rowData: [
       {
-        areaCode: 'area1',
+        areaCode: 'a1',
+        areaName: 'area1',
         healthData: [
           {
             year: 2023,
@@ -32,7 +33,8 @@ const heatmapData: Array<IndicatorRowData> = [
         ],
       },
       {
-        areaCode: 'area2',
+        areaCode: 'a2',
+        areaName: 'area2',
         healthData: [
           {
             year: 1999,
@@ -55,7 +57,8 @@ const heatmapData: Array<IndicatorRowData> = [
         ],
       },
       {
-        areaCode: 'area3',
+        areaCode: 'a3',
+        areaName: 'area3',
         healthData: [
           {
             year: 2023,
@@ -75,7 +78,8 @@ const heatmapData: Array<IndicatorRowData> = [
     year: 2021,
     rowData: [
       {
-        areaCode: 'area1',
+        areaCode: 'a1',
+        areaName: 'area1',
         healthData: [
           {
             year: 2023,
@@ -98,7 +102,8 @@ const heatmapData: Array<IndicatorRowData> = [
         ],
       },
       {
-        areaCode: 'area2',
+        areaCode: 'a2',
+        areaName: 'area2',
         healthData: [
           {
             year: 1999,
@@ -126,7 +131,7 @@ const heatmapData: Array<IndicatorRowData> = [
 
 it('should generate the correct heatmap array from the provided data', () => {
   const result = generateHeatmapData(heatmapData, areaCodes);
-  
+
   expect(result.length).toBe(4);
   expect(result).toContainEqual({ x: 0, y: 0, value: 27 });
   expect(result).toContainEqual({ x: 1, y: 0, value: null });

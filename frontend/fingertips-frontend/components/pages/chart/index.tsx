@@ -39,7 +39,8 @@ export function Chart({
       year: 2023,
       rowData: [
         {
-          areaCode: 'area1',
+          areaCode: 'a1',
+          areaName: 'area1',
           healthData: [
             {
               year: 2023,
@@ -59,7 +60,8 @@ export function Chart({
       year: 2024,
       rowData: [
         {
-          areaCode: 'area1',
+          areaCode: 'a1',
+          areaName: 'area1',
           healthData: [
             {
               year: 2023,
@@ -82,7 +84,8 @@ export function Chart({
           ],
         },
         {
-          areaCode: 'area2',
+          areaCode: 'a2',
+          areaName: 'area2',
           healthData: [
             {
               year: 2019,
