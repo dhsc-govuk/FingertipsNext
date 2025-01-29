@@ -26,8 +26,8 @@ describe('Line chart table suite', () => {
     render(<LineChartTable data={MOCK_HEALTH_DATA} />);
 
     expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-      MOCK_HEALTH_DATA.areaCode
+    expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
+      MOCK_HEALTH_DATA.areaName
     );
     expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
     expect(screen.getByText(/England/i)).toBeInTheDocument();

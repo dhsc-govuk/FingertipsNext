@@ -22,7 +22,7 @@ export function generateSeriesData(
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
-  AreaTrend = 'Trend',
+  BenchmarkTrend = 'Compared to benchmark',
   AreaCount = 'Count',
   AreaValue = 'Value',
   AreaLower = 'Lower',

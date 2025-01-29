@@ -43,7 +43,11 @@ export default async function ChartPage(
 
   if (rawPopulationData) {
     // hardcode selected area data for mocks while no population data are in dbase
-    preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
+    preparedPopulationData = preparePopulationData(
+      rawPopulationData,
+      'A1425',
+      'A1425'
+    );
   }
 
   return (
