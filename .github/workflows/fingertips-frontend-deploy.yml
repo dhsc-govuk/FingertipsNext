@@ -15,49 +15,62 @@ jobs:
       fetch-depth: 0
       gitversion-version: "6.0.x"
 
-  frontend-deploy:
-    runs-on: ubuntu-latest
+  frontend-deploy-development:
     needs: determine-version
-    strategy:
-      matrix:
-        environment:
-          - development
-    environment: ${{ matrix.environment }}
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    outputs:
-      frontend-dev-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-    name: "Frontend Deploy"
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_branch }}
-
-      - name: Azure Container Registry Login
-        uses: Azure/docker-login@v1
-        with:
-          username: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          password: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          login-server: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
-
-      - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          imageToDeploy: "${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}/dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-          containerAppName: fingertips-frontend
-          resourceGroup: ${{ vars.RESOURCE_GROUP }}
-          containerAppEnvironment: ${{ vars.CONTAINER_APP_ENVIRONMENT }}
-          registryUrl: ${{ secrets.AZURE_CONTAINERREGISTRY_SERVER }}
-          registryUsername: ${{ secrets.AZURE_CONTAINERREGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.AZURE_CONTAINERREGISTRY_PASSWORD }}
-          targetPort: 3000
-          environmentVariables: "FINGERTIPS_API_URL=${{ vars.FINGERTIPS_API_URL }} DHSC_AI_SEARCH_USE_MOCK_SERVICE=true"
-          azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
-        env:
-          AZURE_CONFIG_DIR: $HOME/.azure
-
-  e2e-tests:
-    uses: ./.github/workflows/e2e-tests.yml
-    needs: frontend-deploy
+    uses: ./.github/workflows/deploy-container.yml
     with:
-      env-url: ${{ needs.frontend-deploy.outputs.frontend-dev-url }}
+      tf_state_file_name: fingertips.frontend.tfstate
+      environment: development
+      tf_environment: dev
+      source_branch: ${{ github.event.workflow_run.head_branch }}
+      source_trigger: ${{ github.event.workflow_run.event }}
+      container_image_tag: "dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
+      container_name: "fingertips-frontend"
+      revision_suffix: ${{ github.run_number }}
+      container_port: 3000
+      environment_variables: |
+        [
+          {
+            name        = "FINGERTIPS_API_URL"
+            secret_name = null
+            value       = "${{ vars.DEVELOPMENT_FINGERTIPS_API_URL }}"
+          },
+          {
+            name        = "DHSC_AI_SEARCH_USE_MOCK_SERVICE"
+            secret_name = null
+            value       = false
+          },
+          {
+            name        = "DHSC_AI_SEARCH_API_KEY"
+            secret_name = "fingertips-ai-search-api-key"
+            value       = null
+          },
+          {
+            name        = "DHSC_AI_SEARCH_SERVICE_URL"
+            secret_name = "fingertips-ai-search-url"
+            value       = null
+          },
+          {
+            name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+            secret_name = "fingertips-frontend-application-insights"
+            value       = null
+          }
+        ]
+      container_liveness_probe: |
+        {
+          path      = "/"
+          port      = 3000
+          transport = "HTTP"
+        }
+    secrets:
+      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      arm-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+  e2e-tests-development:
+    uses: ./.github/workflows/e2e-tests.yml
+    if: ${{ github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch' }}
+    needs: frontend-deploy-development
+    with:
+      env-url: ${{ needs.frontend-deploy-development.outputs.frontend-dev-url }}

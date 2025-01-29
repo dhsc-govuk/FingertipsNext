@@ -1,8 +1,10 @@
 import { SearchResults } from '@/components/pages/results';
-import { ErrorPage } from '@/components/pages/error';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
+import { connection } from 'next/server';
+import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -16,33 +18,51 @@ export default async function Page(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
 
-  const initialState = {
-    searchedIndicator,
-    indicatorsSelected,
-    message: null,
-    errors: {},
-  };
-
   try {
+    // Perform async API call using indicator prop
+    await connection();
+
+    const areasApi = ApiClientFactory.getAreasApiClient();
+
+    // const availableAreaTypes = await areasApi.getAreaTypes();
+
+    // When DHSCFT-210 is complete The following try catch can be removed
+    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
+    let availableAreaTypes: string[];
+    try {
+      availableAreaTypes = await areasApi.getAreaTypes();
+    } catch (error) {
+      console.log(`Error from areasApi ${error}`);
+
+      availableAreaTypes = [];
+    }
+
+    const initialState = {
+      searchedIndicator,
+      indicatorsSelected,
+      message: null,
+      errors: {},
+    };
+
     // Perform async API call using indicator prop
     const searchResults =
       await SearchServiceFactory.getIndicatorSearchService().searchWith(
         searchedIndicator
       );
+
     return (
       <SearchResults
         searchResultsFormState={initialState}
         searchResults={searchResults}
+        availableAreaTypes={availableAreaTypes}
       />
     );
   } catch (error) {
     // Log error response
-    console.log(
-      `Error response received from call to the Indicator Search service: ${error}`
-    );
+    console.log(`Error response received from call: ${error}`);
     return (
       <ErrorPage
-        errorText="An error has been returned by the search service. Please try again."
+        errorText="An error has been returned by the service. Please try again."
         errorLink="/search"
         errorLinkText="Return to Search"
       />

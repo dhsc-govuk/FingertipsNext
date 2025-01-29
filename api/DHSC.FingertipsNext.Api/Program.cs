@@ -1,3 +1,5 @@
+using DotNetEnv;
+
 namespace DHSC.FingertipsNext.Api;
 
 using Asp.Versioning;
@@ -12,6 +14,9 @@ public static class Program
     private static readonly string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
     public static void Main(string[] args)
     {
+        // support for .env file
+        Env.Load();
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services

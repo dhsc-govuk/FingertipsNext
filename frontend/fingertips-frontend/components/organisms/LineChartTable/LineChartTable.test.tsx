@@ -14,6 +14,7 @@ const mockHeadings = [
 const mockData = [
   {
     areaCode: 'A1425',
+    areaName: 'North FooBar',
     healthData: [
       {
         count: 389,
@@ -37,6 +38,7 @@ const mockData = [
   },
   {
     areaCode: 'A1426',
+    areaName: 'South FooBar',
     healthData: [
       {
         count: 389,

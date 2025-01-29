@@ -20,9 +20,13 @@ public class AutoMapperTests
         Mapper_ShouldMapAHealthMeasure_ToAHealthDataPoint()
     {
         // arrange
-        var healthMeasure = TestHelper.BuildHealthMeasureModel("Code1", 2007, DateTime.Now);
+        const string expectedAgeBand = "25-31";
+        const string expectedSex = "Female";
+        var healthMeasure = new HealthMeasureModelHelper(year: 2007)
+            .WithAgeDimension(name: expectedAgeBand).WithSexDimension(name: expectedSex).Build();
+        
         var expectedHealthData = TestHelper.BuildHealthDataPoint(
-            2007, "Name", "Name");
+            year: 2007, ageBand:expectedAgeBand, sex: expectedSex);
 
         // act
         var actual = _mapper.Map<HealthDataPoint>(healthMeasure);

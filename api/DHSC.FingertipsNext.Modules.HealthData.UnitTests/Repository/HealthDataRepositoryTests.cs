@@ -2,8 +2,8 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
-using Microsoft.EntityFrameworkCore;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
@@ -29,17 +29,18 @@ public class HealthDataRepositoryTests
     {
         var act = () => _repository = new HealthDataRepository(null!);
 
-        act.ShouldThrow<ArgumentNullException>().Message.ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
+        act.ShouldThrow<ArgumentNullException>().Message
+            .ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
     }
 
     [Fact]
     public async Task Repository_ShouldReturnEmptyList_IfIndicatorNotFound()
     {
         // arrange
-        await PopulateDatabase("Code", 2020);
+        PopulateDatabase(new HealthMeasureModelHelper().WithIndicatorDimension(indicatorId: 1).Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(3, [], []);
+        var result = await _repository.GetIndicatorDataAsync(2, [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -49,17 +50,21 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldFindByOnlyIndicatorId_IfQueryParamsAreEmpty()
     {
         // arrange
-        await PopulateDatabase("Code", 2020);
+        const int expectedIndicatorId = 1;
+        var expectedHealthMeasure = new HealthMeasureModelHelper()
+            .WithIndicatorDimension(indicatorId: expectedIndicatorId)
+            .Build();
+        PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [], []);
+        var result = await _repository.GetIndicatorDataAsync(expectedIndicatorId, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            TestHelper.BuildHealthMeasureModel("Code", 2020, DateTime.Parse("2024-03-21 13:26"))
+            expectedHealthMeasure
         });
     }
 
@@ -67,20 +72,38 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldFilterResultsByAreaCodes_WhenAreaCodesProvided()
     {
         // arrange
-        await PopulateDatabase("Code1", 2020, 1, 500);
-        await PopulateDatabase("Code2", 2023, 2, 500);
-        await PopulateDatabase("Code2", 2022, 3, 500);
+        const string unexpectedAreaCode = "Code1";
+        const string expectedAreaCode = "Code2";
+
+        var unexpectedHealthMeasure = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: unexpectedAreaCode)
+            .Build();
+
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 3, year: 2023)
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: expectedAreaCode)
+            .Build();
+
+        PopulateDatabase(unexpectedHealthMeasure);
+        PopulateDatabase(expectedHealthMeasure1);
+        PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, ["Code2"], []);
+        var result = await _repository.GetIndicatorDataAsync(1, [expectedAreaCode], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            TestHelper.BuildHealthMeasureModel("Code2", 2022, DateTime.Parse("2024-03-21 13:26"), 3, 500),
-            TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
+            expectedHealthMeasure1,
+            expectedHealthMeasure2,
         });
     }
 
@@ -88,7 +111,10 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldReturnEmptyList_IfAreaCodeNotFound()
     {
         // arrange
-        await PopulateDatabase("Code1", 2020);
+        PopulateDatabase(new HealthMeasureModelHelper()
+            .WithIndicatorDimension(indicatorId: 1)
+            .WithAreaDimension(code: "Code1")
+            .Build());
 
         // act
         var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], []);
@@ -101,33 +127,46 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldFilterResultsByYears_WhenYearsProvided()
     {
         // arrange
-        await PopulateDatabase("Code1", 2020, 1, 500);
-        await PopulateDatabase("Code1", 2023, 2, 500);
-        await PopulateDatabase("Code2", 2023, 3, 500);
-        await PopulateDatabase("Code3", 2022, 4, 500);
+        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithIndicatorDimension(indicatorId: 1).Build();
+        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2021)
+            .WithIndicatorDimension(indicatorId: 1).Build();
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 3, year: 2022)
+            .WithIndicatorDimension(indicatorId: 1).Build();
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 4, year: 2023)
+            .WithIndicatorDimension(indicatorId: 1).Build();
+
+        PopulateDatabase(unexpectedHealthMeasure1);
+        PopulateDatabase(unexpectedHealthMeasure2);
+        PopulateDatabase(expectedHealthMeasure1);
+        PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [2022, 2023]);
+        var result = await _repository.GetIndicatorDataAsync(1, [], [2022, 2023]);
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(3);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
-                TestHelper.BuildHealthMeasureModel("Code3", 2022, DateTime.Parse("2024-03-21 13:26"), 4, 500),
-                TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
-                TestHelper.BuildHealthMeasureModel("Code2", 2023, DateTime.Parse("2024-03-21 13:26"), 3, 500),
-            });
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            expectedHealthMeasure1,
+            expectedHealthMeasure2,
+        });
     }
 
     [Fact]
     public async Task Repository_ShouldReturnEmptyList_IfYearsNotFound()
     {
         // arrange
-        await PopulateDatabase("Code1", 2020, 1, 500);
-        await PopulateDatabase("Code2", 2020, 2, 500);
+        PopulateDatabase(new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithIndicatorDimension(indicatorId: 1)
+            .Build());
+        PopulateDatabase(new HealthMeasureModelHelper(key: 2, year: 2021)
+            .WithIndicatorDimension(indicatorId: 1)
+            .Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [2019]);
+        var result = await _repository.GetIndicatorDataAsync(1, [], [2019]);
 
         // assert
         result.ShouldBeEmpty();
@@ -137,10 +176,21 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldFilterResultsByAllThreeFilters_WhenProvided()
     {
         // arrange
-        await PopulateDatabase("Code1", 2020, 1, 500);
-        await PopulateDatabase("Code1", 2023, 2, 500);
-        await PopulateDatabase("Code2", 2023, 3, 500);
-        await PopulateDatabase("Code3", 2022, 4, 500);
+        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithAreaDimension(code: "Code1").WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure1);
+
+        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2023)
+            .WithAreaDimension(code: "Code2").WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure2);
+
+        var unexpectedHealthMeasure3 = new HealthMeasureModelHelper(key: 3, year: 2023)
+            .WithAreaDimension(code: "Code1").WithIndicatorDimension(indicatorId: 1).Build();
+        PopulateDatabase(unexpectedHealthMeasure3);
+
+        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 4, year: 2023)
+            .WithAreaDimension(code: "Code1").WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure);
 
         // act
         var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023]);
@@ -148,15 +198,16 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>() {
-                TestHelper.BuildHealthMeasureModel("Code1", 2023, DateTime.Parse("2024-03-21 13:26"), 2, 500),
-            });
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            expectedHealthMeasure
+        });
     }
 
-    private async Task PopulateDatabase(string code, short year, int id = 1, int? indicatorId = null)
+    private void PopulateDatabase(HealthMeasureModel healthMeasure)
     {
-        await _dbContext.HealthMeasure
-            .AddAsync(TestHelper.BuildHealthMeasureModel(code, year, DateTime.Parse("2024-03-21 13:26"), id, indicatorId));
-        await _dbContext.SaveChangesAsync();
+        _dbContext.HealthMeasure.Add(healthMeasure);
+        _dbContext.SaveChanges();
     }
 }
+    
