@@ -35,15 +35,18 @@ export default async function ChartPage(
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
-      areaCodes: [areaCodes[0], areaCodeForEngland],
+      areaCodes: [...areaCodes, areaCodeForEngland],
     });
   } catch (error) {
     console.log('error getting population data ', error);
   }
 
   if (rawPopulationData) {
-    // hardcode selected area data for mocks while no population data is in the database
-    preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
+    preparedPopulationData = preparePopulationData(
+      rawPopulationData,
+      areaCodes[0],
+      areaCodes[1] // Passing the first two area codes until buiness logic to select baseline comparitor for pop pyramids is added
+    );
   }
 
   return (

@@ -60,8 +60,7 @@ describe('Chart Page', () => {
   it('should pass the correct props to the Chart page', async () => {
     const expectedPopulateData = preparePopulationData(
       mockHealthData[`${indicatorIdForPopulation}`],
-      '1',
-      '2'
+      'A001'
     );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
