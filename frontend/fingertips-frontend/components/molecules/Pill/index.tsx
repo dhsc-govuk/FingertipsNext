@@ -18,7 +18,7 @@ const StyledDivContainer = styled('div')({
   borderRadius: '5px',
   padding: '0.3125em 0.3125em',
   maxWidth: '100%',
-  margin: '0.3125em',
+  margin: '0.3125em 0',
   display: 'flex',
 });
 
