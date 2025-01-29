@@ -351,7 +351,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
-      areaCode: 'A001',
+      areaCode: 'A1425',
       areaName: 'Area 1',
       healthData: [
         {
