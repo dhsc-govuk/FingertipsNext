@@ -13,16 +13,16 @@ import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_80408417444
 interface FingertipsMapProps {}
 
 export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
-  const data = [
-    ['E12000001', 1],
-    ['E12000002', 1],
-    ['E12000003', 2],
-    ['E12000004', 3],
-    ['E12000005', 5],
-    ['E12000006', 8],
-    ['E12000007', 13],
-    ['E12000008', 21],
-    ['E12000009', 34],
+  const mockRegionData = [
+    { RGN23NM: 'North East', RGN23CD: 'E12000001', value: 1 },
+    { RGN23NM: 'North West', RGN23CD: 'E12000002', value: 1 },
+    { RGN23NM: 'Yorkshire and The Humber', RGN23CD: 'E12000003', value: 2 },
+    { RGN23NM: 'East Midlands', RGN23CD: 'E12000004', value: 3 },
+    { RGN23NM: 'West Midlands', RGN23CD: 'E12000005', value: 5 },
+    { RGN23NM: 'East of England', RGN23CD: 'E12000006', value: 8 },
+    { RGN23NM: 'London', RGN23CD: 'E12000007', value: 13 },
+    { RGN23NM: 'South East', RGN23CD: 'E12000008', value: 21 },
+    { RGN23NM: 'South West', RGN23CD: 'E12000009', value: 34 },
   ];
 
   const RegionsMapOptions: Highcharts.Options = {
@@ -30,22 +30,34 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
       map: RegionsMap,
       height: 800,
     },
+    title: { text: 'England Regions - 2023' },
     mapView: {
       projection: {
-        name: 'EqualEarth', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
+        name: 'Miller', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
       },
     },
-    title: { text: 'England Regions - 2023' },
-    credits: { enabled: false },
+    credits: {
+      enabled: false,
+    },
     mapNavigation: { enabled: true },
+    colorAxis: { min: 0 },
     series: [
       {
-        name: 'Basemap',
-        mapData: RegionsMap,
-        data: data,
-        joinBy: ['RGN23CD', 'code'],
-        borderColor: '#000000',
+        name: 'Regions',
         showInLegend: false,
+        mapData: RegionsMap,
+        data: mockRegionData,
+        joinBy: ['RGN23CD'],
+        borderColor: 'black',
+        borderWidth: 0.2,
+        states: { hover: { borderWidth: 1 } },
+        tooltip: {
+          headerFormat:
+            '<span style="font-size: large; font-weight: bold">{point.RGN23NM}</span><br />',
+          pointFormat:
+            '<span style="font-size: large">Value: {point.value} units</span>',
+          footerFormat: '',
+        },
       },
     ],
   };
@@ -55,7 +67,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     },
     mapView: {
       projection: {
-        name: 'EqualEarth', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
+        name: 'Miller', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
       },
     },
     title: { text: 'England Counties and UAs - 2023' },
@@ -77,7 +89,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     },
     mapView: {
       projection: {
-        name: 'EqualEarth', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
+        name: 'Miller', //Built-in projections are `EqualEarth`, `LambertConformalConic`, `Miller`, `Orthographic` and `WebMercator`.
       },
     },
     title: { text: 'England Districts and UAs - 2024' },
