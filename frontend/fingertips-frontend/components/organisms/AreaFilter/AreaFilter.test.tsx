@@ -57,7 +57,7 @@ describe('Area Filter', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
 
-  it('should disable the select area type drop down when there are area selected', () => {
+  it('should disable the select area type drop down when there are areas selected', () => {
     render(<AreaFilter selectedAreas={[mockArea]} />);
 
     expect(
@@ -65,7 +65,7 @@ describe('Area Filter', () => {
     ).toBeDisabled();
   });
 
-  it('should not disable the select area type drop down when there are no area selected', () => {
+  it('should not disable the select area type drop down when there are no areas selected', () => {
     render(<AreaFilter selectedAreas={[]} />);
 
     expect(
