@@ -43,6 +43,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     colorAxis: { min: 0 },
     series: [
       {
+        type: 'map',
         name: 'Regions',
         showInLegend: false,
         mapData: RegionsMap,
@@ -75,6 +76,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     mapNavigation: { enabled: true },
     series: [
       {
+        type: 'map',
         name: 'Basemap',
         mapData: CountiesAndUAsMap,
         borderColor: '#000000',
@@ -97,6 +99,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     mapNavigation: { enabled: true },
     series: [
       {
+        type: 'map',
         name: 'Basemap',
         mapData: DistrictsAndUAsMap,
         borderColor: '#000000',
@@ -119,6 +122,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     mapNavigation: { enabled: true },
     series: [
       {
+        type: 'map',
         name: 'Basemap',
         mapData: NHSRegionsMap,
         borderColor: '#000000',
@@ -141,6 +145,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     mapNavigation: { enabled: true },
     series: [
       {
+        type: 'map',
         name: 'Basemap',
         mapData: NHSICBMap,
         borderColor: '#000000',
@@ -163,6 +168,7 @@ export function FingertipsMap({}: Readonly<FingertipsMapProps>) {
     mapNavigation: { enabled: true },
     series: [
       {
+        type: 'map',
         name: 'Basemap',
         mapData: NHSSubICBMap,
         borderColor: '#000000',
