@@ -8,7 +8,8 @@ export default class ChartPage extends BasePage {
   readonly lineChartTableComponent = 'lineChartTable-component';
   readonly barChartComponent = 'barChart-component';
   readonly populationPyramidComponent = 'populationPyramid-component';
-  readonly scatterChart = 'scatterChart-component';
+  readonly scatterChartComponent = 'scatterChart-component';
+
   async navigateToChart() {
     await this.navigateTo('chart');
   }
@@ -32,6 +33,8 @@ export default class ChartPage extends BasePage {
     await expect(
       this.page.getByTestId(this.populationPyramidComponent)
     ).toBeVisible();
-    await expect(this.page.getByTestId(this.scatterChart)).toBeVisible();
+    await expect(
+      this.page.getByTestId(this.scatterChartComponent)
+    ).toBeVisible();
   }
 }

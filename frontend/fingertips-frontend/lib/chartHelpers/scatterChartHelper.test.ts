@@ -3,6 +3,7 @@ import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/scatterChartH
 const mockData = [
   {
     areaCode: 'A1425',
+    areaName: 'area A1425',
     healthData: [
       {
         count: 267,
@@ -31,6 +32,7 @@ describe('sortHealthDataByYearDescending', () => {
     const mockSortedData = [
       {
         areaCode: 'A1425',
+        areaName: 'area A1425',
         healthData: [
           {
             count: 389,
