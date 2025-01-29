@@ -15,7 +15,7 @@ import {
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
 import { SearchResultState, viewCharts } from './searchResultsActions';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -49,7 +49,7 @@ export function SearchResults({
   );
 
   const searchState = new SearchStateManager({
-    searchedIndicator: searchResultsFormState.searchedIndicator,
+    [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
   });
 
   const backLinkPath = searchState.generatePath('/');

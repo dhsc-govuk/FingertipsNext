@@ -1,171 +1,157 @@
 import {
   SearchParams,
-  SearchState,
   SearchStateManager,
+  SearchStateParams,
 } from './searchStateManager';
 
 describe('SearchStateManager', () => {
-  describe('addIndicatorSelected', () => {
-    it('should add to the indicators selected array when initially empty', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-      });
-      stateManager.addIndicatorSelected('1');
+  describe('constructor', () => {
+    it('should construct a searchStateManger from the state provided', () => {
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
+      };
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1'],
-        areasSelected: [],
+      const stateManager = new SearchStateManager(state);
+
+      expect(stateManager.getSearchState()).toEqual(state);
+    });
+  });
+
+  describe('addParamValueToState', () => {
+    it('should add a multi value type param value to the array when initially empty', () => {
+      const stateManager = new SearchStateManager({
+        [SearchParams.SearchedIndicator]: 'bang',
+      });
+      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
       });
     });
 
-    it('should add to the indicators selected array', () => {
+    it('should add a multi value type param value to an existing array', () => {
       const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1'],
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
       });
-      stateManager.addIndicatorSelected('2');
-      stateManager.addIndicatorSelected('3');
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2', '3'],
-        areasSelected: [],
+      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '2');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      });
+    });
+
+    it('should add a single value type param value as string when initially empty', () => {
+      const stateManager = new SearchStateManager({});
+
+      stateManager.addParamValueToState(SearchParams.SearchedIndicator, 'bang');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+      });
+    });
+
+    it('should overwrite a single value type param value as string when it already exists', () => {
+      const stateManager = new SearchStateManager({
+        [SearchParams.SearchedIndicator]: 'bang',
+      });
+
+      stateManager.addParamValueToState(SearchParams.SearchedIndicator, 'boom');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'boom',
       });
     });
   });
 
-  describe('removeIndicatorSelected', () => {
-    it('should remove from the indicators selected array', () => {
+  describe('removeParamValueFromState', () => {
+    it('should remove a multi value type param value from the existing array', () => {
       const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2', '3'],
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
-      stateManager.removeIndicatorSelected('1');
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['2', '3'],
-        areasSelected: [],
+      stateManager.removeParamValueFromState(
+        SearchParams.IndicatorsSelected,
+        '1'
+      );
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['2', '3'],
+      });
+    });
+
+    it('should remove a single value type param from state', () => {
+      const stateManager = new SearchStateManager({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
+      });
+
+      stateManager.removeParamValueFromState(SearchParams.AreaTypeSelected);
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
     });
   });
 
-  describe('addAreaSelected', () => {
-    it('should add to the areas selected array when initialy empty', () => {
+  describe('removeAllParamFromState', () => {
+    it('should remove the entire multi value type param value', () => {
       const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
-      stateManager.addAreaSelected('1');
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: [],
-        areasSelected: ['1'],
+      stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
       });
     });
 
-    it('should add to the areas selected array', () => {
+    it('should remove the entire single value type param value', () => {
       const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        areasSelected: ['1'],
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
-      stateManager.addAreaSelected('2');
-      stateManager.addAreaSelected('3');
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: [],
-        areasSelected: ['1', '2', '3'],
-      });
-    });
-  });
+      stateManager.removeAllParamFromState(SearchParams.SearchedIndicator);
 
-  describe('removeAreaSelected', () => {
-    it('should remove from the areas selected array', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        areasSelected: ['1', '2', '3'],
-      });
-      stateManager.removeAreaSelected('1');
-
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: [],
-        areasSelected: ['2', '3'],
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
     });
   });
 
   describe('getSearchState', () => {
     it('should return the current state', () => {
-      const searchState: SearchState = {
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2'],
-        areasSelected: ['A001', 'A002'],
-        areaTypeSelected: 'Some area type',
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
       };
 
-      const stateManager = new SearchStateManager(searchState);
+      const stateManager = new SearchStateManager(state);
 
-      expect(stateManager.getSearchState()).toEqual(searchState);
-    });
-  });
-
-  describe('setAreaTypeSelected', () => {
-    it('should set the areaTypeSelected', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-      });
-      stateManager.setAreaTypeSelected('Some area type');
-
-      expect(stateManager.getSearchState().areaTypeSelected).toEqual(
-        'Some area type'
-      );
-    });
-  });
-
-  describe('getSearchState', () => {
-    it('should return the current state', () => {
-      const searchState: SearchState = {
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2'],
-        areasSelected: ['A001', 'A002'],
-        areaTypeSelected: 'Some area type',
-      };
-
-      const stateManager = new SearchStateManager(searchState);
-
-      expect(stateManager.getSearchState()).toEqual(searchState);
-    });
-  });
-
-  describe('setAreaTypeSelected', () => {
-    it('should set the areaTypeSelected', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-      });
-      stateManager.setAreaTypeSelected('Some area type');
-
-      expect(stateManager.getSearchState().areaTypeSelected).toEqual(
-        'Some area type'
-      );
-    });
-  });
-
-  describe('removeAllIndicatorSelected', () => {
-    it('should remove all items from the indicators selected array', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2', '3'],
-      });
-      stateManager.removeAllIndicatorSelected();
-
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: [],
-        areasSelected: [],
-      });
+      expect(stateManager.getSearchState()).toEqual(state);
     });
   });
 
@@ -181,80 +167,40 @@ describe('SearchStateManager', () => {
       params.append(SearchParams.AreaTypeSelected, 'Some area type');
 
       const stateManager = SearchStateManager.setStateFromParams(params);
+      const newState = stateManager.getSearchState();
 
-      expect(stateManager.getSearchState()).toEqual({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2', '3'],
-        areasSelected: ['A001', 'A002'],
-        areaTypeSelected: 'Some area type',
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
       });
     });
   });
 
   describe('generatePath', () => {
     it('should only return the path provided when there is no state', () => {
-      const stateManager = new SearchStateManager({});
+      const stateManager = new SearchStateManager();
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe('/some-path');
     });
 
-    it('should return the indicator param to path', () => {
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-      });
-
-      const generatedPath = stateManager.generatePath('/some-path');
-
-      expect(generatedPath).toBe(
-        `/some-path?${SearchParams.SearchedIndicator}=bang`
-      );
-    });
-
-    it('should return the indicatorsSelected to the generatedPath', () => {
+    it('should return the provided state to the generatedPath', () => {
       const expectedPath = [
         `/some-path?${SearchParams.SearchedIndicator}=bang`,
         `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
-      ].join('');
-
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1', '2'],
-      });
-      const generatedPath = stateManager.generatePath('/some-path');
-
-      expect(generatedPath).toBe(expectedPath);
-    });
-
-    it('should return the areasSelected to the generatedPath', () => {
-      const expectedPath = [
-        `/some-path?${SearchParams.SearchedIndicator}=bang`,
-        `&${SearchParams.IndicatorsSelected}=1`,
         `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
-      ].join('');
-
-      const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1'],
-        areasSelected: ['A001', 'A002'],
-      });
-      const generatedPath = stateManager.generatePath('/some-path');
-
-      expect(generatedPath).toBe(expectedPath);
-    });
-
-    it('should return the areaTypeSelected to the generatedPath', () => {
-      const expectedPath = [
-        `/some-path?${SearchParams.SearchedIndicator}=bang`,
-        `&${SearchParams.IndicatorsSelected}=1`,
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
       ].join('');
 
       const stateManager = new SearchStateManager({
-        searchedIndicator: 'bang',
-        indicatorsSelected: ['1'],
-        areaTypeSelected: 'Some area type',
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
       });
+
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe(expectedPath);

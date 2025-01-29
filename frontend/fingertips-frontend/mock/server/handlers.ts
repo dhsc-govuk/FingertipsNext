@@ -57,19 +57,27 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/indicators/:indicatorId/data`, async ({ params }) => {
-    const indicatorId = params.indicatorId;
-    if (typeof indicatorId !== 'string') {
-      return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
-        status: 400,
-      });
-    }
-    const resultArray = [
-      [getGetHealthDataForAnIndicator200Response(indicatorId), { status: 200 }],
-    ];
+  http.get(
+    `${baseURL}/indicators/:indicatorId/data`,
+    async ({ params, request }) => {
+      const indicatorId = params.indicatorId;
+      const url = new URL(request.url);
+      const areaCodes = url.searchParams.getAll('area_codes');
+      if (typeof indicatorId !== 'string') {
+        return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
+          status: 400,
+        });
+      }
+      const resultArray = [
+        [
+          getGetHealthDataForAnIndicator200Response(indicatorId, areaCodes),
+          { status: 200 },
+        ],
+      ];
 
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
+      return HttpResponse.json(...resultArray[next() % resultArray.length]);
+    }
+  ),
 ];
 
 export function getGetAreaHierarchies200Response() {
@@ -141,10 +149,23 @@ export function getGetHealthDataForAnIndicator400Response() {
   };
 }
 
-export function getGetHealthDataForAnIndicator200Response(indicatorId: string) {
+export function getGetHealthDataForAnIndicator200Response(
+  indicatorId: string,
+  areaCodes: string[]
+) {
   if (indicatorId in mockHealthData) {
-    return mockHealthData[indicatorId];
+    const healthDataForIndicator = mockHealthData[indicatorId];
+    const healthDataForArea = healthDataForIndicator.filter((healthData) =>
+      areaCodes.includes(healthData.areaCode)
+    );
+    return !isAreaCodesEmpty(areaCodes)
+      ? healthDataForArea
+      : healthDataForIndicator;
   }
 
   return mockHealthData[1];
+}
+
+function isAreaCodesEmpty(areaCodes: string[]) {
+  return !areaCodes.length || (areaCodes.length === 1 && areaCodes[0] === '');
 }

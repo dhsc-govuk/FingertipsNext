@@ -1,6 +1,7 @@
 import { Pill } from '@/components/molecules/Pill';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+
 import {
   Details,
   H3,
@@ -89,12 +90,18 @@ export function AreaFilter({
   const searchState = searchStateManager.getSearchState();
 
   const handleAreaTypeSelect = (areaTypeSelected: string) => {
-    searchStateManager.setAreaTypeSelected(areaTypeSelected);
+    searchStateManager.addParamValueToState(
+      SearchParams.AreaTypeSelected,
+      areaTypeSelected
+    );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
   const handleRemoveSelectedArea = (areaCode: string) => {
-    searchStateManager.removeAreaSelected(areaCode);
+    searchStateManager.removeParamValueFromState(
+      SearchParams.AreasSelected,
+      areaCode
+    );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
@@ -127,7 +134,7 @@ export function AreaFilter({
             label="Select an area type"
             input={{
               onChange: (e) => handleAreaTypeSelect(e.target.value),
-              defaultValue: searchState.areaTypeSelected,
+              defaultValue: searchState[SearchParams.AreaTypeSelected],
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
