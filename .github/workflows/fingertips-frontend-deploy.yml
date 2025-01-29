@@ -70,7 +70,7 @@ jobs:
 
   e2e-tests-development:
     uses: ./.github/workflows/e2e-tests.yml
-    if: ${{ github.event.workflow_run.event == 'push' }}
+    if: ${{ github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch' }}
     needs: frontend-deploy-development
     with:
       env-url: ${{ needs.frontend-deploy-development.outputs.frontend-dev-url }}
