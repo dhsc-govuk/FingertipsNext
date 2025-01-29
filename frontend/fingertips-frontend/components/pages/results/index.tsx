@@ -17,9 +17,8 @@ import { SearchResult } from '@/components/molecules/result';
 import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaType } from '@/generated-sources/ft-api-client';
+import { AreaWithRelations, AreaType } from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
