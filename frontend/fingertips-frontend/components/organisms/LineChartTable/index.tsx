@@ -104,7 +104,12 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
     upper: healthPoint.upperCi,
   }));
 
-function getCellHeader(heading: string, index: number): ReactNode {
+const convertToPercentage = (value: number): string => {
+  // dummy function to do percentage conversions until real conversion logic is provided
+  return `${((value / 10000) * 100).toFixed(1)}%`;
+};
+
+const getCellHeader = (heading: string, index: number): ReactNode => {
   if (heading === LineChartTableHeadingEnum.BenchmarkValue)
     return (
       <StyledGreyHeader
@@ -150,7 +155,7 @@ function getCellHeader(heading: string, index: number): ReactNode {
       {heading} <StyledSpan>(%)</StyledSpan>
     </StyledAlignRightHeader>
   );
-}
+};
 
 export function LineChartTable({ data }: Readonly<TableProps>) {
   const tableData = mapToTableData(data);
@@ -199,13 +204,13 @@ export function LineChartTable({ data }: Readonly<TableProps>) {
                 {point.count}
               </StyledAlignRightTableCell>
               <StyledAlignRightTableCell numeric>
-                {point.value.toFixed(1)}
+                {convertToPercentage(point.value)}
               </StyledAlignRightTableCell>
               <StyledAlignRightTableCell numeric>
-                {point.lower.toFixed(1)}
+                {convertToPercentage(point.lower)}
               </StyledAlignRightTableCell>
               <StyledAlignRightTableCell numeric>
-                {point.upper.toFixed(1)}
+                {convertToPercentage(point.upper)}
               </StyledAlignRightTableCell>
               <StyledBenchmarkValueTableCell data-testid="grey-table-cell"></StyledBenchmarkValueTableCell>
             </Table.Row>
