@@ -19,3 +19,15 @@ export function generateSeriesData(
     data: item.healthData.map((point) => [point.year, point.value]),
   }));
 }
+
+export enum LineChartTableHeadingEnum {
+  AreaPeriod = 'Period',
+  BenchmarkTrend = 'Compared to benchmark',
+  AreaCount = 'Count',
+  AreaValue = 'Value',
+  AreaLower = 'Lower',
+  AreaUpper = 'Upper',
+  BenchmarkValue = 'Value ',
+}
+
+export const LIGHT_GREY = '#b1b4b6';

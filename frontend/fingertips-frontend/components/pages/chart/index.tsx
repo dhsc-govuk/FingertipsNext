@@ -17,8 +17,6 @@ type ChartProps = {
   indicatorsSelected?: string[];
 };
 
-const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
-
 export function Chart({
   data,
   populationData,
@@ -147,7 +145,7 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data} headings={headings}></LineChartTable>
+      <LineChartTable data={data[0]}></LineChartTable>
       <br />
       <HeatmapChart
         areaCodes={areaCodes}
