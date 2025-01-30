@@ -1,4 +1,7 @@
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions} from '@azure/monitor-opentelemetry';
+import {
+  useAzureMonitor,
+  AzureMonitorOpenTelemetryOptions,
+} from '@azure/monitor-opentelemetry';
 import { Resource } from '@opentelemetry/resources';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
@@ -10,7 +13,7 @@ export const configureAzureMonitor = () => {
     console.log('Configuring Azure Monitor logging');
 
     const customResource = new Resource({
-      [ATTR_SERVICE_NAME]: 'fingertips-frontend'
+      [ATTR_SERVICE_NAME]: 'fingertips-frontend',
     });
 
     const options: AzureMonitorOpenTelemetryOptions = {
@@ -21,13 +24,15 @@ export const configureAzureMonitor = () => {
       resource: customResource,
       instrumentationOptions: {
         http: { enabled: true },
-      }
+      },
     };
 
     useAzureMonitor(options);
     console.log('Application Insights monitoring enabled');
   } else {
-    console.log('** Application Insights Connection String missing - monitoring disabled **');
+    console.log(
+      '** Application Insights Connection String missing - monitoring disabled **'
+    );
   }
 };
 
