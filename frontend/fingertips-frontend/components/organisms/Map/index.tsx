@@ -13,7 +13,8 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 interface FingertipsMapProps {
   data: HealthDataForArea[];
-  areaType: string;
+  areaType: string; // used to choose which map type to present data on
+  selectedAreaCode: string; // used to focus the map
 }
 
 export function FingertipsMap({
@@ -69,7 +70,10 @@ export function FingertipsMap({
       mapOptions.series[0].mapData = regionsMap;
       mapOptions.series[0].joinBy = ['RGN23CD', 'areaCode'];
       break;
-
+    case 'counties and UAs':
+      mapOptions.series[0].mapData = countiesAndUAsMap;
+      mapOptions.series[0].joinBy = ['CTYUA23CD', 'areaCode'];
+      break;
     case 'NHS regions':
       mapOptions.series[0].mapData = NHSRegionsMap;
       mapOptions.series[0].joinBy = ['NHSER24CD', 'areaCode'];

@@ -44,10 +44,17 @@ export function Chart({
       <FingertipsMap
         data={mockHealthData['318 Regions']}
         areaType={'regions'}
+        selectedAreaCode={''}
+      />
+      <FingertipsMap
+        data={mockHealthData['318 for a group']}
+        areaType={'counties and UAs'}
+        selectedAreaCode={''}
       />
       <FingertipsMap
         data={mockHealthData['318 NHS Regions']}
         areaType={'NHS regions'}
+        selectedAreaCode={''}
       />
 
       {populationData ? (

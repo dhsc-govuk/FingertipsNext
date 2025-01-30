@@ -1548,4 +1548,126 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
+  '318 for a group': [
+    {
+      areaCode: 'E08000025',
+      areaName: 'Birmingham',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E08000029',
+      areaName: 'Solihull',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E10000034',
+      areaName: 'Worcestershire',
+      healthData: [
+        {
+          year: 2023,
+          count: 2000,
+          value: 2,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E08000027',
+      areaName: 'Dudley',
+      healthData: [
+        {
+          year: 2023,
+          count: 3000,
+          value: 3,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E08000028',
+      areaName: 'Sandwell',
+      healthData: [
+        {
+          year: 2023,
+          count: 5000,
+          value: 5,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E08000030',
+      areaName: 'Walsall',
+      healthData: [
+        {
+          year: 2024,
+          count: 8000,
+          value: 8,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E10000028',
+      areaName: 'Staffordshire',
+      healthData: [
+        {
+          year: 2025,
+          count: 13000,
+          value: 13,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E10000031',
+      areaName: 'Warwickshire',
+      healthData: [
+        {
+          year: 2026,
+          count: 21000,
+          value: 21,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+  ],
 };
