@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@opentelemetry/instrumentation-http": "^0.57.1"
+  }
+}
