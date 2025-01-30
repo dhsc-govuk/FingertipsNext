@@ -7,6 +7,10 @@ const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
 describe('Pill Suite', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render expected elements', () => {
     render(
       <Pill
