@@ -1,6 +1,6 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
-import { InputField, SearchBox, Table } from 'govuk-react';
+import { InputField, Table } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -17,6 +17,7 @@ interface AreaSelectWithSuggestionsProps {
     error?: string | string[];
     touched?: boolean;
   };
+  areaSelected: AreaDocument | undefined;
   onSelectHandler: (areaCode: string) => void;
 }
 
@@ -40,10 +41,16 @@ export default function AreaSelectWithSuggestions({
   input,
   hint,
   meta,
+  areaSelected,
   onSelectHandler,
 }: AreaSelectWithSuggestionsProps) {
   const [suggestedAreas, setSuggestedAreas] = useState<AreaDocument[]>([]);
-  const [selectedArea, setSelectedArea] = useState<AreaDocument>();
+  const [selectedArea, setSelectedArea] = useState<AreaDocument | undefined>(
+    areaSelected
+  );
+
+  console.log(`AreaSelectWithSuggestions: ${areaSelected?.areaName}`);
+
   return (
     <div>
       <StyledInputField

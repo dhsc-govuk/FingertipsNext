@@ -12,6 +12,7 @@ const $SearchFormSchema = z.object({
     .trim()
     .min(1, { message: 'Please enter an indicator id' }),
   areaSearched: z.string().optional(),
+  areaSelected: z.custom<AreaDocument | undefined>(),
 });
 
 export type State = {
@@ -61,4 +62,15 @@ export async function getSearchSuggestions(
     console.log(e);
   }
   return [];
+}
+
+export async function getArea(
+  areaCode: string
+): Promise<AreaDocument | undefined> {
+  try {
+    return SearchServiceFactory.getAreaSearchService().getArea(areaCode);
+  } catch (e) {
+    console.log(e);
+  }
+  return undefined;
 }

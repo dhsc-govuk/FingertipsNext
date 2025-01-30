@@ -24,6 +24,19 @@ export const SearchForm = ({
 }: {
   searchFormState: SearchFormState;
 }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+
+  const updateUrlWithSelectedArea = (areaCodeSelected: string) => {
+    searchStateManager.setAreaSelected(areaCodeSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
   return (
     <div
       data-testid="search-form"
@@ -60,8 +73,10 @@ export const SearchForm = ({
       <AreaSelectWithSuggestions
         onSelectHandler={(areaCode) => {
           console.log(`This area code has been selected: ${areaCode}`);
+          updateUrlWithSelectedArea(areaCode);
           searchFormState.areaSearched = areaCode;
         }}
+        areaSelected={searchFormState.areaSelected}
         input={{
           id: 'areaSearched',
           name: 'areaSearched',

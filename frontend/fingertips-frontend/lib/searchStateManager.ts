@@ -87,6 +87,10 @@ export class SearchStateManager {
     this.searchState.areaTypeSelected = areaTypeSelected;
   }
 
+  public setAreaSelected(areaSelected: string) {
+    this.searchState.areasSelected = [areaSelected];
+  }
+
   public addIndicatorSelected(indicatorId: string) {
     this.searchState.indicatorsSelected?.push(indicatorId);
   }
