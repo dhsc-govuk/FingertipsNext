@@ -42,7 +42,7 @@ public class AreaController : ControllerBase
     /// <param name="hierarchy_type"></param>
     /// <returns>The available area types e.g. ICB, PCN or GP Surgery</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
     public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null)
     {
