@@ -19,6 +19,11 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { AreaType } from '@/generated-sources/ft-api-client';
+import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
+import {
+  IndicatorSearchFormState,
+  searchIndicator,
+} from '@/components/forms/IndicatorSearchForm/searchActions';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -40,7 +45,7 @@ export function SearchResults({
   searchResults,
   availableAreaTypes,
 }: Readonly<SearchResultsProps>) {
-  const [state, formAction] = useActionState(
+  const [viewChartsState, viewChartsFormAction] = useActionState(
     viewCharts,
     searchResultsFormState
   );
@@ -49,6 +54,14 @@ export function SearchResults({
     [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
   });
 
+  const initialIndicatorSearchFormState: IndicatorSearchFormState = {
+    indicator: searchResultsFormState.searchedIndicator ?? '',
+  };
+  const [indicatorSearchState, indicatorSearchFormAction] = useActionState(
+    searchIndicator,
+    initialIndicatorSearchFormState
+  );
+
   const backLinkPath = searchState.generatePath('/');
 
   return (
@@ -56,9 +69,9 @@ export function SearchResults({
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
       {searchResultsFormState.searchedIndicator ? (
         <>
-          {state.message && (
+          {viewChartsState.message && (
             <ErrorSummary
-              description={state.message}
+              description={viewChartsState.message}
               errors={[
                 {
                   targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
@@ -73,15 +86,16 @@ export function SearchResults({
               }}
             />
           )}
-          <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
-
+          <H1>Search results for {searchResultsFormState.searchedIndicator}</H1>
+          <form action={indicatorSearchFormAction}>
+            <IndicatorSearchForm searchFormState={indicatorSearchState} />
+          </form>
           <GridRow>
             <GridCol setWidth="one-third">
               <AreaFilter availableAreaTypes={availableAreaTypes} />
             </GridCol>
             <GridCol>
-              <form action={formAction}>
+              <form action={viewChartsFormAction}>
                 <input
                   name="searchedIndicator"
                   defaultValue={searchResultsFormState.searchedIndicator}
@@ -98,7 +112,7 @@ export function SearchResults({
                         result={result}
                         indicatorSelected={isIndicatorSelected(
                           result.indicatorId.toString(),
-                          state
+                          viewChartsState
                         )}
                       />
                     ))}

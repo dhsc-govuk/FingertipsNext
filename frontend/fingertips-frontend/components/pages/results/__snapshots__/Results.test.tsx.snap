@@ -119,18 +119,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -140,118 +128,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -279,6 +155,134 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -296,6 +300,46 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -371,6 +415,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -380,6 +432,38 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -565,151 +649,280 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
 <h1
     class="c0"
   >
-    Search results
+    Search results for test
   </h1>
-  .c0 {
-  margin: 0;
+  .c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c5:link,
+.c5:visited,
+.c5:active,
+.c5:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c5::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c5:hover,
+.c5:focus {
+  background-color: #00572e;
+}
+
+.c5:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c5::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c5:active::before {
+  top: -4px;
+}
+
+.c5:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c5:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c5:disabled:focus {
+  outline: none;
+}
+
+.c5:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c5 svg {
+  max-width: 15px;
+}
+
+.c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #0b0c0c;
+  background-color: #f3f2f1;
+  box-shadow: 0 2px 0 #d0ccc8;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c6:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c6:link,
+.c6:visited,
+.c6:active,
+.c6:hover {
+  color: #0b0c0c;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c6::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c6:hover,
+.c6:focus {
+  background-color: #e7e5e3;
+}
+
+.c6:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c6::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c6:active::before {
+  top: -4px;
+}
+
+.c6:disabled {
+  opacity: 0.5;
+  background: #f3f2f1;
+}
+
+.c6:disabled:hover {
+  background-color: #f3f2f1;
+  cursor: default;
+}
+
+.c6:disabled:focus {
+  outline: none;
+}
+
+.c6:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #d0ccc8;
+}
+
+.c6 svg {
+  max-width: 15px;
+}
+
+.c3 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.25;
+  display: block;
   margin-bottom: 15px;
+  color: #6f777b;
 }
 
-.c0 > p {
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin-top: 0;
+  padding: 5px;
+  border: 2px solid #0b0c0c;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin-bottom: 0;
+}
+
+.c4:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c4::-webkit-outer-spin-button,
+.c4::-webkit-inner-spin-button {
   margin: 0;
+  -webkit-appearance: none;
 }
 
-.c0 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
+.c4[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.c0 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 0;
 }
 
-.c0 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
+.c0:after {
+  content: '';
+  display: table;
+  clear: both;
 }
 
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
+.c1 {
+  margin-bottom: 20px;
 }
 
 @media print {
@@ -728,75 +941,257 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
-
-}
-
-@media print {
-
+  .c5 {
+    font-size: 14px;
+    line-height: 19px;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
+  .c5 {
+    font-size: 19px;
+    line-height: 19px;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media print {
-
+  .c5 {
+    width: auto;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
+  .c5 svg {
+    margin-left: 10px;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
+  .c5 {
+    margin-bottom: 32px;
+  }
 }
 
 @media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
 
+@media only screen and (min-width:641px) {
+  .c6 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    margin-bottom: 32px;
+  }
 }
 
 @media print {
-
-}
-
-@media print {
-  .c0 {
+  .c3 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c2 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 20px;
+  .c4 {
+    margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -852,17 +1247,58 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-<div
-    class="c0"
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+<form
+    action="/action"
   >
-    <p>
-      You searched for indicator "
-      <strong>
-        test
-      </strong>
-      "
-    </p>
-  </div>
+    <div
+      data-testid="indicator-search-form"
+    >
+      <label
+        class="c0 c1"
+        data-testid="search-form-input-indicator"
+      >
+        <span
+          class="c2"
+        >
+          Search By Subject
+        </span>
+        <span
+          class="c3"
+        >
+          <div
+            style="color: rgb(80, 90, 95);"
+          >
+            For example diabetes, public health indicator, or indicator ID
+          </div>
+        </span>
+        <input
+          class="c4"
+          id="indicator"
+          name="indicator"
+          value="test"
+        />
+      </label>
+      <button
+        class="c5"
+        data-testid="search-form-button-submit"
+        type="submit"
+      >
+        Search
+      </button>
+      <button
+        class="c6"
+        type="reset"
+      >
+        Reset Search
+      </button>
+    </div>
+  </form>
   .c32 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1464,6 +1900,34 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
   .c26 {
     font-size: 14px;
     line-height: 1.15;
@@ -1507,6 +1971,18 @@ exports[`Search Results Suite snapshot test 1`] = `
   .c9 {
     margin-bottom: 0;
   }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media only screen and (min-width:641px) {
@@ -1789,6 +2265,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     font-size: 16px;
     line-height: 1.25;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 <div

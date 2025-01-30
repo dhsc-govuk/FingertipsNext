@@ -71,14 +71,14 @@ describe('Search Results Suite', () => {
     indicatorsSelected: ['1'],
   };
 
-  it('should render elements', () => {
+  it.only('should render elements', () => {
     render(
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
+    expect(screen.getAllByRole('heading').at(0)?.textContent).toContain(
       searchedIndicator
     );
   });
@@ -238,5 +238,44 @@ describe('Search Results Suite', () => {
     );
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('should contain the searched indicator in the search box', async () => {
+    render(
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+    );
+
+    await userEvent.type(
+      screen.getByRole('textbox', { name: /indicator/i }),
+      searchedIndicator
+    );
+  });
+
+  it('should reset the input field when the "reset search" button is clicked', async () => {
+    const typedText = 'additional text';
+    render(
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+    );
+
+    await userEvent.type(screen.getByRole('textbox'), typedText);
+    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+      searchedIndicator + typedText
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Reset Search' }));
+    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+      searchedIndicator
+    );
+
+    screen.getByRole('textbox');
+  });
+
+  // TODO JH - either mock requestSubmit or do this in e2e once area is in
+  it.skip('should display an error when the user attempts to search for no indicator and no areas', async () => {
+    render(
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+    );
+    await userEvent.clear(screen.getByRole('textbox', { name: /indicator/i }));
+    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
   });
 });
