@@ -5,7 +5,6 @@ import { userEvent } from '@testing-library/user-event';
 const mockFilterRemoveFunction = jest.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
-const handleSelectedFilterRemove = mockFilterRemoveFunction;
 
 describe('Pill Suite', () => {
   it('should render expected elements', () => {
@@ -13,7 +12,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={handleSelectedFilterRemove}
+        handleSelectedFilterRemoval={mockFilterRemoveFunction}
       />
     );
 
@@ -29,7 +28,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={handleSelectedFilterRemove}
+        handleSelectedFilterRemoval={mockFilterRemoveFunction}
       />
     );
 
@@ -44,7 +43,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={handleSelectedFilterRemove}
+        handleSelectedFilterRemoval={mockFilterRemoveFunction}
       />
     );
 
@@ -58,7 +57,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={handleSelectedFilterRemove}
+        handleSelectedFilterRemoval={mockFilterRemoveFunction}
       />
     );
 
