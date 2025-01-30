@@ -495,3 +495,4 @@ search-setup/dist*/
 
 # asdf tool-versions is not used project wide but may be used by individuals
 .tool-versions
+/DataCreator/DataCreator/appsettings.json
