@@ -6,7 +6,7 @@ import {
 } from '../testHelpers';
 import indicatorData from '../../../../search-setup/assets/indicatorData.json';
 
-const searchTerm = 'mortality';
+const searchTerm = 'Waiting';
 let indicatorIDs: string[];
 
 test.describe('Search via indicator', () => {
