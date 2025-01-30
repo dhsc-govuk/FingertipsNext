@@ -40,6 +40,13 @@ const isIndicatorSelected = (
     : false;
 };
 
+const generateBackLinkPath = (state: SearchStateParams) => {
+  const stateManager = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: state[SearchParams.SearchedIndicator],
+  });
+  return stateManager.generatePath('/');
+};
+
 export function SearchResults({
   searchResultsFormState,
   searchResults,
@@ -51,9 +58,7 @@ export function SearchResults({
     searchResultsFormState
   );
   const stateParsed: SearchStateParams = JSON.parse(state.searchState);
-
-  const searchStateManager = new SearchStateManager(stateParsed);
-  const backLinkPath = searchStateManager.generatePath('/');
+  const backLinkPath = generateBackLinkPath(stateParsed);
 
   return (
     <>
@@ -91,7 +96,7 @@ export function SearchResults({
               <form action={formAction}>
                 <input
                   name="searchState"
-                  defaultValue={JSON.stringify(searchState)}
+                  defaultValue={state.searchState}
                   hidden
                 />
                 {searchResults.length ? (
