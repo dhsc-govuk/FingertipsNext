@@ -25,7 +25,6 @@ export function Chart({
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
-  // scatterData,
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
     searchedIndicator,
