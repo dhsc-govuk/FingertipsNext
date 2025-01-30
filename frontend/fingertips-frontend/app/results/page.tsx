@@ -1,5 +1,9 @@
 import { SearchResults } from '@/components/pages/results';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
@@ -19,6 +23,12 @@ export default async function Page(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
+
+  const stateManager = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+  });
 
   try {
     // Perform async API call using indicator prop
@@ -53,7 +63,7 @@ export default async function Page(
     }
 
     const initialState = {
-      searchedIndicator,
+      searchState: JSON.stringify(stateManager.getSearchState()),
       indicatorsSelected,
       message: null,
       errors: {},

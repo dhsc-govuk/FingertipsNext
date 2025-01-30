@@ -128,7 +128,11 @@ describe('Results Page', () => {
       errors: {},
       indicatorsSelected: [],
       message: null,
-      searchedIndicator: 'testing',
+      searchState: JSON.stringify({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: [],
+        [SearchParams.AreasSelected]: [],
+      }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
@@ -155,7 +159,11 @@ describe('Results Page', () => {
       errors: {},
       indicatorsSelected: [],
       message: null,
-      searchedIndicator: 'testing',
+      searchState: JSON.stringify({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: [],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual([]);

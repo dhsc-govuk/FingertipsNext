@@ -15,7 +15,11 @@ import {
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
 import { SearchResultState, viewCharts } from './searchResultsActions';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { AreaWithRelations, AreaType } from '@/generated-sources/ft-api-client';
@@ -46,17 +50,15 @@ export function SearchResults({
     viewCharts,
     searchResultsFormState
   );
+  const stateParsed: SearchStateParams = JSON.parse(state.searchState);
 
-  const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
-  });
-
-  const backLinkPath = searchState.generatePath('/');
+  const searchStateManager = new SearchStateManager(stateParsed);
+  const backLinkPath = searchStateManager.generatePath('/');
 
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
-      {searchResultsFormState.searchedIndicator ? (
+      {stateParsed[SearchParams.SearchedIndicator] ? (
         <>
           {state.message && (
             <ErrorSummary
@@ -76,7 +78,7 @@ export function SearchResults({
             />
           )}
           <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
+          <Paragraph>{`You searched for indicator "**${stateParsed[SearchParams.SearchedIndicator]}**"`}</Paragraph>
 
           <GridRow>
             <GridCol setWidth="one-third">
@@ -88,8 +90,8 @@ export function SearchResults({
             <GridCol>
               <form action={formAction}>
                 <input
-                  name="searchedIndicator"
-                  defaultValue={searchResultsFormState.searchedIndicator}
+                  name="searchState"
+                  defaultValue={JSON.stringify(searchState)}
                   hidden
                 />
                 {searchResults.length ? (

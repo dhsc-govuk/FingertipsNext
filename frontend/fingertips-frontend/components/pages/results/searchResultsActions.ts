@@ -5,7 +5,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
 
 const $SearchResultFormSchema = z.object({
-  searchedIndicator: z.string().optional(),
+  searchState: z.string(),
   indicatorsSelected: z
     .string()
     .array()
@@ -28,24 +28,25 @@ export async function viewCharts(
   formData: FormData
 ): Promise<SearchResultState> {
   const validatedFields = $SearchResultFormSchema.safeParse({
-    searchedIndicator: formData.get('searchedIndicator'),
+    searchState: formData.get('searchState'),
     indicatorsSelected: formData.getAll('indicator'),
   });
 
   if (!validatedFields.success) {
     return {
-      searchedIndicator: formData.get('searchedIndicator')?.toString() ?? '',
+      searchState: formData.get('searchState')?.toString() ?? '',
       indicatorsSelected: formData.getAll('indicator')?.toString().split(','),
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Please select at least one indicator',
     };
   }
 
-  const { searchedIndicator, indicatorsSelected } = validatedFields.data;
+  const { searchState, indicatorsSelected } = validatedFields.data;
+  const state = JSON.parse(searchState);
 
-  const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
+  const searchStateManager = new SearchStateManager({
+    ...state,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
-  redirect(searchState.generatePath('/chart'), RedirectType.push);
+  redirect(searchStateManager.generatePath('/chart'), RedirectType.push);
 }
