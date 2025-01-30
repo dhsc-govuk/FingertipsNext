@@ -1304,4 +1304,248 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
+  '318 Regions': [
+    {
+      areaCode: 'E12000001',
+      areaName: 'North East',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000002',
+      areaName: 'North West',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000003',
+      areaName: 'Yorkshire and The Humber',
+      healthData: [
+        {
+          year: 2023,
+          count: 2000,
+          value: 2,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000004',
+      areaName: 'East Midlands',
+      healthData: [
+        {
+          year: 2023,
+          count: 3000,
+          value: 3,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000005',
+      areaName: 'West Midlands',
+      healthData: [
+        {
+          year: 2023,
+          count: 5000,
+          value: 5,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000006',
+      areaName: 'East of England',
+      healthData: [
+        {
+          year: 2023,
+          count: 8000,
+          value: 8,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000007',
+      areaName: 'London',
+      healthData: [
+        {
+          year: 2023,
+          count: 13000,
+          value: 13,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000008',
+      areaName: 'South East',
+      healthData: [
+        {
+          year: 2023,
+          count: 21000,
+          value: 21,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000009',
+      areaName: 'South West',
+      healthData: [
+        {
+          year: 2023,
+          count: 34000,
+          value: 34,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+  ],
+  '318 NHS Regions': [
+    {
+      areaCode: 'E40000003',
+      areaName: 'London',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000005',
+      areaName: 'South East',
+      healthData: [
+        {
+          year: 2023,
+          count: 1000,
+          value: 1,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000006',
+      areaName: 'South West',
+      healthData: [
+        {
+          year: 2023,
+          count: 2000,
+          value: 2,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000011',
+      areaName: 'Midlands',
+      healthData: [
+        {
+          year: 2023,
+          count: 3000,
+          value: 3,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000012',
+      areaName: 'North East and Yorkshire',
+      healthData: [
+        {
+          year: 2023,
+          count: 5000,
+          value: 5,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000013',
+      areaName: 'East of England',
+      healthData: [
+        {
+          year: 2024,
+          count: 8000,
+          value: 8,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: 'E40000014',
+      areaName: 'North West',
+      healthData: [
+        {
+          year: 2025,
+          count: 13000,
+          value: 13,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+  ],
 };

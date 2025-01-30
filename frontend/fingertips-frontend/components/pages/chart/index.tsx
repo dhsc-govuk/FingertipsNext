@@ -10,6 +10,9 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { FingertipsMap } from '@/components/organisms/Map';
 
+// using mock pending business logic
+import { mockHealthData } from '@/mock/data/healthdata';
+
 type ChartProps = {
   data: HealthDataForArea[];
   populationData?: PopulationData;
@@ -38,7 +41,15 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      <FingertipsMap />
+      <FingertipsMap
+        data={mockHealthData['318 Regions']}
+        areaType={'regions'}
+      />
+      <FingertipsMap
+        data={mockHealthData['318 NHS Regions']}
+        areaType={'NHS regions'}
+      />
+
       {populationData ? (
         <>
           <PopulationPyramid
