@@ -69,3 +69,4 @@ jobs:
     needs: api-deploy-development
     with:
       env-url: ${{ needs.api-deploy-development.outputs.frontend-dev-url }}
+      send-slack-on-fail: "true"
