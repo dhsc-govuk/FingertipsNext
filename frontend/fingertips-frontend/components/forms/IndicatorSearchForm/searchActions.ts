@@ -32,7 +32,7 @@ export async function searchIndicator(
     return {
       indicator: formData.get('indicator')?.toString().trim() ?? '',
       errors: validatedField.error.flatten().fieldErrors,
-      message: 'Please enter a value for the indicator field',
+      message: 'Please enter a subject',
     };
   }
 

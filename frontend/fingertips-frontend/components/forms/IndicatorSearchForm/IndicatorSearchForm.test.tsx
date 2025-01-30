@@ -51,7 +51,5 @@ it('should set the input field with indicator value from the form state', () => 
   };
   render(<IndicatorSearchForm searchFormState={searchFormState} />);
 
-  expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-    'test value'
-  );
+  expect(screen.getByRole('searchbox')).toHaveValue('test value');
 });
