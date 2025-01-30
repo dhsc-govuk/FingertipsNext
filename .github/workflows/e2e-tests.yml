@@ -61,6 +61,6 @@ jobs:
 
       - name: Send slack message if e2e tests fail
         if: ${{ failure() && inputs.send-slack-on-fail  == 'true' }}
-        run: npx slack-ctrf results ${{ env.frontend-directory }}/ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance""
+        run: npx slack-ctrf results ${{ env.frontend-directory }}/ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
