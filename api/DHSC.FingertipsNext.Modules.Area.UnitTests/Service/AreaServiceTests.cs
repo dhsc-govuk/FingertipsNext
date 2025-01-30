@@ -36,11 +36,11 @@ public class AreaServiceTests
     public async Task GetAreaTypes_ShouldDelegateToRepository_IfParameterPassed()
     {
         CreateService();
-        _mockRepository.GetAreaTypesAsync("hierarchyType").Returns(["ar1", "ar2"]);
+        _mockRepository.GetAreaTypesAsync("hierarchyType").Returns(SampleAreaTypes);
 
         var result = await _service.GetAreaTypes("hierarchyType");
 
-        result.ShouldBe(["ar1", "ar2"]);
+        result.ShouldBeEquivalentTo(_mapper.Map<List<AreaType>>(SampleAreaTypes));
         await _mockRepository.Received().GetAreaTypesAsync("hierarchyType");
     }
 
@@ -48,14 +48,20 @@ public class AreaServiceTests
     public async Task GetAreaTypes_ShouldDelegateToRepository_IfNoParameterPassed()
     {
         CreateService();
-        _mockRepository.GetAreaTypesAsync(null).Returns(["ar1", "ar2"]);
+        _mockRepository.GetAreaTypesAsync(null).Returns(SampleAreaTypes);
 
         var result = await _service.GetAreaTypes();
 
-        result.ShouldBe(["ar1", "ar2"]);
+        result.ShouldBeEquivalentTo(_mapper.Map<List<AreaType>>(SampleAreaTypes));
         await _mockRepository.Received().GetAreaTypesAsync(null);
     }
 
+    private static readonly List<AreaTypeModel> SampleAreaTypes = new List<AreaTypeModel>
+    {
+        new AreaTypeModel{ AreaType = "AT1", HierarchyType = "HT1", Level = 1 },
+        new AreaTypeModel{ AreaType = "AT2", HierarchyType = "HT2", Level = 2 }
+    };
+    
     #endregion
 
     #region GetRootArea
@@ -97,18 +103,20 @@ public class AreaServiceTests
     #endregion
 
     #region GetAreaDetails
+    
+    //TODO: extend
 
     [Fact]
     public async Task GetAreaDetails_ShouldDelegateToRepositorySupplyingDefaults()
     {
         CreateService();
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null);
+        var result = await _service.GetAreaDetails("area1", null, null, null, null);
 
-        await _mockRepository.Received().GetAreaAsync("area1", false, false, null);
+        await _mockRepository.Received().GetAreaAsync("area1", false, false, false, null);
     }
 
     [Fact]
@@ -116,10 +124,10 @@ public class AreaServiceTests
     {
         CreateService();
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null);
+        var result = await _service.GetAreaDetails("area1", null, null, null, null);
 
         result.ShouldBeNull();
     }
@@ -130,10 +138,10 @@ public class AreaServiceTests
         CreateService();
         var fakeAreaWithRelationsModel = Fake.AreaWithRelationsModel;
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns(fakeAreaWithRelationsModel);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null);
+        var result = await _service.GetAreaDetails("area1", null, null, null, null);
 
         var expectedResult = _mapper.Map<AreaWithRelations>(fakeAreaWithRelationsModel);
         result.ShouldBeEquivalentTo(expectedResult);

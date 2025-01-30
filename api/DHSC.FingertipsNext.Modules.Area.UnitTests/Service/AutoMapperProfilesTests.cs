@@ -32,6 +32,8 @@ public class AutoMapperProfilesTests
         AssertAreaPropertiesMatch(mappedArea, areaModel);
     }
 
+    #region AreaWithRelationsModel to AreaWithRelations
+    
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulated()
     {
@@ -66,17 +68,10 @@ public class AutoMapperProfilesTests
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
         mappedAwr.Parent.ShouldBeNull();
 
-        foreach (var child in mappedAwr.Children)
-        {
-            var childSource = awr.Children.First(c => c.AreaCode == child.Code);
-            AssertAreaPropertiesMatch(child, childSource);
-        }
-        
-        foreach (var ancestor in mappedAwr.Ancestors)
-        {
-            var ancestorSource = awr.Ancestors.First(c => c.AreaCode == ancestor.Code);
-            AssertAreaPropertiesMatch(ancestor, ancestorSource);
-        }
+        AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
+        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
+        AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
+
     }
 
     [Fact]
@@ -91,6 +86,9 @@ public class AutoMapperProfilesTests
         AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
 
         mappedAwr.Children.ShouldBeEmpty();
+        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
+        AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
+
         
         foreach (var ancestor in mappedAwr.Ancestors)
         {
@@ -110,15 +108,41 @@ public class AutoMapperProfilesTests
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
         AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
 
-        foreach (var child in mappedAwr.Children)
-        {
-            var childSource = awr.Children.First(c => c.AreaCode == child.Code);
-            AssertAreaPropertiesMatch(child, childSource);
-        }
-        
+        AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
         mappedAwr.Ancestors.ShouldBeEmpty();
+        AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
     }
 
+    [Fact]
+    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
+    {
+        Setup();
+        var awr = Fake.AreaWithRelationsModel;
+        awr.Siblings = [];
+        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
+
+        AssertAreaPropertiesMatch(mappedAwr, awr.Area);
+        AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
+
+        AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
+        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
+        AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
+    }
+
+    #endregion
+    
+    [Fact]
+    public void Mapping_AreaTypeModel_To_AreaType()
+    {
+        Setup();
+        var areaTypeModel = Fake.AreaTypeModel;
+        var mappedAreaType = _mapper.Map<AreaType>(areaTypeModel);
+
+        mappedAreaType.Name.ShouldBe(areaTypeModel.AreaType);
+        mappedAreaType.HierarchyName.ShouldBe(areaTypeModel.HierarchyType);
+        mappedAreaType.Level.ShouldBe(areaTypeModel.Level);
+    }
+    
     void AssertAreaPropertiesMatch(Schemas.Area area, AreaModel areaModel)
     {
         area.Code.ShouldBe(areaModel.AreaCode);
@@ -126,6 +150,17 @@ public class AutoMapperProfilesTests
         area.HierarchyName.ShouldBe(areaModel.HierarchyType);
         area.AreaType.ShouldBe(areaModel.AreaType);
         area.Level.ShouldBe(areaModel.Level);
+    }
+
+    void AssertAreaListsAreEquivalent(List<Schemas.Area> mappedAreas, List<AreaModel> modelAreas)
+    {
+        mappedAreas.Count.ShouldBe(modelAreas.Count);
+
+        foreach (var mapped in mappedAreas)
+        {
+            var model = modelAreas.First(c => c.AreaCode == mapped.Code);
+            AssertAreaPropertiesMatch(mapped, model);
+        }
     }
 
     void Setup()

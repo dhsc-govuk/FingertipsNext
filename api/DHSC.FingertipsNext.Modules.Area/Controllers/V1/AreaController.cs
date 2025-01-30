@@ -54,9 +54,10 @@ public class AreaController : ControllerBase
     /// its children and ancestors.
     /// </summary>
     /// <param name="area_code">The area code of the area/geography</param>
-    /// <param name="include_children">Optionally, include the child areas. By default, this is the direct children,
+    /// <param name="include_children">Optional. Include the child areas. By default, this is the direct children,
     /// to get children at a lower level supply the optional query parameter for child area type.</param>
-    /// <param name="include_ancestors">Optionally, include the ancestor areas.</param>
+    /// <param name="include_ancestors">Optional. Include the ancestor areas.</param>
+    /// <param name="include_siblings">Optional. Include the sibling areas.</param>
     /// <param name="child_area_type">Optional. Functions only when include_children is true. The type of area to
     /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
     /// will be retrieved.</param>
@@ -70,6 +71,7 @@ public class AreaController : ControllerBase
         [FromRoute] string area_code,
         [FromQuery] bool? include_children = null,
         [FromQuery] bool? include_ancestors = null,
+        [FromQuery] bool? include_siblings = null,
         [FromQuery] string? child_area_type = null
     )
     {
@@ -77,6 +79,7 @@ public class AreaController : ControllerBase
             area_code,
             include_children,
             include_ancestors,
+            include_siblings,
             child_area_type
         );
 

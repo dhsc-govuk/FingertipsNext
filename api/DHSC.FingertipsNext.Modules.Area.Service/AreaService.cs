@@ -14,7 +14,7 @@ public class AreaService : IAreaService
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="areaRepository"></param>
     /// <param name="mapper"></param>
@@ -25,7 +25,7 @@ public class AreaService : IAreaService
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <returns></returns>
     public Task<List<string>> GetHierarchies()
@@ -34,37 +34,45 @@ public class AreaService : IAreaService
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public Task<List<string>> GetAreaTypes(string? hierarchyType = null)
+    public async Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null)
     {
-        return _areaRepository.GetAreaTypesAsync(hierarchyType);
+        return _mapper.Map<List<AreaType>>(await _areaRepository.GetAreaTypesAsync(hierarchyType));
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="areaCode"></param>
     /// <param name="includeChildren"></param>
     /// <param name="includeAncestors"></param>
+    /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
     public async Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
         bool? includeChildren,
         bool? includeAncestors,
+        bool? includeSiblings,
         string? childAreaType
     )
     {
-        var area = await _areaRepository.GetAreaAsync(areaCode, includeChildren ?? false, includeAncestors ?? false, childAreaType);
+        var area = await _areaRepository.GetAreaAsync(
+            areaCode,
+            includeChildren ?? false,
+            includeAncestors ?? false,
+            includeSiblings ?? false,
+            childAreaType
+        );
 
         return area == null ? null : _mapper.Map<AreaWithRelations>(area);
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <returns></returns>
     public async Task<RootArea?> GetRootArea()
@@ -75,7 +83,7 @@ public class AreaService : IAreaService
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="services"></param>
     public static void RegisterMappings(IServiceCollection services)
