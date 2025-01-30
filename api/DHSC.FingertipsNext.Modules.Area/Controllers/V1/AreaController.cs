@@ -87,6 +87,23 @@ public class AreaController : ControllerBase
     }
 
     /// <summary>
+    /// Get the areas that have a given area type
+    /// </summary>
+    /// <param name="area_type"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Route("areatypes/{area_type}/areas")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type)
+    {
+        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type);
+
+        return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
+    }
+
+    /// <summary>
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns>The root area node</returns>

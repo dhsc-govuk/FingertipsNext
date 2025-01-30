@@ -60,6 +60,16 @@ public class AreaRepository : IAreaRepository
     /// <summary>
     ///
     /// </summary>
+    /// <param name="areaType"></param>
+    /// <returns></returns>
+    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaType)
+    {
+        return await _dbContext.Area.Where(a => a.AreaType == areaType).ToListAsync();
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
     /// <param name="areaCode"></param>
     /// <param name="includeChildren"></param>
     /// <param name="includeAncestors"></param>
@@ -180,12 +190,14 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
     }
 
-    private async Task AddSiblingAreas(AreaWithRelationsModel aresWithRelations, AreaModel area, AreaModel parent)
+    private async Task AddSiblingAreas(
+        AreaWithRelationsModel aresWithRelations,
+        AreaModel area,
+        AreaModel parent
+    )
     {
         aresWithRelations.Siblings = await _dbContext
-            .Area.Where(a => 
-                a.Node.GetAncestor(1) == parent.Node 
-                && a.AreaCode != area.AreaCode)
+            .Area.Where(a => a.Node.GetAncestor(1) == parent.Node && a.AreaCode != area.AreaCode)
             .ToListAsync();
     }
 }
