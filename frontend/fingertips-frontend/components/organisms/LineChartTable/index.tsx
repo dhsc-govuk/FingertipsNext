@@ -107,7 +107,8 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
 
 const sortPeriodDesc = (
   tableRowData: LineChartTableRowData[]
-): LineChartTableRowData[] => tableRowData.sort((a, b) => b.period - a.period);
+): LineChartTableRowData[] =>
+  tableRowData.toSorted((a, b) => b.period - a.period);
 
 const convertToPercentage = (value: number): string => {
   // dummy function to do percentage conversions until real conversion logic is provided

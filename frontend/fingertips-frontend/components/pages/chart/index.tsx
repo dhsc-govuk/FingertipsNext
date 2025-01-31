@@ -66,9 +66,7 @@ export function Chart({
       <br />
       <LineChartTable
         data={data[0]}
-        englandBenchmarkData={
-          englandBenchmarkData ? englandBenchmarkData : undefined
-        }
+        englandBenchmarkData={englandBenchmarkData}
       ></LineChartTable>
     </>
   );
