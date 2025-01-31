@@ -171,8 +171,8 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
-  const dataSortedByPeriodDesc = sortPeriod(tableData);
-  const englandRowDataDesc = sortPeriod(englandData);
+  const dataSortedByPeriod = sortPeriod(tableData);
+  const englandRowData = sortPeriod(englandData);
   return (
     <>
       <StyledDiv>
@@ -205,7 +205,7 @@ export function LineChartTable({
             </>
           }
         >
-          {dataSortedByPeriodDesc.map((point, index) => (
+          {dataSortedByPeriod.map((point, index) => (
             <Table.Row key={`${data.areaCode}-${point.period}--${index}`}>
               <StyledAlignLeftTableCell numeric>
                 {point.period}
@@ -224,8 +224,8 @@ export function LineChartTable({
                 {convertToPercentage(point.upper)}
               </StyledAlignRightTableCell>
               <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
-                {englandRowDataDesc.length
-                  ? convertToPercentage(englandRowDataDesc[index].value)
+                {englandRowData.length
+                  ? convertToPercentage(englandRowData[index].value)
                   : '-'}
               </StyledBenchmarkValueTableCell>
             </Table.Row>
