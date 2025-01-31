@@ -8,22 +8,6 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
-
-const getEnglandBenchmarkData = async (
-  indicatorApi: IndicatorsApi,
-  indicatorId: string
-) => {
-  try {
-    const data = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorId),
-      areaCodes: [areaCodeForEngland],
-    });
-    return data;
-  } catch (error) {
-    console.log('error getting England benchmark data', error);
-  }
-};
 
 export default async function ChartPage(
   props: Readonly<{
@@ -43,7 +27,7 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const data = await indicatorApi.getHealthDataForAnIndicator({
     indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodes,
+    areaCodes: [...areaCodes, areaCodeForEngland],
   });
 
   let rawPopulationData = undefined;
@@ -65,9 +49,8 @@ export default async function ChartPage(
     );
   }
 
-  const englandBenchmarkData = await getEnglandBenchmarkData(
-    indicatorApi,
-    indicatorsSelected[0]
+  const englandBenchmarkData = data.find(
+    (area) => area.areaCode === areaCodeForEngland
   );
 
   return (

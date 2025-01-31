@@ -14,7 +14,7 @@ type ChartProps = {
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
-  englandBenchmarkData?: HealthDataForArea[];
+  englandBenchmarkData?: HealthDataForArea;
 };
 
 export function Chart({
@@ -67,7 +67,7 @@ export function Chart({
       <LineChartTable
         data={data[0]}
         englandBenchmarkData={
-          englandBenchmarkData ? englandBenchmarkData[0] : undefined
+          englandBenchmarkData ? englandBenchmarkData : undefined
         }
       ></LineChartTable>
     </>

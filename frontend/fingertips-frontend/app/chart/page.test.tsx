@@ -35,8 +35,7 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  it('should make 3 calls for get health data - first one for the indicator, second one for the population data, third one for England data', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+  it('should make 2 calls for get health data - first one for the indicator and England benchmark data, then for the population data', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -47,7 +46,7 @@ describe('Chart Page', () => {
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(1, {
-      areaCodes: ['A001'],
+      areaCodes: ['A001', areaCodeForEngland],
       indicatorId: 1,
     });
     expect(
@@ -55,12 +54,6 @@ describe('Chart Page', () => {
     ).toHaveBeenNthCalledWith(2, {
       areaCodes: ['A001', areaCodeForEngland],
       indicatorId: indicatorIdForPopulation,
-    });
-    expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
-    ).toHaveBeenNthCalledWith(3, {
-      areaCodes: [areaCodeForEngland],
-      indicatorId: 1,
     });
   });
 
@@ -76,9 +69,6 @@ describe('Chart Page', () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockHealthData[`${indicatorIdForPopulation}`]
     );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-      mockHealthData['1'][1],
-    ]);
 
     const page = await ChartPage({
       searchParams: generateSearchParams(searchParams),
@@ -88,7 +78,7 @@ describe('Chart Page', () => {
     expect(page.props.populationData).toEqual(expectedPopulateData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
-    expect(page.props.englandBenchmarkData).toEqual([mockHealthData['1'][1]]);
+    expect(page.props.englandBenchmarkData).toEqual(mockHealthData['1'][1]);
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
@@ -112,9 +102,6 @@ describe('Chart Page', () => {
   it('should pass undefined if there was an error getting england data', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
-      'error England data'
-    );
 
     const page = await ChartPage({
       searchParams: generateSearchParams(searchParams),
