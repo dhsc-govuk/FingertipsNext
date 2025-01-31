@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
 
 const $SearchResultFormSchema = z.object({
@@ -44,8 +44,8 @@ export async function viewCharts(
   const { searchedIndicator, indicatorsSelected } = validatedFields.data;
 
   const searchState = new SearchStateManager({
-    searchedIndicator,
-    indicatorsSelected,
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
   redirect(searchState.generatePath('/chart'), RedirectType.push);
 }

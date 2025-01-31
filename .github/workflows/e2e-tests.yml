@@ -13,6 +13,11 @@ on:
         required: false
         default: null
         type: string
+      send-slack-on-fail:
+        description: "optionally send a slack message on test failure"
+        required: false
+        default: "false"
+        type: string
 
 jobs:
   execute-e2e-tests:
@@ -53,3 +58,9 @@ jobs:
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 10
+
+      - name: Send slack message if e2e tests fail
+        if: ${{ failure() && inputs.send-slack-on-fail  == 'true' }}
+        run: npx slack-ctrf results ${{ env.frontend-directory }}/ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

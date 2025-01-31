@@ -1,3 +1,5 @@
+import { asArray } from './pageHelpers';
+
 export enum SearchParams {
   SearchedIndicator = 'si',
   IndicatorsSelected = 'is',
@@ -5,32 +7,32 @@ export enum SearchParams {
   AreaTypeSelected = 'ats',
 }
 
+export type SearchParamKeys = `${SearchParams}`;
+
+const multiValueParams = [
+  SearchParams.IndicatorsSelected as string,
+  SearchParams.AreasSelected as string,
+];
+
 export type SearchStateParams = {
   [SearchParams.SearchedIndicator]?: string;
-  [SearchParams.IndicatorsSelected]?: string | string[];
-  [SearchParams.AreasSelected]?: string | string[];
+  [SearchParams.IndicatorsSelected]?: string[];
+  [SearchParams.AreasSelected]?: string[];
   [SearchParams.AreaTypeSelected]?: string;
 };
 
-export type SearchState = {
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
-  areaTypeSelected?: string;
-};
+const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>
+  multiValueParams.includes(searchParamKey);
 
 export class SearchStateManager {
-  private searchState: SearchState;
+  private searchState: SearchStateParams;
   private searchStateParams: URLSearchParams;
 
-  constructor(searchState: SearchState) {
-    this.searchState = {
-      searchedIndicator: searchState.searchedIndicator,
-      indicatorsSelected: searchState.indicatorsSelected ?? [],
-      areasSelected: searchState.areasSelected ?? [],
-      areaTypeSelected: searchState.areaTypeSelected,
-    };
+  constructor(searchState: SearchStateParams = {}) {
+    this.searchState = {};
     this.searchStateParams = new URLSearchParams();
+
+    this.searchState = searchState;
   }
 
   private constructPath(path: string) {
@@ -40,88 +42,103 @@ export class SearchStateManager {
     return `${path}?${this.searchStateParams.toString()}`;
   }
 
-  private addSearchedIndicatorToPath() {
-    if (this.searchState.searchedIndicator) {
-      this.searchStateParams.append(
-        SearchParams.SearchedIndicator,
-        this.searchState.searchedIndicator
-      );
-    }
-  }
+  private addParamToPath(searchParamKey: SearchParamKeys) {
+    const paramsToAdd = asArray(this.searchState[searchParamKey]);
 
-  private addAreaTypeSelectedToPath() {
-    if (this.searchState.areaTypeSelected) {
-      this.searchStateParams.append(
-        SearchParams.AreaTypeSelected,
-        this.searchState.areaTypeSelected
-      );
-    }
-  }
-
-  private addIndicatorsSelectedToPath() {
-    if (
-      this.searchState.indicatorsSelected &&
-      this.searchState.indicatorsSelected.length > 0
-    ) {
-      this.searchState.indicatorsSelected?.forEach((indicator) => {
-        this.searchStateParams.append(
-          SearchParams.IndicatorsSelected,
-          indicator
-        );
+    if (paramsToAdd.length > 0) {
+      paramsToAdd.forEach((paramToAdd) => {
+        this.searchStateParams.append(searchParamKey, paramToAdd);
       });
     }
   }
 
-  private addAreasSelectedToPath() {
-    if (
-      this.searchState.areasSelected &&
-      this.searchState.areasSelected.length > 0
-    ) {
-      this.searchState.areasSelected?.forEach((area) => {
-        this.searchStateParams.append(SearchParams.AreasSelected, area);
-      });
+  public addParamValueToState(
+    searchParamKey: SearchParamKeys,
+    paramToAdd: string
+  ) {
+    if (isMultiValueTypeParam(searchParamKey)) {
+      const currentParamState = this.searchState[searchParamKey];
+
+      const currentParamStateAsArray = asArray(currentParamState);
+      const newState: SearchStateParams = {
+        ...this.searchState,
+        [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
+      };
+
+      this.searchState = newState;
+    } else {
+      const newState: SearchStateParams = {
+        ...this.searchState,
+        [searchParamKey]: paramToAdd,
+      };
+
+      this.searchState = newState;
     }
   }
 
-  public setAreaTypeSelected(areaTypeSelected: string) {
-    this.searchState.areaTypeSelected = areaTypeSelected;
+  public removeParamValueFromState(
+    searchParamKey: SearchParamKeys,
+    paramToRemove?: string
+  ) {
+    if (isMultiValueTypeParam(searchParamKey)) {
+      const currentParamState = asArray(this.searchState[searchParamKey]);
+
+      const newParamState = currentParamState?.filter((paramValue) => {
+        return paramValue !== paramToRemove;
+      });
+
+      const newState: SearchStateParams = {
+        ...this.searchState,
+        [searchParamKey]: newParamState,
+      };
+
+      this.searchState = newState;
+    } else {
+      const newState: SearchStateParams = {
+        ...this.searchState,
+        [searchParamKey]: undefined,
+      };
+
+      this.searchState = newState;
+    }
   }
 
-  public addIndicatorSelected(indicatorId: string) {
-    this.searchState.indicatorsSelected?.push(indicatorId);
-  }
-
-  public removeIndicatorSelected(indicatorId: string) {
-    this.searchState = {
-      ...this.searchState,
-      indicatorsSelected: this.searchState.indicatorsSelected?.filter((ind) => {
-        return ind !== indicatorId;
-      }),
-    };
-  }
-
-  public removeAllIndicatorSelected() {
-    this.searchState = {
-      ...this.searchState,
-      indicatorsSelected: [],
-    };
+  public removeAllParamFromState(searchParamKey: SearchParamKeys) {
+    this.searchState[searchParamKey] = undefined;
   }
 
   public static setStateFromParams(params: URLSearchParams) {
-    const searchedIndicator =
-      params.get(SearchParams.SearchedIndicator) ?? undefined;
-    const indicatorsSelected =
-      params.getAll(SearchParams.IndicatorsSelected) ?? [];
-    const areasSelected = params.getAll(SearchParams.AreasSelected) ?? [];
-    const areaTypeSelected =
-      params.get(SearchParams.AreaTypeSelected) ?? undefined;
+    const newState = Object.values(SearchParams).reduce<SearchStateParams>(
+      (state, searchParamKey) => {
+        if (isMultiValueTypeParam(searchParamKey)) {
+          const paramValues = params.getAll(searchParamKey);
 
-    const searchStateManager = new SearchStateManager({
-      searchedIndicator,
-      indicatorsSelected,
-      areasSelected,
-      areaTypeSelected,
-    });
+          if (paramValues.length > 0) {
+            const newState: SearchStateParams = {
+              ...state,
+              [searchParamKey]: paramValues,
+            };
+
+            return newState;
+          }
+        } else {
+          const paramValue = params.get(searchParamKey);
+
+          if (paramValue) {
+            const newState: SearchStateParams = {
+              ...state,
+              [searchParamKey]: paramValue,
+            };
+
+            return newState;
+          }
+        }
+        return state;
+      },
+      {}
+    );
+
+    const searchStateManager = new SearchStateManager(newState);
     return searchStateManager;
   }
 
@@ -132,10 +149,9 @@ export class SearchStateManager {
   public generatePath(path: string) {
     this.searchStateParams = new URLSearchParams();
 
-    this.addSearchedIndicatorToPath();
-    this.addIndicatorsSelectedToPath();
-    this.addAreasSelectedToPath();
-    this.addAreaTypeSelectedToPath();
+    Object.values(SearchParams).forEach((searchParamKey) => {
+      this.addParamToPath(searchParamKey);
+    });
 
     return this.constructPath(path);
   }

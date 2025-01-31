@@ -15,11 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
+  Area,
+  AreaType,
   AreaWithRelations,
   GetAreaHierarchies500Response,
   RootArea,
 } from '../models/index';
 import {
+    AreaFromJSON,
+    AreaToJSON,
+    AreaTypeFromJSON,
+    AreaTypeToJSON,
     AreaWithRelationsFromJSON,
     AreaWithRelationsToJSON,
     GetAreaHierarchies500ResponseFromJSON,
@@ -32,8 +38,11 @@ export interface GetAreaRequest {
     areaCode: string;
     includeChildren?: boolean;
     includeSiblings?: boolean;
-    includeCousins?: boolean;
     includeAncestors?: boolean;
+}
+
+export interface GetAreaTypeMembersRequest {
+    areaType: string;
 }
 
 export interface GetAreaTypesRequest {
@@ -53,7 +62,6 @@ export interface AreasApiInterface {
      * @param {string} areaCode The area code of the area/ geography
      * @param {boolean} [includeChildren] include the child areas
      * @param {boolean} [includeSiblings] include the sibling areas
-     * @param {boolean} [includeCousins] include the cousin areas
      * @param {boolean} [includeAncestors] include the ancestor areas
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -98,6 +106,22 @@ export interface AreasApiInterface {
     getAreaRoot(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RootArea>;
 
     /**
+     * Get the areas that have a given area type
+     * @summary Get member areas for an area type
+     * @param {string} areaType The area type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AreasApiInterface
+     */
+    getAreaTypeMembersRaw(requestParameters: GetAreaTypeMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>>;
+
+    /**
+     * Get the areas that have a given area type
+     * Get member areas for an area type
+     */
+    getAreaTypeMembers(requestParameters: GetAreaTypeMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>>;
+
+    /**
      * Get area types, optionally filtering by hierarchy type
      * @summary Get area types
      * @param {string} [hierarchyType] The name of the hierarchy type
@@ -105,13 +129,13 @@ export interface AreasApiInterface {
      * @throws {RequiredError}
      * @memberof AreasApiInterface
      */
-    getAreaTypesRaw(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>>;
+    getAreaTypesRaw(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AreaType>>>;
 
     /**
      * Get area types, optionally filtering by hierarchy type
      * Get area types
      */
-    getAreaTypes(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>>;
+    getAreaTypes(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AreaType>>;
 
 }
 
@@ -135,19 +159,15 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
         const queryParameters: any = {};
 
         if (requestParameters['includeChildren'] != null) {
-            queryParameters['includeChildren'] = requestParameters['includeChildren'];
+            queryParameters['include_children'] = requestParameters['includeChildren'];
         }
 
         if (requestParameters['includeSiblings'] != null) {
-            queryParameters['includeSiblings'] = requestParameters['includeSiblings'];
-        }
-
-        if (requestParameters['includeCousins'] != null) {
-            queryParameters['includeCousins'] = requestParameters['includeCousins'];
+            queryParameters['include_siblings'] = requestParameters['includeSiblings'];
         }
 
         if (requestParameters['includeAncestors'] != null) {
-            queryParameters['includeAncestors'] = requestParameters['includeAncestors'];
+            queryParameters['include_ancestors'] = requestParameters['includeAncestors'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -228,10 +248,45 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
     }
 
     /**
+     * Get the areas that have a given area type
+     * Get member areas for an area type
+     */
+    async getAreaTypeMembersRaw(requestParameters: GetAreaTypeMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>> {
+        if (requestParameters['areaType'] == null) {
+            throw new runtime.RequiredError(
+                'areaType',
+                'Required parameter "areaType" was null or undefined when calling getAreaTypeMembers().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/areas/areatypes/{area_type}/areas`.replace(`{${"area_type"}}`, encodeURIComponent(String(requestParameters['areaType']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AreaFromJSON));
+    }
+
+    /**
+     * Get the areas that have a given area type
+     * Get member areas for an area type
+     */
+    async getAreaTypeMembers(requestParameters: GetAreaTypeMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Area>> {
+        const response = await this.getAreaTypeMembersRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get area types, optionally filtering by hierarchy type
      * Get area types
      */
-    async getAreaTypesRaw(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+    async getAreaTypesRaw(requestParameters: GetAreaTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AreaType>>> {
         const queryParameters: any = {};
 
         if (requestParameters['hierarchyType'] != null) {
@@ -247,14 +302,14 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AreaTypeFromJSON));
     }
 
     /**
      * Get area types, optionally filtering by hierarchy type
      * Get area types
      */
-    async getAreaTypes(requestParameters: GetAreaTypesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+    async getAreaTypes(requestParameters: GetAreaTypesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AreaType>> {
         const response = await this.getAreaTypesRaw(requestParameters, initOverrides);
         return await response.value();
     }
