@@ -8,20 +8,19 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ChartProps = {
   data: HealthDataForArea[];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
-  englandBenchmarkData?: HealthDataForArea;
 };
 
 export function Chart({
   data,
   populationData,
   searchedIndicator,
-  englandBenchmarkData,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
@@ -29,6 +28,11 @@ export function Chart({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
   const backLinkPath = searchState.generatePath('/results');
+
+  const englandBenchmarkData = data
+    .flat()
+    .find((areaData) => areaData.areaCode === areaCodeForEngland);
+
   return (
     <>
       <BackLink

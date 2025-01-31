@@ -49,17 +49,12 @@ export default async function ChartPage(
     );
   }
 
-  const englandBenchmarkData = data.find(
-    (area) => area.areaCode === areaCodeForEngland
-  );
-
   return (
     <Chart
       populationData={preparedPopulationData}
       data={data}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
-      englandBenchmarkData={englandBenchmarkData}
     />
   );
 }

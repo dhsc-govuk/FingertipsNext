@@ -78,7 +78,6 @@ describe('Chart Page', () => {
     expect(page.props.populationData).toEqual(expectedPopulateData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
-    expect(page.props.englandBenchmarkData).toEqual(mockHealthData['1'][1]);
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
@@ -97,16 +96,5 @@ describe('Chart Page', () => {
     expect(page.props.populationData).toEqual(undefined);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
-  });
-
-  it('should pass undefined if there was an error getting england data', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-
-    const page = await ChartPage({
-      searchParams: generateSearchParams(searchParams),
-    });
-
-    expect(page.props.englandBenchmarkData).toBeUndefined();
   });
 });
