@@ -35,10 +35,6 @@ jobs:
         working-directory: ${{ env.frontend-directory }}
 
     steps:
-      - name: Set Job URL
-        run: |
-          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
-
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -56,6 +52,11 @@ jobs:
         run: npx playwright test
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
+
+      - name: Set Job URL
+        if: failure() && inputs.send-slack-on-fail  == 'true'
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
