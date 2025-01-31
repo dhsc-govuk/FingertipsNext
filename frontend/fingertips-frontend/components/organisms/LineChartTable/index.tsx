@@ -105,10 +105,10 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
     upper: healthPoint.upperCi,
   }));
 
-const sortPeriodDesc = (
+const sortPeriod = (
   tableRowData: LineChartTableRowData[]
 ): LineChartTableRowData[] =>
-  tableRowData.toSorted((a, b) => b.period - a.period);
+  tableRowData.toSorted((a, b) => a.period - b.period);
 
 const convertToPercentage = (value: number): string => {
   // dummy function to do percentage conversions until real conversion logic is provided
@@ -171,8 +171,8 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
-  const dataSortedByPeriodDesc = sortPeriodDesc(tableData);
-  const englandRowDataDesc = sortPeriodDesc(englandData);
+  const dataSortedByPeriodDesc = sortPeriod(tableData);
+  const englandRowDataDesc = sortPeriod(englandData);
   return (
     <>
       <StyledDiv>

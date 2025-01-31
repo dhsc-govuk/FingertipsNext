@@ -9,7 +9,7 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -30,9 +30,7 @@ export function Chart({
   });
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = data
-    .flat()
-    .find((areaData) => areaData.areaCode === areaCodeForEngland);
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
 
   return (
     <>

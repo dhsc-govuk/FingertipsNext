@@ -1,5 +1,6 @@
 import Highcharts from 'highcharts';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from './constants';
 
 export function sortHealthDataByDate(
   data: HealthDataForArea[]
@@ -27,6 +28,15 @@ export function sortHealthDataByYearDescending(
     ...item,
     healthData: item.healthData.toSorted((a, b) => b.year - a.year),
   }));
+}
+
+export function getEnglandDataForIndicatorIndex(
+  data: HealthDataForArea[][],
+  indicatorIndex: number
+) {
+  return data[indicatorIndex].find(
+    (areaData) => areaData.areaCode === areaCodeForEngland
+  );
 }
 
 export enum LineChartTableHeadingEnum {

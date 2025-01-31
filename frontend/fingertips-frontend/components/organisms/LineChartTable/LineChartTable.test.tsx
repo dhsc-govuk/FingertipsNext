@@ -82,7 +82,7 @@ describe('Line chart table suite', () => {
     );
   });
 
-  it('should display table with periods sorted in descending order', () => {
+  it('should display table with periods sorted in ascending order', () => {
     render(
       <LineChartTable
         data={MOCK_HEALTH_DATA}
@@ -93,7 +93,7 @@ describe('Line chart table suite', () => {
     const sortedHealthData = {
       ...MOCK_HEALTH_DATA,
       healthData: MOCK_HEALTH_DATA.healthData.toSorted(
-        (a, b) => b.year - a.year
+        (a, b) => a.year - b.year
       ),
     };
 
