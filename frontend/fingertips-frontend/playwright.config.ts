@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
+const jobUrl = process.env.JOB_URL;
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -16,7 +17,13 @@ export default defineConfig({
         ['html'],
         [
           'playwright-ctrf-json-reporter',
-          { buildUrl: url, buildName: 'fingertips next', buildNumber: '2' },
+          {
+            buildUrl: jobUrl,
+            buildName: 'fingertips next',
+            buildNumber: `build ${process.env.npm_package_version}`,
+            branchName: 'main',
+            testEnvironment: url,
+          },
         ],
       ]
     : [['list'], ['html']],

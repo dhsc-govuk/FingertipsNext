@@ -35,6 +35,10 @@ jobs:
         working-directory: ${{ env.frontend-directory }}
 
     steps:
+      - name: Set Job URL
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
       - name: Checkout source
         uses: actions/checkout@v4
 
