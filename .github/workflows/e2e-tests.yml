@@ -20,7 +20,7 @@ on:
         type: string
     secrets:
       slack-webhook-url:
-        description: 'URL of the slack webhook'
+        description: "URL of the slack webhook"
         required: false
 
 jobs:
@@ -53,19 +53,19 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
-      - name: Upload playwright reports and screenshot if e2e tests fail
+      - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-failure-artefacts
           path: |
-            playwright-report/
-            test-results/*/*.png
+            ${{ env.frontend-directory }}/playwright-report/
+            ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 10
 
       - name: Send slack message if e2e tests fail
         if: failure() && inputs.send-slack-on-fail  == 'true'
         run: |
-          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
+          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}

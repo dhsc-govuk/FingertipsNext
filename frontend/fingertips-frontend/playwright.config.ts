@@ -14,7 +14,10 @@ export default defineConfig({
         ['list'],
         ['@estruyf/github-actions-reporter'],
         ['html'],
-        ['playwright-ctrf-json-reporter', {}],
+        [
+          'playwright-ctrf-json-reporter',
+          { buildUrl: url, buildName: 'fingertips next', buildNumber: '2' },
+        ],
       ]
     : [['list'], ['html']],
   use: {
