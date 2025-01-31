@@ -61,13 +61,11 @@ jobs:
           path: |
             playwright-report/
             test-results/*/*.png
-            ctrf/ctrf-report.json
           retention-days: 10
 
       - name: Send slack message if e2e tests fail
         if: failure() && inputs.send-slack-on-fail  == 'true'
         run: |
-          find . -name ctrf-report.json
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
