@@ -8,10 +8,11 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { ScatterChart } from '@/components/organisms/ScatterChart';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ChartProps = {
-  data: HealthDataForArea[];
+  data: HealthDataForArea[][];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -53,15 +54,26 @@ export function Chart({
           <br />
         </>
       ) : null}
+      {indicatorsSelected.length == 2 ? (
+        <ScatterChart
+          data={data}
+          ScatterChartTitle="Compare indicators within the area group"
+          yAxisTitle="y: Indicator 1 (value)"
+          yAxisSubtitle="rate per information"
+          xAxisTitle="x: Indicator 2 (value)"
+          xAxisSubtitle="rate per information"
+          accessibilityLabel="A scatter chart showing two indicators"
+        ></ScatterChart>
+      ) : null}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
-        data={data}
+        data={data[0]}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
       <br />
       <BarChart
-        data={data}
+        data={data[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
@@ -69,7 +81,7 @@ export function Chart({
       />
       <br />
       <LineChartTable
-        data={data[0]}
+        data={data[0][0]}
         englandBenchmarkData={englandBenchmarkData}
       ></LineChartTable>
     </>

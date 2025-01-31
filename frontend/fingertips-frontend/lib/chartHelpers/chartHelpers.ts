@@ -20,6 +20,15 @@ export function generateSeriesData(
   }));
 }
 
+export function sortHealthDataByYearDescending(
+  data: HealthDataForArea[] = []
+): HealthDataForArea[] {
+  return data.map((item) => ({
+    ...item,
+    healthData: item.healthData.toSorted((a, b) => b.year - a.year),
+  }));
+}
+
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
   BenchmarkTrend = 'Compared to benchmark',
