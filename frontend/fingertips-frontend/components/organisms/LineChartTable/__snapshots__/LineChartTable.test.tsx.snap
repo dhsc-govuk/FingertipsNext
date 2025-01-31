@@ -240,7 +240,7 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
 }
 
 .c6 {
-  width: 5%;
+  width: 10%;
   padding: 1em 0;
 }
 
@@ -519,9 +519,11 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
             5.8%
           </td>
           <td
-            class="2 c15 c13 c17"
+            class="1 c15 c13 c16 c17"
             data-testid="grey-table-cell"
-          />
+          >
+            7.3%
+          </td>
         </tr>
         <tr
           class=""
@@ -555,9 +557,11 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
             5.8%
           </td>
           <td
-            class="2 c15 c13 c17"
+            class="1 c15 c13 c16 c17"
             data-testid="grey-table-cell"
-          />
+          >
+            9.1%
+          </td>
         </tr>
         <tr
           class=""
@@ -591,9 +595,11 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
             5.8%
           </td>
           <td
-            class="2 c15 c13 c17"
+            class="1 c15 c13 c16 c17"
             data-testid="grey-table-cell"
-          />
+          >
+            9.7%
+          </td>
         </tr>
         <tr
           class=""
@@ -627,9 +633,11 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
             5.8%
           </td>
           <td
-            class="2 c15 c13 c17"
+            class="1 c15 c13 c16 c17"
             data-testid="grey-table-cell"
-          />
+          >
+            7.1%
+          </td>
         </tr>
         <tr
           class=""
@@ -663,9 +671,11 @@ exports[`Line chart table suite snapshot test - should match snapshot 1`] = `
             5.8%
           </td>
           <td
-            class="2 c15 c13 c17"
+            class="1 c15 c13 c16 c17"
             data-testid="grey-table-cell"
-          />
+          >
+            9.0%
+          </td>
         </tr>
       </tbody>
     </table>

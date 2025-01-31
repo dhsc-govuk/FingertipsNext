@@ -35,7 +35,8 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  it('should make 2 calls for get health data - first one for the indicator the next one for the population data', async () => {
+  it('should make 3 calls for get health data - first one for the indicator, second one for the population data, third one for England data', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -55,6 +56,12 @@ describe('Chart Page', () => {
       areaCodes: ['A001', areaCodeForEngland],
       indicatorId: indicatorIdForPopulation,
     });
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(3, {
+      areaCodes: [areaCodeForEngland],
+      indicatorId: 1,
+    });
   });
 
   it('should pass the correct props to the Chart page', async () => {
@@ -64,20 +71,24 @@ describe('Chart Page', () => {
     );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData['A1425']
+      mockHealthData['1']
     );
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockHealthData[`${indicatorIdForPopulation}`]
     );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
+      mockHealthData['1'][1],
+    ]);
 
     const page = await ChartPage({
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual(mockHealthData['A1425']);
+    expect(page.props.data).toEqual(mockHealthData['1']);
     expect(page.props.populationData).toEqual(expectedPopulateData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
+    expect(page.props.englandBenchmarkData).toEqual([mockHealthData['1'][1]]);
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
@@ -96,5 +107,19 @@ describe('Chart Page', () => {
     expect(page.props.populationData).toEqual(undefined);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
+  });
+
+  it('should pass undefined if there was an error getting england data', async () => {
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
+      'error England data'
+    );
+
+    const page = await ChartPage({
+      searchParams: generateSearchParams(searchParams),
+    });
+
+    expect(page.props.englandBenchmarkData).toBeUndefined();
   });
 });

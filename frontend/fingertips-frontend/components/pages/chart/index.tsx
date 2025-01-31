@@ -14,12 +14,14 @@ type ChartProps = {
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
+  englandBenchmarkData?: HealthDataForArea[];
 };
 
 export function Chart({
   data,
   populationData,
   searchedIndicator,
+  englandBenchmarkData,
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
@@ -62,7 +64,12 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data[0]}></LineChartTable>
+      <LineChartTable
+        data={data[0]}
+        englandBenchmarkData={
+          englandBenchmarkData ? englandBenchmarkData[0] : undefined
+        }
+      ></LineChartTable>
     </>
   );
 }

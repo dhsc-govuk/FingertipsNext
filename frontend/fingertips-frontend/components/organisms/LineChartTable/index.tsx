@@ -12,6 +12,7 @@ import {
 
 interface TableProps {
   data: HealthDataForArea;
+  englandBenchmarkData: HealthDataForArea | undefined;
 }
 
 interface LineChartTableRowData {
@@ -50,7 +51,7 @@ const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
 });
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  width: '5%',
+  width: '10%',
   padding: '1em 0',
 });
 
@@ -81,7 +82,7 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
   textAlign: 'right',
 });
 
-const StyledBenchmarkValueTableCell = styled(StyledTableCell)({
+const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
   backgroundColor: LIGHT_GREY,
   borderTop: `solid #F3F2F1 2px`,
 });
@@ -103,6 +104,10 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
     lower: healthPoint.lowerCi,
     upper: healthPoint.upperCi,
   }));
+
+const sortPeriodDesc = (
+  tableRowData: LineChartTableRowData[]
+): LineChartTableRowData[] => tableRowData.sort((a, b) => b.period - a.period);
 
 const convertToPercentage = (value: number): string => {
   // dummy function to do percentage conversions until real conversion logic is provided
@@ -157,11 +162,16 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
   );
 };
 
-export function LineChartTable({ data }: Readonly<TableProps>) {
+export function LineChartTable({
+  data,
+  englandBenchmarkData,
+}: Readonly<TableProps>) {
   const tableData = mapToTableData(data);
-  const dataSortedByPeriodDesc = tableData.toSorted(
-    (a, b) => b.period - a.period
-  );
+  const englandData = englandBenchmarkData
+    ? mapToTableData(englandBenchmarkData)
+    : [];
+  const dataSortedByPeriodDesc = sortPeriodDesc(tableData);
+  const englandRowDataDesc = sortPeriodDesc(englandData);
   return (
     <>
       <StyledDiv>
@@ -212,7 +222,11 @@ export function LineChartTable({ data }: Readonly<TableProps>) {
               <StyledAlignRightTableCell numeric>
                 {convertToPercentage(point.upper)}
               </StyledAlignRightTableCell>
-              <StyledBenchmarkValueTableCell data-testid="grey-table-cell"></StyledBenchmarkValueTableCell>
+              <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
+                {englandRowDataDesc.length
+                  ? convertToPercentage(englandRowDataDesc[index].value)
+                  : '-'}
+              </StyledBenchmarkValueTableCell>
             </Table.Row>
           ))}
         </StyledTable>
