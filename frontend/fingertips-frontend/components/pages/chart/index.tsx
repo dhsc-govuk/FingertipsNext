@@ -4,7 +4,7 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
@@ -15,10 +15,7 @@ type ChartProps = {
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
-  // scatterData?: HealthDataForArea[][];
 };
-
-const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
@@ -27,8 +24,8 @@ export function Chart({
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
-    searchedIndicator,
-    indicatorsSelected,
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
   const backLinkPath = searchState.generatePath('/results');
   return (
@@ -77,7 +74,7 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data[0]} headings={headings}></LineChartTable>
+      <LineChartTable data={data[0][0]}></LineChartTable>
     </>
   );
 }

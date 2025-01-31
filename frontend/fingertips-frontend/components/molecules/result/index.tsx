@@ -11,7 +11,7 @@ import {
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type SearchResultProps = {
@@ -56,9 +56,15 @@ export function SearchResult({
     const searchState = SearchStateManager.setStateFromParams(params);
 
     if (checked) {
-      searchState.addIndicatorSelected(indicatorId);
+      searchState.addParamValueToState(
+        SearchParams.IndicatorsSelected,
+        indicatorId
+      );
     } else {
-      searchState.removeIndicatorSelected(indicatorId);
+      searchState.removeParamValueFromState(
+        SearchParams.IndicatorsSelected,
+        indicatorId
+      );
     }
 
     replace(searchState.generatePath(pathname), { scroll: false });
@@ -67,8 +73,11 @@ export function SearchResult({
   const generateIndicatorChartPath = (indicatorId: string): string => {
     const searchState = SearchStateManager.setStateFromParams(params);
     const chartPath = '/chart';
-    searchState.removeAllIndicatorSelected();
-    searchState.addIndicatorSelected(indicatorId);
+    searchState.removeAllParamFromState(SearchParams.IndicatorsSelected);
+    searchState.addParamValueToState(
+      SearchParams.IndicatorsSelected,
+      indicatorId
+    );
 
     return searchState.generatePath(chartPath);
   };

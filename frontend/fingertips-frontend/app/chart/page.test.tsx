@@ -99,7 +99,7 @@ describe('Chart Page', () => {
     );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData['1']
+      mockHealthData['A1425']
     );
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockHealthData[`${indicatorIdForPopulation}`]
@@ -109,7 +109,7 @@ describe('Chart Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual([mockHealthData['1']]);
+    expect(page.props.data).toEqual([mockHealthData['A1425']]);
     expect(page.props.populationData).toEqual(expectedPopulateData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
