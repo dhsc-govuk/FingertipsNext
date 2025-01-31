@@ -18,6 +18,10 @@ on:
         required: false
         default: "false"
         type: string
+    secrets:
+      slack-webhook-url:
+        description: "URL of the slack webhook"
+        required: false
 
 jobs:
   execute-e2e-tests:
@@ -44,6 +48,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set Job URL for slack message
+        if: inputs.send-slack-on-fail  == 'true'
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
@@ -57,31 +66,11 @@ jobs:
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
-            ${{ env.frontend-directory }}/ctrf/ctrf-report.json
           retention-days: 10
 
-  send-slack-notification:
-    name: Send Slack Notification
-    needs: execute-e2e-tests
-    if: failure() && inputs.send-slack-on-fail == 'true'
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-
-    steps:
-      - name: Download ctrf report for slack message
-        uses: actions/download-artifact@v4
-        id: download-artifacts
-        with:
-          name: playwright-failure-artefacts
-          path: ${{ env.frontend-directory }}/downloaded
-          pattern: ctrf/ctrf-report.json
-
       - name: Send slack message if e2e tests fail
+        if: failure() && inputs.send-slack-on-fail  == 'true'
         run: |
-          ls ${{ steps.download-artifacts.outputs.download-path }}
-          npx slack-ctrf results ${{ steps.download-artifacts.outputs.download-path }}/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
+          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
