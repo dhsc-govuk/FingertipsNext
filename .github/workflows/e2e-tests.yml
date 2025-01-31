@@ -55,33 +55,15 @@ jobs:
         with:
           name: playwright-failure-artefacts
           path: |
-            ${{ env.frontend-directory }}/playwright-report/
-            ${{ env.frontend-directory }}/test-results/*/*.png
-            ${{ env.frontend-directory }}/ctrf/ctrf-report.json
+            playwright-report/
+            test-results/*/*.png
+            ctrf/ctrf-report.json
           retention-days: 10
 
-  send-slack-notification:
-    name: Send Slack Notification
-    needs: execute-e2e-tests
-    if: ${{ needs.execute-e2e-tests.result == 'failure' }}
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-
-    steps:
-      - name: Download ctrf report for slack message
-        uses: actions/download-artifact@v4
-        id: download-artifacts
-        with:
-          name: playwright-failure-artefacts
-          path: ${{ env.frontend-directory }}/downloaded
-          pattern: ctrf/ctrf-report.json
-
       - name: Send slack message if e2e tests fail
+        if: failure() && inputs.send-slack-on-fail  == 'true'
         run: |
-          ls ${{ steps.download-artifacts.outputs.download-path }}
-          npx slack-ctrf results ${{ steps.download-artifacts.outputs.download-path }}/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
+          find . -name ctrf-report.json
+          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
