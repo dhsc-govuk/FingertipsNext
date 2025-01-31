@@ -23,8 +23,8 @@ jobs:
       tf_state_file_name: fingertips.api.tfstate
       environment: development
       tf_environment: dev
-      source_branch: ${{ github.event.workflow_run.head_branch }}
-      source_trigger: ${{ github.event.workflow_run.event }}
+      source_branch: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
+      source_trigger: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.event || github.event_name }}
       container_image_tag: "dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
       container_name: "fingertips-api"
       revision_suffix: ${{ github.run_number }}
@@ -66,7 +66,7 @@ jobs:
 
   e2e-tests-development:
     uses: ./.github/workflows/e2e-tests.yml
-    if: ${{ github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push') }}
     needs: api-deploy-development
     with:
       env-url: ${{ needs.api-deploy-development.outputs.frontend-dev-url }}
