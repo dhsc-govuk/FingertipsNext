@@ -25,7 +25,7 @@ jobs:
       tf_environment: dev
       source_branch: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
       source_trigger: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.event || github.event_name }}
-      container_image_tag: "dhsc.fingertipsnext.frontend:latest"
+      container_image_tag: ${{ github.event_name == 'workflow_run' && format('dhsc.fingertipsnext.frontend:{0}', needs.determine-version.outputs.sem-ver) || 'dhsc.fingertipsnext.frontend:latest' }}
       container_name: "fingertips-frontend"
       revision_suffix: ${{ github.run_number }}
       container_port: 3000
