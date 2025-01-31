@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
-import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/scatterChartHelper';
+import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
 
 interface ScatterChartProps {
   ScatterChartTitle?: string;
@@ -32,7 +32,7 @@ export function ScatterChart({
 
   const sortedDataSet2 = sortHealthDataByYearDescending(data[1]);
   const dataSet2plotValues = sortedDataSet2.map(
-    (item) => item.healthData[1].value
+    (item) => item.healthData[0].value
   );
 
   const combinedDataPlots = dataSet1plotValues.map((item, index) => [

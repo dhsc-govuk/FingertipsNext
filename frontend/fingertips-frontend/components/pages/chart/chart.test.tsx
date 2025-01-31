@@ -90,3 +90,10 @@ it('should render the scatterChart component when 2 indicators are selected', ()
 
   expect(scatterChart).toBeInTheDocument();
 });
+
+it('should not render the scatterChart component when only 1 indicator is selected', () => {
+  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0']} />);
+  const scatterChart = screen.queryByTestId('scatterChart-component');
+
+  expect(scatterChart).not.toBeInTheDocument();
+});

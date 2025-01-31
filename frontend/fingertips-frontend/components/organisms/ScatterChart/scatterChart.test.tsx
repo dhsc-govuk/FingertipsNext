@@ -3,10 +3,20 @@ import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { expect } from '@jest/globals';
 
-it('should render the Highcharts react component with passed yAxisPropsTitle parameter', () => {
+it('should render the Highcharts react component with the passed axis and subtitle parameters', () => {
   const yAxisPropsTitle = 'DifferentYTitle';
+  const xAxisPropsTitle = 'DifferentXTitle';
+  const yAxisSubtitle = 'DifferentXSubtitle';
+  const xAxisSubtitle = 'DifferentXSubtitle';
+  
   render(
-    <ScatterChart data={[mockHealthData[1]]} yAxisTitle={yAxisPropsTitle} />
+    <ScatterChart
+      data={[mockHealthData[1]]}
+      yAxisTitle={yAxisPropsTitle}
+      xAxisTitle={xAxisPropsTitle}
+      yAxisSubtitle={yAxisSubtitle}
+      xAxisSubtitle={xAxisSubtitle}
+    />
   );
 
   const highcharts = screen.getByTestId('highcharts-react-component');

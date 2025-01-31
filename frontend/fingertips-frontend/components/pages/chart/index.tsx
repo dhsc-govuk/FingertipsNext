@@ -48,7 +48,7 @@ export function Chart({
           <br />
         </>
       ) : null}
-      {indicatorsSelected.length > 1 ? (
+      {indicatorsSelected.length == 2 ? (
         <ScatterChart
           data={data}
           ScatterChartTitle="Compare indicators within the area group"
