@@ -13,6 +13,11 @@ on:
         required: false
         default: null
         type: string
+      send-slack-on-fail:
+        description: "optionally send a slack message on test failure"
+        required: false
+        default: "false"
+        type: string
 
 jobs:
   execute-e2e-tests:
@@ -48,8 +53,26 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
-          name: playwright failure artefacts
+          name: playwright-failure-artefacts
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
+            ${{ env.frontend-directory }}/ctrf/ctrf-report.json
           retention-days: 10
+
+      - name: Download ctrf report for slack message
+        if: ${{ failure() && inputs.send-slack-on-fail  == 'true' }}
+        uses: actions/download-artifact@v4
+        id: download-artifacts
+        with:
+          name: playwright-failure-artefacts
+          path: ${{ env.frontend-directory }}/downloaded
+          pattern: /ctrf/ctrf-report.json
+
+      - name: Send slack message if e2e tests fail
+        if: ${{ failure() && inputs.send-slack-on-fail  == 'true' }}
+        run: |
+          ls ${{ steps.download-artifacts.outputs.download-path }}
+          npx slack-ctrf results ${{ steps.download-artifacts.outputs.download-path }}/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

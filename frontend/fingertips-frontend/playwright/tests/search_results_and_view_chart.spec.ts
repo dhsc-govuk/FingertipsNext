@@ -1,11 +1,13 @@
 import { SearchParams } from '@/lib/searchStateManager';
-import { expect, test } from '../page-objects/pageFactory';
-import { getIndicatorIDByName } from '../testHelpers';
+import { test } from '../page-objects/pageFactory';
+import {
+  expectNoAccessibilityViolations,
+  getIndicatorIdsByName,
+} from '../testHelpers';
 import indicatorData from '../../../../search-setup/assets/indicatorData.json';
 
-const searchTerm = 'mortality';
-let indicatorID1: string = '';
-let indicatorID2: string = '';
+const searchTerm = 'Waiting';
+let indicatorIDs: string[];
 
 test.describe('Search via indicator', () => {
   test.beforeAll(() => {
@@ -15,76 +17,72 @@ test.describe('Search via indicator', () => {
         lastUpdated: new Date(indicator.lastUpdated),
       };
     });
-    indicatorID1 = getIndicatorIDByName(typedIndicatorData, searchTerm)[0]
-      .indicatorId;
-    indicatorID2 = getIndicatorIDByName(typedIndicatorData, searchTerm)[1]
-      .indicatorId;
+
+    indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
   });
-  test('assert displayed results, check the chart is displayed then navigate back through to search page', async ({
+  test('full end to end flow with accessibility checks', async ({
     homePage,
     resultsPage,
     chartPage,
     axeBuilder,
   }) => {
-    // Arrange
-    await homePage.navigateToSearch();
+    await test.step('Navigate to and verify search page', async () => {
+      await homePage.navigateToSearch();
+      await homePage.checkURLIsCorrect();
+      await expectNoAccessibilityViolations(axeBuilder);
+    });
 
-    // Assert
-    await homePage.checkURLIsCorrect();
-    expect((await axeBuilder.analyze()).violations).toEqual([]);
+    await test.step('Search for indicators and check results', async () => {
+      await homePage.typeIndicator(searchTerm);
+      await homePage.clickSearchButton();
 
-    // Act
-    await homePage.typeIndicator(searchTerm);
-    await homePage.clickSearchButton();
+      await resultsPage.checkURLIsCorrect(searchTerm);
+      await expectNoAccessibilityViolations(axeBuilder);
+      await resultsPage.checkSearchResults(searchTerm);
+    });
 
-    // Assert
-    await resultsPage.checkURLIsCorrect(searchTerm);
-    expect((await axeBuilder.analyze()).violations).toEqual([]);
-    await resultsPage.checkSearchResults(searchTerm);
+    await test.step('Select indicators and view charts', async () => {
+      await resultsPage.clickIndicatorCheckboxes(indicatorIDs);
+      await resultsPage.clickViewChartsButton();
 
-    // Act
-    await resultsPage.clickIndicatorCheckbox(indicatorID1);
-    await resultsPage.clickIndicatorCheckbox(indicatorID2);
-    await resultsPage.clickViewChartsButton();
+      await chartPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+      );
+      await expectNoAccessibilityViolations(axeBuilder);
+      await chartPage.checkChartAndChartTable();
+    });
 
-    // Assert
-    await chartPage.checkURLIsCorrect(
-      `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
-    );
-    expect((await axeBuilder.analyze()).violations).toEqual([]);
-    await chartPage.checkChartAndChartTable();
+    await test.step('Return to results page and verify selections are preselected', async () => {
+      await chartPage.clickBackLink();
 
-    // Act
-    await chartPage.clickBackLink();
+      await resultsPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+      );
+      await resultsPage.checkSearchResults(searchTerm);
+      await resultsPage.checkIndicatorCheckboxChecked(indicatorIDs[0]);
+      await resultsPage.checkIndicatorCheckboxChecked(indicatorIDs[1]);
+    });
 
-    // Assert - check indicator selections previously made are prepopulated
-    await resultsPage.checkURLIsCorrect(
-      `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorID1}&${SearchParams.IndicatorsSelected}=${indicatorID2}`
-    );
-    await resultsPage.checkSearchResults(searchTerm);
-    await resultsPage.checkIndicatorCheckboxChecked(indicatorID1);
-    await resultsPage.checkIndicatorCheckboxChecked(indicatorID2);
+    await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
+      await resultsPage.clickBackLink();
 
-    // Act
-    await resultsPage.clickBackLink();
+      await homePage.checkURLIsCorrect(
+        `?${SearchParams.SearchedIndicator}=${searchTerm}`
+      );
+      await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
+    });
 
-    // Assert - check search text previously entered is prepopulated
-    await homePage.checkURLIsCorrect(
-      `?${SearchParams.SearchedIndicator}=${searchTerm}`
-    );
-    await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
+    await test.step('Verify search page validation prevents forward navigation', async () => {
+      await homePage.clearSearchIndicatorField();
+      await homePage.clickSearchButton();
 
-    // Act - clear the prepopulated search field and click search
-    await homePage.clearSearchIndicatorField();
-    await homePage.clickSearchButton();
-
-    // Assert - should be on the same page with search field still cleared and validation message displayed
-    await homePage.checkURLIsCorrect(
-      `?${SearchParams.SearchedIndicator}=${searchTerm}`
-    );
-    await homePage.checkSearchFieldIsPrePopulatedWith();
-    await homePage.checkSummaryValidation(
-      `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
-    );
+      await homePage.checkURLIsCorrect(
+        `?${SearchParams.SearchedIndicator}=${searchTerm}`
+      );
+      await homePage.checkSearchFieldIsPrePopulatedWith();
+      await homePage.checkSummaryValidation(
+        `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
+      );
+    });
   });
 });
