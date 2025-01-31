@@ -24,6 +24,7 @@ type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
+  selectedAreaType?: string;
 };
 
 const isIndicatorSelected = (
@@ -39,6 +40,7 @@ export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  selectedAreaType,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -78,7 +80,10 @@ export function SearchResults({
 
           <GridRow>
             <GridCol setWidth="one-third">
-              <AreaFilter availableAreaTypes={availableAreaTypes} />
+              <AreaFilter
+                availableAreaTypes={availableAreaTypes}
+                selectedAreaType={selectedAreaType}
+              />
             </GridCol>
             <GridCol>
               <form action={formAction}>

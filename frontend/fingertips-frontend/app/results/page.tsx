@@ -18,6 +18,7 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
+  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
 
   try {
     // Perform async API call using indicator prop
@@ -56,6 +57,7 @@ export default async function Page(
         searchResultsFormState={initialState}
         searchResults={searchResults}
         availableAreaTypes={availableAreaTypes}
+        selectedAreaType={selectedAreaType}
       />
     );
   } catch (error) {

@@ -11,9 +11,11 @@ import {
 import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 
 interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
+  selectedAreaType?: string;
   availableAreaTypes?: AreaType[];
 }
 
@@ -62,6 +64,7 @@ const StyledFilterSelect = styled(Select)({
   select: {
     width: '100%',
   },
+  marginBottom: '1em',
 });
 
 const StyledFilterDetails = styled(Details)({
@@ -74,8 +77,26 @@ const StyledFilterDetails = styled(Details)({
   },
 });
 
+const determineApplicableGroupTypes = (
+  sortedAreaTypes?: AreaType[],
+  selectedAreaType?: string
+): AreaType[] | undefined => {
+  if (sortedAreaTypes && selectedAreaType) {
+    const selectedAreaTypeData = sortedAreaTypes.find(
+      (areaType) => areaType.name === selectedAreaType
+    );
+
+    if (selectedAreaTypeData) {
+      return sortedAreaTypes.filter(
+        (areaType) => areaType.level <= selectedAreaTypeData?.level
+      );
+    }
+  }
+};
+
 export function AreaFilter({
   selectedAreas,
+  selectedAreaType,
   availableAreaTypes,
 }: Readonly<AreaFilterProps>) {
   const searchParams = useSearchParams();
@@ -99,6 +120,11 @@ export function AreaFilter({
     (a, b) => a.level - b.level
   );
 
+  const availableGroupTypes = determineApplicableGroupTypes(
+    sortedByLevelAreaTypes,
+    selectedAreaType
+  );
+
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -113,7 +139,7 @@ export function AreaFilter({
           </StyledFilterLabel>
         </StyledFilterSelectedAreaDiv>
 
-        <StyledFilterDetails summary="Add or change areas">
+        <ShowHideContainer summary="Add or change areas">
           <StyledFilterSelect
             label="Select an area type"
             input={{
@@ -128,7 +154,23 @@ export function AreaFilter({
               </option>
             ))}
           </StyledFilterSelect>
-        </StyledFilterDetails>
+
+          <StyledFilterLabel>Area List</StyledFilterLabel>
+          <Paragraph>Select one or more areas to compare</Paragraph>
+
+          <ShowHideContainer
+            summary="Refine the area list"
+            showSideBarWhenOpen={true}
+          >
+            <StyledFilterSelect label="1. Select a group type">
+              {availableGroupTypes?.map((areaType) => (
+                <option key={areaType.name} value={areaType.name}>
+                  {areaType.name}
+                </option>
+              ))}
+            </StyledFilterSelect>
+          </ShowHideContainer>
+        </ShowHideContainer>
       </StyledFilterDiv>
     </StyledFilterPane>
   );
