@@ -61,6 +61,7 @@ jobs:
           retention-days: 10
 
       - name: Download ctrf report for slack message
+        if: ${{ failure() && inputs.send-slack-on-fail  == 'true' }}
         uses: actions/download-artifact@v4
         id: download-artifacts
         with:
