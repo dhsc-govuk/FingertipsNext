@@ -104,8 +104,6 @@ public class AreaServiceTests
 
     #region GetAreaDetails
     
-    //TODO: extend
-
     [Fact]
     public async Task GetAreaDetails_ShouldDelegateToRepositorySupplyingDefaults()
     {
@@ -149,6 +147,40 @@ public class AreaServiceTests
 
     #endregion
 
+    #region GetAreaDetailsForAreaType
+
+    [Fact]
+    public async Task GetAreaDetailsForAreaType_ShouldReturnEmptyList_IfRepositoryReturnsEmptyList()
+    {
+        CreateService();
+        var fakeAreaModels = new List<AreaModel>();
+        _mockRepository
+            .GetAreasForAreaTypeAsync(Arg.Any<string>())
+            .Returns(fakeAreaModels);
+        
+        var result = await _service.GetAreaDetailsForAreaType("area1");
+        
+        result.Count.ShouldBe(0);
+    }
+    
+    [Fact]
+    public async Task GetAreaDetailsForAreaType_ShouldReturnMAppedList_IfRepositoryReturnsAreas()
+    {
+        CreateService();
+        var fakeAreaModels = new List<AreaModel>{ Fake.AreaModel, Fake.AreaModel };
+        _mockRepository
+            .GetAreasForAreaTypeAsync(Arg.Any<string>())
+            .Returns(fakeAreaModels);
+        
+        var result = await _service.GetAreaDetailsForAreaType("area1");
+        
+        result.Count.ShouldBe(2);
+        result[0].Code.ShouldBeEquivalentTo(fakeAreaModels[0].AreaCode);
+        result[1].Code.ShouldBeEquivalentTo(fakeAreaModels[1].AreaCode);
+    }
+    
+    #endregion
+    
     void CreateService()
     {
         MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>

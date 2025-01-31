@@ -21,7 +21,7 @@ public class AutoMapperProfilesTests
         mappedArea.Code.ShouldBe(areaModel.AreaCode);
         mappedArea.Name.ShouldBe(areaModel.AreaName);
     }
-    
+
     [Fact]
     public void Mapping_AreaModel_To_SchemaArea()
     {
@@ -32,10 +32,10 @@ public class AutoMapperProfilesTests
         AssertAreaPropertiesMatch(mappedArea, areaModel);
     }
 
-    #region AreaWithRelationsModel to AreaWithRelations
-    
+    #region AreaWithRelationsModel to Schema AreaWithRelations
+
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulated()
+    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulated()
     {
         Setup();
         var awr = Fake.AreaWithRelationsModel;
@@ -49,7 +49,7 @@ public class AutoMapperProfilesTests
             var childSource = awr.Children.First(c => c.AreaCode == child.Code);
             AssertAreaPropertiesMatch(child, childSource);
         }
-        
+
         foreach (var ancestor in mappedAwr.Ancestors)
         {
             var ancestorSource = awr.Ancestors.First(c => c.AreaCode == ancestor.Code);
@@ -58,7 +58,7 @@ public class AutoMapperProfilesTests
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulatedExceptForParent()
+    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
     {
         Setup();
         var awr = Fake.AreaWithRelationsModel;
@@ -71,11 +71,10 @@ public class AutoMapperProfilesTests
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
         AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
-
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulatedExceptForChildren()
+    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForChildren()
     {
         Setup();
         var awr = Fake.AreaWithRelationsModel;
@@ -89,7 +88,6 @@ public class AutoMapperProfilesTests
         AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
 
-        
         foreach (var ancestor in mappedAwr.Ancestors)
         {
             var ancestorSource = awr.Ancestors.First(c => c.AreaCode == ancestor.Code);
@@ -98,7 +96,7 @@ public class AutoMapperProfilesTests
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulatedExceptForAncestors()
+    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForAncestors()
     {
         Setup();
         var awr = Fake.AreaWithRelationsModel;
@@ -114,7 +112,7 @@ public class AutoMapperProfilesTests
     }
 
     [Fact]
-    public void Mapping_AreaWithRelationsModel_To_AreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
+    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
     {
         Setup();
         var awr = Fake.AreaWithRelationsModel;
@@ -130,9 +128,11 @@ public class AutoMapperProfilesTests
     }
 
     #endregion
-    
+
+    #region AreaTypeModel To Schema AreaType
+
     [Fact]
-    public void Mapping_AreaTypeModel_To_AreaType()
+    public void Mapping_AreaTypeModel_To_SchemaAreaType()
     {
         Setup();
         var areaTypeModel = Fake.AreaTypeModel;
@@ -142,14 +142,26 @@ public class AutoMapperProfilesTests
         mappedAreaType.HierarchyName.ShouldBe(areaTypeModel.HierarchyType);
         mappedAreaType.Level.ShouldBe(areaTypeModel.Level);
     }
-    
-    void AssertAreaPropertiesMatch(Schemas.Area area, AreaModel areaModel)
+
+    #endregion
+
+    void AssertAreaPropertiesMatch(Schemas.Area? area, AreaModel? areaModel, bool canBeNull = false)
     {
-        area.Code.ShouldBe(areaModel.AreaCode);
-        area.Name.ShouldBe(areaModel.AreaName);
-        area.HierarchyName.ShouldBe(areaModel.HierarchyType);
-        area.AreaType.ShouldBe(areaModel.AreaType);
-        area.Level.ShouldBe(areaModel.Level);
+        if (area == null && areaModel == null && canBeNull)
+            return;
+
+        if (area != null && areaModel != null)
+        {
+            area.Code.ShouldBe(areaModel.AreaCode);
+            area.Name.ShouldBe(areaModel.AreaName);
+            area.HierarchyName.ShouldBe(areaModel.HierarchyType);
+            area.AreaType.ShouldBe(areaModel.AreaType);
+            area.Level.ShouldBe(areaModel.Level);
+        }
+        else
+        {
+            Assert.Fail();
+        }
     }
 
     void AssertAreaListsAreEquivalent(List<Schemas.Area> mappedAreas, List<AreaModel> modelAreas)
