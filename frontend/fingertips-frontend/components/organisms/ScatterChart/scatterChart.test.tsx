@@ -8,7 +8,7 @@ it('should render the Highcharts react component with the passed axis and subtit
   const xAxisPropsTitle = 'DifferentXTitle';
   const yAxisSubtitle = 'DifferentXSubtitle';
   const xAxisSubtitle = 'DifferentXSubtitle';
-  
+
   render(
     <ScatterChart
       data={[mockHealthData[1]]}
