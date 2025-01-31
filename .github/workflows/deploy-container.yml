@@ -4,67 +4,66 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: 'The environment name which is being deployed to'
+        description: "The environment name which is being deployed to"
         required: true
         type: string
       tf_state_file_name:
-        description: 'The name of the state file used for the deployment'
+        description: "The name of the state file used for the deployment"
         required: true
         type: string
       tf_environment:
-        description: 'Environment suffix used by Terraform'
+        description: "Environment suffix used by Terraform"
         required: true
         type: string
       source_branch:
-        description: 'Source branch ref used in checkout'
+        description: "Source branch ref used in checkout"
         required: true
         type: string
       source_trigger:
-        description: 'Event name that triggered the source workflow'
+        description: "Event name that triggered the source workflow"
         required: true
         type: string
       container_name:
-        description: 'Name of the container or service being deployed'
+        description: "Name of the container or service being deployed"
         required: true
         type: string
       container_image_tag:
-        description: 'Docker container image to be pulled from the ACR'
+        description: "Docker container image to be pulled from the ACR"
         required: true
         type: string
       revision_suffix:
-        description: 'Revision suffix used for the Container App Deployment'
+        description: "Revision suffix used for the Container App Deployment"
         required: true
         type: string
       environment_variables:
-        description: 'Environment variables to be referenced by the Container App'
+        description: "Environment variables to be referenced by the Container App"
         required: false
         type: string
       container_port:
-        description: 'Port number used for ingress on the Container App'
+        description: "Port number used for ingress on the Container App"
         required: true
         type: number
       container_liveness_probe:
-        description: 'Liveness probe parameters required to check application health'
+        description: "Liveness probe parameters required to check application health"
         required: true
         type: string
     secrets:
       arm-client-id:
-        description: 'Azure Service Principal Client ID'
+        description: "Azure Service Principal Client ID"
         required: true
       arm-client-secret:
-        description: 'Azure Service Principal Client Secret'
+        description: "Azure Service Principal Client Secret"
         required: true
       arm-subscription-id:
-        description: 'Azure Subscription ID'
+        description: "Azure Subscription ID"
         required: true
       arm-tenant-id:
-        description: 'Azure Tenant ID'
+        description: "Azure Tenant ID"
         required: true
     outputs:
       frontend-dev-url:
-        description: 'Frontend URL used for e2e tests step'
+        description: "Frontend URL used for e2e tests step"
         value: ${{ jobs.terraform-apply.outputs.frontend-dev-url }}
-
 
 jobs:
   terraform-pr-validation:
@@ -85,7 +84,7 @@ jobs:
       - name: PR Validation
         uses: ./.github/validate
         with:
-          terraform_directory: 'terraform'
+          terraform_directory: "terraform"
           terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
           terraform_state_storage_account: ${{ vars.STORAGE_ACCOUNT_NAME }}
           terraform_state_storage_container: ${{ vars.STORAGE_ACCOUNT_CONTAINER }}
@@ -108,7 +107,7 @@ jobs:
 
   terraform-apply:
     runs-on: ubuntu-latest
-    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch' }}
+    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch' || github.event_name == 'workflow_run'}}
     name: Container Deploy - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
     outputs:
@@ -126,7 +125,7 @@ jobs:
       - name: Plan and Apply
         uses: ./.github/apply
         with:
-          terraform_directory: 'terraform'
+          terraform_directory: "terraform"
           terraform_state_rg: ${{ vars.RESOURCE_GROUP }}
           terraform_state_storage_account: ${{ vars.STORAGE_ACCOUNT_NAME }}
           terraform_state_storage_container: ${{ vars.STORAGE_ACCOUNT_CONTAINER }}
