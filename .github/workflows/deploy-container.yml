@@ -107,7 +107,7 @@ jobs:
 
   terraform-apply:
     runs-on: ubuntu-latest
-    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch'}}
+    if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch' || github.event_name == 'workflow_run'}}
     name: Container Deploy - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
     outputs:
