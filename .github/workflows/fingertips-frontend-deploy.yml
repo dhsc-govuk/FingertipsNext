@@ -86,3 +86,5 @@ jobs:
     with:
       env-url: ${{ needs.frontend-deploy-development.outputs.frontend-dev-url }}
       send-slack-on-fail: "true"
+    secrets:
+      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

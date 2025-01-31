@@ -18,6 +18,10 @@ on:
         required: false
         default: "false"
         type: string
+    secrets:
+      slack-webhook-url:
+        description: 'URL of the slack webhook'
+        required: false
 
 jobs:
   execute-e2e-tests:
@@ -66,4 +70,4 @@ jobs:
           find . -name ctrf-report.json
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure - Deployed Fingertips Instance"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
