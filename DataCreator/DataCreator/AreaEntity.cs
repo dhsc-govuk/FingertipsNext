@@ -1,4 +1,6 @@
-﻿namespace DataCreator
+﻿using System.Text.Json.Serialization;
+
+namespace DataCreator
 {
     public class AreaEntity
     {
@@ -17,6 +19,20 @@
 
         public string HierarchyType { get; set; }
 
+        public List<AreaRelation> ParentAreas { get; set; }=[];
+
+        public List<AreaRelation> ChildAreas { get; set; }= [];
+
+        public int Level { get; set; }
+
     }
 
-}
+    public class AreaRelation
+    {
+        public string AreaCode { get; set; }
+
+        [JsonIgnore]
+        public bool IsDirect { get; set; }
+    }
+
+    }

@@ -28,7 +28,7 @@ namespace MyApp
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IConfiguration>(configuration)
                 .AddSingleton<DataCreatorApplication>()
-                .AddSingleton<AreaFetcher>()
+                .AddSingleton<PholioDataFetcher>()
                 .AddSingleton<PostcodeFetcher>()
                 .AddSingleton<DataFileWriter>()
                 .AddSingleton<DataManager>()
