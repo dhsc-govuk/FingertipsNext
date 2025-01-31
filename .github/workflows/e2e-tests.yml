@@ -63,7 +63,7 @@ jobs:
   send-slack-notification:
     name: Send Slack Notification
     needs: execute-e2e-tests
-    if: ${{ needs.execute-e2e-tests.result == 'failure' }}
+    if: failure() && inputs.send-slack-on-fail == 'true'
     runs-on: ubuntu-latest
 
     defaults:
