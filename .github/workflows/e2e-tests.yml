@@ -49,7 +49,7 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
-      - name: Upload playwright report and screenshot if e2e tests fail
+      - name: Upload playwright reports and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
@@ -63,7 +63,7 @@ jobs:
   send-slack-notification:
     name: Send Slack Notification
     needs: execute-e2e-tests
-    if: ${{ needs.execute-e2e-tests.result == 'failure' }}
+    if: failure() && inputs.send-slack-on-fail == 'true'
     runs-on: ubuntu-latest
 
     defaults:
