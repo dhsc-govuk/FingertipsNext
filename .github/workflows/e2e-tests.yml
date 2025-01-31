@@ -49,7 +49,7 @@ jobs:
         run: npm ci
 
       - name: Set Job URL for slack message
-        if: failure() && inputs.send-slack-on-fail  == 'true'
+        if: inputs.send-slack-on-fail  == 'true'
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
