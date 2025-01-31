@@ -1548,7 +1548,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
-  '318 for a group': [
+  'Mock 318 for West Midlands CA': [
     {
       areaCode: 'E08000025',
       areaName: 'Birmingham',
@@ -1580,8 +1580,8 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
-      areaCode: 'E10000034',
-      areaName: 'Worcestershire',
+      areaCode: 'E08000030',
+      areaName: 'Walsall',
       healthData: [
         {
           year: 2023,
@@ -1625,8 +1625,8 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
-      areaCode: 'E08000030',
-      areaName: 'Walsall',
+      areaCode: 'E08000031',
+      areaName: 'Wolverhampton',
       healthData: [
         {
           year: 2024,
@@ -1640,28 +1640,13 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
-      areaCode: 'E10000028',
-      areaName: 'Staffordshire',
+      areaCode: 'E08000026',
+      areaName: 'Coventry',
       healthData: [
         {
           year: 2025,
           count: 13000,
           value: 13,
-          lowerCi: 0,
-          upperCi: 0,
-          ageBand: 'All',
-          sex: 'Persons',
-        },
-      ],
-    },
-    {
-      areaCode: 'E10000031',
-      areaName: 'Warwickshire',
-      healthData: [
-        {
-          year: 2026,
-          count: 21000,
-          value: 21,
           lowerCi: 0,
           upperCi: 0,
           ageBand: 'All',

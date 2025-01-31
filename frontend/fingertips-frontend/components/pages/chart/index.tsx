@@ -8,13 +8,16 @@ import { SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
-import { FingertipsMap } from '@/components/organisms/Map';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
+import { GeoJSON } from 'highcharts';
 
-// using mock pending business logic
+// using mock to spike maps
 import { mockHealthData } from '@/mock/data/healthdata';
 
 type ChartProps = {
   data: HealthDataForArea[];
+  mapData: GeoJSON;
+  mapJoinKey: string;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -24,6 +27,8 @@ const headings = ['Area', 'Year', 'Value', 'Count', 'LowerCi', 'UpperCi'];
 
 export function Chart({
   data,
+  mapData,
+  mapJoinKey,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -41,20 +46,10 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      <FingertipsMap
-        data={mockHealthData['318 Regions']}
-        areaType={'regions'}
-        selectedAreaCode={''}
-      />
-      <FingertipsMap
-        data={mockHealthData['318 for a group']}
-        areaType={'counties and UAs'}
-        selectedAreaCode={''}
-      />
-      <FingertipsMap
-        data={mockHealthData['318 NHS Regions']}
-        areaType={'NHS regions'}
-        selectedAreaCode={''}
+      <ThematicMap
+        data={mockHealthData['Mock 318 for West Midlands CA']}
+        mapData={mapData}
+        mapJoinKey={mapJoinKey}
       />
 
       {populationData ? (

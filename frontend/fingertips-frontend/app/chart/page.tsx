@@ -9,6 +9,9 @@ import {
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
+import { getMapFile } from '@/lib/mapUtils/getMapFile';
+import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
+
 export default async function ChartPage(
   props: Readonly<{
     searchParams?: Promise<SearchStateParams>;
@@ -49,10 +52,16 @@ export default async function ChartPage(
     );
   }
 
+  // TODO: use areaType from filter
+  const areaType: string = 'Counties & UAs';
+  const mapJoinKey = getMapJoinKey(areaType);
+
   return (
     <Chart
       populationData={preparedPopulationData}
       data={data}
+      mapData={getMapFile(areaType)}
+      mapJoinKey={mapJoinKey}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />
