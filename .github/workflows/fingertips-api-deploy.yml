@@ -1,6 +1,7 @@
 name: Fingertips API Deploy
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: [Fingertips API Build]
     types:
