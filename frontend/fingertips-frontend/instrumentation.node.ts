@@ -1,53 +1,56 @@
-import {
-  useAzureMonitor,
-  AzureMonitorOpenTelemetryOptions,
-} from '@azure/monitor-opentelemetry';
+import { useAzureMonitor } from '@azure/monitor-opentelemetry';
 import { Resource } from '@opentelemetry/resources';
+import { type ProxyTracerProvider, metrics, trace } from '@opentelemetry/api';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
+import type { IncomingMessage } from 'node:http';
+import { HttpInstrumentation, type HttpInstrumentationConfig } from '@opentelemetry/instrumentation-http';
 
 export const configureAzureMonitor = () => {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     console.log('Configuring Azure Monitor logging');
 
-    const options: AzureMonitorOpenTelemetryOptions = {
+    const customResource = new Resource({
+      [ATTR_SERVICE_NAME]: 'fingertips-frontend',
+    });
+
+    useAzureMonitor({
+      resource: customResource,
       azureMonitorExporterOptions: {
         connectionString: process.env['APPLICATIONINSIGHTS_CONNECTION_STRING'],
       },
-      enableLiveMetrics: true,
-      resource: customResource,
       instrumentationOptions: {
         http: { enabled: true },
       },
+    })
+
+    const httpInstrumentationConfig: HttpInstrumentationConfig = {
+      enabled: true,
+      ignoreIncomingRequestHook: (request: IncomingMessage) => {
+        // Ignore OPTIONS incoming requests
+        if (request.method === 'OPTIONS') {
+          return true;
+        }
+        return false;
+      },
     };
 
-    const sdk = new NodeSDK({
-      customResource: new Resource({
-        [ATTR_SERVICE_NAME]: 'fingertips-frontend',
-      }),
+    const instrumentations = [
+      new HttpInstrumentation(httpInstrumentationConfig)
+    ];
 
-      useAzureMonitor(options);
-      console.log('Application Insights monitoring enabled');
+    const tracerProvider = (trace.getTracerProvider() as ProxyTracerProvider).getDelegate();
+    const meterProvider = metrics.getMeterProvider();
+
+    registerInstrumentations({
+      tracerProvider: tracerProvider,
+      meterProvider: meterProvider,
+      instrumentations: instrumentations,
     });
+
   } else {
     console.log(
       '** Application Insights Connection String missing - monitoring disabled **'
     );
   }
 };
-
-/**
- * Registers application instrumentation.
- */
-export const register = async () => {
-  configureAzureMonitor();
-};
-
-  // Initialize OpenTelemetry SDK
-  const sdk = new NodeSDK({
-    resource: new Resource({
-      [ATTR_SERVICE_NAME]: 'nextjs-backend',
-    }),
-    spanProcessors,
-  });
-
-  sdk.start();

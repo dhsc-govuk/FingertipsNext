@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     '@azure/monitor-opentelemetry',
     '@opentelemetry/api',
     '@opentelemetry/resources',
-    '@opentelemetry/semantic-conventions',
+    // '@opentelemetry/semantic-conventions',
     '@opentelemetry/sdk-metrics',
     '@opentelemetry/sdk-trace-base',
   ],
