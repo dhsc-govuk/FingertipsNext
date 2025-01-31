@@ -21,8 +21,6 @@ export default defineConfig({
             buildUrl: jobUrl,
             buildName: 'fingertips next',
             buildNumber: `build ${process.env.npm_package_version}`,
-            branchName: 'main',
-            testEnvironment: url,
           },
         ],
       ]
