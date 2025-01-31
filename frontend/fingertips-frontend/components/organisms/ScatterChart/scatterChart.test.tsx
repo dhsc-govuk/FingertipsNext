@@ -6,7 +6,7 @@ import { expect } from '@jest/globals';
 it('should render the Highcharts react component with the passed axis and subtitle parameters', () => {
   const yAxisPropsTitle = 'DifferentYTitle';
   const xAxisPropsTitle = 'DifferentXTitle';
-  const yAxisSubtitle = 'DifferentXSubtitle';
+  const yAxisSubtitle = 'DifferentYSubtitle';
   const xAxisSubtitle = 'DifferentXSubtitle';
 
   render(
@@ -23,6 +23,9 @@ it('should render the Highcharts react component with the passed axis and subtit
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);
+  expect(highcharts).toHaveTextContent(xAxisPropsTitle);
+  expect(highcharts).toHaveTextContent(yAxisSubtitle);
+  expect(highcharts).toHaveTextContent(xAxisSubtitle);
 });
 
 it('should render the ScatterChart title', () => {
