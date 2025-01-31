@@ -48,15 +48,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set Job URL for slack message
+        if: failure() && inputs.send-slack-on-fail  == 'true'
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
-
-      - name: Set Job URL
-        if: failure() && inputs.send-slack-on-fail  == 'true'
-        run: |
-          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
