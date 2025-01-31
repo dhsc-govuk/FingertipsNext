@@ -95,6 +95,10 @@ export function AreaFilter({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
+  const sortedByLevelAreaTypes = availableAreaTypes?.sort(
+    (a, b) => a.level - b.level
+  );
+
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -118,7 +122,7 @@ export function AreaFilter({
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
-            {availableAreaTypes?.map((areaType) => (
+            {sortedByLevelAreaTypes?.map((areaType) => (
               <option key={areaType.name} value={areaType.name}>
                 {areaType.name}
               </option>

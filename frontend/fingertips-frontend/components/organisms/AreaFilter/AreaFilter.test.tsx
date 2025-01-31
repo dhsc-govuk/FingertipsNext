@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { AreaFilter } from '.';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
@@ -36,8 +36,10 @@ const generateAreaType = (name: string, level: number): AreaType => ({
 });
 
 const availableAreaTypes: AreaType[] = [
+  generateAreaType('A003', 3),
   generateAreaType('A001', 1),
   generateAreaType('A002', 2),
+  generateAreaType('A000', 0),
 ];
 
 describe('Area Filter', () => {
@@ -82,12 +84,24 @@ describe('Area Filter', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render all the available areaTypes', () => {
+  it('should render all the available areaTypes sorted by level', () => {
+    const expectedAreaTypeOptions = ['A000', 'A001', 'A002', 'A003'];
+
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+    const areaTypeDropDown = screen.getByRole('combobox', {
+      name: /Select an area type/i,
+    });
+
+    const allOptions = within(areaTypeDropDown).getAllByRole('option');
 
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toHaveLength(2);
+    ).toHaveLength(4);
+
+    allOptions.forEach((option, i) => {
+      expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+    });
   });
 
   it('should have the area type provided via the searchParams selected', () => {
