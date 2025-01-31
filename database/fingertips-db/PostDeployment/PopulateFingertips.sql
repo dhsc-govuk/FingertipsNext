@@ -264,6 +264,7 @@ SET IDENTITY_INSERT [dbo].[IndicatorDimension] ON
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (3333, N'Resident population', 92708, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2));
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (3334, N'GP registered population by sex and quinary age band', 337, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2));
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (1, N'Under 75 mortality rate from all causes', 108, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
+INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (2, N'Under 75 mortality rate from all causes', 113, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (6, N'Hypertension: QOF prevalence (all ages)', 219, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (40, N'Mortality rate from lung cancer, all ages', 1203, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
 INSERT [dbo].[IndicatorDimension] ([IndicatorKey], [Name], [IndicatorId], [StartDate], [EndDate]) VALUES (41, N'Mortality rate from chronic obstructive pulmonary disease, all ages', 1204, CAST(N'2014-01-01T00:00:00.0000000' AS DateTime2), CAST(N'2044-01-01T00:00:00.0000000' AS DateTime2))
@@ -467,6 +468,12 @@ SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 
 --create some health measure data
 SET IDENTITY_INSERT [dbo].[HealthMeasure] ON
+       
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (55555, 68391, 2, 3, 321, 30920, 16.82117, 16.65086, 16.99286, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (55556, 68392, 2, 3, 321, 38469, 17.64236, 17.48294, 17.80293, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (55557, 68395, 2, 3, 321, 59403, 17.91335, 17.78321, 18.04424, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (55558, 68396, 2, 3, 321, 35973, 13.70891, 13.57784, 13.84104, 2019)       
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (55559, 68391, 2, 3, 321, 42809, 16.03105, 15.89238, 16.1707, 2020)
 
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (76597, 68391, 6, 3, 321, 30920, 16.82117, 16.65086, 16.99286, 2019)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (76598, 68392, 6, 3, 321, 38469, 17.64236, 17.48294, 17.80293, 2019)
