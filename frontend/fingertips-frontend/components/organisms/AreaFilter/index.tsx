@@ -1,13 +1,6 @@
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import {
-  Details,
-  H3,
-  LabelText,
-  Paragraph,
-  SectionBreak,
-  Select,
-} from 'govuk-react';
+import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -65,16 +58,6 @@ const StyledFilterSelect = styled(Select)({
     width: '100%',
   },
   marginBottom: '1em',
-});
-
-const StyledFilterDetails = styled(Details)({
-  div: {
-    borderLeft: 'none',
-    padding: '1em 0em',
-  },
-  summary: {
-    color: '#000000',
-  },
 });
 
 const determineApplicableGroupTypes = (
@@ -162,7 +145,12 @@ export function AreaFilter({
             summary="Refine the area list"
             showSideBarWhenOpen={true}
           >
-            <StyledFilterSelect label="1. Select a group type">
+            <StyledFilterSelect
+              label="1. Select a group type"
+              input={{
+                disabled: selectedAreas && selectedAreas?.length > 0,
+              }}
+            >
               {availableGroupTypes?.map((areaType) => (
                 <option key={areaType.name} value={areaType.name}>
                   {areaType.name}

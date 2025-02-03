@@ -59,74 +59,151 @@ describe('Area Filter', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
 
-  it('should disable the select area type drop down when there are areas selected', () => {
-    render(<AreaFilter selectedAreas={[mockArea]} />);
+  describe('Area type', () => {
+    it('should disable the select area type drop down when there are areas selected', () => {
+      render(<AreaFilter selectedAreas={[mockArea]} />);
 
-    expect(
-      screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toBeDisabled();
-  });
-
-  it('should not disable the select area type drop down when there are no areas selected', () => {
-    render(<AreaFilter selectedAreas={[]} />);
-
-    expect(
-      screen.getByRole('combobox', { name: /Select an area type/i })
-    ).not.toBeDisabled();
-  });
-
-  it('should render the select area type drop down and indicate there are no areas selected', () => {
-    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
-
-    expect(screen.getByText(/Selected areas \(0\)/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toBeInTheDocument();
-  });
-
-  it('should render all the available areaTypes sorted by level', () => {
-    const expectedAreaTypeOptions = ['A000', 'A001', 'A002', 'A003'];
-
-    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
-
-    const areaTypeDropDown = screen.getByRole('combobox', {
-      name: /Select an area type/i,
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).toBeDisabled();
     });
 
-    const allOptions = within(areaTypeDropDown).getAllByRole('option');
+    it('should not disable the select area type drop down when there are no areas selected', () => {
+      render(<AreaFilter selectedAreas={[]} />);
 
-    expect(
-      screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toHaveLength(4);
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).not.toBeDisabled();
+    });
 
-    allOptions.forEach((option, i) => {
-      expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+    it('should render the select area type drop down and indicate there are no areas selected', () => {
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      expect(screen.getByText(/Selected areas \(0\)/i)).toBeInTheDocument();
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).toBeInTheDocument();
+    });
+
+    it('should render all the available areaTypes sorted by level', () => {
+      const expectedAreaTypeOptions = ['A000', 'A001', 'A002', 'A003'];
+
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      const areaTypeDropDown = screen.getByRole('combobox', {
+        name: /Select an area type/i,
+      });
+
+      const allOptions = within(areaTypeDropDown).getAllByRole('option');
+
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).toHaveLength(4);
+
+      allOptions.forEach((option, i) => {
+        expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+      });
+    });
+
+    it('should have the area type provided via the searchParams selected', () => {
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).toHaveValue('A002');
+    });
+
+    it('should add the selected areaType to the url', async () => {
+      const user = userEvent.setup();
+
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      await user.selectOptions(
+        screen.getByRole('combobox', { name: /Select an area type/i }),
+        'A001'
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
+        {
+          scroll: false,
+        }
+      );
     });
   });
 
-  it('should have the area type provided via the searchParams selected', () => {
-    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+  describe('Group type', () => {
+    it('should disable the select group type drop down when there are areas selected', () => {
+      render(<AreaFilter selectedAreas={[mockArea]} />);
 
-    expect(
-      screen.getByRole('combobox', { name: /Select an area type/i })
-    ).toHaveValue('A002');
-  });
+      expect(
+        screen.getByRole('combobox', { name: /1. Select a group type/i })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('combobox', { name: /1. Select a group type/i })
+      ).toBeDisabled();
+    });
 
-  it('should add the selected areaType to the url', async () => {
-    const user = userEvent.setup();
+    it('should not disable the select group type drop down when there are no areas selected', () => {
+      render(<AreaFilter selectedAreas={[]} />);
 
-    render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+      expect(
+        screen.getByRole('combobox', { name: /1. Select a group type/i })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('combobox', { name: /1. Select a group type/i })
+      ).not.toBeDisabled();
+    });
 
-    await user.selectOptions(
-      screen.getByRole('combobox', { name: /Select an area type/i }),
-      'A001'
-    );
+    it('should render all applicable group types based upon the area selected', () => {
+      const expectedAreaTypeOptions = ['A000', 'A001', 'A002'];
 
-    expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
-      {
-        scroll: false,
-      }
-    );
+      render(
+        <AreaFilter
+          availableAreaTypes={availableAreaTypes}
+          selectedAreaType="A002"
+        />
+      );
+
+      const groupTypeDropDown = screen.getByRole('combobox', {
+        name: /1. Select a group type/i,
+      });
+
+      const allOptions = within(groupTypeDropDown).getAllByRole('option');
+
+      expect(
+        screen.getByRole('combobox', { name: /1. Select a group type/i })
+      ).toHaveLength(3);
+
+      allOptions.forEach((option, i) => {
+        expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+      });
+    });
+
+    it.skip('should have the group type provided via the searchParams selected pre-selected', () => {
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      expect(
+        screen.getByRole('combobox', { name: /Select an area type/i })
+      ).toHaveValue('A002');
+    });
+
+    it.skip('should add the selected groupType to the url', async () => {
+      const user = userEvent.setup();
+
+      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+
+      await user.selectOptions(
+        screen.getByRole('combobox', { name: /Select an area type/i }),
+        'A001'
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(
+        `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
+        {
+          scroll: false,
+        }
+      );
+    });
   });
 });
