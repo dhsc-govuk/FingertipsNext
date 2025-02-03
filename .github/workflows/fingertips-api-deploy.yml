@@ -49,7 +49,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'fingertips-db-deploy.yml',
-              head_sha: ${{ github.sha }},
+              head_sha: '${{ github.sha }}',
               status: 'completed'
             });
             core.setOutput("db_completed", runs.data.workflow_runs.length > 0 ? 'true' : 'false');
