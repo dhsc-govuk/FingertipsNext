@@ -29,7 +29,7 @@ jobs:
             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml.yml/runs?branch=main&status=completed&per_page=1" \
             | jq -r '.workflow_runs[0].id')
         fi
-
+        echo "Looking for $RUN_ID"
         echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
