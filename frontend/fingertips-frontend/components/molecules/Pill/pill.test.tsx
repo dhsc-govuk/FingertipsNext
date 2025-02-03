@@ -16,7 +16,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={mockFilterRemoveFunction}
+        removeFilter={mockFilterRemoveFunction}
       />
     );
 
@@ -32,7 +32,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={mockFilterRemoveFunction}
+        removeFilter={mockFilterRemoveFunction}
       />
     );
 
@@ -47,7 +47,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={mockFilterRemoveFunction}
+        removeFilter={mockFilterRemoveFunction}
       />
     );
 
@@ -61,7 +61,7 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
-        handleSelectedFilterRemoval={mockFilterRemoveFunction}
+        removeFilter={mockFilterRemoveFunction}
       />
     );
 

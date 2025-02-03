@@ -89,7 +89,7 @@ export function AreaFilter({
     SearchStateManager.setStateFromParams(existingParams);
   const searchState = searchStateManager.getSearchState();
 
-  const handleAreaTypeSelect = (areaTypeSelected: string) => {
+  const areaTypeSelect = (areaTypeSelected: string) => {
     searchStateManager.addParamValueToState(
       SearchParams.AreaTypeSelected,
       areaTypeSelected
@@ -97,7 +97,7 @@ export function AreaFilter({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const handleRemoveSelectedArea = (areaCode: string) => {
+  const removeSelectedArea = (areaCode: string) => {
     searchStateManager.removeParamValueFromState(
       SearchParams.AreasSelected,
       areaCode
@@ -117,13 +117,13 @@ export function AreaFilter({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreas?.length ?? 0})`}
           </StyledFilterLabel>
-          {selectedAreas && selectedAreas.length > 0
-            ? selectedAreas?.map((selectedArea) => (
+          {selectedAreas
+            ? selectedAreas.map((selectedArea) => (
                 <Pill
                   key={selectedArea.code}
                   selectedFilterName={selectedArea.name}
                   selectedFilterId={selectedArea.code}
-                  handleSelectedFilterRemoval={handleRemoveSelectedArea}
+                  removeFilter={removeSelectedArea}
                 />
               ))
             : null}
@@ -133,7 +133,7 @@ export function AreaFilter({
           <StyledFilterSelect
             label="Select an area type"
             input={{
-              onChange: (e) => handleAreaTypeSelect(e.target.value),
+              onChange: (e) => areaTypeSelect(e.target.value),
               defaultValue: searchState[SearchParams.AreaTypeSelected],
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
