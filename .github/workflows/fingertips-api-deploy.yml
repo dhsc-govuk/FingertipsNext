@@ -1,18 +1,25 @@
 name: Fingertips API Deploy
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Fingertips API Build]
-    types:
-      - completed
+  push:
     branches:
-      - main
+      feature/DHSCFT-191_create-db-workflows
+    paths:
+      api/**
+
+
+# on:
+#   workflow_dispatch:
+#   workflow_run:
+#     workflows: [Fingertips API Build]
+#     types:
+#       - completed
+#     branches:
+#       - main
 
 jobs:
   check-db-changes:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,7 +47,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'fingertips-db-deploy.yml',
-              head_sha: ${{ github.event.workflow_run.head_branch }},
+              head_sha: ${{ github.sha }},
               status: 'completed'
             });
             core.setOutput("db_completed", runs.data.workflow_runs.length > 0 ? 'true' : 'false');

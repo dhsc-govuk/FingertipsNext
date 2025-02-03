@@ -1,13 +1,20 @@
 name: Fingertips DB Deploy
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Fingertips DB Build]
-    types:
-      - completed
+  push:
     branches:
-      - main
+      feature/DHSCFT-191_create-db-workflows
+    paths:
+      database/**
+
+# on:
+#   workflow_dispatch:
+#   workflow_run:
+#     workflows: [Fingertips DB Build]
+#     types:
+#       - completed
+#     branches:
+#       - main
 
 jobs:
   deploy-db-dacpac:
