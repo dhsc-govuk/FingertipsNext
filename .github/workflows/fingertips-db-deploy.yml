@@ -15,7 +15,7 @@ on:
 #       - main
 jobs:
   deploy-db-dacpac:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         environment: [
@@ -24,21 +24,25 @@ jobs:
     environment: ${{ matrix.environment }}
     steps:
     - uses: actions/checkout@v3
-    - name: Get latest workflow run ID
-      id: get-run-id
+
+    - name: Set and use run_id dynamically
+      shell: pwsh  # Ensure the script runs in PowerShell
       run: |
-        if [ "${{ github.event_name }}" == "workflow_run" ]; then
-          RUN_ID="${{ github.event.workflow_run.id }}"
-          echo "using workflow run"
-        else
-          echo "using other triggers"
-          RUN_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml/runs?branch=feature/DHSCFT-191_create-db-workflows&status=completed&per_page=1" \
-            | jq -r '.workflow_runs[0].id')
-        fi
-        echo "Looking for $RUN_ID"
-        echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+        if ("${{ github.event_name }}" -eq "workflow_run") {
+          $RUN_ID = "${{ github.event.workflow_run.id }}"
+          Write-Output "Using workflow run"
+        } else {
+          Write-Output "Using other triggers"
+
+          # Fetch latest workflow run ID
+          $response = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml/runs?branch=feature/DHSCFT-191_create-db-workflows&status=completed&per_page=1" `
+            -Headers @{ "Authorization" = "Bearer ${{ secrets.GITHUB_TOKEN }}"; "Accept" = "application/vnd.github.v3+json" }
+
+          $RUN_ID = $response.workflow_runs[0].id
+        }
+
+        Write-Output "Looking for $RUN_ID"
+        echo "RUN_ID=$RUN_ID" | Out-File -FilePath $env:GITHUB_ENV -Append
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,8 +52,7 @@ jobs:
         name: dacpac
         run-id: ${{ env.RUN_ID }}
         github-token: ${{ github.token }}
-    - run: |
-        ls -ll 
+
     - uses: azure/sql-action@v2.3
       with:
         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
