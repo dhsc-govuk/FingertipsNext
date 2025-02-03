@@ -38,7 +38,7 @@ jobs:
           Write-Output "Using other triggers"
 
           # Fetch latest workflow run ID
-          $response = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml/runs?branch=main&status=completed&per_page=1" `
+          $response = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml/runs?branch=feature/DHSCFT-191_create-db-workflows&status=completed&per_page=1" `
             -Headers @{ "Authorization" = "Bearer ${{ secrets.GITHUB_TOKEN }}"; "Accept" = "application/vnd.github.v3+json" }
 
           $RUN_ID = $response.workflow_runs[0].id
