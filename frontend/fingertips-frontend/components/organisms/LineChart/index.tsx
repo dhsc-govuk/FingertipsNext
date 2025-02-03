@@ -30,7 +30,6 @@ export function LineChart({
     },
     chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
     title: {
-      text: 'Line chart to show how the indicator has changed over time for the area',
       style: {
         display: 'none',
       },
@@ -43,7 +42,11 @@ export function LineChart({
       tickLength: 0,
     },
     legend: {
+      title: {
+        text: 'Areas',
+      },
       verticalAlign: 'top',
+      align: 'left',
     },
     series: seriesData,
     tooltip: {
