@@ -37,22 +37,50 @@ jobs:
             echo "DB_CHANGED=false" >> $GITHUB_ENV
           fi
 
-      - name: Check Database Deployment Status
+      - name: Wait for Database Deployment to Complete
         uses: actions/github-script@v7
         id: database_status
         if: env.DB_CHANGED == 'true'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          retries: 3
+          retries: 10  # Retry up to 10 times
           script: |
-            const runs = await github.rest.actions.listWorkflowRuns({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'fingertips-db-deploy.yml',
-              head_sha: '${{ github.sha }}',
-              status: 'completed'
-            });
-            core.setOutput("db_completed", runs.data.workflow_runs.length > 0 ? 'true' : 'false');
+            async function waitForDBDeployment() {
+              const workflowName = 'fingertips-db-deploy.yml';
+              const headSHA = '${{ github.sha }}';
+              const maxRetries = 20;
+              const delay = 30 * 1000; // 30 seconds per check
+              
+              for (let i = 0; i < maxRetries; i++) {
+                const runs = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: workflowName,
+                  head_sha: headSHA,
+                });
+  
+                if (runs.data.workflow_runs.length > 0) {
+                  const latestRun = runs.data.workflow_runs[0]; // Get the most recent run
+                  
+                  if (latestRun.status === 'completed') {
+                    console.log(`Database deployment completed with status: ${latestRun.conclusion}`);
+                    core.setOutput("db_completed", 'true');
+                    return;
+                  } else {
+                    console.log(`Database deployment is still running. Status: ${latestRun.status}`);
+                  }
+                } else {
+                  console.log("No database deployment run found yet.");
+                }
+  
+                await new Promise(resolve => setTimeout(resolve, delay)); // Wait before retrying
+              }
+  
+              console.log("Database deployment did not complete within the timeout period.");
+              core.setFailed("Database deployment did not complete in time.");
+            }
+  
+            await waitForDBDeployment();
 
   determine-version:
     uses: ./.github/workflows/determine-semver.yml
