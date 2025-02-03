@@ -12,6 +12,7 @@ describe('SearchStateManager', () => {
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
       };
 
       const stateManager = new SearchStateManager(state);
@@ -147,6 +148,7 @@ describe('SearchStateManager', () => {
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
       };
 
       const stateManager = new SearchStateManager(state);
@@ -165,6 +167,7 @@ describe('SearchStateManager', () => {
       params.append(SearchParams.AreasSelected, 'A001');
       params.append(SearchParams.AreasSelected, 'A002');
       params.append(SearchParams.AreaTypeSelected, 'Some area type');
+      params.append(SearchParams.GroupTypeSelected, 'Some group type');
 
       const stateManager = SearchStateManager.setStateFromParams(params);
       const newState = stateManager.getSearchState();
@@ -174,6 +177,7 @@ describe('SearchStateManager', () => {
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
       });
     });
   });
@@ -192,6 +196,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
         `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
+        `&${SearchParams.GroupTypeSelected}=Some+group+type`,
       ].join('');
 
       const stateManager = new SearchStateManager({
@@ -199,6 +204,7 @@ describe('SearchStateManager', () => {
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
       });
 
       const generatedPath = stateManager.generatePath('/some-path');
