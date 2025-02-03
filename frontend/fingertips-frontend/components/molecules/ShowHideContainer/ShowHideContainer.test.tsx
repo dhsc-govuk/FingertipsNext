@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { ShowHideContainer } from '.';
 
 describe('ShowHideContainer', () => {
-  it('should not show the side bar when showSideBarWhenOpen is false', async () => {
+  it('should not show the side bar when showSideBarWhenOpen is false', () => {
     /**
      * In the snapshot you will still the following style
      * .c1 div {
@@ -20,7 +20,7 @@ describe('ShowHideContainer', () => {
     expect(container.asFragment()).toMatchSnapshot();
   });
 
-  it('should not show the side bar when showSideBarWhenOpen is true', async () => {
+  it('should not show the side bar when showSideBarWhenOpen is true', () => {
     /**
      * In the snapshot you will still the following style
      * .c1 div {
