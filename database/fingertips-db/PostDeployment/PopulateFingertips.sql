@@ -1,3 +1,5 @@
+-- test comment
+
 -- This file contains SQL statements that will be executed after the build script.
 
 --delete all existing data so we always start from a known position
