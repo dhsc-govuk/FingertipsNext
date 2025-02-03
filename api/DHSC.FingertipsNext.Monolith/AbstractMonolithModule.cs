@@ -6,7 +6,8 @@ namespace DHSC.FingertipsNext.Monolith;
 
 public abstract class AbstractMonolithModule : IMonolithModule
 {
-    public virtual string ModuleName => throw new System.NotImplementedException();
+    public abstract string ModuleName { get; }
+    
     public void RegisterConfiguration(IConfigurationBuilder configurationBuilder)
     {
         var pathToExe = Process.GetCurrentProcess().MainModule?.FileName;

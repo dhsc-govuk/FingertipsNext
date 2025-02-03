@@ -6,19 +6,19 @@ GET http://localhost:5144/areas/areatypes
 > {%
     client.test("Expected area types returned", function (callbackfn, thisArg) {
         const expected = [
-            "Counties & UAs",
-            "Country",
-            "GP",
-            "ICB",
-            "NHS region",
-            "PCN",
-            "Regions Statistical"
+            { name: "Counties & UAs" , level: 2, hierarchyName: "Admin" },
+            { name: "Country" , level: 0, hierarchyName: "All" },
+            { name: "GP" , level: 4, hierarchyName: "NHS" },
+            { name: "ICB" , level: 2, hierarchyName: "NHS" },
+            { name: "NHS region" , level: 1, hierarchyName: "NHS" },
+            { name: "PCN", level: 3, hierarchyName: "NHS" },
+            { name: "Regions Statistical", level: 1, hierarchyName: "Admin" }
         ];
         client.assert(response.status === 200, "Response status is not 200");
         
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e === r) != null))
+        returnedTypes.forEach(r => client.assert(expected.find(e => e.name === r.name) != null))
     });
 %}
 
@@ -38,7 +38,7 @@ GET http://localhost:5144/areas/areatypes?hierarchy_type=NHS
 
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e === r) != null))
+        returnedTypes.forEach(r => client.assert(expected.find(e => e === r.name) != null))
     });
 %}
 
@@ -49,19 +49,13 @@ GET http://localhost:5144/areas/areatypes?hierarchy_type=All
 > {%
     client.test("Expected 'all hierarchies' area types returned", function (callbackfn, thisArg) {
         const expected = [
-            "Counties & UAs",
-            "Country",
-            "GP",
-            "ICB",
-            "NHS region",
-            "PCN",
-            "Regions Statistical"
+            "Country"
         ];
         client.assert(response.status === 200, "Response status is not 200");
 
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e === r) != null))
+        returnedTypes.forEach(r => client.assert(expected.find(e => e === r.name) != null))
     });
 %}
 

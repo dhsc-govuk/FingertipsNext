@@ -1,8 +1,8 @@
 ﻿
-### CEHECK GET area details fully populated, including direct children
+### CHECK GET area details fully populated, including direct children and siblings
 
-# basildon PCN
-GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true
+# east basildon PCN
+GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true&include_siblings=true
 
 > {%
     client.test("Expected basildon data returned", function (callbackfn, thisArg) {
@@ -26,6 +26,10 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
         client.assert(area.ancestors.filter(x => x.code === "E38000007").length === 1) // "NHS Basildon And Brentwood ICB"
         client.assert(area.ancestors.filter(x => x.code === "E40000007").length === 1) // "East of England NHS Region"
         client.assert(area.ancestors.filter(x => x.code === "E92000001").length === 1) // "England"
+
+        // 1 sibling expected for basildon
+        client.assert(area.siblings.length > 0);
+        client.assert(area.siblings.filter(x => x.code === "U55146" && x.name == "Central Basildon PCN").length === 1) // "NHS Cambridgeshire and Peterborough ICB"
     });
 %}
 
