@@ -25,10 +25,15 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const data = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodes,
-  });
+
+  const data = await Promise.all(
+    indicatorsSelected.map((indicatorId) =>
+      indicatorApi.getHealthDataForAnIndicator({
+        indicatorId: Number(indicatorId),
+        areaCodes: [...areaCodes, areaCodeForEngland],
+      })
+    )
+  );
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
@@ -45,7 +50,7 @@ export default async function ChartPage(
     preparedPopulationData = preparePopulationData(
       rawPopulationData,
       areaCodes[0],
-      areaCodes[1] // Passing the first two area codes until business logic to select baseline comparison for pop pyramids is added
+      areaCodes[1] // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
     );
   }
 

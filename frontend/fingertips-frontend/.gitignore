@@ -40,5 +40,6 @@ yarn-error.log*
 next-env.d.ts
 /test-results/
 /playwright-report/
+/ctrf/
 /blob-report/
 /playwright/.cache/
