@@ -9,6 +9,7 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
+import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -28,6 +29,9 @@ export function Chart({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
   const backLinkPath = searchState.generatePath('/results');
+
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
+
   return (
     <>
       <BackLink
@@ -74,7 +78,10 @@ export function Chart({
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data[0][0]}></LineChartTable>
+      <LineChartTable
+        data={data[0][0]}
+        englandBenchmarkData={englandBenchmarkData}
+      ></LineChartTable>
     </>
   );
 }

@@ -30,7 +30,7 @@ export default async function ChartPage(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
-        areaCodes: areaCodes,
+        areaCodes: [...areaCodes, areaCodeForEngland],
       })
     )
   );

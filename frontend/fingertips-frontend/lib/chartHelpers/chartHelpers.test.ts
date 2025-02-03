@@ -1,8 +1,10 @@
 import {
   generateSeriesData,
+  getEnglandDataForIndicatorIndex,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
+import { mockHealthData } from '@/mock/data/healthdata';
 
 const mockData = [
   {
@@ -139,5 +141,18 @@ describe('sortHealthDataByYearDescending', () => {
 
     const result = sortHealthDataByYearDescending(mockData);
     expect(result).toEqual(mockSortedData);
+  });
+});
+
+describe('getEnglandDataForIndicatorIndex', () => {
+  it('should find England data for specified indicator id', () => {
+    const data = [mockHealthData['337'], mockHealthData['1']];
+
+    expect(getEnglandDataForIndicatorIndex(data, 0)).toEqual(
+      mockHealthData['337'][0]
+    );
+    expect(getEnglandDataForIndicatorIndex(data, 1)).toEqual(
+      mockHealthData['1'][1]
+    );
   });
 });
