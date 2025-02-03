@@ -9,7 +9,7 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
-import { GeoJSON } from 'highcharts';
+import { GeoJSON, GeoJSONFeature } from 'highcharts';
 
 // using mock to spike maps
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -18,6 +18,7 @@ type ChartProps = {
   data: HealthDataForArea[];
   mapData: GeoJSON;
   mapJoinKey: string;
+  mapZoom: GeoJSONFeature;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -29,6 +30,7 @@ export function Chart({
   data,
   mapData,
   mapJoinKey,
+  mapZoom,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -50,6 +52,7 @@ export function Chart({
         data={mockHealthData['Mock 318 for West Midlands CA']}
         mapData={mapData}
         mapJoinKey={mapJoinKey}
+        mapZoom={mapZoom}
       />
 
       {populationData ? (

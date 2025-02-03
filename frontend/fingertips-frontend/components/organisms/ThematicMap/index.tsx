@@ -1,7 +1,7 @@
 'use client';
 
 import { H2 } from 'govuk-react';
-import Highcharts, { GeoJSON } from 'highcharts/highmaps';
+import Highcharts, { GeoJSON, GeoJSONFeature } from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
@@ -9,12 +9,14 @@ interface ThematicMapProps {
   data: HealthDataForArea[];
   mapData: GeoJSON;
   mapJoinKey: string;
+  mapZoom: GeoJSONFeature;
 }
 
 export function ThematicMap({
   data,
   mapData,
   mapJoinKey,
+  mapZoom,
 }: Readonly<ThematicMapProps>) {
   const mapOptions: Highcharts.Options = {
     chart: {
@@ -27,6 +29,8 @@ export function ThematicMap({
       projection: {
         name: 'Miller',
       },
+      fitToGeometry: mapZoom,
+      padding: 20,
     },
     credits: {
       enabled: false,

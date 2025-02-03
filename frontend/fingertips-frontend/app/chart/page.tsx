@@ -11,6 +11,7 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
+import { getMapZoom } from '@/lib/mapUtils/getMapZoom';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -52,16 +53,33 @@ export default async function ChartPage(
     );
   }
 
+  // Map variables
   // TODO: use areaType from filter
   const areaType: string = 'Counties & UAs';
+  const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
+  // TODO: replace array with group areaCodes
+  const mapZoom = getMapZoom(
+    mapData,
+    [
+      'E08000025',
+      'E08000029',
+      'E08000030',
+      'E08000027',
+      'E08000028',
+      'E08000031',
+      'E08000026',
+    ],
+    mapJoinKey
+  );
 
   return (
     <Chart
       populationData={preparedPopulationData}
       data={data}
-      mapData={getMapFile(areaType)}
+      mapData={mapData}
       mapJoinKey={mapJoinKey}
+      mapZoom={mapZoom}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />
