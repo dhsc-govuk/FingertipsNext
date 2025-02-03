@@ -1,21 +1,13 @@
 name: Fingertips API Deploy
 
 on:
-  push:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Fingertips API Build]
+    types:
+      - completed
     branches:
-      feature/DHSCFT-191_create-db-workflows
-    paths:
-      api/**
-
-
-# on:
-#   workflow_dispatch:
-#   workflow_run:
-#     workflows: [Fingertips API Build]
-#     types:
-#       - completed
-#     branches:
-#       - main
+      - main
 
 jobs:
   check-db-changes:
@@ -25,11 +17,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Check for changes in database directory
         id: check
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^database/'; then
+          if git diff --name-only HEAD~1 HEAD | grep '^database/'; then
             echo "DB changes detected"
             echo "DB_CHANGED=true" >> $GITHUB_ENV
           else
@@ -43,11 +36,11 @@ jobs:
         if: env.DB_CHANGED == 'true'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          retries: 10  # Retry up to 10 times
+          retries: 10
           script: |
             async function waitForDBDeployment() {
               const workflowName = 'fingertips-db-deploy.yml';
-              const headSHA = '${{ github.sha }}';
+              const headSHA = '${{ github.event.workflow_run.head_branch }}';
               const maxRetries = 20;
               const delay = 30 * 1000; // 30 seconds per check
               
@@ -60,7 +53,7 @@ jobs:
                 });
   
                 if (runs.data.workflow_runs.length > 0) {
-                  const latestRun = runs.data.workflow_runs[0]; // Get the most recent run
+                  const latestRun = runs.data.workflow_runs[0];
                   
                   if (latestRun.status === 'completed') {
                     console.log(`Database deployment completed with status: ${latestRun.conclusion}`);
@@ -73,7 +66,7 @@ jobs:
                   console.log("No database deployment run found yet.");
                 }
   
-                await new Promise(resolve => setTimeout(resolve, delay)); // Wait before retrying
+                await new Promise(resolve => setTimeout(resolve, delay));
               }
   
               console.log("Database deployment did not complete within the timeout period.");

@@ -44,6 +44,7 @@ jobs:
 
       - name: Upload .dacpac file artifact
         uses: actions/upload-artifact@v4
+        if: github.event_name == 'push'
         with:
           name: dacpac
           path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
