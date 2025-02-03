@@ -16,6 +16,12 @@ on:
 jobs:
   deploy-db-dacpac:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [
+          development
+        ]
+    environment: ${{ matrix.environment }}
     steps:
     - uses: actions/checkout@v3
     - name: Get latest workflow run ID
