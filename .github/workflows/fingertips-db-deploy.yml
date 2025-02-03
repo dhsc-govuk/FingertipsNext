@@ -58,4 +58,4 @@ jobs:
         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         path: 'fingertips-db.dacpac'
         action: 'publish'
-        arguments: '/p:DropObjectsNotInSource=true'
+        arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
