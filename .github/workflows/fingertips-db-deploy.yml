@@ -1,0 +1,48 @@
+name: Fingertips DB Deploy
+
+on:
+  push:
+    branches:
+      - feature/DHSCFT-191_create-db-workflows
+
+# on:
+#   workflow_dispatch:
+#   workflow_run:
+#     workflows: [Fingertips DB Build]
+#     types:
+#       - completed
+#     branches:
+#       - main
+jobs:
+  deploy-db-dacpac:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get latest workflow run ID
+      id: get-run-id
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_run" ]; then
+          RUN_ID="${{ github.event.workflow_run.id }}"
+        else
+          RUN_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/fingertips-db-build.yml.yml/runs?branch=main&status=completed&per_page=1" \
+            | jq -r '.workflow_runs[0].id')
+        fi
+
+        echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Download DACPAC
+      uses: actions/download-artifact@v4
+      with:
+        name: dacpac
+        run-id: ${{ env.RUN_ID }}
+        github-token: ${{ github.token }}
+    - uses: azure/sql-action@v2.3
+      with:
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        path: '$GITHUB_WORKSPACE/fingertips-db.dacpac'
+        action: 'publish'
+        arguments: '/p:DropObjectsNotInSource=true'
