@@ -12,6 +12,7 @@ import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
+import { mockAvailableAreas } from '@/mock/data/areaData';
 
 const generateAreaType = (name: string, level: number): AreaType => ({
   name,
@@ -76,8 +77,33 @@ describe('Results Page', () => {
     );
   });
 
+  it('should have made a call to getAreaTypeMembers when an areaType has been selected', async () => {
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypeMembers.mockResolvedValue(
+      mockAvailableAreas['NHS Region']
+    );
+    mockIndicatorSearchService.searchWith.mockResolvedValue(
+      mockIndicatorSearchResults
+    );
+
+    await ResultsPage({
+      searchParams: generateSearchParams({
+        ...searchParams,
+        [SearchParams.AreaTypeSelected]: 'NHS Region',
+      }),
+    });
+
+    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalled();
+    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
+      areaType: 'NHS Region',
+    });
+  });
+
   it('should pass the correct props to the SearchResults Page component', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypeMembers.mockResolvedValue(
+      mockAvailableAreas['NHS Region']
+    );
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
     );
@@ -98,6 +124,7 @@ describe('Results Page', () => {
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
+    expect(page.props.availableAreas).toEqual(mockAvailableAreas['NHS Region']);
     expect(page.props.selectedAreaType).toEqual('Some area type');
     expect(page.props.selectedGroupType).toEqual('Some group type');
   });

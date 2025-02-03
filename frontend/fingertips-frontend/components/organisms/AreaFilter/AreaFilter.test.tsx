@@ -3,6 +3,7 @@ import { AreaFilter } from '.';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
+import { mockAvailableAreas } from '@/mock/data/areaData';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -218,6 +219,28 @@ describe('Area Filter', () => {
           scroll: false,
         }
       );
+    });
+  });
+
+  describe('Areas', () => {
+    it('should show all the applicable areas as checkboxes', () => {
+      const availableAreas = mockAvailableAreas['NHS region'];
+
+      render(
+        <AreaFilter
+          availableAreaTypes={availableAreaTypes}
+          selectedAreaType="A002"
+          availableAreas={availableAreas}
+        />
+      );
+
+      expect(screen.getAllByRole('checkbox')).toHaveLength(7);
+
+      availableAreas.forEach((area) => {
+        expect(
+          screen.getByRole('checkbox', { name: area.name })
+        ).toBeInTheDocument();
+      });
     });
   });
 });

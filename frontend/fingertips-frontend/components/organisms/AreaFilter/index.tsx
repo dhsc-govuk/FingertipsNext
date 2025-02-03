@@ -1,6 +1,17 @@
-import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
+import {
+  Area,
+  AreaType,
+  AreaWithRelations,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
+import {
+  Checkbox,
+  H3,
+  LabelText,
+  Paragraph,
+  SectionBreak,
+  Select,
+} from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
@@ -10,6 +21,7 @@ interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
   selectedAreaType?: string;
   availableAreaTypes?: AreaType[];
+  availableAreas?: Area[];
   selectedGroupType?: string;
 }
 
@@ -86,6 +98,7 @@ export function AreaFilter({
   selectedAreas,
   selectedAreaType,
   availableAreaTypes,
+  availableAreas,
   selectedGroupType,
 }: Readonly<AreaFilterProps>) {
   const searchParams = useSearchParams();
@@ -167,6 +180,14 @@ export function AreaFilter({
               ))}
             </StyledFilterSelect>
           </ShowHideContainer>
+
+          <>
+            {availableAreas?.map((area) => (
+              <Checkbox key={area.code} value={area.code} sizeVariant="SMALL">
+                {area.name}
+              </Checkbox>
+            ))}
+          </>
         </ShowHideContainer>
       </StyledFilterDiv>
     </StyledFilterPane>

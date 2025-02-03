@@ -5,7 +5,7 @@ import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreaType } from '@/generated-sources/ft-api-client';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
 
 export default async function Page(
   props: Readonly<{
@@ -28,16 +28,26 @@ export default async function Page(
     const areasApi = ApiClientFactory.getAreasApiClient();
 
     // const availableAreaTypes = await areasApi.getAreaTypes();
+    // const availableAreas = selectedAreaType
+    //   ? await areasApi.getAreaTypes()
+    //   : [];
 
     // When DHSCFT-210 is complete The following try catch can be removed
     // and the line above uncommented as part of DHSCFT-211 to check FE against the API
     let availableAreaTypes: AreaType[];
+    let availableAreas: Area[] = [];
     try {
       availableAreaTypes = await areasApi.getAreaTypes();
+      if (selectedAreaType) {
+        availableAreas = await areasApi.getAreaTypeMembers({
+          areaType: selectedAreaType,
+        });
+      }
     } catch (error) {
       console.log(`Error from areasApi ${error}`);
 
       availableAreaTypes = [];
+      availableAreas = [];
     }
 
     const initialState = {
@@ -58,6 +68,7 @@ export default async function Page(
         searchResultsFormState={initialState}
         searchResults={searchResults}
         availableAreaTypes={availableAreaTypes}
+        availableAreas={availableAreas}
         selectedAreaType={selectedAreaType}
         selectedGroupType={selectedGroupType}
       />

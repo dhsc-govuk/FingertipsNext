@@ -18,12 +18,13 @@ import { SearchResultState, viewCharts } from './searchResultsActions';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaType } from '@/generated-sources/ft-api-client';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
+  availableAreas?: Area[];
   selectedAreaType?: string;
   selectedGroupType?: string;
 };
@@ -41,6 +42,7 @@ export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  availableAreas,
   selectedAreaType,
   selectedGroupType,
 }: Readonly<SearchResultsProps>) {
@@ -84,6 +86,7 @@ export function SearchResults({
             <GridCol setWidth="one-third">
               <AreaFilter
                 availableAreaTypes={availableAreaTypes}
+                availableAreas={availableAreas}
                 selectedAreaType={selectedAreaType}
                 selectedGroupType={selectedGroupType}
               />
