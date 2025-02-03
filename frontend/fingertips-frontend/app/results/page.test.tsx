@@ -83,7 +83,11 @@ describe('Results Page', () => {
     );
 
     const page = await ResultsPage({
-      searchParams: generateSearchParams(searchParams),
+      searchParams: generateSearchParams({
+        ...searchParams,
+        [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
+      }),
     });
 
     expect(page.props.searchResultsFormState).toEqual({
@@ -94,6 +98,8 @@ describe('Results Page', () => {
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
+    expect(page.props.selectedAreaType).toEqual('Some area type');
+    expect(page.props.selectedGroupType).toEqual('Some group type');
   });
 
   // To unskip as part of DHSCFT-211

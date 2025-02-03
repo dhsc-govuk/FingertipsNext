@@ -25,6 +25,7 @@ type SearchResultsProps = {
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
   selectedAreaType?: string;
+  selectedGroupType?: string;
 };
 
 const isIndicatorSelected = (
@@ -41,6 +42,7 @@ export function SearchResults({
   searchResults,
   availableAreaTypes,
   selectedAreaType,
+  selectedGroupType,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
@@ -83,6 +85,7 @@ export function SearchResults({
               <AreaFilter
                 availableAreaTypes={availableAreaTypes}
                 selectedAreaType={selectedAreaType}
+                selectedGroupType={selectedGroupType}
               />
             </GridCol>
             <GridCol>

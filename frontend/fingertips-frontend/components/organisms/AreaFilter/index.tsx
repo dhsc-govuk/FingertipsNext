@@ -10,6 +10,7 @@ interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
   selectedAreaType?: string;
   availableAreaTypes?: AreaType[];
+  selectedGroupType?: string;
 }
 
 const StyledFilterPane = styled('div')({});
@@ -60,6 +61,10 @@ const StyledFilterSelect = styled(Select)({
   marginBottom: '1em',
 });
 
+type AllowedParamsForHandleSelect =
+  | SearchParams.AreaTypeSelected
+  | SearchParams.GroupTypeSelected;
+
 const determineApplicableGroupTypes = (
   sortedAreaTypes?: AreaType[],
   selectedAreaType?: string
@@ -81,6 +86,7 @@ export function AreaFilter({
   selectedAreas,
   selectedAreaType,
   availableAreaTypes,
+  selectedGroupType,
 }: Readonly<AreaFilterProps>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -89,13 +95,12 @@ export function AreaFilter({
   const existingParams = new URLSearchParams(searchParams);
   const searchStateManager =
     SearchStateManager.setStateFromParams(existingParams);
-  const searchState = searchStateManager.getSearchState();
 
-  const handleAreaTypeSelect = (areaTypeSelected: string) => {
-    searchStateManager.addParamValueToState(
-      SearchParams.AreaTypeSelected,
-      areaTypeSelected
-    );
+  const handleSelect = (
+    searchParamKey: AllowedParamsForHandleSelect,
+    valueSelected: string
+  ) => {
+    searchStateManager.addParamValueToState(searchParamKey, valueSelected);
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
@@ -126,8 +131,9 @@ export function AreaFilter({
           <StyledFilterSelect
             label="Select an area type"
             input={{
-              onChange: (e) => handleAreaTypeSelect(e.target.value),
-              defaultValue: searchState[SearchParams.AreaTypeSelected],
+              onChange: (e) =>
+                handleSelect(SearchParams.AreaTypeSelected, e.target.value),
+              defaultValue: selectedAreaType,
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
@@ -148,6 +154,9 @@ export function AreaFilter({
             <StyledFilterSelect
               label="1. Select a group type"
               input={{
+                onChange: (e) =>
+                  handleSelect(SearchParams.GroupTypeSelected, e.target.value),
+                defaultValue: selectedGroupType,
                 disabled: selectedAreas && selectedAreas?.length > 0,
               }}
             >

@@ -13,9 +13,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({
-      [SearchParams.AreaTypeSelected]: 'A002',
-    }),
+    useSearchParams: () => ({}),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -105,8 +103,13 @@ describe('Area Filter', () => {
       });
     });
 
-    it('should have the area type provided via the searchParams selected', () => {
-      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+    it('should have have the areaTypeSelected as the pre-selected value', () => {
+      render(
+        <AreaFilter
+          availableAreaTypes={availableAreaTypes}
+          selectedAreaType="A002"
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
@@ -180,26 +183,37 @@ describe('Area Filter', () => {
       });
     });
 
-    it.skip('should have the group type provided via the searchParams selected pre-selected', () => {
-      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+    it('should have have the groupTypeSelected as the pre-selected value', () => {
+      render(
+        <AreaFilter
+          availableAreaTypes={availableAreaTypes}
+          selectedAreaType="A003"
+          selectedGroupType="A000"
+        />
+      );
 
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
-      ).toHaveValue('A002');
+        screen.getByRole('combobox', { name: /Select a group type/i })
+      ).toHaveValue('A000');
     });
 
-    it.skip('should add the selected groupType to the url', async () => {
+    it('should add the selected groupType to the url', async () => {
       const user = userEvent.setup();
 
-      render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
+      render(
+        <AreaFilter
+          availableAreaTypes={availableAreaTypes}
+          selectedAreaType="A003"
+        />
+      );
 
       await user.selectOptions(
-        screen.getByRole('combobox', { name: /Select an area type/i }),
+        screen.getByRole('combobox', { name: /Select a group type/i }),
         'A001'
       );
 
       expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
+        `${mockPath}?${SearchParams.GroupTypeSelected}=A001`,
         {
           scroll: false,
         }
