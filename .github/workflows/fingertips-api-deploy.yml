@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Check for changes in database directory
         id: check
@@ -59,7 +61,7 @@ jobs:
       gitversion-version: "6.0.x"
 
   api-deploy-development:
-    needs: determine-version
+    needs: [determine-version, check-db-changes]
     uses: ./.github/workflows/deploy-container.yml
     with:
       tf_state_file_name: fingertips.api.tfstate
