@@ -14,11 +14,30 @@ export function sortHealthDataByDate(
 export function generateSeriesData(
   data: HealthDataForArea[]
 ): Highcharts.SeriesLineOptions[] {
-  return data.map((item) => ({
+  const series = data.map<Highcharts.SeriesLineOptions>((item) => ({
     type: 'line',
     name: `${item.areaName}`,
     data: item.healthData.map((point) => [point.year, point.value]),
   }));
+
+  const englandData = data.filter(
+    (item) => item.areaCode === areaCodeForEngland
+  );
+  console.log('englandData', englandData);
+  const englandSeries: Highcharts.SeriesLineOptions = {
+    type: 'line',
+    name: 'England',
+    data: englandData.flatMap((item) =>
+      item.healthData.map((point) => [point.year, point.value])
+    ),
+    color: 'black',
+    marker: {
+      symbol: 'circle',
+    },
+  };
+
+  series.push(englandSeries);
+  return series;
 }
 
 export function sortHealthDataByYearDescending(

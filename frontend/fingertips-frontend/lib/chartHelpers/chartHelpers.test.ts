@@ -79,6 +79,15 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'line',
       },
+      {
+        color: 'black',
+        data: [],
+        marker: {
+          symbol: 'circle',
+        },
+        name: 'England',
+        type: 'line',
+      },
     ];
     expect(result).toEqual(mockSeriesData);
   });

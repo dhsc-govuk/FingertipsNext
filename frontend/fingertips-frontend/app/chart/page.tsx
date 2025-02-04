@@ -34,6 +34,7 @@ export default async function ChartPage(
       })
     )
   );
+  console.log('data in page === ', data);
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
