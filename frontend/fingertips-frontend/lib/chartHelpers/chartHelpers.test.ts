@@ -1,5 +1,4 @@
 import {
-  generateSeriesData,
   getEnglandDataForIndicatorIndex,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
@@ -64,23 +63,6 @@ describe('sortHealthDataByDate', () => {
     const result = sortHealthDataByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
-  });
-});
-
-describe('generateSeriesData', () => {
-  it('should generate series data', () => {
-    const result = generateSeriesData(mockData);
-    const mockSeriesData = [
-      {
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-      },
-    ];
-    expect(result).toEqual(mockSeriesData);
   });
 });
 

@@ -1,39 +1,43 @@
 'use client';
 
-import Highcharts, { ColorString } from 'highcharts';
+import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import {
-  generateSeriesData,
-  sortHealthDataByDate,
-} from '@/lib/chartHelpers/chartHelpers';
+import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
 import { chartColours } from '@/lib/chartHelpers/colours';
+import { generateSeriesData } from './lineChartHelpers';
 
 interface LineChartProps {
   LineChartTitle?: string;
   data: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
-  seriesColours?: ColorString[];
 }
+
+const chartSymbols: SymbolKeyValue[] = [
+  'square',
+  'triangle',
+  'triangle-down',
+  'circle',
+  'diamond',
+];
 
 export function LineChart({
   LineChartTitle: lineChartTitle,
   data,
   xAxisTitle,
   accessibilityLabel,
-  seriesColours,
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
-  const seriesData = generateSeriesData(sortedSeriesValues);
+  const seriesData = generateSeriesData(sortedSeriesValues, chartSymbols);
 
   const lineChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
     },
     chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
-    colors: seriesColours ?? chartColours,
+    colors: chartColours,
     title: {
       style: {
         display: 'none',
