@@ -4,14 +4,16 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { HeatmapChart, IndicatorRowData } from '@/components/organisms/Heatmap';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { ScatterChart } from '@/components/organisms/ScatterChart';
+import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
-  data: HealthDataForArea[];
+  data: HealthDataForArea[][];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -24,8 +26,8 @@ export function Chart({
   indicatorsSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
-    searchedIndicator,
-    indicatorsSelected,
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
 
   // Temporary test data for Heatmap
@@ -110,6 +112,8 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
+
   return (
     <>
       <BackLink
@@ -130,22 +134,36 @@ export function Chart({
           <br />
         </>
       ) : null}
+      {indicatorsSelected.length == 2 ? (
+        <ScatterChart
+          data={data}
+          ScatterChartTitle="Compare indicators within the area group"
+          yAxisTitle="y: Indicator 1 (value)"
+          yAxisSubtitle="rate per information"
+          xAxisTitle="x: Indicator 2 (value)"
+          xAxisSubtitle="rate per information"
+          accessibilityLabel="A scatter chart showing two indicators"
+        ></ScatterChart>
+      ) : null}
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
-        data={data}
+        data={data[0]}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
       <br />
       <BarChart
-        data={data}
+        data={data[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
       />
       <br />
-      <LineChartTable data={data[0]}></LineChartTable>
+      <LineChartTable
+        data={data[0][0]}
+        englandBenchmarkData={englandBenchmarkData}
+      ></LineChartTable>
       <br />
       <HeatmapChart
         areaCodes={areaCodes}

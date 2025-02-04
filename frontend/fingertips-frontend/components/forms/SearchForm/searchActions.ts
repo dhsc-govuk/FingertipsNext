@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
@@ -46,7 +46,9 @@ export async function searchIndicator(
 
   const { indicator } = validatedFields.data;
 
-  const searchState = new SearchStateManager({ searchedIndicator: indicator });
+  const searchState = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: indicator,
+  });
   redirect(searchState.generatePath('/results'), RedirectType.push);
 }
 

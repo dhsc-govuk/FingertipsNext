@@ -42,7 +42,7 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  it('should make 2 calls for get health data - first one for the indicator the next one for the population data', async () => {
+  it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator the next one for the population data', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -53,12 +53,47 @@ describe('Chart Page', () => {
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(1, {
-      areaCodes: ['A001'],
+      areaCodes: ['A001', areaCodeForEngland],
       indicatorId: 1,
     });
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(2, {
+      areaCodes: ['A001', areaCodeForEngland],
+      indicatorId: indicatorIdForPopulation,
+    });
+  });
+
+  it('should make 3 calls for get health data, when there are 2 indicators selected - first two for the indicators the last one for the population data', async () => {
+    const searchParams: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'testing',
+      [SearchParams.IndicatorsSelected]: ['1', '2'],
+      [SearchParams.AreasSelected]: ['A001'],
+    };
+
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+
+    await ChartPage({
+      searchParams: generateSearchParams(searchParams),
+    });
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(1, {
+      areaCodes: ['A001', areaCodeForEngland],
+      indicatorId: 1,
+    });
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(2, {
+      areaCodes: ['A001', areaCodeForEngland],
+      indicatorId: 2,
+    });
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(3, {
       areaCodes: ['A001', areaCodeForEngland],
       indicatorId: indicatorIdForPopulation,
     });
@@ -71,7 +106,7 @@ describe('Chart Page', () => {
     );
 
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData['A1425']
+      mockHealthData['1']
     );
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
       mockHealthData[`${indicatorIdForPopulation}`]
@@ -81,7 +116,7 @@ describe('Chart Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual(mockHealthData['A1425']);
+    expect(page.props.data).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(expectedPopulateData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
@@ -99,7 +134,7 @@ describe('Chart Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual(mockHealthData['1']);
+    expect(page.props.data).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(undefined);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
