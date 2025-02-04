@@ -10,6 +10,7 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
 import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -31,6 +32,7 @@ export function Chart({
   const backLinkPath = searchState.generatePath('/results');
 
   const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
+  // const dataWithoutEngland = data.filter((item) => item.map(item => item.areaCode!== areaCodeForEngland))
 
   return (
     <>
@@ -66,6 +68,7 @@ export function Chart({
       <LineChart
         LineChartTitle="Line chart to show how the indicator has changed over time for the area"
         data={data[0]}
+        benchmarkData={englandBenchmarkData}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />

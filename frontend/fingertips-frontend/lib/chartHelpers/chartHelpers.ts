@@ -12,32 +12,32 @@ export function sortHealthDataByDate(
 }
 
 export function generateSeriesData(
-  data: HealthDataForArea[]
+  data: HealthDataForArea[],
+  benchmarkData?: HealthDataForArea
 ): Highcharts.SeriesLineOptions[] {
-  const series = data.map<Highcharts.SeriesLineOptions>((item) => ({
-    type: 'line',
-    name: `${item.areaName}`,
-    data: item.healthData.map((point) => [point.year, point.value]),
-  }));
+  
+  const seriesData = data.filter((item) => item.areaCode !== areaCodeForEngland)
+    .map<Highcharts.SeriesLineOptions>((item) => ({
+      type: 'line',
+      name: `${item.areaName}`,
+      data: item.healthData.map((point) => [point.year, point.value]),
+    }));
 
-  const englandData = data.filter(
-    (item) => item.areaCode === areaCodeForEngland
-  );
-
-  const englandSeries: Highcharts.SeriesLineOptions = {
-    type: 'line',
-    name: 'England',
-    data: englandData.flatMap((item) =>
-      item.healthData.map((point) => [point.year, point.value])
-    ),
-    color: 'black',
-    marker: {
-      symbol: 'circle',
-    },
-  };
-
-  series.push(englandSeries);
-  return series;
+  if (benchmarkData) {
+    const englandSeries: Highcharts.SeriesLineOptions = {
+      type: 'line',
+      name: 'Benchmark: England',
+      data:
+        benchmarkData.healthData.map((point) => [point.year, point.value]),
+      color: 'black',
+      marker: {
+        symbol: 'circle',
+      },
+    };
+    seriesData.unshift(englandSeries);
+  }
+  
+  return seriesData;
 }
 
 export function sortHealthDataByYearDescending(
