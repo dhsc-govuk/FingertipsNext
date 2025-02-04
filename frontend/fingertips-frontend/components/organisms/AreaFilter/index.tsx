@@ -96,11 +96,8 @@ const determineApplicableGroupTypes = (
   }
 };
 
-const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean => {
-  return selectedAreas
-    ? selectedAreas?.some((area) => area.code === areaCode)
-    : false;
-};
+const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
+  selectedAreas ? selectedAreas?.some((area) => area.code === areaCode) : false;
 
 export function AreaFilter({
   selectedAreas,
@@ -147,9 +144,6 @@ export function AreaFilter({
   );
 
   const removeSelectedArea = (areaCode: string) => {
-    const searchStateManager =
-      SearchStateManager.setStateFromParams(existingParams);
-
     searchStateManager.removeParamValueFromState(
       SearchParams.AreasSelected,
       areaCode
@@ -225,21 +219,26 @@ export function AreaFilter({
             </StyledFilterSelect>
           </ShowHideContainer>
 
-          <>
-            {availableAreas?.map((area) => (
+          {availableAreas?.map((area) => {
+            const isAreaSelectedValue = isAreaSelected(
+              area.code,
+              selectedAreas
+            );
+            return (
               <Checkbox
-                key={area.code}
+                key={`${area.code}-${isAreaSelectedValue}`}
                 value={area.code}
                 sizeVariant="SMALL"
-                defaultChecked={isAreaSelected(area.code, selectedAreas)}
+                name="area"
+                defaultChecked={isAreaSelectedValue}
                 onChange={(e) =>
                   handleAreaSelected(area.code, e.target.checked)
                 }
               >
                 {area.name}
               </Checkbox>
-            ))}
-          </>
+            );
+          })}
         </ShowHideContainer>
       </StyledFilterDiv>
     </StyledFilterPane>
