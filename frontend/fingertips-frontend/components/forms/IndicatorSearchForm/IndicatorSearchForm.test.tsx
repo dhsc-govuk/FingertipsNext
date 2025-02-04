@@ -1,10 +1,5 @@
 import { expect } from '@jest/globals';
-import {
-  queryByTestId,
-  queryByText,
-  render,
-  screen,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 
