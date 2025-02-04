@@ -23,7 +23,7 @@ export function generateSeriesData(
   const englandData = data.filter(
     (item) => item.areaCode === areaCodeForEngland
   );
-  console.log('englandData', englandData);
+
   const englandSeries: Highcharts.SeriesLineOptions = {
     type: 'line',
     name: 'England',

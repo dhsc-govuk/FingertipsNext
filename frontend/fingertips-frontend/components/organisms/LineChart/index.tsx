@@ -24,7 +24,7 @@ export function LineChart({
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(sortedSeriesValues);
-  console.log('data', data);
+
   const lineChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
