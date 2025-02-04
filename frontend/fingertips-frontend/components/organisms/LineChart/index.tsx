@@ -45,6 +45,8 @@ export function LineChart({
     },
     yAxis: {
       title: undefined,
+      minorTickInterval: 'auto',
+      minorTicksPerMajor: 2,
     },
     xAxis: {
       title: { text: xAxisTitle, margin: 20 },
