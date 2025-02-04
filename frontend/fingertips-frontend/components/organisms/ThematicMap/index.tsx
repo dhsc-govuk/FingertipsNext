@@ -38,19 +38,7 @@ export function ThematicMap({
     series: [
       {
         type: 'map',
-        name: 'group border',
-        zIndex: 3,
-        showInLegend: true,
-        mapData: mapGroup, // some data for the parent area
-        data: [],
-        borderColor: 'red',
-        borderWidth: 4,
-        nullColor: 'transparent',
-      },
-      {
-        type: 'map',
         name: 'basemap',
-        zIndex: 2,
         showInLegend: true,
         mapData: mapData,
         // TODO: move this logic to page with a util
@@ -72,6 +60,27 @@ export function ThematicMap({
             '<span style="font-size: large">Value: {point.value} units</span>',
           footerFormat: '',
         },
+      },
+
+      // {
+      //   type: 'map',
+      //   name: 'borders',
+      //   showInLegend: true,
+      //   mapData: mapData,
+      //   nullColor: 'transparent',
+      //   borderColor: 'red',
+      //   borderWidth: 4,
+      // },
+      {
+        type: 'map',
+        name: 'group border',
+        zIndex: 3,
+        showInLegend: true,
+        mapData: mapGroup, // some data for the parent area
+        data: [],
+        borderColor: 'red',
+        borderWidth: 4,
+        nullColor: 'transparent',
       },
     ],
   };

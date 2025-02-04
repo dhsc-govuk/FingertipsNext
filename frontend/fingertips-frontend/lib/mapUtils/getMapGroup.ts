@@ -1,4 +1,6 @@
-import { GeoJSON, GeoJSONFeature } from 'highcharts';
+import { GeoJSON } from 'highcharts';
+import { union } from '@turf/union';
+import { featureCollection } from '@turf/helpers';
 
 export function getMapGroup(
   mapData: GeoJSON,
@@ -24,6 +26,7 @@ export function getMapGroup(
     );
 
   const groupMap: GeoJSON = {
+    type: 'FeatureCollection',
     features: [
       {
         type: 'Feature',
