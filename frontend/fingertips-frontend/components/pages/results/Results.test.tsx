@@ -71,7 +71,7 @@ describe('Search Results Suite', () => {
     indicatorsSelected: ['1'],
   };
 
-  it.only('should render elements', () => {
+  it('should render elements', () => {
     render(
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
@@ -266,8 +266,6 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
       searchedIndicator
     );
-
-    screen.getByRole('textbox');
   });
 
   it('should display an error when the user attempts to search for no indicator and no areas', async () => {
