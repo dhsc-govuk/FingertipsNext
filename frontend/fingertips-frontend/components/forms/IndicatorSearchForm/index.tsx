@@ -23,7 +23,7 @@ export const IndicatorSearchForm = ({
       data-testid="indicator-search-form"
     >
       {searchFormState.message ? (
-        <ErrorText data-testid="indicator-search-error">
+        <ErrorText data-testid="indicator-search-form-error">
           {searchFormState.message}
         </ErrorText>
       ) : (
@@ -35,7 +35,7 @@ export const IndicatorSearchForm = ({
             title="indicator"
             id="indicator"
             name="indicator"
-            data-testid="search-form-input-indicator"
+            data-testid="indicator-search-form-input"
             defaultValue={searchFormState.indicator}
             style={
               searchFormState.message
@@ -48,7 +48,12 @@ export const IndicatorSearchForm = ({
             }
           />
         )}
-        {SearchBox.Button && <SearchBox.Button type="submit" />}
+        {SearchBox.Button && (
+          <SearchBox.Button
+            type="submit"
+            data-testid="indicator-search-form-submit"
+          />
+        )}
       </StyledSearchBox>
     </FormGroup>
   );

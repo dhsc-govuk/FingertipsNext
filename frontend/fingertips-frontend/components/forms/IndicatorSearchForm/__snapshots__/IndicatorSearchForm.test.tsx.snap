@@ -104,7 +104,7 @@ exports[`snapshot test - renders the form 1`] = `
     >
       <input
         class="c4"
-        data-testid="search-form-input-indicator"
+        data-testid="indicator-search-form-input"
         id="indicator"
         name="indicator"
         title="indicator"

@@ -40,7 +40,7 @@ it('snapshot test - renders the form', () => {
 it('should have an input field to input the indicatorId', () => {
   render(<IndicatorSearchForm searchFormState={initialState} />);
 
-  expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
+  expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
 });
 
 it('should set the input field with indicator value from the form state', () => {

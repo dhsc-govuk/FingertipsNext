@@ -712,7 +712,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
       <label
         class="c10 c11"
-        data-testid="search-form-input-indicator"
+        data-testid="indicator-search-form-input"
       >
         <span
           class="c12"

@@ -49,7 +49,7 @@ export const SearchForm = ({
           touched: !!searchFormState.message,
           error: 'This field value may be required',
         }}
-        data-testid="search-form-input-indicator"
+        data-testid="indicator-search-form-input"
       >
         Search by subject
       </StyledInputField>

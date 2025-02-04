@@ -279,7 +279,9 @@ describe('Search Results Suite', () => {
     await userEvent.clear(screen.getByRole('textbox', { name: /indicator/i }));
     await userEvent.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(screen.getByTestId('indicator-search-error')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('indicator-search-form-error')
+    ).toBeInTheDocument();
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 });

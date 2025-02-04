@@ -1261,7 +1261,7 @@ exports[`Search Results Suite snapshot test 1`] = `
     >
       <label
         class="c0 c1"
-        data-testid="search-form-input-indicator"
+        data-testid="indicator-search-form-input"
       >
         <span
           class="c2"

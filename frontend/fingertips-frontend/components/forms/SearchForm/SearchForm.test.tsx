@@ -38,7 +38,7 @@ it('snapshot test - renders the form', () => {
 it('should have an input field to input the indicatorId', () => {
   render(<SearchForm searchFormState={initialState} />);
 
-  expect(screen.getByTestId('search-form-input-indicator')).toBeInTheDocument();
+  expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
 });
 
 it('should have an input field to input the area by location or organisation', () => {
