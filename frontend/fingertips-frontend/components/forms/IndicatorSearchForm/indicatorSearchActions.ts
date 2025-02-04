@@ -14,7 +14,7 @@ export type State = {
     indicator?: string[];
   };
   message?: string | null;
-  areasSelected?: string[] | undefined;
+  areasSelected?: string[];
 };
 
 export type IndicatorSearchForm = z.infer<typeof $IndicatorSearchFormSchema>;
