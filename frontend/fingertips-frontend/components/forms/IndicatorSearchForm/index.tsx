@@ -17,7 +17,7 @@ export const IndicatorSearchForm = ({
 }) => {
   return (
     <FormGroup
-      error={searchFormState.message != undefined}
+      error={searchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
       {searchFormState.message ? (
@@ -36,7 +36,7 @@ export const IndicatorSearchForm = ({
             data-testid="indicator-search-form-input"
             defaultValue={searchFormState.indicator}
             style={
-              searchFormState.message
+              searchFormState.errors
                 ? {
                     borderColor: govukRed,
                     borderWidth: govukErrorBorderWidth,

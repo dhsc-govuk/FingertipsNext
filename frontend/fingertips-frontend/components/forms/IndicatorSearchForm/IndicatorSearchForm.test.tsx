@@ -1,6 +1,10 @@
 import { expect } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
-
+import {
+  queryByTestId,
+  queryByText,
+  render,
+  screen,
+} from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 
@@ -52,4 +56,30 @@ it('should set the input field with indicator value from the form state', () => 
   render(<IndicatorSearchForm searchFormState={searchFormState} />);
 
   expect(screen.getByRole('searchbox')).toHaveValue('test value');
+});
+
+it('should display no message when there is no error', () => {
+  const searchFormState: IndicatorSearchFormState = {
+    indicator: 'test value',
+    message: '',
+    errors: {},
+  };
+  render(<IndicatorSearchForm searchFormState={searchFormState} />);
+
+  expect(
+    screen.queryByTestId('indicator-search-form-error')
+  ).not.toBeInTheDocument();
+});
+
+it('should display an error message when there is an error', () => {
+  const searchFormState: IndicatorSearchFormState = {
+    indicator: 'test value',
+    message: 'error message',
+    errors: {},
+  };
+  render(<IndicatorSearchForm searchFormState={searchFormState} />);
+
+  expect(
+    screen.queryByTestId('indicator-search-form-error')
+  ).toBeInTheDocument();
 });

@@ -4,10 +4,17 @@ exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
   .c1 {
   margin-bottom: 20px;
+  padding-left: 15px;
+  border-left: 5px solid #d4351c;
 }
 
 .c0 .c0:last-of-type {
   margin-bottom: 0;
+}
+
+.c1.c1 .c1 {
+  padding: 0;
+  border: 0;
 }
 
 .c6 {
@@ -107,6 +114,7 @@ exports[`snapshot test - renders the form 1`] = `
         data-testid="indicator-search-form-input"
         id="indicator"
         name="indicator"
+        style="border-color: #d4351c; border-width: 2px; border-style: solid;"
         title="indicator"
         type="search"
         value=""

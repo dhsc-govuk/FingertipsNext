@@ -246,40 +246,8 @@ describe('Search Results Suite', () => {
     );
 
     await userEvent.type(
-      screen.getByRole('textbox', { name: /indicator/i }),
+      screen.getByRole('searchbox', { name: /indicator/i }),
       searchedIndicator
     );
-  });
-
-  it('should reset the input field when the "reset search" button is clicked', async () => {
-    const typedText = 'additional text';
-    render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
-    );
-
-    await userEvent.type(screen.getByRole('textbox'), typedText);
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      searchedIndicator + typedText
-    );
-
-    await userEvent.click(screen.getByRole('button', { name: 'Reset Search' }));
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      searchedIndicator
-    );
-  });
-
-  it('should display an error when the user attempts to search for no indicator and no areas', async () => {
-    const errorMessage = 'Please enter a subject';
-
-    render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
-    );
-    await userEvent.clear(screen.getByRole('textbox', { name: /indicator/i }));
-    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
-
-    expect(
-      screen.getByTestId('indicator-search-form-error')
-    ).toBeInTheDocument();
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 });

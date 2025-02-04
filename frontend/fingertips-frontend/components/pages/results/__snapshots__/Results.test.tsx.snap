@@ -119,14 +119,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
 
 }
@@ -136,38 +128,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -276,6 +236,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -415,14 +383,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
 
 }
@@ -432,38 +392,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -605,6 +533,14 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media print {
 
 }
@@ -658,270 +594,78 @@ exports[`Search Results Suite snapshot test 1`] = `
   >
     Search results for test
   </h1>
-  .c5 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #ffffff;
-  background-color: #00703c;
-  box-shadow: 0 2px 0 #002413;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
+  .c1 {
+  margin-bottom: 20px;
 }
 
-.c5:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c5:link,
-.c5:visited,
-.c5:active,
-.c5:hover {
-  color: #ffffff;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c5::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c5:hover,
-.c5:focus {
-  background-color: #00572e;
-}
-
-.c5:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c5::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c5:active::before {
-  top: -4px;
-}
-
-.c5:disabled {
-  opacity: 0.5;
-  background: #00703c;
-}
-
-.c5:disabled:hover {
-  background-color: #00703c;
-  cursor: default;
-}
-
-.c5:disabled:focus {
-  outline: none;
-}
-
-.c5:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #002413;
-}
-
-.c5 svg {
-  max-width: 15px;
+.c0 .c0:last-of-type {
+  margin-bottom: 0;
 }
 
 .c6 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-  padding: 7px 10px;
-  border: 2px solid transparent;
-  border-radius: 0;
-  color: #0b0c0c;
-  background-color: #f3f2f1;
-  box-shadow: 0 2px 0 #d0ccc8;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-bottom: 22px;
-}
-
-.c6:focus {
-  outline: 3px solid #ffdd00;
-  outline-offset: 0;
-}
-
-.c6:link,
-.c6:visited,
-.c6:active,
-.c6:hover {
-  color: #0b0c0c;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c6::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-.c6:hover,
-.c6:focus {
-  background-color: #e7e5e3;
-}
-
-.c6:active {
-  top: 2px;
-  box-shadow: none;
-}
-
-.c6::before {
-  content: "";
   display: block;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -4px;
-  left: -2px;
-  background: transparent;
-}
-
-.c6:active::before {
-  top: -4px;
-}
-
-.c6:disabled {
-  opacity: 0.5;
-  background: #f3f2f1;
-}
-
-.c6:disabled:hover {
-  background-color: #f3f2f1;
-  cursor: default;
-}
-
-.c6:disabled:focus {
-  outline: none;
-}
-
-.c6:disabled:active {
-  top: 0;
-  box-shadow: 0 2px 0 #d0ccc8;
-}
-
-.c6 svg {
-  max-width: 15px;
-}
-
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  display: block;
-  margin-bottom: 15px;
-  color: #6f777b;
-}
-
-.c2 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  display: block;
-  clear: none;
-  padding-bottom: 2px;
-  margin-bottom: 0;
 }
 
 .c4 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  box-sizing: border-box;
   width: 100%;
   height: 40px;
-  margin-top: 0;
-  padding: 5px;
-  border: 2px solid #0b0c0c;
+  padding: 6px;
+  margin: 0;
+  border: solid 1px #bfc1c3;
+  border-right: 0;
+  box-sizing: border-box;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.75;
+  background: #ffffff;
   border-radius: 0;
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin-bottom: 0;
 }
 
 .c4:focus {
+  margin-right: 3px;
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c4::-webkit-outer-spin-button,
-.c4::-webkit-inner-spin-button {
-  margin: 0;
-  -webkit-appearance: none;
+.c4:focus ~ button {
+  width: 46px;
 }
 
-.c4[type="number"] {
-  -moz-appearance: textfield;
+.c5 {
+  background-color: #2b8cc4;
+  border: 0;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
 }
 
-.c0 {
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c2 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  box-sizing: border-box;
+  width: 100%;
+  background: #ffffff;
   margin-bottom: 0;
 }
 
-.c0:after {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.c1 {
+.c3 {
   margin-bottom: 20px;
 }
 
@@ -942,81 +686,23 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c5 {
-    font-size: 14px;
-    line-height: 19px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 19px;
-    line-height: 19px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
-    width: auto;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c5 svg {
-    margin-left: 10px;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
-    margin-bottom: 32px;
-  }
-}
 
-@media print {
-  .c6 {
-    font-size: 14px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c6 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
 }
 
 @media print {
@@ -1032,55 +718,23 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c2 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
+
 }
 
 @media print {
-  .c2 {
-    color: #000;
-  }
+
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
-    margin-bottom: 0;
-  }
-}
 
-@media print {
-  .c4 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
 }
 
 @media only screen and (min-width:641px) {
-  .c4 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
 
-@media only screen and (min-width:641px) {
-  .c4 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 0;
-  }
 }
 
 @media print {
@@ -1184,62 +838,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
 
 }
 
@@ -1253,50 +851,116 @@ exports[`Search Results Suite snapshot test 1`] = `
   }
 }
 
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 30px;
+  }
+}
+
 <form
     action="/action"
   >
     <div
+      class="c0 c1"
       data-testid="indicator-search-form"
     >
-      <label
-        class="c0 c1"
-        data-testid="indicator-search-form-input"
+      <div
+        class="c2 c3"
       >
-        <span
-          class="c2"
-        >
-          Search By Subject
-        </span>
-        <span
-          class="c3"
-        >
-          <div
-            style="color: rgb(80, 90, 95);"
-          >
-            For example diabetes, public health indicator, or indicator ID
-          </div>
-        </span>
         <input
           class="c4"
+          data-testid="indicator-search-form-input"
           id="indicator"
           name="indicator"
+          title="indicator"
+          type="search"
           value="test"
         />
-      </label>
-      <button
-        class="c5"
-        data-testid="search-form-button-submit"
-        type="submit"
-      >
-        Search
-      </button>
-      <button
-        class="c6"
-        type="reset"
-      >
-        Reset Search
-      </button>
+        <button
+          class="c5"
+          data-testid="indicator-search-form-submit"
+          title="Search"
+          type="submit"
+        >
+          <svg
+            class="c6"
+            fill="#ffffff"
+            height="100%"
+            version="1.1"
+            viewBox="0 0 57 57"
+            width="100%"
+          >
+            <title>
+              Search
+            </title>
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </form>
   .c32 {
@@ -1900,34 +1564,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
   .c26 {
     font-size: 14px;
     line-height: 1.15;
@@ -1971,18 +1607,6 @@ exports[`Search Results Suite snapshot test 1`] = `
   .c9 {
     margin-bottom: 0;
   }
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
 }
 
 @media only screen and (min-width:641px) {
@@ -2162,6 +1786,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
   .c1 {
     width: 33.3333%;
     -webkit-box-flex: 0;
@@ -2192,6 +1820,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     -ms-flex-direction: row;
     flex-direction: row;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
