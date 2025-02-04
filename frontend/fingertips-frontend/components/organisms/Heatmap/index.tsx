@@ -19,14 +19,90 @@ export interface IndicatorRowData {
 }
 
 interface HeatmapChartProps {
-  areaCodes: Array<string>; // Set of area codes to display the heatmap for (x-axis)
-  data: Array<IndicatorRowData>; // Set of indicators to display along with associated indicator data (y-axis)
   accessibilityLabel: string;
 }
 
+// Temporary test data for Heatmap
+const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
+const heatmapData: Array<IndicatorRowData> = [
+  {
+    indicator: 'Indicator1',
+    year: 2023,
+    rowData: [
+      {
+        areaCode: 'a1',
+        areaName: 'area1',
+        healthData: [
+          {
+            year: 2023,
+            count: 3,
+            value: 27,
+            upperCi: 8,
+            lowerCi: 2,
+            ageBand: 'ageBand',
+            sex: 'M',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    indicator: 'Indicator2',
+    year: 2024,
+    rowData: [
+      {
+        areaCode: 'a1',
+        areaName: 'area1',
+        healthData: [
+          {
+            year: 2023,
+            count: 5,
+            value: 33,
+            upperCi: 18,
+            lowerCi: 9,
+            ageBand: 'ageBand',
+            sex: 'M',
+          },
+          {
+            year: 2024,
+            count: 13,
+            value: 11,
+            upperCi: 23,
+            lowerCi: 3,
+            ageBand: 'ageBand',
+            sex: 'M',
+          },
+        ],
+      },
+      {
+        areaCode: 'a2',
+        areaName: 'area2',
+        healthData: [
+          {
+            year: 2019,
+            count: 3,
+            value: 27,
+            upperCi: 8,
+            lowerCi: 2,
+            ageBand: 'ageBand',
+            sex: 'M',
+          },
+          {
+            year: 2024,
+            count: 9,
+            value: 82,
+            upperCi: 99,
+            lowerCi: 2,
+            ageBand: 'ageBand',
+            sex: 'M',
+          },
+        ],
+      },
+    ],
+  },
+];
+
 export function HeatmapChart({
-  areaCodes,
-  data,
   accessibilityLabel,
 }: Readonly<HeatmapChartProps>) {
   const options: Highcharts.Options = {
@@ -48,7 +124,7 @@ export function HeatmapChart({
         type: 'heatmap',
         name: 'Heatmap Series',
         borderWidth: 1,
-        data: generateHeatmapData(data, areaCodes),
+        data: generateHeatmapData(heatmapData, areaCodes),
         dataLabels: {
           enabled: true,
           formatter: function () {
@@ -62,7 +138,7 @@ export function HeatmapChart({
       },
     ],
     yAxis: {
-      categories: data.map((i) => i.indicator + '|' + i.year),
+      categories: heatmapData.map((i) => i.indicator + '|' + i.year),
       labels: {
         useHTML: true,
         formatter: function () {

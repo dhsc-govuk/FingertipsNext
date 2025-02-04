@@ -6,7 +6,6 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
-import { HeatmapChart, IndicatorRowData } from '@/components/organisms/Heatmap';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
@@ -29,86 +28,6 @@ export function Chart({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
-
-  // Temporary test data for Heatmap
-  const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
-  const heatmapData: Array<IndicatorRowData> = [
-    {
-      indicator: 'Indicator1',
-      year: 2023,
-      rowData: [
-        {
-          areaCode: 'a1',
-          areaName: 'area1',
-          healthData: [
-            {
-              year: 2023,
-              count: 3,
-              value: 27,
-              upperCi: 8,
-              lowerCi: 2,
-              ageBand: 'ageBand',
-              sex: 'M',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      indicator: 'Indicator2',
-      year: 2024,
-      rowData: [
-        {
-          areaCode: 'a1',
-          areaName: 'area1',
-          healthData: [
-            {
-              year: 2023,
-              count: 5,
-              value: 33,
-              upperCi: 18,
-              lowerCi: 9,
-              ageBand: 'ageBand',
-              sex: 'M',
-            },
-            {
-              year: 2024,
-              count: 13,
-              value: 11,
-              upperCi: 23,
-              lowerCi: 3,
-              ageBand: 'ageBand',
-              sex: 'M',
-            },
-          ],
-        },
-        {
-          areaCode: 'a2',
-          areaName: 'area2',
-          healthData: [
-            {
-              year: 2019,
-              count: 3,
-              value: 27,
-              upperCi: 8,
-              lowerCi: 2,
-              ageBand: 'ageBand',
-              sex: 'M',
-            },
-            {
-              year: 2024,
-              count: 9,
-              value: 82,
-              upperCi: 99,
-              lowerCi: 2,
-              ageBand: 'ageBand',
-              sex: 'M',
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   const backLinkPath = searchState.generatePath('/results');
 
@@ -165,11 +84,6 @@ export function Chart({
         englandBenchmarkData={englandBenchmarkData}
       ></LineChartTable>
       <br />
-      <HeatmapChart
-        areaCodes={areaCodes}
-        data={heatmapData}
-        accessibilityLabel="A heatmap chart showing healthcare data"
-      />
     </>
   );
 }
