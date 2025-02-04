@@ -31,7 +31,6 @@ export function Chart({
   const backLinkPath = searchState.generatePath('/results');
 
   const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
-  console.log('englandBenchmarkData', englandBenchmarkData);
 
   return (
     <>
