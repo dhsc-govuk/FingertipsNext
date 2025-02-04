@@ -13,7 +13,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import AreaSelectWithSuggestions from '@/components/molecules/AreaSuggestionList';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -33,7 +33,10 @@ export const SearchForm = ({
     SearchStateManager.setStateFromParams(existingParams);
 
   const updateUrlWithSelectedArea = (areaCodeSelected: string) => {
-    searchStateManager.setAreaSelected(areaCodeSelected);
+    searchStateManager.addParamValueToState(
+      SearchParams.AreasSelected,
+      areaCodeSelected
+    );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 

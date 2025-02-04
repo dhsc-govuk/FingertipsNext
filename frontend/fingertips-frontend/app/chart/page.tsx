@@ -25,25 +25,33 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const data = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodes,
-  });
+
+  const data = await Promise.all(
+    indicatorsSelected.map((indicatorId) =>
+      indicatorApi.getHealthDataForAnIndicator({
+        indicatorId: Number(indicatorId),
+        areaCodes: [...areaCodes, areaCodeForEngland],
+      })
+    )
+  );
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
-      areaCodes: [areaCodes[0], areaCodeForEngland],
+      areaCodes: [...areaCodes, areaCodeForEngland],
     });
   } catch (error) {
     console.log('error getting population data ', error);
   }
 
   if (rawPopulationData) {
-    // hardcode selected area data for mocks while no population data are in dbase
-    preparedPopulationData = preparePopulationData(rawPopulationData, '1', '2');
+    preparedPopulationData = preparePopulationData(
+      rawPopulationData,
+      areaCodes[0],
+      areaCodes[1] // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
+    );
   }
 
   return (

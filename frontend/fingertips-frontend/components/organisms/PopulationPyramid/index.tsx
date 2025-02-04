@@ -175,7 +175,7 @@ export function PopulationPyramid({
         dataLabels: { enabled: false },
       },
       {
-        name: 'FAKE Baseline Male',
+        name: 'Baseline',
         type: 'line',
         data: data.dataForBaseline.maleSeries.map((datapoint) => -datapoint),
         color: '#28A197',
