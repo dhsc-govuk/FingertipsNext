@@ -113,6 +113,7 @@ exports[`snapshot test - renders the form 1`] = `
       />
       <button
         class="c5"
+        data-testid="indicator-search-form-submit"
         title="Search"
         type="submit"
       >
