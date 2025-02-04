@@ -96,6 +96,12 @@ const determineApplicableGroupTypes = (
   }
 };
 
+const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean => {
+  return selectedAreas
+    ? selectedAreas?.some((area) => area.code === areaCode)
+    : false;
+};
+
 export function AreaFilter({
   selectedAreas,
   selectedAreaType,
@@ -108,15 +114,30 @@ export function AreaFilter({
   const { replace } = useRouter();
 
   const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
 
   const areaTypeSelected = (
     searchParamKey: AllowedParamsForHandleSelect,
     valueSelected: string
   ) => {
-    const searchStateManager =
-      SearchStateManager.setStateFromParams(existingParams);
-
     searchStateManager.addParamValueToState(searchParamKey, valueSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const handleAreaSelected = (areaCode: string, checked: boolean) => {
+    if (checked) {
+      searchStateManager.addParamValueToState(
+        SearchParams.AreasSelected,
+        areaCode
+      );
+    } else {
+      searchStateManager.removeParamValueFromState(
+        SearchParams.AreasSelected,
+        areaCode
+      );
+    }
+
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
@@ -206,7 +227,15 @@ export function AreaFilter({
 
           <>
             {availableAreas?.map((area) => (
-              <Checkbox key={area.code} value={area.code} sizeVariant="SMALL">
+              <Checkbox
+                key={area.code}
+                value={area.code}
+                sizeVariant="SMALL"
+                defaultChecked={isAreaSelected(area.code, selectedAreas)}
+                onChange={(e) =>
+                  handleAreaSelected(area.code, e.target.checked)
+                }
+              >
                 {area.name}
               </Checkbox>
             ))}
