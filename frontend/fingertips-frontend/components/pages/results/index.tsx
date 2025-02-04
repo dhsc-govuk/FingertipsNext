@@ -15,10 +15,18 @@ import {
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
 import { SearchResultState, viewCharts } from './searchResultsActions';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { Area, AreaType } from '@/generated-sources/ft-api-client';
+import {
+  AreaWithRelations,
+  AreaType,
+  Area,
+} from '@/generated-sources/ft-api-client';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -27,6 +35,7 @@ type SearchResultsProps = {
   availableAreas?: Area[];
   selectedAreaType?: string;
   selectedGroupType?: string;
+  selectedAreas?: AreaWithRelations[];
 };
 
 const isIndicatorSelected = (
@@ -38,6 +47,13 @@ const isIndicatorSelected = (
     : false;
 };
 
+const generateBackLinkPath = (state: SearchStateParams) => {
+  const stateManager = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: state[SearchParams.SearchedIndicator],
+  });
+  return stateManager.generatePath('/');
+};
+
 export function SearchResults({
   searchResultsFormState,
   searchResults,
@@ -45,22 +61,19 @@ export function SearchResults({
   availableAreas,
   selectedAreaType,
   selectedGroupType,
+  selectedAreas,
 }: Readonly<SearchResultsProps>) {
   const [state, formAction] = useActionState(
     viewCharts,
     searchResultsFormState
   );
-
-  const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
-  });
-
-  const backLinkPath = searchState.generatePath('/');
+  const stateParsed: SearchStateParams = JSON.parse(state.searchState);
+  const backLinkPath = generateBackLinkPath(stateParsed);
 
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
-      {searchResultsFormState.searchedIndicator ? (
+      {stateParsed[SearchParams.SearchedIndicator] ? (
         <>
           {state.message && (
             <ErrorSummary
@@ -80,7 +93,7 @@ export function SearchResults({
             />
           )}
           <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
+          <Paragraph>{`You searched for indicator "**${stateParsed[SearchParams.SearchedIndicator]}**"`}</Paragraph>
 
           <GridRow>
             <GridCol setWidth="one-third">
@@ -89,13 +102,14 @@ export function SearchResults({
                 availableAreas={availableAreas}
                 selectedAreaType={selectedAreaType}
                 selectedGroupType={selectedGroupType}
+                selectedAreas={selectedAreas}
               />
             </GridCol>
             <GridCol>
               <form action={formAction}>
                 <input
-                  name="searchedIndicator"
-                  defaultValue={searchResultsFormState.searchedIndicator}
+                  name="searchState"
+                  defaultValue={state.searchState}
                   hidden
                 />
                 {searchResults.length ? (

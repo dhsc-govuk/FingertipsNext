@@ -190,7 +190,7 @@ describe('SearchStateManager', () => {
       expect(generatedPath).toBe('/some-path');
     });
 
-    it('should return the indicatorsSelected to the generatedPath', () => {
+    it('should return the provided state to the generatedPath', () => {
       const expectedPath = [
         `/some-path?${SearchParams.SearchedIndicator}=bang`,
         `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,

@@ -3,7 +3,9 @@ import {
   AreaType,
   AreaWithRelations,
 } from '@/generated-sources/ft-api-client';
+import { Pill } from '@/components/molecules/Pill';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+
 import {
   Checkbox,
   H3,
@@ -106,25 +108,33 @@ export function AreaFilter({
   const { replace } = useRouter();
 
   const existingParams = new URLSearchParams(searchParams);
-  const searchStateManager =
-    SearchStateManager.setStateFromParams(existingParams);
 
-  const handleSelect = (
+  const areaTypeSelected = (
     searchParamKey: AllowedParamsForHandleSelect,
     valueSelected: string
   ) => {
+    const searchStateManager =
+      SearchStateManager.setStateFromParams(existingParams);
+
     searchStateManager.addParamValueToState(searchParamKey, valueSelected);
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const sortedByLevelAreaTypes = availableAreaTypes?.sort(
-    (a, b) => a.level - b.level
-  );
-
   const availableGroupTypes = determineApplicableGroupTypes(
-    sortedByLevelAreaTypes,
+    availableAreaTypes,
     selectedAreaType
   );
+
+  const removeSelectedArea = (areaCode: string) => {
+    const searchStateManager =
+      SearchStateManager.setStateFromParams(existingParams);
+
+    searchStateManager.removeParamValueFromState(
+      SearchParams.AreasSelected,
+      areaCode
+    );
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
 
   return (
     <StyledFilterPane data-testid="area-filter-container">
@@ -138,6 +148,16 @@ export function AreaFilter({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreas?.length ?? 0})`}
           </StyledFilterLabel>
+          {selectedAreas
+            ? selectedAreas.map((selectedArea) => (
+                <Pill
+                  key={selectedArea.code}
+                  selectedFilterName={selectedArea.name}
+                  selectedFilterId={selectedArea.code}
+                  removeFilter={removeSelectedArea}
+                />
+              ))
+            : null}
         </StyledFilterSelectedAreaDiv>
 
         <ShowHideContainer summary="Add or change areas">
@@ -145,12 +165,12 @@ export function AreaFilter({
             label="Select an area type"
             input={{
               onChange: (e) =>
-                handleSelect(SearchParams.AreaTypeSelected, e.target.value),
+                areaTypeSelected(SearchParams.AreaTypeSelected, e.target.value),
               defaultValue: selectedAreaType,
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
-            {sortedByLevelAreaTypes?.map((areaType) => (
+            {availableAreaTypes?.map((areaType) => (
               <option key={areaType.name} value={areaType.name}>
                 {areaType.name}
               </option>
@@ -168,7 +188,10 @@ export function AreaFilter({
               label="1. Select a group type"
               input={{
                 onChange: (e) =>
-                  handleSelect(SearchParams.GroupTypeSelected, e.target.value),
+                  areaTypeSelected(
+                    SearchParams.GroupTypeSelected,
+                    e.target.value
+                  ),
                 defaultValue: selectedGroupType,
                 disabled: selectedAreas && selectedAreas?.length > 0,
               }}

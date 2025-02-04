@@ -1,7 +1,11 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { mockAreaTypes, mockAvailableAreas } from '../data/areaData';
+import {
+  mockAreaData,
+  mockAreaTypes,
+  mockAvailableAreas,
+} from '../data/areaData';
 
 faker.seed(1);
 
@@ -40,8 +44,13 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/areas/:areaCode`, async () => {
-    const resultArray = [[getGetArea200Response(), { status: 200 }]];
+  http.get(`${baseURL}/areas/:areaCode`, async ({ params }) => {
+    const areaCode = params.areaCode;
+
+    if (typeof areaCode !== 'string') {
+      return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
+    }
+    const resultArray = [[getGetArea200Response(areaCode), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -97,57 +106,8 @@ export function getGetAreaTypeMembers200Response(areaType: string) {
   return mockAvailableAreas[areaType];
 }
 
-export function getGetArea200Response() {
-  return {
-    code: 'E06000047',
-    name: 'County Durham',
-    hierarchyName: 'NHS',
-    areaType: 'PCN',
-    level: '3',
-    parent: {
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: '3',
-    },
-    children: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: '3',
-    })),
-    siblings: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: '3',
-    })),
-    cousins: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: '3',
-    })),
-    ancestors: [
-      ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
-    ].map((_) => ({
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: '3',
-    })),
-  };
+export function getGetArea200Response(areaCode: string) {
+  return mockAreaData[areaCode];
 }
 
 export function getGetAreaRoot200Response() {

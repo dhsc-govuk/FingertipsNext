@@ -1,4 +1,8 @@
-import { Area, AreaType } from '@/generated-sources/ft-api-client';
+import {
+  Area,
+  AreaType,
+  AreaWithRelations,
+} from '@/generated-sources/ft-api-client';
 
 export const mockAreaTypes: AreaType[] = [
   {
@@ -235,4 +239,28 @@ export const mockAvailableAreas: Record<string, Area[]> = {
       level: 1,
     },
   ],
+};
+
+export const mockAreaData: Record<string, AreaWithRelations> = {
+  E001: {
+    code: 'E001',
+    name: 'Greater Manchester',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: 3,
+  },
+  E002: {
+    code: 'E002',
+    name: 'Leeds',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: 3,
+  },
+  E003: {
+    code: 'E003',
+    name: 'Sheffield',
+    hierarchyName: 'NHS',
+    areaType: 'PCN',
+    level: 3,
+  },
 };
