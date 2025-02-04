@@ -8,7 +8,6 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
-import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -50,9 +49,6 @@ export function LineChart({
     tooltip: {
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
-      pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this);
-      },
     },
 
     accessibility: {
