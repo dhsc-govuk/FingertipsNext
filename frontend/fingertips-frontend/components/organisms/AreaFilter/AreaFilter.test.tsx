@@ -14,7 +14,11 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({}),
+    useSearchParams: () => [
+      [[SearchParams.AreaTypeSelected], 'A002'],
+      [[SearchParams.AreasSelected], '001'],
+      [[SearchParams.AreasSelected], '002'],
+    ],
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -73,7 +77,7 @@ describe('Area Filter', () => {
     expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
   });
 
-  it.skip('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
+  it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=002`,
@@ -158,6 +162,12 @@ describe('Area Filter', () => {
     });
 
     it('should add the selected areaType to the url', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=001&${SearchParams.AreasSelected}=002`,
+        `&${SearchParams.AreaTypeSelected}=A001`,
+      ].join('');
+
       const user = userEvent.setup();
 
       render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
@@ -167,12 +177,9 @@ describe('Area Filter', () => {
         'A001'
       );
 
-      expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
-        {
-          scroll: false,
-        }
-      );
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
     });
   });
 
@@ -239,6 +246,13 @@ describe('Area Filter', () => {
     });
 
     it('should add the selected groupType to the url', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=001&${SearchParams.AreasSelected}=002`,
+        `&${SearchParams.AreaTypeSelected}=A002`,
+        `&${SearchParams.GroupTypeSelected}=A001`,
+      ].join('');
+
       const user = userEvent.setup();
 
       render(
@@ -253,12 +267,9 @@ describe('Area Filter', () => {
         'A001'
       );
 
-      expect(mockReplace).toHaveBeenCalledWith(
-        `${mockPath}?${SearchParams.GroupTypeSelected}=A001`,
-        {
-          scroll: false,
-        }
-      );
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
     });
   });
 
