@@ -2,6 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 const jobUrl = process.env.JOB_URL;
+const runCommand =
+  process.env.START_DOCKER_WEBSERVER === 'true'
+    ? 'npm run dev-docker'
+    : 'npm run dev';
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -44,8 +48,8 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: 'npm run dev',
+    command: runCommand,
     url: url,
-    reuseExistingServer: !!process.env.CI,
+    reuseExistingServer: true,
   },
 });
