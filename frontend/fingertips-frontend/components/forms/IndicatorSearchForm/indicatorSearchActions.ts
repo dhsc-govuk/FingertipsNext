@@ -14,6 +14,7 @@ export type State = {
     indicator?: string[];
   };
   message?: string | null;
+  areasSelected?: string[] | undefined;
 };
 
 export type IndicatorSearchForm = z.infer<typeof $IndicatorSearchFormSchema>;
@@ -28,18 +29,30 @@ export async function searchIndicator(
     indicator: formData.get('indicator'),
   });
 
-  if (!validatedField.success) {
+  console.log(validatedField);
+
+  if (!validatedField.success && prevState.areasSelected?.length === 0) {
+    console.log('oh no!');
+    console.log(`validation failure: ${!validatedField.success}`);
+    console.log(`0 areas selected: ${prevState.areasSelected?.length === 0}`);
     return {
       indicator: formData.get('indicator')?.toString().trim() ?? '',
       errors: validatedField.error.flatten().fieldErrors,
       message: 'Please enter a subject',
+      areasSelected: prevState.areasSelected,
     };
   }
 
-  const { indicator } = validatedField.data;
+  let indicator = '';
+
+  if (validatedField.success) {
+    indicator = validatedField.data.indicator;
+  }
 
   const searchState = new SearchStateManager({
     [SearchParams.SearchedIndicator]: indicator,
+    [SearchParams.AreasSelected]: prevState.areasSelected,
   });
+
   redirect(searchState.generatePath('results'), RedirectType.push);
 }

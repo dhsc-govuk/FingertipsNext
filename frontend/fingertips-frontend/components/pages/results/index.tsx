@@ -23,7 +23,8 @@ import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
 import {
   IndicatorSearchFormState,
   searchIndicator,
-} from '@/components/forms/IndicatorSearchForm/searchActions';
+} from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
+import { useSearchParams } from 'next/navigation';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
@@ -54,8 +55,13 @@ export function SearchResults({
     [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
   });
 
+  const urlSearchParams = useSearchParams();
+  const params = new URLSearchParams(urlSearchParams);
+  const areasSelected = params.getAll(SearchParams.AreasSelected);
+
   const initialIndicatorSearchFormState: IndicatorSearchFormState = {
     indicator: searchResultsFormState.searchedIndicator ?? '',
+    areasSelected: areasSelected,
   };
   const [indicatorSearchState, indicatorSearchFormAction] = useActionState(
     searchIndicator,

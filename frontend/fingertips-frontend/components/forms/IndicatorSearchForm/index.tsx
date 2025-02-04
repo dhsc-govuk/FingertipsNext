@@ -1,7 +1,7 @@
 import { ErrorText, FormGroup, SearchBox } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { IndicatorSearchFormState } from './searchActions';
+import { IndicatorSearchFormState } from './indicatorSearchActions';
 
 // TODO JH - investigate a way to use govuk-colours
 // they compile, but TS doesn't import them in a nice way - govuk-react does the same thing but suppresses the errors.
@@ -23,14 +23,18 @@ export const IndicatorSearchForm = ({
       data-testid="indicator-search-form"
     >
       {searchFormState.message ? (
-        <ErrorText>{searchFormState.message}</ErrorText>
+        <ErrorText data-testid="indicator-search-error">
+          {searchFormState.message}
+        </ErrorText>
       ) : (
         ''
       )}
-      <StyledSearchBox name="indicator" id="indicator">
-        {SearchBox.Input && ( // TODO - how do I add props to a styled component?
+      <StyledSearchBox>
+        {SearchBox.Input && (
           <SearchBox.Input
-            //role="textbox"
+            title="indicator"
+            id="indicator"
+            name="indicator"
             data-testid="search-form-input-indicator"
             defaultValue={searchFormState.indicator}
             style={

@@ -270,12 +270,16 @@ describe('Search Results Suite', () => {
     screen.getByRole('textbox');
   });
 
-  // TODO JH - either mock requestSubmit or do this in e2e once area is in
-  it.skip('should display an error when the user attempts to search for no indicator and no areas', async () => {
+  it('should display an error when the user attempts to search for no indicator and no areas', async () => {
+    const errorMessage = 'Please enter a subject';
+
     render(
       <SearchResults searchResultsFormState={initialState} searchResults={[]} />
     );
     await userEvent.clear(screen.getByRole('textbox', { name: /indicator/i }));
     await userEvent.click(screen.getByRole('button', { name: 'Search' }));
+
+    expect(screen.getByTestId('indicator-search-error')).toBeInTheDocument();
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 });
