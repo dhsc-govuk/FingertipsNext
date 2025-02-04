@@ -39,7 +39,7 @@ export function Chart({
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
-      <H2>View Dementia QOF prevalence</H2>
+      <H2>View data for selected indicators and areas</H2>
       {populationData ? (
         <>
           <PopulationPyramid
@@ -64,7 +64,7 @@ export function Chart({
         ></ScatterChart>
       ) : null}
       <LineChart
-        LineChartTitle="Line chart to show how the indicator has changed over time for the area"
+        LineChartTitle="See how the indicator has changed over time"
         data={data[0]}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
