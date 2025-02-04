@@ -18,7 +18,7 @@ type ChartProps = {
   data: HealthDataForArea[];
   mapData: GeoJSON;
   mapJoinKey: string;
-  mapZoom: GeoJSONFeature;
+  mapGroup: GeoJSON;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -30,7 +30,7 @@ export function Chart({
   data,
   mapData,
   mapJoinKey,
-  mapZoom,
+  mapGroup: mapGroup,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -52,7 +52,7 @@ export function Chart({
         data={mockHealthData['Mock 318 for West Midlands CA']}
         mapData={mapData}
         mapJoinKey={mapJoinKey}
-        mapZoom={mapZoom}
+        mapGroup={mapGroup}
       />
 
       {populationData ? (

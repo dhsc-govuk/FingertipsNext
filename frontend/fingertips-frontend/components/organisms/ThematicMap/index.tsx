@@ -9,14 +9,14 @@ interface ThematicMapProps {
   data: HealthDataForArea[];
   mapData: GeoJSON;
   mapJoinKey: string;
-  mapZoom: GeoJSONFeature;
+  mapGroup: GeoJSON;
 }
 
 export function ThematicMap({
   data,
   mapData,
   mapJoinKey,
-  mapZoom,
+  mapGroup: mapGroup,
 }: Readonly<ThematicMapProps>) {
   const mapOptions: Highcharts.Options = {
     chart: {
@@ -26,10 +26,8 @@ export function ThematicMap({
     accessibility: { enabled: false },
     title: { text: undefined },
     mapView: {
-      projection: {
-        name: 'Miller',
-      },
-      fitToGeometry: mapZoom,
+      projection: { name: 'Miller' },
+      fitToGeometry: mapGroup.features[0].geometry,
       padding: 20,
     },
     credits: {
@@ -40,10 +38,21 @@ export function ThematicMap({
     series: [
       {
         type: 'map',
-        name: 'Regions',
-        showInLegend: false,
+        name: 'group border',
+        zIndex: 3,
+        showInLegend: true,
+        mapData: mapGroup, // some data for the parent area
+        data: [],
+        borderColor: 'red',
+        borderWidth: 4,
+        nullColor: 'transparent',
+      },
+      {
+        type: 'map',
+        name: 'basemap',
+        zIndex: 2,
+        showInLegend: true,
         mapData: mapData,
-        joinBy: [mapJoinKey, 'areaCode'],
         // TODO: move this logic to page with a util
         data: data.map((areaData) => {
           return {
@@ -52,7 +61,7 @@ export function ThematicMap({
             value: areaData.healthData[0].value,
           };
         }),
-
+        joinBy: [mapJoinKey, 'areaCode'],
         borderColor: 'black',
         borderWidth: 0.2,
         states: { hover: { borderWidth: 1 } },

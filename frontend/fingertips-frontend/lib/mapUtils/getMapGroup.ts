@@ -1,24 +1,19 @@
-// DW: see https://api.highcharts.com/highmaps/mapView.fitToGeometry
-
 import { GeoJSON, GeoJSONFeature } from 'highcharts';
 
-export function getMapZoom(
+export function getMapGroup(
   mapData: GeoJSON,
   areaCodes: string[],
   joinKey: string
-): GeoJSONFeature {
+): GeoJSON {
   const regionGeometry = mapData.features
-    .filter((f) => areaCodes.includes(f.properties[joinKey]))
+    .filter((feature) => areaCodes.includes(feature.properties[joinKey]))
     .reduce(
-      (combined, f) => {
-        const geometry = f.geometry;
+      (combined, feature) => {
+        const geometry = feature.geometry;
         if (geometry.type === 'Polygon') {
           combined.coordinates.push(geometry.coordinates);
         } else if (geometry.type === 'MultiPolygon') {
-          combined.coordinates.push.apply(
-            combined.coordinates,
-            geometry.coordinates
-          );
+          combined.coordinates.push(...geometry.coordinates);
         }
         return combined;
       },
@@ -28,5 +23,14 @@ export function getMapZoom(
       }
     );
 
-  return regionGeometry;
+  const groupMap: GeoJSON = {
+    features: [
+      {
+        type: 'Feature',
+        geometry: regionGeometry,
+      },
+    ],
+  };
+
+  return groupMap;
 }
