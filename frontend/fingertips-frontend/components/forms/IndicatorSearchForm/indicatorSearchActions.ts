@@ -32,9 +32,6 @@ export async function searchIndicator(
   console.log(validatedField);
 
   if (!validatedField.success && prevState.areasSelected?.length === 0) {
-    console.log('oh no!');
-    console.log(`validation failure: ${!validatedField.success}`);
-    console.log(`0 areas selected: ${prevState.areasSelected?.length === 0}`);
     return {
       indicator: formData.get('indicator')?.toString().trim() ?? '',
       errors: validatedField.error.flatten().fieldErrors,
