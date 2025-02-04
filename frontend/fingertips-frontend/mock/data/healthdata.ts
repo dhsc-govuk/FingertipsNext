@@ -1100,11 +1100,62 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
     {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      healthData: [
+        {
+          year: 2004,
+          count: 200,
+          value: 904.874,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '0-4',
+          sex: 'Female',
+        },
+        {
+          year: 2006,
+          count: 179,
+          value: 709.7645,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '5-9',
+          sex: 'Female',
+        },
+        {
+          year: 2008,
+          count: 500,
+          value: 965.9843,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '10-14',
+          sex: 'Female',
+        },
+        {
+          year: 2012,
+          count: 400,
+          value: 908.8475,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '15-19',
+          sex: 'Female',
+        },
+        {
+          year: 2020,
+          count: 100,
+          value: 734.8973,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '20-24',
+          sex: 'Female',
+        },
+      ],
+    },
+    {
       areaCode: 'A1426',
       areaName: 'South FooBar',
       healthData: [
         {
-          year: 2010,
+          year: 2006,
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -1113,7 +1164,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2022,
+          year: 2020,
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -1122,7 +1173,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2005,
+          year: 2004,
           count: 222,
           value: 135.149304,
           lowerCi: 441.69151,
@@ -1131,7 +1182,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2007,
+          year: 2008,
           count: 131,
           value: 890.328253,
           lowerCi: 441.69151,
@@ -1140,7 +1191,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2006,
+          year: 2012,
           count: 452,
           value: 478.996862,
           lowerCi: 441.69151,
@@ -1155,7 +1206,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1427',
       healthData: [
         {
-          year: 2024,
+          year: 2020,
           count: 411,
           value: 579.848756,
           lowerCi: 441.69151,
@@ -1164,7 +1215,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2018,
+          year: 2008,
           count: 367,
           value: 383.964067,
           lowerCi: 441.69151,
@@ -1173,7 +1224,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2010,
+          year: 2012,
           count: 289,
           value: 851.163104,
           lowerCi: 441.69151,
@@ -1191,7 +1242,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2019,
+          year: 2006,
           count: 489,
           value: 290.465304,
           lowerCi: 441.69151,
@@ -1206,7 +1257,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1428',
       healthData: [
         {
-          year: 2024,
+          year: 2020,
           count: 311,
           value: 400.848756,
           lowerCi: 441.69151,
@@ -1215,7 +1266,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2019,
+          year: 2004,
           count: 469,
           value: 320.964067,
           lowerCi: 441.69151,
@@ -1224,7 +1275,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2015,
+          year: 2006,
           count: 120,
           value: 600.163104,
           lowerCi: 441.69151,
@@ -1233,7 +1284,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2004,
+          year: 2012,
           count: 250,
           value: 650.129883,
           lowerCi: 441.69151,
@@ -1242,7 +1293,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2006,
+          year: 2008,
           count: 344,
           value: 500.650389,
           lowerCi: 441.69151,
@@ -1266,7 +1317,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2018,
+          year: 2012,
           count: 234,
           value: 472.7613425,
           lowerCi: 441.69151,
@@ -1275,7 +1326,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2005,
+          year: 2008,
           count: 299,
           value: 582.306765,
           lowerCi: 441.69151,
@@ -1284,7 +1335,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2017,
+          year: 2020,
           count: 435,
           value: 563.4002,
           lowerCi: 441.69151,
@@ -1293,7 +1344,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
         },
         {
-          year: 2023,
+          year: 2004,
           count: 277,
           value: 627.899536,
           lowerCi: 441.69151,

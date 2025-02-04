@@ -13,6 +13,15 @@ on:
         required: false
         default: null
         type: string
+      send-slack-on-fail:
+        description: "optionally send a slack message on test failure"
+        required: false
+        default: "false"
+        type: string
+    secrets:
+      slack-webhook-url:
+        description: "URL of the slack webhook"
+        required: false
 
 jobs:
   execute-e2e-tests:
@@ -39,6 +48,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set Job URL for slack message
+        if: inputs.send-slack-on-fail  == 'true'
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
@@ -46,10 +60,17 @@ jobs:
 
       - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
-        if: ${{ failure() }}
+        if: failure()
         with:
-          name: playwright failure artefacts
+          name: playwright-failure-artefacts
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 10
+
+      - name: Send slack message if e2e tests fail
+        if: failure() && inputs.send-slack-on-fail  == 'true'
+        run: |
+          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}

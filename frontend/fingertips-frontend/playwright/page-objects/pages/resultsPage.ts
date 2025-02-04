@@ -26,10 +26,12 @@ export default class ResultsPage extends BasePage {
     );
   }
 
-  async clickIndicatorCheckbox(indicatorId: string) {
-    await this.page
-      .getByTestId(`${this.indicatorCheckboxPrefix}-${indicatorId}`)
-      .click();
+  async clickIndicatorCheckboxes(indicatorIds: string[]) {
+    for (const indicatorId of indicatorIds) {
+      await this.page
+        .getByTestId(`${this.indicatorCheckboxPrefix}-${indicatorId}`)
+        .click();
+    }
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
