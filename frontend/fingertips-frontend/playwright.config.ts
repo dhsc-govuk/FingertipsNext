@@ -6,8 +6,6 @@ const runCommand =
   process.env.START_DOCKER_WEBSERVER === 'true'
     ? 'npm run dev-docker'
     : 'npm run dev';
-// const reuseExistingServerBehaviour =
-//   process.env.START_DOCKER_WEBSERVER === 'true' ? true : !!process.env.CI;
 
 export default defineConfig({
   testDir: './playwright/tests',
