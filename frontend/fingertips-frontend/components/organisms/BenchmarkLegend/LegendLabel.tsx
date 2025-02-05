@@ -2,21 +2,22 @@
 import { Label } from 'govuk-react';
 import styled from 'styled-components';
 
-export enum BenchmarkLegendType {
-  HIGH,
-  LOWER,
-  BETTER,
-  SIMILAR,
-  WORSE,
-  NOT_COMPARED,
+
+const enum BenchmarkLegendType {
+  HIGH ='high',
+  LOWER = 'lower',
+  BETTER ='better',
+  SIMILAR ='similar',
+  WORSE ='worse',
+  NOT_COMPARED ='not_compared',
 }
 
 export interface BenchmarkLegendProps {
   label?: string;
-  legendType: BenchmarkLegendType | number | string | undefined;
+  legendType? : BenchmarkLegendType | string 
 }
 
-const getColorStyles = (type: BenchmarkLegendType) => {
+const getBenchmarkLegendColourStyle = (type: BenchmarkLegendType) => {
   switch (type) {
     case BenchmarkLegendType.HIGH:
       return {
@@ -55,7 +56,7 @@ const getColorStyles = (type: BenchmarkLegendType) => {
 export const BenchmarkLegendStyle = styled(Label)<{
   legendType: BenchmarkLegendType;
 }>(({ legendType }) => {
-  const dynamicStyle = getColorStyles(legendType);
+  const dynamicStyle = getBenchmarkLegendColourStyle(legendType);
   return Object.assign(
     {
       display: 'inline-block',
@@ -66,6 +67,7 @@ export const BenchmarkLegendStyle = styled(Label)<{
       fontWeight: '300',
       lineHeight: '16px',
       letterSpacing: '1px',
+      margin:"0.5px",
       fontFamily: 'GDS Transport',
     },
     dynamicStyle
@@ -74,14 +76,11 @@ export const BenchmarkLegendStyle = styled(Label)<{
 
 
 
-
-export const BenchmarkLegend :React.FC<BenchmarkLegendProps>  = ({
+export const LegendLabel :React.FC<BenchmarkLegendProps>  = ({
   label,
   legendType,
 }) => {
- console.log("Length Type = ", legendType)
   legendType = legendType ?? BenchmarkLegendType.NOT_COMPARED
- 
   return (
     <BenchmarkLegendStyle legendType={legendType}>
       <Label>{label}</Label>
