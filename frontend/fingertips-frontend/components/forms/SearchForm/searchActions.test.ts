@@ -18,7 +18,7 @@ function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
   }
 }
 
-export const getMockFormData = (formData: Record<string, string>) =>
+const getMockFormData = (formData: Record<string, string>) =>
   mockDeep<FormData>({
     entries: jest.fn().mockImplementation(() => {
       const formDataEntries = Object.entries(formData);
@@ -70,6 +70,6 @@ describe('getSearchSuggestions', () => {
   it('should return a maximum of 20 suggestions', async () => {
     SearchServiceFactory.reset();
     process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
-    expect((await getSearchSuggestions('Surgery')).length).toEqual(20);
+    expect(await getSearchSuggestions('Surgery')).toHaveLength(20);
   });
 });
