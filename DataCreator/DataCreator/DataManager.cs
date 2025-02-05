@@ -2,18 +2,18 @@
 
 namespace DataCreator
 {
-    public class DataManager(PholioDataFetcher areaFetcher, PostcodeFetcher postcodeFetcher)
+    public class DataManager(PholioDataFetcher pholioDataFetcher, PostcodeFetcher postcodeFetcher)
     {
-        private readonly PholioDataFetcher _areaFetcher = areaFetcher;
+        private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
         private readonly PostcodeFetcher _postcodeFetcher = postcodeFetcher;
         
 
         public async Task CreateAreaDataAsync(bool addLongLat)
         {
-            var areas = await _areaFetcher.FetchAreasAsync();
+            var areas = await _pholioDataFetcher.FetchAreasAsync();
             if (addLongLat)
                 await AddLongLat(areas);
-            DataFileWriter.WriteData("areas", areas);
+            DataFileWriter.WriteJsonData("areas", areas);
         }
 
         private async Task AddLongLat(IEnumerable<AreaEntity> areas)
@@ -34,24 +34,18 @@ namespace DataCreator
             }
         }
 
-        public async Task CreateIndicatorDataAsync()
+        public async Task CreateIndicatorDataAsync(bool addAreasToIndicator)
         {
-            var areas = await _areaFetcher.FetchAreasAsync();
-            var postcodes = await _postcodeFetcher.FetchAsync();
+            var indicators = await _pholioDataFetcher.FetchIndicatorsAsync(addAreasToIndicator);
+            
+            DataFileWriter.WriteJsonData("indicators", indicators);
+        }
 
-            var notMatched = 0;
-            foreach (var area in areas.Where(g => g.Postcode != null))
-            {
-                var matched = postcodes.TryGetValue(area.Postcode, out var match);
-                if (matched)
-                {
-                    area.Longitude = match.Longitude;
-                    area.Latitude = match.Latitude;
-                }
-                else
-                    notMatched++;
-            }
-            DataFileWriter.WriteData("areas", areas);
+        public async Task CreateHealthDataAsync()
+        {
+            var healthMeasures = await _pholioDataFetcher.FetchHealthDataAsync(2018, ["E06000001", "E06000002"], [108,219, 40401]);
+
+            DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
         }
     }
 }

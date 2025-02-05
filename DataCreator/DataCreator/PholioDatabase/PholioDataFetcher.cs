@@ -7,7 +7,7 @@ namespace DataCreator.PholioDatabase
     public class PholioDataFetcher
     {
         private readonly IConfiguration _config;
-        private readonly List<GeographyMap> _map;
+        private readonly List<AreaMap> _map;
         private const string Region = "Region";
         private const string Administrative = "Administrative";
         private const string NHS = "NHS";
@@ -34,7 +34,7 @@ namespace DataCreator.PholioDatabase
     'UA new 2023',
     'UA unchanged')";
 
-        private string AreaSql = @"
+        private readonly string AreaSql = @"
 SELECT  
     area.[AreaCode]
     ,area.[AreaName]
@@ -61,9 +61,92 @@ SELECT
 		[ParentLevelGeographyCode] ParentAreaCode
 	FROM
 		[dbo].[L_AreaMapping]
-"
+";
+        private readonly string IndicatorSql = @"
+SELECT 
+	indicator.IndicatorID,
+	valuetypes.ValueType,
+	denomtypes.DenominatorType,
+	cimethods.[Name] CIMethod,
+	units.UnitLabel,
+	units.UnitValue,
+	metadata.[1_Name] IndicatorName,
+	metadata.[3_Definition] IndicatorDefinition,
+	metadata.[4_Rationale] Rationale,
+	metadata.[6_DataSource] DataSource,
+	metadata.[9_IndMethod] Method,
+	metadata.[10_StandardPop] StandardPopulation,
+	metadata.[11_CIMethod] CIMethodDetails,
+	metadata.[12_CountSource] CountSource,
+	metadata.[13_CountDefinition] CountDefinition,
+	metadata.[14_DenomSource] DenominatorSource,
+	metadata.[15_DenomDefinition] DenominatorDefinition,
+	metadata.[16_DiscControl] DisclouseControl,
+	metadata.[17_Caveats] Caveats,
+	metadata.[18_Copyright] Copyright,
+	metadata.[19_Reuse] Reuse,
+	metadata.[22_Notes] Notes,
+	metadata.[23_Frequency] Frequency,
+	metadata.[24_Rounding] Rounding
+FROM 
+	[dbo].[IndicatorMetadata] indicator
+JOIN
+	[dbo].[L_ValueTypes] valuetypes ON indicator.ValueTypeID=valuetypes.ValueTypeID
+JOIN
+	[dbo].[L_DenominatorTypes] denomtypes ON indicator.DenominatorTypeID=denomtypes.DenominatorTypeID
+JOIN
+	[dbo].[L_CIMethods] cimethods ON indicator.CIMethodID = cimethods.CIMethodID
+JOIN
+	[dbo].[L_Units] units ON indicator.UnitID=units.UnitID
+JOIN 
+	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID
+";
+        private readonly string IndicatorsAreasSql = @"
+SELECT distinct
+	indicator.[IndicatorID] IndicatorId,
+	areas.AreaCode AreaCode
+FROM 
+	[CoreDataSet] core
+JOIN
+	[IndicatorMetadata] indicator ON core.IndicatorID=indicator.IndicatorID
+JOIN
+	[L_Areas] areas ON core.AreaCode=areas.AreaCode
+ORDER BY IndicatorId";
+        private readonly string IndicatorPolaritySql = @"
+SELECT distinct
+	indicator.IndicatorID,
+	Polarity.Polarity
+FROM 
+	[dbo].[IndicatorMetadata] indicator
+JOIN
+	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
+JOIN
+	[dbo].[L_Polarity] polarity ON gr.PolarityID = polarity.PolarityID
+";
 
-;
+        private readonly string HealthMeasureSql = @"
+SELECT
+    [IndicatorID],
+    [Year],
+    [AgeID],
+    [SexID],
+    [AreaCode],
+    [Count],
+    [Value],
+    [LowerCI95] LowerCI,
+    [UpperCI95] UpperCI,
+    [Denominator]
+FROM 
+	[PHOLIO_DEV].[dbo].[CoreDataSet]
+WHERE
+	Year > @year
+AND
+	AreaCode IN @areaCodes
+AND
+    IndicatorID IN @indicatorIds
+ORDER BY 
+    IndicatorID, AreaCode
+";
 
         public PholioDataFetcher(IConfiguration config)
         {
@@ -279,25 +362,63 @@ SELECT
             return allParents.Where(x => x.IsDirect).ToList();
         }
 
-        public async Task<IEnumerable<AreaEntity>> FetchIndicatorsWithRelatedAreasAsync()
+        public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync(bool addRelatedAreas)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
-            var areas = await connection.QueryAsync<AreaEntity>(AreaSql);
-            foreach (var area in areas)
+            var indicators = await connection.QueryAsync<IndicatorEntity>(IndicatorSql);
+            await AddPolarityToIndicators(indicators.ToList(), connection);
+            if (addRelatedAreas)
+                await AddAreasToIndicators(indicators, connection);
+            return indicators.ToList();
+        }
+
+        public async Task<IEnumerable<HealthMeasureEntity>> FetchHealthDataAsync(int yearFrom, IEnumerable<string> areaCodes, IEnumerable<int> indicatorIds)
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+
+            var healthMeasures = (await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureSql, new {year=yearFrom, areaCodes, indicatorIds })).ToList();
+            return healthMeasures;
+        }
+
+        private async Task AddAreasToIndicators(IEnumerable<IndicatorEntity> indicators, SqlConnection connection)
+        {
+            var areaIndicators = await connection.QueryAsync<IndicatorArea>(IndicatorsAreasSql);
+
+            foreach (var indicator in indicators) 
             {
-                var match = _map.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
-                if (match != null)
-                {
-                    area.AreaType = match.NewAreaType;
-                    area.HierarchyType = match.HierarchyType;
-                }
+               indicator.AssociatedAreaCodes= areaIndicators
+                    .Where(ai=>ai.IndicatorId==indicator.IndicatorID)
+                    .Select(ai=>ai.AreaCode)
+                    .Distinct()
+                    .ToList();
             }
-            return areas;
+        }
+
+        private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
+        {
+            var areaPolarities = await connection.QueryAsync<IndicatorPolarity>(IndicatorPolaritySql);
+            var indicatorsWithMultiplePolarites=new List<int>();
+            foreach (var indicator in indicators)
+            {
+                var results = areaPolarities
+                     .Where(ai => ai.IndicatorId == indicator.IndicatorID)
+                     .ToList();
+                if (results.Count() > 1)
+                    indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
+            }
+            indicators.RemoveAll(i => indicatorsWithMultiplePolarites.Contains(i.IndicatorID));
+            foreach (var indicator in indicators)
+            {
+                var match  = areaPolarities
+                     .FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
+                indicator.Polarity = match != null ? match.Polarity : "Not applicable";
+
+            }
         }
     }
 
-    class GeographyMap
+    class AreaMap
     {
         public string OriginalAreaType { get; set; }
 
@@ -306,6 +427,18 @@ SELECT
         public int Level { get; set; }
 
         public string HierarchyType{get;set; }
+    }
+
+    public class IndicatorArea
+    {
+        public int IndicatorId { get; set; }
+        public string AreaCode { get; set; }
+    }
+
+    public class IndicatorPolarity
+    {
+        public int IndicatorId { get; set; }
+        public string Polarity { get; set; }
     }
 
     public class ParentChildAreaCode

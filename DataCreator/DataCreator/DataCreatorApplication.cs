@@ -6,6 +6,8 @@
 
         public async Task CreateDataAsync()
         {
+            await _dataManager.CreateHealthDataAsync();
+            await _dataManager.CreateIndicatorDataAsync(addAreasToIndicator: true);
             await _dataManager.CreateAreaDataAsync(addLongLat:false);
            
         }
