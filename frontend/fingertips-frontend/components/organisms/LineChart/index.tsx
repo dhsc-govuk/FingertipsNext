@@ -20,7 +20,8 @@ export function LineChart({
   LineChartTitle: lineChartTitle,
   data,
   xAxisTitle,
-  accessibilityLabel, benchmarkData
+  accessibilityLabel,
+  benchmarkData,
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(sortedSeriesValues, benchmarkData);
