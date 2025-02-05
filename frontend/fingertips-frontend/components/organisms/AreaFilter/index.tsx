@@ -1,5 +1,7 @@
+import { Pill } from '@/components/molecules/Pill';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+
 import {
   Details,
   H3,
@@ -87,10 +89,18 @@ export function AreaFilter({
     SearchStateManager.setStateFromParams(existingParams);
   const searchState = searchStateManager.getSearchState();
 
-  const handleAreaTypeSelect = (areaTypeSelected: string) => {
+  const areaTypeSelected = (areaTypeSelected: string) => {
     searchStateManager.addParamValueToState(
       SearchParams.AreaTypeSelected,
       areaTypeSelected
+    );
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const removeSelectedArea = (areaCode: string) => {
+    searchStateManager.removeParamValueFromState(
+      SearchParams.AreasSelected,
+      areaCode
     );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
@@ -107,13 +117,23 @@ export function AreaFilter({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreas?.length ?? 0})`}
           </StyledFilterLabel>
+          {selectedAreas
+            ? selectedAreas.map((selectedArea) => (
+                <Pill
+                  key={selectedArea.code}
+                  selectedFilterName={selectedArea.name}
+                  selectedFilterId={selectedArea.code}
+                  removeFilter={removeSelectedArea}
+                />
+              ))
+            : null}
         </StyledFilterSelectedAreaDiv>
 
         <StyledFilterDetails summary="Add or change areas">
           <StyledFilterSelect
             label="Select an area type"
             input={{
-              onChange: (e) => handleAreaTypeSelect(e.target.value),
+              onChange: (e) => areaTypeSelected(e.target.value),
               defaultValue: searchState[SearchParams.AreaTypeSelected],
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
