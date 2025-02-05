@@ -6,10 +6,18 @@ namespace DataCreator
     {
         private readonly PholioDataFetcher _areaFetcher = areaFetcher;
         private readonly PostcodeFetcher _postcodeFetcher = postcodeFetcher;
+        
 
-        public async Task CreateAreaDataAsync()
+        public async Task CreateAreaDataAsync(bool addLongLat)
         {
             var areas = await _areaFetcher.FetchAreasAsync();
+            if (addLongLat)
+                await AddLongLat(areas);
+            DataFileWriter.WriteData("areas", areas);
+        }
+
+        private async Task AddLongLat(IEnumerable<AreaEntity> areas)
+        {
             var postcodes = await _postcodeFetcher.FetchAsync();
 
             var notMatched = 0;
@@ -24,7 +32,6 @@ namespace DataCreator
                 else
                     notMatched++;
             }
-            DataFileWriter.WriteData("areas", areas);
         }
 
         public async Task CreateIndicatorDataAsync()

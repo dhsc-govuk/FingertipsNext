@@ -6,7 +6,7 @@
 
         public async Task CreateDataAsync()
         {
-            await _dataManager.CreateAreaDataAsync();
+            await _dataManager.CreateAreaDataAsync(addLongLat:false);
            
         }
     }

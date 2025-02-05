@@ -261,11 +261,6 @@ SELECT
                 if (present)
                 {
                     parent.IsDirect = area.Level == value.Level + 1 && area.HierarchyType == value.HierarchyType;
-                    if (parent.IsDirect)
-                    {
-                        var b = 1;
-                    }
-                        
                 }
             }
             //some GPs are not in a PCN
@@ -277,11 +272,6 @@ SELECT
                     if (present)
                     {
                         parent.IsDirect = area.Level == value.Level + 2 && area.HierarchyType == value.HierarchyType;
-                        if (parent.IsDirect)
-                        {
-                            var b = 1;
-                        }
-
                     }
                 }
             }
