@@ -94,7 +94,9 @@ export function SearchResults({
           )}
           <H1>Search results for {searchResultsFormState.searchedIndicator}</H1>
           <form action={indicatorSearchFormAction}>
-            <IndicatorSearchForm searchFormState={indicatorSearchState} />
+            <IndicatorSearchForm
+              indicatorSearchFormState={indicatorSearchState}
+            />
           </form>
           <GridRow>
             <GridCol setWidth="one-third">

@@ -30,14 +30,14 @@ const initialState: IndicatorSearchFormState = {
 
 it('snapshot test - renders the form', () => {
   const container = render(
-    <IndicatorSearchForm searchFormState={initialState} />
+    <IndicatorSearchForm indicatorSearchFormState={initialState} />
   );
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should have an input field to input the indicatorId', () => {
-  render(<IndicatorSearchForm searchFormState={initialState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
 });
@@ -48,7 +48,7 @@ it('should set the input field with indicator value from the form state', () => 
     message: '',
     errors: {},
   };
-  render(<IndicatorSearchForm searchFormState={searchFormState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
 
   expect(screen.getByRole('searchbox')).toHaveValue('test value');
 });
@@ -59,7 +59,7 @@ it('should display no message when there is no error', () => {
     message: '',
     errors: {},
   };
-  render(<IndicatorSearchForm searchFormState={searchFormState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
 
   expect(
     screen.queryByTestId('indicator-search-form-error')
@@ -72,7 +72,7 @@ it('should display an error message when there is an error', () => {
     message: 'error message',
     errors: {},
   };
-  render(<IndicatorSearchForm searchFormState={searchFormState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
 
   expect(
     screen.queryByTestId('indicator-search-form-error')

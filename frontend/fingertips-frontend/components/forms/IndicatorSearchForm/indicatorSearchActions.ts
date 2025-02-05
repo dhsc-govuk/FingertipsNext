@@ -1,6 +1,8 @@
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { redirect, RedirectType } from 'next/navigation';
+'use server';
+
 import { z } from 'zod';
+import { redirect, RedirectType } from 'next/navigation';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 const $IndicatorSearchFormSchema = z.object({
   indicator: z
@@ -29,8 +31,6 @@ export async function searchIndicator(
     indicator: formData.get('indicator'),
   });
 
-  console.log(validatedField);
-
   if (!validatedField.success && prevState.areasSelected?.length === 0) {
     return {
       indicator: formData.get('indicator')?.toString().trim() ?? '',
@@ -40,16 +40,16 @@ export async function searchIndicator(
     };
   }
 
-  let indicator = '';
-
-  if (validatedField.success) {
-    indicator = validatedField.data.indicator;
-  }
-
   const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: indicator,
     [SearchParams.AreasSelected]: prevState.areasSelected,
   });
 
-  redirect(searchState.generatePath('results'), RedirectType.push);
+  if (validatedField.success) {
+    searchState.addParamValueToState(
+      SearchParams.SearchedIndicator,
+      validatedField.data.indicator
+    );
+  }
+
+  redirect(searchState.generatePath('/results'), RedirectType.push);
 }

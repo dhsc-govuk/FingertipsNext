@@ -11,18 +11,18 @@ const StyledSearchBox = styled(SearchBox)(
 );
 
 export const IndicatorSearchForm = ({
-  searchFormState,
+  indicatorSearchFormState,
 }: {
-  searchFormState: IndicatorSearchFormState;
+  indicatorSearchFormState: IndicatorSearchFormState;
 }) => {
   return (
     <FormGroup
-      error={searchFormState.message !== undefined}
+      error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
-      {searchFormState.message ? (
+      {indicatorSearchFormState.message ? (
         <ErrorText data-testid="indicator-search-form-error">
-          {searchFormState.message}
+          {indicatorSearchFormState.message}
         </ErrorText>
       ) : (
         ''
@@ -34,9 +34,9 @@ export const IndicatorSearchForm = ({
             id="indicator"
             name="indicator"
             data-testid="indicator-search-form-input"
-            defaultValue={searchFormState.indicator}
+            defaultValue={indicatorSearchFormState.indicator}
             style={
-              searchFormState.errors
+              indicatorSearchFormState.errors
                 ? {
                     borderColor: govukRed,
                     borderWidth: govukErrorBorderWidth,
