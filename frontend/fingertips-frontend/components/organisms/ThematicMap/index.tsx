@@ -1,9 +1,10 @@
 'use client';
 
 import { H3 } from 'govuk-react';
-import Highcharts, { GeoJSON, GeoJSONFeature } from 'highcharts/highmaps';
+import Highcharts, { GeoJSON } from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { useEffect } from 'react';
 
 interface ThematicMapProps {
   data: HealthDataForArea[];
@@ -13,6 +14,11 @@ interface ThematicMapProps {
   mapTitle?: string;
 }
 
+// https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
+const loadHighchartsModules = async () => {
+  Promise.all([import('highcharts/modules/map')]);
+};
+
 export function ThematicMap({
   data,
   mapData,
@@ -20,6 +26,9 @@ export function ThematicMap({
   mapGroup,
   mapTitle,
 }: Readonly<ThematicMapProps>) {
+  useEffect(() => {
+    loadHighchartsModules();
+  }, []);
   const mapOptions: Highcharts.Options = {
     chart: {
       height: 800,
@@ -91,6 +100,7 @@ export function ThematicMap({
     <div data-testid="thematicMap-component">
       <H3>{mapTitle}</H3>
       <HighchartsReact
+        containerProps={{ 'data-testid': 'highcharts-react-component' }}
         constructorType={'mapChart'}
         highcharts={Highcharts}
         options={mapOptions}
