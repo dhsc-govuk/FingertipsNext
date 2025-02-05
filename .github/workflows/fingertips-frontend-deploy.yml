@@ -82,7 +82,7 @@ jobs:
       gitversion-version: "6.0.x"
 
   frontend-deploy-development:
-    needs: determine-version
+    needs: [determine-version, check-api-changes]
     uses: ./.github/workflows/deploy-container.yml
     with:
       tf_state_file_name: fingertips.frontend.tfstate
