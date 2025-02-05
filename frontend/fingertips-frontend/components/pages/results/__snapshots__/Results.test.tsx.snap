@@ -1933,8 +1933,8 @@ exports[`Search Results Suite snapshot test 1`] = `
       >
         <input
           hidden=""
-          name="searchedIndicator"
-          value="test"
+          name="searchState"
+          value="{"si":"test"}"
         />
         <ul
           class="c22 c23"
@@ -1975,7 +1975,7 @@ exports[`Search Results Suite snapshot test 1`] = `
                     >
                       <a
                         class="c31"
-                        href="/chart?is=1"
+                        href="/chart?si=test&is=1"
                       >
                         NHS
                       </a>
@@ -2038,7 +2038,7 @@ exports[`Search Results Suite snapshot test 1`] = `
                     >
                       <a
                         class="c31"
-                        href="/chart?is=2"
+                        href="/chart?si=test&is=2"
                       >
                         DHSC
                       </a>

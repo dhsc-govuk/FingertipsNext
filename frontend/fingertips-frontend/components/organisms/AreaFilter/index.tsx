@@ -1,3 +1,4 @@
+import { Pill } from '@/components/molecules/Pill';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
@@ -88,14 +89,18 @@ export function AreaFilter({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const sortedByLevelAreaTypes = availableAreaTypes?.sort(
-    (a, b) => a.level - b.level
-  );
-
   const availableGroupTypesName = determineApplicableGroupTypes(
-    sortedByLevelAreaTypes,
+    availableAreaTypes,
     selectedAreaType
   );
+
+  const removeSelectedArea = (areaCode: string) => {
+    searchStateManager.removeParamValueFromState(
+      SearchParams.AreasSelected,
+      areaCode
+    );
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
 
   return (
     <StyledFilterPane data-testid="area-filter-container">
@@ -109,6 +114,16 @@ export function AreaFilter({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreas?.length ?? 0})`}
           </StyledFilterLabel>
+          {selectedAreas
+            ? selectedAreas.map((selectedArea) => (
+                <Pill
+                  key={selectedArea.code}
+                  selectedFilterName={selectedArea.name}
+                  selectedFilterId={selectedArea.code}
+                  removeFilter={removeSelectedArea}
+                />
+              ))
+            : null}
         </StyledFilterSelectedAreaDiv>
 
         <ShowHideContainer summary="Add or change areas">
@@ -121,7 +136,7 @@ export function AreaFilter({
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
-            {sortedByLevelAreaTypes?.map((areaType) => (
+            {availableAreaTypes?.map((areaType) => (
               <option key={areaType.name} value={areaType.name}>
                 {areaType.name}
               </option>

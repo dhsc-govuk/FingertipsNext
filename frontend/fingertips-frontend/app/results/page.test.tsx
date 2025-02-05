@@ -11,7 +11,11 @@ import {
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
+import {
+  AreasApi,
+  AreaWithRelations,
+  AreaType,
+} from '@/generated-sources/ft-api-client';
 
 const generateAreaType = (name: string, level: number): AreaType => ({
   name,
@@ -20,9 +24,21 @@ const generateAreaType = (name: string, level: number): AreaType => ({
 });
 
 const mockAreaTypes: AreaType[] = [
+  generateAreaType('A002', 2),
+  generateAreaType('A001', 1),
+];
+
+const mockSortedAreaTypes: AreaType[] = [
   generateAreaType('A001', 1),
   generateAreaType('A002', 2),
 ];
+
+const generateMockArea = (code: string): AreaWithRelations => ({
+  code,
+  hierarchyName: `hierarchy name for ${code}`,
+  areaType: `area type for ${code}`,
+  name: `name for ${code}`,
+});
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorId: id,
@@ -76,6 +92,33 @@ describe('Results Page', () => {
     );
   });
 
+  it('should have made calls to get area data for all the areas selected', async () => {
+    const searchParams: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'testing',
+      [SearchParams.AreasSelected]: ['A001', 'A002'],
+    };
+
+    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
+    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
+    mockIndicatorSearchService.searchWith.mockResolvedValue(
+      mockIndicatorSearchResults
+    );
+
+    await ResultsPage({
+      searchParams: generateSearchParams(searchParams),
+    });
+
+    expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
+      areaCode: 'A001',
+    });
+    expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
+      areaCode: 'A002',
+    });
+    expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+      'testing'
+    );
+  });
+
   it('should pass the correct props to the SearchResults Page component', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockIndicatorSearchService.searchWith.mockResolvedValue(
@@ -94,12 +137,51 @@ describe('Results Page', () => {
       errors: {},
       indicatorsSelected: [],
       message: null,
-      searchedIndicator: 'testing',
+      searchState: JSON.stringify({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: [],
+        [SearchParams.AreasSelected]: [],
+      }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
+    expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
     expect(page.props.selectedAreaType).toEqual('Some area type');
     expect(page.props.selectedGroupType).toEqual('Some group type');
+    expect(page.props.selectedAreas).toEqual([]);
+  });
+
+  it('should pass the correct props to the SearchResults Page component when there are areasSelected', async () => {
+    const searchParams: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'testing',
+      [SearchParams.AreasSelected]: ['A001', 'A002'],
+    };
+
+    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
+    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
+    mockIndicatorSearchService.searchWith.mockResolvedValue(
+      mockIndicatorSearchResults
+    );
+
+    const page = await ResultsPage({
+      searchParams: generateSearchParams(searchParams),
+    });
+
+    expect(page.props.searchResultsFormState).toEqual({
+      errors: {},
+      indicatorsSelected: [],
+      message: null,
+      searchState: JSON.stringify({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: [],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      }),
+    });
+    expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
+    expect(page.props.availableAreaTypes).toEqual([]);
+    expect(page.props.selectedAreas).toEqual([
+      generateMockArea('A001'),
+      generateMockArea('A002'),
+    ]);
   });
 
   // To unskip as part of DHSCFT-211
