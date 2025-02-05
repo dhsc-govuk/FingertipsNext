@@ -75,5 +75,5 @@ it('should focus on the input boxes when there is a validation error', async () 
       screen.getByRole('textbox', { name: /Search by subject/i })
     ).toHaveFocus();
   });
-  expect(scrollMock).toHaveBeenCalledWith(1);
+  expect(scrollMock).toHaveBeenCalledWith(true);
 });

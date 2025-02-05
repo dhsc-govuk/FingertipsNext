@@ -2,8 +2,16 @@ import { defineConfig, devices } from '@playwright/test';
 
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 const jobUrl = process.env.JOB_URL;
-const runCommand =
-  process.env.MOCK_SERVER === 'true' ? 'npm run dev' : 'npm run dev-docker';
+const runCommand = (): string => {
+  let command = 'npm run dev'; // run in CI using against mocks
+  if (
+    process.env.FINGERTIPS_FRONTEND_URL ||
+    process.env.MOCK_SERVER === 'false'
+  ) {
+    command = 'npm run dev-no-mocks'; // run in CD or localised containers without mocks
+  }
+  return command;
+};
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -46,7 +54,7 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests
   webServer: {
-    command: runCommand,
+    command: runCommand(),
     url: url,
     reuseExistingServer: true,
   },
