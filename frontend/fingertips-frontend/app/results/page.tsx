@@ -77,7 +77,7 @@ export default async function Page(
         searchedIndicator
       );
 
-    const sortedByLevelAreaTypes = availableAreaTypes?.sort(
+    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
       (a, b) => a.level - b.level
     );
 
