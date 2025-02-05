@@ -11,16 +11,24 @@ import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
 import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
-import { GeoJSON, GeoJSONFeature } from 'highcharts';
+import { GeoJSON } from 'highcharts';
 
 // using mock to spike maps
 import { mockHealthData } from '@/mock/data/healthdata';
 
+// const loadHighchartsModules = async (callback) => {
+//   Promise.all([
+//     import('highcharts/modules/map'),
+//     // import("highcharts/modules/exporting"),
+//     // import("highcharts/modules/accessibility"),
+//   ]).then(callback);
+// };
+
 type ChartProps = {
-  data: HealthDataForArea[];
-  mapData: GeoJSON;
-  mapJoinKey: string;
-  mapGroup: GeoJSON;
+  data: HealthDataForArea[][];
+  mapData?: GeoJSON;
+  mapJoinKey?: string;
+  mapGroup?: GeoJSON;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -30,7 +38,7 @@ export function Chart({
   data,
   mapData,
   mapJoinKey,
-  mapGroup: mapGroup,
+  mapGroup,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -51,13 +59,16 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      <ThematicMap
-        data={mockHealthData['Mock 318 for West Midlands CA']}
-        mapData={mapData}
-        mapJoinKey={mapJoinKey}
-        mapGroup={mapGroup}
-      />
-
+      {/* TODO: apply correct business logic for conditional render */}
+      {mapData && mapJoinKey && mapGroup ? (
+        <ThematicMap
+          data={mockHealthData['Mock 318 for West Midlands CA']}
+          mapData={mapData}
+          mapJoinKey={mapJoinKey}
+          mapGroup={mapGroup}
+          mapTitle="Compare indicators within the area group"
+        />
+      ) : null}
       {populationData ? (
         <>
           <PopulationPyramid

@@ -1,6 +1,6 @@
 'use client';
 
-import { H2 } from 'govuk-react';
+import { H3 } from 'govuk-react';
 import Highcharts, { GeoJSON, GeoJSONFeature } from 'highcharts/highmaps';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
@@ -10,13 +10,15 @@ interface ThematicMapProps {
   mapData: GeoJSON;
   mapJoinKey: string;
   mapGroup: GeoJSON;
+  mapTitle?: string;
 }
 
 export function ThematicMap({
   data,
   mapData,
   mapJoinKey,
-  mapGroup: mapGroup,
+  mapGroup,
+  mapTitle,
 }: Readonly<ThematicMapProps>) {
   const mapOptions: Highcharts.Options = {
     chart: {
@@ -86,8 +88,8 @@ export function ThematicMap({
   };
 
   return (
-    <div>
-      <H2>Fingertips Maps</H2>
+    <div data-testid="thematicMap-component">
+      <H3>{mapTitle}</H3>
       <HighchartsReact
         constructorType={'mapChart'}
         highcharts={Highcharts}

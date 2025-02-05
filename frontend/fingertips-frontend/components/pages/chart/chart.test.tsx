@@ -4,6 +4,10 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
+import { getMapFile } from '@/lib/mapUtils/getMapFile';
+import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
+import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -96,4 +100,26 @@ it('should not render the scatterChart component when only 1 indicator is select
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
+});
+
+it('should render the ThematicMap component when map props are passed', () => {
+  // TODO: apply correct business logic
+  // TODO: replace with sensible test data
+
+  const areaType: string = 'Regions Statistical';
+  const mapData = getMapFile(areaType);
+  const mapJoinKey = getMapJoinKey(areaType);
+  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
+  render(
+    <ThematicMap
+      data={mockHealthData['Mock 318 for West Midlands CA']}
+      mapData={mapData}
+      mapJoinKey={mapJoinKey}
+      mapGroup={mapGroup}
+      mapTitle="valid title"
+    />
+  );
+
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+  expect(thematicMap).toBeInTheDocument();
 });
