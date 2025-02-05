@@ -18,6 +18,8 @@ jobs:
           development
         ]
     environment: ${{ matrix.environment }}
+    outputs:
+      frontend-dev-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
     steps:
     - uses: actions/checkout@v3
@@ -58,3 +60,23 @@ jobs:
         path: 'fingertips-db.dacpac'
         action: 'publish'
         arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
+
+  e2e-tests-development:
+    uses: ./.github/workflows/e2e-tests.yml
+    if: |
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event_name == 'workflow_run' &&
+          (
+            github.event.workflow_run.event == 'push' ||
+            github.event.workflow_run.event == 'workflow_dispatch'
+          )
+        )
+      }}
+    needs: deploy-db-dacpac
+    with:
+      env-url: ${{ needs.deploy-db-dacpac.outputs.frontend-dev-url }}
+      send-slack-on-fail: "true"
+    secrets:
+      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
