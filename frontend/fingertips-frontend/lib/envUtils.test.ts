@@ -12,7 +12,7 @@ describe('Validate Environment Variable Utils', () => {
     process.env = OLD_ENV; // Restore old environment
   });
 
-  it('Should get Env Var ', () => {
+  it('Should get Env Var', () => {
     process.env.SOME_ENV_VAR = 'someValue';
     expect(readEnvVar('SOME_ENV_VAR')).toEqual('someValue');
   });
@@ -28,7 +28,7 @@ describe('Validate Environment Variable Utils', () => {
     expect(readEnvVar('SOME_ENV_VAR')).toEqual('');
   });
 
-  it('tryGetEnv should not throw exception ', () => {
+  it('tryGetEnv should not throw exception', () => {
     expect(tryReadEnvVar('SOME_ENV_VAR')).toEqual(undefined);
   });
 });

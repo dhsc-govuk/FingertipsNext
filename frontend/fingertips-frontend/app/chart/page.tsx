@@ -29,10 +29,15 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const data = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodes,
-  });
+
+  const data = await Promise.all(
+    indicatorsSelected.map((indicatorId) =>
+      indicatorApi.getHealthDataForAnIndicator({
+        indicatorId: Number(indicatorId),
+        areaCodes: [...areaCodes, areaCodeForEngland],
+      })
+    )
+  );
 
   let rawPopulationData = undefined;
   let preparedPopulationData = undefined;

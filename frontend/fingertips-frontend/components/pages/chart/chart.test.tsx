@@ -29,7 +29,7 @@ describe('Page structure', () => {
     it('should render back link with correct search parameters', () => {
       render(
         <Chart
-          data={mockHealthData[1]}
+          data={[mockHealthData[1]]}
           searchedIndicator="test"
           indicatorsSelected={['1', '2']}
         />
@@ -47,7 +47,7 @@ describe('Page structure', () => {
 
 describe('Content', () => {
   beforeEach(() => {
-    render(<Chart data={mockHealthData[1]} />);
+    render(<Chart data={[mockHealthData[1]]} />);
   });
 
   it('should render the title with correct text', () => {
@@ -71,7 +71,7 @@ describe('Content', () => {
 it('should render the PopulationPyramid component when Population data are provided', () => {
   render(
     <Chart
-      data={mockHealthData[1]}
+      data={[mockHealthData[1]]}
       populationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,
@@ -82,4 +82,18 @@ it('should render the PopulationPyramid component when Population data are provi
 
   const populationPyramid = screen.getByTestId('populationPyramid-component');
   expect(populationPyramid).toBeInTheDocument();
+});
+
+it('should render the scatterChart component when 2 indicators are selected', () => {
+  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0', '1']} />);
+  const scatterChart = screen.getByTestId('scatterChart-component');
+
+  expect(scatterChart).toBeInTheDocument();
+});
+
+it('should not render the scatterChart component when only 1 indicator is selected', () => {
+  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0']} />);
+  const scatterChart = screen.queryByTestId('scatterChart-component');
+
+  expect(scatterChart).not.toBeInTheDocument();
 });

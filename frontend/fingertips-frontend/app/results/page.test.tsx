@@ -11,9 +11,18 @@ import {
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreasApi } from '@/generated-sources/ft-api-client';
+import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
 
-const mockAreaTypes = ['Some area type 1', 'Some area type 2'];
+const generateAreaType = (name: string, level: number): AreaType => ({
+  name,
+  level,
+  hierarchyName: `hierarchyName for ${name}`,
+});
+
+const mockAreaTypes: AreaType[] = [
+  generateAreaType('A001', 1),
+  generateAreaType('A002', 2),
+];
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorId: id,

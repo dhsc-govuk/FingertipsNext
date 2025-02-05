@@ -8,6 +8,10 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
+        CreateMap<AreaTypeModel, AreaType>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.AreaType))
+            .ForMember(dest => dest.HierarchyName, opt => opt.MapFrom(src => src.HierarchyType));
+
         CreateMap<AreaWithRelationsModel, AreaWithRelations>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Area.AreaCode))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Area.AreaName))
@@ -15,6 +19,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.AreaType, opt => opt.MapFrom(src => src.Area.AreaType))
             .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Area.Level))
             .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentArea));
+        
         CreateMap<AreaModel, Schemas.Area>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.AreaCode))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.AreaName))

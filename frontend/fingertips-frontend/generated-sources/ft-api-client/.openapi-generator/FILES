@@ -3,6 +3,7 @@ apis/IndicatorsApi.ts
 apis/index.ts
 index.ts
 models/Area.ts
+models/AreaType.ts
 models/AreaWithRelations.ts
 models/GetAreaHierarchies500Response.ts
 models/HealthDataForArea.ts

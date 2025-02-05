@@ -3,6 +3,7 @@
 public class AreaWithRelationsModel
 {
     private List<AreaModel>? _children;
+    private List<AreaModel>? _siblings;
     private List<AreaModel>? _ancestors;
     
     public required AreaModel Area { get; init; }
@@ -11,6 +12,11 @@ public class AreaWithRelationsModel
     {
         get => _children ?? new List<AreaModel>();
         set => _children = value; 
+    }
+    public List<AreaModel> Siblings
+    {
+        get => _siblings ?? new List<AreaModel>();
+        set => _siblings = value; 
     }
     public List<AreaModel> Ancestors
     {
