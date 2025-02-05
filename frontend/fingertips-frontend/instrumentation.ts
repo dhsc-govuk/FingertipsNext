@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
