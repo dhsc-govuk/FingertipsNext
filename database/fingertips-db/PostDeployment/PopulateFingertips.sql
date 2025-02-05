@@ -2834,6 +2834,9 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687508, 3333, 1, 1, 483, 95771, 495.37177, 492.20542, 498.55326, 2006)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687509, 3333, 1, 2, 483, 67936, 267.43674, 265.4267, 269.45821, 2023)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687510, 3333, 1, 3, 483, 168858, 341.57323, 339.94294, 343.20939, 2023)
+GO
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687511, 3333, 2, 1, 611, 154981, 313.3117885, 311.720617, 314.9089413, 2007)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687512, 3333, 2, 2, 611, 94343, 140.5150665, 139.5403326, 141.4944993, 2007)
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
