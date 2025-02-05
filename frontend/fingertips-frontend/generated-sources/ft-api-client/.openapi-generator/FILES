@@ -1,11 +1,14 @@
 apis/AreasApi.ts
 apis/IndicatorsApi.ts
+apis/SystemApi.ts
 apis/index.ts
 index.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
 models/GetAreaHierarchies500Response.ts
+models/GetHealthcheck200Response.ts
+models/GetHealthcheck500Response.ts
 models/HealthDataForArea.ts
 models/HealthDataPoint.ts
 models/Indicator.ts
