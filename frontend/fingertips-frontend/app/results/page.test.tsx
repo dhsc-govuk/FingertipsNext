@@ -157,6 +157,7 @@ describe('Results Page', () => {
       [SearchParams.AreasSelected]: ['A001', 'A002'],
     };
 
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
     mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
     mockIndicatorSearchService.searchWith.mockResolvedValue(
@@ -178,15 +179,14 @@ describe('Results Page', () => {
       }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual([]);
+    expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
     expect(page.props.selectedAreas).toEqual([
       generateMockArea('A001'),
       generateMockArea('A002'),
     ]);
   });
 
-  // To unskip as part of DHSCFT-211
-  it.skip('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
+  it('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
     mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
 
     const page = await ResultsPage({

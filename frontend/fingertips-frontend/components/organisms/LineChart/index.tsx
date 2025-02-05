@@ -14,15 +14,17 @@ interface LineChartProps {
   data: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
+  benchmarkData?: HealthDataForArea;
 }
 export function LineChart({
   LineChartTitle: lineChartTitle,
   data,
   xAxisTitle,
   accessibilityLabel,
+  benchmarkData,
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
-  const seriesData = generateSeriesData(sortedSeriesValues);
+  const seriesData = generateSeriesData(sortedSeriesValues, benchmarkData);
 
   const lineChartOptions: Highcharts.Options = {
     credits: {
@@ -50,7 +52,6 @@ export function LineChart({
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
     },
-
     accessibility: {
       enabled: false,
       description: accessibilityLabel,
