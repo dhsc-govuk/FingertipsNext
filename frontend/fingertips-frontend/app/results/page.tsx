@@ -37,10 +37,10 @@ export default async function Page(
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
       areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-        )
-      : [];
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
 
     const initialState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
