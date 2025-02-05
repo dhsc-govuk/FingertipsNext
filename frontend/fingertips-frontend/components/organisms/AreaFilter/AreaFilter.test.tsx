@@ -1,10 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
 import { AreaFilter } from '.';
-import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 import { mockAreaDataForNHSRegion, mockAreaTypes } from '@/mock/data/areaData';
-import { useSearchParams } from 'next/navigation';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
