@@ -14,7 +14,10 @@ import {
 } from 'govuk-react';
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
-import { SearchResultState, viewCharts } from './searchResultsActions';
+import {
+  SearchResultState,
+  submitIndicatorSelection,
+} from './searchResultsActions';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -46,10 +49,8 @@ export function SearchResults({
   searchResults,
   availableAreaTypes,
 }: Readonly<SearchResultsProps>) {
-  const [viewChartsState, viewChartsFormAction] = useActionState(
-    viewCharts,
-    searchResultsFormState
-  );
+  const [indicatorSelectionState, indicatorSelectionFormAction] =
+    useActionState(submitIndicatorSelection, searchResultsFormState);
 
   const searchState = new SearchStateManager({
     [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
@@ -75,9 +76,9 @@ export function SearchResults({
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
       {searchResultsFormState.searchedIndicator ? (
         <>
-          {viewChartsState.message && (
+          {indicatorSelectionState.message && (
             <ErrorSummary
-              description={viewChartsState.message}
+              description={indicatorSelectionState.message}
               errors={[
                 {
                   targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
@@ -103,7 +104,7 @@ export function SearchResults({
               <AreaFilter availableAreaTypes={availableAreaTypes} />
             </GridCol>
             <GridCol>
-              <form action={viewChartsFormAction}>
+              <form action={indicatorSelectionFormAction}>
                 <input
                   name="searchedIndicator"
                   defaultValue={searchResultsFormState.searchedIndicator}
@@ -120,7 +121,7 @@ export function SearchResults({
                         result={result}
                         indicatorSelected={isIndicatorSelected(
                           result.indicatorId.toString(),
-                          viewChartsState
+                          indicatorSelectionState
                         )}
                       />
                     ))}

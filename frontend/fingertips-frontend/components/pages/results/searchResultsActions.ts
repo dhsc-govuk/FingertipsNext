@@ -23,7 +23,7 @@ export type SearchResultForm = z.infer<typeof $SearchResultFormSchema>;
 
 export type SearchResultState<T = SearchResultForm> = State & T;
 
-export async function viewCharts(
+export async function submitIndicatorSelection(
   prevState: SearchResultState,
   formData: FormData
 ): Promise<SearchResultState> {
