@@ -24,7 +24,7 @@ export function generateSeriesData(
   if (benchmarkData) {
     const englandSeries: Highcharts.SeriesLineOptions = {
       type: 'line',
-      name: 'Benchmark: England',
+      name: `Benchmark: ${benchmarkData.areaName}`,
       data: benchmarkData.healthData.map((point) => [point.year, point.value]),
       color: 'black',
       marker: {
