@@ -42,23 +42,6 @@ export default async function Page(
         )
       : [];
 
-    // When DHSCFT-210 is complete The following try catch can be removed
-    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
-    // let availableAreaTypes: AreaType[];
-    // let selectedAreasData: AreaWithRelations[];
-    //
-    // try {
-    //   availableAreaTypes =
-    //     areasSelected.length === 0 ? await areasApi.getAreaTypes() : [];
-    //   selectedAreasData = await Promise.all(
-    //     areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-    //   );
-    // } catch (error) {
-    //   console.log(`Error from areasApi ${error}`);
-    //   availableAreaTypes = [];
-    //   selectedAreasData = [];
-    // }
-
     const initialState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
       indicatorsSelected,
