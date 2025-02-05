@@ -14,7 +14,7 @@ const initialState: SearchResultState = {
 let formData: FormData;
 
 describe('Search Results Actions', () => {
-  describe('viewCharts', () => {
+  describe('submitIndicatorSelection', () => {
     it('should redirect to the charts page with the indicators selected in the query params', async () => {
       formData = new FormData();
       formData.append('searchedIndicator', 'boom');
