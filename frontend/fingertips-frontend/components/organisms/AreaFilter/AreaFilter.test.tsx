@@ -13,7 +13,6 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    // useSearchParams: () => {},
     useSearchParams: () => [
       [[SearchParams.AreaTypeSelected], 'NHS region'],
       [[SearchParams.AreasSelected], 'E40000012'],
