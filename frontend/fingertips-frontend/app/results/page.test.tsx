@@ -96,8 +96,7 @@ describe('Results Page', () => {
     expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
   });
 
-  // To unskip as part of DHSCFT-211
-  it.skip('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
+  it('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
     mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
 
     const page = await ResultsPage({
