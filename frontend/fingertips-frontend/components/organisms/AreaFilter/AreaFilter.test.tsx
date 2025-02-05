@@ -158,7 +158,7 @@ describe('Area Filter', () => {
       ).not.toBeDisabled();
     });
 
-    it('should render all applicable group types based upon the area selected', () => {
+    it('should render all applicable group types based upon the area type selected', () => {
       const expectedAreaTypeOptions = ['A000', 'A001', 'A002'];
 
       render(

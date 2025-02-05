@@ -5,6 +5,7 @@ import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
+import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
@@ -65,23 +66,6 @@ type AllowedParamsForHandleSelect =
   | SearchParams.AreaTypeSelected
   | SearchParams.GroupTypeSelected;
 
-const determineApplicableGroupTypes = (
-  sortedAreaTypes?: AreaType[],
-  selectedAreaType?: string
-): AreaType[] | undefined => {
-  if (sortedAreaTypes && selectedAreaType) {
-    const selectedAreaTypeData = sortedAreaTypes.find(
-      (areaType) => areaType.name === selectedAreaType
-    );
-
-    if (selectedAreaTypeData) {
-      return sortedAreaTypes.filter(
-        (areaType) => areaType.level <= selectedAreaTypeData?.level
-      );
-    }
-  }
-};
-
 export function AreaFilter({
   selectedAreas,
   selectedAreaType,
@@ -108,7 +92,7 @@ export function AreaFilter({
     (a, b) => a.level - b.level
   );
 
-  const availableGroupTypes = determineApplicableGroupTypes(
+  const availableGroupTypesName = determineApplicableGroupTypes(
     sortedByLevelAreaTypes,
     selectedAreaType
   );
@@ -160,9 +144,9 @@ export function AreaFilter({
                 disabled: selectedAreas && selectedAreas?.length > 0,
               }}
             >
-              {availableGroupTypes?.map((areaType) => (
-                <option key={areaType.name} value={areaType.name}>
-                  {areaType.name}
+              {availableGroupTypesName?.map((areaType) => (
+                <option key={areaType} value={areaType}>
+                  {areaType}
                 </option>
               ))}
             </StyledFilterSelect>
