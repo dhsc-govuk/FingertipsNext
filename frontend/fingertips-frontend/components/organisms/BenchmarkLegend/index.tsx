@@ -13,7 +13,7 @@ export enum BenchmarkLegendType {
 
 export interface BenchmarkLegendProps {
   label?: string;
-  legendType?: BenchmarkLegendType;
+  legendType: BenchmarkLegendType | number | string | undefined;
 }
 
 const getColorStyles = (type: BenchmarkLegendType) => {
@@ -52,7 +52,7 @@ const getColorStyles = (type: BenchmarkLegendType) => {
   }
 };
 
-export const BenchmarkLegendStyle = styled('label')<{
+export const BenchmarkLegendStyle = styled(Label)<{
   legendType: BenchmarkLegendType;
 }>(({ legendType }) => {
   const dynamicStyle = getColorStyles(legendType);
@@ -72,13 +72,19 @@ export const BenchmarkLegendStyle = styled('label')<{
   );
 });
 
-export const BenchmarkLegend = ({
+
+
+
+export const BenchmarkLegend :React.FC<BenchmarkLegendProps>  = ({
   label,
   legendType,
-}: BenchmarkLegendProps) => {
+}) => {
+ console.log("Length Type = ", legendType)
+  legendType = legendType ?? BenchmarkLegendType.NOT_COMPARED
+ 
   return (
-    <BenchmarkLegendStyle legendType={BenchmarkLegendType.NOT_COMPARED}>
-      <label color="green">{label}</label>
+    <BenchmarkLegendStyle legendType={legendType}>
+      <Label>{label}</Label>
     </BenchmarkLegendStyle>
   );
 };
