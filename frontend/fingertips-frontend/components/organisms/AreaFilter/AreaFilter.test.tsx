@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { AreaFilter } from '.';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import userEvent from '@testing-library/user-event';
@@ -13,21 +13,31 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({
-      [SearchParams.AreaTypeSelected]: 'A002',
-    }),
+    useSearchParams: () => [
+      [[SearchParams.AreaTypeSelected], 'A002'],
+      [[SearchParams.AreasSelected], '001'],
+      [[SearchParams.AreasSelected], '002'],
+    ],
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
   };
 });
 
-const mockArea: AreaWithRelations = {
-  code: '001',
-  name: 'selected area 001',
-  hierarchyName: 'some hierarchy name',
-  areaType: 'Integrated Care Board sub-locations',
-};
+const mockSelectedAreasData: AreaWithRelations[] = [
+  {
+    code: '001',
+    name: 'selected area 001',
+    hierarchyName: 'some hierarchy name',
+    areaType: 'Integrated Care Board sub-locations',
+  },
+  {
+    code: '002',
+    name: 'selected area 002',
+    hierarchyName: 'some hierarchy name',
+    areaType: 'Integrated Care Board sub-locations',
+  },
+];
 
 const generateAreaType = (name: string, level: number): AreaType => ({
   name,
@@ -57,8 +67,15 @@ describe('Area Filter', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
 
+  it('should render the selected areas when there are areas selected', () => {
+    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+
+    expect(screen.getByText(/Selected areas \(2\)/i)).toBeInTheDocument();
+    expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
+  });
+
   it('should disable the select area type drop down when there are areas selected', () => {
-    render(<AreaFilter selectedAreas={[mockArea]} />);
+    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
 
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
@@ -71,6 +88,26 @@ describe('Area Filter', () => {
     expect(
       screen.getByRole('combobox', { name: /Select an area type/i })
     ).not.toBeDisabled();
+  });
+
+  it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=002`,
+      `&${SearchParams.AreaTypeSelected}=A002`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+
+    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+    await user.click(
+      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+    );
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+      scroll: false,
+    });
   });
 
   it('should render the select area type drop down and indicate there are no areas selected', () => {
@@ -99,8 +136,13 @@ describe('Area Filter', () => {
   });
 
   it('should add the selected areaType to the url', async () => {
-    const user = userEvent.setup();
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=001&${SearchParams.AreasSelected}=002`,
+      `&${SearchParams.AreaTypeSelected}=A001`,
+    ].join('');
 
+    const user = userEvent.setup();
     render(<AreaFilter availableAreaTypes={availableAreaTypes} />);
 
     await user.selectOptions(
@@ -108,11 +150,8 @@ describe('Area Filter', () => {
       'A001'
     );
 
-    expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.AreaTypeSelected}=A001`,
-      {
-        scroll: false,
-      }
-    );
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+      scroll: false,
+    });
   });
 });
