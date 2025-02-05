@@ -205,7 +205,7 @@ describe('Search Results Suite', () => {
     await user.click(errorLink);
 
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
-    expect(scrollMock).toBeCalledTimes(1);
+    expect(scrollMock).toHaveBeenCalledWith(1);
   });
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
