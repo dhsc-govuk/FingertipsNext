@@ -1,6 +1,6 @@
 import { GeoJSON } from 'highcharts';
-import { union } from '@turf/union';
-import { featureCollection } from '@turf/helpers';
+// import { union } from '@turf/union';
+// import { featureCollection } from '@turf/helpers';
 
 export function getMapGroup(
   mapData: GeoJSON,
