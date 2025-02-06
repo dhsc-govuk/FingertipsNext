@@ -102,10 +102,8 @@ it('should not render the scatterChart component when only 1 indicator is select
   expect(scatterChart).not.toBeInTheDocument();
 });
 
-it('should render the ThematicMap component when map props are passed', () => {
-  // TODO: apply correct business logic
-  // TODO: replace with sensible test data
-
+// TODO: apply correct business logic
+it('should render the ThematicMap component when map props are passed', async () => {
   const areaType: string = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
@@ -116,10 +114,9 @@ it('should render the ThematicMap component when map props are passed', () => {
       mapData={mapData}
       mapJoinKey={mapJoinKey}
       mapGroup={mapGroup}
-      mapTitle="valid title"
     />
   );
 
-  const thematicMap = screen.queryByTestId('thematicMap-component');
+  const thematicMap = await screen.findByTestId('thematicMap-component');
   expect(thematicMap).toBeInTheDocument();
 });

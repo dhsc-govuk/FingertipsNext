@@ -5,7 +5,7 @@ import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
 
-it('should render the map title', () => {
+it('should render the map title', async () => {
   const areaType = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
@@ -20,11 +20,11 @@ it('should render the map title', () => {
     />
   );
 
-  const title = screen.getByRole('heading', { level: 3 });
+  const title = await screen.findByRole('heading', { level: 3 });
   expect(title).toHaveTextContent('valid title');
 });
 
-it('should render the ThematicMap component', () => {
+it('should render the ThematicMap component', async () => {
   const areaType = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
@@ -39,6 +39,6 @@ it('should render the ThematicMap component', () => {
     />
   );
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = await screen.findByTestId('highcharts-react-component');
   expect(highcharts).toBeInTheDocument();
 });
