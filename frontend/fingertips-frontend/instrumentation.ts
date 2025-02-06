@@ -48,8 +48,8 @@ const configureTracing = async () => {
 
     const noopSpanExporter: SpanExporter = {
       export: function (
-        _spans: ReadableSpan[], // eslint-disable-line @typescript-eslint/no-unused-vars
-        _resultCallback: (result: ExportResult) => void // eslint-disable-line @typescript-eslint/no-unused-vars
+        _spans: ReadableSpan[],
+        _resultCallback: (result: ExportResult) => void
       ): void {},
       shutdown: function (): Promise<void> {
         return new Promise((resolve) => resolve());

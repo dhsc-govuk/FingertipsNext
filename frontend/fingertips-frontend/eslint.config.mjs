@@ -28,7 +28,7 @@ const eslintConfig = [
         'error',
         {
           varsIgnorePattern: '^_',
-          argsIgnorePattern: '^_$',
+          argsIgnorePattern: '^_',
         },
       ],
       'jest/no-focused-tests': 'error',
