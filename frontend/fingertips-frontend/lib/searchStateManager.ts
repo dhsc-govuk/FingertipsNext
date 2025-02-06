@@ -5,6 +5,7 @@ export enum SearchParams {
   IndicatorsSelected = 'is',
   AreasSelected = 'as',
   AreaTypeSelected = 'ats',
+  GroupTypeSelected = 'gts',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -19,6 +20,7 @@ export type SearchStateParams = {
   [SearchParams.IndicatorsSelected]?: string[];
   [SearchParams.AreasSelected]?: string[];
   [SearchParams.AreaTypeSelected]?: string;
+  [SearchParams.GroupTypeSelected]?: string;
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>

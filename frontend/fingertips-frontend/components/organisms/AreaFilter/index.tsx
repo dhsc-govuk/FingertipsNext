@@ -1,20 +1,18 @@
+import { Pill } from '@/components/molecules/Pill';
 import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import {
-  Details,
-  H3,
-  LabelText,
-  Paragraph,
-  SectionBreak,
-  Select,
-} from 'govuk-react';
+import { H3, LabelText, Paragraph, SectionBreak, Select } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
+import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
+import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 interface AreaFilterProps {
   selectedAreas?: AreaWithRelations[];
+  selectedAreaType?: string;
   availableAreaTypes?: AreaType[];
+  selectedGroupType?: string;
 }
 
 const StyledFilterPane = styled('div')({});
@@ -62,21 +60,18 @@ const StyledFilterSelect = styled(Select)({
   select: {
     width: '100%',
   },
+  marginBottom: '1em',
 });
 
-const StyledFilterDetails = styled(Details)({
-  div: {
-    borderLeft: 'none',
-    padding: '1em 0em',
-  },
-  summary: {
-    color: '#000000',
-  },
-});
+type AllowedParamsForHandleSelect =
+  | SearchParams.AreaTypeSelected
+  | SearchParams.GroupTypeSelected;
 
 export function AreaFilter({
   selectedAreas,
+  selectedAreaType,
   availableAreaTypes,
+  selectedGroupType,
 }: Readonly<AreaFilterProps>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -85,12 +80,24 @@ export function AreaFilter({
   const existingParams = new URLSearchParams(searchParams);
   const searchStateManager =
     SearchStateManager.setStateFromParams(existingParams);
-  const searchState = searchStateManager.getSearchState();
 
-  const handleAreaTypeSelect = (areaTypeSelected: string) => {
-    searchStateManager.addParamValueToState(
-      SearchParams.AreaTypeSelected,
-      areaTypeSelected
+  const handleSelect = (
+    searchParamKey: AllowedParamsForHandleSelect,
+    valueSelected: string
+  ) => {
+    searchStateManager.addParamValueToState(searchParamKey, valueSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const availableGroupTypesName = determineApplicableGroupTypes(
+    availableAreaTypes,
+    selectedAreaType
+  );
+
+  const removeSelectedArea = (areaCode: string) => {
+    searchStateManager.removeParamValueFromState(
+      SearchParams.AreasSelected,
+      areaCode
     );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
@@ -107,14 +114,25 @@ export function AreaFilter({
           <StyledFilterLabel>
             {`Selected areas (${selectedAreas?.length ?? 0})`}
           </StyledFilterLabel>
+          {selectedAreas
+            ? selectedAreas.map((selectedArea) => (
+                <Pill
+                  key={selectedArea.code}
+                  selectedFilterName={selectedArea.name}
+                  selectedFilterId={selectedArea.code}
+                  removeFilter={removeSelectedArea}
+                />
+              ))
+            : null}
         </StyledFilterSelectedAreaDiv>
 
-        <StyledFilterDetails summary="Add or change areas">
+        <ShowHideContainer summary="Add or change areas">
           <StyledFilterSelect
             label="Select an area type"
             input={{
-              onChange: (e) => handleAreaTypeSelect(e.target.value),
-              defaultValue: searchState[SearchParams.AreaTypeSelected],
+              onChange: (e) =>
+                handleSelect(SearchParams.AreaTypeSelected, e.target.value),
+              defaultValue: selectedAreaType,
               disabled: selectedAreas && selectedAreas.length > 0,
             }}
           >
@@ -124,7 +142,31 @@ export function AreaFilter({
               </option>
             ))}
           </StyledFilterSelect>
-        </StyledFilterDetails>
+
+          <StyledFilterLabel>Area List</StyledFilterLabel>
+          <Paragraph>Select one or more areas to compare</Paragraph>
+
+          <ShowHideContainer
+            summary="Refine the area list"
+            showSideBarWhenOpen={true}
+          >
+            <StyledFilterSelect
+              label="1. Select a group type"
+              input={{
+                onChange: (e) =>
+                  handleSelect(SearchParams.GroupTypeSelected, e.target.value),
+                defaultValue: selectedGroupType,
+                disabled: selectedAreas && selectedAreas?.length > 0,
+              }}
+            >
+              {availableGroupTypesName?.map((areaType) => (
+                <option key={areaType} value={areaType}>
+                  {areaType}
+                </option>
+              ))}
+            </StyledFilterSelect>
+          </ShowHideContainer>
+        </ShowHideContainer>
       </StyledFilterDiv>
     </StyledFilterPane>
   );

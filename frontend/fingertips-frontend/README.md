@@ -108,7 +108,7 @@ npm run test-e2e-local-docker
 ```
 You will need to have docker running locally first before executing this command.
 
-If you wish to use UI mode when running against a containerised fingertips instance you will need to add the --ui parameter to the playwright test command in the `test-e2e-local-docker` script.
+If you wish to use UI mode when running against a containerised fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
 Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. Also note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our e2e testing as close to real world as possible.
 
@@ -118,7 +118,7 @@ Currently performed at the E2E stage. Libraries used: @axe-core/playwright and a
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
-To check there are 0 accessibility violations call expect((await axeBuilder.analyze()).violations).toEqual([]);.
+To check there are 0 accessibility violations call expectNoAccessibilityViolations();.
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
