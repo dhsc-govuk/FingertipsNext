@@ -1,9 +1,6 @@
-
 import { render, screen } from '@testing-library/react';
-import { Benchmark,  BenchmarkData } from './BenchmarkLegend';
+import { Benchmark, BenchmarkData } from './BenchmarkLegend';
 import '@testing-library/jest-dom';
-
-
 
 describe('Testing the BenchmarkLegend component', () => {
   it('renders without crashing with an empty model', () => {
@@ -12,26 +9,32 @@ describe('Testing the BenchmarkLegend component', () => {
   });
 
   it('renders a single legend item', () => {
-    const model: BenchmarkData[] = [{ group: 'rag', labels: [{ label: 'Better (95%)', type: 'better' }] }];
+    const model: BenchmarkData[] = [
+      { group: 'rag', labels: [{ label: 'Better (95%)', type: 'better' }] },
+    ];
     render(<Benchmark model={model} />);
     expect(screen.getByText('Better (95%)')).toBeInTheDocument();
   });
 
   it('renders multiple legend items', () => {
-    const model: BenchmarkData[] = [{
-      group: 'rag',
-      labels: [
-        { label: 'Better (76%)', type: 'better' },
-        { label: 'Worse (75%)', type: 'worse' }
-      ]
-    }];
+    const model: BenchmarkData[] = [
+      {
+        group: 'rag',
+        labels: [
+          { label: 'Better (76%)', type: 'better' },
+          { label: 'Worse (75%)', type: 'worse' },
+        ],
+      },
+    ];
     render(<Benchmark model={model} />);
     expect(screen.getByText('Better (76%)')).toBeInTheDocument();
     expect(screen.getByText('Worse (75%)')).toBeInTheDocument();
   });
 
   it('does not render a title if not provided', () => {
-    const model: BenchmarkData[] = [{ group: 'test', labels: [{ label: 'Test Label', type: 'test' }] }];
+    const model: BenchmarkData[] = [
+      { group: 'test', labels: [{ label: 'Test Label', type: 'test' }] },
+    ];
     render(<Benchmark model={model} />);
     expect(screen.queryByText('legend_panel_header')).not.toBeInTheDocument();
   });
@@ -47,8 +50,8 @@ describe('Testing the BenchmarkLegend component', () => {
           { label: 'Worse (95%)', type: 'worse' },
           { label: 'Not compared', type: 'not_compared' },
           { label: 'Lower (95%)', type: 'lower' },
-          { label: 'Higher (95%)', type: 'higher' }
-        ]
+          { label: 'Higher (95%)', type: 'higher' },
+        ],
       },
       {
         title: ' Quintile groupings',
@@ -58,8 +61,8 @@ describe('Testing the BenchmarkLegend component', () => {
           { label: 'Low', type: 'low' },
           { label: 'Middle', type: 'middle' },
           { label: 'High', type: 'high' },
-          { label: 'Highest', type: 'highest' }
-        ]
+          { label: 'Highest', type: 'highest' },
+        ],
       },
       {
         group: 'others',
@@ -68,11 +71,10 @@ describe('Testing the BenchmarkLegend component', () => {
           { label: 'Worse', type: 'worse' },
           { label: 'Middle', type: 'middle' },
           { label: 'Better', type: 'better' },
-          { label: 'Best', type: 'best' }
-        ]
-      }
+          { label: 'Best', type: 'best' },
+        ],
+      },
     ];
-    
     render(<Benchmark model={benchmarkData} />);
     expect(screen.getByText('Areas compared to England')).toBeInTheDocument();
     expect(screen.getByText('Quintile groupings')).toBeInTheDocument();
