@@ -1,3 +1,6 @@
+import { ExportResult } from '@opentelemetry/core';
+import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
+
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
@@ -38,15 +41,22 @@ const configureTracing = async () => {
     const { SimpleSpanProcessor } = await import(
       '@opentelemetry/sdk-trace-node'
     );
-    const { ConsoleSpanExporter } = await import(
-      '@opentelemetry/sdk-trace-base'
-    );
     const { Resource } = await import('@opentelemetry/resources');
     const { ATTR_SERVICE_NAME } = await import(
       '@opentelemetry/semantic-conventions'
     );
 
-    const spanProcessor = new SimpleSpanProcessor(new ConsoleSpanExporter());
+    const noopSpanExporter: SpanExporter = {
+      export: function (
+        _spans: ReadableSpan[], // eslint-disable-line @typescript-eslint/no-unused-vars
+        _resultCallback: (result: ExportResult) => void // eslint-disable-line @typescript-eslint/no-unused-vars
+      ): void {},
+      shutdown: function (): Promise<void> {
+        return new Promise((resolve) => resolve());
+      },
+    };
+
+    const spanProcessor = new SimpleSpanProcessor(noopSpanExporter);
     const instrumentation = new UndiciInstrumentation();
 
     const sdk = new opentelemetry.NodeSDK({
