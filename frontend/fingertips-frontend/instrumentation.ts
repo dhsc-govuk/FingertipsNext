@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
@@ -32,17 +31,22 @@ const configureApplicationInsights = async () => {
 
 const configureTracing = async () => {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const opentelemetry = require('@opentelemetry/sdk-node');
-    const {
-      UndiciInstrumentation,
-    } = require('@opentelemetry/instrumentation-undici');
-    const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
-    const { Resource } = require('@opentelemetry/resources');
-    const {
-      ATTR_SERVICE_NAME,
-    } = require('@opentelemetry/semantic-conventions');
+    const opentelemetry = await import('@opentelemetry/sdk-node');
+    const { UndiciInstrumentation } = await import(
+      '@opentelemetry/instrumentation-undici'
+    );
+    const { SimpleSpanProcessor } = await import(
+      '@opentelemetry/sdk-trace-node'
+    );
+    const { ConsoleSpanExporter } = await import(
+      '@opentelemetry/sdk-trace-base'
+    );
+    const { Resource } = await import('@opentelemetry/resources');
+    const { ATTR_SERVICE_NAME } = await import(
+      '@opentelemetry/semantic-conventions'
+    );
 
-    const spanProcessor = new SimpleSpanProcessor();
+    const spanProcessor = new SimpleSpanProcessor(new ConsoleSpanExporter());
     const instrumentation = new UndiciInstrumentation();
 
     const sdk = new opentelemetry.NodeSDK({
