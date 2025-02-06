@@ -75,10 +75,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns default style when group is not provided', () => {
-    const result = getLegendLabelStyle(
-      undefined,
-      LegendLabelType.BETTER
-    );
+    const result = getLegendLabelStyle(undefined, LegendLabelType.BETTER);
     expect(result).toEqual({
       backgroundColor: '#812972',
       color: 'var(--other-white, #FFF)',
