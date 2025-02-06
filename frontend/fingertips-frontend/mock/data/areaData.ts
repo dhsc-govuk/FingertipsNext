@@ -1,4 +1,8 @@
-import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
+import {
+  Area,
+  AreaType,
+  AreaWithRelations,
+} from '@/generated-sources/ft-api-client';
 
 export const mockAreaTypes: AreaType[] = [
   {
