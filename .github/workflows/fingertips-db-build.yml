@@ -1,0 +1,51 @@
+name: Fingertips DB Build
+
+env:
+  dotnet-version: 9.0.x
+  database-directory: database/fingertips-db
+  dotnet-configuration: 'Release'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      ## ** is required to match branches with / in their name
+      - "**"
+    paths:
+      - database/fingertips-db/**
+      - .github/workflows/fingertips-db-build.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - database/fingertips-db/**
+      - .github/workflows/fingertips-db-build.yml
+
+jobs:
+  database-build:
+    name: Build database project
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.database-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.dotnet-version }}
+
+      - name: Build database project
+        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
+
+      - name: Upload .dacpac file artifact
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'push'
+        with:
+          name: dacpac
+          path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
+          if-no-files-found: error

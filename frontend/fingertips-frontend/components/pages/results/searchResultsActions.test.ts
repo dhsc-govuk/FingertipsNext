@@ -1,5 +1,8 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { SearchResultState, viewCharts } from './searchResultsActions';
+import {
+  SearchResultState,
+  submitIndicatorSelection,
+} from './searchResultsActions';
 import { redirect, RedirectType } from 'next/navigation';
 
 jest.mock('next/navigation');
@@ -17,7 +20,7 @@ const initialState: SearchResultState = {
 let formData: FormData;
 
 describe('Search Results Actions', () => {
-  describe('viewCharts', () => {
+  describe('submitIndicatorSelection', () => {
     it('should redirect to the charts page with the indicators selected in the query params', async () => {
       const expectedPath = [
         `/chart?${SearchParams.SearchedIndicator}=boom`,
@@ -30,7 +33,7 @@ describe('Search Results Actions', () => {
       formData.append('indicator', '1');
       formData.append('indicator', '2');
 
-      await viewCharts(initialState, formData);
+      await submitIndicatorSelection(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
         expectedPath,
@@ -42,7 +45,7 @@ describe('Search Results Actions', () => {
       formData = new FormData();
       formData.append('searchedIndicator', 'boom');
 
-      const state = await viewCharts(initialState, formData);
+      const state = await submitIndicatorSelection(initialState, formData);
 
       expect(state.message).toBe('Please select at least one indicator');
     });

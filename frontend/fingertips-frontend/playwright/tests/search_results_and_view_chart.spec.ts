@@ -41,6 +41,18 @@ test.describe('Search via indicator', () => {
       await resultsPage.checkSearchResults(searchTerm);
     });
 
+    await test.step('Validate indicator search on results page', async () => {
+      await resultsPage.clearIndicatorSearchBox();
+      await resultsPage.clickIndicatorSearchButton();
+      await resultsPage.checkForIndicatorSearchError();
+
+      await expectNoAccessibilityViolations(axeBuilder);
+
+      await resultsPage.fillIndicatorSearch(searchTerm);
+      await resultsPage.clickIndicatorSearchButton();
+      await resultsPage.checkSearchResults(searchTerm);
+    });
+
     await test.step('Select indicators and view charts', async () => {
       await resultsPage.clickIndicatorCheckboxes(indicatorIDs);
       await resultsPage.clickViewChartsButton();
