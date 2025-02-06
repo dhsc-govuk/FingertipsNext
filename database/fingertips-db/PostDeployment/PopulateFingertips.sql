@@ -2880,3 +2880,23 @@ VALUES
 ,('/4/1/1/2/',4,'F81640','Aryan Medical Centre','GP','NHS')
 ,('/5/1/1/1/',4,'F83004','Archway Medical Centre','GP','NHS')
 ,('/5/1/1/2/',4,'F83008','The Goodinge Group Practice','GP','NHS')
+
+GO
+
+SET IDENTITY_INSERT [Areas].[AreaTypes] ON
+
+DELETE FROM [Areas].[AreaTypes]
+INSERT [Areas].[AreaTypes] ([AreaTypeKey],[Level],[HierarchyType],[AreaTypeName],[AreaTypeUrlName])
+VALUES 
+(1, 1, 'All', 'England', 'england'),
+(2, 2, 'NHS', 'NHS Region', 'nhs-region'),
+(3, 3, 'NHS', 'NHS Integrated Care Board', 'nhs-integrated-care-board'),
+(4, 4, 'NHS', 'NHS Sub Integrated Care Board', 'nhs-sub-integrated-care-board'),
+(5, 5, 'NHS', 'NHS Primary Care Network', 'nhs-primary-care-network'),
+(6, 6, 'NHS', 'GP', 'gp'),
+(7, 2, 'Admin', 'Region', 'region'),
+(8, 3, 'Admin', 'Combined Authority', 'combined-authority'),
+(9, 4, 'Admin', 'County', 'county'),
+(10, 5, 'Admin', 'District', 'district')
+
+SET IDENTITY_INSERT [Areas].[AreaTypes] OFF
