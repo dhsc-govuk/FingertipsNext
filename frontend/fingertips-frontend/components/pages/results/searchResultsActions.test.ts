@@ -1,4 +1,4 @@
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
   SearchResultState,
   submitIndicatorSelection,
@@ -8,7 +8,13 @@ import { redirect, RedirectType } from 'next/navigation';
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
 
+const state: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: 'boom',
+  [SearchParams.AreasSelected]: ['A001', 'A002'],
+};
+
 const initialState: SearchResultState = {
+  searchState: JSON.stringify(state),
   indicatorsSelected: [],
 };
 let formData: FormData;
@@ -16,15 +22,21 @@ let formData: FormData;
 describe('Search Results Actions', () => {
   describe('submitIndicatorSelection', () => {
     it('should redirect to the charts page with the indicators selected in the query params', async () => {
+      const expectedPath = [
+        `/chart?${SearchParams.SearchedIndicator}=boom`,
+        `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+        `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
+      ].join('');
+
       formData = new FormData();
-      formData.append('searchedIndicator', 'boom');
+      formData.append('searchState', JSON.stringify(state));
       formData.append('indicator', '1');
       formData.append('indicator', '2');
 
       await submitIndicatorSelection(initialState, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
-        `/chart?${SearchParams.SearchedIndicator}=boom&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+        expectedPath,
         RedirectType.push
       );
     });

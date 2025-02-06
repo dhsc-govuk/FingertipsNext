@@ -1,11 +1,14 @@
 import { SearchResults } from '@/components/pages/results';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreaType } from '@/generated-sources/ft-api-client';
 
 export default async function Page(
   props: Readonly<{
@@ -18,28 +21,29 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
+  const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
+
+  const stateManager = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+  });
 
   try {
     // Perform async API call using indicator prop
     await connection();
-
     const areasApi = ApiClientFactory.getAreasApiClient();
 
-    // const availableAreaTypes = await areasApi.getAreaTypes();
-
-    // When DHSCFT-210 is complete The following try catch can be removed
-    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
-    let availableAreaTypes: AreaType[];
-    try {
-      availableAreaTypes = await areasApi.getAreaTypes();
-    } catch (error) {
-      console.log(`Error from areasApi ${error}`);
-
-      availableAreaTypes = [];
-    }
+    const availableAreaTypes = await areasApi.getAreaTypes();
+    const selectedAreasData =
+      areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
 
     const initialState = {
-      searchedIndicator,
+      searchState: JSON.stringify(stateManager.getSearchState()),
       indicatorsSelected,
       message: null,
       errors: {},
@@ -56,6 +60,7 @@ export default async function Page(
         searchResultsFormState={initialState}
         searchResults={searchResults}
         availableAreaTypes={availableAreaTypes}
+        selectedAreas={selectedAreasData}
       />
     );
   } catch (error) {
