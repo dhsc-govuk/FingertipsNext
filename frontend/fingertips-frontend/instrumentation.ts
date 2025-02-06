@@ -49,7 +49,7 @@ const configureTracing = async () => {
       resource: new Resource({
         [ATTR_SERVICE_NAME]: 'ftn_fe',
       }),
-      traceExporter: null,
+      traceExporter: undefined,
       spanProcessors: [spanProcessor],
       instrumentations: [instrumentation],
     });
