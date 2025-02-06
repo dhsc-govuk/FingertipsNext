@@ -1,10 +1,10 @@
 'use client';
 
 import { H3 } from 'govuk-react';
-import Highcharts, { GeoJSON } from 'highcharts/highmaps';
+import Highcharts, { GeoJSON } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { useEffect } from 'react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
+import { useEffect, useState } from 'react';
 
 interface ThematicMapProps {
   data: HealthDataForArea[];
@@ -14,11 +14,11 @@ interface ThematicMapProps {
   mapTitle?: string;
 }
 
-// https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
-const loadHighchartsModules = async () => {
-  Promise.all([import('highcharts/modules/map')]);
+// useEffect and async loading of map module to address issue with Highcharts 12 with React 15.
+// See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
+const loadHighchartsModules = async (callback: () => void) => {
+  import('highcharts/modules/map').then(callback);
 };
-
 export function ThematicMap({
   data,
   mapData,
@@ -26,9 +26,7 @@ export function ThematicMap({
   mapGroup,
   mapTitle,
 }: Readonly<ThematicMapProps>) {
-  useEffect(() => {
-    loadHighchartsModules();
-  }, []);
+  const [options, setOptions] = useState<Highcharts.Options>();
   const mapOptions: Highcharts.Options = {
     chart: {
       height: 800,
@@ -72,22 +70,12 @@ export function ThematicMap({
           footerFormat: '',
         },
       },
-
-      // {
-      //   type: 'map',
-      //   name: 'borders',
-      //   showInLegend: true,
-      //   mapData: mapData,
-      //   nullColor: 'transparent',
-      //   borderColor: 'red',
-      //   borderWidth: 4,
-      // },
       {
         type: 'map',
         name: 'group border',
         zIndex: 3,
         showInLegend: true,
-        mapData: mapGroup, // some data for the parent area
+        mapData: mapGroup,
         data: [],
         borderColor: 'red',
         borderWidth: 4,
@@ -95,17 +83,25 @@ export function ThematicMap({
       },
     ],
   };
+  useEffect(() => {
+    loadHighchartsModules(async () => {
+      setOptions(mapOptions);
+    });
+  }, []);
+
+  if (!options) {
+    return null;
+  }
 
   return (
     <div data-testid="thematicMap-component">
       <H3>{mapTitle}</H3>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
-        constructorType={'mapChart'}
         highcharts={Highcharts}
-        options={mapOptions}
+        constructorType={'mapChart'}
+        options={options}
       />
-      <br />
     </div>
   );
 }

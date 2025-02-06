@@ -16,14 +16,6 @@ import { GeoJSON } from 'highcharts';
 // using mock to spike maps
 import { mockHealthData } from '@/mock/data/healthdata';
 
-// const loadHighchartsModules = async (callback) => {
-//   Promise.all([
-//     import('highcharts/modules/map'),
-//     // import("highcharts/modules/exporting"),
-//     // import("highcharts/modules/accessibility"),
-//   ]).then(callback);
-// };
-
 type ChartProps = {
   data: HealthDataForArea[][];
   mapData?: GeoJSON;
