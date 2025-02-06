@@ -3,12 +3,12 @@ import {
   LegendLabel,
   LegendLabelGroupType,
   LegendLabelType,
-  getBenchmarkLegendColourStyle,
+  getLegendLabelStyle,
 } from './LegendLabel';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test('returns correct style for RAG group and HIGH type', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.RAG,
       LegendLabelType.HIGH
     );
@@ -19,7 +19,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns correct style for RAG group and LOWER type', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.RAG,
       LegendLabelType.LOWER
     );
@@ -30,7 +30,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns correct style for QUINTILE group and LOWEST type', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.QUINTILE,
       LegendLabelType.LOWEST
     );
@@ -41,7 +41,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns correct style for QUINTILE group and HIGH type', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.QUINTILE,
       LegendLabelType.HIGH
     );
@@ -52,7 +52,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns correct style for OTHERS group and WORST type', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.OTHERS,
       LegendLabelType.WORST
     );
@@ -63,7 +63,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns default style when group is RAG and type is unknown', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       LegendLabelGroupType.RAG,
       'unknown' as LegendLabelType
     );
@@ -75,7 +75,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns default style when group is not provided', () => {
-    const result = getBenchmarkLegendColourStyle(
+    const result = getLegendLabelStyle(
       undefined,
       LegendLabelType.BETTER
     );

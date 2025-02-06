@@ -31,7 +31,7 @@ export interface LegendLabelProps {
   group?: LegendLabelGroupType | string;
 }
 
-export const getBenchmarkLegendColourStyle = (
+export const getLegendLabelStyle = (
   group: LegendLabelGroupType = LegendLabelGroupType.OTHERS,
   type: LegendLabelType
 ) => {
@@ -141,7 +141,7 @@ export const LegendLabelStyle = styled(Label)<{
   legendType: LegendLabelType;
   group: LegendLabelGroupType;
 }>(({ legendType, group }) => {
-  const theme = getBenchmarkLegendColourStyle(group, legendType);
+  const theme = getLegendLabelStyle(group, legendType);
   return {
     display: 'inline-block',
     padding: '5px 8px 4px 8px',
