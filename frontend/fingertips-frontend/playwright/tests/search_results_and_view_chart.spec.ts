@@ -50,11 +50,16 @@ test.describe('Search via indicator', () => {
 
       await resultsPage.fillIndicatorSearch(searchTerm);
       await resultsPage.clickIndicatorSearchButton();
+      await resultsPage.checkURLIsCorrect(searchTerm);
+
       await resultsPage.checkSearchResults(searchTerm);
     });
 
     await test.step('Select indicators and view charts', async () => {
       await resultsPage.clickIndicatorCheckboxes(indicatorIDs);
+      await resultsPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+      );
       await resultsPage.clickViewChartsButton();
 
       await chartPage.checkURLIsCorrect(
