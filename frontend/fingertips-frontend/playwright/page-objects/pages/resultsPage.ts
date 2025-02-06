@@ -7,7 +7,17 @@ export default class ResultsPage extends BasePage {
   readonly backLink = 'search-results-back-link';
   readonly searchResult = 'search-result';
   readonly indicatorCheckboxPrefix = 'search-results-indicator';
-  readonly viewChartsButton = `search-results-button-submit`;
+  readonly viewChartsButton = 'search-results-button-submit';
+  readonly areaFilterContainer = 'area-filter-container';
+
+  async areaFilterOptionsText() {
+    const options = await this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('option')
+        .all();
+
+    return Promise.all(options.map(l => l.getAttribute('value')));
+  }
 
   async checkSearchResults(searchTerm: string) {
     await expect(

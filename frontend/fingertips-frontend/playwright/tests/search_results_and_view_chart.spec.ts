@@ -20,6 +20,7 @@ test.describe('Search via indicator', () => {
 
     indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
   });
+
   test('full end to end flow with accessibility checks', async ({
     homePage,
     resultsPage,
@@ -83,6 +84,38 @@ test.describe('Search via indicator', () => {
       await homePage.checkSummaryValidation(
         `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
       );
+    });
+  });
+
+  test('check available areatypes when no areas are selected when coming onto the results pages', async ({
+      homePage,
+      resultsPage
+    }) => {
+    await test.step('Search for a test indicator', async () => {
+      await homePage.navigateToSearch();
+      await homePage.checkURLIsCorrect();
+      await homePage.typeIndicator(searchTerm);
+      await homePage.clickSearchButton();
+      await resultsPage.checkURLIsCorrect(searchTerm);
+    })
+
+    await test.step('Check available area types', async () => {
+      const options = await resultsPage.areaFilterOptionsText()
+      test.expect(options).toHaveLength(7);
+
+      const expectedOptions = [
+          'Counties & UAs',
+          'Country',
+          'GP',
+          'ICB',
+          'NHS region',
+          'PCN',
+          'Regions Statistical'
+          ];
+
+      expectedOptions.forEach((option) => {
+        test.expect(options.findIndex(o => o == option)).toBeGreaterThanOrEqual(0);
+      })
     });
   });
 });
