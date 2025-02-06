@@ -1,43 +1,43 @@
 
 import { render, screen } from '@testing-library/react';
-import { BenchmarkLegend,  BenchmarkLegendData } from './BenchmarkLegend';
+import { Benchmark,  BenchmarkData } from './BenchmarkLegend';
 import '@testing-library/jest-dom';
 
 
 
 describe('Testing the BenchmarkLegend component', () => {
   it('renders without crashing with an empty model', () => {
-    render(<BenchmarkLegend model={[]} />);
+    render(<Benchmark model={[]} />);
     expect(screen.queryByTestId('legend-label')).not.toBeInTheDocument();
   });
 
   it('renders a single legend item', () => {
-    const model: BenchmarkLegendData[] = [{ group: 'rag', labels: [{ label: 'Better (95%)', type: 'better' }] }];
-    render(<BenchmarkLegend model={model} />);
+    const model: BenchmarkData[] = [{ group: 'rag', labels: [{ label: 'Better (95%)', type: 'better' }] }];
+    render(<Benchmark model={model} />);
     expect(screen.getByText('Better (95%)')).toBeInTheDocument();
   });
 
   it('renders multiple legend items', () => {
-    const model: BenchmarkLegendData[] = [{
+    const model: BenchmarkData[] = [{
       group: 'rag',
       labels: [
         { label: 'Better (76%)', type: 'better' },
         { label: 'Worse (75%)', type: 'worse' }
       ]
     }];
-    render(<BenchmarkLegend model={model} />);
+    render(<Benchmark model={model} />);
     expect(screen.getByText('Better (76%)')).toBeInTheDocument();
     expect(screen.getByText('Worse (75%)')).toBeInTheDocument();
   });
 
   it('does not render a title if not provided', () => {
-    const model: BenchmarkLegendData[] = [{ group: 'test', labels: [{ label: 'Test Label', type: 'test' }] }];
-    render(<BenchmarkLegend model={model} />);
+    const model: BenchmarkData[] = [{ group: 'test', labels: [{ label: 'Test Label', type: 'test' }] }];
+    render(<Benchmark model={model} />);
     expect(screen.queryByText('legend_panel_header')).not.toBeInTheDocument();
   });
 
   it('renders correctly with provided benchmark data', () => {
-    const benchmarkData: BenchmarkLegendData[] = [
+    const benchmarkData: BenchmarkData[] = [
       {
         group: 'rag',
         title: 'Areas compared to England',
@@ -73,7 +73,7 @@ describe('Testing the BenchmarkLegend component', () => {
       }
     ];
     
-    render(<BenchmarkLegend model={benchmarkData} />);
+    render(<Benchmark model={benchmarkData} />);
     expect(screen.getByText('Areas compared to England')).toBeInTheDocument();
     expect(screen.getByText('Quintile groupings')).toBeInTheDocument();
     expect(screen.getByText('Better (65%)')).toBeInTheDocument();

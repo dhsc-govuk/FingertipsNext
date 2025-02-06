@@ -32,17 +32,17 @@ export interface LegendLabelData {
   type: string;
 }
 
-export interface BenchmarkLegendData {
+export interface BenchmarkData {
   title?: string;
   group: string;
   labels: LegendLabelData[];
 }
 
-export interface BenchmarkLegendProps {
-  model?: BenchmarkLegendData[] | undefined;
+export interface BenchmarkProps {
+  model?: BenchmarkData[] | undefined;
 }
 
-export const BenchmarkLegend: React.FC<BenchmarkLegendProps> = ({ model }) => {
+export const Benchmark: React.FC<BenchmarkProps> = ({ model }) => {
   return (
     <div>
       {model?.map((item, index) => (
