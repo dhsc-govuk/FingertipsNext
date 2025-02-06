@@ -23,7 +23,7 @@ export default async function ChartPage(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  const areaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
 
   // We don't want to render this page statically
   await connection();
@@ -61,17 +61,19 @@ export default async function ChartPage(
   // Map variables
   // TODO add business logic for when to have a map
   // 'Display Map on charts page when an entire Group of areas has been selected AND a single indicator'
+  // &ats=Counties+%26+UAs
   let mapData = undefined;
   let mapJoinKey = undefined;
   let mapGroup = undefined;
-  if (areaType) {
+  if (selectedAreaType) {
     // const areaType: string = 'Counties & UAs';
     // const areaType: string = 'Regions Statistical';
-    mapData = getMapFile(areaType);
-    mapJoinKey = getMapJoinKey(areaType);
+    mapData = getMapFile(selectedAreaType);
+    mapJoinKey = getMapJoinKey(selectedAreaType);
     // TODO: replace array with group areaCodes
-    const mapGroup = getMapGroup(
+    mapGroup = getMapGroup(
       mapData,
+      // areaCodes,
       [
         'E08000025',
         'E08000029',
