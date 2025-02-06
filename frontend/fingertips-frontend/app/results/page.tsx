@@ -58,6 +58,8 @@ export default async function Page(
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
   });
 
   try {
@@ -65,47 +67,25 @@ export default async function Page(
     await connection();
     const areasApi = ApiClientFactory.getAreasApiClient();
 
-    /**
+    let availableAreas: Area[] = [];
+
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
       areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-        )
-      : [];
-    */
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
 
-    // When DHSCFT-210 is complete The following try catch can be removed
-    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
-    let sortedByLevelAreaTypes: AreaType[];
-    let selectedAreasData: AreaWithRelations[];
-    let availableAreas: Area[] = [];
-    let selectedAreaType2: string | undefined;
-
-    try {
-      const availableAreaTypes = await areasApi.getAreaTypes();
-      sortedByLevelAreaTypes = availableAreaTypes?.sort(
-        (a, b) => a.level - b.level
-      );
-      selectedAreasData = await Promise.all(
-        areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-      );
-
-      selectedAreaType2 = determineSelectedAreaType(
-        selectedAreaType,
-        selectedAreasData,
-        sortedByLevelAreaTypes
-      );
-      if (selectedAreaType2) {
-        availableAreas = await areasApi.getAreaTypeMembers({
-          areaType: selectedAreaType2,
-        });
-      }
-    } catch (error) {
-      console.log(`Error from areasApi ${error}`);
-      sortedByLevelAreaTypes = [];
-      selectedAreasData = [];
-      availableAreas = [];
+    const selectedAreaType2 = determineSelectedAreaType(
+      selectedAreaType,
+      selectedAreasData,
+      availableAreaTypes
+    );
+    if (selectedAreaType2) {
+      availableAreas = await areasApi.getAreaTypeMembers({
+        areaType: selectedAreaType2,
+      });
     }
 
     const initialState = {
@@ -120,6 +100,10 @@ export default async function Page(
       await SearchServiceFactory.getIndicatorSearchService().searchWith(
         searchedIndicator
       );
+
+    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
+      (a, b) => a.level - b.level
+    );
 
     return (
       <SearchResults

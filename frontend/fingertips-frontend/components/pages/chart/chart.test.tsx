@@ -54,7 +54,9 @@ describe('Content', () => {
     const heading = screen.getByRole('heading', { level: 2 });
 
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent('View Dementia QOF prevalence');
+    expect(heading).toHaveTextContent(
+      'View data for selected indicators and areas'
+    );
   });
 
   it('should render the chart components', () => {

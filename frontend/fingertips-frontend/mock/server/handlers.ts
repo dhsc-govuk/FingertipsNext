@@ -90,6 +90,11 @@ export const handlers = [
       return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
   ),
+  http.get(`${baseURL}/healthcheck`, async () => {
+    const resultArray = [[getGetHealthcheck200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
 ];
 
 export function getGetAreaHierarchies200Response() {
@@ -115,6 +120,10 @@ export function getGetAreaRoot200Response() {
     code: 'E92000001',
     name: 'England',
   };
+}
+
+export function getGetHealthcheck200Response() {
+  return { status: 'Healthy' };
 }
 
 export function getFilterIndicators200Response() {
