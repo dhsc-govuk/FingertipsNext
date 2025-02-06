@@ -16,9 +16,6 @@ import {
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { GeoJSON } from 'highcharts';
 
-// using mock to spike maps
-import { mockHealthData } from '@/mock/data/healthdata';
-
 type ChartProps = {
   data: HealthDataForArea[][];
   mapData?: GeoJSON;
@@ -55,10 +52,9 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View Dementia QOF prevalence</H2>
-      {/* TODO: apply correct business logic for conditional render */}
-      {mapData && mapJoinKey && mapGroup ? (
+      {data.length === 1 && mapData && mapJoinKey && mapGroup ? (
         <ThematicMap
-          data={mockHealthData['Mock 318 for West Midlands CA']}
+          data={data[0]}
           mapData={mapData}
           mapJoinKey={mapJoinKey}
           mapGroup={mapGroup}

@@ -39,8 +39,8 @@ export default async function ChartPage(
     )
   );
 
-  let rawPopulationData = undefined;
-  let preparedPopulationData = undefined;
+  let rawPopulationData;
+  let preparedPopulationData;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
@@ -58,12 +58,15 @@ export default async function ChartPage(
     );
   }
 
-  // TODO: add business logic for when to have a map: 'Display Map on charts page when an entire Group of areas has been selected AND a single indicator'
-  // example url: http://localhost:3000/chart?si=mortality&is=108&ats=Counties+%26+UAs&as=E08000025&as=E08000029&as=E08000030&as=E08000027&as=E08000028&as=E08000031&as=E08000026
-  let mapData = undefined;
-  let mapJoinKey = undefined;
-  let mapGroup = undefined;
-  if (selectedAreaType) {
+  // example urls:
+  // http://localhost:3000/chart?si=mortality&is=318&ats=Regions+Statistical&as=E12000001&as=E12000002
+  // http://localhost:3000/chart?si=mortality&is=319&ats=NHS+region&as=E40000003&as=E40000005
+  // http://localhost:3000/chart?si=mortality&is=320&ats=Counties+%26+UAs&as=E08000025&as=E08000029&as=E08000030&as=E08000027&as=E08000028&as=E08000031&as=E08000026
+  let mapData;
+  let mapJoinKey;
+  let mapGroup;
+  if (selectedAreaType && indicatorsSelected.length === 1) {
+    // only checking for selectedAreaType and single indicator until business logic to also confirm when an entire Group of areas has been selected is in place
     mapData = getMapFile(selectedAreaType);
     mapJoinKey = getMapJoinKey(selectedAreaType);
     mapGroup = getMapGroup(mapData, areaCodes, mapJoinKey);

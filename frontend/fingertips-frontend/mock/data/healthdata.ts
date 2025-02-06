@@ -1355,7 +1355,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
-  '318 Regions': [
+  '318': [
     {
       areaCode: 'E12000001',
       areaName: 'North East',
@@ -1492,7 +1492,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
-  '318 NHS Regions': [
+  '319': [
     {
       areaCode: 'E40000003',
       areaName: 'London',
@@ -1599,7 +1599,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
-  'Mock 318 for West Midlands CA': [
+  '320': [
     {
       areaCode: 'E08000025',
       areaName: 'Birmingham',
