@@ -201,6 +201,31 @@ exports[`Area Filter snapshot test 1`] = `
   outline-offset: 0;
 }
 
+.c10 div {
+  padding: 1em 0em;
+}
+
+.c10 summary {
+  color: #000000;
+}
+
+.c10 div {
+  border-left: none;
+}
+
+.c18 div {
+  padding: 1em 0em;
+}
+
+.c18 summary {
+  color: #000000;
+}
+
+.c18 div {
+  border-left: 5px #A1A2A3 solid;
+  padding-left: 1em;
+}
+
 .c0 {
   background-color: #D1D2D3;
   display: -webkit-box;
@@ -255,17 +280,12 @@ exports[`Area Filter snapshot test 1`] = `
   padding: 0em;
 }
 
+.c16 {
+  margin-bottom: 1em;
+}
+
 .c16 select {
   width: 100%;
-}
-
-.c10 div {
-  border-left: none;
-  padding: 1em 0em;
-}
-
-.c10 summary {
-  color: #000000;
 }
 
 @media print {
@@ -469,6 +489,47 @@ exports[`Area Filter snapshot test 1`] = `
               class="c17"
             />
           </label>
+          <span
+            class="c7 c8"
+          >
+            Area List
+          </span>
+          <div
+            class="c2"
+          >
+            <p>
+              Select one or more areas to compare
+            </p>
+          </div>
+          <details
+            class="c9 c18"
+          >
+            <summary
+              class="c11 c12"
+            >
+              <span
+                class="c13"
+              >
+                Refine the area list
+              </span>
+            </summary>
+            <div
+              class="c14"
+            >
+              <label
+                class="c15 c16"
+              >
+                <span
+                  class="c7"
+                >
+                  1. Select a group type
+                </span>
+                <select
+                  class="c17"
+                />
+              </label>
+            </div>
+          </details>
         </div>
       </details>
     </div>

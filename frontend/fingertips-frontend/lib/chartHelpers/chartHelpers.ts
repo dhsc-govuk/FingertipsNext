@@ -12,13 +12,29 @@ export function sortHealthDataByDate(
 }
 
 export function generateSeriesData(
-  data: HealthDataForArea[]
+  data: HealthDataForArea[],
+  benchmarkData?: HealthDataForArea
 ): Highcharts.SeriesLineOptions[] {
-  return data.map((item) => ({
+  const seriesData = data.map<Highcharts.SeriesLineOptions>((item) => ({
     type: 'line',
     name: `${item.areaName}`,
     data: item.healthData.map((point) => [point.year, point.value]),
   }));
+
+  if (benchmarkData) {
+    const englandSeries: Highcharts.SeriesLineOptions = {
+      type: 'line',
+      name: `Benchmark: ${benchmarkData.areaName}`,
+      data: benchmarkData.healthData.map((point) => [point.year, point.value]),
+      color: 'black',
+      marker: {
+        symbol: 'circle',
+      },
+    };
+    seriesData.unshift(englandSeries);
+  }
+
+  return seriesData;
 }
 
 export function sortHealthDataByYearDescending(
@@ -39,6 +55,9 @@ export function getEnglandDataForIndicatorIndex(
   );
 }
 
+export function seriesDataWithoutEngland(data: HealthDataForArea[]) {
+  return data.filter((item) => item.areaCode !== areaCodeForEngland);
+}
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
   BenchmarkTrend = 'Compared to benchmark',

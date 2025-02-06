@@ -10,6 +10,71 @@ on:
       - main
 
 jobs:
+  check-api-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Check for changes in api directory
+        id: check
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep '^api/'; then
+            echo "API changes detected"
+            echo "API_CHANGED=true" >> $GITHUB_ENV
+          else
+            echo "No API changes detected"
+            echo "API_CHANGED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Wait for API Deployment to Complete
+        uses: actions/github-script@v7
+        id: api_status
+        if: env.API_CHANGED == 'true'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          retries: 10
+          script: |
+            async function waitForAPIDeployment() {
+              const workflowName = 'fingertips-api-deploy.yml';
+              const headSHA = '${{ github.event.workflow_run.head_branch }}';
+              const maxRetries = 20;
+              const delayMs = 30 * 1000; // 30 seconds per check
+              
+              for (let i = 0; i < maxRetries; i++) {
+                const runs = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: workflowName,
+                  head_sha: headSHA,
+                });
+  
+                if (runs.data.workflow_runs.length > 0) {
+                  const latestRun = runs.data.workflow_runs[0];
+                  
+                  if (latestRun.status === 'completed') {
+                    console.log(`API deployment completed with status: ${latestRun.conclusion}`);
+                    core.setOutput("api_completed", 'true');
+                    return;
+                  } else {
+                    console.log(`API deployment is still running. Status: ${latestRun.status}`);
+                  }
+                } else {
+                  console.log("No API deployment run found yet.");
+                }
+  
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+              }
+  
+              console.log("API deployment did not complete within the timeout period (30s).");
+              core.setFailed("API deployment did not complete in time.");
+            }
+  
+            await waitForAPIDeployment();
+
   determine-version:
     uses: ./.github/workflows/determine-semver.yml
     with:
@@ -17,7 +82,7 @@ jobs:
       gitversion-version: "6.0.x"
 
   frontend-deploy-development:
-    needs: determine-version
+    needs: [determine-version, check-api-changes]
     uses: ./.github/workflows/deploy-container.yml
     with:
       tf_state_file_name: fingertips.frontend.tfstate
@@ -59,7 +124,7 @@ jobs:
         ]
       container_liveness_probe: |
         {
-          path      = "/"
+          path      = "/api/healthcheck"
           port      = 3000
           transport = "HTTP"
         }
