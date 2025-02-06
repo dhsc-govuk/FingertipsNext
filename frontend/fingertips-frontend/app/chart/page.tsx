@@ -58,33 +58,15 @@ export default async function ChartPage(
     );
   }
 
-  // Map variables
-  // TODO add business logic for when to have a map
-  // 'Display Map on charts page when an entire Group of areas has been selected AND a single indicator'
-  // &ats=Counties+%26+UAs
+  // TODO: add business logic for when to have a map: 'Display Map on charts page when an entire Group of areas has been selected AND a single indicator'
+  // example url: http://localhost:3000/chart?si=mortality&is=108&ats=Counties+%26+UAs&as=E08000025&as=E08000029&as=E08000030&as=E08000027&as=E08000028&as=E08000031&as=E08000026
   let mapData = undefined;
   let mapJoinKey = undefined;
   let mapGroup = undefined;
   if (selectedAreaType) {
-    // const areaType: string = 'Counties & UAs';
-    // const areaType: string = 'Regions Statistical';
     mapData = getMapFile(selectedAreaType);
     mapJoinKey = getMapJoinKey(selectedAreaType);
-    // TODO: replace array with group areaCodes
-    mapGroup = getMapGroup(
-      mapData,
-      // areaCodes,
-      [
-        'E08000025',
-        'E08000029',
-        'E08000030',
-        'E08000027',
-        'E08000028',
-        'E08000031',
-        'E08000026',
-      ],
-      mapJoinKey
-    );
+    mapGroup = getMapGroup(mapData, areaCodes, mapJoinKey);
   }
 
   return (
