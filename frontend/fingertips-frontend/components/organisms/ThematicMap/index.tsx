@@ -48,9 +48,8 @@ export function ThematicMap({
       {
         type: 'map',
         name: 'basemap',
-        showInLegend: true,
+        showInLegend: false,
         mapData: mapData,
-        // TODO: move this logic to page with a util
         data: data.map((areaData) => {
           return {
             areaName: areaData.areaName,
@@ -74,11 +73,11 @@ export function ThematicMap({
         type: 'map',
         name: 'group border',
         zIndex: 3,
-        showInLegend: true,
+        showInLegend: false,
         mapData: mapGroup,
         data: [],
-        borderColor: 'red',
-        borderWidth: 4,
+        borderColor: 'black',
+        borderWidth: 3,
         nullColor: 'transparent',
       },
     ],
