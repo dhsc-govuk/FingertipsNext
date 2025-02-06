@@ -138,7 +138,8 @@ public class AutoMapperProfilesTests
         var areaTypeModel = Fake.AreaTypeModel;
         var mappedAreaType = _mapper.Map<AreaType>(areaTypeModel);
 
-        mappedAreaType.Name.ShouldBe(areaTypeModel.AreaType);
+        mappedAreaType.Name.ShouldBe(areaTypeModel.AreaTypeName);
+        mappedAreaType.UrlName.ShouldBe(areaTypeModel.AreaTypeUrlName);
         mappedAreaType.HierarchyName.ShouldBe(areaTypeModel.HierarchyType);
         mappedAreaType.Level.ShouldBe(areaTypeModel.Level);
     }
