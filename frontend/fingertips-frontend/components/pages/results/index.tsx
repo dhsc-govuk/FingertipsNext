@@ -62,33 +62,25 @@ export function SearchResults({
   availableAreaTypes,
   selectedAreas,
 }: Readonly<SearchResultsProps>) {
-  const [state, formAction] = useActionState(
-    viewCharts,
-    searchResultsFormState
-  );
-  const stateParsed: SearchStateParams = JSON.parse(state.searchState);
-  const backLinkPath = generateBackLinkPath(stateParsed);
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, searchResultsFormState);
-
-  const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
-  });
+  const stateParsed: SearchStateParams = JSON.parse(
+    indicatorSelectionState.searchState
+  );
+  const backLinkPath = generateBackLinkPath(stateParsed);
 
   const urlSearchParams = useSearchParams();
   const params = new URLSearchParams(urlSearchParams);
   const areasSelected = params.getAll(SearchParams.AreasSelected);
 
   const initialIndicatorSearchFormState: IndicatorSearchFormState = {
-    indicator: searchResultsFormState.searchedIndicator ?? '',
+    indicator: stateParsed[SearchParams.SearchedIndicator] ?? '',
     areasSelected: areasSelected,
   };
   const [indicatorSearchState, indicatorSearchFormAction] = useActionState(
     searchIndicator,
     initialIndicatorSearchFormState
   );
-
-  const backLinkPath = searchState.generatePath('/');
 
   return (
     <>
@@ -131,7 +123,7 @@ export function SearchResults({
               <form action={indicatorSelectionFormAction}>
                 <input
                   name="searchState"
-                  defaultValue={state.searchState}
+                  defaultValue={indicatorSelectionState.searchState}
                   hidden
                 />
                 {searchResults.length ? (
