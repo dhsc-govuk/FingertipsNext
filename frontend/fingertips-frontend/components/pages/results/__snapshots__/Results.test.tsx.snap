@@ -259,10 +259,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -283,6 +279,18 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -296,6 +304,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -521,10 +533,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -545,6 +553,18 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -558,6 +578,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -568,48 +592,81 @@ exports[`Search Results Suite snapshot test 1`] = `
 <h1
     class="c0"
   >
-    Search results
+    Search results for test
   </h1>
-  .c0 {
+  .c1 {
+  margin-bottom: 20px;
+}
+
+.c0 .c0:last-of-type {
+  margin-bottom: 0;
+}
+
+.c6 {
+  display: block;
+}
+
+.c4 {
+  width: 100%;
+  height: 40px;
+  padding: 6px;
   margin: 0;
+  border: solid 1px #bfc1c3;
+  border-right: 0;
+  box-sizing: border-box;
   font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
+  text-transform: none;
   font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
+  line-height: 1.75;
+  background: #ffffff;
+  border-radius: 0;
+  -webkit-appearance: none;
 }
 
-.c0 > p {
-  margin: 0;
+.c4:focus {
+  margin-right: 3px;
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
-.c0 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
+.c4:focus ~ button {
+  width: 46px;
 }
 
-.c0 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c0 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
+.c5 {
+  background-color: #2b8cc4;
   border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 0;
+}
+
+.c3 {
+  margin-bottom: 20px;
 }
 
 @media print {
@@ -777,92 +834,135 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.15;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
   }
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 20px;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 30px;
   }
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<div
-    class="c0"
+<form
+    action="/action"
   >
-    <p>
-      You searched for indicator "
-      <strong>
-        test
-      </strong>
-      "
-    </p>
-  </div>
+    <div
+      class="c0 c1"
+      data-testid="indicator-search-form"
+    >
+      <div
+        class="c2 c3"
+      >
+        <input
+          class="c4"
+          data-testid="indicator-search-form-input"
+          id="indicator"
+          name="indicator"
+          title="indicator"
+          type="search"
+          value="test"
+        />
+        <button
+          class="c5"
+          data-testid="indicator-search-form-submit"
+          title="Search"
+          type="submit"
+        >
+          <svg
+            class="c6"
+            fill="#ffffff"
+            height="100%"
+            version="1.1"
+            viewBox="0 0 57 57"
+            width="100%"
+          >
+            <title>
+              Search
+            </title>
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </form>
   .c32 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1686,6 +1786,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
   .c1 {
     width: 33.3333%;
     -webkit-box-flex: 0;
@@ -1716,6 +1820,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     -ms-flex-direction: row;
     flex-direction: row;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -1789,6 +1897,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     font-size: 16px;
     line-height: 1.25;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 <div
