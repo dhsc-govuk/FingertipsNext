@@ -59,7 +59,7 @@ jobs:
         ]
       container_liveness_probe: |
         {
-          path      = "/"
+          path      = "/api/healthcheck"
           port      = 3000
           transport = "HTTP"
         }
