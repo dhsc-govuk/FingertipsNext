@@ -5,6 +5,7 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
+import { ConfidenceIntervalCheckbox } from '@/components/organisms/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
 
@@ -79,6 +80,7 @@ export function LineChart({
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
+      <ConfidenceIntervalCheckbox chartName="lineChart"></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}
