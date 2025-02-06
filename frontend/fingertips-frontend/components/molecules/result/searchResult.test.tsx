@@ -90,7 +90,7 @@ describe('Indicator Checkbox', () => {
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toBeCalledWith(
+    expect(mockReplace).toHaveBeenCalledWith(
       `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1`,
       {
         scroll: false,
@@ -103,7 +103,7 @@ describe('Indicator Checkbox', () => {
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toBeCalledWith(
+    expect(mockReplace).toHaveBeenCalledWith(
       `${mockPath}?${SearchParams.SearchedIndicator}=test`,
       {
         scroll: false,

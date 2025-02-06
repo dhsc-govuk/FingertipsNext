@@ -28,6 +28,9 @@ export function getEnglandDataForIndicatorIndex(
   );
 }
 
+export function seriesDataWithoutEngland(data: HealthDataForArea[]) {
+  return data.filter((item) => item.areaCode !== areaCodeForEngland);
+}
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
   BenchmarkTrend = 'Compared to benchmark',

@@ -13,6 +13,7 @@ interface LineChartProps {
   data: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
+  benchmarkData?: HealthDataForArea;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -28,9 +29,14 @@ export function LineChart({
   data,
   xAxisTitle,
   accessibilityLabel,
+  benchmarkData,
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
-  const seriesData = generateSeriesData(sortedSeriesValues, chartSymbols);
+  const seriesData = generateSeriesData(
+    sortedSeriesValues,
+    chartSymbols,
+    benchmarkData
+  );
 
   const lineChartOptions: Highcharts.Options = {
     credits: {
@@ -64,7 +70,6 @@ export function LineChart({
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
     },
-
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

@@ -9,7 +9,10 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { ScatterChart } from '@/components/organisms/ScatterChart';
-import { getEnglandDataForIndicatorIndex } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getEnglandDataForIndicatorIndex,
+  seriesDataWithoutEngland,
+} from '@/lib/chartHelpers/chartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -31,6 +34,7 @@ export function Chart({
   const backLinkPath = searchState.generatePath('/results');
 
   const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
+  const dataWithoutEngland = seriesDataWithoutEngland(data[0]);
 
   return (
     <>
@@ -42,7 +46,8 @@ export function Chart({
       <H2>View data for selected indicators and areas</H2>
       <LineChart
         LineChartTitle="See how the indicator has changed over time"
-        data={data[0]}
+        data={dataWithoutEngland}
+        benchmarkData={englandBenchmarkData}
         xAxisTitle="Year"
         accessibilityLabel="A line chart showing healthcare data"
       />
