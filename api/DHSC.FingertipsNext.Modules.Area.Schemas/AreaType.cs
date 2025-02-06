@@ -11,11 +11,20 @@ public class AreaType
     /// The name of the area type
     /// </summary>
     /// <remarks>
-    /// e.g. PCN
+    /// e.g. NHS Region
     /// </remarks>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
-    
+
+    /// <summary>
+    /// The name of the area type for use in urls
+    /// </summary>
+    /// <remarks>
+    /// e.g. nhs-region
+    /// </remarks>
+    [JsonPropertyName("urlName")]
+    public required string UrlName { get; init; }
+
     /// <summary>
     /// The level in the hierarchy
     /// </summary>
