@@ -83,7 +83,7 @@ describe('Search Results Suite', () => {
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
+    expect(screen.getAllByRole('heading').at(0)?.textContent).toContain(
       searchedIndicator
     );
   });
@@ -243,5 +243,16 @@ describe('Search Results Suite', () => {
     );
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('should contain the searched indicator in the search box', async () => {
+    render(
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+    );
+
+    await userEvent.type(
+      screen.getByRole('searchbox', { name: /indicator/i }),
+      searchedIndicator
+    );
   });
 });

@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test - renders the form 1`] = `
+<DocumentFragment>
+  .c1 {
+  margin-bottom: 20px;
+  padding-left: 15px;
+  border-left: 5px solid #d4351c;
+}
+
+.c0 .c0:last-of-type {
+  margin-bottom: 0;
+}
+
+.c1.c1 .c1 {
+  padding: 0;
+  border: 0;
+}
+
+.c6 {
+  display: block;
+}
+
+.c4 {
+  width: 100%;
+  height: 40px;
+  padding: 6px;
+  margin: 0;
+  border: solid 1px #bfc1c3;
+  border-right: 0;
+  box-sizing: border-box;
+  font-family: "nta",Arial,sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.75;
+  background: #ffffff;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.c4:focus {
+  margin-right: 3px;
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c4:focus ~ button {
+  width: 46px;
+}
+
+.c5 {
+  background-color: #2b8cc4;
+  border: 0;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 0;
+}
+
+.c3 {
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 30px;
+  }
+}
+
+<div
+    class="c0 c1"
+    data-testid="indicator-search-form"
+  >
+    <div
+      class="c2 c3"
+    >
+      <input
+        class="c4"
+        data-testid="indicator-search-form-input"
+        id="indicator"
+        name="indicator"
+        style="border-color: #d4351c; border-width: 2px; border-style: solid;"
+        title="indicator"
+        type="search"
+        value=""
+      />
+      <button
+        class="c5"
+        data-testid="indicator-search-form-submit"
+        title="Search"
+        type="submit"
+      >
+        <svg
+          class="c6"
+          fill="#ffffff"
+          height="100%"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="100%"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -259,10 +259,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -283,6 +279,18 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -296,6 +304,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -521,10 +533,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media print {
-
-}
-
 @media only screen and (min-width:641px) {
 
 }
@@ -545,6 +553,18 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
 @media only screen and (min-width:641px) {
 
 }
@@ -558,6 +578,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
+
+}
+
+@media only screen and (min-width:641px) {
 
 }
 
@@ -568,48 +592,81 @@ exports[`Search Results Suite snapshot test 1`] = `
 <h1
     class="c0"
   >
-    Search results
+    Search results for test
   </h1>
-  .c0 {
+  .c1 {
+  margin-bottom: 20px;
+}
+
+.c0 .c0:last-of-type {
+  margin-bottom: 0;
+}
+
+.c6 {
+  display: block;
+}
+
+.c4 {
+  width: 100%;
+  height: 40px;
+  padding: 6px;
   margin: 0;
+  border: solid 1px #bfc1c3;
+  border-right: 0;
+  box-sizing: border-box;
   font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
+  text-transform: none;
   font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
+  line-height: 1.75;
+  background: #ffffff;
+  border-radius: 0;
+  -webkit-appearance: none;
 }
 
-.c0 > p {
-  margin: 0;
+.c4:focus {
+  margin-right: 3px;
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
-.c0 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
+.c4:focus ~ button {
+  width: 46px;
 }
 
-.c0 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c0 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
+.c5 {
+  background-color: #2b8cc4;
   border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 0;
+}
+
+.c3 {
+  margin-bottom: 20px;
 }
 
 @media print {
@@ -777,93 +834,136 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c0 {
-    font-size: 14px;
-    line-height: 1.15;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c0 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
   }
 }
 
+@media print {
+
+}
+
 @media only screen and (min-width:641px) {
-  .c0 {
-    margin-bottom: 20px;
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 30px;
   }
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-@media print {
-
-}
-
-@media only screen and (min-width:641px) {
-
-}
-
-<div
-    class="c0"
+<form
+    action="/action"
   >
-    <p>
-      You searched for indicator "
-      <strong>
-        test
-      </strong>
-      "
-    </p>
-  </div>
-  .c32 {
+    <div
+      class="c0 c1"
+      data-testid="indicator-search-form"
+    >
+      <div
+        class="c2 c3"
+      >
+        <input
+          class="c4"
+          data-testid="indicator-search-form-input"
+          id="indicator"
+          name="indicator"
+          title="indicator"
+          type="search"
+          value="test"
+        />
+        <button
+          class="c5"
+          data-testid="indicator-search-form-submit"
+          title="Search"
+          type="submit"
+        >
+          <svg
+            class="c6"
+            fill="#ffffff"
+            height="100%"
+            version="1.1"
+            viewBox="0 0 57 57"
+            width="100%"
+          >
+            <title>
+              Search
+            </title>
+            <path
+              d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </form>
+  .c33 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -888,36 +988,36 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 22px;
 }
 
-.c32:focus {
+.c33:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c32:link,
-.c32:visited,
-.c32:active,
-.c32:hover {
+.c33:link,
+.c33:visited,
+.c33:active,
+.c33:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c32::-moz-focus-inner {
+.c33::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c32:hover,
-.c32:focus {
+.c33:hover,
+.c33:focus {
   background-color: #00572e;
 }
 
-.c32:active {
+.c33:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c32::before {
+.c33::before {
   content: "";
   display: block;
   position: absolute;
@@ -928,34 +1028,34 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c32:active::before {
+.c33:active::before {
   top: -4px;
 }
 
-.c32:disabled {
+.c33:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c32:disabled:hover {
+.c33:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c32:disabled:focus {
+.c33:disabled:focus {
   outline: none;
 }
 
-.c32:disabled:active {
+.c33:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c32 svg {
+.c33 svg {
   max-width: 15px;
 }
 
-.c26 {
+.c27 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -970,7 +1070,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 10px;
 }
 
-.c27 {
+.c28 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -981,22 +1081,22 @@ exports[`Search Results Suite snapshot test 1`] = `
   cursor: pointer;
 }
 
-.c27:checked + span:after {
+.c28:checked + span:after {
   opacity: 1;
 }
 
-.c27:focus + span:before {
+.c28:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c27 + span {
+.c28 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c28 {
+.c29 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -1004,7 +1104,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   touch-action: manipulation;
 }
 
-.c28::before {
+.c29::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -1016,7 +1116,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   background: transparent;
 }
 
-.c28::after {
+.c29::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -1152,7 +1252,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c24 {
+.c25 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1162,7 +1262,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c22 {
+.c23 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1176,11 +1276,11 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding-left: 0;
 }
 
-.c21 .c21 {
+.c22 .c22 {
   margin-top: 10px;
 }
 
-.c22 > .c23 {
+.c23 > .c24 {
   margin-bottom: 5px;
 }
 
@@ -1197,7 +1297,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c29 {
+.c30 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1210,35 +1310,35 @@ exports[`Search Results Suite snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c30 {
+.c31 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c30:focus {
+.c31:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c30:link {
+.c31:link {
   color: #1d70b8;
 }
 
-.c30:visited {
+.c31:visited {
   color: #4c2c92;
 }
 
-.c30:hover {
+.c31:hover {
   color: #2b8cc4;
 }
 
-.c30:active {
+.c31:active {
   color: #2b8cc4;
 }
 
-.c30:focus {
+.c31:focus {
   color: #0b0c0c;
 }
 
@@ -1290,7 +1390,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding-left: 15px;
 }
 
-.c20 {
+.c21 {
   box-sizing: border-box;
   padding-right: 15px;
   padding-left: 15px;
@@ -1332,7 +1432,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   outline-offset: 0;
 }
 
-.c31 {
+.c32 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1341,11 +1441,36 @@ exports[`Search Results Suite snapshot test 1`] = `
   line-height: 1.2;
 }
 
-.c25 {
+.c26 {
   padding-top: 15px;
   padding-bottom: 0;
   padding-left: 25px;
   padding-right: 25px;
+}
+
+.c12 div {
+  padding: 1em 0em;
+}
+
+.c12 summary {
+  color: #000000;
+}
+
+.c12 div {
+  border-left: none;
+}
+
+.c20 div {
+  padding: 1em 0em;
+}
+
+.c20 summary {
+  color: #000000;
+}
+
+.c20 div {
+  border-left: 5px #A1A2A3 solid;
+  padding-left: 1em;
 }
 
 .c2 {
@@ -1402,17 +1527,12 @@ exports[`Search Results Suite snapshot test 1`] = `
   padding: 0em;
 }
 
+.c18 {
+  margin-bottom: 1em;
+}
+
 .c18 select {
   width: 100%;
-}
-
-.c12 div {
-  border-left: none;
-  padding: 1em 0em;
-}
-
-.c12 summary {
-  color: #000000;
 }
 
 @media print {
@@ -1432,53 +1552,53 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c32 {
+  .c33 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c32 {
+  .c33 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c32 {
+  .c33 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c32 svg {
+  .c33 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c32 {
+  .c33 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c26 {
+  .c27 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c26 {
+  .c27 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c26 {
+  .c27 {
     margin-bottom: 10px;
   }
 }
@@ -1542,41 +1662,41 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c24 {
+  .c25 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c24 {
+  .c25 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c22 {
+  .c23 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c22 {
+  .c23 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c22 {
+  .c23 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c22 {
+  .c23 {
     margin-bottom: 20px;
   }
 }
@@ -1624,41 +1744,41 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c29 {
+  .c30 {
     color: #000;
   }
 }
 
 @media print {
-  .c29 {
+  .c30 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c29 {
+  .c30 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c29 {
+  .c30 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c30 {
+  .c31 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c30[href^="/"]::after,
-  .c30[href^="http://"]::after,
-  .c30[href^="https://"]::after {
+  .c31[href^="/"]::after,
+  .c31[href^="http://"]::after,
+  .c31[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -1686,6 +1806,10 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
   .c1 {
     width: 33.3333%;
     -webkit-box-flex: 0;
@@ -1699,7 +1823,7 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c20 {
+  .c21 {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
@@ -1716,6 +1840,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     -ms-flex-direction: row;
     flex-direction: row;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 @media print {
@@ -1740,39 +1868,39 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-  .c31 {
+  .c32 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c31 {
+  .c32 {
     font-size: 19px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c26 {
     padding-top: 15px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c26 {
     padding-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c26 {
     padding-left: 40px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c25 {
+  .c26 {
     padding-right: 40px;
   }
 }
@@ -1789,6 +1917,10 @@ exports[`Search Results Suite snapshot test 1`] = `
     font-size: 16px;
     line-height: 1.25;
   }
+}
+
+@media only screen and (min-width:641px) {
+
 }
 
 <div
@@ -1859,13 +1991,54 @@ exports[`Search Results Suite snapshot test 1`] = `
                   class="c19"
                 />
               </label>
+              <span
+                class="c9 c10"
+              >
+                Area List
+              </span>
+              <div
+                class="c4"
+              >
+                <p>
+                  Select one or more areas to compare
+                </p>
+              </div>
+              <details
+                class="c11 c20"
+              >
+                <summary
+                  class="c13 c14"
+                >
+                  <span
+                    class="c15"
+                  >
+                    Refine the area list
+                  </span>
+                </summary>
+                <div
+                  class="c16"
+                >
+                  <label
+                    class="c17 c18"
+                  >
+                    <span
+                      class="c9"
+                    >
+                      1. Select a group type
+                    </span>
+                    <select
+                      class="c19"
+                    />
+                  </label>
+                </div>
+              </details>
             </div>
           </details>
         </div>
       </div>
     </div>
     <div
-      class="c20"
+      class="c21"
     >
       <form
         action="/action"
@@ -1876,30 +2049,30 @@ exports[`Search Results Suite snapshot test 1`] = `
           value="{"si":"test"}"
         />
         <ul
-          class="c21 c22"
+          class="c22 c23"
         >
           <li
-            class="c23 c24"
+            class="c24 c25"
           >
             <hr
               class="c6"
             />
           </li>
           <li
-            class="c23 c24"
+            class="c24 c25"
             data-testid="search-result"
           >
             <div
-              class="c0 c25"
+              class="c0 c26"
             >
               <div
-                class="c20"
+                class="c21"
               >
                 <label
-                  class="c26"
+                  class="c27"
                 >
                   <input
-                    class="c27"
+                    class="c28"
                     data-testid="search-results-indicator-1"
                     id="search-results-indicator-1"
                     name="indicator"
@@ -1907,34 +2080,34 @@ exports[`Search Results Suite snapshot test 1`] = `
                     value="1"
                   />
                   <span
-                    class="c28"
+                    class="c29"
                   >
                     <h5
-                      class="c29"
+                      class="c30"
                     >
                       <a
-                        class="c30"
+                        class="c31"
                         href="/chart?si=test&is=1"
                       >
                         NHS
                       </a>
                     </h5>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Latest data period: 2023
                       </p>
                     </div>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Data source: NHS website
                       </p>
                     </div>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Last updated: 06 December 2024
@@ -1949,20 +2122,20 @@ exports[`Search Results Suite snapshot test 1`] = `
             />
           </li>
           <li
-            class="c23 c24"
+            class="c24 c25"
             data-testid="search-result"
           >
             <div
-              class="c0 c25"
+              class="c0 c26"
             >
               <div
-                class="c20"
+                class="c21"
               >
                 <label
-                  class="c26"
+                  class="c27"
                 >
                   <input
-                    class="c27"
+                    class="c28"
                     data-testid="search-results-indicator-2"
                     id="search-results-indicator-2"
                     name="indicator"
@@ -1970,34 +2143,34 @@ exports[`Search Results Suite snapshot test 1`] = `
                     value="2"
                   />
                   <span
-                    class="c28"
+                    class="c29"
                   >
                     <h5
-                      class="c29"
+                      class="c30"
                     >
                       <a
-                        class="c30"
+                        class="c31"
                         href="/chart?si=test&is=2"
                       >
                         DHSC
                       </a>
                     </h5>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Latest data period: 2022
                       </p>
                     </div>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Data source: Student article
                       </p>
                     </div>
                     <div
-                      class="c4 c31"
+                      class="c4 c32"
                     >
                       <p>
                         Last updated: 05 November 2023
@@ -2013,7 +2186,7 @@ exports[`Search Results Suite snapshot test 1`] = `
           </li>
         </ul>
         <button
-          class="c32"
+          class="c33"
           data-testid="search-results-button-submit"
           type="submit"
         >

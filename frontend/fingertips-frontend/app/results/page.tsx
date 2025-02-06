@@ -21,6 +21,8 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
+  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const selectedGroupType = searchParams?.[SearchParams.GroupTypeSelected];
   const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
   const stateManager = new SearchStateManager({
@@ -55,11 +57,17 @@ export default async function Page(
         searchedIndicator
       );
 
+    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
+      (a, b) => a.level - b.level
+    );
+
     return (
       <SearchResults
         searchResultsFormState={initialState}
         searchResults={searchResults}
-        availableAreaTypes={availableAreaTypes}
+        availableAreaTypes={sortedByLevelAreaTypes}
+        selectedAreaType={selectedAreaType}
+        selectedGroupType={selectedGroupType}
         selectedAreas={selectedAreasData}
       />
     );

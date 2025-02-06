@@ -1,13 +1,12 @@
 'use client';
 
-import Highcharts from 'highcharts';
+import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import {
-  generateSeriesData,
-  sortHealthDataByDate,
-} from '@/lib/chartHelpers/chartHelpers';
+import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
+import { chartColours } from '@/lib/chartHelpers/colours';
+import { generateSeriesData } from './lineChartHelpers';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -16,6 +15,15 @@ interface LineChartProps {
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
 }
+
+const chartSymbols: SymbolKeyValue[] = [
+  'square',
+  'triangle',
+  'triangle-down',
+  'circle',
+  'diamond',
+];
+
 export function LineChart({
   LineChartTitle: lineChartTitle,
   data,
@@ -24,28 +32,38 @@ export function LineChart({
   benchmarkData,
 }: Readonly<LineChartProps>) {
   const sortedSeriesValues = sortHealthDataByDate(data);
-  const seriesData = generateSeriesData(sortedSeriesValues, benchmarkData);
+  const seriesData = generateSeriesData(
+    sortedSeriesValues,
+    chartSymbols,
+    benchmarkData
+  );
 
   const lineChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
     },
     chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
+    colors: chartColours,
     title: {
-      text: 'Line chart to show how the indicator has changed over time for the area',
       style: {
         display: 'none',
       },
     },
     yAxis: {
       title: undefined,
+      minorTickInterval: 'auto',
+      minorTicksPerMajor: 2,
     },
     xAxis: {
       title: { text: xAxisTitle, margin: 20 },
       tickLength: 0,
     },
     legend: {
+      title: {
+        text: 'Areas',
+      },
       verticalAlign: 'top',
+      align: 'left',
     },
     series: seriesData,
     tooltip: {
