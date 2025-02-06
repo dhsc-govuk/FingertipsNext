@@ -102,8 +102,7 @@ it('should not render the scatterChart component when only 1 indicator is select
   expect(scatterChart).not.toBeInTheDocument();
 });
 
-// TODO: apply correct business logic
-it('should render the ThematicMap component when map props are passed', async () => {
+it('should render the ThematicMap component when map data are provided', async () => {
   const areaType: string = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);

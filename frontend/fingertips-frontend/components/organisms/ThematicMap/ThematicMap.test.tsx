@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { ThematicMap } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
+import { ThematicMap } from '.';
 
 it('should render the map title', async () => {
   const areaType = 'Regions Statistical';
