@@ -8,7 +8,6 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
@@ -24,6 +23,7 @@ export default async function ChartPage(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
+  const areaType = searchParams?.[SearchParams.AreaTypeSelected];
 
   // We don't want to render this page statically
   await connection();
@@ -59,25 +59,31 @@ export default async function ChartPage(
   }
 
   // Map variables
-  // TODO: use areaType from filter
-  const areaType: string = 'Counties & UAs';
-  // const areaType: string = 'Regions Statistical';
-  const mapData = getMapFile(areaType);
-  const mapJoinKey = getMapJoinKey(areaType);
-  // TODO: replace array with group areaCodes
-  const mapGroup = getMapGroup(
-    mapData,
-    [
-      'E08000025',
-      'E08000029',
-      'E08000030',
-      'E08000027',
-      'E08000028',
-      'E08000031',
-      'E08000026',
-    ],
-    mapJoinKey
-  );
+  // TODO add business logic for when to have a map
+  // 'Display Map on charts page when an entire Group of areas has been selected AND a single indicator'
+  let mapData = undefined;
+  let mapJoinKey = undefined;
+  let mapGroup = undefined;
+  if (areaType) {
+    // const areaType: string = 'Counties & UAs';
+    // const areaType: string = 'Regions Statistical';
+    mapData = getMapFile(areaType);
+    mapJoinKey = getMapJoinKey(areaType);
+    // TODO: replace array with group areaCodes
+    const mapGroup = getMapGroup(
+      mapData,
+      [
+        'E08000025',
+        'E08000029',
+        'E08000030',
+        'E08000027',
+        'E08000028',
+        'E08000031',
+        'E08000026',
+      ],
+      mapJoinKey
+    );
+  }
 
   return (
     <Chart
