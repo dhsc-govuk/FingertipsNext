@@ -37,6 +37,8 @@ type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
+  selectedAreaType?: string;
+  selectedGroupType?: string;
   selectedAreas?: AreaWithRelations[];
 };
 
@@ -60,6 +62,8 @@ export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  selectedAreaType,
+  selectedGroupType,
   selectedAreas,
 }: Readonly<SearchResultsProps>) {
   const [indicatorSelectionState, indicatorSelectionFormAction] =
@@ -116,6 +120,8 @@ export function SearchResults({
             <GridCol setWidth="one-third">
               <AreaFilter
                 availableAreaTypes={availableAreaTypes}
+                selectedAreaType={selectedAreaType}
+                selectedGroupType={selectedGroupType}
                 selectedAreas={selectedAreas}
               />
             </GridCol>
