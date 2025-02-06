@@ -46,21 +46,22 @@ export const BenchmarkLegend: React.FC<BenchmarkLegendProps> = ({ model }) => {
   return (
     <div>
       {model?.map((item, index) => (
-        <BenchmarkLegendGroupPanelStyle key={index}>
+        <BenchmarkLegendGroupPanelStyle key={index}  >
           <div>
             {item.title !== null && (
               <div>
-                <LabelText className="legend_panel_header">
+                <LabelText className="legend_panel_header"  >
                   {item.title}
                 </LabelText>
               </div>
             )}
             {item?.labels.map((label, label_key) => (
-              <LegendLabel
+              <LegendLabel 
                 group={item?.group}
                 label={label?.label}
                 type={label.type}
                 key={label_key}
+                data-testid ={item?.group +"_" + label.type + "_" +label_key}
               />
             ))}
           </div>
