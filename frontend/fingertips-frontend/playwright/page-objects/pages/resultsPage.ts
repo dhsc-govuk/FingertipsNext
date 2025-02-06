@@ -14,9 +14,9 @@ export default class ResultsPage extends BasePage {
     const options = await this.page
       .getByTestId(this.areaFilterContainer)
       .getByRole('option')
-        .all();
+      .all();
 
-    return Promise.all(options.map(l => l.getAttribute('value')));
+    return Promise.all(options.map((l) => l.getAttribute('value')));
   }
 
   readonly indicatorSearchErrorText = 'Please enter a subject';
