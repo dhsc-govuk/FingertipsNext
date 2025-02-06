@@ -127,7 +127,6 @@ export const getBenchmarkLegendColourStyle = (
         return {
           backgroundColor: '#812972',
           color: 'var(--other-white, #FFF)',
-          border:"0px !important"
         };
       default:
         return {

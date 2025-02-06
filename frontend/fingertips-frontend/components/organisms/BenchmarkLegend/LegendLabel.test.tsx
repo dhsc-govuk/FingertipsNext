@@ -76,7 +76,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
 
   test('returns default style when group is not provided', () => {
     const result = getBenchmarkLegendColourStyle(
-      undefined as any,
+      undefined,
       LegendLabelType.BETTER
     );
     expect(result).toEqual({
