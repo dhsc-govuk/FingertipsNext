@@ -396,14 +396,13 @@ FROM
             return allParents.Where(x => x.IsDirect).ToList();
         }
 
-        public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync(bool addRelatedAreas)
+        public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
             var indicators = await connection.QueryAsync<IndicatorEntity>(IndicatorSql);
             await AddPolarityToIndicators(indicators.ToList(), connection);
-            if (addRelatedAreas)
-                await AddAreasToIndicators(indicators, connection);
+            
             return indicators.ToList();
         }
 

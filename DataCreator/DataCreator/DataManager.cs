@@ -62,13 +62,26 @@ namespace DataCreator
             }
         }
 
-        public async Task CreateIndicatorDataAsync(bool addAreasToIndicator)
+        public async Task CreateIndicatorDataAsync(Dictionary<int, List<string>> areasAndIndicators,bool addAreasToIndicator)
         {
-            var indicators = await _pholioDataFetcher.FetchIndicatorsAsync(addAreasToIndicator);
+            var indicators = await _pholioDataFetcher.FetchIndicatorsAsync();
+            foreach (var indicator in indicators) 
+            {
+                var present = areasAndIndicators.TryGetValue(indicator.IndicatorID, out var value);
+                if (present)
+                {
+                    indicator.AssociatedAreaCodes = value;
+                }
+                else
+                {
+                    indicator.AssociatedAreaCodes=new List<string>();
+                }
+                
+            }
             DataFileManager.WriteJsonData("indicators", indicators);
         }
 
-        public static void CreateHealthDataAndAgeData(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
+        public static Dictionary<int, List<string>> CreateHealthDataAndAgeData(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
             foreach (var indicatorId in indicatorIdsWeWant)
@@ -77,10 +90,23 @@ namespace DataCreator
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
             AddSexIds(healthMeasures);
+            var areasAndIndicators=AssociateAreasWithIndicators(healthMeasures);
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
+
+            return areasAndIndicators;
         }
 
+        private static Dictionary<int, List<string>> AssociateAreasWithIndicators(List<HealthMeasureEntity> healthMeasures)
+        {
+            var areasAndIndicators=new Dictionary<int, List<string>>();
+           
+            foreach (var group in healthMeasures.GroupBy(measure => measure.IndicatorId))
+            {
+                areasAndIndicators.Add(group.Key, group.Select(x => x.AreaCode).Distinct().ToList());
+            }
+            return areasAndIndicators;
+        }
         private static IEnumerable<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
             var usedAgeIds= new HashSet<int>(); 
