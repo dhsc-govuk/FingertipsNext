@@ -31,16 +31,17 @@ export function ThematicMap({
     chart: {
       height: 800,
       animation: false,
+      borderWidth: 0.2,
+      borderColor: 'black',
     },
-    accessibility: { enabled: false },
     title: { text: undefined },
+    caption: { text: 'map source: data source:' },
+    accessibility: { enabled: false },
+    credits: { enabled: false },
     mapView: {
       projection: { name: 'Miller' },
       fitToGeometry: mapGroup.features[0].geometry,
       padding: 20,
-    },
-    credits: {
-      enabled: false,
     },
     mapNavigation: { enabled: true },
     colorAxis: { min: 0 },
