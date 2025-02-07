@@ -22,13 +22,6 @@ export const IndicatorSearchForm = ({
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
-      {indicatorSearchFormState.message ? (
-        <ErrorText data-testid="indicator-search-form-error">
-          {indicatorSearchFormState.message}
-        </ErrorText>
-      ) : (
-        ''
-      )}{' '}
       <div
         style={{
           color: govukBlack,
@@ -56,6 +49,13 @@ export const IndicatorSearchForm = ({
       >
         For example smoking, diabetes prevalence, or a specific indicator ID
       </div>
+      {indicatorSearchFormState.message ? (
+        <ErrorText data-testid="indicator-search-form-error">
+          {indicatorSearchFormState.message}
+        </ErrorText>
+      ) : (
+        ''
+      )}
       <StyledSearchBox>
         {SearchBox.Input && (
           <SearchBox.Input
