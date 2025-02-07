@@ -1,6 +1,6 @@
 'use client';
 
-import { LegendLabel } from './LegendLabel';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 
@@ -55,10 +55,10 @@ export const Benchmark: React.FC<BenchmarkProps> = ({ model }) => {
                 </LabelText>
               </div>
             )}
-            {item?.labels.map((label, label_key) => (
-              <LegendLabel
-                group={item?.group}
-                label={label?.label}
+            {item.labels.map((label, label_key) => (
+              <BenchmarkLabel
+                group={item.group}
+                label={label.label}
                 type={label.type}
                 key={label_key}
                 data-testid={item?.group + '_' + label.type + '_' + label_key}

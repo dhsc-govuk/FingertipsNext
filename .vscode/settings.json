@@ -1,8 +1,5 @@
 {
   "dataworkspace.excludedProjects": [],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-     // Jest configuration    
-     "jest.debugMode": true,
-     "jest.rootPath": "./frontend/fingertips-frontend"
+  "editor.formatOnSave": true
 }

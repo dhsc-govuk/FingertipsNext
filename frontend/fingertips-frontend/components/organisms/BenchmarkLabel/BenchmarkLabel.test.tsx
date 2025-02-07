@@ -1,27 +1,17 @@
 import { render } from '@testing-library/react';
 import {
-  LegendLabel,
-  LegendLabelGroupType,
-  LegendLabelType,
-  getLegendLabelStyle,
-} from './LegendLabel';
+  BenchmarkLabel,
+  BenchmarkLabelGroupType,
+  BenchmarkLabelType,
+  getBenchmarkLabelStyle,
+} from "@/components/organisms/BenchmarkLabel/index"
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
-  test('returns correct style for RAG group and HIGH type', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.RAG,
-      LegendLabelType.HIGH
-    );
-    expect(result).toEqual({
-      backgroundColor: 'var(--other-dark-blue, #003078)',
-      color: 'var(--other-white, #FFF)',
-    });
-  });
 
   test('returns correct style for RAG group and LOWER type', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.RAG,
-      LegendLabelType.LOWER
+    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelGroupType.RAG,
+      BenchmarkLabelType.LOWER
     );
     expect(result).toEqual({
       backgroundColor: 'var(--other-light-blue, #5694CA)',
@@ -30,9 +20,9 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns correct style for QUINTILE group and LOWEST type', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.QUINTILE,
-      LegendLabelType.LOWEST
+    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelGroupType.QUINTILES,
+      BenchmarkLabelType.LOWEST
     );
     expect(result).toEqual({
       backgroundColor: '#E4DDFF',
@@ -40,21 +30,22 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
     });
   });
 
-  test('returns correct style for QUINTILE group and HIGH type', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.QUINTILE,
-      LegendLabelType.HIGH
+  test('returns correct style for QUINTILE group and HIGHER type', () => {
+    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelGroupType.QUINTILES,
+      BenchmarkLabelType.HIGHER
     );
+
     expect(result).toEqual({
-      backgroundColor: '#8B60E2',
+      backgroundColor: 'var(--other-dark-blue, #003078)',
       color: 'var(--other-white, #FFF)',
     });
   });
 
   test('returns correct style for OTHERS group and WORST type', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.OTHERS,
-      LegendLabelType.WORST
+    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelType.WORST
     );
     expect(result).toEqual({
       backgroundColor: '#D494C1',
@@ -63,9 +54,9 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns default style when group is RAG and type is unknown', () => {
-    const result = getLegendLabelStyle(
-      LegendLabelGroupType.RAG,
-      'unknown' as LegendLabelType
+    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelGroupType.RAG,
+      'unknown'
     );
     expect(result).toEqual({
       backgroundColor: 'transparent',
@@ -75,28 +66,28 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   });
 
   test('returns default style when group is not provided', () => {
-    const result = getLegendLabelStyle(undefined, LegendLabelType.BETTER);
+    const result = getBenchmarkLabelStyle(undefined, BenchmarkLabelType.BETTER);
     expect(result).toEqual({
       backgroundColor: '#812972',
       color: 'var(--other-white, #FFF)',
-    }); // Default to OTHERS group
+    }); 
   });
 });
 
 /* The component test for the UI */
 
-describe('Testing the LegendLabel Component ', () => {
+describe('Testing the BenchmarkLabel Component ', () => {
   test('renders with default props', () => {
-    const { getByText } = render(<LegendLabel label="Test Label" />);
+    const { getByText } = render(<BenchmarkLabel label="Test Label" />);
     expect(getByText('Test Label')).toBeInTheDocument();
   });
 
   test('renders with a specified type and group', () => {
     const { getByText } = render(
-      <LegendLabel
+      <BenchmarkLabel
         label="Custom Label"
-        type={LegendLabelType.BETTER}
-        group={LegendLabelGroupType.RAG}
+        type={BenchmarkLabelType.BETTER}
+        group={BenchmarkLabelGroupType.RAG}
       />
     );
     expect(getByText('Custom Label')).toBeInTheDocument();
@@ -104,12 +95,13 @@ describe('Testing the LegendLabel Component ', () => {
 
   test('applies correct styles for RAG group and HIGH type', () => {
     const { container } = render(
-      <LegendLabel
+      <BenchmarkLabel
         label="Styled Label"
-        type={LegendLabelType.HIGH}
-        group={LegendLabelGroupType.RAG}
+        type={BenchmarkLabelType.HIGHER}
+        group={BenchmarkLabelGroupType.RAG}
       />
     );
+
     expect(container.firstChild).toHaveStyle(
       'background-color: var(--other-dark-blue, #003078)'
     );
@@ -117,10 +109,10 @@ describe('Testing the LegendLabel Component ', () => {
 
   test('applies correct styles for QUINTILE group and LOW type', () => {
     const { container } = render(
-      <LegendLabel
+      <BenchmarkLabel
         label="Quintile Label"
-        type={LegendLabelType.LOW}
-        group={LegendLabelGroupType.QUINTILE}
+        type={BenchmarkLabelType.LOW}
+        group={BenchmarkLabelGroupType.QUINTILES}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #CBBEF4');
@@ -128,10 +120,10 @@ describe('Testing the LegendLabel Component ', () => {
 
   test('applies correct styles for OTHERS group and WORST type', () => {
     const { container } = render(
-      <LegendLabel
+      <BenchmarkLabel
         label="Others Label"
-        type={LegendLabelType.WORST}
-        group={LegendLabelGroupType.OTHERS}
+        type={BenchmarkLabelType.WORST}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');

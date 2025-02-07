@@ -3,7 +3,7 @@ import { Label } from 'govuk-react';
 import styled from 'styled-components';
 import React from 'react';
 
-export const enum LegendLabelType {
+export const enum BenchmarkLabelType {
   HIGHER = 'higher',
   LOWER = 'lower',
   BETTER = 'better',
@@ -19,50 +19,52 @@ export const enum LegendLabelType {
   NOT_COMPARED = 'not_compared',
 }
 
-export const enum LegendLabelGroupType {
+export const enum BenchmarkLabelGroupType {
   RAG = 'rag',
-  QUINTILE = 'quintile',
-  OTHERS = 'others',
+  QUINTILES = 'quintiles',
+  QUINTILES_WITH_VALUE = 'quintiles_with_value',
 }
 
-export interface LegendLabelProps {
+export interface BenchmarkLabelProps {
   label?: string;
-  type?: LegendLabelType | string;
-  group?: LegendLabelGroupType | string;
+  type?: BenchmarkLabelType | string;
+  group?: BenchmarkLabelGroupType | string;
 }
 
-export const getLegendLabelStyle = (
-  group: LegendLabelGroupType = LegendLabelGroupType.OTHERS,
-  type: LegendLabelType
+
+
+export const getLabelValueFromType = (type: string) =>{
+  return `type =${type}`
+}
+
+
+export const getBenchmarkLabelStyle = (
+  group = BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+  type
 ) => {
-  if (group === LegendLabelGroupType.RAG) {
+  if (group === BenchmarkLabelGroupType.RAG) {
     switch (type) {
-      case LegendLabelType.HIGH:
-        return {
-          backgroundColor: 'var(--other-dark-blue, #003078)',
-          color: 'var(--other-white, #FFF)',
-        };
-      case LegendLabelType.LOWER:
+      case BenchmarkLabelType.LOWER:
         return {
           backgroundColor: 'var(--other-light-blue, #5694CA)',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.BETTER:
+      case BenchmarkLabelType.BETTER:
         return {
           backgroundColor: 'var(--other-green, #00703C)',
           color: 'var(--other-white, #FFF)',
         };
-      case LegendLabelType.SIMILAR:
+      case BenchmarkLabelType.SIMILAR:
         return {
           backgroundColor: 'var(--other-yellow, #FD0)',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.WORSE:
+      case BenchmarkLabelType.WORSE:
         return {
           backgroundColor: 'var(--other-red, #D4351C)',
           color: 'var(--other-white, #FFF)',
         };
-      case LegendLabelType.HIGHER:
+      case BenchmarkLabelType.HIGHER:
         return {
           backgroundColor: 'var(--other-dark-blue, #003078)',
           color: 'var(--other-white, #FFF)',
@@ -76,24 +78,24 @@ export const getLegendLabelStyle = (
     }
   }
 
-  if (group === LegendLabelGroupType.QUINTILE) {
+  if (group === BenchmarkLabelGroupType.QUINTILES) {
     switch (type) {
-      case LegendLabelType.LOWEST:
+      case BenchmarkLabelType.LOWEST:
         return {
           backgroundColor: '#E4DDFF',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.LOW:
+      case BenchmarkLabelType.LOW:
         return {
           backgroundColor: '#CBBEF4',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.MIDDLE:
+      case BenchmarkLabelType.MIDDLE:
         return {
           backgroundColor: '#AA90EC',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.HIGH:
+      case BenchmarkLabelType.HIGH:
         return {
           backgroundColor: '#8B60E2',
           color: 'var(--other-white, #FFF)',
@@ -106,24 +108,24 @@ export const getLegendLabelStyle = (
     }
   }
 
-  if (group === LegendLabelGroupType.OTHERS) {
+  if (group === BenchmarkLabelGroupType.QUINTILES_WITH_VALUE) {
     switch (type) {
-      case LegendLabelType.WORST:
+      case BenchmarkLabelType.WORST:
         return {
           backgroundColor: '#D494C1',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.WORSE:
+      case BenchmarkLabelType.WORSE:
         return {
           backgroundColor: '#BC6AAA',
           color: 'var(--other-black, #0B0C0C)',
         };
-      case LegendLabelType.MIDDLE:
+      case BenchmarkLabelType.MIDDLE:
         return {
           backgroundColor: '#A44596',
           color: 'var(--other-white, #FFF)',
         };
-      case LegendLabelType.BETTER:
+      case BenchmarkLabelType.BETTER:
         return {
           backgroundColor: '#812972',
           color: 'var(--other-white, #FFF)',
@@ -137,11 +139,13 @@ export const getLegendLabelStyle = (
   }
 };
 
-export const LegendLabelStyle = styled(Label)<{
-  legendType: LegendLabelType;
-  group: LegendLabelGroupType;
+
+
+export const BenchmarkLabelStyle = styled(Label)<{
+  legendType: BenchmarkLabelType;
+  group: BenchmarkLabelGroupType;
 }>(({ legendType, group }) => {
-  const theme = getLegendLabelStyle(group, legendType);
+  const theme = getBenchmarkLabelStyle(group, legendType);
   return {
     display: 'inline-block',
     padding: '5px 8px 4px 8px',
@@ -157,17 +161,17 @@ export const LegendLabelStyle = styled(Label)<{
   };
 });
 
-export const LegendLabel: React.FC<LegendLabelProps> = ({
+export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
   label,
   type,
   group,
 }) => {
-  const legendType = (type as LegendLabelType) ?? LegendLabelType.NOT_COMPARED;
-  const groupType = (group as LegendLabelGroupType) ?? LegendLabelGroupType.RAG;
-
+  const legendType = type as BenchmarkLabelType?? BenchmarkLabelType.NOT_COMPARED;
+  const groupType =  group as BenchmarkLabelGroupType ?? BenchmarkLabelGroupType.RAG;
+  
   return (
-    <LegendLabelStyle legendType={legendType} group={groupType}>
+    <BenchmarkLabelStyle legendType={legendType} group={groupType}>
       <Label>{label}</Label>
-    </LegendLabelStyle>
+    </BenchmarkLabelStyle>
   );
 };

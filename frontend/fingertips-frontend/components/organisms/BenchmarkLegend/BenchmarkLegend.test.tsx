@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Benchmark, BenchmarkData } from './BenchmarkLegend';
+import { Benchmark, BenchmarkData } from '.';
 import '@testing-library/jest-dom';
 
 describe('Testing the BenchmarkLegend component', () => {
