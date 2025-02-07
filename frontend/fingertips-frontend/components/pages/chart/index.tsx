@@ -74,24 +74,19 @@ export function Chart({
         </>
       ) : null}
       {indicatorsSelected.length == 2 ? (
-        <ScatterChart
-          data={data}
-          ScatterChartTitle="Compare indicators within the area group"
-          yAxisTitle="y: Indicator 1 (value)"
-          yAxisSubtitle="rate per information"
-          xAxisTitle="x: Indicator 2 (value)"
-          xAxisSubtitle="rate per information"
-          accessibilityLabel="A scatter chart showing two indicators"
-        ></ScatterChart>
+        <>
+          <ScatterChart
+            data={data}
+            ScatterChartTitle="Compare indicators within the area group"
+            yAxisTitle="y: Indicator 1 (value)"
+            yAxisSubtitle="rate per information"
+            xAxisTitle="x: Indicator 2 (value)"
+            xAxisSubtitle="rate per information"
+            accessibilityLabel="A scatter chart showing two indicators"
+          ></ScatterChart>
+          <br />
+        </>
       ) : null}
-      <LineChart
-        LineChartTitle="Line chart to show how the indicator has changed over time for the area"
-        data={dataWithoutEngland}
-        benchmarkData={englandBenchmarkData}
-        xAxisTitle="Year"
-        accessibilityLabel="A line chart showing healthcare data"
-      />
-      <br />
       <BarChart
         data={data[0]}
         yAxisTitle="Value"
@@ -99,11 +94,18 @@ export function Chart({
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
       />
-      <br />
-      <LineChartTable
-        data={data[0][0]}
-        englandBenchmarkData={englandBenchmarkData}
-      ></LineChartTable>
+      {populationData ? (
+        <>
+          <br />
+          <PopulationPyramid
+            data={populationData}
+            populationPyramidTitle="Population INDICATOR for SELECTED area"
+            xAxisTitle="Age"
+            yAxisTitle="Percentage of total population"
+            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
+          />
+        </>
+      ) : null}
     </>
   );
 }
