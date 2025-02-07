@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Data;
 using DataCreator.PholioDatabase;
 
 namespace DataCreator
@@ -68,17 +68,67 @@ namespace DataCreator
             DataFileManager.WriteJsonData("indicators", indicators);
         }
 
-        public async Task<List<int>> CreateHealthDataAsync(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, bool useIndicators=false)
+        public static void CreateHealthDataAndAgeData(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
-            var healthMeasures = await _pholioDataFetcher.FetchHealthDataAsync(2018, areasWeWant, indicatorIdsWeWant, useIndicators);
+            var healthMeasures = new List<HealthMeasureEntity>();
+            foreach (var indicatorId in indicatorIdsWeWant)
+            {
+                healthMeasures.AddRange(GetHealthDataForArea(indicatorId, areasWeWant, yearFrom));
+            }
+            var usedAges = AddAgeIds(healthMeasures, allAges);
+            AddSexIds(healthMeasures);
+            DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
-            return healthMeasures.Select(x=>x.AgeID).Distinct().ToList();
         }
 
-        public async Task CreateAgeDataAsync(IEnumerable<int> ageIdsWeWant)
+        private static IEnumerable<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
-            var ages = await _pholioDataFetcher.FetchAgeDataAsync(ageIdsWeWant);
-            DataFileManager.WriteAgeCsvData("agedata", ages);
+            var usedAgeIds= new HashSet<int>(); 
+            
+            foreach (var healthMeasure in healthMeasures)
+            {
+                var ageId = allAges.First(x => x.Age == healthMeasure.Age).AgeID;
+                healthMeasure.AgeID = ageId;
+                usedAgeIds.Add(ageId);
+            }
+           
+            return allAges.Where(age=>usedAgeIds.Contains(age.AgeID)).ToList();
         }
+
+        private static void AddSexIds(List<HealthMeasureEntity> healthMeasures)
+        {
+            foreach (var healthMeasure in healthMeasures)
+            {
+                switch (healthMeasure.Sex)
+                {
+                    case "Not applicable":
+                        healthMeasure.SexID = -1;
+                        break;
+                    case "Male":
+                        healthMeasure.SexID = 1;
+                        break;
+                    case "Female":
+                        healthMeasure.SexID = 2;
+                        break;
+                    case "Persons":
+                        healthMeasure.SexID = 4;
+                        break;
+                }
+            }
+        }
+
+        private static IEnumerable<HealthMeasureEntity> GetHealthDataForArea(int indicatorId, List<string> areasWeWant, int yearFrom = 2018)
+        {
+            var data = DataFileManager.GetHealthDataForIndicator(indicatorId);
+            var dataForAreasWeWant = data.Where(x => areasWeWant.Contains(x.AreaCode)).ToList();
+            return dataForAreasWeWant.Where(x => x.Year >= yearFrom).ToList();
+        }
+      
+
+        public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync()
+        {
+            return await _pholioDataFetcher.FetchAgeDataAsync();
+        }
+
     }
 }

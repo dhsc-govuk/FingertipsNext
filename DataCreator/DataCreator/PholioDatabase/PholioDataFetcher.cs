@@ -178,8 +178,6 @@ SELECT
 	MaxYears
 FROM
 	[dbo].[L_Ages]
-WHERE
-	AgeID IN @ageIds
 ";
 
         public PholioDataFetcher(IConfiguration config)
@@ -417,10 +415,10 @@ WHERE
                 : (IEnumerable<HealthMeasureEntity>)(await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureNotUsingIndictorIdsSql, new { year = yearFrom, areaCodes, indicatorIds })).ToList();
         }
 
-        public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync(IEnumerable<int> ageIds)
+        public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            return (await connection.QueryAsync<AgeEntity>(AgeSql, new { ageIds})).ToList();
+            return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
         private async Task AddAreasToIndicators(IEnumerable<IndicatorEntity> indicators, SqlConnection connection)

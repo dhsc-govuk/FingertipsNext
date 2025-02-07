@@ -7,10 +7,10 @@
         public async Task CreateDataAsync()
         {
             var indicatorIds=DataFileManager.GetIndicatorIds();
+            var ageData= await _dataManager.GetAgeDataAsync();
             var areasWeWant=await _dataManager.CreateAreaDataAsync(addLongLat: false);
-            var ageIds=await _dataManager.CreateHealthDataAsync(areasWeWant, indicatorIds, useIndicators:false);
+            DataManager.CreateHealthDataAndAgeData(areasWeWant, indicatorIds, ageData, yearFrom:2018, useIndicators:false);
             await _dataManager.CreateIndicatorDataAsync(addAreasToIndicator: true);
-            await _dataManager.CreateAgeDataAsync(ageIds);
 
         }
     }

@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="data\in\" />
     <Folder Include="data\out\" />
   </ItemGroup>
 
