@@ -67,29 +67,7 @@ public class AreaServiceTests
     #region GetRootArea
 
     [Fact]
-    public async Task GetRootArea_ShouldDelegateToRepository()
-    {
-        CreateService();
-        _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
-
-        var result = await _service.GetRootArea();
-
-        await _mockRepository.Received().GetRootAreaAsync();
-    }
-
-    [Fact]
-    public async Task GetRootArea_ShouldReturnNull_IfRepositoryReturnsNull()
-    {
-        CreateService();
-        _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
-
-        var result = await _service.GetRootArea();
-
-        result.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task GetRootArea_ShouldReturnMappedArea_IfRepositoryReturnsArea()
+    public async Task GetRootArea_ShouldReturnEnglandALways()
     {
         CreateService();
         var mockArea = Fake.AreaModel;
@@ -97,7 +75,7 @@ public class AreaServiceTests
 
         var result = await _service.GetRootArea();
 
-        result.ShouldBeEquivalentTo(_mapper.Map<RootArea>(mockArea));
+        result.ShouldBeEquivalentTo(new RootArea { Name="England", Code="E92000001"});
     }
 
     #endregion
