@@ -926,6 +926,17 @@ exports[`Search Results Suite snapshot test 1`] = `
       class="c0 c1"
       data-testid="indicator-search-form"
     >
+       
+      <div
+        style="color: rgb(11, 12, 12); font-family: "nta", Arial, sans-serif; font-size: 19px; font-weight: 400; line-height: 25px; text-align: left; padding-bottom: 2px; margin-bottom: 0px;"
+      >
+        Search by Subject
+      </div>
+      <div
+        style="color: rgb(80, 90, 95); font-family: "nta", Arial, sans-serif; font-size: 19px; font-weight: 400; line-height: 25px; text-align: left; margin-bottom: 15px;"
+      >
+        For example smoking, diabetes prevalence, or a specific indicator ID
+      </div>
       <div
         class="c2 c3"
       >
