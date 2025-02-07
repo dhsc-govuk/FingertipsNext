@@ -12,6 +12,16 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchBox = `indicator-search-form-input`;
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
+  readonly areaFilterContainer = 'area-filter-container';
+
+  async areaFilterOptionsText() {
+    const options = await this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('option')
+      .all();
+
+    return Promise.all(options.map((l) => l.getAttribute('value')));
+  }
 
   async checkSearchResults(searchTerm: string) {
     await expect(
