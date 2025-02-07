@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -7,7 +7,14 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
-import { ThematicMap } from '@/components/organisms/ThematicMap';
+
+jest.mock('@/components/organisms/ThematicMap/', () => {
+  return {
+    ThematicMap: function ThematicMap() {
+      return <div data-testid="thematicMap-component"></div>;
+    },
+  };
+});
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -102,14 +109,14 @@ it('should not render the scatterChart component when only 1 indicator is select
   expect(scatterChart).not.toBeInTheDocument();
 });
 
-it('should render the ThematicMap component when map data are provided', async () => {
-  const areaType: string = 'Regions Statistical';
+it('should render the ThematicMap component when all map props are provided', async () => {
+  const areaType = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
   const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
   render(
-    <ThematicMap
-      data={mockHealthData['Mock 318 for West Midlands CA']}
+    <Chart
+      data={[mockHealthData['318']]}
       mapData={mapData}
       mapJoinKey={mapJoinKey}
       mapGroup={mapGroup}
@@ -118,4 +125,29 @@ it('should render the ThematicMap component when map data are provided', async (
 
   const thematicMap = await screen.findByTestId('thematicMap-component');
   expect(thematicMap).toBeInTheDocument();
+});
+
+it('should render the ThematicMap component when all map props are provided', () => {
+  const areaType = 'Regions Statistical';
+  const mapData = getMapFile(areaType);
+  const mapJoinKey = getMapJoinKey(areaType);
+  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
+  render(
+    <Chart
+      data={[mockHealthData['318']]}
+      mapData={mapData}
+      mapJoinKey={mapJoinKey}
+      mapGroup={mapGroup}
+    />
+  );
+
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+  expect(thematicMap).toBeInTheDocument();
+});
+
+it('should _not_ render the ThematicMap component when map props are _not_ provided', async () => {
+  render(<Chart data={[mockHealthData['318']]} />);
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+
+  expect(thematicMap).not.toBeInTheDocument();
 });
