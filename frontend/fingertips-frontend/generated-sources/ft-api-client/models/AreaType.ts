@@ -20,7 +20,13 @@ import { mapValues } from '../runtime';
  */
 export interface AreaType {
     /**
-     * The name of the area type
+     * The key name of the area type
+     * @type {string}
+     * @memberof AreaType
+     */
+    areaTypeKey?: string;
+    /**
+     * The name of the area type for presentation
      * @type {string}
      * @memberof AreaType
      */
@@ -59,6 +65,7 @@ export function AreaTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'areaTypeKey': json['areaTypeKey'] == null ? undefined : json['areaTypeKey'],
         'name': json['name'],
         'level': json['level'],
         'hierarchyName': json['hierarchyName'],
@@ -76,6 +83,7 @@ export function AreaTypeToJSONTyped(value?: AreaType | null, ignoreDiscriminator
 
     return {
         
+        'areaTypeKey': value['areaTypeKey'],
         'name': value['name'],
         'level': value['level'],
         'hierarchyName': value['hierarchyName'],
