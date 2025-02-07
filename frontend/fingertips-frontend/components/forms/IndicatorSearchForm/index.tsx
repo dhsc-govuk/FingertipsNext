@@ -5,6 +5,7 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 
 const govukRed = '#d4351c';
 const govukErrorBorderWidth = '2px';
+const govukBlack = '#0b0c0c';
 
 const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -26,7 +27,34 @@ export const IndicatorSearchForm = ({
         </ErrorText>
       ) : (
         ''
-      )}
+      )}{' '}
+      <div
+        style={{
+          color: govukBlack,
+          fontFamily: '"nta", Arial, sans-serif',
+          fontSize: '19px',
+          fontWeight: 400,
+          lineHeight: '25px',
+          textAlign: 'left',
+          paddingBottom: '2px',
+          marginBottom: '0px',
+        }}
+      >
+        Search by Subject
+      </div>
+      <div
+        style={{
+          color: '#505a5f',
+          fontFamily: '"nta", Arial, sans-serif',
+          fontSize: '19px',
+          fontWeight: 400,
+          lineHeight: '25px',
+          textAlign: 'left',
+          marginBottom: '15px',
+        }}
+      >
+        For example smoking, diabetes prevalence, or a specific indicator ID
+      </div>
       <StyledSearchBox>
         {SearchBox.Input && (
           <SearchBox.Input
