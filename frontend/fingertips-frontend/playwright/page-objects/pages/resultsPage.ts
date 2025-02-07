@@ -90,6 +90,7 @@ export default class ResultsPage extends BasePage {
             `results?${SearchParams.SearchedIndicator}=${searchTerm}`
           ) &&
         response.status() === 200 &&
+        response.request().method() === 'GET' &&
         (await response.text()).includes(searchTerm) &&
         (await response.text()).includes(indicatorIDs[0])
     );
@@ -98,7 +99,6 @@ export default class ResultsPage extends BasePage {
 
     const response = await responsePromise;
     const responseText = await response.text();
-
     expect(responseText).toContain(searchTerm);
     for (const indicatorID in indicatorIDs) {
       expect(responseText).toContain(indicatorID);

@@ -131,11 +131,11 @@ test.describe('Search via indicator', () => {
       const options = await resultsPage.areaFilterOptionsText();
       test.expect(options).toHaveLength(expectedOptions.length);
       test
-        .expect(sortAlphabeticially(options))
-        .toEqual(sortAlphabeticially(expectedOptions));
+        .expect(sortAlphabetically(options))
+        .toEqual(sortAlphabetically(expectedOptions));
     });
   });
 
-  const sortAlphabeticially = (array: (string | null)[]) =>
+  const sortAlphabetically = (array: (string | null)[]) =>
     array.sort((a, b) => a!.localeCompare(b!));
 });
