@@ -112,9 +112,6 @@ test.describe('Search via indicator', () => {
     });
 
     await test.step('Check available area types', async () => {
-      const options = await resultsPage.areaFilterOptionsText();
-      test.expect(options).toHaveLength(7);
-
       const expectedOptions = [
         'Counties & UAs',
         'Country',
@@ -124,12 +121,9 @@ test.describe('Search via indicator', () => {
         'PCN',
         'Regions Statistical',
       ];
-
-      expectedOptions.forEach((option) => {
-        test
-          .expect(options.findIndex((o) => o == option))
-          .toBeGreaterThanOrEqual(0);
-      });
+      const options = await resultsPage.areaFilterOptionsText();
+      test.expect(options).toHaveLength(expectedOptions.length);
+      test.expect(options.sort()).toEqual(expectedOptions.sort());
     });
   });
 });
