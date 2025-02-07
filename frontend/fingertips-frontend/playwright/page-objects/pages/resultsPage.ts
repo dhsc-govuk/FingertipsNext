@@ -83,12 +83,15 @@ export default class ResultsPage extends BasePage {
     indicatorIDs: string[]
   ) {
     const responsePromise = this.page.waitForResponse(
-      (response) =>
+      async (response) =>
         response
           .url()
           .includes(
             `results?${SearchParams.SearchedIndicator}=${searchTerm}`
-          ) && response.status() === 200
+          ) &&
+        response.status() === 200 &&
+        (await response.text()).includes(searchTerm) &&
+        (await response.text()).includes(indicatorIDs[0])
     );
 
     await this.clickIndicatorSearchButton();
