@@ -16,9 +16,9 @@ export default class ResultsPage extends BasePage {
 
   async areaFilterOptionsText() {
     const options = await this.page
-        .getByTestId(this.areaFilterContainer)
-        .getByRole('option')
-        .all();
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('option')
+      .all();
 
     return Promise.all(options.map((l) => l.getAttribute('value')));
   }
