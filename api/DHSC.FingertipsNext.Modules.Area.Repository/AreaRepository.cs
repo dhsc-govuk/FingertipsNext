@@ -41,12 +41,15 @@ public class AreaRepository : IAreaRepository
     /// <returns></returns>
     public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType)
     {
-        IQueryable<AreaTypeModel> areaTypes = _dbContext.AreaType;
-
+        IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
-            return await areaTypes.Where(a => a.HierarchyType == hierarchyType).ToListAsync();
+            areaTypes = _dbContext.AreaType.Where(a => a.HierarchyType == hierarchyType);
+        else
+            areaTypes = _dbContext.AreaType;
 
-        return await areaTypes.ToListAsync();
+        var list = await areaTypes.ToListAsync();
+        list.Add(new AreaTypeModel { AreaTypeKey = "england", Level = 1, HierarchyType = "All", AreaTypeName = "England" });
+        return list;
     }
 
     /// <summary>
