@@ -14,7 +14,8 @@ public class AreaTypeModel
     /// The database key for the area
     /// </summary>
     [Key]
-    public required int AreaTypeKey { get; set; }
+    [MaxLength(50)]
+    public required string AreaTypeKey { get; set; }
 
     /// <summary>
     /// The level of the area type in the hierarchy
@@ -30,12 +31,7 @@ public class AreaTypeModel
     /// <summary>
     /// The name of the area type for display
     /// </summary>
-    [MaxLength(80)]
+    [MaxLength(50)]
     public required string AreaTypeName { get; set; }
 
-    /// <summary>
-    /// The name of the area type for use in url
-    /// </summary>
-    [MaxLength(80)]
-    public required string AreaTypeUrlName { get; set; }
 }

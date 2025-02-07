@@ -3,10 +3,19 @@
 namespace DHSC.FingertipsNext.Modules.Area.Schemas;
 
 /// <summary>
-/// An area type e.g. PCN or GP
+/// An area type e.g. 'Region' or 'Integrated Care Board'
 /// </summary>
 public class AreaType
 {
+    /// <summary>
+    /// The name of the area type for use in urls
+    /// </summary>
+    /// <remarks>
+    /// e.g. nhs-region
+    /// </remarks>
+    [JsonPropertyName("areaTypeKey")]
+    public required string AreaTypeKey { get; init; }
+
     /// <summary>
     /// The name of the area type
     /// </summary>
@@ -17,13 +26,13 @@ public class AreaType
     public required string Name { get; init; }
 
     /// <summary>
-    /// The name of the area type for use in urls
+    /// The name of the associated hierarchy for the area / geography
     /// </summary>
     /// <remarks>
-    /// e.g. nhs-region
+    /// e.g. NHS
     /// </remarks>
-    [JsonPropertyName("urlName")]
-    public required string UrlName { get; init; }
+    [JsonPropertyName("hierarchyName")]
+    public required string HierarchyName { get; init; }
 
     /// <summary>
     /// The level in the hierarchy
@@ -33,13 +42,4 @@ public class AreaType
     /// </remarks>
     [JsonPropertyName("level")]
     public int Level { get; init; }
-    
-    /// <summary>
-    /// The name of the associated hierarchy for the area / geography
-    /// </summary>
-    /// <remarks>
-    /// e.g. NHS
-    /// </remarks>
-    [JsonPropertyName("hierarchyName")]
-    public required string HierarchyName { get; init; }
-}
+ }
