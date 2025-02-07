@@ -74,11 +74,11 @@ public class AreaService : IAreaService
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="areaType"></param>
+    /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public async Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaType)
+    public async Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey)
     {
-        var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaType);
+        var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey);
         
         return _mapper.Map<List<Schemas.Area>>(areas);
     }
