@@ -1,5 +1,3 @@
-// TODO: test
-
 const mapJoinKeyEncoder: Record<string, string> = {
   'Regions Statistical': 'RGN23CD',
   'Counties & UAs': 'CTYUA23CD',
