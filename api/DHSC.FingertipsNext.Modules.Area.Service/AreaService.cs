@@ -89,9 +89,7 @@ public class AreaService : IAreaService
     /// <returns></returns>
     public async Task<RootArea?> GetRootArea()
     {
-        var rootArea = await _areaRepository.GetRootAreaAsync();
-
-        return rootArea == null ? null : _mapper.Map<RootArea>(rootArea);
+        return _mapper.Map<RootArea>(new RootArea { Name="England", Code= "E92000001" });
     }
 
     /// <summary>
