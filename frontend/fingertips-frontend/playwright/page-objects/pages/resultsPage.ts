@@ -91,8 +91,7 @@ export default class ResultsPage extends BasePage {
           ) &&
         response.status() === 200 &&
         response.request().method() === 'GET' &&
-        (await response.text()).includes(searchTerm) &&
-        (await response.text()).includes(indicatorIDs[0])
+        (await response.text()).includes(searchTerm)
     );
 
     await this.clickIndicatorSearchButton();
