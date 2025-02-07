@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -109,24 +109,6 @@ it('should not render the scatterChart component when only 1 indicator is select
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
-});
-
-it('should render the ThematicMap component when all map props are provided', async () => {
-  const areaType = 'Regions Statistical';
-  const mapData = getMapFile(areaType);
-  const mapJoinKey = getMapJoinKey(areaType);
-  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
-  render(
-    <Chart
-      data={[mockHealthData['318']]}
-      mapData={mapData}
-      mapJoinKey={mapJoinKey}
-      mapGroup={mapGroup}
-    />
-  );
-
-  const thematicMap = await screen.findByTestId('thematicMap-component');
-  expect(thematicMap).toBeInTheDocument();
 });
 
 it('should render the ThematicMap component when all map props are provided', () => {
