@@ -1,5 +1,6 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
+import Highcharts from 'highcharts';
 
 export function sortHealthDataByDate(
   data: HealthDataForArea[]
@@ -42,3 +43,11 @@ export enum LineChartTableHeadingEnum {
 }
 
 export const LIGHT_GREY = '#b1b4b6';
+
+export function showConfidenceIntervals(data: HealthDataForArea[]): Highcharts.SeriesOptionsType[] {
+  return data.map<Highcharts.SeriesOptionsType>((item) => ({
+    type: 'errorbar',
+    name: `${item.areaName}`,
+    data: item.healthData.map((point) => [point.year, point.lowerCi, point.upperCi]),
+  }));
+};

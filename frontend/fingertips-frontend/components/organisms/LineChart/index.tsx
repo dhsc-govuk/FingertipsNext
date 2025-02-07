@@ -5,9 +5,10 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
-import { ConfidenceIntervalCheckbox } from '@/components/organisms/ConfidenceIntervalCheckbox';
+import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
+import "highcharts/highcharts-more";
 
 interface LineChartProps {
   LineChartTitle?: string;
