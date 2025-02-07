@@ -123,7 +123,12 @@ test.describe('Search via indicator', () => {
       ];
       const options = await resultsPage.areaFilterOptionsText();
       test.expect(options).toHaveLength(expectedOptions.length);
-      test.expect(options.sort()).toEqual(expectedOptions.sort());
+      test
+        .expect(sortAlphabeticially(options))
+        .toEqual(sortAlphabeticially(expectedOptions));
     });
   });
+
+  const sortAlphabeticially = (array: (string | null)[]) =>
+    array.sort((a, b) => a!.localeCompare(b!));
 });
