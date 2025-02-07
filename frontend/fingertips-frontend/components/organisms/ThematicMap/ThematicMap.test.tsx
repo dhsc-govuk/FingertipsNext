@@ -12,7 +12,7 @@ it('should render the map title', async () => {
   const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
   render(
     <ThematicMap
-      data={mockHealthData['Mock 318 for West Midlands CA']}
+      data={mockHealthData['318']}
       mapData={mapData}
       mapJoinKey={mapJoinKey}
       mapGroup={mapGroup}
@@ -31,7 +31,7 @@ it('should render the ThematicMap component', async () => {
   const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
   render(
     <ThematicMap
-      data={mockHealthData['Mock 318 for West Midlands CA']}
+      data={mockHealthData['318']}
       mapData={mapData}
       mapJoinKey={mapJoinKey}
       mapGroup={mapGroup}
