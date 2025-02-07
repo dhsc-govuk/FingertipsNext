@@ -25,19 +25,29 @@ export default class ResultsPage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL(
+    await this.checkURLMatches(
       `results?${SearchParams.SearchedIndicator}=${queryParams}`
     );
   }
 
-  async clickIndicatorCheckboxes(indicatorIds: string[]) {
-    for (const indicatorId of indicatorIds) {
-      const checkbox = this.page.getByTestId(
-        `${this.indicatorCheckboxPrefix}-${indicatorId}`
+  async selectIndicatorCheckboxes(indicatorIDs: string[]) {
+    for (const indicatorID of indicatorIDs) {
+      let checkbox = undefined;
+      checkbox = this.page.getByTestId(
+        `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
-      await checkbox.waitFor({ state: 'visible' });
+
+      await expect(checkbox).toBeAttached();
+      await expect(checkbox).toBeVisible();
+      await expect(checkbox).toBeInViewport();
       await expect(checkbox).toBeEnabled();
-      await checkbox.click({ delay: 100 });
+      await expect(checkbox).toBeEditable();
+      await expect(checkbox).toBeChecked({ checked: false });
+
+      await checkbox.check({ force: true, timeout: 2000 });
+
+      await expect(checkbox).toBeChecked();
+      await this.waitForURLToContain(indicatorID);
     }
   }
 
@@ -57,6 +67,30 @@ export default class ResultsPage extends BasePage {
 
   async clickIndicatorSearchButton() {
     await this.page.getByTestId(this.indicatorSearchButton).click();
+  }
+
+  async clickIndicatorSearchButtonAndWait(
+    searchTerm: string,
+    indicatorIDs: string[]
+  ) {
+    const responsePromise = this.page.waitForResponse(
+      (response) =>
+        response
+          .url()
+          .includes(
+            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
+          ) && response.status() === 200
+    );
+
+    await this.page.getByTestId(this.indicatorSearchButton).click();
+
+    const response = await responsePromise;
+    const responseText = await response.text();
+
+    expect(responseText).toContain(searchTerm);
+    for (const indicatorID in indicatorIDs) {
+      expect(responseText).toContain(indicatorID);
+    }
   }
 
   async checkForIndicatorSearchError() {
