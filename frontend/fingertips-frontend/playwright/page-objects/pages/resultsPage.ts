@@ -32,8 +32,7 @@ export default class ResultsPage extends BasePage {
 
   async selectIndicatorCheckboxes(indicatorIDs: string[]) {
     for (const indicatorID of indicatorIDs) {
-      let checkbox = undefined;
-      checkbox = this.page.getByTestId(
+      const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
 
@@ -82,7 +81,7 @@ export default class ResultsPage extends BasePage {
           ) && response.status() === 200
     );
 
-    await this.page.getByTestId(this.indicatorSearchButton).click();
+    await this.clickIndicatorSearchButton();
 
     const response = await responsePromise;
     const responseText = await response.text();
