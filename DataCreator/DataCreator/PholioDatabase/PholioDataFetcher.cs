@@ -9,8 +9,8 @@ namespace DataCreator.PholioDatabase
         private readonly IConfiguration _config;
         private readonly List<AreaMap> _map;
         private const string Region = "Region";
-        private const string Administrative = "Administrative";
-        private const string NHS = "NHS";
+        public const string Administrative = "Administrative";
+        public const string NHS = "NHS";
         private const string UA = "Unitary Authority";
         private const string NHSREGION = "NHS Region";
         private const string DISTRICT = "District";
@@ -124,7 +124,7 @@ JOIN
 	[dbo].[L_Polarity] polarity ON gr.PolarityID = polarity.PolarityID
 ";
 
-        private readonly string HealthMeasureSql = @"
+        private readonly string HealthMeasureUsingIndictorIdsSql = @"
 SELECT
     [IndicatorID],
     [Year],
@@ -146,6 +146,40 @@ AND
     IndicatorID IN @indicatorIds
 ORDER BY 
     IndicatorID, AreaCode
+";
+
+        private readonly string HealthMeasureNotUsingIndictorIdsSql = @"
+SELECT
+    [IndicatorID],
+    [Year],
+    [AgeID],
+    [SexID],
+    [AreaCode],
+    [Count],
+    [Value],
+    [LowerCI95] LowerCI,
+    [UpperCI95] UpperCI,
+    [Denominator]
+FROM 
+	[PHOLIO_DEV].[dbo].[CoreDataSet]
+WHERE
+	Year > @year
+AND
+	AreaCode IN @areaCodes
+ORDER BY 
+    IndicatorID, AreaCode
+";
+
+        private readonly string AgeSql = @"
+SELECT
+	AgeID,
+	Age,
+	MinYears,
+	MaxYears
+FROM
+	[dbo].[L_Ages]
+WHERE
+	AgeID IN @ageIds
 ";
 
         public PholioDataFetcher(IConfiguration config)
@@ -327,6 +361,8 @@ ORDER BY
                 if (present)
                     child.IsDirect = area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
             }
+            if(area.AreaCode== "E92000001")
+                allChildren = areas.Values.Where(a=>a.Level==1).Select(a=>new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
             
             return allChildren.Where(x => x.IsDirect).ToList();
         }
@@ -373,12 +409,18 @@ ORDER BY
             return indicators.ToList();
         }
 
-        public async Task<IEnumerable<HealthMeasureEntity>> FetchHealthDataAsync(int yearFrom, IEnumerable<string> areaCodes, IEnumerable<int> indicatorIds)
+        public async Task<IEnumerable<HealthMeasureEntity>> FetchHealthDataAsync(int yearFrom, IEnumerable<string> areaCodes, IEnumerable<int> indicatorIds, bool useIndicatorIds=false)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+            return useIndicatorIds
+                ? (await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureUsingIndictorIdsSql, new {year=yearFrom, areaCodes, indicatorIds })).ToList()
+                : (IEnumerable<HealthMeasureEntity>)(await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureNotUsingIndictorIdsSql, new { year = yearFrom, areaCodes, indicatorIds })).ToList();
+        }
 
-            var healthMeasures = (await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureSql, new {year=yearFrom, areaCodes, indicatorIds })).ToList();
-            return healthMeasures;
+        public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync(IEnumerable<int> ageIds)
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+            return (await connection.QueryAsync<AgeEntity>(AgeSql, new { ageIds})).ToList();
         }
 
         private async Task AddAreasToIndicators(IEnumerable<IndicatorEntity> indicators, SqlConnection connection)

@@ -30,7 +30,7 @@ namespace MyApp
                 .AddSingleton<DataCreatorApplication>()
                 .AddSingleton<PholioDataFetcher>()
                 .AddSingleton<PostcodeFetcher>()
-                .AddSingleton<DataFileWriter>()
+                .AddSingleton<DataFileManager>()
                 .AddSingleton<DataManager>()
                 .BuildServiceProvider();
 
