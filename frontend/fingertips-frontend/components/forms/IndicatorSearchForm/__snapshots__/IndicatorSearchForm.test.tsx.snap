@@ -106,7 +106,6 @@ exports[`snapshot test - renders the form 1`] = `
     class="c0 c1"
     data-testid="indicator-search-form"
   >
-     
     <div
       style="color: rgb(11, 12, 12); font-family: "nta", Arial, sans-serif; font-size: 19px; font-weight: 400; line-height: 25px; text-align: left; padding-bottom: 2px; margin-bottom: 0px;"
     >
