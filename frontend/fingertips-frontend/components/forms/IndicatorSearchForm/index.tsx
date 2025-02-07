@@ -3,9 +3,10 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 
+const govukBlack = '#0b0c0c';
+const govukLightGrey = '#505a5f';
 const govukRed = '#d4351c';
 const govukErrorBorderWidth = '2px';
-const govukBlack = '#0b0c0c';
 
 const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -44,7 +45,7 @@ export const IndicatorSearchForm = ({
       </div>
       <div
         style={{
-          color: '#505a5f',
+          color: govukLightGrey,
           fontFamily: '"nta", Arial, sans-serif',
           fontSize: '19px',
           fontWeight: 400,
