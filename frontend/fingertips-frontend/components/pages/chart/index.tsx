@@ -51,28 +51,19 @@ export function Chart({
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
-      <H2>View Dementia QOF prevalence</H2>
-      {data.length === 1 && mapData && mapJoinKey && mapGroup ? (
-        <ThematicMap
-          data={data[0]}
-          mapData={mapData}
-          mapJoinKey={mapJoinKey}
-          mapGroup={mapGroup}
-          mapTitle="Compare indicators within the area group"
-        />
-      ) : null}
-      {populationData ? (
-        <>
-          <PopulationPyramid
-            data={populationData}
-            populationPyramidTitle="Population INDICATOR for SELECTED area"
-            xAxisTitle="Age"
-            yAxisTitle="Percentage of total population"
-            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
-          />
-          <br />
-        </>
-      ) : null}
+      <H2>View data for selected indicators and areas</H2>
+      <LineChart
+        LineChartTitle="See how the indicator has changed over time"
+        data={dataWithoutEngland}
+        benchmarkData={englandBenchmarkData}
+        xAxisTitle="Year"
+        accessibilityLabel="A line chart showing healthcare data"
+      />
+      <LineChartTable
+        data={data[0][0]}
+        englandBenchmarkData={englandBenchmarkData}
+      />
+      <br />
       {indicatorsSelected.length == 2 ? (
         <>
           <ScatterChart
@@ -104,6 +95,18 @@ export function Chart({
             yAxisTitle="Percentage of total population"
             accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
           />
+        </>
+      ) : null}
+      {data.length === 1 && mapData && mapJoinKey && mapGroup ? (
+        <>
+          <ThematicMap
+            data={data[0]}
+            mapData={mapData}
+            mapJoinKey={mapJoinKey}
+            mapGroup={mapGroup}
+            mapTitle="Compare indicators within the area group"
+          />
+          <br />
         </>
       ) : null}
     </>
