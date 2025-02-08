@@ -5,9 +5,19 @@ on:
   push:
     branches:
       - "**"
+    paths:
+      - api/**
+      - database/fingertips-db/**
+      - frontend/fingertips-frontend/**
+      - terraform/**
   pull_request:
     branches:
       - main
+    paths:
+      - api/**
+      - database/fingertips-db/**
+      - frontend/fingertips-frontend/**
+      - terraform/**
 
 jobs:
   check-changes:
