@@ -34,7 +34,6 @@ jobs:
   build-and-push:
     name: Build and Push Container
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
