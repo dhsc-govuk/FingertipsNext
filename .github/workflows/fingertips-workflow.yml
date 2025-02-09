@@ -230,7 +230,7 @@ jobs:
         working-directory: ./database/fingertips-db
     if: >
       always() && !failure() && !cancelled() &&
-      github.ref_name == 'feature/DHSCFT-318_refactor-workflows' &&
+      github.ref_name == 'main' &&
       github.event_name != 'pull_request' &&
       needs.check-changes.outputs.db_changed == 'true'
     steps:
@@ -256,8 +256,8 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       (
-        github.head_ref == 'feature/DHSCFT-318_refactor-workflows' ||
-        github.ref_name == 'feature/DHSCFT-318_refactor-workflows'
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
       ) &&
       (
         github.event_name == 'workflow_dispatch' ||
@@ -317,8 +317,8 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       (
-        github.head_ref == 'feature/DHSCFT-318_refactor-workflows' ||
-        github.ref_name == 'feature/DHSCFT-318_refactor-workflows'
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
       ) &&
       (
         github.event_name == 'workflow_dispatch' ||
@@ -380,7 +380,7 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'feature/DHSCFT-318_refactor-workflows' &&
+      github.ref_name == 'main' &&
       (
         needs.check-changes.outputs.db_changed == 'true' ||
         needs.check-changes.outputs.api_changed == 'true' ||
