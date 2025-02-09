@@ -103,7 +103,7 @@ jobs:
           path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
           if-no-files-found: error
 
-  api-build:
+  api-build-and-test:
     needs: [check-changes, determine-version]
     if: >
       github.event_name == 'workflow_dispatch' ||
@@ -136,7 +136,7 @@ jobs:
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [api-build, determine-version]
+    needs: [api-build-and-test, determine-version]
     with:
       context-location: api
       container-tag: dhsc.fingertipsnext.api
@@ -147,7 +147,7 @@ jobs:
       arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
       acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
-  frontend-build:
+  frontend-build-and-test:
     needs: [check-changes, determine-version]
     if: >
       github.event_name == 'workflow_dispatch' ||
@@ -189,9 +189,16 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+  e2e-tests-local:
+    needs: [check-changes, frontend-build-and-test]
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.frontend_changed == 'true'
+    uses: ./.github/workflows/e2e-tests.yml
+
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, frontend-build]
+    needs: [determine-version, frontend-build-and-test, e2e-tests-local]
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
