@@ -134,19 +134,6 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test
 
-  push-container-api:
-    uses: ./.github/workflows/build-container.yml
-    needs: [api-build-and-test, determine-version]
-    with:
-      context-location: api
-      container-tag: dhsc.fingertipsnext.api
-      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
-      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
-    secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
-
   frontend-build-and-test:
     needs: [check-changes, determine-version]
     if: >
@@ -190,15 +177,37 @@ jobs:
         run: npm run test-ci
 
   e2e-tests-local:
-    needs: [check-changes, frontend-build-and-test]
+    needs: [
+      check-changes,
+      database-build,
+      frontend-build-and-test,
+      api-build-and-test
+    ]
     if: >
       github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.frontend_changed == 'true'
+      (
+        needs.check-changes.outputs.db_changed == 'true' ||
+        needs.check-changes.outputs.api_changed == 'true' || 
+        needs.check-changes.outputs.frontend_changed == 'true'
+      )
     uses: ./.github/workflows/e2e-tests.yml
+
+  push-container-api:
+    uses: ./.github/workflows/build-container.yml
+    needs: [determine-version, e2e-tests-local]
+    with:
+      context-location: api
+      container-tag: dhsc.fingertipsnext.api
+      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
+      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
+    secrets:
+      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, frontend-build-and-test, e2e-tests-local]
+    needs: [determine-version, e2e-tests-local]
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
@@ -210,7 +219,12 @@ jobs:
       acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   deploy-db-dev:
-    needs: [determine-version, check-changes, database-build, push-container-api, push-container-frontend]
+    needs: [
+      determine-version,
+      check-changes,
+      push-container-api,
+      push-container-frontend
+    ]
     environment: development
     runs-on: windows-latest
     defaults:
@@ -236,7 +250,11 @@ jobs:
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
 
   deploy-api-dev:
-    needs: [determine-version, check-changes, deploy-db-dev]
+    needs: [
+      determine-version,
+      check-changes,
+      deploy-db-dev
+    ]
     if: >
       always() && !failure() && !cancelled() &&
       (
@@ -294,7 +312,11 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   deploy-frontend-dev:
-    needs: [determine-version, check-changes, deploy-api-dev]
+    needs: [
+      determine-version,
+      check-changes,
+      deploy-api-dev
+    ]
     if: >
       always() && !failure() && !cancelled() &&
       (
