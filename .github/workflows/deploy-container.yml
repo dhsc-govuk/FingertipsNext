@@ -66,6 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ inputs.source_trigger == 'pull_request' }}
     name: Validate Container Deployment - ${{ inputs.container_name }}
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
