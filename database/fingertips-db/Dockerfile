@@ -1,4 +1,3 @@
-# TEST COMMENT
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dacpacbuild
 WORKDIR /dacpac
 COPY . .
