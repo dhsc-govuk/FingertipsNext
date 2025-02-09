@@ -268,7 +268,6 @@ jobs:
       environment: development
       tf_state_file_name: fingertips.api.tfstate
       tf_environment: dev
-      source_branch: ${{ github.ref_name }}
       source_trigger: ${{ github.event_name }}
       container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
       container_name: "fingertips-api"
@@ -330,7 +329,6 @@ jobs:
       environment: development
       tf_state_file_name: fingertips.frontend.tfstate
       tf_environment: dev
-      source_branch: ${{ github.ref_name }}
       source_trigger: ${{ github.event_name }}
       container_image_tag: 'dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}'
       container_name: "fingertips-frontend"
