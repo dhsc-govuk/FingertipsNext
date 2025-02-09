@@ -199,7 +199,6 @@ jobs:
       context-location: api
       container-tag: dhsc.fingertipsnext.api
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
-      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
     secrets:
       arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
       arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -212,7 +211,6 @@ jobs:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
-      git-full-semver: ${{ needs.determine-version.outputs.full-sem-ver }}
     secrets:
       arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
       arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}

@@ -17,9 +17,6 @@ on:
       sem-ver:
         description: "Semantic version number"
         value: ${{ jobs.determine-semver.outputs.sem-ver }}
-      full-sem-ver:
-        description: "Full semantic version number"
-        value: ${{ jobs.determine-semver.outputs.full-sem-ver }}
 
 jobs:
   determine-semver:
@@ -28,7 +25,6 @@ jobs:
 
     outputs:
       sem-ver: ${{ steps.version_step.outputs.semVer }}
-      full-sem-ver: ${{ steps.version_step.outputs.fullSemVer }}
 
     steps:
       - name: Checkout Source

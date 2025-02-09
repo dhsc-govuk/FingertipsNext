@@ -15,10 +15,6 @@ on:
         description: 'Semantic version of the build'
         required: true
         type: string
-      git-full-semver:
-        description: 'Full semantic version of the build'
-        required: true
-        type: string
     secrets:
       arm-client-id:
         description: 'Service Principal Client ID'
@@ -60,7 +56,6 @@ jobs:
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ inputs.git-semver }}
-            type=raw,value=${{ inputs.full-sem-ver }}
 
       - name: Build and push container
         uses: docker/build-push-action@v6
