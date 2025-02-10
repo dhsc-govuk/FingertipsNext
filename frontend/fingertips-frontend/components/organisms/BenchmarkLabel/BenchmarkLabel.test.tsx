@@ -63,7 +63,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
   ])('%s', (_, group, type, expected) => {
-    const result = getDefaultBenchmarkTagStyle(group, type);
+    const result = getDefaultBenchmarkTagStyle(group, type as BenchmarkLabelType);
     expect(result).toEqual(expected);
   });
 });
