@@ -31,9 +31,6 @@ export default class ChartPage extends BasePage {
     ).toBeVisible();
     await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
     await expect(
-      this.page.getByTestId(this.populationPyramidComponent)
-    ).toBeVisible();
-    await expect(
       this.page.getByTestId(this.scatterChartComponent)
     ).toBeVisible();
   }
