@@ -25,27 +25,15 @@ export default class ChartPage extends BasePage {
   }
 
   async checkChartAndChartTable(isMultipleIndicators: boolean) {
-    if (isMultipleIndicators) {
-      await expect(
-        this.page.getByTestId(this.lineChartComponent)
-      ).not.toBeVisible();
-      await expect(
-        this.page.getByTestId(this.lineChartTableComponent)
-      ).not.toBeVisible();
-      await expect(
-        this.page.getByTestId(this.scatterChartComponent)
-      ).toBeVisible();
-    } else {
-      await expect(
-        this.page.getByTestId(this.lineChartComponent)
-      ).toBeVisible();
-      await expect(
-        this.page.getByTestId(this.lineChartTableComponent)
-      ).toBeVisible();
-      await expect(
-        this.page.getByTestId(this.scatterChartComponent)
-      ).not.toBeVisible();
-    }
+    expect(
+      await this.page.getByTestId(this.lineChartComponent).isVisible()
+    ).toBe(!isMultipleIndicators);
+    expect(
+      await this.page.getByTestId(this.lineChartTableComponent).isVisible()
+    ).toBe(!isMultipleIndicators);
+    expect(
+      await this.page.getByTestId(this.scatterChartComponent).isVisible()
+    ).toBe(isMultipleIndicators);
 
     await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
     await expect(
