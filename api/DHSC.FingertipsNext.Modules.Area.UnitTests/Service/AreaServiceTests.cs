@@ -67,7 +67,7 @@ public class AreaServiceTests
     #region GetRootArea
 
     [Fact]
-    public async Task GetRootArea_ShouldReturnEnglandALways()
+    public async Task GetRootArea_ShouldReturnEnglandAlways()
     {
         CreateService();
         var mockArea = Fake.AreaModel;
