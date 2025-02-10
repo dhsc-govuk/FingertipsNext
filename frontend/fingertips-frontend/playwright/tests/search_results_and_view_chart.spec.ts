@@ -115,7 +115,7 @@ test.describe('Search via indicator', () => {
       await homePage.checkURLIsCorrect();
       await homePage.typeIndicator(searchTerm);
       await homePage.clickSearchButton();
-      await resultsPage.checkURLIsCorrect(searchTerm);
+      await resultsPage.waitForURLToContain(searchTerm);
     });
 
     await test.step('Check available area types', async () => {
