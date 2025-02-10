@@ -64,8 +64,8 @@ export function AreaTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         return json;
     }
     return {
-        
-        'areaTypeKey': json['areaTypeKey'] == null ? undefined : json['areaTypeKey'],
+
+        'areaTypeKey': json['areaTypeKey'] ?? undefined,
         'name': json['name'],
         'level': json['level'],
         'hierarchyName': json['hierarchyName'],
@@ -82,7 +82,7 @@ export function AreaTypeToJSONTyped(value?: AreaType | null, ignoreDiscriminator
     }
 
     return {
-        
+
         'areaTypeKey': value['areaTypeKey'],
         'name': value['name'],
         'level': value['level'],
