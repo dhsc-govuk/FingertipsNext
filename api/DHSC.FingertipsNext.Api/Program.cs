@@ -14,9 +14,11 @@ public static class Program
     private static readonly string ApplicationInsightsConnectionString = "APPLICATIONINSIGHTS_CONNECTION_STRING";
     public static void Main(string[] args)
     {
-        // support for .env file
-        Env.Load();
-
+        #if DEBUG
+            // support for .env file
+            Env.Load(string.Empty, new LoadOptions(true, true, false));
+        #endif
+        
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services
