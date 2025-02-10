@@ -3,7 +3,7 @@ import {
   BenchmarkLabel,
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
-  getBenchmarkLabelStyle,
+  getDefaultBenchmarkTagStyle,
 } from '@/components/organisms/BenchmarkLabel/index';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
@@ -32,7 +32,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.HIGH,
       {
         backgroundColor: '#8B60E2',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
     ],
     [
@@ -60,11 +60,11 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: '#812972',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
     ],
   ])('%s', (_, group, type, expected) => {
-    const result = getBenchmarkLabelStyle(group, type);
+    const result = getDefaultBenchmarkTagStyle(group, type);
     expect(result).toEqual(expected);
   });
 });
@@ -95,7 +95,7 @@ describe('Testing the BenchmarkLabel Component ', () => {
     );
 
     expect(container.firstChild).toHaveStyle(
-      'background-color: var(--other-dark-blue, #003078)'
+      'background-color: rgb(29, 112, 184)'
     );
   });
 

@@ -1,5 +1,5 @@
 'use client';
-import { Label } from 'govuk-react';
+import { Tag } from 'govuk-react';
 import styled from 'styled-components';
 import React from 'react';
 
@@ -25,17 +25,14 @@ export const enum BenchmarkLabelGroupType {
   QUINTILES_WITH_VALUE = 'quintiles_wv',
 }
 
-export interface BenchmarkLabelProps {
+interface BenchmarkLabelProps {
   label?: string;
   type?: BenchmarkLabelType | string;
   group?: BenchmarkLabelGroupType | string;
 }
 
-export const getLabelValueFromType = (type: string) => {
-  return `type =${type}`;
-};
 
-export const getBenchmarkLabelStyle = (
+export const getDefaultBenchmarkTagStyle = (
   group: BenchmarkLabelGroupType = BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
   type: BenchmarkLabelType
 ) => {
@@ -43,7 +40,7 @@ export const getBenchmarkLabelStyle = (
     [BenchmarkLabelGroupType.RAG]: {
       [BenchmarkLabelType.BETTER]: {
         backgroundColor: 'var(--other-green, #00703C)',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
       [BenchmarkLabelType.SIMILAR]: {
         backgroundColor: 'var(--other-yellow, #FD0)',
@@ -51,7 +48,7 @@ export const getBenchmarkLabelStyle = (
       },
       [BenchmarkLabelType.WORSE]: {
         backgroundColor: 'var(--other-red, #D4351C)',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID'
       },
       [BenchmarkLabelType.LOWER]: {
         backgroundColor: 'var(--other-light-blue, #5694CA)',
@@ -59,7 +56,7 @@ export const getBenchmarkLabelStyle = (
       },
       [BenchmarkLabelType.HIGHER]: {
         backgroundColor: 'var(--other-dark-blue, #003078)',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID'
       },
     },
     [BenchmarkLabelGroupType.QUINTILES]: {
@@ -77,11 +74,11 @@ export const getBenchmarkLabelStyle = (
       },
       [BenchmarkLabelType.HIGH]: {
         backgroundColor: '#8B60E2',
-        color: 'var(--other-white, #FFF)',
+        tint: "SOLID"
       },
       [BenchmarkLabelType.HIGHEST]: {
         backgroundColor: '#6B33C3',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
     },
     [BenchmarkLabelGroupType.QUINTILES_WITH_VALUE]: {
@@ -95,15 +92,15 @@ export const getBenchmarkLabelStyle = (
       },
       [BenchmarkLabelType.MIDDLE]: {
         backgroundColor: '#A44596',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
       [BenchmarkLabelType.BETTER]: {
         backgroundColor: '#812972',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
       [BenchmarkLabelType.BEST]: {
         backgroundColor: '#561950',
-        color: 'var(--other-white, #FFF)',
+        tint: 'SOLID',
       },
     },
   };
@@ -117,21 +114,21 @@ export const getBenchmarkLabelStyle = (
   );
 };
 
-export const BenchmarkLabelStyle = styled(Label)<{
+export const BenchmarkTagStyle = styled(Tag)<{
   legendType: BenchmarkLabelType;
   group: BenchmarkLabelGroupType;
 }>(({ legendType, group }) => {
-  const theme = getBenchmarkLabelStyle(group, legendType);
+  const theme = getDefaultBenchmarkTagStyle(group, legendType);
   return {
     display: 'inline-block',
     padding: '5px 8px 4px 8px',
     alignItems: 'center',
     fontSize: '12px',
+    fontWeight: '300',
     fontStyle: 'normal',
     lineHeight: '16px',
-    letterSpacing: '1px',
     margin: '0.0225em',
-    ...theme,
+    ...theme
   };
 });
 
@@ -175,8 +172,8 @@ export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
     (group as BenchmarkLabelGroupType) ?? BenchmarkLabelGroupType.RAG;
   const label = getBenchmarkLabel(legendType, groupType);
   return (
-    <BenchmarkLabelStyle legendType={legendType} group={groupType}>
-      <Label>{label}</Label>
-    </BenchmarkLabelStyle>
+    <BenchmarkTagStyle legendType={legendType} group={groupType}>
+      {label}
+    </BenchmarkTagStyle>
   );
 };

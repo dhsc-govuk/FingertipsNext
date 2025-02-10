@@ -4,18 +4,15 @@ import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 
-const BenchmarkLegendGroupPanelStyle = styled('div')({
-  'width': 'flex',
+const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
   'alignItems': 'center',
   'alignContent': 'center',
-  'display': 'flex !important',
-  'marginBottom': '10px',
+  'marginBottom': '0.23em',
   '& .legend_panel_header': {
     border: '0px',
     margin: '0px 0px 0px 1px',
     alignSelf: 'stretch',
     color: '#000',
-    fontFamily: 'GDS Transport',
     fontSize: '16px',
     fontStyle: 'normal',
     fontWeight: '300',
@@ -50,7 +47,7 @@ export const Benchmark = () => {
   return (
     <div>
       {model?.map((item, index) => (
-        <BenchmarkLegendGroupPanelStyle key={index}>
+        <DefaultBenchmarkLegendGroupPanelStyle key={index}>
           <div>
             {item.title !== null && (
               <div>
@@ -68,7 +65,7 @@ export const Benchmark = () => {
               />
             ))}
           </div>
-        </BenchmarkLegendGroupPanelStyle>
+        </DefaultBenchmarkLegendGroupPanelStyle>
       ))}
     </div>
   );
