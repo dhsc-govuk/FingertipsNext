@@ -69,7 +69,7 @@ test.describe('Search via indicator', () => {
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
-      await chartPage.checkChartAndChartTable();
+      await chartPage.checkChartAndChartTable(true);
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {
@@ -90,6 +90,33 @@ test.describe('Search via indicator', () => {
         `?${SearchParams.SearchedIndicator}=${searchTerm}`
       );
       await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
+    });
+
+    await test.step('Select single indicator and view charts', async () => {
+      await homePage.clickSearchButton();
+
+      await resultsPage.selectIndicatorCheckboxes([indicatorIDs[0]]);
+      await resultsPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+
+      await resultsPage.clickViewChartsButton();
+      await chartPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+      await expectNoAccessibilityViolations(axeBuilder);
+      await chartPage.checkChartAndChartTable(false);
+
+      await chartPage.clickBackLink();
+      await resultsPage.checkURLIsCorrect(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+
+      await resultsPage.clickBackLink();
+
+      await homePage.checkURLIsCorrect(
+        `?${SearchParams.SearchedIndicator}=${searchTerm}`
+      );
     });
 
     await test.step('Verify search page validation prevents forward navigation', async () => {

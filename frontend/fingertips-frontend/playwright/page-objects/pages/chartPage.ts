@@ -24,17 +24,32 @@ export default class ChartPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async checkChartAndChartTable() {
-    await expect(this.page.getByTestId(this.lineChartComponent)).toBeVisible();
-    await expect(
-      this.page.getByTestId(this.lineChartTableComponent)
-    ).toBeVisible();
+  async checkChartAndChartTable(isMultipleIndicators: boolean) {
+    if (isMultipleIndicators) {
+      await expect(
+        this.page.getByTestId(this.lineChartComponent)
+      ).not.toBeVisible();
+      await expect(
+        this.page.getByTestId(this.lineChartTableComponent)
+      ).not.toBeVisible();
+      await expect(
+        this.page.getByTestId(this.scatterChartComponent)
+      ).toBeVisible();
+    } else {
+      await expect(
+        this.page.getByTestId(this.lineChartComponent)
+      ).toBeVisible();
+      await expect(
+        this.page.getByTestId(this.lineChartTableComponent)
+      ).toBeVisible();
+      await expect(
+        this.page.getByTestId(this.scatterChartComponent)
+      ).not.toBeVisible();
+    }
+
     await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
     await expect(
       this.page.getByTestId(this.populationPyramidComponent)
-    ).toBeVisible();
-    await expect(
-      this.page.getByTestId(this.scatterChartComponent)
     ).toBeVisible();
   }
 }

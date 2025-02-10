@@ -1355,4 +1355,78 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       ],
     },
   ],
+  '108': [
+    {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      healthData: [
+        {
+          year: 2004,
+          count: 200,
+          value: 904.874,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '0-4',
+          sex: 'Female',
+        },
+        {
+          year: 2008,
+          count: 179,
+          value: 709.7645,
+          lowerCi: 0,
+          upperCi: 0,
+          ageBand: '5-9',
+          sex: 'Female',
+        },
+      ],
+    },
+    {
+      areaCode: 'A1425',
+      areaName: 'Area 1',
+      healthData: [
+        {
+          year: 2008,
+          count: 222,
+          value: 890.305692,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2004,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
+      areaCode: '2',
+      areaName: 'Area 2',
+      healthData: [
+        {
+          year: 2004,
+          count: 157,
+          value: 723.090354,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2008,
+          count: 256,
+          value: 905.145997,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+  ],
 };
