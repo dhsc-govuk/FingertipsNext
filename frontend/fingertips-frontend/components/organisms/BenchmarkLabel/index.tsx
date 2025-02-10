@@ -67,6 +67,7 @@ export const getDefaultBenchmarkTagStyle = (
           return {
             backgroundColor: 'transparent',
             color: 'var(--other-black, #0B0C0C)',
+            border: '1px solid #0B0C0C',
           };
       }
     }

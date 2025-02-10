@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Benchmark, BenchmarkData } from '.';
+import { Benchmark } from '.';
 import '@testing-library/jest-dom';
 import { describe } from 'node:test';
 

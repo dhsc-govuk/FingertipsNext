@@ -50,6 +50,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       'unknown',
       {
         backgroundColor: 'transparent',
+        border: '1px solid #0B0C0C',
         color: 'var(--other-black, #0B0C0C)',
       },
     ],
@@ -63,7 +64,10 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
   ])('%s', (_, group, type, expected) => {
-    const result = getDefaultBenchmarkTagStyle(group, type as BenchmarkLabelType);
+    const result = getDefaultBenchmarkTagStyle(
+      group,
+      type as BenchmarkLabelType
+    );
     expect(result).toEqual(expected);
   });
 });

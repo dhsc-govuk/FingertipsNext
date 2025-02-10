@@ -103,6 +103,7 @@ exports[`Snapshot testing of the UI 1`] = `
   margin: 0.0225em;
   background-color: transparent;
   color: var(--other-black,#0B0C0C);
+  border: 1px solid #0B0C0C;
 }
 
 .c7 {
