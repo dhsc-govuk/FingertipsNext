@@ -31,7 +31,6 @@ interface BenchmarkLabelProps {
   group?: BenchmarkLabelGroupType | string;
 }
 
-
 export const getDefaultBenchmarkTagStyle = (
   group: BenchmarkLabelGroupType = BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
   type: BenchmarkLabelType
@@ -48,7 +47,7 @@ export const getDefaultBenchmarkTagStyle = (
       },
       [BenchmarkLabelType.WORSE]: {
         backgroundColor: 'var(--other-red, #D4351C)',
-        tint: 'SOLID'
+        tint: 'SOLID',
       },
       [BenchmarkLabelType.LOWER]: {
         backgroundColor: 'var(--other-light-blue, #5694CA)',
@@ -56,7 +55,7 @@ export const getDefaultBenchmarkTagStyle = (
       },
       [BenchmarkLabelType.HIGHER]: {
         backgroundColor: 'var(--other-dark-blue, #003078)',
-        tint: 'SOLID'
+        tint: 'SOLID',
       },
     },
     [BenchmarkLabelGroupType.QUINTILES]: {
@@ -74,7 +73,7 @@ export const getDefaultBenchmarkTagStyle = (
       },
       [BenchmarkLabelType.HIGH]: {
         backgroundColor: '#8B60E2',
-        tint: "SOLID"
+        tint: 'SOLID',
       },
       [BenchmarkLabelType.HIGHEST]: {
         backgroundColor: '#6B33C3',
@@ -128,7 +127,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
     fontStyle: 'normal',
     lineHeight: '16px',
     margin: '0.0225em',
-    ...theme
+    ...theme,
   };
 });
 
