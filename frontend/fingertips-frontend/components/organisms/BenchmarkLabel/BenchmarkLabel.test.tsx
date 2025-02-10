@@ -4,7 +4,7 @@ import {
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
   getBenchmarkLabelStyle,
-} from "@/components/organisms/BenchmarkLabel/index"
+} from '@/components/organisms/BenchmarkLabel/index';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
@@ -121,11 +121,13 @@ describe('Testing the BenchmarkLabel Component ', () => {
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');
   });
 
-  it ("snapshot testing of the UI", ()=>{
-      const container  =  render( <BenchmarkLabel
+  it('snapshot testing of the UI', () => {
+    const container = render(
+      <BenchmarkLabel
         type={BenchmarkLabelType.WORST}
         group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
-      />)
-      expect(container.asFragment()).toMatchSnapshot()
-  })
+      />
+    );
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });

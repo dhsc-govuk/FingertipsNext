@@ -4,17 +4,10 @@ import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 
-
-
-
 const BenchmarkLegendGroupPanelStyle = styled('div')({
-  'border': '0px solid #000',
   'width': 'flex',
-  'clear': 'both',
   'alignItems': 'center',
   'alignContent': 'center',
-  'gap': '5px',
-  'flexWrap': 'wrap',
   'display': 'flex !important',
   'marginBottom': '10px',
   '& .legend_panel_header': {
@@ -30,16 +23,11 @@ const BenchmarkLegendGroupPanelStyle = styled('div')({
   },
 });
 
-
-
 export interface BenchmarkData {
   title?: string;
   group: string;
   types: string[];
 }
-
-
-
 
 export const Benchmark = () => {
   const model: BenchmarkData[] = [
@@ -51,11 +39,11 @@ export const Benchmark = () => {
     {
       title: ' Quintile groupings',
       group: 'quintiles',
-      types: ['lowest','low','middle' ,'high', 'highest']
+      types: ['lowest', 'low', 'middle', 'high', 'highest'],
     },
     {
       group: 'quintiles_wv',
-      types: ['worst', 'worse', 'middle' , 'better', 'best']
+      types: ['worst', 'worse', 'middle', 'better', 'best'],
     },
   ];
 
