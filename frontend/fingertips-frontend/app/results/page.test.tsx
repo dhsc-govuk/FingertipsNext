@@ -24,6 +24,11 @@ const generateAreaType = (name: string, level: number): AreaType => ({
 });
 
 const mockAreaTypes: AreaType[] = [
+  generateAreaType('A002', 2),
+  generateAreaType('A001', 1),
+];
+
+const mockSortedAreaTypes: AreaType[] = [
   generateAreaType('A001', 1),
   generateAreaType('A002', 2),
 ];
@@ -121,7 +126,11 @@ describe('Results Page', () => {
     );
 
     const page = await ResultsPage({
-      searchParams: generateSearchParams(searchParams),
+      searchParams: generateSearchParams({
+        ...searchParams,
+        [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
+      }),
     });
 
     expect(page.props.searchResultsFormState).toEqual({
@@ -135,7 +144,9 @@ describe('Results Page', () => {
       }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual(mockAreaTypes);
+    expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
+    expect(page.props.selectedAreaType).toEqual('Some area type');
+    expect(page.props.selectedGroupType).toEqual('Some group type');
     expect(page.props.selectedAreas).toEqual([]);
   });
 
@@ -145,6 +156,7 @@ describe('Results Page', () => {
       [SearchParams.AreasSelected]: ['A001', 'A002'],
     };
 
+    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
     mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
     mockIndicatorSearchService.searchWith.mockResolvedValue(
@@ -166,15 +178,14 @@ describe('Results Page', () => {
       }),
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual([]);
+    expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
     expect(page.props.selectedAreas).toEqual([
       generateMockArea('A001'),
       generateMockArea('A002'),
     ]);
   });
 
-  // To unskip as part of DHSCFT-211
-  it.skip('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
+  it('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
     mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
 
     const page = await ResultsPage({

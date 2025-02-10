@@ -9,7 +9,6 @@ import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export default async function Page(
   props: Readonly<{
@@ -22,6 +21,8 @@ export default async function Page(
   const indicatorsSelected = asArray(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
+  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const selectedGroupType = searchParams?.[SearchParams.GroupTypeSelected];
   const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
   const stateManager = new SearchStateManager({
@@ -35,32 +36,13 @@ export default async function Page(
     await connection();
     const areasApi = ApiClientFactory.getAreasApiClient();
 
-    /**
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
       areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-        )
-      : [];
-    */
-
-    // When DHSCFT-210 is complete The following try catch can be removed
-    // and the line above uncommented as part of DHSCFT-211 to check FE against the API
-    let availableAreaTypes: AreaType[];
-    let selectedAreasData: AreaWithRelations[];
-
-    try {
-      availableAreaTypes =
-        areasSelected.length === 0 ? await areasApi.getAreaTypes() : [];
-      selectedAreasData = await Promise.all(
-        areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-      );
-    } catch (error) {
-      console.log(`Error from areasApi ${error}`);
-      availableAreaTypes = [];
-      selectedAreasData = [];
-    }
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
 
     const initialState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
@@ -75,11 +57,17 @@ export default async function Page(
         searchedIndicator
       );
 
+    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
+      (a, b) => a.level - b.level
+    );
+
     return (
       <SearchResults
         searchResultsFormState={initialState}
         searchResults={searchResults}
-        availableAreaTypes={availableAreaTypes}
+        availableAreaTypes={sortedByLevelAreaTypes}
+        selectedAreaType={selectedAreaType}
+        selectedGroupType={selectedGroupType}
         selectedAreas={selectedAreasData}
       />
     );
