@@ -93,7 +93,11 @@ test.describe('Search via indicator', () => {
     });
 
     await test.step('Select single indicator and view charts', async () => {
+      await homePage.clearSearchIndicatorField();
+      await homePage.typeIndicator(searchTerm);
       await homePage.clickSearchButton();
+
+      await resultsPage.checkURLIsCorrect(searchTerm);
 
       await resultsPage.selectIndicatorCheckboxes([indicatorIDs[0]]);
       await resultsPage.checkURLIsCorrect(
