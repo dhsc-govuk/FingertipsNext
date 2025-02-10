@@ -5,17 +5,18 @@ import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
 import { ThematicMap } from '.';
 
-it('should render the map title', async () => {
-  const areaType = 'Regions Statistical';
-  const mapData = getMapFile(areaType);
-  const mapJoinKey = getMapJoinKey(areaType);
-  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
+const mockAreaType = 'Regions Statistical';
+const mockMapData = getMapFile(mockAreaType);
+const mockMapJoinKey = getMapJoinKey(mockAreaType);
+const mockMapGroup = getMapGroup(mockMapData, ['E08000025'], mockMapJoinKey);
+
+it('should render the ThematicMap title', async () => {
   render(
     <ThematicMap
       data={mockHealthData['318']}
-      mapData={mapData}
-      mapJoinKey={mapJoinKey}
-      mapGroup={mapGroup}
+      mapData={mockMapData}
+      mapJoinKey={mockMapJoinKey}
+      mapGroup={mockMapGroup}
       mapTitle="valid title"
     />
   );
@@ -25,16 +26,12 @@ it('should render the map title', async () => {
 });
 
 it('should render the ThematicMap component', async () => {
-  const areaType = 'Regions Statistical';
-  const mapData = getMapFile(areaType);
-  const mapJoinKey = getMapJoinKey(areaType);
-  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
   render(
     <ThematicMap
       data={mockHealthData['318']}
-      mapData={mapData}
-      mapJoinKey={mapJoinKey}
-      mapGroup={mapGroup}
+      mapData={mockMapData}
+      mapJoinKey={mockMapJoinKey}
+      mapGroup={mockMapGroup}
       mapTitle="valid title"
     />
   );
