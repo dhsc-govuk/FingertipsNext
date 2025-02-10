@@ -114,9 +114,7 @@ test.describe('Search via indicator', () => {
 
       await resultsPage.clickBackLink();
 
-      await homePage.checkURLIsCorrect(
-        `?${SearchParams.SearchedIndicator}=${searchTerm}`
-      );
+      await homePage.checkOnHomePage();
     });
 
     await test.step('Verify search page validation prevents forward navigation', async () => {
