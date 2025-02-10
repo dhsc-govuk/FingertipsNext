@@ -4,12 +4,11 @@ import { Table } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import {
   LIGHT_GREY,
   LineChartTableHeadingEnum,
 } from '@/lib/chartHelpers/chartHelpers';
-import React from 'react';
 
 interface TableProps {
   data: HealthDataForArea[];
@@ -163,106 +162,104 @@ export function LineChartTable({
   });
 
   return (
-    <>
-      <StyledDiv data-testid="lineChartTable-component">
-        <StyledTable
-          head={
-            <>
-              <Table.Row>
-                {data.map((area, index) => (
-                  <React.Fragment key={index}>
-                    <StyledTitleRow colSpan={6}>
-                      {`${area.areaName} recent trend:`}
-                    </StyledTitleRow>
-                  </React.Fragment>
-                ))}
-              </Table.Row>
-              <Table.Row>
-                {data.map((area, index) => (
-                  <React.Fragment key={area.areaName}>
-                    <Table.CellHeader
-                      colSpan={getAreaNameCellSpan(index)}
-                    ></Table.CellHeader>
-                    <StyledAreaNameHeader>{area.areaName}</StyledAreaNameHeader>
-                    <Table.CellHeader colSpan={2}></Table.CellHeader>
-                  </React.Fragment>
-                ))}
-                <StyledGreyHeader data-testid="england-header">
-                  Benchmark: <br /> England
-                </StyledGreyHeader>
-              </Table.Row>
-              <Table.Row>
-                {data.map((area, index) => (
-                  <React.Fragment key={area.areaName}>
-                    <Table.CellHeader
-                      colSpan={getConfidenceLimitCellSpan(index)}
-                    ></Table.CellHeader>
-                    <StyledConfidenceLimitsHeader>
-                      95% confidence limits
-                    </StyledConfidenceLimitsHeader>
-                  </React.Fragment>
-                ))}
-                <StyledGreyHeader></StyledGreyHeader>
-              </Table.Row>
-              <Table.Row>
-                <StyledAlignLeftHeader
-                  data-testid={`header-${LineChartTableHeadingEnum.AreaPeriod}-${0}`}
-                  key={`header-${LineChartTableHeadingEnum.AreaPeriod}`}
-                >
-                  {LineChartTableHeadingEnum.AreaPeriod}
-                </StyledAlignLeftHeader>
-                {data.map(() =>
-                  Object.values(LineChartTableHeadingEnum)
-                    .filter(
-                      (value) => value !== LineChartTableHeadingEnum.AreaPeriod
-                    )
-                    .filter(
-                      (value) =>
-                        value !== LineChartTableHeadingEnum.BenchmarkValue
-                    )
-                    .map((heading, index) => getCellHeader(heading, index + 1))
-                )}
-                <StyledGreyHeader
-                  data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
-                >
-                  {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                  <StyledSpan>(%)</StyledSpan>
-                </StyledGreyHeader>
-              </Table.Row>
-            </>
-          }
-        >
-          {englandRowData.map((point, index) => (
-            <Table.Row key={index}>
-              <StyledAlignLeftTableCell numeric>
-                {point.period}
-              </StyledAlignLeftTableCell>
-              {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
-                <React.Fragment key={data[areaIndex].areaCode + index}>
-                  <StyledBenchmarkCell></StyledBenchmarkCell>
-                  <StyledAlignRightTableCell numeric>
-                    {sortedAreaData[index].count}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(sortedAreaData[index].value)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(sortedAreaData[index].lower)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(sortedAreaData[index].upper)}
-                  </StyledAlignRightTableCell>
+    <StyledDiv data-testid="lineChartTable-component">
+      <StyledTable
+        head={
+          <>
+            <Table.Row>
+              {data.map((area, index) => (
+                <React.Fragment key={area.areaName + index}>
+                  <StyledTitleRow colSpan={6}>
+                    {`${area.areaName} recent trend:`}
+                  </StyledTitleRow>
                 </React.Fragment>
               ))}
-              <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
-                {englandRowData.length
-                  ? convertToPercentage(englandRowData[index].value)
-                  : '-'}
-              </StyledBenchmarkValueTableCell>
             </Table.Row>
-          ))}
-        </StyledTable>
-      </StyledDiv>
-    </>
+            <Table.Row>
+              {data.map((area, index) => (
+                <React.Fragment key={area.areaName}>
+                  <Table.CellHeader
+                    colSpan={getAreaNameCellSpan(index)}
+                  ></Table.CellHeader>
+                  <StyledAreaNameHeader>{area.areaName}</StyledAreaNameHeader>
+                  <Table.CellHeader colSpan={2}></Table.CellHeader>
+                </React.Fragment>
+              ))}
+              <StyledGreyHeader data-testid="england-header">
+                Benchmark: <br /> England
+              </StyledGreyHeader>
+            </Table.Row>
+            <Table.Row>
+              {data.map((area, index) => (
+                <React.Fragment key={area.areaName}>
+                  <Table.CellHeader
+                    colSpan={getConfidenceLimitCellSpan(index)}
+                  ></Table.CellHeader>
+                  <StyledConfidenceLimitsHeader>
+                    95% confidence limits
+                  </StyledConfidenceLimitsHeader>
+                </React.Fragment>
+              ))}
+              <StyledGreyHeader></StyledGreyHeader>
+            </Table.Row>
+            <Table.Row>
+              <StyledAlignLeftHeader
+                data-testid={`header-${LineChartTableHeadingEnum.AreaPeriod}-${0}`}
+                key={`header-${LineChartTableHeadingEnum.AreaPeriod}`}
+              >
+                {LineChartTableHeadingEnum.AreaPeriod}
+              </StyledAlignLeftHeader>
+              {data.map(() =>
+                Object.values(LineChartTableHeadingEnum)
+                  .filter(
+                    (value) => value !== LineChartTableHeadingEnum.AreaPeriod
+                  )
+                  .filter(
+                    (value) =>
+                      value !== LineChartTableHeadingEnum.BenchmarkValue
+                  )
+                  .map((heading, index) => getCellHeader(heading, index + 1))
+              )}
+              <StyledGreyHeader
+                data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
+              >
+                {LineChartTableHeadingEnum.BenchmarkValue}{' '}
+                <StyledSpan>(%)</StyledSpan>
+              </StyledGreyHeader>
+            </Table.Row>
+          </>
+        }
+      >
+        {englandRowData.map((point, index) => (
+          <Table.Row key={data[index].areaName + index}>
+            <StyledAlignLeftTableCell numeric>
+              {point.period}
+            </StyledAlignLeftTableCell>
+            {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
+              <React.Fragment key={data[areaIndex].areaCode + index}>
+                <StyledBenchmarkCell></StyledBenchmarkCell>
+                <StyledAlignRightTableCell numeric>
+                  {sortedAreaData[index].count}
+                </StyledAlignRightTableCell>
+                <StyledAlignRightTableCell numeric>
+                  {convertToPercentage(sortedAreaData[index].value)}
+                </StyledAlignRightTableCell>
+                <StyledAlignRightTableCell numeric>
+                  {convertToPercentage(sortedAreaData[index].lower)}
+                </StyledAlignRightTableCell>
+                <StyledAlignRightTableCell numeric>
+                  {convertToPercentage(sortedAreaData[index].upper)}
+                </StyledAlignRightTableCell>
+              </React.Fragment>
+            ))}
+            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
+              {englandRowData.length
+                ? convertToPercentage(englandRowData[index].value)
+                : '-'}
+            </StyledBenchmarkValueTableCell>
+          </Table.Row>
+        ))}
+      </StyledTable>
+    </StyledDiv>
   );
 }
