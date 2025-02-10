@@ -18,7 +18,7 @@ export default class HomePage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('/' + queryParams);
+    await this.checkURLMatches('/' + queryParams);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
