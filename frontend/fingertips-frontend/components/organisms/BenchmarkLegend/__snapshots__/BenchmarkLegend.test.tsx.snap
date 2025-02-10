@@ -17,21 +17,28 @@ exports[`Snapshot testing of the UI 1`] = `
 }
 
 .c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-bottom: 0;
-}
-
-.c2:after {
-  content: '';
-  display: table;
-  clear: both;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
 }
 
 .c3 {
@@ -42,17 +49,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: var(--other-green,#00703C);
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c4 {
@@ -63,15 +65,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: var(--other-yellow,#FD0);
   color: var(--other-black,#0B0C0C);
 }
@@ -84,17 +81,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: var(--other-red,#D4351C);
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c6 {
@@ -105,15 +97,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: transparent;
   color: var(--other-black,#0B0C0C);
   border: 1px solid #000;
@@ -127,15 +114,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: var(--other-light-blue,#5694CA);
   color: var(--other-black,#0B0C0C);
 }
@@ -148,17 +130,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: var(--other-dark-blue,#003078);
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c9 {
@@ -169,15 +146,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #E4DDFF;
   color: var(--other-black,#0B0C0C);
 }
@@ -190,15 +162,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #CBBEF4;
   color: var(--other-black,#0B0C0C);
 }
@@ -211,15 +178,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #AA90EC;
   color: var(--other-black,#0B0C0C);
 }
@@ -232,17 +194,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #8B60E2;
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c13 {
@@ -253,17 +210,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #6B33C3;
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c14 {
@@ -274,15 +226,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #D494C1;
   color: var(--other-black,#0B0C0C);
 }
@@ -295,15 +242,10 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #BC6AAA;
   color: var(--other-black,#0B0C0C);
 }
@@ -316,17 +258,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #A44596;
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c17 {
@@ -337,17 +274,12 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #812972;
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c18 {
@@ -358,23 +290,15 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 300;
+  font-style: normal;
   line-height: 16px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  margin: 0.5px;
-  font-family: GDS Transport;
+  margin: 0.0225em;
   background-color: #561950;
-  color: var(--other-white,#FFF);
+  tint: SOLID;
 }
 
 .c0 {
-  border: 0px solid #000;
-  width: flex;
-  clear: both;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -382,15 +306,7 @@ exports[`Snapshot testing of the UI 1`] = `
   -webkit-align-content: center;
   -ms-flex-line-pack: center;
   align-content: center;
-  gap: 5px;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  display: -webkit-box !important;
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  margin-bottom: 10px;
+  margin-bottom: 0.23em;
 }
 
 .c0 .legend_panel_header {
@@ -400,7 +316,6 @@ exports[`Snapshot testing of the UI 1`] = `
   -ms-flex-item-align: stretch;
   align-self: stretch;
   color: #000;
-  font-family: GDS Transport;
   font-size: 16px;
   font-style: normal;
   font-weight: 300;
@@ -433,9 +348,17 @@ exports[`Snapshot testing of the UI 1`] = `
   }
 }
 
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
 @media only screen and (min-width:641px) {
   .c2 {
-    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 1;
   }
 }
 
@@ -451,60 +374,36 @@ exports[`Snapshot testing of the UI 1`] = `
             Areas compared to England
           </span>
         </div>
-        <label
+        <strong
           class="c2 c3"
         >
-          <label
-            class="c2"
-          >
-            Better (95%)
-          </label>
-        </label>
-        <label
+          Better (95%)
+        </strong>
+        <strong
           class="c2 c4"
         >
-          <label
-            class="c2"
-          >
-            Similar
-          </label>
-        </label>
-        <label
+          Similar
+        </strong>
+        <strong
           class="c2 c5"
         >
-          <label
-            class="c2"
-          >
-            Worse (95%)
-          </label>
-        </label>
-        <label
+          Worse (95%)
+        </strong>
+        <strong
           class="c2 c6"
         >
-          <label
-            class="c2"
-          >
-            Not compared
-          </label>
-        </label>
-        <label
+          Not compared
+        </strong>
+        <strong
           class="c2 c7"
         >
-          <label
-            class="c2"
-          >
-            Lower (95%)
-          </label>
-        </label>
-        <label
+          Lower (95%)
+        </strong>
+        <strong
           class="c2 c8"
         >
-          <label
-            class="c2"
-          >
-            Higher (95%)
-          </label>
-        </label>
+          Higher (95%)
+        </strong>
       </div>
     </div>
     <div
@@ -518,51 +417,31 @@ exports[`Snapshot testing of the UI 1`] = `
              Quintile groupings
           </span>
         </div>
-        <label
+        <strong
           class="c2 c9"
         >
-          <label
-            class="c2"
-          >
-            Lowest
-          </label>
-        </label>
-        <label
+          Lowest
+        </strong>
+        <strong
           class="c2 c10"
         >
-          <label
-            class="c2"
-          >
-            Low
-          </label>
-        </label>
-        <label
+          Low
+        </strong>
+        <strong
           class="c2 c11"
         >
-          <label
-            class="c2"
-          >
-            Middle
-          </label>
-        </label>
-        <label
+          Middle
+        </strong>
+        <strong
           class="c2 c12"
         >
-          <label
-            class="c2"
-          >
-            High
-          </label>
-        </label>
-        <label
+          High
+        </strong>
+        <strong
           class="c2 c13"
         >
-          <label
-            class="c2"
-          >
-            Highest
-          </label>
-        </label>
+          Highest
+        </strong>
       </div>
     </div>
     <div
@@ -574,51 +453,31 @@ exports[`Snapshot testing of the UI 1`] = `
             class="c1 legend_panel_header"
           />
         </div>
-        <label
+        <strong
           class="c2 c14"
         >
-          <label
-            class="c2"
-          >
-            Worst
-          </label>
-        </label>
-        <label
+          Worst
+        </strong>
+        <strong
           class="c2 c15"
         >
-          <label
-            class="c2"
-          >
-            Worse
-          </label>
-        </label>
-        <label
+          Worse
+        </strong>
+        <strong
           class="c2 c16"
         >
-          <label
-            class="c2"
-          >
-            Middle
-          </label>
-        </label>
-        <label
+          Middle
+        </strong>
+        <strong
           class="c2 c17"
         >
-          <label
-            class="c2"
-          >
-            Better
-          </label>
-        </label>
-        <label
+          Better
+        </strong>
+        <strong
           class="c2 c18"
         >
-          <label
-            class="c2"
-          >
-            Best
-          </label>
-        </label>
+          Best
+        </strong>
       </div>
     </div>
   </div>
