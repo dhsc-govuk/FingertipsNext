@@ -14,6 +14,8 @@ tags:
     description: Endpoints dealing with public health indicators
   - name: areas
     description: Endpoints dealing with areas / geography
+  - name: system
+    description: System endpoints
 paths:
   /areas/hierarchies:
     get:
@@ -114,6 +116,38 @@ paths:
                 $ref: "#/components/schemas/RootArea"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
+  /healthcheck:
+    get:
+      tags:
+        - system
+      summary: API Health Check
+      description: Returns the health status of the API.
+      operationId: getHealthcheck
+      responses:
+        "200":
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Healthy"
+        "500":
+          description: API is down
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Unhealthy"
+                  message:
+                    type: string
+                    example: "API is experiencing issues"
+
   /indicators:
     get:
       tags:

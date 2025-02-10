@@ -12,13 +12,17 @@ import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 function* iteratorFromList<T>(list: T[]): IterableIterator<T> {
   for (const item of list) {
     yield item;
   }
 }
 
-export const getMockFormData = (formData: Record<string, string>) =>
+const getMockFormData = (formData: Record<string, string>) =>
   mockDeep<FormData>({
     entries: jest.fn().mockImplementation(() => {
       const formDataEntries = Object.entries(formData);
@@ -70,6 +74,6 @@ describe('getSearchSuggestions', () => {
   it('should return a maximum of 20 suggestions', async () => {
     SearchServiceFactory.reset();
     process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
-    expect((await getSearchSuggestions('Surgery')).length).toEqual(20);
+    expect(await getSearchSuggestions('Surgery')).toHaveLength(20);
   });
 });

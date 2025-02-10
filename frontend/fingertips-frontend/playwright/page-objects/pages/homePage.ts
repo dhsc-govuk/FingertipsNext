@@ -2,7 +2,7 @@ import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class HomePage extends BasePage {
-  readonly indicatorField = 'search-form-input-indicator';
+  readonly indicatorField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   async typeIndicator(indicator: string) {
@@ -18,7 +18,7 @@ export default class HomePage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('/' + queryParams);
+    await this.checkURLMatches('/' + queryParams);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {

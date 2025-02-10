@@ -4,8 +4,12 @@ import { expect } from '@playwright/test';
 export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
-  async checkURL(checkURL: string) {
+  async checkURLMatches(checkURL: string) {
     await expect(this.page).toHaveURL(checkURL);
+  }
+
+  async waitForURLToContain(containsURL: string) {
+    await this.page.waitForURL(new RegExp(containsURL));
   }
 
   async navigateTo(page: string) {

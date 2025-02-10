@@ -1,6 +1,6 @@
 import {
-  generateSeriesData,
   getEnglandDataForIndicatorIndex,
+  seriesDataWithoutEngland,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -64,23 +64,6 @@ describe('sortHealthDataByDate', () => {
     const result = sortHealthDataByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
-  });
-});
-
-describe('generateSeriesData', () => {
-  it('should generate series data', () => {
-    const result = generateSeriesData(mockData);
-    const mockSeriesData = [
-      {
-        data: [
-          [2006, 278.29134],
-          [2004, 703.420759],
-        ],
-        name: 'North FooBar',
-        type: 'line',
-      },
-    ];
-    expect(result).toEqual(mockSeriesData);
   });
 });
 
@@ -154,5 +137,90 @@ describe('getEnglandDataForIndicatorIndex', () => {
     expect(getEnglandDataForIndicatorIndex(data, 1)).toEqual(
       mockHealthData['1'][1]
     );
+  });
+});
+
+describe('seriesDataWithoutEngland', () => {
+  it('should return data that doesnt have the england area code', () => {
+    const data = [
+      {
+        areaCode: 'A1425',
+        areaName: 'area A1425',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+      {
+        areaCode: 'E92000001',
+        areaName: 'England',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+    ];
+
+    const dataWithoutEngland = [
+      {
+        areaCode: 'A1425',
+        areaName: 'area A1425',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+    ];
+
+    const result = seriesDataWithoutEngland(data);
+    expect(result).toEqual(dataWithoutEngland);
   });
 });
