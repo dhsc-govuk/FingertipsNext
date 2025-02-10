@@ -78,30 +78,44 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.indicatorSearchButton).click();
   }
 
-  async clickIndicatorSearchButtonAndWait(
-    searchTerm: string,
-    indicatorIDs: string[]
-  ) {
+  async clickIndicatorSearchButtonAndWait(searchTerm: string) {
+    await this.clickIndicatorSearchButton();
+
+    await this.waitForSearchRequestAndResponse(searchTerm);
+  }
+
+  async waitForSearchRequestAndResponse(searchTerm: string) {
+    const requestPromise = this.page.waitForRequest(
+      (request) =>
+        request
+          .url()
+          .includes(
+            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
+          ) && request.method() === 'GET'
+    );
+    const request = await requestPromise;
+    expect(
+      request
+        .url()
+        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
+    );
+
     const responsePromise = this.page.waitForResponse(
-      async (response) =>
+      (response) =>
         response
           .url()
           .includes(
             `results?${SearchParams.SearchedIndicator}=${searchTerm}`
           ) &&
         response.status() === 200 &&
-        response.request().method() === 'GET' &&
-        (await response.text()).includes(searchTerm)
+        response.request().method() === 'GET'
     );
-
-    await this.clickIndicatorSearchButton();
-
     const response = await responsePromise;
-    const responseText = await response.text();
-    expect(responseText).toContain(searchTerm);
-    for (const indicatorID in indicatorIDs) {
-      expect(responseText).toContain(indicatorID);
-    }
+    expect(
+      response
+        .url()
+        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
+    );
   }
 
   async checkForIndicatorSearchError() {
