@@ -3,18 +3,12 @@ using DataCreator.PholioDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace MyApp
 {
     internal class Program
     {
-        private static async Task Main(string[] args)
-        {
-            var services = CreateServices();
-
-            var app = services.GetRequiredService<DataCreatorApplication>();
-            await app.CreateDataAsync();
-        }
+        private static async Task Main(string[] args) => 
+            await CreateServices().GetRequiredService<DataCreatorApplication>().CreateDataAsync();
 
         private static ServiceProvider CreateServices()
         {
@@ -24,8 +18,7 @@ namespace MyApp
                 .AddEnvironmentVariables()
                 .Build();
 
-
-            var serviceProvider = new ServiceCollection()
+            return new ServiceCollection()
                 .AddSingleton<IConfiguration>(configuration)
                 .AddSingleton<DataCreatorApplication>()
                 .AddSingleton<PholioDataFetcher>()
@@ -33,8 +26,6 @@ namespace MyApp
                 .AddSingleton<DataFileManager>()
                 .AddSingleton<DataManager>()
                 .BuildServiceProvider();
-
-            return serviceProvider;
         }
     }
 

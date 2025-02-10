@@ -17,5 +17,9 @@
         public string Sex { get; set; }
 
         public string Age { get; set; }
+
+        public string CategoryType { get; set; }
+
+        public string Category { get; set; }
     }
 }

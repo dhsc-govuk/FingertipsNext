@@ -11,13 +11,20 @@ namespace DataCreator
         public async Task<List<string>> CreateAreaDataAsync(bool addLongLat)
         {
             var areas = await _pholioDataFetcher.FetchAreasAsync();
-            if (addLongLat)
+            //it has been decided we are not doing anything with geospatial search for PoC so adding lat / long data is not needed - leaving the code here in case it comes back
+            if (addLongLat) //will be false for Po
                 await AddLongLat(areas);
 
+            //we don't want all areas, just areas in the north west - the rest of this code is about selecting those
             var areasWeWant=new List<string>();
+
+            //we want England
             var england=areas.FirstOrDefault(area => area.Level == 0);
-            
-            var level1s = areas.Where(area => area.Level == 1 ).ToList(); //nhs and admin regions
+
+            //we want all areas in the next level down - nhs and admin regions
+            var level1s = areas.Where(area => area.Level == 1 ).ToList();
+
+            //now choose all NHS and Admin areas in the North West
             var northWestAdmin= areas.First(area => area.AreaCode == "E12000002");
             var northWestNHS= areas.First(area => area.AreaCode == "E40000010");
             var childrenOfNorthWestAdmin = GetChildren(areas, northWestAdmin); //UA
@@ -69,14 +76,7 @@ namespace DataCreator
             {
                 var present = areasAndIndicators.TryGetValue(indicator.IndicatorID, out var value);
                 if (present)
-                {
                     indicator.AssociatedAreaCodes = value;
-                }
-                else
-                {
-                    indicator.AssociatedAreaCodes=new List<string>();
-                }
-                
             }
             DataFileManager.WriteJsonData("indicators", indicators);
         }
@@ -143,18 +143,14 @@ namespace DataCreator
             }
         }
 
-        private static IEnumerable<HealthMeasureEntity> GetHealthDataForArea(int indicatorId, List<string> areasWeWant, int yearFrom = 2018)
-        {
-            var data = DataFileManager.GetHealthDataForIndicator(indicatorId);
-            var dataForAreasWeWant = data.Where(x => areasWeWant.Contains(x.AreaCode)).ToList();
-            return dataForAreasWeWant.Where(x => x.Year >= yearFrom).ToList();
-        }
-      
+        private static IEnumerable<HealthMeasureEntity> GetHealthDataForArea(int indicatorId, List<string> areasWeWant, int yearFrom = 2018) => 
+            DataFileManager.GetHealthDataForIndicator(indicatorId)
+                .Where(x => areasWeWant.Contains(x.AreaCode))
+                .Where(x => x.Year >= yearFrom).ToList();
 
-        public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync()
-        {
-            return await _pholioDataFetcher.FetchAgeDataAsync();
-        }
+
+        public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
+            await _pholioDataFetcher.FetchAgeDataAsync();
 
     }
 }

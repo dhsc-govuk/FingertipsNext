@@ -4,6 +4,8 @@ namespace DataCreator
 {
     public class AreaEntity
     {
+        private string areaType;
+
         public string AreaCode { get; set; }
         public string AreaName { get; set; }
         public string AddressLine1 { get; set; }
@@ -11,8 +13,8 @@ namespace DataCreator
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string Postcode { get; set; }
-        public string AreaType { get; set; }
-        
+        public string AreaType { get => areaType.CleanAreaCode(); set => areaType = value; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }

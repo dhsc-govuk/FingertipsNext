@@ -147,6 +147,19 @@ AND
 ORDER BY 
     IndicatorID, AreaCode
 ";
+        private readonly string BenchmarkSql = @"
+SELECT distinct
+	indicator.IndicatorID,
+	comparatormethods.ComparatorMethodID
+FROM 
+	[dbo].[IndicatorMetadata] indicator
+JOIN
+	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
+JOIN
+	[dbo].[L_ComparatorMethods] comparatormethods ON gr.ComparatorMethodID=comparatormethods.ComparatorMethodID
+WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
+	Order By indicator.IndicatorID 
+";
 
         private readonly string HealthMeasureNotUsingIndictorIdsSql = @"
 SELECT
@@ -376,9 +389,7 @@ FROM
             {
                 var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
                 if (present)
-                {
                     parent.IsDirect = area.Level == value.Level + 1 && area.HierarchyType == value.HierarchyType;
-                }
             }
             //some GPs are not in a PCN
             if(area.AreaType==GP && allParents.All(parent => !parent.IsDirect))
@@ -387,32 +398,24 @@ FROM
                 {
                     var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
                     if (present)
-                    {
                         parent.IsDirect = area.Level == value.Level + 2 && area.HierarchyType == value.HierarchyType;
-                    }
                 }
             }
 
-            return allParents.Where(x => x.IsDirect).ToList();
+            return allParents.Where(x => x.IsDirect).Distinct().ToList();
         }
 
         public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
-            var indicators = await connection.QueryAsync<IndicatorEntity>(IndicatorSql);
-            await AddPolarityToIndicators(indicators.ToList(), connection);
-            
-            return indicators.ToList();
+            var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql)).ToList();
+            await AddPolarityToIndicators(indicators, connection);
+            await AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(indicators, connection);
+
+            return indicators;
         }
 
-        public async Task<IEnumerable<HealthMeasureEntity>> FetchHealthDataAsync(int yearFrom, IEnumerable<string> areaCodes, IEnumerable<int> indicatorIds, bool useIndicatorIds=false)
-        {
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            return useIndicatorIds
-                ? (await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureUsingIndictorIdsSql, new {year=yearFrom, areaCodes, indicatorIds })).ToList()
-                : (IEnumerable<HealthMeasureEntity>)(await connection.QueryAsync<HealthMeasureEntity>(HealthMeasureNotUsingIndictorIdsSql, new { year = yearFrom, areaCodes, indicatorIds })).ToList();
-        }
 
         public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync()
         {
@@ -420,19 +423,6 @@ FROM
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
-        private async Task AddAreasToIndicators(IEnumerable<IndicatorEntity> indicators, SqlConnection connection)
-        {
-            var areaIndicators = await connection.QueryAsync<IndicatorArea>(IndicatorsAreasSql);
-
-            foreach (var indicator in indicators) 
-            {
-               indicator.AssociatedAreaCodes= areaIndicators
-                    .Where(ai=>ai.IndicatorId==indicator.IndicatorID)
-                    .Select(ai=>ai.AreaCode)
-                    .Distinct()
-                    .ToList();
-            }
-        }
 
         private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
         {
@@ -454,6 +444,25 @@ FROM
                 indicator.Polarity = match != null ? match.Polarity : "Not applicable";
 
             }
+        }
+
+        private async Task AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
+        {
+            var areaBenchmarks = await connection.QueryAsync<IndicatorBenchmark>(BenchmarkSql);
+            var indicatorsWithMultiple = new List<int>();
+            foreach (var indicator in indicators)
+            {
+                indicator.UseProportionsForTrend= areaBenchmarks.Any(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID==5);
+                var results = areaBenchmarks
+                     .Where(ab => ab.IndicatorId == indicator.IndicatorID && (ab.ComparatorMethodID==1 || ab.ComparatorMethodID == 15))
+                     .ToList();
+                if (results.Count() > 1)
+                    indicatorsWithMultiple.Add(indicator.IndicatorID);
+                else if(results.Count > 0)
+                    indicator.BenchmarkComparisonMethod = results.First().ComparatorMethodID == 1 ? "RAG" : "QUINTILES";
+            }
+            indicators.RemoveAll(i => indicatorsWithMultiple.Contains(i.IndicatorID));
+            
         }
     }
 
@@ -478,6 +487,12 @@ FROM
     {
         public int IndicatorId { get; set; }
         public string Polarity { get; set; }
+    }
+
+    public class IndicatorBenchmark
+    {
+        public int IndicatorId { get; set; }
+        public int ComparatorMethodID { get; set; }
     }
 
     public class ParentChildAreaCode

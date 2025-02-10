@@ -53,17 +53,15 @@ namespace DataCreator
 
         public string Polarity { get; set; }
 
-        public List<string> AssociatedAreaCodes { get; set; }
+        public bool UseProportionsForTrend { get; set; }
+
+        public string BenchmarkComparisonMethod { get; set; }
+
+        public List<string> AssociatedAreaCodes { get; set; } = [];
 
     }
 }
 
-    public static class String
-    {
-        public static string StripHTML(this string input)
-        {
-            return input == null ? null : Regex.Replace(input, "<.*?>", string.Empty);
-        }
-    }
+    
 
 
