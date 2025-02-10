@@ -6,7 +6,7 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import { SearchParams } from '@/lib/searchStateManager';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
-import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
+import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
 
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
@@ -115,13 +115,17 @@ it('should render the ThematicMap component when all map props are provided', ()
   const areaType = 'Regions Statistical';
   const mapData = getMapFile(areaType);
   const mapJoinKey = getMapJoinKey(areaType);
-  const mapGroup = getMapGroup(mapData, ['E08000025'], mapJoinKey);
+  const mapGroup = getMapGroupBoundary(
+    mapData,
+    ['E12000001', 'E12000002'],
+    mapJoinKey
+  );
   render(
     <Chart
       data={[mockHealthData['318']]}
       mapData={mapData}
       mapJoinKey={mapJoinKey}
-      mapGroup={mapGroup}
+      mapGroupBoundary={mapGroup}
     />
   );
 

@@ -20,7 +20,7 @@ type ChartProps = {
   data: HealthDataForArea[][];
   mapData?: GeoJSON;
   mapJoinKey?: string;
-  mapGroup?: GeoJSON;
+  mapGroupBoundary?: GeoJSON;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -30,7 +30,7 @@ export function Chart({
   data,
   mapData,
   mapJoinKey,
-  mapGroup,
+  mapGroupBoundary,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -97,13 +97,13 @@ export function Chart({
           />
         </>
       ) : null}
-      {data.length === 1 && mapData && mapJoinKey && mapGroup ? (
+      {data.length === 1 && mapData && mapJoinKey && mapGroupBoundary ? (
         <>
           <ThematicMap
             data={data[0]}
             mapData={mapData}
             mapJoinKey={mapJoinKey}
-            mapGroup={mapGroup}
+            mapGroupBoundary={mapGroupBoundary}
             mapTitle="Compare indicators within the area group"
           />
           <br />

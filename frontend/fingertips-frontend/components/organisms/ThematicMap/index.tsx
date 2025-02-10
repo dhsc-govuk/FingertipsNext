@@ -10,11 +10,11 @@ interface ThematicMapProps {
   data: HealthDataForArea[];
   mapData: GeoJSON;
   mapJoinKey: string;
-  mapGroup: GeoJSON;
+  mapGroupBoundary: GeoJSON;
   mapTitle?: string;
 }
 
-// useEffect and async loading of map module to address issue with Highcharts 12 with React 15.
+// useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
 // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
 const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
@@ -23,7 +23,7 @@ export function ThematicMap({
   data,
   mapData,
   mapJoinKey,
-  mapGroup,
+  mapGroupBoundary,
   mapTitle,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
@@ -40,7 +40,7 @@ export function ThematicMap({
     credits: { enabled: false },
     mapView: {
       projection: { name: 'Miller' },
-      fitToGeometry: mapGroup.features[0].geometry,
+      fitToGeometry: mapGroupBoundary.features[0].geometry,
       padding: 20,
     },
     mapNavigation: { enabled: true },
@@ -75,7 +75,7 @@ export function ThematicMap({
         name: 'group border',
         zIndex: 3,
         showInLegend: true,
-        mapData: mapGroup,
+        mapData: mapGroupBoundary,
         data: [],
         borderColor: 'black',
         borderWidth: 3,

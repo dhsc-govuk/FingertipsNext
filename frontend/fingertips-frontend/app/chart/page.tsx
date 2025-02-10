@@ -10,7 +10,7 @@ import {
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
-import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
+import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -60,12 +60,12 @@ export default async function ChartPage(
 
   let mapData;
   let mapJoinKey;
-  let mapGroup;
+  let mapGroupBoundary;
   if (selectedAreaType && indicatorsSelected.length === 1) {
     // only checking for selectedAreaType and single indicator until business logic to also confirm when an entire Group of areas has been selected is in place
     mapData = getMapFile(selectedAreaType);
     mapJoinKey = getMapJoinKey(selectedAreaType);
-    mapGroup = getMapGroup(mapData, areaCodes, mapJoinKey);
+    mapGroupBoundary = getMapGroupBoundary(mapData, areaCodes, mapJoinKey);
   }
 
   return (
@@ -74,7 +74,7 @@ export default async function ChartPage(
       data={data}
       mapData={mapData}
       mapJoinKey={mapJoinKey}
-      mapGroup={mapGroup}
+      mapGroupBoundary={mapGroupBoundary}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />

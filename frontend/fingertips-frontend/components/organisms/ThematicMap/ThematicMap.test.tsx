@@ -2,13 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
-import { getMapGroup } from '@/lib/mapUtils/getMapGroup';
 import { ThematicMap } from '.';
+import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
 
 const mockAreaType = 'Regions Statistical';
 const mockMapData = getMapFile(mockAreaType);
 const mockMapJoinKey = getMapJoinKey(mockAreaType);
-const mockMapGroup = getMapGroup(mockMapData, ['E08000025'], mockMapJoinKey);
+const mockMapGroup = getMapGroupBoundary(
+  mockMapData,
+  ['E12000001', 'E12000002'],
+  mockMapJoinKey
+);
 
 it('should render the ThematicMap title', async () => {
   render(
@@ -16,7 +20,7 @@ it('should render the ThematicMap title', async () => {
       data={mockHealthData['318']}
       mapData={mockMapData}
       mapJoinKey={mockMapJoinKey}
-      mapGroup={mockMapGroup}
+      mapGroupBoundary={mockMapGroup}
       mapTitle="valid title"
     />
   );
@@ -31,7 +35,7 @@ it('should render the ThematicMap component', async () => {
       data={mockHealthData['318']}
       mapData={mockMapData}
       mapJoinKey={mockMapJoinKey}
-      mapGroup={mockMapGroup}
+      mapGroupBoundary={mockMapGroup}
       mapTitle="valid title"
     />
   );
