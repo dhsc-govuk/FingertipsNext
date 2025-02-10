@@ -17,31 +17,31 @@ DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 --create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON
 
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (321, N'All ages', 1)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (483, N'<75 yrs', 163)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (488, N'18+ yrs', 168)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (538, N'12+ yrs', 227)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (604, N'0-4 yrs', 28);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (605, N'5-9 yrs', 4);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (606, N'10-14 yrs', 5);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (607, N'15-19 yrs', 6);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (608, N'20-24 yrs', 7);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (609, N'25-29 yrs', 8);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (610, N'30-34 yrs', 9);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (611, N'35-39 yrs', 10);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (612, N'40-44 yrs', 11);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (613, N'45-49 yrs', 12);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (614, N'50-54 yrs', 13);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (615, N'55-59 yrs', 14);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (616, N'60-64 yrs', 15);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (617, N'65-69 yrs', 16);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (618, N'70-74 yrs', 17);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (619, N'75-79 yrs', 18);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (620, N'80-84 yrs', 19);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (621, N'85-89 yrs', 21);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (622, N'90+ yrs', 22);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (630, N'90-94 yrs', 281);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (631, N'95+ yrs', 282);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (321, N'All ages', 1, 0)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (483, N'<75 yrs', 163, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (488, N'18+ yrs', 168, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (538, N'12+ yrs', 227, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (604, N'0-4 yrs', 28, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (605, N'5-9 yrs', 4, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (606, N'10-14 yrs', 5, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (607, N'15-19 yrs', 6, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (608, N'20-24 yrs', 7, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (609, N'25-29 yrs', 8, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (610, N'30-34 yrs', 9, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (611, N'35-39 yrs', 10, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (612, N'40-44 yrs', 11, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (613, N'45-49 yrs', 12, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (614, N'50-54 yrs', 13, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (615, N'55-59 yrs', 14, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (616, N'60-64 yrs', 15, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (617, N'65-69 yrs', 16, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (618, N'70-74 yrs', 17, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (619, N'75-79 yrs', 18, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (620, N'80-84 yrs', 19, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (621, N'85-89 yrs', 21, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (622, N'90+ yrs', 22, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (630, N'90-94 yrs', 281, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (631, N'95+ yrs', 282, 1);
 
 SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 
