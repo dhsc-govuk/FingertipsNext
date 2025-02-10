@@ -79,7 +79,7 @@ export function Chart({
       />
       <br />
       <LineChartTable
-        data={data[0][0]}
+        data={data[0]}
         englandBenchmarkData={englandBenchmarkData}
       ></LineChartTable>
     </>
