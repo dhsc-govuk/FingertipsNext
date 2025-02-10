@@ -51,7 +51,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       {
         backgroundColor: 'transparent',
         color: 'var(--other-black, #0B0C0C)',
-        border: '1px solid #000',
       },
     ],
     [
