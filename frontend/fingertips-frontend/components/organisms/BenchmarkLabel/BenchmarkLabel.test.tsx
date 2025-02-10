@@ -105,7 +105,6 @@ describe('Testing the BenchmarkLabel Component ', () => {
   test('applies correct styles for QUINTILE group and LOW type', () => {
     const { container } = render(
       <BenchmarkLabel
-        label="Quintile Label"
         type={BenchmarkLabelType.LOW}
         group={BenchmarkLabelGroupType.QUINTILES}
       />
@@ -116,7 +115,6 @@ describe('Testing the BenchmarkLabel Component ', () => {
   test('applies correct styles for OTHERS group and WORST type', () => {
     const { container } = render(
       <BenchmarkLabel
-        label="Others Label"
         type={BenchmarkLabelType.WORST}
         group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
       />

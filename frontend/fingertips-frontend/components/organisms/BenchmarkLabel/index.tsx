@@ -26,7 +26,6 @@ export const enum BenchmarkLabelGroupType {
 }
 
 interface BenchmarkLabelProps {
-  label?: string;
   type?: BenchmarkLabelType | string;
   group?: BenchmarkLabelGroupType | string;
 }
