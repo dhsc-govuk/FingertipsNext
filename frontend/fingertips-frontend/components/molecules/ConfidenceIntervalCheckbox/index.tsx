@@ -4,10 +4,14 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
+  showConfidenceIntervalsData: boolean;
+  onCheck: (checked: boolean) => void;
 };
 
 export function ConfidenceIntervalCheckbox({
   chartName,
+  showConfidenceIntervalsData,
+  onCheck
 }: Readonly<ConfidenceIntervalCheckboxProps>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,6 +31,7 @@ export function ConfidenceIntervalCheckbox({
         chartName
       );
     }
+    onCheck(checked)
     replace(searchState.generatePath(pathname), { scroll: false });
   };
 
@@ -38,6 +43,7 @@ export function ConfidenceIntervalCheckbox({
       onChange={(e) => {
         handleClick(chartName, e.target.checked);
       }}
+      defaultChecked={showConfidenceIntervalsData}
     >
       <Paragraph>Show confidence intervals</Paragraph>
     </Checkbox>

@@ -5,7 +5,8 @@ import { showConfidenceIntervals } from '@/lib/chartHelpers/chartHelpers';
 export function generateSeriesData(
   data: HealthDataForArea[],
   symbols: SymbolKeyValue[],
-  benchmarkData?: HealthDataForArea
+  benchmarkData?: HealthDataForArea,
+  showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] {
   const seriesData = data.map<Highcharts.SeriesOptionsType>((item, index) => ({
     type: 'line',
@@ -51,10 +52,14 @@ export function generateSeriesData(
     seriesData.unshift(englandSeries);
   }
   
-const ci = showConfidenceIntervals(data) 
-  //console.log('ci === ', ...ci)
- 
-  seriesData.push(...ci)
+  if(showConfidenceIntervalsData) {
+    const ci = showConfidenceIntervals(data)
+    seriesData.push(...ci)
+  }
+  
+// const ci = showConfidenceIntervals(data)
+// 
+// seriesData.push(...ci)
   console.log('series data ==== ',seriesData)
 
   return seriesData;
