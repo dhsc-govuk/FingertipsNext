@@ -49,7 +49,23 @@ export function ThematicMap({
       {
         type: 'map',
         name: 'basemap',
-        showInLegend: true,
+        showInLegend: false,
+        mapData: mapData,
+        borderColor: 'black',
+        borderWidth: 0.2,
+      },
+      {
+        type: 'map',
+        name: 'group border',
+        showInLegend: false,
+        mapData: mapGroupBoundary,
+        borderColor: 'black',
+        borderWidth: 6,
+      },
+      {
+        type: 'map',
+        name: 'data',
+        showInLegend: false,
         mapData: mapData,
         data: data.map((areaData) => {
           return {
@@ -60,8 +76,14 @@ export function ThematicMap({
         }),
         joinBy: [mapJoinKey, 'areaCode'],
         borderColor: 'black',
-        borderWidth: 0.2,
-        states: { hover: { borderWidth: 1 } },
+        allAreas: false,
+        borderWidth: 0.5,
+        states: {
+          hover: {
+            borderWidth: 2,
+            borderColor: 'black',
+          },
+        },
         tooltip: {
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
@@ -69,17 +91,6 @@ export function ThematicMap({
             '<span style="font-size: large">Value: {point.value} units</span>',
           footerFormat: '',
         },
-      },
-      {
-        type: 'map',
-        name: 'group border',
-        zIndex: 3,
-        showInLegend: true,
-        mapData: mapGroupBoundary,
-        data: [],
-        borderColor: 'black',
-        borderWidth: 3,
-        nullColor: 'transparent',
       },
     ],
   };
