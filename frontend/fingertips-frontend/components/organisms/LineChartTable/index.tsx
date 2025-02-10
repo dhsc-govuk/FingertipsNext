@@ -56,7 +56,6 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
   width: '15%',
-  borderLeft: 'solid black 1px',
 });
 
 const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
@@ -77,10 +76,6 @@ const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
 const StyledAlignLeftTableCell = styled(StyledTableCell)({
   textAlign: 'left',
   width: '10%',
-});
-
-const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)({
-  borderLeft: 'solid black 1px',
 });
 
 const StyledAlignRightTableCell = styled(StyledTableCell)({
@@ -162,6 +157,11 @@ export function LineChartTable({
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const englandRowData = sortPeriod(englandData);
+
+  const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)({
+    borderLeft: data.length > 1 ? 'solid black 1px' : 'none',
+  });
+
   return (
     <>
       <StyledDiv data-testid="lineChartTable-component">

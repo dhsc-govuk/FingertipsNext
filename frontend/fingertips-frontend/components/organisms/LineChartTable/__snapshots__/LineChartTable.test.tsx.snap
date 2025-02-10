@@ -93,7 +93,6 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 .c10 {
   width: 15%;
-  border-left: solid black 1px;
 }
 
 .c9 {
@@ -122,10 +121,6 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 10%;
 }
 
-.c16 {
-  border-left: solid black 1px;
-}
-
 .c17 {
   text-align: right;
   padding-right: 10px;
@@ -142,6 +137,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 .c5 {
   border: none;
+}
+
+.c16 {
+  border-left: none;
 }
 
 @media print {
@@ -218,7 +217,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <th
-            class="c2 5 c3 c4 c5"
+            class="c2 4 c3 c4 c5"
             colspan="6"
           >
             Greater Manchester ICB - 00T recent trend:
@@ -292,7 +291,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -303,7 +302,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Lower 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -314,7 +313,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Upper 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -325,7 +324,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value  
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -344,30 +343,30 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             2004
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             267
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             7.0%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="2 3 c15 c13 c17 c18"
+            class="1 2 c15 c13 c17 c18"
             data-testid="grey-table-cell"
           >
             9.0%
@@ -382,30 +381,30 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             2008
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             222
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             8.9%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="2 3 c15 c13 c17 c18"
+            class="1 2 c15 c13 c17 c18"
             data-testid="grey-table-cell"
           >
             9.7%
@@ -510,7 +509,6 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 .c10 {
   width: 15%;
-  border-left: solid black 1px;
 }
 
 .c9 {
@@ -539,10 +537,6 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 10%;
 }
 
-.c16 {
-  border-left: solid black 1px;
-}
-
 .c17 {
   text-align: right;
   padding-right: 10px;
@@ -559,6 +553,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 .c5 {
   border: none;
+}
+
+.c16 {
+  border-left: solid black 1px;
 }
 
 @media print {
@@ -635,13 +633,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <th
-            class="c2 5 c3 c4 c5"
+            class="c2 4 c3 c4 c5"
             colspan="6"
           >
             Greater Manchester ICB - 00T recent trend:
           </th>
           <th
-            class="c2 5 c3 c4 c5"
+            class="c2 4 c3 c4 c5"
             colspan="6"
           >
             South FooBar recent trend:
@@ -737,7 +735,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -748,7 +746,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -759,7 +757,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -782,7 +780,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -793,7 +791,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -804,7 +802,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper 
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -815,7 +813,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value  
             <span
-              class="4 c11"
+              class="3 c11"
             >
               (%)
             </span>
@@ -834,53 +832,53 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             2004
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             267
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             7.0%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             222
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             1.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="2 3 c15 c13 c17 c18"
+            class="1 2 c15 c13 c17 c18"
             data-testid="grey-table-cell"
           >
             9.0%
@@ -895,53 +893,53 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             2008
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             222
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             8.9%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="0 1 c15 c13 c14 c16"
+            class="0 5 c15 c13 c14 c16"
           />
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             131
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             8.9%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             4.4%
           </td>
           <td
-            class="2 c12 c13 c17"
+            class="1 c12 c13 c17"
           >
             5.8%
           </td>
           <td
-            class="2 3 c15 c13 c17 c18"
+            class="1 2 c15 c13 c17 c18"
             data-testid="grey-table-cell"
           >
             9.7%
