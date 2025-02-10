@@ -231,7 +231,7 @@ export function LineChartTable({
         }
       >
         {englandRowData.map((point, index) => (
-          <Table.Row key={data[index].areaName + index}>
+          <Table.Row key={point.period + index}>
             <StyledAlignLeftTableCell numeric>
               {point.period}
             </StyledAlignLeftTableCell>
