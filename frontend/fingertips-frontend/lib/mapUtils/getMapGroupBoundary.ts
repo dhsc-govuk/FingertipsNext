@@ -17,6 +17,6 @@ export function getMapGroupBoundary(
 
   return {
     type: 'FeatureCollection',
-    features: [union(groupFeatureCollection)!], // TODO: does this not null need handling?
+    features: [union(groupFeatureCollection)!], // TODO: does this 'not null' need handling differently
   };
 }
