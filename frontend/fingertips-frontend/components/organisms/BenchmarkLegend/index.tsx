@@ -4,6 +4,9 @@ import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 
+
+
+
 const BenchmarkLegendGroupPanelStyle = styled('div')({
   'border': '0px solid #000',
   'width': 'flex',
@@ -27,22 +30,35 @@ const BenchmarkLegendGroupPanelStyle = styled('div')({
   },
 });
 
-export interface LegendLabelData {
-  label: string;
-  type: string;
-}
+
 
 export interface BenchmarkData {
   title?: string;
   group: string;
-  labels: LegendLabelData[];
+  types: string[];
 }
 
-export interface BenchmarkProps {
-  model?: BenchmarkData[] | undefined;
-}
 
-export const Benchmark: React.FC<BenchmarkProps> = ({ model }) => {
+
+
+export const Benchmark = () => {
+  const model: BenchmarkData[] = [
+    {
+      group: 'rag',
+      title: 'Areas compared to England',
+      types: ['better', 'similar', 'worse', 'not_compared', 'lower', 'higher'],
+    },
+    {
+      title: ' Quintile groupings',
+      group: 'quintiles',
+      types: ['lowest','low','middle' ,'high', 'highest']
+    },
+    {
+      group: 'quintiles_wv',
+      types: ['worst', 'worse', 'middle' , 'better', 'best']
+    },
+  ];
+
   return (
     <div>
       {model?.map((item, index) => (
@@ -55,13 +71,12 @@ export const Benchmark: React.FC<BenchmarkProps> = ({ model }) => {
                 </LabelText>
               </div>
             )}
-            {item.labels.map((label, label_key) => (
+            {item.types.map((type, label_key) => (
               <BenchmarkLabel
                 group={item.group}
-                label={label.label}
-                type={label.type}
+                type={type}
                 key={label_key}
-                data-testid={item?.group + '_' + label.type + '_' + label_key}
+                data-testid={item?.group + '_' + type + '_' + label_key}
               />
             ))}
           </div>

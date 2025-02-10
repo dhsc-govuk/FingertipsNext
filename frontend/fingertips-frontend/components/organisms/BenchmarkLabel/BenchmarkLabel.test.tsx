@@ -7,96 +7,88 @@ import {
 } from "@/components/organisms/BenchmarkLabel/index"
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
-
-  test('returns correct style for RAG group and LOWER type', () => {
-    const result = getBenchmarkLabelStyle(
+  test.each([
+    [
+      'returns correct style for RAG group and LOWER type',
       BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.LOWER
-    );
-    expect(result).toEqual({
-      backgroundColor: 'var(--other-light-blue, #5694CA)',
-      color: 'var(--other-black, #0B0C0C)',
-    });
-  });
-
-  test('returns correct style for QUINTILE group and LOWEST type', () => {
-    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelType.LOWER,
+      {
+        backgroundColor: 'var(--other-light-blue, #5694CA)',
+        color: 'var(--other-black, #0B0C0C)',
+      },
+    ],
+    [
+      'returns correct style for QUINTILE group and LOWEST type',
       BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.LOWEST
-    );
-    expect(result).toEqual({
-      backgroundColor: '#E4DDFF',
-      color: 'var(--other-black, #0B0C0C)',
-    });
-  });
-
-  test('returns correct style for QUINTILE group and HIGHER type', () => {
-    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelType.LOWEST,
+      {
+        backgroundColor: '#E4DDFF',
+        color: 'var(--other-black, #0B0C0C)',
+      },
+    ],
+    [
+      'returns correct style for QUINTILE group and HIGH type',
       BenchmarkLabelGroupType.QUINTILES,
-      BenchmarkLabelType.HIGHER
-    );
-
-    expect(result).toEqual({
-      backgroundColor: 'var(--other-dark-blue, #003078)',
-      color: 'var(--other-white, #FFF)',
-    });
-  });
-
-  test('returns correct style for OTHERS group and WORST type', () => {
-    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelType.HIGH,
+      {
+        backgroundColor: '#8B60E2',
+        color: 'var(--other-white, #FFF)',
+      },
+    ],
+    [
+      'returns correct style for OTHERS group and WORST type',
       BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
-      BenchmarkLabelType.WORST
-    );
-    expect(result).toEqual({
-      backgroundColor: '#D494C1',
-      color: 'var(--other-black, #0B0C0C)',
-    });
-  });
-
-  test('returns default style when group is RAG and type is unknown', () => {
-    const result = getBenchmarkLabelStyle(
+      BenchmarkLabelType.WORST,
+      {
+        backgroundColor: '#D494C1',
+        color: 'var(--other-black, #0B0C0C)',
+      },
+    ],
+    [
+      'returns default style when group is RAG and type is unknown',
       BenchmarkLabelGroupType.RAG,
-      'unknown'
-    );
-    expect(result).toEqual({
-      backgroundColor: 'transparent',
-      color: 'var(--other-black, #0B0C0C)',
-      border: '1px solid #000',
-    });
-  });
-
-  test('returns default style when group is not provided', () => {
-    const result = getBenchmarkLabelStyle(undefined, BenchmarkLabelType.BETTER);
-    expect(result).toEqual({
-      backgroundColor: '#812972',
-      color: 'var(--other-white, #FFF)',
-    }); 
+      'unknown',
+      {
+        backgroundColor: 'transparent',
+        color: 'var(--other-black, #0B0C0C)',
+        border: '1px solid #000',
+      },
+    ],
+    [
+      'returns default style when group is not provided',
+      undefined,
+      BenchmarkLabelType.BETTER,
+      {
+        backgroundColor: '#812972',
+        color: 'var(--other-white, #FFF)',
+      },
+    ],
+  ])('%s', (_, group, type, expected) => {
+    const result = getBenchmarkLabelStyle(group, type);
+    expect(result).toEqual(expected);
   });
 });
-
 /* The component test for the UI */
 
 describe('Testing the BenchmarkLabel Component ', () => {
   test('renders with default props', () => {
-    const { getByText } = render(<BenchmarkLabel label="Test Label" />);
-    expect(getByText('Test Label')).toBeInTheDocument();
+    const { getByText } = render(<BenchmarkLabel />);
+    expect(getByText('Not compared')).toBeInTheDocument();
   });
 
   test('renders with a specified type and group', () => {
     const { getByText } = render(
       <BenchmarkLabel
-        label="Custom Label"
         type={BenchmarkLabelType.BETTER}
         group={BenchmarkLabelGroupType.RAG}
       />
     );
-    expect(getByText('Custom Label')).toBeInTheDocument();
+    expect(getByText('Better (95%)')).toBeInTheDocument();
   });
 
   test('applies correct styles for RAG group and HIGH type', () => {
     const { container } = render(
       <BenchmarkLabel
-        label="Styled Label"
         type={BenchmarkLabelType.HIGHER}
         group={BenchmarkLabelGroupType.RAG}
       />
@@ -128,4 +120,12 @@ describe('Testing the BenchmarkLabel Component ', () => {
     );
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');
   });
+
+  it ("snapshot testing of the UI", ()=>{
+      const container  =  render( <BenchmarkLabel
+        type={BenchmarkLabelType.WORST}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
+      />)
+      expect(container.asFragment()).toMatchSnapshot()
+  })
 });
