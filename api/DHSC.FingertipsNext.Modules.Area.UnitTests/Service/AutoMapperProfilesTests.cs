@@ -9,12 +9,21 @@ namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 
 public class AutoMapperProfilesTests
 {
-    IMapper _mapper;
+    private readonly IMapper _mapper;
+    
+    public AutoMapperProfilesTests()
+    {
+        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new AutoMapperProfiles());
+        });
+
+        _mapper = new Mapper(mapperConfig);
+    }
 
     [Fact]
     public void Mapping_AreaModel_To_SchemaRootArea()
     {
-        Setup();
         var areaModel = Fake.AreaModel;
         var mappedArea = _mapper.Map<RootArea>(areaModel);
 
@@ -25,7 +34,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaModel_To_SchemaArea()
     {
-        Setup();
         var areaModel = Fake.AreaModel;
         var mappedArea = _mapper.Map<Schemas.Area>(areaModel);
 
@@ -37,7 +45,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulated()
     {
-        Setup();
         var awr = Fake.AreaWithRelationsModel;
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
@@ -60,7 +67,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
     {
-        Setup();
         var awr = Fake.AreaWithRelationsModel;
         awr.ParentArea = null;
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
@@ -76,7 +82,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForChildren()
     {
-        Setup();
         var awr = Fake.AreaWithRelationsModel;
         awr.Children = [];
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
@@ -98,7 +103,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForAncestors()
     {
-        Setup();
         var awr = Fake.AreaWithRelationsModel;
         awr.Ancestors = [];
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
@@ -114,7 +118,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
     {
-        Setup();
         var awr = Fake.AreaWithRelationsModel;
         awr.Siblings = [];
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
@@ -134,7 +137,6 @@ public class AutoMapperProfilesTests
     [Fact]
     public void Mapping_AreaTypeModel_To_SchemaAreaType()
     {
-        Setup();
         var areaTypeModel = Fake.AreaTypeModel;
         var mappedAreaType = _mapper.Map<AreaType>(areaTypeModel);
 
@@ -173,15 +175,5 @@ public class AutoMapperProfilesTests
             var model = modelAreas.First(c => c.AreaCode == mapped.Code);
             AssertAreaPropertiesMatch(mapped, model);
         }
-    }
-
-    void Setup()
-    {
-        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AutoMapperProfiles());
-        });
-
-        _mapper = new Mapper(mapperConfig);
     }
 }

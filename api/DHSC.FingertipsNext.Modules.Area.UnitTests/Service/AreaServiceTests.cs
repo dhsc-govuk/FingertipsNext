@@ -14,14 +14,26 @@ namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 /// </summary>
 public class AreaServiceTests
 {
-    IAreaRepository _mockRepository;
-    IMapper _mapper;
-    AreaService _service;
+    private readonly IAreaRepository _mockRepository;
+    private readonly IMapper _mapper;
+    private readonly AreaService _service;
+
+    public AreaServiceTests()
+    {
+        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new AutoMapperProfiles());
+        });
+
+        _mapper = new Mapper(mapperConfig);
+        _mockRepository = Substitute.For<IAreaRepository>();
+
+        _service = new AreaService(_mockRepository, _mapper);
+    }
 
     [Fact]
     public async Task GetHierarchies_ShouldDelegateToRepository()
     {
-        CreateService();
         _mockRepository.GetHierarchiesAsync().Returns(["str1", "str2"]);
 
         var result = await _service.GetHierarchies();
@@ -35,7 +47,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaTypes_ShouldDelegateToRepository_IfParameterPassed()
     {
-        CreateService();
         _mockRepository.GetAreaTypesAsync("hierarchyType").Returns(SampleAreaTypes);
 
         var result = await _service.GetAreaTypes("hierarchyType");
@@ -47,7 +58,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaTypes_ShouldDelegateToRepository_IfNoParameterPassed()
     {
-        CreateService();
         _mockRepository.GetAreaTypesAsync(null).Returns(SampleAreaTypes);
 
         var result = await _service.GetAreaTypes();
@@ -69,10 +79,9 @@ public class AreaServiceTests
     [Fact]
     public async Task GetRootArea_ShouldDelegateToRepository()
     {
-        CreateService();
         _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
 
-        var result = await _service.GetRootArea();
+        await _service.GetRootArea();
 
         await _mockRepository.Received().GetRootAreaAsync();
     }
@@ -80,7 +89,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetRootArea_ShouldReturnNull_IfRepositoryReturnsNull()
     {
-        CreateService();
         _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
 
         var result = await _service.GetRootArea();
@@ -91,7 +99,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetRootArea_ShouldReturnMappedArea_IfRepositoryReturnsArea()
     {
-        CreateService();
         var mockArea = Fake.AreaModel;
         _mockRepository.GetRootAreaAsync().Returns(mockArea);
 
@@ -107,12 +114,11 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaDetails_ShouldDelegateToRepositorySupplyingDefaults()
     {
-        CreateService();
         _mockRepository
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null, null);
+        await _service.GetAreaDetails("area1", null, null, null, null);
 
         await _mockRepository.Received().GetAreaAsync("area1", false, false, false, null);
     }
@@ -120,7 +126,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaDetails_ShouldReturnNull_IfRepositoryReturnsNull()
     {
-        CreateService();
         _mockRepository
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
@@ -133,7 +138,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaDetails_ShouldReturnedMappedResult_IfRepositoryReturnsArea()
     {
-        CreateService();
         var fakeAreaWithRelationsModel = Fake.AreaWithRelationsModel;
         _mockRepository
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
@@ -152,7 +156,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaDetailsForAreaType_ShouldReturnEmptyList_IfRepositoryReturnsEmptyList()
     {
-        CreateService();
         var fakeAreaModels = new List<AreaModel>();
         _mockRepository
             .GetAreasForAreaTypeAsync(Arg.Any<string>())
@@ -166,7 +169,6 @@ public class AreaServiceTests
     [Fact]
     public async Task GetAreaDetailsForAreaType_ShouldReturnMAppedList_IfRepositoryReturnsAreas()
     {
-        CreateService();
         var fakeAreaModels = new List<AreaModel>{ Fake.AreaModel, Fake.AreaModel };
         _mockRepository
             .GetAreasForAreaTypeAsync(Arg.Any<string>())
@@ -180,17 +182,4 @@ public class AreaServiceTests
     }
     
     #endregion
-    
-    void CreateService()
-    {
-        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new AutoMapperProfiles());
-        });
-
-        _mapper = new Mapper(mapperConfig);
-        _mockRepository = Substitute.For<IAreaRepository>();
-
-        _service = new AreaService(_mockRepository, _mapper);
-    }
 }
