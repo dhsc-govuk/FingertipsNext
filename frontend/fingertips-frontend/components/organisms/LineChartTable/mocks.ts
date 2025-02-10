@@ -49,9 +49,6 @@ export const MOCK_HEALTH_DATA = [
     ],
   },
   {
-    ...MOCK_ENGLAND_DATA,
-  },
-  {
     areaCode: 'A1426',
     areaName: 'South FooBar',
     healthData: [

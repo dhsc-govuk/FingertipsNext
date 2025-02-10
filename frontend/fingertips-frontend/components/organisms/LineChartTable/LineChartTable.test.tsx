@@ -143,13 +143,13 @@ describe('Line chart table suite', () => {
         `${MOCK_HEALTH_DATA[0].areaName} recent trend:`
       );
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        `${MOCK_HEALTH_DATA[2].areaName} recent trend:`
+        `${MOCK_HEALTH_DATA[1].areaName} recent trend:`
       );
       expect(screen.getAllByRole('columnheader')[3]).toHaveTextContent(
         MOCK_HEALTH_DATA[0].areaName
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
-        MOCK_HEALTH_DATA[2].areaName
+        MOCK_HEALTH_DATA[1].areaName
       );
       expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);
       expect(screen.getByText(/England/i)).toBeInTheDocument();

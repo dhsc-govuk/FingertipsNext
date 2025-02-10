@@ -31,6 +31,18 @@ export function getEnglandDataForIndicatorIndex(
 export function seriesDataWithoutEngland(data: HealthDataForArea[]) {
   return data.filter((item) => item.areaCode !== areaCodeForEngland);
 }
+
+export function shouldDisplayLineChart(
+  data: HealthDataForArea[][],
+  indicatorsSelected: string[]
+): boolean {
+  return (
+    indicatorsSelected.length === 1 &&
+    seriesDataWithoutEngland(data[0]).length <= 2 &&
+    data[0][0].healthData.length > 1
+  );
+}
+
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
   BenchmarkTrend = 'Compared to benchmark',

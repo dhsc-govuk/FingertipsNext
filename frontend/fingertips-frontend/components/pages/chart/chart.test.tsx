@@ -47,7 +47,7 @@ describe('Page structure', () => {
 
 describe('Content', () => {
   beforeEach(() => {
-    render(<Chart data={[mockHealthData[1]]} />);
+    render(<Chart data={[mockHealthData['337']]} indicatorsSelected={['0']} />);
   });
 
   it('should render the title with correct text', () => {
@@ -98,4 +98,43 @@ it('should not render the scatterChart component when only 1 indicator is select
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
+});
+
+describe('should not display line chart', () => {
+  it('should not display line chart and line chart table when multiple indicators are selected', () => {
+    render(
+      <Chart data={[mockHealthData['1']]} indicatorsSelected={['0', '1']} />
+    );
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
+    render(<Chart data={[mockHealthData['1']]} indicatorsSelected={['0']} />);
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
+    const MOCK_DATA = [
+      {
+        areaCode: 'A1',
+        areaName: 'Area 1',
+        healthData: [mockHealthData['1'][0].healthData[0]],
+      },
+    ];
+
+    render(<Chart data={[MOCK_DATA]} indicatorsSelected={['0']} />);
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
 });

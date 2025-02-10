@@ -9,7 +9,6 @@ import {
   LIGHT_GREY,
   LineChartTableHeadingEnum,
 } from '@/lib/chartHelpers/chartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import React from 'react';
 
 interface TableProps {
@@ -157,16 +156,11 @@ export function LineChartTable({
   data,
   englandBenchmarkData,
 }: Readonly<TableProps>) {
-  const dataWithoutEngland = data.filter(
-    (area) => area.areaCode !== areaCodeForEngland
-  );
-  const tableData = dataWithoutEngland.map((areaData) =>
-    mapToTableData(areaData)
-  );
+  const tableData = data.map((areaData) => mapToTableData(areaData));
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
-  const dataSortedByPeriod = tableData.map((area) => sortPeriod(area));
+  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const englandRowData = sortPeriod(englandData);
   return (
     <>
@@ -175,7 +169,7 @@ export function LineChartTable({
           head={
             <>
               <Table.Row>
-                {dataWithoutEngland.map((area, index) => (
+                {data.map((area, index) => (
                   <React.Fragment key={index}>
                     <StyledTitleRow colSpan={6}>
                       {`${area.areaName} recent trend:`}
@@ -184,7 +178,7 @@ export function LineChartTable({
                 ))}
               </Table.Row>
               <Table.Row>
-                {dataWithoutEngland.map((area, index) => (
+                {data.map((area, index) => (
                   <React.Fragment key={area.areaName}>
                     <Table.CellHeader
                       colSpan={getAreaNameCellSpan(index)}
@@ -198,7 +192,7 @@ export function LineChartTable({
                 </StyledGreyHeader>
               </Table.Row>
               <Table.Row>
-                {dataWithoutEngland.map((area, index) => (
+                {data.map((area, index) => (
                   <React.Fragment key={area.areaName}>
                     <Table.CellHeader
                       colSpan={getConfidenceLimitCellSpan(index)}
@@ -217,7 +211,7 @@ export function LineChartTable({
                 >
                   {LineChartTableHeadingEnum.AreaPeriod}
                 </StyledAlignLeftHeader>
-                {dataWithoutEngland.map(() =>
+                {data.map(() =>
                   Object.values(LineChartTableHeadingEnum)
                     .filter(
                       (value) => value !== LineChartTableHeadingEnum.AreaPeriod
@@ -243,22 +237,20 @@ export function LineChartTable({
               <StyledAlignLeftTableCell numeric>
                 {point.period}
               </StyledAlignLeftTableCell>
-              {dataSortedByPeriod.map((data, areaIndex) => (
-                <React.Fragment
-                  key={dataWithoutEngland[areaIndex].areaCode + index}
-                >
+              {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
+                <React.Fragment key={data[areaIndex].areaCode + index}>
                   <StyledBenchmarkCell></StyledBenchmarkCell>
                   <StyledAlignRightTableCell numeric>
-                    {data[index].count}
+                    {sortedAreaData[index].count}
                   </StyledAlignRightTableCell>
                   <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(data[index].value)}
+                    {convertToPercentage(sortedAreaData[index].value)}
                   </StyledAlignRightTableCell>
                   <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(data[index].lower)}
+                    {convertToPercentage(sortedAreaData[index].lower)}
                   </StyledAlignRightTableCell>
                   <StyledAlignRightTableCell numeric>
-                    {convertToPercentage(data[index].upper)}
+                    {convertToPercentage(sortedAreaData[index].upper)}
                   </StyledAlignRightTableCell>
                 </React.Fragment>
               ))}
