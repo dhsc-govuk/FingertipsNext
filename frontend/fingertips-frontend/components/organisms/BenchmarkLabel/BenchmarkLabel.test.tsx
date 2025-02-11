@@ -9,7 +9,6 @@ import {
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
     [
-      'returns correct style for RAG group and LOWER type',
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.LOWER,
       {
@@ -18,7 +17,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      'returns correct style for QUINTILE group and LOWEST type',
       BenchmarkLabelGroupType.QUINTILES,
       BenchmarkLabelType.LOWEST,
       {
@@ -27,7 +25,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      'returns correct style for QUINTILE group and HIGH type',
       BenchmarkLabelGroupType.QUINTILES,
       BenchmarkLabelType.HIGH,
       {
@@ -36,7 +33,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      'returns correct style for OTHERS group and WORST type',
       BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
       BenchmarkLabelType.WORST,
       {
@@ -45,7 +41,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      'returns default style when group is RAG and type is unknown',
       BenchmarkLabelGroupType.RAG,
       'unknown',
       {
@@ -54,13 +49,16 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
         color: 'var(--other-black, #0B0C0C)',
       },
     ],
-  ])('%s', (_, group, type, expected) => {
-    const result = getDefaultBenchmarkTagStyle(
-      group as BenchmarkLabelGroupType,
-      type as BenchmarkLabelType
-    );
-    expect(result).toEqual(expected);
-  });
+  ])(
+    'returns correct style for %s group and %s type',
+    (group, type, expected) => {
+      const result = getDefaultBenchmarkTagStyle(
+        group as BenchmarkLabelGroupType,
+        type as BenchmarkLabelType
+      );
+      expect(result).toEqual(expected);
+    }
+  );
 });
 /* The component test for the UI */
 
