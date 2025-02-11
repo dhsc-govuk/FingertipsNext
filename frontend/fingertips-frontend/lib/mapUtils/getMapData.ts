@@ -1,3 +1,10 @@
+type MapData = {
+  mapJoinKey: string;
+};
+export function getMapData(areaType: string): MapData {
+  return { mapJoinKey: mapJoinKeyEncoder[areaType] };
+}
+
 const mapJoinKeyEncoder: Record<string, string> = {
   'Regions Statistical': 'RGN23CD',
   'Counties & UAs': 'CTYUA23CD',
@@ -7,7 +14,3 @@ const mapJoinKeyEncoder: Record<string, string> = {
   'ICB': 'ICB23CD',
   'Sub ICB': 'SICBL23CD',
 };
-
-export function getMapJoinKey(areaType: string): string {
-  return mapJoinKeyEncoder[areaType];
-}

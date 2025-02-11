@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { getMapJoinKey } from '@/lib/mapUtils/getMapJoinKey';
 import { getMapFile } from '@/lib/mapUtils/getMapFile';
 import { ThematicMap } from '.';
 import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
+import { getMapData } from '@/lib/mapUtils/getMapData';
 
 const mockAreaType = 'Regions Statistical';
 const mockMapData = getMapFile(mockAreaType);
-const mockMapJoinKey = getMapJoinKey(mockAreaType);
+const mockMapJoinKey = getMapData(mockAreaType).mapJoinKey;
+
 const mockMapGroup = getMapGroupBoundary(
   mockMapData,
   ['E12000001', 'E12000002'],

@@ -1,15 +1,15 @@
 import { getMapGroupBoundary } from './getMapGroupBoundary';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import countiesAndUAsMap from '@/assets/maps/Counties_and_Unitary_Authorities_December_2023_Boundaries_UK_BSC_4952317392296043005.geo.json';
-import { getMapJoinKey } from './getMapJoinKey';
 import { mockMapGroupBoundaries } from '@/mock/data/mapGroupBoundaries';
+import { getMapData } from './getMapData';
 
 describe('getMapGroupBoundary', () => {
   it.each([
     [
       regionsMap,
       ['E12000008', 'E12000009'],
-      getMapJoinKey('Regions Statistical'),
+      getMapData('Regions Statistical').mapJoinKey,
       mockMapGroupBoundaries['Regions Statistical'],
     ],
     [
@@ -23,7 +23,7 @@ describe('getMapGroupBoundary', () => {
         'E08000031',
         'E08000026',
       ],
-      getMapJoinKey('Counties & UAs'),
+      getMapData('Counties & UAs').mapJoinKey,
       mockMapGroupBoundaries['Counties & UAs'],
     ],
   ])(

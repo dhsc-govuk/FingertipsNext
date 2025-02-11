@@ -1,6 +1,6 @@
-import { getMapJoinKey } from './getMapJoinKey';
+import { getMapData } from './getMapData';
 
-describe('getMapFiles', () => {
+describe('getMapData', () => {
   it.each([
     ['Regions Statistical', 'RGN23CD'],
     ['Counties & UAs', 'CTYUA23CD'],
@@ -10,10 +10,10 @@ describe('getMapFiles', () => {
     ['ICB', 'ICB23CD'],
     ['Sub ICB', 'SICBL23CD'],
   ])(
-    'should return the correct map file for the given areaType',
+    'should return an object with the correct mapJoinKey object for the given areaType',
     (areaType, expectedMapJoinKey) => {
-      const actual = getMapJoinKey(areaType);
-      expect(actual).toEqual(expectedMapJoinKey);
+      const actual = getMapData(areaType);
+      expect(actual.mapJoinKey).toEqual(expectedMapJoinKey);
     }
   );
 });
