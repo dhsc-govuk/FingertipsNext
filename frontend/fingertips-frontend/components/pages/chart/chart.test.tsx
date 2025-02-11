@@ -4,6 +4,15 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+
+jest.mock('@/components/organisms/ThematicMap/', () => {
+  return {
+    ThematicMap: function ThematicMap() {
+      return <div data-testid="thematicMap-component"></div>;
+    },
+  };
+});
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -98,4 +107,22 @@ it('should not render the scatterChart component when only 1 indicator is select
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
+});
+
+it('should render the ThematicMap component when all map props are provided', () => {
+  const areaType = 'Regions';
+  const areaCodes = ['E12000001', 'E12000002'];
+  const mapData = getMapData(areaType, areaCodes);
+
+  render(<Chart data={[mockHealthData['318']]} mapData={mapData} />);
+
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+  expect(thematicMap).toBeInTheDocument();
+});
+
+it('should _not_ render the ThematicMap component when map props are _not_ provided', async () => {
+  render(<Chart data={[mockHealthData['318']]} />);
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+
+  expect(thematicMap).not.toBeInTheDocument();
 });
