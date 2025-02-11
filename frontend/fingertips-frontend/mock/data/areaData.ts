@@ -143,29 +143,29 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
 };
 
 export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
-{
-  E06000047: {
-    code: 'E06000047',
-    name: 'County Durham',
-    hierarchyName: 'Admin',
-    areaType: 'Counties and Unitary Authorities',
-    level: 4,
-  },
-  E06000005: {
-    code: 'E06000005',
-    name: 'Darlington',
-    hierarchyName: 'Admin',
-    areaType: 'Counties and Unitary Authorities',
-    level: 4,
-  },
-  E08000037: {
-    code: 'E08000037',
-    name: 'Gateshead',
-    hierarchyName: 'Admin',
-    areaType: 'Counties and Unitary Authorities',
-    level: 4,
-  },
-};
+  {
+    E06000047: {
+      code: 'E06000047',
+      name: 'County Durham',
+      hierarchyName: 'Admin',
+      areaType: 'Counties and Unitary Authorities',
+      level: 4,
+    },
+    E06000005: {
+      code: 'E06000005',
+      name: 'Darlington',
+      hierarchyName: 'Admin',
+      areaType: 'Counties and Unitary Authorities',
+      level: 4,
+    },
+    E08000037: {
+      code: 'E08000037',
+      name: 'Gateshead',
+      hierarchyName: 'Admin',
+      areaType: 'Counties and Unitary Authorities',
+      level: 4,
+    },
+  };
 
 export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
   E38000007: {

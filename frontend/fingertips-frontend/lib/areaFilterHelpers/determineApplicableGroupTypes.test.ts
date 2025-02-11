@@ -37,8 +37,25 @@ describe('determineApplicableGroupTypes', () => {
     ['England', []],
     ['NHS Regions', ['England']],
     ['NHS Integrated Care Boards', ['NHS Regions', 'England']],
-    ['NHS Primary Care Networks', ['NHS Sub Integrated Care Boards', 'NHS Integrated Care Boards', 'NHS Regions', 'England']],
-    ['GPs', ['NHS Primary Care Networks', 'NHS Sub Integrated Care Boards', 'NHS Integrated Care Boards', 'NHS Regions', 'England']],
+    [
+      'NHS Primary Care Networks',
+      [
+        'NHS Sub Integrated Care Boards',
+        'NHS Integrated Care Boards',
+        'NHS Regions',
+        'England',
+      ],
+    ],
+    [
+      'GPs',
+      [
+        'NHS Primary Care Networks',
+        'NHS Sub Integrated Care Boards',
+        'NHS Integrated Care Boards',
+        'NHS Regions',
+        'England',
+      ],
+    ],
     ['Regions', ['England']],
     ['Counties and Unitary Authorities', ['Regions', 'England']],
   ])(
