@@ -40,7 +40,7 @@ export const BenchmarkLegend = () => {
   return (
     <div>
       {model?.map((item, index) => (
-        <DefaultBenchmarkLegendGroupPanelStyle key={item?.group + '_'+ index}>
+        <DefaultBenchmarkLegendGroupPanelStyle key={item.group + '_'+ index}>
           {(item.title !== null || item.title == '') && (
             <DefaultBenchmarkLegendHeaderStyle>
               {item.title}
@@ -50,7 +50,7 @@ export const BenchmarkLegend = () => {
             <BenchmarkLabel
               group={item.group}
               type={type}
-              key={item?.group + '_' + type + '_' + index +"-"+ label_key}
+              key={item.group + '_' + type + '_' + index +"-"+ label_key}
             />
           ))}
         </DefaultBenchmarkLegendGroupPanelStyle>
