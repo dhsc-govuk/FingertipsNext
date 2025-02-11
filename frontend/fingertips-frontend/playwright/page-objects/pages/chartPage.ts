@@ -15,6 +15,11 @@ export enum AreaMode {
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
+
+type ScenarioConfig = {
+  visibleComponents: string[];
+  hiddenComponents: string[];
+};
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
   readonly lineChartComponent = 'lineChart-component';
@@ -36,143 +41,91 @@ export default class ChartPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  /**
-   * This test function is currently capable of testing three of the fifteen indicator + area
-   * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   * These three scenario combinations were chosen as they are happy paths covering lots of chart components.
-   * Note all 15 scenarios are covered in lower level unit testing.
-   */
-  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
-    // Supported test scenario combinations
-    const oneIndicatorWithOneArea =
-      indicatorMode === IndicatorMode.ONE_INDICATOR &&
-      areaMode === AreaMode.ONE_AREA;
-    const twoIndicatorsWithTwoAreas =
-      indicatorMode === IndicatorMode.TWO_INDICATORS &&
-      areaMode === AreaMode.TWO_AREAS;
-    const threeIndicatorsWithEngland =
-      indicatorMode === IndicatorMode.MULTIPLE_INDICATORS &&
-      areaMode === AreaMode.ENGLAND_AREA;
+  private getScenarioConfig(
+    indicatorMode: IndicatorMode,
+    areaMode: AreaMode
+  ): ScenarioConfig {
+    const defaultVisible = [this.populationPyramidComponent];
+    const defaultHidden = [
+      this.lineChartComponent,
+      this.lineChartTableComponent,
+      // DHSCFT-220 will implement this logic
+      // this.barChartComponent,
+    ];
 
-    // Check chart component visibility for oneIndicatorWithOneArea
-    if (oneIndicatorWithOneArea) {
-      const componentsToCheckVisible = [
+    // Single indicator scenarios show all charts
+    const singleIndicatorConfig: ScenarioConfig = {
+      visibleComponents: [
         this.lineChartComponent,
         this.lineChartTableComponent,
         this.barChartComponent,
         this.populationPyramidComponent,
-      ];
+      ],
+      hiddenComponents: [],
+    };
 
-      for (const component of componentsToCheckVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: true,
-        });
-      }
+    // Map of three supported scenarios to their configurations
+    const scenarioConfigs = new Map<string, ScenarioConfig>([
+      [
+        `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ONE_AREA}`,
+        singleIndicatorConfig,
+      ],
+      [
+        `${IndicatorMode.TWO_INDICATORS}_${AreaMode.TWO_AREAS}`,
+        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
+      ],
+      [
+        `${IndicatorMode.MULTIPLE_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
+        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
+      ],
+      // remove these extra two temporarily supported scenarios in DHSCFT-291
+      [
+        `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ENGLAND_AREA}`,
+        singleIndicatorConfig,
+      ],
+      [
+        `${IndicatorMode.TWO_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
+        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
+      ],
+    ]);
 
-      return;
-    }
-
-    // Check chart component visibility for twoIndicatorsWithTwoAreas
-    if (twoIndicatorsWithTwoAreas) {
-      const componentsToCheckVisible = [this.populationPyramidComponent];
-      const componentsToCheckNotVisible = [
-        this.lineChartComponent,
-        this.lineChartTableComponent,
-        // DHSCFT-220 will implement this logic
-        // this.barChartComponent,
-      ];
-
-      for (const component of componentsToCheckVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: true,
-        });
-      }
-
-      for (const component of componentsToCheckNotVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: false,
-        });
-      }
-      return;
-    }
-
-    // Check chart component visibility for threeIndicatorsWithEngland
-    if (threeIndicatorsWithEngland) {
-      const componentsToCheckVisible = [this.populationPyramidComponent];
-      const componentsToCheckNotVisible = [
-        this.lineChartComponent,
-        this.lineChartTableComponent,
-        // DHSCFT-220 will implement this logic
-        // this.barChartComponent,
-      ];
-
-      for (const component of componentsToCheckVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: true,
-        });
-      }
-
-      for (const component of componentsToCheckNotVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: false,
-        });
-      }
-      return;
-    }
-
-    // remove these extra temporarily supported scenarios in DHSCFT-291
-    const oneIndicatorWithEnglandArea =
-      indicatorMode === IndicatorMode.ONE_INDICATOR &&
-      areaMode === AreaMode.ENGLAND_AREA;
-    const twoIndicatorsWithEnglandArea =
-      indicatorMode === IndicatorMode.TWO_INDICATORS &&
-      areaMode === AreaMode.ENGLAND_AREA;
-
-    // remove this extra temporarily supported scenario in DHSCFT-291
-    // Check chart component visibility for oneIndicatorWithEnglandArea
-    if (oneIndicatorWithEnglandArea) {
-      const componentsToCheckVisible = [
-        this.lineChartComponent,
-        this.lineChartTableComponent,
-        this.barChartComponent,
-        this.populationPyramidComponent,
-      ];
-
-      for (const component of componentsToCheckVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: true,
-        });
-      }
-
-      return;
-    }
-
-    // remove this extra temporarily supported scenario in DHSCFT-291
-    // Check chart component visibility for twoIndicatorsWithEnglandArea
-    if (twoIndicatorsWithEnglandArea) {
-      const componentsToCheckVisible = [this.populationPyramidComponent];
-      const componentsToCheckNotVisible = [
-        this.lineChartComponent,
-        this.lineChartTableComponent,
-        // DHSCFT-220 will implement this logic
-        // this.barChartComponent,
-      ];
-
-      for (const component of componentsToCheckVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: true,
-        });
-      }
-
-      for (const component of componentsToCheckNotVisible) {
-        await expect(this.page.getByTestId(component)).toBeVisible({
-          visible: false,
-        });
-      }
-      return;
-    } else
+    const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
+    if (!config) {
       throw new Error(
         'Combination of indicator and area modes not currently supported'
       );
+    }
+
+    return config;
+  }
+
+  /**
+   * This test function is currently capable of testing three of the fifteen indicator + area
+   * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
+   * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
+   * Note all 15 scenarios are covered in lower level unit testing.
+   */
+  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
+    const { visibleComponents, hiddenComponents } = this.getScenarioConfig(
+      indicatorMode,
+      areaMode
+    );
+    console.log(
+      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that ${visibleComponents} are displayed and that`,
+      `${hiddenComponents} are not displayed.`
+    );
+    // Check visible components
+    for (const component of visibleComponents) {
+      await expect(this.page.getByTestId(component)).toBeVisible({
+        visible: true,
+      });
+    }
+
+    // Check hidden components
+    for (const component of hiddenComponents) {
+      await expect(this.page.getByTestId(component)).toBeVisible({
+        visible: false,
+      });
+    }
   }
 }
