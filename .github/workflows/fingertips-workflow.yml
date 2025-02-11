@@ -197,12 +197,14 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
-      github.event_name == 'workflow_dispatch' ||
       (
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.api_changed == 'true' || 
-        needs.check-changes.outputs.frontend_changed == 'true' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        github.event_name == 'workflow_dispatch' ||
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' || 
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
       )
     uses: ./.github/workflows/e2e-tests.yml
 
@@ -259,8 +261,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
-      github.ref_name == 'main' &&
       github.event_name != 'pull_request' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true'
@@ -485,16 +487,21 @@ jobs:
       always() &&
       contains(needs.*.result, 'success') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
-      github.event_name == 'workflow_dispatch' ||
       (
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.api_changed == 'true' ||
-        needs.check-changes.outputs.frontend_changed == 'true' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        github.ref_name == 'main' &&
+        github.event_name == 'workflow_dispatch'
+      ) ||
+      (
+        github.ref_name == 'main' &&
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' ||
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
       )
     with:
       env-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-      send-slack-on-fail: "'true'"
+      send-slack-on-fail: "true"
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
