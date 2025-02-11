@@ -34,13 +34,13 @@ describe('determineApplicableGroupTypes', () => {
   });
 
   it.each([
-    ['Country', []],
-    ['NHS region', ['Country']],
-    ['ICB', ['NHS region', 'Country']],
-    ['PCN', ['ICB', 'NHS region', 'Country']],
-    ['GP', ['PCN', 'ICB', 'NHS region', 'Country']],
-    ['Regions Statistical', ['Country']],
-    ['Counties & UAs', ['Regions Statistical', 'Country']],
+    ['England', []],
+    ['NHS Regions', ['England']],
+    ['NHS Integrated Care Boards', ['NHS Regions', 'England']],
+    ['NHS Primary Care Networks', ['NHS Sub Integrated Care Boards', 'NHS Integrated Care Boards', 'NHS Regions', 'England']],
+    ['GPs', ['NHS Primary Care Networks', 'NHS Sub Integrated Care Boards', 'NHS Integrated Care Boards', 'NHS Regions', 'England']],
+    ['Regions', ['England']],
+    ['Counties and Unitary Authorities', ['Regions', 'England']],
   ])(
     'when selectedAreaType is %p should return these applicable groupType %p',
     (selectedAreaType, expectedGroupTypes) => {
