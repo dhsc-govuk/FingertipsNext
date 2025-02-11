@@ -1,4 +1,4 @@
-﻿# Test comment 2
+﻿# Test comment 3
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER $APP_UID
 WORKDIR /app
