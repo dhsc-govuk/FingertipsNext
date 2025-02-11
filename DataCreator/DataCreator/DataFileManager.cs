@@ -16,11 +16,11 @@ namespace DataCreator
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         }));
 
-        public static void WriteHealthCsvData(string dataType, IEnumerable<HealthMeasureEntity> data) => 
-            new CsvContext().Write(data, $"{OutFilePath}{dataType}.csv", new CsvFileDescription());
+        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
-        public static void WriteAgeCsvData(string dataType, IEnumerable<AgeEntity> data) =>
-            new CsvContext().Write(data, $"{OutFilePath}{dataType}.csv", new CsvFileDescription());
+        public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
         public static int[] GetIndicatorIds() =>
             File.ReadAllText(@$"{InFilePath}\temp\indicatorids.txt").Split("\n").Select(int.Parse).ToArray();

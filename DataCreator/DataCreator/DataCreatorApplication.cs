@@ -6,8 +6,18 @@
 
         public async Task CreateDataAsync()
         {
-            
+
             //we have zipped up the source data to save space to unzip to get them ready
+
+            try
+            {
+                DataFileManager.DeleteTempFiles();
+            }
+            catch
+            {
+
+            }
+
             DataFileManager.UnzipSourceFiles();
             Console.WriteLine("Unzipped source CSV files");
             //get the ids of the indicators chosen for PoC (about 30)

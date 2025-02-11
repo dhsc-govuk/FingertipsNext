@@ -8,13 +8,14 @@ namespace DataCreator.PholioDatabase
     {
         private readonly IConfiguration _config;
         private readonly List<AreaMap> _map;
-        private const string Region = "Region";
+        private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
-        private const string UA = "Unitary Authority";
-        private const string NHSREGION = "NHS Region";
-        private const string DISTRICT = "District";
-        private const string GP = "GP";
+        private const string COUNTIESANDUA = "Counties and Unitary Authorities";
+        private const string COMBINEDAUTHORITIES = "Combined Authorities";
+        private const string NHSREGION = "NHS Regions";
+        private const string DISTRICT = "Districts and Unitary Authorities";
+        private const string GP = "GPs";
         private const string AreaTypes = @"
     ('Combined authorities',
     'County unchanged',
@@ -101,17 +102,7 @@ JOIN
 JOIN 
 	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID
 ";
-        private readonly string IndicatorsAreasSql = @"
-SELECT distinct
-	indicator.[IndicatorID] IndicatorId,
-	areas.AreaCode AreaCode
-FROM 
-	[CoreDataSet] core
-JOIN
-	[IndicatorMetadata] indicator ON core.IndicatorID=indicator.IndicatorID
-JOIN
-	[L_Areas] areas ON core.AreaCode=areas.AreaCode
-ORDER BY IndicatorId";
+        
         private readonly string IndicatorPolaritySql = @"
 SELECT distinct
 	indicator.IndicatorID,
@@ -123,30 +114,7 @@ JOIN
 JOIN
 	[dbo].[L_Polarity] polarity ON gr.PolarityID = polarity.PolarityID
 ";
-
-        private readonly string HealthMeasureUsingIndictorIdsSql = @"
-SELECT
-    [IndicatorID],
-    [Year],
-    [AgeID],
-    [SexID],
-    [AreaCode],
-    [Count],
-    [Value],
-    [LowerCI95] LowerCI,
-    [UpperCI95] UpperCI,
-    [Denominator]
-FROM 
-	[PHOLIO_DEV].[dbo].[CoreDataSet]
-WHERE
-	Year > @year
-AND
-	AreaCode IN @areaCodes
-AND
-    IndicatorID IN @indicatorIds
-ORDER BY 
-    IndicatorID, AreaCode
-";
+  
         private readonly string BenchmarkSql = @"
 SELECT distinct
 	indicator.IndicatorID,
@@ -161,27 +129,6 @@ WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
 	Order By indicator.IndicatorID 
 ";
 
-        private readonly string HealthMeasureNotUsingIndictorIdsSql = @"
-SELECT
-    [IndicatorID],
-    [Year],
-    [AgeID],
-    [SexID],
-    [AreaCode],
-    [Count],
-    [Value],
-    [LowerCI95] LowerCI,
-    [UpperCI95] UpperCI,
-    [Denominator]
-FROM 
-	[PHOLIO_DEV].[dbo].[CoreDataSet]
-WHERE
-	Year > @year
-AND
-	AreaCode IN @areaCodes
-ORDER BY 
-    IndicatorID, AreaCode
-";
 
         private readonly string AgeSql = @"
 SELECT
@@ -214,13 +161,13 @@ FROM
                 },
                 new() {
                     OriginalAreaType="Combined authorities",
-                    NewAreaType="Combined Authority",
+                    NewAreaType=COMBINEDAUTHORITIES,
                     HierarchyType=Administrative,
                     Level=2
                 },
                 new() {
                     OriginalAreaType="County unchanged",
-                    NewAreaType="County",
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -242,7 +189,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="UA new 2019",
-                    NewAreaType=UA,
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -250,7 +197,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="UA new 2020",
-                    NewAreaType=UA,
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -258,7 +205,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="UA new 2021",
-                    NewAreaType=UA,
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -266,7 +213,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="UA new 2023",
-                    NewAreaType=UA,
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -274,7 +221,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="UA unchanged",
-                    NewAreaType=UA,
+                    NewAreaType=COUNTIESANDUA,
                     HierarchyType=Administrative,
                     Level=2
                 }
@@ -298,7 +245,7 @@ FROM
                 new()
                 {
                     OriginalAreaType="PCNs (v. 26/04/24)",
-                    NewAreaType="NHS Primary Care Network",
+                    NewAreaType="NHS Primary Care Networks",
                     HierarchyType=NHS,
                     Level=4
                 }
@@ -313,13 +260,13 @@ FROM
                 },
                 new() {
                     OriginalAreaType="ICB sub-locations",
-                    NewAreaType="NHS Sub Integrated Care Board",
+                    NewAreaType="NHS Sub Integrated Care Boards",
                     HierarchyType=NHS,
                     Level=3
                 },
                 new() {
                     OriginalAreaType="ICBs",
-                    NewAreaType="NHS Integrated Care Board",
+                    NewAreaType="NHS Integrated Care Boards",
                     HierarchyType=NHS,
                     Level=2
                 }
@@ -349,6 +296,10 @@ FROM
             var areasDict = areas.ToDictionary(area => area.AreaCode);
             foreach (var area in areas)
             {
+                if (area.AreaCode == "E47000002")
+                {
+                    var b = 1;
+                }
                 //get the children of the area (if any)
                 area.ChildAreas = CreateChildAreas(area, parentChildMap, areasDict);
 
@@ -369,8 +320,14 @@ FROM
             foreach (var child in allChildren)
             {
                 var present = areas.TryGetValue(child.AreaCode, out AreaEntity value);
+                
                 if (present)
-                    child.IsDirect = area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
+                {
+                    child.IsDirect = area.AreaType== COMBINEDAUTHORITIES
+                        ? area.Level == value.Level && area.HierarchyType == value.HierarchyType
+                        : area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
+                }
+                    
             }
             if(area.AreaCode== "E92000001")
                 allChildren = areas.Values.Where(a=>a.Level==1).Select(a=>new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
@@ -442,7 +399,6 @@ FROM
                 var match  = areaPolarities
                      .FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
                 indicator.Polarity = match != null ? match.Polarity : "Not applicable";
-
             }
         }
 

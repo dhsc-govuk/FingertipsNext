@@ -41,7 +41,7 @@ namespace DataCreator
             areasWeWant.AddRange(grandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             areasWeWant.AddRange(greatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             areasWeWant.AddRange(greatgreatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
-            DataFileManager.WriteJsonData("areas", areas);
+            DataFileManager.WriteJsonData("areas", areas.Distinct());
             return areasWeWant;
         }
 

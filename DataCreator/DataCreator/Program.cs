@@ -1,13 +1,12 @@
-﻿using DataCreator;
-using DataCreator.PholioDatabase;
+﻿using DataCreator.PholioDatabase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyApp
+namespace DataCreator
 {
     internal class Program
     {
-        private static async Task Main(string[] args) => 
+        private static async Task Main(string[] args) =>
             await CreateServices().GetRequiredService<DataCreatorApplication>().CreateDataAsync();
 
         private static ServiceProvider CreateServices()
@@ -29,5 +28,5 @@ namespace MyApp
         }
     }
 
-    
+
 }
