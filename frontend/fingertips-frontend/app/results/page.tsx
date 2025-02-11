@@ -8,23 +8,14 @@ import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area } from '@/generated-sources/ft-api-client';
 import { SearchResultState } from '@/components/pages/results/searchResultsActions';
 import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
 import {
   AllApplicableAreaTypes,
   determineApplicableGroupTypes,
 } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
-
-const determineSelectedGroupType = (
-  selectedGroupType?: string,
-  selectedAreaData?: AreaWithRelations[]
-): string | undefined => {
-  if (selectedGroupType) return selectedGroupType;
-
-  if (selectedAreaData && selectedAreaData.length > 0)
-    return selectedAreaData[0].parent?.areaType;
-};
+import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 
 export default async function Page(
   props: Readonly<{
