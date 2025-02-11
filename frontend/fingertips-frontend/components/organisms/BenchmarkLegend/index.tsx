@@ -5,19 +5,13 @@ import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 
 const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
-  'alignItems': 'center',
-  'alignContent': 'center',
-  'marginBottom': '0.23em',
-  '& .legend_panel_header': {
-    border: '0px',
-    margin: '0px 0px 0px 1px',
-    alignSelf: 'stretch',
-    color: '#000',
-    fontSize: '16px',
-    fontStyle: 'normal',
-    fontWeight: '300',
-    lineHeight: '22px',
-  },
+  alignItems: 'center',
+  alignContent: 'center',
+});
+
+const DefaultBenchmarkLegendHeaderStyle = styled('h4')({
+  alignSelf: 'stretch',
+  margin: '0.1em',
 });
 
 export interface BenchmarkData {
@@ -26,7 +20,7 @@ export interface BenchmarkData {
   types: string[];
 }
 
-export const Benchmark = () => {
+export const BenchmarkLegend = () => {
   const model: BenchmarkData[] = [
     {
       group: 'rag',
@@ -48,23 +42,19 @@ export const Benchmark = () => {
     <div>
       {model?.map((item, index) => (
         <DefaultBenchmarkLegendGroupPanelStyle key={index}>
-          <div>
-            {item.title !== null && (
-              <div>
-                <LabelText className="legend_panel_header">
-                  {item.title}
-                </LabelText>
-              </div>
-            )}
-            {item.types.map((type, label_key) => (
-              <BenchmarkLabel
-                group={item.group}
-                type={type}
-                key={label_key}
-                data-testid={item?.group + '_' + type + '_' + label_key}
-              />
-            ))}
-          </div>
+          {(item.title !== null || item.title == '') && (
+            <DefaultBenchmarkLegendHeaderStyle>
+              {item.title}
+            </DefaultBenchmarkLegendHeaderStyle>
+          )}
+          {item.types.map((type, label_key) => (
+            <BenchmarkLabel
+              group={item.group}
+              type={type}
+              key={label_key}
+              data-testid={item?.group + '_' + type + '_' + label_key}
+            />
+          ))}
         </DefaultBenchmarkLegendGroupPanelStyle>
       ))}
     </div>

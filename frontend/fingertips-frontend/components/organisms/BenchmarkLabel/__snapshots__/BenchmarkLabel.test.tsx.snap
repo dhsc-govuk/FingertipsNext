@@ -28,17 +28,14 @@ exports[`Testing the BenchmarkLabel Component  snapshot testing of the UI 1`] = 
 }
 
 .c1 {
-  display: inline-block;
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  font-size: 12px;
-  font-weight: 300;
-  font-style: normal;
-  line-height: 16px;
   margin: 0.0225em;
+  font-weight: 300;
+  text-transform: unset;
   background-color: #D494C1;
   color: var(--other-black,#0B0C0C);
 }

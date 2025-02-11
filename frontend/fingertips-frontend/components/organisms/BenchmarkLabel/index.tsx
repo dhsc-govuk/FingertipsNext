@@ -31,7 +31,7 @@ interface BenchmarkLabelProps {
 }
 
 export const getDefaultBenchmarkTagStyle = (
-  group: BenchmarkLabelGroupType = BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+  group: BenchmarkLabelGroupType,
   type: BenchmarkLabelType
 ) => {
   switch (group) {
@@ -59,7 +59,7 @@ export const getDefaultBenchmarkTagStyle = (
           };
         case BenchmarkLabelType.HIGHER:
           return {
-            backgroundColor: 'var(--other-dark-blue, #003078)',
+            backgroundColor: '#003078',
             tint: 'SOLID',
           };
         default:
@@ -138,14 +138,11 @@ export const BenchmarkTagStyle = styled(Tag)<{
 }>(({ legendType, group }) => {
   const theme = getDefaultBenchmarkTagStyle(group, legendType);
   return {
-    display: 'inline-block',
     padding: '5px 8px 4px 8px',
     alignItems: 'center',
-    fontSize: '12px',
-    fontWeight: '300',
-    fontStyle: 'normal',
-    lineHeight: '16px',
     margin: '0.0225em',
+    fontWeight: '300',
+    textTransform: 'unset',
     ...theme,
   };
 });

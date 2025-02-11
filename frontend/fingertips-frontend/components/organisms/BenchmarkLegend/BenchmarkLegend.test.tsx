@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { Benchmark } from '.';
+import { BenchmarkLegend } from '.';
 import '@testing-library/jest-dom';
 import { describe } from 'node:test';
 
 describe('Testing the benchmark component', () => {
   it('renders correctly with provided benchmark data', () => {
-    render(<Benchmark />);
+    render(<BenchmarkLegend />);
     expect(screen.queryByText('legend_panel_header')).not.toBeInTheDocument();
     expect(screen.getByText('Areas compared to England')).toBeInTheDocument();
     expect(screen.getByText('Better (95%)')).toBeInTheDocument();
@@ -29,7 +29,7 @@ describe('Testing the benchmark component', () => {
   });
 
   it('Snapshot testing of the UI', () => {
-    const container = render(<Benchmark />);
+    const container = render(<BenchmarkLegend />);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });

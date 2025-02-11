@@ -54,18 +54,9 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
         color: 'var(--other-black, #0B0C0C)',
       },
     ],
-    [
-      'returns default style when group is not provided',
-      undefined,
-      BenchmarkLabelType.BETTER,
-      {
-        backgroundColor: '#812972',
-        tint: 'SOLID',
-      },
-    ],
   ])('%s', (_, group, type, expected) => {
     const result = getDefaultBenchmarkTagStyle(
-      group,
+      group as BenchmarkLabelGroupType,
       type as BenchmarkLabelType
     );
     expect(result).toEqual(expected);
@@ -89,7 +80,7 @@ describe('Testing the BenchmarkLabel Component ', () => {
     expect(getByText('Better (95%)')).toBeInTheDocument();
   });
 
-  test('applies correct styles for RAG group and HIGH type', () => {
+  test('applies correct styles for RAG group and HIGHER type', () => {
     const { container } = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.HIGHER}
@@ -97,9 +88,7 @@ describe('Testing the BenchmarkLabel Component ', () => {
       />
     );
 
-    expect(container.firstChild).toHaveStyle(
-      'background-color: rgb(29, 112, 184)'
-    );
+    expect(container.firstChild).toHaveStyle('background-color: #003078');
   });
 
   test('applies correct styles for QUINTILE group and LOW type', () => {
