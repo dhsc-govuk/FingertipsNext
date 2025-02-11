@@ -169,9 +169,10 @@ const getBenchmarkLabel = (
       }
 
     case BenchmarkLabelGroupType.QUINTILES:
-    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE:
-      const typeValue = type.toLowerCase();
-      return typeValue[0].toUpperCase() + typeValue.slice(1);
+    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE:{
+      let value = type.toLowerCase();
+      return value[0].toUpperCase() + value.slice(1);
+    }
     default:
       return '';
   }

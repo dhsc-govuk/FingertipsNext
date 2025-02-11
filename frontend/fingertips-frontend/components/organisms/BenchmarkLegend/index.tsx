@@ -2,7 +2,6 @@
 
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
 import styled from 'styled-components';
-import { LabelText } from 'govuk-react';
 
 const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
   alignItems: 'center',
@@ -41,7 +40,7 @@ export const BenchmarkLegend = () => {
   return (
     <div>
       {model?.map((item, index) => (
-        <DefaultBenchmarkLegendGroupPanelStyle key={index}>
+        <DefaultBenchmarkLegendGroupPanelStyle key={item?.group + '_'+ index}>
           {(item.title !== null || item.title == '') && (
             <DefaultBenchmarkLegendHeaderStyle>
               {item.title}
@@ -51,8 +50,7 @@ export const BenchmarkLegend = () => {
             <BenchmarkLabel
               group={item.group}
               type={type}
-              key={label_key}
-              data-testid={item?.group + '_' + type + '_' + label_key}
+              key={item?.group + '_' + type + '_' + index +"-"+ label_key}
             />
           ))}
         </DefaultBenchmarkLegendGroupPanelStyle>
