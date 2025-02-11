@@ -24,7 +24,6 @@ on:
 jobs:
   check-changes:
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
     outputs:
       db_changed: ${{ steps.check.outputs.db_changed }}
       api_changed: ${{ steps.check.outputs.api_changed }}
