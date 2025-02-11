@@ -8,7 +8,7 @@ import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
-import "highcharts/highcharts-more";
+import 'highcharts/highcharts-more';
 import { useActionState } from 'react';
 
 interface LineChartProps {
@@ -27,8 +27,6 @@ const chartSymbols: SymbolKeyValue[] = [
   'diamond',
 ];
 
-
-
 export function LineChart({
   LineChartTitle: lineChartTitle,
   data,
@@ -36,8 +34,9 @@ export function LineChart({
   accessibilityLabel,
   benchmarkData,
 }: Readonly<LineChartProps>) {
-  const onCheck = (prevState: boolean, checked: boolean)=> checked;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] = useActionState(onCheck, false)
+  const onCheck = (prevState: boolean, checked: boolean) => checked;
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useActionState(onCheck, false);
 
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(
@@ -46,7 +45,7 @@ export function LineChart({
     benchmarkData,
     showConfidenceIntervalsData
   );
-  
+
   const lineChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,
@@ -88,7 +87,11 @@ export function LineChart({
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
-      <ConfidenceIntervalCheckbox chartName="lineChart" showConfidenceIntervalsData={showConfidenceIntervalsData} onCheck={setShowConfidenceIntervalsData}></ConfidenceIntervalCheckbox>
+      <ConfidenceIntervalCheckbox
+        chartName="lineChart"
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        onCheck={setShowConfidenceIntervalsData}
+      ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
         highcharts={Highcharts}

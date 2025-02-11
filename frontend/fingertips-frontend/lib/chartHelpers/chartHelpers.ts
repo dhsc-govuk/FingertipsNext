@@ -44,10 +44,16 @@ export enum LineChartTableHeadingEnum {
 
 export const LIGHT_GREY = '#b1b4b6';
 
-export function showConfidenceIntervals(data: HealthDataForArea[]): Highcharts.SeriesOptionsType[] {
+export function showConfidenceIntervals(
+  data: HealthDataForArea[]
+): Highcharts.SeriesOptionsType[] {
   return data.map<Highcharts.SeriesOptionsType>((item) => ({
     type: 'errorbar',
     name: `${item.areaName}`,
-    data: item.healthData.map((point) => [point.year, point.lowerCi, point.upperCi]),
+    data: item.healthData.map((point) => [
+      point.year,
+      point.lowerCi,
+      point.upperCi,
+    ]),
   }));
-};
+}

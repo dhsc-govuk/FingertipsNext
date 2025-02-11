@@ -11,7 +11,7 @@ type ConfidenceIntervalCheckboxProps = {
 export function ConfidenceIntervalCheckbox({
   chartName,
   showConfidenceIntervalsData,
-  onCheck
+  onCheck,
 }: Readonly<ConfidenceIntervalCheckboxProps>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -31,7 +31,7 @@ export function ConfidenceIntervalCheckbox({
         chartName
       );
     }
-    onCheck(checked)
+    onCheck(checked);
     replace(searchState.generatePath(pathname), { scroll: false });
   };
 

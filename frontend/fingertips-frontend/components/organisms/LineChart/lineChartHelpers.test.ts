@@ -1,5 +1,6 @@
-import { SymbolKeyValue } from 'highcharts';
+import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData } from './lineChartHelpers';
+import { showConfidenceIntervals } from '@/lib/chartHelpers/chartHelpers';
 
 const mockData = [
   {
@@ -207,10 +208,24 @@ describe('generateSeriesData', () => {
   it('should repeat symbols when there are more series than symbols', () => {
     const symbols: SymbolKeyValue[] = ['arc', 'circle'];
 
-    const generatedSeriesData = generateSeriesData(mockData, symbols);
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols
+    ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
     expect(generatedSeriesData[1].marker?.symbol).toBe('circle');
     expect(generatedSeriesData[2].marker?.symbol).toBe('arc');
   });
+
+  it('should show confidence interval data', () => {
+
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols
+    );
+  });
 });
+
+// show ci , expect series with ci
+// not show ci, expect series without ci

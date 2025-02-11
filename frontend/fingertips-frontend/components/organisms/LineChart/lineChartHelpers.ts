@@ -16,28 +16,6 @@ export function generateSeriesData(
       symbol: symbols[index % symbols.length],
     },
   }));
-  
-
-//   const seriesData = data.flatMap<Highcharts.SeriesOptionsType>((item, index) => {
-//
-//     return [
-//       {
-//         type: 'line',
-//         name: `${item.areaName}`,
-//         data: item.healthData.map((point) => [point.year, point.value]),
-//         marker: {
-//           symbol: symbols[index % symbols.length],
-//         },
-//       },
-//       {
-//         type: "errorbar",
-//         name: `${item.areaName}`,
-//         data: item.healthData.map((point) => [point.year, point.lowerCi, point.upperCi]),
-//       },
-// ]
-//   });
-
-
 
   if (benchmarkData) {
     const englandSeries: Highcharts.SeriesLineOptions = {
@@ -51,16 +29,10 @@ export function generateSeriesData(
     };
     seriesData.unshift(englandSeries);
   }
-  
-  if(showConfidenceIntervalsData) {
-    const ci = showConfidenceIntervals(data)
-    seriesData.push(...ci)
+
+  if (showConfidenceIntervalsData) {
+    seriesData.push(...showConfidenceIntervals(data));
   }
-  
-// const ci = showConfidenceIntervals(data)
-// 
-// seriesData.push(...ci)
-  console.log('series data ==== ',seriesData)
 
   return seriesData;
 }
