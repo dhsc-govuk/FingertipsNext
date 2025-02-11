@@ -170,7 +170,7 @@ const getBenchmarkLabel = (
 
     case BenchmarkLabelGroupType.QUINTILES:
     case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE:{
-      let value = type.toLowerCase();
+      const value = type.toLowerCase();
       return value[0].toUpperCase() + value.slice(1);
     }
     default:
