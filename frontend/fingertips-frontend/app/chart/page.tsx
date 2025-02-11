@@ -57,17 +57,13 @@ export default async function ChartPage(
   }
 
   let mapData;
-  let mapJoinKey;
-  let mapGroupBoundary;
   if (
     selectedAreaType &&
     indicatorsSelected.length === 1 &&
     areaCodes.length >= 2
   ) {
     // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
-    mapData = getMapData(selectedAreaType, areaCodes).mapFile;
-    mapJoinKey = getMapData(selectedAreaType, areaCodes).mapJoinKey;
-    mapGroupBoundary = getMapData(selectedAreaType, areaCodes).mapGroupBoundary;
+    mapData = getMapData(selectedAreaType, areaCodes);
   }
 
   return (
@@ -75,8 +71,6 @@ export default async function ChartPage(
       populationData={preparedPopulationData}
       data={data}
       mapData={mapData}
-      mapJoinKey={mapJoinKey}
-      mapGroupBoundary={mapGroupBoundary}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
     />

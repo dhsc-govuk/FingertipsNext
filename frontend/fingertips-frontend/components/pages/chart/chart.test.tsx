@@ -112,18 +112,9 @@ it('should not render the scatterChart component when only 1 indicator is select
 it('should render the ThematicMap component when all map props are provided', () => {
   const areaType = 'Regions Statistical';
   const areaCodes = ['E12000001', 'E12000002'];
-  const mapData = getMapData(areaType, areaCodes).mapFile;
-  const mapJoinKey = getMapData(areaType, areaCodes).mapJoinKey;
-  const mapGroup = getMapData(areaType, areaCodes).mapGroupBoundary;
+  const mapData = getMapData(areaType, areaCodes);
 
-  render(
-    <Chart
-      data={[mockHealthData['318']]}
-      mapData={mapData}
-      mapJoinKey={mapJoinKey}
-      mapGroupBoundary={mapGroup}
-    />
-  );
+  render(<Chart data={[mockHealthData['318']]} mapData={mapData} />);
 
   const thematicMap = screen.queryByTestId('thematicMap-component');
   expect(thematicMap).toBeInTheDocument();

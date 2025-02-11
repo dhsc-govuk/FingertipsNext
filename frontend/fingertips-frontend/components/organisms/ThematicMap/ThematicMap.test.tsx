@@ -5,17 +5,13 @@ import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
 const mockAreaType = 'Regions Statistical';
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockMapData = getMapData(mockAreaType, mockAreaCodes).mapFile;
-const mockMapJoinKey = getMapData(mockAreaType, mockAreaCodes).mapJoinKey;
-const mockMapGroup = getMapData(mockAreaType, mockAreaCodes).mapGroupBoundary;
+const mockMapData = getMapData(mockAreaType, mockAreaCodes);
 
 it('should render the ThematicMap title', async () => {
   render(
     <ThematicMap
       data={mockHealthData['318']}
       mapData={mockMapData}
-      mapJoinKey={mockMapJoinKey}
-      mapGroupBoundary={mockMapGroup}
       mapTitle="valid title"
     />
   );
@@ -29,8 +25,6 @@ it('should render the ThematicMap component', async () => {
     <ThematicMap
       data={mockHealthData['318']}
       mapData={mockMapData}
-      mapJoinKey={mockMapJoinKey}
-      mapGroupBoundary={mockMapGroup}
       mapTitle="valid title"
     />
   );

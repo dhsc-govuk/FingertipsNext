@@ -14,13 +14,11 @@ import {
   seriesDataWithoutEngland,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
-import { GeoJSON } from 'highcharts';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
 
 type ChartProps = {
   data: HealthDataForArea[][];
-  mapData?: GeoJSON;
-  mapJoinKey?: string;
-  mapGroupBoundary?: GeoJSON;
+  mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -29,8 +27,6 @@ type ChartProps = {
 export function Chart({
   data,
   mapData,
-  mapJoinKey,
-  mapGroupBoundary,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -97,13 +93,11 @@ export function Chart({
           />
         </>
       ) : null}
-      {data.length === 1 && mapData && mapJoinKey && mapGroupBoundary ? (
+      {data.length === 1 && mapData ? (
         <>
           <ThematicMap
             data={data[0]}
             mapData={mapData}
-            mapJoinKey={mapJoinKey}
-            mapGroupBoundary={mapGroupBoundary}
             mapTitle="Compare indicator data within the area group"
           />
           <br />

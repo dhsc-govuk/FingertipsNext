@@ -5,12 +5,11 @@ import Highcharts, { GeoJSON } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
 
 interface ThematicMapProps {
   data: HealthDataForArea[];
-  mapData: GeoJSON;
-  mapJoinKey: string;
-  mapGroupBoundary: GeoJSON;
+  mapData: MapData;
   mapTitle?: string;
 }
 
@@ -22,8 +21,6 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   data,
   mapData,
-  mapJoinKey,
-  mapGroupBoundary,
   mapTitle,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
@@ -40,7 +37,7 @@ export function ThematicMap({
     credits: { enabled: false },
     mapView: {
       projection: { name: 'Miller' },
-      fitToGeometry: mapGroupBoundary.features[0].geometry,
+      fitToGeometry: mapData.mapGroupBoundary.features[0].geometry,
       padding: 20,
     },
     mapNavigation: { enabled: true },
@@ -50,7 +47,7 @@ export function ThematicMap({
         type: 'map',
         name: 'basemap',
         showInLegend: false,
-        mapData: mapData,
+        mapData: mapData.mapFile,
         borderColor: 'black',
         borderWidth: 0.2,
       },
@@ -58,7 +55,7 @@ export function ThematicMap({
         type: 'map',
         name: 'group border',
         showInLegend: false,
-        mapData: mapGroupBoundary,
+        mapData: mapData.mapGroupBoundary,
         borderColor: 'black',
         borderWidth: 6,
       },
@@ -66,7 +63,7 @@ export function ThematicMap({
         type: 'map',
         name: 'data',
         showInLegend: false,
-        mapData: mapData,
+        mapData: mapData.mapFile,
         data: data.map((areaData) => {
           return {
             areaName: areaData.areaName,
@@ -74,7 +71,7 @@ export function ThematicMap({
             value: areaData.healthData[0].value,
           };
         }),
-        joinBy: [mapJoinKey, 'areaCode'],
+        joinBy: [mapData.mapJoinKey, 'areaCode'],
         borderColor: 'black',
         allAreas: false,
         borderWidth: 0.5,

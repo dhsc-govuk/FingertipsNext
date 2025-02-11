@@ -10,7 +10,7 @@ import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
 
-type MapData = {
+export type MapData = {
   mapJoinKey: string;
   mapFile: GeoJSON;
   mapGroupBoundary: GeoJSON;
