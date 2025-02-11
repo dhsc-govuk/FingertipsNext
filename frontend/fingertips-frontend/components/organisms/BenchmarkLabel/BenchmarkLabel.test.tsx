@@ -51,7 +51,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
     ],
   ])(
     'returns correct style for %s group and %s type',
-    (group, type, expected) => {
+    (group, type,  expected) => {
       const result = getDefaultBenchmarkTagStyle(
         group as BenchmarkLabelGroupType,
         type as BenchmarkLabelType

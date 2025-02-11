@@ -140,9 +140,9 @@ export const BenchmarkTagStyle = styled(Tag)<{
   return {
     padding: '5px 8px 4px 8px',
     alignItems: 'center',
-    margin: '0.0225em',
+    margin: '0.3125em',
     fontWeight: '300',
-    textTransform: 'capitalize',
+    textTransform: 'unset',
     ...theme,
   };
 });
