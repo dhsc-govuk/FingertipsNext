@@ -76,7 +76,7 @@ namespace DataCreator
             foreach (var file in Directory.GetFiles(OutFilePath))
             {
                 File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
-                File.Copy(file, Path.Combine(@"..\..\..\..\..\frontend\fingertips-frontend\assets", Path.GetFileName(file)),true);
+                //File.Copy(file, Path.Combine(@"..\..\..\..\..\frontend\fingertips-frontend\assets", Path.GetFileName(file)),true);
             }
         }
 
