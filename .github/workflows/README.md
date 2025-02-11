@@ -8,7 +8,7 @@ This workflow is triggered by:
 
 ## **Workflow Job Execution Order**
 ### **Stage 1: Initial Checks**
-1. **`check-changes`** → Determines which components have changed (Database, API, Frontend, or Terraform).
+1. **`check-changes`** → Determines which components have changed (Database, API, Frontend, Terraform, or Search Setup).
 2. **`determine-version`** → Retrieves the semantic version (`semver`) for container tagging.
 
 ### **Stage 2: Build & Test (Parallel Execution)**
@@ -21,26 +21,27 @@ This workflow is triggered by:
 7. **`push-container-frontend`** → Builds & pushes the frontend container.
 
 ### **Stage 4: Local End-to-End Testing**
-8. **`e2e-tests-local`** → Runs local E2E tests **after** building the database project, or pushing the api and frontend container.
+8. **`e2e-tests-local`** → Runs local E2E tests **after** building the database project, or pushing the API and frontend containers.
 
 ### **Stage 5: Deployment (Sequential Execution)**
 9. **`deploy-db-dev`** → Deploys database changes.
-10. **`deploy-api-dev`** → Deploys API container **only after DB deployment is successful**.
-11. **`deploy-frontend-dev`** → Deploys frontend container **only after API deployment is successful**.
+10. **`search-setup-dev`** → Runs search setup deployment and integration tests **after DB deployment**.
+11. **`deploy-api-dev`** → Deploys API container **only after search setup is successful**.
+12. **`deploy-frontend-dev`** → Deploys frontend container **only after API deployment is successful**.
 
 ### **Stage 6: End-to-End Testing**
-12. **`e2e-tests-development`** → Runs E2E tests **only after frontend deployment is successful**.
+13. **`e2e-tests-development`** → Runs E2E tests **only after frontend deployment is successful**.
 
 ---
 
 ## **Workflow Order Scenarios**
 | **Scenario** | **Expected Jobs** |
 |-------------|------------------|
-| **PR opened to `main` (API and Frontend changes)** | `check-changes` → `determine-version` → `api-build-and-test` & `frontend-build-and-test` → `e2e-tests-local` → `deploy-api-dev` (terraform validate) → `deploy-frontend-dev` (terraform validate)|
-| **Push with API changes** | `check-changes` → `api-build-and-test` → `push-container-api` → `e2e-tests-local` → `deploy-api-dev` (terraform deploy) → `e2e-tests-dev` |
-| **Push with Frontend & Terraform changes** | `check-changes` → `determine-version` → `api-build-and-test` & `frontend-build-and-test` → `e2e-tests-local` → `deploy-api-dev` (terraform deploy) → `deploy-frontend-dev` (terraform deploy) → `e2e-tests-dev`|
-| **Push with Database & API changes** | `check-changes` → `database-build` & `api-build-and-test` → `push-container-api` → `e2e-tests-local` → `deploy-db-dev` → `deploy-api-dev` (terraform deploy) → `e2e-tests-dev` |
-| **Push with AI Search Setup changes** | `search-setup` (build, deploy, integration tests) |
+| **PR opened to `main` (API, Frontend, or Search Setup changes)** | `check-changes` & `determine-version` → `api-build-and-test` & `frontend-build-and-test` → `e2e-tests-local` → `deploy-api-dev` (terraform validate) → `deploy-frontend-dev` (terraform validate) |
+| **Push with API changes** | `check-changes` & `determine-version` → `api-build-and-test` → `push-container-api` → `e2e-tests-local` → `deploy-api-dev` (terraform deploy) → `e2e-tests-dev` |
+| **Push with Frontend & Terraform changes** | `check-changes` → `determine-version` → `api-build-and-test` & `frontend-build-and-test` → `push-container-api` & `push-container-frontend` → `e2e-tests-local` → `deploy-api-dev` (terraform deploy) → `deploy-frontend-dev` (terraform deploy) → `e2e-tests-dev`|
+| **Push with Database & API changes** | `check-changes` & `determine-version` → `database-build` & `api-build-and-test` → `push-container-api` → `e2e-tests-local` → `deploy-db-dev` → `deploy-api-dev` (terraform deploy) → `e2e-tests-dev` |
+| **Push Frontend and AI Search Setup changes** | `check-changes` & `determine-version` → `frontend-build-and-test` → `push-container-frontend` → `e2e-tests-local` → `search-setup-dev` → `deploy-frontend-dev` (terraform deploy) → `e2e-tests-dev`|
 
 ---
 
