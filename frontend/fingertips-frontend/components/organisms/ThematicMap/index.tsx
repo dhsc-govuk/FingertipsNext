@@ -1,7 +1,7 @@
 'use client';
 
 import { H3 } from 'govuk-react';
-import Highcharts, { GeoJSON } from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
