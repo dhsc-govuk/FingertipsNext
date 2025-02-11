@@ -50,6 +50,21 @@ describe('SearchStateManager', () => {
       });
     });
 
+    it('should not add a multi value type param value if it already exists in the array', () => {
+      const stateManager = new SearchStateManager({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+      });
+
+      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+      });
+    });
+
     it('should add a single value type param value as string when initially empty', () => {
       const stateManager = new SearchStateManager({});
 

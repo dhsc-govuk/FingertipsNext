@@ -3,7 +3,11 @@ import {
   AreaType,
   AreaWithRelations,
 } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 
 import {
   Checkbox,
@@ -21,11 +25,10 @@ import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 interface AreaFilterProps {
-  selectedAreas?: AreaWithRelations[];
-  selectedAreaType?: string;
+  selectedAreasData?: AreaWithRelations[];
   availableAreaTypes?: AreaType[];
   availableAreas?: Area[];
-  selectedGroupType?: string;
+  searchState?: SearchStateParams;
 }
 
 const StyledFilterPane = styled('div')({});
@@ -84,19 +87,16 @@ const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
   selectedAreas ? selectedAreas?.some((area) => area.code === areaCode) : false;
 
 export function AreaFilter({
-  selectedAreas,
-  selectedAreaType,
+  selectedAreasData,
   availableAreaTypes,
   availableAreas,
-  selectedGroupType,
+  searchState,
 }: Readonly<AreaFilterProps>) {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const existingParams = new URLSearchParams(searchParams);
   const searchStateManager =
-    SearchStateManager.setStateFromParams(existingParams);
+    SearchStateManager.setStateFromSearchStateParams(searchState);
 
   const areaTypeSelected = (
     searchParamKey: AllowedParamsForHandleSelect,
@@ -124,7 +124,7 @@ export function AreaFilter({
 
   const availableGroupTypesName = determineApplicableGroupTypes(
     availableAreaTypes,
-    selectedAreaType
+    searchState?.[SearchParams.AreaTypeSelected]
   );
 
   const removeSelectedArea = (areaCode: string) => {
@@ -145,10 +145,10 @@ export function AreaFilter({
       <StyledFilterDiv>
         <StyledFilterSelectedAreaDiv>
           <StyledFilterLabel>
-            {`Selected areas (${selectedAreas?.length ?? 0})`}
+            {`Selected areas (${selectedAreasData?.length ?? 0})`}
           </StyledFilterLabel>
-          {selectedAreas
-            ? selectedAreas.map((selectedArea) => (
+          {selectedAreasData
+            ? selectedAreasData.map((selectedArea) => (
                 <Pill
                   key={selectedArea.code}
                   selectedFilterName={selectedArea.name}
@@ -165,8 +165,8 @@ export function AreaFilter({
             input={{
               onChange: (e) =>
                 areaTypeSelected(SearchParams.AreaTypeSelected, e.target.value),
-              defaultValue: selectedAreaType,
-              disabled: selectedAreas && selectedAreas.length > 0,
+              defaultValue: searchState?.[SearchParams.AreaTypeSelected],
+              disabled: selectedAreasData && selectedAreasData?.length > 0,
             }}
           >
             {availableAreaTypes?.map((areaType) => (
@@ -191,8 +191,8 @@ export function AreaFilter({
                     SearchParams.GroupTypeSelected,
                     e.target.value
                   ),
-                defaultValue: selectedGroupType,
-                disabled: selectedAreas && selectedAreas?.length > 0,
+                defaultValue: searchState?.[SearchParams.GroupTypeSelected],
+                disabled: selectedAreasData && selectedAreasData?.length > 0,
               }}
             >
               {availableGroupTypesName?.map((areaType) => (
@@ -206,7 +206,7 @@ export function AreaFilter({
           {availableAreas?.map((area) => {
             const isAreaSelectedValue = isAreaSelected(
               area.code,
-              selectedAreas
+              selectedAreasData
             );
             return (
               <Checkbox

@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: jest.fn(),
-    useSearchParams: () => [[[SearchParams.SearchedIndicator], 'test']],
+    useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
       replace: jest.fn(),
     })),
@@ -78,7 +78,11 @@ describe('Search Results Suite', () => {
 
   it('should render elements', () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -90,7 +94,11 @@ describe('Search Results Suite', () => {
 
   it('should render the backLink', () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     const backLink = screen.getByRole('link', { name: /back/i });
@@ -107,6 +115,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={initialState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -134,6 +143,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={initialStateWithNoIndicator}
         searchResults={MOCK_DATA}
+        searchState={{}}
       />
     );
 
@@ -145,7 +155,11 @@ describe('Search Results Suite', () => {
 
   it('should render no results found', () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
@@ -158,6 +172,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -177,6 +192,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={errorState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -202,6 +218,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={errorState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -223,6 +240,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={initialStateIndicatorSelected}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -239,6 +257,7 @@ describe('Search Results Suite', () => {
       <SearchResults
         searchResultsFormState={initialState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -247,7 +266,11 @@ describe('Search Results Suite', () => {
 
   it('should contain the searched indicator in the search box', async () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        searchResultsFormState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     await userEvent.type(

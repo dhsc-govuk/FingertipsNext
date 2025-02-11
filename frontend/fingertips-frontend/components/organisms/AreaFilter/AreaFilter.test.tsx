@@ -17,11 +17,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => [
-      [[SearchParams.AreaTypeSelected], 'NHS region'],
-      [[SearchParams.AreasSelected], 'E40000012'],
-      [[SearchParams.AreasSelected], 'E40000007'],
-    ],
+    useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -51,7 +47,7 @@ describe('Area Filter', () => {
   });
 
   it('should render the selected areas when there are areas selected', () => {
-    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+    render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
     expect(screen.getByText(/Selected areas \(2\)/i)).toBeInTheDocument();
     expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
@@ -65,7 +61,15 @@ describe('Area Filter', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+    render(
+      <AreaFilter
+        selectedAreasData={mockSelectedAreasData}
+        searchState={{
+          [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+          [SearchParams.AreaTypeSelected]: 'NHS region',
+        }}
+      />
+    );
 
     const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
     await user.click(
@@ -79,7 +83,7 @@ describe('Area Filter', () => {
 
   describe('Area type', () => {
     it('should disable the select area type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
@@ -87,7 +91,7 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select area type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreas={[]} />);
+      render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
@@ -125,7 +129,9 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'NHS region',
+          }}
         />
       );
 
@@ -142,7 +148,14 @@ describe('Area Filter', () => {
       ].join('');
 
       const user = userEvent.setup();
-      render(<AreaFilter availableAreaTypes={mockAreaTypes} />);
+      render(
+        <AreaFilter
+          availableAreaTypes={mockAreaTypes}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+          }}
+        />
+      );
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select an area type/i }),
@@ -157,7 +170,7 @@ describe('Area Filter', () => {
 
   describe('Group type', () => {
     it('should disable the select group type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
@@ -168,7 +181,7 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select group type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreas={[]} />);
+      render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
@@ -184,7 +197,9 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'NHS region',
+          }}
         />
       );
 
@@ -207,8 +222,10 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
-          selectedGroupType="Country"
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'NHS region',
+            [SearchParams.GroupTypeSelected]: 'Country',
+          }}
         />
       );
 
@@ -230,7 +247,10 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.AreaTypeSelected]: 'NHS region',
+          }}
         />
       );
 
@@ -252,8 +272,10 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
           availableAreas={availableAreas}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'NHS region',
+          }}
         />
       );
 

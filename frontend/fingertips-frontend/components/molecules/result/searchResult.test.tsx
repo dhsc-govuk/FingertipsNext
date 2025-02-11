@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const mockPath = 'some-mock-path';
@@ -15,7 +15,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({ [SearchParams.SearchedIndicator]: 'test' }),
+    useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -41,26 +41,36 @@ const MOCK_DATA: IndicatorDocument[] = [
   },
 ];
 
+const initialSearchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: 'test',
+};
+
 beforeEach(() => {
   mockReplace.mockClear();
   user = userEvent.setup();
 });
 
 it('should have search result list item', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(
+    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+  );
 
   expect(screen.getByRole('listitem')).toBeInTheDocument();
 });
 
 it('should contain 3 paragraphs and a heading', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(
+    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+  );
 
   expect(screen.getAllByRole('paragraph')).toHaveLength(3);
   expect(screen.getByRole('heading')).toBeInTheDocument();
 });
 
 it('should contain expected text', () => {
-  render(<SearchResult result={MOCK_DATA[0]} />);
+  render(
+    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+  );
 
   expect(screen.getByRole('heading').textContent).toContain('NHS');
   expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
@@ -74,19 +84,37 @@ it('should contain expected text', () => {
 
 describe('Indicator Checkbox', () => {
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        indicatorSelected={true}
+        searchState={initialSearchState}
+      />
+    );
 
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should mark the checkbox as not checked if indicatorSelected is false', () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        indicatorSelected={false}
+        searchState={initialSearchState}
+      />
+    );
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 
   it('should update the path when an indicator is checked', async () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={false} />);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        indicatorSelected={false}
+        searchState={initialSearchState}
+      />
+    );
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -99,7 +127,13 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should update the path when an indicator is unchecked', async () => {
-    render(<SearchResult result={MOCK_DATA[0]} indicatorSelected={true} />);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        indicatorSelected={true}
+        searchState={initialSearchState}
+      />
+    );
 
     await user.click(screen.getByRole('checkbox'));
 
@@ -113,13 +147,17 @@ describe('Indicator Checkbox', () => {
 
   it('should have a direct link to the indicator chart', () => {
     const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
-    render(<SearchResult result={MOCK_DATA[0]} />);
+    render(
+      <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+    );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
   it('snapshot test', () => {
-    const container = render(<SearchResult result={MOCK_DATA[0]} />);
+    const container = render(
+      <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+    );
 
     expect(container.asFragment()).toMatchSnapshot();
   });

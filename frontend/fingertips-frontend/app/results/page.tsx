@@ -14,6 +14,7 @@ import {
   AreaType,
   AreaWithRelations,
 } from '@/generated-sources/ft-api-client';
+import { SearchResultState } from '@/components/pages/results/searchResultsActions';
 
 const determineSelectedAreaType = (
   selectedAreaType?: string,
@@ -45,22 +46,16 @@ export default async function Page(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator =
-    searchParams?.[SearchParams.SearchedIndicator] ?? '';
-  const indicatorsSelected = asArray(
-    searchParams?.[SearchParams.IndicatorsSelected]
-  );
-  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
-  const selectedGroupType = searchParams?.[SearchParams.GroupTypeSelected];
-  const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
-  const stateManager = new SearchStateManager({
+  const stateManager =
+    SearchStateManager.setStateFromSearchStateParams(searchParams);
+
+  const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
-    [SearchParams.GroupTypeSelected]: selectedGroupType,
-  });
+  } = stateManager.getSearchState();
 
   try {
     // Perform async API call using indicator prop
@@ -71,7 +66,7 @@ export default async function Page(
 
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
-      areasSelected.length > 0
+      areasSelected && areasSelected.length > 0
         ? await Promise.all(
             areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
           )
@@ -88,18 +83,19 @@ export default async function Page(
       });
     }
 
-    const initialState = {
+    const initialState: SearchResultState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
-      indicatorsSelected,
+      indicatorsSelected: indicatorsSelected ?? [],
       message: null,
       errors: {},
     };
 
     // Perform async API call using indicator prop
-    const searchResults =
-      await SearchServiceFactory.getIndicatorSearchService().searchWith(
-        searchedIndicator
-      );
+    const searchResults = searchedIndicator
+      ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
+          searchedIndicator
+        )
+      : [];
 
     const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
       (a, b) => a.level - b.level
@@ -111,12 +107,8 @@ export default async function Page(
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
         availableAreas={availableAreas}
-        selectedAreaType={selectedAreaType2}
-        selectedGroupType={determineGroupType(
-          selectedGroupType,
-          selectedAreasData
-        )}
-        selectedAreas={selectedAreasData}
+        selectedAreasData={selectedAreasData}
+        searchState={stateManager.getSearchState()}
       />
     );
   } catch (error) {
