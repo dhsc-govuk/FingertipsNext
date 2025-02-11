@@ -142,7 +142,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
     alignItems: 'center',
     margin: '0.0225em',
     fontWeight: '300',
-    textTransform: 'unset',
+    textTransform: 'capitalize',
     ...theme,
   };
 });
@@ -169,9 +169,8 @@ const getBenchmarkLabel = (
       }
 
     case BenchmarkLabelGroupType.QUINTILES:
-    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE:{
-      const value = type.toLowerCase();
-      return value[0].toUpperCase() + value.slice(1);
+    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE: {
+      return type.toLowerCase();
     }
     default:
       return '';
