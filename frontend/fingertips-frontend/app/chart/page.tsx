@@ -8,9 +8,7 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { getMapFile } from '@/lib/mapUtils/getMapFile';
-import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
-import { getMapData } from '@/lib/mapUtils/getMapData';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -61,11 +59,15 @@ export default async function ChartPage(
   let mapData;
   let mapJoinKey;
   let mapGroupBoundary;
-  if (selectedAreaType && indicatorsSelected.length === 1) {
-    // only checking for selectedAreaType and single indicator until business logic to also confirm when an entire Group of areas has been selected is in place
-    mapData = getMapFile(selectedAreaType);
-    mapJoinKey = getMapData(selectedAreaType).mapJoinKey;
-    mapGroupBoundary = getMapGroupBoundary(mapData, areaCodes, mapJoinKey);
+  if (
+    selectedAreaType &&
+    indicatorsSelected.length === 1 &&
+    areaCodes.length >= 2
+  ) {
+    // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
+    mapData = getMapData(selectedAreaType, areaCodes).mapFile;
+    mapJoinKey = getMapData(selectedAreaType, areaCodes).mapJoinKey;
+    mapGroupBoundary = getMapData(selectedAreaType, areaCodes).mapGroupBoundary;
   }
 
   return (

@@ -4,9 +4,7 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
-import { getMapFile } from '@/lib/mapUtils/getMapFile';
-import { getMapGroupBoundary } from '@/lib/mapUtils/getMapGroupBoundary';
-import { getMapData } from '@/lib/mapUtils/getMapData';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
@@ -113,13 +111,11 @@ it('should not render the scatterChart component when only 1 indicator is select
 
 it('should render the ThematicMap component when all map props are provided', () => {
   const areaType = 'Regions Statistical';
-  const mapData = getMapFile(areaType);
-  const mapJoinKey = getMapData(areaType).mapJoinKey;
-  const mapGroup = getMapGroupBoundary(
-    mapData,
-    ['E12000001', 'E12000002'],
-    mapJoinKey
-  );
+  const areaCodes = ['E12000001', 'E12000002'];
+  const mapData = getMapData(areaType, areaCodes).mapFile;
+  const mapJoinKey = getMapData(areaType, areaCodes).mapJoinKey;
+  const mapGroup = getMapData(areaType, areaCodes).mapGroupBoundary;
+
   render(
     <Chart
       data={[mockHealthData['318']]}
