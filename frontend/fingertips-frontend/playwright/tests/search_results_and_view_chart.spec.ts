@@ -55,7 +55,7 @@ test.describe('Search via indicator', () => {
       await resultsPage.checkSearchResults(searchTerm);
     });
 
-    await test.step('Select indicators and view charts', async () => {
+    await test.step('Select two indicators and view charts', async () => {
       await resultsPage.selectIndicatorCheckboxes(indicatorIDs);
       await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
@@ -67,8 +67,8 @@ test.describe('Search via indicator', () => {
       );
       await expectNoAccessibilityViolations(axeBuilder);
       await chartPage.checkChartVisibility(
-        IndicatorMode.MULTIPLE_INDICATORS,
-        AreaMode.ALL_AREAS_IN_A_GROUP
+        IndicatorMode.TWO_INDICATORS,
+        AreaMode.ENGLAND_AREA // defaults to this if no selection made
       );
     });
 
@@ -111,7 +111,7 @@ test.describe('Search via indicator', () => {
       await expectNoAccessibilityViolations(axeBuilder);
       await chartPage.checkChartVisibility(
         IndicatorMode.ONE_INDICATOR,
-        AreaMode.ALL_AREAS_IN_A_GROUP
+        AreaMode.ENGLAND_AREA // defaults to this if no selection made
       );
 
       await chartPage.clickBackLink();

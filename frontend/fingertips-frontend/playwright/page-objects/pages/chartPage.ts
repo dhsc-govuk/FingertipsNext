@@ -40,19 +40,26 @@ export default class ChartPage extends BasePage {
   /**
    * Currently capable of testing four of the fifteen indicator + area journeys from
    * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   *
-   * These were chosen as they are happy paths covering most of the chart components. Note all 15 scenarios are covering in lower testing
-   * - One indicator + one area
-   * - Two indicators + two areas from same group
-   * - Two indicators + all areas from same group
-   * - Three indicators + England area
+   * These four scenarios were chosen as they are happy paths covering lots of chart components.
+   * Note all 15 scenarios are covering in lower unit testing.
    */
   async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
-    // Check chart components visible when one indicator + one area
-    if (
+    // Supported scenario combinations
+    const oneIndicatorWithOneArea =
       indicatorMode === IndicatorMode.ONE_INDICATOR &&
-      areaMode === AreaMode.ONE_AREA
-    ) {
+      areaMode === AreaMode.ONE_AREA;
+    const twoIndicatorsWithTwoAreas =
+      indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.TWO_AREAS;
+    const twoIndicatorsWithAllAreas =
+      indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.ALL_AREAS_IN_A_GROUP;
+    const threeIndicatorsWithEngland =
+      indicatorMode === IndicatorMode.MULTIPLE_INDICATORS &&
+      areaMode === AreaMode.ENGLAND_AREA;
+
+    // Check chart components visible when one indicator + one area
+    if (oneIndicatorWithOneArea) {
       const componentsToCheckVisible = [
         this.lineChartComponent,
         this.lineChartTableComponent,
@@ -72,13 +79,11 @@ export default class ChartPage extends BasePage {
           visible: false,
         });
       }
+      return;
     }
 
     // Check chart components visible when two indicators + two areas from same group
-    if (
-      indicatorMode === IndicatorMode.TWO_INDICATORS &&
-      areaMode === AreaMode.TWO_AREAS
-    ) {
+    if (twoIndicatorsWithTwoAreas) {
       const componentsToCheckVisible = [this.populationPyramidComponent];
       const componentsToCheckNotVisible = [
         this.lineChartComponent,
@@ -98,13 +103,11 @@ export default class ChartPage extends BasePage {
           visible: false,
         });
       }
+      return;
     }
 
     // Check chart components visible when two indicators + all areas from same group
-    if (
-      indicatorMode === IndicatorMode.TWO_INDICATORS &&
-      areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
-    ) {
+    if (twoIndicatorsWithAllAreas) {
       const componentsToCheckVisible = [
         this.populationPyramidComponent,
         this.scatterChartComponent,
@@ -126,13 +129,11 @@ export default class ChartPage extends BasePage {
           visible: false,
         });
       }
+      return;
     }
 
     // Check chart components visible when multiple indicators + England area
-    if (
-      indicatorMode === IndicatorMode.MULTIPLE_INDICATORS &&
-      areaMode === AreaMode.ENGLAND_AREA
-    ) {
+    if (threeIndicatorsWithEngland) {
       const componentsToCheckVisible = [this.populationPyramidComponent];
       const componentsToCheckNotVisible = [
         this.lineChartComponent,
@@ -152,6 +153,10 @@ export default class ChartPage extends BasePage {
           visible: false,
         });
       }
-    }
+      return;
+    } else
+      throw new Error(
+        'Combination of indicator and area modes not currently supported'
+      );
   }
 }
