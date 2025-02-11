@@ -67,7 +67,7 @@ runs:
       working-directory: ${{ inputs.terraform_directory }}
       run: |
         export exitcode=0
-        terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+        terraform plan -detailed-exitcode -no-color -out tfplan-${{ env.TF_VAR_container_name }} || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         if [ $exitcode -eq 1 ]; then
@@ -80,10 +80,10 @@ runs:
     - name: Publish Terraform Plan
       uses: actions/upload-artifact@v4
       with:
-        name: tfplan
-        path: ${{ inputs.terraform_directory }}/tfplan
+        name: tfplan-${{ env.TF_VAR_container_name }}
+        path: ${{ inputs.terraform_directory }}/tfplan-${{ env.TF_VAR_container_name }}
 
     - name: Terraform Apply
       shell: bash
       working-directory: ${{ inputs.terraform_directory }}
-      run: terraform apply -auto-approve tfplan
+      run: terraform apply -auto-approve tfplan-${{ env.TF_VAR_container_name }}

@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => {
     ...originalModule,
     usePathname: () => mockPath,
     useSearchParams: () => [
-      [[SearchParams.AreaTypeSelected], 'NHS region'],
+      [[SearchParams.AreaTypeSelected], 'NHS Regions'],
       [[SearchParams.AreasSelected], 'E40000012'],
       [[SearchParams.AreasSelected], 'E40000007'],
     ],
@@ -57,7 +57,7 @@ describe('Area Filter', () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=E40000012`,
-      `&${SearchParams.AreaTypeSelected}=NHS+region`,
+      `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
     ].join('');
 
     const user = userEvent.setup();
@@ -120,20 +120,20 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          selectedAreaType="NHS Regions"
         />
       );
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
-      ).toHaveValue('NHS region');
+      ).toHaveValue('NHS Regions');
     });
 
     it('should add the selected areaType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+region`,
+        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
       ].join('');
 
       const user = userEvent.setup();
@@ -141,7 +141,7 @@ describe('Area Filter', () => {
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select an area type/i }),
-        'NHS region'
+        'NHS Regions'
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
@@ -174,12 +174,12 @@ describe('Area Filter', () => {
     });
 
     it('should render all applicable group types based upon the area type selected', () => {
-      const expectedAreaTypeOptions = ['Country'];
+      const expectedAreaTypeOptions = ['England'];
 
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          selectedAreaType="NHS Regions"
         />
       );
 
@@ -202,22 +202,22 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
-          selectedGroupType="Country"
+          selectedAreaType="NHS Regions"
+          selectedGroupType="England"
         />
       );
 
       expect(
         screen.getByRole('combobox', { name: /Select a group type/i })
-      ).toHaveValue('Country');
+      ).toHaveValue('England');
     });
 
     it('should add the selected groupType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+region`,
-        `&${SearchParams.GroupTypeSelected}=Country`,
+        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
+        `&${SearchParams.GroupTypeSelected}=England`,
       ].join('');
 
       const user = userEvent.setup();
@@ -225,13 +225,13 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS region"
+          selectedAreaType="NHS Regions"
         />
       );
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select a group type/i }),
-        'Country'
+        'England'
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
