@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.IO.Compression;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using LINQtoCSV;
 
@@ -22,12 +23,12 @@ namespace DataCreator
             new CsvContext().Write(data, $"{OutFilePath}{dataType}.csv", new CsvFileDescription());
 
         public static int[] GetIndicatorIds() =>
-            File.ReadAllText($"{InFilePath}indicatorids.txt").Split("\n").Select(int.Parse).ToArray();
+            File.ReadAllText(@$"{InFilePath}\temp\indicatorids.txt").Split("\n").Select(int.Parse).ToArray();
 
         public static IEnumerable<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId)
         {
             //this is a csv file that was downloaded from the Fingertips API
-            var filePath = $"{InFilePath}{indicatorId}.csv";
+            var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>();
             var lines = File.ReadAllLines(filePath);
@@ -56,16 +57,27 @@ namespace DataCreator
                     };
                     allData.Add(indicatorData);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    if(ex.Message!= "Index was outside the bounds of the array.")
-                    {
-                        var b = 1;
-                    }
+                    
                 }
                 
             }
+
             return allData;
+        }
+
+        public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
+
+        public static void DeleteTempFiles() => Directory.Delete(@$"{InFilePath}\temp", true);
+
+        public static void CopyFilesToTargetLocations()
+        {
+            foreach (var file in Directory.GetFiles(OutFilePath))
+            {
+                File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
+                File.Copy(file, Path.Combine(@"..\..\..\..\..\frontend\fingertips-frontend\assets", Path.GetFileName(file)),true);
+            }
         }
 
         private static double? GetDoubleValue(string raw) => double.TryParse(raw.Trim(), out var value) ? value : null;

@@ -86,7 +86,9 @@ namespace DataCreator
             var healthMeasures = new List<HealthMeasureEntity>();
             foreach (var indicatorId in indicatorIdsWeWant)
             {
-                healthMeasures.AddRange(GetHealthDataForArea(indicatorId, areasWeWant, yearFrom));
+                var data = GetHealthDataForArea(indicatorId, areasWeWant, yearFrom);
+                Console.WriteLine($"Grabbed {data.Count()} points for indicator {indicatorId}");
+                healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
             AddSexIds(healthMeasures);
