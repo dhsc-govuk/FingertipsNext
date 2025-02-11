@@ -111,9 +111,9 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(RootArea), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("root")]
-    public async Task<IActionResult> GetRootAreaAsync()
+    public IActionResult GetRootAreaAsync()
     {
-        var rootArea = await _areaService.GetRootArea();
-        return rootArea == null ? NotFound() : Ok(rootArea);
+        var rootArea = _areaService.GetRootArea();
+        return Ok(rootArea);
     }
 }

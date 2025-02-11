@@ -52,5 +52,5 @@ public interface IAreaService
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns></returns>
-    public Task<RootArea?> GetRootArea();
+    public RootArea? GetRootArea();
 }

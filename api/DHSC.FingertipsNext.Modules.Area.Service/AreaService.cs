@@ -87,9 +87,9 @@ public class AreaService : IAreaService
     ///
     /// </summary>
     /// <returns></returns>
-    public async Task<RootArea?> GetRootArea()
+    public RootArea? GetRootArea()
     {
-        return await Task.FromResult<RootArea?>(new RootArea { Name="England", Code= "E92000001" });
+        return new RootArea { Name="England", Code= "E92000001" };
     }
 
     /// <summary>
