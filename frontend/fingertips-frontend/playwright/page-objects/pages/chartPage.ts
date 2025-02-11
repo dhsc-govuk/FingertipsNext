@@ -15,7 +15,7 @@ export default class ChartPage extends BasePage {
   }
 
   async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL(
+    await this.checkURLMatches(
       `chart?${SearchParams.SearchedIndicator}=${queryParams}`
     );
   }
