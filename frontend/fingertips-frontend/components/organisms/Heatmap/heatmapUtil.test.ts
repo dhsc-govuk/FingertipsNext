@@ -132,7 +132,7 @@ const heatmapData: Array<IndicatorRowData> = [
 it('should generate the correct heatmap array from the provided data', () => {
   const result = generateHeatmapData(heatmapData, areaCodes);
 
-  expect(result.length).toBe(4);
+  expect(result).toHaveLength(4);
   expect(result).toContainEqual({ x: 0, y: 0, value: 27 });
   expect(result).toContainEqual({ x: 1, y: 0, value: null });
   expect(result).toContainEqual({ x: 0, y: 1, value: 919 });
@@ -141,11 +141,11 @@ it('should generate the correct heatmap array from the provided data', () => {
 
 it('should not return any results if either or both of the provided parameters is empty', () => {
   const resultNoIndicators = generateHeatmapData([], areaCodes);
-  expect(resultNoIndicators.length).toBe(0);
+  expect(resultNoIndicators).toHaveLength(0);
 
   const resultNoAreas = generateHeatmapData(heatmapData, []);
-  expect(resultNoAreas.length).toBe(0);
+  expect(resultNoAreas).toHaveLength(0);
 
   const resultNoData = generateHeatmapData([], []);
-  expect(resultNoData.length).toBe(0);
+  expect(resultNoData).toHaveLength(0);
 });
