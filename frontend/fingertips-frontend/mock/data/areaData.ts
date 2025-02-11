@@ -62,7 +62,7 @@ export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
     code: 'E92000001',
     name: 'England',
     hierarchyName: 'All',
-    areaType: 'Country',
+    areaType: 'England',
     level: 0,
   },
 };
@@ -367,7 +367,7 @@ export const mockAvailableAreas: Record<string, Area[]> = {
       level: 2,
     },
   ],
-  'NHS region': [
+  'NHS Regions': [
     {
       code: 'E40000007',
       name: 'East of England NHS Region',

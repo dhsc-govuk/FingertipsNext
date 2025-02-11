@@ -62,7 +62,7 @@ export default async function Page(
       );
 
       availableAreas = await areasApi.getAreaTypeMembers({
-        areaType: determinedSelectedAreaType,
+        areaTypeKey: determinedSelectedAreaType,
       });
     }
 

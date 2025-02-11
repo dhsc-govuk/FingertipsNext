@@ -108,7 +108,7 @@ describe('Results Page', () => {
 
     expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalled();
     expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
-      areaType: 'NHS Region',
+      areaTypeKey: 'NHS Region',
     });
   });
 
