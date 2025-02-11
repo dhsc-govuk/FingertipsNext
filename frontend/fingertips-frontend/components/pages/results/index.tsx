@@ -14,16 +14,32 @@ import {
 } from 'govuk-react';
 import { useActionState } from 'react';
 import { SearchResult } from '@/components/molecules/result';
-import { SearchResultState, viewCharts } from './searchResultsActions';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchResultState,
+  submitIndicatorSelection,
+} from './searchResultsActions';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaType } from '@/generated-sources/ft-api-client';
+import { AreaWithRelations, AreaType } from '@/generated-sources/ft-api-client';
+import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
+import {
+  IndicatorSearchFormState,
+  searchIndicator,
+} from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
+import { useSearchParams } from 'next/navigation';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
+  selectedAreaType?: string;
+  selectedGroupType?: string;
+  selectedAreas?: AreaWithRelations[];
 };
 
 const isIndicatorSelected = (
@@ -35,30 +51,49 @@ const isIndicatorSelected = (
     : false;
 };
 
+const generateBackLinkPath = (state: SearchStateParams) => {
+  const stateManager = new SearchStateManager({
+    [SearchParams.SearchedIndicator]: state[SearchParams.SearchedIndicator],
+  });
+  return stateManager.generatePath('/');
+};
+
 export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  selectedAreaType,
+  selectedGroupType,
+  selectedAreas,
 }: Readonly<SearchResultsProps>) {
-  const [state, formAction] = useActionState(
-    viewCharts,
-    searchResultsFormState
+  const [indicatorSelectionState, indicatorSelectionFormAction] =
+    useActionState(submitIndicatorSelection, searchResultsFormState);
+  const stateParsed: SearchStateParams = JSON.parse(
+    indicatorSelectionState.searchState
   );
+  const backLinkPath = generateBackLinkPath(stateParsed);
 
-  const searchState = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: searchResultsFormState.searchedIndicator,
-  });
+  const urlSearchParams = useSearchParams();
+  const params = new URLSearchParams(urlSearchParams);
+  const areasSelected = params.getAll(SearchParams.AreasSelected);
 
-  const backLinkPath = searchState.generatePath('/');
+  const initialIndicatorSearchFormState: IndicatorSearchFormState = {
+    indicator: stateParsed[SearchParams.SearchedIndicator] ?? '',
+    areasSelected: areasSelected,
+  };
+  const [indicatorSearchState, indicatorSearchFormAction] = useActionState(
+    searchIndicator,
+    initialIndicatorSearchFormState
+  );
 
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
-      {searchResultsFormState.searchedIndicator ? (
+      {stateParsed[SearchParams.SearchedIndicator] ? (
         <>
-          {state.message && (
+          {indicatorSelectionState.message && (
             <ErrorSummary
-              description={state.message}
+              description={indicatorSelectionState.message}
               errors={[
                 {
                   targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
@@ -73,18 +108,28 @@ export function SearchResults({
               }}
             />
           )}
-          <H1>Search results</H1>
-          <Paragraph>{`You searched for indicator "**${searchResultsFormState.searchedIndicator}**"`}</Paragraph>
-
+          <H1>
+            Search results for {stateParsed[SearchParams.SearchedIndicator]}
+          </H1>
+          <form action={indicatorSearchFormAction}>
+            <IndicatorSearchForm
+              indicatorSearchFormState={indicatorSearchState}
+            />
+          </form>
           <GridRow>
             <GridCol setWidth="one-third">
-              <AreaFilter availableAreaTypes={availableAreaTypes} />
+              <AreaFilter
+                availableAreaTypes={availableAreaTypes}
+                selectedAreaType={selectedAreaType}
+                selectedGroupType={selectedGroupType}
+                selectedAreas={selectedAreas}
+              />
             </GridCol>
             <GridCol>
-              <form action={formAction}>
+              <form action={indicatorSelectionFormAction}>
                 <input
-                  name="searchedIndicator"
-                  defaultValue={searchResultsFormState.searchedIndicator}
+                  name="searchState"
+                  defaultValue={indicatorSelectionState.searchState}
                   hidden
                 />
                 {searchResults.length ? (
@@ -98,7 +143,7 @@ export function SearchResults({
                         result={result}
                         indicatorSelected={isIndicatorSelected(
                           result.indicatorId.toString(),
-                          state
+                          indicatorSelectionState
                         )}
                       />
                     ))}

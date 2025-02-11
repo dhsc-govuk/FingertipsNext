@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { SearchResults } from '.';
 import { SearchResultState } from './searchResultsActions';
 import userEvent from '@testing-library/user-event';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { formatDate } from '@/components/molecules/result';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: jest.fn(),
-    useSearchParams: jest.fn(),
+    useSearchParams: () => [[[SearchParams.SearchedIndicator], 'test']],
     useRouter: jest.fn().mockImplementation(() => ({
       replace: jest.fn(),
     })),
@@ -59,10 +59,15 @@ jest.mock('react', () => {
   };
 });
 
+const searchedIndicator = 'test';
+
+const state: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: 'test',
+};
+
 describe('Search Results Suite', () => {
-  const searchedIndicator = 'test';
   const initialState: SearchResultState = {
-    searchedIndicator,
+    searchState: JSON.stringify(state),
     indicatorsSelected: [],
     message: null,
   };
@@ -78,7 +83,7 @@ describe('Search Results Suite', () => {
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(/search results/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
+    expect(screen.getAllByRole('heading').at(0)?.textContent).toContain(
       searchedIndicator
     );
   });
@@ -122,7 +127,7 @@ describe('Search Results Suite', () => {
   it('should not render elements when no indicator is entered', () => {
     const initialStateWithNoIndicator = {
       ...initialState,
-      searchedIndicator: undefined,
+      searchState: JSON.stringify({}),
     };
 
     render(
@@ -210,8 +215,8 @@ describe('Search Results Suite', () => {
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
     const expectedPaths = [
-      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
-      `/chart?${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
     ];
 
     render(
@@ -238,5 +243,16 @@ describe('Search Results Suite', () => {
     );
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('should contain the searched indicator in the search box', async () => {
+    render(
+      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+    );
+
+    await userEvent.type(
+      screen.getByRole('searchbox', { name: /indicator/i }),
+      searchedIndicator
+    );
   });
 });

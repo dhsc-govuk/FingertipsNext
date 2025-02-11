@@ -1,3 +1,6 @@
+import { ExportResult } from '@opentelemetry/core';
+import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
+
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
@@ -31,24 +34,36 @@ const configureApplicationInsights = async () => {
 
 const configureTracing = async () => {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const opentelemetry = require('@opentelemetry/sdk-node');
-    const {
-      UndiciInstrumentation,
-    } = require('@opentelemetry/instrumentation-undici');
-    const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-node');
-    const { Resource } = require('@opentelemetry/resources');
-    const {
-      ATTR_SERVICE_NAME,
-    } = require('@opentelemetry/semantic-conventions');
+    const opentelemetry = await import('@opentelemetry/sdk-node');
+    const { UndiciInstrumentation } = await import(
+      '@opentelemetry/instrumentation-undici'
+    );
+    const { SimpleSpanProcessor } = await import(
+      '@opentelemetry/sdk-trace-node'
+    );
+    const { Resource } = await import('@opentelemetry/resources');
+    const { ATTR_SERVICE_NAME } = await import(
+      '@opentelemetry/semantic-conventions'
+    );
 
-    const spanProcessor = new SimpleSpanProcessor();
+    const noopSpanExporter: SpanExporter = {
+      export: function (
+        _spans: ReadableSpan[],
+        _resultCallback: (result: ExportResult) => void
+      ): void {},
+      shutdown: function (): Promise<void> {
+        return new Promise((resolve) => resolve());
+      },
+    };
+
+    const spanProcessor = new SimpleSpanProcessor(noopSpanExporter);
     const instrumentation = new UndiciInstrumentation();
 
     const sdk = new opentelemetry.NodeSDK({
       resource: new Resource({
         [ATTR_SERVICE_NAME]: 'ftn_fe',
       }),
-      traceExporter: null,
+      traceExporter: undefined,
       spanProcessors: [spanProcessor],
       instrumentations: [instrumentation],
     });

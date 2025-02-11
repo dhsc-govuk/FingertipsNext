@@ -2,7 +2,7 @@ import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class HomePage extends BasePage {
-  readonly indicatorField = 'search-form-input-indicator';
+  readonly indicatorField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   async typeIndicator(indicator: string) {
@@ -13,12 +13,14 @@ export default class HomePage extends BasePage {
     await this.page.getByTestId(this.searchButton).click();
   }
 
-  async navigateToSearch() {
+  async navigateToHomePage() {
     await this.navigateTo('/');
   }
 
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('/' + queryParams);
+  async checkOnHomePage() {
+    await expect(
+      this.page.getByText('Access public health data')
+    ).toBeVisible();
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {

@@ -20,6 +20,7 @@ test.describe('Search via indicator', () => {
 
     indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
   });
+
   test('full end to end flow with accessibility checks', async ({
     homePage,
     resultsPage,
@@ -27,8 +28,8 @@ test.describe('Search via indicator', () => {
     axeBuilder,
   }) => {
     await test.step('Navigate to and verify search page', async () => {
-      await homePage.navigateToSearch();
-      await homePage.checkURLIsCorrect();
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
       await expectNoAccessibilityViolations(axeBuilder);
     });
 
@@ -36,16 +37,31 @@ test.describe('Search via indicator', () => {
       await homePage.typeIndicator(searchTerm);
       await homePage.clickSearchButton();
 
-      await resultsPage.checkURLIsCorrect(searchTerm);
+      await resultsPage.waitForURLToContain(searchTerm);
       await expectNoAccessibilityViolations(axeBuilder);
       await resultsPage.checkSearchResults(searchTerm);
     });
 
-    await test.step('Select indicators and view charts', async () => {
-      await resultsPage.clickIndicatorCheckboxes(indicatorIDs);
-      await resultsPage.clickViewChartsButton();
+    await test.step('Validate indicator search on results page', async () => {
+      await resultsPage.clearIndicatorSearchBox();
+      await resultsPage.clickIndicatorSearchButton();
+      await resultsPage.checkForIndicatorSearchError();
 
-      await chartPage.checkURLIsCorrect(
+      await expectNoAccessibilityViolations(axeBuilder);
+
+      await resultsPage.fillIndicatorSearch(searchTerm);
+      await resultsPage.clickIndicatorSearchButtonAndWait(searchTerm);
+      await resultsPage.checkSearchResults(searchTerm);
+    });
+
+    await test.step('Select indicators and view charts', async () => {
+      await resultsPage.selectIndicatorCheckboxes(indicatorIDs);
+      await resultsPage.waitForURLToContain(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+      );
+
+      await resultsPage.clickViewChartsButton();
+      await chartPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
@@ -55,7 +71,7 @@ test.describe('Search via indicator', () => {
     await test.step('Return to results page and verify selections are preselected', async () => {
       await chartPage.clickBackLink();
 
-      await resultsPage.checkURLIsCorrect(
+      await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
       );
       await resultsPage.checkSearchResults(searchTerm);
@@ -66,8 +82,8 @@ test.describe('Search via indicator', () => {
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
       await resultsPage.clickBackLink();
 
-      await homePage.checkURLIsCorrect(
-        `?${SearchParams.SearchedIndicator}=${searchTerm}`
+      await homePage.waitForURLToContain(
+        `${SearchParams.SearchedIndicator}=${searchTerm}`
       );
       await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
     });
@@ -76,8 +92,8 @@ test.describe('Search via indicator', () => {
       await homePage.clearSearchIndicatorField();
       await homePage.clickSearchButton();
 
-      await homePage.checkURLIsCorrect(
-        `?${SearchParams.SearchedIndicator}=${searchTerm}`
+      await homePage.waitForURLToContain(
+        `${SearchParams.SearchedIndicator}=${searchTerm}`
       );
       await homePage.checkSearchFieldIsPrePopulatedWith();
       await homePage.checkSummaryValidation(
@@ -85,4 +101,37 @@ test.describe('Search via indicator', () => {
       );
     });
   });
+
+  test('check available area types when no areas are selected when coming onto the results pages', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Search for a test indicator', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.typeIndicator(searchTerm);
+      await homePage.clickSearchButton();
+      await resultsPage.waitForURLToContain(searchTerm);
+    });
+
+    await test.step('Check available area types', async () => {
+      const expectedOptions = [
+        'Counties & UAs',
+        'Country',
+        'GP',
+        'ICB',
+        'NHS region',
+        'PCN',
+        'Regions Statistical',
+      ];
+      const options = await resultsPage.areaFilterOptionsText();
+      test.expect(options).toHaveLength(expectedOptions.length);
+      test
+        .expect(sortAlphabetically(options))
+        .toEqual(sortAlphabetically(expectedOptions));
+    });
+  });
+
+  const sortAlphabetically = (array: (string | null)[]) =>
+    array.sort((a, b) => a!.localeCompare(b!));
 });
