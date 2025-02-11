@@ -35,7 +35,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: var(--other-green,#00703C);
   tint: SOLID;
 }
@@ -48,7 +48,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: var(--other-yellow,#FD0);
   color: var(--other-black,#0B0C0C);
 }
@@ -61,7 +61,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: var(--other-red,#D4351C);
   tint: SOLID;
 }
@@ -74,7 +74,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: transparent;
   color: var(--other-black,#0B0C0C);
   border: 1px solid #0B0C0C;
@@ -88,7 +88,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: var(--other-light-blue,#5694CA);
   color: var(--other-black,#0B0C0C);
 }
@@ -101,7 +101,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #003078;
   tint: SOLID;
 }
@@ -114,7 +114,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #E4DDFF;
   color: var(--other-black,#0B0C0C);
 }
@@ -127,7 +127,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #CBBEF4;
   color: var(--other-black,#0B0C0C);
 }
@@ -140,7 +140,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #AA90EC;
   color: var(--other-black,#0B0C0C);
 }
@@ -153,7 +153,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #8B60E2;
   tint: SOLID;
 }
@@ -166,7 +166,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #6B33C3;
   tint: SOLID;
 }
@@ -179,7 +179,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #D494C1;
   color: var(--other-black,#0B0C0C);
 }
@@ -192,7 +192,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #BC6AAA;
   color: var(--other-black,#0B0C0C);
 }
@@ -205,7 +205,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #A44596;
   tint: SOLID;
 }
@@ -218,7 +218,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #812972;
   tint: SOLID;
 }
@@ -231,7 +231,7 @@ exports[`Snapshot testing of the UI 1`] = `
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #561950;
   tint: SOLID;
 }

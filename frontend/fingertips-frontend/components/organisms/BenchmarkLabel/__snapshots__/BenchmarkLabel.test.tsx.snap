@@ -35,7 +35,7 @@ exports[`Testing the BenchmarkLabel Component  snapshot testing of the UI 1`] = 
   align-items: center;
   margin: 0.0225em;
   font-weight: 300;
-  text-transform: unset;
+  text-transform: capitalize;
   background-color: #D494C1;
   color: var(--other-black,#0B0C0C);
 }
