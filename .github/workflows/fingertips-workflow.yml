@@ -195,6 +195,7 @@ jobs:
       api-build-and-test
     ]
     if: >
+      always() && !failure() && !cancelled() &&
       github.event_name == 'workflow_dispatch' ||
       (
         needs.check-changes.outputs.db_changed == 'true' ||
