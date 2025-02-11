@@ -44,9 +44,9 @@ public interface IAreaRepository
     /// <summary>
     /// Get the areas that have a given area type
     /// </summary>
-    /// <param name="areaType"></param>
+    /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaType);
+    Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey);
     
     /// <summary>
     ///

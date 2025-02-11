@@ -57,7 +57,7 @@ describe('Area Filter', () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=E40000012`,
-      `&${SearchParams.AreaTypeSelected}=NHS+region`,
+      `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
     ].join('');
 
     const user = userEvent.setup();
@@ -66,7 +66,7 @@ describe('Area Filter', () => {
         selectedAreasData={mockSelectedAreasData}
         searchState={{
           [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-          [SearchParams.AreaTypeSelected]: 'NHS region',
+          [SearchParams.AreaTypeSelected]: 'NHS Regions',
         }}
       />
     );
@@ -130,21 +130,21 @@ describe('Area Filter', () => {
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
           searchState={{
-            [SearchParams.AreaTypeSelected]: 'NHS region',
+            [SearchParams.AreaTypeSelected]: 'NHS Regions',
           }}
         />
       );
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
-      ).toHaveValue('NHS region');
+      ).toHaveValue('NHS Regions');
     });
 
     it('should add the selected areaType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+region`,
+        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
       ].join('');
 
       const user = userEvent.setup();
@@ -159,7 +159,7 @@ describe('Area Filter', () => {
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select an area type/i }),
-        'NHS region'
+        'NHS Regions'
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
@@ -169,7 +169,7 @@ describe('Area Filter', () => {
   });
 
   describe('Group type', () => {
-    const availableGroupTypes = ['Country', 'NHS Region', 'ICB'];
+    const availableGroupTypes = ['England', 'NHS Regions', 'ICB'];
 
     it('should disable the select group type drop down when there are areas selected', () => {
       render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
@@ -233,15 +233,15 @@ describe('Area Filter', () => {
 
       expect(
         screen.getByRole('combobox', { name: /Select a group type/i })
-      ).toHaveValue('Country');
+      ).toHaveValue('England');
     });
 
     it('should add the selected groupType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+region`,
-        `&${SearchParams.GroupTypeSelected}=Country`,
+        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
+        `&${SearchParams.GroupTypeSelected}=England`,
       ].join('');
 
       const user = userEvent.setup();
@@ -252,14 +252,14 @@ describe('Area Filter', () => {
           availableGroupTypes={availableGroupTypes}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-            [SearchParams.AreaTypeSelected]: 'NHS region',
+            [SearchParams.AreaTypeSelected]: 'NHS Regions',
           }}
         />
       );
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select a group type/i }),
-        'Country'
+        'England'
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
@@ -270,14 +270,14 @@ describe('Area Filter', () => {
 
   describe('Areas', () => {
     it('should show all the applicable areas as checkboxes', () => {
-      const availableAreas = mockAvailableAreas['NHS region'];
+      const availableAreas = mockAvailableAreas['NHS Regions'];
 
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
           availableAreas={availableAreas}
           searchState={{
-            [SearchParams.AreaTypeSelected]: 'NHS region',
+            [SearchParams.AreaTypeSelected]: 'NHS Regions',
           }}
         />
       );
