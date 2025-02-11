@@ -207,7 +207,10 @@ jobs:
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local]
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.frontend_changed == 'true'
     with:
       context-location: api
       container-tag: dhsc.fingertipsnext.api
@@ -219,7 +222,10 @@ jobs:
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local]
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.frontend_changed == 'true'
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
