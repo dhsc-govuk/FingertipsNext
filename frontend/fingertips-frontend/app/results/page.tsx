@@ -4,33 +4,19 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import {
-  Area,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
+import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchResultState } from '@/components/pages/results/searchResultsActions';
+import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
+import {
+  AllApplicableAreaTypes,
+  determineApplicableGroupTypes,
+} from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
-const determineSelectedAreaType = (
-  selectedAreaType?: string,
-  selectedAreaData?: AreaWithRelations[],
-  availableAreaTypes?: AreaType[]
-): string | undefined => {
-  if (selectedAreaType) return selectedAreaType;
-
-  if (selectedAreaData && selectedAreaData.length > 0)
-    return selectedAreaData[0].areaType;
-
-  if (availableAreaTypes && availableAreaTypes.length > 0)
-    return availableAreaTypes[0].name;
-};
-
-const determineGroupType = (
+const determineSelectedGroupType = (
   selectedGroupType?: string,
   selectedAreaData?: AreaWithRelations[]
 ): string | undefined => {
@@ -55,14 +41,13 @@ export default async function Page(
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
   } = stateManager.getSearchState();
 
   try {
     // Perform async API call using indicator prop
     await connection();
     const areasApi = ApiClientFactory.getAreasApiClient();
-
-    let availableAreas: Area[] = [];
 
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
@@ -72,15 +57,38 @@ export default async function Page(
           )
         : [];
 
-    const selectedAreaType2 = determineSelectedAreaType(
+    const determinedSelectedAreaType = determineSelectedAreaType(
       selectedAreaType,
       selectedAreasData,
       availableAreaTypes
     );
-    if (selectedAreaType2) {
+
+    let availableAreas: Area[] = [];
+    if (determinedSelectedAreaType) {
+      stateManager.addParamValueToState(
+        SearchParams.AreaTypeSelected,
+        determinedSelectedAreaType
+      );
+
       availableAreas = await areasApi.getAreaTypeMembers({
-        areaType: selectedAreaType2,
+        areaType: determinedSelectedAreaType,
       });
+    }
+
+    let availableGroupTypes: AllApplicableAreaTypes[] | undefined = [];
+    const determinedSelectedGroupType = determineSelectedGroupType(
+      selectedGroupType,
+      selectedAreasData
+    );
+    if (determinedSelectedGroupType) {
+      stateManager.addParamValueToState(
+        SearchParams.GroupTypeSelected,
+        determinedSelectedGroupType
+      );
+      availableGroupTypes = determineApplicableGroupTypes(
+        availableAreaTypes,
+        determinedSelectedAreaType
+      );
     }
 
     const initialState: SearchResultState = {
@@ -107,6 +115,7 @@ export default async function Page(
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
         availableAreas={availableAreas}
+        availableGroupTypes={availableGroupTypes}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
       />

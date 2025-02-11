@@ -35,11 +35,13 @@ import {
   IndicatorSearchFormState,
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
+import { AllApplicableAreaTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
+  availableGroupTypes?: AllApplicableAreaTypes[];
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
@@ -65,6 +67,7 @@ export function SearchResults({
   searchResultsFormState,
   searchResults,
   availableAreaTypes,
+  availableGroupTypes,
   availableAreas,
   selectedAreasData,
   searchState,
@@ -117,6 +120,7 @@ export function SearchResults({
             <GridCol setWidth="one-third">
               <AreaFilter
                 availableAreaTypes={availableAreaTypes}
+                availableGroupTypes={availableGroupTypes}
                 availableAreas={availableAreas}
                 selectedAreasData={selectedAreasData}
                 searchState={searchState}

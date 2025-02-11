@@ -10,7 +10,7 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   SearchParams,
   SearchStateManager,

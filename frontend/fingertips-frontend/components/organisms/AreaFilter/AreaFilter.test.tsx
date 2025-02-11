@@ -169,6 +169,8 @@ describe('Area Filter', () => {
   });
 
   describe('Group type', () => {
+    const availableGroupTypes = ['Country', 'NHS Region', 'ICB'];
+
     it('should disable the select group type drop down when there are areas selected', () => {
       render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
@@ -191,12 +193,11 @@ describe('Area Filter', () => {
       ).not.toBeDisabled();
     });
 
-    it('should render all applicable group types based upon the area type selected', () => {
-      const expectedAreaTypeOptions = ['Country'];
-
+    it('should render all applicable group types provided', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
+          availableGroupTypes={availableGroupTypes}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'NHS region',
           }}
@@ -211,10 +212,10 @@ describe('Area Filter', () => {
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
-      ).toHaveLength(1);
+      ).toHaveLength(3);
 
       allOptions.forEach((option, i) => {
-        expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+        expect(option.textContent).toEqual(availableGroupTypes[i]);
       });
     });
 
@@ -222,6 +223,7 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
+          availableGroupTypes={availableGroupTypes}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'NHS region',
             [SearchParams.GroupTypeSelected]: 'Country',
@@ -247,6 +249,7 @@ describe('Area Filter', () => {
       render(
         <AreaFilter
           availableAreaTypes={mockAreaTypes}
+          availableGroupTypes={availableGroupTypes}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'NHS region',

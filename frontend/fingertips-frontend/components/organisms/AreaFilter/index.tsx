@@ -19,14 +19,15 @@ import {
 } from 'govuk-react';
 import { Pill } from '@/components/molecules/Pill';
 import { typography } from '@govuk-react/lib';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
-import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
+import { AllApplicableAreaTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 interface AreaFilterProps {
   selectedAreasData?: AreaWithRelations[];
   availableAreaTypes?: AreaType[];
+  availableGroupTypes?: AllApplicableAreaTypes[];
   availableAreas?: Area[];
   searchState?: SearchStateParams;
 }
@@ -89,6 +90,7 @@ const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
 export function AreaFilter({
   selectedAreasData,
   availableAreaTypes,
+  availableGroupTypes,
   availableAreas,
   searchState,
 }: Readonly<AreaFilterProps>) {
@@ -121,11 +123,6 @@ export function AreaFilter({
 
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
-
-  const availableGroupTypesName = determineApplicableGroupTypes(
-    availableAreaTypes,
-    searchState?.[SearchParams.AreaTypeSelected]
-  );
 
   const removeSelectedArea = (areaCode: string) => {
     searchStateManager.removeParamValueFromState(
@@ -195,7 +192,7 @@ export function AreaFilter({
                 disabled: selectedAreasData && selectedAreasData?.length > 0,
               }}
             >
-              {availableGroupTypesName?.map((areaType) => (
+              {availableGroupTypes?.map((areaType) => (
                 <option key={areaType} value={areaType}>
                   {areaType}
                 </option>

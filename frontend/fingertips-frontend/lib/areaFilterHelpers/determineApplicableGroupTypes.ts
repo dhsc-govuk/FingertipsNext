@@ -10,7 +10,7 @@ export const allApplicableAreaTypes = [
   ...allAreaType,
 ] as const;
 
-type AllApplicableAreaTypes = (typeof allApplicableAreaTypes)[number];
+export type AllApplicableAreaTypes = (typeof allApplicableAreaTypes)[number];
 
 export const determineApplicableGroupTypes = (
   allAreaTypes?: AreaType[],
