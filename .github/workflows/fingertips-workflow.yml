@@ -209,13 +209,13 @@ jobs:
   push-container-api:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version, e2e-tests-local]
-    if: always()
-      # always() &&
-      # contains(needs.*.result, 'success') &&
-      # (
-      #   github.event_name == 'workflow_dispatch' ||
-      #   needs.check-changes.outputs.frontend_changed == 'true'
-      # )
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.api_changed == 'true'
+      )
     with:
       context-location: api
       container-tag: dhsc.fingertipsnext.api
