@@ -209,6 +209,7 @@ jobs:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version, e2e-tests-local]
     if: >
+      always() && !failure() && !cancelled() &&
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.frontend_changed == 'true'
     with:
@@ -224,6 +225,7 @@ jobs:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version, e2e-tests-local]
     if: >
+      always() && !failure() && !cancelled() &&
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.frontend_changed == 'true'
     with:
