@@ -68,8 +68,8 @@ public class AreaServiceTests
 
     private static readonly List<AreaTypeModel> SampleAreaTypes = new List<AreaTypeModel>
     {
-        new AreaTypeModel{ AreaType = "AT1", HierarchyType = "HT1", Level = 1 },
-        new AreaTypeModel{ AreaType = "AT2", HierarchyType = "HT2", Level = 2 }
+        new AreaTypeModel{ AreaTypeKey = "at1", AreaTypeName = "AT1", HierarchyType = "HT1", Level = 1 },
+        new AreaTypeModel{ AreaTypeKey = "at2", AreaTypeName = "AT2", HierarchyType = "HT2", Level = 2 }
     };
     
     #endregion
@@ -77,34 +77,14 @@ public class AreaServiceTests
     #region GetRootArea
 
     [Fact]
-    public async Task GetRootArea_ShouldDelegateToRepository()
-    {
-        _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
-
-        await _service.GetRootArea();
-
-        await _mockRepository.Received().GetRootAreaAsync();
-    }
-
-    [Fact]
-    public async Task GetRootArea_ShouldReturnNull_IfRepositoryReturnsNull()
-    {
-        _mockRepository.GetRootAreaAsync().Returns((AreaModel?)null);
-
-        var result = await _service.GetRootArea();
-
-        result.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task GetRootArea_ShouldReturnMappedArea_IfRepositoryReturnsArea()
+    public void GetRootArea_ShouldReturnEnglandAlways()
     {
         var mockArea = Fake.AreaModel;
         _mockRepository.GetRootAreaAsync().Returns(mockArea);
 
-        var result = await _service.GetRootArea();
+        var result =  _service.GetRootArea();
 
-        result.ShouldBeEquivalentTo(_mapper.Map<RootArea>(mockArea));
+        result.ShouldBeEquivalentTo(new RootArea { Name="England", Code="E92000001"});
     }
 
     #endregion

@@ -89,16 +89,16 @@ public class AreaController : ControllerBase
     /// <summary>
     /// Get the areas that have a given area type
     /// </summary>
-    /// <param name="area_type"></param>
+    /// <param name="area_type_key"></param>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("areatypes/{area_type}/areas")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type)
+    public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type_key)
     {
-        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type);
+        var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type_key);
 
         return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
     }
@@ -111,9 +111,9 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(RootArea), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("root")]
-    public async Task<IActionResult> GetRootAreaAsync()
+    public IActionResult GetRootAreaAsync()
     {
-        var rootArea = await _areaService.GetRootArea();
-        return rootArea == null ? NotFound() : Ok(rootArea);
+        var rootArea = _areaService.GetRootArea();
+        return Ok(rootArea);
     }
 }

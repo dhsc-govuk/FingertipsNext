@@ -18,6 +18,7 @@ public class AreaRepositoryDbContext : DbContext
     }
 
     public DbSet<AreaModel> Area { get; set; }
+    public DbSet<AreaTypeModel> AreaType { get; set; }
 }
 
 

@@ -24,25 +24,15 @@ public class AreaModel
     public required string AreaCode { get; set; }
 
     /// <summary>
-    /// The name of the area / geography
-    /// </summary>
-    public int Level { get; set; }
-
-    /// <summary>
-    /// 
+    /// The name of the area e.g. 'Derby'
     /// </summary>
     [MaxLength(255)]
     public required string AreaName { get; set; }
 
     /// <summary>
-    /// The type of the area / geography
+    /// The type of the area e.g. 'Region'
     /// </summary>
-    [MaxLength(20)]
-    public required string AreaType { get; set; }
-
-    /// <summary>
-    /// The name of the associated hierarchy for the area / geography
-    /// </summary>
-    [MaxLength(20)]
-    public required string HierarchyType { get; set; }
+    public required AreaTypeModel AreaType { get; set; }
+    [ForeignKey("AreaType")]
+    public required string AreaTypeKey { get; set; }
 }
