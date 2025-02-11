@@ -200,7 +200,8 @@ jobs:
       (
         needs.check-changes.outputs.db_changed == 'true' ||
         needs.check-changes.outputs.api_changed == 'true' || 
-        needs.check-changes.outputs.frontend_changed == 'true'
+        needs.check-changes.outputs.frontend_changed == 'true' ||
+        needs.check-changes.outputs.search_changed == 'true'
       )
     uses: ./.github/workflows/e2e-tests.yml
 
@@ -242,7 +243,6 @@ jobs:
         working-directory: ./database/fingertips-db
     if: >
       always() && !failure() && !cancelled() &&
-      github.ref_name == 'feature/DHSCFT-318_refactor-workflows' &&
       github.event_name != 'pull_request' &&
       needs.check-changes.outputs.db_changed == 'true'
     steps:
@@ -266,10 +266,7 @@ jobs:
     ]
     if: >
       always() && !failure() && !cancelled() &&
-      (
-        github.head_ref == 'feature/DHSCFT-318_refactor-workflows' ||
-        github.ref_name == 'feature/DHSCFT-318_refactor-workflows'
-      ) &&
+      github.event_name != 'pull_request' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true'
@@ -336,10 +333,6 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       (
-        github.head_ref == 'feature/DHSCFT-318_refactor-workflows' ||
-        github.ref_name == 'feature/DHSCFT-318_refactor-workflows'
-      ) &&
-      (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.api_changed == 'true'
       )
@@ -396,10 +389,6 @@ jobs:
     ]
     if: >
       always() && !failure() && !cancelled() &&
-      (
-        github.head_ref == 'feature/DHSCFT-318_refactor-workflows' ||
-        github.ref_name == 'feature/DHSCFT-318_refactor-workflows'
-      ) &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.frontend_changed == 'true'
@@ -460,11 +449,11 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'feature/DHSCFT-318_refactor-workflows' &&
       (
         needs.check-changes.outputs.db_changed == 'true' ||
         needs.check-changes.outputs.api_changed == 'true' ||
-        needs.check-changes.outputs.frontend_changed == 'true'
+        needs.check-changes.outputs.frontend_changed == 'true' ||
+        needs.check-changes.outputs.search_changed == 'true'
       )
     with:
       env-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
