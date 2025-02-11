@@ -19,13 +19,6 @@ const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 jest.mock('@/components/pages/chart');
-jest.mock('highcharts/modules/heatmap', () => ({
-  __esModule: true,
-  default: () => {
-    return '';
-  },
-  setOptions: () => jest.fn(),
-}));
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',

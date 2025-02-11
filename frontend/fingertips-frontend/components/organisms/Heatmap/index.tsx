@@ -1,16 +1,11 @@
 'use client';
 
 import Highcharts from 'highcharts';
-import Heatmap from 'highcharts/modules/heatmap';
 import { HighchartsReact } from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { generateHeatmapData } from './heatmapUtil';
 import { H3 } from 'govuk-react';
-
-// Initialize the Heatmap module
-if (typeof window === 'undefined') {
-  Heatmap(Highcharts);
-}
+import { useEffect, useState } from 'react';
 
 export interface IndicatorRowData {
   indicator: string; // For display purposes
@@ -105,6 +100,19 @@ const heatmapData: Array<IndicatorRowData> = [
 export function HeatmapChart({
   accessibilityLabel,
 }: Readonly<HeatmapChartProps>) {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    // Initialize the Heatmap module
+    if (typeof window !== 'undefined') {
+      import('highcharts/modules/heatmap').then(() => {
+        setIsReady(true);
+      });
+    }
+  }, []);
+
+  if (!isReady) return null;
+
   const options: Highcharts.Options = {
     title: {
       text: 'Heatmap Chart Title',

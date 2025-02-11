@@ -13,6 +13,7 @@ import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
 } from '@/lib/chartHelpers/chartHelpers';
+import { HeatmapChart } from '@/components/organisms/Heatmap';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -78,6 +79,7 @@ export function Chart({
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
       />
+      <HeatmapChart accessibilityLabel="this is accessible" />
       {populationData ? (
         <>
           <br />
