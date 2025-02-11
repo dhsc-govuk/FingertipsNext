@@ -104,7 +104,7 @@ export function Chart({
             mapData={mapData}
             mapJoinKey={mapJoinKey}
             mapGroupBoundary={mapGroupBoundary}
-            mapTitle="Compare indicators within the area group"
+            mapTitle="Compare indicator data within the area group"
           />
           <br />
         </>
