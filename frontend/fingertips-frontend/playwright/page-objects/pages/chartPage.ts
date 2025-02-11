@@ -2,6 +2,19 @@ import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
+export enum IndicatorMode {
+  ONE_INDICATOR = 'ONE_INDICATOR',
+  TWO_INDICATORS = 'TWO_INDICATORS',
+  MULTIPLE_INDICATORS = 'MULTIPLE_INDICATORS', // 3+ indicators
+}
+
+export enum AreaMode {
+  ONE_AREA = 'ONE_AREA',
+  TWO_AREAS = 'TWO_AREAS',
+  THREE_AREAS = 'THREE_AREAS',
+  ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
+  ENGLAND_AREA = 'ENGLAND_AREA',
+}
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
   readonly lineChartComponent = 'lineChart-component';
@@ -24,20 +37,121 @@ export default class ChartPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async checkChartAndChartTable(isMultipleIndicators: boolean) {
-    expect(
-      await this.page.getByTestId(this.lineChartComponent).isVisible()
-    ).toBe(!isMultipleIndicators);
-    expect(
-      await this.page.getByTestId(this.lineChartTableComponent).isVisible()
-    ).toBe(!isMultipleIndicators);
-    expect(
-      await this.page.getByTestId(this.scatterChartComponent).isVisible()
-    ).toBe(isMultipleIndicators);
+  /**
+   * Currently capable of testing four of the fifteen indicator + area journeys from
+   * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
+   *
+   * These were chosen as they are happy paths covering most of the chart components. Note all 15 scenarios are covering in lower testing
+   * - One indicator + one area
+   * - Two indicators + two areas from same group
+   * - Two indicators + all areas from same group
+   * - Three indicators + England area
+   */
+  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
+    // Check chart components visible when one indicator + one area
+    if (
+      indicatorMode === IndicatorMode.ONE_INDICATOR &&
+      areaMode === AreaMode.ONE_AREA
+    ) {
+      const componentsToCheckVisible = [
+        this.lineChartComponent,
+        this.lineChartTableComponent,
+        this.barChartComponent,
+        this.populationPyramidComponent,
+      ];
+      const componentsToCheckNotVisible = [this.scatterChartComponent];
 
-    await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
-    await expect(
-      this.page.getByTestId(this.populationPyramidComponent)
-    ).toBeVisible();
+      for (const component of componentsToCheckVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      for (const component of componentsToCheckNotVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: false,
+        });
+      }
+    }
+
+    // Check chart components visible when two indicators + two areas from same group
+    if (
+      indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.TWO_AREAS
+    ) {
+      const componentsToCheckVisible = [this.populationPyramidComponent];
+      const componentsToCheckNotVisible = [
+        this.lineChartComponent,
+        this.lineChartTableComponent,
+        this.barChartComponent,
+        this.scatterChartComponent,
+      ];
+
+      for (const component of componentsToCheckVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      for (const component of componentsToCheckNotVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: false,
+        });
+      }
+    }
+
+    // Check chart components visible when two indicators + all areas from same group
+    if (
+      indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
+    ) {
+      const componentsToCheckVisible = [
+        this.populationPyramidComponent,
+        this.scatterChartComponent,
+      ];
+      const componentsToCheckNotVisible = [
+        this.lineChartComponent,
+        this.lineChartTableComponent,
+        this.barChartComponent,
+      ];
+
+      for (const component of componentsToCheckVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      for (const component of componentsToCheckNotVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: false,
+        });
+      }
+    }
+
+    // Check chart components visible when multiple indicators + England area
+    if (
+      indicatorMode === IndicatorMode.MULTIPLE_INDICATORS &&
+      areaMode === AreaMode.ENGLAND_AREA
+    ) {
+      const componentsToCheckVisible = [this.populationPyramidComponent];
+      const componentsToCheckNotVisible = [
+        this.lineChartComponent,
+        this.lineChartTableComponent,
+        this.barChartComponent,
+        this.scatterChartComponent,
+      ];
+
+      for (const component of componentsToCheckVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      for (const component of componentsToCheckNotVisible) {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: false,
+        });
+      }
+    }
   }
 }

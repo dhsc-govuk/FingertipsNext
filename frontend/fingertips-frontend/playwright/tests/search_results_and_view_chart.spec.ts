@@ -5,6 +5,7 @@ import {
   getIndicatorIdsByName,
 } from '../testHelpers';
 import indicatorData from '../../../../search-setup/assets/indicatorData.json';
+import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 
 const searchTerm = 'mortality';
 let indicatorIDs: string[];
@@ -65,7 +66,10 @@ test.describe('Search via indicator', () => {
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
-      await chartPage.checkChartAndChartTable(true);
+      await chartPage.checkChartVisibility(
+        IndicatorMode.MULTIPLE_INDICATORS,
+        AreaMode.ALL_AREAS_IN_A_GROUP
+      );
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {
@@ -105,7 +109,10 @@ test.describe('Search via indicator', () => {
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
-      await chartPage.checkChartAndChartTable(false);
+      await chartPage.checkChartVisibility(
+        IndicatorMode.ONE_INDICATOR,
+        AreaMode.ALL_AREAS_IN_A_GROUP
+      );
 
       await chartPage.clickBackLink();
       await resultsPage.checkURLIsCorrect(
