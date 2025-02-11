@@ -195,7 +195,9 @@ jobs:
       api-build-and-test
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name == 'workflow_dispatch' ||
       (
         needs.check-changes.outputs.db_changed == 'true' ||
@@ -209,7 +211,9 @@ jobs:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version, e2e-tests-local]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.frontend_changed == 'true'
     with:
@@ -225,7 +229,9 @@ jobs:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version, e2e-tests-local]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.frontend_changed == 'true'
     with:
@@ -250,7 +256,9 @@ jobs:
       run:
         working-directory: ./database/fingertips-db
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.ref_name == 'main' &&
       github.event_name != 'pull_request' &&
       (
@@ -277,7 +285,9 @@ jobs:
       deploy-db-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       (
         github.head_ref == 'main' ||
@@ -347,7 +357,9 @@ jobs:
       search-setup-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.head_ref == 'main' ||
         github.ref_name == 'main'
@@ -408,7 +420,9 @@ jobs:
       deploy-api-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.head_ref == 'main' ||
         github.ref_name == 'main'
@@ -471,7 +485,9 @@ jobs:
     needs: [check-changes, deploy-frontend-dev]
     uses: ./.github/workflows/e2e-tests.yml
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       github.ref_name == 'main' &&
       github.event_name == 'workflow_dispatch' ||
