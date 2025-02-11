@@ -39,7 +39,7 @@ export default class ChartPage extends BasePage {
   /**
    * This test function is currently capable of testing three of the fifteen indicator + area
    * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   * These four scenario combinations were chosen as they are happy paths covering lots of chart components.
+   * These three scenario combinations were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
   async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
@@ -52,14 +52,6 @@ export default class ChartPage extends BasePage {
       areaMode === AreaMode.TWO_AREAS;
     const threeIndicatorsWithEngland =
       indicatorMode === IndicatorMode.MULTIPLE_INDICATORS &&
-      areaMode === AreaMode.ENGLAND_AREA;
-
-    // remove these extra temporarily supported in DHSCFT-291
-    const oneIndicatorWithEnglandArea =
-      indicatorMode === IndicatorMode.ONE_INDICATOR &&
-      areaMode === AreaMode.ENGLAND_AREA;
-    const twoIndicatorsWithEnglandArea =
-      indicatorMode === IndicatorMode.TWO_INDICATORS &&
       areaMode === AreaMode.ENGLAND_AREA;
 
     // Check chart component visibility for oneIndicatorWithOneArea
@@ -86,7 +78,8 @@ export default class ChartPage extends BasePage {
       const componentsToCheckNotVisible = [
         this.lineChartComponent,
         this.lineChartTableComponent,
-        this.barChartComponent,
+        // DHSCFT-220 will implement this logic
+        // this.barChartComponent,
       ];
 
       for (const component of componentsToCheckVisible) {
@@ -109,7 +102,8 @@ export default class ChartPage extends BasePage {
       const componentsToCheckNotVisible = [
         this.lineChartComponent,
         this.lineChartTableComponent,
-        this.barChartComponent,
+        // DHSCFT-220 will implement this logic
+        // this.barChartComponent,
       ];
 
       for (const component of componentsToCheckVisible) {
@@ -126,7 +120,15 @@ export default class ChartPage extends BasePage {
       return;
     }
 
-    // remove these extra temporarily supported in DHSCFT-291
+    // remove these extra temporarily supported scenarios in DHSCFT-291
+    const oneIndicatorWithEnglandArea =
+      indicatorMode === IndicatorMode.ONE_INDICATOR &&
+      areaMode === AreaMode.ENGLAND_AREA;
+    const twoIndicatorsWithEnglandArea =
+      indicatorMode === IndicatorMode.TWO_INDICATORS &&
+      areaMode === AreaMode.ENGLAND_AREA;
+
+    // remove this extra temporarily supported scenario in DHSCFT-291
     // Check chart component visibility for oneIndicatorWithEnglandArea
     if (oneIndicatorWithEnglandArea) {
       const componentsToCheckVisible = [
@@ -145,6 +147,7 @@ export default class ChartPage extends BasePage {
       return;
     }
 
+    // remove this extra temporarily supported scenario in DHSCFT-291
     // Check chart component visibility for twoIndicatorsWithEnglandArea
     if (twoIndicatorsWithEnglandArea) {
       const componentsToCheckVisible = [this.populationPyramidComponent];
