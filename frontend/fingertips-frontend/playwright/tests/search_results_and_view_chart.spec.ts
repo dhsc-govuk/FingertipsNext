@@ -116,7 +116,16 @@ test.describe('Search via indicator', () => {
 
     await test.step('Check available area types', async () => {
       const expectedOptions = [
-        "England", "NHS Regions", "Regions", "Combined Authorities", "NHS Integrated Care Boards", "Counties and Unitary Authorities", "NHS Sub Integrated Care Boards", "Districts and Unitary Authorities", "NHS Primary Care Networks", "GPs",
+        'England',
+        'NHS Regions',
+        'Regions',
+        'Combined Authorities',
+        'NHS Integrated Care Boards',
+        'Counties and Unitary Authorities',
+        'NHS Sub Integrated Care Boards',
+        'Districts and Unitary Authorities',
+        'NHS Primary Care Networks',
+        'GPs',
       ];
       const options = await resultsPage.areaFilterOptionsText();
       test.expect(options).toHaveLength(expectedOptions.length);
