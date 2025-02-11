@@ -108,7 +108,7 @@ jobs:
 
       - name: Upload .dacpac file artifact
         uses: actions/upload-artifact@v4
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         with:
           name: dacpac
           path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
@@ -244,7 +244,10 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
-      needs.check-changes.outputs.db_changed == 'true'
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.db_changed == 'true'
+      )
     steps:
       - name: Download DACPAC
         uses: actions/download-artifact@v4
@@ -449,6 +452,7 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
+      github.event_name == 'workflow_dispatch' ||
       (
         needs.check-changes.outputs.db_changed == 'true' ||
         needs.check-changes.outputs.api_changed == 'true' ||
