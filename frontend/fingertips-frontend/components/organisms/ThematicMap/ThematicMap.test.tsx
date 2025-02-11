@@ -40,6 +40,8 @@ it('should render the ThematicMap component', async () => {
     />
   );
 
-  const highcharts = await screen.findByTestId('highcharts-react-component');
+  const highcharts = await screen.findByTestId(
+    'highcharts-react-thematicMap-component'
+  );
   expect(highcharts).toBeInTheDocument();
 });

@@ -108,7 +108,9 @@ export function ThematicMap({
     <div data-testid="thematicMap-component">
       <H3>{mapTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-thematicMap-component',
+        }}
         highcharts={Highcharts}
         constructorType={'mapChart'}
         options={options}
