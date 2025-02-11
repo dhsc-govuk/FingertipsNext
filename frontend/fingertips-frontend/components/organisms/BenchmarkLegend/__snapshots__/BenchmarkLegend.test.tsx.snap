@@ -76,7 +76,7 @@ exports[`Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: transparent;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
   border: 1px solid #0B0C0C;
 }
 

@@ -65,7 +65,7 @@ export const getDefaultBenchmarkTagStyle = (
         default:
           return {
             backgroundColor: 'transparent',
-            color: 'var(--other-black, #0B0C0C)',
+            color: '#0B0C0C',
             border: '1px solid #0B0C0C',
           };
       }
