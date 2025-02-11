@@ -33,9 +33,9 @@ exports[`Testing the BenchmarkLabel Component  snapshot testing of the UI 1`] = 
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin: 0.0225em;
+  margin: 0.3125em;
   font-weight: 300;
-  text-transform: capitalize;
+  text-transform: unset;
   background-color: #D494C1;
   color: var(--other-black,#0B0C0C);
 }
