@@ -110,7 +110,7 @@ it('should not render the scatterChart component when only 1 indicator is select
 });
 
 it('should render the ThematicMap component when all map props are provided', () => {
-  const areaType = 'Regions Statistical';
+  const areaType = 'Regions';
   const areaCodes = ['E12000001', 'E12000002'];
   const mapData = getMapData(areaType, areaCodes);
 

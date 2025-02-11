@@ -1,7 +1,7 @@
 import { GeoJSON } from 'highcharts';
 
 export const mockMapGroupBoundaries: Record<string, GeoJSON> = {
-  'Counties & UAs': {
+  'Counties and Unitary Authorities': {
     type: 'FeatureCollection',
     features: [
       {
@@ -274,7 +274,7 @@ export const mockMapGroupBoundaries: Record<string, GeoJSON> = {
       },
     ],
   },
-  'Regions Statistical': {
+  'Regions': {
     type: 'FeatureCollection',
     features: [
       {

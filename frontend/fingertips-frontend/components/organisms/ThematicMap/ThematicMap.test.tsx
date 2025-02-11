@@ -3,7 +3,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
-const mockAreaType = 'Regions Statistical';
+const mockAreaType = 'Regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
 const mockMapData = getMapData(mockAreaType, mockAreaCodes);
 
