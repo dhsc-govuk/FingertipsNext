@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -26,15 +26,13 @@ const mockPopulationData: PopulationDataForArea = {
 
 describe('Page structure', () => {
   describe('Navigation', () => {
-    it('should render back link with correct search parameters', async () => {
-      await act(async () =>
-        render(
-          <Chart
-            data={[mockHealthData[1]]}
-            searchedIndicator="test"
-            indicatorsSelected={['1', '2']}
-          />
-        )
+    it('should render back link with correct search parameters', () => {
+      render(
+        <Chart
+          data={[mockHealthData[1]]}
+          searchedIndicator="test"
+          indicatorsSelected={['1', '2']}
+        />
       );
 
       const backLink = screen.getByRole('link', { name: /back/i });
@@ -48,8 +46,8 @@ describe('Page structure', () => {
 });
 
 describe('Content', () => {
-  beforeEach(async () => {
-    await act(async () => render(<Chart data={[mockHealthData[1]]} />));
+  beforeEach(() => {
+    render(<Chart data={[mockHealthData[1]]} />);
   });
 
   it('should render the title with correct text', () => {
@@ -72,37 +70,31 @@ describe('Content', () => {
   });
 });
 
-it('should render the PopulationPyramid component when Population data are provided', async () => {
-  await act(async () =>
-    render(
-      <Chart
-        data={[mockHealthData[1]]}
-        populationData={{
-          dataForSelectedArea: mockPopulationData,
-          dataForEngland: undefined,
-          dataForBaseline: undefined,
-        }}
-      />
-    )
+it('should render the PopulationPyramid component when Population data are provided', () => {
+  render(
+    <Chart
+      data={[mockHealthData[1]]}
+      populationData={{
+        dataForSelectedArea: mockPopulationData,
+        dataForEngland: undefined,
+        dataForBaseline: undefined,
+      }}
+    />
   );
 
   const populationPyramid = screen.getByTestId('populationPyramid-component');
   expect(populationPyramid).toBeInTheDocument();
 });
 
-it('should render the scatterChart component when 2 indicators are selected', async () => {
-  await act(async () =>
-    render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0', '1']} />)
-  );
+it('should render the scatterChart component when 2 indicators are selected', () => {
+  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0', '1']} />);
   const scatterChart = screen.getByTestId('scatterChart-component');
 
   expect(scatterChart).toBeInTheDocument();
 });
 
-it('should not render the scatterChart component when only 1 indicator is selected', async () => {
-  await act(async () =>
-    render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0']} />)
-  );
+it('should not render the scatterChart component when only 1 indicator is selected', () => {
+  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0']} />);
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
