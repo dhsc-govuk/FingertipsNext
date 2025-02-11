@@ -24,6 +24,7 @@ on:
 jobs:
   check-changes:
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
     outputs:
       db_changed: ${{ steps.check.outputs.db_changed }}
       api_changed: ${{ steps.check.outputs.api_changed }}
@@ -244,7 +245,10 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
-      needs.check-changes.outputs.db_changed == 'true'
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.db_changed == 'true'
+      )
     steps:
       - name: Download DACPAC
         uses: actions/download-artifact@v4
@@ -449,6 +453,7 @@ jobs:
     if: >
       always() && !failure() && !cancelled() &&
       github.event_name != 'pull_request' &&
+      github.event_name == 'workflow_dispatch' ||
       (
         needs.check-changes.outputs.db_changed == 'true' ||
         needs.check-changes.outputs.api_changed == 'true' ||
