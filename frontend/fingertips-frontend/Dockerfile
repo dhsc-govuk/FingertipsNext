@@ -1,3 +1,4 @@
+# TEST COMMENT
 # Based on the Dockerfile from the Next with-docker example: https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
 FROM node:22-alpine AS base

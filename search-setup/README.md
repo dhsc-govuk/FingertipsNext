@@ -1,3 +1,4 @@
+# TEST COMMENT
 # fingertips-search-setup
 
 The Fingertips search setup console app automates the creation and loading of data to a specified index within an existing Azure AI Search instance.
