@@ -290,10 +290,7 @@ jobs:
       always() &&
       contains(needs.*.result, 'success') &&
       github.event_name != 'pull_request' &&
-      (
-        github.head_ref == 'main' ||
-        github.ref_name == 'main'
-      ) &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true'
