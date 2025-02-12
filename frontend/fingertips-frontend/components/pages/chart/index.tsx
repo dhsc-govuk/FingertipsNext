@@ -12,14 +12,15 @@ import { ScatterChart } from '@/components/organisms/ScatterChart';
 import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
-  shouldDisplayLineChart,
 } from '@/lib/chartHelpers/chartHelpers';
+import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
+  areasSelected?: string[];
 };
 
 export function Chart({
@@ -27,6 +28,7 @@ export function Chart({
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
+  areasSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
     [SearchParams.SearchedIndicator]: searchedIndicator,
@@ -46,7 +48,11 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      {shouldDisplayLineChart(data, indicatorsSelected) && (
+      {shouldDisplayLineChart(
+        dataWithoutEngland,
+        indicatorsSelected,
+        areasSelected
+      ) && (
         <>
           <LineChart
             LineChartTitle="See how the indicator has changed over time"

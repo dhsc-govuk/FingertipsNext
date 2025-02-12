@@ -1,11 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
-import {
-  LIGHT_GREY,
-  LineChartTableHeadingEnum,
-} from '@/lib/chartHelpers/chartHelpers';
+import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA } from './mocks';
+import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 
 describe('Line chart table suite', () => {
   describe('1 Indicator, 1 Area', () => {
@@ -68,7 +66,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          data={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -100,7 +98,7 @@ describe('Line chart table suite', () => {
     it('should render dashes if England benchmark prop is undefined', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          data={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={undefined}
         />
       );
@@ -148,7 +146,7 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('columnheader')[3]).toHaveTextContent(
         MOCK_HEALTH_DATA[0].areaName
       );
-      expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
         MOCK_HEALTH_DATA[1].areaName
       );
       expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);

@@ -5,10 +5,8 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import {
-  LIGHT_GREY,
-  LineChartTableHeadingEnum,
-} from '@/lib/chartHelpers/chartHelpers';
+import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
+import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 
 interface TableProps {
   data: HealthDataForArea[];
@@ -142,7 +140,6 @@ const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 
-const getAreaNameCellSpan = (index: number): number => (index === 0 ? 3 : 2);
 const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 5 : 4;
 
@@ -178,11 +175,10 @@ export function LineChartTable({
             <Table.Row>
               {data.map((area, index) => (
                 <React.Fragment key={area.areaName}>
-                  <Table.CellHeader
-                    colSpan={getAreaNameCellSpan(index)}
-                  ></Table.CellHeader>
-                  <StyledAreaNameHeader>{area.areaName}</StyledAreaNameHeader>
-                  <Table.CellHeader colSpan={2}></Table.CellHeader>
+                  {index === 0 ? <Table.CellHeader /> : null}
+                  <StyledAreaNameHeader colSpan={5}>
+                    {area.areaName}
+                  </StyledAreaNameHeader>
                 </React.Fragment>
               ))}
               <StyledGreyHeader data-testid="england-header">

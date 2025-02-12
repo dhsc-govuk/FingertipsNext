@@ -228,17 +228,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
         >
           <th
             class="c2"
-            colspan="3"
           />
           <th
             class="c2 c3 c4 c6"
+            colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
-          <th
-            class="c2"
-            colspan="2"
-          />
           <th
             class="c2 c3 c7 c8"
             data-testid="england-header"
@@ -650,30 +646,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
         >
           <th
             class="c2"
-            colspan="3"
           />
           <th
             class="c2 c3 c4 c6"
+            colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c2"
-            colspan="2"
-          />
-          <th
-            class="c2"
-            colspan="2"
-          />
-          <th
             class="c2 c3 c4 c6"
+            colspan="5"
           >
             South FooBar
           </th>
-          <th
-            class="c2"
-            colspan="2"
-          />
           <th
             class="c2 c3 c7 c8"
             data-testid="england-header"

@@ -1,7 +1,6 @@
 import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
-  shouldDisplayLineChart,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -223,41 +222,5 @@ describe('seriesDataWithoutEngland', () => {
 
     const result = seriesDataWithoutEngland(data);
     expect(result).toEqual(dataWithoutEngland);
-  });
-});
-
-describe('should display line chart', () => {
-  describe('should return false', () => {
-    it('should return false when more than 1 indicator is selected', () => {
-      expect(shouldDisplayLineChart([mockData], ['1', '2'])).toBe(false);
-    });
-
-    it('should return false when more than 2 area codes are selected for an indicator', () => {
-      const data = [
-        ...mockData,
-        {
-          ...mockData[0],
-          areaCode: 'A2',
-          areaName: 'Area 2',
-        },
-        {
-          ...mockData[0],
-          areaCode: 'A3',
-          areaName: 'Area 3',
-        },
-      ];
-      expect(shouldDisplayLineChart([data], ['1'])).toBe(false);
-    });
-
-    it('should return false when health data contains less than 2 time periods', () => {
-      const data = [
-        {
-          areaCode: 'A2',
-          areaName: 'Area 2',
-          healthData: [mockData[0].healthData[0]],
-        },
-      ];
-      expect(shouldDisplayLineChart([data], ['1'])).toBe(false);
-    });
   });
 });

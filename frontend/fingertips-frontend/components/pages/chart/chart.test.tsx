@@ -113,7 +113,13 @@ describe('should not display line chart', () => {
   });
 
   it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
-    render(<Chart data={[mockHealthData['1']]} indicatorsSelected={['0']} />);
+    render(
+      <Chart
+        data={[mockHealthData['1']]}
+        indicatorsSelected={['0']}
+        areasSelected={['A1425', 'A1426', 'A1427']}
+      />
+    );
 
     expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
     expect(
