@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
 /// <summary>
-/// A area or geography that has associated public health data
+/// An area or geography that has associated public health data
 /// </summary>
 [Serializable]
 [Table("Areas", Schema = "Areas")]
@@ -33,6 +33,10 @@ public class AreaModel
     /// The type of the area e.g. 'Region'
     /// </summary>
     public required AreaTypeModel AreaType { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     [ForeignKey("AreaType")]
     public required string AreaTypeKey { get; set; }
 }
