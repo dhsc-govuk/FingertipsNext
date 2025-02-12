@@ -53,10 +53,15 @@ jobs:
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: Run Playwright tests
+      - name: Run Playwright tests in CD
+        if: ${{ inputs.env-url }} != null
         run: npx playwright test
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
+
+      - name: Run Playwright tests in CI
+        if: ${{ inputs.env-url }} = null
+        run: npm run test-e2e-local-docker
 
       - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
