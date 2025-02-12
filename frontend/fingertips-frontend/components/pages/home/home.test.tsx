@@ -106,6 +106,6 @@ describe('contents items should link to appropriate headings', () => {
 
     expect(
       screen.getByRole('heading', { name: headingText }).closest(`${href}`)
-    ).toBe;
+    ).toHaveAttribute('id', href.slice(1));
   });
 });

@@ -1,14 +1,7 @@
 'use client';
 
 import { SearchFormState, getSearchSuggestions } from './searchActions';
-import {
-  InsetText,
-  Button,
-  InputField,
-  Paragraph,
-  H3,
-  Link,
-} from 'govuk-react';
+import { Button, InputField, H3, Link } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
