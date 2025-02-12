@@ -81,7 +81,7 @@ export default class ChartPage extends BasePage {
       // remove these extra two temporarily supported scenarios in DHSCFT-291
       [
         `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ENGLAND_AREA}`,
-        singleIndicatorConfig,
+        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
       ],
       [
         `${IndicatorMode.TWO_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
