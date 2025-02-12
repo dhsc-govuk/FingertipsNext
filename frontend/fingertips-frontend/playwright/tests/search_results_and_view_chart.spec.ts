@@ -97,15 +97,17 @@ test.describe('Search via indicator', () => {
       await homePage.typeIndicator(searchTerm);
       await homePage.clickSearchButton();
 
-      await resultsPage.checkURLIsCorrect(searchTerm);
+      await resultsPage.waitForURLToContain(
+        `${SearchParams.SearchedIndicator}=${searchTerm}`
+      );
 
       await resultsPage.selectIndicatorCheckboxes([indicatorIDs[0]]);
-      await resultsPage.checkURLIsCorrect(
+      await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
       );
 
       await resultsPage.clickViewChartsButton();
-      await chartPage.checkURLIsCorrect(
+      await chartPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
@@ -115,7 +117,7 @@ test.describe('Search via indicator', () => {
       );
 
       await chartPage.clickBackLink();
-      await resultsPage.checkURLIsCorrect(
+      await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
       );
 
