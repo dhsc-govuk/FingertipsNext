@@ -46,6 +46,9 @@ jobs:
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Create .env file for db-setup - for CI test execution
         if: inputs.env-url == null
         run: |
@@ -61,9 +64,9 @@ jobs:
         if: inputs.env-url == null
         run: npm run test-e2e-ci-docker
 
-      - name: Install dependencies - for CD test execution
-        if: inputs.env-url != null
-        run: npm ci
+      - name: Stop docker services - for CI test execution
+        if: inputs.env-url == null
+        run: npm run stop:all
 
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.env-url != null
@@ -92,7 +95,3 @@ jobs:
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
-
-      - name: Stop docker services - for CI test execution
-        if: inputs.env-url == null
-        run: npm run stop:all
