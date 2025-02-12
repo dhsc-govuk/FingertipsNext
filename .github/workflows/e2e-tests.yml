@@ -60,24 +60,24 @@ jobs:
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD
-        if: ${{ inputs.env-url }} != null
+        if: inputs.env-url != null
         run: npx playwright test
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
       - name: Create .env file for db-setup
-        if: ${{ inputs.env-url }} = null
+        if: inputs.env-url == null
         run: |
           echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
           echo "DB_NAME=fingertips" >> .env
           echo "DB_USER=sa" >> .env
 
       - name: Install playwright dependencies
-        if: ${{ inputs.env-url }} = null
+        if: inputs.env-url  == null
         run: npx playwright install --with-deps chromium webkit
 
       - name: Run Playwright tests in CI
-        if: ${{ inputs.env-url }} = null
+        if: inputs.env-url  == null
         run: npm run test-e2e-local-docker
 
       - name: Upload playwright report and screenshot if e2e tests fail
