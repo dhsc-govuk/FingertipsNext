@@ -10,8 +10,8 @@ export enum IndicatorMode {
 
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
-  TWO_AREAS = 'TWO_AREAS',
-  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS',
+  TWO_AREAS = 'TWO_AREAS', // in the same group
+  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS', // 3+ areas in a group
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
