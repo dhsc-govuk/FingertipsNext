@@ -3,6 +3,9 @@ export const INDICATOR_SEARCH_INDEX_NAME = "indicator-search-index";
 export const AREA_SEARCH_INDEX_NAME = "area-search-index";
 export const AREA_SEARCH_SUGGESTER_NAME = "areaSuggester";
 
+export const COUNTY_AREA_TYPE_NAME = "Counties and Unitary Authorities";
+export const DISTRICT_AREA_TYPE_NAME = "Districts and Unitary Authorities";
+
 export interface IndicatorDocument {
   indicatorId: string;
   name: string;
@@ -13,6 +16,7 @@ export interface IndicatorDocument {
 }
 
 export interface AreaDocument {
+  areaKey: string;
   areaCode: string;
   areaType: string;
   areaName: string;
@@ -28,6 +32,7 @@ export enum IndicatorSearchIndexColumnNames {
 }
 
 export enum AreaSearchIndexColumnNames {
+  AREA_KEY = "areaKey",
   AREA_CODE = "areaCode",
   AREA_NAME = "areaName",
   AREA_TYPE = "areaType",

@@ -1,4 +1,3 @@
-import { getEnvironmentVariable } from "../src/utils/helpers";
 import {
   AREA_SEARCH_INDEX_NAME,
   AREA_SEARCH_SUGGESTER_NAME,
@@ -18,8 +17,8 @@ let urlPrefix: string;
 const URL_SUFFIX = "?api-version=2024-07-01";
 
 describe("AI search index creation and data loading", () => {
-  searchEndpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
-  apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
+  searchEndpoint = process.env.AI_SEARCH_SERVICE_ENDPOINT!;
+  apiKey = process.env.AI_SEARCH_API_KEY!;
 
   const expectIndexToBePopulated = async (url: string) => {
     const response = await fetch(url, {
@@ -115,14 +114,50 @@ describe("AI search index creation and data loading", () => {
       expect(results.value.length).toBeGreaterThan(0);
     });
 
+    const makeSuggestionsRequest = async (partialText: string) => {
+      return await fetch(`${urlPrefix}/docs/search.post.suggest${URL_SUFFIX}`, {
+        headers: {
+          "api-key": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          search: partialText,
+          searchFields: "areaName,areaCode",
+          select: "areaCode,areaType,areaName",
+          suggesterName: AREA_SEARCH_SUGGESTER_NAME,
+        }),
+        method: "POST",
+      });
+    };
+
     it("should have suggestions enabled", async () => {
-      const url = `${urlPrefix}/docs/search.post.suggest${URL_SUFFIX}`;
 
-      const response = await makeTypeAheadRequest(url);
-
+      const response = await makeSuggestionsRequest('man');
       const results: SuggestionResult = await response.json();
-
       expect(results.value.length).toBeGreaterThan(0);
+    });
+
+    it("should have E08000003 in twice", async () => {
+      const response = await makeSuggestionsRequest('E08000003');
+      const results: SuggestionResult = await response.json();
+      console.log(results);
+      expect(results).toMatchObject({
+        value: [
+          {
+            '@search.text': 'E08000003',
+            areaCode: 'E08000003',
+            areaType: 'Counties and Unitary Authorities',
+            areaName: 'Manchester'
+          },
+          {
+            '@search.text': 'E08000003',
+            areaCode: 'E08000003',
+            areaType: 'Districts and Unitary Authorities',
+            areaName: 'Manchester'
+          }
+        ]
+
+      });
     });
   });
 });

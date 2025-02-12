@@ -9,7 +9,7 @@ import {
   createIndex,
   populateIndex,
 } from "./indexOperations.js";
-import { getEnvironmentVariable } from "./utils/helpers.js";
+import { createDistrictLevelFromCounty, getEnvironmentVariable, parseAreaData } from "./utils/helpers.js";
 import {
   AREA_SEARCH_INDEX_NAME,
   AreaDocument,
@@ -17,8 +17,8 @@ import {
   IndicatorDocument,
 } from "./constants.js";
 
-import areaData from "../assets/areaData.json" with {type:"json"};
-import indicatorData from "../assets/indicatorData.json" with {type:"json"};
+import rawAreasData from "../assets/areas.json" with {type: "json"};
+import indicatorData from "../assets/indicatorData.json" with {type: "json"};
 
 async function createAndPopulateIndex<
   T extends IndicatorDocument | AreaDocument
@@ -38,15 +38,19 @@ async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
   const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
 
+  const areaData = parseAreaData(rawAreasData);
+  const newDistrictAreas = createDistrictLevelFromCounty(areaData);
+  const extendedAreaData = areaData.concat(newDistrictAreas);
+
   const indexClient = new SearchIndexClient(
     endpoint,
     new AzureKeyCredential(apiKey)
   );
 
-  const typedIndicatorData = indicatorData.map((indicator)=>{
+  const typedIndicatorData = indicatorData.map((indicator) => {
     return {
       ...indicator,
-      lastUpdated : new Date(indicator.lastUpdated)
+      lastUpdated: new Date(indicator.lastUpdated)
     }
   })
 
@@ -54,14 +58,14 @@ async function main(): Promise<void> {
     indexClient,
     buildIndicatorSearchIndex,
     INDICATOR_SEARCH_INDEX_NAME,
-    typedIndicatorData 
+    typedIndicatorData
   );
 
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
     AREA_SEARCH_INDEX_NAME,
-    areaData
+    extendedAreaData
   );
 }
 

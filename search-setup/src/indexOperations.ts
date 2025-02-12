@@ -21,7 +21,7 @@ export async function createIndex(
   try {
     console.log("Trying to delete an existing index");
     await indexClient.deleteIndex(index);
-  } catch {}
+  } catch { }
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
@@ -111,28 +111,33 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField(
-          AreaSearchIndexColumnNames.AREA_CODE,
-          "Edm.String",
-          true,
-          true,
-          true
-        ),
+        name: AreaSearchIndexColumnNames.AREA_KEY,
+        type: "Edm.String",
+        searchable: false,
+        sortable: false,
+        filterable: false
       },
-      buildSearchIndexField(
-        AreaSearchIndexColumnNames.AREA_NAME,
-        "Edm.String",
-        true,
-        true,
-        true
-      ),
-      buildSearchIndexField(
-        AreaSearchIndexColumnNames.AREA_TYPE,
-        "Edm.String",
-        true,
-        true,
-        true
-      ),
+      {
+        name: AreaSearchIndexColumnNames.AREA_CODE,
+        type: "Edm.String",
+        searchable: true,
+        sortable: true,
+        filterable: true
+      },
+      {
+        name: AreaSearchIndexColumnNames.AREA_TYPE,
+        type: "Edm.String",
+        searchable: true,
+        sortable: true,
+        filterable: true
+      },
+      {
+        name: AreaSearchIndexColumnNames.AREA_NAME,
+        type: "Edm.String",
+        searchable: true,
+        sortable: true,
+        filterable: true
+      },
     ],
     suggesters: [
       {

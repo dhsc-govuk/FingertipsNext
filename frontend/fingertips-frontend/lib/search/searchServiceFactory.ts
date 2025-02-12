@@ -1,25 +1,46 @@
 import { AreaSearchService } from './areaSearchService';
 import { AreaSearchServiceMock } from './areaSearchServiceMock';
 import { IndicatorSearchService } from './indicatorSearchService';
-import { IAreaSearchService, IIndicatorSearchService } from './searchTypes';
+import { AreaDocument, IAreaSearchService, IIndicatorSearchService } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 
 export class SearchServiceFactory {
+
+  private static DISTRICT_AREA_TYPE_NAME = "Districts and Unitary Authorities";
   private static areaSearchServiceInstance: IAreaSearchService | null;
   private static indicatorSearchServiceInstance: IIndicatorSearchService | null;
+
+  private static isDualLevelArea({ areaCode }: AreaDocument): boolean {
+    return (areaCode.startsWith('E06') || areaCode.startsWith('E08') || areaCode.startsWith('E09'))
+  }
+
+  // This needs to duplicate E09, E08 and E06 area types. These are initially modelled as COUNTY level but need duplicating as DISTRICT LEVEL
+  private static createDistrictLevelFromCounty(areaData: AreaDocument[]) {
+    const countyLevel = areaData.filter(this.isDualLevelArea);
+    const newDistrictLevel = countyLevel.map(({ areaCode, areaName }: AreaDocument): AreaDocument => { return { areaCode, areaName, areaType: this.DISTRICT_AREA_TYPE_NAME } });
+    return newDistrictLevel;
+  }
+
+
+  private static buildAreaSearchServiceMock(mockAreaData: AreaDocument[]) {
+    const newDistrictAreas = this.createDistrictLevelFromCounty(mockAreaData);
+    const extendedAreaData = mockAreaData.concat(newDistrictAreas);
+
+    return new AreaSearchServiceMock(extendedAreaData);
+  }
 
   private static buildAreaSearchService(): IAreaSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
     console.log(`buildAreaSearchService: useMockService: ${useMockServer}`);
     return useMockServer === 'true'
-      ? new AreaSearchServiceMock(mockAreaData)
+      ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-          readEnvVar('DHSC_AI_SEARCH_API_KEY')
-        );
+        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+        readEnvVar('DHSC_AI_SEARCH_API_KEY')
+      );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
