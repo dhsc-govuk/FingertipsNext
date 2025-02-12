@@ -1,11 +1,16 @@
 import { Checkbox, Paragraph } from 'govuk-react';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
   showConfidenceIntervalsData: boolean;
   onCheck: (checked: boolean) => void;
+  searchState?: SearchStateParams;
 };
 
 export function ConfidenceIntervalCheckbox({
@@ -18,7 +23,8 @@ export function ConfidenceIntervalCheckbox({
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  // const stateManager =  SearchStateManager.setStateFromSearchParams()
+  // const stateManager =
+  //   SearchStateManager.setStateFromSearchStateParams(searchState);
   const handleClick = (chartName: string, checked: boolean) => {
     const searchState = SearchStateManager.setStateFromParams(params);
 

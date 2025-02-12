@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox/index';
 import { SearchParams } from '@/lib/searchStateManager';
 import { userEvent } from '@testing-library/user-event';
@@ -83,7 +83,7 @@ describe('ConfidenceIntervalCheckbox', () => {
       'highcharts-errorbar-series'
     );
 
-    expect(confidenceIntervalBars.length).toBe(0);
+    expect(confidenceIntervalBars).toHaveLength(0);
   });
 
   it('should update the url with the chart name when the checkbox is clicked', async () => {

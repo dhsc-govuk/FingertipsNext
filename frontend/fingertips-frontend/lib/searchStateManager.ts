@@ -1,5 +1,4 @@
 import { asArray } from './pageHelpers';
-import * as sea from 'node:sea';
 
 export enum SearchParams {
   SearchedIndicator = 'si',
