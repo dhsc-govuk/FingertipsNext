@@ -169,17 +169,20 @@ public class AreaRepository : IAreaRepository
                 SELECT
                     parent.*
                 FROM
+                    [Areas].[AreaTypes] areaType,
                     [Areas].[Areas] startingPoint
-                INNER JOIN
+                        INNER JOIN
                     [Areas].[Areas] parent
-                ON
-                    startingPoint.Node.IsDescendantOf(parent.Node) = 1
+                    ON
+                        startingPoint.Node.IsDescendantOf(parent.Node) = 1
                 WHERE
                     startingPoint.AreaCode = {areaCode}
-                AND
+                  AND
                     parent.AreaCode != {areaCode}
+                AND
+                    parent.AreaTypeKey = areaType.AreaTypeKey
                 ORDER BY
-                    parent.[Level] desc
+                    areaType.Level desc
                 """
             )
             .ToListAsync();

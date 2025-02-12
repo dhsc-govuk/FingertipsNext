@@ -22,7 +22,7 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
 ### GET area details, including children of type
 
 # England
-GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=GP
+GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=gps
 
 ### GET area details, including DIRECT children
 
