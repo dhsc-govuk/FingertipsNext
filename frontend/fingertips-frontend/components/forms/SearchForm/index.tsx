@@ -11,6 +11,7 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -31,7 +32,7 @@ export const SearchForm = ({
           defaultValue: searchFormState.indicator,
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
+          <div style={{ color: GovukColours.DarkGrey }}>
             For example smoking, diabetes prevalence, or a specific indicator ID
           </div>
         }
@@ -54,7 +55,7 @@ export const SearchForm = ({
           },
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
+          <div style={{ color: GovukColours.DarkGrey }}>
             For example district, county, region, NHS organisation or GP
             practice or code
           </div>

@@ -73,6 +73,7 @@ export default async function ChartPage(
       mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
+      areasSelected={areaCodes}
     />
   );
 }

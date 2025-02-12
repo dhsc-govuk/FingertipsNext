@@ -162,17 +162,18 @@ export function getGetHealthDataForAnIndicator200Response(
   indicatorId: string,
   areaCodes: string[]
 ) {
+  let healthDataForIndicator = mockHealthData[1];
+
   if (indicatorId in mockHealthData) {
-    const healthDataForIndicator = mockHealthData[indicatorId];
-    const healthDataForArea = healthDataForIndicator.filter((healthData) =>
-      areaCodes.includes(healthData.areaCode)
-    );
-    return !isAreaCodesEmpty(areaCodes)
-      ? healthDataForArea
-      : healthDataForIndicator;
+    healthDataForIndicator = mockHealthData[indicatorId];
   }
 
-  return mockHealthData[1];
+  const healthDataForArea = healthDataForIndicator.filter((healthData) =>
+    areaCodes.includes(healthData.areaCode)
+  );
+  return !isAreaCodesEmpty(areaCodes)
+    ? healthDataForArea
+    : healthDataForIndicator;
 }
 
 function isAreaCodesEmpty(areaCodes: string[]) {

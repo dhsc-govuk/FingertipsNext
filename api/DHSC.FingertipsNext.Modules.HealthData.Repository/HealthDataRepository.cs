@@ -18,6 +18,8 @@ public class HealthDataRepository : IRepository
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || areaCodes.Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
+            .Where(hm => !hm.SexDimension.HasValue)
+            .Where(hm => !hm.AgeDimension.HasValue)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
