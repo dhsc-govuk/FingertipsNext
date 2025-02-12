@@ -1,14 +1,22 @@
-import { ErrorText, FormGroup, SearchBox } from 'govuk-react';
+import { ErrorText, FormGroup, Paragraph, SearchBox } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
-const govukRed = '#d4351c';
 const govukErrorBorderWidth = '2px';
 
 const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
+
+const StyledTitleParagraph = styled(styled(Paragraph)`
+  padding-bottom: 2px;
+`)(spacing.withWhiteSpace({ marginBottom: 0 }));
+
+const StyledHintParagraph = styled(styled(Paragraph)`
+  color: ${GovukColours.DarkGrey};
+`)(spacing.withWhiteSpace({ marginBottom: 3 }));
 
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,
@@ -20,6 +28,10 @@ export const IndicatorSearchForm = ({
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
+      <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
+      <StyledHintParagraph>
+        For example smoking, diabetes prevalence, or a specific indicator ID
+      </StyledHintParagraph>
       {indicatorSearchFormState.message ? (
         <ErrorText data-testid="indicator-search-form-error">
           {indicatorSearchFormState.message}
@@ -38,7 +50,7 @@ export const IndicatorSearchForm = ({
             style={
               indicatorSearchFormState.errors
                 ? {
-                    borderColor: govukRed,
+                    borderColor: GovukColours.Red,
                     borderWidth: govukErrorBorderWidth,
                     borderStyle: 'solid',
                   }
