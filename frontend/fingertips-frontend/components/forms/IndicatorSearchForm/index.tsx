@@ -3,7 +3,6 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 
-const govukBlack = '#0b0c0c';
 const govukLightGrey = '#505a5f';
 const govukRed = '#d4351c';
 const govukErrorBorderWidth = '2px';
@@ -14,8 +13,8 @@ const StyledSearchBox = styled(SearchBox)(
 
 const StyledTitleParagraph = styled(styled(Paragraph)`
   padding-bottom: 2px;
-  color: ${govukBlack};
 `)(spacing.withWhiteSpace({ marginBottom: 0 }));
+
 const StyledHintParagraph = styled(styled(Paragraph)`
   color: ${govukLightGrey};
 `)(spacing.withWhiteSpace({ marginBottom: 3 }));
