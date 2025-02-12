@@ -68,7 +68,7 @@ describe('getSearchSuggestions', () => {
       areaCode: 'A81005',
       areaName: 'Springwood Surgery',
       areaType: 'GPs',
-    })
+    });
   });
 
   it('should return a maximum of 20 suggestions', async () => {
