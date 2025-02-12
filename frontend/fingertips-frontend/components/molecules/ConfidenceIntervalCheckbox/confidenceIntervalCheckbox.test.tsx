@@ -6,7 +6,6 @@ import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
-const mockCheck = jest.fn();
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -23,42 +22,37 @@ jest.mock('next/navigation', () => {
   };
 });
 
-beforeEach(() => {
-  mockCheck.mockClear();
-});
 
 describe('ConfidenceIntervalCheckbox', () => {
   it('should check the checkbox when it is clicked', async () => {
+    
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
-        onCheck={mockCheck}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
-
-    expect(mockCheck).toHaveBeenCalledWith(true);
+    
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should show confidence interval bars when checkbox is clicked', async () => {
+    
     const { container, rerender } = render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
-        onCheck={mockCheck}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
-    expect(mockCheck).toHaveBeenCalledWith(true);
+    
     expect(screen.getByRole('checkbox')).toBeChecked();
 
     rerender(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={true}
-        onCheck={mockCheck}
       />
     );
     const confidenceIntervalBars = container.getElementsByClassName(
@@ -73,10 +67,8 @@ describe('ConfidenceIntervalCheckbox', () => {
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
-        onCheck={mockCheck}
       />
     );
-    expect(mockCheck).not.toHaveBeenCalled();
     expect(screen.getByRole('checkbox')).not.toBeChecked();
 
     const confidenceIntervalBars = container.getElementsByClassName(
@@ -91,7 +83,6 @@ describe('ConfidenceIntervalCheckbox', () => {
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
-        onCheck={mockCheck}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));

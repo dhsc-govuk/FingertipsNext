@@ -9,7 +9,8 @@ import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceInt
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
 import 'highcharts/highcharts-more';
-import { useActionState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -17,7 +18,7 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
-}
+};
 
 const chartSymbols: SymbolKeyValue[] = [
   'square',
@@ -34,16 +35,22 @@ export function LineChart({
   accessibilityLabel,
   benchmarkData,
 }: Readonly<LineChartProps>) {
-  const onCheck = (prevState: boolean, checked: boolean) => checked;
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useActionState(onCheck, false);
+  const searchParams = useSearchParams();
 
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+
+
+  const showConfidenceIntervalsData = searchStateManager.getSearchState()[SearchParams.ConfidenceIntervalSelected]
+  const lineChartCI = showConfidenceIntervalsData?.some(ci => ci === 'lineChart') ?? false
+  
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(
     sortedSeriesValues,
     chartSymbols,
     benchmarkData,
-    showConfidenceIntervalsData
+    lineChartCI
   );
 
   const lineChartOptions: Highcharts.Options = {
@@ -83,14 +90,13 @@ export function LineChart({
       description: accessibilityLabel,
     },
   };
-
+  
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
       <ConfidenceIntervalCheckbox
         chartName="lineChart"
-        showConfidenceIntervalsData={showConfidenceIntervalsData}
-        onCheck={setShowConfidenceIntervalsData}
+        showConfidenceIntervalsData={lineChartCI}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{ 'data-testid': 'highcharts-react-component' }}
