@@ -1,4 +1,4 @@
-import { ErrorText, FormGroup, SearchBox } from 'govuk-react';
+import { ErrorText, FormGroup, Paragraph, SearchBox } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
@@ -12,6 +12,14 @@ const StyledSearchBox = styled(SearchBox)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
+const StyledTitleParagraph = styled(styled(Paragraph)`
+  padding-bottom: 2px;
+  color: ${govukBlack};
+`)(spacing.withWhiteSpace({ marginBottom: 0 }));
+const StyledHintParagraph = styled(styled(Paragraph)`
+  color: ${govukLightGrey};
+`)(spacing.withWhiteSpace({ marginBottom: 3 }));
+
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,
 }: {
@@ -22,33 +30,10 @@ export const IndicatorSearchForm = ({
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
-      <div
-        style={{
-          color: govukBlack,
-          fontFamily: '"nta", Arial, sans-serif',
-          fontSize: '19px',
-          fontWeight: 400,
-          lineHeight: '25px',
-          textAlign: 'left',
-          paddingBottom: '2px',
-          marginBottom: '0px',
-        }}
-      >
-        Search by Subject
-      </div>
-      <div
-        style={{
-          color: govukLightGrey,
-          fontFamily: '"nta", Arial, sans-serif',
-          fontSize: '19px',
-          fontWeight: 400,
-          lineHeight: '25px',
-          textAlign: 'left',
-          marginBottom: '15px',
-        }}
-      >
+      <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
+      <StyledHintParagraph>
         For example smoking, diabetes prevalence, or a specific indicator ID
-      </div>
+      </StyledHintParagraph>
       {indicatorSearchFormState.message ? (
         <ErrorText data-testid="indicator-search-form-error">
           {indicatorSearchFormState.message}
