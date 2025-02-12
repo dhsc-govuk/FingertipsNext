@@ -60,6 +60,9 @@ jobs:
           echo "DB_NAME=fingertips" >> .env
           echo "DB_USER=sa" >> .env
 
+      - name: Install playwright dependencies
+        run: npx playwright install --with-deps chromium webkit
+
       - name: Run Playwright tests in CI
         if: ${{ inputs.env-url }} = null
         run: npm run test-e2e-local-docker
