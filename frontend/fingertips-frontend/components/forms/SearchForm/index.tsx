@@ -11,7 +11,7 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import AreaSelectWithSuggestions from '@/components/molecules/AreaSuggestionList';
+import AreaSelectAutoComplete from '@/components/molecules/AreaSuggestionList';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
@@ -73,7 +73,7 @@ export const SearchForm = ({
         Search by subject
       </StyledInputField>
 
-      <AreaSelectWithSuggestions
+      <AreaSelectAutoComplete
         onSelectHandler={(areaCode) => {
           console.log(`This area code has been selected: ${areaCode}`);
           updateUrlWithSelectedArea(areaCode);

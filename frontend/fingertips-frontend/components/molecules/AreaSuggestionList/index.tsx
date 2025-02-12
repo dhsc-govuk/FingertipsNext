@@ -1,16 +1,18 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
-import { InputField, Table } from 'govuk-react';
+import { InputField } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { InputProps } from '@govuk-react/input';
+import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
+import { AreaSearchInputField } from '../AreaSearchInputField';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
-interface AreaSelectWithSuggestionsProps {
+interface AreaSelectAutoCompleteProps {
   hint?: React.ReactNode;
   input?: InputProps;
   meta?: {
@@ -37,54 +39,35 @@ function formatAreaName(area: AreaDocument): string {
     : area.areaName;
 }
 
-export default function AreaSelectWithSuggestions({
+export default function AreaSelectAutoComplete({
   input,
   hint,
   meta,
   areaSelected,
   onSelectHandler,
-}: AreaSelectWithSuggestionsProps) {
+}: AreaSelectAutoCompleteProps) {
   const [suggestedAreas, setSuggestedAreas] = useState<AreaDocument[]>([]);
   const [selectedArea, setSelectedArea] = useState<AreaDocument | undefined>(
     areaSelected
   );
-
-  console.log(`AreaSelectWithSuggestions: ${areaSelected?.areaName}`);
-
   return (
     <div>
-      <StyledInputField
-        style={{ marginBottom: '5px' }}
-        input={{
-          ...input,
-          value: selectedArea ? formatAreaName(selectedArea) : undefined,
-          onChange: async (e) => {
-            setSelectedArea(undefined);
-            setSuggestedAreas(await generateAreaSuggestions(e.target.value));
-          },
+      <AreaSearchInputField
+        value={selectedArea?.areaName}
+        hint={
+          <div style={{ color: '#505a5f' }}>
+            For example postcode, county, local authority, NHS Trust or General
+            Practice name or code
+          </div>
+        }
+        onTextChange={(criteria: string) => {
+          console.log('Criteria = ', criteria);
         }}
-        hint={hint}
-        meta={meta}
-        data-testid="search-form-input-area"
-      >
-        Search for an area by location or organisation
-      </StyledInputField>
-
-      <Table>
-        {suggestedAreas.map((area) => (
-          <Table.Row
-            key={`${area.areaCode}`}
-            onClick={() => {
-              onSelectHandler(area.areaCode);
-              setSelectedArea(area);
-              setSuggestedAreas([]);
-            }}
-          >
-            <Table.Cell>{formatAreaName(area)}</Table.Cell>
-            <Table.Cell>{area.areaType}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table>
+      />
+      <AreaSuggestionPanel
+        areas={suggestedAreas}
+        onItemSelected={onSelectHandler}
+      />
     </div>
   );
 }
