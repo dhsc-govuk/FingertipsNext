@@ -9,17 +9,17 @@ on:
   workflow_call:
     inputs:
       env-url:
-        description: "environment url to run e2e tests against"
+        description: "environment url to run e2e tests against - for CD test executions"
         required: false
         default: null
         type: string
       send-slack-on-fail:
-        description: "optionally send a slack message on test failure"
-        required: true
+        description: "optionally send a slack message on e2e test failure - for CD test executions"
+        required: false
         default: "false"
         type: string
       container-image:
-        description: "container image to run the tests in"
+        description: "container image to run the e2e tests in - for CD test executions"
         required: false
         type: string
     secrets:
@@ -73,12 +73,12 @@ jobs:
           echo "DB_USER=sa" >> .env
 
       - name: Install playwright dependencies
-        if: inputs.env-url  == null
+        if: inputs.env-url == null
         run: npx playwright install --with-deps chromium webkit
 
       - name: Run Playwright tests in CI
-        if: inputs.env-url  == null
-        run: npm run test-e2e-local-docker
+        if: inputs.env-url == null
+        run: npm run test-e2e-ci-docker
 
       - name: Upload playwright report and screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
@@ -96,3 +96,7 @@ jobs:
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+
+      - name: Stop docker services
+        if: inputs.env-url == null
+        run: npm run stop:all

@@ -21,6 +21,7 @@
     "test-e2e-local-mocks": "playwright test",
     "test-e2e-find-flake": "playwright test --repeat-each 10",
     "test-e2e-local-docker": "MOCK_SERVER=false npm run start:all && playwright test || true && npm run stop:all",
+    "test-e2e-ci-docker": "MOCK_SERVER=false npm run start:all && playwright test",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"
   },

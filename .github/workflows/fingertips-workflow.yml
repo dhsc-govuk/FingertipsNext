@@ -209,8 +209,6 @@ jobs:
         )
       )
     uses: ./.github/workflows/e2e-tests.yml
-    with:
-      send-slack-on-fail: "false"
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
