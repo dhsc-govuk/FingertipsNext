@@ -13,7 +13,7 @@ function formatAreaName(area: AreaDocument): string {
 
 interface AreaSuggestionPanelProps {
   areas: AreaDocument[];
-  onItemSelected: (areaCode: string) => void;
+  onItemSelected: (area: AreaDocument) => void;
 }
 
 export const AreaSuggestionPanel = ({
@@ -26,9 +26,7 @@ export const AreaSuggestionPanel = ({
         <Table.Row
           key={`${area.areaCode}`}
           onClick={() => {
-            onItemSelected(area.areaCode);
-            //setSelectedArea(area);
-            //setSuggestedAreas([]);
+            onItemSelected(area);
           }}
         >
           <Table.Cell>{formatAreaName(area)}</Table.Cell>

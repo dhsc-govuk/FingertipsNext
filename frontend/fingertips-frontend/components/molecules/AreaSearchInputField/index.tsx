@@ -59,7 +59,7 @@ export const AreaSearchInputField = ({
             }
           }}
         >
-          <SearchBox.Input/>
+          <SearchBox.Input />
           <SearchBox.Button />
         </SearchBox>
       </StyledSearchBoxArea>

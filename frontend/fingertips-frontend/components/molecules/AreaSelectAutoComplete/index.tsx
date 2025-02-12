@@ -1,26 +1,19 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
-import { InputField } from 'govuk-react';
-import { spacing } from '@govuk-react/lib';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { InputProps } from '@govuk-react/input';
-import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
+import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
+import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
+import { time } from 'console';
+import { selectOptions } from '@testing-library/user-event/dist/cjs/utility/selectOptions.js';
 
-const StyledInputField = styled(InputField)(
-  spacing.withWhiteSpace({ marginBottom: 6 })
-);
+const enum SearchStatusType {
+  PROCESSING,
+  COMPLETED,
+}
 
 interface AreaSelectAutoCompleteProps {
-  hint?: React.ReactNode;
-  input?: InputProps;
-  meta?: {
-    error?: string | string[];
-    touched?: boolean;
-  };
-  areaSelected: AreaDocument | undefined;
-  onSelectHandler: (areaCode: string) => void;
+  area?: AreaDocument;
+  onSelect: (areaCode: string) => void;
 }
 
 async function generateAreaSuggestions(
@@ -40,26 +33,54 @@ function formatAreaName(area: AreaDocument): string {
 }
 
 export default function AreaSelectAutoComplete({
-  input,
-  hint,
-  meta,
-  areaSelected,
-  onSelectHandler,
+  area,
+  onSelect,
 }: AreaSelectAutoCompleteProps) {
-  const [suggestedAreas, setSuggestedAreas] = useState<AreaDocument[]>([]);
-  const [selectedArea, setSelectedArea] = useState<AreaDocument | undefined>(
-    areaSelected
+  const [criteria, setCriteria] = useState<string>();
+  const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
+    SearchStatusType.COMPLETED
   );
+  const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
+
+  useEffect(() => {
+    const fetchSearchArea = async (
+      criteria: string | undefined,
+      status: SearchStatusType
+    ) => {
+      if (searchStatus == SearchStatusType.PROCESSING) {
+        if (criteria != null) {
+          // Sync with  backend.
+          const areas = await getSearchSuggestions(criteria);
+          console.log(criteria);
+          console.log('Search Status = ', status);
+          console.log(areas);
+          setSearchAreas(areas);
+          setSearchStatus(SearchStatusType.COMPLETED);
+        }
+      }
+    };
+    fetchSearchArea(criteria, searchStatus);
+  }, [searchStatus, criteria]);
+
+  //handle on AreaSuggestionListPanel selection
+
+  const onSelectHandler = (item) => {
+    console.log(item);
+  };
+
   return (
     <div>
       <AreaSearchInputField
-        value={selectedArea?.areaName}
+        value={area?.areaName}
         onTextChange={(criteria: string) => {
-          console.log('Criteria = ', criteria);
+          if (searchStatus == SearchStatusType.COMPLETED) {
+            setCriteria(criteria);
+            setSearchStatus(SearchStatusType.PROCESSING);
+          }
         }}
       />
       <AreaSuggestionPanel
-        areas={suggestedAreas}
+        areas={searchAreas}
         onItemSelected={onSelectHandler}
       />
     </div>

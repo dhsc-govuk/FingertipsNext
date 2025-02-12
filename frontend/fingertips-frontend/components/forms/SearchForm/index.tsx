@@ -11,7 +11,7 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import AreaSelectAutoComplete from '@/components/molecules/AreaSuggestionList';
+import AreaSelectAutoComplete from '@/components/molecules/AreaSelectAutoComplete';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
@@ -78,23 +78,6 @@ export const SearchForm = ({
           updateUrlWithSelectedArea(areaCode);
           searchFormState.areaSearched = areaCode;
         }}
-        areaSelected={searchFormState.areaSelected}
-        input={{
-          id: 'areaSearched',
-          name: 'areaSearched',
-          value: searchFormState.areaSearched,
-        }}
-        hint={
-          <div style={{ color: '#505a5f' }}>
-            For example postcode, county, local authority, NHS Trust or General
-            Practice name or code
-          </div>
-        }
-        meta={{
-          touched: !!searchFormState.message,
-          error: 'This field value may be required',
-        }}
-        data-testid="search-form-input-area"
       />
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area
