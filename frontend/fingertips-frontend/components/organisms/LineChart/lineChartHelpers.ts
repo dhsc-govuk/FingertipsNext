@@ -6,7 +6,7 @@ export function generateSeriesData(
   data: HealthDataForArea[],
   symbols: SymbolKeyValue[],
   benchmarkData?: HealthDataForArea,
-  showConfidenceIntervalsData?: boolean
+  showConfidenceIntervalsData?: boolean,
 ): Highcharts.SeriesOptionsType[] {
   const seriesData = data.map<Highcharts.SeriesOptionsType>((item, index) => ({
     type: 'line',
@@ -30,8 +30,12 @@ export function generateSeriesData(
     seriesData.unshift(englandSeries);
   }
 
+  console.log('show === ' , showConfidenceIntervalsData)
+  
+  const ci = showConfidenceIntervals(data)
+
   if (showConfidenceIntervalsData) {
-    seriesData.push(...showConfidenceIntervals(data));
+    seriesData.push(...ci);
   }
 
   return seriesData;

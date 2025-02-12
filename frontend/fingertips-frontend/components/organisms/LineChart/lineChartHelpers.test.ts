@@ -222,8 +222,12 @@ describe('generateSeriesData', () => {
 
     const generatedSeriesData = generateSeriesData(
       mockData,
-      symbols
+      symbols, true
     );
+    console.log(...mockData);
+    expect(generatedSeriesData).toEqual([{color: "black", data: [[2006, 278.29134], [2004, 703.420759]], "marker": {"symbol": "circle"}, "name": "Benchmark: North FooBar", "type": "line"}, {"data": [[2006, 278.29134], [2004, 703.420759]], "marker": {"symbol": "arc"}, "name": "North FooBar", "type": "line"}, {data: [[2010, 786.27434], [2007, 435.420759]], marker: {symbol: "circle"}, name: "South FooBar", type: "line"}, {"data": [[2020, 478.27434], [2012, 234.420759]], marker: {symbol: "diamond"}, name: "East FooBar", type: "line"}, {data: [[2006, 441.69151, 578.32766], [2004, 441.69151, 578.32766]], name: "North FooBar", type: "errorbar"}, {data: [[2010, 750.69151, 800.32766], [2007, 440.69151, 420.32766]], name: "South FooBar", type: "errorbar"}, {data: [[2020, 460.69151, 500.32766], [2012, 220.69151, 250.32766]], name: "East FooBar", type: "errorbar"}])
+    
+    
   });
 });
 

@@ -38,6 +38,8 @@ export function LineChart({
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useActionState(onCheck, false);
 
+  console.log('line chart === ',showConfidenceIntervalsData)
+  
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(
     sortedSeriesValues,

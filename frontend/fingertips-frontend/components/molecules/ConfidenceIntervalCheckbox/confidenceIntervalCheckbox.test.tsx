@@ -62,7 +62,7 @@ describe('ConfidenceIntervalCheckbox', () => {
     expect(confidenceIntervalBars.length).toBe(0);
   });
   
-  it('should update the url when the checkbox is clicked', async () => {
+  it('should update the url with the chart name when the checkbox is clicked', async () => {
     
     render(<ConfidenceIntervalCheckbox chartName='example chart' showConfidenceIntervalsData={false} onCheck={mockCheck}/>)
     await userEvent.click(screen.getByRole('checkbox'))

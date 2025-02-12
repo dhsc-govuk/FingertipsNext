@@ -17,6 +17,8 @@ export function ConfidenceIntervalCheckbox({
   const pathname = usePathname();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
+  
+  console.log('checkbox === ', showConfidenceIntervalsData)
   const handleClick = (chartName: string, checked: boolean) => {
     const searchState = SearchStateManager.setStateFromParams(params);
 

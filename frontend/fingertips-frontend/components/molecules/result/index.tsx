@@ -92,6 +92,7 @@ export function SearchResult({
             name="indicator"
             value={result.indicatorId}
             defaultChecked={indicatorSelected}
+            sizeVariant="SMALL"
             onChange={(e) => {
               handleClick(result.indicatorId.toString(), e.target.checked);
             }}
