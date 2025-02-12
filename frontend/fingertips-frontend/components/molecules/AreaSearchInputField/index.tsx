@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { SearchBox, Label } from 'govuk-react';
 
-const MIN_SEARCH_SIZE = 3;
-
 const StyleAreaSearchBoxPanel = styled('div')({
   marginBottom: '5px',
   whiteSpace: '6',
@@ -13,7 +11,7 @@ const StyledSearchBoxArea = styled('div')({
   border: '0.12em solid #000000',
 });
 
-const StyleSearchHeader = styled(Label)({
+export const StyleSearchHeader = styled(Label)({
   padding: '0px',
   color: '#0b0c0c',
   display: 'block',
@@ -54,7 +52,7 @@ export const AreaSearchInputField = ({
         <SearchBox
           onChange={(e) => {
             const value = e.target.value;
-            if (MIN_SEARCH_SIZE <= value.length && onTextChange != null) {
+            if (onTextChange != null) {
               onTextChange(value);
             }
           }}

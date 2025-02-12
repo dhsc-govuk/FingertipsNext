@@ -3,8 +3,10 @@ import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
-import { time } from 'console';
-import { selectOptions } from '@testing-library/user-event/dist/cjs/utility/selectOptions.js';
+import {AreaSearchSelectionPanel} from "../AreaSearchSelectionPanel"
+
+
+const MIN_SEARCH_SIZE = 3;
 
 const enum SearchStatusType {
   PROCESSING,
@@ -41,7 +43,7 @@ export default function AreaSelectAutoComplete({
     SearchStatusType.COMPLETED
   );
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
-
+  const [selectedAreas, setSelectedAreas] = useState<AreaDocument[]>([]);
   useEffect(() => {
     const fetchSearchArea = async (
       criteria: string | undefined,
@@ -62,26 +64,31 @@ export default function AreaSelectAutoComplete({
     fetchSearchArea(criteria, searchStatus);
   }, [searchStatus, criteria]);
 
-  //handle on AreaSuggestionListPanel selection
-
-  const onSelectHandler = (item) => {
-    console.log(item);
-  };
+ 
 
   return (
     <div>
       <AreaSearchInputField
         value={area?.areaName}
         onTextChange={(criteria: string) => {
+          if (criteria.length < MIN_SEARCH_SIZE) {
+            setSearchAreas([]);
+            return;
+          }
           if (searchStatus == SearchStatusType.COMPLETED) {
             setCriteria(criteria);
             setSearchStatus(SearchStatusType.PROCESSING);
           }
         }}
       />
+      <AreaSearchSelectionPanel  areas={selectedAreas}/>
       <AreaSuggestionPanel
         areas={searchAreas}
-        onItemSelected={onSelectHandler}
+        onItemSelected={(selectedArea : AreaDocument)=>{
+            // When an area is selected , this selected area will be output here
+            setSelectedAreas([selectedArea])
+            setSearchAreas([]);
+        }}
       />
     </div>
   );
