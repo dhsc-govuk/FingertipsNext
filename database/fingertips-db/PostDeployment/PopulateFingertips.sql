@@ -17,31 +17,31 @@ DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 --create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON
 
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (321, N'All ages', 1)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (483, N'<75 yrs', 163)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (488, N'18+ yrs', 168)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (538, N'12+ yrs', 227)
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (604, N'0-4 yrs', 28);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (605, N'5-9 yrs', 4);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (606, N'10-14 yrs', 5);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (607, N'15-19 yrs', 6);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (608, N'20-24 yrs', 7);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (609, N'25-29 yrs', 8);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (610, N'30-34 yrs', 9);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (611, N'35-39 yrs', 10);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (612, N'40-44 yrs', 11);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (613, N'45-49 yrs', 12);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (614, N'50-54 yrs', 13);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (615, N'55-59 yrs', 14);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (616, N'60-64 yrs', 15);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (617, N'65-69 yrs', 16);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (618, N'70-74 yrs', 17);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (619, N'75-79 yrs', 18);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (620, N'80-84 yrs', 19);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (621, N'85-89 yrs', 21);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (622, N'90+ yrs', 22);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (630, N'90-94 yrs', 281);
-INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID]) VALUES (631, N'95+ yrs', 282);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (321, N'All ages', 1, 0)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (483, N'<75 yrs', 163, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (488, N'18+ yrs', 168, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (538, N'12+ yrs', 227, 1)
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (604, N'0-4 yrs', 28, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (605, N'5-9 yrs', 4, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (606, N'10-14 yrs', 5, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (607, N'15-19 yrs', 6, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (608, N'20-24 yrs', 7, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (609, N'25-29 yrs', 8, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (610, N'30-34 yrs', 9, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (611, N'35-39 yrs', 10, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (612, N'40-44 yrs', 11, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (613, N'45-49 yrs', 12, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (614, N'50-54 yrs', 13, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (615, N'55-59 yrs', 14, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (616, N'60-64 yrs', 15, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (617, N'65-69 yrs', 16, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (618, N'70-74 yrs', 17, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (619, N'75-79 yrs', 18, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (620, N'80-84 yrs', 19, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (621, N'85-89 yrs', 21, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (622, N'90+ yrs', 22, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (630, N'90-94 yrs', 281, 1);
+INSERT [dbo].[AgeDimension] ([AgeKey], [Name], [AgeID], [HasValue]) VALUES (631, N'95+ yrs', 282, 1);
 
 SET IDENTITY_INSERT [dbo].[AgeDimension] OFF
 
@@ -2821,12 +2821,10 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687403, 46400, 1760, 3, 483, 1154, 23.66874, 22.32133, 25.07617, 2023)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687407, 46404, 1760, 3, 483, 910, 16.28537, 15.2292, 17.39467, 2023)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687408, 46405, 1760, 3, 483, 1343, 16.41459, 15.54743, 17.31749, 2023)
-GO
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687500, 46400, 1, 1, 483, 11605, 481.222, 472.49009, 490.07447, 2021)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687501, 46400, 1, 2, 483, 7274, 294.39232, 287.65557, 301.24685, 2018)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687502, 46400, 1, 1, 483, 10000, 437.04409, 428.48587, 445.72974, 2016)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687503, 46400, 1, 1, 483, 10387, 526.17993, 516.00793, 536.50052, 2006)
-GO
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687504, 3333, 1, 1, 483, 100922, 420.07872, 417.48423, 422.68529, 2023)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687505, 3333, 1, 1, 483, 108141, 447.98616, 445.31571, 450.66864, 2021)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687506, 3333, 1, 2, 483, 65274, 262.05943, 260.05037, 264.08015, 2018)
@@ -2835,8 +2833,61 @@ INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [Se
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687509, 3333, 1, 2, 483, 67936, 267.43674, 265.4267, 269.45821, 2023)
 INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687510, 3333, 1, 3, 483, 168858, 341.57323, 339.94294, 343.20939, 2023)
 GO
-INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687511, 3333, 2, 1, 611, 154981, 313.3117885, 311.720617, 314.9089413, 2007)
-INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687512, 3333, 2, 2, 611, 94343, 140.5150665, 139.5403326, 141.4944993, 2007)
+
+-- Data for indicator 108
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687511, 3333, 1, 3, 321, 168858, 369.65616, 364.94294, 374.20939, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687512, 3333, 1, 3, 321, 168858, 379.65616, 374.94294, 384.20939, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687513, 3333, 1, 3, 321, 168858, 389.65616, 384.94294, 394.20939, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687514, 3333, 1, 3, 321, 168858, 399.65616, 394.94294, 404.20939, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687515, 3333, 1, 3, 321, 168858, 409.65616, 404.94294, 414.20939, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687516, 3333, 1, 3, 321, 168858, 419.65616, 414.94294, 424.20939, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687517, 3333, 1, 3, 321, 168858, 429.65616, 424.94294, 434.20939, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687518, 3333, 1, 3, 321, 168858, 439.65616, 434.94294, 444.20939, 2024)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687609, 46400, 1, 3, 321, 18587, 379.65616, 374.20648, 385.16523, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687610, 46400, 1, 3, 321, 18597, 389.65616, 384.20648, 395.16523, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687611, 46400, 1, 3, 321, 18607, 399.65616, 394.20648, 405.16523, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687612, 46400, 1, 3, 321, 18617, 409.65616, 404.20648, 415.16523, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687613, 46400, 1, 3, 321, 18627, 419.65616, 414.20648, 425.16523, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687614, 46400, 1, 3, 321, 18637, 429.65616, 424.20648, 435.16523, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687615, 46400, 1, 3, 321, 18647, 439.65616, 434.20648, 445.16523, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687616, 46400, 1, 3, 321, 18657, 449.65616, 444.20648, 455.16523, 2024)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687617, 46398, 1, 3, 321, 18587, 389.65616, 384.20648, 395.16523, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687618, 46398, 1, 3, 321, 18597, 399.65616, 394.20648, 405.16523, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687619, 46398, 1, 3, 321, 18607, 409.65616, 404.20648, 415.16523, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687620, 46398, 1, 3, 321, 18617, 419.65616, 414.20648, 425.16523, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687621, 46398, 1, 3, 321, 18627, 429.65616, 424.20648, 435.16523, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687622, 46398, 1, 3, 321, 18637, 439.65616, 434.20648, 445.16523, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687623, 46398, 1, 3, 321, 18647, 449.65616, 444.20648, 455.16523, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687624, 46398, 1, 3, 321, 18657, 459.65616, 454.20648, 465.16523, 2024)
+
+-- Data for indicator 113
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687701, 3333, 2, 1, 611, 154981, 313.3117885, 311.720617, 314.9089413, 2007)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687702, 3333, 2, 2, 611, 94343, 140.5150665, 139.5403326, 141.4944993, 2007)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687703, 3333, 2, 3, 321, 94343, 140.5150665, 139.5403326, 141.4944993, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687704, 3333, 2, 3, 321, 94343, 150.5150665, 149.5403326, 151.4944993, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687705, 3333, 2, 3, 321, 94343, 160.5150665, 159.5403326, 161.4944993, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687706, 3333, 2, 3, 321, 94343, 170.5150665, 169.5403326, 171.4944993, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687707, 3333, 2, 3, 321, 94343, 180.5150665, 179.5403326, 181.4944993, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687708, 3333, 2, 3, 321, 94343, 190.5150665, 189.5403326, 191.4944993, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687709, 3333, 2, 3, 321, 94343, 200.5150665, 199.5403326, 201.4944993, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687710, 3333, 2, 3, 321, 94343, 210.5150665, 209.5403326, 211.4944993, 2024)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687711, 46400, 2, 3, 321, 18587, 159.65616, 154.20648, 165.16523, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687712, 46400, 2, 3, 321, 18597, 169.65616, 164.20648, 175.16523, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687713, 46400, 2, 3, 321, 18607, 179.65616, 174.20648, 185.16523, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687714, 46400, 2, 3, 321, 18617, 189.65616, 184.20648, 195.16523, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687715, 46400, 2, 3, 321, 18627, 199.65616, 194.20648, 205.16523, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687716, 46400, 2, 3, 321, 18637, 209.65616, 204.20648, 215.16523, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687717, 46400, 2, 3, 321, 18647, 219.65616, 214.20648, 225.16523, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687718, 46400, 2, 3, 321, 18657, 229.65616, 224.20648, 235.16523, 2024)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687719, 46398, 2, 3, 321, 18587, 179.65616, 174.20648, 185.16523, 2017)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687720, 46398, 2, 3, 321, 18597, 189.65616, 184.20648, 195.16523, 2018)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687721, 46398, 2, 3, 321, 18607, 199.65616, 194.20648, 205.16523, 2019)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687722, 46398, 2, 3, 321, 18617, 209.65616, 204.20648, 215.16523, 2020)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687723, 46398, 2, 3, 321, 18627, 219.65616, 214.20648, 225.16523, 2021)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687724, 46398, 2, 3, 321, 18637, 229.65616, 224.20648, 235.16523, 2022)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687725, 46398, 2, 3, 321, 18647, 239.65616, 234.20648, 245.16523, 2023)
+INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (1687726, 46398, 2, 3, 321, 18657, 249.65616, 244.20648, 255.16523, 2024)
+
 SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
