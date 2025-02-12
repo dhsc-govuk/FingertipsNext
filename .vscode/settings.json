@@ -2,4 +2,9 @@
   "dataworkspace.excludedProjects": [],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true
+
+     // Jest configuration   
+     //feature/DHSCFT-215_benchmarkcomponent 
+     "jest.debugMode": true,
+     "jest.rootPath": "./frontend/fingertips-frontend"
 }
