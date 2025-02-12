@@ -296,10 +296,6 @@ FROM
             var areasDict = areas.ToDictionary(area => area.AreaCode);
             foreach (var area in areas)
             {
-                if (area.AreaCode == "E47000002")
-                {
-                    var b = 1;
-                }
                 //get the children of the area (if any)
                 area.ChildAreas = CreateChildAreas(area, parentChildMap, areasDict);
 
@@ -329,7 +325,7 @@ FROM
                 }
                     
             }
-            if(area.AreaCode== "E92000001")
+            if(area.AreaCode== "E92000001") //England
                 allChildren = areas.Values.Where(a=>a.Level==1).Select(a=>new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
             
             return allChildren.Where(x => x.IsDirect).ToList();
