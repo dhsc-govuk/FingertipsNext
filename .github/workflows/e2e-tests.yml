@@ -13,11 +13,6 @@ on:
         required: false
         default: null
         type: string
-      send-slack-on-fail:
-        description: "optionally send a slack message on e2e test failure - for CD test executions"
-        required: false
-        default: "false"
-        type: string
       container-image:
         description: "container image to run the e2e tests in - for CD test executions"
         required: false
@@ -51,11 +46,27 @@ jobs:
           cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Install dependencies
+      - name: Create .env file for db-setup - for CI test execution
+        if: inputs.env-url == null
+        run: |
+          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
+          echo "DB_NAME=fingertips" >> .env
+          echo "DB_USER=sa" >> .env
+
+      - name: Install playwright dependencies - for CI test execution
+        if: inputs.env-url == null
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run Playwright tests in CI
+        if: inputs.env-url == null
+        run: npm run test-e2e-ci-docker
+
+      - name: Install dependencies - for CD test execution
+        if: inputs.env-url != null
         run: npm ci
 
-      - name: Set Job URL for slack message
-        if: inputs.send-slack-on-fail  == 'true'
+      - name: Set Job URL for slack message - for CD test execution
+        if: inputs.env-url != null
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
@@ -65,22 +76,7 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
-      - name: Create .env file for db-setup
-        if: inputs.env-url == null
-        run: |
-          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
-          echo "DB_NAME=fingertips" >> .env
-          echo "DB_USER=sa" >> .env
-
-      - name: Install playwright dependencies
-        if: inputs.env-url == null
-        run: npx playwright install --with-deps chromium webkit
-
-      - name: Run Playwright tests in CI
-        if: inputs.env-url == null
-        run: npm run test-e2e-ci-docker
-
-      - name: Upload playwright report and screenshot if e2e tests fail
+      - name: Upload playwright report and screenshot if e2e tests fail - always on failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -90,13 +86,13 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 10
 
-      - name: Send slack message if e2e tests fail
-        if: failure() && inputs.send-slack-on-fail  == 'true'
+      - name: Send slack message if e2e tests fail - for CD test execution
+        if: failure() && inputs.env-url != null
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
 
-      - name: Stop docker services
+      - name: Stop docker services - for CI test execution
         if: inputs.env-url == null
         run: npm run stop:all

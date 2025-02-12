@@ -507,7 +507,6 @@ jobs:
       )
     with:
       env-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-      send-slack-on-fail: "true"
       container-image: mcr.microsoft.com/playwright:v1.50.0-jammy
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
