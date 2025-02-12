@@ -13,12 +13,14 @@ export default class HomePage extends BasePage {
     await this.page.getByTestId(this.searchButton).click();
   }
 
-  async navigateToSearch() {
+  async navigateToHomePage() {
     await this.navigateTo('/');
   }
 
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURL('/' + queryParams);
+  async checkOnHomePage() {
+    await expect(
+      this.page.getByText('Access public health data')
+    ).toBeVisible();
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
