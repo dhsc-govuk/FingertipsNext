@@ -153,6 +153,43 @@ export class SearchStateManager {
     const searchStateManager = new SearchStateManager(newState);
     return searchStateManager;
   }
+  public static setStateFromSearchStateParams(params?: SearchStateParams) {
+    if (params) {
+      const newState = Object.values(SearchParams).reduce<SearchStateParams>(
+        (state, searchParamKey) => {
+          if (isMultiValueTypeParam(searchParamKey)) {
+            const paramValues = asArray(params[searchParamKey]);
+
+            if (paramValues.length > 0) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValues,
+              };
+
+              return newState;
+            }
+          } else {
+            const paramValue = params[searchParamKey];
+
+            if (paramValue) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValue,
+              };
+
+              return newState;
+            }
+          }
+          return state;
+        },
+        {}
+      );
+
+      const searchStateManager = new SearchStateManager(newState);
+      return searchStateManager;
+    }
+    return new SearchStateManager();
+  }
 
   public getSearchState() {
     return this.searchState;

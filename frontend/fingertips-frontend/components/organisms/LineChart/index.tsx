@@ -2,7 +2,9 @@
 
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
+import {
+  sortHealthDataByDate,
+} from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
@@ -38,8 +40,6 @@ export function LineChart({
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useActionState(onCheck, false);
 
-  console.log('line chart === ',showConfidenceIntervalsData)
-  
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(
     sortedSeriesValues,

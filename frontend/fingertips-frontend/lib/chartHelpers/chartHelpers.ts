@@ -46,8 +46,8 @@ export const LIGHT_GREY = '#b1b4b6';
 
 export function showConfidenceIntervals(
   data: HealthDataForArea[]
-): Highcharts.SeriesOptionsType[] {
-  const r = data.map<Highcharts.SeriesOptionsType>((item) => ({
+): Highcharts.SeriesErrorbarOptions[] {
+  return data.map<Highcharts.SeriesErrorbarOptions>((item) => ({
     type: 'errorbar',
     name: `${item.areaName}`,
     data: item.healthData.map((point) => [
@@ -56,6 +56,4 @@ export function showConfidenceIntervals(
       point.upperCi,
     ]),
   }));
-  console.log('r ====', r )
-  return r
 }

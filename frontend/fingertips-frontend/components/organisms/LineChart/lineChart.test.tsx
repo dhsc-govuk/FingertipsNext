@@ -2,6 +2,25 @@ import { render, screen } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { SearchParams } from '@/lib/searchStateManager';
+
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => ({
+      [SearchParams.ConfidenceIntervalSelected]: 'example chart',
+    }),
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
 
 it('should render the Highcharts react component with passed parameters within the LineChart component', () => {
   const xAxisPropsTitle = 'DifferentXTitle';

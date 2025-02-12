@@ -1,6 +1,7 @@
 import {
   getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland, showConfidenceIntervals,
+  seriesDataWithoutEngland,
+  showConfidenceIntervals,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -228,6 +229,15 @@ describe('seriesDataWithoutEngland', () => {
 describe('showConfidenceIntervals', () => {
   it('should show confidence intervals bars', () => {
     const result = showConfidenceIntervals(mockData);
-    expect(result).toEqual([{data: [[2006, 441.69151, 578.32766], [2004, 441.69151, 578.32766]], name: "North FooBar", type: "errorbar"}])
-  })
-})
+    expect(result).toEqual([
+      {
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+      },
+    ]);
+  });
+});
