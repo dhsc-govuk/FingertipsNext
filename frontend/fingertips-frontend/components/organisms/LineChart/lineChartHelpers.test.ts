@@ -232,20 +232,24 @@ describe('should display line chart', () => {
     it('should return false when health data contains less than 2 time periods', () => {
       const data = [
         {
-          areaCode: 'A2',
+          areaCode: 'A1426',
           areaName: 'Area 2',
           healthData: [mockData[0].healthData[0]],
         },
       ];
-      expect(shouldDisplayLineChart(data, ['1'], ['A2'])).toBe(false);
+      expect(shouldDisplayLineChart(data, ['1'], ['A1426'])).toBe(false);
     });
   });
 
   describe('should return true', () => {
     it('should return true when 1 indicator is selected, 2 areas are selected, and there are multiple data points', () => {
-      expect(shouldDisplayLineChart(mockData, ['1'], ['A1425', 'A1426'])).toBe(
-        true
-      );
+      expect(
+        shouldDisplayLineChart(
+          [mockData[0], mockData[1]],
+          ['1'],
+          ['A1425', 'A1426']
+        )
+      ).toBe(true);
     });
   });
 });
