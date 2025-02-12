@@ -66,12 +66,18 @@ export class SearchStateManager {
       const currentParamState = this.searchState[searchParamKey];
 
       const currentParamStateAsArray = asArray(currentParamState);
-      const newState: SearchStateParams = {
-        ...this.searchState,
-        [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
-      };
+      const doesParamExist = currentParamStateAsArray.find(
+        (currentParam) => currentParam === paramToAdd
+      );
 
-      this.searchState = newState;
+      if (!doesParamExist) {
+        const newState: SearchStateParams = {
+          ...this.searchState,
+          [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
+        };
+
+        this.searchState = newState;
+      }
     } else {
       const newState: SearchStateParams = {
         ...this.searchState,

@@ -23,7 +23,6 @@ jest.mock('next/navigation', () => {
 });
 
 
-
 beforeEach(() => {
   mockCheck.mockClear();
 });
@@ -70,13 +69,10 @@ describe('ConfidenceIntervalCheckbox', () => {
     expect(screen.getByRole('checkbox')).toBeChecked();
 
     expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.ConfidenceIntervalSelected}=example+chart&cis=example+chart`,
+      `${mockPath}?${SearchParams.ConfidenceIntervalSelected}=example+chart`,
       {
         scroll: false,
       }
     );
-    
-    
   })
-
 });
