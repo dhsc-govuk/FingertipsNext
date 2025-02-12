@@ -27,8 +27,6 @@ jobs:
   execute-e2e-tests:
     name: Execute e2e tests
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.50.0-jammy
 
     defaults:
       run:
@@ -52,12 +50,6 @@ jobs:
         if: inputs.send-slack-on-fail  == 'true'
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
-
-      - name: Run Playwright tests in CD
-        if: ${{ inputs.env-url }} != null
-        run: npx playwright test
-        env:
-          FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
 
       - name: Run Playwright tests in CI
         if: ${{ inputs.env-url }} = null
