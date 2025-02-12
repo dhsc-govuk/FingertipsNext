@@ -12,6 +12,7 @@ import {
   Paragraph,
   PhaseBanner,
   UnorderedList,
+  SectionBreak,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
@@ -84,11 +85,11 @@ export const Home = ({
           <Link href="#whofor">Who the service is for</Link>
         </ListItem>
       </UnorderedList>
+      <br />
       <div id="search">
         <SearchForm searchFormState={state}></SearchForm>
       </div>
-      <br />
-      <br />
+      <SectionBreak level="LARGE" visible />
       <div id="whatfor">
         <H3>What the service is for</H3>
         <Paragraph>You can use this service to:</Paragraph>

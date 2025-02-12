@@ -22,18 +22,8 @@ export const SearchForm = ({
   searchFormState: SearchFormState;
 }) => {
   return (
-    <div
-      data-testid="search-form"
-      style={{ backgroundColor: '#f3f2f1', padding: '20px 20px 0px 20px' }}
-    >
+    <div data-testid="search-form">
       <H3>Find public health data</H3>
-      <Paragraph>
-        Search for data to compare at local, regional and national levels.
-      </Paragraph>
-      <InsetText>
-        Use both search options to help you find the most accurate data
-        available.
-      </InsetText>
       <StyledInputField
         input={{
           id: 'indicator',
@@ -42,7 +32,7 @@ export const SearchForm = ({
         }}
         hint={
           <div style={{ color: '#505a5f' }}>
-            For example diabetes, public health indicator, or indicator ID
+            For example smoking, diabetes prevalence, or a specific indicator ID
           </div>
         }
         meta={{
@@ -65,8 +55,8 @@ export const SearchForm = ({
         }}
         hint={
           <div style={{ color: '#505a5f' }}>
-            For example postcode, county, local authority, NHS Trust or General
-            Practice name or code
+            For example district, county, region, NHS organisation or GP
+            practice or code
           </div>
         }
         meta={{
@@ -75,7 +65,7 @@ export const SearchForm = ({
         }}
         data-testid="search-form-input-area"
       >
-        Search for an area by location or organisation
+        Search for an area
       </StyledInputField>
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area
