@@ -135,7 +135,7 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 .c5 {
-  color: #505a5f;
+  color: #505A5F;
 }
 
 .c6 {

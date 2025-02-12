@@ -2,9 +2,8 @@ import { ErrorText, FormGroup, Paragraph, SearchBox } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
-const govukLightGrey = '#505a5f';
-const govukRed = '#d4351c';
 const govukErrorBorderWidth = '2px';
 
 const StyledSearchBox = styled(SearchBox)(
@@ -16,7 +15,7 @@ const StyledTitleParagraph = styled(styled(Paragraph)`
 `)(spacing.withWhiteSpace({ marginBottom: 0 }));
 
 const StyledHintParagraph = styled(styled(Paragraph)`
-  color: ${govukLightGrey};
+  color: ${GovukColours.DarkGrey};
 `)(spacing.withWhiteSpace({ marginBottom: 3 }));
 
 export const IndicatorSearchForm = ({
@@ -51,7 +50,7 @@ export const IndicatorSearchForm = ({
             style={
               indicatorSearchFormState.errors
                 ? {
-                    borderColor: govukRed,
+                    borderColor: GovukColours.Red,
                     borderWidth: govukErrorBorderWidth,
                     borderStyle: 'solid',
                   }
