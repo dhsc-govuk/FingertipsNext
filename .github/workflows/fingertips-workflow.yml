@@ -197,6 +197,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.event_name == 'workflow_dispatch' ||
         (
@@ -214,6 +216,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.api_changed == 'true'
@@ -233,6 +237,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.frontend_changed == 'true'
@@ -261,6 +267,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       github.ref_name == 'main' &&
       (
@@ -289,6 +297,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       github.ref_name == 'main' &&
       (
@@ -357,6 +367,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.head_ref == 'main' ||
         github.ref_name == 'main'
@@ -419,6 +431,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
         github.head_ref == 'main' ||
         github.ref_name == 'main'
@@ -483,6 +497,8 @@ jobs:
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       (
         github.ref_name == 'main' &&
