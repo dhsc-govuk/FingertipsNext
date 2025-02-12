@@ -15,6 +15,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { InequalitiesSexTable } from '@/components/organisms/Inequalities/Sex/Table';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -75,6 +76,7 @@ export function Chart({
           <br />
         </>
       ) : null}
+      <InequalitiesSexTable />
       <BarChart
         data={data[0]}
         yAxisTitle="Value"
