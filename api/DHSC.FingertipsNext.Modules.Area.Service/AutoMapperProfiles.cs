@@ -17,13 +17,11 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Area.AreaCode))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Area.AreaName))
             .ForMember(dest => dest.AreaType, opt => opt.MapFrom(src => src.Area.AreaType))
-            //TODO: check this was mapped automagicially .ForMember(dest => dest.AreaType, opt => opt.MapFrom(src => src.Area.AreaType.AreaTypeName))
             .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentArea));
         
         CreateMap<AreaModel, Schemas.Area>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.AreaCode))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.AreaName));
-            //TODO: check this is mapped automagicially .ForMember(dest => dest.AreaType, opt => opt.MapFrom(src => src.AreaType.AreaTypeName))
 
         CreateMap<AreaModel, RootArea>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.AreaCode))
