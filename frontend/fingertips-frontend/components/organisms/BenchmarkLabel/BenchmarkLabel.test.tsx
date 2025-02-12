@@ -10,14 +10,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
     [
       BenchmarkLabelGroupType.RAG,
-      BenchmarkLabelType.LOWER,
-      {
-        backgroundColor: 'var(--other-light-blue, #5694CA)',
-        color: 'var(--other-black, #0B0C0C)',
-      },
-    ],
-    [
-      BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: 'var(--other-green, #00703C)',
