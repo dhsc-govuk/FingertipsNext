@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c20 {
+  .c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c20:focus {
+.c19:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c20:link,
-.c20:visited,
-.c20:active,
-.c20:hover {
+.c19:link,
+.c19:visited,
+.c19:active,
+.c19:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c20::-moz-focus-inner {
+.c19::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c20:hover,
-.c20:focus {
+.c19:hover,
+.c19:focus {
   background-color: #00572e;
 }
 
-.c20:active {
+.c19:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c20::before {
+.c19::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,34 +67,34 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c20:active::before {
+.c19:active::before {
   top: -4px;
 }
 
-.c20:disabled {
+.c19:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c20:disabled:hover {
+.c19:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c20:disabled:focus {
+.c19:disabled:focus {
   outline: none;
 }
 
-.c20:disabled:active {
+.c19:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c20 svg {
+.c19 svg {
   max-width: 15px;
 }
 
-.c18 {
+.c17 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -106,7 +106,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   color: #6f777b;
 }
 
-.c17 {
+.c16 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -120,7 +120,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c19 {
+.c18 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -140,22 +140,22 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c19:focus {
+.c18:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c19::-webkit-outer-spin-button,
-.c19::-webkit-inner-spin-button {
+.c18::-webkit-outer-spin-button,
+.c18::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.c19[type="number"] {
+.c18[type="number"] {
   -moz-appearance: textfield;
 }
 
-.c15 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -167,7 +167,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c15:after {
+.c14:after {
   content: '';
   display: table;
   clear: both;
@@ -326,30 +326,6 @@ exports[`snapshot test - renders the homepage 1`] = `
   word-wrap: normal;
 }
 
-.c14 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  padding: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  clear: both;
-  border-left: 10px solid #bfc1c3;
-}
-
-.c14:first-child {
-  margin-top: 0;
-}
-
-.c14:only-child,
-.c14:last-child {
-  margin-bottom: 0;
-}
-
 .c3 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -402,7 +378,15 @@ exports[`snapshot test - renders the homepage 1`] = `
   vertical-align: baseline;
 }
 
-.c16 {
+.c20 {
+  margin: 0;
+  border: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c15 {
   margin-bottom: 20px;
 }
 
@@ -411,52 +395,38 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c20 {
+  .c19 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c20 {
+  .c19 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c20 {
+  .c19 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c20 svg {
+  .c19 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c20 {
+  .c19 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c18 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
   .c17 {
     font-size: 14px;
     line-height: 1.15;
@@ -471,39 +441,53 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c17 {
+  .c16 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c16 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c16 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 {
+  .c16 {
     margin-bottom: 0;
   }
 }
 
 @media print {
-  .c19 {
+  .c18 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c18 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c18 {
     margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c14 {
     margin-bottom: 0;
   }
 }
@@ -663,33 +647,6 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c14 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c14 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c14 {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-}
-
-@media print {
   .c3 {
     font-size: 14px;
     line-height: 1;
@@ -724,7 +681,14 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c16 {
+  .c20 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c15 {
     margin-bottom: 30px;
   }
 }
@@ -829,76 +793,64 @@ exports[`snapshot test - renders the homepage 1`] = `
         </a>
       </li>
     </ul>
+    <br />
     <div
       id="search"
     >
       <div
         data-testid="search-form"
-        style="background-color: rgb(243, 242, 241); padding: 20px 20px 0px 20px;"
       >
         <h3
           class="c13"
         >
           Find public health data
         </h3>
-        <div
-          class="c7"
-        >
-          <p>
-            Search for data to compare at local, regional and national levels.
-          </p>
-        </div>
-        <div
-          class="c14"
-        >
-          Use both search options to help you find the most accurate data available.
-        </div>
         <label
-          class="c15 c16"
+          class="c14 c15"
           data-testid="indicator-search-form-input"
         >
           <span
-            class="c17"
+            class="c16"
           >
             Search by subject
           </span>
           <span
-            class="c18"
+            class="c17"
           >
             <div
               style="color: rgb(80, 90, 95);"
             >
-              For example diabetes, public health indicator, or indicator ID
+              For example smoking, diabetes prevalence, or a specific indicator ID
             </div>
           </span>
           <input
-            class="c19"
+            class="c18"
             id="indicator"
             name="indicator"
             value=""
           />
         </label>
         <label
-          class="c15 c16"
+          class="c14 c15"
           data-testid="search-form-input-area"
           style="margin-bottom: 5px;"
         >
           <span
-            class="c17"
+            class="c16"
           >
-            Search for an area by location or organisation
+            Search for an area
           </span>
           <span
-            class="c18"
+            class="c17"
           >
             <div
               style="color: rgb(80, 90, 95);"
             >
-              For example postcode, county, local authority, NHS Trust or General Practice name or code
+              For example district, county, region, NHS organisation or GP practice or code
             </div>
           </span>
           <input
-            class="c19"
+            class="c18"
             id="areaSearched"
             name="areaSearched"
             value=""
@@ -913,7 +865,7 @@ exports[`snapshot test - renders the homepage 1`] = `
         </a>
         <br />
         <button
-          class="c20"
+          class="c19"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -922,83 +874,75 @@ exports[`snapshot test - renders the homepage 1`] = `
         </button>
       </div>
     </div>
-    <br />
-    <br />
-    <div
+    <hr
+      class="c20"
+    />
+    <h3
+      class="c13"
       id="whatfor"
     >
-      <h3
-        class="c13"
+      What the service is for
+    </h3>
+    <div
+      class="c7"
+    >
+      <p>
+        You can use this service to:
+      </p>
+    </div>
+    <ul
+      class="c9 c21"
+    >
+      <li
+        class="c11 c12"
       >
-        What the service is for
-      </h3>
-      <div
-        class="c7"
+        Identify and compare health trends and inequalities using data visualisations
+      </li>
+      <li
+        class="c11 c12"
       >
-        <p>
-          You can use this service to:
-        </p>
-      </div>
-      <ul
-        class="c9 c21"
+        Download datasets and visualisations
+      </li>
+      <li
+        class="c11 c12"
       >
-        <li
-          class="c11 c12"
-        >
-          Identify and compare health trends and inequalities using data visualisations
-        </li>
-        <li
-          class="c11 c12"
-        >
-          Download datasets and visualisations
-        </li>
-        <li
-          class="c11 c12"
-        >
-          Access raw data via an application programming interface (API)
-        </li>
-      </ul>
-      <div
-        class="c7"
-      >
-        <p>
-          This data comes from trusted sources such as the NHS and Office of National Statistics (ONS). It is analysed to create a wide range of health and wellbeing data sets known as indicators, and themed topics known as pro files.
-        </p>
-      </div>
+        Access raw data via an application programming interface (API)
+      </li>
+    </ul>
+    <div
+      class="c7"
+    >
+      <p>
+        This data comes from trusted sources such as the NHS and Office of National Statistics (ONS). It is analysed to create a wide range of health and wellbeing data sets known as indicators, and themed topics known as pro files.
+      </p>
     </div>
     <br />
     <h3
       class="c13"
-    >
-      About Indicators
-    </h3>
-    <div
       id="indicators"
     >
-      <div
-        class="c7"
-      >
-        <p>
-          Indicators use data to show us how things are going and if there are any changes over time. For example, if the number of people smoking in South West England has gone up or down in the last ten years. These indicators can be used to compare public heath by areas, and see how it is impacted by inequalities such as age, sex or ethnicity.
-        </p>
-      </div>
+      About indicators
+    </h3>
+    <div
+      class="c7"
+    >
+      <p>
+        Indicators use data to show us how things are going and if there are any changes over time. For example, if the number of people smoking in South West England has gone up or down in the last ten years. These indicators can be used to compare public heath by areas, and see how it is impacted by inequalities such as age, sex or ethnicity.
+      </p>
     </div>
     <br />
-    <div
+    <h3
+      class="c13"
       id="whofor"
     >
-      <h3
-        class="c13"
-      >
-        Who the service is for
-      </h3>
-      <div
-        class="c7"
-      >
-        <p>
-          The service is free and available to everyone. Its primary role is to support health professionals, policymakers, and researchers to monitor health trends, identify inequalities, and make informed decisions about public health in England.
-        </p>
-      </div>
+      Who the service is for
+    </h3>
+    <div
+      class="c7"
+    >
+      <p>
+        The service is free and available to everyone. Its primary role is to support health professionals, policymakers, and researchers to monitor health trends, identify inequalities, and make informed decisions about public health in England.
+      </p>
     </div>
     <br />
   </form>

@@ -90,47 +90,41 @@ export const Home = ({
         <SearchForm searchFormState={state}></SearchForm>
       </div>
       <SectionBreak level="LARGE" visible />
-      <div id="whatfor">
-        <H3>What the service is for</H3>
-        <Paragraph>You can use this service to:</Paragraph>
-        <UnorderedList>
-          <ListItem>
-            Identify and compare health trends and inequalities using data
-            visualisations
-          </ListItem>
-          <ListItem>Download datasets and visualisations</ListItem>
-          <ListItem>
-            Access raw data via an application programming interface (API)
-          </ListItem>
-        </UnorderedList>
-        <Paragraph>
-          This data comes from trusted sources such as the NHS and Office of
-          National Statistics (ONS). It is analysed to create a wide range of
-          health and wellbeing data sets known as indicators, and themed topics
-          known as pro files.
-        </Paragraph>
-      </div>
+      <H3 id="whatfor">What the service is for</H3>
+      <Paragraph>You can use this service to:</Paragraph>
+      <UnorderedList>
+        <ListItem>
+          Identify and compare health trends and inequalities using data
+          visualisations
+        </ListItem>
+        <ListItem>Download datasets and visualisations</ListItem>
+        <ListItem>
+          Access raw data via an application programming interface (API)
+        </ListItem>
+      </UnorderedList>
+      <Paragraph>
+        This data comes from trusted sources such as the NHS and Office of
+        National Statistics (ONS). It is analysed to create a wide range of
+        health and wellbeing data sets known as indicators, and themed topics
+        known as pro files.
+      </Paragraph>
       <br />
-      <H3>About Indicators</H3>
-      <div id="indicators">
-        <Paragraph>
-          Indicators use data to show us how things are going and if there are
-          any changes over time. For example, if the number of people smoking in
-          South West England has gone up or down in the last ten years. These
-          indicators can be used to compare public heath by areas, and see how
-          it is impacted by inequalities such as age, sex or ethnicity.
-        </Paragraph>
-      </div>
+      <H3 id="indicators">About indicators</H3>
+      <Paragraph>
+        Indicators use data to show us how things are going and if there are any
+        changes over time. For example, if the number of people smoking in South
+        West England has gone up or down in the last ten years. These indicators
+        can be used to compare public heath by areas, and see how it is impacted
+        by inequalities such as age, sex or ethnicity.
+      </Paragraph>
       <br />
-      <div id="whofor">
-        <H3>Who the service is for</H3>
-        <Paragraph>
-          The service is free and available to everyone. Its primary role is to
-          support health professionals, policymakers, and researchers to monitor
-          health trends, identify inequalities, and make informed decisions
-          about public health in England.
-        </Paragraph>
-      </div>
+      <H3 id="whofor">Who the service is for</H3>
+      <Paragraph>
+        The service is free and available to everyone. Its primary role is to
+        support health professionals, policymakers, and researchers to monitor
+        health trends, identify inequalities, and make informed decisions about
+        public health in England.
+      </Paragraph>
       <br />
     </form>
   );
