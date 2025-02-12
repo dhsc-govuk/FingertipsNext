@@ -35,7 +35,7 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator the next one for the population data', async () => {
+  it('should make 2 calls for get health data, when there is only one indicator selected - first one for the indicator the next one for the population data', async () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
