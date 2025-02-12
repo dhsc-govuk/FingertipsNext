@@ -11,7 +11,7 @@ export enum IndicatorMode {
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
   TWO_AREAS = 'TWO_AREAS',
-  THREE_AREAS = 'THREE_AREAS',
+  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS',
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
