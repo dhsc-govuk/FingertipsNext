@@ -30,9 +30,10 @@ export default class ChartPage extends BasePage {
       this.page.getByTestId(this.lineChartTableComponent)
     ).toBeVisible();
     await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible();
-    await expect(
-      this.page.getByTestId(this.populationPyramidComponent)
-    ).toBeVisible();
+    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+    // await expect(
+    //   this.page.getByTestId(this.populationPyramidComponent)
+    // ).toBeVisible();
     await expect(
       this.page.getByTestId(this.scatterChartComponent)
     ).toBeVisible();

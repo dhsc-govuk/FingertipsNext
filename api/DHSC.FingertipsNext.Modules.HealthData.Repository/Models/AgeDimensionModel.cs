@@ -10,4 +10,5 @@ public class AgeDimensionModel
     [MaxLength(50)]
     public required string Name { get; set; }
     public required short AgeID { get; set; }
+    public required bool HasValue { get; set; }
 }
