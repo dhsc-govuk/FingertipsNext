@@ -128,7 +128,6 @@ exports[`snapshot test - renders the form 1`] = `
 
 .c3 {
   padding-bottom: 2px;
-  color: #0b0c0c;
 }
 
 .c4 {
