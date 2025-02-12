@@ -22,10 +22,8 @@ jest.mock('next/navigation', () => {
   };
 });
 
-
 describe('ConfidenceIntervalCheckbox', () => {
   it('should check the checkbox when it is clicked', async () => {
-    
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
@@ -33,12 +31,11 @@ describe('ConfidenceIntervalCheckbox', () => {
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
-    
+
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
   it('should show confidence interval bars when checkbox is clicked', async () => {
-    
     const { container, rerender } = render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
@@ -46,7 +43,7 @@ describe('ConfidenceIntervalCheckbox', () => {
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
-    
+
     expect(screen.getByRole('checkbox')).toBeChecked();
 
     rerender(

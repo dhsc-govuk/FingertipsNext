@@ -18,7 +18,7 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
-};
+}
 
 const chartSymbols: SymbolKeyValue[] = [
   'square',
@@ -41,10 +41,13 @@ export function LineChart({
   const searchStateManager =
     SearchStateManager.setStateFromParams(existingParams);
 
+  const showConfidenceIntervalsData =
+    searchStateManager.getSearchState()[
+      SearchParams.ConfidenceIntervalSelected
+    ];
+  const lineChartCI =
+    showConfidenceIntervalsData?.some((ci) => ci === 'lineChart') ?? false;
 
-  const showConfidenceIntervalsData = searchStateManager.getSearchState()[SearchParams.ConfidenceIntervalSelected]
-  const lineChartCI = showConfidenceIntervalsData?.some(ci => ci === 'lineChart') ?? false
-  
   const sortedSeriesValues = sortHealthDataByDate(data);
   const seriesData = generateSeriesData(
     sortedSeriesValues,
@@ -90,7 +93,7 @@ export function LineChart({
       description: accessibilityLabel,
     },
   };
-  
+
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
