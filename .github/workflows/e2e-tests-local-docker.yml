@@ -22,6 +22,9 @@ on:
       slack-webhook-url:
         description: "URL of the slack webhook"
         required: false
+      fingertips_e2e_db_password:
+        description: "Password for the database"
+        required: false
 
 jobs:
   execute-e2e-tests:
@@ -50,6 +53,12 @@ jobs:
         if: inputs.send-slack-on-fail  == 'true'
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
+      - name: Create .env file for db-setup
+        run: |
+          echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
+          echo "DB_NAME=fingertips" >> .env
+          echo "DB_USER=sa" >> .env
 
       - name: Run Playwright tests in CI
         if: ${{ inputs.env-url }} = null
