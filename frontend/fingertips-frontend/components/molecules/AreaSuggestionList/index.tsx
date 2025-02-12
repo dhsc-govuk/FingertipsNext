@@ -54,12 +54,6 @@ export default function AreaSelectAutoComplete({
     <div>
       <AreaSearchInputField
         value={selectedArea?.areaName}
-        hint={
-          <div style={{ color: '#505a5f' }}>
-            For example postcode, county, local authority, NHS Trust or General
-            Practice name or code
-          </div>
-        }
         onTextChange={(criteria: string) => {
           console.log('Criteria = ', criteria);
         }}

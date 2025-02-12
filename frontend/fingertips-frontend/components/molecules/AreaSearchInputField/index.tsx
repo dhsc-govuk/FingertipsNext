@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SearchBox } from 'govuk-react';
+import { SearchBox, Label } from 'govuk-react';
 
 const MIN_SEARCH_SIZE = 3;
 
@@ -12,6 +12,27 @@ const StyledSearchBoxArea = styled('div')({
   display: 'flex',
   border: '0.12em solid #000000',
 });
+
+const StyleSearchHeader = styled(Label)({
+  padding: '0px',
+  color: '#0b0c0c',
+  display: 'block',
+  clear: 'none',
+  paddingBottom: '2px',
+  fontWeight: '400',
+  fontSize: '19px',
+  fontFamily: '"nta", Arial, sans-serif;',
+  textAlign: 'left',
+});
+
+const StyleSearchHintPanel = styled('div')({
+  color: '#505a5f',
+  fontSize: '19px;',
+  lineHeight: '1.3157894736842106;',
+  fontFamily: '"nta", Arial, sans-serif;',
+  marginBottom: '15px',
+});
+
 interface SearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
   value?: string | undefined;
@@ -23,11 +44,11 @@ export const AreaSearchInputField = ({
 }: SearchInputFieldProps) => {
   return (
     <StyleAreaSearchBoxPanel>
-      <h3>Search for an area</h3>
-      <div style={{ color: '#505a5f' }}>
-        For example postcode, county, local authority, NHS Trust or General
-        Practice name or code
-      </div>
+      <StyleSearchHeader>Search for an area</StyleSearchHeader>
+      <StyleSearchHintPanel>
+        For example district, county, region, NHS organisation or GP practice or
+        code
+      </StyleSearchHintPanel>
 
       <StyledSearchBoxArea>
         <SearchBox
@@ -38,7 +59,7 @@ export const AreaSearchInputField = ({
             }
           }}
         >
-          <SearchBox.Input placeholder="Search GOV.UK" />
+          <SearchBox.Input/>
           <SearchBox.Button />
         </SearchBox>
       </StyledSearchBoxArea>

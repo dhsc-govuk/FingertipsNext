@@ -75,7 +75,6 @@ export const SearchForm = ({
 
       <AreaSelectAutoComplete
         onSelectHandler={(areaCode) => {
-          console.log(`This area code has been selected: ${areaCode}`);
           updateUrlWithSelectedArea(areaCode);
           searchFormState.areaSearched = areaCode;
         }}
