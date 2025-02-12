@@ -2,11 +2,15 @@
 
 import {
   ErrorSummary,
+  H1,
+  H2,
   H3,
   H6,
   LeadParagraph,
+  Link,
   ListItem,
   Paragraph,
+  PhaseBanner,
   UnorderedList,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
@@ -15,6 +19,12 @@ import {
   searchIndicator,
 } from '@/components/forms/SearchForm/searchActions';
 import { useActionState } from 'react';
+import styled from 'styled-components';
+import { spacing } from '@govuk-react/lib';
+
+const ZeroMarginParagraph = styled(Paragraph)(
+  spacing.withWhiteSpace({ marginBottom: 0 })
+);
 
 export const Home = ({
   searchFormState,
@@ -25,6 +35,12 @@ export const Home = ({
 
   return (
     <form action={formAction}>
+      <PhaseBanner level="alpha">
+        This is a new service - your <Link href="#">feedback</Link> will help us
+        to improve it.
+      </PhaseBanner>
+      <br />
+      <br />
       {state.message && (
         <ErrorSummary
           description="At least one of the following fields must be populated:"
@@ -46,59 +62,74 @@ export const Home = ({
           }}
         />
       )}
-      <H3>Access public health data</H3>
-      <LeadParagraph>
-        This is a free government service providing access to a wide range of
-        public health data in England.
-      </LeadParagraph>
-      <H6>You can use this service to:</H6>
-      <UnorderedList>
+      <H2>Access public health data</H2>
+      <Paragraph>
+        A free government service that provides access to a wide range of public
+        health data in England.
+      </Paragraph>
+      <br />
+
+      <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
+      <UnorderedList listStyleType='"— "'>
         <ListItem>
-          Identify and compare health trends and inequalities using data
-          visualisations
+          <Link href="#search">Find public health data</Link>
         </ListItem>
-        <ListItem>Download datasets and visualisations</ListItem>
         <ListItem>
-          Access raw data via an application programming interface (API)
+          <Link href="#whatfor">What the service is for</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#indicators">About indicators</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#whofor">Who the service is for</Link>
         </ListItem>
       </UnorderedList>
-      <Paragraph>
-        All data comes from trusted sources such as the NHS and Office of
-        National Statistics (ONS). It is analysed to create a wide range of
-        health and wellbeing data sets known as [indicators](#indicators), and
-        themed topics known as [profiles](#profiles).
-      </Paragraph>
-      <SearchForm searchFormState={state}></SearchForm>
+      <div id="search">
+        <SearchForm searchFormState={state}></SearchForm>
+      </div>
       <br />
       <br />
-      <H6>What are indicators and profiles</H6>
+      <div id="whatfor">
+        <H3>What the service is for</H3>
+        <Paragraph>You can use this service to:</Paragraph>
+        <UnorderedList>
+          <ListItem>
+            Identify and compare health trends and inequalities using data
+            visualisations
+          </ListItem>
+          <ListItem>Download datasets and visualisations</ListItem>
+          <ListItem>
+            Access raw data via an application programming interface (API)
+          </ListItem>
+        </UnorderedList>
+        <Paragraph>
+          This data comes from trusted sources such as the NHS and Office of
+          National Statistics (ONS). It is analysed to create a wide range of
+          health and wellbeing data sets known as indicators, and themed topics
+          known as pro files.
+        </Paragraph>
+      </div>
+      <br />
+      <H3>About Indicators</H3>
       <div id="indicators">
         <Paragraph>
           Indicators use data to show us how things are going and if there are
-          any changes over time. For example if the number of people smoking in
+          any changes over time. For example, if the number of people smoking in
           South West England has gone up or down in the last ten years. These
           indicators can be used to compare public heath by areas, and see how
           it is impacted by inequalities such as age, sex or ethnicity.
         </Paragraph>
       </div>
-      <div id="profiles">
+      <br />
+      <div id="whofor">
+        <H3>Who the service is for</H3>
         <Paragraph>
-          Indicators are used to create themed profiles that help build
-          understanding of public health at a local, regional and national
-          level. For example there will be multiple indicators for diabetes but
-          a themed profile may combine other relevant indicators such as smoking
-          or obesity to present a more rounded picture of the public health
-          impact.
+          The service is free and available to everyone. Its primary role is to
+          support health professionals, policymakers, and researchers to monitor
+          health trends, identify inequalities, and make informed decisions
+          about public health in England.
         </Paragraph>
       </div>
-      <br />
-      <H6>Who the service is for</H6>
-      <Paragraph>
-        The service is free and available to everyone. Its primary role is to
-        supports health professionals, policymakers, and researchers to monitor
-        health trends, identify inequalities, and make informed decisions about
-        public health in England.
-      </Paragraph>
       <br />
     </form>
   );
