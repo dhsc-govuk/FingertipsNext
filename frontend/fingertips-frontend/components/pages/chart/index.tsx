@@ -13,10 +13,13 @@ import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
 } from '@/lib/chartHelpers/chartHelpers';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
+  mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
@@ -25,6 +28,7 @@ type ChartProps = {
 
 export function Chart({
   data,
+  mapData,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
@@ -99,6 +103,16 @@ export function Chart({
             yAxisTitle="Percentage of total population"
             accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
           />
+        </>
+      ) : null}
+      {data.length === 1 && mapData ? (
+        <>
+          <ThematicMap
+            data={data[0]}
+            mapData={mapData}
+            mapTitle="Compare indicator data within the area group"
+          />
+          <br />
         </>
       ) : null}
     </>
