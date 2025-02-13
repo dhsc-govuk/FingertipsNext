@@ -60,7 +60,7 @@ export function Chart({
         <>
           <LineChart
             LineChartTitle="See how the indicator has changed over time"
-            data={dataWithoutEngland}
+            healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
