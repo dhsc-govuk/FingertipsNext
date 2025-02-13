@@ -1,5 +1,6 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData } from './lineChartHelpers';
+import { ChartColours } from '@/lib/chartHelpers/colours';
 
 const mockData = [
   {
@@ -78,10 +79,17 @@ const mockData = [
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
+const chartColours: ChartColours[] = [
+  ChartColours.Orange,
+  ChartColours.LightPurple,
+  ChartColours.DarkPink,
+];
+
 describe('generateSeriesData', () => {
   it('should generate series data without benchmark data', () => {
     const expectedSeriesData = [
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -94,6 +102,16 @@ describe('generateSeriesData', () => {
       },
       {
         data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
+      {
+        color: '#A285D1',
+        data: [
           [2010, 786.27434],
           [2007, 435.420759],
         ],
@@ -105,6 +123,16 @@ describe('generateSeriesData', () => {
       },
       {
         data: [
+          [2010, 750.69151, 800.32766],
+          [2007, 440.69151, 420.32766],
+        ],
+        name: 'South FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
+      {
+        color: '#801650',
+        data: [
           [2020, 478.27434],
           [2012, 234.420759],
         ],
@@ -114,9 +142,24 @@ describe('generateSeriesData', () => {
           symbol: 'diamond',
         },
       },
+      {
+        data: [
+          [2020, 460.69151, 500.32766],
+          [2012, 220.69151, 250.32766],
+        ],
+        name: 'East FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
     ];
 
-    const generatedSeriesData = generateSeriesData(mockData, symbols);
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      undefined,
+      false
+    );
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
   });
@@ -161,6 +204,7 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -172,6 +216,16 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
+      {
+        color: '#A285D1',
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -184,6 +238,16 @@ describe('generateSeriesData', () => {
       },
       {
         data: [
+          [2010, 750.69151, 800.32766],
+          [2007, 440.69151, 420.32766],
+        ],
+        name: 'South FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
+      {
+        color: '#801650',
+        data: [
           [2020, 478.27434],
           [2012, 234.420759],
         ],
@@ -193,12 +257,23 @@ describe('generateSeriesData', () => {
           symbol: 'diamond',
         },
       },
+      {
+        data: [
+          [2020, 460.69151, 500.32766],
+          [2012, 220.69151, 250.32766],
+        ],
+        name: 'East FooBar',
+        type: 'errorbar',
+        visible: false,
+      },
     ];
 
     const generatedSeriesData = generateSeriesData(
       mockData,
       symbols,
-      mockBenchmarkData
+      chartColours,
+      mockBenchmarkData,
+      false
     );
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
@@ -209,33 +284,40 @@ describe('generateSeriesData', () => {
 
     const generatedSeriesData = generateSeriesData(
       mockData,
-      symbols
+      symbols,
+      chartColours,
+      undefined,
+      false
     ) as SeriesLineOptions[];
 
+    console.log('generatedSeriesData', generatedSeriesData);
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
-    expect(generatedSeriesData[1].marker?.symbol).toBe('circle');
-    expect(generatedSeriesData[2].marker?.symbol).toBe('arc');
+    expect(generatedSeriesData[1].marker?.symbol).toBe(undefined);
+    expect(generatedSeriesData[2].marker?.symbol).toBe('circle');
+    expect(generatedSeriesData[3].marker?.symbol).toBe(undefined);
   });
 
   it('should show confidence intervals bars', () => {
     const generatedSeriesData = generateSeriesData(
       [mockData[0]],
       symbols,
+      chartColours,
       undefined,
       true
     );
 
     const expectedSeriesData = [
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
         ],
+        name: 'North FooBar',
+        type: 'line',
         marker: {
           symbol: 'arc',
         },
-        name: 'North FooBar',
-        type: 'line',
       },
       {
         data: [
@@ -244,6 +326,7 @@ describe('generateSeriesData', () => {
         ],
         name: 'North FooBar',
         type: 'errorbar',
+        visible: true,
       },
     ];
 
@@ -254,21 +337,32 @@ describe('generateSeriesData', () => {
     const generatedSeriesData = generateSeriesData(
       [mockData[0]],
       symbols,
+      chartColours,
       undefined,
       false
     );
 
     const expectedSeriesData = [
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
         ],
+        name: 'North FooBar',
+        type: 'line',
         marker: {
           symbol: 'arc',
         },
+      },
+      {
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
         name: 'North FooBar',
-        type: 'line',
+        type: 'errorbar',
+        visible: false,
       },
     ];
 
