@@ -100,7 +100,7 @@ export function ScatterChart({
     <div data-testid="scatterChart-component">
       <H3>{scatterChartTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{ 'data-testid': 'highcharts-react-component-scatterChart' }}
         highcharts={Highcharts}
         options={scatterChartOptions}
       ></HighchartsReact>
