@@ -208,7 +208,7 @@ jobs:
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local-docker]
+    needs: [check-changes, determine-version]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -229,7 +229,7 @@ jobs:
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local-docker]
+    needs: [check-changes, determine-version]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
