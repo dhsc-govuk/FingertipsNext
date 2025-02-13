@@ -97,7 +97,7 @@ export function Chart({
         <>
           <br />
           <PopulationPyramid
-            data={populationData}
+            healthIndicatorData={populationData}
             populationPyramidTitle="Population INDICATOR for SELECTED area"
             xAxisTitle="Age"
             yAxisTitle="Percentage of total population"
