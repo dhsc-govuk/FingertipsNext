@@ -15,6 +15,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ChartContainer } from '@/components/organisms/ChartContainer';
 
 type ChartProps = {
   data: HealthDataForArea[][];
@@ -49,16 +50,9 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      <LineChart
-        LineChartTitle="See how the indicator has changed over time"
-        data={dataWithoutEngland}
+      <ChartContainer
+        healthData={dataWithoutEngland}
         benchmarkData={englandBenchmarkData}
-        xAxisTitle="Year"
-        accessibilityLabel="A line chart showing healthcare data"
-      />
-      <LineChartTable
-        data={data[0][0]}
-        englandBenchmarkData={englandBenchmarkData}
       />
       <br />
       {indicatorsSelected.length == 2 ? (
