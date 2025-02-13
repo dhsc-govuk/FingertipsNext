@@ -18,7 +18,7 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 
 type ChartProps = {
-  data: HealthDataForArea[][];
+  healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -27,7 +27,7 @@ type ChartProps = {
 };
 
 export function Chart({
-  data,
+  healthIndicatorData,
   mapData,
   populationData,
   searchedIndicator,
@@ -41,8 +41,8 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
-  const dataWithoutEngland = seriesDataWithoutEngland(data[0]);
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(healthIndicatorData, 0);
+  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
 
   return (
     <>
@@ -75,7 +75,7 @@ export function Chart({
       {indicatorsSelected.length == 2 ? (
         <>
           <ScatterChart
-            data={data}
+            data={healthIndicatorData}
             ScatterChartTitle="Compare indicators within the area group"
             yAxisTitle="y: Indicator 1 (value)"
             yAxisSubtitle="rate per information"
@@ -87,7 +87,7 @@ export function Chart({
         </>
       ) : null}
       <BarChart
-        data={data[0]}
+        data={healthIndicatorData[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
@@ -105,10 +105,10 @@ export function Chart({
           />
         </>
       ) : null}
-      {data.length === 1 && mapData ? (
+      {healthIndicatorData.length === 1 && mapData ? (
         <>
           <ThematicMap
-            data={data[0]}
+            data={healthIndicatorData[0]}
             mapData={mapData}
             mapTitle="Compare indicator data within the area group"
           />
