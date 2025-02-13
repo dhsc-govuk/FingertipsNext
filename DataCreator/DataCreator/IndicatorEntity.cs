@@ -55,6 +55,8 @@
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
+        public int LatestDataPeriod { get; set; }
+
     }
 
     public class SimpleIndicator
@@ -62,6 +64,15 @@
         public int IndicatorID { get; set; }
 
         public string IndicatorName { get; set; }
+    }
+
+    public class IndicatorWithAreasAndLatestUpdate
+    {
+        public int IndicatorID { get; set; }
+
+        public int LatestDataPeriod { get; set; }
+
+        public List<string> AssociatedAreaCodes { get; set; } = [];
     }
 }
 

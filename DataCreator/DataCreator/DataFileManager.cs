@@ -31,6 +31,9 @@ namespace DataCreator
         public static int[] GetIndicatorIds() =>
             File.ReadAllText(@$"{InFilePath}\temp\indicatorids.txt").Split("\n").Select(int.Parse).ToArray();
 
+        public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+
         public static IEnumerable<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId)
         {
             //this is a csv file that was downloaded from the Fingertips API
@@ -58,8 +61,8 @@ namespace DataCreator
                         Denominator = GetDoubleValue(split[18]),
                         Trend = split[20].Trim(),
                         Year = int.Parse(split[23].Trim().Substring(0,4)),
-                        Category = split[9].Trim(),
-                        CategoryType = split[10].Trim()
+                        Category = split[10].Trim(),
+                        CategoryType = split[9].Trim()
                     };
                     allData.Add(indicatorData);
                 }
