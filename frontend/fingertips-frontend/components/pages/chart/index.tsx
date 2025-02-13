@@ -18,7 +18,7 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 
 type ChartProps = {
-  data: HealthDataForArea[][];
+  healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -27,7 +27,7 @@ type ChartProps = {
 };
 
 export function Chart({
-  data,
+  healthIndicatorData,
   mapData,
   populationData,
   searchedIndicator,
@@ -41,8 +41,11 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
-  const dataWithoutEngland = seriesDataWithoutEngland(data[0]);
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+    healthIndicatorData,
+    0
+  );
+  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
 
   return (
     <>
@@ -60,13 +63,13 @@ export function Chart({
         <>
           <LineChart
             LineChartTitle="See how the indicator has changed over time"
-            data={dataWithoutEngland}
+            healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
           />
           <LineChartTable
-            data={dataWithoutEngland}
+            healthIndicatorData={dataWithoutEngland}
             englandBenchmarkData={englandBenchmarkData}
           />
         </>
@@ -75,8 +78,8 @@ export function Chart({
       {indicatorsSelected.length == 2 ? (
         <>
           <ScatterChart
-            data={data}
-            ScatterChartTitle="Compare indicators within the area group"
+            healthIndicatorData={healthIndicatorData}
+            scatterChartTitle="Compare indicators within the area group"
             yAxisTitle="y: Indicator 1 (value)"
             yAxisSubtitle="rate per information"
             xAxisTitle="x: Indicator 2 (value)"
@@ -87,7 +90,7 @@ export function Chart({
         </>
       ) : null}
       <BarChart
-        data={data[0]}
+        healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
@@ -97,7 +100,7 @@ export function Chart({
         <>
           <br />
           <PopulationPyramid
-            data={populationData}
+            healthIndicatorData={populationData}
             populationPyramidTitle="Population INDICATOR for SELECTED area"
             xAxisTitle="Age"
             yAxisTitle="Percentage of total population"
@@ -105,10 +108,10 @@ export function Chart({
           />
         </>
       ) : null}
-      {data.length === 1 && mapData ? (
+      {healthIndicatorData.length === 1 && mapData ? (
         <>
           <ThematicMap
-            data={data[0]}
+            healthIndicatorData={healthIndicatorData[0]}
             mapData={mapData}
             mapTitle="Compare indicator data within the area group"
           />

@@ -9,7 +9,7 @@ import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 
 interface TableProps {
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
 }
 
@@ -144,10 +144,12 @@ const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 5 : 4;
 
 export function LineChartTable({
-  data,
+  healthIndicatorData,
   englandBenchmarkData,
 }: Readonly<TableProps>) {
-  const tableData = data.map((areaData) => mapToTableData(areaData));
+  const tableData = healthIndicatorData.map((areaData) =>
+    mapToTableData(areaData)
+  );
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
@@ -155,7 +157,7 @@ export function LineChartTable({
   const englandRowData = sortPeriod(englandData);
 
   const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)({
-    borderLeft: data.length > 1 ? 'solid black 1px' : 'none',
+    borderLeft: healthIndicatorData.length > 1 ? 'solid black 1px' : 'none',
   });
 
   return (
@@ -164,7 +166,7 @@ export function LineChartTable({
         head={
           <>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName + index}>
                   <StyledTitleRow colSpan={6}>
                     {`${area.areaName} recent trend:`}
@@ -173,7 +175,7 @@ export function LineChartTable({
               ))}
             </Table.Row>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName}>
                   {index === 0 ? <Table.CellHeader /> : null}
                   <StyledAreaNameHeader colSpan={5}>
@@ -186,7 +188,7 @@ export function LineChartTable({
               </StyledGreyHeader>
             </Table.Row>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName}>
                   <Table.CellHeader
                     colSpan={getConfidenceLimitCellSpan(index)}
@@ -205,7 +207,7 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignLeftHeader>
-              {data.map(() =>
+              {healthIndicatorData.map(() =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) => value !== LineChartTableHeadingEnum.AreaPeriod
@@ -232,7 +234,9 @@ export function LineChartTable({
               {point.period}
             </StyledAlignLeftTableCell>
             {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
-              <React.Fragment key={data[areaIndex].areaCode + index}>
+              <React.Fragment
+                key={healthIndicatorData[areaIndex].areaCode + index}
+              >
                 <StyledBenchmarkCell></StyledBenchmarkCell>
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
