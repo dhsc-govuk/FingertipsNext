@@ -53,7 +53,7 @@ export const AreaSearchSelectionPanel = ({
       <StyleAreaSearchSelectionPanel>
         {' '}
         {areas.map((area: AreaDocument) => (
-          <StyleAreaSearchSelectionPanelItem key={area.areaCode}>
+          <StyleAreaSearchSelectionPanelItem key={"selection-panel-area-"+area.areaCode}>
             <StyleSelectedCloseButtonLabel
               onClick={(e) => {
                 e.preventDefault();

@@ -74,13 +74,13 @@ export const SearchForm = ({
       </StyledInputField>
 
       <AreaSelectAutoComplete
-        onSelectHandler={(areaCode) => {
+         onSelect={(areaCode) => {
           updateUrlWithSelectedArea(areaCode);
           searchFormState.areaSearched = areaCode;
         }}
       />
       <Link href="#" data-testid="search-form-link-filter-area">
-        Or filter by area
+      Open a filter to add or change areas
       </Link>
       <br />
       <Button
