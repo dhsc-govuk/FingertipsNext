@@ -33,9 +33,9 @@ export class SearchServiceFactory {
    */
   private static isDualLevelArea({ areaCode }: AreaDocument): boolean {
     return (
-      areaCode.startsWith(this.ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES) ||
-      areaCode.startsWith(this.ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS) ||
-      areaCode.startsWith(this.ONS_AREA_TYPE_CODE_LONDON_BOROUGHS)
+      areaCode.startsWith(SearchServiceFactory.ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES) ||
+      areaCode.startsWith(SearchServiceFactory.ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS) ||
+      areaCode.startsWith(SearchServiceFactory.ONS_AREA_TYPE_CODE_LONDON_BOROUGHS)
     );
   }
 
@@ -63,9 +63,9 @@ export class SearchServiceFactory {
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-          readEnvVar('DHSC_AI_SEARCH_API_KEY')
-        );
+        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+        readEnvVar('DHSC_AI_SEARCH_API_KEY')
+      );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
