@@ -3,8 +3,7 @@ import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
-import {AreaSearchSelectionPanel} from "../AreaSearchSelectionPanel"
-
+import { AreaSearchSelectionPanel } from '../AreaSearchSelectionPanel';
 
 const MIN_SEARCH_SIZE = 3;
 
@@ -64,8 +63,6 @@ export default function AreaSelectAutoComplete({
     fetchSearchArea(criteria, searchStatus);
   }, [searchStatus, criteria]);
 
- 
-
   return (
     <div>
       <AreaSearchInputField
@@ -81,13 +78,22 @@ export default function AreaSelectAutoComplete({
           }
         }}
       />
-      <AreaSearchSelectionPanel  areas={selectedAreas}/>
+      <AreaSearchSelectionPanel
+        areas={selectedAreas}
+        onClick={(area: AreaDocument) => {
+          // remove the area from the list of selected areas
+          const areas = selectedAreas.filter((selectedArea: AreaDocument) => {
+            if (selectedArea.areaCode != area.areaCode) return selectedArea;
+          });
+          setSelectedAreas(areas);
+        }}
+      />
       <AreaSuggestionPanel
         areas={searchAreas}
-        onItemSelected={(selectedArea : AreaDocument)=>{
-            // When an area is selected , this selected area will be output here
-            setSelectedAreas([selectedArea])
-            setSearchAreas([]);
+        onItemSelected={(selectedArea: AreaDocument) => {
+          // When an area is selected , this selected area will be output here
+          setSelectedAreas([selectedArea]);
+          setSearchAreas([]);
         }}
       />
     </div>
