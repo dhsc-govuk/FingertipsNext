@@ -52,6 +52,7 @@ export function LineChart({
   const seriesData = generateSeriesData(
     sortedSeriesValues,
     chartSymbols,
+    chartColours,
     benchmarkData,
     lineChartCI
   );
@@ -61,7 +62,6 @@ export function LineChart({
       enabled: false,
     },
     chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
-    colors: chartColours,
     title: {
       style: {
         display: 'none',
