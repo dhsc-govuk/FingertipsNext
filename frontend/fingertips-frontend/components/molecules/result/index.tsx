@@ -87,20 +87,20 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
-            id={`search-results-indicator-${result.indicatorId.toString()}`}
-            data-testid={`search-results-indicator-${result.indicatorId}`}
+            id={`search-results-indicator-${result.indicatorID.toString()}`}
+            data-testid={`search-results-indicator-${result.indicatorID}`}
             name="indicator"
-            value={result.indicatorId}
+            value={result.indicatorID}
             defaultChecked={indicatorSelected}
             onChange={(e) => {
-              handleClick(result.indicatorId.toString(), e.target.checked);
+              handleClick(result.indicatorID.toString(), e.target.checked);
             }}
           >
             <H5>
               <Link
-                href={generateIndicatorChartPath(result.indicatorId.toString())}
+                href={generateIndicatorChartPath(result.indicatorID.toString())}
               >
-                {result.name}
+                {result.indicatorName}
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>

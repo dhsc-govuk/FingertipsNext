@@ -11,9 +11,9 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     return this.mockIndicatorData
       .filter((indicator) => {
         return (
-          indicator.indicatorId.includes(searchText) ||
-          indicator.name.includes(searchText) ||
-          indicator.definition.includes(searchText)
+          indicator.indicatorID.includes(searchText) ||
+          indicator.indicatorName.includes(searchText) ||
+          indicator.indicatorDefinition.includes(searchText)
         );
       })
       .slice(0, 20);
