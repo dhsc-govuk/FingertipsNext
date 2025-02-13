@@ -154,7 +154,9 @@ export function PopulationPyramid({
       },
       {
         name: 'England',
-        data: healthIndicatorData.dataForEngland.maleSeries.map((datapoint) => -datapoint),
+        data: healthIndicatorData.dataForEngland.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -177,7 +179,9 @@ export function PopulationPyramid({
       {
         name: 'Baseline',
         type: 'line',
-        data: healthIndicatorData.dataForBaseline.maleSeries.map((datapoint) => -datapoint),
+        data: healthIndicatorData.dataForBaseline.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },

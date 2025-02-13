@@ -147,7 +147,9 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
 }: Readonly<TableProps>) {
-  const tableData = healthIndicatorData.map((areaData) => mapToTableData(areaData));
+  const tableData = healthIndicatorData.map((areaData) =>
+    mapToTableData(areaData)
+  );
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
@@ -232,7 +234,9 @@ export function LineChartTable({
               {point.period}
             </StyledAlignLeftTableCell>
             {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
-              <React.Fragment key={healthIndicatorData[areaIndex].areaCode + index}>
+              <React.Fragment
+                key={healthIndicatorData[areaIndex].areaCode + index}
+              >
                 <StyledBenchmarkCell></StyledBenchmarkCell>
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}

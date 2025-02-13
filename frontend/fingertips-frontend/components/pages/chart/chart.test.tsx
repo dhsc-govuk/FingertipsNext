@@ -56,7 +56,12 @@ describe('Page structure', () => {
 
 describe('Content', () => {
   beforeEach(() => {
-    render(<Chart healthIndicatorData={[mockHealthData['337']]} indicatorsSelected={['0']} />);
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['337']]}
+        indicatorsSelected={['0']}
+      />
+    );
   });
 
   it('should render the title with correct text', () => {
@@ -96,14 +101,24 @@ it('should render the PopulationPyramid component when Population data are provi
 });
 
 it('should render the scatterChart component when 2 indicators are selected', () => {
-  render(<Chart healthIndicatorData={[mockHealthData[1]]} indicatorsSelected={['0', '1']} />);
+  render(
+    <Chart
+      healthIndicatorData={[mockHealthData[1]]}
+      indicatorsSelected={['0', '1']}
+    />
+  );
   const scatterChart = screen.getByTestId('scatterChart-component');
 
   expect(scatterChart).toBeInTheDocument();
 });
 
 it('should not render the scatterChart component when only 1 indicator is selected', () => {
-  render(<Chart healthIndicatorData={[mockHealthData[1]]} indicatorsSelected={['0']} />);
+  render(
+    <Chart
+      healthIndicatorData={[mockHealthData[1]]}
+      indicatorsSelected={['0']}
+    />
+  );
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
@@ -114,7 +129,9 @@ it('should render the ThematicMap component when all map props are provided', ()
   const areaCodes = ['E12000001', 'E12000002'];
   const mapData = getMapData(areaType, areaCodes);
 
-  render(<Chart healthIndicatorData={[mockHealthData['318']]} mapData={mapData} />);
+  render(
+    <Chart healthIndicatorData={[mockHealthData['318']]} mapData={mapData} />
+  );
 
   const thematicMap = screen.queryByTestId('thematicMap-component');
   expect(thematicMap).toBeInTheDocument();
@@ -130,7 +147,10 @@ it('should _not_ render the ThematicMap component when map props are _not_ provi
 describe('should not display line chart', () => {
   it('should not display line chart and line chart table when multiple indicators are selected', () => {
     render(
-      <Chart healthIndicatorData={[mockHealthData['1']]} indicatorsSelected={['0', '1']} />
+      <Chart
+        healthIndicatorData={[mockHealthData['1']]}
+        indicatorsSelected={['0', '1']}
+      />
     );
 
     expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
@@ -163,7 +183,9 @@ describe('should not display line chart', () => {
       },
     ];
 
-    render(<Chart healthIndicatorData={[MOCK_DATA]} indicatorsSelected={['0']} />);
+    render(
+      <Chart healthIndicatorData={[MOCK_DATA]} indicatorsSelected={['0']} />
+    );
 
     expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
     expect(

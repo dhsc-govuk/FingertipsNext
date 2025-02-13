@@ -41,7 +41,10 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(healthIndicatorData, 0);
+  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+    healthIndicatorData,
+    0
+  );
   const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
 
   return (
