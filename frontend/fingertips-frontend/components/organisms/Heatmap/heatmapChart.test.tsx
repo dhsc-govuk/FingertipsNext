@@ -9,7 +9,9 @@ it('should render the Highcharts react component within the HeatmapChart compone
     )
   );
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = screen.getByTestId(
+    'highcharts-react-component-heatmapChart'
+  );
   expect(highcharts).toBeInTheDocument();
 });
 

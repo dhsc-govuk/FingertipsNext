@@ -8,7 +8,7 @@ it('should render the Highcharts react component with passed yAxisPropsTitle par
 
   render(<BarChart data={mockHealthData[1]} yAxisTitle={yAxisPropsTitle} />);
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = screen.getByTestId('highcharts-react-component-barChart');
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);

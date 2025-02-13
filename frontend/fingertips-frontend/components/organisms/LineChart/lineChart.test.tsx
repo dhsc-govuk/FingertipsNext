@@ -13,7 +13,7 @@ it('should render the Highcharts react component with passed parameters within t
     />
   );
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = screen.getByTestId('highcharts-react-component-lineChart');
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);

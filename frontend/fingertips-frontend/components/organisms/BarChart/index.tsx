@@ -93,7 +93,9 @@ export function BarChart({
     <div data-testid="barChart-component">
       <H3>See how inequalities vary for a single period in time</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-barChart',
+        }}
         highcharts={Highcharts}
         options={barChartOptions}
       />

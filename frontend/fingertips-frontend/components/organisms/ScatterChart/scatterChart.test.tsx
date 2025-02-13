@@ -19,7 +19,9 @@ it('should render the Highcharts react component with the passed axis and subtit
     />
   );
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = screen.getByTestId(
+    'highcharts-react-component-scatterChart'
+  );
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);

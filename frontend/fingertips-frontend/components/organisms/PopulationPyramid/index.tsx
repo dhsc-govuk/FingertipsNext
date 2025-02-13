@@ -191,7 +191,9 @@ export function PopulationPyramid({
     <div data-testid="populationPyramid-component">
       <H3>{populationPyramidTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-populationPyramid',
+        }}
         highcharts={Highcharts}
         options={populationPyramidOptions}
       />
