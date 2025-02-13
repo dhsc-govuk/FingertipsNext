@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c19 {
+  .c14 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c19:focus {
+.c14:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c19:link,
-.c19:visited,
-.c19:active,
-.c19:hover {
+.c14:link,
+.c14:visited,
+.c14:active,
+.c14:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c19::-moz-focus-inner {
+.c14::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c19:hover,
-.c19:focus {
+.c14:hover,
+.c14:focus {
   background-color: #00572e;
 }
 
-.c19:active {
+.c14:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c19::before {
+.c14::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,34 +67,34 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c19:active::before {
+.c14:active::before {
   top: -4px;
 }
 
-.c19:disabled {
+.c14:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c19:disabled:hover {
+.c14:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c19:disabled:focus {
+.c14:disabled:focus {
   outline: none;
 }
 
-.c19:disabled:active {
+.c14:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c19 svg {
+.c14 svg {
   max-width: 15px;
 }
 
-.c17 {
+.c12 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -106,7 +106,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   color: #6f777b;
 }
 
-.c16 {
+.c11 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -120,7 +120,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c18 {
+.c13 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -140,22 +140,22 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c18:focus {
+.c13:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c18::-webkit-outer-spin-button,
-.c18::-webkit-inner-spin-button {
+.c13::-webkit-outer-spin-button,
+.c13::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.c18[type="number"] {
+.c13[type="number"] {
   -moz-appearance: textfield;
 }
 
-.c14 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -167,13 +167,13 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c14:after {
+.c9:after {
   content: '';
   display: table;
   clear: both;
 }
 
-.c12 {
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -183,7 +183,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
-.c10 {
+.c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -197,15 +197,15 @@ exports[`snapshot test - renders the homepage 1`] = `
   padding-left: 20px;
 }
 
-.c9 .c9 {
+.c3 .c3 {
   margin-top: 10px;
 }
 
-.c10 > .c11 {
+.c4 > .c5 {
   margin-bottom: 5px;
 }
 
-.c21 {
+.c16 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -218,15 +218,15 @@ exports[`snapshot test - renders the homepage 1`] = `
   padding-left: 20px;
 }
 
-.c9 .c9 {
+.c3 .c3 {
   margin-top: 10px;
 }
 
-.c21 > .c11 {
+.c16 > .c5 {
   margin-bottom: 5px;
 }
 
-.c6 {
+.c0 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -239,7 +239,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 20px;
 }
 
-.c13 {
+.c8 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -252,39 +252,39 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 15px;
 }
 
-.c5 {
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c5:focus {
+.c7:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c5:link {
+.c7:link {
   color: #1d70b8;
 }
 
-.c5:visited {
+.c7:visited {
   color: #4c2c92;
 }
 
-.c5:hover {
+.c7:hover {
   color: #2b8cc4;
 }
 
-.c5:active {
+.c7:active {
   color: #2b8cc4;
 }
 
-.c5:focus {
+.c7:focus {
   color: #0b0c0c;
 }
 
-.c7 {
+.c1 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -295,11 +295,11 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 15px;
 }
 
-.c7 > p {
+.c1 > p {
   margin: 0;
 }
 
-.c7 > p > code {
+.c1 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -307,7 +307,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   border-radius: 3px;
 }
 
-.c7 > pre {
+.c1 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -316,7 +316,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   border-radius: 3px;
 }
 
-.c7 > pre > code {
+.c1 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -326,59 +326,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   word-wrap: normal;
 }
 
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  display: inline-block;
-  padding-top: 5px;
-  padding-right: 8px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  -webkit-letter-spacing: 1px;
-  -moz-letter-spacing: 1px;
-  -ms-letter-spacing: 1px;
-  letter-spacing: 1px;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  background-color: #1d70b8;
-  color: #ffffff;
-}
-
-.c0 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #bfc1c3;
-}
-
-.c1 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-  color: #0b0c0c;
-  display: table;
-  margin: 0;
-}
-
-.c1 .c2 {
-  margin-right: 10px;
-}
-
-.c4 {
-  display: table-cell;
-  vertical-align: baseline;
-}
-
-.c20 {
+.c15 {
   margin: 0;
   border: 0;
   margin-top: 20px;
@@ -386,240 +334,240 @@ exports[`snapshot test - renders the homepage 1`] = `
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c15 {
+.c10 {
   margin-bottom: 20px;
 }
 
-.c8 {
+.c2 {
   margin-bottom: 0;
 }
 
 @media print {
-  .c19 {
+  .c14 {
     font-size: 14px;
     line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    font-size: 19px;
-    line-height: 19px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    width: auto;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 svg {
-    margin-left: 10px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c19 {
-    margin-bottom: 32px;
-  }
-}
-
-@media print {
-  .c17 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c16 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c16 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c16 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c16 {
-    margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c18 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c14 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c11 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
     margin-bottom: 0;
   }
 }
 
 @media print {
-  .c12 {
+  .c13 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c12 {
+  .c13 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
-@media print {
-  .c10 {
-    font-size: 14px;
-    line-height: 1.15;
+@media only screen and (min-width:641px) {
+  .c13 {
+    margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c10 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c10 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c21 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c21 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c21 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c21 {
-    margin-bottom: 20px;
+  .c9 {
+    margin-bottom: 0;
   }
 }
 
 @media print {
   .c6 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c4 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c16 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c16 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c16 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c16 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c0 {
     color: #000;
   }
 }
 
 @media print {
-  .c6 {
+  .c0 {
     font-size: 24px;
     line-height: 1.05;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c0 {
     font-size: 36px;
     line-height: 1.1111111111111112;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c0 {
     margin-bottom: 30px;
   }
 }
 
 @media print {
-  .c13 {
+  .c8 {
     color: #000;
   }
 }
 
 @media print {
-  .c13 {
+  .c8 {
     font-size: 18px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c8 {
     font-size: 24px;
     line-height: 1.25;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c8 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c5 {
+  .c7 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c5[href^="/"]::after,
-  .c5[href^="http://"]::after,
-  .c5[href^="https://"]::after {
+  .c7[href^="/"]::after,
+  .c7[href^="http://"]::after,
+  .c7[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -627,74 +575,40 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c7 {
+  .c1 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c1 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c7 {
+  .c1 {
     margin-bottom: 20px;
   }
 }
 
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-
 @media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 16px;
-    line-height: 1;
-  }
-}
-
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media print {
-  .c1 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c20 {
+  .c15 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c10 {
     margin-bottom: 30px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c2 {
     margin-bottom: 0;
   }
 }
@@ -702,40 +616,13 @@ exports[`snapshot test - renders the homepage 1`] = `
 <form
     action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
   >
-    <div
-      class="c0"
-    >
-      <p
-        class="c1"
-      >
-        <strong
-          class="c2 c3"
-        >
-          alpha
-        </strong>
-        <span
-          class="c4"
-        >
-          This is a new service - your 
-          <a
-            class="c5"
-            href="#"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
-    <br />
-    <br />
     <h2
-      class="c6"
+      class="c0"
     >
       Access public health data
     </h2>
     <div
-      class="c7"
+      class="c1"
     >
       <p>
         A free government service that provides access to a wide range of public health data in England.
@@ -743,50 +630,50 @@ exports[`snapshot test - renders the homepage 1`] = `
     </div>
     <br />
     <div
-      class="c7 c8"
+      class="c1 c2"
     >
       <p>
         Contents
       </p>
     </div>
     <ul
-      class="c9 c10"
+      class="c3 c4"
     >
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         <a
-          class="c5"
+          class="c7"
           href="#search"
         >
           Find public health data
         </a>
       </li>
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         <a
-          class="c5"
+          class="c7"
           href="#whatfor"
         >
           What the service is for
         </a>
       </li>
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         <a
-          class="c5"
+          class="c7"
           href="#indicators"
         >
           About indicators
         </a>
       </li>
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         <a
-          class="c5"
+          class="c7"
           href="#whofor"
         >
           Who the service is for
@@ -801,21 +688,21 @@ exports[`snapshot test - renders the homepage 1`] = `
         data-testid="search-form"
       >
         <h3
-          class="c13"
+          class="c8"
         >
           Find public health data
         </h3>
         <label
-          class="c14 c15"
+          class="c9 c10"
           data-testid="indicator-search-form-input"
         >
           <span
-            class="c16"
+            class="c11"
           >
             Search by subject
           </span>
           <span
-            class="c17"
+            class="c12"
           >
             <div
               style="color: rgb(80, 90, 95);"
@@ -824,24 +711,24 @@ exports[`snapshot test - renders the homepage 1`] = `
             </div>
           </span>
           <input
-            class="c18"
+            class="c13"
             id="indicator"
             name="indicator"
             value=""
           />
         </label>
         <label
-          class="c14 c15"
+          class="c9 c10"
           data-testid="search-form-input-area"
           style="margin-bottom: 5px;"
         >
           <span
-            class="c16"
+            class="c11"
           >
-            Search for an area
+            Search by area
           </span>
           <span
-            class="c17"
+            class="c12"
           >
             <div
               style="color: rgb(80, 90, 95);"
@@ -850,14 +737,14 @@ exports[`snapshot test - renders the homepage 1`] = `
             </div>
           </span>
           <input
-            class="c18"
+            class="c13"
             id="areaSearched"
             name="areaSearched"
             value=""
           />
         </label>
         <a
-          class="c5"
+          class="c7"
           data-testid="search-form-link-filter-area"
           href="#"
         >
@@ -865,7 +752,7 @@ exports[`snapshot test - renders the homepage 1`] = `
         </a>
         <br />
         <button
-          class="c19"
+          class="c14"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -875,56 +762,56 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
     </div>
     <hr
-      class="c20"
+      class="c15"
     />
     <h3
-      class="c13"
+      class="c8"
       id="whatfor"
     >
       What the service is for
     </h3>
     <div
-      class="c7"
+      class="c1"
     >
       <p>
         You can use this service to:
       </p>
     </div>
     <ul
-      class="c9 c21"
+      class="c3 c16"
     >
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         Identify and compare health trends and inequalities using data visualisations
       </li>
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         Download datasets and visualisations
       </li>
       <li
-        class="c11 c12"
+        class="c5 c6"
       >
         Access raw data via an application programming interface (API)
       </li>
     </ul>
     <div
-      class="c7"
+      class="c1"
     >
       <p>
-        This data comes from trusted sources such as the NHS and Office of National Statistics (ONS). It is analysed to create a wide range of health and wellbeing data sets known as indicators, and themed topics known as pro files.
+        This data comes from trusted sources such as the NHS and Office of National Statistics (ONS). It is analysed to create a wide range of health and wellbeing data sets known as indicators, and themed topics known as profiles.
       </p>
     </div>
     <br />
     <h3
-      class="c13"
+      class="c8"
       id="indicators"
     >
       About indicators
     </h3>
     <div
-      class="c7"
+      class="c1"
     >
       <p>
         Indicators use data to show us how things are going and if there are any changes over time. For example, if the number of people smoking in South West England has gone up or down in the last ten years. These indicators can be used to compare public heath by areas, and see how it is impacted by inequalities such as age, sex or ethnicity.
@@ -932,13 +819,13 @@ exports[`snapshot test - renders the homepage 1`] = `
     </div>
     <br />
     <h3
-      class="c13"
+      class="c8"
       id="whofor"
     >
       Who the service is for
     </h3>
     <div
-      class="c7"
+      class="c1"
     >
       <p>
         The service is free and available to everyone. Its primary role is to support health professionals, policymakers, and researchers to monitor health trends, identify inequalities, and make informed decisions about public health in England.

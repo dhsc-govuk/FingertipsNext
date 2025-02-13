@@ -9,7 +9,6 @@ import {
   Paragraph,
   UnorderedList,
   SectionBreak,
-  PhaseBanner,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {

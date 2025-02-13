@@ -409,7 +409,7 @@ exports[`snapshot test - renders the form 1`] = `
       <span
         class="c3"
       >
-        Search for an area
+        Search by area
       </span>
       <span
         class="c4"
