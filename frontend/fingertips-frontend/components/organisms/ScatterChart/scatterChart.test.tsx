@@ -11,7 +11,7 @@ it('should render the Highcharts react component with the passed axis and subtit
 
   render(
     <ScatterChart
-      data={[mockHealthData[1]]}
+      healthIndicatorData={[mockHealthData[1]]}
       yAxisTitle={yAxisPropsTitle}
       xAxisTitle={xAxisPropsTitle}
       yAxisSubtitle={yAxisSubtitle}
@@ -31,8 +31,8 @@ it('should render the Highcharts react component with the passed axis and subtit
 it('should render the ScatterChart title', () => {
   render(
     <ScatterChart
-      data={[mockHealthData[1]]}
-      ScatterChartTitle="Compare indicators within the area group"
+      healthIndicatorData={[mockHealthData[1]]}
+      scatterChartTitle="Compare indicators within the area group"
     />
   );
 

@@ -75,8 +75,8 @@ export function Chart({
       {indicatorsSelected.length == 2 ? (
         <>
           <ScatterChart
-            data={healthIndicatorData}
-            ScatterChartTitle="Compare indicators within the area group"
+            healthIndicatorData={healthIndicatorData}
+            scatterChartTitle="Compare indicators within the area group"
             yAxisTitle="y: Indicator 1 (value)"
             yAxisSubtitle="rate per information"
             xAxisTitle="x: Indicator 2 (value)"
