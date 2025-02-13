@@ -4,26 +4,26 @@ on:
   workflow_call:
     inputs:
       context-location:
-        description: 'The location of the Docker build context'
+        description: "The location of the Docker build context"
         required: true
         type: string
       container-tag:
-        description: 'The tag for the Docker container'
+        description: "The tag for the Docker container"
         required: true
         type: string
       git-semver:
-        description: 'Semantic version of the build'
+        description: "Semantic version of the build"
         required: true
         type: string
     secrets:
       arm-client-id:
-        description: 'Service Principal Client ID'
+        description: "Service Principal Client ID"
         required: true
       arm-client-secret:
-        description: 'Service Principal Client Secret'
+        description: "Service Principal Client Secret"
         required: true
       acr-server:
-        description: 'Azure Container Registry server'
+        description: "Azure Container Registry server"
         required: true
 
 jobs:
@@ -64,4 +64,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      

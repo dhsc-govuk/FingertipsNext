@@ -186,14 +186,8 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
-  e2e-tests-local:
-    needs:
-      [
-        check-changes,
-        database-build,
-        frontend-build-and-test,
-        api-build-and-test,
-      ]
+  e2e-tests-local-docker:
+    needs: [check-changes]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -214,7 +208,7 @@ jobs:
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local-docker]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -235,7 +229,7 @@ jobs:
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local-docker]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
