@@ -1,346 +1,307 @@
 {
-	"info": {
-		"_postman_id": "10d2d191-3f32-4560-a719-40dda987a40d",
-		"name": "fingertips-geo-suggest",
-		"description": "This Postman collection holds a number of example quieries for Geographic Suggestions. You will need to set the AI_SEARCH_API_KEY for the environment you are using.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "40824036"
-	},
-	"item": [
-		{
-			"name": "search for manc",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "api-key",
-						"value": "{{AI_SEARCH_API_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": []
-				},
-				"url": {
-					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"host": [
-						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
-					],
-					"path": [
-						"indexes",
-						"geography-search-index",
-						"docs",
-						"suggest"
-					],
-					"query": [
-						{
-							"key": "api-version",
-							"value": "2020-06-30"
-						}
-					]
-				},
-				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-			},
-			"response": []
-		},
-		{
-			"name": "search for manh",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "api-key",
-						"value": "{{AI_SEARCH_API_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"manh\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"host": [
-						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
-					],
-					"path": [
-						"indexes",
-						"geography-search-index",
-						"docs",
-						"suggest"
-					],
-					"query": [
-						{
-							"key": "api-version",
-							"value": "2020-06-30"
-						}
-					]
-				},
-				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-			},
-			"response": []
-		},
-		{
-			"name": "search for leeds",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "api-key",
-						"value": "{{AI_SEARCH_API_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"leeds\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"host": [
-						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
-					],
-					"path": [
-						"indexes",
-						"geography-search-index",
-						"docs",
-						"suggest"
-					],
-					"query": [
-						{
-							"key": "api-version",
-							"value": "2020-06-30"
-						}
-					]
-				},
-				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-			},
-			"response": []
-		},
-		{
-			"name": "search for B86110",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "api-key",
-						"value": "{{AI_SEARCH_API_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"B86110\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"host": [
-						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
-					],
-					"path": [
-						"indexes",
-						"geography-search-index",
-						"docs",
-						"suggest"
-					],
-					"query": [
-						{
-							"key": "api-version",
-							"value": "2020-06-30"
-						}
-					]
-				},
-				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-			},
-			"response": []
-		},
-		{
-			"name": "search for B86",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "api-key",
-						"value": "{{AI_SEARCH_API_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "    {  \n      \"search\": \"B86\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
-					"host": [
-						"{{AI_SEARCH_SERVICE_ENDPOINT}}"
-					],
-					"path": [
-						"indexes",
-						"geography-search-index",
-						"docs",
-						"suggest"
-					],
-					"query": [
-						{
-							"key": "api-version",
-							"value": "2020-06-30"
-						}
-					]
-				},
-				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-			},
-			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "id",
-			"value": "1"
-		},
-		{
-			"key": "base_url",
-			"value": "https://postman-rest-api-learner.glitch.me/"
-		}
-	]
+  "info": {
+    "_postman_id": "10d2d191-3f32-4560-a719-40dda987a40d",
+    "name": "fingertips-geo-suggest",
+    "description": "This Postman collection holds a number of example quieries for Geographic Suggestions. You will need to set the AI_SEARCH_API_KEY for the environment you are using.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40824036"
+  },
+  "item": [
+    {
+      "name": "search for manc",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "api-key",
+            "value": "{{AI_SEARCH_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": []
+        },
+        "url": {
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
+          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2020-06-30"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "search for manh",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "api-key",
+            "value": "{{AI_SEARCH_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {  \n      \"search\": \"manh\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
+          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2020-06-30"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "search for leeds",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "api-key",
+            "value": "{{AI_SEARCH_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {  \n      \"search\": \"leeds\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
+          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2020-06-30"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "search for B86110",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "api-key",
+            "value": "{{AI_SEARCH_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {  \n      \"search\": \"B86110\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
+          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2020-06-30"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "search for B86",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "api-key",
+            "value": "{{AI_SEARCH_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {  \n      \"search\": \"B86\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
+          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2020-06-30"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "key": "base_url",
+      "value": "https://postman-rest-api-learner.glitch.me/"
+    }
+  ]
 }

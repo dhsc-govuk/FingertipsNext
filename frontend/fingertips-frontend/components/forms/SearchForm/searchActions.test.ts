@@ -62,13 +62,13 @@ describe('getSearchSuggestions', () => {
   it('should return search suggestions', async () => {
     SearchServiceFactory.reset();
     process.env.DHSC_AI_SEARCH_USE_MOCK_SERVICE = 'true';
-    expect(await getSearchSuggestions('Springwood')).toEqual([
-      {
-        areaCode: 'A81005',
-        areaName: 'Springwood Surgery',
-        areaType: 'GPs',
-      },
-    ]);
+    const suggestions = await getSearchSuggestions('Springwood');
+    expect(suggestions).toHaveLength(1);
+    expect(suggestions[0]).toMatchObject({
+      areaCode: 'A81005',
+      areaName: 'Springwood Surgery',
+      areaType: 'GPs',
+    });
   });
 
   it('should return a maximum of 20 suggestions', async () => {
