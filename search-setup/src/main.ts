@@ -2,26 +2,30 @@ import {
   SearchIndexClient,
   AzureKeyCredential,
   SearchIndex,
-} from "@azure/search-documents";
+} from '@azure/search-documents';
 import {
   buildGeographySearchIndex,
   buildIndicatorSearchIndex,
   createIndex,
   populateIndex,
-} from "./indexOperations.js";
-import { createDistrictLevelFromCounty, getEnvironmentVariable, parseAreaData } from "./utils/helpers.js";
+} from './indexOperations.js';
+import {
+  createDistrictLevelFromCounty,
+  getEnvironmentVariable,
+  parseAreaData,
+} from './utils/helpers.js';
 import {
   AREA_SEARCH_INDEX_NAME,
   AreaDocument,
   INDICATOR_SEARCH_INDEX_NAME,
   IndicatorDocument,
-} from "./constants.js";
+} from './constants.js';
 
-import rawAreasData from "../assets/areas.json" with {type: "json"};
-import indicatorData from "../assets/indicatorData.json" with {type: "json"};
+import rawAreasData from '../assets/areas.json' with { type: 'json' };
+import indicatorData from '../assets/indicatorData.json' with { type: 'json' };
 
 async function createAndPopulateIndex<
-  T extends IndicatorDocument | AreaDocument
+  T extends IndicatorDocument | AreaDocument,
 >(
   indexClient: SearchIndexClient,
   buildIndexFunction: (arg: string) => SearchIndex,
@@ -35,8 +39,8 @@ async function createAndPopulateIndex<
 }
 
 async function main(): Promise<void> {
-  const endpoint = getEnvironmentVariable("AI_SEARCH_SERVICE_ENDPOINT");
-  const apiKey = getEnvironmentVariable("AI_SEARCH_API_KEY");
+  const endpoint = getEnvironmentVariable('AI_SEARCH_SERVICE_ENDPOINT');
+  const apiKey = getEnvironmentVariable('AI_SEARCH_API_KEY');
 
   const areaData = parseAreaData(rawAreasData);
   const newDistrictAreas = createDistrictLevelFromCounty(areaData);
@@ -50,9 +54,9 @@ async function main(): Promise<void> {
   const typedIndicatorData = indicatorData.map((indicator) => {
     return {
       ...indicator,
-      lastUpdated: new Date(indicator.lastUpdated)
-    }
-  })
+      lastUpdated: new Date(indicator.lastUpdated),
+    };
+  });
 
   await createAndPopulateIndex(
     indexClient,

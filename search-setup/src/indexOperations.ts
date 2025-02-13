@@ -4,7 +4,7 @@ import {
   SearchField,
   SearchClient,
   SearchFieldDataType,
-} from "@azure/search-documents";
+} from '@azure/search-documents';
 import {
   AREA_SEARCH_SUGGESTER_NAME,
   AreaDocument,
@@ -12,16 +12,16 @@ import {
   INDICATOR_SEARCH_SCORING_PROFILE,
   IndicatorDocument,
   IndicatorSearchIndexColumnNames,
-} from "./constants.js";
+} from './constants.js';
 
 export async function createIndex(
   indexClient: SearchIndexClient,
   index: SearchIndex
 ): Promise<void> {
   try {
-    console.log("Trying to delete an existing index");
+    console.log('Trying to delete an existing index');
     await indexClient.deleteIndex(index);
-  } catch { }
+  } catch {}
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
@@ -43,7 +43,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         key: true,
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_ID,
-          "Edm.String",
+          'Edm.String',
           true,
           true,
           true
@@ -52,7 +52,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       {
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_NAME,
-          "Edm.String",
+          'Edm.String',
           true,
           true,
           true
@@ -61,7 +61,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       {
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
-          "Edm.String",
+          'Edm.String',
           true,
           true,
           true
@@ -70,7 +70,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       {
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
-          "Edm.String",
+          'Edm.String',
           false,
           true,
           true
@@ -79,7 +79,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       {
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_DATA_SOURCE,
-          "Edm.String",
+          'Edm.String',
           false,
           true,
           true
@@ -88,7 +88,7 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
       {
         ...buildSearchIndexField(
           IndicatorSearchIndexColumnNames.INDICATOR_LAST_UPDATED,
-          "Edm.DateTimeOffset",
+          'Edm.DateTimeOffset',
           false,
           true,
           true
@@ -112,37 +112,37 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
       {
         key: true,
         name: AreaSearchIndexColumnNames.AREA_KEY,
-        type: "Edm.String",
+        type: 'Edm.String',
         searchable: false,
         sortable: false,
-        filterable: false
+        filterable: false,
       },
       {
         name: AreaSearchIndexColumnNames.AREA_CODE,
-        type: "Edm.String",
+        type: 'Edm.String',
         searchable: true,
         sortable: true,
-        filterable: true
+        filterable: true,
       },
       {
         name: AreaSearchIndexColumnNames.AREA_TYPE,
-        type: "Edm.String",
+        type: 'Edm.String',
         searchable: true,
         sortable: true,
-        filterable: true
+        filterable: true,
       },
       {
         name: AreaSearchIndexColumnNames.AREA_NAME,
-        type: "Edm.String",
+        type: 'Edm.String',
         searchable: true,
         sortable: true,
-        filterable: true
+        filterable: true,
       },
     ],
     suggesters: [
       {
         name: AREA_SEARCH_SUGGESTER_NAME,
-        searchMode: "analyzingInfixMatching",
+        searchMode: 'analyzingInfixMatching',
         sourceFields: [
           AreaSearchIndexColumnNames.AREA_NAME,
           AreaSearchIndexColumnNames.AREA_CODE,
