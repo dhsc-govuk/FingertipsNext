@@ -113,7 +113,7 @@ test.describe('Search via indicator', () => {
       await expectNoAccessibilityViolations(axeBuilder);
       await chartPage.checkChartVisibility(
         IndicatorMode.ONE_INDICATOR,
-        AreaMode.ALL_AREAS_IN_A_GROUP // defaults to this if no selection made
+        AreaMode.ENGLAND_AREA // defaults to this if no selection made
       );
 
       await chartPage.clickBackLink();

@@ -64,10 +64,6 @@ jobs:
         if: inputs.env-url == null
         run: npm run test-e2e-ci-docker
 
-      - name: Stop docker services - for CI test execution
-        if: inputs.env-url == null
-        run: npm run stop:all
-
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.env-url != null
         run: |

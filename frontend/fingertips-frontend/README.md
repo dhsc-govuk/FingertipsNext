@@ -81,6 +81,14 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
 
+Note that while all tests are executed in CI/CD pipelines, for e2e tests their is a difference between where and how the tests are executed.
+
+In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+
+In CD, which occurs when code merges into main, we execute the e2e tests against the azure instance of fingertips that has just been deployed to.
+
+For local development we also have the option to run the tests locally against mocks or against a dockerised container instance of fingertips.
+
 ### Running the Unit tests
 
 ```bash
