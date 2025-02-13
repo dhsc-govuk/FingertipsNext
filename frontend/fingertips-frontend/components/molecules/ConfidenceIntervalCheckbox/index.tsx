@@ -21,8 +21,6 @@ export function ConfidenceIntervalCheckbox({
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  // const stateManager =
-  //   SearchStateManager.setStateFromSearchStateParams(searchState);
   const handleClick = (chartName: string, checked: boolean) => {
     const searchState = SearchStateManager.setStateFromParams(params);
 
