@@ -45,7 +45,10 @@ export default class ChartPage extends BasePage {
     indicatorMode: IndicatorMode,
     areaMode: AreaMode
   ): ScenarioConfig {
-    const defaultVisible = [this.populationPyramidComponent];
+    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+    // const defaultVisible = [this.populationPyramidComponent];
+    const defaultVisible: never[] = [];
+
     const defaultHidden = [
       this.lineChartComponent,
       this.lineChartTableComponent,
