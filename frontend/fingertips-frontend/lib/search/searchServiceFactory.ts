@@ -12,7 +12,8 @@ import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 
 export class SearchServiceFactory {
-  private static readonly DISTRICT_AREA_TYPE_NAME = 'Districts and Unitary Authorities';
+  private static readonly DISTRICT_AREA_TYPE_NAME =
+    'Districts and Unitary Authorities';
   private static areaSearchServiceInstance: IAreaSearchService | null;
   private static indicatorSearchServiceInstance: IIndicatorSearchService | null;
 
@@ -20,13 +21,13 @@ export class SearchServiceFactory {
   private static readonly ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS = 'E08';
   private static readonly ONS_AREA_TYPE_CODE_LONDON_BOROUGHS = 'E09';
 
-  /* 
+  /*
    * The following code is duplicated between the search-setup project and here.
    * Both have to make the same updates to the areaData. It is preferrable to make
-   * this shared code common by creating a shared package but the Typescript, 
+   * this shared code common by creating a shared package but the Typescript,
    * Javascript, Jest and eslint tooling is not currently in place to support this
-   * 
-   * Duplicated functions are 
+   *
+   * Duplicated functions are
    *  - isDualLevelArea
    *  - createDistrictLevelFromCounty
    */
@@ -62,9 +63,9 @@ export class SearchServiceFactory {
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-        readEnvVar('DHSC_AI_SEARCH_API_KEY')
-      );
+          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+          readEnvVar('DHSC_AI_SEARCH_API_KEY')
+        );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
