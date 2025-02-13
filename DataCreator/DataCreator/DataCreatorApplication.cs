@@ -33,7 +33,7 @@
             var areasAndIndicators=DataManager.CreateHealthDataAndAgeData(areasWeWant, indicatorIds, ageData, yearFrom:2018, useIndicators:false);
             Console.WriteLine($"Created all health data");
             //create the indicator data
-            await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, addAreasToIndicator: true);
+            await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, indicatorIds, addAreasToIndicator: true);
             Console.WriteLine($"Created all health data");
             //clean up the unzipped files
             DataFileManager.DeleteTempFiles();

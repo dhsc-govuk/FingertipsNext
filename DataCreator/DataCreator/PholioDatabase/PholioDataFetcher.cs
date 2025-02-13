@@ -389,7 +389,7 @@ FROM
                 if (results.Count() > 1)
                     indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
             }
-            indicators.RemoveAll(i => indicatorsWithMultiplePolarites.Contains(i.IndicatorID));
+            
             foreach (var indicator in indicators)
             {
                 var match  = areaPolarities

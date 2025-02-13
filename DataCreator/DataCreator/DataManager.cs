@@ -42,6 +42,19 @@ namespace DataCreator
             areasWeWant.AddRange(greatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             areasWeWant.AddRange(greatgreatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             DataFileManager.WriteJsonData("areas", areas.Distinct());
+            
+            //var simpleAreasWeWant=areas.Where(a=>areasWeWant.Contains(a.AreaCode)).ToList().Cast<SimpleArea>();
+            var simpleAreasWeWant = areas
+                .Where(a => areasWeWant.Contains(a.AreaCode))
+                .Select(a=> new SimpleAreaWithRelations
+                {
+                    AreaCode = a.AreaCode.Trim(),
+                    AreaName = a.AreaName.Trim(),
+                    Parents = string.Join('|', a.ParentAreas.Select(p => p.AreaCode.Trim())),
+                    Children = string.Join('|', a.ChildAreas.Select(c => c.AreaCode.Trim()))
+                })
+                .ToList();
+            DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
 
@@ -69,7 +82,7 @@ namespace DataCreator
             }
         }
 
-        public async Task CreateIndicatorDataAsync(Dictionary<int, List<string>> areasAndIndicators,bool addAreasToIndicator)
+        public async Task CreateIndicatorDataAsync(Dictionary<int, List<string>> areasAndIndicators, int[] indicatorIds, bool addAreasToIndicator)
         {
             var indicators = await _pholioDataFetcher.FetchIndicatorsAsync();
             foreach (var indicator in indicators) 
@@ -79,6 +92,8 @@ namespace DataCreator
                     indicator.AssociatedAreaCodes = value;
             }
             DataFileManager.WriteJsonData("indicators", indicators);
+            var simpleIndicators = indicators.Where(i => indicatorIds.Contains(i.IndicatorID)).Cast<SimpleIndicator>();
+            DataFileManager.WriteSimpleIndicatorCsvData("indicators", simpleIndicators);
         }
 
         public static Dictionary<int, List<string>> CreateHealthDataAndAgeData(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)

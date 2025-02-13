@@ -1,8 +1,6 @@
-﻿using System.Text.RegularExpressions;
-
-namespace DataCreator
+﻿namespace DataCreator
 {
-    public class IndicatorEntity
+    public class IndicatorEntity: SimpleIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -17,8 +15,6 @@ namespace DataCreator
         private string caveats;
         private string copyright;
         private string notes;
-
-        public int IndicatorID { get; set; }
         public string ValueType { get; set; }
 
         public string DenominatorType { get; set; }
@@ -27,7 +23,7 @@ namespace DataCreator
         public string UnitLabel { get; set; }
         public string UnitValue { get; set; }
 
-        public string IndicatorName { get; set; }
+        
         public string IndicatorDefinition
         {
             get => _indicatorDefinition.StripHTML(); 
@@ -59,6 +55,13 @@ namespace DataCreator
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
+    }
+
+    public class SimpleIndicator
+    {
+        public int IndicatorID { get; set; }
+
+        public string IndicatorName { get; set; }
     }
 }
 
