@@ -66,7 +66,7 @@ export function Chart({
             accessibilityLabel="A line chart showing healthcare data"
           />
           <LineChartTable
-            data={dataWithoutEngland}
+            healthIndicatorData={dataWithoutEngland}
             englandBenchmarkData={englandBenchmarkData}
           />
         </>
