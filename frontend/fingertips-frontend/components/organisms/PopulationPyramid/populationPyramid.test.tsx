@@ -22,7 +22,9 @@ test('should render the Highcharts react component within the PopulationPyramid 
   render(
     <PopulationPyramid data={{ dataForSelectedArea: mockPopulationData }} />
   );
-  const highcharts = screen.getByTestId('highcharts-react-component-populationPyramid');
+  const highcharts = screen.getByTestId(
+    'highcharts-react-component-populationPyramid'
+  );
   expect(highcharts).toBeInTheDocument();
 });
 

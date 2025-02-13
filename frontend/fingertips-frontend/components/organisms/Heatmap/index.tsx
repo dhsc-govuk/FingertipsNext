@@ -183,7 +183,9 @@ export function HeatmapChart({
     <div data-testid="heatmapChart-component">
       <H3>Heatmap Chart Title</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component-heatmapChart' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-heatmapChart',
+        }}
         highcharts={Highcharts}
         options={options}
       />

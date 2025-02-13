@@ -80,7 +80,9 @@ export function LineChart({
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component-lineChart' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-lineChart',
+        }}
         highcharts={Highcharts}
         options={lineChartOptions}
       />
