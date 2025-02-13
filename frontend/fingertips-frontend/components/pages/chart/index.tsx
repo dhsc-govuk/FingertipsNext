@@ -13,24 +13,32 @@ import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
 } from '@/lib/chartHelpers/chartHelpers';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 
 type ChartProps = {
   data: HealthDataForArea[][];
+  mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
   indicatorsSelected?: string[];
+  areasSelected?: string[];
 };
 
 export function Chart({
   data,
+  mapData,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
+  areasSelected = [],
 }: Readonly<ChartProps>) {
   const searchState = new SearchStateManager({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
+
   const backLinkPath = searchState.generatePath('/results');
 
   const englandBenchmarkData = getEnglandDataForIndicatorIndex(data, 0);
@@ -44,17 +52,25 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      <LineChart
-        LineChartTitle="See how the indicator has changed over time"
-        data={dataWithoutEngland}
-        benchmarkData={englandBenchmarkData}
-        xAxisTitle="Year"
-        accessibilityLabel="A line chart showing healthcare data"
-      />
-      <LineChartTable
-        data={data[0][0]}
-        englandBenchmarkData={englandBenchmarkData}
-      />
+      {shouldDisplayLineChart(
+        dataWithoutEngland,
+        indicatorsSelected,
+        areasSelected
+      ) && (
+        <>
+          <LineChart
+            LineChartTitle="See how the indicator has changed over time"
+            data={dataWithoutEngland}
+            benchmarkData={englandBenchmarkData}
+            xAxisTitle="Year"
+            accessibilityLabel="A line chart showing healthcare data"
+          />
+          <LineChartTable
+            data={dataWithoutEngland}
+            englandBenchmarkData={englandBenchmarkData}
+          />
+        </>
+      )}
       <br />
       {indicatorsSelected.length == 2 ? (
         <>
@@ -87,6 +103,16 @@ export function Chart({
             yAxisTitle="Percentage of total population"
             accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
           />
+        </>
+      ) : null}
+      {data.length === 1 && mapData ? (
+        <>
+          <ThematicMap
+            data={data[0]}
+            mapData={mapData}
+            mapTitle="Compare indicator data within the area group"
+          />
+          <br />
         </>
       ) : null}
     </>

@@ -44,13 +44,13 @@ public interface IAreaService
     /// <summary>
     /// Get the areas that have a given area type
     /// </summary>
-    /// <param name="areaType"></param>
+    /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaType);
+    public Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey);
     
     /// <summary>
     /// Get the root node of the area hierarchy
     /// </summary>
     /// <returns></returns>
-    public Task<RootArea?> GetRootArea();
+    public RootArea? GetRootArea();
 }
