@@ -37,6 +37,7 @@ public class AreaModel
     /// <summary>
     /// 
     /// </summary>
+    [MaxLength(50)]
     [ForeignKey("AreaType")]
     public required string AreaTypeKey { get; set; }
 }

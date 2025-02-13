@@ -17,7 +17,7 @@ GET http://localhost:5144/areas/root
 ### GET area details fully populated, including direct children
 
 # basildon PCN
-GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true
+GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true&include_siblings=true
 
 ### GET area details, including children of type
 
