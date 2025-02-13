@@ -83,7 +83,7 @@ describe('contents items should link to appropriate headings', () => {
     linkText: string;
     headingText: string;
   }
-  test.each<TestData>([
+  it.each<TestData>([
     {
       linkText: 'Find public health data',
       headingText: 'Find public health data',

@@ -7,9 +7,9 @@ import {
   Link,
   ListItem,
   Paragraph,
-  PhaseBanner,
   UnorderedList,
   SectionBreak,
+  PhaseBanner,
 } from 'govuk-react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
@@ -33,12 +33,6 @@ export const Home = ({
 
   return (
     <form action={formAction}>
-      <PhaseBanner level="alpha">
-        This is a new service - your <Link href="#">feedback</Link> will help us
-        to improve it.
-      </PhaseBanner>
-      <br />
-      <br />
       {state.message && (
         <ErrorSummary
           description="At least one of the following fields must be populated:"
@@ -103,7 +97,7 @@ export const Home = ({
         This data comes from trusted sources such as the NHS and Office of
         National Statistics (ONS). It is analysed to create a wide range of
         health and wellbeing data sets known as indicators, and themed topics
-        known as pro files.
+        known as profiles.
       </Paragraph>
       <br />
       <H3 id="indicators">About indicators</H3>

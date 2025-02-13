@@ -59,7 +59,7 @@ export const SearchForm = ({
         }}
         data-testid="search-form-input-area"
       >
-        Search for an area
+        Search by area
       </StyledInputField>
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area
