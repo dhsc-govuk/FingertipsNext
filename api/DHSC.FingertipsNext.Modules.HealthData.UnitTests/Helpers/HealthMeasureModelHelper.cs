@@ -48,14 +48,16 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithAgeDimension(
         string name = "age name",
-        short ageId = 0
+        short ageId = 0,
+        bool hasValue = false
         )
     {
         _ageDimension = new AgeDimensionModel
         {
             AgeKey = (short)key,
             Name = name,
-            AgeID = ageId
+            AgeID = ageId,
+            HasValue = hasValue
         };
 
         return this;
@@ -68,6 +70,7 @@ public class HealthMeasureModelHelper(
             AgeKey = (short)key,
             Name = "age name",
             AgeID = 0,
+            HasValue = false
         };
     }
 
@@ -133,6 +136,11 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModel Build()
     {
+        var areaDimension = _areaDimension ?? DefaultAreaDimension();
+        var ageDimension = _ageDimension ?? DefaultAgeDimension();
+        var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
+        var sexDimension = _sexDimension ?? DefaultSexDimension();
+
         return new HealthMeasureModel
         {
             HealthMeasureKey = key,
@@ -141,14 +149,14 @@ public class HealthMeasureModelHelper(
             LowerCI = lowerCi,
             UpperCI = upperCi,
             Year = year,
-            AreaKey = key,
-            AgeKey = (short)key,
-            IndicatorKey = (short)key,
-            SexKey = (byte)key,
-            AreaDimension = _areaDimension ?? DefaultAreaDimension(),
-            AgeDimension = _ageDimension ?? DefaultAgeDimension(),
-            IndicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension(),
-            SexDimension = _sexDimension ?? DefaultSexDimension(),
+            AreaKey = areaDimension.AreaKey,
+            AgeKey = ageDimension.AgeKey,
+            IndicatorKey = indicatorDimension.IndicatorKey,
+            SexKey = sexDimension.SexKey,
+            AreaDimension = areaDimension,
+            AgeDimension = ageDimension,
+            IndicatorDimension = indicatorDimension,
+            SexDimension = sexDimension,
         };
     }
 }

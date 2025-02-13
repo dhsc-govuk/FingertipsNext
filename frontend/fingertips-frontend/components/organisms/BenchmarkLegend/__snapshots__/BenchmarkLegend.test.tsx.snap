@@ -1,0 +1,378 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot testing of the UI 1`] = `
+<DocumentFragment>
+  .c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c3 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: var(--other-green,#00703C);
+  tint: SOLID;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: var(--other-yellow,#FD0);
+  color: var(--other-black,#0B0C0C);
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: var(--other-red,#D4351C);
+  tint: SOLID;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: var(--other-light-blue,#5694CA);
+  color: var(--other-black,#0B0C0C);
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #003078;
+  tint: SOLID;
+}
+
+.c9 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #E4DDFF;
+  color: var(--other-black,#0B0C0C);
+}
+
+.c10 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #CBBEF4;
+  color: var(--other-black,#0B0C0C);
+}
+
+.c11 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AA90EC;
+  color: var(--other-black,#0B0C0C);
+}
+
+.c12 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #8B60E2;
+  tint: SOLID;
+}
+
+.c13 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #6B33C3;
+  tint: SOLID;
+}
+
+.c14 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D494C1;
+  color: var(--other-black,#0B0C0C);
+}
+
+.c15 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #BC6AAA;
+  color: var(--other-black,#0B0C0C);
+}
+
+.c16 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #A44596;
+  tint: SOLID;
+}
+
+.c17 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #812972;
+  tint: SOLID;
+}
+
+.c18 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #561950;
+  tint: SOLID;
+}
+
+.c0 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 0.1em;
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div>
+    <div
+      class="c0"
+    >
+      <h4
+        class="c1"
+      >
+        Areas compared to England
+      </h4>
+      <strong
+        class="c2 c3"
+      >
+        Better (95%)
+      </strong>
+      <strong
+        class="c2 c4"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c2 c5"
+      >
+        Worse (95%)
+      </strong>
+      <strong
+        class="c2 c6"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="c2 c7"
+      >
+        Lower (95%)
+      </strong>
+      <strong
+        class="c2 c8"
+      >
+        Higher (95%)
+      </strong>
+    </div>
+    <div
+      class="c0"
+    >
+      <h4
+        class="c1"
+      >
+         Quintile groupings
+      </h4>
+      <strong
+        class="c2 c9"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="c2 c10"
+      >
+        Low
+      </strong>
+      <strong
+        class="c2 c11"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c2 c12"
+      >
+        High
+      </strong>
+      <strong
+        class="c2 c13"
+      >
+        Highest
+      </strong>
+    </div>
+    <div
+      class="c0"
+    >
+      <h4
+        class="c1"
+      />
+      <strong
+        class="c2 c14"
+      >
+        Worst
+      </strong>
+      <strong
+        class="c2 c15"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c2 c16"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c2 c17"
+      >
+        Better
+      </strong>
+      <strong
+        class="c2 c18"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;

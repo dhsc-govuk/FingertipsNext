@@ -195,19 +195,33 @@ jobs:
       api-build-and-test
     ]
     if: >
-      always() && !failure() && !cancelled() &&
-      github.event_name == 'workflow_dispatch' ||
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       (
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.api_changed == 'true' || 
-        needs.check-changes.outputs.frontend_changed == 'true' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        github.event_name == 'workflow_dispatch' ||
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' || 
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
       )
     uses: ./.github/workflows/e2e-tests.yml
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.api_changed == 'true'
+      )
     with:
       context-location: api
       container-tag: dhsc.fingertipsnext.api
@@ -219,7 +233,16 @@ jobs:
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version, e2e-tests-local]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.frontend_changed == 'true'
+      )
     with:
       context-location: frontend/fingertips-frontend
       container-tag: dhsc.fingertipsnext.frontend
@@ -242,8 +265,12 @@ jobs:
       run:
         working-directory: ./database/fingertips-db
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true'
@@ -268,8 +295,12 @@ jobs:
       deploy-db-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true'
@@ -334,7 +365,14 @@ jobs:
       search-setup-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
+      ) &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.api_changed == 'true'
@@ -391,7 +429,14 @@ jobs:
       deploy-api-dev
     ]
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
+      ) &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.frontend_changed == 'true'
@@ -450,17 +495,26 @@ jobs:
     needs: [check-changes, deploy-frontend-dev]
     uses: ./.github/workflows/e2e-tests.yml
     if: >
-      always() && !failure() && !cancelled() &&
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.event_name == 'workflow_dispatch' ||
       (
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.api_changed == 'true' ||
-        needs.check-changes.outputs.frontend_changed == 'true' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        github.ref_name == 'main' &&
+        github.event_name == 'workflow_dispatch'
+      ) ||
+      (
+        github.ref_name == 'main' &&
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' ||
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
       )
     with:
       env-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-      send-slack-on-fail: "'true'"
+      send-slack-on-fail: "true"
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
