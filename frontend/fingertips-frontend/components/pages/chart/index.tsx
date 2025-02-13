@@ -87,7 +87,7 @@ export function Chart({
         </>
       ) : null}
       <BarChart
-        data={healthIndicatorData[0]}
+        healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
