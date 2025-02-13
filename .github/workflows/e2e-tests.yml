@@ -52,7 +52,7 @@ jobs:
           path: |
             node_modules
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-deps-
 
