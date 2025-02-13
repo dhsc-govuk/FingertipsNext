@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import {
   AreaDocument,
   DISTRICT_AREA_TYPE_NAME,
+  IndicatorDocument,
   ONS_AREA_TYPE_CODE_LONDON_BOROUGHS,
   ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS,
   ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES,
@@ -35,6 +36,31 @@ export function parseAreaData(rawAreaData: object): AreaDocument[] {
     }
   );
   return parseAreaData;
+}
+
+export function parseIndicatorData(
+  rawIndicatorData: object
+): IndicatorDocument[] {
+  const someDate = new Date('15-Mar-2007');
+  const unparsedIndicatorData = rawIndicatorData as IndicatorDocument[];
+  const parseIndicatorData = unparsedIndicatorData.map(
+    ({
+      indicatorID,
+      indicatorName,
+      indicatorDefinition,
+      dataSource,
+    }): IndicatorDocument => {
+      return {
+        indicatorID: String(indicatorID),
+        indicatorName,
+        indicatorDefinition,
+        dataSource,
+        latestDataPeriod: '2022',
+        lastUpdated: someDate,
+      };
+    }
+  );
+  return parseIndicatorData;
 }
 
 function isDualLevelArea({ areaCode }: AreaDocument): boolean {

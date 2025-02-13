@@ -98,7 +98,13 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     scoringProfiles: [
       {
         name: INDICATOR_SEARCH_SCORING_PROFILE,
-        textWeights: { weights: { indicatorId: 20, name: 10, definition: 5 } },
+        textWeights: {
+          weights: {
+            indicatorID: 20,
+            indicatorName: 10,
+            indicatorDefinition: 5,
+          },
+        },
       },
     ],
     defaultScoringProfile: INDICATOR_SEARCH_SCORING_PROFILE,
