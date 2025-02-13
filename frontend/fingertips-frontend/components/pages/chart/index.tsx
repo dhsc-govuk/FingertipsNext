@@ -108,7 +108,7 @@ export function Chart({
       {healthIndicatorData.length === 1 && mapData ? (
         <>
           <ThematicMap
-            data={healthIndicatorData[0]}
+            healthIndicatorData={healthIndicatorData[0]}
             mapData={mapData}
             mapTitle="Compare indicator data within the area group"
           />
