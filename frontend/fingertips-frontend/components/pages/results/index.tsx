@@ -35,13 +35,12 @@ import {
   IndicatorSearchFormState,
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
-import { AllApplicableAreaTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 type SearchResultsProps = {
   searchResultsFormState: SearchResultState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
-  availableGroupTypes?: AllApplicableAreaTypes[];
+  availableGroupTypes?: AreaType[];
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;

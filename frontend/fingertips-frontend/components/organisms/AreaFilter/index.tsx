@@ -22,12 +22,11 @@ import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
-import { AllApplicableAreaTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 
 interface AreaFilterProps {
   selectedAreasData?: AreaWithRelations[];
   availableAreaTypes?: AreaType[];
-  availableGroupTypes?: AllApplicableAreaTypes[];
+  availableGroupTypes?: AreaType[];
   availableAreas?: Area[];
   searchState?: SearchStateParams;
 }
@@ -167,7 +166,7 @@ export function AreaFilter({
             }}
           >
             {availableAreaTypes?.map((areaType) => (
-              <option key={areaType.name} value={areaType.name}>
+              <option key={areaType.key} value={areaType.key}>
                 {areaType.name}
               </option>
             ))}
@@ -193,8 +192,8 @@ export function AreaFilter({
               }}
             >
               {availableGroupTypes?.map((areaType) => (
-                <option key={areaType} value={areaType}>
-                  {areaType}
+                <option key={areaType.key} value={areaType.key}>
+                  {areaType.name}
                 </option>
               ))}
             </StyledFilterSelect>

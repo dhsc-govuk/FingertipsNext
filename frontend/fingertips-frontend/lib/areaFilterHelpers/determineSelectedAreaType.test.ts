@@ -1,42 +1,30 @@
-import { mockAreaDataForNHSRegion, mockAreaTypes } from '@/mock/data/areaData';
+import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { determineSelectedAreaType } from './determineSelectedAreaType';
 
 describe('determineSelectedAreaType', () => {
   const mockSelectedAreaData = Object.values(mockAreaDataForNHSRegion);
 
-  it('should return undefined if no parameters are provided', () => {
+  it('should return england if no parameters are provided', () => {
     const selectedAreaType = determineSelectedAreaType();
 
-    expect(selectedAreaType).toBeUndefined();
+    expect(selectedAreaType).toEqual('england');
   });
 
   it('should always return the selectedAreaType if provided', () => {
     const selectedAreaType = determineSelectedAreaType(
-      'NHS region',
-      mockSelectedAreaData,
-      mockAreaTypes
+      'nhs-regions',
+      mockSelectedAreaData
     );
 
-    expect(selectedAreaType).toEqual('NHS region');
+    expect(selectedAreaType).toEqual('nhs-regions');
   });
 
-  it('should return the areaType of the first selectedAreaData when no selectedAreaType is provided', () => {
+  it('should return the areaType key of the first selectedAreaData when no selectedAreaType is provided', () => {
     const selectedAreaType = determineSelectedAreaType(
       undefined,
-      mockSelectedAreaData,
-      mockAreaTypes
+      mockSelectedAreaData
     );
 
-    expect(selectedAreaType).toEqual(mockSelectedAreaData[0].areaType);
-  });
-
-  it('should return the areaType of the first available areaType if no selectedAreaType or selectedAreaData in provided', () => {
-    const selectedAreaType = determineSelectedAreaType(
-      undefined,
-      undefined,
-      mockAreaTypes
-    );
-
-    expect(selectedAreaType).toEqual(mockAreaTypes[0].name);
+    expect(selectedAreaType).toEqual(mockSelectedAreaData[0].areaType.key);
   });
 });

@@ -23,9 +23,12 @@ describe('DetermineSelectedGroupType', () => {
   });
 
   it('should always return the selectedGroupType if provided', () => {
-    const selectedGroupType = determineSelectedGroupType('ICB', mockAreaData);
+    const selectedGroupType = determineSelectedGroupType(
+      'nhs-integrated-care-boards',
+      mockAreaData
+    );
 
-    expect(selectedGroupType).toEqual('ICB');
+    expect(selectedGroupType).toEqual('nhs-integrated-care-boards');
   });
 
   it('should return the areaType of the parent for the first selectedAreaData when no selectedAreaType is provided', () => {
@@ -34,6 +37,6 @@ describe('DetermineSelectedGroupType', () => {
       mockAreaData
     );
 
-    expect(selectedGroupType).toEqual(mockParentAreaData.areaType);
+    expect(selectedGroupType).toEqual(mockParentAreaData.areaType.key);
   });
 });

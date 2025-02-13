@@ -19,6 +19,7 @@ import {
 import { mockAvailableAreas } from '@/mock/data/areaData';
 
 const generateAreaType = (name: string, level: number): AreaType => ({
+  key: `${name.toLowerCase()}`,
   name,
   level,
   hierarchyName: `hierarchyName for ${name}`,
@@ -36,9 +37,10 @@ const mockSortedAreaTypes: AreaType[] = [
 
 const generateMockArea = (code: string): AreaWithRelations => ({
   code,
-  hierarchyName: `hierarchy name for ${code}`,
-  areaType: `area type for ${code}`,
   name: `name for ${code}`,
+  areaType: {
+    ...generateAreaType(`area type for ${code}`, 1),
+  },
 });
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
@@ -96,19 +98,19 @@ describe('Results Page', () => {
   it('should have made a call to getAreaTypeMembers when an areaType has been selected', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockAreasApi.getAreaTypeMembers.mockResolvedValue(
-      mockAvailableAreas['NHS Region']
+      mockAvailableAreas['nhs-regions']
     );
 
     await ResultsPage({
       searchParams: generateSearchParams({
         ...searchParams,
-        [SearchParams.AreaTypeSelected]: 'NHS Region',
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
       }),
     });
 
     expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalled();
     expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
-      areaTypeKey: 'NHS Region',
+      areaTypeKey: 'nhs-regions',
     });
   });
 
@@ -148,7 +150,7 @@ describe('Results Page', () => {
 
     mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
     mockAreasApi.getAreaTypeMembers.mockResolvedValue(
-      mockAvailableAreas['NHS Region']
+      mockAvailableAreas['nhs-regions']
     );
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
@@ -166,7 +168,9 @@ describe('Results Page', () => {
     });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
-    expect(page.props.availableAreas).toEqual(mockAvailableAreas['NHS Region']);
+    expect(page.props.availableAreas).toEqual(
+      mockAvailableAreas['nhs-regions']
+    );
     expect(page.props.searchState).toEqual(searchState);
   });
 

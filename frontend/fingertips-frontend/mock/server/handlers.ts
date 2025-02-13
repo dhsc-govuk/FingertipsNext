@@ -1,11 +1,8 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
-import {
-  mockAreaData,
-  mockAreaTypes,
-  mockAvailableAreas,
-} from '../data/areaData';
+import { mockAreaData, mockAvailableAreas } from '../data/areaData';
+import { allAreaTypes, AreaTypes } from '../data/areaType';
 
 faker.seed(1);
 
@@ -31,19 +28,22 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/areas/areatypes/:areaType/areas`, async ({ params }) => {
-    const areaType = params.areaType;
+  http.get(
+    `${baseURL}/areas/areatypes/:areaTypeKey/areas`,
+    async ({ params }) => {
+      const areaTypeKey = params.areaTypeKey as AreaTypes;
 
-    if (typeof areaType !== 'string') {
-      return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
+      if (typeof areaTypeKey !== 'string') {
+        return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
+      }
+
+      const resultArray = [
+        [getGetAreaTypeMembers200Response(areaTypeKey), { status: 200 }],
+      ];
+
+      return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
-
-    const resultArray = [
-      [getGetAreaTypeMembers200Response(areaType), { status: 200 }],
-    ];
-
-    return HttpResponse.json(...resultArray[next() % resultArray.length]);
-  }),
+  ),
   http.get(`${baseURL}/areas/:areaCode`, async ({ params }) => {
     const areaCode = params.areaCode;
 
@@ -104,11 +104,12 @@ export function getGetAreaHierarchies200Response() {
 }
 
 export function getGetAreaTypes200Response() {
-  return mockAreaTypes;
+  return allAreaTypes;
 }
 
-export function getGetAreaTypeMembers200Response(areaType: string) {
-  return mockAvailableAreas[areaType];
+export function getGetAreaTypeMembers200Response(areaTypeKey: AreaTypes) {
+  console.log(`getGetAreaTypeMembers200Response - areaTypeKey ${areaTypeKey}`);
+  return mockAvailableAreas[areaTypeKey];
 }
 
 export function getGetArea200Response(areaCode: string) {

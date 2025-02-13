@@ -8,14 +8,12 @@ import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { Area } from '@/generated-sources/ft-api-client';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { SearchResultState } from '@/components/pages/results/searchResultsActions';
 import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
-import {
-  AllApplicableAreaTypes,
-  determineApplicableGroupTypes,
-} from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
+import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
+import { AreaTypes } from '@/mock/data/areaType';
 
 export default async function Page(
   props: Readonly<{
@@ -49,36 +47,32 @@ export default async function Page(
         : [];
 
     const determinedSelectedAreaType = determineSelectedAreaType(
-      selectedAreaType,
-      selectedAreasData,
-      availableAreaTypes
+      selectedAreaType as AreaTypes,
+      selectedAreasData
+    );
+    stateManager.addParamValueToState(
+      SearchParams.AreaTypeSelected,
+      determinedSelectedAreaType
     );
 
-    let availableAreas: Area[] = [];
-    if (determinedSelectedAreaType) {
-      stateManager.addParamValueToState(
-        SearchParams.AreaTypeSelected,
+    const availableAreas: Area[] = await areasApi.getAreaTypeMembers({
+      areaTypeKey: determinedSelectedAreaType,
+    });
+
+    const availableGroupTypes: AreaType[] | undefined =
+      determineApplicableGroupTypes(
+        availableAreaTypes,
         determinedSelectedAreaType
       );
 
-      availableAreas = await areasApi.getAreaTypeMembers({
-        areaTypeKey: determinedSelectedAreaType,
-      });
-    }
-
-    let availableGroupTypes: AllApplicableAreaTypes[] | undefined = [];
     const determinedSelectedGroupType = determineSelectedGroupType(
-      selectedGroupType,
+      selectedGroupType as AreaTypes,
       selectedAreasData
     );
     if (determinedSelectedGroupType) {
       stateManager.addParamValueToState(
         SearchParams.GroupTypeSelected,
         determinedSelectedGroupType
-      );
-      availableGroupTypes = determineApplicableGroupTypes(
-        availableAreaTypes,
-        determinedSelectedAreaType
       );
     }
 

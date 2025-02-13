@@ -1,69 +1,50 @@
+import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import {
-  Area,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
-
-export const mockAreaTypes: AreaType[] = [
-  {
-    name: 'England',
-    level: 1,
-    hierarchyName: 'All',
-  },
-  {
-    name: 'NHS Regions',
-    level: 2,
-    hierarchyName: 'NHS',
-  },
-  {
-    name: 'NHS Integrated Care Boards',
-    level: 3,
-    hierarchyName: 'NHS',
-  },
-  {
-    name: 'NHS Sub Integrated Care Boards',
-    level: 4,
-    hierarchyName: 'NHS',
-  },
-  {
-    name: 'NHS Primary Care Networks',
-    level: 5,
-    hierarchyName: 'NHS',
-  },
-  {
-    name: 'GPs',
-    level: 6,
-    hierarchyName: 'NHS',
-  },
-  {
-    name: 'Regions',
-    level: 2,
-    hierarchyName: 'Admin',
-  },
-  {
-    name: 'Combined Authorities',
-    level: 3,
-    hierarchyName: 'Admin',
-  },
-  {
-    name: 'Counties and Unitary Authorities',
-    level: 4,
-    hierarchyName: 'Admin',
-  },
-  {
-    name: 'Districts and Unitary Authorities',
-    level: 5,
-    hierarchyName: 'Admin',
-  },
-];
+  AreaTypes,
+  countiesAndUnitaryAuthoritiesAreaType,
+  englandAreaType,
+  gpsAreaType,
+  nhsIntegratedCareBoardsAreaType,
+  nhsPrimaryCareNetworksAreaType,
+  nhsRegionsAreaType,
+  regionsAreaType,
+} from './areaType';
+import { englandArea } from './areas/englandAreas';
+import {
+  northEastRegion,
+  northWestRegion,
+  yorkshireAndHumberRegion,
+} from './areas/regionsAreas';
+import {
+  eastEnglandNHSRegion,
+  londonNHSRegion,
+  midlandsNHSRegion,
+  northEastAndYorkshireNHSRegion,
+  southEastNHSRegion,
+  southWestNHSRegion,
+} from './areas/nhsRegionsAreas';
+import {
+  countyDurham,
+  darlington,
+  gateshead,
+} from './areas/countiesAndUAAreas';
+import {
+  basildonAndBrentwoodICB,
+  cambridgeAndPeterboroughICB,
+  northCentralLondonICB,
+  southEastLondonICB,
+} from './areas/integratedCareBoardsAreas';
+import {
+  centralBasildonPCN,
+  eastBasildonPCN,
+  north2IslingtonPCN,
+  southCamdenPCN,
+} from './areas/primaryCareNetworksAreas';
+import { archwayGP, aryanGP, felmoresGP, goodingeGP } from './areas/gpsAreas';
 
 export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
   E92000001: {
-    code: 'E92000001',
-    name: 'England',
-    hierarchyName: 'All',
-    areaType: 'England',
-    level: 0,
+    ...englandArea,
   },
 };
 
@@ -72,195 +53,95 @@ export const mockAreaDataForRegionsStatistical: Record<
   AreaWithRelations
 > = {
   E12000001: {
-    code: 'E12000001',
-    name: 'North East region (statistical)',
-    hierarchyName: 'Admin',
-    areaType: 'Regions',
-    level: 2,
+    ...northEastRegion,
   },
   E12000002: {
-    code: 'E12000002',
-    name: 'North West region (statistical)',
-    hierarchyName: 'Admin',
-    areaType: 'Regions',
-    level: 2,
+    ...northWestRegion,
   },
   E12000003: {
-    code: 'E12000003',
-    name: 'Yorkshire and the Humber region (statistical)',
-    hierarchyName: 'Admin',
-    areaType: 'Regions',
-    level: 2,
+    ...yorkshireAndHumberRegion,
   },
 };
 
 export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
   E40000007: {
-    code: 'E40000007',
-    name: 'East of England NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...eastEnglandNHSRegion,
   },
   E40000003: {
-    code: 'E40000003',
-    name: 'London NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...londonNHSRegion,
   },
   E40000005: {
-    code: 'E40000005',
-    name: 'South East NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...southEastNHSRegion,
   },
   E40000006: {
-    code: 'E40000006',
-    name: 'South West NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...southWestNHSRegion,
   },
   E40000010: {
-    code: 'E40000010',
-    name: 'North West NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...northWestRegion,
   },
   E40000011: {
-    code: 'E40000011',
-    name: 'Midlands NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...midlandsNHSRegion,
   },
   E40000012: {
-    code: 'E40000012',
-    name: 'North East and Yorkshire NHS Region',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Regions',
-    level: 2,
+    ...northEastAndYorkshireNHSRegion,
   },
 };
 
 export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
   {
     E06000047: {
-      code: 'E06000047',
-      name: 'County Durham',
-      hierarchyName: 'Admin',
-      areaType: 'Counties and Unitary Authorities',
-      level: 4,
+      ...countyDurham,
     },
     E06000005: {
-      code: 'E06000005',
-      name: 'Darlington',
-      hierarchyName: 'Admin',
-      areaType: 'Counties and Unitary Authorities',
-      level: 4,
+      ...darlington,
     },
     E08000037: {
-      code: 'E08000037',
-      name: 'Gateshead',
-      hierarchyName: 'Admin',
-      areaType: 'Counties and Unitary Authorities',
-      level: 4,
+      ...gateshead,
     },
   };
 
 export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
   E38000007: {
-    code: 'E38000007',
-    name: 'NHS Basildon And Brentwood ICB',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Integrated Care Boards',
-    level: 3,
+    ...basildonAndBrentwoodICB,
   },
   E38000026: {
-    code: 'E38000026',
-    name: 'NHS Cambridgeshire and Peterborough ICB',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Integrated Care Boards',
-    level: 3,
+    ...cambridgeAndPeterboroughICB,
   },
   E38000240: {
-    code: 'E38000240',
-    name: 'NHS North Central London ICB',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Integrated Care Boards',
-    level: 3,
+    ...northCentralLondonICB,
   },
   E38000244: {
-    code: 'E38000244',
-    name: 'NHS South East London ICB',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Integrated Care Boards',
-    level: 3,
+    ...southEastLondonICB,
   },
 };
 
 export const mockAreaDataForPCN: Record<string, AreaWithRelations> = {
   U15488: {
-    code: 'U15488',
-    name: 'East Basildon PCN',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Primary Care Networks',
-    level: 5,
+    ...eastBasildonPCN,
   },
   U55146: {
-    code: 'U55146',
-    name: 'Central Basildon PCN',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Primary Care Networks',
-    level: 5,
+    ...centralBasildonPCN,
   },
   U02795: {
-    code: 'U02795',
-    name: 'North 2 Islington PCN',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Primary Care Networks',
-    level: 5,
+    ...north2IslingtonPCN,
   },
   U05885: {
-    code: 'U05885',
-    name: 'South Camden PCN',
-    hierarchyName: 'NHS',
-    areaType: 'NHS Primary Care Networks',
-    level: 5,
+    ...southCamdenPCN,
   },
 };
 
 export const mockAreaDataForGP: Record<string, AreaWithRelations> = {
   F81186: {
-    code: 'F81186',
-    name: 'Felmores Medical Centre',
-    hierarchyName: 'NHS',
-    areaType: 'GPs',
-    level: 6,
+    ...felmoresGP,
   },
   F81640: {
-    code: 'F81640',
-    name: 'Aryan Medical Centre',
-    hierarchyName: 'NHS',
-    areaType: 'GPs',
-    level: 6,
+    ...aryanGP,
   },
   F83004: {
-    code: 'F83004',
-    name: 'Archway Medical Centre',
-    hierarchyName: 'NHS',
-    areaType: 'GPs',
-    level: 6,
+    ...archwayGP,
   },
   F83008: {
-    code: 'F83008',
-    name: 'The Goodinge Group Practice',
-    hierarchyName: 'NHS',
-    areaType: 'GPs',
-    level: 6,
+    ...goodingeGP,
   },
 };
 
@@ -274,201 +155,152 @@ export const mockAreaData: Record<string, AreaWithRelations> = {
   ...mockAreaDataForGP,
 };
 
-export const mockAvailableAreas: Record<string, Area[]> = {
-  'Counties & UAs': [
+export const mockAvailableAreas: Record<AreaTypes, Area[]> = {
+  'combined-authorities': [],
+  'districts-and-unitary-authorities': [],
+  'nhs-sub-integrated-care-boards': [],
+  'counties-and-unitary-authorities': [
     {
       code: 'E06000047',
       name: 'County Durham',
-      hierarchyName: 'Admin',
-      areaType: 'Counties & UAs',
-      level: 2,
+      areaType: countiesAndUnitaryAuthoritiesAreaType,
     },
     {
       code: 'E06000005',
       name: 'Darlington',
-      hierarchyName: 'Admin',
-      areaType: 'Counties & UAs',
-      level: 2,
+      areaType: countiesAndUnitaryAuthoritiesAreaType,
     },
     {
       code: 'E08000037',
       name: 'Gateshead',
-      hierarchyName: 'Admin',
-      areaType: 'Counties & UAs',
-      level: 2,
+      areaType: countiesAndUnitaryAuthoritiesAreaType,
     },
   ],
-  'Country': [
+  'england': [
     {
       code: 'E92000001',
       name: 'England',
-      hierarchyName: 'All',
-      areaType: 'Country',
-      level: 0,
+      areaType: englandAreaType,
     },
   ],
-  'GP': [
+  'gps': [
     {
       code: 'F81186',
       name: 'Felmores Medical Centre',
-      hierarchyName: 'NHS',
-      areaType: 'GP',
-      level: 4,
+      areaType: gpsAreaType,
     },
     {
       code: 'F81640',
       name: 'Aryan Medical Centre',
-      hierarchyName: 'NHS',
-      areaType: 'GP',
-      level: 4,
+      areaType: gpsAreaType,
     },
     {
       code: 'F83004',
       name: 'Archway Medical Centre',
-      hierarchyName: 'NHS',
-      areaType: 'GP',
-      level: 4,
+      areaType: gpsAreaType,
     },
     {
       code: 'F83008',
       name: 'The Goodinge Group Practice',
-      hierarchyName: 'NHS',
-      areaType: 'GP',
-      level: 4,
+      areaType: gpsAreaType,
     },
   ],
-  'ICB': [
+  'nhs-integrated-care-boards': [
     {
       code: 'E38000007',
       name: 'NHS Basildon And Brentwood ICB',
-      hierarchyName: 'NHS',
-      areaType: 'ICB',
-      level: 2,
+      areaType: nhsIntegratedCareBoardsAreaType,
     },
     {
       code: 'E38000026',
       name: 'NHS Cambridgeshire and Peterborough ICB',
-      hierarchyName: 'NHS',
-      areaType: 'ICB',
-      level: 2,
+      areaType: nhsIntegratedCareBoardsAreaType,
     },
     {
       code: 'E38000240',
       name: 'NHS North Central London ICB',
-      hierarchyName: 'NHS',
-      areaType: 'ICB',
-      level: 2,
+      areaType: nhsIntegratedCareBoardsAreaType,
     },
     {
       code: 'E38000244',
       name: 'NHS South East London ICB',
-      hierarchyName: 'NHS',
-      areaType: 'ICB',
-      level: 2,
+      areaType: nhsIntegratedCareBoardsAreaType,
     },
   ],
-  'NHS Regions': [
+  'nhs-regions': [
     {
       code: 'E40000007',
       name: 'East of England NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000003',
       name: 'London NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000005',
       name: 'South East NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000006',
       name: 'South West NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000010',
       name: 'North West NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000011',
       name: 'Midlands NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
     {
       code: 'E40000012',
       name: 'North East and Yorkshire NHS Region',
-      hierarchyName: 'NHS',
-      areaType: 'NHS region',
-      level: 1,
+      areaType: nhsRegionsAreaType,
     },
   ],
-  'PCN': [
+  'nhs-primary-care-networks': [
     {
       code: 'U15488',
       name: 'East Basildon PCN',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: 3,
+      areaType: nhsPrimaryCareNetworksAreaType,
     },
     {
       code: 'U55146',
       name: 'Central Basildon PCN',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: 3,
+      areaType: nhsPrimaryCareNetworksAreaType,
     },
     {
       code: 'U02795',
       name: 'North 2 Islington PCN',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: 3,
+      areaType: nhsPrimaryCareNetworksAreaType,
     },
     {
       code: 'U05885',
       name: 'South Camden PCN',
-      hierarchyName: 'NHS',
-      areaType: 'PCN',
-      level: 3,
+      areaType: nhsPrimaryCareNetworksAreaType,
     },
   ],
-  'Regions Statistical': [
+  'regions': [
     {
       code: 'E12000001',
       name: 'North East region (statistical)',
-      hierarchyName: 'Admin',
-      areaType: 'Regions Statistical',
-      level: 1,
+      areaType: regionsAreaType,
     },
     {
       code: 'E12000002',
       name: 'North West region (statistical)',
-      hierarchyName: 'Admin',
-      areaType: 'Regions Statistical',
-      level: 1,
+      areaType: regionsAreaType,
     },
     {
       code: 'E12000003',
       name: 'Yorkshire and the Humber region (statistical)',
-      hierarchyName: 'Admin',
-      areaType: 'Regions Statistical',
-      level: 1,
+      areaType: regionsAreaType,
     },
   ],
 };

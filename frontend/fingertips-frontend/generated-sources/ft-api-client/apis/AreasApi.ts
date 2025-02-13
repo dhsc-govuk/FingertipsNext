@@ -264,7 +264,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/areas/areatypes/{area_type}/areas`.replace(`{${"area_type_key"}}`, encodeURIComponent(String(requestParameters['areaTypeKey']))),
+            path: `/areas/areatypes/{area_type_key}/areas`.replace(`{${"area_type_key"}}`, encodeURIComponent(String(requestParameters['areaTypeKey']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

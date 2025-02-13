@@ -1,15 +1,18 @@
-import { mockAreaTypes } from '@/mock/data/areaData';
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
+import { allAreaTypes, AreaTypes } from '@/mock/data/areaType';
 
 describe('determineApplicableGroupTypes', () => {
   it('should return undefined if allAreaTypes is undefined', () => {
-    const groupTypes = determineApplicableGroupTypes(undefined, 'PCN');
+    const groupTypes = determineApplicableGroupTypes(
+      undefined,
+      'nhs-primary-care-networks'
+    );
 
     expect(groupTypes).toBeUndefined();
   });
 
   it('should return undefined if selectedAreaType is undefined', () => {
-    const groupTypes = determineApplicableGroupTypes(mockAreaTypes);
+    const groupTypes = determineApplicableGroupTypes(allAreaTypes);
 
     expect(groupTypes).toBeUndefined();
   });
@@ -21,54 +24,81 @@ describe('determineApplicableGroupTypes', () => {
   });
 
   it('should return undefined if the selectedAreaType could not be found', () => {
-    const mockAreaTypesWithoutICB = mockAreaTypes.filter(
-      (areaType) => areaType.name !== 'ICB'
+    const mockAreaTypesWithoutICB = allAreaTypes.filter(
+      (areaType) => areaType.key !== 'nhs-integrated-care-boards'
     );
 
     const groupTypes = determineApplicableGroupTypes(
       mockAreaTypesWithoutICB,
-      'ICB'
+      'nhs-integrated-care-boards'
     );
 
     expect(groupTypes).toBeUndefined();
   });
 
-  it.each([
-    ['England', []],
-    ['NHS Regions', ['England']],
-    ['NHS Integrated Care Boards', ['NHS Regions', 'England']],
+  type determineApplicableGroupTypesSet = [
+    selectedAreaType: AreaTypes,
+    expectedGroupTypes: AreaTypes[],
+  ];
+
+  it.each<determineApplicableGroupTypesSet>([
+    ['england', []],
+    ['nhs-regions', ['england']],
+    ['nhs-integrated-care-boards', ['nhs-regions', 'england']],
     [
-      'NHS Primary Care Networks',
+      'nhs-sub-integrated-care-boards',
+      ['nhs-integrated-care-boards', 'nhs-regions', 'england'],
+    ],
+    [
+      'nhs-primary-care-networks',
       [
-        'NHS Sub Integrated Care Boards',
-        'NHS Integrated Care Boards',
-        'NHS Regions',
-        'England',
+        'nhs-sub-integrated-care-boards',
+        'nhs-integrated-care-boards',
+        'nhs-regions',
+        'england',
       ],
     ],
     [
-      'GPs',
+      'gps',
       [
-        'NHS Primary Care Networks',
-        'NHS Sub Integrated Care Boards',
-        'NHS Integrated Care Boards',
-        'NHS Regions',
-        'England',
+        'nhs-primary-care-networks',
+        'nhs-sub-integrated-care-boards',
+        'nhs-integrated-care-boards',
+        'nhs-regions',
+        'england',
       ],
     ],
-    ['Regions', ['England']],
-    ['Counties and Unitary Authorities', ['Regions', 'England']],
+    ['regions', ['england']],
+    ['combined-authorities', ['regions', 'england']],
+    [
+      'counties-and-unitary-authorities',
+      ['combined-authorities', 'regions', 'england'],
+    ],
+    [
+      'districts-and-unitary-authorities',
+      [
+        'counties-and-unitary-authorities',
+        'combined-authorities',
+        'regions',
+        'england',
+      ],
+    ],
   ])(
     'when selectedAreaType is %p should return these applicable groupType %p',
     (selectedAreaType, expectedGroupTypes) => {
       const applicableGroupTypes = determineApplicableGroupTypes(
-        mockAreaTypes,
+        allAreaTypes,
         selectedAreaType
       );
 
-      expect(applicableGroupTypes).toEqual(
-        expect.arrayContaining(expectedGroupTypes)
-      );
+      expect(applicableGroupTypes?.length).toEqual(expectedGroupTypes.length);
+
+      applicableGroupTypes?.forEach((groupType) => {
+        const doesKeyExistInExpected = expectedGroupTypes.some(
+          (expectedGroupTypeKey) => expectedGroupTypeKey === groupType.key
+        );
+        expect(doesKeyExistInExpected).toBeTruthy();
+      });
     }
   );
 });
