@@ -707,7 +707,7 @@ exports[`snapshot test - renders the homepage 1`] = `
             <div
               style="color: rgb(80, 90, 95);"
             >
-              For example smoking, diabetes prevalence, or a specific indicator ID
+              For example, smoking, diabetes prevalence, or a specific indicator ID
             </div>
           </span>
           <input
@@ -733,7 +733,7 @@ exports[`snapshot test - renders the homepage 1`] = `
             <div
               style="color: rgb(80, 90, 95);"
             >
-              For example district, county, region, NHS organisation or GP practice or code
+              For example, district, county, region, NHS organisation or GP practice or code
             </div>
           </span>
           <input

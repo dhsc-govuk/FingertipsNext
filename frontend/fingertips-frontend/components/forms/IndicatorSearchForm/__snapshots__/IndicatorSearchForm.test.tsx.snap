@@ -207,7 +207,7 @@ exports[`snapshot test - renders the form 1`] = `
       class="c2 c5 c6"
     >
       <p>
-        For example smoking, diabetes prevalence, or a specific indicator ID
+        For example, smoking, diabetes prevalence, or a specific indicator ID
       </p>
     </div>
     <div
