@@ -108,32 +108,7 @@ export const Home = ({
         by inequalities such as age, sex or ethnicity.
       </Paragraph>
       <br />
-<<<<<<< HEAD
-      <H6>What are indicators and profiles</H6>
-      <div id="indicators">
-        <Paragraph>
-          Indicators use data to show us how things are going and if there are
-          any changes over time. For example if the number of people smoking in
-          South West England has gone up or down in the last ten years. These
-          indicators can be used to compare public health by areas, and see how
-          it is impacted by inequalities such as age, sex or ethnicity.
-        </Paragraph>
-      </div>
-      <div id="profiles">
-        <Paragraph>
-          Indicators are used to create themed profiles that help build
-          understanding of public health at a local, regional and national
-          level. For example there will be multiple indicators for diabetes but
-          a themed profile may combine other relevant indicators such as smoking
-          or obesity to present a more rounded picture of the public health
-          impact.
-        </Paragraph>
-      </div>
-      <br />
-      <H6>Who the service is for</H6>
-=======
       <H3 id="whofor">Who the service is for</H3>
->>>>>>> main
       <Paragraph>
         The service is free and available to everyone. Its primary role is to
         support health professionals, policymakers, and researchers to monitor
