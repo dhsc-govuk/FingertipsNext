@@ -180,6 +180,7 @@ public class AreaRepository : IAreaRepository
 
     private async Task AddAncestorAreas(AreaWithRelationsModel aresWithRelations, string areaCode)
     {
+        // sample from EF output
         // SELECT TOP(1)
         // [a].[Node], [a].[AreaCode], [a].[AreaName], [a].[AreaTypeKey],
         // [a0].[AreaTypeKey], [a0].[AreaTypeName], [a0].[HierarchyType], [a0].[Level]
@@ -187,37 +188,40 @@ public class AreaRepository : IAreaRepository
         // INNER JOIN [Areas].[AreaTypes] AS [a0] ON [a].[AreaTypeKey] = [a0].[AreaTypeKey]
         // WHERE [a].[AreaCode] = @__areaCode_0
 
+        
         aresWithRelations.Ancestors = await _dbContext
             .Area
             .FromSqlInterpolated(
                 $"""
                 --get all the parents recursively up the hierarchy
                 SELECT
-                    startingPoint.[Node], startingPoint.[AreaCode], startingPoint.[AreaName], startingPoint.[AreaTypeKey],
-                    areaType.[AreaTypeName], areaType.[HierarchyType], areaType.[Level]
+                    parent.[Node], parent.[AreaCode], parent.[AreaName], [parent].[AreaTypeKey]
                 FROM
                     [Areas].[Areas] as startingPoint
-                    INNER JOIN
-                        [Areas].[Areas] parent
-                    ON
-                        startingPoint.Node.IsDescendantOf(parent.Node) = 1
+                
                 INNER JOIN
-                    [Areas].[AreaTypes] AS areaType
-                ON
-                    parent.[AreaTypeKey] = areaType.[AreaTypeKey]
+                    [Areas].[Areas] parent
+                    ON
+                    startingPoint.Node.IsDescendantOf([parent].[Node]) = 1
+               
                 WHERE
-                    startingPoint.AreaCode = {areaCode}
-                  AND
-                    parent.AreaCode != {areaCode}
-                AND
-                    parent.AreaTypeKey = areaType.AreaTypeKey
-                ORDER BY
-                    areaType.Level desc
+                    startingPoint.[AreaCode] = {areaCode}
+                    AND
+                    parent.[AreaCode] != {areaCode}
+               
                 """
             )
+            .Include(a => a.AreaType)
+            .OrderBy(a => a.AreaType.Level)
             .ToListAsync();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="aresWithRelations"></param>
+    /// <param name="area"></param>
+    /// <param name="parent"></param>
     private async Task AddSiblingAreas(
         AreaWithRelationsModel aresWithRelations,
         AreaModel area,

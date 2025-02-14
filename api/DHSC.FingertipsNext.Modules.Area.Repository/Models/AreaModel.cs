@@ -32,12 +32,12 @@ public class AreaModel
     /// <summary>
     /// The type of the area e.g. 'Region'
     /// </summary>
+    [ForeignKey("AreaTypeKey")]
     public required AreaTypeModel AreaType { get; set; }
     
     /// <summary>
     /// 
     /// </summary>
     [MaxLength(50)]
-    [ForeignKey("AreaType")]
     public required string AreaTypeKey { get; set; }
 }
