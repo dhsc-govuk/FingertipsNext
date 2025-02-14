@@ -87,7 +87,7 @@ export function Chart({
           <br />
         </>
       ) : null}
-      <InequalitiesSexTable />
+      {/* <InequalitiesSexTable healthIndicatorData={} /> */}
       <BarChart
         data={data[0]}
         yAxisTitle="Value"

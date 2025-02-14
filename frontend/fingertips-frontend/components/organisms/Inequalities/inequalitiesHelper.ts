@@ -1,6 +1,7 @@
 export enum InequalitiesSexTableHeadingsEnum {
   PERIOD = 'Period',
-  BENCHMARK = 'Benchmark: Persons England',
+  PERSONS = 'Persons',
   MALE = 'Male',
   FEMALE = 'Female',
+  BENCHMARK = 'England benchmark',
 }
