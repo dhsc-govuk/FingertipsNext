@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import { SearchFormState } from './searchActions';
 import {
   InsetText,
@@ -14,6 +15,13 @@ import styled from 'styled-components';
 import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+=======
+import { SearchFormState, getSearchSuggestions } from './searchActions';
+import { Button, InputField, H3, Link } from 'govuk-react';
+import { spacing } from '@govuk-react/lib';
+import styled from 'styled-components';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+>>>>>>> main
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -42,18 +50,8 @@ export const SearchForm = ({
 
   console.log('SEARCH = ', searchFormState.message);
   return (
-    <div
-      data-testid="search-form"
-      style={{ backgroundColor: '#f3f2f1', padding: '20px 20px 0px 20px' }}
-    >
+    <div data-testid="search-form">
       <H3>Find public health data</H3>
-      <Paragraph>
-        Search for data to compare at local, regional and national levels.
-      </Paragraph>
-      <InsetText>
-        Use both search options to help you find the most accurate data
-        available.
-      </InsetText>
       <StyledInputField
         input={{
           id: 'indicator',
@@ -61,8 +59,9 @@ export const SearchForm = ({
           defaultValue: searchFormState.indicator,
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
-            For example diabetes, public health indicator, or indicator ID
+          <div style={{ color: GovukColours.DarkGrey }}>
+            For example, smoking, diabetes prevalence, or a specific indicator
+            ID
           </div>
         }
         // meta={{
@@ -79,7 +78,28 @@ export const SearchForm = ({
           updateUrlWithSelectedArea(area.areaCode);
           searchFormState.areaSearched = area.areaCode;
         }}
+<<<<<<< HEAD
       />
+=======
+        hint={
+          <div style={{ color: GovukColours.DarkGrey }}>
+            For example, district, county, region, NHS organisation or GP
+            practice or code
+          </div>
+        }
+        meta={{
+          touched: !!searchFormState.message,
+          error: 'This field value may be required',
+        }}
+        data-testid="search-form-input-area"
+      >
+        Search by area
+      </StyledInputField>
+      <Link href="#" data-testid="search-form-link-filter-area">
+        Or filter by area
+      </Link>
+      <br />
+>>>>>>> main
       <Button
         type="submit"
         data-testid="search-form-button-submit"
