@@ -96,8 +96,7 @@ export function AreaFilter({
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const searchStateManager =
-    SearchStateManager.setStateFromSearchStateParams(searchState);
+  const searchStateManager = SearchStateManager.initialise(searchState);
 
   const areaTypeSelected = (
     searchParamKey: AllowedParamsForHandleSelect,

@@ -54,8 +54,7 @@ export function SearchResult({
   searchState,
   handleClick,
 }: Readonly<SearchResultProps>) {
-  const stateManager =
-    SearchStateManager.setStateFromSearchStateParams(searchState);
+  const stateManager = SearchStateManager.initialise(searchState);
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
     const chartPath = '/chart';

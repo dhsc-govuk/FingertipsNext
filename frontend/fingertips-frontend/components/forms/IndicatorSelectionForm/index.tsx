@@ -40,8 +40,7 @@ export function IndicatorSelectionForm({
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const stateManager =
-    SearchStateManager.setStateFromSearchStateParams(searchState);
+  const stateManager = SearchStateManager.initialise(searchState);
 
   const handleClick = (indicatorId: string, checked: boolean) => {
     if (checked) {

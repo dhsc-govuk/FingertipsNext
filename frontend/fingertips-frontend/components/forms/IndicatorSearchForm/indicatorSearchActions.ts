@@ -52,7 +52,7 @@ export async function searchIndicator(
   const searchStateParsed: SearchStateParams = JSON.parse(
     formData.get('searchState')?.toString() ?? `{}`
   );
-  const searchStateManager = new SearchStateManager({
+  const searchStateManager = SearchStateManager.initialise({
     ...searchStateParsed,
   });
 

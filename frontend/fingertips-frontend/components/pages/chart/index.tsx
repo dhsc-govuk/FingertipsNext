@@ -34,7 +34,7 @@ export function Chart({
   indicatorsSelected = [],
   areasSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({
+  const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });

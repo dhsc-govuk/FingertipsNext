@@ -46,7 +46,7 @@ export async function submitIndicatorSelection(
   const { searchState, indicatorsSelected } = validatedFields.data;
   const state = JSON.parse(searchState);
 
-  const searchStateManager = new SearchStateManager({
+  const searchStateManager = SearchStateManager.initialise({
     ...state,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });

@@ -22,8 +22,7 @@ export default async function Page(
 ) {
   const searchParams = await props.searchParams;
 
-  const stateManager =
-    SearchStateManager.setStateFromSearchStateParams(searchParams);
+  const stateManager = SearchStateManager.initialise(searchParams);
 
   const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
