@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.c0 .c0 {
+  margin-top: 10px;
+}
+
+.c1 > .c3 {
+  margin-bottom: 5px;
+}
+
+.c8 {
+  display: block;
+}
+
+.c6 {
+  background-color: #2b8cc4;
+  border: 0;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  width: 45px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.c6:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 0;
+  margin-left: 13px;
+  margin-right: 15px;
+}
+
+.c5 {
+  border-bottom: 1px solid #75738c;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding: 10px 1px;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 300;
+}
+
+.c7 {
+  background-color: transparent;
+  padding: 0;
+}
+
+.c7 svg {
+  fill: #75738c;
+  width: 20px;
+  height: 20px;
+}
+
+.c7:focus {
+  background-color: transparent;
+  outline: none;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 20px;
+  }
+}
+
+<ul
+    class="c0 c1 c2"
+  >
+    <li
+      class="c3 c4 c5"
+    >
+      <button
+        class="c6 c7"
+        title="Search"
+      >
+        <svg
+          class="c8"
+          fill="#ffffff"
+          height="100%"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="100%"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+      </button>
+      <div
+        style="flex-grow: 3; padding: 5px;"
+      >
+        GP01 - Greenwich
+      </div>
+      <div
+        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
+      >
+        GP
+      </div>
+    </li>
+    <li
+      class="c3 c4 c5"
+    >
+      <button
+        class="c6 c7"
+        title="Search"
+      >
+        <svg
+          class="c8"
+          fill="#ffffff"
+          height="100%"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="100%"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+      </button>
+      <div
+        style="flex-grow: 3; padding: 5px;"
+      >
+        GP02 - Cambridge
+      </div>
+      <div
+        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
+      >
+        GP
+      </div>
+    </li>
+    <li
+      class="c3 c4 c5"
+    >
+      <button
+        class="c6 c7"
+        title="Search"
+      >
+        <svg
+          class="c8"
+          fill="#ffffff"
+          height="100%"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="100%"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+      </button>
+      <div
+        style="flex-grow: 3; padding: 5px;"
+      >
+        Central London
+      </div>
+      <div
+        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
+      >
+        CT
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

@@ -1,5 +1,188 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 15px;
+  color: #6f777b;
+}
+
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin-top: 0;
+  padding: 5px;
+  border: 2px solid #0b0c0c;
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin-bottom: 0;
+}
+
+.c4:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c4::-webkit-outer-spin-button,
+.c4::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.c4[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.c1:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.c0 {
+  margin-bottom: 5px;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c2 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 0;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <label
+      class="c1"
+      data-testid="search-form-input-area"
+    >
+      <span
+        class="c2"
+      >
+        Search for an area
+      </span>
+      <span
+        class="c3"
+      >
+        <div
+          style="color: rgb(80, 90, 95);"
+        >
+          For example district, county, region, NHS organisation or GP practice or code
+        </div>
+      </span>
+      <input
+        class="c4"
+        id="areaSearched"
+        name="areaSearched"
+        value="London"
+      />
+    </label>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Testing the AreaSearchInputField take a snapshot of the UI 1`] = `
 <DocumentFragment>
   .c1 {

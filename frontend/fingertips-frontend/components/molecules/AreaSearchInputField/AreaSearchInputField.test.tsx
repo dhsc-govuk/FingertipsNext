@@ -1,11 +1,19 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { AreaSearchInputField } from './index'; // Adjust the import path if needed
+import { render, fireEvent } from '@testing-library/react';
+import { AreaSearchInputField } from './index';
+import { InputField } from 'govuk-react';
 
-describe('Testing the AreaSearchInputField', () => {
-  it('renders the input field with correct placeholder and hint text', () => {
-    const { getByText } = render(<AreaSearchInputField />);
-    expect(getByText('Search for an area')).toBeInTheDocument();
+describe('AreaSearchInputField', () => {
+  it('should render correctly and match snapshot', () => {
+    const { asFragment } = render(
+      <AreaSearchInputField defaultValue="London" onTextChange={jest.fn()} />
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should display hint text correctly', () => {
+    const { getByText } = render(
+      <AreaSearchInputField defaultValue="London" onTextChange={jest.fn()} />
+    );
     expect(
       getByText(
         'For example district, county, region, NHS organisation or GP practice or code'
@@ -13,16 +21,37 @@ describe('Testing the AreaSearchInputField', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders the styled components correctly', () => {
-    const { container } = render(<AreaSearchInputField />);
-    const styleAreaSearchBoxPanel = container.querySelector('div');
-    const styleSearchHeader = container.querySelector('label');
-    expect(styleAreaSearchBoxPanel).toHaveStyle('margin-bottom: 5px');
-    expect(styleSearchHeader).toHaveStyle('color: #0b0c0c');
+  it('should display error message if touched', () => {
+    const { getByText } = render(
+      <AreaSearchInputField
+        defaultValue="London"
+        touched={true}
+        onTextChange={jest.fn()}
+      />
+    );
+    expect(getByText('This field value may be required')).toBeInTheDocument();
   });
 
-  it('take a snapshot of the UI', () => {
-    const { asFragment } = render(<AreaSearchInputField />);
-    expect(asFragment()).toMatchSnapshot();
+  it('should not display error message if not touched', () => {
+    const { queryByText } = render(
+      <AreaSearchInputField
+        defaultValue="London"
+        touched={false}
+        onTextChange={jest.fn()}
+      />
+    );
+    expect(queryByText('This field value may be required')).toBeNull();
+  });
+
+  it('should not disable the input if disabled prop is not passed', () => {
+    const { getByTestId } = render(
+      <AreaSearchInputField
+        defaultValue="London"
+        disabled={false}
+        onTextChange={jest.fn()}
+      />
+    );
+    const input = getByTestId('search-form-input-area');
+    expect(input).not.toBeDisabled();
   });
 });

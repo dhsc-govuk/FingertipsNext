@@ -9,7 +9,6 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
-import { useActionState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -61,9 +60,10 @@ export const SearchForm = ({
       <AreaAutoCompleteSearchPanel
         onAreaSelected={(area: AreaDocument) => {
           updateUrlWithSelectedArea(area.areaCode);
-          searchFormState.areaSearched = area.areaName;
+          searchFormState.areaSearched = area.areaCode;
         }}
         inputFieldErrorStatus={!!searchFormState.message}
+        defaultValue={searchFormState.areaSearched}
       />
 
       <Button

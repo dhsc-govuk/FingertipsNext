@@ -18,15 +18,16 @@ const StyleAreaSelectAutoCompletePanel = styled('div')({
   margin: '0px;',
   backgroundColor: '#FFFFFF',
 });
+
 interface AreaSelectAutoCompleteProps {
-  area?: AreaDocument;
   onAreaSelected: (area: AreaDocument) => void;
   inputFieldErrorStatus: boolean;
+  defaultValue: string | undefined;
 }
 
 export default function AreaAutoCompleteSearchPanel({
-  area,
   onAreaSelected,
+  defaultValue,
   inputFieldErrorStatus = false,
 }: AreaSelectAutoCompleteProps) {
   const [criteria, setCriteria] = useState<string>();
@@ -35,33 +36,32 @@ export default function AreaAutoCompleteSearchPanel({
   );
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] = useState<AreaDocument[]>([]);
+
   useEffect(() => {
-    const fetchSearchArea = async (
-      criteria: string | undefined,
-      status: SearchStatusType
-    ) => {
-      if (status == SearchStatusType.PROCESSING) {
-        if (criteria != null) {
-          const areas = await getSearchSuggestions(criteria);
-          setSearchAreas(areas.slice(0, 20));
-          setSearchStatus(SearchStatusType.COMPLETED);
-        }
+    const fetchSearchArea = async (criteria: string | undefined) => {
+      if (criteria && searchStatus === SearchStatusType.PROCESSING) {
+        const areas = await getSearchSuggestions(criteria);
+        setSearchAreas(areas.slice(0, 20));
+        setSearchStatus(SearchStatusType.COMPLETED);
       }
     };
-    fetchSearchArea(criteria, searchStatus);
+
+    if (searchStatus === SearchStatusType.PROCESSING) {
+      fetchSearchArea(criteria);
+    }
   }, [searchStatus, criteria]);
 
   return (
     <StyleAreaSelectAutoCompletePanel>
       <AreaSearchInputField
-        value={area?.areaName}
-        onTextChange={(criteria: string) => {
-          if (criteria.length < MIN_SEARCH_SIZE) {
+        defaultValue={defaultValue}
+        onTextChange={(newCriteria: string) => {
+          if (newCriteria.length < MIN_SEARCH_SIZE) {
             setSearchAreas([]);
             return;
           }
-          if (searchStatus == SearchStatusType.COMPLETED) {
-            setCriteria(criteria);
+          if (searchStatus === SearchStatusType.COMPLETED) {
+            setCriteria(newCriteria);
             setSearchStatus(SearchStatusType.PROCESSING);
           }
         }}
@@ -71,10 +71,9 @@ export default function AreaAutoCompleteSearchPanel({
       <AreaSelectionSearchPillPanel
         areas={selectedAreas}
         onClick={(area: AreaDocument) => {
-          // remove the area from the list of selected areas
-          const areas = selectedAreas.filter((selectedArea: AreaDocument) => {
-            if (selectedArea.areaCode != area.areaCode) return selectedArea;
-          });
+          const areas = selectedAreas.filter(
+            (selectedArea) => selectedArea.areaCode !== area.areaCode
+          );
           setSelectedAreas(areas);
         }}
       />
@@ -83,12 +82,9 @@ export default function AreaAutoCompleteSearchPanel({
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
-          if (onAreaSelected != null) {
-            onAreaSelected(selectedArea);
-          }
+          onAreaSelected?.(selectedArea);
         }}
       />
-
       <AreaFilterPanel areas={selectedAreas} onOpen={() => {}} />
     </StyleAreaSelectAutoCompletePanel>
   );
