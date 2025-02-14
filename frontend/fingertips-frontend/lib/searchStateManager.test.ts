@@ -5,9 +5,9 @@ import {
 } from './searchStateManager';
 
 describe('SearchStateManager', () => {
-  describe('constructor', () => {
-    it('should construct a searchStateManger from the state provided', () => {
-      const state: SearchStateParams = {
+  describe('initialise', () => {
+    it('should initialise the search state from SearchStateParams provided', () => {
+      const params: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],
@@ -15,15 +15,29 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
       };
 
-      const stateManager = new SearchStateManager(state);
+      const stateManager = SearchStateManager.initialise(params);
+      const newState = stateManager.getSearchState();
 
-      expect(stateManager.getSearchState()).toEqual(state);
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreaTypeSelected]: 'Some area type',
+        [SearchParams.GroupTypeSelected]: 'Some group type',
+      });
+    });
+
+    it('should return an empty search state if no params are provided', () => {
+      const stateManager = SearchStateManager.initialise();
+      const newState = stateManager.getSearchState();
+
+      expect(newState).toEqual({});
     });
   });
 
   describe('addParamValueToState', () => {
     it('should add a multi value type param value to the array when initially empty', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
       });
       stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
@@ -36,7 +50,7 @@ describe('SearchStateManager', () => {
     });
 
     it('should add a multi value type param value to an existing array', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1'],
       });
@@ -50,8 +64,23 @@ describe('SearchStateManager', () => {
       });
     });
 
+    it('should not add a multi value type param value if it already exists in the array', () => {
+      const stateManager = SearchStateManager.initialise({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+      });
+
+      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+      });
+    });
+
     it('should add a single value type param value as string when initially empty', () => {
-      const stateManager = new SearchStateManager({});
+      const stateManager = SearchStateManager.initialise({});
 
       stateManager.addParamValueToState(SearchParams.SearchedIndicator, 'bang');
 
@@ -62,7 +91,7 @@ describe('SearchStateManager', () => {
     });
 
     it('should overwrite a single value type param value as string when it already exists', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
       });
 
@@ -77,7 +106,7 @@ describe('SearchStateManager', () => {
 
   describe('removeParamValueFromState', () => {
     it('should remove a multi value type param value from the existing array', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
@@ -95,7 +124,7 @@ describe('SearchStateManager', () => {
     });
 
     it('should remove a single value type param from state', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
@@ -113,7 +142,7 @@ describe('SearchStateManager', () => {
 
   describe('removeAllParamFromState', () => {
     it('should remove the entire multi value type param value', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
@@ -127,7 +156,7 @@ describe('SearchStateManager', () => {
     });
 
     it('should remove the entire single value type param value', () => {
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
       });
@@ -151,7 +180,7 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
       };
 
-      const stateManager = new SearchStateManager(state);
+      const stateManager = SearchStateManager.initialise(state);
 
       expect(stateManager.getSearchState()).toEqual(state);
     });
@@ -184,7 +213,7 @@ describe('SearchStateManager', () => {
 
   describe('generatePath', () => {
     it('should only return the path provided when there is no state', () => {
-      const stateManager = new SearchStateManager();
+      const stateManager = SearchStateManager.initialise();
       const generatedPath = stateManager.generatePath('/some-path');
 
       expect(generatedPath).toBe('/some-path');
@@ -199,7 +228,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
       ].join('');
 
-      const stateManager = new SearchStateManager({
+      const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001', 'A002'],

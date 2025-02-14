@@ -2,7 +2,17 @@ import { render, screen, within } from '@testing-library/react';
 import { AreaFilter } from '.';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
-import { mockAreaDataForNHSRegion, mockAreaTypes } from '@/mock/data/areaData';
+import {
+  mockAreaDataForNHSRegion,
+  mockAvailableAreas,
+} from '@/mock/data/areaData';
+import {
+  allAreaTypes,
+  englandAreaType,
+  nhsIntegratedCareBoardsAreaType,
+  nhsRegionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
+import { AreaType } from '@/generated-sources/ft-api-client';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -13,11 +23,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => [
-      [[SearchParams.AreaTypeSelected], 'NHS Regions'],
-      [[SearchParams.AreasSelected], 'E40000012'],
-      [[SearchParams.AreasSelected], 'E40000007'],
-    ],
+    useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
@@ -47,7 +53,7 @@ describe('Area Filter', () => {
   });
 
   it('should render the selected areas when there are areas selected', () => {
-    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+    render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
     expect(screen.getByText(/Selected areas \(2\)/i)).toBeInTheDocument();
     expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
@@ -61,7 +67,15 @@ describe('Area Filter', () => {
     ].join('');
 
     const user = userEvent.setup();
-    render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+    render(
+      <AreaFilter
+        selectedAreasData={mockSelectedAreasData}
+        searchState={{
+          [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+          [SearchParams.AreaTypeSelected]: 'NHS Regions',
+        }}
+      />
+    );
 
     const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
     await user.click(
@@ -75,14 +89,15 @@ describe('Area Filter', () => {
 
   describe('Area type', () => {
     it('should disable the select area type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
+
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
       ).toBeDisabled();
     });
 
     it('should not disable the select area type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreas={[]} />);
+      render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
@@ -90,7 +105,7 @@ describe('Area Filter', () => {
     });
 
     it('should render the select area type drop down and indicate there are no areas selected', () => {
-      render(<AreaFilter availableAreaTypes={mockAreaTypes} />);
+      render(<AreaFilter availableAreaTypes={allAreaTypes} />);
 
       expect(screen.getByText(/Selected areas \(0\)/i)).toBeInTheDocument();
       expect(
@@ -99,7 +114,7 @@ describe('Area Filter', () => {
     });
 
     it('should render all the available areaTypes sorted by level', () => {
-      render(<AreaFilter availableAreaTypes={mockAreaTypes} />);
+      render(<AreaFilter availableAreaTypes={allAreaTypes} />);
 
       const areaTypeDropDown = screen.getByRole('combobox', {
         name: /Select an area type/i,
@@ -109,35 +124,44 @@ describe('Area Filter', () => {
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
-      ).toHaveLength(mockAreaTypes.length);
+      ).toHaveLength(allAreaTypes.length);
 
       allOptions.forEach((option, i) => {
-        expect(option.textContent).toEqual(mockAreaTypes[i].name);
+        expect(option.textContent).toEqual(allAreaTypes[i].name);
       });
     });
 
     it('should have have the areaTypeSelected as the pre-selected value', () => {
       render(
         <AreaFilter
-          availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS Regions"
+          availableAreaTypes={allAreaTypes}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
         />
       );
 
       expect(
         screen.getByRole('combobox', { name: /Select an area type/i })
-      ).toHaveValue('NHS Regions');
+      ).toHaveTextContent('NHS Regions');
     });
 
     it('should add the selected areaType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
       ].join('');
 
       const user = userEvent.setup();
-      render(<AreaFilter availableAreaTypes={mockAreaTypes} />);
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+          }}
+        />
+      );
 
       await user.selectOptions(
         screen.getByRole('combobox', { name: /Select an area type/i }),
@@ -151,8 +175,14 @@ describe('Area Filter', () => {
   });
 
   describe('Group type', () => {
+    const availableGroupTypes: AreaType[] = [
+      englandAreaType,
+      nhsRegionsAreaType,
+      nhsIntegratedCareBoardsAreaType,
+    ];
+
     it('should disable the select group type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreas={mockSelectedAreasData} />);
+      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
@@ -163,7 +193,7 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select group type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreas={[]} />);
+      render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
@@ -173,13 +203,14 @@ describe('Area Filter', () => {
       ).not.toBeDisabled();
     });
 
-    it('should render all applicable group types based upon the area type selected', () => {
-      const expectedAreaTypeOptions = ['England'];
-
+    it('should render all applicable group types provided', () => {
       render(
         <AreaFilter
-          availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS Regions"
+          availableAreaTypes={allAreaTypes}
+          availableGroupTypes={availableGroupTypes}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
         />
       );
 
@@ -191,41 +222,48 @@ describe('Area Filter', () => {
 
       expect(
         screen.getByRole('combobox', { name: /1. Select a group type/i })
-      ).toHaveLength(1);
+      ).toHaveLength(3);
 
       allOptions.forEach((option, i) => {
-        expect(option.textContent).toEqual(expectedAreaTypeOptions[i]);
+        expect(option.textContent).toEqual(availableGroupTypes[i].name);
       });
     });
 
     it('should have have the groupTypeSelected as the pre-selected value', () => {
       render(
         <AreaFilter
-          availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS Regions"
-          selectedGroupType="England"
+          availableAreaTypes={allAreaTypes}
+          availableGroupTypes={availableGroupTypes}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupTypeSelected]: 'england',
+          }}
         />
       );
 
       expect(
         screen.getByRole('combobox', { name: /Select a group type/i })
-      ).toHaveValue('England');
+      ).toHaveTextContent('England');
     });
 
     it('should add the selected groupType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
-        `&${SearchParams.GroupTypeSelected}=England`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupTypeSelected}=england`,
       ].join('');
 
       const user = userEvent.setup();
 
       render(
         <AreaFilter
-          availableAreaTypes={mockAreaTypes}
-          selectedAreaType="NHS Regions"
+          availableAreaTypes={allAreaTypes}
+          availableGroupTypes={availableGroupTypes}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
         />
       );
 
@@ -236,6 +274,30 @@ describe('Area Filter', () => {
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
         scroll: false,
+      });
+    });
+  });
+
+  describe('Areas', () => {
+    it('should show all the applicable areas as checkboxes', () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableAreas={availableAreas}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      expect(screen.getAllByRole('checkbox')).toHaveLength(7);
+
+      availableAreas.forEach((area) => {
+        expect(
+          screen.getByRole('checkbox', { name: area.name })
+        ).toBeInTheDocument();
       });
     });
   });

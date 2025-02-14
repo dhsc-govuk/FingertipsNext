@@ -30,11 +30,49 @@ export class SearchStateManager {
   private searchState: SearchStateParams;
   private searchStateParams: URLSearchParams;
 
-  constructor(searchState: SearchStateParams = {}) {
+  private constructor(searchState: SearchStateParams = {}) {
     this.searchState = {};
     this.searchStateParams = new URLSearchParams();
 
     this.searchState = searchState;
+  }
+
+  public static initialise(params?: SearchStateParams) {
+    if (params) {
+      const newState = Object.values(SearchParams).reduce<SearchStateParams>(
+        (state, searchParamKey) => {
+          if (isMultiValueTypeParam(searchParamKey)) {
+            const paramValues = asArray(params[searchParamKey]);
+
+            if (paramValues.length > 0) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValues,
+              };
+
+              return newState;
+            }
+          } else {
+            const paramValue = params[searchParamKey];
+
+            if (paramValue) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValue,
+              };
+
+              return newState;
+            }
+          }
+          return state;
+        },
+        {}
+      );
+
+      const searchStateManager = new SearchStateManager(newState);
+      return searchStateManager;
+    }
+    return new SearchStateManager();
   }
 
   private constructPath(path: string) {
@@ -62,12 +100,19 @@ export class SearchStateManager {
       const currentParamState = this.searchState[searchParamKey];
 
       const currentParamStateAsArray = asArray(currentParamState);
-      const newState: SearchStateParams = {
-        ...this.searchState,
-        [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
-      };
 
-      this.searchState = newState;
+      const doesParamExist = currentParamStateAsArray.find(
+        (currentParam) => currentParam === paramToAdd
+      );
+
+      if (!doesParamExist) {
+        const newState: SearchStateParams = {
+          ...this.searchState,
+          [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
+        };
+
+        this.searchState = newState;
+      }
     } else {
       const newState: SearchStateParams = {
         ...this.searchState,
