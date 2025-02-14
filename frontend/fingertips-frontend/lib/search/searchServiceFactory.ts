@@ -70,9 +70,9 @@ export class SearchServiceFactory {
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-        readEnvVar('DHSC_AI_SEARCH_API_KEY')
-      );
+          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+          readEnvVar('DHSC_AI_SEARCH_API_KEY')
+        );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
@@ -83,22 +83,24 @@ export class SearchServiceFactory {
     if (useMockServer === 'true') {
       const someDate = new Date('15-Mar-2007');
       const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
-      const typedIndicatorData = unparsedIndicatorData.map(({
-        indicatorID,
-        indicatorName,
-        indicatorDefinition,
-        dataSource,
-      }): IndicatorDocument => {
-        if (!indicatorName) console.log(indicatorID);
-        return {
-          indicatorID: String(indicatorID),
+      const typedIndicatorData = unparsedIndicatorData.map(
+        ({
+          indicatorID,
           indicatorName,
           indicatorDefinition,
           dataSource,
-          latestDataPeriod: '2022',
-          lastUpdated: someDate,
-        };
-      });
+        }): IndicatorDocument => {
+          if (!indicatorName) console.log(indicatorID);
+          return {
+            indicatorID: String(indicatorID),
+            indicatorName,
+            indicatorDefinition,
+            dataSource,
+            latestDataPeriod: '2022',
+            lastUpdated: someDate,
+          };
+        }
+      );
       const service = new IndicatorSearchServiceMock(typedIndicatorData);
       return service;
     } else {

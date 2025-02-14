@@ -7,7 +7,10 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     this.mockIndicatorData = indicatorData;
   }
 
-  public async searchWith(searchText: string, areaCodes: string[]): Promise<IndicatorDocument[]> {
+  public async searchWith(
+    searchText: string,
+    areaCodes: string[]
+  ): Promise<IndicatorDocument[]> {
     return this.mockIndicatorData
       .filter((indicator) => {
         return (
@@ -15,8 +18,12 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
           indicator.indicatorName.includes(searchText) ||
           indicator.indicatorDefinition.includes(searchText)
         );
-      }).filter((indicator) => {
-        return (!areaCodes || indicator.associatedAreas.some((area) => areaCodes.includes(area)))
+      })
+      .filter((indicator) => {
+        return (
+          !areaCodes ||
+          indicator.associatedAreas.some((area) => areaCodes.includes(area))
+        );
       })
       .slice(0, 20);
   }

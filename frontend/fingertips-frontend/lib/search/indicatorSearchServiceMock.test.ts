@@ -6,11 +6,12 @@ describe('IndicatorSearchServiceMock', () => {
     {
       indicatorID: '1',
       indicatorName: 'Red faced',
-      indicatorDefinition: 'Count of people who did something they are embarrassed by',
+      indicatorDefinition:
+        'Count of people who did something they are embarrassed by',
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
       lastUpdated: new Date('December 6, 2024'),
-      associatedAreas: []
+      associatedAreas: [],
     },
     {
       indicatorID: '2',
@@ -19,7 +20,7 @@ describe('IndicatorSearchServiceMock', () => {
       latestDataPeriod: '2022',
       dataSource: 'Mega City 1',
       lastUpdated: new Date('November 5, 2023'),
-      associatedAreas: []
+      associatedAreas: [],
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;

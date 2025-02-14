@@ -25,7 +25,10 @@ export type AreaDocument = {
 };
 
 export interface IIndicatorSearchService {
-  searchWith(searchTerm: string, areaCodes?: string[]): Promise<IndicatorDocument[]>;
+  searchWith(
+    searchTerm: string,
+    areaCodes?: string[]
+  ): Promise<IndicatorDocument[]>;
 }
 
 export interface IAreaSearchService {
