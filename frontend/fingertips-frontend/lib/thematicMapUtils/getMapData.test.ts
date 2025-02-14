@@ -6,26 +6,29 @@ import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
 
-import { getMapData } from './getMapData';
-import { mockMapGroupBoundaries } from '@/mock/data/mapGroupBoundaries';
+import { AreaTypeKeysForMapMeta, getMapData } from './getMapData';
+import {
+  AreaTypeKeysGroupBoundaries,
+  mockMapGroupBoundaries,
+} from '@/mock/data/mapGroupBoundaries';
 
 describe('getMapData', () => {
-  it.each([
-    ['Regions', ['E12000008', 'E12000009'], 'RGN23CD'],
+  it.each<[AreaTypeKeysForMapMeta, string[], string]>([
+    ['regions', ['E12000008', 'E12000009'], 'RGN23CD'],
     [
-      'Counties and Unitary Authorities',
+      'counties-and-unitary-authorities',
       ['E08000025', 'E08000029'],
       'CTYUA23CD',
     ],
     [
-      'Districts and Unitary Authorities',
+      'districts-and-unitary-authorities',
       ['E07000136', 'E07000137'],
       'LAD24CD',
     ],
-    ['Combined Authorities', ['E47000002', 'E47000003'], 'CAUTH23CD'],
-    ['NHS Regions', ['E40000011', 'E40000012'], 'NHSER24CD'],
-    ['NHS Integrated Care Boards', ['E54000010', 'E54000011'], 'ICB23CD'],
-    ['NHS Sub Integrated Care Boards', ['E38000236', 'E38000062'], 'SICBL23CD'],
+    ['combined-authorities', ['E47000002', 'E47000003'], 'CAUTH23CD'],
+    ['nhs-regions', ['E40000011', 'E40000012'], 'NHSER24CD'],
+    ['nhs-integrated-care-boards', ['E54000010', 'E54000011'], 'ICB23CD'],
+    ['nhs-sub-integrated-care-boards', ['E38000236', 'E38000062'], 'SICBL23CD'],
   ])(
     'should return an object with the expected mapJoinKey for the given areaType',
     (areaType, areaCodes, expectedMapJoinKey) => {
@@ -34,27 +37,27 @@ describe('getMapData', () => {
     }
   );
 
-  it.each([
-    ['Regions', ['E12000008', 'E12000009'], regionsMap],
+  it.each<[AreaTypeKeysForMapMeta, string[], unknown]>([
+    ['regions', ['E12000008', 'E12000009'], regionsMap],
     [
-      'Counties and Unitary Authorities',
+      'counties-and-unitary-authorities',
       ['E08000025', 'E08000029'],
       countiesAndUAsMap,
     ],
     [
-      'Districts and Unitary Authorities',
+      'districts-and-unitary-authorities',
       ['E07000136', 'E07000137'],
       districtsAndUAsMap,
     ],
     [
-      'Combined Authorities',
+      'combined-authorities',
       ['E47000002', 'E47000003'],
       combinedAuthoritiesMap,
     ],
-    ['NHS Regions', ['E40000011', 'E40000012'], NHSRegionsMap],
-    ['NHS Integrated Care Boards', ['E54000010', 'E54000011'], NHSICBMap],
+    ['nhs-regions', ['E40000011', 'E40000012'], NHSRegionsMap],
+    ['nhs-integrated-care-boards', ['E54000010', 'E54000011'], NHSICBMap],
     [
-      'NHS Sub Integrated Care Boards',
+      'nhs-sub-integrated-care-boards',
       ['E38000236', 'E38000062'],
       NHSSubICBMap,
     ],
@@ -66,10 +69,10 @@ describe('getMapData', () => {
     }
   );
 
-  it.each([
-    ['Regions', ['E12000008', 'E12000009']],
+  it.each<[AreaTypeKeysGroupBoundaries, string[]]>([
+    ['regions', ['E12000008', 'E12000009']],
     [
-      'Counties and Unitary Authorities',
+      'counties-and-unitary-authorities',
       [
         'E08000025',
         'E08000029',
