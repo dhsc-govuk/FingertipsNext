@@ -140,6 +140,13 @@ const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 
+const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)<{
+  drawLeftBorder: boolean;
+}>`
+  border-left: ${(props) =>
+    props.drawLeftBorder ? 'solid black 1px' : 'none'};
+`;
+
 const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 5 : 4;
 
@@ -156,9 +163,7 @@ export function LineChartTable({
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const englandRowData = sortPeriod(englandData);
 
-  const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)({
-    borderLeft: healthIndicatorData.length > 1 ? 'solid black 1px' : 'none',
-  });
+  const hasMultipleElements = healthIndicatorData.length > 1;
 
   return (
     <StyledDiv data-testid="lineChartTable-component">
@@ -237,7 +242,9 @@ export function LineChartTable({
               <React.Fragment
                 key={healthIndicatorData[areaIndex].areaCode + index}
               >
-                <StyledBenchmarkCell></StyledBenchmarkCell>
+                <StyledBenchmarkCell
+                  drawLeftBorder={hasMultipleElements}
+                ></StyledBenchmarkCell>
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>
