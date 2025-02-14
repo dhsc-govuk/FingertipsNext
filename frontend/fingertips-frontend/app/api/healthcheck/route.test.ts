@@ -3,9 +3,9 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { SystemApi } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 
-const mockSystemApi = mockDeep<SystemApi>();
-
 jest.mock('@/lib/apiClient/apiClientFactory');
+
+const mockSystemApi = mockDeep<SystemApi>();
 const mockApiClientFactory = jest.mocked(ApiClientFactory);
 mockApiClientFactory.getSystemApiClient.mockReturnValue(mockSystemApi);
 
@@ -21,6 +21,8 @@ jest.mock('next/server', () => ({
 describe('Healthcheck API', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   it('should return 200 when API is healthy', async () => {
