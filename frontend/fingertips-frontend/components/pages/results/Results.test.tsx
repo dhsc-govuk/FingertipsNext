@@ -70,7 +70,7 @@ describe('Search Results Suite', () => {
   it('should render elements', () => {
     render(
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
       />
@@ -86,7 +86,7 @@ describe('Search Results Suite', () => {
   it('should render the backLink', () => {
     render(
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
       />
@@ -104,7 +104,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
       />
@@ -116,7 +116,7 @@ describe('Search Results Suite', () => {
   it('should render the AreaFilter', () => {
     render(
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
       />
@@ -128,7 +128,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSelectionForm', () => {
     render(
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
       />
@@ -147,7 +147,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
-        searchResultsState={errorState}
+        initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
       />
@@ -173,7 +173,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
-        searchResultsState={errorState}
+        initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
       />

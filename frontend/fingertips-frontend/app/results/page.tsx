@@ -93,7 +93,7 @@ export default async function Page(
 
     return (
       <SearchResults
-        searchResultsState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
         availableAreas={availableAreas}

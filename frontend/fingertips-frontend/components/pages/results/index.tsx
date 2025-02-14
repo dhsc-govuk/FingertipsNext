@@ -26,7 +26,7 @@ import {
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 
 type SearchResultsProps = {
-  searchResultsState: IndicatorSelectionState;
+  initialIndicatorSelectionState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
   availableGroupTypes?: AreaType[];
@@ -43,7 +43,7 @@ const generateBackLinkPath = (state?: SearchStateParams) => {
 };
 
 export function SearchResults({
-  searchResultsState,
+  initialIndicatorSelectionState,
   searchResults,
   availableAreaTypes,
   availableGroupTypes,
@@ -51,13 +51,8 @@ export function SearchResults({
   selectedAreasData,
   searchState,
 }: Readonly<SearchResultsProps>) {
-  const initialSearchResultsFormState: IndicatorSelectionState = {
-    ...searchResultsState,
-    searchState: JSON.stringify(searchState),
-  };
-
   const [indicatorSelectionState, indicatorSelectionFormAction] =
-    useActionState(submitIndicatorSelection, initialSearchResultsFormState);
+    useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
 
   const backLinkPath = generateBackLinkPath(searchState);
 
