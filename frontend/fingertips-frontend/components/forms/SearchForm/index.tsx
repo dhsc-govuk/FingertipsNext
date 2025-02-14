@@ -11,7 +11,7 @@ import {
 } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import AreaSelectAutoComplete from '@/components/molecules/AreaSelectAutoComplete';
+import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
@@ -40,6 +40,8 @@ export const SearchForm = ({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
+
+  console.log("SEARCH = ", searchFormState.message)
   return (
     <div
       data-testid="search-form"
@@ -73,10 +75,10 @@ export const SearchForm = ({
         Search by subject
       </StyledInputField>
 
-      <AreaSelectAutoComplete
-        onSelect={(areaCode) => {
-          updateUrlWithSelectedArea(areaCode);
-          searchFormState.areaSearched = areaCode;
+      <AreaAutoCompleteSearchPanel
+        onAreaSelected={(area) => {
+          updateUrlWithSelectedArea(area.areaCode);
+          searchFormState.areaSearched = area.areaCode;
         }}
       />
       <Button

@@ -1,9 +1,9 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
-import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
+import {AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
-import { AreaSearchPillPanel } from '../AreaSearchPillPanel';
+import { AreaSelectionSearchPillPanel } from '../AreaSelectionSearchPillPanel';
 import styled from 'styled-components';
 import { AreaFilterPanel } from '../AreaFilterPanel';
 
@@ -20,28 +20,12 @@ const StyleAreaSelectAutoCompletePanel = styled('div')({
 });
 interface AreaSelectAutoCompleteProps {
   area?: AreaDocument;
-  onSelect: (areaCode: string) => void;
+  onAreaSelected: (area: AreaDocument) => void;
 }
 
-async function generateAreaSuggestions(
-  partialText: string
-): Promise<AreaDocument[]> {
-  if (partialText.length < 3) return [];
-  else {
-    const areas = await getSearchSuggestions(partialText);
-    return areas.slice(0, 20);
-  }
-}
-
-function formatAreaName(area: AreaDocument): string {
-  return area.areaType === AREA_TYPE_GP
-    ? `${area.areaCode} - ${area.areaName}`
-    : area.areaName;
-}
-
-export default function AreaSelectAutoComplete({
+export default function AreaAutoCompleteSearchPanel({
   area,
-  onSelect,
+  onAreaSelected,
 }: AreaSelectAutoCompleteProps) {
   const [criteria, setCriteria] = useState<string>();
   const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
@@ -81,7 +65,7 @@ export default function AreaSelectAutoComplete({
         }}
         disabled={selectedAreas.length > 0}
       />
-      <AreaSearchPillPanel
+      <AreaSelectionSearchPillPanel
         areas={selectedAreas}
         onClick={(area: AreaDocument) => {
           // remove the area from the list of selected areas
@@ -96,10 +80,13 @@ export default function AreaSelectAutoComplete({
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
+          if(onAreaSelected != null){
+            onAreaSelected(selectedArea)
+          }
         }}
       />
 
-      <AreaFilterPanel areas={selectedAreas} />
+      <AreaFilterPanel areas={selectedAreas} onOpen={() => {}} />
     </StyleAreaSelectAutoCompletePanel>
   );
 }

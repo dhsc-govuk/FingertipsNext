@@ -17,7 +17,7 @@ const StyleAreaSearchSelectionPanelItem = styled(ListItem)({
   flexDirection: 'row',
 });
 
-const StyleAreaSearchPillHeader = styled(StyleSearchHeader)({
+const AreaSelectionSearchPillPanelHeader = styled(StyleSearchHeader)({
   marginTop: '10px',
   marginBottom: '5px;',
 });
@@ -26,20 +26,20 @@ const StyleAreaPill = styled(Pill)({
   backgroundColor: '#000000',
 });
 
-interface AreaSearchPillPanelProps {
+interface AreaSelectionSearchPillPanelProps {
   areas: AreaDocument[];
   onClick: (area: AreaDocument) => void;
 }
-export const AreaSearchPillPanel = ({
+export const AreaSelectionSearchPillPanel = ({
   areas,
   onClick,
-}: AreaSearchPillPanelProps) => {
+}: AreaSelectionSearchPillPanelProps) => {
   if (areas.length == 0) return null;
   return (
     <div>
-      <StyleAreaSearchPillHeader>
+      <AreaSelectionSearchPillPanelHeader>
         Selected areas (<span style={{ margin: '0px' }}>{areas.length}</span>)
-      </StyleAreaSearchPillHeader>
+      </AreaSelectionSearchPillPanelHeader>
 
       <StyleAreaSearchSelectionPanel>
         {' '}
