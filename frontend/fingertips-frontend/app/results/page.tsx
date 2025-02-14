@@ -13,7 +13,7 @@ import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSele
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 import { AreaTypes } from '@/mock/data/areaType';
-import { SearchResultState } from '@/components/pages/results/searchResultsActions';
+import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
 
 export default async function Page(
   props: Readonly<{

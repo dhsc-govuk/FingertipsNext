@@ -1,5 +1,5 @@
 import { SearchResult } from '@/components/molecules/result';
-import { SearchResultState } from '@/components/pages/results/searchResultsActions';
+import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,

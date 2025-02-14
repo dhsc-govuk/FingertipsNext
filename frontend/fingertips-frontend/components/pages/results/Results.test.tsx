@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResults } from '.';
-import { SearchResultState } from './searchResultsActions';
+import { SearchResultState } from '../../forms/IndicatorSelectionForm/searchResultsActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';

@@ -5,7 +5,7 @@ import { useActionState } from 'react';
 import {
   SearchResultState,
   submitIndicatorSelection,
-} from './searchResultsActions';
+} from '../../forms/IndicatorSelectionForm/searchResultsActions';
 import {
   SearchParams,
   SearchStateManager,

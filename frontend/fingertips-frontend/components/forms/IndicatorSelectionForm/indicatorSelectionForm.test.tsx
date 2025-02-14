@@ -3,7 +3,7 @@ import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { formatDate } from '@/components/molecules/result';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { SearchResultState } from '@/components/pages/results/searchResultsActions';
+import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
