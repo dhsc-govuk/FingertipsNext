@@ -1,14 +1,9 @@
 import styled from 'styled-components';
-import { SearchBox, Label, Paragraph } from 'govuk-react';
+import { InputField } from 'govuk-react';
 
 const StyleAreaSearchBoxPanel = styled('div')({
   marginBottom: '5px',
   whiteSpace: '6',
-});
-
-const StyledSearchBoxArea = styled('div')({
-  display: 'flex',
-  border: '0.12em solid #000000',
 });
 
 export const StyleSearchHeader = styled('h3')({
@@ -16,20 +11,9 @@ export const StyleSearchHeader = styled('h3')({
   fontSize: '19px',
 });
 
-const StyleSearchHintPanel = styled(Paragraph)({
-  color: '#505a5f',
-  fontSize: '19px;',
-  marginBottom: '15px',
-});
-
-const StyleSearchBoxInput = styled(SearchBox.Input)({
-  margin: '2px;',
-  border: '1px',
-});
-
 interface SearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
-  value?: string | undefined;
+  value?: string;
   disabled?: boolean;
 }
 
@@ -39,24 +23,25 @@ export const AreaSearchInputField = ({
 }: SearchInputFieldProps) => {
   return (
     <StyleAreaSearchBoxPanel>
-      <StyleSearchHeader>Search for an area</StyleSearchHeader>
-      <StyleSearchHintPanel>
-        For example district, county, region, NHS organisation or GP practice or
-        code
-      </StyleSearchHintPanel>
-
-      <StyledSearchBoxArea>
-        <SearchBox
-          onChange={(e) => {
-            const value = e.target.value;
+      <InputField
+        input={{
+          onChange: (e) => {
+            const val = e.target.value;
             if (onTextChange != null) {
-              onTextChange(value);
+              onTextChange(val);
             }
-          }}
-        >
-          <StyleSearchBoxInput disabled={disabled} />
-        </SearchBox>
-      </StyledSearchBoxArea>
+          },
+          disabled: disabled,
+        }}
+        hint={
+          <div style={{ color: '#505a5f' }}>
+            For example district, county, region, NHS organisation or GP
+            practice or code
+          </div>
+        }
+      >
+        Search for an area
+      </InputField>
     </StyleAreaSearchBoxPanel>
   );
 };

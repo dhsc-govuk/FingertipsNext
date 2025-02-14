@@ -40,8 +40,7 @@ export const SearchForm = ({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-
-  console.log("SEARCH = ", searchFormState.message)
+  console.log('SEARCH = ', searchFormState.message);
   return (
     <div
       data-testid="search-form"
@@ -66,11 +65,11 @@ export const SearchForm = ({
             For example diabetes, public health indicator, or indicator ID
           </div>
         }
-        meta={{
-          touched: !!searchFormState.message,
-          error: 'This field value may be required',
-        }}
-        data-testid="indicator-search-form-input"
+        // meta={{
+        //   touched: !!searchFormState.message,
+        //   error: 'This field value may be required',
+        // }}
+        // data-testid="indicator-search-form-input"
       >
         Search by subject
       </StyledInputField>

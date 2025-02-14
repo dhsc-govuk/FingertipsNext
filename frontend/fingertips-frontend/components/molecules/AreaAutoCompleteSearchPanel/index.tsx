@@ -1,5 +1,5 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
-import {AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
@@ -80,8 +80,8 @@ export default function AreaAutoCompleteSearchPanel({
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
-          if(onAreaSelected != null){
-            onAreaSelected(selectedArea)
+          if (onAreaSelected != null) {
+            onAreaSelected(selectedArea);
           }
         }}
       />
