@@ -7,7 +7,7 @@ import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 interface PyramidChartProps {
-  data: PopulationData;
+  healthIndicatorData: PopulationData;
   populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -15,7 +15,7 @@ interface PyramidChartProps {
 }
 
 export function PopulationPyramid({
-  data,
+  healthIndicatorData,
   populationPyramidTitle,
   xAxisTitle,
   yAxisTitle,
@@ -33,7 +33,7 @@ export function PopulationPyramid({
     legend: { verticalAlign: 'top', layout: 'horizontal' },
     xAxis: [
       {
-        categories: data.dataForSelectedArea?.ageCategories,
+        categories: healthIndicatorData.dataForSelectedArea?.ageCategories,
         title: {
           text: xAxisTitle,
           align: 'high',
@@ -50,7 +50,7 @@ export function PopulationPyramid({
         // mirror axis on right side
         opposite: true,
         reversed: false,
-        categories: data.dataForSelectedArea?.ageCategories,
+        categories: healthIndicatorData.dataForSelectedArea?.ageCategories,
         linkedTo: 0,
         title: {
           text: xAxisTitle,
@@ -101,7 +101,7 @@ export function PopulationPyramid({
       {
         name: 'Female',
         type: 'bar',
-        data: data.dataForSelectedArea?.femaleSeries,
+        data: healthIndicatorData.dataForSelectedArea?.femaleSeries,
         xAxis: 0,
         color: '#5352BE',
         pointWidth: 17,
@@ -118,7 +118,7 @@ export function PopulationPyramid({
       {
         name: 'Male',
         type: 'bar',
-        data: data.dataForSelectedArea?.maleSeries.map(
+        data: healthIndicatorData.dataForSelectedArea?.maleSeries.map(
           (datapoint) => -datapoint
         ),
         xAxis: 1,
@@ -142,11 +142,11 @@ export function PopulationPyramid({
   };
 
   // add comparitors to series if they exist
-  if (data.dataForEngland && populationPyramidOptions.series) {
+  if (healthIndicatorData.dataForEngland && populationPyramidOptions.series) {
     populationPyramidOptions.series.push(
       {
         name: 'England',
-        data: data.dataForEngland.femaleSeries,
+        data: healthIndicatorData.dataForEngland.femaleSeries,
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -154,7 +154,9 @@ export function PopulationPyramid({
       },
       {
         name: 'England',
-        data: data.dataForEngland.maleSeries.map((datapoint) => -datapoint),
+        data: healthIndicatorData.dataForEngland.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -163,12 +165,12 @@ export function PopulationPyramid({
       }
     );
   }
-  if (data.dataForBaseline && populationPyramidOptions.series) {
+  if (healthIndicatorData.dataForBaseline && populationPyramidOptions.series) {
     populationPyramidOptions.series.push(
       {
         name: 'Baseline',
         type: 'line',
-        data: data.dataForBaseline.femaleSeries,
+        data: healthIndicatorData.dataForBaseline.femaleSeries,
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -177,7 +179,9 @@ export function PopulationPyramid({
       {
         name: 'Baseline',
         type: 'line',
-        data: data.dataForBaseline.maleSeries.map((datapoint) => -datapoint),
+        data: healthIndicatorData.dataForBaseline.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -191,7 +195,9 @@ export function PopulationPyramid({
     <div data-testid="populationPyramid-component">
       <H3>{populationPyramidTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-populationPyramid',
+        }}
         highcharts={Highcharts}
         options={populationPyramidOptions}
       />
