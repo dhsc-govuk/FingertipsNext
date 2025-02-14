@@ -68,8 +68,6 @@ async function main(): Promise<void> {
     typedIndicatorData
   );
 
-  console.log(typedIndicatorData[0])
-
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,

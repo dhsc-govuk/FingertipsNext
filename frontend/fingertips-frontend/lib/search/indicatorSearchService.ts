@@ -24,7 +24,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     );
   }
 
-  async searchWith(searchTerm: string): Promise<IndicatorDocument[]> {
+  async searchWith(searchTerm: string, areaCodes?: string[]): Promise<IndicatorDocument[]> {
     // Search with both full search term and wildcard for now to allow for
     // observed behaviour where wildcard match of full term did not always return
     // the matching document.
@@ -34,11 +34,13 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       queryType: 'full',
       includeTotalCount: true,
       top: 100,
+      filter: areaCodes ? `associatedAreaCodes/any(areaCode: areaCode eq '${areaCodes[0]}')` : undefined,
     };
 
     const searchResponse = await this.searchClient.search(query, searchOptions);
     const results: IndicatorDocument[] = [];
 
+    console.log(JSON.stringify(searchResponse));
     for await (const result of searchResponse.results) {
       results.push(result.document as IndicatorDocument);
     }

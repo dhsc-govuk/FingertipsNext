@@ -4,20 +4,22 @@ import { IIndicatorSearchService, IndicatorDocument } from './searchTypes';
 describe('IndicatorSearchServiceMock', () => {
   const mockData: IndicatorDocument[] = [
     {
-      indicatorId: '1',
-      name: 'Red faced',
-      definition: 'Count of people who did something they are embarrassed by',
+      indicatorID: '1',
+      indicatorName: 'Red faced',
+      indicatorDefinition: 'Count of people who did something they are embarrassed by',
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
       lastUpdated: new Date('December 6, 2024'),
+      associatedAreas: []
     },
     {
-      indicatorId: '2',
-      name: 'Perp count',
-      definition: 'Perps brought to justice',
+      indicatorID: '2',
+      indicatorName: 'Perp count',
+      indicatorDefinition: 'Perps brought to justice',
       latestDataPeriod: '2022',
       dataSource: 'Mega City 1',
       lastUpdated: new Date('November 5, 2023'),
+      associatedAreas: []
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;

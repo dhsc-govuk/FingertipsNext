@@ -31,6 +31,8 @@ describe('AI search index creation and data loading', () => {
 
     expect(documents.value).toBeDefined();
     expect(documents.value.length).toBeGreaterThan(0);
+    console.log(url)
+    console.log(documents.value)
   };
 
   describe('Search by indicator', () => {
