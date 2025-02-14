@@ -92,7 +92,7 @@ namespace DataCreator
                 });
             }
 
-            return allData;
+             return allData;
         }
 
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
