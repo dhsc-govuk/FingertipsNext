@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { nhsRegionsAreaType } from '../areaType';
+import { nhsRegionsAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const eastEnglandNHSRegion: Area = {
   code: 'E40000007',

@@ -12,7 +12,7 @@ import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
-import { AreaTypes } from '@/mock/data/areaType';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 
 export default async function Page(
@@ -45,7 +45,7 @@ export default async function Page(
         : [];
 
     const determinedSelectedAreaType = determineSelectedAreaType(
-      selectedAreaType as AreaTypes,
+      selectedAreaType as AreaTypeKeys,
       selectedAreasData
     );
     stateManager.addParamValueToState(
@@ -64,7 +64,7 @@ export default async function Page(
       );
 
     const determinedSelectedGroupType = determineSelectedGroupType(
-      selectedGroupType as AreaTypes,
+      selectedGroupType as AreaTypeKeys,
       selectedAreasData
     );
     if (determinedSelectedGroupType) {

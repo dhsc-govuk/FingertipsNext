@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { nhsPrimaryCareNetworksAreaType } from '../areaType';
+import { nhsPrimaryCareNetworksAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const eastBasildonPCN: Area = {
   code: 'U15488',

@@ -116,4 +116,4 @@ const _areaTypeKeys = [
   ...allHierarchyAreaTypesKey,
 ] as const;
 
-export type AreaTypes = (typeof _areaTypeKeys)[number];
+export type AreaTypeKeys = (typeof _areaTypeKeys)[number];

@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { regionsAreaType } from '../areaType';
+import { regionsAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const northEastRegion: Area = {
   code: 'E12000001',

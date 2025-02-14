@@ -11,7 +11,7 @@ import {
   englandAreaType,
   nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
-} from '@/mock/data/areaType';
+} from '@/lib/areaFilterHelpers/areaType';
 import { AreaType } from '@/generated-sources/ft-api-client';
 
 const mockPath = 'some-mock-path';

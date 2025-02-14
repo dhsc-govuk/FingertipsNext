@@ -1,5 +1,5 @@
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
-import { allAreaTypes, AreaTypes } from '@/mock/data/areaType';
+import { allAreaTypes, AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 describe('determineApplicableGroupTypes', () => {
   it('should return undefined if allAreaTypes is undefined', () => {
@@ -37,8 +37,8 @@ describe('determineApplicableGroupTypes', () => {
   });
 
   type determineApplicableGroupTypesSet = [
-    selectedAreaType: AreaTypes,
-    expectedGroupTypes: AreaTypes[],
+    selectedAreaType: AreaTypeKeys,
+    expectedGroupTypes: AreaTypeKeys[],
   ];
 
   it.each<determineApplicableGroupTypesSet>([

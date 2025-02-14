@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { nhsIntegratedCareBoardsAreaType } from '../areaType';
+import { nhsIntegratedCareBoardsAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const basildonAndBrentwoodICB: Area = {
   code: 'E38000007',

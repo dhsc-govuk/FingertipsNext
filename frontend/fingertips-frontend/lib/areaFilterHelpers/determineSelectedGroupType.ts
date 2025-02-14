@@ -1,12 +1,12 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { AreaTypes } from '@/mock/data/areaType';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export const determineSelectedGroupType = (
-  selectedGroupType?: AreaTypes,
+  selectedGroupType?: AreaTypeKeys,
   selectedAreaData?: AreaWithRelations[]
-): AreaTypes | undefined => {
+): AreaTypeKeys | undefined => {
   if (selectedGroupType) return selectedGroupType;
 
   if (selectedAreaData && selectedAreaData.length > 0)
-    return selectedAreaData[0].parent?.areaType.key as AreaTypes;
+    return selectedAreaData[0].parent?.areaType.key as AreaTypeKeys;
 };

@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { countiesAndUnitaryAuthoritiesAreaType } from '../areaType';
+import { countiesAndUnitaryAuthoritiesAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const countyDurham: Area = {
   code: 'E06000047',

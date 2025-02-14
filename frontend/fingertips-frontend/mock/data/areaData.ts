@@ -1,6 +1,6 @@
 import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import {
-  AreaTypes,
+  AreaTypeKeys,
   countiesAndUnitaryAuthoritiesAreaType,
   englandAreaType,
   gpsAreaType,
@@ -8,7 +8,7 @@ import {
   nhsPrimaryCareNetworksAreaType,
   nhsRegionsAreaType,
   regionsAreaType,
-} from './areaType';
+} from '../../lib/areaFilterHelpers/areaType';
 import { englandArea } from './areas/englandAreas';
 import {
   northEastRegion,
@@ -155,7 +155,7 @@ export const mockAreaData: Record<string, AreaWithRelations> = {
   ...mockAreaDataForGP,
 };
 
-export const mockAvailableAreas: Record<AreaTypes, Area[]> = {
+export const mockAvailableAreas: Record<AreaTypeKeys, Area[]> = {
   'combined-authorities': [],
   'districts-and-unitary-authorities': [],
   'nhs-sub-integrated-care-boards': [],

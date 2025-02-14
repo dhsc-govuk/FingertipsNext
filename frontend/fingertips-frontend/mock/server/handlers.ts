@@ -2,7 +2,10 @@ import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { mockAreaData, mockAvailableAreas } from '../data/areaData';
-import { allAreaTypes, AreaTypes } from '../data/areaType';
+import {
+  allAreaTypes,
+  AreaTypeKeys,
+} from '../../lib/areaFilterHelpers/areaType';
 
 faker.seed(1);
 
@@ -31,7 +34,7 @@ export const handlers = [
   http.get(
     `${baseURL}/areas/areatypes/:areaTypeKey/areas`,
     async ({ params }) => {
-      const areaTypeKey = params.areaTypeKey as AreaTypes;
+      const areaTypeKey = params.areaTypeKey as AreaTypeKeys;
 
       if (typeof areaTypeKey !== 'string') {
         return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
@@ -107,7 +110,7 @@ export function getGetAreaTypes200Response() {
   return allAreaTypes;
 }
 
-export function getGetAreaTypeMembers200Response(areaTypeKey: AreaTypes) {
+export function getGetAreaTypeMembers200Response(areaTypeKey: AreaTypeKeys) {
   return mockAvailableAreas[areaTypeKey];
 }
 

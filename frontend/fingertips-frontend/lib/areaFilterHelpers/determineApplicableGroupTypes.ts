@@ -1,9 +1,9 @@
 import { AreaType } from '@/generated-sources/ft-api-client';
-import { AreaTypes } from '@/mock/data/areaType';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 export const determineApplicableGroupTypes = (
   allAreaTypes?: AreaType[],
-  selectedAreaType?: AreaTypes
+  selectedAreaType?: AreaTypeKeys
 ): AreaType[] | undefined => {
   if (allAreaTypes && selectedAreaType) {
     const selectedAreaTypeData = allAreaTypes.find(

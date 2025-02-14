@@ -1,5 +1,5 @@
 import { Area } from '@/generated-sources/ft-api-client';
-import { gpsAreaType } from '../areaType';
+import { gpsAreaType } from '../../../lib/areaFilterHelpers/areaType';
 
 export const felmoresGP: Area = {
   code: 'F81186',
