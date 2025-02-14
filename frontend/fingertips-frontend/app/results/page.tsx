@@ -9,11 +9,11 @@ import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
-import { SearchResultState } from '@/components/pages/results/searchResultsActions';
 import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 import { AreaTypes } from '@/mock/data/areaType';
+import { SearchResultState } from '@/components/pages/results/searchResultsActions';
 
 export default async function Page(
   props: Readonly<{
@@ -27,14 +27,12 @@ export default async function Page(
 
   const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupTypeSelected]: selectedGroupType,
   } = stateManager.getSearchState();
-
   try {
-    // Perform async API call using indicator prop
     await connection();
     const areasApi = ApiClientFactory.getAreasApiClient();
 
@@ -76,14 +74,6 @@ export default async function Page(
       );
     }
 
-    const initialState: SearchResultState = {
-      searchState: JSON.stringify(stateManager.getSearchState()),
-      indicatorsSelected: indicatorsSelected ?? [],
-      message: null,
-      errors: {},
-    };
-
-    // Perform async API call using indicator prop
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
           searchedIndicator
@@ -94,9 +84,16 @@ export default async function Page(
       (a, b) => a.level - b.level
     );
 
+    const initialState: SearchResultState = {
+      searchState: JSON.stringify(stateManager.getSearchState()),
+      indicatorsSelected: indicatorsSelected ?? [],
+      message: null,
+      errors: {},
+    };
+
     return (
       <SearchResults
-        searchResultsFormState={initialState}
+        searchResultsState={initialState}
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
         availableAreas={availableAreas}
@@ -106,7 +103,6 @@ export default async function Page(
       />
     );
   } catch (error) {
-    // Log error response
     console.log(`Error response received from call: ${error}`);
     return (
       <ErrorPage

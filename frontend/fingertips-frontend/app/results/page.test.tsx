@@ -160,12 +160,6 @@ describe('Results Page', () => {
       searchParams: generateSearchParams(searchState),
     });
 
-    expect(page.props.searchResultsFormState).toEqual({
-      errors: {},
-      indicatorsSelected: ['1', '2'],
-      message: null,
-      searchState: JSON.stringify(searchState),
-    });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
     expect(page.props.availableAreas).toEqual(
@@ -192,12 +186,6 @@ describe('Results Page', () => {
       searchParams: generateSearchParams(searchState),
     });
 
-    expect(page.props.searchResultsFormState).toEqual({
-      errors: {},
-      indicatorsSelected: [],
-      message: null,
-      searchState: JSON.stringify(searchState),
-    });
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
     expect(page.props.searchState).toEqual(searchState);

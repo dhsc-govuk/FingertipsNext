@@ -108,7 +108,6 @@ export function getGetAreaTypes200Response() {
 }
 
 export function getGetAreaTypeMembers200Response(areaTypeKey: AreaTypes) {
-  console.log(`getGetAreaTypeMembers200Response - areaTypeKey ${areaTypeKey}`);
   return mockAvailableAreas[areaTypeKey];
 }
 

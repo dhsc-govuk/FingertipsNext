@@ -41,6 +41,8 @@ const MOCK_DATA: IndicatorDocument[] = [
   },
 ];
 
+const mockHandleClick = jest.fn();
+
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
 };
@@ -52,7 +54,11 @@ beforeEach(() => {
 
 it('should have search result list item', () => {
   render(
-    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+    />
   );
 
   expect(screen.getByRole('listitem')).toBeInTheDocument();
@@ -60,7 +66,11 @@ it('should have search result list item', () => {
 
 it('should contain 3 paragraphs and a heading', () => {
   render(
-    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+    />
   );
 
   expect(screen.getAllByRole('paragraph')).toHaveLength(3);
@@ -69,7 +79,11 @@ it('should contain 3 paragraphs and a heading', () => {
 
 it('should contain expected text', () => {
   render(
-    <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+    />
   );
 
   expect(screen.getByRole('heading').textContent).toContain('NHS');
@@ -89,6 +103,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={true}
         searchState={initialSearchState}
+        handleClick={mockHandleClick}
       />
     );
 
@@ -101,54 +116,51 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={false}
         searchState={initialSearchState}
+        handleClick={mockHandleClick}
       />
     );
 
     expect(screen.getByRole('checkbox')).not.toBeChecked();
   });
 
-  it('should update the path when an indicator is checked', async () => {
+  it('should call the provided handleClick function when checked', async () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={false}
         searchState={initialSearchState}
+        handleClick={mockHandleClick}
       />
     );
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1`,
-      {
-        scroll: false,
-      }
-    );
+    expect(mockHandleClick).toHaveBeenCalledWith('1', true);
   });
 
-  it('should update the path when an indicator is unchecked', async () => {
+  it('should call the provided handleClick function when unchecked', async () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={true}
         searchState={initialSearchState}
+        handleClick={mockHandleClick}
       />
     );
 
     await user.click(screen.getByRole('checkbox'));
 
-    expect(mockReplace).toHaveBeenCalledWith(
-      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
-      {
-        scroll: false,
-      }
-    );
+    expect(mockHandleClick).toHaveBeenCalledWith('1', false);
   });
 
   it('should have a direct link to the indicator chart', () => {
     const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
     render(
-      <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
@@ -156,7 +168,11 @@ describe('Indicator Checkbox', () => {
 
   it('snapshot test', () => {
     const container = render(
-      <SearchResult result={MOCK_DATA[0]} searchState={initialSearchState} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
     );
 
     expect(container.asFragment()).toMatchSnapshot();

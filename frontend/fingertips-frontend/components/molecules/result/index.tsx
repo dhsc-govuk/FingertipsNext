@@ -10,7 +10,6 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { usePathname, useRouter } from 'next/navigation';
 import {
   SearchParams,
   SearchStateManager,
@@ -22,6 +21,7 @@ type SearchResultProps = {
   result: IndicatorDocument;
   indicatorSelected?: boolean;
   searchState?: SearchStateParams;
+  handleClick: (indicatorId: string, checked: boolean) => void;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -52,27 +52,10 @@ export function SearchResult({
   result,
   indicatorSelected,
   searchState,
+  handleClick,
 }: Readonly<SearchResultProps>) {
-  const pathname = usePathname();
-  const { replace } = useRouter();
   const stateManager =
     SearchStateManager.setStateFromSearchStateParams(searchState);
-
-  const handleClick = (indicatorId: string, checked: boolean) => {
-    if (checked) {
-      stateManager.addParamValueToState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    } else {
-      stateManager.removeParamValueFromState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    }
-
-    replace(stateManager.generatePath(pathname), { scroll: false });
-  };
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
     const chartPath = '/chart';
