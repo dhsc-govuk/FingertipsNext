@@ -1,6 +1,3 @@
-import { ExportResult } from '@opentelemetry/core';
-import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
-
 const startMockServer = async () => {
   if (
     process.env.NEXT_RUNTIME === 'nodejs' &&
@@ -13,67 +10,16 @@ const startMockServer = async () => {
   }
 };
 
-const configureApplicationInsights = async () => {
-  console.log('Configuring logging');
-
+export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-      const { useAzureMonitor } = await import('@azure/monitor-opentelemetry');
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      useAzureMonitor();
-
-      console.log('Application Insights monitoring enabled');
+      console.log('** Application Insights Enabled - Configuring Telemetry **');
+      await import('./instrumentation.node');
     } else {
       console.log(
         '** Application Insights Connection String missing - monitoring disabled **'
       );
     }
   }
-};
-
-const configureTracing = async () => {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const opentelemetry = await import('@opentelemetry/sdk-node');
-    const { UndiciInstrumentation } = await import(
-      '@opentelemetry/instrumentation-undici'
-    );
-    const { SimpleSpanProcessor } = await import(
-      '@opentelemetry/sdk-trace-node'
-    );
-    const { Resource } = await import('@opentelemetry/resources');
-    const { ATTR_SERVICE_NAME } = await import(
-      '@opentelemetry/semantic-conventions'
-    );
-
-    const noopSpanExporter: SpanExporter = {
-      export: function (
-        _spans: ReadableSpan[],
-        _resultCallback: (result: ExportResult) => void
-      ): void {},
-      shutdown: function (): Promise<void> {
-        return new Promise((resolve) => resolve());
-      },
-    };
-
-    const spanProcessor = new SimpleSpanProcessor(noopSpanExporter);
-    const instrumentation = new UndiciInstrumentation();
-
-    const sdk = new opentelemetry.NodeSDK({
-      resource: new Resource({
-        [ATTR_SERVICE_NAME]: 'ftn_fe',
-      }),
-      traceExporter: undefined,
-      spanProcessors: [spanProcessor],
-      instrumentations: [instrumentation],
-    });
-
-    sdk.start();
-  }
-};
-
-export async function register() {
-  configureApplicationInsights();
-  configureTracing();
   await startMockServer();
 }

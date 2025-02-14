@@ -28,7 +28,7 @@ export default async function ChartPage(
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const data = await Promise.all(
+  const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
@@ -69,7 +69,7 @@ export default async function ChartPage(
   return (
     <Chart
       populationData={preparedPopulationData}
-      data={data}
+      healthIndicatorData={healthIndicatorData}
       mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}

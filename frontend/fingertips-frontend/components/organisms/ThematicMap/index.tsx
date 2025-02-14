@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 
 interface ThematicMapProps {
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
   mapTitle?: string;
 }
@@ -19,7 +19,7 @@ const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
 };
 export function ThematicMap({
-  data,
+  healthIndicatorData,
   mapData,
   mapTitle,
 }: Readonly<ThematicMapProps>) {
@@ -64,7 +64,7 @@ export function ThematicMap({
         name: 'data',
         showInLegend: false,
         mapData: mapData.mapFile,
-        data: data.map((areaData) => {
+        data: healthIndicatorData.map((areaData) => {
           return {
             areaName: areaData.areaName,
             areaCode: areaData.areaCode,

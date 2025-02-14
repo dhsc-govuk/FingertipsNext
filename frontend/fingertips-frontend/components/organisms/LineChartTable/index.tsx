@@ -9,7 +9,7 @@ import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 
 interface TableProps {
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
 }
 
@@ -27,8 +27,6 @@ const StyledDiv = styled('div')({
   alignItems: 'center',
 });
 
-const StyledTable = styled(Table)({});
-
 const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 14 }),
   {
@@ -40,24 +38,36 @@ const StyledTableCellHeader = styled(Table.CellHeader)(
 const StyledAlignRightHeader = styled(StyledTableCellHeader)({
   textAlign: 'right',
   paddingRight: '10px',
+  verticalAlign: 'top',
 });
 
 const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
   textAlign: 'left',
+  verticalAlign: 'top',
 });
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   width: '10%',
   padding: '1em 0',
+  textAlign: 'center',
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
-  width: '15%',
+  width: '27%',
+});
+
+const StyledBenchmarkTrendHeaderMultipleAreas = styled(
+  StyledBenchmarkTrendHeader
+)({
+  borderLeft: 'solid black 1px',
+  width: '18%',
+  paddingLeft: '0.5em',
 });
 
 const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
-  width: '18%',
+  width: '22%',
   padding: '0.5em',
+  textAlign: 'center',
 });
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
@@ -73,6 +83,10 @@ const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
 const StyledAlignLeftTableCell = styled(StyledTableCell)({
   textAlign: 'left',
   width: '10%',
+});
+
+const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
+  borderLeft: 'solid black 1px',
 });
 
 const StyledAlignRightTableCell = styled(StyledTableCell)({
@@ -108,16 +122,34 @@ const convertToPercentage = (value: number): string => {
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
 
-const getCellHeader = (heading: string, index: number): ReactNode => {
+const getBenchmarkHeader = (
+  areaCount: number,
+  heading: LineChartTableHeadingEnum,
+  index: number
+): ReactNode =>
+  areaCount < 2 ? (
+    <StyledBenchmarkTrendHeader
+      data-testid={`header-${heading}-${index}`}
+      key={`header-${heading}`}
+    >
+      {heading}
+    </StyledBenchmarkTrendHeader>
+  ) : (
+    <StyledBenchmarkTrendHeaderMultipleAreas
+      data-testid={`header-${heading}-${index}`}
+      key={`header-${heading}`}
+    >
+      {heading}
+    </StyledBenchmarkTrendHeaderMultipleAreas>
+  );
+
+const getCellHeader = (
+  heading: string,
+  index: number,
+  dataLength: number
+): ReactNode => {
   if (heading === LineChartTableHeadingEnum.BenchmarkTrend)
-    return (
-      <StyledBenchmarkTrendHeader
-        data-testid={`header-${heading}-${index}`}
-        key={`header-${heading}`}
-      >
-        {heading}
-      </StyledBenchmarkTrendHeader>
-    );
+    return getBenchmarkHeader(dataLength, heading, index);
 
   return heading === LineChartTableHeadingEnum.AreaCount ? (
     <StyledAlignRightHeader
@@ -136,44 +168,52 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
   );
 };
 
+const getBenchmarkCell = (areaCount: number) =>
+  areaCount < 2 ? (
+    <StyledAlignLeftTableCell></StyledAlignLeftTableCell>
+  ) : (
+    <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
+  );
+
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 
 const getConfidenceLimitCellSpan = (index: number): number =>
-  index === 0 ? 5 : 4;
+  index === 0 ? 4 : 3;
 
 export function LineChartTable({
-  data,
+  healthIndicatorData,
   englandBenchmarkData,
 }: Readonly<TableProps>) {
-  const tableData = data.map((areaData) => mapToTableData(areaData));
+  const tableData = healthIndicatorData.map((areaData) =>
+    mapToTableData(areaData)
+  );
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const englandRowData = sortPeriod(englandData);
 
-  const StyledBenchmarkCell = styled(StyledAlignLeftTableCell)({
-    borderLeft: data.length > 1 ? 'solid black 1px' : 'none',
-  });
-
   return (
     <StyledDiv data-testid="lineChartTable-component">
-      <StyledTable
+      <Table
         head={
           <>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName + index}>
-                  <StyledTitleRow colSpan={6}>
+                  {index === 0 && healthIndicatorData.length > 1 && (
+                    <StyledTitleRow></StyledTitleRow>
+                  )}
+                  <StyledTitleRow colSpan={5}>
                     {`${area.areaName} recent trend:`}
                   </StyledTitleRow>
                 </React.Fragment>
               ))}
             </Table.Row>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName}>
                   {index === 0 ? <Table.CellHeader /> : null}
                   <StyledAreaNameHeader colSpan={5}>
@@ -186,12 +226,12 @@ export function LineChartTable({
               </StyledGreyHeader>
             </Table.Row>
             <Table.Row>
-              {data.map((area, index) => (
+              {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName}>
                   <Table.CellHeader
                     colSpan={getConfidenceLimitCellSpan(index)}
                   ></Table.CellHeader>
-                  <StyledConfidenceLimitsHeader>
+                  <StyledConfidenceLimitsHeader colSpan={2}>
                     95% confidence limits
                   </StyledConfidenceLimitsHeader>
                 </React.Fragment>
@@ -205,7 +245,7 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignLeftHeader>
-              {data.map(() =>
+              {healthIndicatorData.map(() =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) => value !== LineChartTableHeadingEnum.AreaPeriod
@@ -214,7 +254,13 @@ export function LineChartTable({
                     (value) =>
                       value !== LineChartTableHeadingEnum.BenchmarkValue
                   )
-                  .map((heading, index) => getCellHeader(heading, index + 1))
+                  .map((heading, index) =>
+                    getCellHeader(
+                      heading,
+                      index + 1,
+                      healthIndicatorData.length
+                    )
+                  )
               )}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
@@ -232,8 +278,10 @@ export function LineChartTable({
               {point.period}
             </StyledAlignLeftTableCell>
             {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
-              <React.Fragment key={data[areaIndex].areaCode + index}>
-                <StyledBenchmarkCell></StyledBenchmarkCell>
+              <React.Fragment
+                key={healthIndicatorData[areaIndex].areaCode + index}
+              >
+                {getBenchmarkCell(healthIndicatorData.length)}
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>
@@ -255,7 +303,7 @@ export function LineChartTable({
             </StyledBenchmarkValueTableCell>
           </Table.Row>
         ))}
-      </StyledTable>
+      </Table>
     </StyledDiv>
   );
 }

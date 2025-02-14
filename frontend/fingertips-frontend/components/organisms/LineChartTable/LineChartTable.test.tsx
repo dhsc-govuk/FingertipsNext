@@ -12,7 +12,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -22,7 +22,7 @@ describe('Line chart table suite', () => {
     it('should render the LineChartTable component', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -33,7 +33,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -66,7 +66,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -87,7 +87,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -98,7 +98,7 @@ describe('Line chart table suite', () => {
     it('should render dashes if England benchmark prop is undefined', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={undefined}
         />
       );
@@ -121,7 +121,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -131,22 +131,22 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
-      expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
         `${MOCK_HEALTH_DATA[0].areaName} recent trend:`
       );
-      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
         `${MOCK_HEALTH_DATA[1].areaName} recent trend:`
       );
-      expect(screen.getAllByRole('columnheader')[3]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
         MOCK_HEALTH_DATA[0].areaName
       );
-      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[5]).toHaveTextContent(
         MOCK_HEALTH_DATA[1].areaName
       );
       expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);
@@ -189,7 +189,7 @@ describe('Line chart table suite', () => {
     it('should have single period and benchmark columns', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -208,7 +208,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );

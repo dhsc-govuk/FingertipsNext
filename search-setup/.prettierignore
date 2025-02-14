@@ -1,0 +1,15 @@
+**/*.md
+**/*.woff
+**/*.ico
+**/*.css
+**/__snapshots__/**
+Dockerfile
+.prettierignore
+.gitignore
+.dockerignore
+.nvmrc
+package-lock.json
+public
+**/generated-sources/**
+**/*.csv
+dist
