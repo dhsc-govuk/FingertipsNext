@@ -108,6 +108,7 @@ export function SearchResults({
           </GridCol>
           <GridCol>
             <IndicatorSelectionForm
+              key={JSON.stringify(searchState)}
               searchResultsFormState={indicatorSelectionState}
               searchResults={searchResults}
               searchState={searchState}
