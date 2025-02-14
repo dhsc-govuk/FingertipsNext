@@ -53,20 +53,21 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
-  width: '15%',
-  paddingLeft: '0.5em',
+  width: '27%',
 });
 
 const StyledBenchmarkTrendHeaderMultipleAreas = styled(
   StyledBenchmarkTrendHeader
 )({
   borderLeft: 'solid black 1px',
+  width: '18%',
+  paddingLeft: '0.5em',
 });
 
 const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
-  width: '23%',
+  width: '22%',
   padding: '0.5em',
-  textAlign: 'right',
+  textAlign: 'center',
 });
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({

@@ -95,14 +95,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c10 {
-  width: 15%;
-  padding-left: 0.5em;
+  width: 27%;
 }
 
 .c9 {
-  width: 23%;
+  width: 22%;
   padding: 0.5em;
-  text-align: right;
+  text-align: center;
 }
 
 .c8 {
@@ -509,18 +508,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c10 {
-  width: 15%;
-  padding-left: 0.5em;
+  width: 27%;
 }
 
 .c11 {
   border-left: solid black 1px;
+  width: 18%;
+  padding-left: 0.5em;
 }
 
 .c9 {
-  width: 23%;
+  width: 22%;
   padding: 0.5em;
-  text-align: right;
+  text-align: center;
 }
 
 .c8 {
