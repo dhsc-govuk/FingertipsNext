@@ -70,7 +70,26 @@ namespace DataCreator
                 {
                     
                 }
-                
+            }
+
+            return allData;
+        }
+
+        public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators()
+        {
+            //this is a csv file that was downloaded from the Fingertips API
+            var filePath = @$"{InFilePath}\temp\lastupdated.csv";
+            
+            var lines = File.ReadAllLines(filePath);
+            var allData = new List<IndicatorLastUpdatedEntity>();
+            for (var count = 1; count < lines.Length; count++)
+            {
+                var split = lines[count].Split(',');
+                allData.Add(new IndicatorLastUpdatedEntity 
+                {
+                    IndicatorId = int.Parse(split[0].Trim('\"')),
+                    LastUpdatedDate= split[1].Trim('\"')
+                });
             }
 
             return allData;

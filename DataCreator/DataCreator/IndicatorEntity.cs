@@ -57,6 +57,9 @@
 
         public int LatestDataPeriod { get; set; }
 
+        public string LastUpdatedDate { get; set; }
+
+        public bool UsedInPoc { get; set; }
     }
 
     public class SimpleIndicator

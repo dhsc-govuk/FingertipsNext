@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Runtime.CompilerServices;
 using DataCreator.PholioDatabase;
 
 namespace DataCreator
@@ -43,17 +42,23 @@ namespace DataCreator
             areasWeWant.AddRange(greatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             areasWeWant.AddRange(greatgreatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             DataFileManager.WriteJsonData("areas", areas.Distinct());
-            
-            var simpleAreasWeWant = areas
-                .Where(a => areasWeWant.Contains(a.AreaCode))
-                .Select(a=> new SimpleAreaWithRelations
+
+            var areasDict = areas.ToDictionary(x => x.AreaCode);
+            var simpleAreasWeWant = new List<SimpleAreaWithRelations>();
+            foreach (var area in areasWeWant)
+            {
+                var present = areasDict.TryGetValue(area, out var value);
+                if (present)
                 {
-                    AreaCode = a.AreaCode.Trim(),
-                    AreaName = a.AreaName.Trim(),
-                    Parents = string.Join('|', a.ParentAreas.Select(p => p.AreaCode.Trim())),
-                    Children = string.Join('|', a.ChildAreas.Select(c => c.AreaCode.Trim()))
-                })
-                .ToList();
+                    simpleAreasWeWant.Add(new SimpleAreaWithRelations
+                    {
+                        AreaCode = value.AreaCode.Trim(),
+                        AreaName = value.AreaName.Trim(),
+                        Parents = string.Join('|', value.ParentAreas.Select(p => p.AreaCode.Trim())),
+                        Children = string.Join('|', value.ChildAreas.Select(c => c.AreaCode.Trim()))
+                    });
+                }
+            }
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
@@ -84,7 +89,7 @@ namespace DataCreator
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, int[] indicatorIds, bool addAreasToIndicator)
         {
-            var indicators = await _pholioDataFetcher.FetchIndicatorsAsync();
+            var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync()).ToList();
             foreach (var indicator in indicators) 
             {
                 var match=indicatorWithAreasAndLatestUpdates.FirstOrDefault(indicatorWithAreasAndLatestUpdate =>
@@ -95,11 +100,25 @@ namespace DataCreator
                     indicator.AssociatedAreaCodes = match.AssociatedAreaCodes;
                     indicator.LatestDataPeriod=match.LatestDataPeriod;
                 }
-                    
+            
+                indicator.UsedInPoc=indicatorIds.Contains(indicator.IndicatorID); 
             }
+            AddLastUpdatedDate(indicators);
+            var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
             DataFileManager.WriteJsonData("indicators", indicators);
-            var simpleIndicators = indicators.Where(i => indicatorIds.Contains(i.IndicatorID)).Cast<SimpleIndicator>();
+            
             DataFileManager.WriteSimpleIndicatorCsvData("indicators", simpleIndicators);
+        }
+
+        private static void AddLastUpdatedDate(List<IndicatorEntity> indicatorEntities)
+        {
+            var lastUpdatedDates = DataFileManager.GetLastUpdatedDataForIndicators();
+            foreach (var indicatorEntity in indicatorEntities)
+            {
+                var match = lastUpdatedDates.FirstOrDefault(l => l.IndicatorId == indicatorEntity.IndicatorID);
+                if (match != null && match.LastUpdatedDate!= "undefined") 
+                    indicatorEntity.LastUpdatedDate = match.LastUpdatedDate;
+            }
         }
 
         public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
