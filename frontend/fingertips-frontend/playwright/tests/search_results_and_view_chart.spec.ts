@@ -5,6 +5,7 @@ import {
   getIndicatorIdsByName,
 } from '../testHelpers';
 import indicatorData from '../../../../search-setup/assets/indicatorData.json';
+import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 
 const searchTerm = 'mortality';
 let indicatorIDs: string[];
@@ -54,7 +55,7 @@ test.describe('Search via indicator', () => {
       await resultsPage.checkSearchResults(searchTerm);
     });
 
-    await test.step('Select indicators and view charts', async () => {
+    await test.step('Select two indicators and view charts', async () => {
       await resultsPage.selectIndicatorCheckboxes(indicatorIDs);
       await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
@@ -65,7 +66,10 @@ test.describe('Search via indicator', () => {
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
-      await chartPage.checkChartAndChartTable();
+      await chartPage.checkChartVisibility(
+        IndicatorMode.TWO_INDICATORS,
+        AreaMode.ENGLAND_AREA // defaults to this if no selection made
+      );
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {
@@ -86,6 +90,40 @@ test.describe('Search via indicator', () => {
         `${SearchParams.SearchedIndicator}=${searchTerm}`
       );
       await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
+    });
+
+    await test.step('Select single indicator and view charts', async () => {
+      await homePage.clearSearchIndicatorField();
+      await homePage.typeIndicator(searchTerm);
+      await homePage.clickSearchButton();
+
+      await resultsPage.waitForURLToContain(
+        `${SearchParams.SearchedIndicator}=${searchTerm}`
+      );
+
+      await resultsPage.selectIndicatorCheckboxes([indicatorIDs[0]]);
+      await resultsPage.waitForURLToContain(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+
+      await resultsPage.clickViewChartsButton();
+      await chartPage.waitForURLToContain(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+      await expectNoAccessibilityViolations(axeBuilder);
+      await chartPage.checkChartVisibility(
+        IndicatorMode.ONE_INDICATOR,
+        AreaMode.ENGLAND_AREA // defaults to this if no selection made
+      );
+
+      await chartPage.clickBackLink();
+      await resultsPage.waitForURLToContain(
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+      );
+
+      await resultsPage.clickBackLink();
+
+      await homePage.checkOnHomePage();
     });
 
     await test.step('Verify search page validation prevents forward navigation', async () => {

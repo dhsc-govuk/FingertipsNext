@@ -1,16 +1,10 @@
 'use client';
 
 import { SearchFormState, getSearchSuggestions } from './searchActions';
-import {
-  InsetText,
-  Button,
-  InputField,
-  Paragraph,
-  H3,
-  Link,
-} from 'govuk-react';
+import { Button, InputField, H3, Link } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -22,18 +16,8 @@ export const SearchForm = ({
   searchFormState: SearchFormState;
 }) => {
   return (
-    <div
-      data-testid="search-form"
-      style={{ backgroundColor: '#f3f2f1', padding: '20px 20px 0px 20px' }}
-    >
+    <div data-testid="search-form">
       <H3>Find public health data</H3>
-      <Paragraph>
-        Search for data to compare at local, regional and national levels.
-      </Paragraph>
-      <InsetText>
-        Use both search options to help you find the most accurate data
-        available.
-      </InsetText>
       <StyledInputField
         input={{
           id: 'indicator',
@@ -41,8 +25,9 @@ export const SearchForm = ({
           defaultValue: searchFormState.indicator,
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
-            For example diabetes, public health indicator, or indicator ID
+          <div style={{ color: GovukColours.DarkGrey }}>
+            For example, smoking, diabetes prevalence, or a specific indicator
+            ID
           </div>
         }
         meta={{
@@ -64,9 +49,9 @@ export const SearchForm = ({
           },
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
-            For example postcode, county, local authority, NHS Trust or General
-            Practice name or code
+          <div style={{ color: GovukColours.DarkGrey }}>
+            For example, district, county, region, NHS organisation or GP
+            practice or code
           </div>
         }
         meta={{
@@ -75,7 +60,7 @@ export const SearchForm = ({
         }}
         data-testid="search-form-input-area"
       >
-        Search for an area by location or organisation
+        Search by area
       </StyledInputField>
       <Link href="#" data-testid="search-form-link-filter-area">
         Or filter by area

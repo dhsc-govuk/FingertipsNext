@@ -6,7 +6,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
 
 interface BarChartProps {
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   yAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkLabel?: string;
@@ -14,7 +14,7 @@ interface BarChartProps {
 }
 
 export function BarChart({
-  data,
+  healthIndicatorData,
   yAxisTitle,
   accessibilityLabel,
   benchmarkLabel,
@@ -32,7 +32,7 @@ export function BarChart({
       },
     },
     xAxis: {
-      categories: data.map((item) => item.areaName),
+      categories: healthIndicatorData.map((item) => item.areaName),
       lineWidth: 0,
     },
     yAxis: {
@@ -73,7 +73,7 @@ export function BarChart({
     series: [
       {
         type: 'bar',
-        data: data.map((item) => ({
+        data: healthIndicatorData.map((item) => ({
           y: item.healthData[0].value,
           name: item.areaName,
         })),
@@ -93,7 +93,9 @@ export function BarChart({
     <div data-testid="barChart-component">
       <H3>See how inequalities vary for a single period in time</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-barChart',
+        }}
         highcharts={Highcharts}
         options={barChartOptions}
       />
