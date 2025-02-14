@@ -137,16 +137,16 @@ describe('Line chart table suite', () => {
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
-      expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
         `${MOCK_HEALTH_DATA[0].areaName} recent trend:`
       );
-      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
         `${MOCK_HEALTH_DATA[1].areaName} recent trend:`
       );
-      expect(screen.getAllByRole('columnheader')[3]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
         MOCK_HEALTH_DATA[0].areaName
       );
-      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[5]).toHaveTextContent(
         MOCK_HEALTH_DATA[1].areaName
       );
       expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);
