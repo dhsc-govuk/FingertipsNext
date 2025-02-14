@@ -367,6 +367,28 @@ describe('generateSeriesData', () => {
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
   });
+
+  it('should repeat colours when there are more series than colours', () => {
+    const chartColours: ChartColours[] = [
+      ChartColours.Orange,
+      ChartColours.LightPurple,
+    ];
+
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      undefined,
+      false
+    ) as SeriesLineOptions[];
+
+    expect(generatedSeriesData[0].color).toBe(chartColours[0]);
+    // The error bar series has no symbols hence undefined
+    expect(generatedSeriesData[1].color).toBe(undefined);
+    expect(generatedSeriesData[2].color).toBe(chartColours[1]);
+    expect(generatedSeriesData[3].color).toBe(undefined);
+    expect(generatedSeriesData[4].color).toBe(chartColours[0]);
+  });
 });
 
 describe('should display line chart', () => {

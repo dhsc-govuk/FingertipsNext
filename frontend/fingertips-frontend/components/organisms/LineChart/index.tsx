@@ -28,6 +28,8 @@ const chartSymbols: SymbolKeyValue[] = [
   'diamond',
 ];
 
+const chartName = 'lineChart';
+
 export function LineChart({
   LineChartTitle: lineChartTitle,
   healthIndicatorData,
@@ -98,7 +100,7 @@ export function LineChart({
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
       <ConfidenceIntervalCheckbox
-        chartName="lineChart"
+        chartName={chartName}
         showConfidenceIntervalsData={lineChartCI}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact

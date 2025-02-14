@@ -92,4 +92,19 @@ describe('ConfidenceIntervalCheckbox', () => {
       }
     );
   });
+
+  it('should update the url removing the chart name when the checkbox is un-clicked', async () => {
+    render(
+      <ConfidenceIntervalCheckbox
+        chartName="example chart"
+        showConfidenceIntervalsData={true}
+      />
+    );
+    await userEvent.click(screen.getByRole('checkbox'));
+    expect(screen.getByRole('checkbox')).not.toBeChecked();
+
+    expect(mockReplace).toHaveBeenCalledWith(`${mockPath}`, {
+      scroll: false,
+    });
+  });
 });

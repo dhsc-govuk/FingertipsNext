@@ -119,10 +119,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
 
 }
@@ -384,10 +380,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 }
 
 @media print {
-
-}
-
-@media only screen and (min-width:641px) {
 
 }
 
@@ -799,10 +791,6 @@ exports[`Search Results Suite snapshot test 1`] = `
 
 }
 
-@media only screen and (min-width:641px) {
-
-}
-
 @media print {
 
 }
@@ -1187,27 +1175,7 @@ exports[`Search Results Suite snapshot test 1`] = `
   min-height: 40px;
   padding: 0 0 0 40px;
   clear: left;
-  padding-right: 22px;
   margin-bottom: 10px;
-}
-
-.c27 span {
-  padding: 12px 15px 13px 0;
-  font-size: 16px;
-}
-
-.c27 span:before {
-  width: 25px;
-  height: 25px;
-  top: 8px;
-}
-
-.c27 span:after {
-  top: 15px;
-  left: 6px;
-  width: 11px;
-  height: 4.5px;
-  border-width: 0 0 3px 3px;
 }
 
 .c28 {
@@ -1734,13 +1702,6 @@ exports[`Search Results Suite snapshot test 1`] = `
   .c27 {
     font-size: 19px;
     line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c27 span {
-    font-size: 19px;
-    padding: 10px 15px 10px 1px;
   }
 }
 
