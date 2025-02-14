@@ -180,15 +180,6 @@ public class AreaRepository : IAreaRepository
 
     private async Task AddAncestorAreas(AreaWithRelationsModel aresWithRelations, string areaCode)
     {
-        // sample from EF output
-        // SELECT TOP(1)
-        // [a].[Node], [a].[AreaCode], [a].[AreaName], [a].[AreaTypeKey],
-        // [a0].[AreaTypeKey], [a0].[AreaTypeName], [a0].[HierarchyType], [a0].[Level]
-        // FROM [Areas].[Areas] AS [a]
-        // INNER JOIN [Areas].[AreaTypes] AS [a0] ON [a].[AreaTypeKey] = [a0].[AreaTypeKey]
-        // WHERE [a].[AreaCode] = @__areaCode_0
-
-        
         aresWithRelations.Ancestors = await _dbContext
             .Area
             .FromSqlInterpolated(
@@ -208,7 +199,6 @@ public class AreaRepository : IAreaRepository
                     startingPoint.[AreaCode] = {areaCode}
                     AND
                     parent.[AreaCode] != {areaCode}
-               
                 """
             )
             .Include(a => a.AreaType)
