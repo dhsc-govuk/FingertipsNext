@@ -49,6 +49,7 @@ export function parseIndicatorData(
       indicatorName,
       indicatorDefinition,
       dataSource,
+      associatedAreaCodes
     }): IndicatorDocument => {
       return {
         indicatorID: String(indicatorID),
@@ -57,6 +58,7 @@ export function parseIndicatorData(
         dataSource,
         latestDataPeriod: '2022',
         lastUpdated: someDate,
+        associatedAreaCodes
       };
     }
   );

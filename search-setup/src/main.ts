@@ -24,7 +24,6 @@ import {
 
 import rawAreasData from '../assets/areas.json' with { type: 'json' };
 import rawIndicatorData from '../assets/indicators.json' with { type: 'json' };
-import indicatorData from '../assets/indicatorData.json' with { type: 'json' };
 
 async function createAndPopulateIndex<
   T extends IndicatorDocument | AreaDocument,
@@ -68,6 +67,8 @@ async function main(): Promise<void> {
     INDICATOR_SEARCH_INDEX_NAME,
     typedIndicatorData
   );
+
+  console.log(typedIndicatorData[0])
 
   await createAndPopulateIndex(
     indexClient,
