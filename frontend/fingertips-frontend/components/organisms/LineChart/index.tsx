@@ -10,7 +10,7 @@ import { generateSeriesData } from './lineChartHelpers';
 
 interface LineChartProps {
   LineChartTitle?: string;
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
@@ -26,12 +26,12 @@ const chartSymbols: SymbolKeyValue[] = [
 
 export function LineChart({
   LineChartTitle: lineChartTitle,
-  data,
+  healthIndicatorData,
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
 }: Readonly<LineChartProps>) {
-  const sortedSeriesValues = sortHealthDataByDate(data);
+  const sortedSeriesValues = sortHealthDataByDate(healthIndicatorData);
   const seriesData = generateSeriesData(
     sortedSeriesValues,
     chartSymbols,
@@ -80,7 +80,9 @@ export function LineChart({
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-lineChart',
+        }}
         highcharts={Highcharts}
         options={lineChartOptions}
       />

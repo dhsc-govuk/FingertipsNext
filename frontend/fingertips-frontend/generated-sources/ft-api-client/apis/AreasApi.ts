@@ -39,6 +39,7 @@ export interface GetAreaRequest {
     includeChildren?: boolean;
     includeSiblings?: boolean;
     includeAncestors?: boolean;
+    childAreaType?: string;
 }
 
 export interface GetAreaTypeMembersRequest {
@@ -63,6 +64,7 @@ export interface AreasApiInterface {
      * @param {boolean} [includeChildren] include the child areas
      * @param {boolean} [includeSiblings] include the sibling areas
      * @param {boolean} [includeAncestors] include the ancestor areas
+     * @param {string} [childAreaType] the area_type of descendants to be returned
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AreasApiInterface
@@ -168,6 +170,10 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 
         if (requestParameters['includeAncestors'] != null) {
             queryParameters['include_ancestors'] = requestParameters['includeAncestors'];
+        }
+
+        if (requestParameters['childAreaType'] != null) {
+            queryParameters['child_area_type'] = requestParameters['childAreaType'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

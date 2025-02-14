@@ -12,7 +12,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -22,7 +22,7 @@ describe('Line chart table suite', () => {
     it('should render the LineChartTable component', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -33,7 +33,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -66,7 +66,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -87,7 +87,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -98,7 +98,7 @@ describe('Line chart table suite', () => {
     it('should render dashes if England benchmark prop is undefined', () => {
       render(
         <LineChartTable
-          data={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
           englandBenchmarkData={undefined}
         />
       );
@@ -121,7 +121,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -131,7 +131,7 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -189,7 +189,7 @@ describe('Line chart table suite', () => {
     it('should have single period and benchmark columns', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -208,7 +208,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          data={MOCK_HEALTH_DATA}
+          healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
