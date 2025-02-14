@@ -1,4 +1,3 @@
-
 export interface SearchIndexResponse {
   name: string;
   fields: IndexField[];
@@ -40,5 +39,5 @@ export interface AutoCompleteResult {
 }
 
 export interface SuggestionResult {
-  value: { "@search.text": string }[];
+  value: { '@search.text': string }[];
 }
