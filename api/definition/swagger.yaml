@@ -224,6 +224,7 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
+        - $ref: "#/components/parameters/inequality_dimension"
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
@@ -442,6 +443,18 @@ components:
       explode: false
       required: true
       description: The area code of the area/ geography
+    inequality_dimension:
+      in: query
+      name: inequality_dimension
+      schema:
+        type: string
+        enum:
+          - age
+          - sex
+          - both
+          - none
+        default: none
+        description: determines whether inequality data should be returned
     area_type_key:
       in: path
       name: area_type_key
