@@ -11,9 +11,9 @@ export default async function Page(
   const searchedIndicator =
     searchParams?.[SearchParams.SearchedIndicator] ?? '';
   const selectedAreaCode =
-    searchParams?.[SearchParams.AreasSelected] ?? undefined;
+    searchParams?.[SearchParams.AreasSelected] ?? [];
   const areaDocument = selectedAreaCode
-    ? await getArea(selectedAreaCode as string)
+    ? await getArea(selectedAreaCode.length> 0? selectedAreaCode[0] : '')
     : undefined;
 
   const initialState = {

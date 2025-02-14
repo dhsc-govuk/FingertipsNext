@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { InputField } from 'govuk-react';
+import { ValueType } from '@opentelemetry/api';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyleAreaSearchBoxPanel = styled('div')({
   marginBottom: '5px',
@@ -13,18 +15,21 @@ export const StyleSearchHeader = styled('h3')({
 
 interface SearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
-  value?: string;
   disabled?: boolean;
+  touched?: boolean;
 }
 
 export const AreaSearchInputField = ({
   onTextChange,
-  disabled = false,
+  touched,
+  disabled,
 }: SearchInputFieldProps) => {
   return (
     <StyleAreaSearchBoxPanel>
       <InputField
         input={{
+          id: 'areaSearched',
+          name: 'areaSearched',
           onChange: (e) => {
             const val = e.target.value;
             if (onTextChange != null) {
@@ -34,11 +39,16 @@ export const AreaSearchInputField = ({
           disabled: disabled,
         }}
         hint={
-          <div style={{ color: '#505a5f' }}>
+          <div style={{ color: GovukColours.DarkGrey }}>
             For example district, county, region, NHS organisation or GP
             practice or code
           </div>
         }
+        meta={{
+          touched: touched,
+          error: 'This field value may be required',
+        }}
+        data-testid="search-form-input-area"
       >
         Search for an area
       </InputField>

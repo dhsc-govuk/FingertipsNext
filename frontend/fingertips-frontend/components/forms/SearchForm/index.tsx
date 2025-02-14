@@ -1,10 +1,15 @@
 'use client';
 
-import { SearchFormState, getSearchSuggestions } from './searchActions';
+import { SearchFormState } from './searchActions';
 import { Button, InputField, H3, Link } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { AreaDocument } from '@/lib/search/searchTypes';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
+import { useActionState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -15,6 +20,21 @@ export const SearchForm = ({
 }: {
   searchFormState: SearchFormState;
 }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+
+  const updateUrlWithSelectedArea = (areaCodeSelected: string) => {
+    searchStateManager.addParamValueToState(
+      SearchParams.AreasSelected,
+      areaCodeSelected
+    );
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
@@ -38,34 +58,14 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-      <StyledInputField
-        style={{ marginBottom: '5px' }}
-        input={{
-          id: 'areaSearched',
-          name: 'areaSearched',
-          defaultValue: searchFormState.areaSearched,
-          onChange: async (e) => {
-            console.log(await getSearchSuggestions(e.target.value));
-          },
+      <AreaAutoCompleteSearchPanel
+        onAreaSelected={(area: AreaDocument) => {
+          updateUrlWithSelectedArea(area.areaCode);
+          searchFormState.areaSearched = area.areaName;
         }}
-        hint={
-          <div style={{ color: GovukColours.DarkGrey }}>
-            For example, district, county, region, NHS organisation or GP
-            practice or code
-          </div>
-        }
-        meta={{
-          touched: !!searchFormState.message,
-          error: 'This field value may be required',
-        }}
-        data-testid="search-form-input-area"
-      >
-        Search by area
-      </StyledInputField>
-      <Link href="#" data-testid="search-form-link-filter-area">
-        Or filter by area
-      </Link>
-      <br />
+        inputFieldErrorStatus={!!searchFormState.message}
+      />
+
       <Button
         type="submit"
         data-testid="search-form-button-submit"

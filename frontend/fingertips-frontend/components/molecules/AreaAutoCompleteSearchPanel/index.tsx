@@ -21,11 +21,13 @@ const StyleAreaSelectAutoCompletePanel = styled('div')({
 interface AreaSelectAutoCompleteProps {
   area?: AreaDocument;
   onAreaSelected: (area: AreaDocument) => void;
+  inputFieldErrorStatus: boolean;
 }
 
 export default function AreaAutoCompleteSearchPanel({
   area,
   onAreaSelected,
+  inputFieldErrorStatus = false,
 }: AreaSelectAutoCompleteProps) {
   const [criteria, setCriteria] = useState<string>();
   const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
@@ -64,6 +66,7 @@ export default function AreaAutoCompleteSearchPanel({
           }
         }}
         disabled={selectedAreas.length > 0}
+        touched={inputFieldErrorStatus}
       />
       <AreaSelectionSearchPillPanel
         areas={selectedAreas}

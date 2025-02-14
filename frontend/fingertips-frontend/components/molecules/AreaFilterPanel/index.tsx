@@ -12,17 +12,12 @@ const StyleAreaFilterPanel = styled('div')({
   fontSize: '19px',
 });
 
-const StyleAreaFilterPanelItemsPanel = styled(UnorderedList)({});
-
-const StyleAreaFilterPanelItem = styled(ListItem)({});
-
 interface AreaFilterPanelProps {
   areas: AreaDocument[];
   onOpen: () => void;
 }
 
 const getDisplayText = function (areaSize: number) {
-  console.log('ARea = ', areaSize);
   return areaSize <= 0
     ? 'Open a filter to add or change areas'
     : 'Open area filter';
