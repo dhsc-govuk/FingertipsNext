@@ -7,8 +7,8 @@ import { H3 } from 'govuk-react';
 import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
 
 interface ScatterChartProps {
-  ScatterChartTitle?: string;
-  data: HealthDataForArea[][];
+  scatterChartTitle?: string;
+  healthIndicatorData: HealthDataForArea[][];
   xAxisTitle?: string;
   xAxisSubtitle?: string;
   yAxisTitle?: string;
@@ -17,20 +17,20 @@ interface ScatterChartProps {
 }
 
 export function ScatterChart({
-  ScatterChartTitle: scatterChartTitle,
-  data,
+  scatterChartTitle,
+  healthIndicatorData,
   xAxisTitle,
   xAxisSubtitle,
   yAxisTitle,
   yAxisSubtitle,
   accessibilityLabel,
 }: Readonly<ScatterChartProps>) {
-  const sortedDataSet1 = sortHealthDataByYearDescending(data[0]);
+  const sortedDataSet1 = sortHealthDataByYearDescending(healthIndicatorData[0]);
   const dataSet1plotValues = sortedDataSet1.map(
     (item) => item.healthData[0].value
   );
 
-  const sortedDataSet2 = sortHealthDataByYearDescending(data[1]);
+  const sortedDataSet2 = sortHealthDataByYearDescending(healthIndicatorData[1]);
   const dataSet2plotValues = sortedDataSet2.map(
     (item) => item.healthData[0].value
   );
@@ -100,7 +100,9 @@ export function ScatterChart({
     <div data-testid="scatterChart-component">
       <H3>{scatterChartTitle}</H3>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-scatterChart',
+        }}
         highcharts={Highcharts}
         options={scatterChartOptions}
       ></HighchartsReact>

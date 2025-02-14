@@ -1,1087 +1,554 @@
 openapi: 3.0.0
-
 servers:
-
   # Added by API Auto Mocking Plugin
-
   - description: SwaggerHub API Auto Mocking
-
     url: https://fingertips-next-api/1.0.0
-
 info:
-
   description: An API to query public health indicator data.
-
   version: "1.0.0"
-
   title: Fingertips API
-
   contact:
-
     email: ProfileFeedback@dhsc.gov.uk
-
 tags:
-
   - name: indicators
-
     description: Endpoints dealing with public health indicators
-
   - name: areas
-
     description: Endpoints dealing with areas / geography
-
   - name: system
-
     description: System endpoints
-
 paths:
-
   /areas/hierarchies:
-
     get:
-
       tags:
-
         - areas
-
       summary: Get hierarchies
-
       description: Get all available hierarchy types
-
       operationId: getAreaHierarchies
-
       responses:
-
         "200":
-
           description: The available hierarchy types, e.g. NHS or Administrative
-
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   type: string
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
   /areas/areatypes:
-
     get:
-
       tags:
-
         - areas
-
       summary: Get area types
-
       description: Get area types, optionally filtering by hierarchy type
-
       operationId: getAreaTypes
-
       parameters:
-
         - $ref: "#/components/parameters/hierarchy_type"
-
       responses:
-
         "200":
-
           description: The available area types e.g. ICB, PCN or GP Surgery, together with related data
-
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   $ref: "#/components/schemas/AreaType"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
 
   /areas/areatypes/{area_type_key}/areas:
 
     get:
-
       tags:
-
         - areas
-
       summary: Get member areas for an area type
-
       description: Get the areas that have a given area type
-
       operationId: getAreaTypeMembers
-
       parameters:
-
         - $ref: "#/components/parameters/area_type_key"
-
       responses:
-
         "200":
-
           description: The available areas for the area type
-
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   $ref: "#/components/schemas/Area"
-
         "404":
-
           $ref: "#/components/responses/NotFound"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
   /areas/{area_code}:
-
     get:
-
       tags:
-
         - areas
-
       summary: Get area
-
       description: Get the full details of a given area, including it's parent, optionally including it's children, siblings, cousins and ancestors
-
       operationId: getArea
-
       parameters:
-
         - $ref: "#/components/parameters/area_code"
-
         - $ref: "#/components/parameters/include_children"
-
         - $ref: "#/components/parameters/include_siblings"
-
         - $ref: "#/components/parameters/include_ancestors"
-
+        - $ref: "#/components/parameters/child_area_type"
       responses:
-
         "200":
-
           description: The area node
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/AreaWithRelations"
-
         "404":
-
           $ref: "#/components/responses/NotFound"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
   /areas/root:
-
     get:
-
       tags:
-
         - areas
-
       summary: Get root
-
       description: Get the root node of the area hierarchy
-
       operationId: getAreaRoot
-
       responses:
-
         "200":
-
           description: The root area node
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/RootArea"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
   /healthcheck:
-
     get:
-
       tags:
-
         - system
-
       summary: API Health Check
-
       description: Returns the health status of the API.
-
       operationId: getHealthcheck
-
       responses:
-
         "200":
-
           description: API is healthy
-
           content:
-
             application/json:
-
               schema:
-
                 type: object
-
                 properties:
-
                   status:
-
                     type: string
-
                     example: "Healthy"
-
         "500":
-
           description: API is down
-
           content:
-
             application/json:
-
               schema:
-
                 type: object
-
                 properties:
-
                   status:
-
                     type: string
-
                     example: "Unhealthy"
-
                   message:
-
                     type: string
-
                     example: "API is experiencing issues"
 
- 
-
   /indicators:
-
     get:
-
       tags:
-
         - indicators
-
       summary: Get indicator summaries & filter results
-
       operationId: filterIndicators
-
       description: |
-
         Get summaries of public health indicators, by passing in the appropriate options you can filter the results
-
       parameters:
-
         - $ref: "#/components/parameters/indicator_ids"
-
       responses:
-
         "200":
-
           description: search results matching criteria
-
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   $ref: "#/components/schemas/IndicatorSummary"
-
         "400":
-
           $ref: "#/components/responses/BadRequest"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
   /indicators/{indicator_id}:
-
     get:
-
       tags:
-
         - indicators
-
       summary: Get indicator
-
       responses:
-
         "200":
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/Indicator"
-
           description:
-
             The request was successful, and the server has returned the
-
             requested resource in the response body.
-
         "404":
-
           $ref: "#/components/responses/NotFound"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
       parameters:
-
         - $ref: "#/components/parameters/indicator_id"
-
       description: >
-
         Fetches details of a specific indicator by its unique identifier. The
-
         response includes the indicator's metadata
-
       operationId: getIndicator
-
   /indicators/{indicator_id}/data:
-
     get:
-
       tags:
-
         - indicators
-
       summary: Get health data for an indicator
-
       description:
-
         Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one
-
         or more area codes and one or more years in the query string.
-
       responses:
-
         "200":
-
           content:
-
             application/json:
-
               schema:
-
                 type: array
-
                 items:
-
                   $ref: "#/components/schemas/HealthDataForArea"
-
                 title: GetHealthDataForAnIndicatorOk
-
           description:
-
             Data containing the health data points for the indicator, years
-
             and geographical areas requested
-
         "400":
-
           $ref: "#/components/responses/BadRequest"
-
         "500":
-
           $ref: "#/components/responses/InternalServerErrror"
-
       parameters:
-
         - $ref: "#/components/parameters/indicator_id"
-
         - $ref: "#/components/parameters/area_codes"
-
         - $ref: "#/components/parameters/years"
-
       operationId: getHealthDataForAnIndicator
-
 components:
-
   schemas:
-
     AreaType:
-
       type: object
-
       description: An area type e.g. PCN or GP
-
       required:
-
-        - key
-
         - name
-
         - level
-
         - hierarchyName
-
       properties:
-
         key:
-
           type: string
-
           example: "combined-authorities"
-
           description: The key name of the area type
-
         name:
-
           type: string
-
           example: "Combined Authorities"
-
           description: The name of the area type for presentation
-
         level:
-
           type: integer
-
           example: "3"
-
           description: The level in the hierarchy
-
         hierarchyName:
-
           type: string
-
           example: "NHS"
-
           description: The name of the associated hierarchy for the area / geography
-
     RootArea:
-
       type: object
-
       description: The root node of the area / geography hierarchies
-
       required:
-
         - code
-
         - name
-
       properties:
-
         code:
-
           type: string
-
           example: "E92000001"
-
           description: The unique area code of the area / geography
-
         name:
-
           type: string
-
           example: "England"
-
           description: The name of the area / geography
-
     Area:
-
       type: object
-
       description: A area or geography that has associated public health data
-
       required:
-
         - code
-
         - name
 
         - areaType
-
       properties:
-
         code:
-
           type: string
-
           example: "E06000047"
-
           description: The unique area code of the area / geography
-
         name:
-
           type: string
-
           example: "County Durham"
-
           description: The name of the area / geography
 
         areaType:
-
           $ref: "#/components/schemas/AreaType"
-
           type: object
-
     AreaWithRelations:
-
       allOf:
-
         - $ref: "#/components/schemas/Area"
-
         - type: object
-
           properties:
-
             parent:
-
               $ref: "#/components/schemas/Area"
-
             children:
-
               type: array
-
               items:
-
                 $ref: "#/components/schemas/Area"
-
             siblings:
-
               type: array
-
               items:
-
                 $ref: "#/components/schemas/Area"
-
             ancestors:
-
               type: array
-
               items:
-
                 $ref: "#/components/schemas/Area"
-
     IndicatorSummary:
-
       type: object
-
       description: A summary of a public health indicator
-
       required:
-
         - indicator_id
-
         - title
-
       properties:
-
         indicator_id:
-
           type: integer
-
           format: int32
-
           example: 3456
-
           description: The unique identifier of the indicator
-
         title:
-
           type: string
-
           example: "Hypertension: QOF prevalence (all ages)"
-
           description: The title of the indicator
-
     Indicator:
-
       type: object
-
       description: A public health indicator
-
       required:
-
         - indicator_id
-
         - title
-
         - definition
-
       properties:
-
         indicator_id:
-
           type: integer
-
           format: int32
-
           example: 3456
-
           description: The unique identifier of the indicator
-
         title:
-
           type: string
-
           example: "Hypertension: QOF prevalence (all ages)"
-
           description: The title of the indicator
-
         definition:
-
           type: string
-
           example: "The percentage of patients with established hypertension, as
-
             recorded on practice disease registers (proportion of total list
-
             size)"
-
           description: The definition of the indicator
-
     HealthDataPoint:
-
       type: object
-
       description:
-
         Represents a health data point for a public health indicator with a
-
         count, value, upper confidence interval, lower confidence interval,
-
         year, age band and sex.
-
       required:
-
         - year
-
         - count
-
         - value
-
         - lowerCi
-
         - upperCi
-
         - ageBand
-
         - sex
-
       properties:
-
         year:
-
           type: integer
-
           format: int32
-
           example: 2023
-
           description: The year that the data point is for
-
         count:
-
           type: number
-
           example: 222
-
           description: The count
-
         value:
-
           type: number
-
           example: 506.60912
-
           description: The value
-
         lowerCi:
-
           type: number
-
           example: 441.69151
-
           description: The lower confidence interval
-
         upperCi:
-
           type: number
-
           format: float
-
           example: 578.32766
-
           description: The upper confidence interval
-
         ageBand:
-
           type: string
-
           example: 0-4
-
           description: Age band which the data are for.
-
         sex:
-
           type: string
-
           example: Female
-
           description: Sex which the data are for.
-
     HealthDataForArea:
-
       type: object
-
       description: Associates a list of health data points with the relevant
-
         geographical area (represented by it's unique code).
-
       required:
-
         - areaCode
-
         - areaName
-
         - healthData
-
       properties:
-
         areaCode:
-
           type: string
-
           example: E92000001
-
           description: The unique area code that the health data are for
-
         areaName:
-
           type: string
-
           example: England
-
           description: The name of the area that the health data are for
-
         healthData:
-
           type: array
-
           items:
-
             $ref: "#/components/schemas/HealthDataPoint"
-
           description: The health data points for the area and indicator
-
   parameters:
-
     years:
-
       in: query
-
       name: years
-
       description: A list of years, up to 10 years can be requested
-
       style: form
-
       schema:
-
         type: array
-
         items:
-
           type: integer
-
           example: 2023
-
         maxItems: 10
-
     area_code:
-
       in: path
-
       name: area_code
-
       style: simple
-
       schema:
-
         type: string
-
         example: G82109
-
       explode: false
-
       required: true
-
       description: The area code of the area/ geography
-
     area_type_key:
-
       in: path
-
       name: area_type_key
-
       style: simple
-
       schema:
-
         type: string
-
         example: nhs-region
-
       explode: false
-
       required: true
-
       description: The area type key
-
     include_children:
-
       in: query
-
       name: include_children
-
       description: include the child areas
-
       schema:
-
         type: boolean
-
     include_siblings:
-
       in: query
-
       name: include_siblings
-
       description: include the sibling areas
-
       schema:
-
         type: boolean
-
     include_ancestors:
-
       in: query
-
       name: include_ancestors
-
       description: include the ancestor areas
-
       schema:
-
         type: boolean
-
-    area_codes:
-
+    child_area_type:
       in: query
-
-      name: area_codes
-
-      description: A list of area codes, up to 10 area codes can be requested
-
-      style: form
-
+      name: child_area_type
+      description: the area_type of descendants to be returned
       schema:
-
-        type: array
-
-        items:
-
-          type: string
-
-          example: G82109
-
-        maxItems: 10
-
-    indicator_id:
-
-      in: path
-
-      name: indicator_id
-
-      style: simple
-
-      schema:
-
-        type: integer
-
-        example: 1234
-
-        minimum: 1
-
-      explode: false
-
-      required: true
-
-      description: The unique identifier of the indicator
-
-    indicator_ids:
-
-      in: query
-
-      name: indicator_ids
-
-      description: A list of indicator_ids, up to 10 can be requested
-
-      style: form
-
-      schema:
-
-        type: array
-
-        items:
-
-          type: integer
-
-          example: 1234
-
-        maxItems: 10
-
-    hierarchy_type:
-
-      in: query
-
-      name: hierarchy_type
-
-      style: form
-
-      schema:
-
         type: string
-
+    area_codes:
+      in: query
+      name: area_codes
+      description: A list of area codes, up to 10 area codes can be requested
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          example: G82109
+        maxItems: 10
+    indicator_id:
+      in: path
+      name: indicator_id
+      style: simple
+      schema:
+        type: integer
+        example: 1234
+        minimum: 1
+      explode: false
+      required: true
+      description: The unique identifier of the indicator
+    indicator_ids:
+      in: query
+      name: indicator_ids
+      description: A list of indicator_ids, up to 10 can be requested
+      style: form
+      schema:
+        type: array
+        items:
+          type: integer
+          example: 1234
+        maxItems: 10
+    hierarchy_type:
+      in: query
+      name: hierarchy_type
+      style: form
+      schema:
+        type: string
         example: NHS
-
       description: The name of the hierarchy type
-
   responses:
-
     NotFound:
-
       content:
-
         application/json:
-
           schema:
-
             type: object
-
             required:
-
               - message
-
             properties:
-
               message:
-
                 type: string
-
       description:
-
         The server cannot find the requested resource. The endpoint may be
-
         invalid or the resource may no longer exist.
-
     BadRequest:
-
       content:
-
         application/json:
-
           schema:
-
             type: object
-
             required:
-
               - message
-
             properties:
-
               message:
-
                 type: string
-
       description:
-
         The server could not understand the request due to invalid syntax.
-
         The client should modify the request and try again.
-
     InternalServerErrror:
-
       content:
-
         application/json:
-
           schema:
-
             type: object
-
             required:
-
               - message
-
             properties:
-
               message:
-
                 type: string
-
       description:
-
         The server encountered an unexpected condition that prevented it
-
         from fulfilling the request. Report the issue to the support team if it
-
         persists.
