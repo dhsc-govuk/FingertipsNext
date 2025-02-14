@@ -3,7 +3,9 @@ import { AREA_TYPE_GP, AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
-import { AreaSearchSelectionPanel } from '../AreaSearchSelectionPanel';
+import { AreaSearchPillPanel } from '../AreaSearchPillPanel';
+import styled from 'styled-components';
+import { AreaFilterPanel } from '../AreaFilterPanel';
 
 const MIN_SEARCH_SIZE = 3;
 
@@ -12,6 +14,10 @@ const enum SearchStatusType {
   COMPLETED,
 }
 
+const StyleAreaSelectAutoCompletePanel = styled('div')({
+  margin: '0px;',
+  backgroundColor: '#FFFFFF',
+});
 interface AreaSelectAutoCompleteProps {
   area?: AreaDocument;
   onSelect: (areaCode: string) => void;
@@ -48,14 +54,10 @@ export default function AreaSelectAutoComplete({
       criteria: string | undefined,
       status: SearchStatusType
     ) => {
-      if (searchStatus == SearchStatusType.PROCESSING) {
+      if (status == SearchStatusType.PROCESSING) {
         if (criteria != null) {
-          // Sync with  backend.
           const areas = await getSearchSuggestions(criteria);
-          console.log(criteria);
-          console.log('Search Status = ', status);
-          console.log(areas);
-          setSearchAreas(areas);
+          setSearchAreas(areas.slice(0, 20));
           setSearchStatus(SearchStatusType.COMPLETED);
         }
       }
@@ -64,7 +66,7 @@ export default function AreaSelectAutoComplete({
   }, [searchStatus, criteria]);
 
   return (
-    <div>
+    <StyleAreaSelectAutoCompletePanel>
       <AreaSearchInputField
         value={area?.areaName}
         onTextChange={(criteria: string) => {
@@ -77,8 +79,9 @@ export default function AreaSelectAutoComplete({
             setSearchStatus(SearchStatusType.PROCESSING);
           }
         }}
+        disabled={selectedAreas.length > 0}
       />
-      <AreaSearchSelectionPanel
+      <AreaSearchPillPanel
         areas={selectedAreas}
         onClick={(area: AreaDocument) => {
           // remove the area from the list of selected areas
@@ -91,11 +94,12 @@ export default function AreaSelectAutoComplete({
       <AreaSuggestionPanel
         areas={searchAreas}
         onItemSelected={(selectedArea: AreaDocument) => {
-          // When an area is selected , this selected area will be output here
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
         }}
       />
-    </div>
+
+      <AreaFilterPanel areas={selectedAreas} />
+    </StyleAreaSelectAutoCompletePanel>
   );
 }

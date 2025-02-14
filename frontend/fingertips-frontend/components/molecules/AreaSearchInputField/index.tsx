@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SearchBox, Label } from 'govuk-react';
+import { SearchBox, Label, Paragraph } from 'govuk-react';
 
 const StyleAreaSearchBoxPanel = styled('div')({
   marginBottom: '5px',
@@ -11,34 +11,31 @@ const StyledSearchBoxArea = styled('div')({
   border: '0.12em solid #000000',
 });
 
-export const StyleSearchHeader = styled(Label)({
+export const StyleSearchHeader = styled('h3')({
   padding: '0px',
-  color: '#0b0c0c',
-  display: 'block',
-  clear: 'none',
-  paddingBottom: '2px',
-  fontWeight: '400',
   fontSize: '19px',
-  fontFamily: '"nta", Arial, sans-serif;',
-  textAlign: 'left',
 });
 
-const StyleSearchHintPanel = styled('div')({
+const StyleSearchHintPanel = styled(Paragraph)({
   color: '#505a5f',
   fontSize: '19px;',
-  lineHeight: '1.3157894736842106;',
-  fontFamily: '"nta", Arial, sans-serif;',
   marginBottom: '15px',
+});
+
+const StyleSearchBoxInput = styled(SearchBox.Input)({
+  margin: '2px;',
+  border: '1px',
 });
 
 interface SearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
   value?: string | undefined;
+  disabled?: boolean;
 }
 
 export const AreaSearchInputField = ({
-  value,
   onTextChange,
+  disabled = false,
 }: SearchInputFieldProps) => {
   return (
     <StyleAreaSearchBoxPanel>
@@ -57,8 +54,7 @@ export const AreaSearchInputField = ({
             }
           }}
         >
-          <SearchBox.Input />
-          <SearchBox.Button />
+          <StyleSearchBoxInput disabled={disabled} />
         </SearchBox>
       </StyledSearchBoxArea>
     </StyleAreaSearchBoxPanel>

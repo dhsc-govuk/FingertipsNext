@@ -2,7 +2,7 @@
   {
     "areaCode": "A81001",
     "areaName": "The Densham Surgery",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A81002",
@@ -12,7 +12,7 @@
   {
     "areaCode": "A81004",
     "areaName": "Acklam Medical Centre",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A81005",
@@ -57,7 +57,7 @@
   {
     "areaCode": "A81016",
     "areaName": "Park Surgery",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A81017",
@@ -77,7 +77,7 @@
   {
     "areaCode": "A81020",
     "areaName": "Martonside Medical Centre",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A81021",
@@ -572,12 +572,12 @@
   {
     "areaCode": "A82072",
     "areaName": "Risedale Surgery",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A82075",
     "areaName": "Mansion House Surgery",
-    "areaType": "GPs"
+    "areaType": "Sub Integrated Care Board"
   },
   {
     "areaCode": "A82077",
@@ -1937,12 +1937,12 @@
   {
     "areaCode": "B81018",
     "areaName": "Orchard 2000 Group",
-    "areaType": "GPs"
+    "areaType": "CA-Great Manchester"
   },
   {
     "areaCode": "B81020",
     "areaName": "The Sutton Manor Surgery",
-    "areaType": "GPs"
+    "areaType": "County or unitary authority"
   },
   {
     "areaCode": "B81022",
