@@ -38,7 +38,7 @@ export const IndicatorSearchForm = ({
       />
       <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
       <StyledHintParagraph>
-        For example smoking, diabetes prevalence, or a specific indicator ID
+        For example, smoking, diabetes prevalence, or a specific indicator ID
       </StyledHintParagraph>
       {indicatorSearchFormState.message ? (
         <ErrorText data-testid="indicator-search-form-error">

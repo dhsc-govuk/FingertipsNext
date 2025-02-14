@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c9 {
+  .c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c9:focus {
+.c7:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c9:link,
-.c9:visited,
-.c9:active,
-.c9:hover {
+.c7:link,
+.c7:visited,
+.c7:active,
+.c7:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c9::-moz-focus-inner {
+.c7::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c9:hover,
-.c9:focus {
+.c7:hover,
+.c7:focus {
   background-color: #00572e;
 }
 
-.c9:active {
+.c7:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c9::before {
+.c7::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,34 +67,34 @@ exports[`snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c9:active::before {
+.c7:active::before {
   top: -4px;
 }
 
-.c9:disabled {
+.c7:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c9:disabled:hover {
+.c7:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c9:disabled:focus {
+.c7:disabled:focus {
   outline: none;
 }
 
-.c9:disabled:active {
+.c7:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c9 svg {
+.c7 svg {
   max-width: 15px;
 }
 
-.c6 {
+.c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -106,7 +106,7 @@ exports[`snapshot test - renders the form 1`] = `
   color: #6f777b;
 }
 
-.c5 {
+.c3 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -120,7 +120,7 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c7 {
+.c5 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -140,22 +140,22 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c7:focus {
+.c5:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c7::-webkit-outer-spin-button,
-.c7::-webkit-inner-spin-button {
+.c5::-webkit-outer-spin-button,
+.c5::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
 
-.c7[type="number"] {
+.c5[type="number"] {
   -moz-appearance: textfield;
 }
 
-.c3 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -167,7 +167,7 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c3:after {
+.c1:after {
   content: '';
   display: table;
   clear: both;
@@ -186,202 +186,136 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c8 {
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c8:focus {
+.c6:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c8:link {
+.c6:link {
   color: #1d70b8;
 }
 
-.c8:visited {
+.c6:visited {
   color: #4c2c92;
 }
 
-.c8:hover {
+.c6:hover {
   color: #2b8cc4;
 }
 
-.c8:active {
+.c6:active {
   color: #2b8cc4;
 }
 
-.c8:focus {
+.c6:focus {
   color: #0b0c0c;
-}
-
-.c1 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c1 > p {
-  margin: 0;
-}
-
-.c1 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c1 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c1 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
 }
 
 .c2 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  color: #0b0c0c;
-  padding: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  clear: both;
-  border-left: 10px solid #bfc1c3;
-}
-
-.c2:first-child {
-  margin-top: 0;
-}
-
-.c2:only-child,
-.c2:last-child {
-  margin-bottom: 0;
-}
-
-.c4 {
   margin-bottom: 20px;
 }
 
 @media print {
-  .c9 {
+  .c7 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c7 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c7 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 svg {
+  .c7 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c9 {
+  .c7 {
     margin-bottom: 32px;
   }
 }
 
 @media print {
-  .c6 {
+  .c4 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c6 {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c5 {
+  .c3 {
     font-size: 14px;
     line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c5 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c7 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c7 {
-    margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c3 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c3 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
     margin-bottom: 0;
   }
 }
@@ -413,148 +347,88 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c8 {
+  .c6 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c8[href^="/"]::after,
-  .c8[href^="http://"]::after,
-  .c8[href^="https://"]::after {
+  .c6[href^="/"]::after,
+  .c6[href^="http://"]::after,
+  .c6[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
   }
 }
 
-@media print {
-  .c1 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c1 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c2 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
 @media only screen and (min-width:641px) {
   .c2 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c2 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c2 {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c4 {
     margin-bottom: 30px;
   }
 }
 
 <div
     data-testid="search-form"
-    style="background-color: rgb(243, 242, 241); padding: 20px 20px 0px 20px;"
   >
     <h3
       class="c0"
     >
       Find public health data
     </h3>
-    <div
-      class="c1"
-    >
-      <p>
-        Search for data to compare at local, regional and national levels.
-      </p>
-    </div>
-    <div
-      class="c2"
-    >
-      Use both search options to help you find the most accurate data available.
-    </div>
     <label
-      class="c3 c4"
+      class="c1 c2"
       data-testid="indicator-search-form-input"
     >
       <span
-        class="c5"
+        class="c3"
       >
         Search by subject
       </span>
       <span
-        class="c6"
+        class="c4"
       >
         <div
           style="color: rgb(80, 90, 95);"
         >
-          For example diabetes, public health indicator, or indicator ID
+          For example, smoking, diabetes prevalence, or a specific indicator ID
         </div>
       </span>
       <input
-        class="c7"
+        class="c5"
         id="indicator"
         name="indicator"
         value=""
       />
     </label>
     <label
-      class="c3 c4"
+      class="c1 c2"
       data-testid="search-form-input-area"
       style="margin-bottom: 5px;"
     >
       <span
-        class="c5"
+        class="c3"
       >
-        Search for an area by location or organisation
+        Search by area
       </span>
       <span
-        class="c6"
+        class="c4"
       >
         <div
           style="color: rgb(80, 90, 95);"
         >
-          For example postcode, county, local authority, NHS Trust or General Practice name or code
+          For example, district, county, region, NHS organisation or GP practice or code
         </div>
       </span>
       <input
-        class="c7"
+        class="c5"
         id="areaSearched"
         name="areaSearched"
         value=""
       />
     </label>
     <a
-      class="c8"
+      class="c6"
       data-testid="search-form-link-filter-area"
       href="#"
     >
@@ -562,7 +436,7 @@ exports[`snapshot test - renders the form 1`] = `
     </a>
     <br />
     <button
-      class="c9"
+      class="c7"
       data-testid="search-form-button-submit"
       style="margin-top: 25px;"
       type="submit"
