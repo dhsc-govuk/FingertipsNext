@@ -6,11 +6,14 @@ import { LineChart } from '../LineChart';
 import { LineChartTable } from '../LineChartTable';
 
 interface ChartProps {
-  healthData: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   benchmarkData?: HealthDataForArea;
 }
 
-export const ChartContainer = ({ healthData, benchmarkData }: ChartProps) => {
+export const ChartContainer = ({
+  healthIndicatorData,
+  benchmarkData,
+}: ChartProps) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleClick = (index: number) => {
@@ -38,7 +41,7 @@ export const ChartContainer = ({ healthData, benchmarkData }: ChartProps) => {
       <Tabs.Panel selected={tabIndex === 0}>
         <LineChart
           LineChartTitle="See how the indicator has changed over time"
-          data={healthData}
+          healthIndicatorData={healthIndicatorData}
           benchmarkData={benchmarkData}
           xAxisTitle="Year"
           accessibilityLabel="A line chart showing healthcare data"
@@ -46,7 +49,7 @@ export const ChartContainer = ({ healthData, benchmarkData }: ChartProps) => {
       </Tabs.Panel>
       <Tabs.Panel selected={tabIndex === 1}>
         <LineChartTable
-          data={healthData[0]}
+          healthIndicatorData={healthIndicatorData}
           englandBenchmarkData={benchmarkData}
         />
       </Tabs.Panel>

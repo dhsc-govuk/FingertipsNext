@@ -62,7 +62,7 @@ export function Chart({
         areasSelected
       ) && (
         <ChartContainer
-          healthData={dataWithoutEngland}
+          healthIndicatorData={dataWithoutEngland}
           benchmarkData={englandBenchmarkData}
         />
       )}
