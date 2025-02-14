@@ -13,7 +13,7 @@ import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSele
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 import { AreaTypes } from '@/mock/data/areaType';
-import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
+import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 
 export default async function Page(
   props: Readonly<{
@@ -84,7 +84,7 @@ export default async function Page(
       (a, b) => a.level - b.level
     );
 
-    const initialState: SearchResultState = {
+    const initialState: IndicatorSelectionState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
       indicatorsSelected: indicatorsSelected ?? [],
       message: null,

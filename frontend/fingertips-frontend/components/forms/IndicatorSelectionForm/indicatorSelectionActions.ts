@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
 
-const $SearchResultFormSchema = z.object({
+const $IndicatorSelectionFormSchema = z.object({
   searchState: z.string(),
   indicatorsSelected: z
     .string()
@@ -19,15 +19,17 @@ export type State = {
   message?: string | null;
 };
 
-export type SearchResultForm = z.infer<typeof $SearchResultFormSchema>;
+export type IndicatorSelectionForm = z.infer<
+  typeof $IndicatorSelectionFormSchema
+>;
 
-export type SearchResultState<T = SearchResultForm> = State & T;
+export type IndicatorSelectionState<T = IndicatorSelectionForm> = State & T;
 
 export async function submitIndicatorSelection(
-  prevState: SearchResultState,
+  prevState: IndicatorSelectionState,
   formData: FormData
-): Promise<SearchResultState> {
-  const validatedFields = $SearchResultFormSchema.safeParse({
+): Promise<IndicatorSelectionState> {
+  const validatedFields = $IndicatorSelectionFormSchema.safeParse({
     searchState: formData.get('searchState'),
     indicatorsSelected: formData.getAll('indicator'),
   });

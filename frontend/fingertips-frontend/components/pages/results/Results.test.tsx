@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResults } from '.';
-import { SearchResultState } from '../../forms/IndicatorSelectionForm/searchResultsActions';
+import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -34,7 +34,7 @@ jest.mock('react', () => {
 
   return {
     ...originalModule,
-    useActionState: setupMockUseActionState<SearchResultState>(),
+    useActionState: setupMockUseActionState<IndicatorSelectionState>(),
   };
 });
 
@@ -60,7 +60,7 @@ const searchedIndicator = 'test';
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: searchedIndicator,
 };
-const initialState: SearchResultState = {
+const initialState: IndicatorSelectionState = {
   searchState: JSON.stringify(state),
   indicatorsSelected: [],
   message: null,
@@ -139,7 +139,7 @@ describe('Search Results Suite', () => {
 
   it('should render the error summary component when there is a validation error', () => {
     const errorMessage = 'There was an error';
-    const errorState: SearchResultState = {
+    const errorState: IndicatorSelectionState = {
       ...initialState,
       message: errorMessage,
       errors: {},
@@ -165,7 +165,7 @@ describe('Search Results Suite', () => {
 
     const user = userEvent.setup();
 
-    const errorState: SearchResultState = {
+    const errorState: IndicatorSelectionState = {
       ...initialState,
       message: 'Some error',
       errors: {},

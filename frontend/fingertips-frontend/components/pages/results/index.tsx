@@ -3,9 +3,9 @@
 import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
 import { useActionState } from 'react';
 import {
-  SearchResultState,
+  IndicatorSelectionState,
   submitIndicatorSelection,
-} from '../../forms/IndicatorSelectionForm/searchResultsActions';
+} from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import {
   SearchParams,
   SearchStateManager,
@@ -26,7 +26,7 @@ import {
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 
 type SearchResultsProps = {
-  searchResultsState: SearchResultState;
+  searchResultsState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
   availableGroupTypes?: AreaType[];
@@ -51,7 +51,7 @@ export function SearchResults({
   selectedAreasData,
   searchState,
 }: Readonly<SearchResultsProps>) {
-  const initialSearchResultsFormState: SearchResultState = {
+  const initialSearchResultsFormState: IndicatorSelectionState = {
     ...searchResultsState,
     searchState: JSON.stringify(searchState),
   };

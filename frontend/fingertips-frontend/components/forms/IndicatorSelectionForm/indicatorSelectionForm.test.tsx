@@ -3,7 +3,7 @@ import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { formatDate } from '@/components/molecules/result';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
+import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
@@ -48,7 +48,7 @@ const state: SearchStateParams = {
 
 const mockFormAction = jest.fn();
 
-const initialState: SearchResultState = {
+const initialState: IndicatorSelectionState = {
   searchState: JSON.stringify(state),
   indicatorsSelected: [],
   message: null,

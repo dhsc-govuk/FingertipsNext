@@ -1,5 +1,5 @@
 import { SearchResult } from '@/components/molecules/result';
-import { SearchResultState } from '@/components/forms/IndicatorSelectionForm/searchResultsActions';
+import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -16,7 +16,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 
 type IndicatorSelectionProps = {
-  searchResultsFormState: SearchResultState;
+  searchResultsFormState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   searchState?: SearchStateParams;
   formAction: (payload: FormData) => void;
@@ -24,7 +24,7 @@ type IndicatorSelectionProps = {
 
 const isIndicatorSelected = (
   indicatorId: string,
-  state?: SearchResultState
+  state?: IndicatorSelectionState
 ): boolean => {
   return state?.indicatorsSelected
     ? state.indicatorsSelected?.some((ind) => ind === indicatorId)
