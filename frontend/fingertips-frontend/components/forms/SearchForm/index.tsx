@@ -26,7 +26,8 @@ export const SearchForm = ({
         }}
         hint={
           <div style={{ color: GovukColours.DarkGrey }}>
-            For example smoking, diabetes prevalence, or a specific indicator ID
+            For example, smoking, diabetes prevalence, or a specific indicator
+            ID
           </div>
         }
         meta={{
@@ -49,7 +50,7 @@ export const SearchForm = ({
         }}
         hint={
           <div style={{ color: GovukColours.DarkGrey }}>
-            For example district, county, region, NHS organisation or GP
+            For example, district, county, region, NHS organisation or GP
             practice or code
           </div>
         }
