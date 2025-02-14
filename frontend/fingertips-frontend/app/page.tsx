@@ -10,10 +10,9 @@ export default async function Page(
   const searchParams = await props.searchParams;
   const searchedIndicator =
     searchParams?.[SearchParams.SearchedIndicator] ?? '';
-  const selectedAreaCode =
-    searchParams?.[SearchParams.AreasSelected] ?? [];
+  const selectedAreaCode = searchParams?.[SearchParams.AreasSelected] ?? [];
   const areaDocument = selectedAreaCode
-    ? await getArea(selectedAreaCode.length> 0? selectedAreaCode[0] : '')
+    ? await getArea(selectedAreaCode.length > 0 ? selectedAreaCode[0] : '')
     : undefined;
 
   const initialState = {

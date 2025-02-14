@@ -29,7 +29,7 @@ export const Home = ({
   searchFormState: SearchFormState;
 }) => {
   const [state, formAction] = useActionState(searchIndicator, searchFormState);
-  console.log("Form Action = " , state)
+  console.log('Form Action = ', state);
   return (
     <form action={formAction}>
       {state.message && (
