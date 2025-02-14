@@ -2,7 +2,49 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c1 {
+  .c2 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c2 > p {
+  margin: 0;
+}
+
+.c2 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c2 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c2 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c1 {
   margin-bottom: 20px;
   padding-left: 15px;
   border-left: 5px solid #d4351c;
@@ -17,11 +59,11 @@ exports[`snapshot test - renders the form 1`] = `
   border: 0;
 }
 
-.c6 {
+.c11 {
   display: block;
 }
 
-.c4 {
+.c9 {
   width: 100%;
   height: 40px;
   padding: 6px;
@@ -39,17 +81,17 @@ exports[`snapshot test - renders the form 1`] = `
   -webkit-appearance: none;
 }
 
-.c4:focus {
+.c9:focus {
   margin-right: 3px;
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c4:focus ~ button {
+.c9:focus ~ button {
   width: 46px;
 }
 
-.c5 {
+.c10 {
   background-color: #2b8cc4;
   border: 0;
   display: block;
@@ -64,12 +106,12 @@ exports[`snapshot test - renders the form 1`] = `
   overflow: hidden;
 }
 
-.c5:focus {
+.c10:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c2 {
+.c7 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -80,8 +122,44 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c3 {
+.c8 {
   margin-bottom: 20px;
+}
+
+.c3 {
+  padding-bottom: 2px;
+}
+
+.c4 {
+  margin-bottom: 0;
+}
+
+.c5 {
+  color: #505A5F;
+}
+
+.c6 {
+  margin-bottom: 15px;
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 20px;
+  }
 }
 
 @media only screen and (min-width:641px) {
@@ -91,14 +169,26 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
+  .c7 {
     margin-bottom: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c8 {
     margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    margin-bottom: 15px;
   }
 }
 
@@ -107,10 +197,24 @@ exports[`snapshot test - renders the form 1`] = `
     data-testid="indicator-search-form"
   >
     <div
-      class="c2 c3"
+      class="c2 c3 c4"
+    >
+      <p>
+        Search by Subject
+      </p>
+    </div>
+    <div
+      class="c2 c5 c6"
+    >
+      <p>
+        For example smoking, diabetes prevalence, or a specific indicator ID
+      </p>
+    </div>
+    <div
+      class="c7 c8"
     >
       <input
-        class="c4"
+        class="c9"
         data-testid="indicator-search-form-input"
         id="indicator"
         name="indicator"
@@ -120,13 +224,13 @@ exports[`snapshot test - renders the form 1`] = `
         value=""
       />
       <button
-        class="c5"
+        class="c10"
         data-testid="indicator-search-form-submit"
         title="Search"
         type="submit"
       >
         <svg
-          class="c6"
+          class="c11"
           fill="#ffffff"
           height="100%"
           version="1.1"

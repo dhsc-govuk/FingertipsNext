@@ -27,7 +27,7 @@ public class AreaRepository : IAreaRepository
     public async Task<List<string>> GetHierarchiesAsync()
     {
         var hierarchies = await _dbContext
-            .Area.Select(a => a.HierarchyType)
+            .AreaType.Select(a => a.HierarchyType)
             .Distinct()
             .ToListAsync();
 
@@ -41,20 +41,15 @@ public class AreaRepository : IAreaRepository
     /// <returns></returns>
     public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType)
     {
-        IQueryable<AreaModel> areas = _dbContext.Area;
-
+        IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
-            areas = areas.Where(a => a.HierarchyType == hierarchyType);
+            areaTypes = _dbContext.AreaType.Where(a => a.HierarchyType == hierarchyType);
+        else
+            areaTypes = _dbContext.AreaType;
 
-        return await areas
-            .Select(am => new AreaTypeModel
-            {
-                AreaType = am.AreaType,
-                Level = am.Level,
-                HierarchyType = am.HierarchyType,
-            })
-            .Distinct()
-            .ToListAsync();
+        var list = await areaTypes.ToListAsync();
+        list.Add(new AreaTypeModel { AreaTypeKey = "england", Level = 1, HierarchyType = "All", AreaTypeName = "England" });
+        return list;
     }
 
     /// <summary>
@@ -62,9 +57,9 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="areaType"></param>
     /// <returns></returns>
-    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaType)
+    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey)
     {
-        return await _dbContext.Area.Where(a => a.AreaType == areaType).ToListAsync();
+        return await _dbContext.Area.Where(a => a.AreaTypeKey == areaTypeKey).ToListAsync();
     }
 
     /// <summary>
@@ -149,16 +144,16 @@ public class AreaRepository : IAreaRepository
         {
             // children lower down the hierarchy
             var singleChildOfType = await _dbContext
-                .Area.Where(a => a.AreaType == childAreaType)
+                .Area.Where(a => a.AreaTypeKey == childAreaType)
                 .FirstOrDefaultAsync();
 
             if (singleChildOfType != null)
             {
-                int parentLevel = area.Level;
+                int parentLevel = area.AreaType.Level;
 
                 aresWithRelations.Children = await _dbContext
                     .Area.Where(a =>
-                        a.Node.GetAncestor(singleChildOfType.Level - parentLevel) == area.Node
+                        a.Node.GetAncestor(singleChildOfType.AreaType.Level - parentLevel) == area.Node
                     )
                     .ToListAsync();
             }

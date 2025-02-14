@@ -4,6 +4,15 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+
+jest.mock('@/components/organisms/ThematicMap/', () => {
+  return {
+    ThematicMap: function ThematicMap() {
+      return <div data-testid="thematicMap-component"></div>;
+    },
+  };
+});
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -29,7 +38,7 @@ describe('Page structure', () => {
     it('should render back link with correct search parameters', () => {
       render(
         <Chart
-          data={[mockHealthData[1]]}
+          healthIndicatorData={[mockHealthData[1]]}
           searchedIndicator="test"
           indicatorsSelected={['1', '2']}
         />
@@ -47,7 +56,12 @@ describe('Page structure', () => {
 
 describe('Content', () => {
   beforeEach(() => {
-    render(<Chart data={[mockHealthData[1]]} />);
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['337']]}
+        indicatorsSelected={['0']}
+      />
+    );
   });
 
   it('should render the title with correct text', () => {
@@ -73,7 +87,7 @@ describe('Content', () => {
 it('should render the PopulationPyramid component when Population data are provided', () => {
   render(
     <Chart
-      data={[mockHealthData[1]]}
+      healthIndicatorData={[mockHealthData[1]]}
       populationData={{
         dataForSelectedArea: mockPopulationData,
         dataForEngland: undefined,
@@ -87,15 +101,95 @@ it('should render the PopulationPyramid component when Population data are provi
 });
 
 it('should render the scatterChart component when 2 indicators are selected', () => {
-  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0', '1']} />);
+  render(
+    <Chart
+      healthIndicatorData={[mockHealthData[1]]}
+      indicatorsSelected={['0', '1']}
+    />
+  );
   const scatterChart = screen.getByTestId('scatterChart-component');
 
   expect(scatterChart).toBeInTheDocument();
 });
 
 it('should not render the scatterChart component when only 1 indicator is selected', () => {
-  render(<Chart data={[mockHealthData[1]]} indicatorsSelected={['0']} />);
+  render(
+    <Chart
+      healthIndicatorData={[mockHealthData[1]]}
+      indicatorsSelected={['0']}
+    />
+  );
   const scatterChart = screen.queryByTestId('scatterChart-component');
 
   expect(scatterChart).not.toBeInTheDocument();
+});
+
+it('should render the ThematicMap component when all map props are provided', () => {
+  const areaType = 'Regions';
+  const areaCodes = ['E12000001', 'E12000002'];
+  const mapData = getMapData(areaType, areaCodes);
+
+  render(
+    <Chart healthIndicatorData={[mockHealthData['318']]} mapData={mapData} />
+  );
+
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+  expect(thematicMap).toBeInTheDocument();
+});
+
+it('should _not_ render the ThematicMap component when map props are _not_ provided', async () => {
+  render(<Chart healthIndicatorData={[mockHealthData['318']]} />);
+  const thematicMap = screen.queryByTestId('thematicMap-component');
+
+  expect(thematicMap).not.toBeInTheDocument();
+});
+
+describe('should not display line chart', () => {
+  it('should not display line chart and line chart table when multiple indicators are selected', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['1']]}
+        indicatorsSelected={['0', '1']}
+      />
+    );
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['1']]}
+        indicatorsSelected={['0']}
+        areasSelected={['A1425', 'A1426', 'A1427']}
+      />
+    );
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
+    const MOCK_DATA = [
+      {
+        areaCode: 'A1',
+        areaName: 'Area 1',
+        healthData: [mockHealthData['1'][0].healthData[0]],
+      },
+    ];
+
+    render(
+      <Chart healthIndicatorData={[MOCK_DATA]} indicatorsSelected={['0']} />
+    );
+
+    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('lineChartTable-component')
+    ).not.toBeInTheDocument();
+  });
 });

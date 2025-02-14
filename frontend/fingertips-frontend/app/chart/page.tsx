@@ -8,6 +8,7 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -20,13 +21,14 @@ export default async function ChartPage(
     searchParams?.[SearchParams.IndicatorsSelected]
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
+  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
 
   // We don't want to render this page statically
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const data = await Promise.all(
+  const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
@@ -35,8 +37,8 @@ export default async function ChartPage(
     )
   );
 
-  let rawPopulationData = undefined;
-  let preparedPopulationData = undefined;
+  let rawPopulationData;
+  let preparedPopulationData;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
@@ -54,12 +56,24 @@ export default async function ChartPage(
     );
   }
 
+  let mapData;
+  if (
+    selectedAreaType &&
+    indicatorsSelected.length === 1 &&
+    areaCodes.length >= 2
+  ) {
+    // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
+    mapData = getMapData(selectedAreaType, areaCodes);
+  }
+
   return (
     <Chart
       populationData={preparedPopulationData}
-      data={data}
+      healthIndicatorData={healthIndicatorData}
+      mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
+      areasSelected={areaCodes}
     />
   );
 }

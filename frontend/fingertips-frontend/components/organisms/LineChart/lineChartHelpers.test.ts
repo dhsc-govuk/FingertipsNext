@@ -1,5 +1,5 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
-import { generateSeriesData } from './lineChartHelpers';
+import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
 
 const mockData = [
@@ -290,7 +290,6 @@ describe('generateSeriesData', () => {
       false
     ) as SeriesLineOptions[];
 
-    console.log('generatedSeriesData', generatedSeriesData);
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
     expect(generatedSeriesData[1].marker?.symbol).toBe(undefined);
     expect(generatedSeriesData[2].marker?.symbol).toBe('circle');
@@ -367,5 +366,44 @@ describe('generateSeriesData', () => {
     ];
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
+  });
+});
+
+describe('should display line chart', () => {
+  describe('should return false', () => {
+    it('should return false when more than 1 indicator is selected', () => {
+      expect(shouldDisplayLineChart(mockData, ['1', '2'], ['A1425'])).toBe(
+        false
+      );
+    });
+
+    it('should return false when more than 2 area codes are selected for an indicator', () => {
+      expect(
+        shouldDisplayLineChart(mockData, ['1'], ['A1425', 'A1426', 'A1427'])
+      ).toBe(false);
+    });
+
+    it('should return false when health data contains less than 2 time periods', () => {
+      const data = [
+        {
+          areaCode: 'A1426',
+          areaName: 'Area 2',
+          healthData: [mockData[0].healthData[0]],
+        },
+      ];
+      expect(shouldDisplayLineChart(data, ['1'], ['A1426'])).toBe(false);
+    });
+  });
+
+  describe('should return true', () => {
+    it('should return true when 1 indicator is selected, 2 areas are selected, and there are multiple data points', () => {
+      expect(
+        shouldDisplayLineChart(
+          [mockData[0], mockData[1]],
+          ['1'],
+          ['A1425', 'A1426']
+        )
+      ).toBe(true);
+    });
   });
 });

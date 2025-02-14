@@ -6,7 +6,7 @@ describe('IndicatorSearchServiceMock', () => {
     {
       indicatorId: '1',
       name: 'Red faced',
-      definition: 'Count of people who did something they are embarrased by',
+      definition: 'Count of people who did something they are embarrassed by',
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
       lastUpdated: new Date('December 6, 2024'),

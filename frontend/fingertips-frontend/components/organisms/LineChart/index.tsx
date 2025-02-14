@@ -14,7 +14,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 interface LineChartProps {
   LineChartTitle?: string;
-  data: HealthDataForArea[];
+  healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
@@ -30,7 +30,7 @@ const chartSymbols: SymbolKeyValue[] = [
 
 export function LineChart({
   LineChartTitle: lineChartTitle,
-  data,
+  healthIndicatorData,
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
@@ -48,7 +48,7 @@ export function LineChart({
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === 'lineChart') ?? false;
 
-  const sortedSeriesValues = sortHealthDataByDate(data);
+  const sortedSeriesValues = sortHealthDataByDate(healthIndicatorData);
   const seriesData = generateSeriesData(
     sortedSeriesValues,
     chartSymbols,
@@ -102,7 +102,9 @@ export function LineChart({
         showConfidenceIntervalsData={lineChartCI}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
-        containerProps={{ 'data-testid': 'highcharts-react-component' }}
+        containerProps={{
+          'data-testid': 'highcharts-react-component-lineChart',
+        }}
         highcharts={Highcharts}
         options={lineChartOptions}
       />

@@ -101,7 +101,7 @@ describe('Chart Page', () => {
   });
 
   it('should pass the correct props to the Chart page', async () => {
-    const expectedPopulateData = preparePopulationData(
+    const expectedPopulationData = preparePopulationData(
       mockHealthData[`${indicatorIdForPopulation}`],
       'A001'
     );
@@ -117,8 +117,8 @@ describe('Chart Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual([mockHealthData['1']]);
-    expect(page.props.populationData).toEqual(expectedPopulateData);
+    expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
+    expect(page.props.populationData).toEqual(expectedPopulationData);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);
   });
@@ -135,7 +135,7 @@ describe('Chart Page', () => {
       searchParams: generateSearchParams(searchParams),
     });
 
-    expect(page.props.data).toEqual([mockHealthData['1']]);
+    expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(undefined);
     expect(page.props.searchedIndicator).toEqual('testing');
     expect(page.props.indicatorsSelected).toEqual(['1']);

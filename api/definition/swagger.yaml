@@ -63,7 +63,7 @@ paths:
       description: Get the areas that have a given area type
       operationId: getAreaTypeMembers
       parameters:
-        - $ref: "#/components/parameters/area_type"
+        - $ref: "#/components/parameters/area_type_key"
       responses:
         "200":
           description: The available areas for the area type
@@ -89,6 +89,7 @@ paths:
         - $ref: "#/components/parameters/include_children"
         - $ref: "#/components/parameters/include_siblings"
         - $ref: "#/components/parameters/include_ancestors"
+        - $ref: "#/components/parameters/child_area_type"
       responses:
         "200":
           description: The area node
@@ -234,10 +235,14 @@ components:
         - level
         - hierarchyName
       properties:
+        areaTypeKey:
+          type: string
+          example: "combined-authorities"
+          description: The key name of the area type
         name:
           type: string
-          example: "PCN"
-          description: The name of the area type
+          example: "Combined Authorities"
+          description: The name of the area type for presentation
         level:
           type: integer
           example: "3"
@@ -437,16 +442,16 @@ components:
       explode: false
       required: true
       description: The area code of the area/ geography
-    area_type:
+    area_type_key:
       in: path
-      name: area_type
+      name: area_type_key
       style: simple
       schema:
         type: string
-        example: PCN
+        example: nhs-region
       explode: false
       required: true
-      description: The area type
+      description: The area type key
     include_children:
       in: query
       name: include_children
@@ -465,6 +470,12 @@ components:
       description: include the ancestor areas
       schema:
         type: boolean
+    child_area_type:
+      in: query
+      name: child_area_type
+      description: the area_type of descendants to be returned
+      schema:
+        type: string
     area_codes:
       in: query
       name: area_codes

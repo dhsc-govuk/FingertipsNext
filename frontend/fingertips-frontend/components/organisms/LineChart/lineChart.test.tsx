@@ -26,13 +26,13 @@ it('should render the Highcharts react component with passed parameters within t
   const xAxisPropsTitle = 'DifferentXTitle';
   render(
     <LineChart
-      data={mockHealthData[1]}
+      healthIndicatorData={mockHealthData[1]}
       xAxisTitle={`${xAxisPropsTitle}`}
       accessibilityLabel="Accessibility label"
     />
   );
 
-  const highcharts = screen.getByTestId('highcharts-react-component');
+  const highcharts = screen.getByTestId('highcharts-react-component-lineChart');
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);
@@ -41,7 +41,7 @@ it('should render the Highcharts react component with passed parameters within t
 it('should render the LineChart title', () => {
   render(
     <LineChart
-      data={mockHealthData[1]}
+      healthIndicatorData={mockHealthData[1]}
       LineChartTitle="See how the indicator has changed over time for the area"
     />
   );

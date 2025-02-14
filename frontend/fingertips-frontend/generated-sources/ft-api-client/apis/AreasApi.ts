@@ -39,10 +39,11 @@ export interface GetAreaRequest {
     includeChildren?: boolean;
     includeSiblings?: boolean;
     includeAncestors?: boolean;
+    childAreaType?: string;
 }
 
 export interface GetAreaTypeMembersRequest {
-    areaType: string;
+    areaTypeKey: string;
 }
 
 export interface GetAreaTypesRequest {
@@ -63,6 +64,7 @@ export interface AreasApiInterface {
      * @param {boolean} [includeChildren] include the child areas
      * @param {boolean} [includeSiblings] include the sibling areas
      * @param {boolean} [includeAncestors] include the ancestor areas
+     * @param {string} [childAreaType] the area_type of descendants to be returned
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AreasApiInterface
@@ -108,7 +110,7 @@ export interface AreasApiInterface {
     /**
      * Get the areas that have a given area type
      * @summary Get member areas for an area type
-     * @param {string} areaType The area type
+     * @param {string} areaTypeKey The area type key
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AreasApiInterface
@@ -168,6 +170,10 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 
         if (requestParameters['includeAncestors'] != null) {
             queryParameters['include_ancestors'] = requestParameters['includeAncestors'];
+        }
+
+        if (requestParameters['childAreaType'] != null) {
+            queryParameters['child_area_type'] = requestParameters['childAreaType'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -252,10 +258,10 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
      * Get member areas for an area type
      */
     async getAreaTypeMembersRaw(requestParameters: GetAreaTypeMembersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Area>>> {
-        if (requestParameters['areaType'] == null) {
+        if (requestParameters['areaTypeKey'] == null) {
             throw new runtime.RequiredError(
-                'areaType',
-                'Required parameter "areaType" was null or undefined when calling getAreaTypeMembers().'
+                'areaTypeKey',
+                'Required parameter "areaTypeKey" was null or undefined when calling getAreaTypeMembers().'
             );
         }
 
@@ -264,7 +270,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/areas/areatypes/{area_type}/areas`.replace(`{${"area_type"}}`, encodeURIComponent(String(requestParameters['areaType']))),
+            path: `/areas/areatypes/{area_type}/areas`.replace(`{${"area_type_key"}}`, encodeURIComponent(String(requestParameters['areaTypeKey']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

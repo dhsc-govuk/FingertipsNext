@@ -1,7 +1,7 @@
 export default {
-  transform: { "^.+\\.ts?$": "ts-jest" },
-  testEnvironment: "node",
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testMatch: ["<rootDir>/**/*.test.ts"],
-  transformIgnorePatterns: ["^.+\\.js$"],
+  transform: { '^.+\\.ts?$': 'ts-jest' },
+  testEnvironment: 'node',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testMatch: ['<rootDir>/**/*.test.ts'],
+  transformIgnorePatterns: ['^.+\\.js$'],
 };
