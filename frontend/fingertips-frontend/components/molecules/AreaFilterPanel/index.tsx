@@ -1,5 +1,5 @@
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { Checkbox, Link, ListItem, UnorderedList } from 'govuk-react';
+import { Link } from 'govuk-react';
 import styled from 'styled-components';
 
 export interface SelectableAreaDocument extends AreaDocument {
@@ -18,7 +18,7 @@ interface AreaFilterPanelProps {
 }
 
 const getDisplayText = function (areaSize: number) {
-  return areaSize <= 0
+  return areaSize > 0
     ? 'Open a filter to add or change areas'
     : 'Open area filter';
 };
@@ -40,24 +40,6 @@ export const AreaFilterPanel = ({ areas, onOpen }: AreaFilterPanelProps) => {
       >
         {getDisplayText(areas.length)}
       </Link>
-
-      {/* { (areas.length > 0) && (
-                <StyleAreaFilterPanelItemsPanel>
-                    {
-                        areas.map((area)=>(
-                            <StyleAreaFilterPanelItem key='filter-{{area.areaCode}}' >
-                            <Checkbox checked></Checkbox>
-                               <div>
-                                    {area.areaName}
-                               </div>
-                               <div>
-                                   {area.areaType}
-                               </div>
-                            </StyleAreaFilterPanelItem>
-                        ))
-                    }
-                </StyleAreaFilterPanelItemsPanel>
-             )} */}
     </StyleAreaFilterPanel>
   );
 };

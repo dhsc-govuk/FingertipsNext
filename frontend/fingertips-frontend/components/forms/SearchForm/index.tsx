@@ -14,6 +14,8 @@ const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
+
+
 export const SearchForm = ({
   searchFormState,
 }: {

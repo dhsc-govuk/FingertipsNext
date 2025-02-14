@@ -30,7 +30,7 @@ const initialState: SearchFormState = {
 };
 
 it('snapshot test - renders the form', () => {
-  const container = render(<SearchForm searchFormState={initialState} />);
+  const container = render(<SearchForm searchFormState={initialState}/>);
 
   expect(container.asFragment()).toMatchSnapshot();
 });

@@ -250,7 +250,7 @@ exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
         data-testid="search-form-link-filter-area"
         href="#"
       >
-        Open a filter to add or change areas
+        Open area filter
       </a>
     </div>
   </div>
