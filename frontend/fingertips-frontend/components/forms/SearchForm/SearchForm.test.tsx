@@ -2,6 +2,7 @@ import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -22,47 +23,58 @@ jest.mock('react', () => {
   };
 });
 
-const initialState: SearchFormState = {
-  indicator: '',
-  areaSearched: '',
+const initialDataState: SearchFormState = {
+  indicator: 'indicator',
+  areaSearched: 'area',
   message: null,
   errors: {},
 };
 
+const setupUI = (initialState: SearchFormState | null = null) => {
+  if (initialState == null) {
+    initialState = initialDataState;
+  }
+  const container = render(<SearchForm searchFormState={initialState} />);
+
+  return { container };
+};
 it('snapshot test - renders the form', () => {
-  const container = render(<SearchForm searchFormState={initialState}/>);
+  const { container } = setupUI();
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should have an input field to input the indicatorId', () => {
-  render(<SearchForm searchFormState={initialState} />);
+  setupUI();
 
   expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
-});
-
-it('should have an input field to input the area by location or organisation', () => {
-  render(<SearchForm searchFormState={initialState} />);
-
-  expect(screen.getByTestId('search-form-input-area')).toBeInTheDocument();
 });
 
 it('should set the input field with indicator value from the form state', () => {
   const indicatorState: SearchFormState = {
     indicator: 'test value',
-    areaSearched: '',
+    areaSearched: 'test area',
     message: '',
     errors: {},
   };
-  render(<SearchForm searchFormState={indicatorState} />);
+  setupUI(indicatorState);
 
   expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
     'test value'
   );
 });
 
-it('should display the filter by area link', () => {
-  render(<SearchForm searchFormState={initialState} />);
-  const link = screen.getByTestId('search-form-link-filter-area');
-  expect(link).toBeInTheDocument();
+it('should set the input field with searchArea value from the form state', () => {
+  const indicatorState: SearchFormState = {
+    indicator: '',
+    areaSearched: 'area value',
+    message: '',
+    errors: {},
+  };
+  setupUI(indicatorState);
+
+  const searchInput = screen.getByDisplayValue('area value');
+  expect(searchInput.hasAttribute('name')).toBe(true);
+  expect(searchInput.hasAttribute('disabled')).toBe(true);
+  expect(searchInput).toHaveValue('area value');
 });

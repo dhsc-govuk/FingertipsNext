@@ -1,6 +1,6 @@
 import { getSearchSuggestions } from '@/components/forms/SearchForm/searchActions';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
 import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
 import { AreaSelectionSearchPillPanel } from '../AreaSelectionSearchPillPanel';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { AreaFilterPanel } from '../AreaFilterPanel';
 
 const MIN_SEARCH_SIZE = 3;
+const DEBOUNCE_SEARCH_DELAY = 300;
 
 const enum SearchStatusType {
   PROCESSING,
@@ -22,7 +23,7 @@ const StyleAreaSelectAutoCompletePanel = styled('div')({
 interface AreaSelectAutoCompleteProps {
   onAreaSelected: (area: AreaDocument) => void;
   inputFieldErrorStatus: boolean;
-  defaultValue: string | undefined;
+  defaultValue: string;
 }
 
 export default function AreaAutoCompleteSearchPanel({
@@ -30,15 +31,16 @@ export default function AreaAutoCompleteSearchPanel({
   defaultValue,
   inputFieldErrorStatus = false,
 }: AreaSelectAutoCompleteProps) {
-  const [criteria, setCriteria] = useState<string>();
+  const [criteria, setCriteria] = useState<string>(defaultValue);
   const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
     SearchStatusType.COMPLETED
   );
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] = useState<AreaDocument[]>([]);
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
-    const fetchSearchArea = async (criteria: string | undefined) => {
+    const fetchSearchArea = async (criteria: string) => {
       if (criteria && searchStatus === SearchStatusType.PROCESSING) {
         const areas = await getSearchSuggestions(criteria);
         setSearchAreas(areas.slice(0, 20));
@@ -46,22 +48,53 @@ export default function AreaAutoCompleteSearchPanel({
       }
     };
 
-    if (searchStatus === SearchStatusType.PROCESSING) {
-      fetchSearchArea(criteria);
+    if (timeoutRef.current != null) {
+      clearTimeout(timeoutRef.current);
     }
+    timeoutRef.current = setTimeout(
+      (criteria: string, status: SearchStatusType) => {
+        if (status !== SearchStatusType.PROCESSING) return;
+        if (criteria == null || criteria.length < MIN_SEARCH_SIZE) {
+          setSearchAreas([]);
+          return;
+        }
+        fetchSearchArea(criteria);
+
+        if (timeoutRef.current != null) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      },
+      DEBOUNCE_SEARCH_DELAY,
+      criteria,
+      searchStatus
+    );
+
+    return () => {
+      if (timeoutRef.current != null) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
   }, [searchStatus, criteria]);
+
+  const searchAreaSelectedHandler = useCallback(
+    (area: AreaDocument) => {
+      const areas = selectedAreas.filter(
+        (selectedArea) => selectedArea.areaCode !== area.areaCode
+      );
+      setSelectedAreas(areas);
+    },
+    [selectedAreas]
+  );
 
   return (
     <StyleAreaSelectAutoCompletePanel>
       <AreaSearchInputField
-        defaultValue={defaultValue}
+        value={criteria}
         onTextChange={(newCriteria: string) => {
-          if (newCriteria.length < MIN_SEARCH_SIZE) {
-            setSearchAreas([]);
-            return;
-          }
+          setCriteria(newCriteria);
           if (searchStatus === SearchStatusType.COMPLETED) {
-            setCriteria(newCriteria);
             setSearchStatus(SearchStatusType.PROCESSING);
           }
         }}
@@ -70,12 +103,7 @@ export default function AreaAutoCompleteSearchPanel({
       />
       <AreaSelectionSearchPillPanel
         areas={selectedAreas}
-        onClick={(area: AreaDocument) => {
-          const areas = selectedAreas.filter(
-            (selectedArea) => selectedArea.areaCode !== area.areaCode
-          );
-          setSelectedAreas(areas);
-        }}
+        onClick={searchAreaSelectedHandler}
       />
       <AreaSuggestionPanel
         areas={searchAreas}

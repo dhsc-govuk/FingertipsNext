@@ -236,8 +236,8 @@ exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
         </span>
         <input
           class="c5"
-          id="areaSearched"
-          name="areaSearched"
+          id="area-searched-input"
+          name="area-searched-input"
           value="Willington Medical Group"
         />
       </label>

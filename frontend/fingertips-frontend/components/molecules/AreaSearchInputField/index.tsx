@@ -15,22 +15,23 @@ interface AreaSearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
   disabled?: boolean;
   touched?: boolean;
-  defaultValue: string | undefined;
+  value: string | undefined;
 }
 
 export const AreaSearchInputField = ({
   onTextChange,
   touched,
   disabled,
-  defaultValue,
+  value,
 }: AreaSearchInputFieldProps) => {
   return (
     <StyleAreaSearchInputField>
       <InputField
         input={{
-          id: 'areaSearched',
-          name: 'areaSearched',
-          defaultValue: defaultValue,
+          id: 'area-searched-input',
+          name: 'area-searched-input',
+          defaultValue: value,
+          value: value,
           onChange: (e) => {
             const val = e.target.value;
             if (onTextChange) {
