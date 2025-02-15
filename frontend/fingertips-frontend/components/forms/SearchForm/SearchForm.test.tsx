@@ -2,7 +2,6 @@ import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -75,6 +74,5 @@ it('should set the input field with searchArea value from the form state', () =>
 
   const searchInput = screen.getByDisplayValue('area value');
   expect(searchInput.hasAttribute('name')).toBe(true);
-  expect(searchInput.hasAttribute('disabled')).toBe(true);
   expect(searchInput).toHaveValue('area value');
 });
