@@ -32,10 +32,7 @@ interface AreaSelectionSearchPillPanelProps {
   onRemovePill: (area: AreaDocument) => void;
 }
 export const AreaSelectionSearchPillPanel = memo(
-  ({
-    areas,
-    onRemovePill: onRemoveFilterPill,
-  }: AreaSelectionSearchPillPanelProps) => {
+  ({ areas, onRemovePill }: AreaSelectionSearchPillPanelProps) => {
     if (areas.length == 0) return null;
     return (
       <div>
@@ -51,7 +48,7 @@ export const AreaSelectionSearchPillPanel = memo(
             >
               <StyleAreaPill
                 removeFilter={(_: string) => {
-                  if (onRemoveFilterPill != null) {
+                  if (onRemovePill != null) {
                     onRemovePill(area);
                   }
                 }}
