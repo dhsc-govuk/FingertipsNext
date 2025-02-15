@@ -78,7 +78,7 @@ export default function AreaAutoCompleteSearchPanel({
     };
   }, [searchStatus, criteria]);
 
-  const searchAreaSelectedHandler = useCallback(
+  const handlePillRemoval = useCallback(
     (area: AreaDocument) => {
       const areas = selectedAreas.filter(
         (selectedArea) => selectedArea.areaCode !== area.areaCode
@@ -103,7 +103,7 @@ export default function AreaAutoCompleteSearchPanel({
       />
       <AreaSelectionSearchPillPanel
         areas={selectedAreas}
-        onRemovePill={searchAreaSelectedHandler}
+        onRemovePill={handlePillRemoval}
       />
       <AreaSuggestionPanel
         areas={searchAreas}
