@@ -103,7 +103,7 @@ export default function AreaAutoCompleteSearchPanel({
       />
       <AreaSelectionSearchPillPanel
         areas={selectedAreas}
-        onClick={searchAreaSelectedHandler}
+        onRemovePill={searchAreaSelectedHandler}
       />
       <AreaSuggestionPanel
         areas={searchAreas}

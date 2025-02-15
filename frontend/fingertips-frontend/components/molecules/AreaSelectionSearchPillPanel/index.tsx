@@ -29,10 +29,13 @@ const StyleAreaPill = styled(Pill)({
 
 interface AreaSelectionSearchPillPanelProps {
   areas: AreaDocument[];
-  onClick: (area: AreaDocument) => void;
+  onRemovePill: (area: AreaDocument) => void;
 }
 export const AreaSelectionSearchPillPanel = memo(
-  ({ areas, onClick }: AreaSelectionSearchPillPanelProps) => {
+  ({
+    areas,
+    onRemovePill: onRemoveFilterPill,
+  }: AreaSelectionSearchPillPanelProps) => {
     if (areas.length == 0) return null;
     return (
       <div>
@@ -48,8 +51,8 @@ export const AreaSelectionSearchPillPanel = memo(
             >
               <StyleAreaPill
                 removeFilter={(_: string) => {
-                  if (onClick != null) {
-                    onClick(area);
+                  if (onRemoveFilterPill != null) {
+                    onRemovePill(area);
                   }
                 }}
                 selectedFilterId={'pill_' + area.areaCode + area.areaName}

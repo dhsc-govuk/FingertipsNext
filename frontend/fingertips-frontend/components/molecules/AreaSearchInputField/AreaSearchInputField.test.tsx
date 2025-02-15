@@ -1,18 +1,17 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { AreaSearchInputField } from './index';
-import { InputField } from 'govuk-react';
 
 describe('AreaSearchInputField', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
-      <AreaSearchInputField defaultValue="London" onTextChange={jest.fn()} />
+      <AreaSearchInputField value="London" onTextChange={jest.fn()} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should display hint text correctly', () => {
     const { getByText } = render(
-      <AreaSearchInputField defaultValue="London" onTextChange={jest.fn()} />
+      <AreaSearchInputField value="London" onTextChange={jest.fn()} />
     );
     expect(
       getByText(
@@ -24,7 +23,7 @@ describe('AreaSearchInputField', () => {
   it('should display error message if touched', () => {
     const { getByText } = render(
       <AreaSearchInputField
-        defaultValue="London"
+        value="London"
         touched={true}
         onTextChange={jest.fn()}
       />
@@ -35,7 +34,7 @@ describe('AreaSearchInputField', () => {
   it('should not display error message if not touched', () => {
     const { queryByText } = render(
       <AreaSearchInputField
-        defaultValue="London"
+        value="London"
         touched={false}
         onTextChange={jest.fn()}
       />
@@ -46,7 +45,7 @@ describe('AreaSearchInputField', () => {
   it('should not disable the input if disabled prop is not passed', () => {
     const { getByTestId } = render(
       <AreaSearchInputField
-        defaultValue="London"
+        value="London"
         disabled={false}
         onTextChange={jest.fn()}
       />
