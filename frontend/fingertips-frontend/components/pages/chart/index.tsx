@@ -9,15 +9,17 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
-  getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrParent,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
+  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -27,6 +29,7 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
+  parentAreaCode,
   mapData,
   populationData,
   searchedIndicator,
@@ -40,11 +43,24 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
-    0
+    0,
+    areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
+  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+    healthIndicatorData[0],
+    parentAreaCode
+  );
+
+  let parentBenchmarkData: HealthDataForArea | undefined;
+  if (parentAreaCode) {
+    parentBenchmarkData = seriesDataForIndicatorIndexAndArea(
+      healthIndicatorData,
+      0,
+      areaCodeForEngland
+    );
+  }
 
   return (
     <>
@@ -70,6 +86,7 @@ export function Chart({
           <LineChartTable
             healthIndicatorData={dataWithoutEngland}
             englandBenchmarkData={englandBenchmarkData}
+            parentBenchmarkData={parentBenchmarkData}
           />
         </>
       )}
