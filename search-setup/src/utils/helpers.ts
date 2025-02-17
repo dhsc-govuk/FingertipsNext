@@ -43,11 +43,15 @@ export function parseIndicatorData(
 ): IndicatorDocument[] {
   const unparsedIndicatorData = rawIndicatorData as IndicatorDocument[];
   const parseIndicatorData = unparsedIndicatorData.map(
-    (ind): IndicatorDocument => {
+    ({ indicatorID, indicatorName, latestDataPeriod, lastUpdatedDate, indicatorDefinition, dataSource, associatedAreaCodes }): IndicatorDocument => {
       return {
-        ...ind,
-        indicatorID: String(ind.indicatorID),
-        lastUpdatedDate: new Date(ind.lastUpdatedDate)
+        indicatorID: String(indicatorID),
+        indicatorName,
+        indicatorDefinition,
+        dataSource,
+        latestDataPeriod: String(latestDataPeriod),
+        lastUpdatedDate: new Date(lastUpdatedDate),
+        associatedAreaCodes
       };
     }
   );

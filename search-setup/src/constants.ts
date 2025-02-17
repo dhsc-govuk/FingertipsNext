@@ -30,9 +30,9 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_ID = 'indicatorID',
   INDICATOR_NAME = 'indicatorName',
   INDICATOR_DEFINITION = 'indicatorDefinition',
-  INDICATOR_LATEST_DATA_PERIOD = 'latestDataPeriod',
   INDICATOR_DATA_SOURCE = 'dataSource',
-  INDICATOR_LAST_UPDATED = 'lastUpdated',
+  INDICATOR_LATEST_DATA_PERIOD = 'latestDataPeriod',
+  INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
 }
 

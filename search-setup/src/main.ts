@@ -54,18 +54,11 @@ async function main(): Promise<void> {
     new AzureKeyCredential(apiKey)
   );
 
-  const typedIndicatorData = indicatorData.map((indicator) => {
-    return {
-      ...indicator,
-      lastUpdated: new Date(indicator.lastUpdatedDate),
-    };
-  });
-
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,
     INDICATOR_SEARCH_INDEX_NAME,
-    typedIndicatorData
+    indicatorData
   );
 
   await createAndPopulateIndex(

@@ -93,6 +93,7 @@ export class SearchServiceFactory {
           return {
             ...ind,
             indicatorID: String(ind.indicatorID),
+            latestDataPeriod: String(ind.latestDataPeriod),
             lastUpdatedDate: new Date(ind.lastUpdatedDate)
           };
         }
