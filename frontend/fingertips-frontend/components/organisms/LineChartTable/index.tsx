@@ -6,19 +6,15 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
 import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
-import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
+import {
+  LineChartTableHeadingEnum,
+  LineChartTableRowData,
+  sortPeriod,
+} from '@/lib/tableHelpers';
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
-}
-
-interface LineChartTableRowData {
-  period: number;
-  count: number;
-  value: number;
-  lower: number;
-  upper: number;
 }
 
 const StyledDiv = styled('div')({
@@ -112,11 +108,6 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
     upper: healthPoint.upperCi,
   }));
 
-const sortPeriod = (
-  tableRowData: LineChartTableRowData[]
-): LineChartTableRowData[] =>
-  tableRowData.toSorted((a, b) => a.period - b.period);
-
 const convertToPercentage = (value: number): string => {
   // dummy function to do percentage conversions until real conversion logic is provided
   return `${((value / 10000) * 100).toFixed(1)}%`;
@@ -192,8 +183,10 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
-  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
-  const englandRowData = sortPeriod(englandData);
+  const sortedDataPerArea = tableData.map(
+    (area) => sortPeriod(area) as LineChartTableRowData[]
+  );
+  const englandRowData = sortPeriod(englandData) as LineChartTableRowData[];
 
   return (
     <StyledDiv data-testid="lineChartTable-component">

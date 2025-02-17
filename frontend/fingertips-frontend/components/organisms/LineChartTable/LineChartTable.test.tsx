@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
 import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA } from './mocks';
-import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
+import { LineChartTableHeadingEnum } from '@/lib/tableHelpers';
 
 describe('Line chart table suite', () => {
   describe('1 Indicator, 1 Area', () => {

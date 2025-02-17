@@ -75,7 +75,7 @@ export function Chart({
         </>
       )}
       <br />
-      {/* <InequalitiesSexTable healthIndicatorData={} /> */}
+      <InequalitiesSexTable healthIndicatorData={dataWithoutEngland[0]} />
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"
