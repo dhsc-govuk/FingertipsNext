@@ -49,7 +49,7 @@ export function LineChart({
     ];
 
   const lineChartCI =
-    showConfidenceIntervalsData?.some((ci) => ci === 'lineChart') ?? false;
+    showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
 
   const sortedSeriesValues = sortHealthDataByDate(healthIndicatorData);
   const seriesData = generateSeriesData(
