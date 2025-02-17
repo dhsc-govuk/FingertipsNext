@@ -47,6 +47,7 @@ export function LineChart({
     searchStateManager.getSearchState()[
       SearchParams.ConfidenceIntervalSelected
     ];
+
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === 'lineChart') ?? false;
 

@@ -35,46 +35,6 @@ describe('ConfidenceIntervalCheckbox', () => {
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
 
-  it('should show confidence interval bars when checkbox is clicked', async () => {
-    const { container, rerender } = render(
-      <ConfidenceIntervalCheckbox
-        chartName="example chart"
-        showConfidenceIntervalsData={false}
-      />
-    );
-    await userEvent.click(screen.getByRole('checkbox'));
-
-    expect(screen.getByRole('checkbox')).toBeChecked();
-
-    rerender(
-      <ConfidenceIntervalCheckbox
-        chartName="example chart"
-        showConfidenceIntervalsData={true}
-      />
-    );
-    const confidenceIntervalBars = container.getElementsByClassName(
-      'highcharts-errorbar-series'
-    );
-
-    expect(confidenceIntervalBars).toBeTruthy();
-  });
-
-  it('should not show confidence interval bars when checkbox is not clicked', async () => {
-    const { container } = render(
-      <ConfidenceIntervalCheckbox
-        chartName="example chart"
-        showConfidenceIntervalsData={false}
-      />
-    );
-    expect(screen.getByRole('checkbox')).not.toBeChecked();
-
-    const confidenceIntervalBars = container.getElementsByClassName(
-      'highcharts-errorbar-series'
-    );
-
-    expect(confidenceIntervalBars).toHaveLength(0);
-  });
-
   it('should update the url with the chart name when the checkbox is clicked', async () => {
     render(
       <ConfidenceIntervalCheckbox

@@ -101,6 +101,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
           [2004, 441.69151, 578.32766],
@@ -108,6 +109,8 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
       {
         color: '#A285D1',
@@ -122,6 +125,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2010, 750.69151, 800.32766],
           [2007, 440.69151, 420.32766],
@@ -129,6 +133,8 @@ describe('generateSeriesData', () => {
         name: 'South FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
       {
         color: '#801650',
@@ -143,6 +149,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2020, 460.69151, 500.32766],
           [2012, 220.69151, 250.32766],
@@ -150,6 +157,8 @@ describe('generateSeriesData', () => {
         name: 'East FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
     ];
 
@@ -216,6 +225,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
           [2004, 441.69151, 578.32766],
@@ -223,6 +233,8 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
       {
         color: '#A285D1',
@@ -237,6 +249,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2010, 750.69151, 800.32766],
           [2007, 440.69151, 420.32766],
@@ -244,6 +257,8 @@ describe('generateSeriesData', () => {
         name: 'South FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
       {
         color: '#801650',
@@ -258,6 +273,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2020, 460.69151, 500.32766],
           [2012, 220.69151, 250.32766],
@@ -265,6 +281,8 @@ describe('generateSeriesData', () => {
         name: 'East FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
     ];
 
@@ -291,9 +309,11 @@ describe('generateSeriesData', () => {
     ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
+    // The error bar series has no symbol hence undefined
     expect(generatedSeriesData[1].marker?.symbol).toBe(undefined);
     expect(generatedSeriesData[2].marker?.symbol).toBe('circle');
     expect(generatedSeriesData[3].marker?.symbol).toBe(undefined);
+    expect(generatedSeriesData[4].marker?.symbol).toBe('arc');
   });
 
   it('should show confidence intervals bars', () => {
@@ -319,6 +339,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
           [2004, 441.69151, 578.32766],
@@ -326,6 +347,8 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'errorbar',
         visible: true,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
     ];
 
@@ -355,6 +378,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
           [2004, 441.69151, 578.32766],
@@ -362,6 +386,8 @@ describe('generateSeriesData', () => {
         name: 'North FooBar',
         type: 'errorbar',
         visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
       },
     ];
 
@@ -373,6 +399,7 @@ describe('generateSeriesData', () => {
       ChartColours.Orange,
       ChartColours.LightPurple,
     ];
+    const errorBarColour = '#B1B4B6';
 
     const generatedSeriesData = generateSeriesData(
       mockData,
@@ -383,10 +410,9 @@ describe('generateSeriesData', () => {
     ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].color).toBe(chartColours[0]);
-    // The error bar series has no symbols hence undefined
-    expect(generatedSeriesData[1].color).toBe(undefined);
+    expect(generatedSeriesData[1].color).toBe(errorBarColour);
     expect(generatedSeriesData[2].color).toBe(chartColours[1]);
-    expect(generatedSeriesData[3].color).toBe(undefined);
+    expect(generatedSeriesData[3].color).toBe(errorBarColour);
     expect(generatedSeriesData[4].color).toBe(chartColours[0]);
   });
 });

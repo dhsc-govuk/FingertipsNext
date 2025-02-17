@@ -1,8 +1,5 @@
 import { Checkbox, Paragraph } from 'govuk-react';
-import {
-  SearchParams,
-  SearchStateManager,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type ConfidenceIntervalCheckboxProps = {

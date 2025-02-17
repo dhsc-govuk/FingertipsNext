@@ -30,6 +30,9 @@ export function generateSeriesData(
           point.upperCi,
         ]),
         visible: showConfidenceIntervalsData,
+        color: '#B1B4B6',
+        whiskerLength: '20%',
+        lineWidth: 2,
       };
 
       return [lineSeries, confidenceIntervalSeries];
