@@ -29,17 +29,16 @@ export function generateHeatmapData(
 function getValueForAreaCode(
   areaCode: string,
   indicatorRowData: IndicatorRowData
-): number | null {
+): number | undefined {
   for (const healthDataForArea of indicatorRowData.rowData) {
     if (healthDataForArea.areaCode === areaCode) {
       for (const dataPoint of healthDataForArea.healthData) {
         if (dataPoint.year === indicatorRowData.year) {
-          // Coerce undefined to null
-          return dataPoint.value !== undefined ? dataPoint.value : null;
+          return dataPoint.value;
         }
       }
       break;
     }
   }
-  return null;
+  return undefined;
 }

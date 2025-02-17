@@ -15,10 +15,10 @@ interface TableProps {
 
 interface LineChartTableRowData {
   period: number;
-  count: number | null;
-  value: number | null;
-  lower: number | null;
-  upper: number | null;
+  count?: number;
+  value?: number;
+  lower?: number;
+  upper?: number;
 }
 
 const StyledDiv = styled('div')({
@@ -106,10 +106,10 @@ const StyledSpan = styled('span')({
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
   areaData.healthData.map((healthPoint) => ({
     period: healthPoint.year,
-    count: healthPoint.count ?? null,
-    value: healthPoint.value ?? null,
-    lower: healthPoint.lowerCi ?? null,
-    upper: healthPoint.upperCi ?? null,
+    count: healthPoint.count,
+    value: healthPoint.value,
+    lower: healthPoint.lowerCi,
+    upper: healthPoint.upperCi,
   }));
 
 const sortPeriod = (
@@ -289,19 +289,19 @@ export function LineChartTable({
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].value)}
+                  {convertToPercentage(sortedAreaData[index].value ?? null)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].lower)}
+                  {convertToPercentage(sortedAreaData[index].lower ?? null)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].upper)}
+                  {convertToPercentage(sortedAreaData[index].upper ?? null)}
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
             <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
               {englandRowData.length
-                ? convertToPercentage(englandRowData[index].value)
+                ? convertToPercentage(englandRowData[index].value ?? null)
                 : '-'}
             </StyledBenchmarkValueTableCell>
           </Table.Row>
