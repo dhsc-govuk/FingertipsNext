@@ -25,8 +25,7 @@ export const AreaSearchInputField = ({
         input={{
           id: 'areaSearched',
           name: 'areaSearched',
-          defaultValue: value,
-          value: value,
+          value: value || '',
           onChange: (e) => {
             const val = e.target.value;
             if (onTextChange) {

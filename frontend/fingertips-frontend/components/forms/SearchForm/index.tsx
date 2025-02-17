@@ -9,23 +9,21 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
-export const SearchForm = ({
-  searchFormState,
-}: {
+interface SearchFormProps {
   searchFormState: SearchFormState;
-}) => {
+}
+
+export const SearchForm = ({ searchFormState }: SearchFormProps) => {
   console.log('Search state = ', searchFormState);
   const params = useSearchParams();
   const router = useRouter();
-  const [selectedAreaCode, setSelectedAreaCode] = useState<
-    string | undefined
-  >();
+  const [areaCode, setAreaCode] = useState<string>('');
   const [defaultAreas, setDefaultAreas] = useState<AreaDocument[]>([]);
 
   const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
@@ -46,8 +44,8 @@ export const SearchForm = ({
       const area = await getArea(areaCode);
       if (area !== null && area !== undefined) {
         setDefaultAreas([area]);
+        setAreaCode(area.areaCode);
       }
-      setSelectedAreaCode(area?.areaCode);
     };
     fetchAreaDocumentAndUpdate(selectedArea ?? undefined);
   }, [params, searchFormState.areaSearched]);
@@ -75,11 +73,16 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-
+      <input
+        type="hidden"
+        name="areaSearched"
+        id="areaSearched"
+        value={areaCode || ''}
+      />
       <AreaAutoCompleteSearchPanel
         onAreaSelected={(area: AreaDocument | undefined) => {
-          setSelectedAreaCode(area?.areaCode);
-          updateUrlWithSelectedArea(area?.areaCode);
+          updateUrlWithSelectedArea(area?.areaCode ?? '');
+          setAreaCode(area?.areaCode ?? '');
         }}
         inputFieldErrorStatus={!!searchFormState.message}
         defaultSelectedAreas={defaultAreas}

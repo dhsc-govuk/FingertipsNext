@@ -10,11 +10,6 @@ import { AreaFilterPanel } from '../AreaFilterPanel';
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
 
-const enum SearchStatusType {
-  PROCESSING,
-  COMPLETED,
-}
-
 const StyleAreaSelectAutoCompletePanel = styled('div')({
   margin: '0px;',
   backgroundColor: '#FFFFFF',
@@ -31,10 +26,7 @@ export default function AreaAutoCompleteSearchPanel({
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
 }: AreaSelectAutoCompleteProps) {
-  const [criteria, setCriteria] = useState<string>(undefined);
-  const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
-    SearchStatusType.COMPLETED
-  );
+  const [criteria, setCriteria] = useState<string>();
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] =
     useState<AreaDocument[]>(defaultSelectedAreas);
@@ -47,41 +39,35 @@ export default function AreaAutoCompleteSearchPanel({
 
   useEffect(() => {
     const fetchSearchArea = async (criteria: string) => {
-      if (criteria && searchStatus === SearchStatusType.PROCESSING) {
+      if (criteria) {
         const areas = await getSearchSuggestions(criteria);
         setSearchAreas(areas.slice(0, 20));
-        setSearchStatus(SearchStatusType.COMPLETED);
       }
     };
 
-    if (timeoutRef.current != null) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(
-      (criteria: string, status: SearchStatusType) => {
-        if (status !== SearchStatusType.PROCESSING) return;
-        if (criteria == null || criteria.length < MIN_SEARCH_SIZE) {
-          setSearchAreas([]);
-          return;
-        }
-        fetchSearchArea(criteria);
-        if (timeoutRef.current != null) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-      },
-      DEBOUNCE_SEARCH_DELAY,
-      criteria,
-      searchStatus
-    );
-
-    return () => {
+    const fetchCleanUp = () => {
       if (timeoutRef.current != null) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
     };
-  }, [searchStatus, criteria]);
+    fetchCleanUp();
+
+    timeoutRef.current = setTimeout(
+      (criteria: string) => {
+        if (criteria == null || criteria.length < MIN_SEARCH_SIZE) {
+          setSearchAreas([]);
+          return;
+        }
+        console.log('Fetching ', criteria);
+        fetchSearchArea(criteria);
+      },
+      DEBOUNCE_SEARCH_DELAY,
+      criteria
+    );
+
+    return fetchCleanUp;
+  }, [criteria]);
 
   const handlePillRemoval = useCallback(
     (area: AreaDocument) => {
@@ -90,7 +76,7 @@ export default function AreaAutoCompleteSearchPanel({
       );
       setSelectedAreas(areas);
       //now we can let the users know the areas selected.
-      if (onAreaSelected != null) {
+      if (onAreaSelected) {
         if (areas.length == 0) {
           onAreaSelected(undefined);
         }
@@ -105,9 +91,6 @@ export default function AreaAutoCompleteSearchPanel({
         value={criteria}
         onTextChange={(newCriteria: string) => {
           setCriteria(newCriteria);
-          if (searchStatus === SearchStatusType.COMPLETED) {
-            setSearchStatus(SearchStatusType.PROCESSING);
-          }
         }}
         disabled={selectedAreas.length > 0}
         touched={inputFieldErrorStatus}
@@ -121,7 +104,7 @@ export default function AreaAutoCompleteSearchPanel({
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
-          if (onAreaSelected != null) {
+          if (onAreaSelected) {
             onAreaSelected(selectedArea);
           }
         }}
