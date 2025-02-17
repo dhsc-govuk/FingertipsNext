@@ -15,10 +15,10 @@ interface TableProps {
 
 interface LineChartTableRowData {
   period: number;
-  count: number;
-  value: number;
-  lower: number;
-  upper: number;
+  count: number | null;
+  value: number | null;
+  lower: number | null;
+  upper: number | null;
 }
 
 const StyledDiv = styled('div')({
@@ -106,10 +106,10 @@ const StyledSpan = styled('span')({
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
   areaData.healthData.map((healthPoint) => ({
     period: healthPoint.year,
-    count: healthPoint.count,
-    value: healthPoint.value,
-    lower: healthPoint.lowerCi,
-    upper: healthPoint.upperCi,
+    count: healthPoint.count ?? null,
+    value: healthPoint.value ?? null,
+    lower: healthPoint.lowerCi ?? null,
+    upper: healthPoint.upperCi ?? null,
   }));
 
 const sortPeriod = (
@@ -117,10 +117,14 @@ const sortPeriod = (
 ): LineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.period - b.period);
 
-const convertToPercentage = (value: number): string => {
+const convertToPercentage = (value: number | null): string => {
   // dummy function to do percentage conversions until real conversion logic is provided
+  if (value === null) {
+    return '-';
+  }
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
+
 
 const getBenchmarkHeader = (
   areaCount: number,

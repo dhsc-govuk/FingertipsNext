@@ -30,17 +30,16 @@ function getValueForAreaCode(
   areaCode: string,
   indicatorRowData: IndicatorRowData
 ): number | null {
-  let result = null;
   for (const healthDataForArea of indicatorRowData.rowData) {
     if (healthDataForArea.areaCode === areaCode) {
       for (const dataPoint of healthDataForArea.healthData) {
         if (dataPoint.year === indicatorRowData.year) {
-          result = dataPoint.value;
-          break;
+          // Coerce undefined to null
+          return dataPoint.value !== undefined ? dataPoint.value : null;
         }
       }
       break;
     }
   }
-  return result;
+  return null;
 }
