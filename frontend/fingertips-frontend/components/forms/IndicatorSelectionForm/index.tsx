@@ -1,5 +1,4 @@
 import { SearchResult } from '@/components/molecules/result';
-import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -16,7 +15,6 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 
 type IndicatorSelectionProps = {
-  searchResultsFormState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   searchState?: SearchStateParams;
   formAction: (payload: FormData) => void;
@@ -24,15 +22,14 @@ type IndicatorSelectionProps = {
 
 const isIndicatorSelected = (
   indicatorId: string,
-  state?: IndicatorSelectionState
+  state?: SearchStateParams
 ): boolean => {
-  return state?.indicatorsSelected
-    ? state.indicatorsSelected?.some((ind) => ind === indicatorId)
+  return state?.[SearchParams.IndicatorsSelected]
+    ? state[SearchParams.IndicatorsSelected]?.some((ind) => ind === indicatorId)
     : false;
 };
 
 export function IndicatorSelectionForm({
-  searchResultsFormState,
   searchResults,
   searchState,
   formAction,
@@ -42,7 +39,7 @@ export function IndicatorSelectionForm({
 
   const stateManager = SearchStateManager.initialise(searchState);
 
-  const handleClick = (indicatorId: string, checked: boolean) => {
+  const handleClick = async (indicatorId: string, checked: boolean) => {
     if (checked) {
       stateManager.addParamValueToState(
         SearchParams.IndicatorsSelected,
@@ -76,7 +73,7 @@ export function IndicatorSelectionForm({
               result={result}
               indicatorSelected={isIndicatorSelected(
                 result.indicatorId.toString(),
-                searchResultsFormState
+                searchState
               )}
               searchState={searchState}
               handleClick={handleClick}

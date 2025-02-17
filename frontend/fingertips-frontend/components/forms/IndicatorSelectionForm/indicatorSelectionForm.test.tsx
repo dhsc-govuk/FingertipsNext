@@ -67,7 +67,6 @@ describe('IndicatorSelectionForm', () => {
   it('should render search results', () => {
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialState}
         searchResults={MOCK_DATA}
         searchState={state}
         formAction={mockFormAction}
@@ -91,7 +90,6 @@ describe('IndicatorSelectionForm', () => {
   it('should render no results found', () => {
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialState}
         searchResults={[]}
         searchState={state}
         formAction={mockFormAction}
@@ -104,11 +102,15 @@ describe('IndicatorSelectionForm', () => {
   });
 
   it('should mark indicators selected as checked', () => {
+    const stateWithIndicatorSelected = {
+      ...state,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    };
+
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialStateIndicatorSelected}
         searchResults={MOCK_DATA}
-        searchState={state}
+        searchState={stateWithIndicatorSelected}
         formAction={mockFormAction}
       />
     );
@@ -124,7 +126,6 @@ describe('IndicatorSelectionForm', () => {
 
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialState}
         searchResults={MOCK_DATA}
         searchState={state}
         formAction={mockFormAction}
@@ -142,7 +143,6 @@ describe('IndicatorSelectionForm', () => {
   it('should update the path when an indicator is checked', async () => {
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialState}
         searchResults={MOCK_DATA}
         searchState={state}
         formAction={mockFormAction}
@@ -160,11 +160,15 @@ describe('IndicatorSelectionForm', () => {
   });
 
   it('should update the path when an indicator is unchecked', async () => {
+    const stateWithIndicatorSelected = {
+      ...state,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    };
+
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialStateIndicatorSelected}
         searchResults={MOCK_DATA}
-        searchState={state}
+        searchState={stateWithIndicatorSelected}
         formAction={mockFormAction}
       />
     );
@@ -182,7 +186,6 @@ describe('IndicatorSelectionForm', () => {
   it('should call the formAction when the submit button is clicked', async () => {
     render(
       <IndicatorSelectionForm
-        searchResultsFormState={initialStateIndicatorSelected}
         searchResults={MOCK_DATA}
         searchState={state}
         formAction={mockFormAction}
