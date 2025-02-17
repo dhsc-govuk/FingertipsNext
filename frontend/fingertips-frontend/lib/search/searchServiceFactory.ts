@@ -70,9 +70,9 @@ export class SearchServiceFactory {
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-          readEnvVar('DHSC_AI_SEARCH_API_KEY')
-        );
+        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+        readEnvVar('DHSC_AI_SEARCH_API_KEY')
+      );
   }
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
