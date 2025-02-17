@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Testing the BenchmarkLabel Component  snapshot testing of the UI 1`] = `
+exports[`Testing the BenchmarkLabel Component snapshot testing of the UI 1`] = `
 <DocumentFragment>
   .c0 {
   font-family: "nta",Arial,sans-serif;
