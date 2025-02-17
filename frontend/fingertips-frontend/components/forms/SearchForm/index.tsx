@@ -20,7 +20,6 @@ interface SearchFormProps {
 }
 
 export const SearchForm = ({ searchFormState }: SearchFormProps) => {
-  console.log('Search state = ', searchFormState);
   const params = useSearchParams();
   const router = useRouter();
   const [areaCode, setAreaCode] = useState<string>('');

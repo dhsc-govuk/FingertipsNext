@@ -4,8 +4,5 @@
   "editor.formatOnSave": true,
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  //feature/DHSCFT-215_benchmarkcomponent 
-  "jest.debugMode": true,
-  "jest.rootPath": "./frontend/fingertips-frontend"
+  }
 }

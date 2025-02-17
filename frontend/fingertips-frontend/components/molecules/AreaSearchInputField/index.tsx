@@ -23,8 +23,6 @@ export const AreaSearchInputField = ({
     <StyleAreaSearchInputField>
       <InputField
         input={{
-          id: 'areaAutoSearchedInput',
-          name: 'areaAutoSearchedInput',
           value: value || '',
           onChange: (e) => {
             const val = e.target.value;

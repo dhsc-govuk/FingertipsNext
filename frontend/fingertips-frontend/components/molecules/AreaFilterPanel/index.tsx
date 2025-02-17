@@ -34,7 +34,6 @@ export const AreaAutoCompleteFilterPanel = ({
         data-testid="search-form-link-filter-area"
         onClick={(e) => {
           e.preventDefault();
-          // add the panel filter  event handler when here
         }}
       >
         {getDisplayText(areas.length)}
