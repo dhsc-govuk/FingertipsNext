@@ -118,8 +118,6 @@ namespace DataCreator
                 var match = lastUpdatedDates.FirstOrDefault(l => l.IndicatorId == indicatorEntity.IndicatorID);
                 if (match != null && match.LastUpdatedDate!= "undefined") 
                     indicatorEntity.LastUpdatedDate = match.LastUpdatedDate;
-                else
-                    indicatorEntity.LastUpdatedDate = "1999";
             }
         }
 
