@@ -38,7 +38,6 @@ export function LineChart({
   benchmarkData,
 }: Readonly<LineChartProps>) {
   const searchParams = useSearchParams();
-
   const existingParams = new URLSearchParams(searchParams);
   const searchStateManager =
     SearchStateManager.setStateFromParams(existingParams);
