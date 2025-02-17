@@ -44,21 +44,41 @@ namespace DataCreator
             DataFileManager.WriteJsonData("areas", areas.Distinct());
 
             var areasDict = areas.ToDictionary(x => x.AreaCode);
-            var simpleAreasWeWant = new List<SimpleAreaWithRelations>();
-            foreach (var area in areasWeWant)
+            //var simpleAreasWeWant = new List<SimpleAreaWithRelations>();
+            //foreach (var area in areasWeWant)
+            //{
+            //    var present = areasDict.TryGetValue(area, out var value);
+            //    if (present)
+            //    {
+            //        simpleAreasWeWant.Add(new SimpleAreaWithRelations
+            //        {
+            //            AreaCode = value.AreaCode.Trim(),
+            //            AreaName = value.AreaName.Trim(),
+            //            Parents = string.Join('|', value.ParentAreas.Select(p => p.AreaCode.Trim())),
+            //            Children = string.Join('|', value.ChildAreas.Select(c => c.AreaCode.Trim())),
+            //            Level = value.Level,
+            //            HierarchyType = value.HierarchyType,
+            //            AreaType=value.AreaType
+            //                .Trim()
+            //                .Replace(' ','-')
+            //                .ToLower()
+            //        });
+            //    }
+            //}
+
+            var simpleAreasWeWant = areas.Select(area => new SimpleAreaWithRelations
             {
-                var present = areasDict.TryGetValue(area, out var value);
-                if (present)
-                {
-                    simpleAreasWeWant.Add(new SimpleAreaWithRelations
-                    {
-                        AreaCode = value.AreaCode.Trim(),
-                        AreaName = value.AreaName.Trim(),
-                        Parents = string.Join('|', value.ParentAreas.Select(p => p.AreaCode.Trim())),
-                        Children = string.Join('|', value.ChildAreas.Select(c => c.AreaCode.Trim()))
-                    });
-                }
-            }
+                AreaCode = area.AreaCode.Trim(),
+                AreaName = area.AreaName.Replace(',',' ').Trim(),
+                Parents = string.Join('|', area.ParentAreas.Select(p => p.AreaCode.Trim())),
+                Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
+                Level = area.Level,
+                HierarchyType = area.HierarchyType,
+                AreaType = area.AreaType
+                            .Trim()
+                            .Replace(' ', '-')
+                            .ToLower()
+            }).ToList();
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
@@ -150,8 +170,8 @@ namespace DataCreator
             {
                 var match=categoryData
                     .FirstOrDefault(cat=>
-                        cat.CategoryName.Equals(healthMeasure.Category.Trim(new char[] {'\\','"'}), StringComparison.CurrentCultureIgnoreCase) 
-                        && cat.CategoryTypeName.Equals(healthMeasure.CategoryType.Trim(new char[] { '\\', '"' }), StringComparison.CurrentCultureIgnoreCase));
+                        cat.CategoryName.Equals(healthMeasure.Category.Trim(['\\','"']), StringComparison.CurrentCultureIgnoreCase) 
+                        && cat.CategoryTypeName.Equals(healthMeasure.CategoryType.Trim(['\\', '"']), StringComparison.CurrentCultureIgnoreCase));
                 if(match != null)
                 {
                     healthMeasure.CategoryId = match.CategoryID;
