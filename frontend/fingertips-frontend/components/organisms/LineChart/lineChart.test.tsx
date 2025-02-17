@@ -5,7 +5,6 @@ import { mockHealthData } from '@/mock/data/healthdata';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
-const mockSearchParams = jest.fn();
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -13,7 +12,6 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => mockSearchParams,
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
