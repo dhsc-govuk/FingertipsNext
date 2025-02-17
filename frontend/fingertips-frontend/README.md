@@ -81,6 +81,14 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
 
+Note that while all tests are executed in CI/CD pipelines, for e2e tests there is a difference between where and how the tests are executed.
+
+In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+
+In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips.
+
+For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
+
 ### Running the Unit tests
 
 ```bash
@@ -101,14 +109,14 @@ To debug e2e test failures its best to run them using UI Mode:
 npx playwright test --ui
 ```
 
-To run the e2e tests locally against a local containerised fingertips instance headlessly:
+To run the e2e tests locally against a local dockerised container fingertips instance headlessly:
 
 ```bash
 npm run test-e2e-local-docker
 ```
 You will need to have docker running locally first before executing this command.
 
-If you wish to use UI mode when running against a containerised fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
+If you wish to use UI mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
 Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. Also note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our e2e testing as close to real world as possible.
 
@@ -118,7 +126,7 @@ Currently performed at the E2E stage. Libraries used: @axe-core/playwright and a
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
-To check there are 0 accessibility violations call expectNoAccessibilityViolations();.
+To check there are 0 accessibility violations call expectNoAccessibilityViolations();
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
