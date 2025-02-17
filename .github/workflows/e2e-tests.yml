@@ -9,20 +9,20 @@ on:
   workflow_call:
     inputs:
       env-url:
-        description: "environment url to run e2e tests against - for CD test executions"
+        description: 'environment url to run e2e tests against - for CD test executions'
         required: false
         default: null
         type: string
       container-image:
-        description: "container image to run the e2e tests in - for CD test executions"
+        description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
     secrets:
       slack-webhook-url:
-        description: "URL of the slack webhook"
+        description: 'URL of the slack webhook'
         required: false
       fingertips_e2e_db_password:
-        description: "Password for the database"
+        description: 'Password for the database'
         required: false
 jobs:
   execute-e2e-tests:
@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Cache dependencies

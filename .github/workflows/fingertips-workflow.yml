@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
+      - '**'
     paths:
       - api/**
       - database/fingertips-db/**
@@ -77,7 +77,7 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: "6.0.x"
+      gitversion-version: '6.0.x'
 
   database-build:
     needs: check-changes
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       dotnet-version: 9.0.x
-      dotnet-configuration: "Release"
+      dotnet-configuration: 'Release'
       database-directory: ./database/fingertips-db
     defaults:
       run:
@@ -122,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ["9.0.x"]
+        dotnet-version: ['9.0.x']
     defaults:
       run:
         working-directory: ./api
@@ -153,9 +153,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["22.x"]
+        node-version: ['22.x']
     env:
-      NEXT_TELEMETRY_DISABLED: "true"
+      NEXT_TELEMETRY_DISABLED: 'true'
       frontend-directory: ./frontend/fingertips-frontend
     defaults:
       run:
@@ -282,9 +282,9 @@ jobs:
         uses: azure/sql-action@v2.3
         with:
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          path: "fingertips-db.dacpac"
-          action: "publish"
-          arguments: "/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false"
+          path: 'fingertips-db.dacpac'
+          action: 'publish'
+          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
@@ -316,7 +316,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Get secrets"
+      - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
           secrets_get=(fingertips-ai-search-url fingertips-ai-search-api-key)
@@ -332,7 +332,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ./search-setup/package-lock.json
 
       # Install dependencies
@@ -373,8 +373,8 @@ jobs:
       tf_state_file_name: fingertips.api.tfstate
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
-      container_image_tag: "dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
-      container_name: "fingertips-api"
+      container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
+      container_name: 'fingertips-api'
       revision_suffix: ${{ github.run_number }}
       container_port: 8080
       environment_variables: |
@@ -433,8 +433,8 @@ jobs:
       tf_state_file_name: fingertips.frontend.tfstate
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
-      container_image_tag: "dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-      container_name: "fingertips-frontend"
+      container_image_tag: 'dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}'
+      container_name: 'fingertips-frontend'
       revision_suffix: ${{ github.run_number }}
       container_port: 3000
       environment_variables: |
