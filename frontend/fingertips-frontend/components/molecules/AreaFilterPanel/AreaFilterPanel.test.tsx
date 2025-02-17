@@ -54,7 +54,9 @@ const mockOnOpen = jest.fn();
 
 describe('test AreaFilterPanel', () => {
   test('should render the link with the correct text when areas are not null', () => {
-    render(<AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
+    render(
+      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
+    );
     const link = screen.getByTestId('search-form-link-filter-area');
     expect(link).toBeInTheDocument();
     expect(link).toHaveTextContent('Open a filter to add or change areas');
@@ -68,7 +70,9 @@ describe('test AreaFilterPanel', () => {
   });
 
   test('should call onOpen when the link is clicked', () => {
-    render(<AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
+    render(
+      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
+    );
     const link = screen.getByTestId('search-form-link-filter-area');
     fireEvent.click(link);
     expect(mockOnOpen).toHaveBeenCalledTimes(1);

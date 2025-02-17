@@ -29,26 +29,22 @@ const initialDataState: SearchFormState = {
   errors: {},
 };
 
-
-
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(), 
-    set:jest.fn(),
+    push: jest.fn(),
+    set: jest.fn(),
   }),
   useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
 }));
 
-
 const setupUI = (initialState: SearchFormState | null = null) => {
   jest.mock('next/navigation', () => ({
     useRouter: jest.fn().mockReturnValue({
-      push: jest.fn(), 
+      push: jest.fn(),
     }),
     useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
   }));
 
-  
   if (initialState == null) {
     initialState = initialDataState;
   }

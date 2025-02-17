@@ -18,7 +18,6 @@ import {
 import { useActionState } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
-import { AreaDocument } from '@/lib/search/searchTypes';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })

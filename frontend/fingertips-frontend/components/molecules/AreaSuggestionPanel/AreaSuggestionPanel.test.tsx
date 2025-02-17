@@ -12,14 +12,20 @@ const mockAreas: AreaDocument[] = [
 describe('test AreaSuggestionPanel', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
-      <AreaAutoCompleteSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel
+        areas={mockAreas}
+        onItemSelected={jest.fn()}
+      />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should render correct area name', () => {
     const { getByText } = render(
-      <AreaAutoCompleteSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel
+        areas={mockAreas}
+        onItemSelected={jest.fn()}
+      />
     );
 
     expect(getByText('GP01 - Greenwich')).toBeInTheDocument();
@@ -58,7 +64,10 @@ describe('test AreaSuggestionPanel', () => {
     (areaCode, areaType, areaName, expectedText) => {
       const area = { areaCode, areaName, areaType } as AreaDocument;
       const { getByText } = render(
-        <AreaAutoCompleteSuggestionPanel areas={[area]} onItemSelected={jest.fn()} />
+        <AreaAutoCompleteSuggestionPanel
+          areas={[area]}
+          onItemSelected={jest.fn()}
+        />
       );
       expect(getByText(expectedText)).toBeInTheDocument();
     }

@@ -17,7 +17,9 @@ describe('test AreaAutoCompleteSearchPanel', () => {
       <AreaAutoCompleteInputField
         onAreaSelected={mockOnAreaSelected}
         inputFieldErrorStatus={false}
-        defaultSelectedAreas={[{areaCode:"GPs", areaType:"Type", areaName:"Some area name"}]}
+        defaultSelectedAreas={[
+          { areaCode: 'GPs', areaType: 'Type', areaName: 'Some area name' },
+        ]}
       />
     );
     expect(asFragment()).toMatchSnapshot();

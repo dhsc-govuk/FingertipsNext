@@ -13,7 +13,7 @@ const StyleAreaFilterPanel = styled('div')({
 });
 
 interface AreaFilterPanelProps {
-  areas: AreaDocument[]
+  areas: AreaDocument[];
 }
 
 const getDisplayText = function (areaSize: number) {
@@ -22,7 +22,9 @@ const getDisplayText = function (areaSize: number) {
     : 'Open area filter';
 };
 
-export const AreaAutoCompleteFilterPanel = ({ areas, onOpen }: AreaFilterPanelProps) => {
+export const AreaAutoCompleteFilterPanel = ({
+  areas,
+}: AreaFilterPanelProps) => {
   if (areas == null) return;
 
   return (
