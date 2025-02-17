@@ -33,20 +33,22 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const areaApi = ApiClientFactory.getAreasApiClient();
 
-  let areaData: AreaWithRelations | undefined;
+  let parentAreaCode: string | undefined;
   if (areaCodes.length === 1) {
-    // DHSCFT-256 assumes one parent.
-
+    // DHSCFT-256 assumes one parent
     try {
-      areaData = await areaApi.getArea({ areaCode: areaCodes[0] });
+      const areaData = await areaApi.getArea({ areaCode: areaCodes[0] });
+      if (areaData?.parent) {
+        parentAreaCode = areaData.parent.code;
+      }
     } catch (error) {
       console.log('error getting area data ', error);
     }
   }
 
   let areaCodesToRequest = [...areaCodes, areaCodeForEngland];
-  if (areaData?.parent) {
-    areaCodesToRequest = [...areaCodesToRequest, areaData.parent.code];
+  if (parentAreaCode) {
+    areaCodesToRequest = [...areaCodesToRequest, parentAreaCode];
   }
 
   const healthIndicatorData = await Promise.all(
@@ -91,6 +93,7 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
+      parentAreaCode={parentAreaCode}
       mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}

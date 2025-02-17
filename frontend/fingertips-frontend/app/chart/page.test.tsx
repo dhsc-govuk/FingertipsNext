@@ -95,6 +95,29 @@ describe('Chart Page', () => {
         indicatorId: indicatorIdForPopulation,
       });
     });
+
+    it('should pass the correct props to the Chart page', async () => {
+      const expectedPopulationData = preparePopulationData(
+        mockHealthData[`${indicatorIdForPopulation}`],
+        'A001'
+      );
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['1']
+      );
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData[`${indicatorIdForPopulation}`]
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
+      expect(page.props.populationData).toEqual(expectedPopulationData);
+      expect(page.props.searchedIndicator).toEqual('testing');
+      expect(page.props.indicatorsSelected).toEqual(['1']);
+    });
   });
 
   describe('when a single parent area is available ', () => {
@@ -147,29 +170,31 @@ describe('Chart Page', () => {
         indicatorId: indicatorIdForPopulation,
       });
     });
-  });
 
-  it('should pass the correct props to the Chart page', async () => {
-    const expectedPopulationData = preparePopulationData(
-      mockHealthData[`${indicatorIdForPopulation}`],
-      'A001'
-    );
+    it('should pass the correct props to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
+      mockAreasApi.getArea.mockResolvedValueOnce(
+        mockAreaDataForCountiesAndUAs[mockAreaCode]
+      );
 
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData['1']
-    );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData[`${indicatorIdForPopulation}`]
-    );
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
 
-    const page = await ChartPage({
-      searchParams: generateSearchParams(searchParams),
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
+      expect(page.props.searchedIndicator).toEqual('testing');
+      expect(page.props.indicatorsSelected).toEqual(['333']);
+      expect(page.props.parentAreaCode).toEqual('E12000001');
     });
-
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
-    expect(page.props.populationData).toEqual(expectedPopulationData);
-    expect(page.props.searchedIndicator).toEqual('testing');
-    expect(page.props.indicatorsSelected).toEqual(['1']);
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
