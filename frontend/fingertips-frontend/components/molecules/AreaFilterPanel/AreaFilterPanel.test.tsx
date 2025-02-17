@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AreaAutoCompleteFilterPanel } from './index'; // Adjust the import path if necessary
 
 // Sample data for the test based on the provided AreaDocument structure
@@ -50,13 +50,9 @@ const sampleAreas = [
   },
 ];
 
-const mockOnOpen = jest.fn();
-
 describe('test AreaFilterPanel', () => {
   test('should render the link with the correct text when areas are not null', () => {
-    render(
-      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
-    );
+    render(<AreaAutoCompleteFilterPanel areas={sampleAreas} />);
     const link = screen.getByTestId('search-form-link-filter-area');
     expect(link).toBeInTheDocument();
     expect(link).toHaveTextContent('Open a filter to add or change areas');
