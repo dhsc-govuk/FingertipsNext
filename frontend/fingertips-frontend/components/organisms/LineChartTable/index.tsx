@@ -125,7 +125,6 @@ const convertToPercentage = (value: number | null): string => {
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
 
-
 const getBenchmarkHeader = (
   areaCount: number,
   heading: LineChartTableHeadingEnum,
