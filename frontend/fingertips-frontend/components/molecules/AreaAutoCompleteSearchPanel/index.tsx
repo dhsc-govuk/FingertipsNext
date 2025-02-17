@@ -21,23 +21,29 @@ const StyleAreaSelectAutoCompletePanel = styled('div')({
 });
 
 interface AreaSelectAutoCompleteProps {
-  onAreaSelected: (area: AreaDocument) => void;
+  onAreaSelected: (area: AreaDocument | undefined) => void;
   inputFieldErrorStatus: boolean;
-  defaultValue: string;
+  defaultSelectedAreas: AreaDocument[];
 }
 
 export default function AreaAutoCompleteSearchPanel({
   onAreaSelected,
-  defaultValue,
+  defaultSelectedAreas,
   inputFieldErrorStatus = false,
 }: AreaSelectAutoCompleteProps) {
-  const [criteria, setCriteria] = useState<string>(defaultValue);
+  const [criteria, setCriteria] = useState<string>(undefined);
   const [searchStatus, setSearchStatus] = useState<SearchStatusType>(
     SearchStatusType.COMPLETED
   );
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
-  const [selectedAreas, setSelectedAreas] = useState<AreaDocument[]>([]);
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
+  const [selectedAreas, setSelectedAreas] =
+    useState<AreaDocument[]>(defaultSelectedAreas);
+
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    setSelectedAreas(defaultSelectedAreas);
+  }, [defaultSelectedAreas]);
 
   useEffect(() => {
     const fetchSearchArea = async (criteria: string) => {
@@ -59,7 +65,6 @@ export default function AreaAutoCompleteSearchPanel({
           return;
         }
         fetchSearchArea(criteria);
-
         if (timeoutRef.current != null) {
           clearTimeout(timeoutRef.current);
           timeoutRef.current = null;
@@ -84,8 +89,14 @@ export default function AreaAutoCompleteSearchPanel({
         (selectedArea) => selectedArea.areaCode !== area.areaCode
       );
       setSelectedAreas(areas);
+      //now we can let the users know the areas selected.
+      if (onAreaSelected != null) {
+        if (areas.length == 0) {
+          onAreaSelected(undefined);
+        }
+      }
     },
-    [selectedAreas]
+    [selectedAreas, onAreaSelected]
   );
 
   return (
@@ -110,7 +121,9 @@ export default function AreaAutoCompleteSearchPanel({
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
-          onAreaSelected?.(selectedArea);
+          if (onAreaSelected != null) {
+            onAreaSelected(selectedArea);
+          }
         }}
       />
       <AreaFilterPanel areas={selectedAreas} onOpen={() => {}} />

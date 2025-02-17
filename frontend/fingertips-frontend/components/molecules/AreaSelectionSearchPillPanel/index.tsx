@@ -1,6 +1,6 @@
 import { AreaDocument } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
-import { UnorderedList, ListItem} from 'govuk-react';
+import { UnorderedList, ListItem } from 'govuk-react';
 import { Pill } from '../Pill';
 import { memo } from 'react';
 
@@ -18,15 +18,14 @@ const StyleAreaSearchSelectionPanelItem = styled(ListItem)({
 });
 
 const AreaSelectionSearchPillPanelHeader = styled('span')({
-  display:"inline-block",
+  display: 'inline-block',
   marginTop: '10px',
-  fontFamily:"Arial",
+  fontFamily: 'Arial',
   marginBottom: '5px;',
-  fontWeight:"400",
+  fontWeight: '400',
   fontSize: '19px',
-  lineHeight: "1.415;",
+  lineHeight: '1.415;',
 });
-
 
 interface AreaSelectionSearchPillPanelProps {
   areas: AreaDocument[];

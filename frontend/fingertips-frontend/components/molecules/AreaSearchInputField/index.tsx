@@ -6,7 +6,6 @@ const StyleAreaSearchInputField = styled('div')({
   marginBottom: '5px',
 });
 
-
 interface AreaSearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
   disabled?: boolean;
