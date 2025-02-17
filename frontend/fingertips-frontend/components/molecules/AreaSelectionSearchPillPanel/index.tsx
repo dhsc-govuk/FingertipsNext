@@ -1,7 +1,6 @@
 import { AreaDocument } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
-import { UnorderedList, ListItem } from 'govuk-react';
-import { StyleSearchHeader } from '../AreaSearchInputField';
+import { UnorderedList, ListItem} from 'govuk-react';
 import { Pill } from '../Pill';
 import { memo } from 'react';
 
@@ -18,14 +17,16 @@ const StyleAreaSearchSelectionPanelItem = styled(ListItem)({
   flexDirection: 'row',
 });
 
-const AreaSelectionSearchPillPanelHeader = styled(StyleSearchHeader)({
+const AreaSelectionSearchPillPanelHeader = styled('span')({
+  display:"inline-block",
   marginTop: '10px',
+  fontFamily:"Arial",
   marginBottom: '5px;',
+  fontWeight:"400",
+  fontSize: '19px',
+  lineHeight: "1.415;",
 });
 
-const StyleAreaPill = styled(Pill)({
-  backgroundColor: '#000000',
-});
 
 interface AreaSelectionSearchPillPanelProps {
   areas: AreaDocument[];
@@ -37,7 +38,7 @@ export const AreaSelectionSearchPillPanel = memo(
     return (
       <div>
         <AreaSelectionSearchPillPanelHeader>
-          Selected areas (<span style={{ margin: '0px' }}>{areas.length}</span>)
+          Selected areas ({areas.length})
         </AreaSelectionSearchPillPanelHeader>
 
         <StyleAreaSearchSelectionPanel>
@@ -46,7 +47,7 @@ export const AreaSelectionSearchPillPanel = memo(
             <StyleAreaSearchSelectionPanelItem
               key={'selection-panel-area-' + area.areaCode}
             >
-              <StyleAreaPill
+              <Pill
                 removeFilter={(_: string) => {
                   if (onRemovePill != null) {
                     onRemovePill(area);

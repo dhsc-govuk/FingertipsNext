@@ -6,10 +6,6 @@ const StyleAreaSearchInputField = styled('div')({
   marginBottom: '5px',
 });
 
-export const StyleSearchHeader = styled('h3')({
-  padding: '0px',
-  fontSize: '19px',
-});
 
 interface AreaSearchInputFieldProps {
   onTextChange?: (criteria: string) => void;
