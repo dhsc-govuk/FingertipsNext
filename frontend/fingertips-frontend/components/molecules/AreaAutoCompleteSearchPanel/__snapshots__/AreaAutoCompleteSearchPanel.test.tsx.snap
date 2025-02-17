@@ -460,8 +460,6 @@ exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
         <input
           class="c5"
           disabled=""
-          id="areaAutoSearchedInput"
-          name="areaAutoSearchedInput"
           value=""
         />
       </label>

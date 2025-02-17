@@ -63,24 +63,15 @@ describe('test AreaFilterPanel', () => {
   });
 
   test('should render the link with default text when areas length is 0', () => {
-    render(<AreaAutoCompleteFilterPanel areas={[]} onOpen={mockOnOpen} />);
+    render(<AreaAutoCompleteFilterPanel areas={[]} />);
     const link = screen.getByTestId('search-form-link-filter-area');
     expect(link).toBeInTheDocument();
     expect(link).toHaveTextContent('Open area filter');
   });
 
-  test('should call onOpen when the link is clicked', () => {
-    render(
-      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
-    );
-    const link = screen.getByTestId('search-form-link-filter-area');
-    fireEvent.click(link);
-    expect(mockOnOpen).toHaveBeenCalledTimes(1);
-  });
-
   test('take a snapshot', () => {
     const { asFragment } = render(
-      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
+      <AreaAutoCompleteFilterPanel areas={sampleAreas} />
     );
     expect(asFragment()).toMatchSnapshot();
   });

@@ -448,8 +448,6 @@ exports[`snapshot test - renders the form 1`] = `
           </span>
           <input
             class="c5"
-            id="areaAutoSearchedInput"
-            name="areaAutoSearchedInput"
             value=""
           />
         </label>

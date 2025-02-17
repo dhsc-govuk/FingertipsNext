@@ -764,8 +764,6 @@ exports[`snapshot test - renders the homepage 1`] = `
               </span>
               <input
                 class="c13"
-                id="areaAutoSearchedInput"
-                name="areaAutoSearchedInput"
                 value=""
               />
             </label>

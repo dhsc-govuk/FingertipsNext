@@ -12,8 +12,8 @@ const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
   flex-direction: column;
   padding: 0;
-  margin-left: 13px;
-  margin-right: 15px;
+  margin-left: 0px;
+  margin-right: 0px;
 `;
 
 const AreaSuggestionPanelItem = styled(ListItem)`
