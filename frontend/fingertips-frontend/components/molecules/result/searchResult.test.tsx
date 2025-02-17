@@ -25,19 +25,23 @@ jest.mock('next/navigation', () => {
 const MOCK_DATA: IndicatorDocument[] = [
   {
     indicatorID: '1',
-    name: 'NHS',
-    definition: 'Total number of patients registered with the practice',
+    indicatorName: 'NHS',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
+    associatedAreas: [],
   },
   {
     indicatorID: '2',
-    name: 'DHSC',
-    definition: 'Total number of patients registered with the practice',
+    indicatorName: 'DHSC',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
+    associatedAreas: [],
   },
 ];
 
@@ -112,7 +116,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`;
     render(<SearchResult result={MOCK_DATA[0]} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);

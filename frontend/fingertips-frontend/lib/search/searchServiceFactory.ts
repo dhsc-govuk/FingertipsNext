@@ -46,8 +46,6 @@ export class SearchServiceFactory {
     );
   }
 
-
-
   // This needs to duplicate E09, E08 and E06 area types. These are initially modelled as COUNTY level but need duplicating as DISTRICT LEVEL
   private static createDistrictLevelFromCounty(areaData: AreaDocument[]) {
     const countyLevel = areaData.filter(this.isDualLevelArea);
@@ -58,7 +56,6 @@ export class SearchServiceFactory {
     );
     return newDistrictLevel;
   }
-
 
   private static buildAreaSearchServiceMock(rawAreasData: object) {
     const mockAreaData = rawAreasData as AreaDocument[];
@@ -75,11 +72,10 @@ export class SearchServiceFactory {
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
-        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
-        readEnvVar('DHSC_AI_SEARCH_API_KEY')
-      );
+          readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+          readEnvVar('DHSC_AI_SEARCH_API_KEY')
+        );
   }
-
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
@@ -94,7 +90,7 @@ export class SearchServiceFactory {
             ...ind,
             indicatorID: String(ind.indicatorID),
             latestDataPeriod: String(ind.latestDataPeriod),
-            lastUpdatedDate: new Date(ind.lastUpdatedDate)
+            lastUpdatedDate: new Date(ind.lastUpdatedDate),
           };
         }
       );

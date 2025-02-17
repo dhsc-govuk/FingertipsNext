@@ -176,7 +176,7 @@ exports[`AI search index creation and data loading Search by indicator should ha
     "filterable": true,
     "indexAnalyzer": null,
     "key": false,
-    "name": "lastUpdated",
+    "name": "lastUpdatedDate",
     "retrievable": true,
     "searchAnalyzer": null,
     "searchable": false,
