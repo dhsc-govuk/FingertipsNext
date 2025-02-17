@@ -19,11 +19,20 @@ namespace DataCreator
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
+        public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
+             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+
+        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
+             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
         public static int[] GetIndicatorIds() =>
             File.ReadAllText(@$"{InFilePath}\temp\indicatorids.txt").Split("\n").Select(int.Parse).ToArray();
+
+        public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
         public static IEnumerable<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId)
         {
@@ -52,8 +61,8 @@ namespace DataCreator
                         Denominator = GetDoubleValue(split[18]),
                         Trend = split[20].Trim(),
                         Year = int.Parse(split[23].Trim().Substring(0,4)),
-                        Category = split[9].Trim(),
-                        CategoryType = split[10].Trim()
+                        Category = split[10].Trim(),
+                        CategoryType = split[9].Trim()
                     };
                     allData.Add(indicatorData);
                 }
@@ -61,10 +70,29 @@ namespace DataCreator
                 {
                     
                 }
-                
             }
 
             return allData;
+        }
+
+        public static IEnumerable<IndicatorLastUpdatedEntity> GetLastUpdatedDataForIndicators()
+        {
+            //this is a csv file that was downloaded from the Fingertips API
+            var filePath = @$"{InFilePath}\temp\lastupdated.csv";
+            
+            var lines = File.ReadAllLines(filePath);
+            var allData = new List<IndicatorLastUpdatedEntity>();
+            for (var count = 1; count < lines.Length; count++)
+            {
+                var split = lines[count].Split(',');
+                allData.Add(new IndicatorLastUpdatedEntity 
+                {
+                    IndicatorId = int.Parse(split[0].Trim('\"')),
+                    LastUpdatedDate= split[1].Trim('\"')
+                });
+            }
+
+             return allData;
         }
 
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
