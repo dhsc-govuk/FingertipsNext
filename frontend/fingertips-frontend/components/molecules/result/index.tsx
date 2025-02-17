@@ -105,7 +105,7 @@ export function SearchResult({
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdated)}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</StyledParagraph>
           </Checkbox>
         </GridCol>
       </StyledRow>

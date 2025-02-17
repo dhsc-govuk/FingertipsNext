@@ -27,7 +27,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     definition: 'Total number of patients registered with the practice',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
-    lastUpdated: new Date('December 6, 2024'),
+    lastUpdatedDate: new Date('December 6, 2024'),
   },
   {
     indicatorId: '2',
@@ -35,7 +35,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     definition: 'Total number of patients registered with the practice',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
-    lastUpdated: new Date('November 5, 2023'),
+    lastUpdatedDate: new Date('November 5, 2023'),
   },
 ];
 
@@ -118,7 +118,7 @@ describe('Search Results Suite', () => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
-        formatDate(new Date(MOCK_DATA[index].lastUpdated))
+        formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
       );
     });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();

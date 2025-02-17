@@ -41,24 +41,13 @@ export function parseAreaData(rawAreaData: object): AreaDocument[] {
 export function parseIndicatorData(
   rawIndicatorData: object
 ): IndicatorDocument[] {
-  const someDate = new Date('15-Mar-2007');
   const unparsedIndicatorData = rawIndicatorData as IndicatorDocument[];
   const parseIndicatorData = unparsedIndicatorData.map(
-    ({
-      indicatorID,
-      indicatorName,
-      indicatorDefinition,
-      dataSource,
-      associatedAreaCodes
-    }): IndicatorDocument => {
+    (ind): IndicatorDocument => {
       return {
-        indicatorID: String(indicatorID),
-        indicatorName,
-        indicatorDefinition,
-        dataSource,
-        latestDataPeriod: '2022',
-        lastUpdated: someDate,
-        associatedAreaCodes
+        ...ind,
+        indicatorID: String(ind.indicatorID),
+        lastUpdatedDate: new Date(ind.lastUpdatedDate)
       };
     }
   );

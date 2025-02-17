@@ -57,7 +57,7 @@ async function main(): Promise<void> {
   const typedIndicatorData = indicatorData.map((indicator) => {
     return {
       ...indicator,
-      lastUpdated: new Date(indicator.lastUpdated),
+      lastUpdated: new Date(indicator.lastUpdatedDate),
     };
   });
 

@@ -10,7 +10,7 @@ describe('IndicatorSearchServiceMock', () => {
         'Count of people who did something they are embarrassed by',
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
-      lastUpdated: new Date('December 6, 2024'),
+      lastUpdatedDate: new Date('December 6, 2024'),
       associatedAreas: [],
     },
     {
@@ -19,7 +19,7 @@ describe('IndicatorSearchServiceMock', () => {
       indicatorDefinition: 'Perps brought to justice',
       latestDataPeriod: '2022',
       dataSource: 'Mega City 1',
-      lastUpdated: new Date('November 5, 2023'),
+      lastUpdatedDate: new Date('November 5, 2023'),
       associatedAreas: [],
     },
   ];

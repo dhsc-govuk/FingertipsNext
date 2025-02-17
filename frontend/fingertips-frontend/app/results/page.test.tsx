@@ -46,7 +46,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   definition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
   latestDataPeriod: '2023',
-  lastUpdated: new Date(),
+  lastUpdatedDate: new Date(),
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
