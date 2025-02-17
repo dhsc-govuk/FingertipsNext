@@ -100,7 +100,7 @@ JOIN
 JOIN
 	[dbo].[L_Units] units ON indicator.UnitID=units.UnitID
 JOIN 
-	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID
+	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID AND metadata.[1_Name] IS NOT NULL
 ";
         
         private readonly string IndicatorPolaritySql = @"
@@ -129,6 +129,20 @@ WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
 	Order By indicator.IndicatorID 
 ";
 
+        private readonly string CategorySql = @"SELECT 
+		c.CategoryID,
+		c.Name CategoryName,
+		c.Sequence,
+		ct.CategoryTypeID,
+		ct.Name CategoryTypeName
+	FROM 
+		[dbo].[L_Categories] c
+	JOIN
+		[dbo].[L_CategoryTypes] ct ON c.CategoryTypeID =ct.CategoryTypeID
+	WHERE
+		c.Name LIKE '%decile%' OR c.Name LIKE '%quintile%'
+	ORDER BY
+		ct.Sequence, c.Sequence";
 
         private readonly string AgeSql = @"
 SELECT
@@ -376,6 +390,12 @@ FROM
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
+        public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+            return (await connection.QueryAsync<CategoryEntity>(CategorySql)).ToList();
+        }
+
 
         private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
         {
@@ -389,7 +409,7 @@ FROM
                 if (results.Count() > 1)
                     indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
             }
-            indicators.RemoveAll(i => indicatorsWithMultiplePolarites.Contains(i.IndicatorID));
+            
             foreach (var indicator in indicators)
             {
                 var match  = areaPolarities

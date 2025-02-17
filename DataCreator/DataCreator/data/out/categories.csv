@@ -1,0 +1,308 @@
+﻿CategoryID,CategoryName,Sequence,CategoryTypeID,CategoryTypeName
+1,Most deprived quintile,1,158,LSOA11 deprivation quintiles within area (IMD  trend)
+2,Second most deprived quintile,2,158,LSOA11 deprivation quintiles within area (IMD  trend)
+3,Average deprived quintile,3,158,LSOA11 deprivation quintiles within area (IMD  trend)
+4,Second least deprived quintile,4,158,LSOA11 deprivation quintiles within area (IMD  trend)
+5,Least deprived quintile,5,158,LSOA11 deprivation quintiles within area (IMD  trend)
+1,Most deprived decile,1,124,General Practice deprivation deciles in England (IMD2019)
+2,Second most deprived decile,2,124,General Practice deprivation deciles in England (IMD2019)
+3,Third more deprived decile,3,124,General Practice deprivation deciles in England (IMD2019)
+4,Fourth more deprived decile,4,124,General Practice deprivation deciles in England (IMD2019)
+5,Fifth more deprived decile,5,124,General Practice deprivation deciles in England (IMD2019)
+6,Fifth less deprived decile,6,124,General Practice deprivation deciles in England (IMD2019)
+7,Fourth less deprived decile,7,124,General Practice deprivation deciles in England (IMD2019)
+8,Third less deprived decile,8,124,General Practice deprivation deciles in England (IMD2019)
+9,Second least deprived decile,9,124,General Practice deprivation deciles in England (IMD2019)
+10,Least deprived decile,10,124,General Practice deprivation deciles in England (IMD2019)
+1,Most deprived decile,1,38,General Practice deprivation deciles in England (IMD2015)
+2,Second most deprived decile,2,38,General Practice deprivation deciles in England (IMD2015)
+3,Third more deprived decile,3,38,General Practice deprivation deciles in England (IMD2015)
+4,Fourth more deprived decile,4,38,General Practice deprivation deciles in England (IMD2015)
+5,Fifth more deprived decile,5,38,General Practice deprivation deciles in England (IMD2015)
+6,Fifth less deprived decile,6,38,General Practice deprivation deciles in England (IMD2015)
+7,Fourth less deprived decile,7,38,General Practice deprivation deciles in England (IMD2015)
+8,Third less deprived decile,8,38,General Practice deprivation deciles in England (IMD2015)
+9,Second least deprived decile,9,38,General Practice deprivation deciles in England (IMD2015)
+10,Least deprived decile,10,38,General Practice deprivation deciles in England (IMD2015)
+1,Most deprived decile,1,1,General Practice deprivation deciles in England (IMD2010)
+2,Second most deprived decile,2,1,General Practice deprivation deciles in England (IMD2010)
+3,Third more deprived decile,3,1,General Practice deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile,4,1,General Practice deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile,5,1,General Practice deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile,6,1,General Practice deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile,7,1,General Practice deprivation deciles in England (IMD2010)
+8,Third less deprived decile,8,1,General Practice deprivation deciles in England (IMD2010)
+9,Second least deprived decile,9,1,General Practice deprivation deciles in England (IMD2010)
+10,Least deprived decile,10,1,General Practice deprivation deciles in England (IMD2010)
+1,Most deprived quintile,1,123,County & UA deprivation quintile (IMD2019)
+2,Second most deprived quintile,2,123,County & UA deprivation quintile (IMD2019)
+3,Average deprived quintile,3,123,County & UA deprivation quintile (IMD2019)
+4,Second least deprived quintile,4,123,County & UA deprivation quintile (IMD2019)
+5,Least deprived quintile,5,123,County & UA deprivation quintile (IMD2019)
+1,Most deprived quintile,1,66,County & UA deprivation quintiles in England (IMD2015)
+2,Second most deprived quintile,2,66,County & UA deprivation quintiles in England (IMD2015)
+3,Average deprived quintile,3,66,County & UA deprivation quintiles in England (IMD2015)
+4,Second least deprived quintile,4,66,County & UA deprivation quintiles in England (IMD2015)
+5,Least deprived quintile,5,66,County & UA deprivation quintiles in England (IMD2015)
+1,Most deprived decile (IMD2019),1,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+2,Second most deprived decile (IMD2019),2,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+3,Third more deprived decile (IMD2019),3,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+4,Fourth more deprived decile (IMD2019),4,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+5,Fifth more deprived decile (IMD2019),5,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+6,Fifth less deprived decile (IMD2019),6,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+7,Fourth less deprived decile (IMD2019),7,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+8,Third less deprived decile (IMD2019),8,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+9,Second least deprived decile (IMD2019),9,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+10,Least deprived decile (IMD2019),10,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+1,Most deprived decile (IMD2019),1,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+1,Most deprived decile (IMD2019),1,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+2,Second most deprived decile (IMD2019),2,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+2,Second most deprived decile (IMD2019),2,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+3,Third more deprived decile (IMD2019),3,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+3,Third more deprived decile (IMD2019),3,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+4,Fourth more deprived decile (IMD2019),4,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+4,Fourth more deprived decile (IMD2019),4,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+5,Fifth more deprived decile (IMD2019),5,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+5,Fifth more deprived decile (IMD2019),5,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+6,Fifth less deprived decile (IMD2019),6,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+6,Fifth less deprived decile (IMD2019),6,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+7,Fourth less deprived decile (IMD2019),7,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+7,Fourth less deprived decile (IMD2019),7,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+8,Third less deprived decile (IMD2019),8,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+8,Third less deprived decile (IMD2019),8,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+9,Second least deprived decile (IMD2019),9,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+9,Second least deprived decile (IMD2019),9,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+10,Least deprived decile (IMD2019),10,160,"County & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+10,Least deprived decile (IMD2019),10,113,"County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)"
+1,"Most deprived decile (IMD2015,4/19 geo)",1,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+2,"Second most deprived decile (IMD2015,4/19 geo)",2,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+3,"Third more deprived decile (IMD2015,4/19 geo)",3,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+4,"Fourth more deprived decile (IMD2015,4/19 geo)",4,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+5,"Fifth more deprived decile (IMD2015,4/19 geo)",5,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+6,"Fifth less deprived decile (IMD2015,4/19 geo)",6,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+7,"Fourth less deprived decile (IMD2015,4/19 geo)",7,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+8,"Third less deprived decile (IMD2015,4/19 geo)",8,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+9,"Second least deprived decile (IMD2015,4/19 geo)",9,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+10,"Least deprived decile (IMD2015,4/19 geo)",10,105,"County & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+1,Most deprived decile (IMD2015),1,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+2,Second most deprived decile (IMD2015),2,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+3,Third more deprived decile (IMD2015),3,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+4,Fourth more deprived decile (IMD2015),4,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+5,Fifth more deprived decile (IMD2015),5,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+6,Fifth less deprived decile (IMD2015),6,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+7,Fourth less deprived decile (IMD2015),7,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+8,Third less deprived decile (IMD2015),8,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+9,Second least deprived decile (IMD2015),9,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+10,Least deprived decile (IMD2015),10,39,"County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+1,Most deprived decile (IMD2010),1,2,County & UA deprivation deciles in England (IMD2010)
+2,Second most deprived decile (IMD2010),2,2,County & UA deprivation deciles in England (IMD2010)
+3,Third more deprived decile (IMD2010),3,2,County & UA deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile (IMD2010),4,2,County & UA deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile (IMD2010),5,2,County & UA deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile (IMD2010),6,2,County & UA deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile (IMD2010),7,2,County & UA deprivation deciles in England (IMD2010)
+8,Third less deprived decile (IMD2010),8,2,County & UA deprivation deciles in England (IMD2010)
+9,Second least deprived decile (IMD2010),9,2,County & UA deprivation deciles in England (IMD2010)
+10,Least deprived decile (IMD2010),10,2,County & UA deprivation deciles in England (IMD2010)
+1,Most deprived decile (IMD2019),1,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+2,Second most deprived decile (IMD2019),2,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+3,Third more deprived decile (IMD2019),3,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+4,Fourth more deprived decile (IMD2019),4,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+5,Fifth more deprived decile (IMD2019),5,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+6,Fifth less deprived decile (IMD2019),6,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+7,Fourth less deprived decile (IMD2019),7,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+8,Third less deprived decile (IMD2019),8,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+9,Second least deprived decile (IMD2019),9,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+10,Least deprived decile (IMD2019),10,149,"District & UA deprivation deciles in England (IMD2019, 4/21 geography)"
+1,Most deprived decile (IMD2019),1,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+1,Most deprived decile (IMD2019),1,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+2,Second most deprived decile (IMD2019),2,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+2,Second most deprived decile (IMD2019),2,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+3,Third more deprived decile (IMD2019),3,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+3,Third more deprived decile (IMD2019),3,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+4,Fourth more deprived decile (IMD2019),4,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+4,Fourth more deprived decile (IMD2019),4,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+5,Fifth more deprived decile (IMD2019),5,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+5,Fifth more deprived decile (IMD2019),5,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+6,Fifth less deprived decile (IMD2019),6,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+6,Fifth less deprived decile (IMD2019),6,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+7,Fourth less deprived decile (IMD2019),7,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+7,Fourth less deprived decile (IMD2019),7,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+8,Third less deprived decile (IMD2019),8,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+8,Third less deprived decile (IMD2019),8,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+9,Second least deprived decile (IMD2019),9,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+9,Second least deprived decile (IMD2019),9,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+10,Least deprived decile (IMD2019),10,135,"District & UA deprivation deciles in England (IMD2019, 4/20 geog.)"
+10,Least deprived decile (IMD2019),10,163,"District & UA deprivation deciles in England (IMD2019, 4/23 geography)"
+1,Most deprived decile (IMD2019),1,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+2,Second most deprived decile (IMD2019),2,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+3,Third more deprived decile (IMD2019),3,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+4,Fourth more deprived decile (IMD2019),4,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+5,Fifth more deprived decile (IMD2019),5,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+6,Fifth less deprived decile (IMD2019),6,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+7,Fourth less deprived decile (IMD2019),7,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+8,Third less deprived decile (IMD2019),8,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+9,Second least deprived decile (IMD2019),9,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+10,Least deprived decile (IMD2019),10,114,"District & UA deprivation deciles in England (IMD2019, 4/19 geog.)"
+1,"Most deprived decile (IMD2015,4/19 geo)",1,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+2,"Second most deprived decile (IMD2015,4/19 geo)",2,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+3,"Third more deprived decile (IMD2015,4/19 geo)",3,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+4,"Fourth more deprived decile (IMD2015,4/19 geo)",4,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+5,"Fifth more deprived decile (IMD2015,4/19 geo)",5,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+6,"Fifth less deprived decile (IMD2015,4/19 geo)",6,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+7,"Fourth less deprived decile (IMD2015,4/19 geo)",7,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+8,"Third less deprived decile (IMD2015,4/19 geo)",8,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+9,"Second least deprived decile (IMD2015,4/19 geo)",9,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+10,"Least deprived decile (IMD2015,4/19 geo)",10,107,"District & UA deprivation deciles in England (IMD2015, 4/19 geog.)"
+1,Most deprived decile (IMD2015),1,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+2,Second most deprived decile (IMD2015),2,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+3,Third more deprived decile (IMD2015),3,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+4,Fourth more deprived decile (IMD2015),4,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+5,Fifth more deprived decile (IMD2015),5,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+6,Fifth less deprived decile (IMD2015),6,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+7,Fourth less deprived decile (IMD2015),7,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+8,Third less deprived decile (IMD2015),8,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+9,Second least deprived decile (IMD2015),9,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+10,Least deprived decile (IMD2015),10,40,"District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)"
+1,Most deprived decile (IMD2010),1,3,District & UA deprivation deciles in England (IMD2010)
+2,Second most deprived decile (IMD2010),2,3,District & UA deprivation deciles in England (IMD2010)
+3,Third more deprived decile (IMD2010),3,3,District & UA deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile (IMD2010),4,3,District & UA deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile (IMD2010),5,3,District & UA deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile (IMD2010),6,3,District & UA deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile (IMD2010),7,3,District & UA deprivation deciles in England (IMD2010)
+8,Third less deprived decile (IMD2010),8,3,District & UA deprivation deciles in England (IMD2010)
+9,Second least deprived decile (IMD2010),9,3,District & UA deprivation deciles in England (IMD2010)
+10,Least deprived decile (IMD2010),10,3,District & UA deprivation deciles in England (IMD2010)
+1,Most deprived quintile,1,117,LSOA11 deprivation quintiles in England (IMD2019)
+2,Second most deprived quintile,2,117,LSOA11 deprivation quintiles in England (IMD2019)
+3,Average deprived quintile,3,117,LSOA11 deprivation quintiles in England (IMD2019)
+4,Second least deprived quintile,4,117,LSOA11 deprivation quintiles in England (IMD2019)
+5,Least deprived quintile,5,117,LSOA11 deprivation quintiles in England (IMD2019)
+1,Most deprived quintile,1,41,LSOA11 deprivation quintiles in England (IMD2015)
+2,Second most deprived quintile,2,41,LSOA11 deprivation quintiles in England (IMD2015)
+3,Average deprived quintile,3,41,LSOA11 deprivation quintiles in England (IMD2015)
+4,Second least deprived quintile,4,41,LSOA11 deprivation quintiles in England (IMD2015)
+5,Least deprived quintile,5,41,LSOA11 deprivation quintiles in England (IMD2015)
+1,Most deprived quintile,1,6,LSOA11 deprivation quintiles in England (IMD2010)
+2,Second most deprived quintile,2,6,LSOA11 deprivation quintiles in England (IMD2010)
+3,Average deprived quintile,3,6,LSOA11 deprivation quintiles in England (IMD2010)
+4,Second least deprived quintile,4,6,LSOA11 deprivation quintiles in England (IMD2010)
+5,Least deprived quintile,5,6,LSOA11 deprivation quintiles in England (IMD2010)
+1,Most deprived decile,1,8,CCG deprivation deciles in England (IMD2010)
+2,Second most deprived decile,2,8,CCG deprivation deciles in England (IMD2010)
+3,Third more deprived decile,3,8,CCG deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile,4,8,CCG deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile,5,8,CCG deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile,6,8,CCG deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile,7,8,CCG deprivation deciles in England (IMD2010)
+8,Third less deprived decile,8,8,CCG deprivation deciles in England (IMD2010)
+9,Second least deprived decile,9,8,CCG deprivation deciles in England (IMD2010)
+10,Least deprived decile,10,8,CCG deprivation deciles in England (IMD2010)
+1,Most deprived decile,1,116,LSOA11 deprivation deciles within area (IMD2019)
+2,Second most deprived decile,2,116,LSOA11 deprivation deciles within area (IMD2019)
+3,Third more deprived decile,3,116,LSOA11 deprivation deciles within area (IMD2019)
+4,Fourth more deprived decile,4,116,LSOA11 deprivation deciles within area (IMD2019)
+5,Fifth more deprived decile,5,116,LSOA11 deprivation deciles within area (IMD2019)
+6,Fifth less deprived decile,6,116,LSOA11 deprivation deciles within area (IMD2019)
+7,Fourth less deprived decile,7,116,LSOA11 deprivation deciles within area (IMD2019)
+8,Third less deprived decile,8,116,LSOA11 deprivation deciles within area (IMD2019)
+9,Second least deprived decile,9,116,LSOA11 deprivation deciles within area (IMD2019)
+10,Least deprived decile,10,116,LSOA11 deprivation deciles within area (IMD2019)
+1,Most deprived decile,1,48,LSOA11 deprivation deciles within area (IMD2015)
+2,Second most deprived decile,2,48,LSOA11 deprivation deciles within area (IMD2015)
+3,Third more deprived decile,3,48,LSOA11 deprivation deciles within area (IMD2015)
+4,Fourth more deprived decile,4,48,LSOA11 deprivation deciles within area (IMD2015)
+5,Fifth more deprived decile,5,48,LSOA11 deprivation deciles within area (IMD2015)
+6,Fifth less deprived decile,6,48,LSOA11 deprivation deciles within area (IMD2015)
+7,Fourth less deprived decile,7,48,LSOA11 deprivation deciles within area (IMD2015)
+8,Third less deprived decile,8,48,LSOA11 deprivation deciles within area (IMD2015)
+9,Second least deprived decile,9,48,LSOA11 deprivation deciles within area (IMD2015)
+10,Least deprived decile,10,48,LSOA11 deprivation deciles within area (IMD2015)
+1,Most deprived decile,1,9,LSOA11 deprivation deciles within area (IMD2010)
+2,Second most deprived decile,2,9,LSOA11 deprivation deciles within area (IMD2010)
+3,Third more deprived decile,3,9,LSOA11 deprivation deciles within area (IMD2010)
+4,Fourth more deprived decile,4,9,LSOA11 deprivation deciles within area (IMD2010)
+5,Fifth more deprived decile,5,9,LSOA11 deprivation deciles within area (IMD2010)
+6,Fifth less deprived decile,6,9,LSOA11 deprivation deciles within area (IMD2010)
+7,Fourth less deprived decile,7,9,LSOA11 deprivation deciles within area (IMD2010)
+8,Third less deprived decile,8,9,LSOA11 deprivation deciles within area (IMD2010)
+9,Second least deprived decile,9,9,LSOA11 deprivation deciles within area (IMD2010)
+10,Least deprived decile,10,9,LSOA11 deprivation deciles within area (IMD2010)
+1,Most deprived quintile,1,118,LSOA11 deprivation quintile within area (IMD2019)
+2,Second most deprived quintile,2,118,LSOA11 deprivation quintile within area (IMD2019)
+3,Average deprived quintile,3,118,LSOA11 deprivation quintile within area (IMD2019)
+4,Second least deprived quintile,4,118,LSOA11 deprivation quintile within area (IMD2019)
+5,Least deprived quintile,5,118,LSOA11 deprivation quintile within area (IMD2019)
+1,Most deprived quintile,1,50,LSOA11 deprivation quintile within area (IMD2015)
+2,Second most deprived quintile,2,50,LSOA11 deprivation quintile within area (IMD2015)
+3,Average deprived quintile,3,50,LSOA11 deprivation quintile within area (IMD2015)
+4,Second least deprived quintile,4,50,LSOA11 deprivation quintile within area (IMD2015)
+5,Least deprived quintile,5,50,LSOA11 deprivation quintile within area (IMD2015)
+1,Most deprived quintile,1,10,LSOA11 deprivation quintile within area (IMD2010)
+5,Least deprived quintile,5,10,LSOA11 deprivation quintile within area (IMD2010)
+1,Most deprived quintile,1,28,LSOA11 deprivation quintiles within area - bottom- middle 3 - top (IMD2010)
+2,"Deprivation quintiles 2,3,4",2,28,LSOA11 deprivation quintiles within area - bottom- middle 3 - top (IMD2010)
+3,Least deprived quintile,3,28,LSOA11 deprivation quintiles within area - bottom- middle 3 - top (IMD2010)
+1,Most deprived decile,1,31,LSOA01 deprivation deciles within areas (IMD2010)
+2,Second most deprived decile,2,31,LSOA01 deprivation deciles within areas (IMD2010)
+3,Third more deprived decile,3,31,LSOA01 deprivation deciles within areas (IMD2010)
+4,Fourth more deprived decile,4,31,LSOA01 deprivation deciles within areas (IMD2010)
+5,Fifth more deprived decile,5,31,LSOA01 deprivation deciles within areas (IMD2010)
+6,Fifth less deprived decile,6,31,LSOA01 deprivation deciles within areas (IMD2010)
+7,Fourth less deprived decile,7,31,LSOA01 deprivation deciles within areas (IMD2010)
+8,Third less deprived decile,8,31,LSOA01 deprivation deciles within areas (IMD2010)
+9,Second least deprived decile,9,31,LSOA01 deprivation deciles within areas (IMD2010)
+10,Least deprived decile,10,31,LSOA01 deprivation deciles within areas (IMD2010)
+1,Most deprived quintile,1,35,IMD2010 - Employment domain
+3,Least deprived quintile,3,35,IMD2010 - Employment domain
+1,Most deprived decile,1,153,LSOA11 deprivation deciles in England (IMD2010)
+2,Second most deprived decile,2,153,LSOA11 deprivation deciles in England (IMD2010)
+3,Third more deprived decile,3,153,LSOA11 deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile,4,153,LSOA11 deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile,5,153,LSOA11 deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile,6,153,LSOA11 deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile,7,153,LSOA11 deprivation deciles in England (IMD2010)
+8,Third less deprived decile,8,153,LSOA11 deprivation deciles in England (IMD2010)
+9,Second least deprived decile,9,153,LSOA11 deprivation deciles in England (IMD2010)
+10,Least deprived decile,10,153,LSOA11 deprivation deciles in England (IMD2010)
+1,Most deprived decile,1,44,LSOA11 deprivation deciles in England (IMD2015)
+2,Second most deprived decile,2,44,LSOA11 deprivation deciles in England (IMD2015)
+3,Third more deprived decile,3,44,LSOA11 deprivation deciles in England (IMD2015)
+4,Fourth more deprived decile,4,44,LSOA11 deprivation deciles in England (IMD2015)
+5,Fifth more deprived decile,5,44,LSOA11 deprivation deciles in England (IMD2015)
+6,Fifth less deprived decile,6,44,LSOA11 deprivation deciles in England (IMD2015)
+7,Fourth less deprived decile,7,44,LSOA11 deprivation deciles in England (IMD2015)
+8,Third less deprived decile,8,44,LSOA11 deprivation deciles in England (IMD2015)
+9,Second least deprived decile,9,44,LSOA11 deprivation deciles in England (IMD2015)
+10,Least deprived decile,10,44,LSOA11 deprivation deciles in England (IMD2015)
+1,Most deprived decile,1,115,LSOA11 deprivation deciles in England (IMD2019)
+2,Second most deprived decile,2,115,LSOA11 deprivation deciles in England (IMD2019)
+3,Third more deprived decile,3,115,LSOA11 deprivation deciles in England (IMD2019)
+4,Fourth more deprived decile,4,115,LSOA11 deprivation deciles in England (IMD2019)
+5,Fifth more deprived decile,5,115,LSOA11 deprivation deciles in England (IMD2019)
+6,Fifth less deprived decile,6,115,LSOA11 deprivation deciles in England (IMD2019)
+7,Fourth less deprived decile,7,115,LSOA11 deprivation deciles in England (IMD2019)
+8,Third less deprived decile,8,115,LSOA11 deprivation deciles in England (IMD2019)
+9,Second least deprived decile,9,115,LSOA11 deprivation deciles in England (IMD2019)
+10,Least deprived decile,10,115,LSOA11 deprivation deciles in England (IMD2019)
+1,Most deprived decile,1,71,LSOA11 deprivation deciles within area (IMD  trend)
+2,Second most deprived decile,2,71,LSOA11 deprivation deciles within area (IMD  trend)
+3,Third more deprived decile,3,71,LSOA11 deprivation deciles within area (IMD  trend)
+4,Fourth more deprived decile,4,71,LSOA11 deprivation deciles within area (IMD  trend)
+5,Fifth more deprived decile,5,71,LSOA11 deprivation deciles within area (IMD  trend)
+6,Fifth less deprived decile,6,71,LSOA11 deprivation deciles within area (IMD  trend)
+7,Fourth less deprived decile,7,71,LSOA11 deprivation deciles within area (IMD  trend)
+8,Third less deprived decile,8,71,LSOA11 deprivation deciles within area (IMD  trend)
+9,Second least deprived decile,9,71,LSOA11 deprivation deciles within area (IMD  trend)
+10,Least deprived decile,10,71,LSOA11 deprivation deciles within area (IMD  trend)
+1,Most deprived decile,1,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+2,Second most deprived decile,2,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+3,Third more deprived decile,3,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+4,Fourth more deprived decile,4,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+5,Fifth more deprived decile,5,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+6,Fifth less deprived decile,6,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+7,Fourth less deprived decile ,7,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+8,Third less deprived decile,8,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+9,Second least deprived decile,9,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
+10,Least deprived decile ,10,156,"CCG deprivation deciles in England (IMD2019, 2021 CCGs)"
