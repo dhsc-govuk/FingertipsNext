@@ -5,11 +5,9 @@ import { Pill } from '../Pill';
 import { memo } from 'react';
 
 const StyleAreaSearchSelectionPanel = styled(UnorderedList)({
-  display: 'flex',
-  flexDirection: 'column-reserve',
   padding: '0px',
   margin: '0px',
-  overFlow: 'hidden',
+  overflow: 'hidden',
 });
 
 const StyleAreaAutoCompletePillPanelItem = styled(ListItem)({
