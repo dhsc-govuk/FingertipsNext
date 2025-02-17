@@ -13,21 +13,16 @@ const $IndicatorSearchFormSchema = z
     searchState: z.string(),
     indicator: z.string(),
   })
-  .refine(
-    (data) => {
-      const stateParsed = JSON.parse(data.searchState);
-      if (
-        data.indicator.trim().length > 0 ||
-        stateParsed[SearchParams.AreasSelected]?.length > 0
-      ) {
-        return true;
-      }
-      return false;
-    },
-    {
-      message: 'Please enter an indicator id',
+  .refine((data) => {
+    const stateParsed = JSON.parse(data.searchState);
+    if (
+      data.indicator.trim().length > 0 ||
+      stateParsed[SearchParams.AreasSelected]?.length > 0
+    ) {
+      return true;
     }
-  );
+    return false;
+  });
 
 export type State = {
   errors?: {
@@ -61,7 +56,7 @@ export async function searchIndicator(
       searchState: formData.get('searchState')?.toString() ?? '',
       indicator: formData.get('indicator')?.toString().trim() ?? '',
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Please enter a subject',
+      message: 'Please enter an indicator ID or select at least one area',
     };
   }
 
