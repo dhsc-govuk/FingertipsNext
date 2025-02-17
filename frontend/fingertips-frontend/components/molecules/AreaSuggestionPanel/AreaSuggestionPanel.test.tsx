@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
-import { AreaSuggestionPanel } from './index';
+import { AreaAutoCompleteSuggestionPanel } from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
 // Mock data
@@ -12,14 +12,14 @@ const mockAreas: AreaDocument[] = [
 describe('test AreaSuggestionPanel', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
-      <AreaSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should render correct area name', () => {
     const { getByText } = render(
-      <AreaSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel areas={mockAreas} onItemSelected={jest.fn()} />
     );
 
     expect(getByText('GP01 - Greenwich')).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe('test AreaSuggestionPanel', () => {
   it('should call onItemSelected when an item is clicked', () => {
     const mockOnItemSelected = jest.fn();
     const { getByText } = render(
-      <AreaSuggestionPanel
+      <AreaAutoCompleteSuggestionPanel
         areas={mockAreas}
         onItemSelected={mockOnItemSelected}
       />
@@ -45,7 +45,7 @@ describe('test AreaSuggestionPanel', () => {
 
   it('should render nothing if areas are empty', () => {
     const { container } = render(
-      <AreaSuggestionPanel areas={[]} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel areas={[]} onItemSelected={jest.fn()} />
     );
     expect(container.firstChild).toBeNull();
   });
@@ -58,7 +58,7 @@ describe('test AreaSuggestionPanel', () => {
     (areaCode, areaType, areaName, expectedText) => {
       const area = { areaCode, areaName, areaType } as AreaDocument;
       const { getByText } = render(
-        <AreaSuggestionPanel areas={[area]} onItemSelected={jest.fn()} />
+        <AreaAutoCompleteSuggestionPanel areas={[area]} onItemSelected={jest.fn()} />
       );
       expect(getByText(expectedText)).toBeInTheDocument();
     }

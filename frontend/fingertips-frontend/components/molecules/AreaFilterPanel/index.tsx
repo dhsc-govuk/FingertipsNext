@@ -13,8 +13,7 @@ const StyleAreaFilterPanel = styled('div')({
 });
 
 interface AreaFilterPanelProps {
-  areas: AreaDocument[];
-  onOpen: () => void;
+  areas: AreaDocument[]
 }
 
 const getDisplayText = function (areaSize: number) {
@@ -23,7 +22,7 @@ const getDisplayText = function (areaSize: number) {
     : 'Open area filter';
 };
 
-export const AreaFilterPanel = ({ areas, onOpen }: AreaFilterPanelProps) => {
+export const AreaAutoCompleteFilterPanel = ({ areas, onOpen }: AreaFilterPanelProps) => {
   if (areas == null) return;
 
   return (
@@ -33,9 +32,7 @@ export const AreaFilterPanel = ({ areas, onOpen }: AreaFilterPanelProps) => {
         data-testid="search-form-link-filter-area"
         onClick={(e) => {
           e.preventDefault();
-          if (onOpen != null) {
-            onOpen();
-          }
+          // add the panel filter  event handler when here
         }}
       >
         {getDisplayText(areas.length)}

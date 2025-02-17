@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import AreaAutoCompleteSearchPanel from '@/components/molecules/AreaAutoCompleteSearchPanel';
+import AreaAutoCompleteInputField from '@/components/molecules/AreaAutoCompleteSearchPanel';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
@@ -79,7 +79,7 @@ export const SearchForm = ({ searchFormState }: SearchFormProps) => {
         id="areaSearched"
         value={areaCode || ''}
       />
-      <AreaAutoCompleteSearchPanel
+      <AreaAutoCompleteInputField
         onAreaSelected={(area: AreaDocument | undefined) => {
           updateUrlWithSelectedArea(area?.areaCode ?? '');
           setAreaCode(area?.areaCode ?? '');

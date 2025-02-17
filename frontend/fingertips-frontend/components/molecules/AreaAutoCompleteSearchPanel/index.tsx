@@ -2,30 +2,30 @@ import { getSearchSuggestions } from '@/components/forms/SearchForm/searchAction
 import { AreaDocument } from '@/lib/search/searchTypes';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { AreaSearchInputField } from '../AreaSearchInputField';
-import { AreaSuggestionPanel } from '../AreaSuggestionPanel';
-import { AreaSelectionSearchPillPanel } from '../AreaSelectionSearchPillPanel';
+import { AreaAutoCompleteSuggestionPanel } from '../AreaSuggestionPanel';
+import { AreaAutoCompletePillPanel } from '../AreaSelectionSearchPillPanel';
 import styled from 'styled-components';
-import { AreaFilterPanel } from '../AreaFilterPanel';
+import { AreaAutoCompleteFilterPanel } from '../AreaFilterPanel';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
 
-const StyleAreaSelectAutoCompletePanel = styled('div')({
+const StyleAreaAutoCompleteInputField = styled('div')({
   margin: '0px;',
   backgroundColor: '#FFFFFF',
 });
 
-interface AreaSelectAutoCompleteProps {
+interface AreaAutoCompleteInputFieldProps {
   onAreaSelected: (area: AreaDocument | undefined) => void;
   inputFieldErrorStatus: boolean;
   defaultSelectedAreas: AreaDocument[];
 }
 
-export default function AreaAutoCompleteSearchPanel({
+export default function AreaAutoCompleteInputField({
   onAreaSelected,
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
-}: AreaSelectAutoCompleteProps) {
+}: AreaAutoCompleteInputFieldProps) {
   const [criteria, setCriteria] = useState<string>();
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] =
@@ -59,7 +59,6 @@ export default function AreaAutoCompleteSearchPanel({
           setSearchAreas([]);
           return;
         }
-        console.log('Fetching ', criteria);
         fetchSearchArea(criteria);
       },
       DEBOUNCE_SEARCH_DELAY,
@@ -86,7 +85,7 @@ export default function AreaAutoCompleteSearchPanel({
   );
 
   return (
-    <StyleAreaSelectAutoCompletePanel>
+    <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
         value={criteria}
         onTextChange={(newCriteria: string) => {
@@ -95,11 +94,11 @@ export default function AreaAutoCompleteSearchPanel({
         disabled={selectedAreas.length > 0}
         touched={inputFieldErrorStatus}
       />
-      <AreaSelectionSearchPillPanel
+      <AreaAutoCompletePillPanel
         areas={selectedAreas}
         onRemovePill={handlePillRemoval}
       />
-      <AreaSuggestionPanel
+      <AreaAutoCompleteSuggestionPanel
         areas={searchAreas}
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
@@ -109,7 +108,7 @@ export default function AreaAutoCompleteSearchPanel({
           }
         }}
       />
-      <AreaFilterPanel areas={selectedAreas} onOpen={() => {}} />
-    </StyleAreaSelectAutoCompletePanel>
+      <AreaAutoCompleteFilterPanel areas={selectedAreas} />
+    </StyleAreaAutoCompleteInputField>
   );
 }

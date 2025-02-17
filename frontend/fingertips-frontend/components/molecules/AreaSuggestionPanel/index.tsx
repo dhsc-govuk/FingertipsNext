@@ -41,15 +41,15 @@ const StyledSearchButton = styled(SearchBox.Button)`
   }
 `;
 
-interface AreaSuggestionPanelProps {
+interface AreaAutoCompleteSuggestionPanelProps {
   areas: AreaDocument[];
   onItemSelected: (area: AreaDocument) => void;
 }
 
-export const AreaSuggestionPanel = ({
+export const AreaAutoCompleteSuggestionPanel = ({
   areas,
   onItemSelected,
-}: AreaSuggestionPanelProps) => {
+}: AreaAutoCompleteSuggestionPanelProps) => {
   if (areas.length === 0) return null;
 
   return (

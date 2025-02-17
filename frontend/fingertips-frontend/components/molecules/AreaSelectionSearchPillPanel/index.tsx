@@ -12,12 +12,12 @@ const StyleAreaSearchSelectionPanel = styled(UnorderedList)({
   overFlow: 'hidden',
 });
 
-const StyleAreaSearchSelectionPanelItem = styled(ListItem)({
+const StyleAreaAutoCompletePillPanelItem = styled(ListItem)({
   display: 'flex',
   flexDirection: 'row',
 });
 
-const AreaSelectionSearchPillPanelHeader = styled('span')({
+const StyleAreaAutoCompletePillPanelHeader = styled('span')({
   display: 'inline-block',
   marginTop: '10px',
   fontFamily: 'Arial',
@@ -27,23 +27,23 @@ const AreaSelectionSearchPillPanelHeader = styled('span')({
   lineHeight: '1.415;',
 });
 
-interface AreaSelectionSearchPillPanelProps {
+interface AreaAutoCompletePillPanelProps {
   areas: AreaDocument[];
   onRemovePill: (area: AreaDocument) => void;
 }
-export const AreaSelectionSearchPillPanel = memo(
-  ({ areas, onRemovePill }: AreaSelectionSearchPillPanelProps) => {
+export const AreaAutoCompletePillPanel = memo(
+  ({ areas, onRemovePill }: AreaAutoCompletePillPanelProps) => {
     if (areas.length == 0) return null;
     return (
       <div>
-        <AreaSelectionSearchPillPanelHeader>
+        <StyleAreaAutoCompletePillPanelHeader>
           Selected areas ({areas.length})
-        </AreaSelectionSearchPillPanelHeader>
+        </StyleAreaAutoCompletePillPanelHeader>
 
         <StyleAreaSearchSelectionPanel>
           {' '}
           {areas.map((area: AreaDocument) => (
-            <StyleAreaSearchSelectionPanelItem
+            <StyleAreaAutoCompletePillPanelItem
               key={'selection-panel-area-' + area.areaCode}
             >
               <Pill
@@ -55,7 +55,7 @@ export const AreaSelectionSearchPillPanel = memo(
                 selectedFilterId={'pill_' + area.areaCode + area.areaName}
                 selectedFilterName={area.areaName + '-' + area.areaCode}
               />
-            </StyleAreaSearchSelectionPanelItem>
+            </StyleAreaAutoCompletePillPanelItem>
           ))}
         </StyleAreaSearchSelectionPanel>
       </div>
@@ -63,4 +63,4 @@ export const AreaSelectionSearchPillPanel = memo(
   }
 );
 // This is the keep lints quiet
-AreaSelectionSearchPillPanel.displayName = 'AreaSelectionSearchPillPanel';
+AreaAutoCompletePillPanel.displayName = 'AreaSelectionSearchPillPanel';

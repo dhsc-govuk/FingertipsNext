@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
-import { AreaSelectionSearchPillPanel } from './index';
+import { AreaAutoCompletePillPanel } from './index';
 
 describe('Test AreaSelectionSearchPillPanel', () => {
   it('take a snapshot of component and it renders correctly', () => {
     const container = render(
-      <AreaSelectionSearchPillPanel
+      <AreaAutoCompletePillPanel
         areas={[
           {
             areaCode: 'GPs',

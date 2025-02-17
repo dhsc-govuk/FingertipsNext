@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AreaFilterPanel } from './index'; // Adjust the import path if necessary
+import { AreaAutoCompleteFilterPanel } from './index'; // Adjust the import path if necessary
 
 // Sample data for the test based on the provided AreaDocument structure
 const sampleAreas = [
@@ -54,21 +54,21 @@ const mockOnOpen = jest.fn();
 
 describe('test AreaFilterPanel', () => {
   test('should render the link with the correct text when areas are not null', () => {
-    render(<AreaFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
+    render(<AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
     const link = screen.getByTestId('search-form-link-filter-area');
     expect(link).toBeInTheDocument();
     expect(link).toHaveTextContent('Open a filter to add or change areas');
   });
 
   test('should render the link with default text when areas length is 0', () => {
-    render(<AreaFilterPanel areas={[]} onOpen={mockOnOpen} />);
+    render(<AreaAutoCompleteFilterPanel areas={[]} onOpen={mockOnOpen} />);
     const link = screen.getByTestId('search-form-link-filter-area');
     expect(link).toBeInTheDocument();
     expect(link).toHaveTextContent('Open area filter');
   });
 
   test('should call onOpen when the link is clicked', () => {
-    render(<AreaFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
+    render(<AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />);
     const link = screen.getByTestId('search-form-link-filter-area');
     fireEvent.click(link);
     expect(mockOnOpen).toHaveBeenCalledTimes(1);
@@ -76,7 +76,7 @@ describe('test AreaFilterPanel', () => {
 
   test('take a snapshot', () => {
     const { asFragment } = render(
-      <AreaFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
+      <AreaAutoCompleteFilterPanel areas={sampleAreas} onOpen={mockOnOpen} />
     );
     expect(asFragment()).toMatchSnapshot();
   });
