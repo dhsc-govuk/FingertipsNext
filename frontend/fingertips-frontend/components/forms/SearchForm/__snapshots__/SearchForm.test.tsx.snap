@@ -416,6 +416,12 @@ exports[`snapshot test - renders the form 1`] = `
         value="indicator"
       />
     </label>
+    <input
+      id="areaSearched"
+      name="areaSearched"
+      type="hidden"
+      value=""
+    />
     <div
       class="c6"
     >
@@ -442,9 +448,9 @@ exports[`snapshot test - renders the form 1`] = `
           </span>
           <input
             class="c5"
-            id="areaSearched"
-            name="areaSearched"
-            value="area"
+            id="areaAutoSearchedInput"
+            name="areaAutoSearchedInput"
+            value=""
           />
         </label>
       </div>

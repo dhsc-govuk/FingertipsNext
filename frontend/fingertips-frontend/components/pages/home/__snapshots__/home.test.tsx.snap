@@ -732,6 +732,12 @@ exports[`snapshot test - renders the homepage 1`] = `
             value=""
           />
         </label>
+        <input
+          id="areaSearched"
+          name="areaSearched"
+          type="hidden"
+          value=""
+        />
         <div
           class="c14"
         >
@@ -758,8 +764,8 @@ exports[`snapshot test - renders the homepage 1`] = `
               </span>
               <input
                 class="c13"
-                id="areaSearched"
-                name="areaSearched"
+                id="areaAutoSearchedInput"
+                name="areaAutoSearchedInput"
                 value=""
               />
             </label>

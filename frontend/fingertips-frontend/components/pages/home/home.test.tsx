@@ -11,6 +11,13 @@ const initialState: SearchFormState = {
   errors: {},
 };
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(),
+  }),
+  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+}));
+
 it('snapshot test - renders the homepage', () => {
   const container = render(<Home searchFormState={initialState} />);
 

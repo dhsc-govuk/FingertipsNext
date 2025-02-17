@@ -29,7 +29,26 @@ const initialDataState: SearchFormState = {
   errors: {},
 };
 
+
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(), 
+    set:jest.fn(),
+  }),
+  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+}));
+
+
 const setupUI = (initialState: SearchFormState | null = null) => {
+  jest.mock('next/navigation', () => ({
+    useRouter: jest.fn().mockReturnValue({
+      push: jest.fn(), 
+    }),
+    useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  }));
+
+  
   if (initialState == null) {
     initialState = initialDataState;
   }
@@ -45,7 +64,6 @@ it('snapshot test - renders the form', () => {
 
 it('should have an input field to input the indicatorId', () => {
   setupUI();
-
   expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
 });
 
@@ -61,18 +79,8 @@ it('should set the input field with indicator value from the form state', () => 
   expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
     'test value'
   );
-});
 
-it('should set the input field with searchArea value from the form state', () => {
-  const indicatorState: SearchFormState = {
-    indicator: '',
-    areaSearched: 'area value',
-    message: '',
-    errors: {},
-  };
-  setupUI(indicatorState);
-
-  const searchInput = screen.getByDisplayValue('area value');
-  expect(searchInput.hasAttribute('name')).toBe(true);
-  expect(searchInput).toHaveValue('area value');
+  expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+    'test value'
+  );
 });

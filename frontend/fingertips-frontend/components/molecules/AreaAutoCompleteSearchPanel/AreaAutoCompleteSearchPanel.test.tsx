@@ -17,7 +17,7 @@ describe('test AreaAutoCompleteSearchPanel', () => {
       <AreaAutoCompleteInputField
         onAreaSelected={mockOnAreaSelected}
         inputFieldErrorStatus={false}
-        defaultValue="Willington Medical Group"
+        defaultSelectedAreas={[{areaCode:"GPs", areaType:"Type", areaName:"Some area name"}]}
       />
     );
     expect(asFragment()).toMatchSnapshot();
