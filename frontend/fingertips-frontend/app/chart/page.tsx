@@ -12,6 +12,7 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -30,12 +31,29 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+  const areaApi = ApiClientFactory.getAreasApiClient();
+
+  let areaData: AreaWithRelations | undefined;
+  if (areaCodes.length === 1) {
+    // DHSCFT-256 assumes one parent.
+
+    try {
+      areaData = await areaApi.getArea({ areaCode: areaCodes[0] });
+    } catch (error) {
+      console.log('error getting area data ', error);
+    }
+  }
+
+  let areaCodesToRequest = [...areaCodes, areaCodeForEngland];
+  if (areaData?.parent) {
+    areaCodesToRequest = [...areaCodesToRequest, areaData.parent.code];
+  }
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
-        areaCodes: [...areaCodes, areaCodeForEngland],
+        areaCodes: areaCodesToRequest,
       })
     )
   );
