@@ -127,11 +127,11 @@ export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
     },
     E06000005: {
       ...darlington,
-      ...northEastRegion,
+      parent: { ...northEastRegion },
     },
     E08000037: {
       ...gateshead,
-      ...northEastRegion,
+      parent: { ...northEastRegion },
     },
   };
 
