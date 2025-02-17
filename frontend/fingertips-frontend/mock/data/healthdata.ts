@@ -1988,7 +1988,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
 
     {
       areaCode: 'E12000001',
-      areaName: 'northEastRegion',
+      areaName: 'North East Region',
       healthData: [
         {
           year: 2020,
