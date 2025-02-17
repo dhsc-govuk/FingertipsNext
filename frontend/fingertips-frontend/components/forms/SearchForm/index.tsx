@@ -27,7 +27,7 @@ export const SearchForm = ({ searchFormState }: SearchFormProps) => {
 
   const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
     const urlParams = new URLSearchParams(params);
-    if (selectedAreaCode == undefined) {
+    if (!selectedAreaCode) {
       urlParams.delete(SearchParams.AreasSelected);
     } else {
       urlParams.set(SearchParams.AreasSelected, selectedAreaCode);
