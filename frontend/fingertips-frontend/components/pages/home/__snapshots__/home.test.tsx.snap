@@ -758,8 +758,8 @@ exports[`snapshot test - renders the homepage 1`] = `
               </span>
               <input
                 class="c13"
-                id="area-searched-input"
-                name="area-searched-input"
+                id="areaSearched"
+                name="areaSearched"
                 value=""
               />
             </label>

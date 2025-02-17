@@ -28,8 +28,8 @@ export const AreaSearchInputField = ({
     <StyleAreaSearchInputField>
       <InputField
         input={{
-          id: 'area-searched-input',
-          name: 'area-searched-input',
+          id: 'areaSearched',
+          name: 'areaSearched',
           defaultValue: value,
           value: value,
           onChange: (e) => {

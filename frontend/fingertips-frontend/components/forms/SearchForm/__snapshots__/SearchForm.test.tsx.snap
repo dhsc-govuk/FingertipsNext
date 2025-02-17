@@ -442,8 +442,8 @@ exports[`snapshot test - renders the form 1`] = `
           </span>
           <input
             class="c5"
-            id="area-searched-input"
-            name="area-searched-input"
+            id="areaSearched"
+            name="areaSearched"
             value="area"
           />
         </label>
