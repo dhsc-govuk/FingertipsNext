@@ -234,16 +234,9 @@ exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
 }
 
 .c9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column-reserve;
-  -ms-flex-direction: column-reserve;
-  flex-direction: column-reserve;
   padding: 0px;
   margin: 0px;
-  over-flow: hidden;
+  overflow: hidden;
 }
 
 .c12 {

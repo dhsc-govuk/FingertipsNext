@@ -119,16 +119,9 @@ exports[`Test AreaSelectionSearchPillPanel take a snapshot of component and it r
 }
 
 .c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column-reserve;
-  -ms-flex-direction: column-reserve;
-  flex-direction: column-reserve;
   padding: 0px;
   margin: 0px;
-  over-flow: hidden;
+  overflow: hidden;
 }
 
 .c6 {
