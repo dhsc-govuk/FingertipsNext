@@ -79,19 +79,18 @@ export function HealthDataPointFromJSON(json: any): HealthDataPoint {
 
 export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthDataPoint {
     if (json == null) {
-        return json;
+      return json;
     }
     return {
-        
-        'year': json['year'],
-        'count': json['count'] == null ? undefined : json['count'],
-        'value': json['value'] == null ? undefined : json['value'],
-        'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
-        'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
-        'ageBand': json['ageBand'],
-        'sex': json['sex'],
+      'year': json['year'],
+      'count': json['count'] ?? undefined,
+      'value': json['value'] ?? undefined,
+      'lowerCi': json['lowerCi'] ?? undefined,
+      'upperCi': json['upperCi'] ?? undefined,
+      'ageBand': json['ageBand'],
+      'sex': json['sex'],
     };
-}
+  }  
 
 export function HealthDataPointToJSON(json: any): HealthDataPoint {
     return HealthDataPointToJSONTyped(json, false);
