@@ -28,6 +28,7 @@ public class AreaRepository : IAreaRepository
     {
         var hierarchies = await _dbContext
             .AreaType.Select(a => a.HierarchyType)
+            .Where(a => a != SpecialHierarchyTypes.All)
             .Distinct()
             .ToListAsync();
 
