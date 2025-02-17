@@ -5,7 +5,7 @@ import combinedAuthoritiesMap from '@/assets/maps/Combined_Authorities_December_
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
-
+import { GeoJSON } from 'highcharts';
 import { AreaTypeKeysForMapMeta, getMapData } from './getMapData';
 import {
   AreaTypeKeysGroupBoundaries,
@@ -37,7 +37,7 @@ describe('getMapData', () => {
     }
   );
 
-  it.each<[AreaTypeKeysForMapMeta, string[], unknown]>([
+  it.each<[AreaTypeKeysForMapMeta, string[], GeoJSON]>([
     ['regions', ['E12000008', 'E12000009'], regionsMap],
     [
       'counties-and-unitary-authorities',
