@@ -103,6 +103,18 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
+// Visually hidden text styles for screen readers.
+const VisuallyHidden = styled('span')({
+  border: 0,
+  clip: 'rect(0 0 0 0)',
+  height: '1px',
+  margin: '-1px',
+  overflow: 'hidden',
+  padding: 0,
+  position: 'absolute',
+  width: '1px',
+});
+
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
   areaData.healthData.map((healthPoint) => ({
     period: healthPoint.year,
@@ -117,10 +129,17 @@ const sortPeriod = (
 ): LineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.period - b.period);
 
-const convertToPercentage = (value: number | null): string => {
-  // dummy function to do percentage conversions until real conversion logic is provided
-  if (value === null) {
-    return '-';
+// When value is undefined, it returns a dash with an aria-label for screen readers.
+const convertToPercentage = (
+  value?: number,
+  fallback: string = 'Not available'
+): React.ReactNode => {
+  if (value === undefined) {
+    return (
+      <span aria-label={fallback}>
+        <VisuallyHidden>{fallback}</VisuallyHidden>-
+      </span>
+    );
   }
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
@@ -289,19 +308,19 @@ export function LineChartTable({
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].value ?? null)}
+                  {convertToPercentage(sortedAreaData[index].value)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].lower ?? null)}
+                  {convertToPercentage(sortedAreaData[index].lower)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {convertToPercentage(sortedAreaData[index].upper ?? null)}
+                  {convertToPercentage(sortedAreaData[index].upper)}
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
             <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
               {englandRowData.length
-                ? convertToPercentage(englandRowData[index].value ?? null)
+                ? convertToPercentage(englandRowData[index].value)
                 : '-'}
             </StyledBenchmarkValueTableCell>
           </Table.Row>
