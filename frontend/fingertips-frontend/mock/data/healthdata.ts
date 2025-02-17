@@ -1782,8 +1782,59 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
   ],
   '333': [
     {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      healthData: [
+        {
+          year: 2008,
+          count: 222,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2004,
+          count: 222,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2012,
+          count: 222,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2006,
+          count: 222,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+        {
+          year: 2020,
+          count: 222,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'Persons',
+        },
+      ],
+    },
+    {
       areaCode: 'E06000047',
-      areaName: 'countyDurham',
+      areaName: 'County Durham',
       healthData: [
         {
           year: 2008,
@@ -1834,7 +1885,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'E06000005',
-      areaName: 'darlington',
+      areaName: 'Darlington',
       healthData: [
         {
           year: 2004,
@@ -1885,7 +1936,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
     },
     {
       areaCode: 'E08000037',
-      areaName: 'gateshead',
+      areaName: 'Gateshead',
       healthData: [
         {
           year: 2006,
