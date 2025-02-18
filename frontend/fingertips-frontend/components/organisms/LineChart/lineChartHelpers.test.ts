@@ -301,7 +301,7 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockParentData = {
+    const mockBenchmakData = {
       areaCode: 'E92000001',
       areaName: 'England',
       healthData: [
@@ -326,17 +326,54 @@ describe('generateSeriesData', () => {
       ],
     };
 
+    const mockParentData = {
+      areaCode: 'P001',
+      areaName: 'Parent',
+      healthData: [
+        {
+          count: 100,
+          lowerCi: 200,
+          upperCi: 400,
+          value: 300,
+          year: 2006,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+        {
+          count: 101,
+          lowerCi: 201,
+          upperCi: 401,
+          value: 301,
+          year: 2004,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+      ],
+    };
+
     const expectedSeriesData = [
       {
-        color: GovukColours.Turquoise,
+        color: GovukColours.Black,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
         ],
         marker: {
+          symbol: 'circle',
+        },
+        name: 'Benchmark: England',
+        type: 'line',
+      },
+      {
+        color: GovukColours.Turquoise,
+        data: [
+          [2006, 300],
+          [2004, 301],
+        ],
+        marker: {
           symbol: 'diamond',
         },
-        name: 'Group: England',
+        name: 'Group: Parent',
         type: 'line',
       },
       {
@@ -417,7 +454,7 @@ describe('generateSeriesData', () => {
       mockData,
       symbols,
       chartColours,
-      undefined,
+      mockBenchmakData,
       mockParentData,
       false
     );
