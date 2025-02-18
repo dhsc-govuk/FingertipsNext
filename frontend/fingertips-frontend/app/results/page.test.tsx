@@ -41,12 +41,13 @@ const generateMockArea = (code: string): AreaWithRelations => ({
 });
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
-  indicatorId: id,
-  name: `indicator name for id ${id}`,
-  definition: `Some definition for id ${id}`,
+  indicatorID: id,
+  indicatorName: `indicator name for id ${id}`,
+  indicatorDefinition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
+  associatedAreas: []
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),

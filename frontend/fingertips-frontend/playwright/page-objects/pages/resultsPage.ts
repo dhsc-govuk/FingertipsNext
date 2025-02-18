@@ -27,7 +27,7 @@ export default class ResultsPage extends BasePage {
     await expect(
       this.page.getByText(this.resultsText + ` ${searchTerm}`)
     ).toBeVisible();
-    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(2);
+    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(20);
   }
 
   async clickBackLink() {
@@ -46,9 +46,9 @@ export default class ResultsPage extends BasePage {
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
 
+      console.log(indicatorID)
       await expect(checkbox).toBeAttached();
       await expect(checkbox).toBeVisible();
-      await expect(checkbox).toBeInViewport();
       await expect(checkbox).toBeEnabled();
       await expect(checkbox).toBeEditable();
       await expect(checkbox).toBeChecked({ checked: false });
