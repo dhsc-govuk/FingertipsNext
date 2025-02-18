@@ -26,29 +26,8 @@ public class Area
     public required string Name { get; init; }
 
     /// <summary>
-    /// The name of the associated hierarchy for the area / geography
+    /// 
     /// </summary>
-    /// <remarks>
-    /// e.g. NHS
-    /// </remarks>
-    [JsonPropertyName("hierarchyName")]
-    public required string HierarchyName { get; init; }
-
-    /// <summary>
-    /// The type of the area / geography
-    /// </summary>
-    /// <remarks>
-    /// e.g. PCN
-    /// </remarks>
     [JsonPropertyName("areaType")]
-    public required string AreaType { get; init; }
-
-    /// <summary>
-    /// The level in the hierarchy
-    /// </summary>
-    /// <remarks>
-    /// e.g. 3
-    /// </remarks>
-    [JsonPropertyName("level")]
-    public int Level { get; init; }
+    public required AreaType AreaType { get; init; }
 }
