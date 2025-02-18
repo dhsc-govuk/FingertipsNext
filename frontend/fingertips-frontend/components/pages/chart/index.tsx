@@ -15,6 +15,7 @@ import {
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
+import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -59,19 +60,31 @@ export function Chart({
         indicatorsSelected,
         areasSelected
       ) && (
-        <>
-          <LineChart
-            LineChartTitle="See how the indicator has changed over time"
-            healthIndicatorData={dataWithoutEngland}
-            benchmarkData={englandBenchmarkData}
-            xAxisTitle="Year"
-            accessibilityLabel="A line chart showing healthcare data"
-          />
-          <LineChartTable
-            healthIndicatorData={dataWithoutEngland}
-            englandBenchmarkData={englandBenchmarkData}
-          />
-        </>
+        <TabContainer
+          items={[
+            {
+              title: 'Line Chart',
+              content: (
+                <LineChart
+                  LineChartTitle="See how the indicator has changed over time"
+                  healthIndicatorData={dataWithoutEngland}
+                  benchmarkData={englandBenchmarkData}
+                  xAxisTitle="Year"
+                  accessibilityLabel="A line chart showing healthcare data"
+                />
+              ),
+            },
+            {
+              title: 'Tabular Data',
+              content: (
+                <LineChartTable
+                  healthIndicatorData={dataWithoutEngland}
+                  englandBenchmarkData={englandBenchmarkData}
+                />
+              ),
+            },
+          ]}
+        />
       )}
       <br />
       <BarChart

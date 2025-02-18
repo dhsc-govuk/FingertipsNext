@@ -8,7 +8,7 @@ interface TabItem {
   content: JSX.Element;
 }
 
-export const TabContainer = (items: TabItem[]) => {
+export const TabContainer = ({ items }: { items: TabItem[] }) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleClick = (
@@ -24,16 +24,19 @@ export const TabContainer = (items: TabItem[]) => {
       <Tabs.List>
         {items.map(({ title }, index) => (
           <Tabs.Tab
-            onClick={(e) => handleClick(e, 1)}
+            onClick={(e) => handleClick(e, index)}
             href="#"
             selected={tabIndex === index}
+            key={index}
           >
             {title}
           </Tabs.Tab>
         ))}
       </Tabs.List>
       {items.map(({ content }, index) => (
-        <Tabs.Panel selected={tabIndex === index}>{content}</Tabs.Panel>
+        <Tabs.Panel selected={tabIndex === index} key={index}>
+          {content}
+        </Tabs.Panel>
       ))}
     </Tabs>
   );
