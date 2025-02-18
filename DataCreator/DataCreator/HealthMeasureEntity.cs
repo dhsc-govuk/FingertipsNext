@@ -9,8 +9,10 @@
         public string AreaCode { get; set; }  
         public double? Count { get; set; }
         public double? Value { get; set; }  
-        public double? LowerCI { get; set; }
-        public double? UpperCI { get; set; }  
+        public double? Lower95CI { get; set; }
+        public double? Upper95CI { get; set; }
+        public double? Lower98CI { get; set; }
+        public double? Upper98CI { get; set; }
         public double? Denominator { get; set; }
         public string Trend { get; set; }
         

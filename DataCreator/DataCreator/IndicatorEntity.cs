@@ -55,7 +55,7 @@
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
-        public int LatestDataPeriod { get; set; }
+        public int LatestDataPeriod { get; set; } = 1999;
 
         public string LastUpdatedDate { get; set; }
 

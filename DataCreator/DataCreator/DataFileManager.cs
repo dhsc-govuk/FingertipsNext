@@ -34,42 +34,51 @@ namespace DataCreator
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
-        public static IEnumerable<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId)
+        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, List<string> areasWeWant)
         {
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
             if (!File.Exists(filePath))
-                return Enumerable.Empty<HealthMeasureEntity>();
+                return Enumerable.Empty<HealthMeasureEntity>().ToList();
+
+            var areasDict = areasWeWant.ToDictionary(a => a);
             var lines = File.ReadAllLines(filePath);
             var allData= new List<HealthMeasureEntity>();
-            for(var count=1; count<lines.Length; count++)
+            for(var count=1; count<lines.Length; count++) //start at 1 to avoid first line which is column names
             {
                 //some values have commas in them so we can't do a simple split on comma values so use this regex to allow for that
                 var split=Regex.Split(lines[count], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-                try
+                if (split.Length != 27)
+                    continue; //avoid bad data
+                var areaCode = split[4].Trim().CleanAreaCode();
+                if(!areasDict.TryGetValue(areaCode, out var area)) 
+                    continue; //if the row is not for an area we are interested in then ignore it
+                var year  = int.Parse(split[23].Trim().Substring(0, 4));
+                if(year < yearFrom)
+                    continue; //if the row is not for a year we care about ignore it
+                var catType = split[9].Trim().Trim('\"');
+                if (!(catType == string.Empty || catType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
+                    continue;  //we only care about data that has a category type of ecile or no category type
+                
+                var indicatorData = new HealthMeasureEntity
                 {
-                    var indicatorData = new HealthMeasureEntity
-                    {
-                        IndicatorId = indicatorId,
-                        AreaCode = split[4].Trim().CleanAreaCode(),
-                        Age = split[8].Trim(),
-                        Sex = split[7].Trim(),
-                        Count = GetDoubleValue(split[17]),
-                        Value = GetDoubleValue(split[12]),
-                        LowerCI = GetDoubleValue(split[13]),
-                        UpperCI = GetDoubleValue(split[14]),
-                        Denominator = GetDoubleValue(split[18]),
-                        Trend = split[20].Trim(),
-                        Year = int.Parse(split[23].Trim().Substring(0,4)),
-                        Category = split[10].Trim(),
-                        CategoryType = split[9].Trim()
-                    };
-                    allData.Add(indicatorData);
-                }
-                catch
-                {
-                    
-                }
+                    IndicatorId = indicatorId,
+                    AreaCode = areaCode,
+                    Age = split[8].Trim(),
+                    Sex = split[7].Trim(),
+                    Count = GetDoubleValue(split[17]),
+                    Value = GetDoubleValue(split[12]),
+                    Lower95CI = GetDoubleValue(split[13]),
+                    Upper95CI = GetDoubleValue(split[14]),
+                    Lower98CI = GetDoubleValue(split[15]),
+                    Upper98CI = GetDoubleValue(split[16]),
+                    Denominator = GetDoubleValue(split[18]),
+                    Trend = split[20].Trim(),
+                    Year = year,
+                    Category = split[10].Trim().Trim('\"'),
+                    CategoryType = catType
+                };
+                allData.Add(indicatorData);
             }
 
             return allData;

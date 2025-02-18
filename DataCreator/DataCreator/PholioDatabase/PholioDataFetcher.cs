@@ -292,8 +292,9 @@ FROM
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
             var areas = await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}");
-            var parentChildMap = await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql);
-
+            var parentChildMap = (await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql)).ToList();
+            var parentGroup = parentChildMap.GroupBy(x => x.ParentAreaCode).ToList();
+            //var childGroup = parentChildMap.GroupBy(x => x.ChildAreaCode).ToList();
             foreach (var area in areas)
             {
                 //change the area type to a standard name and set the hierarchy type and level
@@ -311,39 +312,43 @@ FROM
             foreach (var area in areas)
             {
                 //get the children of the area (if any)
-                area.ChildAreas = CreateChildAreas(area, parentChildMap, areasDict);
+                area.ChildAreas = CreateChildAreas(area, parentGroup, areasDict);
 
                 //get the parents of the area (if any)
-                area.ParentAreas = CreateParentAreas(area, parentChildMap, areasDict);
+                //area.ParentAreas = CreateParentAreas(area, parentChildMap, areasDict);
             }
 
             return areas;
         }
 
-        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<ParentChildAreaCode> parentChildMap, Dictionary<string,AreaEntity> areas)
+
+        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string,ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
         {
-            var allChildren=parentChildMap
-                    .Where(m => m.ParentAreaCode == area.AreaCode)
+            var group = parentGroup.FirstOrDefault(x => x.Key == area.AreaCode);
+            if (group == null)
+                return [];
+            var allChildren=group
                     .Select(child => new AreaRelation { AreaCode = child.ChildAreaCode })
                     .ToList();
             //work out the direct children
             foreach (var child in allChildren)
             {
                 var present = areas.TryGetValue(child.AreaCode, out AreaEntity value);
-                
+
                 if (present)
                 {
-                    child.IsDirect = area.AreaType== COMBINEDAUTHORITIES
+                    child.IsDirect = area.AreaType == COMBINEDAUTHORITIES
                         ? area.Level == value.Level && area.HierarchyType == value.HierarchyType
                         : area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
                 }
-                    
+
             }
-            if(area.AreaCode== "E92000001") //England
-                allChildren = areas.Values.Where(a=>a.Level==1).Select(a=>new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
-            
+            if (area.AreaCode == "E92000001") //England
+                allChildren = areas.Values.Where(a => a.Level == 1).Select(a => new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
+
             return allChildren.Where(x => x.IsDirect).ToList();
         }
+        
 
         private static List<AreaRelation> CreateParentAreas(AreaEntity area, IEnumerable<ParentChildAreaCode> parentChildMap, Dictionary<string, AreaEntity> areas)
         {
