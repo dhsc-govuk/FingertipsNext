@@ -13,6 +13,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.ConfidenceIntervalSelected]: [],
       };
 
       const stateManager = SearchStateManager.initialise(params);
@@ -53,14 +54,44 @@ describe('SearchStateManager', () => {
       const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1'],
+        [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
       });
 
       stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '2');
+      stateManager.addParamValueToState(
+        SearchParams.ConfidenceIntervalSelected,
+        'another example chart'
+      );
 
       const newState = stateManager.getSearchState();
       expect(newState).toEqual({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.ConfidenceIntervalSelected]: [
+          'example chart',
+          'another example chart',
+        ],
+      });
+    });
+
+    it('should not add a multi value type param value if it already exists in the array', () => {
+      const stateManager = new SearchStateManager({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+        [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
+      });
+
+      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
+      stateManager.addParamValueToState(
+        SearchParams.ConfidenceIntervalSelected,
+        'example chart'
+      );
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1'],
+        [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
       });
     });
 

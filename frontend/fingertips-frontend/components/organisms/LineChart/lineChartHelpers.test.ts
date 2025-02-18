@@ -1,5 +1,6 @@
-import { SymbolKeyValue } from 'highcharts';
+import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
+import { ChartColours } from '@/lib/chartHelpers/colours';
 
 const mockData = [
   {
@@ -78,10 +79,17 @@ const mockData = [
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
+const chartColours: ChartColours[] = [
+  ChartColours.Orange,
+  ChartColours.LightPurple,
+  ChartColours.DarkPink,
+];
+
 describe('generateSeriesData', () => {
   it('should generate series data without benchmark data', () => {
     const expectedSeriesData = [
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -93,6 +101,19 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#A285D1',
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -104,6 +125,19 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2010, 750.69151, 800.32766],
+          [2007, 440.69151, 420.32766],
+        ],
+        name: 'South FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#801650',
         data: [
           [2020, 478.27434],
           [2012, 234.420759],
@@ -114,9 +148,27 @@ describe('generateSeriesData', () => {
           symbol: 'diamond',
         },
       },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2020, 460.69151, 500.32766],
+          [2012, 220.69151, 250.32766],
+        ],
+        name: 'East FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
     ];
 
-    const generatedSeriesData = generateSeriesData(mockData, symbols);
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      undefined,
+      false
+    );
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
   });
@@ -161,6 +213,7 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        color: '#F46A25',
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -172,6 +225,19 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#A285D1',
         data: [
           [2010, 786.27434],
           [2007, 435.420759],
@@ -183,6 +249,19 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        color: '#B1B4B6',
+        data: [
+          [2010, 750.69151, 800.32766],
+          [2007, 440.69151, 420.32766],
+        ],
+        name: 'South FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#801650',
         data: [
           [2020, 478.27434],
           [2012, 234.420759],
@@ -193,12 +272,26 @@ describe('generateSeriesData', () => {
           symbol: 'diamond',
         },
       },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2020, 460.69151, 500.32766],
+          [2012, 220.69151, 250.32766],
+        ],
+        name: 'East FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
     ];
 
     const generatedSeriesData = generateSeriesData(
       mockData,
       symbols,
-      mockBenchmarkData
+      chartColours,
+      mockBenchmarkData,
+      false
     );
 
     expect(generatedSeriesData).toEqual(expectedSeriesData);
@@ -207,11 +300,120 @@ describe('generateSeriesData', () => {
   it('should repeat symbols when there are more series than symbols', () => {
     const symbols: SymbolKeyValue[] = ['arc', 'circle'];
 
-    const generatedSeriesData = generateSeriesData(mockData, symbols);
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      undefined,
+      false
+    ) as SeriesLineOptions[];
 
     expect(generatedSeriesData[0].marker?.symbol).toBe('arc');
-    expect(generatedSeriesData[1].marker?.symbol).toBe('circle');
-    expect(generatedSeriesData[2].marker?.symbol).toBe('arc');
+    // The error bar series has no symbol hence undefined
+    expect(generatedSeriesData[1].marker?.symbol).toBe(undefined);
+    expect(generatedSeriesData[2].marker?.symbol).toBe('circle');
+    expect(generatedSeriesData[3].marker?.symbol).toBe(undefined);
+    expect(generatedSeriesData[4].marker?.symbol).toBe('arc');
+  });
+
+  it('should show confidence intervals bars', () => {
+    const generatedSeriesData = generateSeriesData(
+      [mockData[0]],
+      symbols,
+      chartColours,
+      undefined,
+      true
+    );
+
+    const expectedSeriesData = [
+      {
+        color: '#F46A25',
+        data: [
+          [2006, 278.29134],
+          [2004, 703.420759],
+        ],
+        name: 'North FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: true,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+    ];
+
+    expect(generatedSeriesData).toEqual(expectedSeriesData);
+  });
+
+  it('should not show confidence intervals bars', () => {
+    const generatedSeriesData = generateSeriesData(
+      [mockData[0]],
+      symbols,
+      chartColours,
+      undefined,
+      false
+    );
+
+    const expectedSeriesData = [
+      {
+        color: '#F46A25',
+        data: [
+          [2006, 278.29134],
+          [2004, 703.420759],
+        ],
+        name: 'North FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+    ];
+
+    expect(generatedSeriesData).toEqual(expectedSeriesData);
+  });
+
+  it('should repeat colours when there are more series than colours', () => {
+    const chartColours: ChartColours[] = [
+      ChartColours.Orange,
+      ChartColours.LightPurple,
+    ];
+    const errorBarColour = '#B1B4B6';
+
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      undefined,
+      false
+    ) as SeriesLineOptions[];
+
+    expect(generatedSeriesData[0].color).toBe(chartColours[0]);
+    expect(generatedSeriesData[1].color).toBe(errorBarColour);
+    expect(generatedSeriesData[2].color).toBe(chartColours[1]);
+    expect(generatedSeriesData[3].color).toBe(errorBarColour);
+    expect(generatedSeriesData[4].color).toBe(chartColours[0]);
   });
 });
 
