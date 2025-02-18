@@ -36,9 +36,7 @@ type SearchResultsProps = {
 };
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
-  const stateManager = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: state?.[SearchParams.SearchedIndicator],
-  });
+  const stateManager = SearchStateManager.initialise(state);
   return stateManager.generatePath('/');
 };
 
