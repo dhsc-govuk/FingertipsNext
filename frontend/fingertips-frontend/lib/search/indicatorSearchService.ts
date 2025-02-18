@@ -45,7 +45,6 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     const searchResponse = await this.searchClient.search(query, searchOptions);
     const results: IndicatorDocument[] = [];
 
-    console.log(JSON.stringify(searchResponse));
     for await (const result of searchResponse.results) {
       results.push(result.document as IndicatorDocument);
     }

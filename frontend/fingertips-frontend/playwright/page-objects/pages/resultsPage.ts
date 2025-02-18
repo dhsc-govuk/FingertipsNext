@@ -46,7 +46,6 @@ export default class ResultsPage extends BasePage {
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
 
-      console.log(indicatorID);
       await expect(checkbox).toBeAttached();
       await expect(checkbox).toBeVisible();
       await expect(checkbox).toBeEnabled();
