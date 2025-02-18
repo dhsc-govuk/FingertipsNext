@@ -11,37 +11,22 @@ import {
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import {
-  AreasApi,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
+import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
 import { mockAvailableAreas } from '@/mock/data/areaData';
+import {
+  allAreaTypes,
+  englandAreaType,
+  nhsRegionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
+import {
+  eastEnglandNHSRegion,
+  londonNHSRegion,
+} from '@/mock/data/areas/nhsRegionsAreas';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
-const generateAreaType = (name: string, level: number): AreaType => ({
-  key: `${name.toLowerCase()}`,
-  name,
-  level,
-  hierarchyName: `hierarchyName for ${name}`,
-});
-
-const mockAreaTypes: AreaType[] = [
-  generateAreaType('A002', 2),
-  generateAreaType('A001', 1),
-];
-
-const mockSortedAreaTypes: AreaType[] = [
-  generateAreaType('A001', 1),
-  generateAreaType('A002', 2),
-];
-
-const generateMockArea = (code: string): AreaWithRelations => ({
-  code,
-  name: `name for ${code}`,
-  areaType: {
-    ...generateAreaType(`area type for ${code}`, 1),
-  },
-});
+const mockSortedAreaTypes: AreaType[] = allAreaTypes.toSorted(
+  (a, b) => a.level - b.level
+);
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorId: id,
@@ -80,7 +65,7 @@ describe('Results Page', () => {
   });
 
   it('should have made calls to getAreaTypes and searchResults', async () => {
-    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
     );
@@ -96,7 +81,7 @@ describe('Results Page', () => {
   });
 
   it('should have made a call to getAreaTypeMembers when an areaType has been selected', async () => {
-    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
+    mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
     mockAreasApi.getAreaTypeMembers.mockResolvedValue(
       mockAvailableAreas['nhs-regions']
     );
@@ -115,8 +100,8 @@ describe('Results Page', () => {
   });
 
   it('should have made calls to get area data for all the areas selected', async () => {
-    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
-    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
+    mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
+    mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
 
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
@@ -125,104 +110,191 @@ describe('Results Page', () => {
     await ResultsPage({
       searchParams: generateSearchParams({
         ...searchParams,
-        [SearchParams.AreasSelected]: ['A001', 'A002'],
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
       }),
     });
 
     expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-      areaCode: 'A001',
+      areaCode: eastEnglandNHSRegion.code,
     });
     expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
-      areaCode: 'A002',
+      areaCode: londonNHSRegion.code,
     });
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
       'testing'
     );
   });
 
-  it('should pass the correct props to the SearchResults Page component', async () => {
-    const searchState: SearchStateParams = {
-      ...searchParams,
-      [SearchParams.IndicatorsSelected]: ['1', '2'],
-      [SearchParams.AreaTypeSelected]: 'Some area type',
-      [SearchParams.GroupTypeSelected]: 'Some group type',
-    };
-
-    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
-    mockAreasApi.getAreaTypeMembers.mockResolvedValue(
-      mockAvailableAreas['nhs-regions']
-    );
-    mockIndicatorSearchService.searchWith.mockResolvedValue(
-      mockIndicatorSearchResults
-    );
-
-    const page = await ResultsPage({
-      searchParams: generateSearchParams(searchState),
+  describe('Check correct props are passed to SearchResults Page component', () => {
+    beforeEach(() => {
+      mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
+      mockAreasApi.getAreaTypeMembers.mockResolvedValue(
+        mockAvailableAreas['nhs-regions']
+      );
+      mockIndicatorSearchService.searchWith.mockResolvedValue(
+        mockIndicatorSearchResults
+      );
     });
 
-    expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
-    expect(page.props.availableAreas).toEqual(
-      mockAvailableAreas['nhs-regions']
-    );
-    expect(page.props.searchState).toEqual(searchState);
+    it('should pass initialIndicatorSelectionState prop based upon the searchParams provided', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.initialIndicatorSelectionState).toEqual({
+        searchState: JSON.stringify(searchState),
+        indicatorsSelected: ['1', '2'],
+        message: null,
+        errors: {},
+      });
+    });
+
+    it('should pass the searchResults prop with the results of the searchWith call', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
+    });
+
+    it('should pass the availableAreaTypes prop with a sorted by level list of areaTypes from the getAreaTypes call', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
+    });
+
+    it('should pass the availableAreas prop with the data from getAreaTypeMembers', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreaTypeSelected]: 'nhs-region',
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
+        areaTypeKey: 'nhs-region',
+      });
+      expect(page.props.availableAreas).toEqual(
+        mockAvailableAreas['nhs-regions']
+      );
+    });
+
+    it('should pass the availableGroupTypes prop with a subset of areaTypes that are applicable based upon the areaTypeSelected', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreaTypeSelected]: 'nhs-integrated-care-boards',
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.availableGroupTypes).toEqual([
+        nhsRegionsAreaType,
+        englandAreaType,
+      ]);
+    });
+
+    it('should pass the selectedAreasData prop with data from getAreas for each areaSelected', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+      };
+
+      mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
+      mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.selectedAreasData).toEqual([
+        eastEnglandNHSRegion,
+        londonNHSRegion,
+      ]);
+    });
+
+    it('should pass the searchState prop with data from the params or calculated from selection', async () => {
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+      };
+
+      mockAreasApi.getArea.mockResolvedValueOnce({
+        ...eastEnglandNHSRegion,
+        parent: englandArea,
+      });
+      mockAreasApi.getArea.mockResolvedValueOnce({
+        ...londonNHSRegion,
+        parent: englandArea,
+      });
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(page.props.searchState).toEqual({
+        ...searchState,
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+        [SearchParams.GroupTypeSelected]: 'england',
+      });
+    });
   });
 
-  it('should pass the correct props to the SearchResults Page component when there are areasSelected', async () => {
-    const searchState: SearchStateParams = {
-      ...searchParams,
-      [SearchParams.AreasSelected]: ['A001', 'A002'],
-      [SearchParams.AreaTypeSelected]: 'Some area type',
-      [SearchParams.GroupTypeSelected]: 'Some group type',
-    };
+  describe('Check correct props to the error component are passed when there is an error', () => {
+    it('should pass the correct props when getAreaTypes call returns an error', async () => {
+      mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
 
-    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A001'));
-    mockAreasApi.getArea.mockResolvedValueOnce(generateMockArea('A002'));
-    mockIndicatorSearchService.searchWith.mockResolvedValue(
-      mockIndicatorSearchResults
-    );
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchParams),
+      });
 
-    const page = await ResultsPage({
-      searchParams: generateSearchParams(searchState),
+      expect(page.props.errorText).toEqual(
+        'An error has been returned by the service. Please try again.'
+      );
+      expect(page.props.errorLink).toEqual('/');
+      expect(page.props.errorLinkText).toEqual('Return to Search');
     });
 
-    expect(page.props.selectedAreasData).toEqual([
-      generateMockArea('A001'),
-      generateMockArea('A002'),
-    ]);
-    expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
-    expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
-    expect(page.props.searchState).toEqual(searchState);
-  });
+    it('should pass the correct props when searchWith returns an error', async () => {
+      mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
+      mockIndicatorSearchService.searchWith.mockRejectedValue(
+        'Some search-service error'
+      );
 
-  it('should pass the correct props to the Error component when getAreaTypes call returns an error', async () => {
-    mockAreasApi.getAreaTypes.mockRejectedValue('Some areas api error');
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchParams),
+      });
 
-    const page = await ResultsPage({
-      searchParams: generateSearchParams(searchParams),
+      expect(page.props.errorText).toEqual(
+        'An error has been returned by the service. Please try again.'
+      );
+      expect(page.props.errorLink).toEqual('/');
+      expect(page.props.errorLinkText).toEqual('Return to Search');
     });
-
-    expect(page.props.errorText).toEqual(
-      'An error has been returned by the service. Please try again.'
-    );
-    expect(page.props.errorLink).toEqual('/');
-    expect(page.props.errorLinkText).toEqual('Return to Search');
-  });
-
-  it('should pass the correct props to the Error component when searchWith returns an error', async () => {
-    mockAreasApi.getAreaTypes.mockResolvedValue(mockAreaTypes);
-    mockIndicatorSearchService.searchWith.mockRejectedValue(
-      'Some search-service error'
-    );
-
-    const page = await ResultsPage({
-      searchParams: generateSearchParams(searchParams),
-    });
-
-    expect(page.props.errorText).toEqual(
-      'An error has been returned by the service. Please try again.'
-    );
-    expect(page.props.errorLink).toEqual('/');
-    expect(page.props.errorLinkText).toEqual('Return to Search');
   });
 });
