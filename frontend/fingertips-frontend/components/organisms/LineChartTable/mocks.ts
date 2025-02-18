@@ -73,3 +73,28 @@ export const MOCK_HEALTH_DATA = [
     ],
   },
 ];
+
+export const MOCK_PARENT_DATA = {
+  areaCode: 'E40000014',
+  areaName: 'NHS North West Region',
+  healthData: [
+    {
+      year: 2008,
+      count: 777,
+      value: 1000,
+      lowerCi: 500,
+      upperCi: 1500,
+      ageBand: 'All',
+      sex: 'Persons',
+    },
+    {
+      year: 2004,
+      count: 777,
+      value: 1000,
+      lowerCi: 500,
+      upperCi: 1500,
+      ageBand: 'All',
+      sex: 'Persons',
+    },
+  ],
+};
