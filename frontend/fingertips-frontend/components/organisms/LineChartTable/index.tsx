@@ -103,18 +103,6 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
-// Visually hidden text styles for screen readers.
-const VisuallyHidden = styled('span')({
-  border: 0,
-  clip: 'rect(0 0 0 0)',
-  height: '1px',
-  margin: '-1px',
-  overflow: 'hidden',
-  padding: 0,
-  position: 'absolute',
-  width: '1px',
-});
-
 const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
   areaData.healthData.map((healthPoint) => ({
     period: healthPoint.year,
@@ -129,11 +117,8 @@ const sortPeriod = (
 ): LineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.period - b.period);
 
-// When value is undefined, it returns a dash with an aria-label for screen readers.
-const convertToPercentage = (
-  value?: number,
-  fallback: string = 'Not available'
-): React.ReactNode => {
+// When value is undefined, it returns an X with an aria-label for screen readers.
+const convertToPercentage = (value?: number): React.ReactNode => {
   if (value === undefined) {
     return (
       <span aria-label="Not available">
@@ -143,6 +128,7 @@ const convertToPercentage = (
   }
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
+
 
 const getBenchmarkHeader = (
   areaCount: number,
