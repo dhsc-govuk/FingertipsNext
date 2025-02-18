@@ -13,8 +13,8 @@ public class AreaType
     /// <remarks>
     /// e.g. nhs-region
     /// </remarks>
-    [JsonPropertyName("areaTypeKey")]
-    public required string AreaTypeKey { get; init; }
+    [JsonPropertyName("key")]
+    public required string Key { get; init; }
 
     /// <summary>
     /// The name of the area type

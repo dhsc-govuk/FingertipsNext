@@ -10,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 [Table("AreaTypes", Schema = "Areas")]
 public class AreaTypeModel
 {
-    /// <summary
+    /// <summary>
     /// The database key for the area
     /// </summary>
     [Key]
