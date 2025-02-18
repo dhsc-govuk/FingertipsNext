@@ -136,8 +136,8 @@ const convertToPercentage = (
 ): React.ReactNode => {
   if (value === undefined) {
     return (
-      <span aria-label={fallback}>
-        <VisuallyHidden>{fallback}</VisuallyHidden>-
+      <span aria-label="Not available">
+        <span aria-hidden="true">X</span>
       </span>
     );
   }
