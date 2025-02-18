@@ -7,6 +7,7 @@ export function generateSeriesData(
   symbols: SymbolKeyValue[],
   chartColours: ChartColours[],
   benchmarkData?: HealthDataForArea,
+  parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean
 ) {
   const seriesData: Highcharts.SeriesOptionsType[] = data.flatMap(
@@ -38,6 +39,22 @@ export function generateSeriesData(
       return [lineSeries, confidenceIntervalSeries];
     }
   );
+
+  if (parentIndicatorData) {
+    const groupSeries: Highcharts.SeriesOptionsType = {
+      type: 'line',
+      name: `Group: ${parentIndicatorData.areaName}`,
+      data: parentIndicatorData.healthData.map((point) => [
+        point.year,
+        point.value,
+      ]),
+      color: 'green',
+      marker: {
+        symbol: 'diamond',
+      },
+    };
+    seriesData.unshift(groupSeries);
+  }
 
   if (benchmarkData) {
     const englandSeries: Highcharts.SeriesOptionsType = {
