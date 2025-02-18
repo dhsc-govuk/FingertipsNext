@@ -174,8 +174,6 @@ exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
       </span>
       <input
         class="c4"
-        id="areaAutoSearchedInput"
-        name="areaAutoSearchedInput"
         value="London"
       />
     </label>
