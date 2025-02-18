@@ -129,7 +129,6 @@ const convertToPercentage = (value?: number): React.ReactNode => {
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
 
-
 const getBenchmarkHeader = (
   areaCount: number,
   heading: LineChartTableHeadingEnum,
