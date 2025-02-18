@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AreaAutoCompleteInputField from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { userEvent } from '@testing-library/user-event';
 
 jest.mock('@/components/forms/SearchForm/searchActions', () => ({
   getSearchSuggestions: jest.fn(),
