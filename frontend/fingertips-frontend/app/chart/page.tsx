@@ -9,6 +9,7 @@ import {
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -33,6 +34,10 @@ export default async function ChartPage(
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
         areaCodes: [...areaCodes, areaCodeForEngland],
+        inequalities:
+          indicatorsSelected.length === 1 && areaCodes.length === 1
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
       })
     )
   );
