@@ -12,7 +12,6 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -34,10 +33,10 @@ export default async function ChartPage(
   const areaApi = ApiClientFactory.getAreasApiClient();
 
   let parentAreaCode: string | undefined;
-  if (areaCodes.length === 1) {
-    // DHSCFT-256 assumes one parent
+
+  if (indicatorsSelected.length === 1 && areaCodes.length <= 2) {
     try {
-      const areaData = await areaApi.getArea({ areaCode: areaCodes[0] });
+      const areaData = await areaApi.getArea({ areaCode: areaCodes[0] }); // DHSCFT-256 assumes one common parent
       if (areaData?.parent) {
         parentAreaCode = areaData.parent.code;
       }
