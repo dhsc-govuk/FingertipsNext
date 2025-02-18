@@ -63,7 +63,7 @@ export function Chart({
         <TabContainer
           items={[
             {
-              key: 'lineChart',
+              id: 'lineChart',
               title: 'Line Chart',
               content: (
                 <LineChart
@@ -76,7 +76,7 @@ export function Chart({
               ),
             },
             {
-              key: 'table',
+              id: 'table',
               title: 'Tabular Data',
               content: (
                 <LineChartTable
