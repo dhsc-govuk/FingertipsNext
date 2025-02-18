@@ -4,7 +4,6 @@ import { LineChartTable } from '@/components/organisms/LineChartTable/index';
 import { GREY } from '@/lib/chartHelpers/chartHelpers';
 import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA, MOCK_PARENT_DATA } from './mocks';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
-import { clearScreenDown } from 'readline';
 
 describe('Line chart table suite', () => {
   describe('1 Indicator, 1 Area', () => {
@@ -218,7 +217,7 @@ describe('Line chart table suite', () => {
     });
   });
 
-  describe.only('group data', () => {
+  describe('group data', () => {
     it('should render the parent area heading when passed parentData', () => {
       render(
         <LineChartTable
