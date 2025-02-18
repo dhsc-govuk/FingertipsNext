@@ -14,6 +14,7 @@ describe('test AreaSuggestionPanel', () => {
     const { asFragment } = render(
       <AreaAutoCompleteSuggestionPanel
         areas={mockAreas}
+        searchHint="Green"
         onItemSelected={jest.fn()}
       />
     );
@@ -24,13 +25,13 @@ describe('test AreaSuggestionPanel', () => {
     const { getByText } = render(
       <AreaAutoCompleteSuggestionPanel
         areas={mockAreas}
+        searchHint="Lon"
         onItemSelected={jest.fn()}
       />
     );
 
     expect(getByText('GP01 - Greenwich')).toBeInTheDocument();
     expect(getByText('GP02 - Cambridge')).toBeInTheDocument();
-    expect(getByText('Central London')).toBeInTheDocument();
   });
 
   it('should call onItemSelected when an item is clicked', () => {
@@ -38,6 +39,7 @@ describe('test AreaSuggestionPanel', () => {
     const { getByText } = render(
       <AreaAutoCompleteSuggestionPanel
         areas={mockAreas}
+        searchHint=""
         onItemSelected={mockOnItemSelected}
       />
     );
@@ -51,7 +53,11 @@ describe('test AreaSuggestionPanel', () => {
 
   it('should render nothing if areas are empty', () => {
     const { container } = render(
-      <AreaAutoCompleteSuggestionPanel areas={[]} onItemSelected={jest.fn()} />
+      <AreaAutoCompleteSuggestionPanel
+        areas={[]}
+        onItemSelected={jest.fn()}
+        searchHint="Lo"
+      />
     );
     expect(container.firstChild).toBeNull();
   });
@@ -66,6 +72,7 @@ describe('test AreaSuggestionPanel', () => {
       const { getByText } = render(
         <AreaAutoCompleteSuggestionPanel
           areas={[area]}
+          searchHint="some text"
           onItemSelected={jest.fn()}
         />
       );

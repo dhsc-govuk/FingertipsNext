@@ -46,14 +46,30 @@ const SearchIcon = () => {
   );
 };
 
+const StyleHighLightedText = styled('span')({
+  fontWeight: '600',
+});
+
+const highlightText = (text: string, searchHint: string) => {
+  const parts = text.split(new RegExp(`(${searchHint})`, 'gi'));
+  return parts.map((part, index) => {
+    if (part.toLowerCase() === searchHint.toLowerCase()) {
+      return <StyleHighLightedText key={index}>{part}</StyleHighLightedText>;
+    }
+    return part;
+  });
+};
+
 interface AreaAutoCompleteSuggestionPanelProps {
   areas: AreaDocument[];
   onItemSelected: (area: AreaDocument) => void;
+  searchHint: string;
 }
 
 export const AreaAutoCompleteSuggestionPanel = ({
   areas,
   onItemSelected,
+  searchHint,
 }: AreaAutoCompleteSuggestionPanelProps) => {
   if (areas.length === 0) return null;
 
@@ -66,7 +82,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
         >
           <SearchIcon />
           <div style={{ flexGrow: 3, padding: '5px' }}>
-            {formatAreaName(area)}
+            {highlightText(formatAreaName(area), searchHint)}
           </div>
           <div
             style={{

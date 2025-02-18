@@ -62,6 +62,10 @@ exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`]
   font-weight: 300;
 }
 
+.c6 {
+  font-weight: 600;
+}
+
 @media print {
   .c4 {
     font-size: 14px;
@@ -122,7 +126,13 @@ exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`]
       <div
         style="flex-grow: 3; padding: 5px;"
       >
-        GP01 - Greenwich
+        GP01 - 
+        <span
+          class="c6"
+        >
+          Green
+        </span>
+        wich
       </div>
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
