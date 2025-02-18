@@ -233,6 +233,7 @@ components:
       type: object
       description: An area type e.g. PCN or GP
       required:
+        - key
         - name
         - level
         - hierarchyName
