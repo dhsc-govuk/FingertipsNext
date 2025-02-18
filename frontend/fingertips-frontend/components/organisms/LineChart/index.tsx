@@ -8,9 +8,7 @@ import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
-import 'highcharts/highcharts-more';
-import { useSearchParams } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { useEffect, useState } from 'react';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -39,15 +37,17 @@ export function LineChart({
   benchmarkData,
   showConfidenceIntervalsData,
 }: Readonly<LineChartProps>) {
-  // const searchParams = useSearchParams();
-  // const existingParams = new URLSearchParams(searchParams);
-  // const searchStateManager =
-  //   SearchStateManager.setStateFromParams(existingParams);
-  //
-  // const showConfidenceIntervalsData =
-  //   searchStateManager.getSearchState()[
-  //     SearchParams.ConfidenceIntervalSelected
-  //   ];
+
+  const [options, setOptions] = useState<Highcharts.Options>();
+  const loadHighchartsModules = async (callback: () => void) => {
+    try {
+      await import('highcharts/highcharts-more');
+      callback()
+    } catch (error) {
+      console.log('highcharts more module not loading', error)
+    }
+  };
+  
 
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
@@ -97,7 +97,17 @@ export function LineChart({
       description: accessibilityLabel,
     },
   };
+  
+  useEffect(() => {
+    loadHighchartsModules(async () => {
+      setOptions(lineChartOptions);
+    });
+  }, [showConfidenceIntervalsData]);
 
+  if (!options) {
+    return null;
+  }
+  
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
@@ -110,7 +120,7 @@ export function LineChart({
           'data-testid': 'highcharts-react-component-lineChart',
         }}
         highcharts={Highcharts}
-        options={lineChartOptions}
+        options={options}
       />
     </div>
   );
