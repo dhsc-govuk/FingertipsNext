@@ -35,7 +35,7 @@ describe('Test AreaSelectionSearchPillPanel', () => {
     const user = userEvent.setup();
     mockOnRemovePill.mockClear();
     const removeButtons = screen.getAllByTestId('remove-icon-div');
-    for (let i = 0; i < removeButtons.length; i++) {
+    for (let i = 0; i < areas.length; i++) {
       mockOnRemovePill.mockClear();
       await user.click(removeButtons[i]);
       expect(mockOnRemovePill).toHaveBeenCalledWith(areas[i]);
