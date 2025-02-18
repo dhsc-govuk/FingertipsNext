@@ -86,7 +86,7 @@ export function Chart({
           <LineChartTable
             healthIndicatorData={dataWithoutEngland}
             englandBenchmarkData={englandBenchmarkData}
-            parentBenchmarkData={parentBenchmarkData}
+            parentIndicatorData={parentBenchmarkData}
           />
         </>
       )}

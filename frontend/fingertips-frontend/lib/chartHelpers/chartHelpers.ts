@@ -39,4 +39,5 @@ export function seriesDataWithoutEnglandOrParent(
   );
 }
 
-export const LIGHT_GREY = '#b1b4b6';
+export const GREY = '#b1b4b6';
+export const LIGHT_GREY = '#F3F2F1';
