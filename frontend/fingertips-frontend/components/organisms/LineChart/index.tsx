@@ -18,6 +18,7 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
+  showConfidenceIntervalsData?: string[];
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -36,16 +37,17 @@ export function LineChart({
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
+  showConfidenceIntervalsData,
 }: Readonly<LineChartProps>) {
-  const searchParams = useSearchParams();
-  const existingParams = new URLSearchParams(searchParams);
-  const searchStateManager =
-    SearchStateManager.setStateFromParams(existingParams);
-
-  const showConfidenceIntervalsData =
-    searchStateManager.getSearchState()[
-      SearchParams.ConfidenceIntervalSelected
-    ];
+  // const searchParams = useSearchParams();
+  // const existingParams = new URLSearchParams(searchParams);
+  // const searchStateManager =
+  //   SearchStateManager.setStateFromParams(existingParams);
+  //
+  // const showConfidenceIntervalsData =
+  //   searchStateManager.getSearchState()[
+  //     SearchParams.ConfidenceIntervalSelected
+  //   ];
 
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;

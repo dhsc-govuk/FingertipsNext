@@ -1,7 +1,11 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import {
   areaCodeForEngland,
@@ -16,13 +20,24 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
-  const indicatorsSelected = asArray(
-    searchParams?.[SearchParams.IndicatorsSelected]
-  );
-  const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  // const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
+  // const indicatorsSelected = asArray(
+  //   searchParams?.[SearchParams.IndicatorsSelected]
+  // );
+  // const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
+  // const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const stateManager = SearchStateManager.initialise(searchParams);
+  let {
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
+  } = stateManager.getSearchState();
 
+  areaCodes = areaCodes ?? []
+  indicatorsSelected = indicatorsSelected ?? []
+  
   // We don't want to render this page statically
   await connection();
 
@@ -59,7 +74,7 @@ export default async function ChartPage(
   let mapData;
   if (
     selectedAreaType &&
-    indicatorsSelected.length === 1 &&
+    indicatorsSelected?.length === 1 &&
     areaCodes.length >= 2
   ) {
     // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
@@ -74,6 +89,7 @@ export default async function ChartPage(
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
       areasSelected={areaCodes}
+      confidenceIntervalSelected={confidenceIntervalSelected}
     />
   );
 }

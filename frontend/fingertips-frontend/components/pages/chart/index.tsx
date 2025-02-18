@@ -23,6 +23,7 @@ type ChartProps = {
   searchedIndicator?: string;
   indicatorsSelected?: string[];
   areasSelected?: string[];
+  confidenceIntervalSelected?: string[];
 };
 
 export function Chart({
@@ -32,10 +33,12 @@ export function Chart({
   searchedIndicator,
   indicatorsSelected = [],
   areasSelected = [],
+  confidenceIntervalSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({
+  const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   });
 
   const backLinkPath = searchState.generatePath('/results');
@@ -64,6 +67,7 @@ export function Chart({
             LineChartTitle="See how the indicator has changed over time"
             healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
+            showConfidenceIntervalsData={confidenceIntervalSelected}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
           />
