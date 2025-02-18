@@ -105,7 +105,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c8 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
@@ -131,7 +131,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c17 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
@@ -524,7 +524,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c8 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
@@ -554,7 +554,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c19 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 

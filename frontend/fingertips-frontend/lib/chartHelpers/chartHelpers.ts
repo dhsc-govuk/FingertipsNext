@@ -38,6 +38,3 @@ export function seriesDataWithoutEnglandOrParent(
       item.areaCode !== areaCodeForEngland && item.areaCode !== parentAreaCode
   );
 }
-
-export const GREY = '#b1b4b6';
-export const LIGHT_GREY = '#F3F2F1';

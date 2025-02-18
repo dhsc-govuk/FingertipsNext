@@ -5,8 +5,8 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import { GREY, LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -54,7 +54,7 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
 });
 
 const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
-  background: LIGHT_GREY,
+  background: GovukColours.LightGrey,
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
@@ -76,14 +76,14 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
 });
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: GREY,
+  backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
   width: '16%',
 });
 
 const StyledLightGreyHeader = styled(StyledGreyHeader)({
-  backgroundColor: LIGHT_GREY,
-  borderTop: GREY,
+  backgroundColor: GovukColours.LightGrey,
+  borderTop: GovukColours.MidGrey,
 });
 
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
@@ -109,12 +109,12 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
 });
 
 const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GREY,
+  backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
 });
 
 const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: LIGHT_GREY,
+  backgroundColor: GovukColours.LightGrey,
   borderLeft: `solid black 1px`,
 });
 

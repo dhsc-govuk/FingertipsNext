@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { LineChartTable } from '@/components/organisms/LineChartTable/index';
-import { GREY } from '@/lib/chartHelpers/chartHelpers';
 import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA, MOCK_PARENT_DATA } from './mocks';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('Line chart table suite', () => {
   describe('1 Indicator, 1 Area', () => {
@@ -72,15 +72,17 @@ describe('Line chart table suite', () => {
       );
 
       screen.getAllByTestId('grey-table-cell').forEach((greyCell) => {
-        expect(greyCell).toHaveStyle(`background-color: ${GREY}`);
+        expect(greyCell).toHaveStyle(
+          `background-color: ${GovukColours.MidGrey}`
+        );
       });
       expect(
         screen.getByTestId(
           `header-${LineChartTableHeadingEnum.BenchmarkValue}-${benchmarkValueIndex}`
         )
-      ).toHaveStyle(`background-color: ${GREY}`);
+      ).toHaveStyle(`background-color: ${GovukColours.MidGrey}`);
       expect(screen.getByTestId('england-header')).toHaveStyle(
-        `background-color: ${GREY}`
+        `background-color: ${GovukColours.MidGrey}`
       );
     });
 
