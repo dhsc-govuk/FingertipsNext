@@ -6,7 +6,6 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelpers';
 import {
   areaCodeForEngland,
   indicatorIdForPopulation,
@@ -20,24 +19,17 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  // const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
-  // const indicatorsSelected = asArray(
-  //   searchParams?.[SearchParams.IndicatorsSelected]
-  // );
-  // const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  // const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+
   const stateManager = SearchStateManager.initialise(searchParams);
   let {
-    [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areaCodes,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
-    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = stateManager.getSearchState();
 
-  areaCodes = areaCodes ?? []
-  indicatorsSelected = indicatorsSelected ?? []
-  
+  areaCodes = areaCodes ?? [];
+  indicatorsSelected = indicatorsSelected ?? [];
+
   // We don't want to render this page statically
   await connection();
 
@@ -86,10 +78,7 @@ export default async function ChartPage(
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
       mapData={mapData}
-      searchedIndicator={searchedIndicator}
-      indicatorsSelected={indicatorsSelected}
-      areasSelected={areaCodes}
-      confidenceIntervalSelected={confidenceIntervalSelected}
+      searchState={stateManager.getSearchState()}
     />
   );
 }

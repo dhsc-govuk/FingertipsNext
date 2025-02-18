@@ -4,7 +4,11 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
@@ -20,34 +24,29 @@ type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
-  confidenceIntervalSelected?: string[];
+  searchState: SearchStateParams;
 };
 
 export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
-  searchedIndicator,
-  indicatorsSelected = [],
-  areasSelected = [],
-  confidenceIntervalSelected = [],
+  searchState,
 }: Readonly<ChartProps>) {
-  const searchState = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
-  });
+  const stateManager = SearchStateManager.initialise(searchState);
 
-  const backLinkPath = searchState.generatePath('/results');
+  const backLinkPath = stateManager.generatePath('/results');
 
   const englandBenchmarkData = getEnglandDataForIndicatorIndex(
     healthIndicatorData,
     0
   );
   const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
+
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areaCodes,
+  } = stateManager.getSearchState();
 
   return (
     <>
@@ -60,14 +59,14 @@ export function Chart({
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
-        areasSelected
+        areaCodes
       ) && (
         <>
           <LineChart
             LineChartTitle="See how the indicator has changed over time"
             healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
-            showConfidenceIntervalsData={confidenceIntervalSelected}
+            searchState={searchState}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
           />
