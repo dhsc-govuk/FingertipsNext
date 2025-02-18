@@ -62,7 +62,8 @@ public class IndicatorServiceTests
         await _indicatorService.GetIndicatorDataAsync(
             1,
             inputAreaCodes,
-            inputYears
+            inputYears,
+            []
         );
 
         // expect
@@ -71,16 +72,17 @@ public class IndicatorServiceTests
             .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(expectedAreaCodes),
-                ArgEx.IsEquivalentTo<int[]>(expectedYears)
+                ArgEx.IsEquivalentTo<int[]>(expectedYears),
+                []
             );
     }
 
     [Fact]
     public async Task GetIndicatorData_DelegatesToRepository()
     {
-        await _indicatorService.GetIndicatorDataAsync(1, [], []);
+        await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
 
-        await _repository.Received().GetIndicatorDataAsync(1, [], []);
+        await _repository.Received().GetIndicatorDataAsync(1, [], [], []);
     }
 
     [Fact]
@@ -101,9 +103,9 @@ public class IndicatorServiceTests
             HealthData = expectedHealthData
         };
 
-        _repository.GetIndicatorDataAsync(1, [], []).Returns([healthMeasure]);
+        _repository.GetIndicatorDataAsync(1, [], [], []).Returns([healthMeasure]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
 
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
@@ -147,11 +149,11 @@ public class IndicatorServiceTests
                 }
             }
         };
-        _repository.GetIndicatorDataAsync(1, [], []).Returns(
+        _repository.GetIndicatorDataAsync(1, [], [], []).Returns(
             (IEnumerable<HealthMeasureModel>)new List<HealthMeasureModel>()
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
-        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [])).ToList();
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], [])).ToList();
 
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);

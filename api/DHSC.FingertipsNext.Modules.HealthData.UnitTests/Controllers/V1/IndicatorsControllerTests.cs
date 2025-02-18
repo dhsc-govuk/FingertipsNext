@@ -30,7 +30,8 @@ public class IndicatorControllerTests
             .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
-                ArgEx.IsEquivalentTo<int[]>([1999, 2024])
+                ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
+                []
             );
     }
 
@@ -40,14 +41,14 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], []);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(SampleHealthData);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -61,7 +62,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-           .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>())
+           .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
            .Returns([]);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;

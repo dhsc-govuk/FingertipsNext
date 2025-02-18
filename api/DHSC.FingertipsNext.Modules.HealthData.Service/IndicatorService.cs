@@ -23,12 +23,16 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     /// only the first 10 are used. If the array is empty all years are retrieved.</param>
     /// <returns>An enumerable of <c>HealthMeasure</c> matching the criteria,
     /// otherwise an empty enumerable.</returns>
-    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId,
+                                                                            string[] areaCodes,
+                                                                            int[] years,
+                                                                            string[] inequalities)
     {
         var healthMeasureData = await _repository.GetIndicatorDataAsync(
             indicatorId,
             areaCodes.Distinct().Take(10).ToArray(),
-            years.Distinct().Take(10).ToArray());
+            years.Distinct().Take(10).ToArray(),
+            inequalities);
 
         return healthMeasureData
             .GroupBy(data => new { code = data.AreaDimension.Code, name = data.AreaDimension.Name})
