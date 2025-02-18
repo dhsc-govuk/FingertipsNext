@@ -75,27 +75,6 @@ describe('SearchStateManager', () => {
     });
 
     it('should not add a multi value type param value if it already exists in the array', () => {
-      const stateManager = new SearchStateManager({
-        [SearchParams.SearchedIndicator]: 'bang',
-        [SearchParams.IndicatorsSelected]: ['1'],
-        [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
-      });
-
-      stateManager.addParamValueToState(SearchParams.IndicatorsSelected, '1');
-      stateManager.addParamValueToState(
-        SearchParams.ConfidenceIntervalSelected,
-        'example chart'
-      );
-
-      const newState = stateManager.getSearchState();
-      expect(newState).toEqual({
-        [SearchParams.SearchedIndicator]: 'bang',
-        [SearchParams.IndicatorsSelected]: ['1'],
-        [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
-      });
-    });
-
-    it('should not add a multi value type param value if it already exists in the array', () => {
       const stateManager = SearchStateManager.initialise({
         [SearchParams.SearchedIndicator]: 'bang',
         [SearchParams.IndicatorsSelected]: ['1'],
