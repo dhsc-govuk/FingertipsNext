@@ -2,12 +2,9 @@
 
 namespace DataCreator
 {
-    public class AreaEntity
+    public class AreaEntity:SimpleArea
     {
-        private string areaCode;
-
-        public string AreaCode { get => areaCode.CleanAreaCode(); set => areaCode = value; }
-        public string AreaName { get; set; }
+       
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
@@ -27,6 +24,21 @@ namespace DataCreator
 
         public int Level { get; set; }
 
+    }
+
+    public class SimpleArea
+    {
+        private string areaCode;
+
+        public string AreaCode { get => areaCode.CleanAreaCode(); set => areaCode = value; }
+        public string AreaName { get; set; }
+    }
+
+    public class SimpleAreaWithRelations: SimpleArea
+    {
+        public string Children { get; set; }
+
+        public string Parents { get; set; }
     }
 
     public class AreaRelation

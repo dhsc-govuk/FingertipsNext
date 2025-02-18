@@ -23,6 +23,14 @@ ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 jest.mock('@/components/pages/chart');
 
+jest.mock('@/components/organisms/LineChart/', () => {
+  return {
+    LineChart: function LineChart() {
+      return <div data-testid="lineChart-component"></div>;
+    },
+  };
+});
+
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['1'],

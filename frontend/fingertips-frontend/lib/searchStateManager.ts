@@ -6,6 +6,7 @@ export enum SearchParams {
   AreasSelected = 'as',
   AreaTypeSelected = 'ats',
   GroupTypeSelected = 'gts',
+  ConfidenceIntervalSelected = 'cis',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -13,6 +14,7 @@ export type SearchParamKeys = `${SearchParams}`;
 const multiValueParams = [
   SearchParams.IndicatorsSelected as string,
   SearchParams.AreasSelected as string,
+  SearchParams.ConfidenceIntervalSelected as string,
 ];
 
 export type SearchStateParams = {
@@ -21,6 +23,7 @@ export type SearchStateParams = {
   [SearchParams.AreasSelected]?: string[];
   [SearchParams.AreaTypeSelected]?: string;
   [SearchParams.GroupTypeSelected]?: string;
+  [SearchParams.ConfidenceIntervalSelected]?: string[];
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>
@@ -98,9 +101,7 @@ export class SearchStateManager {
   ) {
     if (isMultiValueTypeParam(searchParamKey)) {
       const currentParamState = this.searchState[searchParamKey];
-
       const currentParamStateAsArray = asArray(currentParamState);
-
       const doesParamExist = currentParamStateAsArray.find(
         (currentParam) => currentParam === paramToAdd
       );

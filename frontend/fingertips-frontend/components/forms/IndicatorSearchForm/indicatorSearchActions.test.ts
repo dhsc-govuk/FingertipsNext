@@ -100,6 +100,8 @@ describe('Search actions', () => {
     const state = await searchIndicator(initialStateWithoutAreas, formData);
 
     expect(state.indicator).toBe('');
-    expect(state.message).toBe('Please enter a subject');
+    expect(state.message).toBe(
+      'Please enter an indicator ID or select at least one area'
+    );
   });
 });
