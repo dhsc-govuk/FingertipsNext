@@ -58,7 +58,7 @@ export function Chart({
     parentBenchmarkData = seriesDataForIndicatorIndexAndArea(
       healthIndicatorData,
       0,
-      areaCodeForEngland
+      parentAreaCode
     );
   }
 
