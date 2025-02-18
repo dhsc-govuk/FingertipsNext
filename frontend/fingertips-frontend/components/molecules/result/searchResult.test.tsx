@@ -5,22 +5,7 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-const mockPath = 'some-mock-path';
-const mockReplace = jest.fn();
 let user: UserEvent;
-
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
-
-  return {
-    ...originalModule,
-    usePathname: () => mockPath,
-    useSearchParams: () => {},
-    useRouter: jest.fn().mockImplementation(() => ({
-      replace: mockReplace,
-    })),
-  };
-});
 
 const MOCK_DATA: IndicatorDocument[] = [
   {
@@ -48,7 +33,6 @@ const initialSearchState: SearchStateParams = {
 };
 
 beforeEach(() => {
-  mockReplace.mockClear();
   user = userEvent.setup();
 });
 
