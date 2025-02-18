@@ -139,11 +139,11 @@ public class AreaRepository : IAreaRepository
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aresWithRelations"></param>
+    /// <param name="areaWithRelations"></param>
     /// <param name="childAreaType"></param>
     /// <param name="area"></param>
     private async Task AddChildAreas(
-        AreaWithRelationsModel aresWithRelations,
+        AreaWithRelationsModel areaWithRelations,
         string? childAreaType,
         AreaModel area
     )
@@ -151,7 +151,7 @@ public class AreaRepository : IAreaRepository
         if (string.IsNullOrWhiteSpace(childAreaType))
         {
             // direct children
-            aresWithRelations.Children = await _dbContext
+            areaWithRelations.Children = await _dbContext
                 .Area.Include(a => a.AreaType)
                 .Where(a => a.Node.GetAncestor(1) == area.Node)
                 .ToListAsync();
@@ -168,7 +168,7 @@ public class AreaRepository : IAreaRepository
             {
                 int parentLevel = area.Node.GetLevel();
 
-                aresWithRelations.Children = await _dbContext
+                areaWithRelations.Children = await _dbContext
                     .Area.Include(a => a.AreaType)
                     .Where(a =>
                         a.Node.GetAncestor(singleChildOfType.Node.GetLevel() - parentLevel)
@@ -179,9 +179,9 @@ public class AreaRepository : IAreaRepository
         }
     }
 
-    private async Task AddAncestorAreas(AreaWithRelationsModel aresWithRelations, string areaCode)
+    private async Task AddAncestorAreas(AreaWithRelationsModel areaWithRelations, string areaCode)
     {
-        aresWithRelations.Ancestors = await _dbContext
+        areaWithRelations.Ancestors = await _dbContext
             .Area
             .FromSqlInterpolated(
                 $"""
@@ -210,16 +210,16 @@ public class AreaRepository : IAreaRepository
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="aresWithRelations"></param>
+    /// <param name="areaWithRelations"></param>
     /// <param name="area"></param>
     /// <param name="parent"></param>
     private async Task AddSiblingAreas(
-        AreaWithRelationsModel aresWithRelations,
+        AreaWithRelationsModel areaWithRelations,
         AreaModel area,
         AreaModel parent
     )
     {
-        aresWithRelations.Siblings = await _dbContext
+        areaWithRelations.Siblings = await _dbContext
             .Area.Include(a => a.AreaType)
             .Where(a => a.Node.GetAncestor(1) == parent.Node && a.AreaCode != area.AreaCode)
             .ToListAsync();
