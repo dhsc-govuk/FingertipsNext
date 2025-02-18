@@ -23,7 +23,7 @@ export const AreaSearchInputField = ({
     <StyleAreaSearchInputField>
       <InputField
         input={{
-          value: value || '',
+          value: value ?? '',
           onChange: (e) => {
             const val = e.target.value;
             if (onTextChange) {

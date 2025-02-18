@@ -25,7 +25,7 @@ export default function AreaAutoCompleteInputField({
   onAreaSelected,
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
-}: AreaAutoCompleteInputFieldProps) {
+}: Readonly<AreaAutoCompleteInputFieldProps>) {
   const [criteria, setCriteria] = useState<string>();
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] =
