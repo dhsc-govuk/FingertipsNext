@@ -17,12 +17,12 @@ GET http://localhost:5144/areas/root
 ### GET area details fully populated, including direct children
 
 # basildon PCN
-GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true
+GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true&include_siblings=true
 
 ### GET area details, including children of type
 
 # England
-GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=GP
+GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=gps
 
 ### GET area details, including DIRECT children
 
@@ -38,5 +38,9 @@ GET http://localhost:5144/areas/E92000001?include_ancestors=true
 
 # England
 GET http://localhost:5144/areas/E92000001
+
+### get area by area type
+
+GET http://localhost:5144/areas/areatypes/gps/areas
 
 ###

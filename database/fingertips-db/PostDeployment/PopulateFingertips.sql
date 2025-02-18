@@ -2897,6 +2897,7 @@ DELETE FROM [Areas].[AreaTypes]
 
 INSERT [Areas].[AreaTypes] ([AreaTypeKey],[Level],[HierarchyType],[AreaTypeName])
 VALUES 
+('england', 1, 'All', 'England'),
 ('nhs-regions', 2, 'NHS', 'NHS Regions'),
 ('nhs-integrated-care-boards', 3, 'NHS', 'NHS Integrated Care Boards'),
 ('nhs-sub-integrated-care-boards', 4, 'NHS', 'NHS Sub Integrated Care Boards'),
@@ -2911,8 +2912,10 @@ GO
 
 INSERT [Areas].[Areas]
 VALUES
+('/','E92000001','England','england')
+
 -- first level data
-('/1/','E12000001','North East region (statistical)','regions')
+,('/1/','E12000001','North East region (statistical)','regions')
 ,('/2/','E12000002','North West region (statistical)','regions')
 ,('/3/','E12000003','Yorkshire and the Humber region (statistical)','regions')
 ,('/4/','E40000007','East of England NHS Region','nhs-regions')

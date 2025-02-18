@@ -8,12 +8,7 @@ env:
 on:
   workflow_call:
     inputs:
-      env-url:
-        description: 'environment url to run e2e tests against - for CD test executions'
-        required: false
-        default: null
-        type: string
-      container-image:
+      e2e-test-container-image:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
@@ -29,7 +24,7 @@ jobs:
     name: Execute e2e tests
     runs-on: ubuntu-latest
     container:
-      image: ${{ inputs.container-image }}
+      image: ${{ inputs.e2e-test-container-image }}
 
     defaults:
       run:
@@ -60,30 +55,30 @@ jobs:
         run: npm ci
 
       - name: Create .env file for db-setup - for CI test execution
-        if: inputs.container-image == null
+        if: inputs.e2e-test-container-image == null
         run: |
           echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
           echo "DB_NAME=fingertips" >> .env
           echo "DB_USER=sa" >> .env
 
       - name: Install playwright dependencies - for CI test execution
-        if: inputs.container-image == null
+        if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
       - name: Run Playwright tests in CI
-        if: inputs.container-image == null
+        if: inputs.e2e-test-container-image == null
         run: npm run test-e2e-ci-docker
 
       - name: Set Job URL for slack message - for CD test execution
-        if: inputs.env-url != null
+        if: inputs.e2e-test-container-image != null
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD
-        if: inputs.env-url != null
+        if: inputs.e2e-test-container-image != null
         run: npx playwright test
         env:
-          FINGERTIPS_FRONTEND_URL: ${{ inputs.env-url }}
+          FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Upload playwright report and screenshot if e2e tests fail - always on failure
         uses: actions/upload-artifact@v4
@@ -96,7 +91,7 @@ jobs:
           retention-days: 10
 
       - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure() && inputs.env-url != null
+        if: failure() && inputs.e2e-test-container-image != null
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:

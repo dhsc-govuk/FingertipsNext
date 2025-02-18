@@ -10,33 +10,41 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
 
         let area = response.body;
 
-        client.assert(area.parent.code === "E38000007");
-        client.assert(area.parent.name === "NHS Basildon And Brentwood ICB");
+        client.assert(area.parent.code === "E38000007", "parent: wrong code");
+        client.assert(area.parent.name === "NHS Basildon And Brentwood ICB", "parent: wrong name");
+        client.assert(area.parent.areaType.key === "nhs-integrated-care-boards", "parent: wrong area type");
 
-        client.assert(area.code === "U15488");
-        client.assert(area.name === "East Basildon PCN");
+        client.assert(area.code === "U15488", "area: wrong code");
+        client.assert(area.name === "East Basildon PCN", "area: wrong name");
+        client.assert(area.areaType.key === "nhs-primary-care-networks", "area: wrong area type");
 
         // 2 children expected in basildon
-        client.assert(area.children.length > 0);
-        client.assert(area.children.filter(x => x.code === "F81186").length === 1)
-        client.assert(area.children.filter(x => x.code === "F81640").length === 1)
+        client.assert(area.children.length > 0, "children:no children");
+        client.assert(area.children.filter(x => x.code === "F81186", "children:F81186 not found").length === 1)
+        client.assert(area.children.filter(x => x.code === "F81640", "children:F81640 not found").length === 1)
+        client.assert(area.children[0].areaType.key === 'gps', "children: incorrect area type")
+        client.assert(area.children[1].areaType.key === 'gps', "children: incorrect area type")
 
         // 3 ancestors expected for basildon
-        client.assert(area.ancestors.length > 0);
-        client.assert(area.ancestors.filter(x => x.code === "E38000007").length === 1) // "NHS Basildon And Brentwood ICB"
-        client.assert(area.ancestors.filter(x => x.code === "E40000007").length === 1) // "East of England NHS Region"
-        client.assert(area.ancestors.filter(x => x.code === "E92000001").length === 1) // "England"
+        client.assert(area.ancestors.length === 3, "ancestors: 3 expected");
+        client.assert(area.ancestors[0].code === 'E92000001', "ancestors: incorrect area[0] code")
+        client.assert(area.ancestors[0].areaType.key === '', "ancestors: incorrect area[0] area type")
+        client.assert(area.ancestors[1].code === 'E40000007', "ancestors: incorrect area[1] code")
+        client.assert(area.ancestors[1].areaType.key === '', "ancestors: incorrect area[1] area type")
+        client.assert(area.ancestors[2].code === 'E38000007', "ancestors: incorrect area[2] code")
+        client.assert(area.ancestors[2].areaType.key === '', "ancestors: incorrect area[2] area type")
 
         // 1 sibling expected for basildon
-        client.assert(area.siblings.length > 0);
-        client.assert(area.siblings.filter(x => x.code === "U55146" && x.name == "Central Basildon PCN").length === 1) // "NHS Cambridgeshire and Peterborough ICB"
+        client.assert(area.siblings.length > 0, "siblings: no siblings");
+        client.assert(area.siblings.filter(x => x.code === "U55146" && x.name == "Central Basildon PCN").length === 1, "siblings: U55146 missing or incorrect") // "NHS Cambridgeshire and Peterborough ICB"
+        client.assert(area.siblings[0].areaType.key === 'nhs-primary-care-networks', "siblings: wrong area type")
     });
 %}
 
-### CHECK GET area details, including children of type
+### CHECK GET area details, including children of type 'GP'
 
 # England
-GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=GP
+GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=gps
 
 > {%
     client.test("Expected root area returned", function (callbackfn, thisArg) {
@@ -53,7 +61,7 @@ GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=
 
         // check we have children and they are all GP
         client.assert(area.children.length > 0);
-        client.assert(area.children.filter(x => x.areaType === "GP").length === area.children.length)
+        client.assert(area.children.filter(x => x.areaType.key === "gps").length === area.children.length)
     });
 %}
 
