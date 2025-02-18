@@ -31,11 +31,30 @@ describe('AI search index creation and data loading', () => {
 
     expect(documents.value).toBeDefined();
     expect(documents.value.length).toBeGreaterThan(0);
-    console.log(url);
-    console.log(documents.value);
   };
 
   describe('Search by indicator', () => {
+    const searchIndicatorsRequest = async (
+      searchTerm: string,
+      areaCodes?: string[]
+    ) => {
+      return await fetch(`${urlPrefix}/docs/search.post.search${URL_SUFFIX}`, {
+        headers: {
+          'api-key': apiKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          search: searchTerm,
+          searchFields: 'indicatorID,indicatorDefinition,indicatorName',
+          select: 'indicatorID,indicatorDefinition,indicatorName',
+          filter: areaCodes
+            ? `associatedAreaCodes/any(a: ${areaCodes.map((a) => `a eq '${a}'`).join(' or ')})`
+            : undefined,
+        }),
+        method: 'POST',
+      });
+    };
+
     beforeAll(async () => {
       urlPrefix = `${searchEndpoint}/indexes('${INDICATOR_SEARCH_INDEX_NAME}')`;
 
@@ -60,8 +79,51 @@ describe('AI search index creation and data loading', () => {
 
     it('should populate indicator index with data', async () => {
       const url = `${urlPrefix}/docs${URL_SUFFIX}`;
-
       await expectIndexToBePopulated(url);
+    });
+
+    it('should return indicators for readmissions', async () => {
+      const response = await searchIndicatorsRequest('readmissions');
+      const result = await response.json();
+      expect(result.value[0].indicatorName).toEqual(
+        'Emergency readmissions within 30 days of discharge from hospital'
+      );
+    });
+
+    it('should return all results when filter based on England', async () => {
+      const response = await searchIndicatorsRequest('readmissions', [
+        'E92000001',
+      ]);
+      const result = await response.json();
+      expect(result.value[0].indicatorName).toEqual(
+        'Emergency readmissions within 30 days of discharge from hospital'
+      );
+    });
+
+    it('should filter out results if filtering on an unknown area', async () => {
+      const response = await searchIndicatorsRequest('readmissions', [
+        'unknown',
+      ]);
+      const result = await response.json();
+      expect(result.value).toHaveLength(0);
+    });
+
+    it('should be 3 indicators with 65 and ["E92000001"]', async () => {
+      const response = await searchIndicatorsRequest('65', ['E92000001']);
+      const result = await response.json();
+      expect(result.value).toHaveLength(3);
+    });
+
+    it('should be 2 indicators with 65 and "E38000233"', async () => {
+      const response = await searchIndicatorsRequest('65', ['E38000233']);
+      const result = await response.json();
+      expect(result.value).toHaveLength(2);
+    });
+
+    it('should be 1 indicator1 with 65 and "E07000117"', async () => {
+      const response = await searchIndicatorsRequest('65', ['E07000117']);
+      const result = await response.json();
+      expect(result.value).toHaveLength(1);
     });
   });
 

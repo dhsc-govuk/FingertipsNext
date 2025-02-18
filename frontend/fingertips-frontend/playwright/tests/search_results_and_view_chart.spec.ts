@@ -9,8 +9,8 @@ import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const searchTerm = 'mortality';
-const indicatorsToSelect = ["108", "113"];
-let indicatorIDs: string[];
+const indicatorsToSelect = ['108', '113'];
+let _indicatorIDs: string[];
 
 test.describe('Search via indicator', () => {
   test.beforeAll(() => {
@@ -22,7 +22,7 @@ test.describe('Search via indicator', () => {
       };
     });
 
-    indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
+    _indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
   });
 
   test('full end to end flow with accessibility checks', async ({

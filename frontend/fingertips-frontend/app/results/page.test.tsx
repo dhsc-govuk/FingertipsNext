@@ -47,7 +47,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   dataSource: `Some data source for id ${id}`,
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
-  associatedAreas: []
+  associatedAreas: [],
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
