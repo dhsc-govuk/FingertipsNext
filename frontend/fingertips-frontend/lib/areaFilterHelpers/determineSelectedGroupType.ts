@@ -7,6 +7,7 @@ export const determineSelectedGroupType = (
 ): AreaTypeKeys | undefined => {
   if (selectedGroupType) return selectedGroupType;
 
-  if (selectedAreaData && selectedAreaData.length > 0)
+  if (selectedAreaData && selectedAreaData.length > 0) {
     return selectedAreaData[0].parent?.areaType.key as AreaTypeKeys;
+  }
 };

@@ -1,14 +1,5 @@
 import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
-import {
-  AreaTypeKeys,
-  countiesAndUnitaryAuthoritiesAreaType,
-  englandAreaType,
-  gpsAreaType,
-  nhsIntegratedCareBoardsAreaType,
-  nhsPrimaryCareNetworksAreaType,
-  nhsRegionsAreaType,
-  regionsAreaType,
-} from '../../lib/areaFilterHelpers/areaType';
+import { AreaTypeKeys } from '../../lib/areaFilterHelpers/areaType';
 import { englandArea } from './areas/englandAreas';
 import {
   northEastRegion,
@@ -20,6 +11,7 @@ import {
   londonNHSRegion,
   midlandsNHSRegion,
   northEastAndYorkshireNHSRegion,
+  northWestNHSRegion,
   southEastNHSRegion,
   southWestNHSRegion,
 } from './areas/nhsRegionsAreas';
@@ -196,146 +188,94 @@ export const mockAvailableAreas: Record<AreaTypeKeys, Area[]> = {
   'nhs-sub-integrated-care-boards': [],
   'counties-and-unitary-authorities': [
     {
-      code: 'E06000047',
-      name: 'County Durham',
-      areaType: countiesAndUnitaryAuthoritiesAreaType,
+      ...countyDurham,
     },
     {
-      code: 'E06000005',
-      name: 'Darlington',
-      areaType: countiesAndUnitaryAuthoritiesAreaType,
+      ...darlington,
     },
     {
-      code: 'E08000037',
-      name: 'Gateshead',
-      areaType: countiesAndUnitaryAuthoritiesAreaType,
+      ...gateshead,
     },
   ],
   'england': [
     {
-      code: 'E92000001',
-      name: 'England',
-      areaType: englandAreaType,
+      ...englandArea,
     },
   ],
   'gps': [
     {
-      code: 'F81186',
-      name: 'Felmores Medical Centre',
-      areaType: gpsAreaType,
+      ...felmoresGP,
     },
     {
-      code: 'F81640',
-      name: 'Aryan Medical Centre',
-      areaType: gpsAreaType,
+      ...aryanGP,
     },
     {
-      code: 'F83004',
-      name: 'Archway Medical Centre',
-      areaType: gpsAreaType,
+      ...archwayGP,
     },
     {
-      code: 'F83008',
-      name: 'The Goodinge Group Practice',
-      areaType: gpsAreaType,
+      ...goodingeGP,
     },
   ],
   'nhs-integrated-care-boards': [
     {
-      code: 'E38000007',
-      name: 'NHS Basildon And Brentwood ICB',
-      areaType: nhsIntegratedCareBoardsAreaType,
+      ...basildonAndBrentwoodICB,
     },
     {
-      code: 'E38000026',
-      name: 'NHS Cambridgeshire and Peterborough ICB',
-      areaType: nhsIntegratedCareBoardsAreaType,
+      ...cambridgeAndPeterboroughICB,
     },
     {
-      code: 'E38000240',
-      name: 'NHS North Central London ICB',
-      areaType: nhsIntegratedCareBoardsAreaType,
+      ...northCentralLondonICB,
     },
     {
-      code: 'E38000244',
-      name: 'NHS South East London ICB',
-      areaType: nhsIntegratedCareBoardsAreaType,
+      ...southEastLondonICB,
     },
   ],
   'nhs-regions': [
     {
-      code: 'E40000007',
-      name: 'East of England NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...eastEnglandNHSRegion,
     },
     {
-      code: 'E40000003',
-      name: 'London NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...londonNHSRegion,
     },
     {
-      code: 'E40000005',
-      name: 'South East NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...southEastNHSRegion,
     },
     {
-      code: 'E40000006',
-      name: 'South West NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...southWestNHSRegion,
     },
     {
-      code: 'E40000010',
-      name: 'North West NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...northWestNHSRegion,
     },
     {
-      code: 'E40000011',
-      name: 'Midlands NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...midlandsNHSRegion,
     },
     {
-      code: 'E40000012',
-      name: 'North East and Yorkshire NHS Region',
-      areaType: nhsRegionsAreaType,
+      ...northEastAndYorkshireNHSRegion,
     },
   ],
   'nhs-primary-care-networks': [
     {
-      code: 'U15488',
-      name: 'East Basildon PCN',
-      areaType: nhsPrimaryCareNetworksAreaType,
+      ...eastBasildonPCN,
     },
     {
-      code: 'U55146',
-      name: 'Central Basildon PCN',
-      areaType: nhsPrimaryCareNetworksAreaType,
+      ...centralBasildonPCN,
     },
     {
-      code: 'U02795',
-      name: 'North 2 Islington PCN',
-      areaType: nhsPrimaryCareNetworksAreaType,
+      ...north2IslingtonPCN,
     },
     {
-      code: 'U05885',
-      name: 'South Camden PCN',
-      areaType: nhsPrimaryCareNetworksAreaType,
+      ...southCamdenPCN,
     },
   ],
   'regions': [
     {
-      code: 'E12000001',
-      name: 'North East region (statistical)',
-      areaType: regionsAreaType,
+      ...northEastRegion,
     },
     {
-      code: 'E12000002',
-      name: 'North West region (statistical)',
-      areaType: regionsAreaType,
+      ...northWestRegion,
     },
     {
-      code: 'E12000003',
-      name: 'Yorkshire and the Humber region (statistical)',
-      areaType: regionsAreaType,
+      ...yorkshireAndHumberRegion,
     },
   ],
 };
