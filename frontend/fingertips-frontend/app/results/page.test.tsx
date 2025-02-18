@@ -213,7 +213,7 @@ describe('Results Page', () => {
     expect(page.props.errorText).toEqual(
       'An error has been returned by the service. Please try again.'
     );
-    expect(page.props.errorLink).toEqual('/search');
+    expect(page.props.errorLink).toEqual('/');
     expect(page.props.errorLinkText).toEqual('Return to Search');
   });
 
@@ -230,7 +230,7 @@ describe('Results Page', () => {
     expect(page.props.errorText).toEqual(
       'An error has been returned by the service. Please try again.'
     );
-    expect(page.props.errorLink).toEqual('/search');
+    expect(page.props.errorLink).toEqual('/');
     expect(page.props.errorLinkText).toEqual('Return to Search');
   });
 });

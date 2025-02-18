@@ -8,7 +8,6 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
-import { ScatterChart } from '@/components/organisms/ScatterChart';
 import {
   getEnglandDataForIndicatorIndex,
   seriesDataWithoutEngland,
@@ -67,20 +66,6 @@ export function Chart({
         />
       )}
       <br />
-      {indicatorsSelected.length == 2 ? (
-        <>
-          <ScatterChart
-            healthIndicatorData={healthIndicatorData}
-            scatterChartTitle="Compare indicators within the area group"
-            yAxisTitle="y: Indicator 1 (value)"
-            yAxisSubtitle="rate per information"
-            xAxisTitle="x: Indicator 2 (value)"
-            xAxisSubtitle="rate per information"
-            accessibilityLabel="A scatter chart showing two indicators"
-          ></ScatterChart>
-          <br />
-        </>
-      ) : null}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"

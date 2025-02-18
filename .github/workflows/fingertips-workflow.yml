@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
+      - '**'
     paths:
       - api/**
       - database/fingertips-db/**
@@ -73,7 +73,6 @@ jobs:
             echo "search_changed=false" >> $GITHUB_OUTPUT
           fi
 
-
   determine-version:
     uses: ./.github/workflows/determine-semver.yml
     with:
@@ -123,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ["9.0.x"]
+        dotnet-version: ['9.0.x']
     defaults:
       run:
         working-directory: ./api
@@ -154,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["22.x"]
+        node-version: ['22.x']
     env:
       NEXT_TELEMETRY_DISABLED: 'true'
       frontend-directory: ./frontend/fingertips-frontend
@@ -187,13 +186,8 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
-  e2e-tests-local:
-    needs: [
-      check-changes,
-      database-build,
-      frontend-build-and-test,
-      api-build-and-test
-    ]
+  e2e-tests-local-docker:
+    needs: [check-changes]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -209,10 +203,12 @@ jobs:
         )
       )
     uses: ./.github/workflows/e2e-tests.yml
+    secrets:
+      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -233,7 +229,7 @@ jobs:
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version, e2e-tests-local]
+    needs: [check-changes, determine-version]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -253,12 +249,13 @@ jobs:
       acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   deploy-db-dev:
-    needs: [
-      determine-version,
-      check-changes,
-      push-container-api,
-      push-container-frontend
-    ]
+    needs:
+      [
+        determine-version,
+        check-changes,
+        push-container-api,
+        push-container-frontend,
+      ]
     environment: development
     runs-on: windows-latest
     defaults:
@@ -280,7 +277,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dacpac
-  
+
       - name: Deploy Database
         uses: azure/sql-action@v2.3
         with:
@@ -290,10 +287,7 @@ jobs:
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
 
   search-setup-dev:
-    needs: [
-      check-changes,
-      deploy-db-dev
-    ]
+    needs: [check-changes, deploy-db-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -338,7 +332,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ./search-setup/package-lock.json
 
       # Install dependencies
@@ -359,11 +353,7 @@ jobs:
           AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
 
   deploy-api-dev:
-    needs: [
-      determine-version,
-      check-changes,
-      search-setup-dev
-    ]
+    needs: [determine-version, check-changes, search-setup-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -384,7 +374,7 @@ jobs:
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
       container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
-      container_name: "fingertips-api"
+      container_name: 'fingertips-api'
       revision_suffix: ${{ github.run_number }}
       container_port: 8080
       environment_variables: |
@@ -423,11 +413,7 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   deploy-frontend-dev:
-    needs: [
-      determine-version,
-      check-changes,
-      deploy-api-dev
-    ]
+    needs: [determine-version, check-changes, deploy-api-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -448,7 +434,7 @@ jobs:
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
       container_image_tag: 'dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}'
-      container_name: "fingertips-frontend"
+      container_name: 'fingertips-frontend'
       revision_suffix: ${{ github.run_number }}
       container_port: 3000
       environment_variables: |
@@ -481,7 +467,7 @@ jobs:
         ]
       container_liveness_probe: |
         {
-          path      = "/api/healthcheck"
+          path      = "/healthcheck"
           port      = 3000
           transport = "HTTP"
         }
@@ -514,7 +500,6 @@ jobs:
         )
       )
     with:
-      env-url: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-      send-slack-on-fail: "true"
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.0-jammy
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

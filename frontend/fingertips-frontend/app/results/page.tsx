@@ -111,7 +111,7 @@ export default async function Page(
     return (
       <ErrorPage
         errorText="An error has been returned by the service. Please try again."
-        errorLink="/search"
+        errorLink="/"
         errorLinkText="Return to Search"
       />
     );
