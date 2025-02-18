@@ -1,6 +1,7 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const mockData = [
   {
@@ -202,7 +203,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
-        color: 'black',
+        color: GovukColours.Black,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -327,7 +328,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
-        color: 'green',
+        color: GovukColours.Turquoise,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],

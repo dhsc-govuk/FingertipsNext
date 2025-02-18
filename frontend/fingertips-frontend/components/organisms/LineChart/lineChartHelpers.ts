@@ -1,6 +1,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { ChartColours } from '@/lib/chartHelpers/colours';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export function generateSeriesData(
   data: HealthDataForArea[],
@@ -31,7 +32,7 @@ export function generateSeriesData(
           point.upperCi,
         ]),
         visible: showConfidenceIntervalsData,
-        color: '#B1B4B6',
+        color: GovukColours.MidGrey,
         whiskerLength: '20%',
         lineWidth: 2,
       };
@@ -48,7 +49,7 @@ export function generateSeriesData(
         point.year,
         point.value,
       ]),
-      color: 'green',
+      color: GovukColours.Turquoise,
       marker: {
         symbol: 'diamond',
       },
@@ -61,7 +62,7 @@ export function generateSeriesData(
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
       data: benchmarkData.healthData.map((point) => [point.year, point.value]),
-      color: 'black',
+      color: GovukColours.Black,
       marker: {
         symbol: 'circle',
       },
