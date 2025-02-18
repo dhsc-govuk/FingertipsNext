@@ -186,6 +186,10 @@ describe('Results Page', () => {
       searchParams: generateSearchParams(searchState),
     });
 
+    expect(page.props.selectedAreasData).toEqual([
+      generateMockArea('A001'),
+      generateMockArea('A002'),
+    ]);
     expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     expect(page.props.availableAreaTypes).toEqual(mockSortedAreaTypes);
     expect(page.props.searchState).toEqual(searchState);
