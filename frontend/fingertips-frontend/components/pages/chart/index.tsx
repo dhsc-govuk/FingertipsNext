@@ -80,6 +80,7 @@ export function Chart({
             LineChartTitle="See how the indicator has changed over time"
             healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
+            parentIndicatorData={parentBenchmarkData}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
           />
