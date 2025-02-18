@@ -6,19 +6,82 @@ GET http://localhost:5144/areas/areatypes
 > {%
     client.test("Expected area types returned", function (callbackfn, thisArg) {
         const expected = [
-            { name: "Counties & UAs" , level: 2, hierarchyName: "Admin" },
-            { name: "Country" , level: 0, hierarchyName: "All" },
-            { name: "GP" , level: 4, hierarchyName: "NHS" },
-            { name: "ICB" , level: 2, hierarchyName: "NHS" },
-            { name: "NHS region" , level: 1, hierarchyName: "NHS" },
-            { name: "PCN", level: 3, hierarchyName: "NHS" },
-            { name: "Regions Statistical", level: 1, hierarchyName: "Admin" }
-        ];
+            {
+                "key": "combined-authorities",
+                "name": "Combined Authorities",
+                "hierarchyName": "Admin",
+                "level": 3
+            },
+            {
+                "key": "counties-and-unitary-authorities",
+                "name": "Counties and Unitary Authorities",
+                "hierarchyName": "Admin",
+                "level": 4
+            },
+            {
+                "key": "districts-and-unitary-authorities",
+                "name": "Districts and Unitary Authorities",
+                "hierarchyName": "Admin",
+                "level": 5
+            },
+            {
+                "key": "england",
+                "name": "England",
+                "hierarchyName": "All",
+                "level": 1
+            },
+            {
+                "key": "gps",
+                "name": "GPs",
+                "hierarchyName": "NHS",
+                "level": 6
+            },
+            {
+                "key": "nhs-integrated-care-boards",
+                "name": "NHS Integrated Care Boards",
+                "hierarchyName": "NHS",
+                "level": 3
+            },
+            {
+                "key": "nhs-primary-care-networks",
+                "name": "NHS Primary Care Networks",
+                "hierarchyName": "NHS",
+                "level": 5
+            },
+            {
+                "key": "nhs-regions",
+                "name": "NHS Regions",
+                "hierarchyName": "NHS",
+                "level": 2
+            },
+            {
+                "key": "nhs-sub-integrated-care-boards",
+                "name": "NHS Sub Integrated Care Boards",
+                "hierarchyName": "NHS",
+                "level": 4
+            },
+            {
+                "key": "regions",
+                "name": "Regions",
+                "hierarchyName": "Admin",
+                "level": 2
+            }
+        ].sort((at1, at2) => {
+            if(at1.level === at2.level) return 0;
+            if(at1.level < at2.level) return -1;
+            return 1;
+        });
+        
         client.assert(response.status === 200, "Response status is not 200");
         
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e.name === r.name) != null))
+        returnedTypes.sort((at1, at2) => {
+            if(at1.level === at2.level) return 0;
+            if(at1.level < at2.level) return -1;
+            return 1;
+        })
+        client.assert(returnedTypes === expected);
     });
 %}
 
@@ -29,33 +92,18 @@ GET http://localhost:5144/areas/areatypes?hierarchy_type=NHS
 > {%
     client.test("Expected NHS area types returned", function (callbackfn, thisArg) {
         const expected = [
-            "GP",
-            "ICB",
-            "NHS region",
-            "PCN"
+            "england",
+            "gps",
+            "nhs-integrated-care-boards",
+            "nhs-primary-care-networks",
+            "nhs-regions",
+            "nhs-sub-integrated-care-boards"
         ];
         client.assert(response.status === 200, "Response status is not 200");
 
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e === r.name) != null))
-    });
-%}
-
-### check GET filtered area types 'ALL'
-
-GET http://localhost:5144/areas/areatypes?hierarchy_type=All
-
-> {%
-    client.test("Expected 'all hierarchies' area types returned", function (callbackfn, thisArg) {
-        const expected = [
-            "Country"
-        ];
-        client.assert(response.status === 200, "Response status is not 200");
-
-        let returnedTypes = response.body
-        client.assert(returnedTypes.length === expected.length);
-        returnedTypes.forEach(r => client.assert(expected.find(e => e === r.name) != null))
+        returnedTypes.forEach(r => client.assert(expected.find(e => e === r.key) != null))
     });
 %}
 
