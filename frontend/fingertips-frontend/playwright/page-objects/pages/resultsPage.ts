@@ -13,6 +13,9 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
   readonly areaFilterContainer = 'area-filter-container';
+  readonly areaTypeSelector = 'area-type-selector-container';
+  readonly groupTypeSelector = 'group-type-selector-container';
+  readonly selectedAreasContainer = 'selected-areas-container';
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
   readonly removeIcon = 'remove-icon-div';
@@ -54,12 +57,22 @@ export default class ResultsPage extends BasePage {
     await pills[index].click();
   }
 
-  async areaFilterOptionsText() {
-    const options = await this.page
+  areaFilterCombobox() {
+    return this.page
       .getByTestId(this.areaFilterContainer)
-      .getByRole('option')
-      .all();
+      .getByTestId(this.areaTypeSelector)
+      .locator('select');
+  }
 
+  areaFilterOptions() {
+    return this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByTestId(this.areaTypeSelector)
+      .getByRole('option')
+  }
+
+  async areaFilterOptionsText() {
+    const options = await this.areaFilterOptions().all();
     return Promise.all(options.map((l) => l.getAttribute('value')));
   }
 

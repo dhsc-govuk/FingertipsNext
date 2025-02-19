@@ -165,8 +165,9 @@ test.describe('Search via indicator', () => {
         'NHS Primary Care Networks',
         'GPs',
       ];
+      await test.expect(resultsPage.areaFilterOptions()).toHaveCount(expectedOptions.length);
+
       const options = await resultsPage.areaFilterOptionsText();
-      test.expect(options).toHaveLength(expectedOptions.length);
       test
         .expect(sortAlphabetically(options))
         .toEqual(sortAlphabetically(expectedOptions));
@@ -198,6 +199,8 @@ test.describe('Search via indicator', () => {
       test
         .expect(sortAlphabetically(filterPillNames))
         .toEqual(sortAlphabetically(expectdPillTexts));
+
+      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
 
     await test.step('Click remove one area pill and re-check area pills', async () => {
@@ -215,6 +218,8 @@ test.describe('Search via indicator', () => {
       test
         .expect(sortAlphabetically(filterPillNames))
         .toEqual(sortAlphabetically(expectdPillTexts));
+
+      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
     });
 
     await test.step('Check url has been updated after area pill removal', async () => {
@@ -222,6 +227,15 @@ test.describe('Search via indicator', () => {
       await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000011/);
       await test.expect(resultsPage.page).toHaveURL(/&as=E40000010/);
     });
+
+    await test.step('Remove all pills and check url and area type combobox', async () => {
+      await resultsPage.closeAreaFilterPill(0);
+      await resultsPage.closeAreaFilterPill(0);
+
+      await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
+
+      await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
+    })
   });
 
   const sortAlphabetically = (array: (string | null)[]) =>
