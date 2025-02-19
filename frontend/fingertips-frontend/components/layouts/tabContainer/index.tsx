@@ -10,10 +10,10 @@ interface TabItem {
 }
 
 export const TabContainer = ({
-  id = '',
+  id,
   items,
 }: {
-  id?: string;
+  id: string;
   items: TabItem[];
 }) => {
   const [tabIndex, setTabIndex] = useState(0);

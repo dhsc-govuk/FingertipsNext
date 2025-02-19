@@ -27,7 +27,7 @@ describe('tab container', () => {
       'amet, consectetur.',
     ];
 
-    render(<TabContainer items={items} />);
+    render(<TabContainer id="some-container" items={items} />);
 
     const titles = screen.getAllByRole('link');
     titles.map((_, index) => {
