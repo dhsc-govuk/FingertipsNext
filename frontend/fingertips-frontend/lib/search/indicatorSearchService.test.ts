@@ -54,6 +54,72 @@ describe('IndicatorSearchService', () => {
       );
     });
 
+    it('should call search client with correct parameters for single area search', async () => {
+      const searchTerm = 'test-search';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, ['Area1']);
+
+      expect(SearchClient).toHaveBeenCalledWith(
+        'test-url',
+        INDICATOR_SEARCH_INDEX_NAME,
+        expect.any(Object)
+      );
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        getExpectedSearchTerm(searchTerm),
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+          filter: "associatedAreaCodes/any(a: a eq 'Area1')"
+        })
+      );
+    });
+
+    it('should call search client with correct parameters for multiple area search', async () => {
+      const searchTerm = 'test-search';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, ['Area1', 'Area2', 'Area3']);
+
+      expect(SearchClient).toHaveBeenCalledWith(
+        'test-url',
+        INDICATOR_SEARCH_INDEX_NAME,
+        expect.any(Object)
+      );
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        getExpectedSearchTerm(searchTerm),
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+          filter: "associatedAreaCodes/any(a: a eq 'Area1' or a eq 'Area2' or a eq 'Area3')"
+        })
+      );
+    });
+
+    it('should call search client with correct parameters for empty area array', async () => {
+      const searchTerm = 'test-search';
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      await searchService.searchWith(searchTerm, []);
+
+      expect(SearchClient).toHaveBeenCalledWith(
+        'test-url',
+        INDICATOR_SEARCH_INDEX_NAME,
+        expect.any(Object)
+      );
+
+      expect(mockSearch).toHaveBeenLastCalledWith(
+        getExpectedSearchTerm(searchTerm),
+        expect.objectContaining({
+          queryType: 'full',
+          includeTotalCount: true,
+          filter: undefined
+        })
+      );
+    });
+
     it('should perform a search operation', async () => {
       const mockSearchResults = {
         latestDataPeriod: undefined,
