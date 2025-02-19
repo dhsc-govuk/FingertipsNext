@@ -235,8 +235,9 @@ test.describe('Search via indicator', () => {
 
     await test.step('Remove all pills and check url and area type combobox', async () => {
       await resultsPage.closeAreaFilterPill(0);
-      await resultsPage.closeAreaFilterPill(0);
+      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000012/);
 
+      await resultsPage.closeAreaFilterPill(0);
       await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
