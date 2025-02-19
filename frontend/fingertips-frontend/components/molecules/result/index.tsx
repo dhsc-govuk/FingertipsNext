@@ -10,13 +10,18 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type SearchResultProps = {
   result: IndicatorDocument;
   indicatorSelected?: boolean;
+  searchState?: SearchStateParams;
+  handleClick: (indicatorId: string, checked: boolean) => void;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -46,40 +51,20 @@ export function formatDate(date: Date | undefined): string {
 export function SearchResult({
   result,
   indicatorSelected,
+  searchState,
+  handleClick,
 }: Readonly<SearchResultProps>) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-
-  const handleClick = (indicatorId: string, checked: boolean) => {
-    const searchState = SearchStateManager.setStateFromParams(params);
-
-    if (checked) {
-      searchState.addParamValueToState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    } else {
-      searchState.removeParamValueFromState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    }
-
-    replace(searchState.generatePath(pathname), { scroll: false });
-  };
+  const stateManager = SearchStateManager.initialise(searchState);
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
-    const searchState = SearchStateManager.setStateFromParams(params);
     const chartPath = '/chart';
-    searchState.removeAllParamFromState(SearchParams.IndicatorsSelected);
-    searchState.addParamValueToState(
+    stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+    stateManager.addParamValueToState(
       SearchParams.IndicatorsSelected,
       indicatorId
     );
 
-    return searchState.generatePath(chartPath);
+    return stateManager.generatePath(chartPath);
   };
 
   return (

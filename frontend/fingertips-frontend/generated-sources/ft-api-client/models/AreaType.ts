@@ -24,7 +24,7 @@ export interface AreaType {
      * @type {string}
      * @memberof AreaType
      */
-    areaTypeKey?: string;
+    key: string;
     /**
      * The name of the area type for presentation
      * @type {string}
@@ -49,6 +49,7 @@ export interface AreaType {
  * Check if a given object implements the AreaType interface.
  */
 export function instanceOfAreaType(value: object): value is AreaType {
+    if (!('key' in value) || value['key'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('level' in value) || value['level'] === undefined) return false;
     if (!('hierarchyName' in value) || value['hierarchyName'] === undefined) return false;
@@ -65,7 +66,7 @@ export function AreaTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-        'areaTypeKey': json['areaTypeKey'] == null ? undefined : json['areaTypeKey'],
+        'key': json['key'],
         'name': json['name'],
         'level': json['level'],
         'hierarchyName': json['hierarchyName'],
@@ -83,7 +84,7 @@ export function AreaTypeToJSONTyped(value?: AreaType | null, ignoreDiscriminator
 
     return {
         
-        'areaTypeKey': value['areaTypeKey'],
+        'key': value['key'],
         'name': value['name'],
         'level': value['level'],
         'hierarchyName': value['hierarchyName'],

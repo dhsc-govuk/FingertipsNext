@@ -8,7 +8,10 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+} from '@/lib/thematicMapUtils/getMapData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -63,7 +66,7 @@ export default async function ChartPage(
     areaCodes.length >= 2
   ) {
     // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
-    mapData = getMapData(selectedAreaType, areaCodes);
+    mapData = getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areaCodes);
   }
 
   return (
