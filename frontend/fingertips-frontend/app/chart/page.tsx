@@ -16,6 +16,7 @@ import {
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -29,6 +30,7 @@ export default async function ChartPage(
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
   const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const selectedGroupType = searchParams?.[SearchParams.GroupTypeSelected];
 
   // We don't want to render this page statically
   await connection();
@@ -36,8 +38,12 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const areaApi = ApiClientFactory.getAreasApiClient();
 
+  const parentAreaCodeIsNeeded =
+    indicatorsSelected.length === 1 &&
+    areaCodes.length <= 2 &&
+    selectedGroupType != englandAreaType.key;
   let parentAreaCode: string | undefined;
-  if (indicatorsSelected.length === 1 && areaCodes.length <= 2) {
+  if (parentAreaCodeIsNeeded) {
     try {
       const areaData = await areaApi.getArea({ areaCode: areaCodes[0] }); // DHSCFT-256 assumes one common parent
       parentAreaCode = areaData?.parent?.code;
