@@ -60,36 +60,34 @@ export function Chart({
         indicatorsSelected,
         areasSelected
       ) && (
-        <>
-          <TabContainer
-            id="lineChartAndTable"
-            title="See how the indicator has changed over time"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line Chart',
-                content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    xAxisTitle="Year"
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
-                ),
-              },
-              {
-                id: 'table',
-                title: 'Tabular Data',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
-                    englandBenchmarkData={englandBenchmarkData}
-                  />
-                ),
-              },
-            ]}
-          />
-        </>
+        <TabContainer
+          id="lineChartAndTable"
+          title="See how the indicator has changed over time"
+          items={[
+            {
+              id: 'lineChart',
+              title: 'Line Chart',
+              content: (
+                <LineChart
+                  healthIndicatorData={dataWithoutEngland}
+                  benchmarkData={englandBenchmarkData}
+                  xAxisTitle="Year"
+                  accessibilityLabel="A line chart showing healthcare data"
+                />
+              ),
+            },
+            {
+              id: 'table',
+              title: 'Tabular Data',
+              content: (
+                <LineChartTable
+                  healthIndicatorData={dataWithoutEngland}
+                  englandBenchmarkData={englandBenchmarkData}
+                />
+              ),
+            },
+          ]}
+        />
       )}
       <br />
       <BarChart
