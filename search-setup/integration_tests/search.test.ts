@@ -18,6 +18,14 @@ const URL_SUFFIX = '?api-version=2024-07-01';
 
 const ONS_AREA_CODE_ENGLAND = "E92000001"
 
+//  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
+function formatFilterString(areaCodes: string[]) {
+  if (areaCodes.length == 0) return undefined;
+  const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
+  return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
+};
+
+
 describe('AI search index creation and data loading', () => {
   searchEndpoint = process.env.AI_SEARCH_SERVICE_ENDPOINT!;
   apiKey = process.env.AI_SEARCH_API_KEY!;
@@ -40,12 +48,6 @@ describe('AI search index creation and data loading', () => {
       searchTerm: string,
       areaCodes?: string[]
     ) => {
-      //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
-      const formatFilterString = (areaCodes: string[]) => {
-        if (areaCodes.length == 0) return undefined;
-        const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
-        return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
-      };
 
       return await fetch(`${urlPrefix}/docs/search.post.search${URL_SUFFIX}`, {
         headers: {
