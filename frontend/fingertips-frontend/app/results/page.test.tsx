@@ -217,7 +217,7 @@ describe('Results Page', () => {
       ]);
     });
 
-    it('should pass the selectedAreasData prop with data from getAreas for each areaSelected', async () => {
+    it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
       const searchState: SearchStateParams = {
         ...searchParams,
         [SearchParams.IndicatorsSelected]: ['1', '2'],
