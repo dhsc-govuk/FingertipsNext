@@ -24,20 +24,24 @@ jest.mock('next/navigation', () => {
 
 const MOCK_DATA: IndicatorDocument[] = [
   {
-    indicatorId: '1',
-    name: 'NHS',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '1',
+    indicatorName: 'NHS',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
-    lastUpdated: new Date('December 6, 2024'),
+    lastUpdatedDate: new Date('December 6, 2024'),
+    associatedAreas: [],
   },
   {
-    indicatorId: '2',
-    name: 'DHSC',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '2',
+    indicatorName: 'DHSC',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
-    lastUpdated: new Date('November 5, 2023'),
+    lastUpdatedDate: new Date('November 5, 2023'),
+    associatedAreas: [],
   },
 ];
 
@@ -66,11 +70,11 @@ describe('IndicatorSelectionForm', () => {
 
     expect(searchResults).toHaveLength(MOCK_DATA.length);
     searchResults.forEach((searchResult, index) => {
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].name);
+      expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
-        formatDate(new Date(MOCK_DATA[index].lastUpdated))
+        formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
       );
     });
     expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
@@ -109,8 +113,8 @@ describe('IndicatorSelectionForm', () => {
 
   it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
     const expectedPaths = [
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`,
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorId.toString()}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`,
+      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorID.toString()}`,
     ];
 
     render(
@@ -122,10 +126,10 @@ describe('IndicatorSelectionForm', () => {
     );
 
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[0].name })
+      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
     ).toHaveAttribute('href', expectedPaths[0]);
     expect(
-      screen.getByRole('link', { name: MOCK_DATA[1].name })
+      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
     ).toHaveAttribute('href', expectedPaths[1]);
   });
 
