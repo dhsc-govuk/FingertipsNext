@@ -16,10 +16,10 @@ interface TableProps {
 
 interface LineChartTableRowData {
   period: number;
-  count: number;
-  value: number;
-  lower: number;
-  upper: number;
+  count?: number;
+  value?: number;
+  lower?: number;
+  upper?: number;
 }
 
 const StyledDiv = styled('div')({
@@ -136,8 +136,15 @@ const sortPeriod = (
 ): LineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.period - b.period);
 
-const convertToPercentage = (value: number): string => {
-  // dummy function to do percentage conversions until real conversion logic is provided
+// When value is undefined, it returns an X with an aria-label for screen readers.
+const convertToPercentage = (value?: number): React.ReactNode => {
+  if (value === undefined) {
+    return (
+      <span aria-label="Not available">
+        <span aria-hidden="true">X</span>
+      </span>
+    );
+  }
   return `${((value / 10000) * 100).toFixed(1)}%`;
 };
 

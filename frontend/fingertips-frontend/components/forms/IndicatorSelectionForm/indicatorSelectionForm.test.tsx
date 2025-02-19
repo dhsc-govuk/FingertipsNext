@@ -3,7 +3,6 @@ import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { formatDate } from '@/components/molecules/result';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
@@ -47,16 +46,6 @@ const state: SearchStateParams = {
 };
 
 const mockFormAction = jest.fn();
-
-const initialState: IndicatorSelectionState = {
-  searchState: JSON.stringify(state),
-  indicatorsSelected: [],
-  message: null,
-};
-const initialStateIndicatorSelected = {
-  ...initialState,
-  indicatorsSelected: ['1'],
-};
 
 describe('IndicatorSelectionForm', () => {
   beforeEach(() => {
@@ -193,13 +182,6 @@ describe('IndicatorSelectionForm', () => {
     );
 
     await user.click(screen.getByRole('button', { name: /View charts/i }));
-
-    const formData = new FormData();
-    formData.append(
-      'searchState',
-      JSON.stringify(initialStateIndicatorSelected)
-    );
-    formData.append('indicatorsSelected', '1');
 
     expect(mockFormAction).toHaveBeenCalled();
   });

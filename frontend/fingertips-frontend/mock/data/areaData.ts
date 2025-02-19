@@ -37,6 +37,7 @@ import { archwayGP, aryanGP, felmoresGP, goodingeGP } from './areas/gpsAreas';
 export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
   E92000001: {
     ...englandArea,
+    ...englandArea,
   },
 };
 
@@ -130,14 +131,18 @@ export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
 export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
   E38000007: {
     ...basildonAndBrentwoodICB,
+    ...basildonAndBrentwoodICB,
   },
   E38000026: {
+    ...cambridgeAndPeterboroughICB,
     ...cambridgeAndPeterboroughICB,
   },
   E38000240: {
     ...northCentralLondonICB,
+    ...northCentralLondonICB,
   },
   E38000244: {
+    ...southEastLondonICB,
     ...southEastLondonICB,
   },
 };
@@ -145,14 +150,18 @@ export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
 export const mockAreaDataForPCN: Record<string, AreaWithRelations> = {
   U15488: {
     ...eastBasildonPCN,
+    ...eastBasildonPCN,
   },
   U55146: {
+    ...centralBasildonPCN,
     ...centralBasildonPCN,
   },
   U02795: {
     ...north2IslingtonPCN,
+    ...north2IslingtonPCN,
   },
   U05885: {
+    ...southCamdenPCN,
     ...southCamdenPCN,
   },
 };
@@ -160,14 +169,18 @@ export const mockAreaDataForPCN: Record<string, AreaWithRelations> = {
 export const mockAreaDataForGP: Record<string, AreaWithRelations> = {
   F81186: {
     ...felmoresGP,
+    ...felmoresGP,
   },
   F81640: {
+    ...aryanGP,
     ...aryanGP,
   },
   F83004: {
     ...archwayGP,
+    ...archwayGP,
   },
   F83008: {
+    ...goodingeGP,
     ...goodingeGP,
   },
 };

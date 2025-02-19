@@ -13,6 +13,10 @@ import {
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import { AreaType } from '@/generated-sources/ft-api-client';
+import {
+  eastEnglandNHSRegion,
+  northEastAndYorkshireNHSRegion,
+} from '@/mock/data/areas/nhsRegionsAreas';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -298,6 +302,94 @@ describe('Area Filter', () => {
         expect(
           screen.getByRole('checkbox', { name: area.name })
         ).toBeInTheDocument();
+      });
+    });
+
+    it('should have the checkboxes of the selected areas pre-selected', () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableAreas={availableAreas}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+          }}
+          selectedAreasData={[
+            eastEnglandNHSRegion,
+            northEastAndYorkshireNHSRegion,
+          ]}
+        />
+      );
+
+      availableAreas.forEach((area) => {
+        if (area.code === 'E40000007' || area.code === 'E40000012') {
+          expect(
+            screen.getByRole('checkbox', { name: area.name })
+          ).toBeChecked();
+        } else {
+          expect(
+            screen.getByRole('checkbox', { name: area.name })
+          ).not.toBeChecked();
+        }
+      });
+    });
+
+    it('should update the url when an area is selected', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=${eastEnglandNHSRegion.code}`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableAreas={availableAreas}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should update the url when an area is de-selected', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableAreas={availableAreas}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.AreasSelected]: ['E40000007'],
+          }}
+          selectedAreasData={[eastEnglandNHSRegion]}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
       });
     });
   });

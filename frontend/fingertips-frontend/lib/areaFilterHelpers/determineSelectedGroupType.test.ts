@@ -31,7 +31,7 @@ describe('DetermineSelectedGroupType', () => {
     expect(selectedGroupType).toEqual('nhs-integrated-care-boards');
   });
 
-  it('should return the areaType of the parent for the first selectedAreaData when no selectedAreaType is provided', () => {
+  it('should return the areaType of the parent of any of the selectedAreaData areas when selectedGroupType is not provided', () => {
     const selectedGroupType = determineSelectedGroupType(
       undefined,
       mockAreaData
