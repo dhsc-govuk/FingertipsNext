@@ -61,6 +61,8 @@
         public string LastUpdatedDate { get; set; }
 
         public bool UsedInPoc { get; set; }
+
+        public bool HasInequalities { get; set; }
     }
 
     public class SimpleIndicator
@@ -79,6 +81,8 @@
         public int EarliestDataPeriod { get; set; }
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
+
+        public bool HasInequalities { get; set; }
     }
 }
 

@@ -100,6 +100,7 @@ namespace DataCreator
                     indicator.AssociatedAreaCodes = match.AssociatedAreaCodes;
                     indicator.LatestDataPeriod=match.LatestDataPeriod;
                     indicator.EarliestDataPeriod=match.EarliestDataPeriod;
+                    indicator.HasInequalities = match.HasInequalities;
                 }
             
                 indicator.UsedInPoc=indicatorIds.Contains(indicator.IndicatorID); 
@@ -128,8 +129,8 @@ namespace DataCreator
             
             foreach (var indicatorId in indicatorIdsWeWant)
             {
-                var data = GetHealthDataForAreaAndIndicator(indicatorId, areasWeWant, yearFrom);
-                
+                var data = DataFileManager.GetHealthDataForIndicator(indicatorId, yearFrom, areasWeWant);
+               
                 Console.WriteLine($"Grabbed {data.Count()} points for indicator {indicatorId}");
                 healthMeasures.AddRange(data);
             }
@@ -175,9 +176,12 @@ namespace DataCreator
                     IndicatorID = group.Key,
                     AssociatedAreaCodes= group.Select(x => x.AreaCode).Distinct().ToList(),
                     LatestDataPeriod=group.OrderByDescending(g=>g.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year
+                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
+                    HasInequalities= group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty( d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
                 });
             }
+
+            var a = indicatorWithAreasAndLatestUpdates.Where(x => x.HasInequalities).ToList();
         }
 
         private static IEnumerable<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
@@ -215,10 +219,6 @@ namespace DataCreator
                 }
             }
         }
-
-        private static List<HealthMeasureEntity> GetHealthDataForAreaAndIndicator(int indicatorId, List<string> areasWeWant, int yearFrom) => 
-            DataFileManager.GetHealthDataForIndicator(indicatorId, yearFrom, areasWeWant);
-
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
