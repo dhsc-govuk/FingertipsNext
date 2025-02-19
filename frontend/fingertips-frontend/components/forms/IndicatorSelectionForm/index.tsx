@@ -60,7 +60,7 @@ export function IndicatorSelectionForm({
       action={formAction}
       data-testid="indicator-selection-form"
       style={{
-        wordBreak: 'break-all',
+        wordBreak: 'break-word',
       }}
     >
       <input
