@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { AreaType } from './AreaType';
+import {
+    AreaTypeFromJSON,
+    AreaTypeFromJSONTyped,
+    AreaTypeToJSON,
+    AreaTypeToJSONTyped,
+} from './AreaType';
+
 /**
  * A area or geography that has associated public health data
  * @export
@@ -32,23 +40,11 @@ export interface Area {
      */
     name: string;
     /**
-     * The name of the associated hierarchy for the area / geography
-     * @type {string}
+     * 
+     * @type {AreaType}
      * @memberof Area
      */
-    hierarchyName: string;
-    /**
-     * The type of the area / geography
-     * @type {string}
-     * @memberof Area
-     */
-    areaType: string;
-    /**
-     * The level in the hierarchy
-     * @type {number}
-     * @memberof Area
-     */
-    level?: number;
+    areaType: AreaType;
 }
 
 /**
@@ -57,7 +53,6 @@ export interface Area {
 export function instanceOfArea(value: object): value is Area {
     if (!('code' in value) || value['code'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('hierarchyName' in value) || value['hierarchyName'] === undefined) return false;
     if (!('areaType' in value) || value['areaType'] === undefined) return false;
     return true;
 }
@@ -74,9 +69,7 @@ export function AreaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Area
         
         'code': json['code'],
         'name': json['name'],
-        'hierarchyName': json['hierarchyName'],
         'areaType': json['areaType'],
-        'level': json['level'] == null ? undefined : json['level'],
     };
 }
 
@@ -93,9 +86,7 @@ export function AreaToJSONTyped(value?: Area | null, ignoreDiscriminator: boolea
         
         'code': value['code'],
         'name': value['name'],
-        'hierarchyName': value['hierarchyName'],
         'areaType': value['areaType'],
-        'level': value['level'],
     };
 }
 

@@ -1,8 +1,8 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
-  SearchResultState,
+  IndicatorSelectionState,
   submitIndicatorSelection,
-} from './searchResultsActions';
+} from './indicatorSelectionActions';
 import { redirect, RedirectType } from 'next/navigation';
 
 jest.mock('next/navigation');
@@ -13,13 +13,13 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A001', 'A002'],
 };
 
-const initialState: SearchResultState = {
+const initialState: IndicatorSelectionState = {
   searchState: JSON.stringify(state),
   indicatorsSelected: [],
 };
 let formData: FormData;
 
-describe('Search Results Actions', () => {
+describe('Indicator Selection Actions', () => {
   describe('submitIndicatorSelection', () => {
     it('should redirect to the charts page with the indicators selected in the query params', async () => {
       const expectedPath = [

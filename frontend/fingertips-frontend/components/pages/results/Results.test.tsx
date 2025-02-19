@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SearchResults } from '.';
-import { SearchResultState } from './searchResultsActions';
+import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { formatDate } from '@/components/molecules/result';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 jest.mock('next/navigation', () => {
@@ -13,10 +12,29 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: jest.fn(),
-    useSearchParams: () => [[[SearchParams.SearchedIndicator], 'test']],
+    useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
       replace: jest.fn(),
     })),
+  };
+});
+function setupMockUseActionState<T>() {
+  return jest
+    .fn()
+    .mockImplementation(
+      (
+        _: (formState: T, formData: FormData) => Promise<T>,
+        initialState: T
+      ) => [initialState, '/action']
+    );
+}
+
+jest.mock('react', () => {
+  const originalModule = jest.requireActual('react');
+
+  return {
+    ...originalModule,
+    useActionState: setupMockUseActionState<IndicatorSelectionState>(),
   };
 });
 
@@ -42,47 +60,24 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreas: [],
   },
 ];
-
-function setupMockUseActionState<T>() {
-  return jest
-    .fn()
-    .mockImplementation(
-      (
-        _: (formState: T, formData: FormData) => Promise<T>,
-        initialState: T
-      ) => [initialState, '/action']
-    );
-}
-
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
-
-  return {
-    ...originalModule,
-    useActionState: setupMockUseActionState<SearchResultState>(),
-  };
-});
-
 const searchedIndicator = 'test';
-
 const state: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: 'test',
+  [SearchParams.SearchedIndicator]: searchedIndicator,
+};
+const initialState: IndicatorSelectionState = {
+  searchState: JSON.stringify(state),
+  indicatorsSelected: [],
+  message: null,
 };
 
 describe('Search Results Suite', () => {
-  const initialState: SearchResultState = {
-    searchState: JSON.stringify(state),
-    indicatorsSelected: [],
-    message: null,
-  };
-  const initialStateIndicatorSelected = {
-    ...initialState,
-    indicatorsSelected: ['1'],
-  };
-
   it('should render elements', () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -94,7 +89,11 @@ describe('Search Results Suite', () => {
 
   it('should render the backLink', () => {
     render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
+      <SearchResults
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
     );
 
     const backLink = screen.getByRole('link', { name: /back/i });
@@ -106,72 +105,45 @@ describe('Search Results Suite', () => {
     );
   });
 
-  it('should render search results', () => {
+  it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
-        searchResultsFormState={initialState}
-        searchResults={MOCK_DATA}
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
       />
     );
 
-    const searchResults = screen.getAllByTestId('search-result');
-
-    expect(searchResults).toHaveLength(MOCK_DATA.length);
-    searchResults.forEach((searchResult, index) => {
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
-      expect(searchResult).toHaveTextContent(
-        formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
-      );
-    });
-    expect(screen.queryByText(/no results found/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId('indicator-search-form')).toBeInTheDocument();
   });
 
-  it('should not render elements when no indicator is entered', () => {
-    const initialStateWithNoIndicator = {
-      ...initialState,
-      searchState: JSON.stringify({}),
-    };
-
+  it('should render the AreaFilter', () => {
     render(
       <SearchResults
-        searchResultsFormState={initialStateWithNoIndicator}
-        searchResults={MOCK_DATA}
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
       />
     );
 
-    expect(screen.getByRole('link')).toBeInTheDocument();
-    expect(screen.getByText(/no indicator entered/i)).toBeInTheDocument();
-    expect(screen.queryByRole('list')).not.toBeInTheDocument();
-    expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
+    expect(screen.getByTestId('area-filter-container')).toBeInTheDocument();
   });
 
-  it('should render no results found', () => {
-    render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
-    );
-
-    expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
-    expect(screen.queryByRole('list')).not.toBeInTheDocument();
-    expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
-  });
-
-  it('should mark indicators selected as checked', () => {
+  it('should render the IndicatorSelectionForm', () => {
     render(
       <SearchResults
-        searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={MOCK_DATA}
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
       />
     );
 
-    expect(screen.getByRole('checkbox', { name: /NHS/i })).toBeChecked();
-    expect(screen.getByRole('checkbox', { name: /DHSC/i })).not.toBeChecked();
+    expect(screen.getByTestId('indicator-selection-form')).toBeInTheDocument();
   });
 
   it('should render the error summary component when there is a validation error', () => {
     const errorMessage = 'There was an error';
-    const errorState: SearchResultState = {
+    const errorState: IndicatorSelectionState = {
       ...initialState,
       message: errorMessage,
       errors: {},
@@ -179,8 +151,9 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
-        searchResultsFormState={errorState}
+        initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -196,7 +169,7 @@ describe('Search Results Suite', () => {
 
     const user = userEvent.setup();
 
-    const errorState: SearchResultState = {
+    const errorState: IndicatorSelectionState = {
       ...initialState,
       message: 'Some error',
       errors: {},
@@ -204,8 +177,9 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
-        searchResultsFormState={errorState}
+        initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
+        searchState={state}
       />
     );
 
@@ -215,48 +189,5 @@ describe('Search Results Suite', () => {
 
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
-  });
-
-  it('should have appropriate direct link for each indicator regardless of checkbox state', () => {
-    const expectedPaths = [
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`,
-      `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[1].indicatorID.toString()}`,
-    ];
-
-    render(
-      <SearchResults
-        searchResultsFormState={initialStateIndicatorSelected}
-        searchResults={MOCK_DATA}
-      />
-    );
-
-    expect(
-      screen.getByRole('link', { name: MOCK_DATA[0].indicatorName })
-    ).toHaveAttribute('href', expectedPaths[0]);
-    expect(
-      screen.getByRole('link', { name: MOCK_DATA[1].indicatorName })
-    ).toHaveAttribute('href', expectedPaths[1]);
-  });
-
-  it('snapshot test', () => {
-    const container = render(
-      <SearchResults
-        searchResultsFormState={initialState}
-        searchResults={MOCK_DATA}
-      />
-    );
-
-    expect(container.asFragment()).toMatchSnapshot();
-  });
-
-  it('should contain the searched indicator in the search box', async () => {
-    render(
-      <SearchResults searchResultsFormState={initialState} searchResults={[]} />
-    );
-
-    await userEvent.type(
-      screen.getByRole('searchbox', { name: /indicator/i }),
-      searchedIndicator
-    );
   });
 });

@@ -4,11 +4,16 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelpers';
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
+import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
+import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
+import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
+import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 
 export default async function Page(
   props: Readonly<{
@@ -16,63 +21,87 @@ export default async function Page(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator =
-    searchParams?.[SearchParams.SearchedIndicator] ?? '';
-  const indicatorsSelected = asArray(
-    searchParams?.[SearchParams.IndicatorsSelected]
-  );
-  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
-  const selectedGroupType = searchParams?.[SearchParams.GroupTypeSelected];
-  const areasSelected = asArray(searchParams?.[SearchParams.AreasSelected]);
 
-  const stateManager = new SearchStateManager({
+  const stateManager = SearchStateManager.initialise(searchParams);
+
+  const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
-  });
-
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupTypeSelected]: selectedGroupType,
+  } = stateManager.getSearchState();
   try {
-    // Perform async API call using indicator prop
     await connection();
     const areasApi = ApiClientFactory.getAreasApiClient();
 
     const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
-      areasSelected.length > 0
+      areasSelected && areasSelected.length > 0
         ? await Promise.all(
             areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
           )
         : [];
 
-    const initialState = {
-      searchState: JSON.stringify(stateManager.getSearchState()),
-      indicatorsSelected,
-      message: null,
-      errors: {},
-    };
+    const determinedSelectedAreaType = determineSelectedAreaType(
+      selectedAreaType as AreaTypeKeys,
+      selectedAreasData
+    );
+    stateManager.addParamValueToState(
+      SearchParams.AreaTypeSelected,
+      determinedSelectedAreaType
+    );
 
-    // Perform async API call using indicator prop
-    const searchResults =
-      await SearchServiceFactory.getIndicatorSearchService().searchWith(
-        searchedIndicator
+    const availableAreas: Area[] = await areasApi.getAreaTypeMembers({
+      areaTypeKey: determinedSelectedAreaType,
+    });
+
+    const availableGroupTypes: AreaType[] | undefined =
+      determineApplicableGroupTypes(
+        availableAreaTypes,
+        determinedSelectedAreaType
       );
+
+    const determinedSelectedGroupType = determineSelectedGroupType(
+      selectedGroupType as AreaTypeKeys,
+      selectedAreasData
+    );
+    if (determinedSelectedGroupType) {
+      stateManager.addParamValueToState(
+        SearchParams.GroupTypeSelected,
+        determinedSelectedGroupType
+      );
+    }
+
+    const searchResults = searchedIndicator
+      ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
+          searchedIndicator
+        )
+      : [];
 
     const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
       (a, b) => a.level - b.level
     );
 
+    const initialState: IndicatorSelectionState = {
+      searchState: JSON.stringify(stateManager.getSearchState()),
+      indicatorsSelected: indicatorsSelected ?? [],
+      message: null,
+      errors: {},
+    };
+
     return (
       <SearchResults
-        searchResultsFormState={initialState}
+        initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
-        selectedAreaType={selectedAreaType}
-        selectedGroupType={selectedGroupType}
-        selectedAreas={selectedAreasData}
+        availableAreas={availableAreas}
+        availableGroupTypes={availableGroupTypes}
+        selectedAreasData={selectedAreasData}
+        searchState={stateManager.getSearchState()}
       />
     );
   } catch (error) {
-    // Log error response
     console.log(`Error response received from call: ${error}`);
     return (
       <ErrorPage

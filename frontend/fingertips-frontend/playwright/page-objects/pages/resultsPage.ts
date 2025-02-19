@@ -8,7 +8,8 @@ export default class ResultsPage extends BasePage {
   readonly searchResult = 'search-result';
   readonly indicatorCheckboxPrefix = 'search-results-indicator';
   readonly viewChartsButton = `search-results-button-submit`;
-  readonly indicatorSearchErrorText = 'Please enter a subject';
+  readonly indicatorSearchErrorText =
+    'Please enter an indicator ID or select at least one area';
   readonly indicatorSearchBox = `indicator-search-form-input`;
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
@@ -20,7 +21,7 @@ export default class ResultsPage extends BasePage {
       .getByRole('option')
       .all();
 
-    return Promise.all(options.map((l) => l.getAttribute('value')));
+    return Promise.all(options.map((l) => l.textContent()));
   }
 
   async checkSearchResults(searchTerm: string) {
