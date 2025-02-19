@@ -39,11 +39,4 @@ describe('tab container', () => {
       expect(panels[index].textContent).toBe(expectedContentText[index]);
     });
   });
-
-  it('should render the title as a heading', () => {
-    const expectedTitleText = 'Hello, World!';
-    render(<TabContainer items={items} title={expectedTitleText} />);
-
-    expect(screen.getByRole('heading')).toHaveTextContent(expectedTitleText);
-  });
 });

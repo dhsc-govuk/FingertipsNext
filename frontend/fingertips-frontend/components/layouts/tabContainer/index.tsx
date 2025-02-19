@@ -1,6 +1,6 @@
 'use client';
 
-import { H3, Tabs } from 'govuk-react';
+import { Tabs } from 'govuk-react';
 import React, { JSX, useState } from 'react';
 
 interface TabItem {
@@ -11,7 +11,6 @@ interface TabItem {
 
 export const TabContainer = ({
   id = '',
-  title = '',
   items,
 }: {
   id?: string;
@@ -29,32 +28,29 @@ export const TabContainer = ({
   };
 
   return (
-    <>
-      <H3>{title}</H3>
-      <Tabs data-testid={`tabContainer-${id}`}>
-        <Tabs.List>
-          {items.map(({ title, id }, index) => (
-            <Tabs.Tab
-              onClick={(e) => handleClick(e, index)}
-              href="#"
-              selected={tabIndex === index}
-              key={id}
-              data-testid={`tabTitle-${id}`}
-            >
-              {title}
-            </Tabs.Tab>
-          ))}
-        </Tabs.List>
-        {items.map(({ content, id }, index) => (
-          <Tabs.Panel
+    <Tabs data-testid={`tabContainer-${id}`}>
+      <Tabs.List>
+        {items.map(({ title, id }, index) => (
+          <Tabs.Tab
+            onClick={(e) => handleClick(e, index)}
+            href="#"
             selected={tabIndex === index}
             key={id}
-            data-testid={`tabContent-${id}`}
+            data-testid={`tabTitle-${id}`}
           >
-            {content}
-          </Tabs.Panel>
+            {title}
+          </Tabs.Tab>
         ))}
-      </Tabs>
-    </>
+      </Tabs.List>
+      {items.map(({ content, id }, index) => (
+        <Tabs.Panel
+          selected={tabIndex === index}
+          key={id}
+          data-testid={`tabContent-${id}`}
+        >
+          {content}
+        </Tabs.Panel>
+      ))}
+    </Tabs>
   );
 };
