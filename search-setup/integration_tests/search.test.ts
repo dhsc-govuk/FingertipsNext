@@ -16,6 +16,8 @@ let apiKey: string;
 let urlPrefix: string;
 const URL_SUFFIX = '?api-version=2024-07-01';
 
+const ONS_AREA_CODE_ENGLAND = "E92000001"
+
 describe('AI search index creation and data loading', () => {
   searchEndpoint = process.env.AI_SEARCH_SERVICE_ENDPOINT!;
   apiKey = process.env.AI_SEARCH_API_KEY!;
@@ -38,6 +40,13 @@ describe('AI search index creation and data loading', () => {
       searchTerm: string,
       areaCodes?: string[]
     ) => {
+      //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
+      const formatFilterString = (areaCodes: string[]) => {
+        if (areaCodes.length == 0) return undefined;
+        const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
+        return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
+      };
+
       return await fetch(`${urlPrefix}/docs/search.post.search${URL_SUFFIX}`, {
         headers: {
           'api-key': apiKey,
@@ -48,7 +57,7 @@ describe('AI search index creation and data loading', () => {
           searchFields: 'indicatorID,indicatorDefinition,indicatorName',
           select: 'indicatorID,indicatorDefinition,indicatorName',
           filter: areaCodes
-            ? `associatedAreaCodes/any(a: ${areaCodes.map((a) => `a eq '${a}'`).join(' or ')})`
+            ? formatFilterString(areaCodes)
             : undefined,
         }),
         method: 'POST',
@@ -92,7 +101,7 @@ describe('AI search index creation and data loading', () => {
 
     it('should return all results when filter based on England', async () => {
       const response = await searchIndicatorsRequest('readmissions', [
-        'E92000001',
+        ONS_AREA_CODE_ENGLAND,
       ]);
       const result = await response.json();
       expect(result.value[0].indicatorName).toEqual(
@@ -108,8 +117,8 @@ describe('AI search index creation and data loading', () => {
       expect(result.value).toHaveLength(0);
     });
 
-    it('should be 3 indicators with 65 and ["E92000001"]', async () => {
-      const response = await searchIndicatorsRequest('65', ['E92000001']);
+    it('should be 3 indicators with 65 and [ONS_AREA_CODE_ENGLAND]', async () => {
+      const response = await searchIndicatorsRequest('65', [ONS_AREA_CODE_ENGLAND]);
       const result = await response.json();
       expect(result.value).toHaveLength(3);
     });
@@ -120,7 +129,7 @@ describe('AI search index creation and data loading', () => {
       expect(result.value).toHaveLength(2);
     });
 
-    it('should be 1 indicator1 with 65 and "E07000117"', async () => {
+    it('should be 1 indicator with 65 and "E07000117"', async () => {
       const response = await searchIndicatorsRequest('65', ['E07000117']);
       const result = await response.json();
       expect(result.value).toHaveLength(1);

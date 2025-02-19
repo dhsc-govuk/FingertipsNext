@@ -1,9 +1,7 @@
 import {
   SearchIndex,
   SearchIndexClient,
-  SearchField,
   SearchClient,
-  SearchFieldDataType,
 } from '@azure/search-documents';
 import {
   AREA_SEARCH_SUGGESTER_NAME,
@@ -21,7 +19,7 @@ export async function createIndex(
   try {
     console.log('Trying to delete an existing index');
     await indexClient.deleteIndex(index);
-  } catch {}
+  } catch { }
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
