@@ -7,7 +7,7 @@ import {
 } from '../testHelpers';
 import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 
-const pathToIndicatorsCSV = '../../../../search-setup/assets/indicators.csv';
+const pathToIndicatorsCSV = '../../search-setup/assets/indicators.csv';
 const searchTerm = 'mortality';
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
@@ -15,14 +15,6 @@ let filteredIndicatorIds: string[];
 test.beforeAll(
   `return all indicatorIDs from the data source based on the searchTerm: ${searchTerm}`,
   () => {
-    // const indicatorData = indicators as IndicatorDocument[];
-    // const typedIndicatorData = indicatorData.map((indicator) => {
-    //   return {
-    //     ...indicator,
-    //     lastUpdatedDate: new Date(indicator.lastUpdatedDate),
-    //   };
-    // });
-
     allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
       pathToIndicatorsCSV,
       searchTerm

@@ -67,6 +67,7 @@
     "axe-playwright": "^2.0.3",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
+    "csv-parse": "^5.6.0",
     "eslint": "^9.19.0",
     "eslint-config-next": "^15.1.6",
     "eslint-plugin-jest": "^28.11.0",
