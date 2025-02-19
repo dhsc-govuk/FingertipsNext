@@ -26,14 +26,13 @@ export interface LineChartTableRowData {
 
 export interface InequalitiesSexTableRowData {
   period: number;
-  persons: number;
-  male: number;
-  female: number;
-  englandBenchmark: number;
+  persons: number | undefined;
+  male: number | undefined;
+  female: number | undefined;
+  englandBenchmark: number | undefined;
 }
 
-export function sortPeriod(
-  tableRowData: (LineChartTableRowData | InequalitiesSexTableRowData)[]
-): (LineChartTableRowData | InequalitiesSexTableRowData)[] {
-  return tableRowData.toSorted((a, b) => a.period - b.period);
-}
+export const convertToPercentage = (value: number): string => {
+  // dummy function to do percentage conversions until real conversion logic is provided
+  return `${((value / 10000) * 100).toFixed(1)}%`;
+};

@@ -7,9 +7,9 @@ import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
 import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import {
+  convertToPercentage,
   LineChartTableHeadingEnum,
   LineChartTableRowData,
-  sortPeriod,
 } from '@/lib/tableHelpers';
 
 interface TableProps {
@@ -108,9 +108,10 @@ const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
     upper: healthPoint.upperCi,
   }));
 
-const convertToPercentage = (value: number): string => {
-  // dummy function to do percentage conversions until real conversion logic is provided
-  return `${((value / 10000) * 100).toFixed(1)}%`;
+const sortPeriod = (
+  tableRowData: LineChartTableRowData[]
+): LineChartTableRowData[] => {
+  return tableRowData.toSorted((a, b) => a.period && b.period);
 };
 
 const getBenchmarkHeader = (

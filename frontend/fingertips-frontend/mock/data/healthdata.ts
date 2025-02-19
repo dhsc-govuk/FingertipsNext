@@ -1068,7 +1068,16 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           lowerCi: 441.69151,
           upperCi: 578.32766,
           ageBand: 'All',
-          sex: 'Persons',
+          sex: 'All',
+        },
+        {
+          year: 2004,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Female',
         },
         {
           year: 2012,

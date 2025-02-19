@@ -1,11 +1,20 @@
-import { Table } from 'govuk-react';
+import { Paragraph, Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { InequalitiesSexTableHeadingsEnum } from '@/lib/tableHelpers';
+import {
+  HealthDataForArea,
+  HealthDataPoint,
+} from '@/generated-sources/ft-api-client';
+import {
+  convertToPercentage,
+  InequalitiesSexTableHeadingsEnum,
+  InequalitiesSexTableRowData,
+} from '@/lib/tableHelpers';
+import { groupHealthDataByYear, Sex } from '../../inequalitiesHelpers';
 
 interface InequalitiesSexTableProps {
   healthIndicatorData: HealthDataForArea;
+  englandBenchmarkData: HealthDataForArea | undefined;
 }
 
 const StyledTableCellHeader = styled(Table.CellHeader)(
@@ -34,9 +43,39 @@ const StyledAlignRightCell = styled(StyledTableCell)({
   textAlign: 'right',
 });
 
+const StyledParagraph = styled(Paragraph)({
+  all: 'unset',
+});
+
+const mapToTableData = (
+  groupedYearData: Record<number, HealthDataPoint[] | undefined>,
+  englandBenchmarkData: Record<number, HealthDataPoint[] | undefined>
+): InequalitiesSexTableRowData[] => {
+  return Object.keys(groupedYearData).map((key) => ({
+    period: Number(key),
+    persons: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.ALL)
+      ?.value,
+    male: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.MALE)
+      ?.value,
+    female: groupedYearData[Number(key)]?.find(
+      (data) => data.sex === Sex.FEMALE
+    )?.value,
+    englandBenchmark: englandBenchmarkData[Number(key)]?.at(0)?.value,
+  }));
+};
+
 export function InequalitiesSexTable({
   healthIndicatorData,
+  englandBenchmarkData,
 }: Readonly<InequalitiesSexTableProps>) {
+  const yearlyHealthdata = groupHealthDataByYear(
+    healthIndicatorData.healthData
+  );
+  const yearlyEnglandData = englandBenchmarkData
+    ? groupHealthDataByYear(englandBenchmarkData.healthData)
+    : [];
+
+  const tableData = mapToTableData(yearlyHealthdata, yearlyEnglandData);
   return (
     <Table
       head={
@@ -64,13 +103,37 @@ export function InequalitiesSexTable({
         </>
       }
     >
-      {healthIndicatorData.healthData.map((healthData, index) => (
-        <Table.Row key={healthData.year + index}>
-          <StyledTableCell>{healthData.year}</StyledTableCell>
-          <StyledAlignRightCell></StyledAlignRightCell>
-          <StyledAlignRightCell></StyledAlignRightCell>
-          <StyledAlignRightCell></StyledAlignRightCell>
-          <StyledAlignRightCell></StyledAlignRightCell>
+      {tableData.map((data, index) => (
+        <Table.Row key={data.period + index}>
+          <StyledTableCell>{data.period}</StyledTableCell>
+          <StyledAlignRightCell>
+            {data.persons ? (
+              convertToPercentage(data.persons)
+            ) : (
+              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+            )}
+          </StyledAlignRightCell>
+          <StyledAlignRightCell>
+            {data.male ? (
+              convertToPercentage(data.male)
+            ) : (
+              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+            )}
+          </StyledAlignRightCell>
+          <StyledAlignRightCell>
+            {data.female ? (
+              convertToPercentage(data.female)
+            ) : (
+              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+            )}
+          </StyledAlignRightCell>
+          <StyledAlignRightCell>
+            {data.englandBenchmark ? (
+              convertToPercentage(data.englandBenchmark)
+            ) : (
+              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+            )}
+          </StyledAlignRightCell>
         </Table.Row>
       ))}
     </Table>
