@@ -1,6 +1,7 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const mockData = [
   {
@@ -167,6 +168,7 @@ describe('generateSeriesData', () => {
       symbols,
       chartColours,
       undefined,
+      undefined,
       false
     );
 
@@ -201,7 +203,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
-        color: 'black',
+        color: GovukColours.Black,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -291,6 +293,169 @@ describe('generateSeriesData', () => {
       symbols,
       chartColours,
       mockBenchmarkData,
+      undefined,
+      false
+    );
+
+    expect(generatedSeriesData).toEqual(expectedSeriesData);
+  });
+
+  it('should generate series data with parent data', () => {
+    const mockBenchmakData = {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      healthData: [
+        {
+          count: 389,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          value: 278.29134,
+          year: 2006,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+        {
+          count: 267,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          value: 703.420759,
+          year: 2004,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+      ],
+    };
+
+    const mockParentData = {
+      areaCode: 'P001',
+      areaName: 'Parent',
+      healthData: [
+        {
+          count: 100,
+          lowerCi: 200,
+          upperCi: 400,
+          value: 300,
+          year: 2006,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+        {
+          count: 101,
+          lowerCi: 201,
+          upperCi: 401,
+          value: 301,
+          year: 2004,
+          sex: 'Persons',
+          ageBand: 'All',
+        },
+      ],
+    };
+
+    const expectedSeriesData = [
+      {
+        color: GovukColours.Black,
+        data: [
+          [2006, 278.29134],
+          [2004, 703.420759],
+        ],
+        marker: {
+          symbol: 'circle',
+        },
+        name: 'Benchmark: England',
+        type: 'line',
+      },
+      {
+        color: GovukColours.Turquoise,
+        data: [
+          [2006, 300],
+          [2004, 301],
+        ],
+        marker: {
+          symbol: 'diamond',
+        },
+        name: 'Group: Parent',
+        type: 'line',
+      },
+      {
+        color: '#F46A25',
+        data: [
+          [2006, 278.29134],
+          [2004, 703.420759],
+        ],
+        name: 'North FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2006, 441.69151, 578.32766],
+          [2004, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#A285D1',
+        data: [
+          [2010, 786.27434],
+          [2007, 435.420759],
+        ],
+        name: 'South FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'circle',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2010, 750.69151, 800.32766],
+          [2007, 440.69151, 420.32766],
+        ],
+        name: 'South FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+      {
+        color: '#801650',
+        data: [
+          [2020, 478.27434],
+          [2012, 234.420759],
+        ],
+        name: 'East FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'diamond',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2020, 460.69151, 500.32766],
+          [2012, 220.69151, 250.32766],
+        ],
+        name: 'East FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+    ];
+
+    const generatedSeriesData = generateSeriesData(
+      mockData,
+      symbols,
+      chartColours,
+      mockBenchmakData,
+      mockParentData,
       false
     );
 
@@ -304,6 +469,7 @@ describe('generateSeriesData', () => {
       mockData,
       symbols,
       chartColours,
+      undefined,
       undefined,
       false
     ) as SeriesLineOptions[];
@@ -321,6 +487,7 @@ describe('generateSeriesData', () => {
       [mockData[0]],
       symbols,
       chartColours,
+      undefined,
       undefined,
       true
     );
@@ -360,6 +527,7 @@ describe('generateSeriesData', () => {
       [mockData[0]],
       symbols,
       chartColours,
+      undefined,
       undefined,
       false
     );
@@ -405,6 +573,7 @@ describe('generateSeriesData', () => {
       mockData,
       symbols,
       chartColours,
+      undefined,
       undefined,
       false
     ) as SeriesLineOptions[];

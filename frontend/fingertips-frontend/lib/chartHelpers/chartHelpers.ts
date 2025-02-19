@@ -19,17 +19,22 @@ export function sortHealthDataByYearDescending(
   }));
 }
 
-export function getEnglandDataForIndicatorIndex(
+export function seriesDataForIndicatorIndexAndArea(
   data: HealthDataForArea[][],
-  indicatorIndex: number
+  indicatorIndex: number,
+  seriesAreaCode: string
 ) {
   return data[indicatorIndex].find(
-    (areaData) => areaData.areaCode === areaCodeForEngland
+    (areaData) => areaData.areaCode === seriesAreaCode
   );
 }
 
-export function seriesDataWithoutEngland(data: HealthDataForArea[]) {
-  return data.filter((item) => item.areaCode !== areaCodeForEngland);
+export function seriesDataWithoutEnglandOrParent(
+  data: HealthDataForArea[],
+  parentAreaCode?: string
+) {
+  return data.filter(
+    (item) =>
+      item.areaCode !== areaCodeForEngland && item.areaCode !== parentAreaCode
+  );
 }
-
-export const LIGHT_GREY = '#b1b4b6';

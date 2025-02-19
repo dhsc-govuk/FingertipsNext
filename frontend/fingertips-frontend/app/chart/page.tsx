@@ -1,6 +1,9 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
-import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import {
+  PopulationData,
+  preparePopulationData,
+} from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import {
@@ -8,7 +11,11 @@ import {
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+} from '@/lib/thematicMapUtils/getMapData';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -27,18 +34,32 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+  const areaApi = ApiClientFactory.getAreasApiClient();
+
+  let parentAreaCode: string | undefined;
+  if (indicatorsSelected.length === 1 && areaCodes.length <= 2) {
+    try {
+      const areaData = await areaApi.getArea({ areaCode: areaCodes[0] }); // DHSCFT-256 assumes one common parent
+      parentAreaCode = areaData?.parent?.code;
+    } catch (error) {
+      console.log('error getting area data ', error);
+    }
+  }
+
+  const areaCodesToRequest = parentAreaCode
+    ? [...areaCodes, areaCodeForEngland, parentAreaCode]
+    : [...areaCodes, areaCodeForEngland];
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
-        areaCodes: [...areaCodes, areaCodeForEngland],
+        areaCodes: areaCodesToRequest,
       })
     )
   );
 
-  let rawPopulationData;
-  let preparedPopulationData;
+  let rawPopulationData: HealthDataForArea[] | undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
@@ -48,28 +69,26 @@ export default async function ChartPage(
     console.log('error getting population data ', error);
   }
 
-  if (rawPopulationData) {
-    preparedPopulationData = preparePopulationData(
-      rawPopulationData,
-      areaCodes[0],
-      areaCodes[1] // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
-    );
-  }
+  // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
+  const preparedPopulationData: PopulationData | undefined = rawPopulationData
+    ? preparePopulationData(rawPopulationData, areaCodes[0], areaCodes[1])
+    : undefined;
 
-  let mapData;
-  if (
+  // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
+  const mapDataIsRequired =
     selectedAreaType &&
     indicatorsSelected.length === 1 &&
-    areaCodes.length >= 2
-  ) {
-    // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
-    mapData = getMapData(selectedAreaType, areaCodes);
-  }
+    areaCodes.length >= 2;
+
+  const mapData = mapDataIsRequired
+    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areaCodes)
+    : undefined;
 
   return (
     <Chart
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
+      parentAreaCode={parentAreaCode}
       mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}

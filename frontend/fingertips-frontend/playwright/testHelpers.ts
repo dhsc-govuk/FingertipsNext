@@ -12,7 +12,7 @@ function filterIndicatorsByName(
   const normalizedSearchTerm = searchTerm.toLowerCase();
 
   return indicators.filter((indicator) =>
-    indicator.name.toLowerCase().includes(normalizedSearchTerm)
+    indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
   );
 }
 
@@ -21,7 +21,7 @@ export function getAllIndicatorIdsForSearchTerm(
   searchTerm: string
 ): string[] {
   return filterIndicatorsByName(indicators, searchTerm).map(
-    (indicator) => indicator.indicatorId
+    (indicator) => indicator.indicatorID
   );
 }
 

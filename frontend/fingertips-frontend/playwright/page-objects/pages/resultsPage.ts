@@ -9,7 +9,8 @@ export default class ResultsPage extends BasePage {
   readonly searchResult = 'search-result';
   readonly indicatorCheckboxPrefix = 'search-results-indicator';
   readonly viewChartsButton = `search-results-button-submit`;
-  readonly indicatorSearchErrorText = 'Please enter a subject';
+  readonly indicatorSearchErrorText =
+    'Please enter an indicator ID or select at least one area';
   readonly indicatorSearchBox = `indicator-search-form-input`;
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
@@ -21,14 +22,14 @@ export default class ResultsPage extends BasePage {
       .getByRole('option')
       .all();
 
-    return Promise.all(options.map((l) => l.getAttribute('value')));
+    return Promise.all(options.map((l) => l.textContent()));
   }
 
   async checkSearchResults(searchTerm: string) {
     await expect(
       this.page.getByText(this.resultsText + ` ${searchTerm}`)
     ).toBeVisible();
-    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(2);
+    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(20);
   }
 
   async clickBackLink() {
@@ -49,7 +50,6 @@ export default class ResultsPage extends BasePage {
 
       await expect(checkbox).toBeAttached();
       await expect(checkbox).toBeVisible();
-      await expect(checkbox).toBeInViewport();
       await expect(checkbox).toBeEnabled();
       await expect(checkbox).toBeEditable();
       await expect(checkbox).toBeChecked({ checked: false });

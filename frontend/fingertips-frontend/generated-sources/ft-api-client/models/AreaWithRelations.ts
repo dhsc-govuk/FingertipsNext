@@ -20,6 +20,13 @@ import {
     AreaToJSON,
     AreaToJSONTyped,
 } from './Area';
+import type { AreaType } from './AreaType';
+import {
+    AreaTypeFromJSON,
+    AreaTypeFromJSONTyped,
+    AreaTypeToJSON,
+    AreaTypeToJSONTyped,
+} from './AreaType';
 
 /**
  * 
@@ -40,23 +47,11 @@ export interface AreaWithRelations {
      */
     name: string;
     /**
-     * The name of the associated hierarchy for the area / geography
-     * @type {string}
+     * 
+     * @type {AreaType}
      * @memberof AreaWithRelations
      */
-    hierarchyName: string;
-    /**
-     * The type of the area / geography
-     * @type {string}
-     * @memberof AreaWithRelations
-     */
-    areaType: string;
-    /**
-     * The level in the hierarchy
-     * @type {number}
-     * @memberof AreaWithRelations
-     */
-    level?: number;
+    areaType: AreaType;
     /**
      * 
      * @type {Area}
@@ -89,7 +84,6 @@ export interface AreaWithRelations {
 export function instanceOfAreaWithRelations(value: object): value is AreaWithRelations {
     if (!('code' in value) || value['code'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('hierarchyName' in value) || value['hierarchyName'] === undefined) return false;
     if (!('areaType' in value) || value['areaType'] === undefined) return false;
     return true;
 }
@@ -106,9 +100,7 @@ export function AreaWithRelationsFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'code': json['code'],
         'name': json['name'],
-        'hierarchyName': json['hierarchyName'],
         'areaType': json['areaType'],
-        'level': json['level'] == null ? undefined : json['level'],
         'parent': json['parent'] == null ? undefined : AreaFromJSON(json['parent']),
         'children': json['children'] == null ? undefined : ((json['children'] as Array<any>).map(AreaFromJSON)),
         'siblings': json['siblings'] == null ? undefined : ((json['siblings'] as Array<any>).map(AreaFromJSON)),
@@ -129,9 +121,7 @@ export function AreaWithRelationsToJSONTyped(value?: AreaWithRelations | null, i
         
         'code': value['code'],
         'name': value['name'],
-        'hierarchyName': value['hierarchyName'],
         'areaType': value['areaType'],
-        'level': value['level'],
         'parent': AreaToJSON(value['parent']),
         'children': value['children'] == null ? undefined : ((value['children'] as Array<any>).map(AreaToJSON)),
         'siblings': value['siblings'] == null ? undefined : ((value['siblings'] as Array<any>).map(AreaToJSON)),

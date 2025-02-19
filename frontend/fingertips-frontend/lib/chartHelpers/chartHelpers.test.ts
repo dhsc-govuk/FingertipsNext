@@ -1,10 +1,11 @@
 import {
-  getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrParent,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { areaCodeForEngland } from './constants';
 
 const mockData = [
   {
@@ -127,20 +128,20 @@ describe('sortHealthDataByYearDescending', () => {
   });
 });
 
-describe('getEnglandDataForIndicatorIndex', () => {
-  it('should find England data for specified indicator id', () => {
+describe('seriesDataForIndicatorIndexAndArea', () => {
+  it('should find data for specified area and indicator id', () => {
     const data = [mockHealthData['337'], mockHealthData['1']];
 
-    expect(getEnglandDataForIndicatorIndex(data, 0)).toEqual(
-      mockHealthData['337'][0]
-    );
-    expect(getEnglandDataForIndicatorIndex(data, 1)).toEqual(
-      mockHealthData['1'][1]
-    );
+    expect(
+      seriesDataForIndicatorIndexAndArea(data, 0, areaCodeForEngland)
+    ).toEqual(mockHealthData['337'][0]);
+    expect(
+      seriesDataForIndicatorIndexAndArea(data, 1, areaCodeForEngland)
+    ).toEqual(mockHealthData['1'][1]);
   });
 });
 
-describe('seriesDataWithoutEngland', () => {
+describe('seriesDataWithoutEnglandOrParent', () => {
   it('should return data that doesnt have the england area code', () => {
     const data = [
       {
@@ -220,7 +221,90 @@ describe('seriesDataWithoutEngland', () => {
       },
     ];
 
-    const result = seriesDataWithoutEngland(data);
+    const result = seriesDataWithoutEnglandOrParent(data);
     expect(result).toEqual(dataWithoutEngland);
+  });
+
+  it('should return data that doesnt have the parent area code when passed a parent area code', () => {
+    const data = [
+      {
+        areaCode: 'A1425',
+        areaName: 'area A1425',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+      {
+        areaCode: 'E12000001',
+        areaName: 'North East region',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+    ];
+
+    const dataWithoutParent = [
+      {
+        areaCode: 'A1425',
+        areaName: 'area A1425',
+        healthData: [
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Persons',
+            ageBand: 'All',
+          },
+        ],
+      },
+    ];
+
+    const result = seriesDataWithoutEnglandOrParent(data, 'E12000001');
+    expect(result).toEqual(dataWithoutParent);
   });
 });
