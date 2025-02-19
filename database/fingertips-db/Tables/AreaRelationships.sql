@@ -1,6 +1,6 @@
 create table Areas.AreaRelationships(
-    [ChildAreaKey] int not null,
     [ParentAreaKey] int not null,  
+    [ChildAreaKey] int not null,
 )
 
 GO
