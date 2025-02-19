@@ -2,21 +2,33 @@
 
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 
-const $IndicatorSearchFormSchema = z.object({
-  indicator: z
-    .string()
-    .trim()
-    .min(1, { message: 'Please enter an indicator id' }),
-});
+const $IndicatorSearchFormSchema = z
+  .object({
+    searchState: z.string(),
+    indicator: z.string(),
+  })
+  .refine((data) => {
+    const stateParsed = JSON.parse(data.searchState);
+    if (
+      data.indicator.trim().length > 0 ||
+      stateParsed[SearchParams.AreasSelected]?.length > 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
 export type State = {
   errors?: {
     indicator?: string[];
   };
   message?: string | null;
-  areasSelected?: string[];
 };
 
 export type IndicatorSearchForm = z.infer<typeof $IndicatorSearchFormSchema>;
@@ -27,29 +39,33 @@ export async function searchIndicator(
   prevState: IndicatorSearchFormState,
   formData: FormData
 ): Promise<IndicatorSearchFormState> {
-  const validatedField = $IndicatorSearchFormSchema.safeParse({
+  const validatedFields = $IndicatorSearchFormSchema.safeParse({
+    searchState: formData.get('searchState'),
     indicator: formData.get('indicator'),
   });
 
-  if (!validatedField.success && prevState.areasSelected?.length === 0) {
+  const searchStateParsed: SearchStateParams = JSON.parse(
+    formData.get('searchState')?.toString() ?? `{}`
+  );
+  const searchStateManager = SearchStateManager.initialise({
+    ...searchStateParsed,
+  });
+
+  if (!validatedFields.success) {
     return {
+      searchState: formData.get('searchState')?.toString() ?? '',
       indicator: formData.get('indicator')?.toString().trim() ?? '',
-      errors: validatedField.error.flatten().fieldErrors,
-      message: 'Please enter a subject',
-      areasSelected: prevState.areasSelected,
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Please enter an indicator ID or select at least one area',
     };
   }
 
-  const searchState = new SearchStateManager({
-    [SearchParams.AreasSelected]: prevState.areasSelected,
-  });
+  const { indicator } = validatedFields.data;
 
-  if (validatedField.success) {
-    searchState.addParamValueToState(
-      SearchParams.SearchedIndicator,
-      validatedField.data.indicator
-    );
-  }
+  searchStateManager.addParamValueToState(
+    SearchParams.SearchedIndicator,
+    indicator
+  );
 
-  redirect(searchState.generatePath('/results'), RedirectType.push);
+  redirect(searchStateManager.generatePath('/results'), RedirectType.push);
 }

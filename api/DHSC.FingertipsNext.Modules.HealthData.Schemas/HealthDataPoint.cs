@@ -18,25 +18,25 @@ public class HealthDataPoint
     /// The count
     /// </summary>
     [JsonPropertyName("count")]
-    public float Count { get; init; }
+    public float? Count { get; init; }
     
     /// <summary>
     /// The value
     /// </summary>
     [JsonPropertyName("value")]
-    public float Value { get; init; }
+    public float? Value { get; init; }
     
     /// <summary>
     /// The lower confidence interval
     /// </summary>
     [JsonPropertyName("lowerCi")]
-    public float LowerConfidenceInterval { get; init; }
+    public float? LowerConfidenceInterval { get; init; }
     
     /// <summary>
     /// The upper confidence interval
     /// </summary>
     [JsonPropertyName("upperCi")]
-    public float UpperConfidenceInterval { get; init; }
+    public float? UpperConfidenceInterval { get; init; }
 
     /// <summary>
     /// Age band which the data are for.

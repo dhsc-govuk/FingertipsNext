@@ -1,9 +1,7 @@
 import {
   SearchIndex,
   SearchIndexClient,
-  SearchField,
   SearchClient,
-  SearchFieldDataType,
 } from '@azure/search-documents';
 import {
   AREA_SEARCH_SUGGESTER_NAME,
@@ -21,7 +19,7 @@ export async function createIndex(
   try {
     console.log('Trying to delete an existing index');
     await indexClient.deleteIndex(index);
-  } catch {}
+  } catch { }
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
@@ -41,64 +39,65 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
     fields: [
       {
         key: true,
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_ID,
-          'Edm.String',
-          true,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_ID,
+        type: 'Edm.String',
+        searchable: true,
+        sortable: true,
+        filterable: true,
       },
       {
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_NAME,
-          'Edm.String',
-          true,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_NAME,
+        type: 'Edm.String',
+        searchable: true,
+        sortable: true,
+        filterable: true,
       },
       {
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
-          'Edm.String',
-          true,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_DEFINITION,
+        type: 'Edm.String',
+        searchable: true,
+        sortable: true,
+        filterable: true,
       },
       {
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
-          'Edm.String',
-          false,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: true,
+        filterable: true,
       },
       {
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_DATA_SOURCE,
-          'Edm.String',
-          false,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_DATA_SOURCE,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: true,
+        filterable: true,
       },
       {
-        ...buildSearchIndexField(
-          IndicatorSearchIndexColumnNames.INDICATOR_LAST_UPDATED,
-          'Edm.DateTimeOffset',
-          false,
-          true,
-          true
-        ),
+        name: IndicatorSearchIndexColumnNames.INDICATOR_LAST_UPDATED,
+        type: 'Edm.DateTimeOffset',
+        searchable: false,
+        sortable: true,
+        filterable: true,
+      },
+      {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_AREAS,
+        type: 'Collection(Edm.String)',
+        searchable: false,
+        sortable: false,
+        filterable: true,
       },
     ],
     scoringProfiles: [
       {
         name: INDICATOR_SEARCH_SCORING_PROFILE,
-        textWeights: { weights: { indicatorId: 20, name: 10, definition: 5 } },
+        textWeights: {
+          weights: {
+            indicatorID: 20,
+            indicatorName: 10,
+            indicatorDefinition: 5,
+          },
+        },
       },
     ],
     defaultScoringProfile: INDICATOR_SEARCH_SCORING_PROFILE,
@@ -149,23 +148,5 @@ export function buildGeographySearchIndex(name: string): SearchIndex {
         ],
       },
     ],
-  };
-}
-
-function buildSearchIndexField(
-  name: string,
-  type: SearchFieldDataType,
-  searchable: boolean,
-  sortable: boolean,
-  filterable: boolean,
-  hidden: boolean = false
-): SearchField {
-  return {
-    name,
-    type,
-    searchable,
-    sortable,
-    filterable,
-    hidden,
   };
 }
