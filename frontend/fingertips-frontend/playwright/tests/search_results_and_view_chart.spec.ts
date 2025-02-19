@@ -174,10 +174,14 @@ test.describe('Search via indicator', () => {
   });
 
   test('check area type pills on results page when areas specified in url', async ({
-      resultsPage,
-    }) => {
+    resultsPage,
+  }) => {
     await test.step('Search for a test indicator', async () => {
-      await resultsPage.navigateToResults('smoking', ['E40000012', 'E40000011', 'E40000010']);
+      await resultsPage.navigateToResults('smoking', [
+        'E40000012',
+        'E40000011',
+        'E40000010',
+      ]);
     });
 
     await test.step('Check selected area pills matches those specified in url', async () => {
@@ -186,12 +190,14 @@ test.describe('Search via indicator', () => {
         'Midlands NHS Region',
         'North West NHS Region',
       ];
-      await test.expect(resultsPage.areaFilterPills()).toHaveCount(expectdPillTexts.length);
+      await test
+        .expect(resultsPage.areaFilterPills())
+        .toHaveCount(expectdPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
       test
-          .expect(sortAlphabetically(filterPillNames))
-          .toEqual(sortAlphabetically(expectdPillTexts));
+        .expect(sortAlphabetically(filterPillNames))
+        .toEqual(sortAlphabetically(expectdPillTexts));
     });
 
     await test.step('Click remove one area pill and re-check area pills', async () => {
@@ -201,22 +207,23 @@ test.describe('Search via indicator', () => {
         'North East and Yorkshire NHS Region',
         'North West NHS Region',
       ];
-      await test.expect(resultsPage.areaFilterPills()).toHaveCount(expectdPillTexts.length);
+      await test
+        .expect(resultsPage.areaFilterPills())
+        .toHaveCount(expectdPillTexts.length);
 
       const filterPillNames = await resultsPage.areaFilterPillsText();
       test
-          .expect(sortAlphabetically(filterPillNames))
-          .toEqual(sortAlphabetically(expectdPillTexts));
+        .expect(sortAlphabetically(filterPillNames))
+        .toEqual(sortAlphabetically(expectdPillTexts));
     });
 
     await test.step('Check url has been updated after area pill removal', async () => {
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000012/)
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000011/)
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000010/)
+      await test.expect(resultsPage.page).toHaveURL(/&as=E40000012/);
+      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000011/);
+      await test.expect(resultsPage.page).toHaveURL(/&as=E40000010/);
     });
   });
 
   const sortAlphabetically = (array: (string | null)[]) =>
     array.sort((a, b) => a!.localeCompare(b!));
 });
-
