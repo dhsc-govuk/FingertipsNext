@@ -168,7 +168,9 @@ test.describe('Search via indicator', () => {
         'NHS Primary Care Networks',
         'GPs',
       ];
-      await test.expect(resultsPage.areaFilterOptions()).toHaveCount(expectedOptions.length);
+      await test
+        .expect(resultsPage.areaFilterOptions())
+        .toHaveCount(expectedOptions.length);
 
       const options = await resultsPage.areaFilterOptionsText();
       test
@@ -238,7 +240,7 @@ test.describe('Search via indicator', () => {
       await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
-    })
+    });
   });
 
   const sortAlphabetically = (array: (string | null)[]) =>

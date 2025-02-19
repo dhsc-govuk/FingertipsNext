@@ -69,7 +69,7 @@ export default class ResultsPage extends BasePage {
     return this.page
       .getByTestId(this.areaFilterContainer)
       .getByTestId(this.areaTypeSelector)
-      .getByRole('option')
+      .getByRole('option');
   }
 
   async areaFilterOptionsText() {
