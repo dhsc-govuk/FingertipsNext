@@ -2953,7 +2953,6 @@ SET IDENTITY_INSERT [Areas].[Areas] OFF
 
 GO
 
-
 INSERT [Areas].[AreaRelationships] ([ParentAreaKey],[ChildAreaKey])
 VALUES
 (1,101)
