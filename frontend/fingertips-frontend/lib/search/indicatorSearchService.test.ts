@@ -71,7 +71,7 @@ describe('IndicatorSearchService', () => {
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
-          filter: "associatedAreaCodes/any(a: a eq 'Area1')"
+          filter: "associatedAreaCodes/any(a: a eq 'Area1')",
         })
       );
     });
@@ -93,7 +93,8 @@ describe('IndicatorSearchService', () => {
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
-          filter: "associatedAreaCodes/any(a: a eq 'Area1' or a eq 'Area2' or a eq 'Area3')"
+          filter:
+            "associatedAreaCodes/any(a: a eq 'Area1' or a eq 'Area2' or a eq 'Area3')",
         })
       );
     });
@@ -115,7 +116,7 @@ describe('IndicatorSearchService', () => {
         expect.objectContaining({
           queryType: 'full',
           includeTotalCount: true,
-          filter: undefined
+          filter: undefined,
         })
       );
     });
