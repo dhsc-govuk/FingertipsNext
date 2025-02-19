@@ -6,6 +6,7 @@ export enum SearchParams {
   AreasSelected = 'as',
   AreaTypeSelected = 'ats',
   GroupTypeSelected = 'gts',
+  ConfidenceIntervalSelected = 'cis',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -13,6 +14,7 @@ export type SearchParamKeys = `${SearchParams}`;
 const multiValueParams = [
   SearchParams.IndicatorsSelected as string,
   SearchParams.AreasSelected as string,
+  SearchParams.ConfidenceIntervalSelected as string,
 ];
 
 export type SearchStateParams = {
@@ -21,6 +23,7 @@ export type SearchStateParams = {
   [SearchParams.AreasSelected]?: string[];
   [SearchParams.AreaTypeSelected]?: string;
   [SearchParams.GroupTypeSelected]?: string;
+  [SearchParams.ConfidenceIntervalSelected]?: string[];
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>
@@ -30,11 +33,49 @@ export class SearchStateManager {
   private searchState: SearchStateParams;
   private searchStateParams: URLSearchParams;
 
-  constructor(searchState: SearchStateParams = {}) {
+  private constructor(searchState: SearchStateParams = {}) {
     this.searchState = {};
     this.searchStateParams = new URLSearchParams();
 
     this.searchState = searchState;
+  }
+
+  public static initialise(params?: SearchStateParams) {
+    if (params) {
+      const newState = Object.values(SearchParams).reduce<SearchStateParams>(
+        (state, searchParamKey) => {
+          if (isMultiValueTypeParam(searchParamKey)) {
+            const paramValues = asArray(params[searchParamKey]);
+
+            if (paramValues.length > 0) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValues,
+              };
+
+              return newState;
+            }
+          } else {
+            const paramValue = params[searchParamKey];
+
+            if (paramValue) {
+              const newState: SearchStateParams = {
+                ...state,
+                [searchParamKey]: paramValue,
+              };
+
+              return newState;
+            }
+          }
+          return state;
+        },
+        {}
+      );
+
+      const searchStateManager = new SearchStateManager(newState);
+      return searchStateManager;
+    }
+    return new SearchStateManager();
   }
 
   private constructPath(path: string) {
@@ -60,14 +101,19 @@ export class SearchStateManager {
   ) {
     if (isMultiValueTypeParam(searchParamKey)) {
       const currentParamState = this.searchState[searchParamKey];
-
       const currentParamStateAsArray = asArray(currentParamState);
-      const newState: SearchStateParams = {
-        ...this.searchState,
-        [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
-      };
+      const doesParamExist = currentParamStateAsArray.find(
+        (currentParam) => currentParam === paramToAdd
+      );
 
-      this.searchState = newState;
+      if (!doesParamExist) {
+        const newState: SearchStateParams = {
+          ...this.searchState,
+          [searchParamKey]: [...currentParamStateAsArray, paramToAdd],
+        };
+
+        this.searchState = newState;
+      }
     } else {
       const newState: SearchStateParams = {
         ...this.searchState,

@@ -5,8 +5,12 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
+import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
+import 'highcharts/highcharts-more';
+import { useSearchParams } from 'next/navigation';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 interface LineChartProps {
   LineChartTitle?: string;
@@ -14,6 +18,7 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
+  parentIndicatorData?: HealthDataForArea;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -24,18 +29,46 @@ const chartSymbols: SymbolKeyValue[] = [
   'diamond',
 ];
 
+const chartName = 'lineChart';
+
 export function LineChart({
   LineChartTitle: lineChartTitle,
   healthIndicatorData,
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
+  parentIndicatorData,
 }: Readonly<LineChartProps>) {
-  const sortedSeriesValues = sortHealthDataByDate(healthIndicatorData);
+  const searchParams = useSearchParams();
+  const existingParams = new URLSearchParams(searchParams);
+  const searchStateManager =
+    SearchStateManager.setStateFromParams(existingParams);
+
+  const showConfidenceIntervalsData =
+    searchStateManager.getSearchState()[
+      SearchParams.ConfidenceIntervalSelected
+    ];
+
+  const lineChartCI =
+    showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
+
+  const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
+
+  const sortedBenchMarkData = benchmarkData
+    ? sortHealthDataByDate([benchmarkData])[0]
+    : undefined;
+
+  const sortedParentData = parentIndicatorData
+    ? sortHealthDataByDate([parentIndicatorData])[0]
+    : undefined;
+
   const seriesData = generateSeriesData(
-    sortedSeriesValues,
+    sortedHealthIndicatorData,
     chartSymbols,
-    benchmarkData
+    chartColours,
+    sortedBenchMarkData,
+    sortedParentData,
+    lineChartCI
   );
 
   const lineChartOptions: Highcharts.Options = {
@@ -43,7 +76,6 @@ export function LineChart({
       enabled: false,
     },
     chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
-    colors: chartColours,
     title: {
       style: {
         display: 'none',
@@ -79,6 +111,10 @@ export function LineChart({
   return (
     <div data-testid="lineChart-component">
       <H3>{lineChartTitle}</H3>
+      <ConfidenceIntervalCheckbox
+        chartName={chartName}
+        showConfidenceIntervalsData={lineChartCI}
+      ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-lineChart',

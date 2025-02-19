@@ -5,10 +5,10 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[IndicatorKey] [smallint] NOT NULL,					--Foreign key to the indicator - what indicator is this row for
 	[SexKey] [tinyint] NOT NULL,						--Foreign key to the sex - what sex is this row for
 	[AgeKey] [smallint] NOT NULL,						--Foreign key to the age - what age is this row for
-	[Count] [float] NOT NULL,							--How many were counted for this data - e.g. how many people were counted in order to create this row			
-	[Value] [float] NOT NULL,							--The value of the data e.g. how many people per 100 000. This is the key piece of data for this row 
-	[LowerCI] [float] NOT NULL,							--The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
-	[UpperCI] [float] NOT NULL,							--The upper confidence interval value - a statistically calculated value using methodology described in the indicator metadata
+	[Count] [float] NULL,							--How many were counted for this data - e.g. how many people were counted in order to create this row			
+	[Value] [float] NULL,							--The value of the data e.g. how many people per 100 000. This is the key piece of data for this row 
+	[LowerCI] [float] NULL,							--The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
+	[UpperCI] [float] NULL,							--The upper confidence interval value - a statistically calculated value using methodology described in the indicator metadata
 	[Year] [smallint] NOT NULL,							--A junk dimension of the year that this row is for e.g. 2022
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED 
 (

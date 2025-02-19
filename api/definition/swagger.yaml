@@ -55,7 +55,7 @@ paths:
                   $ref: "#/components/schemas/AreaType"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
-  /areas/areatypes/{area_type}/areas:
+  /areas/areatypes/{area_type_key}/areas:
     get:
       tags:
         - areas
@@ -232,11 +232,12 @@ components:
       type: object
       description: An area type e.g. PCN or GP
       required:
+        - key
         - name
         - level
         - hierarchyName
       properties:
-        areaTypeKey:
+        key:
           type: string
           example: "combined-authorities"
           description: The key name of the area type
@@ -273,7 +274,6 @@ components:
       required:
         - code
         - name
-        - hierarchyName
         - areaType
       properties:
         code:
@@ -284,18 +284,9 @@ components:
           type: string
           example: "County Durham"
           description: The name of the area / geography
-        hierarchyName:
-          type: string
-          example: "NHS"
-          description: The name of the associated hierarchy for the area / geography
         areaType:
-          type: string
-          example: "PCN"
-          description: The type of the area / geography
-        level:
-          type: integer
-          example: "3"
-          description: The level in the hierarchy
+          $ref: "#/components/schemas/AreaType"
+          type: object
     AreaWithRelations:
       allOf:
         - $ref: "#/components/schemas/Area"
@@ -362,10 +353,6 @@ components:
         year, age band and sex.
       required:
         - year
-        - count
-        - value
-        - lowerCi
-        - upperCi
         - ageBand
         - sex
       properties:

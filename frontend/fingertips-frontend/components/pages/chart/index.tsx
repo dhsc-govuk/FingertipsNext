@@ -9,16 +9,18 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
-  getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrParent,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { InequalitiesSexTable } from '@/components/organisms/Inequalities/Sex/Table';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
+  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -28,24 +30,33 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
+  parentAreaCode,
   mapData,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
   areasSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({
+  const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
-    0
+    0,
+    areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
+  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+    healthIndicatorData[0],
+    parentAreaCode
+  );
+
+  const parentBenchmarkData = parentAreaCode
+    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
+    : undefined;
 
   return (
     <>
@@ -65,12 +76,14 @@ export function Chart({
             LineChartTitle="See how the indicator has changed over time"
             healthIndicatorData={dataWithoutEngland}
             benchmarkData={englandBenchmarkData}
+            parentIndicatorData={parentBenchmarkData}
             xAxisTitle="Year"
             accessibilityLabel="A line chart showing healthcare data"
           />
           <LineChartTable
             healthIndicatorData={dataWithoutEngland}
             englandBenchmarkData={englandBenchmarkData}
+            parentIndicatorData={parentBenchmarkData}
           />
         </>
       )}

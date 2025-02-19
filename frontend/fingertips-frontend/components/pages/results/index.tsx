@@ -1,23 +1,11 @@
 'use client';
 
-import {
-  BackLink,
-  Button,
-  ErrorSummary,
-  GridCol,
-  GridRow,
-  H1,
-  ListItem,
-  Paragraph,
-  SectionBreak,
-  UnorderedList,
-} from 'govuk-react';
+import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
 import { useActionState } from 'react';
-import { SearchResult } from '@/components/molecules/result';
 import {
-  SearchResultState,
+  IndicatorSelectionState,
   submitIndicatorSelection,
-} from './searchResultsActions';
+} from '../../forms/IndicatorSelectionForm/indicatorSelectionActions';
 import {
   SearchParams,
   SearchStateManager,
@@ -25,61 +13,50 @@ import {
 } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AreaWithRelations, AreaType } from '@/generated-sources/ft-api-client';
+import {
+  AreaWithRelations,
+  AreaType,
+  Area,
+} from '@/generated-sources/ft-api-client';
 import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
 import {
   IndicatorSearchFormState,
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
-import { useSearchParams } from 'next/navigation';
+import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 
 type SearchResultsProps = {
-  searchResultsFormState: SearchResultState;
+  initialIndicatorSelectionState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
-  selectedAreaType?: string;
-  selectedGroupType?: string;
-  selectedAreas?: AreaWithRelations[];
+  availableGroupTypes?: AreaType[];
+  availableAreas?: Area[];
+  selectedAreasData?: AreaWithRelations[];
+  searchState?: SearchStateParams;
 };
 
-const isIndicatorSelected = (
-  indicatorId: string,
-  state?: SearchResultState
-): boolean => {
-  return state?.indicatorsSelected
-    ? state.indicatorsSelected?.some((ind) => ind === indicatorId)
-    : false;
-};
-
-const generateBackLinkPath = (state: SearchStateParams) => {
-  const stateManager = new SearchStateManager({
-    [SearchParams.SearchedIndicator]: state[SearchParams.SearchedIndicator],
-  });
+const generateBackLinkPath = (state?: SearchStateParams) => {
+  const stateManager = SearchStateManager.initialise(state);
   return stateManager.generatePath('/');
 };
 
 export function SearchResults({
-  searchResultsFormState,
+  initialIndicatorSelectionState,
   searchResults,
   availableAreaTypes,
-  selectedAreaType,
-  selectedGroupType,
-  selectedAreas,
+  availableGroupTypes,
+  availableAreas,
+  selectedAreasData,
+  searchState,
 }: Readonly<SearchResultsProps>) {
   const [indicatorSelectionState, indicatorSelectionFormAction] =
-    useActionState(submitIndicatorSelection, searchResultsFormState);
-  const stateParsed: SearchStateParams = JSON.parse(
-    indicatorSelectionState.searchState
-  );
-  const backLinkPath = generateBackLinkPath(stateParsed);
+    useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
 
-  const urlSearchParams = useSearchParams();
-  const params = new URLSearchParams(urlSearchParams);
-  const areasSelected = params.getAll(SearchParams.AreasSelected);
+  const backLinkPath = generateBackLinkPath(searchState);
 
   const initialIndicatorSearchFormState: IndicatorSearchFormState = {
-    indicator: stateParsed[SearchParams.SearchedIndicator] ?? '',
-    areasSelected: areasSelected,
+    indicator: searchState?.[SearchParams.SearchedIndicator] ?? '',
+    searchState: JSON.stringify(searchState),
   };
   const [indicatorSearchState, indicatorSearchFormAction] = useActionState(
     searchIndicator,
@@ -89,81 +66,55 @@ export function SearchResults({
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
-      {stateParsed[SearchParams.SearchedIndicator] ? (
-        <>
-          {indicatorSelectionState.message && (
-            <ErrorSummary
-              description={indicatorSelectionState.message}
-              errors={[
-                {
-                  targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
-                  text: 'Available indicators',
-                },
-              ]}
-              data-testid="search-result-form-error-summary"
-              onHandleErrorClick={(targetName: string) => {
-                const indicator = document.getElementById(targetName);
-                indicator?.scrollIntoView(true);
-                indicator?.focus();
-              }}
+      <>
+        {indicatorSelectionState.message && (
+          <ErrorSummary
+            description={indicatorSelectionState.message}
+            errors={[
+              {
+                targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
+                text: 'Available indicators',
+              },
+            ]}
+            data-testid="search-result-form-error-summary"
+            onHandleErrorClick={(targetName: string) => {
+              const indicator = document.getElementById(targetName);
+              indicator?.scrollIntoView(true);
+              indicator?.focus();
+            }}
+          />
+        )}
+        <H1>
+          Search results for {searchState?.[SearchParams.SearchedIndicator]}
+        </H1>
+        <form action={indicatorSearchFormAction}>
+          <IndicatorSearchForm
+            key={JSON.stringify(searchState)}
+            indicatorSearchFormState={indicatorSearchState}
+            searchState={searchState}
+          />
+        </form>
+        <GridRow>
+          <GridCol setWidth="one-third">
+            <AreaFilter
+              key={JSON.stringify(searchState)}
+              availableAreaTypes={availableAreaTypes}
+              availableGroupTypes={availableGroupTypes}
+              availableAreas={availableAreas}
+              selectedAreasData={selectedAreasData}
+              searchState={searchState}
             />
-          )}
-          <H1>
-            Search results for {stateParsed[SearchParams.SearchedIndicator]}
-          </H1>
-          <form action={indicatorSearchFormAction}>
-            <IndicatorSearchForm
-              indicatorSearchFormState={indicatorSearchState}
+          </GridCol>
+          <GridCol>
+            <IndicatorSelectionForm
+              key={JSON.stringify(searchState)}
+              searchResults={searchResults}
+              searchState={searchState}
+              formAction={indicatorSelectionFormAction}
             />
-          </form>
-          <GridRow>
-            <GridCol setWidth="one-third">
-              <AreaFilter
-                availableAreaTypes={availableAreaTypes}
-                selectedAreaType={selectedAreaType}
-                selectedGroupType={selectedGroupType}
-                selectedAreas={selectedAreas}
-              />
-            </GridCol>
-            <GridCol>
-              <form action={indicatorSelectionFormAction}>
-                <input
-                  name="searchState"
-                  defaultValue={indicatorSelectionState.searchState}
-                  hidden
-                />
-                {searchResults.length ? (
-                  <UnorderedList listStyleType="none">
-                    <ListItem>
-                      <SectionBreak visible={true} />
-                    </ListItem>
-                    {searchResults.map((result) => (
-                      <SearchResult
-                        key={result.indicatorId}
-                        result={result}
-                        indicatorSelected={isIndicatorSelected(
-                          result.indicatorId.toString(),
-                          indicatorSelectionState
-                        )}
-                      />
-                    ))}
-                  </UnorderedList>
-                ) : (
-                  <Paragraph>No results found</Paragraph>
-                )}
-                <Button
-                  type="submit"
-                  data-testid="search-results-button-submit"
-                >
-                  View charts
-                </Button>
-              </form>
-            </GridCol>
-          </GridRow>
-        </>
-      ) : (
-        <Paragraph>No indicator entered</Paragraph>
-      )}
+          </GridCol>
+        </GridRow>
+      </>
     </>
   );
 }

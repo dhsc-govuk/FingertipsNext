@@ -94,7 +94,7 @@ public class AreaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<Schemas.Area>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [Route("areatypes/{area_type}/areas")]
+    [Route("areatypes/{area_type_key}/areas")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public async Task<IActionResult> GetAreaDetailsForAreaTypeAsync([FromRoute] string area_type_key)
     {
