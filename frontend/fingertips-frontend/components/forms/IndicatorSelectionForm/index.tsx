@@ -69,10 +69,10 @@ export function IndicatorSelectionForm({
           </ListItem>
           {searchResults.map((result) => (
             <SearchResult
-              key={result.indicatorId}
+              key={result.indicatorID}
               result={result}
               indicatorSelected={isIndicatorSelected(
-                result.indicatorId.toString(),
+                result.indicatorID.toString(),
                 searchState
               )}
               searchState={searchState}

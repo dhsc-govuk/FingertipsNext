@@ -72,7 +72,7 @@ export function SearchResults({
             description={indicatorSelectionState.message}
             errors={[
               {
-                targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
+                targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
                 text: 'Available indicators',
               },
             ]}
