@@ -53,14 +53,9 @@ export function Chart({
     parentAreaCode
   );
 
-  let parentBenchmarkData: HealthDataForArea | undefined;
-  if (parentAreaCode) {
-    parentBenchmarkData = seriesDataForIndicatorIndexAndArea(
-      healthIndicatorData,
-      0,
-      parentAreaCode
-    );
-  }
+  const parentBenchmarkData = parentAreaCode
+    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
+    : undefined;
 
   return (
     <>
