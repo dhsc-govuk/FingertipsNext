@@ -8,9 +8,9 @@ public class HealthMeasure
     public required IndicatorDimension IndicatorDimension  { get; set; }
     public required SexDimension SexDimension { get; set; }
     public required AgeDimension AgeDimension { get; set; }
-    public required double Count { get; set; }
-    public required double Value { get; set; }
-    public required double LowerCI { get; set; }
-    public required double UpperCI { get; set; }
+    public double? Count { get; set; }
+    public double? Value { get; set; }
+    public double? LowerCI { get; set; }
+    public double? UpperCI { get; set; }
     public required int Year { get; set; }
 }

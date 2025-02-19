@@ -356,10 +356,6 @@ components:
         year, age band and sex.
       required:
         - year
-        - count
-        - value
-        - lowerCi
-        - upperCi
         - ageBand
         - sex
       properties:
