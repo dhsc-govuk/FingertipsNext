@@ -34,7 +34,7 @@ export function returnIndicatorIDsByIndicatorMode(
       return [indicators[0]];
     case IndicatorMode.TWO_INDICATORS:
       return [indicators[0], indicators[1]];
-    case IndicatorMode.MULTIPLE_INDICATORS:
+    case IndicatorMode.MULTIPLE_INDICATORS: // 3+ indicators
       return [indicators[0], indicators[1], indicators[2]];
     default:
       throw new Error('Invalid indicator mode');

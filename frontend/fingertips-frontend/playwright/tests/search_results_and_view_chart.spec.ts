@@ -83,6 +83,7 @@ test.describe.parallel(`Search via search term ${searchTerm}`, () => {
 
       await test.step(`Select ${indicatorMode} and ${areaMode} and view charts`, async () => {
         await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
+        await resultsPage.selectAreasCheckboxes();
         await resultsPage.waitForURLToContain(
           `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
         );

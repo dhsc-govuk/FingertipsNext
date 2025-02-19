@@ -1,6 +1,7 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
+// import { AreaMode } from '../page-objects/pages/chartPage';
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
@@ -58,6 +59,41 @@ export default class ResultsPage extends BasePage {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
+  }
+
+  async selectAreasCheckboxes() {
+    await this.page.getByText(`Add or change areas`).click();
+
+    await this.page.getByText(`Select an area type`).selectOption('GPs');
+
+    await this.page.getByText(`Refine the area list`).click();
+
+    await this.page
+      .getByText(`1. Select a group type`)
+      .selectOption('NHS Primary Care Networks');
+
+    // await expect(checkbox).toBeAttached();
+    // await expect(checkbox).toBeVisible();
+    // await expect(checkbox).toBeInViewport();
+    // await expect(checkbox).toBeEnabled();
+    // await expect(checkbox).toBeEditable();
+    // await expect(checkbox).toBeChecked({ checked: false });
+
+    // await checkbox.check({ force: true, timeout: 2000 });
+
+    // await expect(checkbox).toBeChecked();
+    // await this.waitForURLToContain(indicatorID);
+
+    // switch (areaMode) {
+    //   case areaMode.ONE_AREA:
+    //     click;
+    //   case areaMode.TWO_AREAS:
+    //     click;
+    //   case areaMode.ENGLAND_AREA:
+    //     click;
+    //   default:
+    //     throw new Error('Invalid area mode');
+    // }
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
