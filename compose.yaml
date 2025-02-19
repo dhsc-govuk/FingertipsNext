@@ -3,7 +3,6 @@ services:
     profiles:
       - all
       - frontend
-
     build: frontend/fingertips-frontend
     environment:
       FINGERTIPS_API_URL: "http://api:8080"
@@ -15,11 +14,9 @@ services:
     profiles:
       - all
       - api
-
     depends_on:
       db-setup:
         condition: service_completed_successfully
-
     build: api
     environment:
       DB_SERVER: db
@@ -41,10 +38,8 @@ services:
       - all
       - api
       - db
-
     depends_on:
       - db
-
     build: database/fingertips-db
     environment:
       DB_SERVER: db
@@ -58,10 +53,11 @@ services:
       - all
       - api
       - db
-
     image: mcr.microsoft.com/mssql/server
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: ${DB_PASSWORD}
     ports:
       - 1433:1433
+    volumes:
+      - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/

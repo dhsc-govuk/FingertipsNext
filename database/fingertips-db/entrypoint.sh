@@ -19,4 +19,5 @@ sqlpackage \
     /TargetDatabaseName:$DB_NAME \
     /TargetUser:$SA_USERNAME \
     /TargetPassword:$SA_PASSWORD \
+    /v:FilePath="/var/opt/mssql/csv/" \
     /TargetTrustServerCertificate:${TRUST_CERT}

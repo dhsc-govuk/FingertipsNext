@@ -12,7 +12,6 @@
   <ItemGroup>
     <Folder Include="PostDeployment" />
     <Folder Include="Tables" />
-    <Folder Include="Scripts\" />
     <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +25,11 @@
     <Build Include="Tables\SexDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Tables\Areas.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="FilePath">
+      <Value>/var/opt/mssql/csv/</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
