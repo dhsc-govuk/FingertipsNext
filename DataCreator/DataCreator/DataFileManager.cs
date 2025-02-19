@@ -34,6 +34,13 @@ namespace DataCreator
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
+        /// <summary>
+        /// Get health data from csv files that have been downloaded from the fingertips API
+        /// </summary>
+        /// <param name="indicatorId"></param>
+        /// <param name="yearFrom"></param>
+        /// <param name="areasWeWant"></param>
+        /// <returns></returns>
         public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, List<string> areasWeWant)
         {
             //this is a csv file that was downloaded from the Fingertips API

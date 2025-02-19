@@ -1,6 +1,6 @@
 ﻿namespace DataCreator
 {
-    public class HealthMeasureEntity
+    public record HealthMeasureEntity
     {
         public int IndicatorId { get; set; }
         public int Year { get; set; }

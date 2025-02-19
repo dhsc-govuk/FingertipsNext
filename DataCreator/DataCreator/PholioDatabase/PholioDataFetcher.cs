@@ -377,7 +377,11 @@ FROM
             return allParents.Where(x => x.IsDirect).Distinct().ToList();
         }
 
-        public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync()
+        /// <summary>
+        /// Get the indicators, adding in the Trend polarity as well as benchmarking details
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
@@ -389,13 +393,20 @@ FROM
             return indicators;
         }
 
-
+        /// <summary>
+        /// Get the age date
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
+        /// <summary>
+        /// get the category data
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
@@ -412,7 +423,7 @@ FROM
                 var results = areaPolarities
                      .Where(ai => ai.IndicatorId == indicator.IndicatorID)
                      .ToList();
-                if (results.Count() > 1)
+                if (results.Count > 1)
                     indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
             }
             
@@ -440,7 +451,6 @@ FROM
                     indicator.BenchmarkComparisonMethod = results.First().ComparatorMethodID == 1 ? "RAG" : "QUINTILES";
             }
             indicators.RemoveAll(i => indicatorsWithMultiple.Contains(i.IndicatorID));
-            
         }
     }
 

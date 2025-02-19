@@ -2,7 +2,7 @@
 
 namespace DataCreator
 {
-    public class AreaEntity:SimpleArea
+    public record AreaEntity :SimpleArea
     {
        
         public string AddressLine1 { get; set; }
@@ -17,16 +17,13 @@ namespace DataCreator
         public double Longitude { get; set; }
 
         
-
         public List<AreaRelation> ParentAreas { get; set; }=[];
 
         public List<AreaRelation> ChildAreas { get; set; }= [];
 
-        
-
     }
 
-    public class SimpleArea
+    public record SimpleArea
     {
         private string areaCode;
 
@@ -42,14 +39,14 @@ namespace DataCreator
         public string AreaTypeCode { get; set; }
     }
 
-    public class SimpleAreaWithRelations: SimpleArea
+    public record SimpleAreaWithRelations : SimpleArea
     {
         public string Children { get; set; }
 
         public string Parents { get; set; }
     }
 
-    public class AreaRelation
+    public record AreaRelation
     {
         public string AreaCode { get; set; }
 

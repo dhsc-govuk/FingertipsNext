@@ -1,6 +1,6 @@
 ﻿namespace DataCreator
 {
-    public class IndicatorEntity: SimpleIndicator
+    public record IndicatorEntity: SimpleIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -65,14 +65,14 @@
         public bool HasInequalities { get; set; }
     }
 
-    public class SimpleIndicator
+    public record SimpleIndicator
     {
         public int IndicatorID { get; set; }
 
         public string IndicatorName { get; set; }
     }
 
-    public class IndicatorWithAreasAndLatestUpdate
+    public record IndicatorWithAreasAndLatestUpdate
     {
         public int IndicatorID { get; set; }
 
