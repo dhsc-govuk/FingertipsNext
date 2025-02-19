@@ -382,6 +382,7 @@ FROM
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
             var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql)).ToList();
+            indicators=indicators.Where(indicator=>!indicator.IndicatorName.Contains("CIA")).ToList();
             await AddPolarityToIndicators(indicators, connection);
             await AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(indicators, connection);
 

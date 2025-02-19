@@ -131,14 +131,25 @@ namespace DataCreator
             {
                 var data = DataFileManager.GetHealthDataForIndicator(indicatorId, yearFrom, areasWeWant);
                
-                Console.WriteLine($"Grabbed {data.Count()} points for indicator {indicatorId}");
+                Console.WriteLine($"Grabbed {data.Count} points for indicator {indicatorId}");
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
             AddSexIds(healthMeasures);
             await AddCategoryIds(healthMeasures);
-            var indicatorWithAreasAndLatestUpdates = new List<IndicatorWithAreasAndLatestUpdate>();
-            AssociateAreasWithIndicatorsAndSetLatestAndEarliest(healthMeasures, indicatorWithAreasAndLatestUpdates);
+
+            var indicatorWithAreasAndLatestUpdates = healthMeasures
+                .GroupBy(measure => measure.IndicatorId)
+                .Select(group => new IndicatorWithAreasAndLatestUpdate
+                {
+                    IndicatorID = group.Key,
+                    AssociatedAreaCodes = group.Select(x => x.AreaCode).Distinct().ToList(),
+                    LatestDataPeriod = group.OrderByDescending(g => g.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
+                    HasInequalities = group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty(d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                })
+                .ToList();
+            
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
@@ -167,24 +178,8 @@ namespace DataCreator
             DataFileManager.WriteCategoryCsvData("categories", categoryData);
         } 
 
-        private static void AssociateAreasWithIndicatorsAndSetLatestAndEarliest(List<HealthMeasureEntity> healthMeasures, List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates)
-        {
-            foreach (var group in healthMeasures.GroupBy(measure => measure.IndicatorId))
-            {
-                indicatorWithAreasAndLatestUpdates.Add(new IndicatorWithAreasAndLatestUpdate
-                {
-                    IndicatorID = group.Key,
-                    AssociatedAreaCodes= group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod=group.OrderByDescending(g=>g.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
-                    HasInequalities= group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty( d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
-                });
-            }
 
-            var a = indicatorWithAreasAndLatestUpdates.Where(x => x.HasInequalities).ToList();
-        }
-
-        private static IEnumerable<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
+        private static List<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
             var usedAgeIds= new HashSet<int>(); 
             
