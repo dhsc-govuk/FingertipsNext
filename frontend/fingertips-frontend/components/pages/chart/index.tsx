@@ -9,16 +9,18 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
-  getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrParent,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
+  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -28,6 +30,7 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
+  parentAreaCode,
   mapData,
   populationData,
   searchedIndicator,
@@ -41,11 +44,19 @@ export function Chart({
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
-    0
+    0,
+    areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
+  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+    healthIndicatorData[0],
+    parentAreaCode
+  );
+
+  const parentBenchmarkData = parentAreaCode
+    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
+    : undefined;
 
   return (
     <>
@@ -72,6 +83,7 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />
@@ -84,6 +96,7 @@ export function Chart({
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
                   />
                 ),
               },

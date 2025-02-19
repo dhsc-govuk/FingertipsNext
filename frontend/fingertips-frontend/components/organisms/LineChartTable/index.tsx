@@ -5,12 +5,13 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
+  parentIndicatorData?: HealthDataForArea;
 }
 
 interface LineChartTableRowData {
@@ -52,6 +53,10 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
 });
 
+const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
+  background: GovukColours.LightGrey,
+});
+
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
   width: '27%',
 });
@@ -71,9 +76,18 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
 });
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: LIGHT_GREY,
+  backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
   width: '16%',
+});
+
+const StyledLightGreyHeader = styled(StyledGreyHeader)({
+  backgroundColor: GovukColours.LightGrey,
+  borderTop: GovukColours.MidGrey,
+});
+
+const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
+  borderLeft: 'solid black 1px',
 });
 
 const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
@@ -95,8 +109,13 @@ const StyledAlignRightTableCell = styled(StyledTableCell)({
 });
 
 const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: LIGHT_GREY,
+  backgroundColor: GovukColours.MidGrey,
   borderTop: `solid #F3F2F1 2px`,
+});
+
+const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
+  backgroundColor: GovukColours.LightGrey,
+  borderLeft: `solid black 1px`,
 });
 
 const StyledSpan = styled('span')({
@@ -192,6 +211,7 @@ const getConfidenceLimitCellSpan = (index: number): number =>
 export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
+  parentIndicatorData,
 }: Readonly<TableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToTableData(areaData)
@@ -199,8 +219,12 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
+  const parentData = parentIndicatorData
+    ? mapToTableData(parentIndicatorData)
+    : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const englandRowData = sortPeriod(englandData);
+  const sortedParentRowData = sortPeriod(parentData);
 
   return (
     <StyledDiv data-testid="lineChartTable-component">
@@ -228,6 +252,11 @@ export function LineChartTable({
                   </StyledAreaNameHeader>
                 </React.Fragment>
               ))}
+              {parentIndicatorData ? (
+                <StyledGroupNameHeader data-testid="group-header">
+                  Group: {parentIndicatorData.areaName}
+                </StyledGroupNameHeader>
+              ) : null}
               <StyledGreyHeader data-testid="england-header">
                 Benchmark: <br /> England
               </StyledGreyHeader>
@@ -243,6 +272,7 @@ export function LineChartTable({
                   </StyledConfidenceLimitsHeader>
                 </React.Fragment>
               ))}
+              {parentIndicatorData ? <StyledLightGreyHeader /> : null}
               <StyledGreyHeader></StyledGreyHeader>
             </Table.Row>
             <Table.Row>
@@ -269,6 +299,9 @@ export function LineChartTable({
                     )
                   )
               )}
+              {parentIndicatorData ? (
+                <StyledLightGreySubHeader>Value (%)</StyledLightGreySubHeader>
+              ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
@@ -303,6 +336,11 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
+            {parentIndicatorData ? (
+              <StylesGroupValueTableCell>
+                {convertToPercentage(sortedParentRowData[index].value)}
+              </StylesGroupValueTableCell>
+            ) : null}
             <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
               {englandRowData.length
                 ? convertToPercentage(englandRowData[index].value)
