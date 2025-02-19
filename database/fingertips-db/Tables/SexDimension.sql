@@ -4,7 +4,6 @@ CREATE TABLE [dbo].[SexDimension](
 	[Name] [nvarchar](50) NOT NULL,						--The name of the sex e.g. Female
 	[IsFemale] [bit] NOT NULL,							--A flag to indicate if the data is for females
 	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all persons)
-	[SexId] [tinyint] NOT NULL,							--The original ID of the sex taken from the original Fingertips Pholio database.
  CONSTRAINT [PK_SexDimension] PRIMARY KEY CLUSTERED 
 (
 	[SexKey] ASC
