@@ -77,14 +77,14 @@ function generatePopulationSeries(
   requestedKey: string
 ): Array<number> {
   const totalPopulation = healthData.reduce(
-    (runningTotal, { count }) => runningTotal + count,
+    (runningTotal, { count }) => runningTotal + (count ?? 0),
     0
   );
   const filteredHealthData = healthData.filter(
     (healthDataPoint) => healthDataPoint.sex === requestedKey
   );
   return filteredHealthData.map((datapoint) => {
-    const percentage = (datapoint.count / totalPopulation) * 100;
+    const percentage = ((datapoint.count ?? 0) / totalPopulation) * 100;
     return parseFloat(percentage.toFixed(2));
   });
 }
