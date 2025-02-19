@@ -53,13 +53,13 @@ export const MOCK_HEALTH_DATA = [
     areaName: 'South FooBar',
     healthData: [
       {
-        year: 2004,
+        year: 2008,
         count: 222,
         value: 135.149304,
         lowerCi: 441.69151,
         upperCi: 578.32766,
         ageBand: 'All',
-        sex: 'Persons',
+        sex: 'All',
       },
       {
         year: 2008,
@@ -68,7 +68,16 @@ export const MOCK_HEALTH_DATA = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         ageBand: 'All',
-        sex: 'Persons',
+        sex: 'Male',
+      },
+      {
+        year: 2008,
+        count: 131,
+        value: 890.328253,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'Female',
       },
     ],
   },

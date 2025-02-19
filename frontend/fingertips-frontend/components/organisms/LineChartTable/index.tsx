@@ -3,44 +3,24 @@
 import { Table } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import { LIGHT_GREY } from '@/lib/chartHelpers/chartHelpers';
 import {
   convertToPercentage,
   LineChartTableHeadingEnum,
   LineChartTableRowData,
+  StyledAlignLeftHeader,
+  StyledAlignRightHeader,
+  StyledAlignRightTableCell,
+  StyledDiv,
+  StyledGreyHeader,
+  StyledGreyTableCellValue,
+  StyledTableCell,
 } from '@/lib/tableHelpers';
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
 }
-
-const StyledDiv = styled('div')({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
-
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
-  {
-    fontWeight: 'bold',
-    padding: '0.625em 0',
-  }
-);
-
-const StyledAlignRightHeader = styled(StyledTableCellHeader)({
-  textAlign: 'right',
-  paddingRight: '10px',
-  verticalAlign: 'top',
-});
-
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-  verticalAlign: 'top',
-});
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   width: '10%',
@@ -66,16 +46,6 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
 });
 
-const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: LIGHT_GREY,
-  borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
-});
-
-const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
-  paddingRight: '0',
-});
-
 const StyledAlignLeftTableCell = styled(StyledTableCell)({
   textAlign: 'left',
   width: '10%',
@@ -83,16 +53,6 @@ const StyledAlignLeftTableCell = styled(StyledTableCell)({
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
-});
-
-const StyledAlignRightTableCell = styled(StyledTableCell)({
-  textAlign: 'right',
-  paddingRight: '10px',
-});
-
-const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: LIGHT_GREY,
-  borderTop: `solid #F3F2F1 2px`,
 });
 
 const StyledSpan = styled('span')({
@@ -184,10 +144,8 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToTableData(englandBenchmarkData)
     : [];
-  const sortedDataPerArea = tableData.map(
-    (area) => sortPeriod(area) as LineChartTableRowData[]
-  );
-  const englandRowData = sortPeriod(englandData) as LineChartTableRowData[];
+  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
+  const englandRowData = sortPeriod(englandData);
 
   return (
     <StyledDiv data-testid="lineChartTable-component">
@@ -290,11 +248,11 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
-            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
+            <StyledGreyTableCellValue data-testid="grey-table-cell">
               {englandRowData.length
                 ? convertToPercentage(englandRowData[index].value)
                 : '-'}
-            </StyledBenchmarkValueTableCell>
+            </StyledGreyTableCellValue>
           </Table.Row>
         ))}
       </Table>

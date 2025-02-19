@@ -1,16 +1,20 @@
 import { Paragraph, Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   convertToPercentage,
   InequalitiesSexTableHeadingsEnum,
-  InequalitiesSexTableRowData,
+  mapToInequalitiesSexTableData,
+  StyledAlignLeftHeader,
+  StyledAlignLeftTableCell,
+  StyledAlignRightHeader,
+  StyledDiv,
+  StyledGreyHeader,
+  StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
-import { groupHealthDataByYear, Sex } from '../../inequalitiesHelpers';
+import { groupHealthDataByYear } from '../../inequalitiesHelpers';
+import { ReactNode } from 'react';
 
 interface InequalitiesSexTableProps {
   healthIndicatorData: HealthDataForArea;
@@ -27,14 +31,6 @@ const StyledTableCellHeader = styled(Table.CellHeader)(
 
 const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }));
 
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-});
-
-const StyledAlignRightHeader = styled(StyledTableCellHeader)({
-  textAlign: 'right',
-});
-
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
   textAlign: 'center',
 });
@@ -47,21 +43,36 @@ const StyledParagraph = styled(Paragraph)({
   all: 'unset',
 });
 
-const mapToTableData = (
-  groupedYearData: Record<number, HealthDataPoint[] | undefined>,
-  englandBenchmarkData: Record<number, HealthDataPoint[] | undefined>
-): InequalitiesSexTableRowData[] => {
-  return Object.keys(groupedYearData).map((key) => ({
-    period: Number(key),
-    persons: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.ALL)
-      ?.value,
-    male: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.MALE)
-      ?.value,
-    female: groupedYearData[Number(key)]?.find(
-      (data) => data.sex === Sex.FEMALE
-    )?.value,
-    englandBenchmark: englandBenchmarkData[Number(key)]?.at(0)?.value,
-  }));
+const getCellHeader = (
+  heading: InequalitiesSexTableHeadingsEnum,
+  index: number
+): ReactNode => {
+  if (heading === InequalitiesSexTableHeadingsEnum.BENCHMARK) {
+    return (
+      <StyledGreyHeader
+        data-testid={`header-${heading}-${index}`}
+        key={heading + index}
+      >
+        {heading}
+      </StyledGreyHeader>
+    );
+  }
+
+  return heading === InequalitiesSexTableHeadingsEnum.PERIOD ? (
+    <StyledAlignLeftHeader
+      data-testid={`header-${heading}-${index}`}
+      key={heading + index}
+    >
+      {heading}
+    </StyledAlignLeftHeader>
+  ) : (
+    <StyledAlignRightHeader
+      data-testid={`header-${heading}-${index}`}
+      key={heading + index}
+    >
+      {heading}
+    </StyledAlignRightHeader>
+  );
 };
 
 export function InequalitiesSexTable({
@@ -75,67 +86,63 @@ export function InequalitiesSexTable({
     ? groupHealthDataByYear(englandBenchmarkData.healthData)
     : [];
 
-  const tableData = mapToTableData(yearlyHealthdata, yearlyEnglandData);
+  const tableData = mapToInequalitiesSexTableData(
+    yearlyHealthdata,
+    yearlyEnglandData
+  );
   return (
-    <Table
-      head={
-        <>
-          <Table.Row>
-            <StyledAlignCenterHeader colSpan={4}>
-              {healthIndicatorData.areaName}
-            </StyledAlignCenterHeader>
-            <Table.CellHeader></Table.CellHeader>
+    <StyledDiv data-testid="inequalitiesSexTable-component">
+      <Table
+        head={
+          <>
+            <Table.Row>
+              <StyledAlignCenterHeader colSpan={4}>
+                {healthIndicatorData.areaName}
+              </StyledAlignCenterHeader>
+              <StyledGreyHeader></StyledGreyHeader>
+            </Table.Row>
+            <Table.Row>
+              {Object.values(InequalitiesSexTableHeadingsEnum).map(
+                (heading, index) => getCellHeader(heading, index)
+              )}
+            </Table.Row>
+          </>
+        }
+      >
+        {tableData.map((data, index) => (
+          <Table.Row key={data.period + index}>
+            <StyledAlignLeftTableCell>{data.period}</StyledAlignLeftTableCell>
+            <StyledAlignRightCell>
+              {data.persons ? (
+                convertToPercentage(data.persons)
+              ) : (
+                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+              )}
+            </StyledAlignRightCell>
+            <StyledAlignRightCell>
+              {data.male ? (
+                convertToPercentage(data.male)
+              ) : (
+                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+              )}
+            </StyledAlignRightCell>
+            <StyledAlignRightCell>
+              {data.female ? (
+                convertToPercentage(data.female)
+              ) : (
+                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+              )}
+            </StyledAlignRightCell>
+            <StyledGreyTableCellValue>
+              {data.englandBenchmark ? (
+                convertToPercentage(data.englandBenchmark)
+              ) : (
+                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
+              )}
+            </StyledGreyTableCellValue>
           </Table.Row>
-          <Table.Row>
-            {Object.values(InequalitiesSexTableHeadingsEnum).map(
-              (heading, index) =>
-                heading === InequalitiesSexTableHeadingsEnum.PERIOD ? (
-                  <StyledAlignLeftHeader key={heading + index}>
-                    {heading}
-                  </StyledAlignLeftHeader>
-                ) : (
-                  <StyledAlignRightHeader key={heading + index}>
-                    {heading}
-                  </StyledAlignRightHeader>
-                )
-            )}
-          </Table.Row>
-        </>
-      }
-    >
-      {tableData.map((data, index) => (
-        <Table.Row key={data.period + index}>
-          <StyledTableCell>{data.period}</StyledTableCell>
-          <StyledAlignRightCell>
-            {data.persons ? (
-              convertToPercentage(data.persons)
-            ) : (
-              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-            )}
-          </StyledAlignRightCell>
-          <StyledAlignRightCell>
-            {data.male ? (
-              convertToPercentage(data.male)
-            ) : (
-              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-            )}
-          </StyledAlignRightCell>
-          <StyledAlignRightCell>
-            {data.female ? (
-              convertToPercentage(data.female)
-            ) : (
-              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-            )}
-          </StyledAlignRightCell>
-          <StyledAlignRightCell>
-            {data.englandBenchmark ? (
-              convertToPercentage(data.englandBenchmark)
-            ) : (
-              <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-            )}
-          </StyledAlignRightCell>
-        </Table.Row>
-      ))}
-    </Table>
+        ))}
+      </Table>
+    </StyledDiv>
   );
 }
