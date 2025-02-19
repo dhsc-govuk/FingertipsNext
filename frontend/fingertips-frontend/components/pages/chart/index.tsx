@@ -61,9 +61,9 @@ export function Chart({
         areasSelected
       ) && (
         <>
-          <H3>See how the indicator has changed over time</H3>
           <TabContainer
             id="lineChartAndTable"
+            title="See how the indicator has changed over time"
             items={[
               {
                 id: 'lineChart',

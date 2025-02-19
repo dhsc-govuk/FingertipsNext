@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs } from 'govuk-react';
+import { H3, Tabs } from 'govuk-react';
 import React, { JSX, useState } from 'react';
 
 interface TabItem {
@@ -11,9 +11,11 @@ interface TabItem {
 
 export const TabContainer = ({
   id = '',
+  title = '',
   items,
 }: {
   id?: string;
+  title?: string;
   items: TabItem[];
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -28,6 +30,7 @@ export const TabContainer = ({
 
   return (
     <>
+      <H3>{title}</H3>
       <Tabs data-testid={`tabContainer-${id}`}>
         <Tabs.List>
           {items.map(({ title, id }, index) => (

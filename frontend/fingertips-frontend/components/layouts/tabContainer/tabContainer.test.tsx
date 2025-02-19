@@ -20,7 +20,7 @@ describe('tab container', () => {
     },
   ];
   it('should preserve order between item titles and item content', () => {
-    const expectedTitleText = ['Foo', 'Bar', 'Baz'];
+    const expectedTabTitleText = ['Foo', 'Bar', 'Baz'];
     const expectedContentText = [
       'Lorem ipsum',
       'dolor sit',
@@ -31,12 +31,19 @@ describe('tab container', () => {
 
     const titles = screen.getAllByRole('link');
     titles.map((_, index) => {
-      expect(titles[index].textContent).toBe(expectedTitleText[index]);
+      expect(titles[index].textContent).toBe(expectedTabTitleText[index]);
     });
 
     const panels = screen.getAllByRole('paragraph');
     panels.map((_, index) => {
       expect(panels[index].textContent).toBe(expectedContentText[index]);
     });
+  });
+
+  it('should render the title as a heading', () => {
+    const expectedTitleText = 'Hello, World!';
+    render(<TabContainer items={items} title={expectedTitleText} />);
+
+    expect(screen.getByRole('heading')).toHaveTextContent(expectedTitleText);
   });
 });
