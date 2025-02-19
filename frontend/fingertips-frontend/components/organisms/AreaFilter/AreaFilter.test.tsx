@@ -305,7 +305,7 @@ describe('Area Filter', () => {
       });
     });
 
-    it('should have the checkboxes of selectedArea pre-selected', () => {
+    it('should have the checkboxes of the selected areas pre-selected', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
