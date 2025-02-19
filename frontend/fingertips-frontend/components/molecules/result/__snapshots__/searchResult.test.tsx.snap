@@ -212,8 +212,6 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 .c2 {
   padding-top: 15px;
   padding-bottom: 0;
-  padding-left: 25px;
-  padding-right: 25px;
 }
 
 @media print {
@@ -355,18 +353,6 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 @media only screen and (min-width:641px) {
   .c2 {
     padding-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c2 {
-    padding-left: 40px;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c2 {
-    padding-right: 40px;
   }
 }
 

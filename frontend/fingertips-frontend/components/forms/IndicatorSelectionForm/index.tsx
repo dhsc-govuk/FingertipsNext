@@ -56,7 +56,13 @@ export function IndicatorSelectionForm({
   };
 
   return (
-    <form action={formAction} data-testid="indicator-selection-form">
+    <form
+      action={formAction}
+      data-testid="indicator-selection-form"
+      style={{
+        wordBreak: 'break-word',
+      }}
+    >
       <input
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
