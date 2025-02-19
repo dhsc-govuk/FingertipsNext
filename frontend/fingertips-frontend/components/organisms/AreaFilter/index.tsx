@@ -183,7 +183,7 @@ export function AreaFilter({
 
               return (
                 <Checkbox
-                  key={area.code}
+                  key={`${area.code}-${isAreaSelectedValue}`}
                   value={area.code}
                   sizeVariant="SMALL"
                   name="area"
