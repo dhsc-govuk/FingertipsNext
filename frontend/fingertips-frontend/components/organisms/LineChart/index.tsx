@@ -98,7 +98,6 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H3>{lineChartTitle}</H3>
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={lineChartCI}

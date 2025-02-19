@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2 } from 'govuk-react';
+import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -60,33 +60,35 @@ export function Chart({
         indicatorsSelected,
         areasSelected
       ) && (
-        <TabContainer
-          items={[
-            {
-              id: 'lineChart',
-              title: 'Line Chart',
-              content: (
-                <LineChart
-                  LineChartTitle="See how the indicator has changed over time"
-                  healthIndicatorData={dataWithoutEngland}
-                  benchmarkData={englandBenchmarkData}
-                  xAxisTitle="Year"
-                  accessibilityLabel="A line chart showing healthcare data"
-                />
-              ),
-            },
-            {
-              id: 'table',
-              title: 'Tabular Data',
-              content: (
-                <LineChartTable
-                  healthIndicatorData={dataWithoutEngland}
-                  englandBenchmarkData={englandBenchmarkData}
-                />
-              ),
-            },
-          ]}
-        />
+        <>
+          <H3>See how the indicator has changed over time</H3>
+          <TabContainer
+            items={[
+              {
+                id: 'lineChart',
+                title: 'Line Chart',
+                content: (
+                  <LineChart
+                    healthIndicatorData={dataWithoutEngland}
+                    benchmarkData={englandBenchmarkData}
+                    xAxisTitle="Year"
+                    accessibilityLabel="A line chart showing healthcare data"
+                  />
+                ),
+              },
+              {
+                id: 'table',
+                title: 'Tabular Data',
+                content: (
+                  <LineChartTable
+                    healthIndicatorData={dataWithoutEngland}
+                    englandBenchmarkData={englandBenchmarkData}
+                  />
+                ),
+              },
+            ]}
+          />
+        </>
       )}
       <br />
       <BarChart
