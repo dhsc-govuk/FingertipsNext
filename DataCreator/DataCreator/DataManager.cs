@@ -99,6 +99,7 @@ namespace DataCreator
                 {
                     indicator.AssociatedAreaCodes = match.AssociatedAreaCodes;
                     indicator.LatestDataPeriod=match.LatestDataPeriod;
+                    indicator.EarliestDataPeriod=match.EarliestDataPeriod;
                 }
             
                 indicator.UsedInPoc=indicatorIds.Contains(indicator.IndicatorID); 
@@ -136,7 +137,7 @@ namespace DataCreator
             AddSexIds(healthMeasures);
             await AddCategoryIds(healthMeasures);
             var indicatorWithAreasAndLatestUpdates = new List<IndicatorWithAreasAndLatestUpdate>();
-            AssociateAreasWithIndicatorsAndSetLatest(healthMeasures, indicatorWithAreasAndLatestUpdates);
+            AssociateAreasWithIndicatorsAndSetLatestAndEarliest(healthMeasures, indicatorWithAreasAndLatestUpdates);
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
@@ -165,7 +166,7 @@ namespace DataCreator
             DataFileManager.WriteCategoryCsvData("categories", categoryData);
         } 
 
-        private static void AssociateAreasWithIndicatorsAndSetLatest(List<HealthMeasureEntity> healthMeasures, List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates)
+        private static void AssociateAreasWithIndicatorsAndSetLatestAndEarliest(List<HealthMeasureEntity> healthMeasures, List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates)
         {
             foreach (var group in healthMeasures.GroupBy(measure => measure.IndicatorId))
             {
@@ -173,7 +174,8 @@ namespace DataCreator
                 {
                     IndicatorID = group.Key,
                     AssociatedAreaCodes= group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod=group.OrderByDescending(g=>g.Year).First().Year
+                    LatestDataPeriod=group.OrderByDescending(g=>g.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year
                 });
             }
         }

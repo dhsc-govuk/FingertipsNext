@@ -1,4 +1,14 @@
 ﻿CategoryID,CategoryName,Sequence,CategoryTypeID,CategoryTypeName
+1,Most deprived decile,1,1,General Practice deprivation deciles in England (IMD2010)
+2,Second most deprived decile,2,1,General Practice deprivation deciles in England (IMD2010)
+3,Third more deprived decile,3,1,General Practice deprivation deciles in England (IMD2010)
+4,Fourth more deprived decile,4,1,General Practice deprivation deciles in England (IMD2010)
+5,Fifth more deprived decile,5,1,General Practice deprivation deciles in England (IMD2010)
+6,Fifth less deprived decile,6,1,General Practice deprivation deciles in England (IMD2010)
+7,Fourth less deprived decile,7,1,General Practice deprivation deciles in England (IMD2010)
+8,Third less deprived decile,8,1,General Practice deprivation deciles in England (IMD2010)
+9,Second least deprived decile,9,1,General Practice deprivation deciles in England (IMD2010)
+10,Least deprived decile,10,1,General Practice deprivation deciles in England (IMD2010)
 1,Most deprived decile (IMD2019),1,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
 2,Second most deprived decile (IMD2019),2,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"
 3,Third more deprived decile (IMD2019),3,146,"County & UA deprivation deciles in England (IMD2019, 4/21 geography)"

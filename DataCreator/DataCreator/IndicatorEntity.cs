@@ -56,6 +56,7 @@
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
         public int LatestDataPeriod { get; set; } = 1999;
+        public int EarliestDataPeriod { get; set; } = 1999;
 
         public string LastUpdatedDate { get; set; }
 
@@ -74,6 +75,8 @@
         public int IndicatorID { get; set; }
 
         public int LatestDataPeriod { get; set; }
+
+        public int EarliestDataPeriod { get; set; }
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
     }
