@@ -140,7 +140,7 @@ public class AutoMapperProfilesTests
         var areaTypeModel = Fake.AreaTypeModel;
         var mappedAreaType = _mapper.Map<AreaType>(areaTypeModel);
 
-        mappedAreaType.AreaTypeKey.ShouldBe(areaTypeModel.AreaTypeKey);
+        mappedAreaType.Key.ShouldBe(areaTypeModel.AreaTypeKey);
         mappedAreaType.Name.ShouldBe(areaTypeModel.AreaTypeName);
         mappedAreaType.HierarchyName.ShouldBe(areaTypeModel.HierarchyType);
         mappedAreaType.Level.ShouldBe(areaTypeModel.Level);
@@ -157,9 +157,11 @@ public class AutoMapperProfilesTests
         {
             area.Code.ShouldBe(areaModel.AreaCode);
             area.Name.ShouldBe(areaModel.AreaName);
-            area.HierarchyName.ShouldBe(areaModel.AreaType.HierarchyType);
-            area.AreaType.ShouldBe(areaModel.AreaType.AreaTypeName);
-            area.Level.ShouldBe(areaModel.AreaType.Level);
+            
+            area.AreaType.HierarchyName.ShouldBe(areaModel.AreaType.HierarchyType);
+            area.AreaType.Name.ShouldBe(areaModel.AreaType.AreaTypeName);
+            area.AreaType.Key.ShouldBe(areaModel.AreaType.AreaTypeKey);
+            area.AreaType.Level.ShouldBe(areaModel.AreaType.Level);
         }
         else
         {
