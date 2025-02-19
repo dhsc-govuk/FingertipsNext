@@ -33,7 +33,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     // the matching document.
     const query = `${searchTerm} /.*${searchTerm}.*/`;
 
-    // This creates an AI Search filter string which should look like 
+    // This creates an AI Search filter string which should look like
     //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
     const formatFilterString = (areaCodes: string[]) => {
       if (areaCodes.length == 0) return undefined;
@@ -46,7 +46,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       includeTotalCount: true,
       top: 100,
       filter: areaCodes ? formatFilterString(areaCodes) : undefined,
-    }
+    };
 
     const searchResponse = await this.searchClient.search(query, searchOptions);
     const results: IndicatorDocument[] = [];
