@@ -63,6 +63,7 @@ export function Chart({
         <>
           <H3>See how the indicator has changed over time</H3>
           <TabContainer
+            id="lineChartAndTable"
             items={[
               {
                 id: 'lineChart',

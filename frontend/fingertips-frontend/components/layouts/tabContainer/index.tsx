@@ -9,7 +9,13 @@ interface TabItem {
   content: JSX.Element;
 }
 
-export const TabContainer = ({ items }: { items: TabItem[] }) => {
+export const TabContainer = ({
+  id = '',
+  items,
+}: {
+  id?: string;
+  items: TabItem[];
+}) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleClick = (
@@ -21,24 +27,31 @@ export const TabContainer = ({ items }: { items: TabItem[] }) => {
   };
 
   return (
-    <Tabs>
-      <Tabs.List>
-        {items.map(({ title, id }, index) => (
-          <Tabs.Tab
-            onClick={(e) => handleClick(e, index)}
-            href="#"
+    <>
+      <Tabs data-testid={`tabContainer-${id}`}>
+        <Tabs.List>
+          {items.map(({ title, id }, index) => (
+            <Tabs.Tab
+              onClick={(e) => handleClick(e, index)}
+              href="#"
+              selected={tabIndex === index}
+              key={id}
+              data-testid={`tabTitle-${id}`}
+            >
+              {title}
+            </Tabs.Tab>
+          ))}
+        </Tabs.List>
+        {items.map(({ content, id }, index) => (
+          <Tabs.Panel
             selected={tabIndex === index}
             key={id}
+            data-testid={`tabContent-${id}`}
           >
-            {title}
-          </Tabs.Tab>
+            {content}
+          </Tabs.Panel>
         ))}
-      </Tabs.List>
-      {items.map(({ content, id }, index) => (
-        <Tabs.Panel selected={tabIndex === index} key={id}>
-          {content}
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      </Tabs>
+    </>
   );
 };
