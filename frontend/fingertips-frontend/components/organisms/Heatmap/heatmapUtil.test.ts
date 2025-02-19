@@ -134,7 +134,7 @@ it('should generate the correct heatmap array from the provided data', () => {
 
   expect(result).toHaveLength(4);
   expect(result).toContainEqual({ x: 0, y: 0, value: 27 });
-  expect(result).toContainEqual({ x: 1, y: 0, value: null });
+  expect(result).toContainEqual({ x: 1, y: 0, value: undefined });
   expect(result).toContainEqual({ x: 0, y: 1, value: 919 });
   expect(result).toContainEqual({ x: 1, y: 1, value: 53 });
 });

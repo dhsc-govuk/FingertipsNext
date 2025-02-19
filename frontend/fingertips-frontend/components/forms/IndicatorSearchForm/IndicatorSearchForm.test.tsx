@@ -2,6 +2,7 @@ import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -22,44 +23,49 @@ jest.mock('react', () => {
   };
 });
 
+const mockIndicatorValue = 'test value';
+
+const state: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: mockIndicatorValue,
+};
+
 const initialState: IndicatorSearchFormState = {
-  indicator: '',
+  searchState: JSON.stringify(state),
+  indicator: mockIndicatorValue,
   message: null,
   errors: {},
 };
 
 it('snapshot test - renders the form', () => {
   const container = render(
-    <IndicatorSearchForm indicatorSearchFormState={initialState} />
+    <IndicatorSearchForm
+      indicatorSearchFormState={initialState}
+      searchState={state}
+    />
   );
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should have an input field to input the indicatorId', () => {
-  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
+  render(
+    <IndicatorSearchForm
+      indicatorSearchFormState={initialState}
+      searchState={state}
+    />
+  );
 
   expect(screen.getByRole('searchbox')).toBeInTheDocument();
 });
 
 it('should set the input field with indicator value from the form state', () => {
-  const searchFormState: IndicatorSearchFormState = {
-    indicator: 'test value',
-    message: '',
-    errors: {},
-  };
-  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
-  expect(screen.getByRole('searchbox')).toHaveValue('test value');
+  expect(screen.getByRole('searchbox')).toHaveValue(mockIndicatorValue);
 });
 
 it('should display no message when there is no error', () => {
-  const searchFormState: IndicatorSearchFormState = {
-    indicator: 'test value',
-    message: '',
-    errors: {},
-  };
-  render(<IndicatorSearchForm indicatorSearchFormState={searchFormState} />);
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   expect(
     screen.queryByTestId('indicator-search-form-error')
@@ -68,7 +74,7 @@ it('should display no message when there is no error', () => {
 
 it('should display an error message when there is an error', () => {
   const searchFormState: IndicatorSearchFormState = {
-    indicator: 'test value',
+    ...initialState,
     message: 'error message',
     errors: {},
   };

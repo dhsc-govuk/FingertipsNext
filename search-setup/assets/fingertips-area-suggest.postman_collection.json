@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "10d2d191-3f32-4560-a719-40dda987a40d",
-    "name": "fingertips-geo-suggest",
+    "name": "fingertips-area-suggest",
     "description": "This Postman collection holds a number of example quieries for Geographic Suggestions. You will need to set the AI_SEARCH_API_KEY for the environment you are using.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "40824036"
@@ -39,13 +39,13 @@
           }
         ],
         "body": {
-          "mode": "urlencoded",
-          "urlencoded": []
+          "mode": "raw",
+          "raw": ""
         },
         "url": {
-          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/area-search-index/docs/suggest?api-version=2020-06-30",
           "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
-          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "path": ["indexes", "area-search-index", "docs", "suggest"],
           "query": [
             {
               "key": "api-version",
@@ -90,7 +90,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "    {  \n      \"search\": \"manh\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "raw": "    {  \n      \"search\": \"E09000007\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n       \"select\": \"areaCode,areaType,areaName\",\n      \"suggesterName\": \"areaSuggester\",\n      \"fuzzy\": true\n    }  ",
           "options": {
             "raw": {
               "language": "json"
@@ -98,9 +98,9 @@
           }
         },
         "url": {
-          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/area-search-index/docs/search?api-version=2020-06-30",
           "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
-          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "path": ["indexes", "area-search-index", "docs", "search"],
           "query": [
             {
               "key": "api-version",
@@ -145,7 +145,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "    {  \n      \"search\": \"leeds\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "raw": "    {  \n      \"search\": \"leeds\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"areaSuggester\",\n      \"fuzzy\": true\n    }  ",
           "options": {
             "raw": {
               "language": "json"
@@ -153,9 +153,9 @@
           }
         },
         "url": {
-          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/area-search-index/docs/suggest?api-version=2020-06-30",
           "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
-          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "path": ["indexes", "area-search-index", "docs", "suggest"],
           "query": [
             {
               "key": "api-version",
@@ -200,7 +200,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "    {  \n      \"search\": \"B86110\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "raw": "    {  \n      \"search\": \"B86110\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"areaSuggester\",\n      \"fuzzy\": true\n    }  ",
           "options": {
             "raw": {
               "language": "json"
@@ -208,9 +208,9 @@
           }
         },
         "url": {
-          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/area-search-index/docs/suggest?api-version=2020-06-30",
           "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
-          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "path": ["indexes", "area-search-index", "docs", "suggest"],
           "query": [
             {
               "key": "api-version",
@@ -255,7 +255,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "    {  \n      \"search\": \"B86\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"geographySuggester\",\n      \"fuzzy\": true\n    }  ",
+          "raw": "    {  \n      \"search\": \"B86\",  \n      \"top\": 20,\n      \"searchFields\": \"areaName,areaCode\",\n      \"suggesterName\": \"areaSuggester\",\n      \"fuzzy\": true\n    }  ",
           "options": {
             "raw": {
               "language": "json"
@@ -263,9 +263,9 @@
           }
         },
         "url": {
-          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/geography-search-index/docs/suggest?api-version=2020-06-30",
+          "raw": "{{AI_SEARCH_SERVICE_ENDPOINT}}/indexes/area-search-index/docs/suggest?api-version=2020-06-30",
           "host": ["{{AI_SEARCH_SERVICE_ENDPOINT}}"],
-          "path": ["indexes", "geography-search-index", "docs", "suggest"],
+          "path": ["indexes", "area-search-index", "docs", "suggest"],
           "query": [
             {
               "key": "api-version",
