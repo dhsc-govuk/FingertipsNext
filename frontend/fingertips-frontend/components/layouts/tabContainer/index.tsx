@@ -14,7 +14,6 @@ export const TabContainer = ({
   items,
 }: {
   id?: string;
-  title?: string;
   items: TabItem[];
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
