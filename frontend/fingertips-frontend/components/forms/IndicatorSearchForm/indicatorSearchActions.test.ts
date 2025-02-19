@@ -69,7 +69,7 @@ describe('Search actions', () => {
       searchState: areasSelectedState,
     });
 
-    await searchIndicator(initialStateWithAreas, formData);
+    await searchIndicator(initialStateWithoutAreas, formData);
 
     expect(redirectMock).toHaveBeenCalledWith(
       `/results?${SearchParams.AreasSelected}=foo&${SearchParams.AreasSelected}=bar`,
