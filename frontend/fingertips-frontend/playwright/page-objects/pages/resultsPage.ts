@@ -13,6 +13,40 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
   readonly areaFilterContainer = 'area-filter-container';
+  readonly pillContainer = 'pill-container';
+  readonly filterName = 'filter-name';
+  readonly removeIcon = 'remove-icon-div';
+
+  async navigateToResults(searchIndicator: string, selectedAreaCodes: string[]) {
+    const asQuery = selectedAreaCodes.reduce(
+        (accumulator, currentValue) => accumulator + `&${SearchParams.AreasSelected}=${currentValue}`,
+        '',
+    );
+
+    await this.page.goto(`results?${SearchParams.SearchedIndicator}=${searchIndicator}${asQuery}`);
+  }
+
+  areaFilterPills() {
+    return this.page
+        .getByTestId(this.areaFilterContainer)
+        .getByTestId(this.pillContainer);
+  }
+
+  async areaFilterPillsText() {
+    const pillFilterNames = await this.areaFilterPills()
+        .getByTestId(this.filterName)
+        .all();
+
+    return Promise.all(pillFilterNames.map(async (l) => await l.textContent()));
+  }
+
+  async closeAreaFilterPill(index: number) {
+    const pills = await this.areaFilterPills()
+        .getByTestId(this.removeIcon)
+        .all();
+
+    await pills[index].click();
+  }
 
   async areaFilterOptionsText() {
     const options = await this.page
