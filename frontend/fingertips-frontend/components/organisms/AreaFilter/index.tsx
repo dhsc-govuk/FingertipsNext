@@ -203,6 +203,7 @@ export function AreaFilter({
               area.code,
               selectedAreasData
             );
+
             return (
               <Checkbox
                 key={area.code}
