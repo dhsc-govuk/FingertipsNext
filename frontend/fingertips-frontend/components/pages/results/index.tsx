@@ -97,6 +97,7 @@ export function SearchResults({
         <GridRow>
           <GridCol setWidth="one-third">
             <AreaFilter
+              key={JSON.stringify(searchState)}
               availableAreaTypes={availableAreaTypes}
               availableGroupTypes={availableGroupTypes}
               availableAreas={availableAreas}

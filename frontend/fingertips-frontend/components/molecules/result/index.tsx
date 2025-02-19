@@ -33,8 +33,6 @@ const StyledRow = styled(GridRow)(
     padding: [
       { size: 3, direction: 'top' },
       { size: 0, direction: 'bottom' },
-      { size: 7, direction: 'left' },
-      { size: 7, direction: 'right' },
     ],
   })
 );
