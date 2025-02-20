@@ -310,36 +310,44 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWithAgeDimensionData_IfAgeInequalityIsSpecified()
     {
         // arrange
-        var maleHealthMeasure = new HealthMeasureModelHelper(1, 2020)
-            .WithSexDimension(hasValue: true, isFemale: false)
+        var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020)
+            .WithSexDimension(hasValue: false)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(maleHealthMeasure);
+        PopulateDatabase(healthMeasureWithAgeAndNoSex);
 
-        var femaleHealthMeasure = new HealthMeasureModelHelper(2, 2020)
-            .WithSexDimension(hasValue: true, isFemale: true)
+        var healthMeasureWithAgeAndSex = new HealthMeasureModelHelper(2, 2020)
+            .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(femaleHealthMeasure);
+        PopulateDatabase(healthMeasureWithAgeAndSex);
+        
+        var healthMeasureWithNoAgeAndSex = new HealthMeasureModelHelper(3, 2020)
+            .WithSexDimension(hasValue: true)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(healthMeasureWithNoAgeAndSex);
 
-        var personsHealthMeasure = new HealthMeasureModelHelper(3, 2020)
-            .WithSexDimension(hasValue: false, isFemale: false)
-            .WithAgeDimension(hasValue: true)
+        var healthMeasureWithNoAgeAndNoSex = new HealthMeasureModelHelper(4, 2020)
+            .WithSexDimension(hasValue: false)
+            .WithAgeDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(personsHealthMeasure);
+        PopulateDatabase(healthMeasureWithNoAgeAndNoSex);
 
         // act
         var result = await _repository.GetIndicatorDataAsync(500, [], [], ["age"]);
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(1);
+        result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            personsHealthMeasure
+            healthMeasureWithAgeAndNoSex,
+            healthMeasureWithNoAgeAndNoSex
         });
     }
 

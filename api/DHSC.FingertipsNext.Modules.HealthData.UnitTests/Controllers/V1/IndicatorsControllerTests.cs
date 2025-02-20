@@ -22,7 +22,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], [1999, 2024]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], [1999, 2024], ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -31,7 +31,7 @@ public class IndicatorControllerTests
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
                 ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
-                []
+                ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
 
@@ -54,7 +54,7 @@ public class IndicatorControllerTests
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
         // expect
-        response?.StatusCode.Equals(200);
+        response?.StatusCode.ShouldBe(200);
         response?.Value.ShouldBeEquivalentTo(SampleHealthData);
     }
 
