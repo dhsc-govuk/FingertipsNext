@@ -21,12 +21,6 @@ DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 GO
 
 -- Drop temp tables in case they exist
-BEGIN TRY
-    DROP TABLE #TempSexData;
-END TRY
-BEGIN CATCH
-END CATCH;
-GO
 
 BEGIN TRY
     DROP TABLE #TempAgeData;
@@ -59,34 +53,17 @@ GO
 -- For each CSV file, BULK INSERT into a temporary table, then insert into the real tables.
 
 ------------------------------------------------
--- Sex Data
-CREATE TABLE #TempSexData
-(
-    SexId INT,
-    Sex NVARCHAR(255)
-);
-GO
-
-DECLARE @sql NVARCHAR(4000);
-SET @sql = 'BULK INSERT #TempSexData FROM ''$(FilePath)sex.csv'' WITH (DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2)';
-EXECUTE sp_executesql @sql;
-GO
-
-INSERT INTO [dbo].[SexDimension]
-    (
-    Name,
-    IsFemale,
-    HasValue
-    )
-SELECT
-    RTRIM(Sex),
-    IIF(SexId = 2, 1, 0),
-    IIF(SexId = -1, 0, 1)
-FROM
-    #TempSexData;
-GO
-
-DROP TABLE #TempSexData;
+---For Sex diemension this is static data
+	INSERT INTO [dbo].[SexDimension] 
+	(
+		Name,
+		IsFemale,
+		HasValue
+	)
+	VALUES
+        ('Male', 0, 1),
+        ('Female',1, 1),
+        ('Persons',0, 0)
 GO
 
 ------------------------------------------------
@@ -114,7 +91,7 @@ INSERT INTO [dbo].[AgeDimension]
 SELECT
     RTRIM(Age),
     AgeID,
-    1
+    IIF(AgeID = 1, 0, 1)
 FROM
     #TempAgeData;
 GO
@@ -130,8 +107,7 @@ CREATE TABLE #TempIndicatorData
     IndicatorName NVARCHAR(255)
 );
 GO
-
-DECLARE @sql NVARCHAR(4000);
+DECLARE @sql NVARCHAR(4000)
 SET @sql = 'BULK INSERT #TempIndicatorData FROM ''$(FilePath)indicators.csv'' WITH (DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2)';
 EXECUTE sp_executesql @sql;
 GO
@@ -166,18 +142,18 @@ CREATE TABLE #TempAreaData
 );
 GO
 
-DECLARE @sql NVARCHAR(4000);
+DECLARE @sql NVARCHAR(4000)
 SET @sql = 'BULK INSERT #TempAreaData FROM ''$(FilePath)areas.csv'' WITH (DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2)';
 EXECUTE sp_executesql @sql;
 GO
 
 INSERT INTO dbo.AreaDimension
-    (
+(
     Code,
     Name,
     StartDate,
     EndDate
-    )
+)
 SELECT
     RTRIM(AreaCode),
     RTRIM(AreaName),
@@ -194,26 +170,22 @@ GO
 CREATE TABLE #TempHealthData
 (
     IndicatorId NVARCHAR(50),
-    Category NVARCHAR(255),
-    CategoryType NVARCHAR(255),
-    Age NVARCHAR(50),
+    Year INT,
+    AgeID INT,
     Sex NVARCHAR(255),
-    Trend NVARCHAR(255),
-    Denominator NVARCHAR(50),
-    CategoryTypeId NVARCHAR(50),
-    UpperCI NVARCHAR(50),
-    Value NVARCHAR(50),
-    Count NVARCHAR(50),
     AreaCode NVARCHAR(255),
-    SexID NVARCHAR(50),
-    AgeID NVARCHAR(50),
-    Year NVARCHAR(50),
-    LowerCI NVARCHAR(50),
-    CategoryId NVARCHAR(50)
+    Count FLOAT,
+    Value FLOAT,
+    LowerCI FLOAT,
+    UpperCI FLOAT,
+    Denominator FLOAT,
+    Trend NVARCHAR(255),
+    CategoryTypeId INT,
+    CategoryId INT
 );
 GO
 
-DECLARE @sql NVARCHAR(4000);
+DECLARE @sql NVARCHAR(4000)
 SET @sql = 'BULK INSERT #TempHealthData 
            FROM ''$(FilePath)healthdata.csv'' 
            WITH (DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2)';
@@ -221,7 +193,7 @@ EXEC sp_executesql @sql;
 GO
 
 INSERT INTO [dbo].[HealthMeasure]
-    (
+(
     AreaKey,
     IndicatorKey,
     SexKey,
@@ -231,24 +203,12 @@ INSERT INTO [dbo].[HealthMeasure]
     LowerCI,
     UpperCI,
     Year
-    )
+)
 SELECT
-    (SELECT TOP 1
-        [AreaKey]
-    FROM [dbo].[AreaDimension]
-    WHERE [AreaCode] = AreaCode),
-    (SELECT TOP 1
-        [IndicatorKey]
-    FROM [dbo].[IndicatorDimension]
-    WHERE IndicatorId = IndicatorId),
-    (SELECT TOP 1
-        [SexKey]
-    FROM [dbo].[SexDimension]
-    WHERE [Name] = Sex),
-    (SELECT TOP 1
-        [AgeKey]
-    FROM [dbo].[AgeDimension]
-    WHERE [AgeID] = AgeID),
+    (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [AreaCode] = AreaCode),
+    (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = IndicatorId),
+    (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = Sex),
+    (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = AgeID),
     Count,
     Value,
     LowerCI,
