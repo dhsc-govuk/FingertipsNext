@@ -189,10 +189,10 @@ describe('Area Filter', () => {
       render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
-        screen.getByRole('combobox', { name: /1. Select a group type/i })
+        screen.getByRole('combobox', { name: /Select a group type/i })
       ).toBeInTheDocument();
       expect(
-        screen.getByRole('combobox', { name: /1. Select a group type/i })
+        screen.getByRole('combobox', { name: /Select a group type/i })
       ).toBeDisabled();
     });
 
@@ -200,10 +200,10 @@ describe('Area Filter', () => {
       render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
-        screen.getByRole('combobox', { name: /1. Select a group type/i })
+        screen.getByRole('combobox', { name: /Select a group type/i })
       ).toBeInTheDocument();
       expect(
-        screen.getByRole('combobox', { name: /1. Select a group type/i })
+        screen.getByRole('combobox', { name: /Select a group type/i })
       ).not.toBeDisabled();
     });
 
@@ -219,13 +219,13 @@ describe('Area Filter', () => {
       );
 
       const groupTypeDropDown = screen.getByRole('combobox', {
-        name: /1. Select a group type/i,
+        name: /Select a group type/i,
       });
 
       const allOptions = within(groupTypeDropDown).getAllByRole('option');
 
       expect(
-        screen.getByRole('combobox', { name: /1. Select a group type/i })
+        screen.getByRole('combobox', { name: /Select a group type/i })
       ).toHaveLength(3);
 
       allOptions.forEach((option, i) => {
