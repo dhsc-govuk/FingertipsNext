@@ -146,46 +146,48 @@ it('should _not_ render the ThematicMap component when map props are _not_ provi
   expect(thematicMap).not.toBeInTheDocument();
 });
 
-it('should display inequalities sex table when single indicator and a single area is selected', () => {
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData['318']]}
-      indicatorsSelected={['318']}
-      areasSelected={['A1']}
-    />
-  );
+describe('should display inequalities', () => {
+  it('should display inequalities sex table when single indicator and a single area is selected', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['318']]}
+        indicatorsSelected={['318']}
+        areasSelected={['A1']}
+      />
+    );
 
-  expect(
-    screen.queryByTestId('inequalitiesSexTable-component')
-  ).toBeInTheDocument();
-});
+    expect(
+      screen.queryByTestId('inequalitiesSexTable-component')
+    ).toBeInTheDocument();
+  });
 
-it('should not display inequalities sex table when multiple indicators are selected', () => {
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData['318']]}
-      indicatorsSelected={['318', '1']}
-      areasSelected={['A1']}
-    />
-  );
+  it('should not display inequalities sex table when multiple indicators are selected', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['318']]}
+        indicatorsSelected={['318', '1']}
+        areasSelected={['A1']}
+      />
+    );
 
-  expect(
-    screen.queryByTestId('inequalitiesSexTable-component')
-  ).not.toBeInTheDocument();
-});
+    expect(
+      screen.queryByTestId('inequalitiesSexTable-component')
+    ).not.toBeInTheDocument();
+  });
 
-it('should not display inequalities sex table when multiple areas are selected', () => {
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData['318']]}
-      indicatorsSelected={['318']}
-      areasSelected={['A1', 'A2']}
-    />
-  );
+  it('should not display inequalities sex table when multiple areas are selected', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['318']]}
+        indicatorsSelected={['318']}
+        areasSelected={['A1', 'A2']}
+      />
+    );
 
-  expect(
-    screen.queryByTestId('inequalitiesSexTable-component')
-  ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('inequalitiesSexTable-component')
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe('should not display line chart', () => {

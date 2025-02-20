@@ -18,6 +18,7 @@ import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineCha
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { InequalitiesSexTable } from '@/components/organisms/Inequalities/Sex/Table';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -106,7 +107,7 @@ export function Chart({
         </>
       )}
       <br />
-      {indicatorsSelected.length === 1 && areasSelected.length === 1 && (
+      {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <InequalitiesSexTable
           healthIndicatorData={dataWithoutEngland[0]}
           englandBenchmarkData={englandBenchmarkData}
