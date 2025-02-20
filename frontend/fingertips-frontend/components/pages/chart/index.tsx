@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2 } from 'govuk-react';
+import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -16,6 +16,7 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { TabContainer } from '@/components/layouts/tabContainer';
 import { InequalitiesSexTable } from '@/components/organisms/Inequalities/Sex/Table';
 
 type ChartProps = {
@@ -72,18 +73,35 @@ export function Chart({
         areasSelected
       ) && (
         <>
-          <LineChart
-            LineChartTitle="See how the indicator has changed over time"
-            healthIndicatorData={dataWithoutEngland}
-            benchmarkData={englandBenchmarkData}
-            parentIndicatorData={parentBenchmarkData}
-            xAxisTitle="Year"
-            accessibilityLabel="A line chart showing healthcare data"
-          />
-          <LineChartTable
-            healthIndicatorData={dataWithoutEngland}
-            englandBenchmarkData={englandBenchmarkData}
-            parentIndicatorData={parentBenchmarkData}
+          <H3>See how the indicator has changed over time</H3>
+          <TabContainer
+            id="lineChartAndTable"
+            items={[
+              {
+                id: 'lineChart',
+                title: 'Line chart',
+                content: (
+                  <LineChart
+                    healthIndicatorData={dataWithoutEngland}
+                    benchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
+                    xAxisTitle="Year"
+                    accessibilityLabel="A line chart showing healthcare data"
+                  />
+                ),
+              },
+              {
+                id: 'table',
+                title: 'Tabular data',
+                content: (
+                  <LineChartTable
+                    healthIndicatorData={dataWithoutEngland}
+                    englandBenchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
+                  />
+                ),
+              },
+            ]}
           />
         </>
       )}
