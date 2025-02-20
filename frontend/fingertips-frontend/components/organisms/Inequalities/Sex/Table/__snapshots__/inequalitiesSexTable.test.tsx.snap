@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  .c2 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c2:last-child {
+  padding-right: 0;
+}
+
+.c9 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c9:last-child {
+  padding-right: 0;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c6 {
+  text-align: right;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.c7 {
+  background-color: #B1B4B6;
+  border-top: solid #F3F2F1 2px;
+  width: 16%;
+}
+
+.c10 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  padding-right: 0;
+}
+
+.c14 {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.c15 {
+  background-color: #B1B4B6;
+  border-top: solid #F3F2F1 2px;
+}
+
+.c11 {
+  text-align: left;
+  width: 10%;
+}
+
+.c8 {
+  text-align: left;
+  vertical-align: top;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c12 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.c4 {
+  text-align: center;
+}
+
+.c13 {
+  text-align: right;
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
+  }
+}
+
+@media print {
+  .c10 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
+  }
+}
+
+@media print {
+  .c3 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
+  }
+}
+
+@media print {
+  .c12 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="inequalitiesSexTable-component"
+  >
+    <table
+      class="c1"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c2 c3 c4"
+            colspan="4"
+          >
+            South FooBar
+          </th>
+          <th
+            class="c2 c5 c6 c7"
+          />
+        </tr>
+        <tr
+          class=""
+        >
+          <th
+            class="c2 c5 c8"
+            data-testid="header-Period-0"
+          >
+            Period
+          </th>
+          <th
+            class="c2 c5 c6"
+            data-testid="header-Persons-1"
+          >
+            Persons
+          </th>
+          <th
+            class="c2 c5 c6"
+            data-testid="header-Male-2"
+          >
+            Male
+          </th>
+          <th
+            class="c2 c5 c6"
+            data-testid="header-Female-3"
+          >
+            Female
+          </th>
+          <th
+            class="c2 c5 c6 c7"
+            data-testid="header-England benchmark-4"
+          >
+            England benchmark
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <td
+            class="c9 c10 c11"
+          >
+            2008
+          </td>
+          <td
+            class="c9 c12 c13"
+          >
+            1.4%
+          </td>
+          <td
+            class="c9 c12 c13"
+          >
+            8.9%
+          </td>
+          <td
+            class="c9 c12 c13"
+          >
+            8.9%
+          </td>
+          <td
+            class="c9 c10 c14 c15"
+          >
+            9.7%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

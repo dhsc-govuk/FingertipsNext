@@ -9,7 +9,7 @@ export const MOCK_ENGLAND_DATA = {
       lowerCi: 0,
       upperCi: 0,
       ageBand: '0-4',
-      sex: 'Female',
+      sex: 'All',
     },
     {
       year: 2008,
@@ -18,7 +18,7 @@ export const MOCK_ENGLAND_DATA = {
       lowerCi: 0,
       upperCi: 0,
       ageBand: '10-14',
-      sex: 'Female',
+      sex: 'All',
     },
   ],
 };

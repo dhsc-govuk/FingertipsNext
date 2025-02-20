@@ -51,8 +51,8 @@ describe('Inequalities sex table suite', () => {
       expectedNumberOfRows * CELLS_PER_ROW
     );
     screen
-      .getAllByRole('paragraph')
-      .forEach((paragraph) => expect(paragraph).toHaveTextContent('x'));
+      .getAllByTestId('not-available')
+      .forEach((id) => expect(id).toHaveTextContent('X'));
   });
 
   it('snapshot test - should match snapshot', () => {

@@ -88,10 +88,12 @@ export function Chart({
         </>
       )}
       <br />
-      <InequalitiesSexTable
-        healthIndicatorData={dataWithoutEngland[0]}
-        englandBenchmarkData={englandBenchmarkData}
-      />
+      {indicatorsSelected.length === 1 && areasSelected.length === 1 && (
+        <InequalitiesSexTable
+          healthIndicatorData={dataWithoutEngland[0]}
+          englandBenchmarkData={englandBenchmarkData}
+        />
+      )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"

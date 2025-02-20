@@ -1,4 +1,4 @@
-import { Paragraph, Table } from 'govuk-react';
+import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
@@ -37,10 +37,6 @@ const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
 
 const StyledAlignRightCell = styled(StyledTableCell)({
   textAlign: 'right',
-});
-
-const StyledParagraph = styled(Paragraph)({
-  all: 'unset',
 });
 
 const getCellHeader = (
@@ -113,32 +109,16 @@ export function InequalitiesSexTable({
           <Table.Row key={data.period + index}>
             <StyledAlignLeftTableCell>{data.period}</StyledAlignLeftTableCell>
             <StyledAlignRightCell>
-              {data.persons ? (
-                convertToPercentage(data.persons)
-              ) : (
-                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-              )}
+              {convertToPercentage(data.persons)}
             </StyledAlignRightCell>
             <StyledAlignRightCell>
-              {data.male ? (
-                convertToPercentage(data.male)
-              ) : (
-                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-              )}
+              {convertToPercentage(data.male)}
             </StyledAlignRightCell>
             <StyledAlignRightCell>
-              {data.female ? (
-                convertToPercentage(data.female)
-              ) : (
-                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-              )}
+              {convertToPercentage(data.female)}
             </StyledAlignRightCell>
             <StyledGreyTableCellValue>
-              {data.englandBenchmark ? (
-                convertToPercentage(data.englandBenchmark)
-              ) : (
-                <StyledParagraph aria-label="Not Available">x</StyledParagraph>
-              )}
+              {convertToPercentage(data.englandBenchmark)}
             </StyledGreyTableCellValue>
           </Table.Row>
         ))}
