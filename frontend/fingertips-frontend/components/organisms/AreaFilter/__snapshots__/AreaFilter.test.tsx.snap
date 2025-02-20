@@ -2,7 +2,7 @@
 
 exports[`Area Filter snapshot test 1`] = `
 <DocumentFragment>
-  .c7 {
+  .c5 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,7 +16,7 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c15 {
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -28,13 +28,13 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 0;
 }
 
-.c15:after {
+.c13:after {
   content: '';
   display: table;
   clear: both;
 }
 
-.c9 {
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,7 +46,7 @@ exports[`Area Filter snapshot test 1`] = `
   display: block;
 }
 
-.c12 {
+.c10 {
   display: inline-block;
   position: relative;
   margin-bottom: 5px;
@@ -55,22 +55,22 @@ exports[`Area Filter snapshot test 1`] = `
   cursor: pointer;
 }
 
-.c12:hover {
+.c10:hover {
   color: #2b8cc4;
 }
 
-.c12:focus {
+.c10:focus {
   outline: 4px solid #ffdd00;
   outline-offset: -1px;
   color: #0b0c0c;
   background: #ffdd00;
 }
 
-.c12::-webkit-details-marker {
+.c10::-webkit-details-marker {
   display: none;
 }
 
-.c12:before {
+.c10:before {
   content: "";
   position: absolute;
   top: 0;
@@ -88,7 +88,7 @@ exports[`Area Filter snapshot test 1`] = `
   border-left-color: inherit;
 }
 
-[open] > .c11:before {
+[open] > .c9:before {
   display: block;
   width: 0;
   height: 0;
@@ -100,24 +100,24 @@ exports[`Area Filter snapshot test 1`] = `
   border-top-color: inherit;
 }
 
-.c13 {
+.c11 {
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
-.c14 {
+.c12 {
   padding: 15px;
   padding-left: 20px;
   border-left: 5px solid #bfc1c3;
 }
 
-.c14 p {
+.c12 p {
   margin-top: 0;
   margin-bottom: 20px;
 }
 
-.c14 > :last-child,
-.c14 p:last-child {
+.c12 > :last-child,
+.c12 p:last-child {
   margin-bottom: 0;
 }
 
@@ -134,55 +134,21 @@ exports[`Area Filter snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
+.c17 {
+  margin-bottom: 20px;
+}
+
+.c16 .c16:last-of-type {
+  margin-bottom: 0;
+}
+
 .c2 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c2 > p {
-  margin: 0;
-}
-
-.c2 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c2 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c2 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
-.c4 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c17 {
+.c15 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -196,34 +162,21 @@ exports[`Area Filter snapshot test 1`] = `
   border: 2px solid #0b0c0c;
 }
 
-.c17:focus {
+.c15:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c10 div {
+.c8 div {
   padding: 1em 0em;
 }
 
-.c10 summary {
+.c8 summary {
   color: #000000;
 }
 
-.c10 div {
+.c8 div {
   border-left: none;
-}
-
-.c18 div {
-  padding: 1em 0em;
-}
-
-.c18 summary {
-  color: #000000;
-}
-
-.c18 div {
-  border-left: 5px #A1A2A3 solid;
-  padding-left: 1em;
 }
 
 .c0 {
@@ -236,59 +189,65 @@ exports[`Area Filter snapshot test 1`] = `
   padding: 0.5em 1em;
 }
 
-.c6 {
+.c4 {
   padding-bottom: 1.5em;
 }
 
 .c3 {
-  margin-left: auto;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  padding: 0em;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
-}
-
-.c5 {
   background-color: #E1E2E3;
   min-height: 100%;
   padding: 1.5em 1em;
 }
 
-.c8 {
+.c6 {
   font-weight: bold;
-  padding: 0em;
 }
 
-.c8 div div {
-  padding: 0em;
-}
-
-.c16 {
+.c14 {
   margin-bottom: 1em;
 }
 
-.c16 select {
+.c14 span {
+  font-weight: bold;
+}
+
+.c14 select {
   width: 100%;
 }
 
 @media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c13 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
   .c7 {
     font-size: 14px;
     line-height: 1.15;
@@ -310,38 +269,6 @@ exports[`Area Filter snapshot test 1`] = `
 
 @media only screen and (min-width:641px) {
   .c7 {
-    margin-bottom: 0;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c15 {
-    margin-bottom: 0;
-  }
-}
-
-@media print {
-  .c9 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c9 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media print {
-  .c9 {
-    color: #000;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c9 {
     margin-bottom: 30px;
   }
 }
@@ -372,58 +299,30 @@ exports[`Area Filter snapshot test 1`] = `
   }
 }
 
+@media only screen and (min-width:641px) {
+  .c17 {
+    margin-bottom: 30px;
+  }
+}
+
 @media print {
-  .c2 {
+  .c15 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
+  .c15 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c17 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
+  .c15 {
     width: 50%;
     height: 38px;
-  }
-}
-
-@media print {
-  .c3 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c3 {
-    font-size: 16px;
-    line-height: 1.25;
   }
 }
 
@@ -439,97 +338,74 @@ exports[`Area Filter snapshot test 1`] = `
       >
         Filters
       </h3>
-      <div
-        class="c2 c3"
-      >
-        <p>
-          Hide filters
-        </p>
-      </div>
     </div>
     <hr
-      class="c4"
+      class="c2"
     />
     <div
-      class="c5"
+      class="c3"
     >
       <div
-        class="c6"
+        class="c4"
+        data-testid="selected-areas-container"
       >
         <span
-          class="c7 c8"
+          class="c5 c6"
         >
           Selected areas (0)
         </span>
       </div>
       <details
-        class="c9 c10"
+        class="c7 c8"
+        open=""
       >
         <summary
-          class="c11 c12"
+          class="c9 c10"
         >
           <span
-            class="c13"
+            class="c11"
           >
             Add or change areas
           </span>
         </summary>
         <div
-          class="c14"
+          class="c12"
         >
           <label
-            class="c15 c16"
+            class="c13 c14"
+            data-testid="area-type-selector-container"
           >
             <span
-              class="c7"
+              class="c5"
             >
               Select an area type
             </span>
             <select
-              class="c17"
+              class="c15"
             />
           </label>
-          <span
-            class="c7 c8"
+          <label
+            class="c13 c14"
+            data-testid="group-type-selector-container"
           >
-            Area List
-          </span>
+            <span
+              class="c5"
+            >
+              Select a group type
+            </span>
+            <select
+              class="c15"
+            />
+          </label>
           <div
-            class="c2"
+            class="c16 c17"
           >
-            <p>
-              Select one or more areas to compare
-            </p>
+            <span
+              class="c5 c6"
+            >
+              Select one or more areas
+            </span>
           </div>
-          <details
-            class="c9 c18"
-          >
-            <summary
-              class="c11 c12"
-            >
-              <span
-                class="c13"
-              >
-                Refine the area list
-              </span>
-            </summary>
-            <div
-              class="c14"
-            >
-              <label
-                class="c15 c16"
-              >
-                <span
-                  class="c7"
-                >
-                  1. Select a group type
-                </span>
-                <select
-                  class="c17"
-                />
-              </label>
-            </div>
-          </details>
         </div>
       </details>
     </div>
