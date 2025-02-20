@@ -4,10 +4,10 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 public class HealthMeasureModelHelper(
     int key = 1, 
-    double count = 1.0,
-    double value = 1.0,
-    double lowerCi = 1.0,
-    double upperCi = 1.0,
+    double? count = 1.0,
+    double? value = 1.0,
+    double? lowerCi = 1.0,
+    double? upperCi = 1.0,
     short year = 2025
     )
 {
@@ -42,7 +42,7 @@ public class HealthMeasureModelHelper(
             Code = "AreaCode",
             Name = "area name",
             StartDate = DateTime.Today,
-            EndDate =  DateTime.Today.AddDays(1),
+            EndDate = DateTime.Today.AddDays(1),
         };
     }
 

@@ -105,7 +105,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c8 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
@@ -131,7 +131,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 .c17 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
@@ -288,7 +288,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value 
             <span
-              class="4 c11"
+              class="8 c11"
             >
               (%)
             </span>
@@ -299,7 +299,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Lower 
             <span
-              class="4 c11"
+              class="8 c11"
             >
               (%)
             </span>
@@ -310,7 +310,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Upper 
             <span
-              class="4 c11"
+              class="8 c11"
             >
               (%)
             </span>
@@ -321,7 +321,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value  
             <span
-              class="4 c11"
+              class="8 c11"
             >
               (%)
             </span>
@@ -335,12 +335,12 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c12 c13 c14"
+            class="2 c12 c13 c14"
           >
             2004
           </td>
           <td
-            class="0 c15 c13 c14"
+            class="2 c15 c13 c14"
           />
           <td
             class="2 c12 c13 c16"
@@ -373,12 +373,12 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="0 c12 c13 c14"
+            class="2 c12 c13 c14"
           >
             2008
           </td>
           <td
-            class="0 c15 c13 c14"
+            class="2 c15 c13 c14"
           />
           <td
             class="2 c12 c13 c16"
@@ -524,7 +524,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c8 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
@@ -554,7 +554,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 .c19 {
-  background-color: #b1b4b6;
+  background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
@@ -736,7 +736,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -747,7 +747,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -758,7 +758,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -781,7 +781,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -792,7 +792,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -803,7 +803,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper 
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -814,7 +814,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value  
             <span
-              class="4 c12"
+              class="8 c12"
             >
               (%)
             </span>
@@ -828,12 +828,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c13 c14 c15"
+            class="2 c13 c14 c15"
           >
             2004
           </td>
           <td
-            class="0 c16 c14 c15 c17"
+            class="2 c16 c14 c15 c17"
           />
           <td
             class="2 c13 c14 c18"
@@ -856,7 +856,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             5.8%
           </td>
           <td
-            class="0 c16 c14 c15 c17"
+            class="2 c16 c14 c15 c17"
           />
           <td
             class="2 c13 c14 c18"
@@ -889,12 +889,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="0 c13 c14 c15"
+            class="2 c13 c14 c15"
           >
             2008
           </td>
           <td
-            class="0 c16 c14 c15 c17"
+            class="2 c16 c14 c15 c17"
           />
           <td
             class="2 c13 c14 c18"
@@ -917,7 +917,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             5.8%
           </td>
           <td
-            class="0 c16 c14 c15 c17"
+            class="2 c16 c14 c15 c17"
           />
           <td
             class="2 c13 c14 c18"

@@ -3,6 +3,7 @@ import { AreaSearchServiceMock } from './areaSearchServiceMock';
 import { IndicatorSearchService } from './indicatorSearchService';
 import {
   AreaDocument,
+  IndicatorDocument,
   IAreaSearchService,
   IIndicatorSearchService,
 } from './searchTypes';
@@ -56,7 +57,9 @@ export class SearchServiceFactory {
     return newDistrictLevel;
   }
 
-  private static buildAreaSearchServiceMock(mockAreaData: AreaDocument[]) {
+  private static buildAreaSearchServiceMock(rawAreasData: object) {
+    const mockAreaData = rawAreasData as AreaDocument[];
+
     const newDistrictAreas = this.createDistrictLevelFromCounty(mockAreaData);
     const extendedAreaData = mockAreaData.concat(newDistrictAreas);
 
@@ -80,13 +83,19 @@ export class SearchServiceFactory {
       `buildIndicatorSearchService: useMockService: ${useMockServer}`
     );
     if (useMockServer === 'true') {
-      const typedIndicatorData = mockIndicatorData.map((indicator) => {
-        return {
-          ...indicator,
-          lastUpdated: new Date(indicator.lastUpdated),
-        };
-      });
-      return new IndicatorSearchServiceMock(typedIndicatorData);
+      const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
+      const typedIndicatorData = unparsedIndicatorData.map(
+        (ind): IndicatorDocument => {
+          return {
+            ...ind,
+            indicatorID: String(ind.indicatorID),
+            latestDataPeriod: String(ind.latestDataPeriod),
+            lastUpdatedDate: new Date(ind.lastUpdatedDate),
+          };
+        }
+      );
+      const service = new IndicatorSearchServiceMock(typedIndicatorData);
+      return service;
     } else {
       return new IndicatorSearchService(
         readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),

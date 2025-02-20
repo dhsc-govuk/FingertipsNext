@@ -6,6 +6,37 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import { SearchParams } from '@/lib/searchStateManager';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
+const lineChartTestId = 'lineChart-component';
+const lineChartTableTestId = 'lineChartTable-component';
+const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
+const lineChartContainerTitle = 'See how the indicator has changed over time';
+
+const assertLineChartAndTableInDocument = () => {
+  expect(screen.getByTestId(lineChartTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('heading', {
+      name: lineChartContainerTitle,
+    })
+  ).toBeInTheDocument();
+};
+
+const assertLineChartAndTableNotInDocument = () => {
+  expect(screen.queryByTestId(lineChartTestId)).not.toBeInTheDocument();
+  expect(screen.queryByTestId(lineChartTableTestId)).not.toBeInTheDocument();
+  expect(
+    screen.queryByTestId(lineChartContainerTestId)
+  ).not.toBeInTheDocument();
+
+  expect(
+    screen.queryByRole('heading', {
+      name: lineChartContainerTitle,
+    })
+  ).not.toBeInTheDocument();
+};
+
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
     ThematicMap: function ThematicMap() {
@@ -74,13 +105,8 @@ describe('Content', () => {
   });
 
   it('should render the chart components', () => {
-    const lineChart = screen.getByTestId('lineChart-component');
-    const barChart = screen.getByTestId('barChart-component');
-    const lineChartTable = screen.getByTestId('lineChartTable-component');
-
-    expect(lineChart).toBeInTheDocument();
-    expect(barChart).toBeInTheDocument();
-    expect(lineChartTable).toBeInTheDocument();
+    assertLineChartAndTableInDocument();
+    expect(screen.getByTestId('barChart-component')).toBeInTheDocument();
   });
 });
 
@@ -101,7 +127,7 @@ it('should render the PopulationPyramid component when Population data are provi
 });
 
 it('should render the ThematicMap component when all map props are provided', () => {
-  const areaType = 'Regions';
+  const areaType = 'regions';
   const areaCodes = ['E12000001', 'E12000002'];
   const mapData = getMapData(areaType, areaCodes);
 
@@ -129,10 +155,7 @@ describe('should not display line chart', () => {
       />
     );
 
-    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId('lineChartTable-component')
-    ).not.toBeInTheDocument();
+    assertLineChartAndTableNotInDocument();
   });
 
   it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
@@ -144,10 +167,7 @@ describe('should not display line chart', () => {
       />
     );
 
-    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId('lineChartTable-component')
-    ).not.toBeInTheDocument();
+    assertLineChartAndTableNotInDocument();
   });
 
   it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
@@ -163,9 +183,6 @@ describe('should not display line chart', () => {
       <Chart healthIndicatorData={[MOCK_DATA]} indicatorsSelected={['0']} />
     );
 
-    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId('lineChartTable-component')
-    ).not.toBeInTheDocument();
+    assertLineChartAndTableNotInDocument();
   });
 });

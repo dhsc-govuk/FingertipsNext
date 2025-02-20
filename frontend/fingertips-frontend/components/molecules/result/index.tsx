@@ -10,13 +10,18 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type SearchResultProps = {
   result: IndicatorDocument;
   indicatorSelected?: boolean;
+  searchState?: SearchStateParams;
+  handleClick: (indicatorId: string, checked: boolean) => void;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -28,8 +33,6 @@ const StyledRow = styled(GridRow)(
     padding: [
       { size: 3, direction: 'top' },
       { size: 0, direction: 'bottom' },
-      { size: 7, direction: 'left' },
-      { size: 7, direction: 'right' },
     ],
   })
 );
@@ -46,40 +49,20 @@ export function formatDate(date: Date | undefined): string {
 export function SearchResult({
   result,
   indicatorSelected,
+  searchState,
+  handleClick,
 }: Readonly<SearchResultProps>) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-
-  const handleClick = (indicatorId: string, checked: boolean) => {
-    const searchState = SearchStateManager.setStateFromParams(params);
-
-    if (checked) {
-      searchState.addParamValueToState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    } else {
-      searchState.removeParamValueFromState(
-        SearchParams.IndicatorsSelected,
-        indicatorId
-      );
-    }
-
-    replace(searchState.generatePath(pathname), { scroll: false });
-  };
+  const stateManager = SearchStateManager.initialise(searchState);
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
-    const searchState = SearchStateManager.setStateFromParams(params);
     const chartPath = '/chart';
-    searchState.removeAllParamFromState(SearchParams.IndicatorsSelected);
-    searchState.addParamValueToState(
+    stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+    stateManager.addParamValueToState(
       SearchParams.IndicatorsSelected,
       indicatorId
     );
 
-    return searchState.generatePath(chartPath);
+    return stateManager.generatePath(chartPath);
   };
 
   return (
@@ -87,25 +70,25 @@ export function SearchResult({
       <StyledRow>
         <GridCol>
           <Checkbox
-            id={`search-results-indicator-${result.indicatorId.toString()}`}
-            data-testid={`search-results-indicator-${result.indicatorId}`}
+            id={`search-results-indicator-${result.indicatorID.toString()}`}
+            data-testid={`search-results-indicator-${result.indicatorID}`}
             name="indicator"
-            value={result.indicatorId}
+            value={result.indicatorID}
             defaultChecked={indicatorSelected}
             onChange={(e) => {
-              handleClick(result.indicatorId.toString(), e.target.checked);
+              handleClick(result.indicatorID.toString(), e.target.checked);
             }}
           >
             <H5>
               <Link
-                href={generateIndicatorChartPath(result.indicatorId.toString())}
+                href={generateIndicatorChartPath(result.indicatorID.toString())}
               >
-                {result.name}
+                {result.indicatorName}
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdated)}`}</StyledParagraph>
+            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</StyledParagraph>
           </Checkbox>
         </GridCol>
       </StyledRow>

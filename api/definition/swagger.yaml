@@ -55,9 +55,7 @@ paths:
                   $ref: "#/components/schemas/AreaType"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
-
   /areas/areatypes/{area_type_key}/areas:
-
     get:
       tags:
         - areas
@@ -276,7 +274,6 @@ components:
       required:
         - code
         - name
-
         - areaType
       properties:
         code:
@@ -287,7 +284,6 @@ components:
           type: string
           example: "County Durham"
           description: The name of the area / geography
-
         areaType:
           $ref: "#/components/schemas/AreaType"
           type: object
@@ -357,10 +353,6 @@ components:
         year, age band and sex.
       required:
         - year
-        - count
-        - value
-        - lowerCi
-        - upperCi
         - ageBand
         - sex
       properties:

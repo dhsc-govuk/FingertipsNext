@@ -1,7 +1,16 @@
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { GeoJSON } from 'highcharts';
 
-export const mockMapGroupBoundaries: Record<string, GeoJSON> = {
-  'Counties and Unitary Authorities': {
+export type AreaTypeKeysGroupBoundaries = Extract<
+  AreaTypeKeys,
+  'regions' | 'counties-and-unitary-authorities'
+>;
+
+export const mockMapGroupBoundaries: Record<
+  AreaTypeKeysGroupBoundaries,
+  GeoJSON
+> = {
+  'counties-and-unitary-authorities': {
     type: 'FeatureCollection',
     features: [
       {
@@ -274,7 +283,7 @@ export const mockMapGroupBoundaries: Record<string, GeoJSON> = {
       },
     ],
   },
-  'Regions': {
+  'regions': {
     type: 'FeatureCollection',
     features: [
       {
