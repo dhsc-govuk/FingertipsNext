@@ -15,8 +15,10 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+} from '@/generated-sources/ft-api-client';
 
 export default async function ChartPage(
   props: Readonly<{
