@@ -1,7 +1,7 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-// import { AreaMode } from '../page-objects/pages/chartPage';
+import { AreaMode } from './chartPage';
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
@@ -61,39 +61,35 @@ export default class ResultsPage extends BasePage {
     }
   }
 
-  async selectAreasCheckboxes() {
-    await this.page.getByText(`Add or change areas`).click();
-
+  async selectAreasCheckboxes(areaMode: AreaMode) {
+    // For now defaulting to using GPs area type but this will be expanded on in future
     await this.page.getByText(`Select an area type`).selectOption('GPs');
 
-    await this.page.getByText(`Refine the area list`).click();
-
-    await this.page
-      .getByText(`1. Select a group type`)
-      .selectOption('NHS Primary Care Networks');
-
-    // await expect(checkbox).toBeAttached();
-    // await expect(checkbox).toBeVisible();
-    // await expect(checkbox).toBeInViewport();
-    // await expect(checkbox).toBeEnabled();
-    // await expect(checkbox).toBeEditable();
-    // await expect(checkbox).toBeChecked({ checked: false });
-
-    // await checkbox.check({ force: true, timeout: 2000 });
-
-    // await expect(checkbox).toBeChecked();
-    // await this.waitForURLToContain(indicatorID);
-
-    // switch (areaMode) {
-    //   case areaMode.ONE_AREA:
-    //     click;
-    //   case areaMode.TWO_AREAS:
-    //     click;
-    //   case areaMode.ENGLAND_AREA:
-    //     click;
-    //   default:
-    //     throw new Error('Invalid area mode');
-    // }
+    // Covering the different group types across the different area modes
+    switch (areaMode) {
+      case String(AreaMode.ONE_AREA):
+        await this.page
+          .getByText(`Select a group type`)
+          .selectOption('NHS Integrated Care Boards');
+      case String(AreaMode.TWO_AREAS):
+        await this.page
+          .getByText(`Select a group type`)
+          .selectOption('NHS Primary Care Networks');
+      case String(AreaMode.THREE_PLUS_AREAS):
+        await this.page
+          .getByText(`Select a group type`)
+          .selectOption('NHS Regions');
+      case String(AreaMode.ALL_AREAS_IN_A_GROUP):
+        await this.page
+          .getByText(`Select a group type`)
+          .selectOption('NHS Sub Integrated Care Boards');
+      case String(AreaMode.ENGLAND_AREA):
+        await this.page
+          .getByText(`Select a group type`)
+          .selectOption('England');
+      default:
+        throw new Error('Invalid area mode');
+    }
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
