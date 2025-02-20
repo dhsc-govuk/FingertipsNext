@@ -19,79 +19,75 @@ import { mapValues } from '../runtime';
  * @interface AreaType
  */
 export interface AreaType {
-  /**
-   * The key name of the area type
-   * @type {string}
-   * @memberof AreaType
-   */
-  key: string;
-  /**
-   * The name of the area type for presentation
-   * @type {string}
-   * @memberof AreaType
-   */
-  name: string;
-  /**
-   * The level in the hierarchy
-   * @type {number}
-   * @memberof AreaType
-   */
-  level: number;
-  /**
-   * The name of the associated hierarchy for the area / geography
-   * @type {string}
-   * @memberof AreaType
-   */
-  hierarchyName: string;
+    /**
+     * The key name of the area type
+     * @type {string}
+     * @memberof AreaType
+     */
+    key: string;
+    /**
+     * The name of the area type for presentation
+     * @type {string}
+     * @memberof AreaType
+     */
+    name: string;
+    /**
+     * The level in the hierarchy
+     * @type {number}
+     * @memberof AreaType
+     */
+    level: number;
+    /**
+     * The name of the associated hierarchy for the area / geography
+     * @type {string}
+     * @memberof AreaType
+     */
+    hierarchyName: string;
 }
 
 /**
  * Check if a given object implements the AreaType interface.
  */
 export function instanceOfAreaType(value: object): value is AreaType {
-  if (!('key' in value) || value['key'] === undefined) return false;
-  if (!('name' in value) || value['name'] === undefined) return false;
-  if (!('level' in value) || value['level'] === undefined) return false;
-  if (!('hierarchyName' in value) || value['hierarchyName'] === undefined)
-    return false;
-  return true;
+    if (!('key' in value) || value['key'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('level' in value) || value['level'] === undefined) return false;
+    if (!('hierarchyName' in value) || value['hierarchyName'] === undefined) return false;
+    return true;
 }
 
 export function AreaTypeFromJSON(json: any): AreaType {
-  return AreaTypeFromJSONTyped(json, false);
+    return AreaTypeFromJSONTyped(json, false);
 }
 
-export function AreaTypeFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): AreaType {
-  if (json == null) {
-    return json;
-  }
-  return {
-    key: json['key'],
-    name: json['name'],
-    level: json['level'],
-    hierarchyName: json['hierarchyName'],
-  };
+export function AreaTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): AreaType {
+    if (json == null) {
+        return json;
+    }
+    return {
+        
+        'key': json['key'],
+        'name': json['name'],
+        'level': json['level'],
+        'hierarchyName': json['hierarchyName'],
+    };
 }
 
 export function AreaTypeToJSON(json: any): AreaType {
-  return AreaTypeToJSONTyped(json, false);
+    return AreaTypeToJSONTyped(json, false);
 }
 
-export function AreaTypeToJSONTyped(
-  value?: AreaType | null,
-  ignoreDiscriminator: boolean = false
-): any {
-  if (value == null) {
-    return value;
-  }
+export function AreaTypeToJSONTyped(value?: AreaType | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
+    }
 
-  return {
-    key: value['key'],
-    name: value['name'],
-    level: value['level'],
-    hierarchyName: value['hierarchyName'],
-  };
+    return {
+        
+        'key': value['key'],
+        'name': value['name'],
+        'level': value['level'],
+        'hierarchyName': value['hierarchyName'],
+    };
 }
+
