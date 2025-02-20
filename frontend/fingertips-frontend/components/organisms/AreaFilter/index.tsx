@@ -121,7 +121,7 @@ export function AreaFilter({
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
-        <StyledFilterSelectedAreaDiv>
+        <StyledFilterSelectedAreaDiv data-testid="selected-areas-container">
           <StyledFilterLabel>
             {`Selected areas (${selectedAreasData?.length ?? 0})`}
           </StyledFilterLabel>
@@ -139,6 +139,7 @@ export function AreaFilter({
 
         <ShowHideContainer summary="Add or change areas">
           <StyledFilterSelect
+            data-testid="area-type-selector-container"
             label="Select an area type"
             input={{
               onChange: (e) =>
@@ -155,6 +156,7 @@ export function AreaFilter({
           </StyledFilterSelect>
 
           <StyledFilterSelect
+            data-testid="group-type-selector-container"
             label="Select a group type"
             input={{
               onChange: (e) =>
