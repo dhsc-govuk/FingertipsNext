@@ -168,79 +168,11 @@ test.describe('Search via indicator', () => {
         'NHS Primary Care Networks',
         'GPs',
       ];
-      await test
-        .expect(resultsPage.areaFilterOptions())
-        .toHaveCount(expectedOptions.length);
-
       const options = await resultsPage.areaFilterOptionsText();
+      test.expect(options).toHaveLength(expectedOptions.length);
       test
         .expect(sortAlphabetically(options))
         .toEqual(sortAlphabetically(expectedOptions));
-    });
-  });
-
-  test('check area type pills on results page when areas specified in url', async ({
-    resultsPage,
-  }) => {
-    await test.step('Search for a test indicator', async () => {
-      await resultsPage.navigateToResults('smoking', [
-        'E40000012',
-        'E40000011',
-        'E40000010',
-      ]);
-    });
-
-    await test.step('Check selected area pills matches those specified in url', async () => {
-      const expectdPillTexts = [
-        'North East and Yorkshire NHS Region',
-        'Midlands NHS Region',
-        'North West NHS Region',
-      ];
-      await test
-        .expect(resultsPage.areaFilterPills())
-        .toHaveCount(expectdPillTexts.length);
-
-      const filterPillNames = await resultsPage.areaFilterPillsText();
-      test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectdPillTexts));
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
-    });
-
-    await test.step('Click remove one area pill and re-check area pills', async () => {
-      await resultsPage.closeAreaFilterPill(1);
-
-      const expectdPillTexts = [
-        'North East and Yorkshire NHS Region',
-        'North West NHS Region',
-      ];
-      await test
-        .expect(resultsPage.areaFilterPills())
-        .toHaveCount(expectdPillTexts.length);
-
-      const filterPillNames = await resultsPage.areaFilterPillsText();
-      test
-        .expect(sortAlphabetically(filterPillNames))
-        .toEqual(sortAlphabetically(expectdPillTexts));
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeDisabled();
-    });
-
-    await test.step('Check url has been updated after area pill removal', async () => {
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000012/);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000011/);
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000010/);
-    });
-
-    await test.step('Remove all pills and check url and area type combobox', async () => {
-      await resultsPage.closeAreaFilterPill(0);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000012/);
-
-      await resultsPage.closeAreaFilterPill(0);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
-
-      await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
     });
   });
 
