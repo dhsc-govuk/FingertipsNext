@@ -4,6 +4,7 @@ CREATE TABLE [dbo].[SexDimension](
 	[Name] [nvarchar](50) NOT NULL,						--The name of the sex e.g. Female
 	[IsFemale] [bit] NOT NULL,							--A flag to indicate if the data is for females
 	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all persons)
+	[SexId] tinyint DEFAULT 1							-- Should be removed
  CONSTRAINT [PK_SexDimension] PRIMARY KEY CLUSTERED 
 (
 	[SexKey] ASC
