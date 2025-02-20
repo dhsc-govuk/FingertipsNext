@@ -115,31 +115,30 @@ export default class ResultsPage extends BasePage {
   }
 
   async selectAreasCheckboxes(areaMode: AreaMode) {
+    console.log(areaMode);
     // For now defaulting to using GPs area type but this will be expanded on in future
     await this.page.getByText(`Select an area type`).selectOption('GPs');
 
+    const groupTypeDropdown = this.page.getByText(`Select a group type`);
+    await expect(groupTypeDropdown).toHaveValue('NHS Integrated Care Boards');
+
     // Covering the different group types across the different area modes
     switch (areaMode) {
-      case String(AreaMode.ONE_AREA):
-        await this.page
-          .getByText(`Select a group type`)
-          .selectOption('NHS Integrated Care Boards');
-      case String(AreaMode.TWO_AREAS):
-        await this.page
-          .getByText(`Select a group type`)
-          .selectOption('NHS Primary Care Networks');
-      case String(AreaMode.THREE_PLUS_AREAS):
-        await this.page
-          .getByText(`Select a group type`)
-          .selectOption('NHS Regions');
-      case String(AreaMode.ALL_AREAS_IN_A_GROUP):
-        await this.page
-          .getByText(`Select a group type`)
-          .selectOption('NHS Sub Integrated Care Boards');
-      case String(AreaMode.ENGLAND_AREA):
-        await this.page
-          .getByText(`Select a group type`)
-          .selectOption('England');
+      case AreaMode.ONE_AREA:
+        await groupTypeDropdown.selectOption('NHS Integrated Care Boards');
+        break;
+      case AreaMode.TWO_AREAS:
+        await groupTypeDropdown.selectOption('NHS Primary Care Networks');
+        break;
+      case AreaMode.THREE_PLUS_AREAS:
+        await groupTypeDropdown.selectOption('NHS Regions');
+        break;
+      case AreaMode.ALL_AREAS_IN_A_GROUP:
+        await groupTypeDropdown.selectOption('NHS Sub Integrated Care Boards');
+        break;
+      case AreaMode.ENGLAND_AREA:
+        await groupTypeDropdown.selectOption('England');
+        break;
       default:
         throw new Error('Invalid area mode');
     }
