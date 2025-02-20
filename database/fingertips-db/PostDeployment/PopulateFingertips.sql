@@ -169,7 +169,7 @@ GO
 ------------------------------------------------
 CREATE TABLE #TempHealthData
 (
-    IndicatorId NVARCHAR(50),
+    IndicatorId INT,
     Year INT,
     AgeID INT,
     Sex NVARCHAR(255),
@@ -205,19 +205,19 @@ INSERT INTO [dbo].[HealthMeasure]
     Year
 )
 SELECT
-    (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [AreaCode] = AreaCode),
-    (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = IndicatorId),
-    (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = Sex),
-    (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = AgeID),
+    (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [Code] = temp.AreaCode),
+    (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = temp.IndicatorId),
+    (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = temp.Sex),
+    (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = temp.AgeID),
     Count,
     Value,
     LowerCI,
     UpperCI,
     Year
-FROM
-    #TempHealthData
-WHERE
-    Value IS NOT NULL
+	FROM
+		#TempHealthData temp
+	WHERE
+		temp.Value IS NOT NULL
 GO
 
 DROP TABLE #TempHealthData;
