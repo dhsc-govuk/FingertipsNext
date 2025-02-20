@@ -101,6 +101,9 @@ export default class ResultsPage extends BasePage {
         }
         break;
       case AreaMode.ENGLAND_AREA:
+        await this.page
+          .getByTestId(this.areaTypeSelector)
+          .selectOption('England');
         await groupTypeDropdown.selectOption('England');
         break;
       default:
