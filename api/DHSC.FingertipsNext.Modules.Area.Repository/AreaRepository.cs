@@ -1,5 +1,6 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -83,6 +84,7 @@ public class AreaRepository : IAreaRepository
         string? childAreaType
     )
     {
+        // Get the principle requested area.
         var area = await _dbContext
             .Area.Include(a => a.AreaType)
             .Where(area => area.AreaCode == areaCode)
@@ -93,15 +95,13 @@ public class AreaRepository : IAreaRepository
 
         var areasWithRelations = new AreaWithRelationsModel { Area = area };
 
-        var parentNodeId = area.Node.GetAncestor(1);
-        var parent = await _dbContext
-            .Area.Include(a => a.AreaType)
-            .Where(a => a.Node == parentNodeId)
-            .FirstOrDefaultAsync();
-
-        if (parent != null)
+        // Get the immediate parents 
+        var parents = await GetParentAreas(area.AreaKey);
+        
+        if (!parents.IsNullOrEmpty())
         {
-            areasWithRelations.ParentArea = parent;
+            // Todo - should return all parents
+            areasWithRelations.ParentArea = parents[0];
         }
 
         if (includeChildren)
@@ -111,12 +111,13 @@ public class AreaRepository : IAreaRepository
 
         if (includeAncestors)
         {
+            // Todo - should return all parents
             await AddAncestorAreas(areasWithRelations, areaCode);
         }
 
-        if (includeSiblings && parent != null)
+        if (includeSiblings && !parents.IsNullOrEmpty())
         {
-            await AddSiblingAreas(areasWithRelations, area, parent);
+            await AddSiblingAreas(areasWithRelations, area, parents[0]);
         }
 
         return areasWithRelations;
@@ -126,6 +127,8 @@ public class AreaRepository : IAreaRepository
     ///
     /// </summary>
     /// <returns></returns>
+    /// 
+    // TODO remove use of Node
     public async Task<AreaModel?> GetRootAreaAsync()
     {
         var rootArea = await _dbContext
@@ -151,31 +154,12 @@ public class AreaRepository : IAreaRepository
         if (string.IsNullOrWhiteSpace(childAreaType))
         {
             // direct children
-            areaWithRelations.Children = await _dbContext
-                .Area.Include(a => a.AreaType)
-                .Where(a => a.Node.GetAncestor(1) == area.Node)
-                .ToListAsync();
+            areaWithRelations.Children = await GetChildAreas(area.AreaKey);
         }
         else
         {
+            areaWithRelations.Children = await GetDescendantAreas(area, childAreaType);
             // children lower down the hierarchy
-            var singleChildOfType = await _dbContext
-                .Area.Include(a => a.AreaType)
-                .Where(a => a.AreaTypeKey == childAreaType)
-                .FirstOrDefaultAsync();
-
-            if (singleChildOfType != null)
-            {
-                int parentLevel = area.Node.GetLevel();
-
-                areaWithRelations.Children = await _dbContext
-                    .Area.Include(a => a.AreaType)
-                    .Where(a =>
-                        a.Node.GetAncestor(singleChildOfType.Node.GetLevel() - parentLevel)
-                        == area.Node
-                    )
-                    .ToListAsync();
-            }
         }
     }
 
@@ -207,12 +191,140 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
     }
 
+
+    private async Task<List<AreaModel>> GetParentAreas(int childAreaKey)
+    {
+        return await _dbContext
+            .Area
+            .FromSqlInterpolated(
+                $"""
+                --- Find the parent IDs and then return ParentAreas
+                WITH parentAreaKeys AS 
+                (  
+                  SELECT ParentAreaKey 
+                  FROM Areas.AreaRelationships
+                  WHERE ChildAreaKey = {childAreaKey} 
+                )
+                SELECT * FROM Areas.Areas
+                WHERE AreaKey in 
+                ( 
+                  SELECT ParentAreaKey 
+                  FROM parentAreaKeys 
+                ) 
+                """
+            )
+            .ToListAsync();
+    }
+
+    private async Task<List<AreaModel>> GetChildAreas(int parentAreaKey)
+    {
+        return await _dbContext
+            .Area
+            .FromSqlInterpolated(
+                $"""
+                --- Find the child IDs and then return ChildAreas
+                WITH childAreaKeys AS 
+                (
+                  SELECT ChildAreaKey 
+                  FROM Areas.AreaRelationships 
+                  WHERE ParentAreaKey = {parentAreaKey} 
+                )
+                SELECT * FROM Areas.Areas
+                WHERE AreaKey in 
+                (
+                  SELECT ChildAreaKey 
+                  FROM childAreaKeys 
+                )
+                """
+            )
+            .ToListAsync();
+    }
+
+    // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex 
+    // and this represents a maintenance issue. But there is inherent complexity in what is being
+    // implemented here.
+    //
+    // This function needs to traverse a graph (not just a tree) until it has found all descendants of 
+    // the parent of the specific type, being careful not to traverse the graph further than is
+    // necessary. It should also make sure what is returned is unique.
+
+    // TODO Make results unique
+    private async Task<List<AreaModel>> GetDescendantAreas(AreaModel area, string childAreaTypeKey)
+    {
+        var childAreaType = await _dbContext
+        .AreaType.Where(a => a.AreaTypeKey == childAreaTypeKey)
+        .FirstAsync();
+
+        return await _dbContext
+            .Area
+            .FromSqlInterpolated(
+                $"""
+                WITH recursive_cte(
+                Node,
+                AreaKey,
+                AreaCode,
+                AreaName,
+                AreaTypeKey,
+                AreaLevel,
+                ParentAreaKey) AS (
+                SELECT
+                    a.Node,
+                   	ar.ChildAreaKey as AreaKey,
+                    a.AreaCode,
+                    a.AreaName,
+                   	a.AreaTypeKey,
+                   	at2.[Level] as AreaLevel,
+                   	ar.ParentAreaKey
+                FROM
+                   	Areas.AreaRelationships ar
+                JOIN
+                    Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
+                JOIN
+                   	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
+                WHERE
+                   	ar.ParentAreaKey = {area.AreaKey}
+                UNION ALL
+                SELECT
+                    a.Node,
+                   	ar.ChildAreaKey as AreaKey,
+                    a.AreaCode,
+                    a.AreaName,
+                   	a.AreaTypeKey,
+                   	at2.[Level] as AreaLevel,
+                   	ar.ParentAreaKey
+                FROM
+                   	Areas.AreaRelationships ar
+                JOIN
+                    Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
+                JOIN
+                   	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
+                INNER JOIN recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
+                WHERE
+                    at2.[Level] <= {childAreaType.Level}
+                )
+                SELECT
+                   	Node,
+                    AreaKey,
+                    AreaCode,
+                    AreaName,
+                    AreaTypeKey
+                FROM
+                   	recursive_cte
+                WHERE
+                    AreaTypeKey = {childAreaType.AreaTypeKey}
+                """
+            )
+            .ToListAsync();
+    }
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="areaWithRelations"></param>
     /// <param name="area"></param>
     /// <param name="parent"></param>
+    /// 
+    //TODO make this handle multiple parents
     private async Task AddSiblingAreas(
         AreaWithRelationsModel areaWithRelations,
         AreaModel area,

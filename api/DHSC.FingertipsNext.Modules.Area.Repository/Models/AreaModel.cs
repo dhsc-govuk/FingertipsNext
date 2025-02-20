@@ -18,7 +18,14 @@ public class AreaModel
     public required HierarchyId Node { get; set; }
 
     /// <summary>
-    /// The unique area code of the area / geography
+    /// The unique area key of the area - this is a surrogate key
+    /// </summary>
+    public required int AreaKey { get; set; }
+
+    /// <summary>
+    /// The area code of the area - may not be unique because
+    /// some areas are modeled as both a district and county level
+    /// areaType in which case they have two entries in the DB
     /// </summary>
     [MaxLength(20)]
     public required string AreaCode { get; set; }
