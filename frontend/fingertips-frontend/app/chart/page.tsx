@@ -19,6 +19,7 @@ import {
   HealthDataForArea,
   GetHealthDataForAnIndicatorInequalitiesEnum,
 } from '@/generated-sources/ft-api-client';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -58,10 +59,9 @@ export default async function ChartPage(
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
         areaCodes: areaCodesToRequest,
-        inequalities:
-          indicatorsSelected.length === 1 && areaCodes.length === 1
-            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-            : [],
+        inequalities: shouldDisplayInequalities(indicatorsSelected, areaCodes)
+          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+          : [],
       })
     )
   );
