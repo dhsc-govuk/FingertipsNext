@@ -14,6 +14,32 @@ const searchTerm = 'mortality';
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 
+interface TestParams {
+  indicatorMode: IndicatorMode;
+  areaMode: AreaMode;
+}
+
+const testScenarios: TestParams[] = [
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ONE_AREA,
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+  },
+  {
+    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+  },
+];
+
+/**
+ * This test currently tests three of the fifteen indicator + area
+ * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
+ * These three scenario combinations are defined above in testScenarios and were chosen as they are happy paths covering lots of chart components.
+ * Note all 15 scenarios are covered in lower level unit testing.
+ */
 test.beforeAll(
   `return all indicatorIDs from the data source based on the searchTerm: ${searchTerm}`,
   () => {
@@ -32,29 +58,8 @@ test.beforeAll(
     );
   }
 );
-
-interface TestParams {
-  indicatorMode: IndicatorMode;
-  areaMode: AreaMode;
-}
-
-const testCases: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ONE_AREA,
-  },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-  },
-  {
-    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-  },
-];
-
 test.describe.parallel(`Search via search term ${searchTerm}`, () => {
-  testCases.forEach(({ indicatorMode, areaMode }) => {
+  testScenarios.forEach(({ indicatorMode, areaMode }) => {
     test.beforeEach(
       `filter down the indicators based on indicator mode: ${indicatorMode}`,
       async () => {

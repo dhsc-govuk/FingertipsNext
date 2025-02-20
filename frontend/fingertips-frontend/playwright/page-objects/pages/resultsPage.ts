@@ -66,7 +66,7 @@ export default class ResultsPage extends BasePage {
 
   async selectAreasCheckboxes(areaMode: AreaMode) {
     console.log(areaMode);
-    // For now defaulting to using NHS Integrated Care Boards area type but this will be expanded on in future
+    // For now defaulting to using NHS Integrated Care Boards area type but this will be refactored in the future
     await this.page
       .getByTestId(this.areaTypeSelector)
       .selectOption('NHS Integrated Care Boards');
@@ -80,7 +80,6 @@ export default class ResultsPage extends BasePage {
       .getByTestId(this.areaFilterContainer)
       .getByRole('checkbox');
 
-    // Covering the different group types across the different area modes
     switch (areaMode) {
       case AreaMode.ONE_AREA:
         await checkboxList.first().check();
