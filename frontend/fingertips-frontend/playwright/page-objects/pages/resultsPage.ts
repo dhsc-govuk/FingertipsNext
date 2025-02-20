@@ -66,7 +66,7 @@ export default class ResultsPage extends BasePage {
 
   async selectAreasCheckboxes(areaMode: AreaMode) {
     console.log(areaMode);
-    // For now defaulting to using NHS Integrated Care Boards area type but this will be refactored in the future
+    // For now defaulting to using NHS Integrated Care Boards (except for England area mode) area type - this will be refactored in the future
     await this.page
       .getByTestId(this.areaTypeSelector)
       .selectOption('NHS Integrated Care Boards');

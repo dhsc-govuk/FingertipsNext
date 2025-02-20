@@ -67,7 +67,7 @@ export default class ChartPage extends BasePage {
       hiddenComponents: [],
     };
 
-    // Map of three supported scenarios to their configurations
+    // Map of three supported scenarios, the core journeys, to their configurations
     const scenarioConfigs = new Map<string, ScenarioConfig>([
       [
         `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ONE_AREA}`,
@@ -86,7 +86,7 @@ export default class ChartPage extends BasePage {
     const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
     if (!config) {
       throw new Error(
-        'Combination of indicator and area modes not currently supported'
+        'Combination of indicator and area modes is not one of the three core journeys'
       );
     }
 
@@ -108,14 +108,14 @@ export default class ChartPage extends BasePage {
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that ${visibleComponents} are displayed and that`,
       `${hiddenComponents} are not displayed.`
     );
-    // Check visible components
+    // Check that components expected to be visible are displayed
     for (const component of visibleComponents) {
       await expect(this.page.getByTestId(component)).toBeVisible({
         visible: true,
       });
     }
 
-    // Check hidden components
+    // Check that components expected not to be visible are not displayed
     for (const component of hiddenComponents) {
       await expect(this.page.getByTestId(component)).toBeVisible({
         visible: false,
