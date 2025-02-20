@@ -18,8 +18,8 @@ namespace DataCreator
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         }));
 
-        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
-            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
+        public static void WriteHealthCsvData(string fileName, IEnumerable<SimpleHealthMeasureEntity> data) => 
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
