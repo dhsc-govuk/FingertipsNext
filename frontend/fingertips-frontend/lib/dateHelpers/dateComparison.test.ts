@@ -1,4 +1,4 @@
-import { IsWithinOneMonth } from './dateComparison';
+import { isWithinOneMonth } from './dateComparison';
 
 describe('should return true if indicator date is within one month of server date', () => {
   interface TestData {
@@ -58,6 +58,6 @@ describe('should return true if indicator date is within one month of server dat
       expectedResult: true,
     },
   ])('$title', ({ serverDate, indicatorDate, expectedResult }) => {
-    expect(IsWithinOneMonth(serverDate, indicatorDate)).toBe(expectedResult);
+    expect(isWithinOneMonth(serverDate, indicatorDate)).toBe(expectedResult);
   });
 });

@@ -18,7 +18,7 @@ import {
 } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
-import { IsWithinOneMonth } from '@/lib/dateHelpers/dateComparison';
+import { isWithinOneMonth } from '@/lib/dateHelpers/dateComparison';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -121,7 +121,7 @@ export function SearchResult({
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>
-                {IsWithinOneMonth(
+                {isWithinOneMonth(
                   serverDate ? serverDate : new Date(),
                   result.lastUpdatedDate
                 ) ? (

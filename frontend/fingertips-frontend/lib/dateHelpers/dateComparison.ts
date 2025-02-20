@@ -1,4 +1,4 @@
-export function IsWithinOneMonth(
+export function isWithinOneMonth(
   currentDate: Date,
   indicatorDate: Date
 ): boolean {
