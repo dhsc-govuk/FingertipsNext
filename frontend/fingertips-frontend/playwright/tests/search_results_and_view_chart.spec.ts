@@ -43,14 +43,14 @@ const testCases: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.TWO_AREAS,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  // },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+  },
+  {
+    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+  },
 ];
 
 test.describe.parallel(`Search via search term ${searchTerm}`, () => {
@@ -87,7 +87,6 @@ test.describe.parallel(`Search via search term ${searchTerm}`, () => {
 
       await test.step(`Select ${indicatorMode} and ${areaMode} and view charts`, async () => {
         await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
-        console.log(areaMode);
         await resultsPage.selectAreasCheckboxes(areaMode);
         await resultsPage.waitForURLToContain(
           `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`

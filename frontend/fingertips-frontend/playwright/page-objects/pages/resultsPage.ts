@@ -15,6 +15,9 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
   readonly areaFilterContainer = 'area-filter-container';
+  readonly areaTypeSelector = 'area-type-selector-container';
+  readonly groupTypeSelector = 'group-type-selector-container';
+  readonly selectedAreasContainer = 'selected-areas-container';
 
   async areaFilterOptionsText() {
     const options = await this.page
@@ -63,25 +66,39 @@ export default class ResultsPage extends BasePage {
 
   async selectAreasCheckboxes(areaMode: AreaMode) {
     console.log(areaMode);
-    // For now defaulting to using GPs area type but this will be expanded on in future
-    await this.page.getByText(`Select an area type`).selectOption('GPs');
+    // For now defaulting to using NHS Integrated Care Boards area type but this will be expanded on in future
+    await this.page
+      .getByTestId(this.areaTypeSelector)
+      .selectOption('NHS Integrated Care Boards');
 
-    const groupTypeDropdown = this.page.getByText(`Select a group type`);
-    await expect(groupTypeDropdown).toHaveValue('NHS Integrated Care Boards');
+    const groupTypeDropdown = this.page.getByTestId(this.groupTypeSelector);
+    await groupTypeDropdown.click();
+    await expect(groupTypeDropdown).toHaveValue('england');
+
+    await groupTypeDropdown.selectOption('NHS Regions');
+    const checkboxList = this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('checkbox');
 
     // Covering the different group types across the different area modes
     switch (areaMode) {
       case AreaMode.ONE_AREA:
-        await groupTypeDropdown.selectOption('NHS Integrated Care Boards');
+        await checkboxList.first().check();
         break;
       case AreaMode.TWO_AREAS:
-        await groupTypeDropdown.selectOption('NHS Primary Care Networks');
+        for (let i = 0; i < 2; i++) {
+          await checkboxList.nth(i).check();
+        }
         break;
       case AreaMode.THREE_PLUS_AREAS:
-        await groupTypeDropdown.selectOption('NHS Regions');
+        for (let i = 0; i < 3; i++) {
+          await checkboxList.nth(i).check();
+        }
         break;
       case AreaMode.ALL_AREAS_IN_A_GROUP:
-        await groupTypeDropdown.selectOption('NHS Sub Integrated Care Boards');
+        for (let i = 0; i < (await checkboxList.count()); i++) {
+          await checkboxList.nth(i).check();
+        }
         break;
       case AreaMode.ENGLAND_AREA:
         await groupTypeDropdown.selectOption('England');
