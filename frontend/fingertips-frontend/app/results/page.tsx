@@ -14,7 +14,7 @@ import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determine
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
-import { currentServerDate } from '@/lib/dateHelpers/serverDate';
+import { getServerDate } from '@/lib/dateHelpers/serverDate';
 
 export default async function Page(
   props: Readonly<{
@@ -91,7 +91,7 @@ export default async function Page(
       errors: {},
     };
 
-    const serverDate: Date = await currentServerDate();
+    const serverDate: Date = await getServerDate();
 
     return (
       <SearchResults

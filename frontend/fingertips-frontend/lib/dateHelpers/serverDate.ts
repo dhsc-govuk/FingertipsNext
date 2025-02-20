@@ -1,4 +1,4 @@
 'use server';
-export async function currentServerDate() {
+export async function getServerDate() {
   return new Date();
 }
