@@ -18,6 +18,7 @@ type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
   searchState?: SearchStateParams;
   formAction: (payload: FormData) => void;
+  serverDate?: Date;
 };
 
 const isIndicatorSelected = (
@@ -33,6 +34,7 @@ export function IndicatorSelectionForm({
   searchResults,
   searchState,
   formAction,
+  serverDate,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -83,6 +85,7 @@ export function IndicatorSelectionForm({
               )}
               searchState={searchState}
               handleClick={handleClick}
+              serverDate={serverDate}
             />
           ))}
         </UnorderedList>

@@ -24,6 +24,7 @@ import {
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
+// import { currentServerDate } from '@/lib/timeHelpers/timeHelpers';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -33,6 +34,7 @@ type SearchResultsProps = {
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
+  serverDate?: Date;
 };
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
@@ -48,6 +50,7 @@ export function SearchResults({
   availableAreas,
   selectedAreasData,
   searchState,
+  serverDate,
 }: Readonly<SearchResultsProps>) {
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
@@ -111,6 +114,7 @@ export function SearchResults({
               searchResults={searchResults}
               searchState={searchState}
               formAction={indicatorSelectionFormAction}
+              serverDate={serverDate}
             />
           </GridCol>
         </GridRow>

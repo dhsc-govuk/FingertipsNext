@@ -194,7 +194,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin: 0 -15px;
 }
 
-.c11 {
+.c12 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
@@ -211,6 +211,9 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 
 .c2 {
   padding-top: 15px;
+}
+
+.c11 {
   padding-bottom: 0;
 }
 
@@ -351,7 +354,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c2 {
+  .c11 {
     padding-bottom: 0;
   }
 }
@@ -415,8 +418,21 @@ exports[`Indicator Checkbox snapshot test 1`] = `
         </label>
       </div>
     </div>
+    <div
+      class="c1 c11"
+    >
+      <div
+        class="c3"
+      />
+      <div
+        class="c3"
+      />
+      <div
+        class="c3"
+      />
+    </div>
     <hr
-      class="c11"
+      class="c12"
     />
   </li>
 </DocumentFragment>
