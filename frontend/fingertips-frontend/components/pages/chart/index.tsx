@@ -78,7 +78,7 @@ export function Chart({
             items={[
               {
                 id: 'lineChart',
-                title: 'Line Chart',
+                title: 'Line chart',
                 content: (
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
@@ -91,7 +91,7 @@ export function Chart({
               },
               {
                 id: 'table',
-                title: 'Tabular Data',
+                title: 'Tabular data',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
