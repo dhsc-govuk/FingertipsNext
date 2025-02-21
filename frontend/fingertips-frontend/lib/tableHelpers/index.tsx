@@ -64,7 +64,7 @@ export const convertToPercentage = (value?: number) => {
 };
 
 export const getDisplayedValue = (value?: number) => {
-  return value ? value : getNonAvailablePlaceHolder();
+  return value ?? getNonAvailablePlaceHolder();
 };
 
 export const getNonAvailablePlaceHolder = () => {
