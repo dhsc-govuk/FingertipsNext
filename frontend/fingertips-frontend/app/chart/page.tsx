@@ -9,7 +9,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelpers';
+
 import {
   areaCodeForEngland,
   indicatorIdForPopulation,
@@ -27,15 +27,8 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  // const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
-  // const indicatorsSelected = asArray(
-  //   searchParams?.[SearchParams.IndicatorsSelected]
-  // );
-  // const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  // const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
   const stateManager = SearchStateManager.initialise(searchParams);
   let {
-    // [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areaCodes,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
@@ -105,9 +98,6 @@ export default async function ChartPage(
       healthIndicatorData={healthIndicatorData}
       parentAreaCode={parentAreaCode}
       mapData={mapData}
-      // searchedIndicator={searchedIndicator}
-      // indicatorsSelected={indicatorsSelected}
-      // areasSelected={areaCodes}
       searchState={stateManager.getSearchState()}
     />
   );

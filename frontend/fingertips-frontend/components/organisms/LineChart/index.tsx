@@ -7,7 +7,6 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
-import 'highcharts/highcharts-more';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
 
@@ -48,7 +47,7 @@ export function LineChart({
       console.log('highcharts more module not loading', error);
     }
   };
-
+  
   const {
     [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = searchState;
@@ -57,11 +56,11 @@ export function LineChart({
     confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
 
   const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
-
+  
   const sortedBenchMarkData = benchmarkData
     ? sortHealthDataByDate([benchmarkData])[0]
     : undefined;
-
+  
   const sortedParentData = parentIndicatorData
     ? sortHealthDataByDate([parentIndicatorData])[0]
     : undefined;
@@ -127,6 +126,7 @@ export function LineChart({
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={lineChartCI}
+        searchState={searchState}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{

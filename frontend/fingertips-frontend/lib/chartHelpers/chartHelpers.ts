@@ -24,8 +24,6 @@ export function seriesDataForIndicatorIndexAndArea(
   indicatorIndex: number,
   seriesAreaCode: string
 ) {
-  console.log('data', data);
-  console.log('series', seriesAreaCode);
   return  data[indicatorIndex].find(
     (areaData) => areaData.areaCode === seriesAreaCode
   );

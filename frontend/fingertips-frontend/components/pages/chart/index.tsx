@@ -27,9 +27,6 @@ type ChartProps = {
   parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
-  // searchedIndicator?: string;
-  // indicatorsSelected?: string[];
-  // areasSelected?: string[];
   searchState: SearchStateParams;
 };
 
@@ -38,17 +35,9 @@ export function Chart({
   parentAreaCode,
   mapData,
   populationData,
-  // searchedIndicator,
-  // indicatorsSelected = [],
-  // areasSelected = [],
   searchState,
 }: Readonly<ChartProps>) {
-  // const searchState = SearchStateManager.initialise({
-  //   [SearchParams.SearchedIndicator]: searchedIndicator,
-  //   [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  // });
-console.log('parentAreaCode', parentAreaCode);
-  console.log('healthIndicatorData', healthIndicatorData);
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const backLinkPath = stateManager.generatePath('/results');
@@ -59,7 +48,7 @@ console.log('parentAreaCode', parentAreaCode);
     areaCodeForEngland
   );
   
-  console.log('englandBenchmarkData', englandBenchmarkData);
+  
   const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
     healthIndicatorData[0],
     parentAreaCode
@@ -68,7 +57,6 @@ console.log('parentAreaCode', parentAreaCode);
   const parentBenchmarkData = parentAreaCode
     ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
     : undefined;
- console.log('parentBenchmarkData', parentBenchmarkData);
   
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
