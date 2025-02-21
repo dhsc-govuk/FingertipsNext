@@ -1,4 +1,3 @@
-import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
@@ -29,12 +28,6 @@ export default class ChartPage extends BasePage {
 
   async navigateToChart() {
     await this.navigateTo('chart');
-  }
-
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURLMatches(
-      `chart?${SearchParams.SearchedIndicator}=${queryParams}`
-    );
   }
 
   async clickBackLink() {

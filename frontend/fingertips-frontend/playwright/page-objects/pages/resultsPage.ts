@@ -42,12 +42,6 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURLMatches(
-      `results?${SearchParams.SearchedIndicator}=${queryParams}`
-    );
-  }
-
   async selectIndicatorCheckboxesAndCheckURL(
     allIndicatorIDs: string[],
     indicatorMode: IndicatorMode,
