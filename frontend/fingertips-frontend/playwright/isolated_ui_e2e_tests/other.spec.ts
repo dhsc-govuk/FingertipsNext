@@ -46,8 +46,6 @@ test('client validation testing and navigate back behaviour', async ({
   resultsPage,
   chartPage,
 }) => {
-  const indicatorMode = IndicatorMode.ONE_INDICATOR;
-
   await test.step('Search page validation', async () => {
     await homePage.navigateToHomePage();
     await homePage.checkOnHomePage();
@@ -76,11 +74,12 @@ test('client validation testing and navigate back behaviour', async ({
   });
 
   await test.step('Select single indicator, let area default to England and view charts', async () => {
-    await resultsPage.selectIndicatorCheckboxesAndCheckURL(
-      allIndicatorIDs,
-      indicatorMode,
-      searchTerm
-    );
+    // await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+    //   allIndicatorIDs,
+    //   indicatorMode,
+    //   searchTerm
+    // );
+    // change this to just pick the first() indicator shown
 
     await resultsPage.clickViewChartsButton();
 

@@ -76,7 +76,7 @@ jobs:
 
       - name: Run Playwright tests in CD
         if: inputs.e2e-test-container-image != null
-        run: npm rung test-e2e-local-mocks
+        run: npx playwright test
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
