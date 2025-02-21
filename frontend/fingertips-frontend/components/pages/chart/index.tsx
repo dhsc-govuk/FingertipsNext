@@ -4,7 +4,11 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
@@ -23,9 +27,10 @@ type ChartProps = {
   parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
+  // searchedIndicator?: string;
+  // indicatorsSelected?: string[];
+  // areasSelected?: string[];
+  searchState: SearchStateParams;
 };
 
 export function Chart({
@@ -33,16 +38,19 @@ export function Chart({
   parentAreaCode,
   mapData,
   populationData,
-  searchedIndicator,
-  indicatorsSelected = [],
-  areasSelected = [],
+  // searchedIndicator,
+  // indicatorsSelected = [],
+  // areasSelected = [],
+  searchState,
 }: Readonly<ChartProps>) {
-  const searchState = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  });
+  // const searchState = SearchStateManager.initialise({
+  //   [SearchParams.SearchedIndicator]: searchedIndicator,
+  //   [SearchParams.IndicatorsSelected]: indicatorsSelected,
+  // });
 
-  const backLinkPath = searchState.generatePath('/results');
+  const stateManager = SearchStateManager.initialise(searchState);
+
+  const backLinkPath = stateManager.generatePath('/results');
 
   const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
@@ -57,6 +65,11 @@ export function Chart({
   const parentBenchmarkData = parentAreaCode
     ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
     : undefined;
+
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+  } = stateManager.getSearchState();
 
   return (
     <>
@@ -84,6 +97,7 @@ export function Chart({
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
                     parentIndicatorData={parentBenchmarkData}
+                    searchState={searchState}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />

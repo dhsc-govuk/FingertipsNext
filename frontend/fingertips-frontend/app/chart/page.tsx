@@ -4,7 +4,11 @@ import {
   PopulationData,
   preparePopulationData,
 } from '@/lib/chartHelpers/preparePopulationData';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { asArray } from '@/lib/pageHelpers';
 import {
   areaCodeForEngland,
@@ -23,12 +27,22 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
-  const indicatorsSelected = asArray(
-    searchParams?.[SearchParams.IndicatorsSelected]
-  );
-  const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  // const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
+  // const indicatorsSelected = asArray(
+  //   searchParams?.[SearchParams.IndicatorsSelected]
+  // );
+  // const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
+  // const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const stateManager = SearchStateManager.initialise(searchParams);
+  let {
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+  } = stateManager.getSearchState();
+
+  areaCodes = areaCodes ?? [];
+  indicatorsSelected = indicatorsSelected ?? [];
 
   // We don't want to render this page statically
   await connection();
@@ -90,9 +104,10 @@ export default async function ChartPage(
       healthIndicatorData={healthIndicatorData}
       parentAreaCode={parentAreaCode}
       mapData={mapData}
-      searchedIndicator={searchedIndicator}
-      indicatorsSelected={indicatorsSelected}
-      areasSelected={areaCodes}
+      // searchedIndicator={searchedIndicator}
+      // indicatorsSelected={indicatorsSelected}
+      // areasSelected={areaCodes}
+      searchState={stateManager.getSearchState()}
     />
   );
 }

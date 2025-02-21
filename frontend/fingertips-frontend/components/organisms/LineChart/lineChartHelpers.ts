@@ -75,8 +75,8 @@ export function generateSeriesData(
 
 export function shouldDisplayLineChart(
   data: HealthDataForArea[],
-  indicatorsSelected: string[],
-  areasSelected: string[]
+  indicatorsSelected: string[] = [],
+  areasSelected: string[] = []
 ): boolean {
   return (
     indicatorsSelected.length === 1 &&

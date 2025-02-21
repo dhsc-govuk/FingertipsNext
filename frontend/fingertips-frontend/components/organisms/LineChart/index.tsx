@@ -8,8 +8,8 @@ import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceInt
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
 import 'highcharts/highcharts-more';
-import { useSearchParams } from 'next/navigation';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { useEffect, useState } from 'react';
 
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
@@ -17,6 +17,8 @@ interface LineChartProps {
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
   parentIndicatorData?: HealthDataForArea;
+  showConfidenceIntervalsData?: string[];
+  searchState: SearchStateParams;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -35,19 +37,25 @@ export function LineChart({
   accessibilityLabel,
   benchmarkData,
   parentIndicatorData,
+  searchState,
 }: Readonly<LineChartProps>) {
-  const searchParams = useSearchParams();
-  const existingParams = new URLSearchParams(searchParams);
-  const searchStateManager =
-    SearchStateManager.setStateFromParams(existingParams);
+  const [options, setOptions] = useState<Highcharts.Options>();
+  const loadHighchartsModules = async (callback: () => void) => {
+    try {
+      await import('highcharts/highcharts-more');
+      callback();
+    } catch (error) {
+      console.log('highcharts more module not loading', error);
+    }
+  };
 
-  const showConfidenceIntervalsData =
-    searchStateManager.getSearchState()[
-      SearchParams.ConfidenceIntervalSelected
-    ];
-
+  const {
+    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
+  } = searchState;
+console.log(searchState)
+  
   const lineChartCI =
-    showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
+    confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
 
   const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
 
@@ -105,6 +113,16 @@ export function LineChart({
     },
   };
 
+  useEffect(() => {
+    loadHighchartsModules(async () => {
+      setOptions(lineChartOptions);
+    });
+  }, [confidenceIntervalSelected]);
+
+  if (!options) {
+    return null;
+  }
+
   return (
     <div data-testid="lineChart-component">
       <ConfidenceIntervalCheckbox
@@ -116,7 +134,7 @@ export function LineChart({
           'data-testid': 'highcharts-react-component-lineChart',
         }}
         highcharts={Highcharts}
-        options={lineChartOptions}
+        options={options}
       />
     </div>
   );

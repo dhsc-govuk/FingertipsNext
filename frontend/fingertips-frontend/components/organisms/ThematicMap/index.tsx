@@ -95,7 +95,7 @@ export function ThematicMap({
     loadHighchartsModules(async () => {
       setOptions(mapOptions);
     });
-  });
+  }, []);
 
   if (!options) {
     return null;
