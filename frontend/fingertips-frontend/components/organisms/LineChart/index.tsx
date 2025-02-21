@@ -52,7 +52,6 @@ export function LineChart({
   const {
     [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = searchState;
-console.log(searchState)
   
   const lineChartCI =
     confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
