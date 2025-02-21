@@ -1,35 +1,44 @@
 import {
   InequalitiesSexTableRowData,
+  mapToInequalitiesTableData,
+} from '@/components/molecules/Inequalities/Table';
+import { MOCK_HEALTH_DATA } from './mocks';
+import {
   LineChartTableRowData,
-  mapToInequalitiesSexTableData,
   mapToLineChartTableData,
-} from '.';
-import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA } from './mocks';
+} from '@/components/organisms/LineChartTable';
 
 describe('table helpers suite', () => {
   it('should map to inequalitiesSexTable row data', () => {
     const groupedYearData = {
-      2008: [...MOCK_HEALTH_DATA[1].healthData],
-    };
-
-    const groupedEnglandData = {
-      2004: [MOCK_ENGLAND_DATA.healthData[0]],
-      2008: [MOCK_ENGLAND_DATA.healthData[1]],
+      2004: {
+        Male: [MOCK_HEALTH_DATA[0].healthData[1]],
+        Female: [MOCK_HEALTH_DATA[0].healthData[2]],
+      },
+      2008: {
+        All: [MOCK_HEALTH_DATA[1].healthData[0]],
+        Male: [MOCK_HEALTH_DATA[1].healthData[1]],
+        Female: [MOCK_HEALTH_DATA[1].healthData[2]],
+      },
     };
 
     const expectedInequalitiesSexTableRow: InequalitiesSexTableRowData[] = [
       {
+        period: 2004,
+        Male: 703.420759,
+        Female: 703.420759,
+      },
+      {
         period: 2008,
-        persons: 135.149304,
-        male: 890.328253,
-        female: 890.328253,
-        englandBenchmark: 965.9843,
+        All: 135.149304,
+        Male: 890.328253,
+        Female: 890.328253,
       },
     ];
 
-    expect(
-      mapToInequalitiesSexTableData(groupedYearData, groupedEnglandData)
-    ).toEqual(expectedInequalitiesSexTableRow);
+    expect(mapToInequalitiesTableData(groupedYearData)).toEqual(
+      expectedInequalitiesSexTableRow
+    );
   });
 
   it('should map to linechart table row data', () => {
@@ -42,11 +51,11 @@ describe('table helpers suite', () => {
         lower: 441.69151,
       },
       {
-        period: 2004,
-        value: 703.420759,
         count: 267,
-        upper: 578.32766,
         lower: 441.69151,
+        period: 2004,
+        upper: 578.32766,
+        value: 703.420759,
       },
     ];
 

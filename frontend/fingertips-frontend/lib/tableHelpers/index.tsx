@@ -1,46 +1,7 @@
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
-import { Sex } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { GovukColours } from '../styleHelpers/colours';
-
-export enum LineChartTableHeadingEnum {
-  AreaPeriod = 'Period',
-  BenchmarkTrend = 'Compared to benchmark',
-  AreaCount = 'Count',
-  AreaValue = 'Value',
-  AreaLower = 'Lower',
-  AreaUpper = 'Upper',
-  BenchmarkValue = 'Value ',
-}
-
-export enum InequalitiesSexTableHeadingsEnum {
-  PERIOD = 'Period',
-  PERSONS = 'Persons',
-  MALE = 'Male',
-  FEMALE = 'Female',
-  BENCHMARK = 'England benchmark',
-}
-
-export interface LineChartTableRowData {
-  period: number;
-  count?: number;
-  value?: number;
-  lower?: number;
-  upper?: number;
-}
-
-export interface InequalitiesSexTableRowData {
-  period: number;
-  persons?: number;
-  male?: number;
-  female?: number;
-  englandBenchmark?: number;
-}
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 14 }),
@@ -96,43 +57,20 @@ export const StyledDiv = styled('div')({
 });
 
 // When value is undefined, it returns an X with an aria-label for screen readers.
-export const convertToPercentage = (value?: number): React.ReactNode => {
-  if (value === undefined) {
-    return (
-      <span aria-label="Not available" data-testid="not-available">
-        <span aria-hidden="true">X</span>
-      </span>
-    );
-  }
-  return `${((value / 10000) * 100).toFixed(1)}%`;
+export const convertToPercentage = (value?: number) => {
+  return value
+    ? `${((value / 10000) * 100).toFixed(1)}%`
+    : getNonAvailablePlaceHolder();
 };
 
-export const mapToLineChartTableData = (
-  areaData: HealthDataForArea
-): LineChartTableRowData[] =>
-  areaData.healthData.map((healthPoint) => ({
-    period: healthPoint.year,
-    count: healthPoint.count,
-    value: healthPoint.value,
-    lower: healthPoint.lowerCi,
-    upper: healthPoint.upperCi,
-  }));
+export const getDisplayedValue = (value?: number) => {
+  return value ? value : getNonAvailablePlaceHolder();
+};
 
-export const mapToInequalitiesSexTableData = (
-  groupedYearData: Record<number, HealthDataPoint[] | undefined>,
-  englandBenchmarkData: Record<number, HealthDataPoint[] | undefined>
-): InequalitiesSexTableRowData[] => {
-  return Object.keys(groupedYearData).map((key) => ({
-    period: Number(key),
-    persons: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.ALL)
-      ?.value,
-    male: groupedYearData[Number(key)]?.find((data) => data.sex === Sex.MALE)
-      ?.value,
-    female: groupedYearData[Number(key)]?.find(
-      (data) => data.sex === Sex.FEMALE
-    )?.value,
-    englandBenchmark: englandBenchmarkData[Number(key)]?.find(
-      (data) => data.sex === Sex.ALL
-    )?.value,
-  }));
+export const getNonAvailablePlaceHolder = () => {
+  return (
+    <span aria-label="Not available" data-testid="not-available">
+      <span aria-hidden="true">X</span>
+    </span>
+  );
 };

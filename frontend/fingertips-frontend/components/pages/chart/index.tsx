@@ -17,7 +17,7 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { InequalitiesSexTable } from '@/components/organisms/Inequalities/Sex/Table';
+import { InequalitiesTable } from '@/components/molecules/Inequalities/Table';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 type ChartProps = {
@@ -108,7 +108,7 @@ export function Chart({
       )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <InequalitiesSexTable
+        <InequalitiesTable
           healthIndicatorData={dataWithoutEngland[0]}
           englandBenchmarkData={englandBenchmarkData}
         />

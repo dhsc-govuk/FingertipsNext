@@ -1,22 +1,66 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { LineChartTable } from '@/components/organisms/LineChartTable/index';
+import {
+  LineChartTable,
+  LineChartTableHeadingEnum,
+} from '@/components/organisms/LineChartTable/index';
 import {
   MOCK_ENGLAND_DATA,
   MOCK_HEALTH_DATA,
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
-import { LineChartTableHeadingEnum } from '@/lib/tableHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('Line chart table suite', () => {
+  const mockHealthData = [
+    {
+      areaCode: 'A1425',
+      areaName: 'Greater Manchester ICB - 00T',
+      healthData: [
+        {
+          year: 2008,
+          count: 222,
+          value: 890.305692,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'All',
+        },
+        {
+          year: 2004,
+          count: 267,
+          value: 703.420759,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'All',
+        },
+      ],
+    },
+    {
+      ...MOCK_HEALTH_DATA[1],
+      healthData: [
+        ...MOCK_HEALTH_DATA[1].healthData,
+        {
+          year: 2004,
+          count: 222,
+          value: 135.149304,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'All',
+        },
+      ],
+    },
+  ];
+
   describe('1 Indicator, 1 Area', () => {
     const CELLS_PER_ROW = 7;
 
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -26,7 +70,7 @@ describe('Line chart table suite', () => {
     it('should render the LineChartTable component', () => {
       render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -37,22 +81,22 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        `${MOCK_HEALTH_DATA[0].areaName} recent trend:`
+        `${mockHealthData[0].areaName} recent trend:`
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        MOCK_HEALTH_DATA[0].areaName
+        mockHealthData[0].areaName
       );
       expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
       expect(screen.getByText(/England/i)).toBeInTheDocument();
       expect(screen.getAllByRole('cell')).toHaveLength(
-        MOCK_HEALTH_DATA[0].healthData.length * CELLS_PER_ROW
+        mockHealthData[0].healthData.length * CELLS_PER_ROW
       );
       Object.values(LineChartTableHeadingEnum).forEach((heading, index) =>
         expect(
@@ -70,7 +114,7 @@ describe('Line chart table suite', () => {
 
       render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -93,7 +137,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -101,22 +145,22 @@ describe('Line chart table suite', () => {
       expectPeriodsToBeDisplayedInAscendingOrder(CELLS_PER_ROW);
     });
 
-    it('should render dashes if England benchmark prop is undefined', () => {
+    it('should render X if England benchmark prop is undefined', () => {
       render(
         <LineChartTable
-          healthIndicatorData={[MOCK_HEALTH_DATA[0]]}
+          healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={undefined}
         />
       );
 
       for (
         let i = CELLS_PER_ROW - 1;
-        i < MOCK_HEALTH_DATA[0].healthData.length;
+        i < mockHealthData[0].healthData.length;
         i += CELLS_PER_ROW - 1
       ) {
         expect(
           screen.getAllByRole('cell')[i * CELLS_PER_ROW]
-        ).toHaveTextContent('-');
+        ).toHaveTextContent('X');
       }
     });
   });
@@ -127,7 +171,7 @@ describe('Line chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -137,28 +181,28 @@ describe('Line chart table suite', () => {
     it('should render expected elements', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        `${MOCK_HEALTH_DATA[0].areaName} recent trend:`
+        `${mockHealthData[0].areaName} recent trend:`
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        `${MOCK_HEALTH_DATA[1].areaName} recent trend:`
+        `${mockHealthData[1].areaName} recent trend:`
       );
       expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
-        MOCK_HEALTH_DATA[0].areaName
+        mockHealthData[0].areaName
       );
       expect(screen.getAllByRole('columnheader')[5]).toHaveTextContent(
-        MOCK_HEALTH_DATA[1].areaName
+        mockHealthData[1].areaName
       );
       expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);
       expect(screen.getByText(/England/i)).toBeInTheDocument();
       expect(screen.getAllByRole('cell')).toHaveLength(
-        MOCK_HEALTH_DATA[0].healthData.length * CELLS_PER_ROW
+        mockHealthData[0].healthData.length * CELLS_PER_ROW
       );
       Object.values(LineChartTableHeadingEnum).forEach((heading, index) =>
         expect(
@@ -195,7 +239,7 @@ describe('Line chart table suite', () => {
     it('should have single period and benchmark columns', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -214,7 +258,7 @@ describe('Line chart table suite', () => {
     it('should display table with periods sorted in ascending order', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -227,7 +271,7 @@ describe('Line chart table suite', () => {
     it('should render the parent area heading when passed parentData', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           parentIndicatorData={MOCK_PARENT_DATA}
         />
@@ -239,7 +283,7 @@ describe('Line chart table suite', () => {
     it('should not render the parent area heading when not passed parentData', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
         />
       );
@@ -251,26 +295,26 @@ describe('Line chart table suite', () => {
     it('should render the parent expect number of cells elements', () => {
       render(
         <LineChartTable
-          healthIndicatorData={MOCK_HEALTH_DATA}
+          healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           parentIndicatorData={MOCK_PARENT_DATA}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
-        MOCK_HEALTH_DATA[0].healthData.length * 13
+        mockHealthData[0].healthData.length * 13
       );
     });
   });
 
   const expectPeriodsToBeDisplayedInAscendingOrder = (cellsPerRow: number) => {
     const sortedHealthData = {
-      ...MOCK_HEALTH_DATA[0],
-      healthData: MOCK_HEALTH_DATA[0].healthData.toSorted(
+      ...mockHealthData[0],
+      healthData: mockHealthData[0].healthData.toSorted(
         (a, b) => a.year - b.year
       ),
     };
 
-    for (let i = 0; i < MOCK_HEALTH_DATA[0].healthData.length; i++) {
+    for (let i = 0; i < mockHealthData[0].healthData.length; i++) {
       expect(screen.getAllByRole('cell')[i * cellsPerRow]).toHaveTextContent(
         String(sortedHealthData.healthData[i].year)
       );

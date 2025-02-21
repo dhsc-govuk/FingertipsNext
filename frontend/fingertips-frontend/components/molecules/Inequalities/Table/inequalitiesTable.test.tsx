@@ -1,18 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesSexTable } from '.';
-import { MOCK_ENGLAND_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { InequalitiesSexTableHeadingsEnum } from '@/lib/tableHelpers';
+import { InequalitiesTable, InequalitiesSexTableHeadingsEnum } from '.';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
 describe('Inequalities sex table suite', () => {
-  const CELLS_PER_ROW = 5;
+  const CELLS_PER_ROW = 4;
   it('should render the InequalitiesSexTable component', () => {
-    render(
-      <InequalitiesSexTable
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        englandBenchmarkData={MOCK_ENGLAND_DATA}
-      />
-    );
+    render(<InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(
       screen.getByTestId('inequalitiesSexTable-component')
@@ -20,12 +14,7 @@ describe('Inequalities sex table suite', () => {
   });
 
   it('should render expected elements', () => {
-    render(
-      <InequalitiesSexTable
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        englandBenchmarkData={MOCK_ENGLAND_DATA}
-      />
-    );
+    render(<InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
@@ -41,12 +30,7 @@ describe('Inequalities sex table suite', () => {
 
   it('should display x if data point is not available', () => {
     const expectedNumberOfRows = 2;
-    render(
-      <InequalitiesSexTable
-        healthIndicatorData={MOCK_HEALTH_DATA[0]}
-        englandBenchmarkData={MOCK_ENGLAND_DATA}
-      />
-    );
+    render(<InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[0]} />);
     expect(screen.getAllByRole('cell')).toHaveLength(
       expectedNumberOfRows * CELLS_PER_ROW
     );
@@ -57,10 +41,7 @@ describe('Inequalities sex table suite', () => {
 
   it('snapshot test - should match snapshot', () => {
     const container = render(
-      <InequalitiesSexTable
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        englandBenchmarkData={MOCK_ENGLAND_DATA}
-      />
+      <InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[1]} />
     );
     expect(container.asFragment()).toMatchSnapshot();
   });

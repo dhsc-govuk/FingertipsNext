@@ -13,13 +13,13 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   padding-right: 0;
 }
 
-.c9 {
+.c7 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c9:last-child {
+.c7:last-child {
   padding-right: 0;
 }
 
@@ -37,7 +37,7 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   margin-bottom: 20px;
 }
 
-.c5 {
+.c3 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -54,13 +54,7 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   vertical-align: top;
 }
 
-.c7 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-  width: 16%;
-}
-
-.c10 {
+.c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -70,22 +64,17 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   padding-right: 0;
 }
 
-.c14 {
+.c10 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c15 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
-}
-
-.c11 {
+.c9 {
   text-align: left;
   width: 10%;
 }
 
-.c8 {
+.c5 {
   text-align: left;
   vertical-align: top;
 }
@@ -105,32 +94,8 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   align-items: center;
 }
 
-.c3 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  font-weight: bold;
-  padding: 0.625em 0;
-}
-
-.c12 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-}
-
 .c4 {
   text-align: center;
-}
-
-.c13 {
-  text-align: right;
 }
 
 @media print {
@@ -160,34 +125,6 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
 }
 
 @media print {
-  .c5 {
-    font-size: 12px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c5 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
-  }
-}
-
-@media print {
-  .c10 {
-    font-size: 12px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c10 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
-  }
-}
-
-@media print {
   .c3 {
     font-size: 12px;
     line-height: 1.2;
@@ -202,14 +139,14 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
 }
 
 @media print {
-  .c12 {
+  .c8 {
     font-size: 12px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c12 {
+  .c8 {
     font-size: 14px;
     line-height: 1.4285714285714286;
   }
@@ -234,42 +171,33 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
           >
             South FooBar
           </th>
-          <th
-            class="c2 c5 c6 c7"
-          />
         </tr>
         <tr
           class=""
         >
           <th
-            class="c2 c5 c8"
+            class="c2 c3 c5"
             data-testid="header-Period-0"
           >
             Period
           </th>
           <th
-            class="c2 c5 c6"
+            class="c2 c3 c6"
             data-testid="header-Persons-1"
           >
             Persons
           </th>
           <th
-            class="c2 c5 c6"
+            class="c2 c3 c6"
             data-testid="header-Male-2"
           >
             Male
           </th>
           <th
-            class="c2 c5 c6"
+            class="c2 c3 c6"
             data-testid="header-Female-3"
           >
             Female
-          </th>
-          <th
-            class="c2 c5 c6 c7"
-            data-testid="header-England benchmark-4"
-          >
-            England benchmark
           </th>
         </tr>
       </thead>
@@ -280,29 +208,24 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
           class=""
         >
           <td
-            class="c9 c10 c11"
+            class="c7 c8 c9"
           >
             2008
           </td>
           <td
-            class="c9 c12 c13"
+            class="c7 c8 c10"
           >
-            1.4%
+            135.149304
           </td>
           <td
-            class="c9 c12 c13"
+            class="c7 c8 c10"
           >
-            8.9%
+            890.328253
           </td>
           <td
-            class="c9 c12 c13"
+            class="c7 c8 c10"
           >
-            8.9%
-          </td>
-          <td
-            class="c9 c10 c14 c15"
-          >
-            9.7%
+            890.328253
           </td>
         </tr>
       </tbody>

@@ -7,9 +7,6 @@ import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   convertToPercentage,
-  LineChartTableHeadingEnum,
-  LineChartTableRowData,
-  mapToLineChartTableData,
   StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
@@ -18,11 +15,30 @@ import {
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
+import { Sex } from '../Inequalities/inequalitiesHelpers';
+
+export enum LineChartTableHeadingEnum {
+  AreaPeriod = 'Period',
+  BenchmarkTrend = 'Compared to benchmark',
+  AreaCount = 'Count',
+  AreaValue = 'Value',
+  AreaLower = 'Lower',
+  AreaUpper = 'Upper',
+  BenchmarkValue = 'Value ',
+}
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   parentIndicatorData?: HealthDataForArea;
+}
+
+export interface LineChartTableRowData {
+  period: number;
+  count?: number;
+  value?: number;
+  lower?: number;
+  upper?: number;
 }
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
@@ -132,6 +148,19 @@ const getBenchmarkCell = (areaCount: number) =>
   ) : (
     <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
   );
+
+export const mapToLineChartTableData = (
+  areaData: HealthDataForArea
+): LineChartTableRowData[] =>
+  areaData.healthData
+    .filter((healthPoint) => healthPoint.sex === Sex.ALL)
+    .map((healthPoint) => ({
+      period: healthPoint.year,
+      count: healthPoint.count,
+      value: healthPoint.value,
+      lower: healthPoint.lowerCi,
+      upper: healthPoint.upperCi,
+    }));
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
