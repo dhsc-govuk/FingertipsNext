@@ -43,7 +43,7 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  describe('when no group area is available TODO: OR THE GROUP SELECTED IS ENGLAND', () => {
+  describe('when no group area is available', () => {
     it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator the next one for the population data', async () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
@@ -146,7 +146,7 @@ describe('Chart Page', () => {
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
       ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland, 'E12000001'],
+        areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
         indicatorId: 333,
       });
       expect(
@@ -178,7 +178,38 @@ describe('Chart Page', () => {
       expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
       expect(page.props.searchedIndicator).toEqual('testing');
       expect(page.props.indicatorsSelected).toEqual(['333']);
-      expect(page.props.selectedGroupCode).toEqual('E12000001');
+      expect(page.props.selectedGroupCode).toEqual(mockParentAreaCode);
+    });
+
+    it('should not include groupSelected in the API call if England is the groupSelected', async () => {
+      const mockAreaCode = 'E06000047';
+      const mockParentAreaCode = 'E92000001';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+        [SearchParams.GroupSelected]: mockParentAreaCode,
+      };
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+
+      await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).toHaveBeenNthCalledWith(1, {
+        areaCodes: [mockAreaCode, areaCodeForEngland],
+        indicatorId: 333,
+      });
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).toHaveBeenNthCalledWith(2, {
+        areaCodes: [mockAreaCode, areaCodeForEngland],
+        indicatorId: indicatorIdForPopulation,
+      });
     });
   });
 
