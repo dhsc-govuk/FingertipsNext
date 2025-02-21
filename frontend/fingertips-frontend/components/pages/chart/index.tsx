@@ -53,13 +53,14 @@ export function Chart({
     selectedGroupCode
   );
 
-  const groupData = selectedGroupCode
-    ? seriesDataForIndicatorIndexAndArea(
-        healthIndicatorData,
-        0,
-        selectedGroupCode
-      )
-    : undefined;
+  const groupData =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? seriesDataForIndicatorIndexAndArea(
+          healthIndicatorData,
+          0,
+          selectedGroupCode
+        )
+      : undefined;
 
   return (
     <>
