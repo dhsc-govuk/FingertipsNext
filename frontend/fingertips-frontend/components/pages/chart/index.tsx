@@ -29,7 +29,7 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
-  selectedGroupCode: selectedGroupCode,
+  selectedGroupCode,
   mapData,
   populationData,
   searchedIndicator,

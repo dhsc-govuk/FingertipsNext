@@ -29,7 +29,7 @@ export default async function ChartPage(
   );
   const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
   const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
-  const selectedGroup = searchParams?.[SearchParams.GroupSelected];
+  const selectedGroupCode = searchParams?.[SearchParams.GroupSelected];
 
   // We don't want to render this page statically
   await connection();
@@ -37,8 +37,8 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const areaCodesToRequest =
-    selectedGroup && selectedGroup != areaCodeForEngland
-      ? [...areaCodes, areaCodeForEngland, selectedGroup]
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? [...areaCodes, areaCodeForEngland, selectedGroupCode]
       : [...areaCodes, areaCodeForEngland];
 
   const healthIndicatorData = await Promise.all(
@@ -79,7 +79,7 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
-      selectedGroupCode={selectedGroup}
+      selectedGroupCode={selectedGroupCode}
       mapData={mapData}
       searchedIndicator={searchedIndicator}
       indicatorsSelected={indicatorsSelected}
