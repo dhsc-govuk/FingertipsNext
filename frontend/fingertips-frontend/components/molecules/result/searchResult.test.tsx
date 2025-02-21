@@ -84,6 +84,33 @@ it('should contain expected text', () => {
   );
 });
 
+it('should display tag if indicator date is within one month of server date', () => {
+  const currentDate = new Date('December 7, 2024');
+  render(
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+      currentDate={currentDate}
+    />
+  );
+  expect(screen.queryByText('Updated in last month')).toBeInTheDocument();
+});
+
+it('should not display tag if indicator date is not within one month of server date', () => {
+  const currentDate = new Date('February 6, 2025');
+  render(
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+      currentDate={currentDate}
+    />
+  );
+
+  expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+});
+
 describe('Indicator Checkbox', () => {
   it('should mark the checkbox as checked if indicatorSelected is true', () => {
     render(

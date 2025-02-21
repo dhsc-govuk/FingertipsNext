@@ -194,7 +194,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin: 0 -15px;
 }
 
-.c11 {
+.c13 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
@@ -209,8 +209,18 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   line-height: 1.2;
 }
 
+.c11 {
+  margin-bottom: 10px;
+}
+
 .c2 {
   padding-top: 15px;
+  padding-bottom: 0;
+}
+
+.c12 {
+  margin-top: 5px;
+  padding-top: 0;
   padding-bottom: 0;
 }
 
@@ -345,6 +355,12 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+  .c11 {
+    margin-bottom: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
   .c2 {
     padding-top: 15px;
   }
@@ -352,6 +368,24 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 
 @media only screen and (min-width:641px) {
   .c2 {
+    padding-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    margin-top: 5px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    padding-top: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
     padding-bottom: 0;
   }
 }
@@ -405,18 +439,31 @@ exports[`Indicator Checkbox snapshot test 1`] = `
               </p>
             </div>
             <div
-              class="c9 c10"
+              class="c9 c10 c11"
             >
               <p>
                 Last updated: 06 December 2024
               </p>
+            </div>
+            <div
+              class="c1 c12"
+            >
+              <div
+                class="c3"
+              />
+              <div
+                class="c3"
+              />
+              <div
+                class="c3"
+              />
             </div>
           </span>
         </label>
       </div>
     </div>
     <hr
-      class="c11"
+      class="c13"
     />
   </li>
 </DocumentFragment>
