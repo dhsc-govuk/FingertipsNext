@@ -2,7 +2,10 @@
 
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
+import {
+  sortHealthDataForAreaByDate,
+  sortHealthDataForAreasByDate,
+} from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
@@ -12,7 +15,7 @@ import 'highcharts/highcharts-more';
 import { useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
-interface LineChartProps {
+export interface LineChartProps {
   LineChartTitle?: string;
   healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
@@ -52,14 +55,15 @@ export function LineChart({
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
 
-  const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
+  const sortedHealthIndicatorData =
+    sortHealthDataForAreasByDate(healthIndicatorData);
 
   const sortedBenchMarkData = benchmarkData
-    ? sortHealthDataByDate([benchmarkData])[0]
+    ? sortHealthDataForAreaByDate(benchmarkData)
     : undefined;
 
   const sortedGroupData = groupIndicatorData
-    ? sortHealthDataByDate([groupIndicatorData])[0]
+    ? sortHealthDataForAreaByDate(groupIndicatorData)
     : undefined;
 
   const seriesData = generateSeriesData(

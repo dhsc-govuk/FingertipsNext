@@ -1,13 +1,26 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
 
-export function sortHealthDataByDate(
+export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
 ): HealthDataForArea[] {
-  return data.map((item) => ({
-    ...item,
-    healthData: item.healthData.toSorted((a, b) => a.year - b.year),
-  }));
+  return data.map((area) =>
+    sortHealthDataForAreaByDate(area)
+    //   {
+    //   ...area,
+    //   healthData: area.healthData.toSorted((a, b) => a.year - b.year),
+    // }
+  );
+}
+
+export function sortHealthDataForAreaByDate(
+  data: HealthDataForArea
+): HealthDataForArea {
+  return {
+    areaCode: data.areaCode,
+    areaName: data.areaName,
+    healthData: data.healthData.toSorted((a, b) => a.year - b.year),
+  };
 }
 
 export function sortHealthDataByYearDescending(

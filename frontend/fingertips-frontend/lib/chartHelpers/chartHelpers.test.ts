@@ -1,7 +1,7 @@
 import {
   seriesDataForIndicatorIndexAndArea,
   seriesDataWithoutEnglandOrGroup,
-  sortHealthDataByDate,
+  sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -62,7 +62,7 @@ describe('sortHealthDataByDate', () => {
         ],
       },
     ];
-    const result = sortHealthDataByDate(mockData);
+    const result = sortHealthDataForAreasByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
   });
