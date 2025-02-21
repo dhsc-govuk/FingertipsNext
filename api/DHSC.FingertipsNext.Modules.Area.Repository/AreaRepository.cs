@@ -174,6 +174,7 @@ public class AreaRepository : IAreaRepository
                         a.Node.GetAncestor(singleChildOfType.Node.GetLevel() - parentLevel)
                         == area.Node
                     )
+                    .Where(a => a.AreaTypeKey == childAreaType)
                     .ToListAsync();
             }
         }
