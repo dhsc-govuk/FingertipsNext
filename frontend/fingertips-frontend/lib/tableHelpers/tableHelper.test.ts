@@ -75,7 +75,8 @@ describe('table helpers suite', () => {
     });
 
     it('should fail to convert to percentage', () => {
-      expect(convertToPercentage(undefined)).toHaveProperty(
+      const value = undefined;
+      expect(convertToPercentage(value)).toHaveProperty(
         'props',
         expect.objectContaining({
           'aria-label': 'Not available',
@@ -104,7 +105,8 @@ describe('table helpers suite', () => {
     });
 
     it('should return X when value not avaialable', () => {
-      expect(getDisplayedValue(undefined)).toHaveProperty(
+      const value = undefined;
+      expect(getDisplayedValue(value)).toHaveProperty(
         'props',
         expect.objectContaining({
           'aria-label': 'Not available',
