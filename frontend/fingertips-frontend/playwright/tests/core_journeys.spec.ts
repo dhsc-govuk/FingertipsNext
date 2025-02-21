@@ -1,9 +1,7 @@
-import { SearchParams } from '@/lib/searchStateManager';
 import { test } from '../page-objects/pageFactory';
 import {
   expectNoAccessibilityViolations,
   getAllIndicatorIdsForSearchTerm,
-  returnIndicatorIDsByIndicatorMode,
 } from '../testHelpers';
 import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 import indicators from '../../../../search-setup/assets/indicators.json';
@@ -12,36 +10,35 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 const indicatorData = indicators as IndicatorDocument[];
 const searchTerm = 'mortality';
 let allIndicatorIDs: string[];
-let filteredIndicatorIds: string[];
-
 interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
 }
 
-const testScenarios: TestParams[] = [
+const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.TWO_AREAS,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  // },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+  },
+  {
+    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+  },
 ];
 
 /**
  * This test currently tests three of the fifteen indicator + area
  * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
- * These three scenario combinations are defined above in testScenarios and were chosen as they are happy paths covering lots of chart components.
- * Note all 15 scenarios are covered in lower level unit testing.
+ * These three scenario combinations are know as core journeys and are defined above in coreTestJourneys,
+ * they were chosen as they are happy paths covering lots of chart components.
+ * Note all 15 journeys are covered in lower level unit testing.
  */
 test.beforeAll(
-  `return all indicatorIDs from the data source based on the searchTerm: ${searchTerm}`,
+  `return all matching indicatorIDs from the data source based on the searchTerm: ${searchTerm}`,
   () => {
     const typedIndicatorData = indicatorData.map(
       (indicator: IndicatorDocument) => {
@@ -58,18 +55,9 @@ test.beforeAll(
     );
   }
 );
-test.describe.parallel(`Search via search term ${searchTerm}`, () => {
-  testScenarios.forEach(({ indicatorMode, areaMode }) => {
-    test.beforeEach(
-      `filter down the indicators based on indicator mode: ${indicatorMode}`,
-      async () => {
-        filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
-          allIndicatorIDs,
-          indicatorMode
-        );
-      }
-    );
-    test(`then select ${indicatorMode} and ${areaMode}, check the charts page`, async ({
+test.describe(`Search via search term ${searchTerm}`, () => {
+  coreTestJourneys.forEach(({ indicatorMode, areaMode }) => {
+    test(`then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
       homePage,
       resultsPage,
       chartPage,
@@ -81,26 +69,27 @@ test.describe.parallel(`Search via search term ${searchTerm}`, () => {
         await expectNoAccessibilityViolations(axeBuilder);
       });
 
-      await test.step('Search for indicators and check results', async () => {
+      await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
         await homePage.typeIndicator(searchTerm);
         await homePage.clickSearchButton();
 
         await resultsPage.waitForURLToContain(searchTerm);
         await expectNoAccessibilityViolations(axeBuilder);
-        await resultsPage.checkSearchResults(searchTerm);
+        await resultsPage.checkSearchResultsTitle(searchTerm);
       });
 
-      await test.step(`Select ${indicatorMode} and ${areaMode} and view charts`, async () => {
-        await resultsPage.selectIndicatorCheckboxes(filteredIndicatorIds);
-        await resultsPage.selectAreasCheckboxes(areaMode);
-        await resultsPage.waitForURLToContain(
-          `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
+      await test.step(`Select ${indicatorMode} and ${areaMode} and assert that the displayed charts are correct`, async () => {
+        await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+          allIndicatorIDs,
+          indicatorMode,
+          searchTerm
         );
-
+        await resultsPage.selectAreasCheckboxesAndCheckURL(
+          areaMode,
+          searchTerm
+        );
         await resultsPage.clickViewChartsButton();
-        await chartPage.waitForURLToContain(
-          `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
-        );
+
         await expectNoAccessibilityViolations(axeBuilder);
         await chartPage.checkChartVisibility(indicatorMode, areaMode);
       });

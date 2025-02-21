@@ -1,7 +1,10 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { AreaMode } from './chartPage';
+import { AreaMode, IndicatorMode } from './chartPage';
+import { returnIndicatorIDsByIndicatorMode } from '@/playwright/testHelpers';
+
+let filteredIndicatorIds: string[];
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
@@ -28,7 +31,7 @@ export default class ResultsPage extends BasePage {
     return Promise.all(options.map((l) => l.textContent()));
   }
 
-  async checkSearchResults(searchTerm: string) {
+  async checkSearchResultsTitle(searchTerm: string) {
     await expect(
       this.page.getByText(this.resultsText + ` ${searchTerm}`)
     ).toBeVisible();
@@ -45,8 +48,16 @@ export default class ResultsPage extends BasePage {
     );
   }
 
-  async selectIndicatorCheckboxes(indicatorIDs: string[]) {
-    for (const indicatorID of indicatorIDs) {
+  async selectIndicatorCheckboxesAndCheckURL(
+    allIndicatorIDs: string[],
+    indicatorMode: IndicatorMode,
+    searchTerm: string
+  ) {
+    filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
+      allIndicatorIDs,
+      indicatorMode
+    );
+    for (const indicatorID of filteredIndicatorIds) {
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
@@ -62,9 +73,15 @@ export default class ResultsPage extends BasePage {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
+    await this.waitForURLToContain(
+      `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
+    );
   }
 
-  async selectAreasCheckboxes(areaMode: AreaMode) {
+  async selectAreasCheckboxesAndCheckURL(
+    areaMode: AreaMode,
+    searchTerm: string
+  ) {
     console.log(areaMode);
     // For now defaulting to using NHS Integrated Care Boards (except for England area mode) area type - this will be refactored in the future
     await this.page
@@ -108,6 +125,9 @@ export default class ResultsPage extends BasePage {
       default:
         throw new Error('Invalid area mode');
     }
+    await this.waitForURLToContain(
+      `${searchTerm}&${SearchParams.IndicatorsSelected}=`
+    );
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
