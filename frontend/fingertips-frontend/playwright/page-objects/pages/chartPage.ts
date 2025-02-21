@@ -45,7 +45,7 @@ export default class ChartPage extends BasePage {
     indicatorMode: IndicatorMode,
     areaMode: AreaMode
   ): ScenarioConfig {
-    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148
     // const defaultVisible = [this.populationPyramidComponent];
     const defaultVisible: never[] = [];
 
@@ -105,8 +105,8 @@ export default class ChartPage extends BasePage {
       areaMode
     );
     console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that ${visibleComponents} are displayed and that`,
-      `${hiddenComponents} are not displayed.`
+      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
+      `chart components: ${hiddenComponents} are not displayed.`
     );
     // Check that components expected to be visible are displayed
     for (const component of visibleComponents) {

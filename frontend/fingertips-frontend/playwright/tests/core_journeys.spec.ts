@@ -31,7 +31,7 @@ const coreTestJourneys: TestParams[] = [
 ];
 
 /**
- * This test currently tests three of the fifteen indicator + area
+ * This test currently tests, in parallel, three of the fifteen indicator + area
  * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
  * These three scenario combinations are know as core journeys and are defined above in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components.

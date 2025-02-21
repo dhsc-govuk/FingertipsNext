@@ -53,6 +53,7 @@ export default class ResultsPage extends BasePage {
     indicatorMode: IndicatorMode,
     searchTerm: string
   ) {
+    await this.waitForURLToContain(searchTerm);
     filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
       allIndicatorIDs,
       indicatorMode
@@ -73,25 +74,23 @@ export default class ResultsPage extends BasePage {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
-    await this.waitForURLToContain(
-      `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
-    );
   }
 
   async selectAreasCheckboxesAndCheckURL(
     areaMode: AreaMode,
     searchTerm: string
   ) {
-    console.log(areaMode);
-    // For now defaulting to using NHS Integrated Care Boards (except for England area mode) area type - this will be refactored in the future
+    const defaultAreaTypeFilter = 'nhs-integrated-care-boards';
+    // For area type filter currently defaulting to using NHS Integrated Care Boards (except for England area mode) - this will be refactored in the future
     await this.page
       .getByTestId(this.areaTypeSelector)
-      .selectOption('NHS Integrated Care Boards');
+      .selectOption(defaultAreaTypeFilter);
 
     const groupTypeDropdown = this.page.getByTestId(this.groupTypeSelector);
     await groupTypeDropdown.click();
     await expect(groupTypeDropdown).toHaveValue('england');
 
+    // For group type filter currently defaulting to using NHS Regions (except for England area mode) - this will be refactored in the future
     await groupTypeDropdown.selectOption('NHS Regions');
     const checkboxList = this.page
       .getByTestId(this.areaFilterContainer)
@@ -100,33 +99,38 @@ export default class ResultsPage extends BasePage {
     switch (areaMode) {
       case AreaMode.ONE_AREA:
         await checkboxList.first().check();
+        await this.waitForURLToContain(defaultAreaTypeFilter);
         break;
       case AreaMode.TWO_AREAS:
         for (let i = 0; i < 2; i++) {
           await checkboxList.nth(i).check();
+          await this.waitForURLToContain(defaultAreaTypeFilter);
         }
         break;
       case AreaMode.THREE_PLUS_AREAS:
         for (let i = 0; i < 3; i++) {
           await checkboxList.nth(i).check();
         }
+        await this.waitForURLToContain(defaultAreaTypeFilter);
         break;
       case AreaMode.ALL_AREAS_IN_A_GROUP:
         for (let i = 0; i < (await checkboxList.count()); i++) {
           await checkboxList.nth(i).check();
         }
+        await this.waitForURLToContain(defaultAreaTypeFilter);
         break;
       case AreaMode.ENGLAND_AREA:
         await this.page
           .getByTestId(this.areaTypeSelector)
           .selectOption('England');
         await groupTypeDropdown.selectOption('England');
+        await this.waitForURLToContain(`england`);
         break;
       default:
         throw new Error('Invalid area mode');
     }
     await this.waitForURLToContain(
-      `${searchTerm}&${SearchParams.IndicatorsSelected}=`
+      `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
     );
   }
 
