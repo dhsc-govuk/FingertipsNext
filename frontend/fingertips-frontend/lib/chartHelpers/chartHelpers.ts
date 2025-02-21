@@ -29,12 +29,12 @@ export function seriesDataForIndicatorIndexAndArea(
   );
 }
 
-export function seriesDataWithoutEnglandOrParent(
+export function seriesDataWithoutEnglandOrGroup(
   data: HealthDataForArea[],
-  parentAreaCode?: string
+  groupAreaCode?: string
 ) {
   return data.filter(
     (item) =>
-      item.areaCode !== areaCodeForEngland && item.areaCode !== parentAreaCode
+      item.areaCode !== areaCodeForEngland && item.areaCode !== groupAreaCode
   );
 }

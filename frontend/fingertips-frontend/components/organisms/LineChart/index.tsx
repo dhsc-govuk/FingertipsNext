@@ -18,7 +18,7 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
-  parentIndicatorData?: HealthDataForArea;
+  groupIndicatorData?: HealthDataForArea;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -37,7 +37,7 @@ export function LineChart({
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
-  parentIndicatorData,
+  groupIndicatorData,
 }: Readonly<LineChartProps>) {
   const searchParams = useSearchParams();
   const existingParams = new URLSearchParams(searchParams);
@@ -58,8 +58,8 @@ export function LineChart({
     ? sortHealthDataByDate([benchmarkData])[0]
     : undefined;
 
-  const sortedParentData = parentIndicatorData
-    ? sortHealthDataByDate([parentIndicatorData])[0]
+  const sortedGroupData = groupIndicatorData
+    ? sortHealthDataByDate([groupIndicatorData])[0]
     : undefined;
 
   const seriesData = generateSeriesData(
@@ -67,7 +67,7 @@ export function LineChart({
     chartSymbols,
     chartColours,
     sortedBenchMarkData,
-    sortedParentData,
+    sortedGroupData,
     lineChartCI
   );
 

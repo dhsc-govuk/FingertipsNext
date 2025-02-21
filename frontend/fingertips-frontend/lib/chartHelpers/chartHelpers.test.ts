@@ -1,6 +1,6 @@
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
+  seriesDataWithoutEnglandOrGroup,
   sortHealthDataByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -221,7 +221,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data);
+    const result = seriesDataWithoutEnglandOrGroup(data);
     expect(result).toEqual(dataWithoutEngland);
   });
 
@@ -304,7 +304,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data, 'E12000001');
+    const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
   });
 });
