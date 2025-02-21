@@ -47,7 +47,8 @@ export function Chart({
   //   [SearchParams.SearchedIndicator]: searchedIndicator,
   //   [SearchParams.IndicatorsSelected]: indicatorsSelected,
   // });
-
+console.log('parentAreaCode', parentAreaCode);
+  console.log('healthIndicatorData', healthIndicatorData);
   const stateManager = SearchStateManager.initialise(searchState);
 
   const backLinkPath = stateManager.generatePath('/results');
@@ -57,6 +58,8 @@ export function Chart({
     0,
     areaCodeForEngland
   );
+  
+  console.log('englandBenchmarkData', englandBenchmarkData);
   const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
     healthIndicatorData[0],
     parentAreaCode
@@ -65,7 +68,8 @@ export function Chart({
   const parentBenchmarkData = parentAreaCode
     ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
     : undefined;
-
+ console.log('parentBenchmarkData', parentBenchmarkData);
+  
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,

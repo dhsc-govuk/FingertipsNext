@@ -24,11 +24,11 @@ export function seriesDataForIndicatorIndexAndArea(
   indicatorIndex: number,
   seriesAreaCode: string
 ) {
-  const a =  data[indicatorIndex].find(
+  console.log('data', data);
+  console.log('series', seriesAreaCode);
+  return  data[indicatorIndex].find(
     (areaData) => areaData.areaCode === seriesAreaCode
   );
-  console.log(a)
-  return a
 }
 
 export function seriesDataWithoutEnglandOrParent(

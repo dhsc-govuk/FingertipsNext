@@ -35,7 +35,7 @@ export default async function ChartPage(
   // const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
   const stateManager = SearchStateManager.initialise(searchParams);
   let {
-    [SearchParams.SearchedIndicator]: searchedIndicator,
+    // [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areaCodes,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
@@ -50,6 +50,7 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const areaApi = ApiClientFactory.getAreasApiClient();
 
+  // const parentAreaCode = 'A1245'
   let parentAreaCode: string | undefined;
   if (indicatorsSelected.length === 1 && areaCodes.length <= 2) {
     try {
