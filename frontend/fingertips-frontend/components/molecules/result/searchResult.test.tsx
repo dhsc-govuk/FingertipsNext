@@ -91,12 +91,10 @@ it('should display tag if indicator date is within one month of server date', ()
       result={MOCK_DATA[0]}
       searchState={initialSearchState}
       handleClick={mockHandleClick}
-      serverDate={currentDate}
+      currentDate={currentDate}
     />
   );
-  expect(screen.getAllByRole('strong').at(0)?.textContent).toContain(
-    'Updated in last month'
-  );
+  expect(screen.queryByText('Updated in last month')).toBeInTheDocument();
 });
 
 it('should not display tag if indicator date is not within one month of server date', () => {
@@ -106,7 +104,7 @@ it('should not display tag if indicator date is not within one month of server d
       result={MOCK_DATA[0]}
       searchState={initialSearchState}
       handleClick={mockHandleClick}
-      serverDate={currentDate}
+      currentDate={currentDate}
     />
   );
 

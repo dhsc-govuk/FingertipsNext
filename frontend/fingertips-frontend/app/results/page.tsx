@@ -14,7 +14,6 @@ import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determine
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
 import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
-import { getServerDate } from '@/lib/dateHelpers/serverDate';
 
 export default async function Page(
   props: Readonly<{
@@ -91,8 +90,6 @@ export default async function Page(
       errors: {},
     };
 
-    const serverDate: Date = await getServerDate();
-
     return (
       <SearchResults
         initialIndicatorSelectionState={initialState}
@@ -102,7 +99,7 @@ export default async function Page(
         availableGroupTypes={availableGroupTypes}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
-        serverDate={serverDate}
+        currentDate={new Date()}
       />
     );
   } catch (error) {

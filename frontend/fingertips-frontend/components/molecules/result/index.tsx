@@ -25,7 +25,7 @@ type SearchResultProps = {
   indicatorSelected?: boolean;
   searchState?: SearchStateParams;
   handleClick: (indicatorId: string, checked: boolean) => void;
-  serverDate?: Date;
+  currentDate?: Date;
 };
 
 const StyledParagraph = styled(Paragraph)(
@@ -80,7 +80,7 @@ export function SearchResult({
   indicatorSelected,
   searchState,
   handleClick,
-  serverDate,
+  currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -121,10 +121,7 @@ export function SearchResult({
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>
-                {isWithinOneMonth(
-                  serverDate ? serverDate : new Date(),
-                  result.lastUpdatedDate
-                ) ? (
+                {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
                   <GreyTag data-testid="tag-recent-indicator">
                     Updated in last month
                   </GreyTag>
