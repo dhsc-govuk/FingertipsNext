@@ -1,8 +1,5 @@
 import { test } from '../page-objects/pageFactory';
-import {
-  expectNoAccessibilityViolations,
-  getAllIndicatorIdsForSearchTerm,
-} from '../testHelpers';
+import { getAllIndicatorIdsForSearchTerm } from '../testHelpers';
 import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
 import indicators from '../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -66,7 +63,7 @@ test.describe(`Search via search term ${searchTerm}`, () => {
       await test.step('Navigate to and verify search page', async () => {
         await homePage.navigateToHomePage();
         await homePage.checkOnHomePage();
-        await expectNoAccessibilityViolations(axeBuilder);
+        await homePage.expectNoAccessibilityViolations(axeBuilder);
       });
 
       await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
@@ -74,7 +71,7 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         await homePage.clickSearchButton();
 
         await resultsPage.waitForURLToContain(searchTerm);
-        await expectNoAccessibilityViolations(axeBuilder);
+        await resultsPage.expectNoAccessibilityViolations(axeBuilder);
         await resultsPage.checkSearchResultsTitle(searchTerm);
       });
 
@@ -90,7 +87,7 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         );
         await resultsPage.clickViewChartsButton();
 
-        await expectNoAccessibilityViolations(axeBuilder);
+        await chartPage.expectNoAccessibilityViolations(axeBuilder);
         await chartPage.checkChartVisibility(indicatorMode, areaMode);
       });
     });

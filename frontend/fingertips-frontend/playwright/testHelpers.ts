@@ -1,6 +1,4 @@
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import AxeBuilder from '@axe-core/playwright';
-import { expect } from './page-objects/pageFactory';
 import { IndicatorMode } from './page-objects/pages/chartPage';
 
 function filterIndicatorsByName(
@@ -40,6 +38,6 @@ export function returnIndicatorIDsByIndicatorMode(
   }
 }
 
-export async function expectNoAccessibilityViolations(axeBuilder: AxeBuilder) {
-  expect((await axeBuilder.analyze()).violations).toEqual([]);
-}
+// export async function expectNoAccessibilityViolations(axeBuilder: AxeBuilder) {
+//   expect((await axeBuilder.analyze()).violations).toEqual([]);
+// }

@@ -1,10 +1,15 @@
 import type { Page as PlaywrightPage } from 'playwright-core';
-
+import AxeBuilder from '@axe-core/playwright';
+import { expect } from './pageFactory';
 export default class BasePage {
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
     await this.page.waitForURL(new RegExp(containsURL));
+  }
+
+  async expectNoAccessibilityViolations(axeBuilder: AxeBuilder) {
+    expect((await axeBuilder.analyze()).violations).toEqual([]);
   }
 
   async navigateTo(page: string) {
