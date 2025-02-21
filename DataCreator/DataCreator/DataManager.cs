@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using DataCreator.PholioDatabase;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DataCreator
 {
@@ -87,7 +88,7 @@ namespace DataCreator
             }
         }
 
-        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, int[] indicatorIds, bool addAreasToIndicator)
+        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync()).ToList();
             foreach (var indicator in indicators) 
@@ -103,7 +104,14 @@ namespace DataCreator
                     indicator.HasInequalities = match.HasInequalities;
                 }
             
-                indicator.UsedInPoc=indicatorIds.Contains(indicator.IndicatorID); 
+                indicator.UsedInPoc=pocIndicators.Select(i=>i.IndicatorID).Contains(indicator.IndicatorID);
+                if (indicator.UsedInPoc)
+                {
+                    var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
+                    if(!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
+                        indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
+                }
+                    
             }
             AddLastUpdatedDate(indicators);
             var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
@@ -123,15 +131,15 @@ namespace DataCreator
             }
         }
 
-        public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
+        public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
             
-            foreach (var indicatorId in indicatorIdsWeWant)
+            foreach (var pocIndicator in pocIndicators)
             {
-                var data = DataFileManager.GetHealthDataForIndicator(indicatorId, yearFrom, areasWeWant);
+                var data = DataFileManager.GetHealthDataForIndicator(pocIndicator.IndicatorID, yearFrom, areasWeWant);
                
-                Console.WriteLine($"Grabbed {data.Count} points for indicator {indicatorId}");
+                Console.WriteLine($"Grabbed {data.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);

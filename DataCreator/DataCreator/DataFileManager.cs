@@ -20,7 +20,7 @@ namespace DataCreator
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
-             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription ());
 
         public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
@@ -28,8 +28,23 @@ namespace DataCreator
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
 
-        public static int[] GetIndicatorIds() =>
-            File.ReadAllText(@$"{InFilePath}\temp\indicatorids.txt").Split("\n").Select(int.Parse).ToArray();
+        public static List<SimpleIndicator> GetPocIndicators()
+        {
+            var lines=File.ReadAllLines(@$"{InFilePath}\temp\pocindicators.csv");
+            var indicators=new List<SimpleIndicator>();   
+            foreach (var line in lines)
+            {
+                var split=line.Split('|');
+                indicators.Add(new SimpleIndicator
+                {
+                    IndicatorID= int.Parse(split[0]),
+                    IndicatorName= split[1] 
+                });
+            }
+
+            return indicators;
+        }
+            
 
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
