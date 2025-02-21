@@ -1,33 +1,33 @@
-﻿IndicatorID|IndicatorName
-41101|Emergency readmissions within 30 days of discharge from hospital
-383|People reporting Alzheimer's disease or dementia
-247|Diabetes prevelence(Quality and Outcomes Framework)
-352|People with caring responsibility aged 16 years and over
-30302|Population vaccination coverage: Hepatitis B aged 2 years
-20401|"""Conception rate per 1,000 females aged 17 years and under"","
-41203|Preventable sight loss from diabetic eye disease
-241|Diabetes prevelence aged 17 years and over (Quality and Outcomes Framework)
-337|GP registered population by sex and quinary age band
-22401|Emergency hospital admissions due to falls aged 65 years and over
-90453|Former smokers (GP Patient Survey)
-91040|NHS Health Checks offered to the total eligible population in the quarter
-91344|Urgent suspected cancer referrals (indirectly age-gender standardised referral ratio)
-91894|Deaths in hospital for people with dementia aged 65 years and over
-92026|Obesity prevalence (including severe obesity) in Reception Year aged 4 to 5 years  (5 years data combined)
-92033|Obesity prevalence (including severe obesity) in Year 6 aged 10 to 11 years (5 years data combined)
-92266|General fertility rate in females
-92708|Resident population
-92904|Admission episodes for alcohol-specific conditions aged 17 years and under
-93015|Physically inactive in adults aged 19 years and over
-93085|Smokers at time of childbirth delivery
-93088|Overweight prevalence (including obesity) in adults aged 18 years and over (using adjusted self-reported height and weight)
-93124|"""Acute hepatitis B incidence rate per 100,000"""
-93474|Deaths in hospital
-93553|Deprivation score (Index of Multiple Deprivation 2019)
-93701|Children in absolute low income families aged 15 years and under
-93748|Smoking attributable mortality (new method)
-93763|Alcohol-related mortality
-93861|Particulate air pollution attributable mortality (new method)
-94035|Admissions to hospital for cataract surgery aged 65 years and over
-94063|Breast screening coverage aged 53 to 70 years
-94103|Perinatal mental health conditions prevalence (model-based estimated)
+﻿IndicatorID,IndicatorName
+41101,Emergency readmissions within 30 days of discharge from hospital
+383,People reporting Alzheimer's disease or dementia
+247,Diabetes prevelence(Quality and Outcomes Framework)
+352,People with caring responsibility aged 16 years and over
+30302,Population vaccination coverage: Hepatitis B aged 2 years
+20401,"""Conception rate per 1,000 females aged 17 years and under"","
+41203,Preventable sight loss from diabetic eye disease
+241,Diabetes prevelence aged 17 years and over (Quality and Outcomes Framework)
+337,GP registered population by sex and quinary age band
+22401,Emergency hospital admissions due to falls aged 65 years and over
+90453,Former smokers (GP Patient Survey)
+91040,NHS Health Checks offered to the total eligible population in the quarter
+91344,Urgent suspected cancer referrals (indirectly age-gender standardised referral ratio)
+91894,Deaths in hospital for people with dementia aged 65 years and over
+92026,Obesity prevalence (including severe obesity) in Reception Year aged 4 to 5 years  (5 years data combined)
+92033,Obesity prevalence (including severe obesity) in Year 6 aged 10 to 11 years (5 years data combined)
+92266,General fertility rate in females
+92708,Resident population
+92904,Admission episodes for alcohol-specific conditions aged 17 years and under
+93015,Physically inactive in adults aged 19 years and over
+93085,Smokers at time of childbirth delivery
+93088,Overweight prevalence (including obesity) in adults aged 18 years and over (using adjusted self-reported height and weight)
+93124,"""Acute hepatitis B incidence rate per 100,000"""
+93474,Deaths in hospital
+93553,Deprivation score (Index of Multiple Deprivation 2019)
+93701,Children in absolute low income families aged 15 years and under
+93748,Smoking attributable mortality (new method)
+93763,Alcohol-related mortality
+93861,Particulate air pollution attributable mortality (new method)
+94035,Admissions to hospital for cataract surgery aged 65 years and over
+94063,Breast screening coverage aged 53 to 70 years
+94103,Perinatal mental health conditions prevalence (model-based estimated)
