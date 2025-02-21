@@ -13,8 +13,6 @@ interface ThematicMapProps {
   mapTitle?: string;
 }
 
-// useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
-// See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
 const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
 };
@@ -91,10 +89,17 @@ export function ThematicMap({
       },
     ],
   };
+  // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
+  // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
+  //
+  // as such, we're (mis)using useEffect to load the map on initial render, and not for interactivity.
+  // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
+  // causes it to loop infinitely.
   useEffect(() => {
     loadHighchartsModules(async () => {
       setOptions(mapOptions);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!options) {
