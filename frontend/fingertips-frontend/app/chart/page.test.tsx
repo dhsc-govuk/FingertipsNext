@@ -12,8 +12,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
-import { mockAreaDataForCountiesAndUAs } from '@/mock/data/areaData';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 
