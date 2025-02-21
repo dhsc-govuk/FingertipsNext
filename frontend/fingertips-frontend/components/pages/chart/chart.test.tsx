@@ -3,8 +3,9 @@ import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import { useSearchParams } from 'next/navigation';
 
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
@@ -20,7 +21,7 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: jest.fn(),
-    useSearchParams: jest.fn(),
+   // useSearchParams: jest.fn(),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: jest.fn(),
     })),
@@ -33,14 +34,22 @@ const mockPopulationData: PopulationDataForArea = {
   maleSeries: [],
 };
 
+
 describe('Page structure', () => {
   describe('Navigation', () => {
+    
+    const state: SearchStateParams ={
+      [SearchParams.SearchedIndicator]: 'test',
+      [SearchParams.IndicatorsSelected]: ['1', '2']
+    }
+    
     it('should render back link with correct search parameters', () => {
       render(
         <Chart
           healthIndicatorData={[mockHealthData[1]]}
-          searchedIndicator="test"
-          indicatorsSelected={['1', '2']}
+          searchState={state}
+          // searchedIndicator="test"
+          // indicatorsSelected={['1', '2']}
         />
       );
 
@@ -56,15 +65,21 @@ describe('Page structure', () => {
 
 describe('Content', () => {
   beforeEach(() => {
+    const state: SearchStateParams ={
+      [SearchParams.SearchedIndicator]: 'test',
+      [SearchParams.IndicatorsSelected]: ['0']
+    }
     render(
       <Chart
         healthIndicatorData={[mockHealthData['337']]}
-        indicatorsSelected={['0']}
+        searchState={state}
+       // indicatorsSelected={['0']}
       />
     );
   });
 
   it('should render the title with correct text', () => {
+    
     const heading = screen.getByRole('heading', { level: 2 });
 
     expect(heading).toBeInTheDocument();
@@ -74,12 +89,13 @@ describe('Content', () => {
   });
 
   it('should render the chart components', () => {
+    screen.debug()
     const lineChart = screen.getByTestId('lineChart-component');
     const barChart = screen.getByTestId('barChart-component');
     const lineChartTable = screen.getByTestId('lineChartTable-component');
 
-    expect(lineChart).toBeInTheDocument();
-    expect(barChart).toBeInTheDocument();
+     expect(lineChart).toBeInTheDocument();
+      expect(barChart).toBeInTheDocument();
     expect(lineChartTable).toBeInTheDocument();
   });
 });

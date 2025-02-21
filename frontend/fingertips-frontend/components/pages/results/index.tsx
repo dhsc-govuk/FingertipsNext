@@ -52,7 +52,7 @@ const isIndicatorSelected = (
 };
 
 const generateBackLinkPath = (state: SearchStateParams) => {
-  const stateManager = new SearchStateManager({
+  const stateManager = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: state[SearchParams.SearchedIndicator],
   });
   return stateManager.generatePath('/');

@@ -20,13 +20,13 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 jest.mock('@/components/pages/chart');
 
-jest.mock('@/components/organisms/LineChart/', () => {
-  return {
-    LineChart: function LineChart() {
-      return <div data-testid="lineChart-component"></div>;
-    },
-  };
-});
+// jest.mock('@/components/organisms/LineChart/', () => {
+//   return {
+//     LineChart: function LineChart() {
+//       return <div data-testid="lineChart-component"></div>;
+//     },
+//   };
+// });
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -116,11 +116,12 @@ describe('Chart Page', () => {
     const page = await ChartPage({
       searchParams: generateSearchParams(searchParams),
     });
+    
+    
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(expectedPopulationData);
-    expect(page.props.searchedIndicator).toEqual('testing');
-    expect(page.props.indicatorsSelected).toEqual(['1']);
+    expect(page.props.searchState).toEqual(searchParams)
   });
 
   it('should pass undefined if there was an error getting population data', async () => {
@@ -137,7 +138,5 @@ describe('Chart Page', () => {
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(undefined);
-    expect(page.props.searchedIndicator).toEqual('testing');
-    expect(page.props.indicatorsSelected).toEqual(['1']);
   });
 });
