@@ -1,20 +1,54 @@
 'use client';
 
-import { SearchFormState, getSearchSuggestions } from './searchActions';
-import { Button, InputField, H3, Link } from 'govuk-react';
+import { SearchFormState, getArea } from './searchActions';
+import { Button, InputField, H3 } from 'govuk-react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import AreaAutoCompleteInputField from '@/components/molecules/AreaAutoCompleteSearchPanel';
+import { AreaDocument } from '@/lib/search/searchTypes';
+import { SearchParams } from '@/lib/searchStateManager';
+import { useEffect, useState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
-export const SearchForm = ({
-  searchFormState,
-}: {
+interface SearchFormProps {
   searchFormState: SearchFormState;
-}) => {
+}
+
+export const SearchForm = ({ searchFormState }: SearchFormProps) => {
+  const params = useSearchParams();
+  const router = useRouter();
+  const [areaCode, setAreaCode] = useState<string>('');
+  const [defaultAreas, setDefaultAreas] = useState<AreaDocument[]>([]);
+
+  const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
+    const urlParams = new URLSearchParams(params);
+    if (!selectedAreaCode) {
+      urlParams.delete(SearchParams.AreasSelected);
+    } else {
+      urlParams.set(SearchParams.AreasSelected, selectedAreaCode);
+    }
+    router.push(`?${urlParams.toString()}`, { scroll: false });
+  };
+
+  useEffect(() => {
+    const selectedArea =
+      params.get(SearchParams.AreasSelected) ?? searchFormState.areaSearched;
+    const fetchAreaDocumentAndUpdate = async (areaCode: string | undefined) => {
+      if (areaCode == undefined) return null;
+      const area = await getArea(areaCode);
+      if (area !== null && area !== undefined) {
+        setDefaultAreas([area]);
+        setAreaCode(area.areaCode);
+      }
+    };
+    fetchAreaDocumentAndUpdate(selectedArea ?? undefined);
+  }, [params, searchFormState.areaSearched]);
+
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
@@ -38,34 +72,21 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-      <StyledInputField
-        style={{ marginBottom: '5px' }}
-        input={{
-          id: 'areaSearched',
-          name: 'areaSearched',
-          defaultValue: searchFormState.areaSearched,
-          onChange: async (e) => {
-            console.log(await getSearchSuggestions(e.target.value));
-          },
+      <input
+        type="hidden"
+        name="areaSearched"
+        id="areaSearched"
+        value={areaCode || ''}
+      />
+      <AreaAutoCompleteInputField
+        onAreaSelected={(area: AreaDocument | undefined) => {
+          updateUrlWithSelectedArea(area?.areaCode ?? '');
+          setAreaCode(area?.areaCode ?? '');
         }}
-        hint={
-          <div style={{ color: GovukColours.DarkGrey }}>
-            For example, district, county, region, NHS organisation or GP
-            practice or code
-          </div>
-        }
-        meta={{
-          touched: !!searchFormState.message,
-          error: 'This field value may be required',
-        }}
-        data-testid="search-form-input-area"
-      >
-        Search by area
-      </StyledInputField>
-      <Link href="#" data-testid="search-form-link-filter-area">
-        Or filter by area
-      </Link>
-      <br />
+        inputFieldErrorStatus={!!searchFormState.message}
+        defaultSelectedAreas={defaultAreas}
+      />
+
       <Button
         type="submit"
         data-testid="search-form-button-submit"

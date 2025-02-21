@@ -28,11 +28,14 @@ export const Home = ({
 }: {
   searchFormState: SearchFormState;
 }) => {
-  const [state, formAction] = useActionState(searchIndicator, searchFormState);
+  const [formState, setFormState] = useActionState(
+    searchIndicator,
+    searchFormState
+  );
 
   return (
-    <form action={formAction}>
-      {state.message && (
+    <form action={setFormState}>
+      {formState.message && (
         <ErrorSummary
           description="At least one of the following fields must be populated:"
           errors={[
@@ -77,7 +80,7 @@ export const Home = ({
       </UnorderedList>
       <br />
       <div id="search">
-        <SearchForm searchFormState={state}></SearchForm>
+        <SearchForm searchFormState={formState} />
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>
