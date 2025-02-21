@@ -5,6 +5,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams } from '@/lib/searchStateManager';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import { LineChart, LineChartProps } from '@/components/organisms/LineChart';
 
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
@@ -13,6 +14,9 @@ jest.mock('@/components/organisms/ThematicMap/', () => {
     },
   };
 });
+
+jest.mock('@/components/organisms/LineChart/');
+const mockLineChart = jest.mocked(LineChart);
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -167,5 +171,21 @@ describe('should not display line chart', () => {
     expect(
       screen.queryByTestId('lineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('', () => {
+  it('line chart component should not pass data for England as groupData to the lineChart or lineChartTable', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['337']]}
+        indicatorsSelected={['0']}
+        selectedGroupCode="E92000001"
+      />
+    );
+
+    expect(mockLineChart.mock.lastCall).toMatchObject([
+      { groupIndicatorData: undefined },
+    ]);
   });
 });
