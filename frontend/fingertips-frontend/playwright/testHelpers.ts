@@ -38,6 +38,6 @@ export function returnIndicatorIDsByIndicatorMode(
   }
 }
 
-// export async function expectNoAccessibilityViolations(axeBuilder: AxeBuilder) {
-//   expect((await axeBuilder.analyze()).violations).toEqual([]);
-// }
+export function sortAlphabetically(array: (string | null)[]) {
+  array.sort((a, b) => a!.localeCompare(b!));
+}
