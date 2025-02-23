@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2 } from 'govuk-react';
+import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -9,15 +9,18 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
-  getEnglandDataForIndicatorIndex,
-  seriesDataWithoutEngland,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrParent,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
+  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -27,24 +30,33 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
+  parentAreaCode,
   mapData,
   populationData,
   searchedIndicator,
   indicatorsSelected = [],
   areasSelected = [],
 }: Readonly<ChartProps>) {
-  const searchState = new SearchStateManager({
+  const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   });
 
   const backLinkPath = searchState.generatePath('/results');
 
-  const englandBenchmarkData = getEnglandDataForIndicatorIndex(
+  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
-    0
+    0,
+    areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEngland(healthIndicatorData[0]);
+  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+    healthIndicatorData[0],
+    parentAreaCode
+  );
+
+  const parentBenchmarkData = parentAreaCode
+    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
+    : undefined;
 
   return (
     <>
@@ -60,16 +72,35 @@ export function Chart({
         areasSelected
       ) && (
         <>
-          <LineChart
-            LineChartTitle="See how the indicator has changed over time"
-            healthIndicatorData={dataWithoutEngland}
-            benchmarkData={englandBenchmarkData}
-            xAxisTitle="Year"
-            accessibilityLabel="A line chart showing healthcare data"
-          />
-          <LineChartTable
-            healthIndicatorData={dataWithoutEngland}
-            englandBenchmarkData={englandBenchmarkData}
+          <H3>See how the indicator has changed over time</H3>
+          <TabContainer
+            id="lineChartAndTable"
+            items={[
+              {
+                id: 'lineChart',
+                title: 'Line chart',
+                content: (
+                  <LineChart
+                    healthIndicatorData={dataWithoutEngland}
+                    benchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
+                    xAxisTitle="Year"
+                    accessibilityLabel="A line chart showing healthcare data"
+                  />
+                ),
+              },
+              {
+                id: 'table',
+                title: 'Tabular data',
+                content: (
+                  <LineChartTable
+                    healthIndicatorData={dataWithoutEngland}
+                    englandBenchmarkData={englandBenchmarkData}
+                    parentIndicatorData={parentBenchmarkData}
+                  />
+                ),
+              },
+            ]}
           />
         </>
       )}

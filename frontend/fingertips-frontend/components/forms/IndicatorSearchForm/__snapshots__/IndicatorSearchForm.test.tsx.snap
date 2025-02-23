@@ -196,6 +196,11 @@ exports[`snapshot test - renders the form 1`] = `
     class="c0 c1"
     data-testid="indicator-search-form"
   >
+    <input
+      hidden=""
+      name="searchState"
+      value="{"si":"test value"}"
+    />
     <div
       class="c2 c3 c4"
     >
@@ -221,7 +226,7 @@ exports[`snapshot test - renders the form 1`] = `
         style="border-color: #d4351c; border-width: 2px; border-style: solid;"
         title="indicator"
         type="search"
-        value=""
+        value="test value"
       />
       <button
         class="c10"

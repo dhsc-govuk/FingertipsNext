@@ -55,9 +55,7 @@ paths:
                   $ref: "#/components/schemas/AreaType"
         "500":
           $ref: "#/components/responses/InternalServerErrror"
-
   /areas/areatypes/{area_type_key}/areas:
-
     get:
       tags:
         - areas
@@ -226,6 +224,7 @@ paths:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
+        - $ref: "#/components/parameters/inequalities"
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
@@ -275,7 +274,6 @@ components:
       required:
         - code
         - name
-
         - areaType
       properties:
         code:
@@ -286,7 +284,6 @@ components:
           type: string
           example: "County Durham"
           description: The name of the area / geography
-
         areaType:
           $ref: "#/components/schemas/AreaType"
           type: object
@@ -356,10 +353,6 @@ components:
         year, age band and sex.
       required:
         - year
-        - count
-        - value
-        - lowerCi
-        - upperCi
         - ageBand
         - sex
       properties:
@@ -437,6 +430,18 @@ components:
       explode: false
       required: true
       description: The area code of the area/ geography
+    inequalities:
+      in: query
+      name: inequalities
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - age
+            - sex
+      description: Determines the kind of inequality data that should be returned if an option is specified
     area_type_key:
       in: path
       name: area_type_key

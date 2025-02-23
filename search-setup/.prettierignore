@@ -13,3 +13,4 @@ public
 **/generated-sources/**
 **/*.csv
 dist
+.env

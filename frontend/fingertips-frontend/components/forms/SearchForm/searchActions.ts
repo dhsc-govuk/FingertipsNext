@@ -47,7 +47,7 @@ export async function searchIndicator(
 
   const { indicator } = validatedFields.data;
 
-  const searchState = new SearchStateManager({
+  const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: indicator,
   });
   redirect(searchState.generatePath('/results'), RedirectType.push);

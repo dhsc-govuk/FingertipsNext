@@ -3,6 +3,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 const govukErrorBorderWidth = '2px';
 
@@ -20,14 +21,21 @@ const StyledHintParagraph = styled(styled(Paragraph)`
 
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,
+  searchState,
 }: {
   indicatorSearchFormState: IndicatorSearchFormState;
+  searchState?: SearchStateParams;
 }) => {
   return (
     <FormGroup
       error={indicatorSearchFormState.message !== undefined}
       data-testid="indicator-search-form"
     >
+      <input
+        name="searchState"
+        defaultValue={JSON.stringify(searchState)}
+        hidden
+      />
       <StyledTitleParagraph>Search by Subject</StyledTitleParagraph>
       <StyledHintParagraph>
         For example, smoking, diabetes prevalence, or a specific indicator ID

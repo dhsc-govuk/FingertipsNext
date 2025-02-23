@@ -1,6 +1,6 @@
 ﻿namespace DataCreator
 {
-    public class CategoryEntity
+    public record CategoryEntity
     {
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }

@@ -33,18 +33,3 @@ it('should render the Highcharts react component with passed parameters within t
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);
 });
-
-it('should render the LineChart title', () => {
-  render(
-    <LineChart
-      healthIndicatorData={mockHealthData[1]}
-      LineChartTitle="See how the indicator has changed over time for the area"
-    />
-  );
-
-  const title = screen.getByRole('heading', { level: 3 });
-
-  expect(title).toHaveTextContent(
-    'See how the indicator has changed over time for the area'
-  );
-});

@@ -4,7 +4,6 @@ import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
@@ -13,11 +12,11 @@ import { useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 interface LineChartProps {
-  LineChartTitle?: string;
   healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
+  parentIndicatorData?: HealthDataForArea;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -31,11 +30,11 @@ const chartSymbols: SymbolKeyValue[] = [
 const chartName = 'lineChart';
 
 export function LineChart({
-  LineChartTitle: lineChartTitle,
   healthIndicatorData,
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
+  parentIndicatorData,
 }: Readonly<LineChartProps>) {
   const searchParams = useSearchParams();
   const existingParams = new URLSearchParams(searchParams);
@@ -50,12 +49,22 @@ export function LineChart({
   const lineChartCI =
     showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
 
-  const sortedSeriesValues = sortHealthDataByDate(healthIndicatorData);
+  const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
+
+  const sortedBenchMarkData = benchmarkData
+    ? sortHealthDataByDate([benchmarkData])[0]
+    : undefined;
+
+  const sortedParentData = parentIndicatorData
+    ? sortHealthDataByDate([parentIndicatorData])[0]
+    : undefined;
+
   const seriesData = generateSeriesData(
-    sortedSeriesValues,
+    sortedHealthIndicatorData,
     chartSymbols,
     chartColours,
-    benchmarkData,
+    sortedBenchMarkData,
+    sortedParentData,
     lineChartCI
   );
 
@@ -98,7 +107,6 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H3>{lineChartTitle}</H3>
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={lineChartCI}
