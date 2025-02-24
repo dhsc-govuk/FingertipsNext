@@ -107,7 +107,7 @@ public class AreaRepository : IAreaRepository
 
         if (includeChildren)
         {
-            await AddChildAreas(areasWithRelations, childAreaType, area);
+            areasWithRelations.Children = await GetChildAreas(childAreaType, area);
         }
 
         if (includeAncestors)
@@ -126,11 +126,9 @@ public class AreaRepository : IAreaRepository
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="areaWithRelations"></param>
     /// <param name="childAreaType"></param>
     /// <param name="area"></param>
-    private async Task AddChildAreas(
-        AreaWithRelationsModel areaWithRelations,
+    private async Task<List<AreaModel>> GetChildAreas(
         string? childAreaType,
         AreaModel area
     )
@@ -138,12 +136,12 @@ public class AreaRepository : IAreaRepository
         if (string.IsNullOrWhiteSpace(childAreaType))
         {
             // direct children
-            areaWithRelations.Children = await GetChildAreas(area.AreaKey);
+            return await GetChildAreas(area.AreaKey);
         }
         else
         {
-            areaWithRelations.Children = await GetDescendantAreas(area, childAreaType);
             // children lower down the hierarchy
+            return await GetDescendantAreas(area, childAreaType);
         }
     }
 
@@ -153,53 +151,44 @@ public class AreaRepository : IAreaRepository
             .Area
             .FromSqlInterpolated(
                 $"""
-                --- Find the parent IDs and then return ParentAreas
-                WITH parentAreaKeys AS 
-                (  
-                  SELECT ParentAreaKey 
-                  FROM Areas.AreaRelationships
-                  WHERE ChildAreaKey = {childAreaKey} 
-                )
-                SELECT * FROM Areas.Areas
-                WHERE AreaKey in 
-                ( 
-                  SELECT ParentAreaKey 
-                  FROM parentAreaKeys 
-                ) 
+                SELECT 
+                  * 
+                FROM
+                  Areas.Areas a                
+                JOIN
+                  Areas.AreaRelationships ar
+                ON
+                  ar.ParentAreaKey = a.AreaKey
+                WHERE
+                  ar.ChildAreaKey = {childAreaKey}
                 """
             )
+            .Include(a=>a.AreaType)
+            .OrderBy(a=>a.AreaName)
             .ToListAsync();
     }
 
     private async Task<List<AreaModel>> GetChildAreas(int parentAreaKey)
     {
-        var areaList = await _dbContext
+        return await _dbContext
             .Area
             .FromSqlInterpolated(
                 $"""
-                --- Find the child IDs and then return ChildAreas
-                WITH childAreaKeys AS 
-                (
-                  SELECT ChildAreaKey 
-                  FROM Areas.AreaRelationships 
-                  WHERE ParentAreaKey = {parentAreaKey} 
-                )
-                SELECT * FROM Areas.Areas
-                WHERE AreaKey in 
-                (
-                  SELECT ChildAreaKey 
-                  FROM childAreaKeys 
-                )
+                SELECT
+                  *
+                FROM
+                  Areas.Areas a
+                JOIN
+                  Areas.AreaRelationships ar
+                ON
+                  ar.ChildAreaKey = a.AreaKey
+                WHERE
+                  ar.ParentAreaKey = {parentAreaKey}
                 """
             )
+            .Include(a => a.AreaType)
+            .OrderBy(a => a.AreaName)
             .ToListAsync();
-
-        foreach (var area in areaList)
-        {
-            area.AreaType = await _dbContext.AreaType.Where(areaType => areaType.AreaTypeKey == area.AreaTypeKey).FirstAsync();
-        }
-
-        return [.. areaList.OrderBy(a => a.AreaType.Level)];
     }
 
     // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex 
@@ -376,11 +365,10 @@ public class AreaRepository : IAreaRepository
                 (
                   { string.Join(',', parentAreas.Select((p) => p.AreaKey)) }  
                 ) AND a.AreaKey != { childArea.AreaKey }
-                ORDER BY
-                  a.AreaName
                 """
             )
             .Include(a => a.AreaType)
+            .OrderBy(a => a.AreaName)
             .ToListAsync();
     }
 }
