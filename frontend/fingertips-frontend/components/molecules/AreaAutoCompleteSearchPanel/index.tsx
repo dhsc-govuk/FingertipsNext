@@ -100,7 +100,7 @@ export default function AreaAutoCompleteInputField({
       />
       <AreaAutoCompleteSuggestionPanel
         areas={searchAreas}
-        searchHint={criteria}
+        searchHint={criteria ?? ''}
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
           setSearchAreas([]);
