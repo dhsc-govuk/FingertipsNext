@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using DataCreator.PholioDatabase;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DataCreator
 {

@@ -9,6 +9,8 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
+        private static CsvFileDescription csvFileDescription=new CsvFileDescription ()
+            ; 
 
         public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
             new JsonSerializerOptions
@@ -17,16 +19,16 @@ namespace DataCreator
         }));
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
-            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
-             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription ());
+             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
-             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
-            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static List<SimpleIndicator> GetPocIndicators()
         {
@@ -47,7 +49,7 @@ namespace DataCreator
             
 
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
-            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", new CsvFileDescription());
+            new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         /// <summary>
         /// Get health data from csv files that have been downloaded from the fingertips API
