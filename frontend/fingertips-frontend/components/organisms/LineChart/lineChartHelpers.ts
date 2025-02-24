@@ -80,6 +80,7 @@ export function shouldDisplayLineChart(
 ): boolean {
   return (
     indicatorsSelected.length === 1 &&
+    areasSelected.length > 0 &&
     areasSelected.length <= 2 &&
     data[0]?.healthData.length > 1
   );

@@ -11,10 +11,12 @@ const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'See how the indicator has changed over time';
 
-const assertLineChartAndTableInDocument = () => {
-  expect(screen.getByTestId(lineChartTestId)).toBeInTheDocument();
-  expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
-  expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
+const assertLineChartAndTableInDocument = async () => {
+  expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
+  expect(await screen.findByTestId(lineChartTableTestId)).toBeInTheDocument();
+  expect(
+    await screen.findByTestId(lineChartContainerTestId)
+  ).toBeInTheDocument();
 
   expect(
     screen.getByRole('heading', {
@@ -63,21 +65,16 @@ const mockPopulationData: PopulationDataForArea = {
   maleSeries: [],
 };
 
-
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
-  [SearchParams.IndicatorsSelected]: ['1', '2']
-}
+  [SearchParams.IndicatorsSelected]: ['1', '2'],
+};
 
 describe('Page structure', () => {
   describe('Navigation', () => {
-    
     it('should render back link with correct search parameters', () => {
       render(
-        <Chart
-          healthIndicatorData={[mockHealthData[1]]}
-         searchState={state}
-        />
+        <Chart healthIndicatorData={[mockHealthData[1]]} searchState={state} />
       );
 
       const backLink = screen.getByRole('link', { name: /back/i });
@@ -95,8 +92,8 @@ describe('Content', () => {
     const state: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'test',
       [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A1245']
-    }
+      [SearchParams.AreasSelected]: ['A1245'],
+    };
     render(
       <Chart
         healthIndicatorData={[mockHealthData['337']]}
@@ -114,8 +111,8 @@ describe('Content', () => {
     );
   });
 
-  it('should render the chart components', () => {
-   assertLineChartAndTableInDocument();
+  it('should render the chart components', async () => {
+    await assertLineChartAndTableInDocument();
     expect(screen.getByTestId('barChart-component')).toBeInTheDocument();
   });
 });
@@ -143,15 +140,21 @@ it('should render the ThematicMap component when all map props are provided', ()
   const mapData = getMapData(areaType, areaCodes);
 
   render(
-    <Chart healthIndicatorData={[mockHealthData['318']]} mapData={mapData} searchState={state} />
+    <Chart
+      healthIndicatorData={[mockHealthData['318']]}
+      mapData={mapData}
+      searchState={state}
+    />
   );
 
   const thematicMap = screen.queryByTestId('thematicMap-component');
   expect(thematicMap).toBeInTheDocument();
 });
 
-it('should _not_ render the ThematicMap component when map props are _not_ provided', async () => {
-  render(<Chart healthIndicatorData={[mockHealthData['318']]} searchState={state} />);
+it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
+  render(
+    <Chart healthIndicatorData={[mockHealthData['318']]} searchState={state} />
+  );
   const thematicMap = screen.queryByTestId('thematicMap-component');
 
   expect(thematicMap).not.toBeInTheDocument();
@@ -161,14 +164,12 @@ describe('should not display line chart', () => {
   it('should not display line chart and line chart table when multiple indicators are selected', () => {
     const state: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['0', '1']
-    }
-    
+      [SearchParams.IndicatorsSelected]: ['0', '1'],
+      [SearchParams.AreasSelected]: ['A1245'],
+    };
+
     render(
-      <Chart
-        healthIndicatorData={[mockHealthData['1']]}
-        searchState={state}
-      />
+      <Chart healthIndicatorData={[mockHealthData['1']]} searchState={state} />
     );
 
     assertLineChartAndTableNotInDocument();
@@ -177,13 +178,11 @@ describe('should not display line chart', () => {
   it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
     const state: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['A1425', 'A1426', 'A1427']
-    }
+      [SearchParams.IndicatorsSelected]: ['0'],
+      [SearchParams.AreasSelected]: ['A1425', 'A1426', 'A1427'],
+    };
     render(
-      <Chart
-        healthIndicatorData={[mockHealthData['1']]}
-        searchState={state}
-      />
+      <Chart healthIndicatorData={[mockHealthData['1']]} searchState={state} />
     );
 
     assertLineChartAndTableNotInDocument();
@@ -199,12 +198,10 @@ describe('should not display line chart', () => {
     ];
 
     const state: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['0']
-    }
+      [SearchParams.IndicatorsSelected]: ['0'],
+    };
 
-    render(
-      <Chart healthIndicatorData={[MOCK_DATA]} searchState={state} />
-    );
+    render(<Chart healthIndicatorData={[MOCK_DATA]} searchState={state} />);
 
     assertLineChartAndTableNotInDocument();
   });

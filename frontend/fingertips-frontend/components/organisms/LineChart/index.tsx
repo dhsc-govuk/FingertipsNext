@@ -47,20 +47,20 @@ export function LineChart({
       console.log('highcharts more module not loading', error);
     }
   };
-  
+
   const {
     [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = searchState;
-  
+
   const lineChartCI =
     confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
 
   const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
-  
+
   const sortedBenchMarkData = benchmarkData
     ? sortHealthDataByDate([benchmarkData])[0]
     : undefined;
-  
+
   const sortedParentData = parentIndicatorData
     ? sortHealthDataByDate([parentIndicatorData])[0]
     : undefined;

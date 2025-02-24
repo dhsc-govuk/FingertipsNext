@@ -37,7 +37,6 @@ export function Chart({
   populationData,
   searchState,
 }: Readonly<ChartProps>) {
-
   const stateManager = SearchStateManager.initialise(searchState);
 
   const backLinkPath = stateManager.generatePath('/results');
@@ -47,8 +46,7 @@ export function Chart({
     0,
     areaCodeForEngland
   );
-  
-  
+
   const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
     healthIndicatorData[0],
     parentAreaCode
@@ -57,7 +55,7 @@ export function Chart({
   const parentBenchmarkData = parentAreaCode
     ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
     : undefined;
-  
+
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,

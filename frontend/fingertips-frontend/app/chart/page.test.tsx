@@ -23,14 +23,6 @@ ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 jest.mock('@/components/pages/chart');
 
-jest.mock('@/components/organisms/LineChart/', () => {
-  return {
-    LineChart: function LineChart() {
-      return <div data-testid="lineChart-component"></div>;
-    },
-  };
-});
-
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['1'],
@@ -123,8 +115,6 @@ describe('Chart Page', () => {
 
       expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
       expect(page.props.populationData).toEqual(expectedPopulationData);
-      // expect(page.props.searchedIndicator).toEqual('testing');
-      // expect(page.props.indicatorsSelected).toEqual(['1']);
     });
   });
 
@@ -199,9 +189,6 @@ describe('Chart Page', () => {
       });
 
       expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
-      // expect(page.props.searchedIndicator).toEqual('testing');
-      // expect(page.props.indicatorsSelected).toEqual(['333']);
-      expect(page.props.searchParams).toEqual({})
       expect(page.props.parentAreaCode).toEqual('E12000001');
     });
   });
@@ -220,7 +207,5 @@ describe('Chart Page', () => {
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
     expect(page.props.populationData).toEqual(undefined);
-    // expect(page.props.searchedIndicator).toEqual('testing');
-    // expect(page.props.indicatorsSelected).toEqual(['1']);
   });
 });

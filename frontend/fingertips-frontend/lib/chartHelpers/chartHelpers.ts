@@ -24,7 +24,7 @@ export function seriesDataForIndicatorIndexAndArea(
   indicatorIndex: number,
   seriesAreaCode: string
 ) {
-  return  data[indicatorIndex].find(
+  return data[indicatorIndex].find(
     (areaData) => areaData.areaCode === seriesAreaCode
   );
 }
