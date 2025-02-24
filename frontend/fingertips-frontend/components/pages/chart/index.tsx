@@ -19,7 +19,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  parentAreaCode?: string;
+  parentAreaCodes?: string[];
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -29,7 +29,7 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
-  parentAreaCode,
+  parentAreaCodes,
   mapData,
   populationData,
   searchedIndicator,
@@ -50,12 +50,17 @@ export function Chart({
   );
   const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
     healthIndicatorData[0],
-    parentAreaCode
+    parentAreaCodes?.[0]
   );
 
-  const parentBenchmarkData = parentAreaCode
-    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
-    : undefined;
+  const parentBenchmarkData =
+    Array.isArray(parentAreaCodes) && parentAreaCodes.length > 0
+      ? seriesDataForIndicatorIndexAndArea(
+          healthIndicatorData,
+          0,
+          parentAreaCodes[0]
+        )
+      : undefined;
 
   return (
     <>

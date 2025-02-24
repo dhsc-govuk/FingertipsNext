@@ -201,7 +201,7 @@ describe('Chart Page', () => {
       expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
       expect(page.props.searchedIndicator).toEqual('testing');
       expect(page.props.indicatorsSelected).toEqual(['333']);
-      expect(page.props.parentAreaCode).toEqual('E12000001');
+      expect(page.props.parentAreaCodes[0]).toEqual('E12000001');
     });
   });
 
