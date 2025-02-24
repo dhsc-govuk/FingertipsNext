@@ -99,12 +99,12 @@ describe('table helpers suite', () => {
   });
 
   describe('getDisplayedValue', () => {
-    it('should display value when avaialable', () => {
+    it('should display value when available', () => {
       const value = 5;
       expect(getDisplayedValue(value)).toBe(value);
     });
 
-    it('should return X when value not avaialable', () => {
+    it('should return X when value not available', () => {
       const value = undefined;
       expect(getDisplayedValue(value)).toHaveProperty(
         'props',

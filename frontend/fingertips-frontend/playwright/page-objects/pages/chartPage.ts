@@ -26,7 +26,7 @@ export default class ChartPage extends BasePage {
   readonly lineChartTableComponent = 'lineChartTable-component';
   readonly barChartComponent = 'barChart-component';
   readonly populationPyramidComponent = 'populationPyramid-component';
-  readonly inequalitiesSexTableComponent = 'inequalitiesSexTable-component';
+  readonly inequalitiesComponent = 'inequalities-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -53,6 +53,7 @@ export default class ChartPage extends BasePage {
     const defaultHidden = [
       this.lineChartComponent,
       this.lineChartTableComponent,
+      this.inequalitiesComponent,
       // DHSCFT-220 will implement this logic
       // this.barChartComponent,
     ];
@@ -64,7 +65,7 @@ export default class ChartPage extends BasePage {
         this.lineChartTableComponent,
         this.barChartComponent,
         this.populationPyramidComponent,
-        this.inequalitiesSexTableComponent,
+        this.inequalitiesComponent,
       ],
       hiddenComponents: [],
     };
