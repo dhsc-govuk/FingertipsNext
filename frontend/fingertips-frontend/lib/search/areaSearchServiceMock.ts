@@ -7,7 +7,9 @@ export class AreaSearchServiceMock implements IAreaSearchService {
     this.mockAreaData = areaData;
   }
 
-  public async getArea(areaCode: string): Promise<AreaDocument | undefined> {
+  public async getAreaDocument(
+    areaCode: string
+  ): Promise<AreaDocument | undefined> {
     return this.mockAreaData.find((areaDoc) => areaDoc.areaCode === areaCode);
   }
 

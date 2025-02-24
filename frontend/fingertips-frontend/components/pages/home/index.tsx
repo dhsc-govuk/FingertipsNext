@@ -25,10 +25,13 @@ const ZeroMarginParagraph = styled(Paragraph)(
 );
 
 interface HomeProps {
-  searchStates?: SearchStateParams;
+  searchState?: SearchStateParams;
   initialFormState: SearchFormState;
 }
-export const Home = ({ searchStates, initialFormState }: HomeProps) => {
+export const Home = ({
+  searchState: searchStates,
+  initialFormState,
+}: HomeProps) => {
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState

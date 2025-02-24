@@ -29,7 +29,7 @@ export default async function Page(
   return (
     <Home
       initialFormState={initialState}
-      searchStates={stateManager.getSearchState()}
+      searchState={stateManager.getSearchState()}
     />
   );
 }

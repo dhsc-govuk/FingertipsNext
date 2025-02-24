@@ -33,6 +33,6 @@ export interface IIndicatorSearchService {
 }
 
 export interface IAreaSearchService {
-  getArea(areaCode: string): Promise<AreaDocument | undefined>;
+  getAreaDocument(areaCode: string): Promise<AreaDocument | undefined>;
   getAreaSuggestions(partialAreaName: string): Promise<AreaDocument[]>;
 }

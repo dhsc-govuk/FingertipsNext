@@ -32,6 +32,7 @@ interface AreaAutoCompletePillPanelProps {
 export const AreaAutoCompletePillPanel = memo(
   ({ areas, onRemovePill }: AreaAutoCompletePillPanelProps) => {
     if (areas.length == 0) return null;
+
     return (
       <div>
         <StyleAreaAutoCompletePillPanelHeader>

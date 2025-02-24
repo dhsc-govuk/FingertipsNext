@@ -71,7 +71,9 @@ export async function getArea(
   areaCode: string
 ): Promise<AreaDocument | undefined> {
   try {
-    return SearchServiceFactory.getAreaSearchService().getArea(areaCode);
+    return SearchServiceFactory.getAreaSearchService().getAreaDocument(
+      areaCode
+    );
   } catch (e) {
     console.log(e);
   }

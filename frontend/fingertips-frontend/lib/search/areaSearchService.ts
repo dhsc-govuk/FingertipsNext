@@ -20,7 +20,9 @@ export class AreaSearchService implements IAreaSearchService {
     );
   }
 
-  public async getArea(areaCode: string): Promise<AreaDocument | undefined> {
+  public async getAreaDocument(
+    areaCode: string
+  ): Promise<AreaDocument | undefined> {
     return this.searchClient.getDocument(areaCode);
   }
 
