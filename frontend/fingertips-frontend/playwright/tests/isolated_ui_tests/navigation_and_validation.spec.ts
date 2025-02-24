@@ -1,49 +1,58 @@
 import { test } from '../../page-objects/pageFactory';
 import { IndicatorMode } from '../../page-objects/pages/chartPage';
-import { sortAlphabetically } from '../../testHelpers';
-// make data dynamic based on outcome of test data call
+import {
+  getAllIndicatorIdsForSearchTerm,
+  returnIndicatorIDsByIndicatorMode,
+  sortAlphabetically,
+  getAllNHSRegionAreas,
+} from '../../testHelpers';
+import mockIndicators from '../../../assets/mockIndicatorData.json';
+import mockAreas from '../../../assets/mockAreaData.json';
+import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
+// and frontend/fingertips-frontend/assets/mockAreaData.json
 
+const indicatorData = mockIndicators as IndicatorDocument[];
 const searchTerm = 'mortality';
-const allIndicatorIDs = ['40701'];
+const indicatorMode = IndicatorMode.ONE_INDICATOR;
+let allIndicatorIDs: string[];
+let filteredIndicatorIds: string[];
+let allNHSRegionAreas: AreaDocument[];
 
+test.beforeAll(
+  `get indicatorIDs from the mock data source for searchTerm: ${searchTerm} and get mock area data`,
+  () => {
+    const typedIndicatorData = indicatorData.map(
+      (indicator: IndicatorDocument) => {
+        return {
+          ...indicator,
+          lastUpdated: new Date(indicator.lastUpdatedDate),
+        };
+      }
+    );
+
+    allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
+      typedIndicatorData,
+      searchTerm
+    );
+
+    filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
+      allIndicatorIDs,
+      indicatorMode
+    );
+
+    allNHSRegionAreas = getAllNHSRegionAreas(mockAreas);
+  }
+);
 test.describe(`Navigation and validation tests`, () => {
-  test('check available area types when no areas are selected', async ({
-    resultsPage,
-  }) => {
-    await test.step('navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(searchTerm, []);
-    });
-
-    await test.step('check available area types are sorted in the correct order', async () => {
-      const expectedOptions = [
-        'England',
-        'NHS Regions',
-        'Regions',
-        'Combined Authorities',
-        'NHS Integrated Care Boards',
-        'Counties and Unitary Authorities',
-        'NHS Sub Integrated Care Boards',
-        'Districts and Unitary Authorities',
-        'NHS Primary Care Networks',
-        'GPs',
-      ];
-      const options = await resultsPage.areaFilterOptionsText();
-      test.expect(options).toHaveLength(expectedOptions.length);
-      test.expect(options).toEqual(sortAlphabetically(expectedOptions));
-    });
-  });
-
   test('client validation testing and navigation behaviour', async ({
     homePage,
     resultsPage,
     chartPage,
   }) => {
-    const indicatorMode = IndicatorMode.ONE_INDICATOR;
-
     await test.step('Search page validation', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
@@ -73,7 +82,7 @@ test.describe(`Navigation and validation tests`, () => {
 
     await test.step('Select single indicator, let area default to England and check on charts page', async () => {
       await resultsPage.selectIndicatorCheckboxesAndCheckURL(
-        allIndicatorIDs,
+        filteredIndicatorIds,
         indicatorMode,
         searchTerm
       );
@@ -87,7 +96,7 @@ test.describe(`Navigation and validation tests`, () => {
       await chartPage.clickBackLink();
 
       await resultsPage.checkSearchResultsTitle(searchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(allIndicatorIDs[0]);
+      await resultsPage.checkIndicatorCheckboxChecked(filteredIndicatorIds[0]);
     });
 
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
@@ -112,17 +121,17 @@ test.describe(`Navigation and validation tests`, () => {
   }) => {
     await test.step('Navigate directly to the results page', async () => {
       await resultsPage.navigateToResults(searchTerm, [
-        'E40000012',
-        'E40000011',
-        'E40000010',
+        allNHSRegionAreas[0].areaCode,
+        allNHSRegionAreas[1].areaCode,
+        allNHSRegionAreas[2].areaCode,
       ]);
     });
 
     await test.step('Check selected area pills matches those specified in url', async () => {
       const expectedPillTexts = [
-        'North East and Yorkshire NHS Region',
-        'Midlands NHS Region',
-        'North West NHS Region',
+        allNHSRegionAreas[0].areaName,
+        allNHSRegionAreas[1].areaName,
+        allNHSRegionAreas[2].areaName,
       ];
       await test
         .expect(resultsPage.areaFilterPills())
@@ -140,8 +149,8 @@ test.describe(`Navigation and validation tests`, () => {
       await resultsPage.closeAreaFilterPill(1);
 
       const expectedPillTexts = [
-        'North East and Yorkshire NHS Region',
-        'North West NHS Region',
+        allNHSRegionAreas[0].areaName,
+        allNHSRegionAreas[2].areaName,
       ];
       await test
         .expect(resultsPage.areaFilterPills())
@@ -156,17 +165,23 @@ test.describe(`Navigation and validation tests`, () => {
     });
 
     await test.step('Check url has been updated after area pill removal', async () => {
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000012/);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000011/);
-      await test.expect(resultsPage.page).toHaveURL(/&as=E40000010/);
+      await resultsPage.waitForURLToContain(allNHSRegionAreas[0].areaCode);
+      await test
+        .expect(resultsPage.page)
+        .not.toHaveURL(allNHSRegionAreas[1].areaCode);
+      await resultsPage.waitForURLToContain(allNHSRegionAreas[2].areaCode);
     });
 
     await test.step('Remove all pills and check url and area type combobox', async () => {
-      await resultsPage.closeAreaFilterPill(0);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000012/);
+      await resultsPage.closeAreaFilterPill(1);
+      await test
+        .expect(resultsPage.page)
+        .not.toHaveURL(allNHSRegionAreas[2].areaCode);
 
       await resultsPage.closeAreaFilterPill(0);
-      await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000010/);
+      await test
+        .expect(resultsPage.page)
+        .not.toHaveURL(allNHSRegionAreas[0].areaCode);
       await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
 
       await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();

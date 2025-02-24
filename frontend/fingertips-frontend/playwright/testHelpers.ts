@@ -1,4 +1,4 @@
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
 import { IndicatorMode } from './page-objects/pages/chartPage';
 
 function filterIndicatorsByName(
@@ -20,6 +20,14 @@ export function getAllIndicatorIdsForSearchTerm(
   return filterIndicatorsByName(indicators, searchTerm).map(
     (indicator) => indicator.indicatorID
   );
+}
+
+export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {
+  const nhsRegionAreas = areas.filter((area) =>
+    area.areaType.includes('NHS Region')
+  );
+
+  return nhsRegionAreas;
 }
 
 export function returnIndicatorIDsByIndicatorMode(

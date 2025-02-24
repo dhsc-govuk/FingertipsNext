@@ -35,7 +35,7 @@ const coreTestJourneys: TestParams[] = [
  * Note all 15 journeys are covered in lower level unit testing.
  */
 test.beforeAll(
-  `return all matching indicatorIDs from the data source based on the searchTerm: ${searchTerm}`,
+  `return all matching indicatorIDs from the real data source based on the searchTerm: ${searchTerm}`,
   () => {
     const typedIndicatorData = indicatorData.map(
       (indicator: IndicatorDocument) => {
