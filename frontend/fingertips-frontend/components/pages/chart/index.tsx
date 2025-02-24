@@ -2,7 +2,6 @@
 
 import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2, H3 } from 'govuk-react';
-import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -17,7 +16,6 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { TabContainer } from '@/components/layouts/tabContainer';
 import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
