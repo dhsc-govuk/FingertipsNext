@@ -6,6 +6,7 @@ import {
   allAreaTypes,
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 faker.seed(1);
 
@@ -47,13 +48,25 @@ export const handlers = [
       return HttpResponse.json(...resultArray[next() % resultArray.length]);
     }
   ),
-  http.get(`${baseURL}/areas/:areaCode`, async ({ params }) => {
+  http.get(`${baseURL}/areas/:areaCode`, async ({ request, params }) => {
     const areaCode = params.areaCode;
+
+    const url = new URL(request.url);
+    const includeChildren = url.searchParams.get('include_children') ?? 'false';
+    const childAreaType = url.searchParams.get('child_area_type') ?? '';
+
+    console.log(`includeChildren ${includeChildren}`);
+    console.log(`childAreaType ${childAreaType}`);
 
     if (typeof areaCode !== 'string') {
       return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
     }
-    const resultArray = [[getGetArea200Response(areaCode), { status: 200 }]];
+    const resultArray = [
+      [
+        getGetArea200Response(areaCode, includeChildren, childAreaType),
+        { status: 200 },
+      ],
+    ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -114,8 +127,25 @@ export function getGetAreaTypeMembers200Response(areaTypeKey: AreaTypeKeys) {
   return mockAvailableAreas[areaTypeKey];
 }
 
-export function getGetArea200Response(areaCode: string) {
-  return mockAreaData[areaCode];
+export function getGetArea200Response(
+  areaCode: string,
+  includeChildren: string,
+  childAreaType: string
+): AreaWithRelations {
+  const mockDataForArea = mockAreaData[areaCode];
+
+  if (includeChildren === 'true') {
+    const filteredChildrenByType = mockDataForArea.children?.filter((area) => {
+      return area.areaType.key === childAreaType;
+    });
+
+    return {
+      ...mockDataForArea,
+      children: filteredChildrenByType,
+    };
+  }
+
+  return mockDataForArea;
 }
 
 export function getGetAreaRoot200Response() {
