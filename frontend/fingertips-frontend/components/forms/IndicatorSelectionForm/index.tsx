@@ -18,6 +18,7 @@ type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
   searchState?: SearchStateParams;
   formAction: (payload: FormData) => void;
+  currentDate?: Date;
 };
 
 const isIndicatorSelected = (
@@ -33,6 +34,7 @@ export function IndicatorSelectionForm({
   searchResults,
   searchState,
   formAction,
+  currentDate,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -56,7 +58,13 @@ export function IndicatorSelectionForm({
   };
 
   return (
-    <form action={formAction} data-testid="indicator-selection-form">
+    <form
+      action={formAction}
+      data-testid="indicator-selection-form"
+      style={{
+        wordBreak: 'break-word',
+      }}
+    >
       <input
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
@@ -77,6 +85,7 @@ export function IndicatorSelectionForm({
               )}
               searchState={searchState}
               handleClick={handleClick}
+              currentDate={currentDate}
             />
           ))}
         </UnorderedList>

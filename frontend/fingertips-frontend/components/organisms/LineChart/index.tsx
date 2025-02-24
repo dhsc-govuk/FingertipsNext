@@ -7,7 +7,6 @@ import {
   sortHealthDataForAreasByDate,
 } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { H3 } from 'govuk-react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
@@ -15,8 +14,7 @@ import 'highcharts/highcharts-more';
 import { useSearchParams } from 'next/navigation';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
-export interface LineChartProps {
-  LineChartTitle?: string;
+interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
   accessibilityLabel?: string;
@@ -35,7 +33,6 @@ const chartSymbols: SymbolKeyValue[] = [
 const chartName = 'lineChart';
 
 export function LineChart({
-  LineChartTitle: lineChartTitle,
   healthIndicatorData,
   xAxisTitle,
   accessibilityLabel,
@@ -114,7 +111,6 @@ export function LineChart({
 
   return (
     <div data-testid="lineChart-component">
-      <H3>{lineChartTitle}</H3>
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={lineChartCI}
