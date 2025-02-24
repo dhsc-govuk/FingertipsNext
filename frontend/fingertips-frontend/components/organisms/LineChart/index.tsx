@@ -112,9 +112,10 @@ export function LineChart({
   };
 
   useEffect(() => {
-    loadHighchartsModules(async () => {
+    loadHighchartsModules(() => {
       setOptions(lineChartOptions);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [confidenceIntervalSelected]);
 
   if (!options) {

@@ -11,12 +11,10 @@ const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'See how the indicator has changed over time';
 
-const assertLineChartAndTableInDocument = async () => {
-  expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
-  expect(await screen.findByTestId(lineChartTableTestId)).toBeInTheDocument();
-  expect(
-    await screen.findByTestId(lineChartContainerTestId)
-  ).toBeInTheDocument();
+const assertLineChartAndTableInDocument = () => {
+  expect(screen.getByTestId(lineChartTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
 
   expect(
     screen.getByRole('heading', {
@@ -39,6 +37,25 @@ const assertLineChartAndTableNotInDocument = () => {
   ).not.toBeInTheDocument();
 };
 
+const mockPopulationData: PopulationDataForArea = {
+  ageCategories: [],
+  femaleSeries: [],
+  maleSeries: [],
+};
+
+const state: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: 'test',
+  [SearchParams.IndicatorsSelected]: ['1', '2'],
+};
+
+jest.mock('@/components/organisms/LineChart/', () => {
+  return {
+    LineChart: function LineChart() {
+      return <div data-testid="lineChart-component"></div>;
+    },
+  };
+});
+
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
     ThematicMap: function ThematicMap() {
@@ -58,17 +75,6 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
-
-const mockPopulationData: PopulationDataForArea = {
-  ageCategories: [],
-  femaleSeries: [],
-  maleSeries: [],
-};
-
-const state: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: 'test',
-  [SearchParams.IndicatorsSelected]: ['1', '2'],
-};
 
 describe('Page structure', () => {
   describe('Navigation', () => {
@@ -111,8 +117,8 @@ describe('Content', () => {
     );
   });
 
-  it('should render the chart components', async () => {
-    await assertLineChartAndTableInDocument();
+  it('should render the chart components', () => {
+    assertLineChartAndTableInDocument();
     expect(screen.getByTestId('barChart-component')).toBeInTheDocument();
   });
 });
