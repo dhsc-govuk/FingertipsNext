@@ -13,9 +13,6 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     usePathname: () => mockPath,
-    useSearchParams: () => ({
-      [SearchParams.ConfidenceIntervalSelected]: 'example chart',
-    }),
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
