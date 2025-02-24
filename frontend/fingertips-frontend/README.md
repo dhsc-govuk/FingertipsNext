@@ -95,26 +95,26 @@ For local development we also have the option to run the tests locally against m
 npm run test
 ```
 
-### Running the E2E tests
+### Running the Playwright UI and E2E tests
 
-To run the e2e tests locally against mock data headlessly:
+To run the ui tests locally against mock data headlessly:
 
 ```bash
-npm run test-e2e
+npm run test-ui-local-mocks
 ```
 
-To debug e2e test failures its best to run them using UI Mode:
+To debug ui test failures its best to run them using UI Mode:
 
 ```bash
 npx playwright test --ui
 ```
 
-To run the e2e tests locally against a local dockerised container fingertips instance headlessly:
+To run the e2e tests locally, which uses a local dockerised container fingertips instance headlessly:
 
 ```bash
 npm run test-e2e-local-docker
 ```
-You will need to have docker running locally first before executing this command.
+You will need to have docker running first before executing this command.
 
 If you wish to use UI mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 

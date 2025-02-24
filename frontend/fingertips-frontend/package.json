@@ -20,7 +20,6 @@
     "test-ci": "jest --ci --silent",
     "test-ui-local-mocks": "playwright test isolated_ui_tests",
     "test-e2e-local-docker": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests || true && npm run stop:all",
-    "test-e2e-local-docker-with-debug": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests --ui || true && npm run stop:all",
     "test-e2e-ci-docker": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"
