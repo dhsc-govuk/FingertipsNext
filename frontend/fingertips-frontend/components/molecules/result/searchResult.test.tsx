@@ -52,7 +52,7 @@ it('should have search result list item', () => {
   expect(screen.getByRole('listitem')).toBeInTheDocument();
 });
 
-it('should contain 3 paragraphs and a heading', () => {
+it('should contain 2 paragraphs and a heading', () => {
   render(
     <SearchResult
       result={MOCK_DATA[0]}
@@ -61,7 +61,7 @@ it('should contain 3 paragraphs and a heading', () => {
     />
   );
 
-  expect(screen.getAllByRole('paragraph')).toHaveLength(3);
+  expect(screen.getAllByRole('paragraph')).toHaveLength(2);
   expect(screen.getByRole('heading')).toBeInTheDocument();
 });
 
@@ -77,9 +77,6 @@ it('should contain expected text', () => {
   expect(screen.getByRole('heading').textContent).toContain('NHS');
   expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
   expect(screen.getAllByRole('paragraph').at(1)?.textContent).toContain(
-    'NHS website'
-  );
-  expect(screen.getAllByRole('paragraph').at(2)?.textContent).toContain(
     '06 December 2024'
   );
 });

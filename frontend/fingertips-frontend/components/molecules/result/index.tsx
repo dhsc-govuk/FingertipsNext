@@ -117,7 +117,6 @@ export function SearchResult({
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-            <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>

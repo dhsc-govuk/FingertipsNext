@@ -72,7 +72,6 @@ describe('IndicatorSelectionForm', () => {
     searchResults.forEach((searchResult, index) => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
         formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
       );
