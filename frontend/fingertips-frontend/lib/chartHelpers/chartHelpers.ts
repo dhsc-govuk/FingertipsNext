@@ -4,13 +4,7 @@ import { areaCodeForEngland } from './constants';
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
 ): HealthDataForArea[] {
-  return data.map((area) =>
-    sortHealthDataForAreaByDate(area)
-    //   {
-    //   ...area,
-    //   healthData: area.healthData.toSorted((a, b) => a.year - b.year),
-    // }
-  );
+  return data.map((area) => sortHealthDataForAreaByDate(area));
 }
 
 export function sortHealthDataForAreaByDate(
