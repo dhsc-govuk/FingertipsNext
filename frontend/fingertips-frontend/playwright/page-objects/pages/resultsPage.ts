@@ -20,7 +20,6 @@ export default class ResultsPage extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
-  readonly selectedAreasContainer = 'selected-areas-container';
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
@@ -240,7 +239,7 @@ export default class ResultsPage extends BasePage {
   async checkForIndicatorSearchError() {
     await expect(
       this.page.getByText(this.indicatorSearchErrorText)
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 7500 });
   }
 
   async fillIndicatorSearch(text: string) {

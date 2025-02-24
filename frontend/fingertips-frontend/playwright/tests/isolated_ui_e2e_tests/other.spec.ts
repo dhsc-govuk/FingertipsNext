@@ -1,6 +1,7 @@
 import { test } from '../../page-objects/pageFactory';
 import { IndicatorMode } from '../../page-objects/pages/chartPage';
 import { sortAlphabetically } from '../../testHelpers';
+// make data dynamic based on outcome of test data call
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -110,6 +111,7 @@ test('client validation testing and navigation behaviour', async ({
     );
   });
 });
+
 test('check area type pills on results page when areas specified in url', async ({
   resultsPage,
 }) => {

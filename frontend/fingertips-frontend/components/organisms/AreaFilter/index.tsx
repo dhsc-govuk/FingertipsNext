@@ -121,7 +121,7 @@ export function AreaFilter({
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
-        <StyledFilterSelectedAreaDiv data-testid="selected-areas-container">
+        <StyledFilterSelectedAreaDiv>
           <StyledFilterLabel>
             {`Selected areas (${selectedAreasData?.length ?? 0})`}
           </StyledFilterLabel>

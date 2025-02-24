@@ -38,7 +38,7 @@ export default class ChartPage extends BasePage {
     indicatorMode: IndicatorMode,
     areaMode: AreaMode
   ): ScenarioConfig {
-    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148
+    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
     // const defaultVisible = [this.populationPyramidComponent];
     const defaultVisible: never[] = [];
 
@@ -60,23 +60,23 @@ export default class ChartPage extends BasePage {
       hiddenComponents: [],
     };
 
-    // Map of three supported scenarios, the core journeys, to their configurations
-    const scenarioConfigs = new Map<string, ScenarioConfig>([
+    // Map of three supported scenarios, known as the core journeys, to their configurations
+    const scenarioConfigs = new Map<[IndicatorMode, AreaMode], ScenarioConfig>([
+      [[IndicatorMode.ONE_INDICATOR, AreaMode.ONE_AREA], singleIndicatorConfig],
       [
-        `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ONE_AREA}`,
-        singleIndicatorConfig,
-      ],
-      [
-        `${IndicatorMode.TWO_INDICATORS}_${AreaMode.TWO_AREAS}`,
+        [IndicatorMode.TWO_INDICATORS, AreaMode.TWO_AREAS],
         { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
       ],
       [
-        `${IndicatorMode.MULTIPLE_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
+        [IndicatorMode.MULTIPLE_INDICATORS, AreaMode.ENGLAND_AREA],
         { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
       ],
     ]);
 
-    const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
+    const config = Array.from(scenarioConfigs.entries()).find(
+      ([[mode, area]]) => mode === indicatorMode && area === areaMode
+    )?.[1];
+
     if (!config) {
       throw new Error(
         `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not one of the three core journeys`
