@@ -147,7 +147,7 @@ it('should _not_ render the ThematicMap component when map props are _not_ provi
 });
 
 describe('should display inequalities', () => {
-  it('should display inequalities sex table when single indicator and a single area is selected', () => {
+  it('should display inequalities when single indicator and a single area is selected', () => {
     render(
       <Chart
         healthIndicatorData={[mockHealthData['318']]}
@@ -156,12 +156,10 @@ describe('should display inequalities', () => {
       />
     );
 
-    expect(
-      screen.queryByTestId('inequalitiesSexTable-component')
-    ).toBeInTheDocument();
+    expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
   });
 
-  it('should not display inequalities sex table when multiple indicators are selected', () => {
+  it('should not display inequalities when multiple indicators are selected', () => {
     render(
       <Chart
         healthIndicatorData={[mockHealthData['318']]}
@@ -171,7 +169,7 @@ describe('should display inequalities', () => {
     );
 
     expect(
-      screen.queryByTestId('inequalitiesSexTable-component')
+      screen.queryByTestId('inequalities-component')
     ).not.toBeInTheDocument();
   });
 
@@ -185,7 +183,7 @@ describe('should display inequalities', () => {
     );
 
     expect(
-      screen.queryByTestId('inequalitiesSexTable-component')
+      screen.queryByTestId('inequalities-component')
     ).not.toBeInTheDocument();
   });
 });

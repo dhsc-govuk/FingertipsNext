@@ -17,8 +17,8 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { InequalitiesTable } from '@/components/molecules/Inequalities/Table';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { Inequalities } from '@/components/organisms/Inequalities';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -108,7 +108,7 @@ export function Chart({
       )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <InequalitiesTable healthIndicatorData={dataWithoutEngland[0]} />
+        <Inequalities healthIndicatorData={dataWithoutEngland[0]} />
       )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
