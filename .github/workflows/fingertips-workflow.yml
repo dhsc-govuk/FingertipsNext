@@ -500,6 +500,6 @@ jobs:
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.0-jammy
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
