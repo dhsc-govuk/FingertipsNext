@@ -7,13 +7,18 @@ env:
 
 on:
   workflow_call:
+    inputs:
+      ui-test-container-image:
+        description: 'container image to run the ui tests in'
+        required: true
+        type: string
 
 jobs:
   execute-ui-tests:
     name: Execute ui tests
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.50.1-noble
+      image: ${{ inputs.e2e-test-container-image }}
 
     defaults:
       run:
@@ -32,7 +37,6 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v3
-        id: npm-cache
         with:
           path: |
             ${{ env.frontend-directory }}/node_modules
@@ -40,7 +44,6 @@ jobs:
           restore-keys: ${{ runner.os }}-deps-
 
       - name: Install dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run Playwright ui tests
