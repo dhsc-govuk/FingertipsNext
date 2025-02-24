@@ -47,7 +47,7 @@ namespace DataCreator
             var simpleAreasWeWant = areas.Select(area => new SimpleAreaWithRelations
             {
                 AreaCode = area.AreaCode.Trim(),
-                AreaName = area.AreaName.Replace(',',' ').Trim(),
+                AreaName = area.AreaName.Trim(),
                 Parents = string.Join('|', area.ParentAreas.Select(p => p.AreaCode.Trim())),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
