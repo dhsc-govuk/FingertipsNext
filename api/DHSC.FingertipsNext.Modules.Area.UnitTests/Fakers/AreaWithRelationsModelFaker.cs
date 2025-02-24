@@ -10,7 +10,7 @@ public class AreaWithRelationsModelFaker : Faker<AreaWithRelationsModel>
         StrictMode(true);
 
         RuleFor(a => a.Area, _ => Fake.AreaModel);
-        RuleFor(a => a.ParentArea, f => Fake.AreaModel);
+        RuleFor(a => a.ParentAreas, _ => new List<AreaModel> { Fake.AreaModel, Fake.AreaModel });
         RuleFor(a => a.Children, _ => new List<AreaModel> { Fake.AreaModel, Fake.AreaModel });
         RuleFor(a => a.Ancestors, _ => new List<AreaModel> { Fake.AreaModel, Fake.AreaModel });
         RuleFor(a => a.Siblings, _ => new List<AreaModel> { Fake.AreaModel, Fake.AreaModel });

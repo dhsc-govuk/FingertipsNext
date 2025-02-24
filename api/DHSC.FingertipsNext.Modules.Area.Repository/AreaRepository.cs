@@ -1,7 +1,9 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -102,7 +104,7 @@ public class AreaRepository : IAreaRepository
         if (!parents.IsNullOrEmpty())
         {
             // Todo - should return all parents
-            areasWithRelations.ParentArea = parents[0];
+            areasWithRelations.ParentAreas = parents;
         }
 
         if (includeChildren)
@@ -117,7 +119,7 @@ public class AreaRepository : IAreaRepository
 
         if (includeSiblings && !parents.IsNullOrEmpty())
         {
-            areasWithRelations.Siblings = await GetSiblingAreas(area, parents);
+            areasWithRelations.Siblings = await GetSiblingAreas(area);
         }
 
         return areasWithRelations;
@@ -341,11 +343,9 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="areaWithRelations"></param>
     /// <param name="area"></param>
-    /// <param name="parent"></param>
     /// 
     private async Task<List<AreaModel>> GetSiblingAreas(
-        AreaModel childArea,
-        List<AreaModel> parentAreas
+        AreaModel childArea
     )
     {
         return await _dbContext
@@ -363,7 +363,12 @@ public class AreaRepository : IAreaRepository
                   a.AreaKey = ar.ChildAreaKey
                 WHERE ar.ParentAreaKey IN 
                 (
-                  { string.Join(',', parentAreas.Select((p) => p.AreaKey)) }  
+                  SELECT 
+                    ParentAreaKey 
+                  FROM
+                    Areas.AreaRelationships
+                  WHERE
+                    ChildAreaKey = { childArea.AreaKey } 
                 ) AND a.AreaKey != { childArea.AreaKey }
                 """
             )
