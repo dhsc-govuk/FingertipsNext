@@ -79,11 +79,7 @@ public class AreaServiceTests
     [Fact]
     public void GetRootArea_ShouldReturnEnglandAlways()
     {
-        var mockArea = Fake.AreaModel;
-        _mockRepository.GetRootAreaAsync().Returns(mockArea);
-
         var result =  _service.GetRootArea();
-
         result.ShouldBeEquivalentTo(new RootArea { Name="England", Code="E92000001"});
     }
 

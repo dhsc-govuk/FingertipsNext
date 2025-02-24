@@ -15,12 +15,12 @@ public class AreaRelationshipModel
     /// <summary>
     /// The parent area in the relationship
     /// </summary>
-    [ForeignKey("AreaKey1")]
+    [ForeignKey("AreaKey_Parent")]
     public required AreaModel ParentAreaKey { get; set; }
 
     /// <summary>
     /// The child area in the relationship
     /// </summary>
-    [ForeignKey("AreaKey2")]
+    [ForeignKey("AreaKey_Child")]
     public required AreaModel ChildAreaKey { get; set; }
 }
