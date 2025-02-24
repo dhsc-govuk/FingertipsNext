@@ -316,15 +316,14 @@ public class AreaRepository : IAreaRepository
                     Areas.Areas a ON a.AreaKey = ar.ParentAreaKey
                 INNER JOIN recursive_cte ON recursive_cte.ParentAreaKey = ar.ChildAreaKey
                    	)
-                SELECT
+                SELECT DISTINCT
                    	Node,
                     AreaKey,
                     AreaCode,
                     AreaName,
                     AreaTypeKey
                 FROM
-                   	recursive_cte
-                              
+                   	recursive_cte          
                 """
             )
             .ToListAsync();

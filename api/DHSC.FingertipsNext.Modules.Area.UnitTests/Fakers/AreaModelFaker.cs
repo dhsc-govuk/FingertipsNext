@@ -9,7 +9,6 @@ public class AreaModelFaker: Faker<AreaModel>
     public AreaModelFaker()
     {
         StrictMode(true);
-        RuleFor(a => a.Node, f => new HierarchyId());
         RuleFor(a => a.AreaKey, f => f.IndexFaker);
         RuleFor(a => a.AreaName, f => f.Lorem.Sentence(4));
         RuleFor(a => a.AreaCode, f => f.Random.Guid().ToString());

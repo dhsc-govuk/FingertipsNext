@@ -11,15 +11,12 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 [Table("Areas", Schema = "Areas")]
 public class AreaModel
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [Key]
-    public required HierarchyId Node { get; set; }
+
 
     /// <summary>
     /// The unique area key of the area - this is a surrogate key
     /// </summary>
+    [Key]
     public required int AreaKey { get; set; }
 
     /// <summary>
