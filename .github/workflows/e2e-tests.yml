@@ -43,15 +43,16 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v3
+        id: npm-cache
         with:
           path: |
             ${{ env.frontend-directory }}/node_modules
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-
+          restore-keys: ${{ runner.os }}-deps-
 
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Create .env file for db-setup - for CI test execution
@@ -62,7 +63,7 @@ jobs:
           echo "DB_USER=sa" >> .env
 
       - name: Install playwright dependencies - for CI test execution
-        if: inputs.e2e-test-container-image == null
+        if: inputs.e2e-test-container-image == null && steps.npm-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium webkit
 
       - name: Run Playwright tests in CI
