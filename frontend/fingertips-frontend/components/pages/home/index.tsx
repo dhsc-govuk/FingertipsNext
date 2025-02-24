@@ -28,10 +28,7 @@ interface HomeProps {
   searchState?: SearchStateParams;
   initialFormState: SearchFormState;
 }
-export const Home = ({
-  searchState: searchStates,
-  initialFormState,
-}: HomeProps) => {
+export const Home = ({ searchState, initialFormState }: HomeProps) => {
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState
@@ -84,7 +81,7 @@ export const Home = ({
       </UnorderedList>
       <br />
       <div id="search">
-        <SearchForm searchState={searchStates} formState={formState} />
+        <SearchForm searchState={searchState} formState={formState} />
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>
