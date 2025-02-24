@@ -54,7 +54,11 @@ const highlightText = (text: string, searchHint: string) => {
   const parts = text.split(new RegExp(`(${searchHint})`, 'gi'));
   return parts.map((part, index) => {
     if (part.toLowerCase() === searchHint.toLowerCase()) {
-      return <StyleHighLightedText key={"highlight_"+ index}>{part}</StyleHighLightedText>;
+      return (
+        <StyleHighLightedText key={'highlight_' + index}>
+          {part}
+        </StyleHighLightedText>
+      );
     }
     return part;
   });
