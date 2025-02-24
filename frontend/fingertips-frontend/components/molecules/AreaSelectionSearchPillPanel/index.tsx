@@ -51,7 +51,7 @@ export const AreaAutoCompletePillPanel = memo(
                   }
                 }}
                 selectedFilterId={'pill_' + area.areaCode + area.areaName}
-                selectedFilterName={area.areaName + '-' + area.areaCode}
+                selectedFilterName={area.areaName}
               />
             </StyleAreaAutoCompletePillPanelItem>
           ))}

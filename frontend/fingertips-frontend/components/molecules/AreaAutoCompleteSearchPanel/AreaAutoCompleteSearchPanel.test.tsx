@@ -39,7 +39,7 @@ describe('test AreaAutoCompleteSearchPanel', () => {
         inputFieldErrorStatus={false}
       />
     );
-    expect(screen.getByText('London-001')).toBeInTheDocument();
-    expect(screen.getByText('Manchester-002')).toBeInTheDocument();
+    expect(screen.getByText('London')).toBeInTheDocument();
+    expect(screen.getByText('Manchester')).toBeInTheDocument();
   });
 });

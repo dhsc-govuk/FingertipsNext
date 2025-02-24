@@ -513,7 +513,7 @@ exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
                 class="c17 c18"
               >
                 <p>
-                  Some area name-GPs
+                  Some area name
                 </p>
               </div>
             </div>
