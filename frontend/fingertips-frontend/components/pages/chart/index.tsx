@@ -17,6 +17,7 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { ChartViewsSkeleton } from '@/components/organisms/ChartViewsSkeleton';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -60,6 +61,7 @@ export function Chart({
 
   return (
     <>
+      <ChartViewsSkeleton />
       <BackLink
         data-testid="chart-page-back-link"
         href={backLinkPath}
