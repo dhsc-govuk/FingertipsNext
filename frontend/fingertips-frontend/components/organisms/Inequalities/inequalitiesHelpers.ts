@@ -41,11 +41,13 @@ export const getDynamicKeys = (
     return allKeys;
   }, []);
 
+  const uniqueKeys = [...new Set(existingKeys)];
+
   return isSex
-    ? [...new Set(existingKeys)]
+    ? uniqueKeys
         .map((header) => (header === Sex.ALL ? 'Persons' : header))
         .toSorted((a, b) => b.localeCompare(a))
-    : [...new Set(existingKeys)];
+    : uniqueKeys;
 };
 
 export const shouldDisplayInequalities = (
