@@ -43,7 +43,6 @@ export default async function ChartPage(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const areaApi = ApiClientFactory.getAreasApiClient();
 
-  // const parentAreaCode = 'A1245'
   let parentAreaCode: string | undefined;
   if (indicatorsSelected.length === 1 && areasSelected.length <= 2) {
     try {

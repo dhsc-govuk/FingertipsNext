@@ -40,12 +40,7 @@ export function LineChart({
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
-    try {
-      await import('highcharts/highcharts-more');
-      callback();
-    } catch (error) {
-      console.log('highcharts more module not loading', error);
-    }
+    await import('highcharts/highcharts-more').then(callback);
   };
 
   const {

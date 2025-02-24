@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
   showConfidenceIntervalsData: boolean;
-  searchState?: SearchStateParams;
+  searchState: SearchStateParams;
 };
 
 export function ConfidenceIntervalCheckbox({

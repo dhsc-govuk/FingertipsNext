@@ -25,8 +25,10 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A1245'],
   [SearchParams.ConfidenceIntervalSelected]: ['lineChart'],
 };
+
 it('should render the Highcharts react component with passed parameters within the LineChart component', async () => {
   const xAxisPropsTitle = 'DifferentXTitle';
+
   render(
     <LineChart
       healthIndicatorData={mockHealthData[1]}

@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox/index';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { userEvent } from '@testing-library/user-event';
 
 const mockPath = 'some-mock-path';
@@ -19,12 +19,16 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const state: SearchStateParams = {
+  [SearchParams.ConfidenceIntervalSelected]: ['example chart'],
+};
 describe('ConfidenceIntervalCheckbox', () => {
   it('should check the checkbox when it is clicked', async () => {
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
+        searchState={state}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
@@ -37,6 +41,7 @@ describe('ConfidenceIntervalCheckbox', () => {
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={false}
+        searchState={state}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
@@ -55,6 +60,7 @@ describe('ConfidenceIntervalCheckbox', () => {
       <ConfidenceIntervalCheckbox
         chartName="example chart"
         showConfidenceIntervalsData={true}
+        searchState={state}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
