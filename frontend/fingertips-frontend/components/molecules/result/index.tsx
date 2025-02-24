@@ -7,6 +7,7 @@ import {
   GridCol,
   Checkbox,
   Link,
+  Tag,
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
@@ -16,19 +17,28 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { TagColours } from '@/lib/styleHelpers/colours';
+import { isWithinOneMonth } from '@/lib/dateHelpers/dateComparison';
 
 type SearchResultProps = {
   result: IndicatorDocument;
   indicatorSelected?: boolean;
   searchState?: SearchStateParams;
   handleClick: (indicatorId: string, checked: boolean) => void;
+  currentDate?: Date;
 };
 
 const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 19, lineHeight: '1.2' })
 );
 
-const StyledRow = styled(GridRow)(
+const FinalParagraph = styled(StyledParagraph)(
+  spacing.withWhiteSpace({
+    margin: [{ size: 2, direction: 'bottom' }],
+  })
+);
+
+const PrimaryRow = styled(GridRow)(
   spacing.withWhiteSpace({
     padding: [
       { size: 3, direction: 'top' },
@@ -36,6 +46,25 @@ const StyledRow = styled(GridRow)(
     ],
   })
 );
+
+const TagRow = styled(GridRow)(
+  spacing.withWhiteSpace({
+    margin: [{ size: 1, direction: 'top' }],
+    padding: [
+      { size: 0, direction: 'top' },
+      { size: 0, direction: 'bottom' },
+    ],
+  })
+);
+
+const GreyTag = styled(Tag)({
+  padding: '5px 8px 4px 8px',
+  alignItems: 'center',
+  fontWeight: '300',
+  textTransform: 'unset',
+  color: TagColours.GreyText,
+  backgroundColor: TagColours.GreyBackground,
+});
 
 export function formatDate(date: Date | undefined): string {
   if (!date) return 'unknown';
@@ -51,6 +80,7 @@ export function SearchResult({
   indicatorSelected,
   searchState,
   handleClick,
+  currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -67,7 +97,7 @@ export function SearchResult({
 
   return (
     <ListItem data-testid="search-result">
-      <StyledRow>
+      <PrimaryRow>
         <GridCol>
           <Checkbox
             id={`search-results-indicator-${result.indicatorID.toString()}`}
@@ -88,10 +118,23 @@ export function SearchResult({
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
             <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
-            <StyledParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</StyledParagraph>
+            <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
+            <TagRow>
+              <GridCol>
+                {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
+                  <GreyTag data-testid="tag-recent-indicator">
+                    Updated in last month
+                  </GreyTag>
+                ) : (
+                  <></>
+                )}
+              </GridCol>
+              <GridCol></GridCol>
+              <GridCol></GridCol>
+            </TagRow>
           </Checkbox>
         </GridCol>
-      </StyledRow>
+      </PrimaryRow>
       <SectionBreak visible={true} />
     </ListItem>
   );
