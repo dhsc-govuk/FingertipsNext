@@ -1,6 +1,6 @@
-import { test } from '../page-objects/pageFactory';
-import { AreaMode, IndicatorMode } from '../page-objects/pages/chartPage';
-import { sortAlphabetically } from '../testHelpers';
+import { test } from '../../page-objects/pageFactory';
+import { IndicatorMode } from '../../page-objects/pages/chartPage';
+import { sortAlphabetically } from '../../testHelpers';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -41,11 +41,13 @@ test('check available area types when no areas are selected when coming onto the
   });
 });
 
-test('client validation testing and navigate back behaviour', async ({
+test('client validation testing and navigation behaviour', async ({
   homePage,
   resultsPage,
   chartPage,
 }) => {
+  const indicatorMode = IndicatorMode.ONE_INDICATOR;
+
   await test.step('Search page validation', async () => {
     await homePage.navigateToHomePage();
     await homePage.checkOnHomePage();
@@ -73,20 +75,16 @@ test('client validation testing and navigate back behaviour', async ({
     await resultsPage.checkSearchResultsTitle(searchTerm);
   });
 
-  await test.step('Select single indicator, let area default to England and view charts', async () => {
-    // await resultsPage.selectIndicatorCheckboxesAndCheckURL(
-    //   allIndicatorIDs,
-    //   indicatorMode,
-    //   searchTerm
-    // );
-    // change this to just pick the first() indicator shown
+  await test.step('Select single indicator, let area default to England and check on charts page', async () => {
+    await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+      allIndicatorIDs,
+      indicatorMode,
+      searchTerm
+    );
 
     await resultsPage.clickViewChartsButton();
 
-    await chartPage.checkChartVisibility(
-      IndicatorMode.ONE_INDICATOR,
-      AreaMode.ENGLAND_AREA
-    );
+    await chartPage.waitForURLToContain('chart');
   });
 
   await test.step('Return to results page and verify selections are preselected', async () => {
@@ -115,8 +113,8 @@ test('client validation testing and navigate back behaviour', async ({
 test('check area type pills on results page when areas specified in url', async ({
   resultsPage,
 }) => {
-  await test.step('Search for a test indicator', async () => {
-    await resultsPage.navigateToResults('smoking', [
+  await test.step('Navigate directly to the results page', async () => {
+    await resultsPage.navigateToResults(searchTerm, [
       'E40000012',
       'E40000011',
       'E40000010',
@@ -171,6 +169,7 @@ test('check area type pills on results page when areas specified in url', async 
     await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000012/);
 
     await resultsPage.closeAreaFilterPill(0);
+    await test.expect(resultsPage.page).not.toHaveURL(/&as=E40000010/);
     await test.expect(resultsPage.page).not.toHaveURL(/&as=/);
 
     await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();

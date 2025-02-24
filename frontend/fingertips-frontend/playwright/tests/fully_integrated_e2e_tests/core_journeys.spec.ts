@@ -1,7 +1,7 @@
-import { test } from '../page-objects/pageFactory';
-import { getAllIndicatorIdsForSearchTerm } from '../testHelpers';
-import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
-import indicators from '../../../../search-setup/assets/indicators.json';
+import { test } from '../../page-objects/pageFactory';
+import { getAllIndicatorIdsForSearchTerm } from '../../testHelpers';
+import { IndicatorMode, AreaMode } from '../../page-objects/pages/chartPage';
+import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];

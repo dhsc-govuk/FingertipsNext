@@ -23,7 +23,7 @@ export default class ResultsPage extends BasePage {
   readonly selectedAreasContainer = 'selected-areas-container';
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
-  readonly removeIcon = 'remove-icon-div';
+  readonly removeIcon = 'x-icon';
 
   async navigateToResults(
     searchIndicator: string,

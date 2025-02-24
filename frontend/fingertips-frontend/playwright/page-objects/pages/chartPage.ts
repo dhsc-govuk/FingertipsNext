@@ -79,7 +79,7 @@ export default class ChartPage extends BasePage {
     const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
     if (!config) {
       throw new Error(
-        'Combination of indicator and area modes is not one of the three core journeys'
+        `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not one of the three core journeys`
       );
     }
 
