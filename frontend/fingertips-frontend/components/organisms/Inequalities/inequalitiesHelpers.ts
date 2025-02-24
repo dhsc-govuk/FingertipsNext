@@ -12,16 +12,15 @@ export const groupHealthDataByInequalities = (
 export const getYearDataGroupedByInequalities = (
   yearlyHealthData: Record<string, HealthDataPoint[] | undefined>
 ) => {
-  let yearlyDataGroupedByInequalities: Record<
+  const yearlyDataGroupedByInequalities: Record<
     string,
     Record<string, HealthDataPoint[] | undefined>
   > = {};
 
   for (const year in yearlyHealthData) {
-    yearlyDataGroupedByInequalities = {
-      ...yearlyDataGroupedByInequalities,
-      [year]: groupHealthDataByInequalities(yearlyHealthData[year] ?? []),
-    };
+    yearlyDataGroupedByInequalities[year] = groupHealthDataByInequalities(
+      yearlyHealthData[year] ?? []
+    );
   }
 
   return yearlyDataGroupedByInequalities;
@@ -36,8 +35,8 @@ export const getDynamicKeys = (
 ) => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
-  ).reduce((allKeys: string[], value) => {
-    allKeys = [...allKeys, ...Object.keys(value)];
+  ).reduce((allKeys: string[], currentInequalityKeys) => {
+    allKeys = [...allKeys, ...Object.keys(currentInequalityKeys)];
     return allKeys;
   }, []);
 
