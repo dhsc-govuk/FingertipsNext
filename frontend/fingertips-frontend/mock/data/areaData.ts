@@ -60,12 +60,6 @@ export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
   },
 };
 
-// const getAllChildrenWithinArea = (area: AreaWithRelations): Area[] => {
-//   const childrenAreas = area.children?.reduce((area) => {
-
-//   });
-// }
-
 export const mockAreaDataForRegionsStatistical: Record<
   string,
   AreaWithRelations
@@ -75,21 +69,21 @@ export const mockAreaDataForRegionsStatistical: Record<
     parent: {
       ...englandArea,
     },
-    children: [...allCountiesAndUAAreas],
+    children: [],
   },
   E12000002: {
     ...northWestRegion,
     parent: {
       ...englandArea,
     },
-    children: [...allCountiesAndUAAreas],
+    children: [],
   },
   E12000003: {
     ...yorkshireAndHumberRegion,
     parent: {
       ...englandArea,
     },
-    children: [...allCountiesAndUAAreas],
+    children: [],
   },
 };
 
@@ -100,9 +94,12 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
+      basildonAndBrentwoodICB,
+      cambridgeAndPeterboroughICB,
+      eastBasildonPCN,
+      centralBasildonPCN,
+      felmoresGP,
+      aryanGP,
     ],
   },
   E40000003: {
@@ -111,9 +108,12 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
+      northCentralLondonICB,
+      southEastLondonICB,
+      north2IslingtonPCN,
+      southCamdenPCN,
+      archwayGP,
+      goodingeGP,
     ],
   },
   E40000005: {
@@ -121,55 +121,35 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
     parent: {
       ...englandArea,
     },
-    children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
-    ],
+    children: [],
   },
   E40000006: {
     ...southWestNHSRegion,
     parent: {
       ...englandArea,
     },
-    children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
-    ],
+    children: [],
   },
   E40000010: {
     ...northWestRegion,
     parent: {
       ...englandArea,
     },
-    children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
-    ],
+    children: [],
   },
   E40000011: {
     ...midlandsNHSRegion,
     parent: {
       ...englandArea,
     },
-    children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
-    ],
+    children: [],
   },
   E40000012: {
     ...northEastAndYorkshireNHSRegion,
     parent: {
       ...englandArea,
     },
-    children: [
-      ...allIntegratedCareBoards,
-      ...allPrimaryCareNetworks,
-      ...allGpsAreas,
-    ],
+    children: [],
   },
 };
 
@@ -201,34 +181,34 @@ export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
   },
   E38000026: {
     ...cambridgeAndPeterboroughICB,
-    children: [...allPrimaryCareNetworks, ...allGpsAreas],
+    children: [],
   },
   E38000240: {
     ...northCentralLondonICB,
-    children: [...allPrimaryCareNetworks, ...allGpsAreas],
+    children: [north2IslingtonPCN, southCamdenPCN, archwayGP, goodingeGP],
   },
   E38000244: {
     ...southEastLondonICB,
-    children: [...allPrimaryCareNetworks, ...allGpsAreas],
+    children: [],
   },
 };
 
 export const mockAreaDataForPCN: Record<string, AreaWithRelations> = {
   U15488: {
     ...eastBasildonPCN,
-    children: [...allGpsAreas],
+    children: [felmoresGP, aryanGP],
   },
   U55146: {
     ...centralBasildonPCN,
-    children: [...allGpsAreas],
+    children: [],
   },
   U02795: {
     ...north2IslingtonPCN,
-    children: [...allGpsAreas],
+    children: [archwayGP, goodingeGP],
   },
   U05885: {
     ...southCamdenPCN,
-    children: [...allGpsAreas],
+    children: [],
   },
 };
 
