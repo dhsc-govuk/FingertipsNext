@@ -3,6 +3,8 @@ import { expect } from '@jest/globals';
 import {
   LineChartTable,
   LineChartTableHeadingEnum,
+  LineChartTableRowData,
+  mapToLineChartTableData,
 } from '@/components/organisms/LineChartTable/index';
 import {
   MOCK_ENGLAND_DATA,
@@ -302,6 +304,31 @@ describe('Line chart table suite', () => {
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * 13
+      );
+    });
+  });
+
+  describe('mapToLineChartTableData', () => {
+    it('should map to linechart table row data', () => {
+      const expectedRowData: LineChartTableRowData[] = [
+        {
+          period: 2008,
+          value: 890.305692,
+          count: 222,
+          upper: 578.32766,
+          lower: 441.69151,
+        },
+        {
+          count: 267,
+          lower: 441.69151,
+          period: 2004,
+          upper: 578.32766,
+          value: 703.420759,
+        },
+      ];
+
+      expect(mapToLineChartTableData(MOCK_HEALTH_DATA[0])).toEqual(
+        expectedRowData
       );
     });
   });

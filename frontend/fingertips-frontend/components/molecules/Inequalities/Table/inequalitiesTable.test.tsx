@@ -1,6 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesTable, InequalitiesSexTableHeadingsEnum } from '.';
+import {
+  InequalitiesTable,
+  InequalitiesSexTableHeadingsEnum,
+  InequalitiesSexTableRowData,
+  mapToInequalitiesTableData,
+} from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
 describe('Inequalities sex table suite', () => {
@@ -37,6 +42,40 @@ describe('Inequalities sex table suite', () => {
     screen
       .getAllByTestId('not-available')
       .forEach((id) => expect(id).toHaveTextContent('X'));
+  });
+
+  describe('mapToInequalitiesTableData', () => {
+    it('should map to inequalitiesSexTable row data', () => {
+      const groupedYearData = {
+        2004: {
+          Male: [MOCK_HEALTH_DATA[0].healthData[1]],
+          Female: [MOCK_HEALTH_DATA[0].healthData[2]],
+        },
+        2008: {
+          All: [MOCK_HEALTH_DATA[1].healthData[0]],
+          Male: [MOCK_HEALTH_DATA[1].healthData[1]],
+          Female: [MOCK_HEALTH_DATA[1].healthData[2]],
+        },
+      };
+
+      const expectedInequalitiesSexTableRow: InequalitiesSexTableRowData[] = [
+        {
+          period: 2004,
+          Male: 703.420759,
+          Female: 703.420759,
+        },
+        {
+          period: 2008,
+          All: 135.149304,
+          Male: 890.328253,
+          Female: 890.328253,
+        },
+      ];
+
+      expect(mapToInequalitiesTableData(groupedYearData)).toEqual(
+        expectedInequalitiesSexTableRow
+      );
+    });
   });
 
   it('snapshot test - should match snapshot', () => {
