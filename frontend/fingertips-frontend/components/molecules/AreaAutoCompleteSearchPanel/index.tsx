@@ -74,11 +74,8 @@ export default function AreaAutoCompleteInputField({
         (selectedArea) => selectedArea.areaCode !== area.areaCode
       );
       setSelectedAreas(areas);
-      //now we can let the users know the areas selected.
-      if (onAreaSelected) {
-        if (areas.length == 0) {
-          onAreaSelected(undefined);
-        }
+      if (onAreaSelected && areas.length === 0) {
+        onAreaSelected(undefined);
       }
     },
     [selectedAreas, onAreaSelected]

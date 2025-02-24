@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test AreaAutoCompleteSearchPanel take a component snapshot 1`] = `
+exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
 <DocumentFragment>
   .c4 {
   font-family: "nta",Arial,sans-serif;

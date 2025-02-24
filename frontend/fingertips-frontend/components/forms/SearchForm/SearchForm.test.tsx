@@ -2,25 +2,22 @@ import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
-
+const mockPath = 'some path';
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
   return {
     ...originalModule,
-    useActionState: jest
-      .fn()
-      .mockImplementation(
-        (
-          _: (
-            formState: SearchFormState,
-            formData: FormData
-          ) => Promise<SearchFormState>,
-          initialState: SearchFormState
-        ) => [initialState, '/action']
-      ),
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: jest.fn(),
+    })),
   };
 });
+
+const mockSearchState: SearchStateParams = {};
 
 const initialDataState: SearchFormState = {
   indicator: 'indicator',
@@ -35,6 +32,7 @@ jest.mock('next/navigation', () => ({
     set: jest.fn(),
   }),
   useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  usePathname: jest.fn(),
 }));
 
 const setupUI = (initialState: SearchFormState | null = null) => {
@@ -48,13 +46,14 @@ const setupUI = (initialState: SearchFormState | null = null) => {
   if (initialState == null) {
     initialState = initialDataState;
   }
-  const container = render(<SearchForm searchFormState={initialState} />);
+  const container = render(
+    <SearchForm formState={initialState} searchState={mockSearchState} />
+  );
 
   return { container };
 };
 it('snapshot test - renders the form', () => {
   const { container } = setupUI();
-
   expect(container.asFragment()).toMatchSnapshot();
 });
 

@@ -1,9 +1,9 @@
 import { ListItem, UnorderedList } from 'govuk-react';
 import styled from 'styled-components';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, AREA_TYPE_GP } from '@/lib/search/searchTypes';
 
 function formatAreaName(area: AreaDocument): string {
-  return area.areaType === 'GP'
+  return area.areaType === AREA_TYPE_GP
     ? `${area.areaCode} - ${area.areaName}`
     : area.areaName;
 }

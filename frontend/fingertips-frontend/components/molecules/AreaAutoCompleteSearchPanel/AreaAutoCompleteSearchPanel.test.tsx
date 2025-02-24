@@ -7,7 +7,7 @@ jest.mock('@/components/forms/SearchForm/searchActions', () => ({
   getSearchSuggestions: jest.fn(),
 }));
 
-describe('test AreaAutoCompleteSearchPanel', () => {
+describe('AreaAutoCompleteInputField', () => {
   const mockOnAreaSelected = jest.fn();
   const mockAreas: AreaDocument[] = [
     { areaCode: '001', areaName: 'London', areaType: 'GPs' },

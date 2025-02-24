@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test AreaSelectionSearchPillPanel take a snapshot of component and it renders correctly 1`] = `
+exports[`AreaSelectionSearchPillPanel take a snapshot of component and it renders correctly 1`] = `
 <DocumentFragment>
   .c5 {
   font-family: "nta",Arial,sans-serif;

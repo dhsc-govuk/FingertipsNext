@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { AreaAutoCompleteFilterPanel } from './index'; // Adjust the import path if necessary
+import { AreaAutoCompleteFilterPanel } from './index';
 
-// Sample data for the test based on the provided AreaDocument structure
 const sampleAreas = [
   {
     areaCode: 'A82647',
@@ -50,7 +49,7 @@ const sampleAreas = [
   },
 ];
 
-describe('test AreaFilterPanel', () => {
+describe('AreaFilterPanel', () => {
   test('should render the link with the correct text when areas are not null', () => {
     render(<AreaAutoCompleteFilterPanel areas={sampleAreas} />);
     const link = screen.getByTestId('search-form-link-filter-area');

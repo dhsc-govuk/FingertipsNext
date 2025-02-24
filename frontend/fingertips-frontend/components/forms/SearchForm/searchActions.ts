@@ -45,10 +45,11 @@ export async function searchIndicator(
     };
   }
 
-  const { indicator } = validatedFields.data;
+  const { indicator, areaSearched } = validatedFields.data;
 
   const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: indicator,
+    [SearchParams.AreasSelected]: areaSearched ? [areaSearched] : [],
   });
   redirect(searchState.generatePath('/results'), RedirectType.push);
 }

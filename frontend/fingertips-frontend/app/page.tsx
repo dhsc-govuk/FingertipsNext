@@ -1,6 +1,11 @@
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { Home } from '@/components/pages/home';
-import { getArea } from '@/components/forms/SearchForm/searchActions';
+
+import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 
 export default async function Page(
   props: Readonly<{
@@ -8,19 +13,23 @@ export default async function Page(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator =
-    searchParams?.[SearchParams.SearchedIndicator] ?? '';
-  const selectedAreaCode = searchParams?.[SearchParams.AreasSelected] ?? [];
-  const areaDocument = selectedAreaCode.length
-    ? await getArea(selectedAreaCode[0])
-    : undefined;
+  const stateManager = SearchStateManager.initialise(searchParams);
+  const {
+    [SearchParams.SearchedIndicator]: searchedIndicator,
+    [SearchParams.AreasSelected]: areasSelected,
+  } = stateManager.getSearchState();
 
-  const initialState = {
-    indicator: searchedIndicator,
-    areaSelected: areaDocument,
+  const initialState: SearchFormState = {
+    indicator: searchedIndicator ?? '',
+    areaSearched: areasSelected ? areasSelected[0] : '',
     message: null,
     errors: {},
   };
 
-  return <Home searchFormState={initialState} />;
+  return (
+    <Home
+      initialFormState={initialState}
+      searchStates={stateManager.getSearchState()}
+    />
+  );
 }

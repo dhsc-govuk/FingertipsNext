@@ -1,53 +1,64 @@
 'use client';
 
-import { SearchFormState, getArea } from './searchActions';
+import { getArea } from './searchActions';
 import { Button, InputField, H3 } from 'govuk-react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import AreaAutoCompleteInputField from '@/components/molecules/AreaAutoCompleteSearchPanel';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { SearchParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
+import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
 interface SearchFormProps {
-  searchFormState: SearchFormState;
+  searchState?: SearchStateParams;
+  formState: SearchFormState;
 }
 
-export const SearchForm = ({ searchFormState }: SearchFormProps) => {
-  const params = useSearchParams();
+export const SearchForm = ({
+  searchState,
+  formState,
+}: Readonly<SearchFormProps>) => {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const pathname = usePathname();
   const router = useRouter();
-  const [areaCode, setAreaCode] = useState<string>('');
+  const [areaCode, setAreaCode] = useState<string>(
+    formState.areaSearched ?? ''
+  );
   const [defaultAreas, setDefaultAreas] = useState<AreaDocument[]>([]);
 
   const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
-    const urlParams = new URLSearchParams(params);
     if (!selectedAreaCode) {
-      urlParams.delete(SearchParams.AreasSelected);
+      stateManager.removeAllParamFromState(SearchParams.AreasSelected);
     } else {
-      urlParams.set(SearchParams.AreasSelected, selectedAreaCode);
+      stateManager.addParamValueToState(
+        SearchParams.AreasSelected,
+        selectedAreaCode
+      );
     }
-    router.push(`?${urlParams.toString()}`, { scroll: false });
+    router.replace(stateManager.generatePath(pathname), { scroll: false });
   };
 
   useEffect(() => {
-    const selectedArea =
-      params.get(SearchParams.AreasSelected) ?? searchFormState.areaSearched;
     const fetchAreaDocumentAndUpdate = async (areaCode: string | undefined) => {
       if (areaCode == undefined) return null;
       const area = await getArea(areaCode);
-      if (area !== null && area !== undefined) {
+      if (area) {
         setDefaultAreas([area]);
-        setAreaCode(area.areaCode);
       }
     };
-    fetchAreaDocumentAndUpdate(selectedArea ?? undefined);
-  }, [params, searchFormState.areaSearched]);
+    fetchAreaDocumentAndUpdate(areaCode);
+  }, [searchState, areaCode, formState]);
 
   return (
     <div data-testid="search-form">
@@ -56,7 +67,7 @@ export const SearchForm = ({ searchFormState }: SearchFormProps) => {
         input={{
           id: 'indicator',
           name: 'indicator',
-          defaultValue: searchFormState.indicator,
+          defaultValue: formState.indicator ?? '',
         }}
         hint={
           <div style={{ color: GovukColours.DarkGrey }}>
@@ -65,7 +76,7 @@ export const SearchForm = ({ searchFormState }: SearchFormProps) => {
           </div>
         }
         meta={{
-          touched: !!searchFormState.message,
+          touched: !!formState.message,
           error: 'This field value may be required',
         }}
         data-testid="indicator-search-form-input"
@@ -83,7 +94,7 @@ export const SearchForm = ({ searchFormState }: SearchFormProps) => {
           updateUrlWithSelectedArea(area?.areaCode ?? '');
           setAreaCode(area?.areaCode ?? '');
         }}
-        inputFieldErrorStatus={!!searchFormState.message}
+        inputFieldErrorStatus={!!formState.message}
         defaultSelectedAreas={defaultAreas}
       />
 

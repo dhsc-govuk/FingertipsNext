@@ -10,6 +10,7 @@ import {
   UnorderedList,
   SectionBreak,
 } from 'govuk-react';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
   SearchFormState,
@@ -23,14 +24,14 @@ const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
 );
 
-export const Home = ({
-  searchFormState,
-}: {
-  searchFormState: SearchFormState;
-}) => {
+interface HomeProps {
+  searchStates?: SearchStateParams;
+  initialFormState: SearchFormState;
+}
+export const Home = ({ searchStates, initialFormState }: HomeProps) => {
   const [formState, setFormState] = useActionState(
     searchIndicator,
-    searchFormState
+    initialFormState
   );
 
   return (
@@ -80,7 +81,7 @@ export const Home = ({
       </UnorderedList>
       <br />
       <div id="search">
-        <SearchForm searchFormState={formState} />
+        <SearchForm searchState={searchStates} formState={formState} />
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>

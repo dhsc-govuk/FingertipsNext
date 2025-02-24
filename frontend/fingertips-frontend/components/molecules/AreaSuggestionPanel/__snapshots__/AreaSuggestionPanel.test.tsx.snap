@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`] = `
+exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
 <DocumentFragment>
   .c4 {
   font-family: "nta",Arial,sans-serif;
@@ -137,7 +137,7 @@ exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`]
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
       >
-        GP
+        GPs
       </div>
     </li>
     <li
@@ -162,7 +162,7 @@ exports[`test AreaSuggestionPanel should render correctly and match snapshot 1`]
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
       >
-        GP
+        GPs
       </div>
     </li>
     <li

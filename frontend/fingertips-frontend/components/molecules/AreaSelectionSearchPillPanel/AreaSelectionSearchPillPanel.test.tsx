@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { AreaAutoCompletePillPanel } from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { userEvent } from '@testing-library/user-event';
-describe('Test AreaSelectionSearchPillPanel', () => {
+
+describe('AreaSelectionSearchPillPanel', () => {
   const areas: AreaDocument[] = [
     { areaCode: '001', areaName: 'London', areaType: 'GPs' },
     { areaCode: '002', areaName: 'Manchester', areaType: 'GPs' },

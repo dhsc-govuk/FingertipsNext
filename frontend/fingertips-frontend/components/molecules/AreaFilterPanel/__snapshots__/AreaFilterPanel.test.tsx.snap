@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test AreaFilterPanel take a snapshot 1`] = `
+exports[`AreaFilterPanel take a snapshot 1`] = `
 <DocumentFragment>
   .c1 {
   font-family: "nta",Arial,sans-serif;

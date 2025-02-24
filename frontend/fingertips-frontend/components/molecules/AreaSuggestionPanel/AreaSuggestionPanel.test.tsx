@@ -2,14 +2,13 @@ import { render, fireEvent } from '@testing-library/react';
 import { AreaAutoCompleteSuggestionPanel } from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
-// Mock data
 const mockAreas: AreaDocument[] = [
-  { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GP' },
-  { areaCode: 'GP02', areaName: 'Cambridge', areaType: 'GP' },
+  { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
+  { areaCode: 'GP02', areaName: 'Cambridge', areaType: 'GPs' },
   { areaCode: 'CT01', areaName: 'Central London', areaType: 'CT' },
 ];
 
-describe('test AreaSuggestionPanel', () => {
+describe('AreaSuggestionPanel', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
       <AreaAutoCompleteSuggestionPanel
@@ -63,7 +62,7 @@ describe('test AreaSuggestionPanel', () => {
   });
 
   it.each([
-    ['GP01', 'GP', 'Greenwich', 'GP01 - Greenwich'],
+    ['GP01', 'GPs', 'Greenwich', 'GP01 - Greenwich'],
     ['CT01', 'CT', 'Central London', 'Central London'],
   ])(
     'should format and render area correctly for areaCode = %s and areaType = %s and areaType = %s',

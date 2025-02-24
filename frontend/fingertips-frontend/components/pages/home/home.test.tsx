@@ -14,32 +14,40 @@ const initialState: SearchFormState = {
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn().mockReturnValue({
     push: jest.fn(),
+    set: jest.fn(),
   }),
   useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  usePathname: jest.fn(),
 }));
 
-it('snapshot test - renders the homepage', () => {
-  const container = render(<Home searchFormState={initialState} />);
+const setupUI = (state?: SearchFormState) => {
+  if (!state) {
+    state = initialState;
+  }
+  return render(<Home initialFormState={state} />);
+};
 
+it('snapshot test - renders the homepage', () => {
+  const container = setupUI();
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should render an indicator link', () => {
-  render(<Home searchFormState={initialState} />);
+  setupUI();
   const link = screen.getByRole('link', { name: /indicators/ });
 
   expect(link).toBeInTheDocument();
 });
 
 it('should render an indicator link that points to the indicator section', () => {
-  render(<Home searchFormState={initialState} />);
+  setupUI();
   const link = screen.getByRole('link', { name: /indicators/ });
 
   expect(link).toHaveAttribute('href', '#indicators');
 });
 
 it('should render the SearchForm component', () => {
-  render(<Home searchFormState={initialState} />);
+  setupUI();
   const searchForm = screen.getByTestId('search-form');
 
   expect(searchForm).toBeInTheDocument();
@@ -52,8 +60,7 @@ it('should display the error summary component when there is a validation error'
     message: 'Error message',
     errors: {},
   };
-
-  render(<Home searchFormState={errorState} />);
+  setupUI(errorState);
 
   expect(screen.getByTestId('search-form-error-summary')).toBeInTheDocument();
 });
@@ -72,7 +79,7 @@ it('should focus on the input boxes when there is a validation error', async () 
     errors: {},
   };
 
-  render(<Home searchFormState={errorState} />);
+  setupUI(errorState);
 
   const anchor = screen.getByText('Search subject').closest('a')!;
   await user.click(anchor);
@@ -105,7 +112,7 @@ describe('contents items should link to appropriate headings', () => {
       headingText: 'Who the service is for',
     },
   ])('$linkText', ({ linkText, headingText }) => {
-    render(<Home searchFormState={initialState} />);
+    setupUI();
 
     const href = screen
       .getByRole('link', { name: linkText })

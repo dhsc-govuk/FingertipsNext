@@ -420,7 +420,7 @@ exports[`snapshot test - renders the form 1`] = `
       id="areaSearched"
       name="areaSearched"
       type="hidden"
-      value=""
+      value="area"
     />
     <div
       class="c6"
