@@ -8,7 +8,7 @@ import React, { ReactNode } from 'react';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-interface TableProps {
+export interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   groupIndicatorData?: HealthDataForArea;
