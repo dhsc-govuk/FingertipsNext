@@ -1,5 +1,10 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 
+type YearlyHealthDataGroupedByInequalities = Record<
+  string,
+  Record<string, HealthDataPoint[] | undefined>
+>;
+
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
@@ -26,13 +31,15 @@ export const getYearDataGroupedByInequalities = (
   return yearlyDataGroupedByInequalities;
 };
 
+const mapAllKeyToPersonsKey = (sexKeys: string[]): string[] =>
+  sexKeys
+    .map((key) => (key === Sex.ALL ? 'Persons' : key))
+    .toSorted((a, b) => b.localeCompare(a));
+
 export const getDynamicKeys = (
-  yearlyHealthDataGroupedByInequalities: Record<
-    string,
-    Record<string, HealthDataPoint[] | undefined>
-  >,
+  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
   isSex: boolean
-) => {
+): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
   ).reduce((allKeys: string[], currentInequalityKeys) => {
@@ -42,11 +49,7 @@ export const getDynamicKeys = (
 
   const uniqueKeys = [...new Set(existingKeys)];
 
-  return isSex
-    ? uniqueKeys
-        .map((header) => (header === Sex.ALL ? 'Persons' : header))
-        .toSorted((a, b) => b.localeCompare(a))
-    : uniqueKeys;
+  return isSex ? mapAllKeyToPersonsKey(uniqueKeys) : uniqueKeys;
 };
 
 export const shouldDisplayInequalities = (

@@ -4,7 +4,7 @@ import { typography } from '@govuk-react/lib';
 import { GovukColours } from '../styleHelpers/colours';
 
 export const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
+  typography.font({ size: 16 }),
   {
     fontWeight: 'bold',
     padding: '0.625em 0',
@@ -24,7 +24,7 @@ export const StyledGreyHeader = styled(StyledAlignRightHeader)({
 });
 
 export const StyledTableCell = styled(Table.Cell)(
-  typography.font({ size: 14 }),
+  typography.font({ size: 16 }),
   {
     paddingRight: '0',
   }
