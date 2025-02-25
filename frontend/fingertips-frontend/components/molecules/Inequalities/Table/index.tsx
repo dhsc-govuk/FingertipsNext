@@ -121,8 +121,8 @@ export function InequalitiesTable({
         {tableData.map((data, index) => (
           <Table.Row key={data.period! + index}>
             <StyledAlignLeftTableCell>{data.period}</StyledAlignLeftTableCell>
-            {dynamicKeys.map((key) => (
-              <StyledAlignRightTableCell key={key}>
+            {dynamicKeys.map((key, index) => (
+              <StyledAlignRightTableCell key={key + index}>
                 {getDisplayedValue(data[key])}
               </StyledAlignRightTableCell>
             ))}

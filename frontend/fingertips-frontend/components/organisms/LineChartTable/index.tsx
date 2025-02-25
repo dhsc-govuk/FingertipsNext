@@ -181,7 +181,7 @@ export function LineChartTable({
     ? mapToLineChartTableData(englandBenchmarkData)
     : [];
   const groupData = groupIndicatorData
-    ? mapToTableData(groupIndicatorData)
+    ? mapToLineChartTableData(groupIndicatorData)
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const sortedEnglandData = sortPeriod(englandData);
@@ -302,11 +302,9 @@ export function LineChartTable({
                 {convertToPercentage(sortedGroupData[index].value)}
               </StylesGroupValueTableCell>
             ) : null}
-            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
-              {sortedEnglandData.length
-                ? convertToPercentage(sortedEnglandData[index].value)
-                : '-'}
-            </StyledBenchmarkValueTableCell>
+            <StyledGreyTableCellValue data-testid="grey-table-cell">
+              {convertToPercentage(sortedEnglandData[index].value)}
+            </StyledGreyTableCellValue>
           </Table.Row>
         ))}
       </Table>

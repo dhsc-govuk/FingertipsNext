@@ -150,8 +150,8 @@ describe('should display inequalities', () => {
   it('should display inequalities when single indicator and a single area is selected', () => {
     render(
       <Chart
-        healthIndicatorData={[mockHealthData['318']]}
-        indicatorsSelected={['318']}
+        healthIndicatorData={[mockHealthData['1']]}
+        indicatorsSelected={['1']}
         areasSelected={['A1']}
       />
     );
@@ -162,8 +162,8 @@ describe('should display inequalities', () => {
   it('should not display inequalities when multiple indicators are selected', () => {
     render(
       <Chart
-        healthIndicatorData={[mockHealthData['318']]}
-        indicatorsSelected={['318', '1']}
+        healthIndicatorData={[mockHealthData['337']]}
+        indicatorsSelected={['337', '1']}
         areasSelected={['A1']}
       />
     );
@@ -176,8 +176,8 @@ describe('should display inequalities', () => {
   it('should not display inequalities sex table when multiple areas are selected', () => {
     render(
       <Chart
-        healthIndicatorData={[mockHealthData['318']]}
-        indicatorsSelected={['318']}
+        healthIndicatorData={[mockHealthData['337']]}
+        indicatorsSelected={['337']}
         areasSelected={['A1', 'A2']}
       />
     );

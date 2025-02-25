@@ -130,7 +130,7 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['All', 'Female', 'Male'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Decile)
+      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Deprivation)
     ).toEqual(expectedKeys);
   });
 });

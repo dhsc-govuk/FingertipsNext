@@ -205,6 +205,7 @@ describe('Chart Page', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: [mockAreaCode, areaCodeForEngland],
         indicatorId: 333,
+        inequalities: ['sex'],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator

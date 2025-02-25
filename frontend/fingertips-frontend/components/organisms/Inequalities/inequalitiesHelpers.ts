@@ -13,7 +13,7 @@ export enum Sex {
 
 export enum Inequalities {
   Sex = 'sex',
-  Decile = 'decile',
+  Deprivation = 'deprivation',
 }
 
 // 'All' -> 'Persons' mapping to be removed when db value is changed in subsequent ticket
@@ -26,7 +26,7 @@ export const inequalityKeyMapping: Record<
 > = {
   [Inequalities.Sex]: (sexKeys: string[]) =>
     sexKeys.map((key) => mapToKey(key)).toSorted((a, b) => b.localeCompare(a)),
-  [Inequalities.Decile]: (keys: string[]) => keys,
+  [Inequalities.Deprivation]: (keys: string[]) => keys,
 };
 
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
