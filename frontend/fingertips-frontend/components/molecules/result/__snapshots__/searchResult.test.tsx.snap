@@ -206,7 +206,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .c11 {
@@ -343,14 +343,14 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 @media print {
   .c10 {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c10 {
     font-size: 19px;
-    line-height: 1.2;
+    line-height: 1;
   }
 }
 
@@ -428,7 +428,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
               class="c9 c10"
             >
               <p>
-                Latest data period: 2023
+                Data Period: 1999 to 2023
               </p>
             </div>
             <div
