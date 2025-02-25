@@ -57,7 +57,6 @@ export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
       ...allPrimaryCareNetworks,
       ...allRegions,
     ],
-    siblings: allEngland,
   },
 };
 
@@ -71,7 +70,6 @@ export const mockAreaDataForRegionsStatistical: Record<
       ...englandArea,
     },
     children: [],
-    siblings: [],
   },
   E12000002: {
     ...northWestRegion,
@@ -79,7 +77,6 @@ export const mockAreaDataForRegionsStatistical: Record<
       ...englandArea,
     },
     children: [],
-    siblings: [],
   },
   E12000003: {
     ...yorkshireAndHumberRegion,
@@ -87,7 +84,6 @@ export const mockAreaDataForRegionsStatistical: Record<
       ...englandArea,
     },
     children: [],
-    siblings: [],
   },
 };
 
@@ -105,7 +101,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       felmoresGP,
       aryanGP,
     ],
-    siblings: allNhsRegions,
   },
   E40000003: {
     ...londonNHSRegion,
@@ -120,7 +115,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       archwayGP,
       goodingeGP,
     ],
-    siblings: allNhsRegions,
   },
   E40000005: {
     ...southEastNHSRegion,
@@ -128,7 +122,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [],
-    siblings: allNhsRegions,
   },
   E40000006: {
     ...southWestNHSRegion,
@@ -136,7 +129,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [],
-    siblings: allNhsRegions,
   },
   E40000010: {
     ...northWestRegion,
@@ -144,7 +136,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [],
-    siblings: allNhsRegions,
   },
   E40000011: {
     ...midlandsNHSRegion,
@@ -152,7 +143,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [],
-    siblings: allNhsRegions,
   },
   E40000012: {
     ...northEastAndYorkshireNHSRegion,
@@ -160,7 +150,6 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
       ...englandArea,
     },
     children: [],
-    siblings: allNhsRegions,
   },
 };
 
@@ -172,19 +161,16 @@ export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
         ...northEastRegion,
       },
       children: [],
-      siblings: [],
     },
     E06000005: {
       ...darlington,
       parent: { ...northEastRegion },
       children: [],
-      siblings: [],
     },
     E08000037: {
       ...gateshead,
       parent: { ...northEastRegion },
       children: [],
-      siblings: [],
     },
   };
 
@@ -192,22 +178,18 @@ export const mockAreaDataForICB: Record<string, AreaWithRelations> = {
   E38000007: {
     ...basildonAndBrentwoodICB,
     children: [eastBasildonPCN, centralBasildonPCN, felmoresGP, aryanGP],
-    siblings: allIntegratedCareBoards,
   },
   E38000026: {
     ...cambridgeAndPeterboroughICB,
     children: [],
-    siblings: allIntegratedCareBoards,
   },
   E38000240: {
     ...northCentralLondonICB,
     children: [north2IslingtonPCN, southCamdenPCN, archwayGP, goodingeGP],
-    siblings: allIntegratedCareBoards,
   },
   E38000244: {
     ...southEastLondonICB,
     children: [],
-    siblings: allIntegratedCareBoards,
   },
 };
 
@@ -215,22 +197,18 @@ export const mockAreaDataForPCN: Record<string, AreaWithRelations> = {
   U15488: {
     ...eastBasildonPCN,
     children: [felmoresGP, aryanGP],
-    siblings: allPrimaryCareNetworks,
   },
   U55146: {
     ...centralBasildonPCN,
     children: [],
-    siblings: allPrimaryCareNetworks,
   },
   U02795: {
     ...north2IslingtonPCN,
     children: [archwayGP, goodingeGP],
-    siblings: allPrimaryCareNetworks,
   },
   U05885: {
     ...southCamdenPCN,
     children: [],
-    siblings: allPrimaryCareNetworks,
   },
 };
 
@@ -238,22 +216,18 @@ export const mockAreaDataForGP: Record<string, AreaWithRelations> = {
   F81186: {
     ...felmoresGP,
     children: [],
-    siblings: allGpsAreas,
   },
   F81640: {
     ...aryanGP,
     children: [],
-    siblings: allGpsAreas,
   },
   F83004: {
     ...archwayGP,
     children: [],
-    siblings: allGpsAreas,
   },
   F83008: {
     ...goodingeGP,
     children: [],
-    siblings: allGpsAreas,
   },
 };
 
