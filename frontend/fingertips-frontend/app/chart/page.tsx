@@ -32,6 +32,7 @@ export default async function ChartPage(
     [SearchParams.IndicatorsSelected]: indicators,
     [SearchParams.AreasSelected]: areaCodes,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
   const areasSelected = areaCodes ?? [];
@@ -41,21 +42,11 @@ export default async function ChartPage(
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const areaApi = ApiClientFactory.getAreasApiClient();
 
-  let parentAreaCode: string | undefined;
-  if (indicatorsSelected.length === 1 && areasSelected.length <= 2) {
-    try {
-      const areaData = await areaApi.getArea({ areaCode: areasSelected[0] }); // DHSCFT-256 assumes one common parent
-      parentAreaCode = areaData?.parent?.code;
-    } catch (error) {
-      console.log('error getting area data ', error);
-    }
-  }
-
-  const areaCodesToRequest = parentAreaCode
-    ? [...areasSelected, areaCodeForEngland, parentAreaCode]
-    : [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
+      : [...areasSelected, areaCodeForEngland];
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
@@ -99,7 +90,7 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
-      parentAreaCode={parentAreaCode}
+      // selectedGroupCode={selectedGroupCode}
       mapData={mapData}
       searchState={stateManager.getSearchState()}
     />

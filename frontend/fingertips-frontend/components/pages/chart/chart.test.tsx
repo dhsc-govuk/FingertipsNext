@@ -147,7 +147,7 @@ it('should render the ThematicMap component when all map props are provided', ()
 
   render(
     <Chart
-      healthIndicatorData={[mockHealthData['318']]}
+      healthIndicatorData={[mockHealthData['92420']]}
       mapData={mapData}
       searchState={state}
     />
@@ -159,7 +159,10 @@ it('should render the ThematicMap component when all map props are provided', ()
 
 it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
   render(
-    <Chart healthIndicatorData={[mockHealthData['318']]} searchState={state} />
+    <Chart
+      healthIndicatorData={[mockHealthData['92420']]}
+      searchState={state}
+    />
   );
   const thematicMap = screen.queryByTestId('thematicMap-component');
 

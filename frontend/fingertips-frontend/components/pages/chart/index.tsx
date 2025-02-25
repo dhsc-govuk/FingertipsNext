@@ -14,7 +14,7 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
+  seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
@@ -24,7 +24,6 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
@@ -32,12 +31,17 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
-  parentAreaCode,
   mapData,
   populationData,
   searchState,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
+
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
 
   const backLinkPath = stateManager.generatePath('/results');
 
@@ -47,19 +51,19 @@ export function Chart({
     areaCodeForEngland
   );
 
-  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
-    parentAreaCode
+    selectedGroupCode
   );
 
-  const parentBenchmarkData = parentAreaCode
-    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
-    : undefined;
-
-  const {
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.AreasSelected]: areasSelected,
-  } = stateManager.getSearchState();
+  const groupData =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? seriesDataForIndicatorIndexAndArea(
+          healthIndicatorData,
+          0,
+          selectedGroupCode
+        )
+      : undefined;
 
   return (
     <>
@@ -86,8 +90,8 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
                     searchState={searchState}
+                    groupIndicatorData={groupData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />
@@ -100,7 +104,7 @@ export function Chart({
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    groupIndicatorData={groupData}
                   />
                 ),
               },

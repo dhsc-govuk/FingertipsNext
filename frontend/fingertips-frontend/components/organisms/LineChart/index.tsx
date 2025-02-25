@@ -2,7 +2,10 @@
 
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { sortHealthDataByDate } from '@/lib/chartHelpers/chartHelpers';
+import {
+  sortHealthDataForAreaByDate,
+  sortHealthDataForAreasByDate,
+} from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
@@ -15,9 +18,9 @@ interface LineChartProps {
   xAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
-  parentIndicatorData?: HealthDataForArea;
   showConfidenceIntervalsData?: string[];
   searchState: SearchStateParams;
+  groupIndicatorData?: HealthDataForArea;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -35,8 +38,8 @@ export function LineChart({
   xAxisTitle,
   accessibilityLabel,
   benchmarkData,
-  parentIndicatorData,
   searchState,
+  groupIndicatorData,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -50,14 +53,15 @@ export function LineChart({
   const lineChartCI =
     confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
 
-  const sortedHealthIndicatorData = sortHealthDataByDate(healthIndicatorData);
+  const sortedHealthIndicatorData =
+    sortHealthDataForAreasByDate(healthIndicatorData);
 
   const sortedBenchMarkData = benchmarkData
-    ? sortHealthDataByDate([benchmarkData])[0]
+    ? sortHealthDataForAreaByDate(benchmarkData)
     : undefined;
 
-  const sortedParentData = parentIndicatorData
-    ? sortHealthDataByDate([parentIndicatorData])[0]
+  const sortedGroupData = groupIndicatorData
+    ? sortHealthDataForAreaByDate(groupIndicatorData)
     : undefined;
 
   const seriesData = generateSeriesData(
@@ -65,7 +69,7 @@ export function LineChart({
     chartSymbols,
     chartColours,
     sortedBenchMarkData,
-    sortedParentData,
+    sortedGroupData,
     lineChartCI
   );
 

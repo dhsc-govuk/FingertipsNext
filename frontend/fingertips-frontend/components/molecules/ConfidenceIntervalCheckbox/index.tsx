@@ -5,6 +5,8 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
+import { spacing } from '@govuk-react/lib';
+import styled from 'styled-components';
 
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
@@ -36,6 +38,12 @@ export function ConfidenceIntervalCheckbox({
     replace(stateManager.generatePath(pathname), { scroll: false });
   };
 
+  const StyledParagraph = styled(Paragraph)(
+    spacing.withWhiteSpace({
+      margin: [{ size: 0 }],
+    })
+  );
+
   return (
     <Checkbox
       id={`confidence-interval-checkbox-${chartName}`}
@@ -47,7 +55,7 @@ export function ConfidenceIntervalCheckbox({
       defaultChecked={showConfidenceIntervalsData}
       sizeVariant="SMALL"
     >
-      <Paragraph>Show confidence intervals</Paragraph>
+      <StyledParagraph>Show confidence intervals</StyledParagraph>
     </Checkbox>
   );
 }
