@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Globalization;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -7,7 +8,6 @@ namespace DataCreator.PholioDatabase
     public class PholioDataFetcher
     {
         private readonly IConfiguration _config;
-        private readonly List<AreaMap> _map;
         private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
@@ -154,10 +154,39 @@ FROM
 	[dbo].[L_Ages]
 ";
 
-        public PholioDataFetcher(IConfiguration config)
+        public PholioDataFetcher(IConfiguration config) => _config = config;
+
+        public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
+        {   
+            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+
+            var areas = (await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}")).ToList();
+            SetAreaHierarchyAndCleanNames(areas);
+            await AddChildAreas(areas, connection);
+
+            return areas;
+        }
+
+        private static async Task AddChildAreas(List<AreaEntity> areas, SqlConnection connection)
         {
-            _config = config;
-            _map =
+            var parentChildMap = (await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql)).ToList();
+            var parentGroup = parentChildMap.GroupBy(x => x.ParentAreaCode).ToList();
+            //now create the child and parents
+            var areasDict = areas.ToDictionary(area => area.AreaCode);
+            foreach (var area in areas)
+            {
+                //get the children of the area (if any)
+                area.ChildAreas = CreateChildAreas(area, parentGroup, areasDict);
+            }
+        }
+
+        /// <summary>
+        /// Change the area type names to GDS compliant names
+        /// </summary>
+        /// <param name="areas"></param>
+        private static void SetAreaHierarchyAndCleanNames(List<AreaEntity> areas)
+        {
+            List<AreaMap> typeNameMap=
             [
                 new()
                 {
@@ -285,40 +314,34 @@ FROM
                     Level=2
                 }
             ];
-        }
+            var cultInfo =  new CultureInfo("en-GB", false).TextInfo;
+            const string STATISTICAL = "(statistical)";
+            const string CA = "CA-";
 
-        public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
-        {   
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-
-            var areas = await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}");
-            var parentChildMap = (await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql)).ToList();
-            var parentGroup = parentChildMap.GroupBy(x => x.ParentAreaCode).ToList();
-            //var childGroup = parentChildMap.GroupBy(x => x.ChildAreaCode).ToList();
             foreach (var area in areas)
             {
                 //change the area type to a standard name and set the hierarchy type and level
-                var match = _map.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
-                if(match != null)
+                var typeNameMatch = typeNameMap.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
+                if (typeNameMatch != null)
                 {
-                    area.AreaType = match.NewAreaType;
-                    area.HierarchyType=match.HierarchyType;
-                    area.Level = match.Level;
+                    area.AreaType = typeNameMatch.NewAreaType;
+                    area.HierarchyType = typeNameMatch.HierarchyType;
+                    area.Level = typeNameMatch.Level;
                 }
+
+                area.AreaName=area.AreaName.Trim();
+                //ticket DHSCFT-379, some area names should be changed
+
+                //remove (statistical) that applies to admin regions
+                if(area.AreaName.EndsWith(STATISTICAL))
+                    area.AreaName=area.AreaName.Replace(STATISTICAL, string.Empty).Trim();
+                //capitalise word region for NHS & admin regions
+                if (area.AreaName.EndsWith("region"))
+                    area.AreaName= cultInfo.ToTitleCase(area.AreaName);
+                //for combined authorities remove the prefix CA- and add the suffix Combined Authority
+                if (area.AreaName.StartsWith(CA))
+                    area.AreaName=$"{area.AreaName.Replace(CA, string.Empty).Trim()} Combined Authority";
             }
-
-            //now create the child and parents
-            var areasDict = areas.ToDictionary(area => area.AreaCode);
-            foreach (var area in areas)
-            {
-                //get the children of the area (if any)
-                area.ChildAreas = CreateChildAreas(area, parentGroup, areasDict);
-
-                //get the parents of the area (if any)
-                //area.ParentAreas = CreateParentAreas(area, parentChildMap, areasDict);
-            }
-
-            return areas;
         }
 
 
@@ -349,33 +372,6 @@ FROM
             return allChildren.Where(x => x.IsDirect).ToList();
         }
         
-
-        private static List<AreaRelation> CreateParentAreas(AreaEntity area, IEnumerable<ParentChildAreaCode> parentChildMap, Dictionary<string, AreaEntity> areas)
-        {
-            var allParents = parentChildMap
-                    .Where(m => m.ChildAreaCode == area.AreaCode)
-                    .Select(child => new AreaRelation { AreaCode = child.ParentAreaCode })
-                    .ToList();
-            //work out the direct parents
-            foreach (var parent in allParents)
-            {
-                var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
-                if (present)
-                    parent.IsDirect = area.Level == value.Level + 1 && area.HierarchyType == value.HierarchyType;
-            }
-            //some GPs are not in a PCN
-            if(area.AreaType==GP && allParents.All(parent => !parent.IsDirect))
-            {
-                foreach (var parent in allParents)
-                {
-                    var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
-                    if (present)
-                        parent.IsDirect = area.Level == value.Level + 2 && area.HierarchyType == value.HierarchyType;
-                }
-            }
-
-            return allParents.Where(x => x.IsDirect).Distinct().ToList();
-        }
 
         /// <summary>
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
