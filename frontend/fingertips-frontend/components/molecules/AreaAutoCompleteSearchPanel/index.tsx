@@ -59,7 +59,7 @@ export default function AreaAutoCompleteInputField({
           setSearchAreas([]);
           return;
         }
-        fetchSearchArea(criteria);
+        void fetchSearchArea(criteria);
       },
       DEBOUNCE_SEARCH_DELAY,
       criteria
