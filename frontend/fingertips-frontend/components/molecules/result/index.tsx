@@ -117,6 +117,7 @@ export function SearchResult({
               </Link>
             </H5>
             <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
+            <StyledParagraph>{`Earliest data period: ${result.earliestDataPeriod}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>
