@@ -1,6 +1,6 @@
 ﻿namespace DataCreator
 {
-    public class IndicatorEntity: SimpleIndicator
+    public record IndicatorEntity: SimpleIndicator
     {
         private string _indicatorDefinition;
         private string rationale;
@@ -56,26 +56,33 @@
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
         public int LatestDataPeriod { get; set; } = 1999;
+        public int EarliestDataPeriod { get; set; } = 1999;
 
         public string LastUpdatedDate { get; set; }
 
         public bool UsedInPoc { get; set; }
+
+        public bool HasInequalities { get; set; }
     }
 
-    public class SimpleIndicator
+    public record SimpleIndicator
     {
         public int IndicatorID { get; set; }
 
         public string IndicatorName { get; set; }
     }
 
-    public class IndicatorWithAreasAndLatestUpdate
+    public record IndicatorWithAreasAndLatestUpdate
     {
         public int IndicatorID { get; set; }
 
         public int LatestDataPeriod { get; set; }
 
+        public int EarliestDataPeriod { get; set; }
+
         public List<string> AssociatedAreaCodes { get; set; } = [];
+
+        public bool HasInequalities { get; set; }
     }
 }
 

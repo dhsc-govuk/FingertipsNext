@@ -264,6 +264,18 @@ describe('Results Page', () => {
         [SearchParams.GroupTypeSelected]: 'england',
       });
     });
+
+    it('should pass the current date prop', async () => {
+      const date = new Date('January 1, 2000');
+      jest.useFakeTimers();
+      jest.setSystemTime(date);
+
+      const page = await ResultsPage({});
+
+      expect(page.props.currentDate).toEqual(date);
+
+      jest.useRealTimers();
+    });
   });
 
   describe('Check correct props to the error component are passed when there is an error', () => {
