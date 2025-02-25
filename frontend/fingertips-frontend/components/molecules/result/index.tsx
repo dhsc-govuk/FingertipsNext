@@ -95,7 +95,7 @@ export function SearchResult({
     return stateManager.generatePath(chartPath);
   };
 
-  const buildPeriodText = (earliest: string, latest: string): string => {
+  const formatDataPeriod = (earliest: string, latest: string): string => {
     return earliest === latest ? earliest : `${earliest} to ${latest}`;
   };
 
@@ -120,7 +120,7 @@ export function SearchResult({
                 {result.indicatorName}
               </Link>
             </H5>
-            <StyledParagraph>{`Data Period: ${buildPeriodText(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
+            <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>

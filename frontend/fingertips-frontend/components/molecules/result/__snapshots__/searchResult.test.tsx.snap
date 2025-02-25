@@ -428,7 +428,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
               class="c9 c10"
             >
               <p>
-                Data Period: 1999 to 2023
+                Data period: 1999 to 2023
               </p>
             </div>
             <div
