@@ -13,7 +13,9 @@ import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData'
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
-import { mockAreaDataForCountiesAndUAs } from '@/mock/data/areaData';
+import { mockAreaDataForCountiesAndUAs, mockAvailableAreas } from '@/mock/data/areaData';
+import { getMapData, MapData } from '@/lib/thematicMapUtils/getMapData';
+import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 const mockAreasApi = mockDeep<AreasApi>();
@@ -22,6 +24,11 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 jest.mock('@/components/pages/chart');
+jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
+  getMapData: jest.fn(),
+}))
+
+// const mockGetMapData = getMapData as jest.MockedFn<typeof getMapData>
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -95,27 +102,6 @@ describe('Chart Page', () => {
         indicatorId: indicatorIdForPopulation,
       });
     });
-
-    it('should pass the correct props to the Chart page', async () => {
-      const expectedPopulationData = preparePopulationData(
-        mockHealthData[`${indicatorIdForPopulation}`],
-        'A001'
-      );
-
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-        mockHealthData['1']
-      );
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-        mockHealthData[`${indicatorIdForPopulation}`]
-      );
-
-      const page = await ChartPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
-      expect(page.props.populationData).toEqual(expectedPopulationData);
-    });
   });
 
   describe('when a single parent area is available ', () => {
@@ -133,6 +119,7 @@ describe('Chart Page', () => {
       await ChartPage({
         searchParams: generateSearchParams(searchParams),
       });
+
       expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
         areaCode: mockAreaCode,
       });
@@ -168,8 +155,57 @@ describe('Chart Page', () => {
         indicatorId: indicatorIdForPopulation,
       });
     });
+  });
 
-    it('should pass the correct props to the Chart page', async () => {
+  describe('Check correct props are passed to Chart page component', () => {
+    it('should pass healthIndicatorData to the Chart page', async () => {
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['1']
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
+    });
+
+    it('should pass population data to the Chart page', async () => {
+      const expectedPopulationData = preparePopulationData(
+        mockHealthData[`${indicatorIdForPopulation}`],
+        'A001'
+      );
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['1']
+      );
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData[`${indicatorIdForPopulation}`]
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.populationData).toEqual(expectedPopulationData);
+    });
+
+    it('should pass undefined if there was an error getting population data', async () => {
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['1']
+      );
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
+        'Some error getting population data'
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.populationData).toEqual(undefined);
+    });
+
+    it('should pass parent area code to Chart page', async () => {
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -188,24 +224,63 @@ describe('Chart Page', () => {
         searchParams: generateSearchParams(searchParams),
       });
 
-      expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
       expect(page.props.parentAreaCode).toEqual('E12000001');
     });
-  });
 
-  it('should pass undefined if there was an error getting population data', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockHealthData['1']
-    );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
-      'Some error getting population data'
-    );
+    it('should pass search state prop with data from the params to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
+      mockAreasApi.getArea.mockResolvedValueOnce(
+        mockAreaDataForCountiesAndUAs[mockAreaCode]
+      );
 
-    const page = await ChartPage({
-      searchParams: generateSearchParams(searchParams),
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.searchState).toEqual({
+        as: ['E06000047'],
+        is: ['333'],
+        si: 'testing',
+      });
     });
+    
+    it('should pass map data to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode, 'A1245'],
+          [SearchParams.AreaTypeSelected]: 'nhs-region',
+      };
+      mockAreasApi.getArea.mockResolvedValueOnce(
+        mockAreaDataForCountiesAndUAs[mockAreaCode]
+      );
+      
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
 
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
-    expect(page.props.populationData).toEqual(undefined);
+      const mockData = (getMapData as jest.Mock).mockResolvedValueOnce({mapJoinKey: 'test', mapFile: NHSRegionsMap, mapGroupBoundary: NHSRegionsMap})
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+      
+      const expected = getMapData('nhs-regions', ['A1245', 'A1245'])
+      
+      expect(mockData).toHaveBeenCalled()
+      console.log(page.props.mapData)
+     expect(page.props.mapData).toEqual(expected)
+      
+    })
   });
 });
