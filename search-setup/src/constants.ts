@@ -17,6 +17,7 @@ export interface IndicatorDocument {
   latestDataPeriod: string; // Most recent value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
+  hasInequalities: boolean;
 }
 
 export interface AreaDocument {
@@ -34,6 +35,7 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_LATEST_DATA_PERIOD = 'latestDataPeriod',
   INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
+  INDICATOR_HAS_INEQUALITIES = 'hasInequalities',
 }
 
 export enum AreaSearchIndexColumnNames {
