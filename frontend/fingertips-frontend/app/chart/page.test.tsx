@@ -14,6 +14,8 @@ import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { mockAreaDataForCountiesAndUAs } from '@/mock/data/areaData';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 const mockAreasApi = mockDeep<AreasApi>();
@@ -22,6 +24,9 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 jest.mock('@/components/pages/chart');
+jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
+  getMapData: jest.fn(),
+}));
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -244,6 +249,61 @@ describe('Chart Page', () => {
         is: ['333'],
         si: 'testing',
       });
+    });
+
+    it('should pass map data to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: ['E40000011', 'E40000012'],
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+      };
+      mockAreasApi.getArea.mockResolvedValueOnce(
+        mockAreaDataForCountiesAndUAs[mockAreaCode]
+      );
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
+
+      const mockData = (getMapData as jest.Mock).mockReturnValue({
+        mapJoinKey: 'test',
+        mapFile: NHSRegionsMap,
+        mapGroupBoundary: NHSRegionsMap,
+      });
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      const expected = getMapData('nhs-regions', ['A1245', 'A1245']);
+
+      expect(mockData).toHaveBeenCalled();
+      expect(page.props.mapData).toEqual(expected);
+    });
+
+    it('should pass undefined if there are not enough areas selected ', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+        [SearchParams.AreaTypeSelected]: 'nhs-regions',
+      };
+      mockAreasApi.getArea.mockResolvedValueOnce(
+        mockAreaDataForCountiesAndUAs[mockAreaCode]
+      );
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.mapData).toEqual(undefined);
     });
   });
 });
