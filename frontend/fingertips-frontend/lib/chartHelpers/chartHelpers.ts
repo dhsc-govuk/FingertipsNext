@@ -1,6 +1,5 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
-import { ListItem } from 'govuk-react';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]

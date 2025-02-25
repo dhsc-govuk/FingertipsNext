@@ -1,5 +1,5 @@
 import { Checkbox, Paragraph } from 'govuk-react';
-import { spacing, typography } from '@govuk-react/lib';
+import { spacing } from '@govuk-react/lib';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
