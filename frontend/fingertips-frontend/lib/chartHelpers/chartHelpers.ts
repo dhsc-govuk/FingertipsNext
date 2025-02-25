@@ -12,8 +12,6 @@ export function sortHealthDataForAreaByDate(
 ): HealthDataForArea {
   return {
     ...data,
-    areaCode: data.areaCode,
-    areaName: data.areaName,
     healthData: data.healthData.toSorted((a, b) => a.year - b.year),
   };
 }
