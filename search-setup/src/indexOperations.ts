@@ -60,6 +60,13 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         filterable: true,
       },
       {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_EARLIEST_DATA_PERIOD,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: true,
+        filterable: true,
+      },
+      {
         name: IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
         type: 'Edm.String',
         searchable: false,
