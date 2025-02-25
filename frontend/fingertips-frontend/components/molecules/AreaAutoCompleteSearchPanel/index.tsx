@@ -68,7 +68,7 @@ export default function AreaAutoCompleteInputField({
     return fetchCleanUp;
   }, [criteria]);
 
-  const handlePillRemoval = useCallback(
+  const removePill = useCallback(
     (area: AreaDocument) => {
       const areas = selectedAreas.filter(
         (selectedArea) => selectedArea.areaCode !== area.areaCode
@@ -85,15 +85,13 @@ export default function AreaAutoCompleteInputField({
     <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
         value={criteria}
-        onTextChange={(newCriteria: string) => {
-          setCriteria(newCriteria);
-        }}
+        onTextChange={setCriteria}
         disabled={selectedAreas.length > 0}
         touched={inputFieldErrorStatus}
       />
       <AreaAutoCompletePillPanel
         areas={selectedAreas}
-        onRemovePill={handlePillRemoval}
+        onRemovePill={removePill}
       />
       <AreaAutoCompleteSuggestionPanel
         areas={searchAreas}
