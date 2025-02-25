@@ -125,9 +125,9 @@ describe('Chart Page', () => {
     });
   });
 
-  describe('when a single group is selected ', () => {
+  describe('when a single group is selected', () => {
+    const mockAreaCode = 'E06000047';
     it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator, including the group area the next one for the population data', async () => {
-      const mockAreaCode = 'E06000047';
       const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -158,7 +158,6 @@ describe('Chart Page', () => {
     });
 
     it('should pass the correct props to the Chart page', async () => {
-      const mockAreaCode = 'E06000047';
       const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -182,7 +181,6 @@ describe('Chart Page', () => {
     });
 
     it('should not include groupSelected in the API call if England is the groupSelected', async () => {
-      const mockAreaCode = 'E06000047';
       const mockParentAreaCode = 'E92000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
