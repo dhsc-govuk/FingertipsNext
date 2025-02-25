@@ -16,6 +16,7 @@ import {
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { ViewsSkeleton } from '@/components/organisms/ViewsSkeleton';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -85,14 +86,17 @@ export default async function ChartPage(
     : undefined;
 
   return (
-    <Chart
-      populationData={preparedPopulationData}
-      healthIndicatorData={healthIndicatorData}
-      parentAreaCode={parentAreaCode}
-      mapData={mapData}
-      searchedIndicator={searchedIndicator}
-      indicatorsSelected={indicatorsSelected}
-      areasSelected={areaCodes}
-    />
+    <>
+      <ViewsSkeleton areaCodes={areaCodes} />
+      <Chart
+        populationData={preparedPopulationData}
+        healthIndicatorData={healthIndicatorData}
+        parentAreaCode={parentAreaCode}
+        mapData={mapData}
+        searchedIndicator={searchedIndicator}
+        indicatorsSelected={indicatorsSelected}
+        areasSelected={areaCodes}
+      />
+    </>
   );
 }

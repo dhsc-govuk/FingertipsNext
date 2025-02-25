@@ -1,23 +1,14 @@
-import { viewSelector } from '@/lib/viewUtils/viewSelector';
-import { H3 } from 'govuk-react';
+import { selectChartView } from '@/lib/viewUtils/selectChartView';
 
-interface;
+interface ViewsSkeletonProps {
+  areaCodes: string[];
+}
 
-export function ViewsSkeleton() {
-  const views = viewSelector();
+export function ViewsSkeleton({ areaCodes }: ViewsSkeletonProps) {
+  const selectedView = selectChartView(areaCodes);
   return (
     <div>
-      <H3>What chart views should we see?</H3>
-      <ul>
-        {Object.keys(views).map((view) => {
-          console.log(view, views[view].toString());
-          return (
-            <li key={view}>
-              {view}: {views[view].toString()}
-            </li>
-          );
-        })}
-      </ul>
+      <p>Call {selectedView}</p>
     </div>
   );
 }
