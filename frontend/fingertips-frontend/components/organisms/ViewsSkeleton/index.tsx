@@ -6,19 +6,50 @@ import { selectChartView } from '@/lib/viewUtils/selectChartView';
 
 interface ViewsSkeletonProps {
   areaCodes: string[];
+  indicatorsSelected: string[];
 }
 
-function renderSelectedViewComponent(selectedView: string) {
+function renderSelectedViewComponent(
+  selectedView: string,
+  areaCodes: string[],
+  indicatorsSelected: string[]
+) {
   switch (selectedView) {
     case 'oneAreaView':
-      return <OneAreaView />;
+      return (
+        <OneAreaView
+          areaCodes={areaCodes}
+          indicatorsSelected={indicatorsSelected}
+        />
+      );
     case 'twoAreasView':
-      return <TwoAreasView />;
+      return (
+        <TwoAreasView
+          areaCodes={areaCodes}
+          indicatorsSelected={indicatorsSelected}
+        />
+      );
     case 'threeOrMoreAreasView':
-      return <ThreeOrMoreAreasView />;
+      return (
+        <ThreeOrMoreAreasView
+          areaCodes={areaCodes}
+          indicatorsSelected={indicatorsSelected}
+        />
+      );
   }
 }
 
-export function ViewsSkeleton({ areaCodes }: ViewsSkeletonProps) {
-  return <>{renderSelectedViewComponent(selectChartView(areaCodes))}</>;
+export function ViewsSkeleton({
+  areaCodes,
+  indicatorsSelected,
+}: ViewsSkeletonProps) {
+  return (
+    <>
+      {renderSelectedViewComponent(
+        selectChartView(areaCodes),
+        areaCodes,
+        indicatorsSelected
+      )}
+    </>
+  );
 }

@@ -78,7 +78,10 @@ export default async function ChartPage(
 
   return (
     <>
-      <ViewsSkeleton areaCodes={areaCodes} />
+      <ViewsSkeleton
+        areaCodes={areaCodes}
+        indicatorsSelected={indicatorsSelected}
+      />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
