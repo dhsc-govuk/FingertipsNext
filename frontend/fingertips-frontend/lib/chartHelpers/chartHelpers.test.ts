@@ -1,7 +1,7 @@
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
-  sortHealthDataByDate,
+  seriesDataWithoutEnglandOrGroup,
+  sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -62,7 +62,7 @@ describe('sortHealthDataByDate', () => {
         ],
       },
     ];
-    const result = sortHealthDataByDate(mockData);
+    const result = sortHealthDataForAreasByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
   });
@@ -221,7 +221,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data);
+    const result = seriesDataWithoutEnglandOrGroup(data);
     expect(result).toEqual(dataWithoutEngland);
   });
 
@@ -304,7 +304,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data, 'E12000001');
+    const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
   });
 });

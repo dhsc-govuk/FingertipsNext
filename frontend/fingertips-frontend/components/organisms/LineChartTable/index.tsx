@@ -27,10 +27,10 @@ export enum LineChartTableHeadingEnum {
   BenchmarkValue = 'Value ',
 }
 
-interface TableProps {
+export interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
-  parentIndicatorData?: HealthDataForArea;
+  groupIndicatorData?: HealthDataForArea;
 }
 
 export interface LineChartTableRowData {
@@ -172,7 +172,7 @@ const getConfidenceLimitCellSpan = (index: number): number =>
 export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
-  parentIndicatorData,
+  groupIndicatorData,
 }: Readonly<TableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
@@ -180,12 +180,12 @@ export function LineChartTable({
   const englandData = englandBenchmarkData
     ? mapToLineChartTableData(englandBenchmarkData)
     : [];
-  const parentData = parentIndicatorData
-    ? mapToLineChartTableData(parentIndicatorData)
+  const groupData = groupIndicatorData
+    ? mapToTableData(groupIndicatorData)
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
-  const englandRowData = sortPeriod(englandData);
-  const sortedParentRowData = sortPeriod(parentData);
+  const sortedEnglandData = sortPeriod(englandData);
+  const sortedGroupData = sortPeriod(groupData);
 
   return (
     <StyledDiv data-testid="lineChartTable-component">
@@ -213,9 +213,9 @@ export function LineChartTable({
                   </StyledAreaNameHeader>
                 </React.Fragment>
               ))}
-              {parentIndicatorData ? (
+              {groupIndicatorData ? (
                 <StyledGroupNameHeader data-testid="group-header">
-                  Group: {parentIndicatorData.areaName}
+                  Group: {groupIndicatorData.areaName}
                 </StyledGroupNameHeader>
               ) : null}
               <StyledGreyHeader data-testid="england-header">
@@ -233,7 +233,7 @@ export function LineChartTable({
                   </StyledConfidenceLimitsHeader>
                 </React.Fragment>
               ))}
-              {parentIndicatorData ? <StyledLightGreyHeader /> : null}
+              {groupIndicatorData ? <StyledLightGreyHeader /> : null}
               <StyledGreyHeader></StyledGreyHeader>
             </Table.Row>
             <Table.Row>
@@ -260,7 +260,7 @@ export function LineChartTable({
                     )
                   )
               )}
-              {parentIndicatorData ? (
+              {groupIndicatorData ? (
                 <StyledLightGreySubHeader>Value (%)</StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
@@ -273,7 +273,7 @@ export function LineChartTable({
           </>
         }
       >
-        {englandRowData.map((point, index) => (
+        {sortedEnglandData.map((point, index) => (
           <Table.Row key={point.period + index}>
             <StyledAlignLeftTableCell numeric>
               {point.period}
@@ -297,14 +297,16 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
-            {parentIndicatorData ? (
+            {groupIndicatorData ? (
               <StylesGroupValueTableCell>
-                {convertToPercentage(sortedParentRowData[index].value)}
+                {convertToPercentage(sortedGroupData[index].value)}
               </StylesGroupValueTableCell>
             ) : null}
-            <StyledGreyTableCellValue data-testid="grey-table-cell">
-              {convertToPercentage(englandRowData[index].value)}
-            </StyledGreyTableCellValue>
+            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
+              {sortedEnglandData.length
+                ? convertToPercentage(sortedEnglandData[index].value)
+                : '-'}
+            </StyledBenchmarkValueTableCell>
           </Table.Row>
         ))}
       </Table>
