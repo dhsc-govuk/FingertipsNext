@@ -55,9 +55,6 @@ export const handlers = [
     const includeChildren = url.searchParams.get('include_children') ?? 'false';
     const childAreaType = url.searchParams.get('child_area_type') ?? '';
 
-    console.log(`includeChildren ${includeChildren}`);
-    console.log(`childAreaType ${childAreaType}`);
-
     if (typeof areaCode !== 'string') {
       return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
     }

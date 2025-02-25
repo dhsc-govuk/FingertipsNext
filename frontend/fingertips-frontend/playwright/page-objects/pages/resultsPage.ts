@@ -16,13 +16,13 @@ export default class ResultsPage extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
 
   async areaFilterOptionsText() {
-    const areaTypeDropdown = await this.page
+    const areaTypeDropdownOptions = await this.page
       .getByTestId(this.areaFilterContainer)
       .getByRole('combobox', { name: 'Select an area type' })
       .getByRole('option')
       .all();
 
-    return Promise.all(areaTypeDropdown.map((l) => l.textContent()));
+    return Promise.all(areaTypeDropdownOptions.map((l) => l.textContent()));
   }
 
   async checkSearchResults(searchTerm: string) {
