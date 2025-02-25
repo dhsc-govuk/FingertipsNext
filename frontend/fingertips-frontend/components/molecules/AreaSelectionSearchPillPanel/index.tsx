@@ -1,4 +1,4 @@
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, formatAreaName } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
 import { UnorderedList, ListItem } from 'govuk-react';
 import { Pill } from '../Pill';
@@ -51,8 +51,10 @@ export const AreaAutoCompletePillPanel = memo(
                     onRemovePill(area);
                   }
                 }}
-                selectedFilterId={'pill_' + area.areaCode + area.areaName}
-                selectedFilterName={area.areaName}
+                selectedFilterId={
+                  'pill_' + area.areaCode + area.areaName + area.areaType
+                }
+                selectedFilterName={formatAreaName(area)}
               />
             </StyleAreaAutoCompletePillPanelItem>
           ))}

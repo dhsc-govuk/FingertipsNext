@@ -36,3 +36,9 @@ export interface IAreaSearchService {
   getAreaDocument(areaCode: string): Promise<AreaDocument | undefined>;
   getAreaSuggestions(partialAreaName: string): Promise<AreaDocument[]>;
 }
+
+export function formatAreaName(area: AreaDocument): string {
+  return area.areaType === AREA_TYPE_GP
+    ? `${area.areaCode} - ${area.areaName}`
+    : area.areaName;
+}
