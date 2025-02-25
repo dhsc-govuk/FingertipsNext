@@ -92,7 +92,11 @@ export default class ChartPage extends BasePage {
    * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
-  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
+  async checkChartVisibility(
+    indicatorMode: IndicatorMode,
+    areaMode: AreaMode,
+    compareVisualSnapshots: boolean
+  ) {
     const { visibleComponents, hiddenComponents } = this.getScenarioConfig(
       indicatorMode,
       areaMode
@@ -113,6 +117,13 @@ export default class ChartPage extends BasePage {
       await expect(this.page.getByTestId(component)).toBeVisible({
         visible: false,
       });
+    }
+
+    if (compareVisualSnapshots) {
+      // Only run visual snapshot comparison in CI
+      await expect(this.page).toHaveScreenshot();
+    } else {
+      console.log('Skipping visual comparison in local environment');
     }
   }
 }

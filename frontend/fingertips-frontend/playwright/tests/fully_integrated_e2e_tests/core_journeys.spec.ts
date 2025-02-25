@@ -7,6 +7,8 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 const indicatorData = indicators as IndicatorDocument[];
 const searchTerm = 'mortality';
 let allIndicatorIDs: string[];
+const isRunningInCI = () => !!process.env.CI;
+
 interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
@@ -84,7 +86,11 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         );
         await resultsPage.clickViewChartsButton();
 
-        await chartPage.checkChartVisibility(indicatorMode, areaMode);
+        await chartPage.checkChartVisibility(
+          indicatorMode,
+          areaMode,
+          isRunningInCI()
+        );
       });
     });
   });

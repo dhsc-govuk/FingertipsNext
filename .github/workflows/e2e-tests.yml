@@ -43,10 +43,12 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v3
+        id: cache
         with:
           path: |
             ${{ env.frontend-directory }}/node_modules
             ~/.cache/ms-playwright
+            ${{ env.frontend-directory }}/playwright/.test/**
           key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
           restore-keys: ${{ runner.os }}-deps-
 
@@ -63,6 +65,10 @@ jobs:
       - name: Install playwright dependencies - for CI test execution
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
+
+      - name: Initialize snapshots if not in cache
+        if: ${{steps.cache.outputs.cache-hit != 'true'}}
+        run: npx playwright test --update-snapshots
 
       - name: Run Playwright tests in CI
         if: inputs.e2e-test-container-image == null

@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!process.env.CI;
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 const jobUrl = process.env.JOB_URL;
 const runCommand =
@@ -10,10 +11,13 @@ const runCommand =
 export default defineConfig({
   testDir: './playwright/tests',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
+  forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
   expect: process.env.CI ? { timeout: 10_000 } : { timeout: 5_000 },
+  snapshotPathTemplate:
+    '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
+
   reporter: process.env.CI
     ? [
         ['list'],
