@@ -12,14 +12,11 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { mockDeep } from 'jest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
-import { mockAreaDataForCountiesAndUAs } from '@/mock/data/areaData';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
-const mockAreasApi = mockDeep<AreasApi>();
 
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 jest.mock('@/components/pages/chart');
 
@@ -46,7 +43,7 @@ describe('Chart Page', () => {
     jest.clearAllMocks();
   });
 
-  describe('when no parent area is available ', () => {
+  describe('when no group area is available', () => {
     it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator the next one for the population data', async () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
@@ -128,36 +125,17 @@ describe('Chart Page', () => {
     });
   });
 
-  describe('when a single parent area is available ', () => {
-    it('should make 1 call for get area data when there is one area selected', async () => {
-      const mockAreaCode = 'E06000047';
+  describe('when a single group is selected', () => {
+    const mockAreaCode = 'E06000047';
+    it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator, including the group area the next one for the population data', async () => {
+      const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: [mockAreaCode],
+        [SearchParams.GroupSelected]: mockParentAreaCode,
       };
-      mockAreasApi.getArea.mockResolvedValueOnce(
-        mockAreaDataForCountiesAndUAs[mockAreaCode]
-      );
 
-      await ChartPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-        areaCode: mockAreaCode,
-      });
-    });
-
-    it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator, including the parent area the next one for the population data', async () => {
-      const mockAreaCode = 'E06000047';
-      const searchParams: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: 'testing',
-        [SearchParams.IndicatorsSelected]: ['333'],
-        [SearchParams.AreasSelected]: [mockAreaCode],
-      };
-      mockAreasApi.getArea.mockResolvedValueOnce(
-        mockAreaDataForCountiesAndUAs[mockAreaCode]
-      );
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -168,7 +146,7 @@ describe('Chart Page', () => {
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
       ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland, 'E12000001'],
+        areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
         indicatorId: 333,
       });
       expect(
@@ -180,15 +158,13 @@ describe('Chart Page', () => {
     });
 
     it('should pass the correct props to the Chart page', async () => {
-      const mockAreaCode = 'E06000047';
+      const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: [mockAreaCode],
+        [SearchParams.GroupSelected]: mockParentAreaCode,
       };
-      mockAreasApi.getArea.mockResolvedValueOnce(
-        mockAreaDataForCountiesAndUAs[mockAreaCode]
-      );
 
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
         mockHealthData['333']
@@ -201,7 +177,37 @@ describe('Chart Page', () => {
       expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
       expect(page.props.searchedIndicator).toEqual('testing');
       expect(page.props.indicatorsSelected).toEqual(['333']);
-      expect(page.props.parentAreaCode).toEqual('E12000001');
+      expect(page.props.selectedGroupCode).toEqual(mockParentAreaCode);
+    });
+
+    it('should not include groupSelected in the API call if England is the groupSelected', async () => {
+      const mockParentAreaCode = 'E92000001';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+        [SearchParams.GroupSelected]: mockParentAreaCode,
+      };
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+
+      await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).toHaveBeenNthCalledWith(1, {
+        areaCodes: [mockAreaCode, areaCodeForEngland],
+        indicatorId: 333,
+      });
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).toHaveBeenNthCalledWith(2, {
+        areaCodes: [mockAreaCode, areaCodeForEngland],
+        indicatorId: indicatorIdForPopulation,
+      });
     });
   });
 

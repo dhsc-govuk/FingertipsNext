@@ -225,7 +225,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
-          parentIndicatorData={MOCK_PARENT_DATA}
+          groupIndicatorData={MOCK_PARENT_DATA}
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -249,7 +249,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={MOCK_HEALTH_DATA}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
-          parentIndicatorData={MOCK_PARENT_DATA}
+          groupIndicatorData={MOCK_PARENT_DATA}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
