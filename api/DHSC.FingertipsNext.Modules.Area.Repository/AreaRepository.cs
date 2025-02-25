@@ -103,7 +103,6 @@ public class AreaRepository : IAreaRepository
         
         if (!parents.IsNullOrEmpty())
         {
-            // Todo - should return all parents
             areasWithRelations.ParentAreas = parents;
         }
 
@@ -138,7 +137,7 @@ public class AreaRepository : IAreaRepository
         if (string.IsNullOrWhiteSpace(childAreaType))
         {
             // direct children
-            return await GetChildAreas(area.AreaKey);
+            return await GetDirectChildAreas(area.AreaKey);
         }
         else
         {
@@ -170,7 +169,7 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
     }
 
-    private async Task<List<AreaModel>> GetChildAreas(int parentAreaKey)
+    private async Task<List<AreaModel>> GetDirectChildAreas(int parentAreaKey)
     {
         return await _dbContext
             .Area
