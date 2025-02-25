@@ -67,8 +67,8 @@ jobs:
         run: npx playwright install --with-deps chromium webkit
 
       - name: Initialize snapshots if not in cache
-        if: ${{steps.cache.outputs.cache-hit != 'true'}}
-        run: npx playwright test --update-snapshots
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI
         if: inputs.e2e-test-container-image == null
