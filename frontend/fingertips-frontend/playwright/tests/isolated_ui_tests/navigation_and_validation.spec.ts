@@ -47,11 +47,12 @@ test.beforeAll(
     allNHSRegionAreas = getAllNHSRegionAreas(mockAreas);
   }
 );
-test.describe(`Navigation and validation tests`, () => {
+test.describe(`Navigation, accessibility and validation tests`, () => {
   test('client validation testing and navigation behaviour', async ({
     homePage,
     resultsPage,
     chartPage,
+    axeBuilder,
   }) => {
     await test.step('Search page validation', async () => {
       await homePage.navigateToHomePage();
@@ -60,6 +61,7 @@ test.describe(`Navigation and validation tests`, () => {
       await homePage.checkSummaryValidation(
         `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
       );
+      await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
     await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
@@ -68,12 +70,14 @@ test.describe(`Navigation and validation tests`, () => {
 
       await resultsPage.waitForURLToContain(searchTerm);
       await resultsPage.checkSearchResultsTitle(searchTerm);
+      await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
     await test.step('Validate indicator search validation on results page', async () => {
       await resultsPage.clearIndicatorSearchBox();
       await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkForIndicatorSearchError();
+      await chartPage.expectNoAccessibilityViolations(axeBuilder);
 
       await resultsPage.fillIndicatorSearch(searchTerm);
       await resultsPage.clickIndicatorSearchButtonAndWait(searchTerm);
@@ -90,6 +94,7 @@ test.describe(`Navigation and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
+      await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {

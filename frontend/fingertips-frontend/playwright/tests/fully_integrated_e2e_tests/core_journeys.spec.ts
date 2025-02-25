@@ -58,12 +58,10 @@ test.describe(`Search via search term ${searchTerm}`, () => {
       homePage,
       resultsPage,
       chartPage,
-      axeBuilder,
     }) => {
       await test.step('Navigate to and verify search page', async () => {
         await homePage.navigateToHomePage();
         await homePage.checkOnHomePage();
-        await homePage.expectNoAccessibilityViolations(axeBuilder);
       });
 
       await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
@@ -71,7 +69,6 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         await homePage.clickSearchButton();
 
         await resultsPage.waitForURLToContain(searchTerm);
-        await resultsPage.expectNoAccessibilityViolations(axeBuilder);
         await resultsPage.checkSearchResultsTitle(searchTerm);
       });
 
@@ -87,7 +84,6 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         );
         await resultsPage.clickViewChartsButton();
 
-        await chartPage.expectNoAccessibilityViolations(axeBuilder);
         await chartPage.checkChartVisibility(indicatorMode, areaMode);
       });
     });
