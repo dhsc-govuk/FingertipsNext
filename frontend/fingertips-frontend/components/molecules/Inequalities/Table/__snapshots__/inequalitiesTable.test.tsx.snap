@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] = `
+exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
   .c2 {
   padding: 10px 20px 10px 0;
@@ -42,8 +42,8 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
   font-weight: bold;
   padding: 0.625em 0;
 }
@@ -59,8 +59,8 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
   padding-right: 0;
 }
 
@@ -126,29 +126,29 @@ exports[`Inequalities sex table suite snapshot test - should match snapshot 1`] 
 
 @media print {
   .c3 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c3 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
 @media print {
   .c8 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c8 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 

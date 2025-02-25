@@ -17,20 +17,22 @@ import {
   getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
+  Inequalities,
+  mapToKey,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
 
-export enum InequalitiesSexTableHeadingsEnum {
+export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
 }
 
-export interface InequalitiesSexTableRowData {
+export interface InequalitiesTableRowData {
   [key: string]: number | undefined;
 }
 
-interface InequalitiesSexTableProps {
+interface InequalitiesTableProps {
   healthIndicatorData: HealthDataForArea;
-  isSex?: boolean;
+  type?: Inequalities;
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -42,12 +44,12 @@ export const mapToInequalitiesTableData = (
     string,
     Record<string, HealthDataPoint[] | undefined>
   >
-): InequalitiesSexTableRowData[] => {
+): InequalitiesTableRowData[] => {
   return Object.keys(yearDataGroupedByInequalities).map((key) => {
     const dynamicFields = Object.keys(
       yearDataGroupedByInequalities[key]
     ).reduce((acc: Record<string, number | undefined>, current: string) => {
-      acc[current] =
+      acc[mapToKey(current)] =
         yearDataGroupedByInequalities[key][current]?.at(0)?.value ?? undefined;
       return acc;
     }, {});
@@ -57,7 +59,7 @@ export const mapToInequalitiesTableData = (
 };
 
 const getCellHeader = (heading: string, index: number): ReactNode => {
-  return heading === InequalitiesSexTableHeadingsEnum.PERIOD ? (
+  return heading === InequalitiesTableHeadingsEnum.PERIOD ? (
     <StyledAlignLeftHeader
       data-testid={`header-${heading}-${index}`}
       key={heading + index}
@@ -76,8 +78,8 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 
 export function InequalitiesTable({
   healthIndicatorData,
-  isSex = true,
-}: Readonly<InequalitiesSexTableProps>) {
+  type = Inequalities.Sex,
+}: Readonly<InequalitiesTableProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
   );
@@ -87,11 +89,11 @@ export function InequalitiesTable({
 
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
-    isSex
+    type
   );
 
   const tableHeaders = [
-    ...Object.values(InequalitiesSexTableHeadingsEnum),
+    ...Object.values(InequalitiesTableHeadingsEnum),
     ...dynamicKeys,
   ];
 
@@ -121,9 +123,7 @@ export function InequalitiesTable({
             <StyledAlignLeftTableCell>{data.period}</StyledAlignLeftTableCell>
             {dynamicKeys.map((key) => (
               <StyledAlignRightTableCell key={key}>
-                {key === 'Persons'
-                  ? getDisplayedValue(data['All'])
-                  : getDisplayedValue(data[key])}
+                {getDisplayedValue(data[key])}
               </StyledAlignRightTableCell>
             ))}
           </Table.Row>

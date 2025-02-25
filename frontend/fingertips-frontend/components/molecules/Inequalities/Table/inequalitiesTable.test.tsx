@@ -2,13 +2,12 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import {
   InequalitiesTable,
-  InequalitiesSexTableHeadingsEnum,
-  InequalitiesSexTableRowData,
+  InequalitiesTableRowData,
   mapToInequalitiesTableData,
 } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
-describe('Inequalities sex table suite', () => {
+describe('Inequalities table suite', () => {
   const CELLS_PER_ROW = 4;
   it('should render the InequalitiesSexTable component', () => {
     render(<InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
@@ -19,6 +18,8 @@ describe('Inequalities sex table suite', () => {
   });
 
   it('should render expected elements', () => {
+    const headings = ['Period', 'Persons', 'Male', 'Female'];
+
     render(<InequalitiesTable healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(screen.getByRole('table')).toBeInTheDocument();
@@ -26,7 +27,7 @@ describe('Inequalities sex table suite', () => {
       MOCK_HEALTH_DATA[1].areaName
     );
     expect(screen.getAllByRole('cell')).toHaveLength(CELLS_PER_ROW);
-    Object.values(InequalitiesSexTableHeadingsEnum).forEach((heading, index) =>
+    headings.forEach((heading, index) =>
       expect(
         screen.getByTestId(`header-${heading}-${index}`)
       ).toBeInTheDocument()
@@ -58,7 +59,7 @@ describe('Inequalities sex table suite', () => {
         },
       };
 
-      const expectedInequalitiesSexTableRow: InequalitiesSexTableRowData[] = [
+      const expectedInequalitiesSexTableRow: InequalitiesTableRowData[] = [
         {
           period: 2004,
           Male: 703.420759,
@@ -66,7 +67,7 @@ describe('Inequalities sex table suite', () => {
         },
         {
           period: 2008,
-          All: 135.149304,
+          Persons: 135.149304,
           Male: 890.328253,
           Female: 890.328253,
         },

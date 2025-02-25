@@ -4,6 +4,7 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
+  Inequalities,
   shouldDisplayInequalities,
 } from './inequalitiesHelpers';
 
@@ -120,16 +121,16 @@ describe('getDynamicKeys', () => {
   it('should get unique keys for sex inequality sorted', () => {
     const expectedKeys = ['Persons', 'Male', 'Female'];
 
-    expect(getDynamicKeys(yearlyHealthDataGroupedBySex, true)).toEqual(
-      expectedKeys
-    );
+    expect(
+      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Sex)
+    ).toEqual(expectedKeys);
   });
 
   it('should get unique keys for inequality unsorted', () => {
     const expectedKeys = ['All', 'Female', 'Male'];
 
-    expect(getDynamicKeys(yearlyHealthDataGroupedBySex, false)).toEqual(
-      expectedKeys
-    );
+    expect(
+      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Decile)
+    ).toEqual(expectedKeys);
   });
 });
