@@ -8,11 +8,7 @@ import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import {
-  Area,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
+import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
 import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
 import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
@@ -46,9 +42,7 @@ export default async function Page(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-            areasSelected.map((area) =>
-              areasApi.getArea({ areaCode: area, includeSiblings: true })
-            )
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
           )
         : [];
 
@@ -84,18 +78,12 @@ export default async function Page(
       availableGroups
     );
 
-    let availableAreas: Area[] = [];
-    // if (selectedAreasData.length === 0) {
     const availableArea: AreaWithRelations = await areasApi.getArea({
       areaCode: determinedSelectedGroup,
       includeChildren: true,
       childAreaType: determinedSelectedAreaType,
     });
-    availableAreas = availableArea.children ?? [];
-    // } else {
-    //   console.log(`selectedAreasData ${JSON.stringify(selectedAreasData)}`);
-    //   availableAreas = selectedAreasData[0].siblings ?? [];
-    // }
+    const availableAreas = availableArea ? availableArea.children : [];
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
