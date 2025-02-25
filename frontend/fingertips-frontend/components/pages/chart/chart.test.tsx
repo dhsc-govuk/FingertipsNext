@@ -132,7 +132,7 @@ it('should render the ThematicMap component when all map props are provided', ()
   const mapData = getMapData(areaType, areaCodes);
 
   render(
-    <Chart healthIndicatorData={[mockHealthData['318']]} mapData={mapData} />
+    <Chart healthIndicatorData={[mockHealthData['92420']]} mapData={mapData} />
   );
 
   const thematicMap = screen.queryByTestId('thematicMap-component');
@@ -140,7 +140,7 @@ it('should render the ThematicMap component when all map props are provided', ()
 });
 
 it('should _not_ render the ThematicMap component when map props are _not_ provided', async () => {
-  render(<Chart healthIndicatorData={[mockHealthData['318']]} />);
+  render(<Chart healthIndicatorData={[mockHealthData['92420']]} />);
   const thematicMap = screen.queryByTestId('thematicMap-component');
 
   expect(thematicMap).not.toBeInTheDocument();
