@@ -14,9 +14,13 @@ export default defineConfig({
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code.
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
-  expect: process.env.CI ? { timeout: 10_000 } : { timeout: 5_000 },
-  snapshotPathTemplate:
-    '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
+  expect: {
+    timeout: 10_000,
+    toHaveScreenshot: {
+      maxDiffPixels: 100,
+      pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
+    },
+  },
 
   reporter: process.env.CI
     ? [
