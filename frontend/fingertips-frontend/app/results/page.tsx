@@ -45,7 +45,9 @@ export default async function Page(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area, includeSiblings: true })
+            )
           )
         : [];
 
@@ -86,13 +88,19 @@ export default async function Page(
       `determinedSelectedGroup ${JSON.stringify(determinedSelectedGroup)}`
     );
 
-    const availableArea: AreaWithRelations = await areasApi.getArea({
-      areaCode: determinedSelectedGroup,
-      includeChildren: true,
-      childAreaType: determinedSelectedAreaType,
-    });
-    console.log(`availableArea ${JSON.stringify(availableArea)}`);
-    const availableAreas: Area[] = availableArea.children ?? [];
+    let availableAreas: Area[] = [];
+    if (selectedAreasData.length === 0) {
+      const availableArea: AreaWithRelations = await areasApi.getArea({
+        areaCode: determinedSelectedGroup,
+        includeChildren: true,
+        childAreaType: determinedSelectedAreaType,
+      });
+      console.log(`availableArea ${JSON.stringify(availableArea)}`);
+      availableAreas = availableArea.children ?? [];
+    } else {
+      console.log(`selectedAreasData ${JSON.stringify(selectedAreasData)}`);
+      availableAreas = selectedAreasData[0].siblings ?? [];
+    }
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(

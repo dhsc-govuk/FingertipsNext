@@ -67,6 +67,8 @@ describe('Results Page', () => {
 
   it('should have made calls to getAreaTypes and searchResults', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
+    mockAreasApi.getAreaTypeMembers.mockResolvedValue([]);
+    mockAreasApi.getArea.mockResolvedValue({});
     mockIndicatorSearchService.searchWith.mockResolvedValue(
       mockIndicatorSearchResults
     );
