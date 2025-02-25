@@ -64,10 +64,6 @@ const StyledFilterSelect = styled(Select)({
   marginBottom: '1em',
 });
 
-type AllowedParamsForHandleSelect =
-  | SearchParams.AreaTypeSelected
-  | SearchParams.GroupTypeSelected;
-
 const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
   selectedAreas ? selectedAreas?.some((area) => area.code === areaCode) : false;
 

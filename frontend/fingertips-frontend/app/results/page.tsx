@@ -42,6 +42,7 @@ export default async function Page(
     const areasApi = ApiClientFactory.getAreasApiClient();
 
     const availableAreaTypes = await areasApi.getAreaTypes();
+
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
@@ -67,8 +68,7 @@ export default async function Page(
       );
 
     const determinedSelectedGroupType = determineSelectedGroupType(
-      selectedGroupType as AreaTypeKeys,
-      selectedAreasData
+      selectedGroupType as AreaTypeKeys
     );
     stateManager.addParamValueToState(
       SearchParams.GroupTypeSelected,
@@ -84,23 +84,18 @@ export default async function Page(
       availableGroups
     );
 
-    console.log(
-      `determinedSelectedGroup ${JSON.stringify(determinedSelectedGroup)}`
-    );
-
     let availableAreas: Area[] = [];
-    if (selectedAreasData.length === 0) {
-      const availableArea: AreaWithRelations = await areasApi.getArea({
-        areaCode: determinedSelectedGroup,
-        includeChildren: true,
-        childAreaType: determinedSelectedAreaType,
-      });
-      console.log(`availableArea ${JSON.stringify(availableArea)}`);
-      availableAreas = availableArea.children ?? [];
-    } else {
-      console.log(`selectedAreasData ${JSON.stringify(selectedAreasData)}`);
-      availableAreas = selectedAreasData[0].siblings ?? [];
-    }
+    // if (selectedAreasData.length === 0) {
+    const availableArea: AreaWithRelations = await areasApi.getArea({
+      areaCode: determinedSelectedGroup,
+      includeChildren: true,
+      childAreaType: determinedSelectedAreaType,
+    });
+    availableAreas = availableArea.children ?? [];
+    // } else {
+    //   console.log(`selectedAreasData ${JSON.stringify(selectedAreasData)}`);
+    //   availableAreas = selectedAreasData[0].siblings ?? [];
+    // }
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
