@@ -57,4 +57,10 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("trend")]
     public string? Trend { get; init; } = String.Empty ;
+    
+    /// <summary>
+    /// Benchmark which the data are for.
+    /// </summary>
+    [JsonPropertyName("benchmark")]
+    public HealthDataPointBenchmark? Benchmark { get; set; }
 }
