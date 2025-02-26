@@ -81,10 +81,7 @@ test.describe(`Search via search term ${searchTerm}`, () => {
           indicatorMode,
           searchTerm
         );
-        await resultsPage.selectAreasCheckboxesAndCheckURL(
-          areaMode,
-          searchTerm
-        );
+        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
         await resultsPage.clickViewChartsButton();
 
         await chartPage.checkChartVisibility(indicatorMode, areaMode);

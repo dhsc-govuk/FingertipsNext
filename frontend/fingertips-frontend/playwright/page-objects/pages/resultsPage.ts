@@ -95,6 +95,13 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
+  /**
+   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection
+   *
+   * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
+   * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
+   * @param searchTerm - search term to be used in the URL check
+   */
   async selectIndicatorCheckboxesAndCheckURL(
     allIndicatorIDs: string[],
     indicatorMode: IndicatorMode,
@@ -123,63 +130,54 @@ export default class ResultsPage extends BasePage {
     }
   }
 
-  async selectAreasCheckboxesAndCheckURL(
-    areaMode: AreaMode,
-    searchTerm: string
-  ) {
-    // note that in this function we do not pass in the areas to select, but instead we trust the fingertips UI to only show us valid areas
-    // based on the indicators selected when calling selectIndicatorCheckboxesAndCheckURL
-
-    const defaultAreaTypeFilter = 'nhs-integrated-care-boards';
-
+  /**
+   * Selects the required area filters - note that we do not pass in the areas to select, but instead we trust, and therefore test, the fingertips UI
+   * to only show us valid areas based on the indicators selected by the test function selectIndicatorCheckboxesAndCheckURL. If it allows us to select
+   * invalid areas, then the chart page will error.
+   *
+   * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
+   * @param searchTerm - search term to be used in the URL check
+   */
+  async selectAreasFiltersAndCheckURL(areaMode: AreaMode, searchTerm: string) {
     // For area type filter currently defaulting to using NHS Integrated Care Boards (except for England area mode) - this will be refactored in the future
+    const defaultAreaTypeFilter = 'nhs-integrated-care-boards';
     await this.page
       .getByTestId(this.areaTypeSelector)
       .selectOption(defaultAreaTypeFilter);
 
-    const groupTypeDropdown = this.page.getByTestId(this.groupTypeSelector);
-    await groupTypeDropdown.click();
-    await expect(groupTypeDropdown).toHaveValue('england');
-
     // For group type filter currently defaulting to using NHS Regions (except for England area mode) - this will be refactored in the future
+    const groupTypeDropdown = this.page.getByTestId(this.groupTypeSelector);
     await groupTypeDropdown.selectOption('NHS Regions');
+
+    // Select appropriate number of checkboxes based on area mode
     const checkboxList = this.page
       .getByTestId(this.areaFilterContainer)
       .getByRole('checkbox');
+    const checkboxCountMap = {
+      [AreaMode.ONE_AREA]: 1,
+      [AreaMode.TWO_AREAS]: 2,
+      [AreaMode.THREE_PLUS_AREAS]: 3,
+      [AreaMode.ALL_AREAS_IN_A_GROUP]: await checkboxList.count(),
+      [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
+    };
+    const checkboxCount = checkboxCountMap[areaMode];
+    for (let i = 0; i < checkboxCount; i++) {
+      await checkboxList.nth(i).check();
 
-    switch (areaMode) {
-      case AreaMode.ONE_AREA:
-        await checkboxList.first().check();
+      if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
         await this.waitForURLToContain(defaultAreaTypeFilter);
-        break;
-      case AreaMode.TWO_AREAS:
-        for (let i = 0; i < 2; i++) {
-          await checkboxList.nth(i).check();
-          await this.waitForURLToContain(defaultAreaTypeFilter);
-        }
-        break;
-      case AreaMode.THREE_PLUS_AREAS:
-        for (let i = 0; i < 3; i++) {
-          await checkboxList.nth(i).check();
-        }
-        await this.waitForURLToContain(defaultAreaTypeFilter);
-        break;
-      case AreaMode.ALL_AREAS_IN_A_GROUP:
-        for (let i = 0; i < (await checkboxList.count()); i++) {
-          await checkboxList.nth(i).check();
-        }
-        await this.waitForURLToContain(defaultAreaTypeFilter);
-        break;
-      case AreaMode.ENGLAND_AREA:
-        await this.page
-          .getByTestId(this.areaTypeSelector)
-          .selectOption('England');
-        await groupTypeDropdown.selectOption('England');
-        await this.waitForURLToContain(`england`);
-        break;
-      default:
-        throw new Error('Invalid area mode');
+      }
     }
+
+    // England area mode
+    if (AreaMode.ENGLAND_AREA === areaMode) {
+      await this.page
+        .getByTestId(this.areaTypeSelector)
+        .selectOption('England');
+      await groupTypeDropdown.selectOption('England');
+      await this.waitForURLToContain(`england`);
+    }
+
     await this.waitForURLToContain(
       `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
     );
