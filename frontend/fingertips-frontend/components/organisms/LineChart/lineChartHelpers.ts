@@ -85,13 +85,3 @@ export function shouldDisplayLineChart(
     data[0]?.healthData.length > 1
   );
 }
-
-export enum LineChartTableHeadingEnum {
-  AreaPeriod = 'Period',
-  BenchmarkTrend = 'Compared to benchmark',
-  AreaCount = 'Count',
-  AreaValue = 'Value',
-  AreaLower = 'Lower',
-  AreaUpper = 'Upper',
-  BenchmarkValue = 'Value ',
-}

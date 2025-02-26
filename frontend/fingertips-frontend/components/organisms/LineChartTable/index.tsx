@@ -3,10 +3,29 @@
 import { Table } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import {
+  convertToPercentage,
+  StyledAlignLeftHeader,
+  StyledAlignLeftTableCell,
+  StyledAlignRightHeader,
+  StyledAlignRightTableCell,
+  StyledDiv,
+  StyledGreyHeader,
+  StyledGreyTableCellValue,
+} from '@/lib/tableHelpers';
+import { Sex } from '../Inequalities/inequalitiesHelpers';
+
+export enum LineChartTableHeadingEnum {
+  AreaPeriod = 'Period',
+  BenchmarkTrend = 'Compared to benchmark',
+  AreaCount = 'Count',
+  AreaValue = 'Value',
+  AreaLower = 'Lower',
+  AreaUpper = 'Upper',
+  BenchmarkValue = 'Value ',
+}
 
 export interface TableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -14,38 +33,13 @@ export interface TableProps {
   groupIndicatorData?: HealthDataForArea;
 }
 
-interface LineChartTableRowData {
+export interface LineChartTableRowData {
   period: number;
   count?: number;
   value?: number;
   lower?: number;
   upper?: number;
 }
-
-const StyledDiv = styled('div')({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
-
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
-  {
-    fontWeight: 'bold',
-    padding: '0.625em 0',
-  }
-);
-
-const StyledAlignRightHeader = styled(StyledTableCellHeader)({
-  textAlign: 'right',
-  paddingRight: '10px',
-  verticalAlign: 'top',
-});
-
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-  verticalAlign: 'top',
-});
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   width: '10%',
@@ -75,12 +69,6 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   textAlign: 'center',
 });
 
-const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
-});
-
 const StyledLightGreyHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
@@ -90,27 +78,8 @@ const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
 });
 
-const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
-  paddingRight: '0',
-});
-
-const StyledAlignLeftTableCell = styled(StyledTableCell)({
-  textAlign: 'left',
-  width: '10%',
-});
-
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
-});
-
-const StyledAlignRightTableCell = styled(StyledTableCell)({
-  textAlign: 'right',
-  paddingRight: '10px',
-});
-
-const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: `solid #F3F2F1 2px`,
 });
 
 const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
@@ -122,31 +91,10 @@ const StyledSpan = styled('span')({
   display: 'block',
 });
 
-const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
-  areaData.healthData.map((healthPoint) => ({
-    period: healthPoint.year,
-    count: healthPoint.count,
-    value: healthPoint.value,
-    lower: healthPoint.lowerCi,
-    upper: healthPoint.upperCi,
-  }));
-
 const sortPeriod = (
   tableRowData: LineChartTableRowData[]
 ): LineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.period - b.period);
-
-// When value is undefined, it returns an X with an aria-label for screen readers.
-const convertToPercentage = (value?: number): React.ReactNode => {
-  if (value === undefined) {
-    return (
-      <span aria-label="Not available">
-        <span aria-hidden="true">X</span>
-      </span>
-    );
-  }
-  return `${((value / 10000) * 100).toFixed(1)}%`;
-};
 
 const getBenchmarkHeader = (
   areaCount: number,
@@ -170,7 +118,7 @@ const getBenchmarkHeader = (
   );
 
 const getCellHeader = (
-  heading: string,
+  heading: LineChartTableHeadingEnum,
   index: number,
   dataLength: number
 ): ReactNode => {
@@ -201,6 +149,19 @@ const getBenchmarkCell = (areaCount: number) =>
     <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
   );
 
+export const mapToLineChartTableData = (
+  areaData: HealthDataForArea
+): LineChartTableRowData[] =>
+  areaData.healthData
+    .filter((healthPoint) => healthPoint.sex === Sex.ALL)
+    .map((healthPoint) => ({
+      period: healthPoint.year,
+      count: healthPoint.count,
+      value: healthPoint.value,
+      lower: healthPoint.lowerCi,
+      upper: healthPoint.upperCi,
+    }));
+
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
@@ -214,13 +175,13 @@ export function LineChartTable({
   groupIndicatorData,
 }: Readonly<TableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
-    mapToTableData(areaData)
+    mapToLineChartTableData(areaData)
   );
   const englandData = englandBenchmarkData
-    ? mapToTableData(englandBenchmarkData)
+    ? mapToLineChartTableData(englandBenchmarkData)
     : [];
   const groupData = groupIndicatorData
-    ? mapToTableData(groupIndicatorData)
+    ? mapToLineChartTableData(groupIndicatorData)
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const sortedEnglandData = sortPeriod(englandData);
@@ -341,11 +302,9 @@ export function LineChartTable({
                 {convertToPercentage(sortedGroupData[index].value)}
               </StylesGroupValueTableCell>
             ) : null}
-            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
-              {sortedEnglandData.length
-                ? convertToPercentage(sortedEnglandData[index].value)
-                : '-'}
-            </StyledBenchmarkValueTableCell>
+            <StyledGreyTableCellValue data-testid="grey-table-cell">
+              {convertToPercentage(sortedEnglandData[index].value)}
+            </StyledGreyTableCellValue>
           </Table.Row>
         ))}
       </Table>

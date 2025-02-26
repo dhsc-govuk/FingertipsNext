@@ -39,6 +39,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     indicatorId: number;
     areaCodes?: Array<string>;
     years?: Array<number>;
+    inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
 }
 
 export interface GetIndicatorRequest {
@@ -74,6 +75,7 @@ export interface IndicatorsApiInterface {
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
+     * @param {Array<'age' | 'sex'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -163,6 +165,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['years'] = requestParameters['years'];
         }
 
+        if (requestParameters['inequalities'] != null) {
+            queryParameters['inequalities'] = requestParameters['inequalities'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -220,3 +226,12 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
 }
+
+/**
+ * @export
+ */
+export const GetHealthDataForAnIndicatorInequalitiesEnum = {
+    Age: 'age',
+    Sex: 'sex'
+} as const;
+export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataForAnIndicatorInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorInequalitiesEnum];

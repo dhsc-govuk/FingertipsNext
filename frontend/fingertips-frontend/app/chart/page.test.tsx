@@ -54,6 +54,7 @@ describe('Chart Page', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: ['A001', areaCodeForEngland],
         indicatorId: 1,
+        inequalities: ['sex'],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -83,12 +84,14 @@ describe('Chart Page', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: ['A001', areaCodeForEngland],
         indicatorId: 1,
+        inequalities: [],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
       ).toHaveBeenNthCalledWith(2, {
         areaCodes: ['A001', areaCodeForEngland],
         indicatorId: 2,
+        inequalities: [],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -122,6 +125,7 @@ describe('Chart Page', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
         indicatorId: 333,
+        inequalities: ['sex'],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -152,6 +156,7 @@ describe('Chart Page', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: [mockAreaCode, areaCodeForEngland],
         indicatorId: 333,
+        inequalities: ['sex'],
       });
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
