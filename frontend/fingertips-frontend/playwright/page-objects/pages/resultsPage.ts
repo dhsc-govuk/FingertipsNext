@@ -1,8 +1,11 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { AreaMode, IndicatorMode } from './chartPage';
-import { returnIndicatorIDsByIndicatorMode } from '@/playwright/testHelpers';
+import {
+  AreaMode,
+  IndicatorMode,
+  returnIndicatorIDsByIndicatorMode,
+} from '@/playwright/testHelpers';
 
 let filteredIndicatorIds: string[];
 
@@ -124,7 +127,11 @@ export default class ResultsPage extends BasePage {
     areaMode: AreaMode,
     searchTerm: string
   ) {
+    // note that in this function we do not pass in the areas to select, but instead we trust the fingertips UI to only show us valid areas
+    // based on the indicators selected when calling selectIndicatorCheckboxesAndCheckURL
+
     const defaultAreaTypeFilter = 'nhs-integrated-care-boards';
+
     // For area type filter currently defaulting to using NHS Integrated Care Boards (except for England area mode) - this will be refactored in the future
     await this.page
       .getByTestId(this.areaTypeSelector)

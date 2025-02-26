@@ -44,7 +44,7 @@ describe('Chart Page', () => {
   });
 
   describe('when no group area is available', () => {
-    it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator the next one for the population data', async () => {
+    it('should make 2 calls for get health data, when there iss only one indicator selected - first one for the indicator the next one for the population data', async () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -127,7 +127,7 @@ describe('Chart Page', () => {
 
   describe('when a single group is selected', () => {
     const mockAreaCode = 'E06000047';
-    it('should make 2 calls for get health data, when theres only one indicator selected - first one for the indicator, including the group area the next one for the population data', async () => {
+    it('should make 2 calls for get health data, when there is only one indicator selected - first one for the indicator, including the group area the next one for the population data', async () => {
       const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
