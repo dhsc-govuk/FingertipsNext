@@ -205,6 +205,24 @@ exports[`AI search index creation and data loading Search by indicator should ha
     "vectorEncoding": null,
     "vectorSearchProfile": null,
   },
+  {
+    "analyzer": null,
+    "dimensions": null,
+    "facetable": false,
+    "filterable": true,
+    "indexAnalyzer": null,
+    "key": false,
+    "name": "hasInequalities",
+    "retrievable": true,
+    "searchAnalyzer": null,
+    "searchable": false,
+    "sortable": true,
+    "stored": true,
+    "synonymMaps": [],
+    "type": "Edm.Boolean",
+    "vectorEncoding": null,
+    "vectorSearchProfile": null,
+  },
 ]
 `;
 

@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "types": ["node", "jest"]
   },
-  "include": ["src", "./assets/*.json"],
+  "include": ["src/**/*", "./assets/*.json"],
   "exclude": ["node_modules", "*.config.ts"]
 }
