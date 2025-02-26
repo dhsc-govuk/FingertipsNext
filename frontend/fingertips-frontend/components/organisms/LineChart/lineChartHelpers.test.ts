@@ -301,7 +301,7 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockBenchmakData = {
+    const mockBenchmarkData = {
       areaCode: 'E92000001',
       areaName: 'England',
       healthData: [
@@ -454,7 +454,7 @@ describe('generateSeriesData', () => {
       mockData,
       symbols,
       chartColours,
-      mockBenchmakData,
+      mockBenchmarkData,
       mockParentData,
       false
     );
