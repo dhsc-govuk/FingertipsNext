@@ -114,6 +114,8 @@ export default class ResultsPage extends BasePage {
       allIndicatorIDs,
       indicatorMode
     );
+    // get the checkboxes from the UI and get the indicator IDs then filter again the filtered selection
+    //
     for (const indicatorID of filteredIndicatorIds) {
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
