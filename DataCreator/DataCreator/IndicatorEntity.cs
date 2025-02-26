@@ -70,6 +70,8 @@
         public int IndicatorID { get; set; }
 
         public string IndicatorName { get; set; }
+
+        public bool HideInSearchResults { get; set; }
     }
 
     public record IndicatorWithAreasAndLatestUpdate
