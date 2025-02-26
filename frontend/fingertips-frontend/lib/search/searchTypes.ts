@@ -13,7 +13,8 @@ export type IndicatorDocument = {
   indicatorName: string;
   indicatorDefinition: string;
   dataSource: string;
-  latestDataPeriod: string; // Most recent value held in database column 'Year'.
+  earliestDataPeriod: string; // Oldest value held in database column 'Year'.
+  latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
 };

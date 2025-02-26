@@ -46,6 +46,7 @@ export function parseIndicatorData(
     ({
       indicatorID,
       indicatorName,
+      earliestDataPeriod,
       latestDataPeriod,
       lastUpdatedDate,
       indicatorDefinition,
@@ -57,6 +58,7 @@ export function parseIndicatorData(
         indicatorName,
         indicatorDefinition,
         dataSource,
+        earliestDataPeriod: String(earliestDataPeriod),
         latestDataPeriod: String(latestDataPeriod),
         lastUpdatedDate: new Date(lastUpdatedDate),
         associatedAreaCodes,

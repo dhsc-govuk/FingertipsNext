@@ -29,7 +29,7 @@ type SearchResultProps = {
 };
 
 const StyledParagraph = styled(Paragraph)(
-  typography.font({ size: 19, lineHeight: '1.2' })
+  typography.font({ size: 19, lineHeight: '1' })
 );
 
 const FinalParagraph = styled(StyledParagraph)(
@@ -95,6 +95,10 @@ export function SearchResult({
     return stateManager.generatePath(chartPath);
   };
 
+  const formatDataPeriod = (earliest: string, latest: string): string => {
+    return earliest === latest ? earliest : `${earliest} to ${latest}`;
+  };
+
   return (
     <ListItem data-testid="search-result">
       <PrimaryRow>
@@ -116,8 +120,7 @@ export function SearchResult({
                 {result.indicatorName}
               </Link>
             </H5>
-            <StyledParagraph>{`Latest data period: ${result.latestDataPeriod}`}</StyledParagraph>
-            <StyledParagraph>{`Data source: ${result.dataSource}`}</StyledParagraph>
+            <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               <GridCol>
