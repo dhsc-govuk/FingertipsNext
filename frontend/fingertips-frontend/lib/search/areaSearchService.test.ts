@@ -13,16 +13,14 @@ jest.mock('@azure/search-documents', () => ({
 describe('AreaSearchService', () => {
   const mockSearch = jest.fn();
 
-(SearchClient as jest.Mock).mockImplementation(
-    () => ({
-      suggest: mockSearch,
-      getDocument: jest.fn().mockResolvedValue({
-        areaCode: '123',
-        areaType: 'Town',
-        areaName: 'Solihull',
-      }),
-    })
-  );
+  (SearchClient as jest.Mock).mockImplementation(() => ({
+    suggest: mockSearch,
+    getDocument: jest.fn().mockResolvedValue({
+      areaCode: '123',
+      areaType: 'Town',
+      areaName: 'Solihull',
+    }),
+  }));
 
   mockSearch.mockResolvedValue({ results: [] });
 
