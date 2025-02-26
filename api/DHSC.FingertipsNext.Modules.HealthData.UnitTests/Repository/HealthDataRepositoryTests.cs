@@ -1,10 +1,8 @@
 ﻿using Shouldly;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 
@@ -40,7 +38,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(new HealthMeasureModelHelper().WithIndicatorDimension(indicatorId: 1).Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(2, [], []);
+        var result = await _repository.GetIndicatorDataAsync(2, [], [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -57,7 +55,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(expectedIndicatorId, [], []);
+        var result = await _repository.GetIndicatorDataAsync(expectedIndicatorId, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -95,7 +93,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [expectedAreaCode], []);
+        var result = await _repository.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -117,7 +115,7 @@ public class HealthDataRepositoryTests
             .Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], []);
+        var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -142,7 +140,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [], [2022, 2023]);
+        var result = await _repository.GetIndicatorDataAsync(1, [], [2022, 2023], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -166,7 +164,7 @@ public class HealthDataRepositoryTests
             .Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [], [2019]);
+        var result = await _repository.GetIndicatorDataAsync(1, [], [2019], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -203,7 +201,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023]);
+        var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -231,7 +229,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], []);
+        var result = await _repository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -259,7 +257,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], []);
+        var result = await _repository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -267,6 +265,128 @@ public class HealthDataRepositoryTests
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
             expectedHealthMeasure
+        });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldIncludeResultsWithSexDimensionData_IfSexInequalityIsSpecified()
+    {
+        // arrange
+        var maleHealthMeasure = new HealthMeasureModelHelper(key: 1, 2020)
+            .WithSexDimension(hasValue: true, isFemale: false)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(maleHealthMeasure);
+
+        var femaleHealthMeasure = new HealthMeasureModelHelper(key: 2, 2020)
+            .WithSexDimension(hasValue: true, isFemale: true)
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(femaleHealthMeasure);
+
+        var personsHealthMeasure = new HealthMeasureModelHelper(key: 3, 2020)
+            .WithSexDimension(hasValue: false, isFemale: false)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(personsHealthMeasure);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["sex"]);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            maleHealthMeasure,
+            personsHealthMeasure
+        });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldIncludeResultsWithAgeDimensionData_IfAgeInequalityIsSpecified()
+    {
+        // arrange
+        var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020)
+            .WithSexDimension(hasValue: false)
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(healthMeasureWithAgeAndNoSex);
+
+        var healthMeasureWithAgeAndSex = new HealthMeasureModelHelper(2, 2020)
+            .WithSexDimension(hasValue: true)
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(healthMeasureWithAgeAndSex);
+        
+        var healthMeasureWithNoAgeAndSex = new HealthMeasureModelHelper(3, 2020)
+            .WithSexDimension(hasValue: true)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(healthMeasureWithNoAgeAndSex);
+
+        var healthMeasureWithNoAgeAndNoSex = new HealthMeasureModelHelper(4, 2020)
+            .WithSexDimension(hasValue: false)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(healthMeasureWithNoAgeAndNoSex);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["age"]);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            healthMeasureWithAgeAndNoSex,
+            healthMeasureWithNoAgeAndNoSex
+        });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldIncludeResultsWithAllInequalityData_IfBothAreSpecified()
+    {
+        // arrange
+        var maleHealthMeasure = new HealthMeasureModelHelper(1, 2020)
+            .WithSexDimension(hasValue: true, isFemale: false)
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(maleHealthMeasure);
+
+        var femaleHealthMeasure = new HealthMeasureModelHelper(2, 2020)
+            .WithSexDimension(hasValue: true, isFemale: true)
+            .WithAgeDimension(hasValue: true)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(femaleHealthMeasure);
+
+        var personsHealthMeasure = new HealthMeasureModelHelper(3, 2020)
+            .WithSexDimension(hasValue: false, isFemale: false)
+            .WithAgeDimension(hasValue: false)
+            .WithIndicatorDimension(indicatorId: 500)
+            .Build();
+        PopulateDatabase(personsHealthMeasure);
+
+        // act
+        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["age", "sex"]);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(3);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            maleHealthMeasure,
+            femaleHealthMeasure,
+            personsHealthMeasure
         });
     }
 

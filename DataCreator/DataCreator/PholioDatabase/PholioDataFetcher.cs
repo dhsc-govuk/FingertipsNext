@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Globalization;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -7,7 +8,6 @@ namespace DataCreator.PholioDatabase
     public class PholioDataFetcher
     {
         private readonly IConfiguration _config;
-        private readonly List<AreaMap> _map;
         private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
@@ -154,10 +154,39 @@ FROM
 	[dbo].[L_Ages]
 ";
 
-        public PholioDataFetcher(IConfiguration config)
+        public PholioDataFetcher(IConfiguration config) => _config = config;
+
+        public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
+        {   
+            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
+
+            var areas = (await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}")).ToList();
+            SetAreaHierarchyAndCleanNames(areas);
+            await AddChildAreas(areas, connection);
+
+            return areas;
+        }
+
+        private static async Task AddChildAreas(List<AreaEntity> areas, SqlConnection connection)
         {
-            _config = config;
-            _map =
+            var parentChildMap = (await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql)).ToList();
+            var parentGroup = parentChildMap.GroupBy(x => x.ParentAreaCode).ToList();
+            //now create the child and parents
+            var areasDict = areas.ToDictionary(area => area.AreaCode);
+            foreach (var area in areas)
+            {
+                //get the children of the area (if any)
+                area.ChildAreas = CreateChildAreas(area, parentGroup, areasDict);
+            }
+        }
+
+        /// <summary>
+        /// Change the area type names to GDS compliant names
+        /// </summary>
+        /// <param name="areas"></param>
+        private static void SetAreaHierarchyAndCleanNames(List<AreaEntity> areas)
+        {
+            List<AreaMap> typeNameMap=
             [
                 new()
                 {
@@ -285,111 +314,95 @@ FROM
                     Level=2
                 }
             ];
-        }
-
-        public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
-        {   
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-
-            var areas = await connection.QueryAsync<AreaEntity>($"{AreaSql}{AreaTypes}");
-            var parentChildMap = await connection.QueryAsync<ParentChildAreaCode>(AreaChildSql);
+            var cultInfo =  new CultureInfo("en-GB", false).TextInfo;
+            const string STATISTICAL = "(statistical)";
+            const string CA = "CA-";
 
             foreach (var area in areas)
             {
                 //change the area type to a standard name and set the hierarchy type and level
-                var match = _map.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
-                if(match != null)
+                var typeNameMatch = typeNameMap.FirstOrDefault(a => a.OriginalAreaType == area.AreaType);
+                if (typeNameMatch != null)
                 {
-                    area.AreaType = match.NewAreaType;
-                    area.HierarchyType=match.HierarchyType;
-                    area.Level = match.Level;
+                    area.AreaType = typeNameMatch.NewAreaType;
+                    area.HierarchyType = typeNameMatch.HierarchyType;
+                    area.Level = typeNameMatch.Level;
                 }
+
+                area.AreaName=area.AreaName.Trim();
+                //ticket DHSCFT-379, some area names should be changed
+
+                //remove (statistical) that applies to admin regions
+                if(area.AreaName.EndsWith(STATISTICAL))
+                    area.AreaName=area.AreaName.Replace(STATISTICAL, string.Empty).Trim();
+                //capitalise word region for NHS & admin regions
+                if (area.AreaName.EndsWith("region"))
+                    area.AreaName= cultInfo.ToTitleCase(area.AreaName);
+                //for combined authorities remove the prefix CA- and add the suffix Combined Authority
+                if (area.AreaName.StartsWith(CA))
+                    area.AreaName=$"{area.AreaName.Replace(CA, string.Empty).Trim()} Combined Authority";
             }
-
-            //now create the child and parents
-            var areasDict = areas.ToDictionary(area => area.AreaCode);
-            foreach (var area in areas)
-            {
-                //get the children of the area (if any)
-                area.ChildAreas = CreateChildAreas(area, parentChildMap, areasDict);
-
-                //get the parents of the area (if any)
-                area.ParentAreas = CreateParentAreas(area, parentChildMap, areasDict);
-            }
-
-            return areas;
         }
 
-        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<ParentChildAreaCode> parentChildMap, Dictionary<string,AreaEntity> areas)
+
+        private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string,ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
         {
-            var allChildren=parentChildMap
-                    .Where(m => m.ParentAreaCode == area.AreaCode)
+            var group = parentGroup.FirstOrDefault(x => x.Key == area.AreaCode);
+            if (group == null)
+                return [];
+            var allChildren=group
                     .Select(child => new AreaRelation { AreaCode = child.ChildAreaCode })
                     .ToList();
             //work out the direct children
             foreach (var child in allChildren)
             {
                 var present = areas.TryGetValue(child.AreaCode, out AreaEntity value);
-                
+
                 if (present)
                 {
-                    child.IsDirect = area.AreaType== COMBINEDAUTHORITIES
+                    child.IsDirect = area.AreaType == COMBINEDAUTHORITIES
                         ? area.Level == value.Level && area.HierarchyType == value.HierarchyType
                         : area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
                 }
-                    
+
             }
-            if(area.AreaCode== "E92000001") //England
-                allChildren = areas.Values.Where(a=>a.Level==1).Select(a=>new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
-            
+            if (area.AreaCode == "E92000001") //England
+                allChildren = areas.Values.Where(a => a.Level == 1).Select(a => new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();
+
             return allChildren.Where(x => x.IsDirect).ToList();
         }
+        
 
-        private static List<AreaRelation> CreateParentAreas(AreaEntity area, IEnumerable<ParentChildAreaCode> parentChildMap, Dictionary<string, AreaEntity> areas)
-        {
-            var allParents = parentChildMap
-                    .Where(m => m.ChildAreaCode == area.AreaCode)
-                    .Select(child => new AreaRelation { AreaCode = child.ParentAreaCode })
-                    .ToList();
-            //work out the direct parents
-            foreach (var parent in allParents)
-            {
-                var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
-                if (present)
-                    parent.IsDirect = area.Level == value.Level + 1 && area.HierarchyType == value.HierarchyType;
-            }
-            //some GPs are not in a PCN
-            if(area.AreaType==GP && allParents.All(parent => !parent.IsDirect))
-            {
-                foreach (var parent in allParents)
-                {
-                    var present = areas.TryGetValue(parent.AreaCode, out AreaEntity value);
-                    if (present)
-                        parent.IsDirect = area.Level == value.Level + 2 && area.HierarchyType == value.HierarchyType;
-                }
-            }
-
-            return allParents.Where(x => x.IsDirect).Distinct().ToList();
-        }
-
-        public async Task<IEnumerable<IndicatorEntity>> FetchIndicatorsAsync()
+        /// <summary>
+        /// Get the indicators, adding in the Trend polarity as well as benchmarking details
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
             var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql)).ToList();
+            indicators=indicators.Where(indicator=>!indicator.IndicatorName.Contains("CIA")).ToList();
             await AddPolarityToIndicators(indicators, connection);
             await AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(indicators, connection);
 
             return indicators;
         }
 
-
+        /// <summary>
+        /// Get the age date
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<AgeEntity>> FetchAgeDataAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
+        /// <summary>
+        /// get the category data
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
@@ -406,7 +419,7 @@ FROM
                 var results = areaPolarities
                      .Where(ai => ai.IndicatorId == indicator.IndicatorID)
                      .ToList();
-                if (results.Count() > 1)
+                if (results.Count > 1)
                     indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
             }
             
@@ -434,7 +447,6 @@ FROM
                     indicator.BenchmarkComparisonMethod = results.First().ComparatorMethodID == 1 ? "RAG" : "QUINTILES";
             }
             indicators.RemoveAll(i => indicatorsWithMultiple.Contains(i.IndicatorID));
-            
         }
     }
 

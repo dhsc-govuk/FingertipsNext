@@ -6,6 +6,7 @@ import styled from 'styled-components';
 interface ShowHideContainerProps {
   summary: string;
   showSideBarWhenOpen?: boolean;
+  open?: boolean;
   children: React.ReactNode;
 }
 
@@ -38,10 +39,15 @@ const StyledFilterDetails = styled(Details)<{ showSideBar: boolean }>(
 export function ShowHideContainer({
   summary,
   showSideBarWhenOpen = false,
+  open = true,
   children,
 }: Readonly<ShowHideContainerProps>) {
   return (
-    <StyledFilterDetails summary={summary} showSideBar={showSideBarWhenOpen}>
+    <StyledFilterDetails
+      summary={summary}
+      showSideBar={showSideBarWhenOpen}
+      open={open}
+    >
       {children}
     </StyledFilterDetails>
   );

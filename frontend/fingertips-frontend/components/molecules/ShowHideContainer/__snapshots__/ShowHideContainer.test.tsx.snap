@@ -129,6 +129,7 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
 
 <details
     class="c0 c1"
+    open=""
   >
     <summary
       class="c2 c3"
@@ -282,6 +283,7 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
 
 <details
     class="c0 c1"
+    open=""
   >
     <summary
       class="c2 c3"

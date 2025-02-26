@@ -4,22 +4,25 @@ import {
   expectNoAccessibilityViolations,
   getIndicatorIdsByName,
 } from '../testHelpers';
-import indicatorData from '../../../../search-setup/assets/indicatorData.json';
+import indicators from '../../../../search-setup/assets/indicators.json';
 import { IndicatorMode, AreaMode } from '../page-objects/pages/chartPage';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const searchTerm = 'mortality';
-let indicatorIDs: string[];
+const indicatorsToSelect = ['108', '113'];
+let _indicatorIDs: string[];
 
 test.describe('Search via indicator', () => {
   test.beforeAll(() => {
+    const indicatorData = indicators as IndicatorDocument[];
     const typedIndicatorData = indicatorData.map((indicator) => {
       return {
         ...indicator,
-        lastUpdated: new Date(indicator.lastUpdated),
+        lastUpdatedDate: new Date(indicator.lastUpdatedDate),
       };
     });
 
-    indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
+    _indicatorIDs = getIndicatorIdsByName(typedIndicatorData, searchTerm);
   });
 
   test('full end to end flow with accessibility checks', async ({
@@ -56,14 +59,14 @@ test.describe('Search via indicator', () => {
     });
 
     await test.step('Select two indicators and view charts', async () => {
-      await resultsPage.selectIndicatorCheckboxes(indicatorIDs);
+      await resultsPage.selectIndicatorCheckboxes(indicatorsToSelect);
       await resultsPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[1]}`
       );
 
       await resultsPage.clickViewChartsButton();
       await chartPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[1]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
       await chartPage.checkChartVisibility(
@@ -76,11 +79,11 @@ test.describe('Search via indicator', () => {
       await chartPage.clickBackLink();
 
       await resultsPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}&${SearchParams.IndicatorsSelected}=${indicatorIDs[1]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[1]}`
       );
       await resultsPage.checkSearchResults(searchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(indicatorIDs[0]);
-      await resultsPage.checkIndicatorCheckboxChecked(indicatorIDs[1]);
+      await resultsPage.checkIndicatorCheckboxChecked(indicatorsToSelect[0]);
+      await resultsPage.checkIndicatorCheckboxChecked(indicatorsToSelect[1]);
     });
 
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
@@ -101,14 +104,14 @@ test.describe('Search via indicator', () => {
         `${SearchParams.SearchedIndicator}=${searchTerm}`
       );
 
-      await resultsPage.selectIndicatorCheckboxes([indicatorIDs[0]]);
+      await resultsPage.selectIndicatorCheckboxes([indicatorsToSelect[0]]);
       await resultsPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}`
       );
 
       await resultsPage.clickViewChartsButton();
       await chartPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}`
       );
       await expectNoAccessibilityViolations(axeBuilder);
       await chartPage.checkChartVisibility(
@@ -118,7 +121,7 @@ test.describe('Search via indicator', () => {
 
       await chartPage.clickBackLink();
       await resultsPage.waitForURLToContain(
-        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorIDs[0]}`
+        `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}`
       );
 
       await resultsPage.clickBackLink();

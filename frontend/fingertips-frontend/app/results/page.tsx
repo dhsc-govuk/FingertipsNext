@@ -99,6 +99,7 @@ export default async function Page(
         availableGroupTypes={availableGroupTypes}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
+        currentDate={new Date()}
       />
     );
   } catch (error) {

@@ -10,7 +10,7 @@ const mockMapData = getMapData(mockAreaType, mockAreaCodes);
 it('should render the ThematicMap title', async () => {
   render(
     <ThematicMap
-      healthIndicatorData={mockHealthData['318']}
+      healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
       mapTitle="valid title"
     />
@@ -23,7 +23,7 @@ it('should render the ThematicMap title', async () => {
 it('should render the ThematicMap component', async () => {
   render(
     <ThematicMap
-      healthIndicatorData={mockHealthData['318']}
+      healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
       mapTitle="valid title"
     />

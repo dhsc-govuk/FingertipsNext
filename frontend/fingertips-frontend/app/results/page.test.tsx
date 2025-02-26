@@ -29,12 +29,13 @@ const mockSortedAreaTypes: AreaType[] = allAreaTypes.toSorted(
 );
 
 const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
-  indicatorId: id,
-  name: `indicator name for id ${id}`,
-  definition: `Some definition for id ${id}`,
+  indicatorID: id,
+  indicatorName: `indicator name for id ${id}`,
+  indicatorDefinition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
   latestDataPeriod: '2023',
-  lastUpdated: new Date(),
+  lastUpdatedDate: new Date(),
+  associatedAreas: [],
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
@@ -262,6 +263,18 @@ describe('Results Page', () => {
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
         [SearchParams.GroupTypeSelected]: 'england',
       });
+    });
+
+    it('should pass the current date prop', async () => {
+      const date = new Date('January 1, 2000');
+      jest.useFakeTimers();
+      jest.setSystemTime(date);
+
+      const page = await ResultsPage({});
+
+      expect(page.props.currentDate).toEqual(date);
+
+      jest.useRealTimers();
     });
   });
 

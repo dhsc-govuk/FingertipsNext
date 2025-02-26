@@ -20,3 +20,8 @@ export enum GovukColours {
   LightGreen = '#85994B',
   Turquoise = '#28A197',
 }
+
+export enum TagColours {
+  GreyText = '#303436',
+  GreyBackground = '#E1E2E3',
+}

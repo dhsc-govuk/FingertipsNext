@@ -9,12 +9,13 @@ export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 
 export type IndicatorDocument = {
-  indicatorId: string;
-  name: string;
-  definition: string;
+  indicatorID: string;
+  indicatorName: string;
+  indicatorDefinition: string;
   dataSource: string;
-  latestDataPeriod: string;
-  lastUpdated: Date;
+  latestDataPeriod: string; // Most recent value held in database column 'Year'.
+  lastUpdatedDate: Date;
+  associatedAreas: string[];
 };
 
 export type AreaDocument = {
@@ -24,7 +25,10 @@ export type AreaDocument = {
 };
 
 export interface IIndicatorSearchService {
-  searchWith(searchTerm: string): Promise<IndicatorDocument[]>;
+  searchWith(
+    searchTerm: string,
+    areaCodes?: string[]
+  ): Promise<IndicatorDocument[]>;
 }
 
 export interface IAreaSearchService {

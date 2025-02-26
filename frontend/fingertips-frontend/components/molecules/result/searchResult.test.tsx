@@ -9,20 +9,24 @@ let user: UserEvent;
 
 const MOCK_DATA: IndicatorDocument[] = [
   {
-    indicatorId: '1',
-    name: 'NHS',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '1',
+    indicatorName: 'NHS',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
-    lastUpdated: new Date('December 6, 2024'),
+    lastUpdatedDate: new Date('December 6, 2024'),
+    associatedAreas: [],
   },
   {
-    indicatorId: '2',
-    name: 'DHSC',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '2',
+    indicatorName: 'DHSC',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
-    lastUpdated: new Date('November 5, 2023'),
+    lastUpdatedDate: new Date('November 5, 2023'),
+    associatedAreas: [],
   },
 ];
 
@@ -78,6 +82,33 @@ it('should contain expected text', () => {
   expect(screen.getAllByRole('paragraph').at(2)?.textContent).toContain(
     '06 December 2024'
   );
+});
+
+it('should display tag if indicator date is within one month of server date', () => {
+  const currentDate = new Date('December 7, 2024');
+  render(
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+      currentDate={currentDate}
+    />
+  );
+  expect(screen.queryByText('Updated in last month')).toBeInTheDocument();
+});
+
+it('should not display tag if indicator date is not within one month of server date', () => {
+  const currentDate = new Date('February 6, 2025');
+  render(
+    <SearchResult
+      result={MOCK_DATA[0]}
+      searchState={initialSearchState}
+      handleClick={mockHandleClick}
+      currentDate={currentDate}
+    />
+  );
+
+  expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
 });
 
 describe('Indicator Checkbox', () => {
@@ -138,7 +169,7 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorId.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`;
     render(
       <SearchResult
         result={MOCK_DATA[0]}

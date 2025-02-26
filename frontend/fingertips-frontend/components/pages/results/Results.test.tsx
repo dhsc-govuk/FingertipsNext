@@ -40,20 +40,24 @@ jest.mock('react', () => {
 
 const MOCK_DATA: IndicatorDocument[] = [
   {
-    indicatorId: '1',
-    name: 'NHS',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '1',
+    indicatorName: 'NHS',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
-    lastUpdated: new Date('December 6, 2024'),
+    lastUpdatedDate: new Date('December 6, 2024'),
+    associatedAreas: [],
   },
   {
-    indicatorId: '2',
-    name: 'DHSC',
-    definition: 'Total number of patients registered with the practice',
+    indicatorID: '2',
+    indicatorName: 'DHSC',
+    indicatorDefinition:
+      'Total number of patients registered with the practice',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
-    lastUpdated: new Date('November 5, 2023'),
+    lastUpdatedDate: new Date('November 5, 2023'),
+    associatedAreas: [],
   },
 ];
 const searchedIndicator = 'test';

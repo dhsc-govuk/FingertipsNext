@@ -1,36 +1,48 @@
 import { Checkbox, Paragraph } from 'govuk-react';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
+import { usePathname, useRouter } from 'next/navigation';
+import { spacing } from '@govuk-react/lib';
+import styled from 'styled-components';
 
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
   showConfidenceIntervalsData: boolean;
+  searchState: SearchStateParams;
 };
 
 export function ConfidenceIntervalCheckbox({
   chartName,
   showConfidenceIntervalsData,
+  searchState,
 }: Readonly<ConfidenceIntervalCheckboxProps>) {
-  const searchParams = useSearchParams();
+  const stateManager = SearchStateManager.initialise(searchState);
   const pathname = usePathname();
   const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const searchState = SearchStateManager.setStateFromParams(params);
 
   const handleClick = (chartName: string, checked: boolean) => {
     if (checked) {
-      searchState.addParamValueToState(
+      stateManager.addParamValueToState(
         SearchParams.ConfidenceIntervalSelected,
         chartName
       );
     } else {
-      searchState.removeParamValueFromState(
+      stateManager.removeParamValueFromState(
         SearchParams.ConfidenceIntervalSelected,
         chartName
       );
     }
-    replace(searchState.generatePath(pathname), { scroll: false });
+    replace(stateManager.generatePath(pathname), { scroll: false });
   };
+
+  const StyledParagraph = styled(Paragraph)(
+    spacing.withWhiteSpace({
+      margin: [{ size: 0 }],
+    })
+  );
 
   return (
     <Checkbox
@@ -43,7 +55,7 @@ export function ConfidenceIntervalCheckbox({
       defaultChecked={showConfidenceIntervalsData}
       sizeVariant="SMALL"
     >
-      <Paragraph>Show confidence intervals</Paragraph>
+      <StyledParagraph>Show confidence intervals</StyledParagraph>
     </Checkbox>
   );
 }

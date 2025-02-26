@@ -4,20 +4,23 @@ import { IIndicatorSearchService, IndicatorDocument } from './searchTypes';
 describe('IndicatorSearchServiceMock', () => {
   const mockData: IndicatorDocument[] = [
     {
-      indicatorId: '1',
-      name: 'Red faced',
-      definition: 'Count of people who did something they are embarrassed by',
+      indicatorID: '1',
+      indicatorName: 'Red faced',
+      indicatorDefinition:
+        'Count of people who did something they are embarrassed by',
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
-      lastUpdated: new Date('December 6, 2024'),
+      lastUpdatedDate: new Date('December 6, 2024'),
+      associatedAreas: ['Area1'],
     },
     {
-      indicatorId: '2',
-      name: 'Perp count',
-      definition: 'Perps brought to justice',
+      indicatorID: '2',
+      indicatorName: 'Perp count',
+      indicatorDefinition: 'Perps brought to justice by Red Angel',
       latestDataPeriod: '2022',
       dataSource: 'Mega City 1',
-      lastUpdated: new Date('November 5, 2023'),
+      lastUpdatedDate: new Date('November 5, 2023'),
+      associatedAreas: ['Area1', 'Area2'],
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;
@@ -30,12 +33,32 @@ describe('IndicatorSearchServiceMock', () => {
   });
 
   it('should perform a search operation on name', async () => {
-    expect(await indicatorSearchMock.searchWith('Red')).toEqual([mockData[0]]);
+    expect(await indicatorSearchMock.searchWith('faced')).toEqual([
+      mockData[0],
+    ]);
   });
 
   it('should perform a search operation on definition', async () => {
     expect(await indicatorSearchMock.searchWith('justice')).toEqual([
       mockData[1],
     ]);
+  });
+
+  it('should filter out any not in Area1', async () => {
+    expect(await indicatorSearchMock.searchWith('Red', ['Area1'])).toEqual(
+      mockData
+    );
+  });
+
+  it('should filter out any not in Area2', async () => {
+    expect(await indicatorSearchMock.searchWith('Red', ['Area2'])).toEqual([
+      mockData[1],
+    ]);
+  });
+
+  it('should filter all out if unknown area', async () => {
+    expect(
+      await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
+    ).toHaveLength(0);
   });
 });

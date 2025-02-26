@@ -33,6 +33,7 @@ type SearchResultsProps = {
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
+  currentDate?: Date;
 };
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
@@ -48,6 +49,7 @@ export function SearchResults({
   availableAreas,
   selectedAreasData,
   searchState,
+  currentDate,
 }: Readonly<SearchResultsProps>) {
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
@@ -72,7 +74,7 @@ export function SearchResults({
             description={indicatorSelectionState.message}
             errors={[
               {
-                targetName: `search-results-indicator-${searchResults[0].indicatorId.toString()}`,
+                targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
                 text: 'Available indicators',
               },
             ]}
@@ -97,6 +99,7 @@ export function SearchResults({
         <GridRow>
           <GridCol setWidth="one-third">
             <AreaFilter
+              key={JSON.stringify(searchState)}
               availableAreaTypes={availableAreaTypes}
               availableGroupTypes={availableGroupTypes}
               availableAreas={availableAreas}
@@ -110,6 +113,7 @@ export function SearchResults({
               searchResults={searchResults}
               searchState={searchState}
               formAction={indicatorSelectionFormAction}
+              currentDate={currentDate}
             />
           </GridCol>
         </GridRow>

@@ -46,36 +46,66 @@ export const mockAreaDataForRegionsStatistical: Record<
 > = {
   E12000001: {
     ...northEastRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E12000002: {
     ...northWestRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E12000003: {
     ...yorkshireAndHumberRegion,
+    parent: {
+      ...englandArea,
+    },
   },
 };
 
 export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
   E40000007: {
     ...eastEnglandNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000003: {
     ...londonNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000005: {
     ...southEastNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000006: {
     ...southWestNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000010: {
     ...northWestRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000011: {
     ...midlandsNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
   E40000012: {
     ...northEastAndYorkshireNHSRegion,
+    parent: {
+      ...englandArea,
+    },
   },
 };
 
@@ -83,12 +113,17 @@ export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
   {
     E06000047: {
       ...countyDurham,
+      parent: {
+        ...northEastRegion,
+      },
     },
     E06000005: {
       ...darlington,
+      parent: { ...northEastRegion },
     },
     E08000037: {
       ...gateshead,
+      parent: { ...northEastRegion },
     },
   };
 

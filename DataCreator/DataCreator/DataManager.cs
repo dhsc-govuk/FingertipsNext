@@ -7,6 +7,7 @@ namespace DataCreator
     {
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
         private readonly PostcodeFetcher _postcodeFetcher = postcodeFetcher;
+        private const int MAXNUMBERGPS = 200;
 
         public async Task<List<string>> CreateAreaDataAsync(bool addLongLat)
         {
@@ -31,8 +32,8 @@ namespace DataCreator
             var grandchildrenOfNorthWestAdmin = GetChildren(areas, childrenOfNorthWestAdmin); //district
             var childrenOfNorthWestNHS = GetChildren(areas, northWestNHS); //ICB
             var grandchildrenOfNorthWestNHS = GetChildren(areas, childrenOfNorthWestNHS); //sub icb
-            var greatGrandchildrenOfNorthWestNHS = GetChildren(areas, grandchildrenOfNorthWestNHS).Take(30).ToList(); //30 PCN or GP
-            var greatgreatGrandchildrenOfNorthWestNHS = GetChildren(areas, greatGrandchildrenOfNorthWestNHS).Take(30).ToList(); //30 GP
+            var greatGrandchildrenOfNorthWestNHS = GetChildren(areas, grandchildrenOfNorthWestNHS).Take(MAXNUMBERGPS).ToList(); //subset of PCNs
+            var greatgreatGrandchildrenOfNorthWestNHS = GetChildren(areas, greatGrandchildrenOfNorthWestNHS).Take(MAXNUMBERGPS).ToList();  //subset of GPs
 
             areasWeWant.Add(england.AreaCode);
             areasWeWant.AddRange(childrenOfNorthWestAdmin.Select(area => area.AreaCode));
@@ -43,22 +44,21 @@ namespace DataCreator
             areasWeWant.AddRange(greatgreatGrandchildrenOfNorthWestNHS.Select(area => area.AreaCode));
             DataFileManager.WriteJsonData("areas", areas.Distinct());
 
-            var areasDict = areas.ToDictionary(x => x.AreaCode);
-            var simpleAreasWeWant = new List<SimpleAreaWithRelations>();
-            foreach (var area in areasWeWant)
+            var simpleAreasWeWant = areas.Select(area => new SimpleAreaWithRelations
             {
-                var present = areasDict.TryGetValue(area, out var value);
-                if (present)
-                {
-                    simpleAreasWeWant.Add(new SimpleAreaWithRelations
-                    {
-                        AreaCode = value.AreaCode.Trim(),
-                        AreaName = value.AreaName.Trim(),
-                        Parents = string.Join('|', value.ParentAreas.Select(p => p.AreaCode.Trim())),
-                        Children = string.Join('|', value.ChildAreas.Select(c => c.AreaCode.Trim()))
-                    });
-                }
-            }
+                AreaCode = area.AreaCode.Trim(),
+                AreaName = area.AreaName.Trim(),
+                Parents = string.Join('|', area.ParentAreas.Select(p => p.AreaCode.Trim())),
+                Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
+                Level = area.Level,
+                HierarchyType = area.HierarchyType,
+                AreaTypeCode = area.AreaType
+                            .Trim()
+                            .Replace(' ', '-')
+                            .ToLower(),
+                AreaType = area.AreaType
+            })
+            .ToList();
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
@@ -87,7 +87,7 @@ namespace DataCreator
             }
         }
 
-        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, int[] indicatorIds, bool addAreasToIndicator)
+        public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync()).ToList();
             foreach (var indicator in indicators) 
@@ -99,9 +99,18 @@ namespace DataCreator
                 {
                     indicator.AssociatedAreaCodes = match.AssociatedAreaCodes;
                     indicator.LatestDataPeriod=match.LatestDataPeriod;
+                    indicator.EarliestDataPeriod=match.EarliestDataPeriod;
+                    indicator.HasInequalities = match.HasInequalities;
                 }
             
-                indicator.UsedInPoc=indicatorIds.Contains(indicator.IndicatorID); 
+                indicator.UsedInPoc=pocIndicators.Select(i=>i.IndicatorID).Contains(indicator.IndicatorID);
+                if (indicator.UsedInPoc)
+                {
+                    var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
+                    if(!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
+                        indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
+                }
+                    
             }
             AddLastUpdatedDate(indicators);
             var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
@@ -121,21 +130,33 @@ namespace DataCreator
             }
         }
 
-        public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, IEnumerable<int> indicatorIdsWeWant, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
+        public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
             
-            foreach (var indicatorId in indicatorIdsWeWant)
+            foreach (var pocIndicator in pocIndicators)
             {
-                var data = GetHealthDataForAreaAndIndicator(indicatorId, areasWeWant, yearFrom);
-                Console.WriteLine($"Grabbed {data.Count()} points for indicator {indicatorId}");
+                var data = DataFileManager.GetHealthDataForIndicator(pocIndicator.IndicatorID, yearFrom, areasWeWant);
+               
+                Console.WriteLine($"Grabbed {data.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
             AddSexIds(healthMeasures);
             await AddCategoryIds(healthMeasures);
-            var indicatorWithAreasAndLatestUpdates = new List<IndicatorWithAreasAndLatestUpdate>();
-            AssociateAreasWithIndicatorsAndSetLatest(healthMeasures, indicatorWithAreasAndLatestUpdates);
+
+            var indicatorWithAreasAndLatestUpdates = healthMeasures
+                .GroupBy(measure => measure.IndicatorId)
+                .Select(group => new IndicatorWithAreasAndLatestUpdate
+                {
+                    IndicatorID = group.Key,
+                    AssociatedAreaCodes = group.Select(x => x.AreaCode).Distinct().ToList(),
+                    LatestDataPeriod = group.OrderByDescending(g => g.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
+                    HasInequalities = group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty(d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                })
+                .ToList();
+            
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
@@ -144,36 +165,28 @@ namespace DataCreator
 
         private async Task AddCategoryIds(List<HealthMeasureEntity> healthMeasures)
         {
-            var categoryData = (await _pholioDataFetcher.FetchCategoryDataAsync()).ToList();
-            DataFileManager.WriteCategoryCsvData("categories", categoryData);
+            var allCategoryData = (await _pholioDataFetcher.FetchCategoryDataAsync()).ToList();
+            
+            var categoryData= new List<CategoryEntity>();
             foreach(var healthMeasure in healthMeasures.Where(hm=>!string.IsNullOrEmpty(hm.Category)))
             {
-                var match=categoryData
+                var match=allCategoryData
                     .FirstOrDefault(cat=>
-                        cat.CategoryName.Equals(healthMeasure.Category.Trim(new char[] {'\\','"'}), StringComparison.CurrentCultureIgnoreCase) 
-                        && cat.CategoryTypeName.Equals(healthMeasure.CategoryType.Trim(new char[] { '\\', '"' }), StringComparison.CurrentCultureIgnoreCase));
+                        cat.CategoryName.Equals(healthMeasure.Category.Trim(['\\','"']), StringComparison.CurrentCultureIgnoreCase) 
+                        && cat.CategoryTypeName.Equals(healthMeasure.CategoryType.Trim(['\\', '"']), StringComparison.CurrentCultureIgnoreCase));
                 if(match != null)
                 {
                     healthMeasure.CategoryId = match.CategoryID;
                     healthMeasure.CategoryTypeId = match.CategoryTypeID;
+                    if(!categoryData.Exists(cd=>cd.CategoryID == match.CategoryID && cd.CategoryTypeID==match.CategoryTypeID))
+                        categoryData.Add(match);
                 }
             }
+            DataFileManager.WriteCategoryCsvData("categories", categoryData);
         } 
 
-        private static void AssociateAreasWithIndicatorsAndSetLatest(List<HealthMeasureEntity> healthMeasures, List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates)
-        {
-            foreach (var group in healthMeasures.GroupBy(measure => measure.IndicatorId))
-            {
-                indicatorWithAreasAndLatestUpdates.Add(new IndicatorWithAreasAndLatestUpdate
-                {
-                    IndicatorID = group.Key,
-                    AssociatedAreaCodes= group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod=group.OrderByDescending(g=>g.Year).First().Year
-                });
-            }
-        }
 
-        private static IEnumerable<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
+        private static List<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
             var usedAgeIds= new HashSet<int>(); 
             
@@ -208,13 +221,6 @@ namespace DataCreator
                 }
             }
         }
-
-        private static IEnumerable<HealthMeasureEntity> GetHealthDataForAreaAndIndicator(int indicatorId, List<string> areasWeWant, int yearFrom = 2018) => 
-            DataFileManager.GetHealthDataForIndicator(indicatorId)
-                .Where(x => areasWeWant.Contains(x.AreaCode))
-                .Where(x => x.Year >= yearFrom)
-                .ToList();
-
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();

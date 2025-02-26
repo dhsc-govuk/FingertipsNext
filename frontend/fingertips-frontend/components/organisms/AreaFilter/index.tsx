@@ -11,14 +11,13 @@ import {
 
 import {
   Checkbox,
+  FormGroup,
   H3,
   LabelText,
-  Paragraph,
   SectionBreak,
   Select,
 } from 'govuk-react';
 import { Pill } from '@/components/molecules/Pill';
-import { typography } from '@govuk-react/lib';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
@@ -44,18 +43,6 @@ const StyledFilterSelectedAreaDiv = styled('div')({
   paddingBottom: '1.5em',
 });
 
-const StyledFilterToggle = styled(Paragraph)(
-  {
-    marginLeft: 'auto',
-    justifyContent: 'flex-start',
-    textDecoration: 'underline',
-    padding: '0em',
-    alignItems: 'center',
-    display: 'flex',
-  },
-  typography.font({ size: 16 })
-);
-
 const StyledFilterDiv = styled('div')({
   backgroundColor: '#E1E2E3',
   minHeight: '100%',
@@ -64,15 +51,12 @@ const StyledFilterDiv = styled('div')({
 
 const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
-  padding: '0em',
-  div: {
-    div: {
-      padding: '0em',
-    },
-  },
 });
 
 const StyledFilterSelect = styled(Select)({
+  span: {
+    fontWeight: 'bold',
+  },
   select: {
     width: '100%',
   },
@@ -134,7 +118,6 @@ export function AreaFilter({
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
         <H3>Filters</H3>
-        <StyledFilterToggle>Hide filters</StyledFilterToggle>
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
@@ -171,54 +154,49 @@ export function AreaFilter({
             ))}
           </StyledFilterSelect>
 
-          <StyledFilterLabel>Area List</StyledFilterLabel>
-          <Paragraph>Select one or more areas to compare</Paragraph>
-
-          <ShowHideContainer
-            summary="Refine the area list"
-            showSideBarWhenOpen={true}
+          <StyledFilterSelect
+            label="Select a group type"
+            input={{
+              onChange: (e) =>
+                areaTypeSelected(
+                  SearchParams.GroupTypeSelected,
+                  e.target.value
+                ),
+              defaultValue: searchState?.[SearchParams.GroupTypeSelected],
+              disabled: selectedAreasData && selectedAreasData?.length > 0,
+            }}
           >
-            <StyledFilterSelect
-              label="1. Select a group type"
-              input={{
-                onChange: (e) =>
-                  areaTypeSelected(
-                    SearchParams.GroupTypeSelected,
-                    e.target.value
-                  ),
-                defaultValue: searchState?.[SearchParams.GroupTypeSelected],
-                disabled: selectedAreasData && selectedAreasData?.length > 0,
-              }}
-            >
-              {availableGroupTypes?.map((areaType) => (
-                <option key={areaType.key} value={areaType.key}>
-                  {areaType.name}
-                </option>
-              ))}
-            </StyledFilterSelect>
-          </ShowHideContainer>
+            {availableGroupTypes?.map((areaType) => (
+              <option key={areaType.key} value={areaType.key}>
+                {areaType.name}
+              </option>
+            ))}
+          </StyledFilterSelect>
 
-          {availableAreas?.map((area) => {
-            const isAreaSelectedValue = isAreaSelected(
-              area.code,
-              selectedAreasData
-            );
+          <FormGroup>
+            <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
+            {availableAreas?.map((area) => {
+              const isAreaSelectedValue = isAreaSelected(
+                area.code,
+                selectedAreasData
+              );
 
-            return (
-              <Checkbox
-                key={area.code}
-                value={area.code}
-                sizeVariant="SMALL"
-                name="area"
-                defaultChecked={isAreaSelectedValue}
-                onChange={(e) =>
-                  handleAreaSelected(area.code, e.target.checked)
-                }
-              >
-                {area.name}
-              </Checkbox>
-            );
-          })}
+              return (
+                <Checkbox
+                  key={area.code}
+                  value={area.code}
+                  sizeVariant="SMALL"
+                  name="area"
+                  defaultChecked={isAreaSelectedValue}
+                  onChange={(e) =>
+                    handleAreaSelected(area.code, e.target.checked)
+                  }
+                >
+                  {area.name}
+                </Checkbox>
+              );
+            })}
+          </FormGroup>
         </ShowHideContainer>
       </StyledFilterDiv>
     </StyledFilterPane>
