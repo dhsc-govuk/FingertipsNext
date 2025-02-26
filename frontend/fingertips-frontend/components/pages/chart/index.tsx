@@ -4,62 +4,66 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
+  seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { Inequalities } from '@/components/organisms/Inequalities';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  parentAreaCodes?: string[];
   mapData?: MapData;
   populationData?: PopulationData;
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
+  searchState: SearchStateParams;
 };
 
 export function Chart({
   healthIndicatorData,
-  parentAreaCodes,
   mapData,
   populationData,
-  searchedIndicator,
-  indicatorsSelected = [],
-  areasSelected = [],
+  searchState,
 }: Readonly<ChartProps>) {
-  const searchState = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  });
+  const stateManager = SearchStateManager.initialise(searchState);
 
-  const backLinkPath = searchState.generatePath('/results');
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  const backLinkPath = stateManager.generatePath('/results');
 
   const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
     0,
     areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+
+  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
-    parentAreaCodes?.[0]
+    selectedGroupCode
   );
 
-  const parentBenchmarkData =
-    Array.isArray(parentAreaCodes) && parentAreaCodes.length > 0
+  const groupData =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? seriesDataForIndicatorIndexAndArea(
           healthIndicatorData,
           0,
-          parentAreaCodes[0]
+          selectedGroupCode
         )
       : undefined;
 
@@ -88,7 +92,8 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    searchState={searchState}
+                    groupIndicatorData={groupData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />
@@ -101,7 +106,7 @@ export function Chart({
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    groupIndicatorData={groupData}
                   />
                 ),
               },
@@ -110,6 +115,9 @@ export function Chart({
         </>
       )}
       <br />
+      {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
+        <Inequalities healthIndicatorData={dataWithoutEngland[0]} />
+      )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"
