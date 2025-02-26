@@ -73,7 +73,7 @@ GET http://localhost:5144/areas/areatypes
         });
         
         client.assert(response.status === 200, "Response status is not 200");
-        
+
         let returnedTypes = response.body
         client.assert(returnedTypes.length === expected.length);
         returnedTypes.sort((at1, at2) => {
@@ -81,9 +81,12 @@ GET http://localhost:5144/areas/areatypes
             if(at1.level < at2.level) return -1;
             return 1;
         })
-        client.assert(returnedTypes === expected);
+
+        client.assert(JSON.stringify(returnedTypes) === JSON.stringify(expected));
     });
 %}
+
+
 
 ### check GET NHS area types
 
