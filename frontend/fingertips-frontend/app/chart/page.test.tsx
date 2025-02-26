@@ -196,12 +196,8 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-      expect(page.props.healthIndicatorData).toEqual([mockHealthData['333']]);
-      expect(page.props.searchedIndicator).toEqual('testing');
-      expect(page.props.indicatorsSelected).toEqual(['333']);
-      expect(page.props.parentAreaCode).toEqual('E12000001');
-    });
-  });
+        expect(page.props.populationData).toEqual(expectedPopulationData);
+      });
 
       it('should pass undefined if there was an error getting population data', async () => {
         mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
