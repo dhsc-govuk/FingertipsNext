@@ -24,8 +24,6 @@ describe('Chart', () => {
     );
 
     expect(mockLineChart.mock.lastCall).toBeUndefined();
-    expect(mockLineChart.mock.lastCall).toEqual(undefined);
     expect(mockLineChartTable.mock.lastCall).toBeUndefined();
-    expect(mockLineChartTable.mock.lastCall).toEqual(undefined);
   });
 });

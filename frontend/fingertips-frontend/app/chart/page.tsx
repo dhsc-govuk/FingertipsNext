@@ -67,7 +67,7 @@ export default async function ChartPage(
     console.log('error getting population data ', error);
   }
 
-  // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
+  // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
   const preparedPopulationData: PopulationData | undefined = rawPopulationData
     ? preparePopulationData(
         rawPopulationData,
@@ -90,7 +90,6 @@ export default async function ChartPage(
     <Chart
       populationData={preparedPopulationData}
       healthIndicatorData={healthIndicatorData}
-      // selectedGroupCode={selectedGroupCode}
       mapData={mapData}
       searchState={stateManager.getSearchState()}
     />

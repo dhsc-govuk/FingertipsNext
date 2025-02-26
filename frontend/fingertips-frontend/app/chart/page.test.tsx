@@ -226,9 +226,9 @@ describe('Chart Page', () => {
         });
 
         expect(page.props.searchState).toEqual({
-          as: ['E06000047'],
-          is: ['333'],
-          si: 'testing',
+          [SearchParams.SearchedIndicator]: 'testing',
+          [SearchParams.IndicatorsSelected]: ['333'],
+          [SearchParams.AreasSelected]: ['E06000047'],
         });
       });
 
