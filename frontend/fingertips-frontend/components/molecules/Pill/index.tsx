@@ -1,18 +1,10 @@
 'use client';
 
-import { Paragraph } from 'govuk-react';
-import { typography } from '@govuk-react/lib';
 import React from 'react';
 import styled from 'styled-components';
 import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 
 
-
-interface PillProps {
-  children: React.ReactNode | undefined;
-  selectedFilterId: string;
-  removeFilter: (filterId: string) => void;
-}
 
 const StyledDivContainer = styled('div')({ 
   backgroundColor: 'white',
@@ -24,41 +16,49 @@ const StyledDivContainer = styled('div')({
   display: 'flex',
 });
 
-const StyledFilterNameDiv = styled('div')({
+const StyledFilterChildren = styled('div')({
   wordWrap: 'break-word',
   paddingLeft: '0.5em',
+  fontSize: 16,
+  marginBottom: '0'
 });
 
 const StyledIconDiv = styled('div')({
   alignItems: 'center',
-  display: 'flex',
+  display: 'flex'
 });
 
-const StyledParagraph = styled(Paragraph)(
-  {
-    marginBottom: '0',
-  },
-  typography.font({ size: 16 })
-);
 
 
+
+interface PillProps {
+  children: React.ReactNode;
+  selectedFilterId?: string | object;
+  removeFilter: (filterId: string | object) => void;
+}
 
 export function Pill({
   children,
   selectedFilterId,
   removeFilter,
 }: Readonly<PillProps>) {
+
+
   return (
+   
     <StyledDivContainer data-testid="pill-container">
       <StyledIconDiv
         data-testid="remove-icon-div"
-        onClick={() => removeFilter(selectedFilterId)}
+        onClick={(e) => {
+          e.preventDefault();
+          removeFilter(selectedFilterId ?? '')}
+        }
       >
       <RemoveIcon width="12" height="12" color="#000000" />
       </StyledIconDiv>
-      <StyledFilterNameDiv data-testid="filter-name">
-        <StyledParagraph>{children}</StyledParagraph>
-      </StyledFilterNameDiv>
+      <StyledFilterChildren data-testid="filter-name">
+        {children}
+      </StyledFilterChildren>
     </StyledDivContainer>
   );
 }
