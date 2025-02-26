@@ -52,6 +52,7 @@ public class HealthDataPoint
 
     /// <summary>
     /// The statistical trend that applies to the data point, given the preceding data.
+    /// Will only be calculated if there are at least 5 data points to use.
     /// Values can be: Increasing, Decreasing, NoChange, CannotBeCalculated and NotYetCalculated.
     /// </summary>
     [JsonPropertyName("trend")]
