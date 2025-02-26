@@ -3,7 +3,7 @@ import {
   searchIndicator,
   SearchFormState,
   getSearchSuggestions,
-  getAreaDocument
+  getAreaDocument,
 } from './searchActions';
 import { mockDeep } from 'jest-mock-extended';
 import { redirect, RedirectType } from 'next/navigation';
@@ -11,11 +11,8 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
-
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
-
-
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -63,7 +60,10 @@ describe('Search actions', () => {
   });
 
   it('should redirect to search result with query parameters- both for areaSelected and indicator', async () => {
-    const formData = getMockFormData({ areaSearched: 'EP0001', indicator: "boom" });
+    const formData = getMockFormData({
+      areaSearched: 'EP0001',
+      indicator: 'boom',
+    });
 
     await searchIndicator(initialState, formData);
     expect(redirectMock).toHaveBeenCalledWith(
@@ -93,8 +93,6 @@ describe('getSearchSuggestions', () => {
   });
 });
 
-
-
 describe('getAreaDocument', () => {
   const mockAreaCode = '123';
   const mockAreaDocument: AreaDocument = {
@@ -102,39 +100,36 @@ describe('getAreaDocument', () => {
     areaName: 'Test Area',
     areaType: 'Urban',
   };
-  
 
   it('should return the area document when getAreaDocument succeeds', async () => {
-    
     const getAreaDocumentMock = jest.fn().mockResolvedValue(mockAreaDocument);
     jest.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
       getAreaDocument: getAreaDocumentMock,
       getAreaSuggestions: jest.fn(),
     });
 
-    const area =  await getAreaDocument('123')
-    expect(area).toBeDefined()
-    expect(area?.areaCode).toMatch(mockAreaDocument.areaCode)
-    expect(area?.areaName).toMatch(mockAreaDocument.areaName)
-    expect(area?.areaType).toMatch(mockAreaDocument.areaType)
-   
-  })
-
+    const area = await getAreaDocument('123');
+    expect(area).toBeDefined();
+    expect(area?.areaCode).toMatch(mockAreaDocument.areaCode);
+    expect(area?.areaName).toMatch(mockAreaDocument.areaName);
+    expect(area?.areaType).toMatch(mockAreaDocument.areaType);
+  });
 
   it('throw exception when getAreaDocument is called', async () => {
-    
-    const getAreaDocumentMock = jest.fn().mockImplementation((areaCode:string)=>{
-       throw new Error(`areaCode : ${areaCode} not found`)
-    })
+    const getAreaDocumentMock = jest
+      .fn()
+      .mockImplementation((areaCode: string) => {
+        throw new Error(`areaCode : ${areaCode} not found`);
+      });
     jest.spyOn(SearchServiceFactory, 'getAreaSearchService').mockReturnValue({
       getAreaDocument: getAreaDocumentMock,
       getAreaSuggestions: jest.fn(),
     });
 
-    const spyLog  =  jest.spyOn(console, 'log')
+    const spyLog = jest.spyOn(console, 'log');
 
-    const area =  await getAreaDocument('123')
+    const area = await getAreaDocument('123');
     expect(area).toBeUndefined();
-    expect(spyLog).toHaveBeenCalled()
-  })
+    expect(spyLog).toHaveBeenCalled();
+  });
 });

@@ -21,7 +21,6 @@ const AreaSuggestionPanelItem = styled(ListItem)`
   font-weight: 300;
 `;
 
-
 const StyleHighLightedText = styled('span')({
   fontWeight: '600',
 });
@@ -60,7 +59,12 @@ export const AreaAutoCompleteSuggestionPanel = ({
           key={area.areaCode}
           onClick={() => onItemSelected(area)}
         >
-          <SearchIcon width='15px' height='15px'  fill="#75738c" style={{ padding: '0px', margin: 'auto 10px auto auto' }}/>
+          <SearchIcon
+            width="15px"
+            height="15px"
+            fill="#75738c"
+            style={{ padding: '0px', margin: 'auto 10px auto auto' }}
+          />
           <div style={{ flexGrow: 3, padding: '5px' }}>
             {highlightText(formatAreaName(area), searchHint)}
           </div>
