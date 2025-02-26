@@ -120,7 +120,7 @@ export default class ChartPage extends BasePage {
     }
 
     if (compareVisualSnapshots) {
-      // Only run visual snapshot comparison in CI
+      // Only run visual snapshot comparison in CI and CD
       await expect(this.page).toHaveScreenshot();
     } else {
       console.log('Skipping visual comparison in local environment');

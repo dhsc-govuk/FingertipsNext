@@ -12,6 +12,9 @@ on:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
+      update-snapshots:
+        description: 'Update snapshots?'
+        type: boolean
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
@@ -66,8 +69,8 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Initialize snapshots if not in cache
-        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+      - name: Initialize snapshots if not in cache or update snapshots when desired
+        if: ${{ steps.cache.outputs.cache-hit != 'true' || inputs.update-snapshots == 'true'}}
         run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI
