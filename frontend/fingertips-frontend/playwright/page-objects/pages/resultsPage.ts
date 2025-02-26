@@ -7,7 +7,7 @@ import {
   returnIndicatorIDsByIndicatorMode,
 } from '@/playwright/testHelpers';
 
-let filteredIndicatorIds: string[];
+const filteredByDisplayIndicatorIds: string[] = [];
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
@@ -20,6 +20,7 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchBox = `indicator-search-form-input`;
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
+  readonly indicatorCheckboxContainer = 'indicator-selection-form';
   readonly areaFilterContainer = 'area-filter-container';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
@@ -110,13 +111,28 @@ export default class ResultsPage extends BasePage {
     searchTerm: string
   ) {
     await this.waitForURLToContain(searchTerm);
-    filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
-      allIndicatorIDs,
-      indicatorMode
-    );
-    // get the checkboxes from the UI and get the indicator IDs then filter again the filtered selection
-    //
-    for (const indicatorID of filteredIndicatorIds) {
+    // filter down the full list of indicators passed to this method to just the ones displayed on the page
+    const displayedIndicatorCheckboxList = await this.page
+      .getByTestId(this.indicatorCheckboxContainer)
+      .getByRole('checkbox')
+      .all();
+    for (let i = 0; i < displayedIndicatorCheckboxList.length; i++) {
+      const indicatorDataTestID = String(
+        await displayedIndicatorCheckboxList[i].getAttribute('data-testid')
+      ).slice(25);
+      if (allIndicatorIDs.includes(indicatorDataTestID!)) {
+        filteredByDisplayIndicatorIds.push(indicatorDataTestID!);
+      }
+    }
+
+    // then filter down the list of displayed indicators to the correct number for the passed indicator mode
+    const filteredByIndicatorModeIndicatorIds: string[] =
+      returnIndicatorIDsByIndicatorMode(
+        filteredByDisplayIndicatorIds,
+        indicatorMode
+      );
+
+    for (const indicatorID of filteredByIndicatorModeIndicatorIds) {
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
@@ -135,7 +151,7 @@ export default class ResultsPage extends BasePage {
   }
 
   /**
-   * Selects the required area filters
+   * Selects the required area filters based on area mode
    *
    * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
    * @param searchTerm - search term to be used in the URL check
@@ -152,19 +168,19 @@ export default class ResultsPage extends BasePage {
     await groupTypeDropdown.selectOption('NHS Regions');
 
     // Select appropriate number of checkboxes based on area mode
-    const checkboxList = this.page
+    const areaCheckboxList = this.page
       .getByTestId(this.areaFilterContainer)
       .getByRole('checkbox');
     const checkboxCountMap = {
       [AreaMode.ONE_AREA]: 1,
       [AreaMode.TWO_AREAS]: 2,
       [AreaMode.THREE_PLUS_AREAS]: 3,
-      [AreaMode.ALL_AREAS_IN_A_GROUP]: await checkboxList.count(),
+      [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
       [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
     };
     const checkboxCount = checkboxCountMap[areaMode];
     for (let i = 0; i < checkboxCount; i++) {
-      await checkboxList.nth(i).check();
+      await areaCheckboxList.nth(i).check();
 
       if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
         await this.waitForURLToContain(defaultAreaTypeFilter);
@@ -180,9 +196,7 @@ export default class ResultsPage extends BasePage {
       await this.waitForURLToContain(`england`);
     }
 
-    await this.waitForURLToContain(
-      `${searchTerm}&${SearchParams.IndicatorsSelected}=${filteredIndicatorIds[0]}`
-    );
+    await this.waitForURLToContain(searchTerm);
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {

@@ -75,13 +75,14 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         await resultsPage.checkSearchResultsTitle(searchTerm);
       });
 
-      await test.step(`Select ${indicatorMode} and ${areaMode} and assert that the displayed charts are correct`, async () => {
+      await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
         await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
         await resultsPage.selectIndicatorCheckboxesAndCheckURL(
           allIndicatorIDs,
           indicatorMode,
           searchTerm
         );
+
         await resultsPage.clickViewChartsButton();
 
         await chartPage.checkChartVisibility(indicatorMode, areaMode);
