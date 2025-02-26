@@ -6,17 +6,21 @@ import {
   IndicatorDocument,
   IAreaSearchService,
   IIndicatorSearchService,
+  IIndicatorDocumentService,
 } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
+import { IndicatorDocumentServiceMock } from './indicatorDocumentServiceMock';
+import { IndicatorDocumentService } from './indicatorDocumentService';
 
 export class SearchServiceFactory {
   private static readonly DISTRICT_AREA_TYPE_NAME =
     'Districts and Unitary Authorities';
   private static areaSearchServiceInstance: IAreaSearchService | null;
   private static indicatorSearchServiceInstance: IIndicatorSearchService | null;
+  private static indicatorDocumentServiceInstance: IIndicatorDocumentService | null;
 
   private static readonly ONS_AREA_TYPE_CODE_UNITARY_AUTHORITIES = 'E06';
   private static readonly ONS_AREA_TYPE_CODE_METROPOLITAN_DISTRICTS = 'E08';
@@ -104,6 +108,33 @@ export class SearchServiceFactory {
     }
   }
 
+  private static buildIndicatorDocumentService(): IIndicatorDocumentService {
+    const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
+    console.log(
+      `buildIndicatorDocumentService: useMockService: ${useMockServer}`
+    );
+    if (useMockServer === 'true') {
+      const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
+      const typedIndicatorData = unparsedIndicatorData.map(
+        (ind): IndicatorDocument => {
+          return {
+            ...ind,
+            indicatorID: String(ind.indicatorID),
+            latestDataPeriod: String(ind.latestDataPeriod),
+            lastUpdatedDate: new Date(ind.lastUpdatedDate),
+          };
+        }
+      );
+      const service = new IndicatorDocumentServiceMock(typedIndicatorData);
+      return service;
+    } else {
+      return new IndicatorDocumentService(
+        readEnvVar('DHSC_AI_SEARCH_SERVICE_URL'),
+        readEnvVar('DHSC_AI_SEARCH_API_KEY')
+      );
+    }
+  }
+
   public static getAreaSearchService(): IAreaSearchService {
     if (!this.areaSearchServiceInstance)
       this.areaSearchServiceInstance = this.buildAreaSearchService();
@@ -118,8 +149,17 @@ export class SearchServiceFactory {
     return this.indicatorSearchServiceInstance;
   }
 
+  public static getIndicatorDocumentService(): IIndicatorDocumentService {
+    if (!this.indicatorDocumentServiceInstance)
+      this.indicatorDocumentServiceInstance =
+        this.buildIndicatorDocumentService();
+
+    return this.indicatorDocumentServiceInstance;
+  }
+
   public static reset() {
     this.areaSearchServiceInstance = null;
     this.indicatorSearchServiceInstance = null;
+    this.indicatorDocumentServiceInstance = null;
   }
 }
