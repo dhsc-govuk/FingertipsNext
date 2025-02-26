@@ -19,7 +19,7 @@ export async function createIndex(
   try {
     console.log('Trying to delete an existing index');
     await indexClient.deleteIndex(index);
-  } catch { }
+  } catch {}
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
@@ -86,6 +86,13 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: false,
         sortable: false,
         filterable: true,
+      },
+      {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_UNIT_LABEL,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: false,
+        filterable: false,
       },
     ],
     scoringProfiles: [
