@@ -103,7 +103,7 @@ jobs:
           dotnet-version: ${{ env.dotnet-version }}
 
       - name: Build database project
-        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }} /p:SqlCmdVariable_UseAzureBlob=1 /p:SqlCmdVariable_BlobStorageLocation="https://dlsfingertipsuks001.blob.core.windows.net/sql-data" /p:SqlCmdVariable_MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
+        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}"
 
       - name: Upload .dacpac file artifact
         uses: actions/upload-artifact@v4
@@ -284,7 +284,12 @@ jobs:
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING_TEMP }}
           path: 'fingertips-db.dacpac'
           action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
+          arguments: >
+            /p:DropObjectsNotInSource=true
+            /p:BlockOnPossibleDataLoss=false
+            /v:UseAzureBlob=1
+            /v:BlobStorageLocation="https://dlsfingertipsuks001.blob.core.windows.net/sql-data"
+            /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
