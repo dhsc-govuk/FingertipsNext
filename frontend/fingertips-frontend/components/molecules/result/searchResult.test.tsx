@@ -16,7 +16,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
   },
   {
     indicatorID: '2',
@@ -26,7 +26,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
   },
 ];
 

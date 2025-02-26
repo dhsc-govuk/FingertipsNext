@@ -35,7 +35,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   dataSource: `Some data source for id ${id}`,
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
-  associatedAreas: [],
+  associatedAreaCodes: [],
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
@@ -77,7 +77,8 @@ describe('Results Page', () => {
 
     expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
-      'testing'
+      'testing',
+      undefined
     );
   });
 
@@ -122,7 +123,8 @@ describe('Results Page', () => {
       areaCode: londonNHSRegion.code,
     });
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
-      'testing'
+      'testing',
+      ['E40000007', 'E40000003']
     );
   });
 

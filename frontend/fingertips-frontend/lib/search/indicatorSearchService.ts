@@ -55,6 +55,6 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       results.push(result.document as IndicatorDocument);
     }
 
-    return results;
+    return results.slice(0, 20);
   }
 }
