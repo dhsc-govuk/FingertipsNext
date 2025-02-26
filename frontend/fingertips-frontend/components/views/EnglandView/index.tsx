@@ -1,8 +1,8 @@
-import { getChartList, IViewProps } from '@/lib/viewUtils';
+import { getChartListForView, IViewProps } from '@/lib/viewUtils/viewUtils';
 import { H2 } from 'govuk-react';
 
 export function EnglandView({ areaCodes, indicatorsSelected }: IViewProps) {
-  const chartList = getChartList(indicatorsSelected, 'englandView');
+  const chartList = getChartListForView(indicatorsSelected, 'englandView');
 
   return (
     <>

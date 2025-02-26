@@ -1,4 +1,4 @@
-import { areaCodeForEngland } from './chartHelpers/constants';
+import { areaCodeForEngland } from '../chartHelpers/constants';
 
 export interface IViewProps {
   areaCodes: string[];
@@ -22,7 +22,7 @@ type chartViews =
   | 'englandView';
 // All areas in group pending DHSCFT-252
 
-export function selectView(areaCodes: string[]): chartViews {
+export function viewSelector(areaCodes: string[]): chartViews {
   if (areaCodes.length === 1) {
     if (areaCodes[0] === areaCodeForEngland) {
       return 'englandView';
@@ -34,7 +34,7 @@ export function selectView(areaCodes: string[]): chartViews {
   return 'threeOrMoreAreasView';
 }
 
-export function getChartList(
+export function getChartListForView(
   indicatorsSelected: string[],
   viewSelected: chartViews
 ) {

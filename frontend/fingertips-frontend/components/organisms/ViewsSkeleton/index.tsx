@@ -1,50 +1,11 @@
 'use client';
-import { OneAreaView } from '@/components/views/OneAreaView';
-import { EnglandView } from '@/components/views/EnglandView';
-import { ThreeOrMoreAreasView } from '@/components/views/ThreeOrMoreAreasView';
-import { TwoAreasView } from '@/components/views/TwoAreasView';
-import { selectView } from '@/lib/viewUtils';
+
+import { selectedViewRenderer } from '@/lib/viewUtils/selectedViewRenderer';
+import { viewSelector } from '@/lib/viewUtils/viewUtils';
 
 interface ViewsSkeletonProps {
   areaCodes: string[];
   indicatorsSelected: string[];
-}
-
-function renderSelectedViewComponent(
-  selectedView: string,
-  areaCodes: string[],
-  indicatorsSelected: string[]
-) {
-  switch (selectedView) {
-    case 'oneAreaView':
-      return (
-        <OneAreaView
-          areaCodes={areaCodes}
-          indicatorsSelected={indicatorsSelected}
-        />
-      );
-    case 'twoAreasView':
-      return (
-        <TwoAreasView
-          areaCodes={areaCodes}
-          indicatorsSelected={indicatorsSelected}
-        />
-      );
-    case 'threeOrMoreAreasView':
-      return (
-        <ThreeOrMoreAreasView
-          areaCodes={areaCodes}
-          indicatorsSelected={indicatorsSelected}
-        />
-      );
-    case 'englandView':
-      return (
-        <EnglandView
-          areaCodes={areaCodes}
-          indicatorsSelected={indicatorsSelected}
-        />
-      );
-  }
 }
 
 export function ViewsSkeleton({
@@ -53,8 +14,8 @@ export function ViewsSkeleton({
 }: ViewsSkeletonProps) {
   return (
     <>
-      {renderSelectedViewComponent(
-        selectView(areaCodes),
+      {selectedViewRenderer(
+        viewSelector(areaCodes),
         areaCodes,
         indicatorsSelected
       )}
