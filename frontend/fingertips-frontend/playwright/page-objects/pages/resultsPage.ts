@@ -239,7 +239,7 @@ export default class ResultsPage extends BasePage {
   async checkForIndicatorSearchError() {
     await expect(
       this.page.getByText(this.indicatorSearchErrorText)
-    ).toBeVisible({ timeout: 7500 });
+    ).toBeVisible();
   }
 
   async fillIndicatorSearch(text: string) {
