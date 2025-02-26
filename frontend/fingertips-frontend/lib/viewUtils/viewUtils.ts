@@ -15,7 +15,7 @@ export type chartOptions =
   | 'heatMap'
   | 'basicTable';
 
-type chartViews =
+export type chartViews =
   | 'oneAreaView'
   | 'twoAreasView'
   | 'threeOrMoreAreasView'

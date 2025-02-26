@@ -1,23 +1,64 @@
 import { describe } from 'node:test';
-import { viewSelector } from './viewUtils';
+import {
+  chartOptions,
+  chartViews,
+  getChartListForView,
+  viewSelector,
+} from './viewUtils';
+import { areaCodeForEngland } from '../chartHelpers/constants';
 
 describe('viewsSelector', () => {
-  it('should return "oneAreaView" if passed a single area', () => {
-    expect(viewSelector(['foo'])).toBe('oneAreaView');
+  it.each([
+    [['foo'], 'oneAreaView'],
+    [['foo', 'bar'], 'twoAreasView'],
+    [['foo', 'bar', 'baz'], 'threeOrMoreAreasView'],
+    [['foo', 'bar', 'baz', 'bert'], 'threeOrMoreAreasView'],
+    [[areaCodeForEngland], 'englandView'],
+  ])('should return the expected chartView', (areaCodes, expected) => {
+    expect(viewSelector(areaCodes)).toBe(expected);
   });
-  it('should return "twoAreasView" if passed two areas', () => {
-    expect(viewSelector(['foo', 'bar'])).toBe('twoAreasView');
-  });
-  it('should return "threeOrMoreAreasView" if passed three or more areas', () => {
-    expect(viewSelector(['foo', 'bar', 'baz'])).toBe('threeOrMoreAreasView');
-    expect(viewSelector(['foo', 'bar', 'baz', 'bert'])).toBe(
-      'threeOrMoreAreasView'
-    );
-  });
-  it.skip('should return "allAreasInGroup" if all the areas in the group are selected', () => {});
-  it.skip('should return "England" if the areaTypeSelected is England', () => {});
 });
 
 describe('getChartListForView', () => {
-  it('should return the expected chartList for given areaView ');
+  it.each<[chartViews, string[], chartOptions[]]>([
+    [
+      'oneAreaView',
+      ['foo'],
+      ['populationPyramid', 'lineChart', 'barChart', 'inequalities'],
+    ],
+    ['oneAreaView', ['foo', 'bar'], ['populationPyramid', 'spineChart']],
+    ['oneAreaView', ['foo', 'bar', 'baz'], ['populationPyramid', 'spineChart']],
+    ['twoAreasView', ['foo'], ['populationPyramid', 'lineChart', 'barChart']],
+    [
+      'twoAreasView',
+      ['foo', 'bar'],
+      ['populationPyramid', 'spineChart', 'heatMap'],
+    ],
+    [
+      'twoAreasView',
+      ['foo', 'bar', 'baz'],
+      ['populationPyramid', 'spineChart', 'heatMap'],
+    ],
+    ['threeOrMoreAreasView', ['foo'], ['populationPyramid', 'barChart']],
+    ['threeOrMoreAreasView', ['foo', 'bar'], ['populationPyramid', 'heatMap']],
+    [
+      'threeOrMoreAreasView',
+      ['foo', 'bar', 'baz'],
+      ['populationPyramid', 'heatMap'],
+    ],
+    [
+      'englandView',
+      ['foo'],
+      ['populationPyramid', 'lineChart', 'inequalities'],
+    ],
+    ['englandView', ['foo', 'bar'], ['populationPyramid', 'basicTable']],
+    ['englandView', ['foo', 'bar', 'baz'], ['populationPyramid', 'basicTable']],
+  ])(
+    'should return the expected chartList for the viewSelected and selectedIndicators',
+    (viewSelected, indicatorsSelected, expected) => {
+      expect(getChartListForView(indicatorsSelected, viewSelected)).toEqual(
+        expected
+      );
+    }
+  );
 });
