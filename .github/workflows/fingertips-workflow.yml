@@ -186,25 +186,25 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
-  # e2e-tests-local-docker:
-  #   needs: [check-changes]
-  #   if: >
-  #     always() &&
-  #     contains(needs.*.result, 'success') &&
-  #     !contains(needs.*.result, 'failure') &&
-  #     !contains(needs.*.result, 'cancelled') &&
-  #     (
-  #       github.event_name == 'workflow_dispatch' ||
-  #       (
-  #         needs.check-changes.outputs.db_changed == 'true' ||
-  #         needs.check-changes.outputs.api_changed == 'true' || 
-  #         needs.check-changes.outputs.frontend_changed == 'true' ||
-  #         needs.check-changes.outputs.search_changed == 'true'
-  #       )
-  #     )
-  #   uses: ./.github/workflows/e2e-tests.yml
-  #   secrets:
-  #     fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+  e2e-tests-local-docker:
+    needs: [check-changes]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' || 
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
+      )
+    uses: ./.github/workflows/e2e-tests.yml
+    secrets:
+      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
@@ -267,7 +267,7 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'feature/DHSCFT-354_import-data-from-csv' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true'
@@ -281,7 +281,7 @@ jobs:
       - name: Deploy Database
         uses: azure/sql-action@v2.3
         with:
-          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING_TEMP }}
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           path: 'fingertips-db.dacpac'
           action: 'publish'
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /v:UseAzureBlob=1 /v:BlobStorageLocation="https://dlsfingertipsuks001.blob.core.windows.net/sql-data" /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
@@ -294,7 +294,7 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'feature/DHSCFT-354_import-data-from-csv' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true'
@@ -360,8 +360,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.head_ref == 'feature/DHSCFT-354_import-data-from-csv' ||
-        github.ref_name == 'feature/DHSCFT-354_import-data-from-csv'
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
       ) &&
       (
         github.event_name == 'workflow_dispatch' ||
@@ -420,8 +420,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.head_ref == 'feature/DHSCFT-354_import-data-from-csv' ||
-        github.ref_name == 'feature/DHSCFT-354_import-data-from-csv'
+        github.head_ref == 'main' ||
+        github.ref_name == 'main'
       ) &&
       (
         github.event_name == 'workflow_dispatch' ||
@@ -487,11 +487,11 @@ jobs:
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
       (
-        github.ref_name == 'feature/DHSCFT-354_import-data-from-csv' &&
+        github.ref_name == 'main' &&
         github.event_name == 'workflow_dispatch'
       ) ||
       (
-        github.ref_name == 'feature/DHSCFT-354_import-data-from-csv' &&
+        github.ref_name == 'main' &&
         (
           needs.check-changes.outputs.db_changed == 'true' ||
           needs.check-changes.outputs.api_changed == 'true' ||
