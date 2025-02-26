@@ -210,7 +210,6 @@ public class AreaRepository : IAreaRepository
             .FromSqlInterpolated(
                 $"""
                 WITH recursive_cte(
-                Node,
                 AreaKey,
                 AreaCode,
                 AreaName,
@@ -218,7 +217,6 @@ public class AreaRepository : IAreaRepository
                 AreaLevel,
                 ParentAreaKey) AS (
                 SELECT
-                    a.Node,
                    	ar.ChildAreaKey as AreaKey,
                     a.AreaCode,
                     a.AreaName,
@@ -235,7 +233,6 @@ public class AreaRepository : IAreaRepository
                    	ar.ParentAreaKey = {startingArea.AreaKey}
                 UNION ALL
                 SELECT
-                    a.Node,
                    	ar.ChildAreaKey as AreaKey,
                     a.AreaCode,
                     a.AreaName,
@@ -253,7 +250,6 @@ public class AreaRepository : IAreaRepository
                     at2.[Level] <= {childAreaType.Level}
                 )
                 SELECT DISTINCT
-                   	Node,
                     AreaKey,
                     AreaCode,
                     AreaName,
@@ -282,14 +278,12 @@ public class AreaRepository : IAreaRepository
             .FromSqlInterpolated(
                 $"""
                 WITH recursive_cte(
-                Node,
                 AreaKey,
                 AreaCode,
                 AreaName,
                 AreaTypeKey,
                 ParentAreaKey) AS (
                 SELECT
-                    a.Node,
                    	ar.ChildAreaKey as AreaKey,
                     a.AreaCode,
                     a.AreaName,
@@ -303,7 +297,6 @@ public class AreaRepository : IAreaRepository
                    	ar.ChildAreaKey = {startingArea.AreaKey}
                 UNION ALL
                 SELECT
-                    a.Node,
                    	ar.ChildAreaKey as AreaKey,
                     a.AreaCode,
                     a.AreaName,
@@ -316,7 +309,6 @@ public class AreaRepository : IAreaRepository
                 INNER JOIN recursive_cte ON recursive_cte.ParentAreaKey = ar.ChildAreaKey
                    	)
                 SELECT DISTINCT
-                   	Node,
                     AreaKey,
                     AreaCode,
                     AreaName,
