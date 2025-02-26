@@ -15,7 +15,11 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+} from '@/generated-sources/ft-api-client';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -46,6 +50,9 @@ export default async function ChartPage(
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
         areaCodes: areaCodesToRequest,
+        inequalities: shouldDisplayInequalities(indicatorsSelected, areaCodes)
+          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+          : [],
       })
     )
   );
