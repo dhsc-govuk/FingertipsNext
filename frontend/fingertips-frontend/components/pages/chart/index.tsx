@@ -23,6 +23,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { BarChartTable } from '@/components/organisms/BarChartTable';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -30,6 +31,26 @@ type ChartProps = {
   populationData?: PopulationData;
   searchState: SearchStateParams;
 };
+
+interface sampleData {
+  row1: 'text';
+  value1: [1, 3, 3];
+  row2: 'text';
+  value2: [1, 5, 3];
+  row3: 'text';
+  value3: [1, 2, 3, 4];
+}
+
+const sData: sampleData[] = [
+  {
+    row1: 'text',
+    value1: [1, 3, 3],
+    row2: 'text',
+    value2: [1, 5, 3],
+    row3: 'text',
+    value3: [1, 2, 3, 4],
+  },
+];
 
 export function Chart({
   healthIndicatorData,
@@ -75,6 +96,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
+      <BarChartTable data={sData}></BarChartTable>
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
