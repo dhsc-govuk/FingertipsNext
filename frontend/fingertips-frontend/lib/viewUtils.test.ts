@@ -1,4 +1,4 @@
-import { selectChartView } from './selectChartView';
+import { selectChartView } from './viewUtils';
 
 describe('viewsSelector', () => {
   it('should return "oneAreaView" if passed a single area', () => {

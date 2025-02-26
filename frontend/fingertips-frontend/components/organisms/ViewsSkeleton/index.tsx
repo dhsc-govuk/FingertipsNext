@@ -1,8 +1,9 @@
 'use client';
 import { OneAreaView } from '@/components/views/OneAreaView';
+import { EnglandView } from '@/components/views/EnglandView';
 import { ThreeOrMoreAreasView } from '@/components/views/ThreeOrMoreAreasView';
 import { TwoAreasView } from '@/components/views/TwoAreasView';
-import { selectChartView } from '@/lib/viewUtils/selectChartView';
+import { selectChartView } from '@/lib/viewUtils';
 
 interface ViewsSkeletonProps {
   areaCodes: string[];
@@ -32,6 +33,13 @@ function renderSelectedViewComponent(
     case 'threeOrMoreAreasView':
       return (
         <ThreeOrMoreAreasView
+          areaCodes={areaCodes}
+          indicatorsSelected={indicatorsSelected}
+        />
+      );
+    case 'englandView':
+      return (
+        <EnglandView
           areaCodes={areaCodes}
           indicatorsSelected={indicatorsSelected}
         />

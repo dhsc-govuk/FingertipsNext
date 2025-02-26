@@ -1,5 +1,5 @@
+import { IViewProps } from '@/lib/viewUtils';
 import { H2 } from 'govuk-react';
-import { IViewProps } from './OneAreaView';
 
 export function ThreeOrMoreAreasView({
   areaCodes,
