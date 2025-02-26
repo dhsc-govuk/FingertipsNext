@@ -28,8 +28,8 @@ const StyledIconDiv = styled('div')({
 
 interface PillProps {
   children: React.ReactNode;
-  selectedFilterId?: string | object;
-  removeFilter: (filterId: string | object) => void;
+  selectedFilterId?: string;
+  removeFilter: (filterId: string) => void;
 }
 
 export function Pill({

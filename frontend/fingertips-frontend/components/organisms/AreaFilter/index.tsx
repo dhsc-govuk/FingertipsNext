@@ -129,10 +129,11 @@ export function AreaFilter({
             ? selectedAreasData.map((selectedArea) => (
                 <Pill
                   key={selectedArea.code}
-                  selectedFilterName={selectedArea.name}
                   selectedFilterId={selectedArea.code}
                   removeFilter={removeSelectedArea}
-                />
+                >
+                  {selectedArea.name}
+                </Pill>
               ))
             : null}
         </StyledFilterSelectedAreaDiv>
