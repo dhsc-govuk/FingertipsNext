@@ -15,19 +15,84 @@ export type chartOptions =
   | 'heatMap'
   | 'basicTable';
 
-const chartViewsEncoder: Record<number, string> = {
-  1: 'oneAreaView',
-  2: 'twoAreasView',
-  3: 'threeOrMoreAreasView',
-  10: 'englandView',
-  // All areas in group pending DHSCFT-252
-};
+type chartViews =
+  | 'oneAreaView'
+  | 'twoAreasView'
+  | 'threeOrMoreAreasView'
+  | 'englandView';
+// All areas in group pending DHSCFT-252
 
-export function selectChartView(areaCodes: string[]): string {
-  if (areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland) {
-    return chartViewsEncoder[10];
+export function selectView(areaCodes: string[]): chartViews {
+  if (areaCodes.length === 1) {
+    if (areaCodes[0] === areaCodeForEngland) {
+      return 'englandView';
+    }
+    return 'oneAreaView';
+  } else if (areaCodes.length === 2) {
+    return 'twoAreasView';
   }
-  return areaCodes.length > 2
-    ? chartViewsEncoder[3]
-    : chartViewsEncoder[areaCodes.length];
+  return 'threeOrMoreAreasView';
+}
+
+export function getChartList(
+  indicatorsSelected: string[],
+  viewSelected: chartViews
+) {
+  switch (viewSelected) {
+    case 'oneAreaView':
+      return getOneAreaViewChartList(indicatorsSelected);
+    case 'twoAreasView':
+      return getTwoAreaViewChartList(indicatorsSelected);
+    case 'threeOrMoreAreasView':
+      return getThreeOrMoreAreaViewChartList(indicatorsSelected);
+    case 'englandView':
+      return getEnglandViewChartList(indicatorsSelected);
+    default:
+      break;
+  }
+}
+
+function getOneAreaViewChartList(indicatorsSelected: string[]): chartOptions[] {
+  const chartList: chartOptions[] = ['populationPyramid'];
+  if (indicatorsSelected.length === 1) {
+    chartList.push('lineChart', 'barChart', 'inequalities');
+  } else {
+    chartList.push('spineChart');
+  }
+  return chartList;
+}
+
+function getTwoAreaViewChartList(indicatorsSelected: string[]): chartOptions[] {
+  const chartList: chartOptions[] = ['populationPyramid'];
+
+  if (indicatorsSelected.length === 1) {
+    chartList.push('lineChart', 'barChart');
+  } else {
+    chartList.push('spineChart', 'heatMap');
+  }
+  return chartList;
+}
+
+function getThreeOrMoreAreaViewChartList(
+  indicatorsSelected: string[]
+): chartOptions[] {
+  const chartList: chartOptions[] = ['populationPyramid'];
+
+  if (indicatorsSelected.length === 1) {
+    chartList.push('barChart');
+  } else {
+    chartList.push('heatMap');
+  }
+  return chartList;
+}
+
+function getEnglandViewChartList(indicatorsSelected: string[]): chartOptions[] {
+  const chartList: chartOptions[] = ['populationPyramid'];
+
+  if (indicatorsSelected.length === 1) {
+    chartList.push('lineChart', 'inequalities');
+  } else {
+    chartList.push('basicTable');
+  }
+  return chartList;
 }

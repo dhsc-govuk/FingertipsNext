@@ -1,7 +1,9 @@
-import { IViewProps } from '@/lib/viewUtils';
+import { getChartList, IViewProps } from '@/lib/viewUtils';
 import { H2 } from 'govuk-react';
 
 export function EnglandView({ areaCodes, indicatorsSelected }: IViewProps) {
+  const chartList = getChartList(indicatorsSelected, 'englandView');
+
   return (
     <>
       <p>Backlink?</p>
@@ -11,6 +13,11 @@ export function EnglandView({ areaCodes, indicatorsSelected }: IViewProps) {
         {indicatorsSelected.toString()}
       </p>
       <p>show the charts</p>
+      <ul>
+        {chartList
+          ? chartList.map((chart) => <li key={chart}>{chart}</li>)
+          : null}
+      </ul>
     </>
   );
 }

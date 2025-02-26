@@ -1,16 +1,11 @@
 import { H2 } from 'govuk-react';
-import { chartOptions, IViewProps } from '@/lib/viewUtils';
+import { chartOptions, getChartList, IViewProps } from '@/lib/viewUtils';
 
 export function OneAreaView({ areaCodes, indicatorsSelected }: IViewProps) {
   // based on the number of indicators
   // determine the visalisations to show
+  const chartList = getChartList(indicatorsSelected, 'oneAreaView');
   // determine the data to fetch
-  const chartList: chartOptions[] = ['populationPyramid'];
-  if (indicatorsSelected.length === 1) {
-    chartList.push('lineChart', 'barChart', 'inequalities');
-  } else {
-    chartList.push('spineChart');
-  }
 
   return (
     <>
@@ -22,9 +17,9 @@ export function OneAreaView({ areaCodes, indicatorsSelected }: IViewProps) {
       </p>
       <p>show the charts</p>
       <ul>
-        {chartList.map((chart) => (
-          <li key={chart}>{chart}</li>
-        ))}
+        {chartList
+          ? chartList.map((chart) => <li key={chart}>{chart}</li>)
+          : null}
       </ul>
     </>
   );

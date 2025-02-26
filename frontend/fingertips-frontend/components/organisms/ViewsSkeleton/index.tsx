@@ -3,7 +3,7 @@ import { OneAreaView } from '@/components/views/OneAreaView';
 import { EnglandView } from '@/components/views/EnglandView';
 import { ThreeOrMoreAreasView } from '@/components/views/ThreeOrMoreAreasView';
 import { TwoAreasView } from '@/components/views/TwoAreasView';
-import { selectChartView } from '@/lib/viewUtils';
+import { selectView } from '@/lib/viewUtils';
 
 interface ViewsSkeletonProps {
   areaCodes: string[];
@@ -54,7 +54,7 @@ export function ViewsSkeleton({
   return (
     <>
       {renderSelectedViewComponent(
-        selectChartView(areaCodes),
+        selectView(areaCodes),
         areaCodes,
         indicatorsSelected
       )}

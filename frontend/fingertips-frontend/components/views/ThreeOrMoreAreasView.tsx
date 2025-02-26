@@ -1,10 +1,11 @@
-import { IViewProps } from '@/lib/viewUtils';
+import { getChartList, IViewProps } from '@/lib/viewUtils';
 import { H2 } from 'govuk-react';
 
 export function ThreeOrMoreAreasView({
   areaCodes,
   indicatorsSelected,
 }: IViewProps) {
+  const chartList = getChartList(indicatorsSelected, 'threeOrMoreAreasView');
   return (
     <>
       <H2>View data for all selected areas</H2>
@@ -13,11 +14,11 @@ export function ThreeOrMoreAreasView({
         {indicatorsSelected.toString()}
       </p>
       <p>show the charts</p>
-      {/* <ul>
-        <li>Line Chart (if there is more than one year)</li>
-        <li>Inequalities (bar and line)</li>
-        <li>Population pyramid</li>
-      </ul> */}
+      <ul>
+        {chartList
+          ? chartList.map((chart) => <li key={chart}>{chart}</li>)
+          : null}
+      </ul>
     </>
   );
 }
