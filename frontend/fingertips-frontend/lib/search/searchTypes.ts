@@ -15,7 +15,7 @@ export type IndicatorDocument = {
   dataSource: string;
   latestDataPeriod: string; // Most recent value held in database column 'Year'.
   lastUpdatedDate: Date;
-  associatedAreas: string[];
+  associatedAreaCodes: string[];
   unitLabel: string;
 };
 
