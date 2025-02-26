@@ -58,7 +58,7 @@ export interface GetAreaTypesRequest {
  */
 export interface AreasApiInterface {
     /**
-     * Get the full details of a given area, including it\'s parent, optionally including it\'s children, siblings, cousins and ancestors
+     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings, cousins and ancestors
      * @summary Get area
      * @param {string} areaCode The area code of the area/ geography
      * @param {boolean} [includeChildren] include the child areas
@@ -72,7 +72,7 @@ export interface AreasApiInterface {
     getAreaRaw(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AreaWithRelations>>;
 
     /**
-     * Get the full details of a given area, including it\'s parent, optionally including it\'s children, siblings, cousins and ancestors
+     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings, cousins and ancestors
      * Get area
      */
     getArea(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AreaWithRelations>;
@@ -147,7 +147,7 @@ export interface AreasApiInterface {
 export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 
     /**
-     * Get the full details of a given area, including it\'s parent, optionally including it\'s children, siblings, cousins and ancestors
+     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings, cousins and ancestors
      * Get area
      */
     async getAreaRaw(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AreaWithRelations>> {
@@ -189,7 +189,7 @@ export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
     }
 
     /**
-     * Get the full details of a given area, including it\'s parent, optionally including it\'s children, siblings, cousins and ancestors
+     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings, cousins and ancestors
      * Get area
      */
     async getArea(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AreaWithRelations> {

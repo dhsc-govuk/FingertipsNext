@@ -249,11 +249,11 @@ describe('Results Page', () => {
 
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...eastEnglandNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...londonNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
 
       const page = await ResultsPage({
