@@ -18,7 +18,7 @@ const mockData = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
-        sex: 'Persons',
+        sex: 'All',
         ageBand: 'All',
       },
       {
@@ -27,7 +27,16 @@ const mockData = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
-        sex: 'Persons',
+        sex: 'All',
+        ageBand: 'All',
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Male',
         ageBand: 'All',
       },
     ],
@@ -47,7 +56,7 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
-            sex: 'Persons',
+            sex: 'All',
             ageBand: 'All',
           },
           {
@@ -56,7 +65,7 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
-            sex: 'Persons',
+            sex: 'All',
             ageBand: 'All',
           },
         ],
@@ -65,6 +74,46 @@ describe('sortHealthDataByDate', () => {
     const result = sortHealthDataForAreasByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
+  });
+
+  it('should filter out inequality health data', () => {
+    const mockData = [
+      {
+        areaCode: 'A1425',
+        areaName: 'North FooBar',
+        healthData: [
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Male',
+            ageBand: 'All',
+          },
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Female',
+            ageBand: 'All',
+          },
+        ],
+      },
+    ];
+
+    const expected = [
+      {
+        ...mockData[0],
+        healthData: [],
+      },
+    ];
+
+    const result = sortHealthDataForAreasByDate(mockData);
+
+    expect(result).toEqual(expected);
   });
 });
 

@@ -31,6 +31,7 @@ export function getScenarioConfig(
   const defaultHidden = [
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
+    ChartPage.inequalitiesComponent,
     // DHSCFT-220 will implement this logic
     // this.barChartComponent,
   ];
@@ -42,6 +43,7 @@ export function getScenarioConfig(
       ChartPage.lineChartTableComponent,
       ChartPage.barChartComponent,
       ChartPage.populationPyramidComponent,
+      ChartPage.inequalitiesComponent,
     ],
     hiddenComponents: [],
   };

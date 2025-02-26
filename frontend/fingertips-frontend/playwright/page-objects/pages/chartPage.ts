@@ -12,6 +12,7 @@ export default class ChartPage extends BasePage {
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly barChartComponent = 'barChart-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly inequalitiesComponent = 'inequalities-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
