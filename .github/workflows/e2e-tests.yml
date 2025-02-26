@@ -6,15 +6,17 @@ env:
   NODE_VERSION: 22.x
 
 on:
+  workflow_dispatch:
+    inputs:
+      update-snapshots:
+        description: 'Update snapshots?'
+        type: boolean
   workflow_call:
     inputs:
       e2e-test-container-image:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
-      update-snapshots:
-        description: 'Update snapshots?'
-        type: boolean
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
