@@ -10,7 +10,7 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
+  seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
@@ -20,7 +20,7 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  parentAreaCode?: string;
+  selectedGroupCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
   searchedIndicator?: string;
@@ -30,7 +30,7 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
-  parentAreaCode,
+  selectedGroupCode,
   mapData,
   populationData,
   searchedIndicator,
@@ -49,14 +49,19 @@ export function Chart({
     0,
     areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
-    parentAreaCode
+    selectedGroupCode
   );
 
-  const parentBenchmarkData = parentAreaCode
-    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
-    : undefined;
+  const groupData =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? seriesDataForIndicatorIndexAndArea(
+          healthIndicatorData,
+          0,
+          selectedGroupCode
+        )
+      : undefined;
 
   return (
     <>
@@ -83,7 +88,7 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    groupIndicatorData={groupData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />
@@ -96,7 +101,7 @@ export function Chart({
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    groupIndicatorData={groupData}
                   />
                 ),
               },
