@@ -1,10 +1,10 @@
 import { test } from '../../page-objects/pageFactory';
-import { IndicatorMode } from '../../page-objects/pages/chartPage';
 import {
   getAllIndicatorIdsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
   getAllNHSRegionAreas,
+  IndicatorMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
