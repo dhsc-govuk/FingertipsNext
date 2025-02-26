@@ -124,15 +124,23 @@ Each test will be executed in parallel using Chromium and Webkit as defined in p
 
 Note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our ui and e2e testing as close to real world as possible.
 
-### Accessibility Testing:
+### Accessibility Testing
 
-Performed at the ui stage. Libraries used: @axe-core/playwright and axe-playwright. 
+Performed in the ui tests. Libraries used: @axe-core/playwright and axe-playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
 To check there are 0 accessibility violations call expectNoAccessibilityViolations();
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
+
+## Visual Screenshot Snapshot Testing
+
+Performed in the e2e tests and only when they run in CI/CD, they are not performed when the e2e tests are run locally to avoid flake as the screenshots will be different for different platforms.
+
+There is a manual workflow job to update the snapshots stored in the github cache. 
+
+An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
 
 ## Code structure
 
