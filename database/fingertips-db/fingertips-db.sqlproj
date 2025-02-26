@@ -25,6 +25,7 @@
     <Build Include="Tables\SexDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Tables\Areas.sql" />
+    <Build Include="Tables\AreaTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BlobStorageLocation">

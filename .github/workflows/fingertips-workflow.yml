@@ -284,12 +284,7 @@ jobs:
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING_TEMP }}
           path: 'fingertips-db.dacpac'
           action: 'publish'
-          arguments: >
-            /p:DropObjectsNotInSource=true
-            /p:BlockOnPossibleDataLoss=false
-            /v:UseAzureBlob=1
-            /v:BlobStorageLocation="https://dlsfingertipsuks001.blob.core.windows.net/sql-data"
-            /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
+          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /v:UseAzureBlob=1 /v:BlobStorageLocation="https://dlsfingertipsuks001.blob.core.windows.net/sql-data" /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
