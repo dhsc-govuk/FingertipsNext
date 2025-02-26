@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c10 {
+  .c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c10:focus {
+.c7:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c10:link,
-.c10:visited,
-.c10:active,
-.c10:hover {
+.c7:link,
+.c7:visited,
+.c7:active,
+.c7:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c10::-moz-focus-inner {
+.c7::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c10:hover,
-.c10:focus {
+.c7:hover,
+.c7:focus {
   background-color: #00572e;
 }
 
-.c10:active {
+.c7:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c10::before {
+.c7::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c10:active::before {
+.c7:active::before {
   top: -4px;
 }
 
-.c10:disabled {
+.c7:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c10:disabled:hover {
+.c7:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c10:disabled:focus {
+.c7:disabled:focus {
   outline: none;
 }
 
-.c10:disabled:active {
+.c7:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c10 svg {
+.c7 svg {
   max-width: 15px;
 }
 
@@ -186,51 +186,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 {
+.c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c9:focus {
+.c6:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c9:link {
+.c6:link {
   color: #1d70b8;
 }
 
-.c9:visited {
+.c6:visited {
   color: #4c2c92;
 }
 
-.c9:hover {
+.c6:hover {
   color: #2b8cc4;
 }
 
-.c9:active {
+.c6:active {
   color: #2b8cc4;
 }
 
-.c9:focus {
+.c6:focus {
   color: #0b0c0c;
-}
-
-.c7 {
-  margin-bottom: 5px;
-}
-
-.c8 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 19px;
-}
-
-.c6 {
-  margin: 0px;
-  background-color: #FFFFFF;
 }
 
 .c2 {
@@ -238,33 +223,33 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c10 {
+  .c7 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c7 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c7 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 svg {
+  .c7 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c7 {
     margin-bottom: 32px;
   }
 }
@@ -362,15 +347,15 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c9 {
+  .c6 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c9[href^="/"]::after,
-  .c9[href^="http://"]::after,
-  .c9[href^="https://"]::after {
+  .c6[href^="/"]::after,
+  .c6[href^="http://"]::after,
+  .c6[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -413,59 +398,45 @@ exports[`snapshot test - renders the form 1`] = `
         class="c5"
         id="indicator"
         name="indicator"
-        value="indicator"
+        value=""
       />
     </label>
-    <input
-      id="areaSearched"
-      name="areaSearched"
-      type="hidden"
-      value="area"
-    />
-    <div
-      class="c6"
+    <label
+      class="c1 c2"
+      data-testid="search-form-input-area"
+      style="margin-bottom: 5px;"
     >
-      <div
-        class="c7"
+      <span
+        class="c3"
       >
-        <label
-          class="c1"
-          data-testid="search-form-input-area"
-        >
-          <span
-            class="c3"
-          >
-            Search for an area
-          </span>
-          <span
-            class="c4"
-          >
-            <div
-              style="color: rgb(80, 90, 95);"
-            >
-              For example district, county, region, NHS organisation or GP practice or code
-            </div>
-          </span>
-          <input
-            class="c5"
-            value=""
-          />
-        </label>
-      </div>
-      <div
-        class="c8"
+        Search by area
+      </span>
+      <span
+        class="c4"
       >
-        <a
-          class="c9"
-          data-testid="search-form-link-filter-area"
-          href="#"
+        <div
+          style="color: rgb(80, 90, 95);"
         >
-          Open area filter
-        </a>
-      </div>
-    </div>
+          For example, district, county, region, NHS organisation or GP practice or code
+        </div>
+      </span>
+      <input
+        class="c5"
+        id="areaSearched"
+        name="areaSearched"
+        value=""
+      />
+    </label>
+    <a
+      class="c6"
+      data-testid="search-form-link-filter-area"
+      href="#"
+    >
+      Or filter by area
+    </a>
+    <br />
     <button
-      class="c10"
+      class="c7"
       data-testid="search-form-button-submit"
       style="margin-top: 25px;"
       type="submit"

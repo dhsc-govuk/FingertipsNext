@@ -12,7 +12,6 @@ const $SearchFormSchema = z.object({
     .trim()
     .min(1, { message: 'Please enter an indicator id' }),
   areaSearched: z.string().optional(),
-  areaSelected: z.custom<AreaDocument | undefined>(),
 });
 
 export type State = {
@@ -45,11 +44,10 @@ export async function searchIndicator(
     };
   }
 
-  const { indicator, areaSearched } = validatedFields.data;
+  const { indicator } = validatedFields.data;
 
   const searchState = SearchStateManager.initialise({
     [SearchParams.SearchedIndicator]: indicator,
-    [SearchParams.AreasSelected]: areaSearched ? [areaSearched] : [],
   });
   redirect(searchState.generatePath('/results'), RedirectType.push);
 }
@@ -65,17 +63,4 @@ export async function getSearchSuggestions(
     console.log(e);
   }
   return [];
-}
-
-export async function getArea(
-  areaCode: string
-): Promise<AreaDocument | undefined> {
-  try {
-    return SearchServiceFactory.getAreaSearchService().getAreaDocument(
-      areaCode
-    );
-  } catch (e) {
-    console.log(e);
-  }
-  return undefined;
 }
