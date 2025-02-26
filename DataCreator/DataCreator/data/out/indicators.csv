@@ -4,7 +4,7 @@
 247,Dementia prevalence (Quality and Outcomes Framework)                                                                        ,False
 352,People with caring responsibility aged 16 years and over                                                                    ,False
 30302,Population vaccination coverage: Hepatitis B aged 2 years                                                                   ,False
-20401,"""Conception rate per 1,000 females aged 17 years and under""                                                                 ",False
+20401,Conception rate in females aged 17 years and under                                                                 ,False
 41203,Preventable sight loss from diabetic eye disease                                                                            ,False
 241,Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework)                                                 ,False
 337,"                                                                                                                            ",True
@@ -21,7 +21,7 @@
 93015,Physically inactive adults aged 19 years and over                                                                           ,False
 93085,Smokers at time of childbirth delivery                                                                                      ,False
 93088,Overweight prevalence (including obesity) in adults aged 18 years and over (using adjusted self-reported height and weight) ,False
-93124,"""Acute hepatitis B incidence rate per 100,000""                                                                              ",False
+93124,Acute hepatitis B incidence rate                                                                              ,False
 93474,Deaths in hospital                                                                                                          ,False
 93553,Deprivation score (Index of Multiple Deprivation 2019)                                                                      ,False
 93701,Children in absolute low income families aged 15 years and under                                                            ,False
