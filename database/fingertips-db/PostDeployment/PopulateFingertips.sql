@@ -6,6 +6,7 @@ DELETE FROM [dbo].[AgeDimension]
 DELETE FROM [dbo].[AreaDimension]
 DELETE FROM  [dbo].[IndicatorDimension]
 DELETE FROM [dbo].[SexDimension]
+DELETE FROM [dbo].[TrendDimension]
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
@@ -13,6 +14,7 @@ DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[AreaDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 
 --create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON
@@ -337,6 +339,16 @@ INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) 
 INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (2, N'Female', 1, 1, 2)
 INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (3, N'All', 0, 0, 4)
 SET IDENTITY_INSERT [dbo].[SexDimension] OFF
+GO
+
+--create the trend dimension data
+SET IDENTITY_INSERT [dbo].[TrendDimension] ON
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'NotYetCalculated', 0)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'CannotBeCalculated', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (3, N'Increasing', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (4, N'Decreasing', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'NoChange', 1)
+SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
 
 -- create some population health measure data

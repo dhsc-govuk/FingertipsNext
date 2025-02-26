@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
