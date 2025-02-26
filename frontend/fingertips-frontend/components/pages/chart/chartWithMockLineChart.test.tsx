@@ -3,27 +3,27 @@ import { Chart } from '@/components/pages/chart';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 jest.mock('@/components/organisms/LineChart/');
 const mockLineChart = jest.mocked(LineChart);
 jest.mock('@/components/organisms/LineChartTable');
 const mockLineChartTable = jest.mocked(LineChartTable);
 
+const state: SearchStateParams = {
+  [SearchParams.IndicatorsSelected]: ['0'],
+  [SearchParams.GroupSelected]: 'E92000001',
+};
 describe('Chart', () => {
   it('line chart component should not pass data for England as groupData to the lineChart or lineChartTable', () => {
     render(
       <Chart
         healthIndicatorData={[mockHealthData['337']]}
-        indicatorsSelected={['0']}
-        selectedGroupCode="E92000001"
+        searchState={state}
       />
     );
 
-    expect(mockLineChart.mock.lastCall).toMatchObject([
-      { groupIndicatorData: undefined },
-    ]);
-    expect(mockLineChartTable.mock.lastCall).toMatchObject([
-      { groupIndicatorData: undefined },
-    ]);
+    expect(mockLineChart.mock.lastCall).toBeUndefined();
+    expect(mockLineChartTable.mock.lastCall).toBeUndefined();
   });
 });
