@@ -42,3 +42,13 @@ export const northEastAndYorkshireNHSRegion: Area = {
   name: 'North East and Yorkshire NHS Region',
   areaType: nhsRegionsAreaType,
 };
+
+export const allNhsRegions = [
+  eastEnglandNHSRegion,
+  londonNHSRegion,
+  southEastNHSRegion,
+  southWestNHSRegion,
+  northWestNHSRegion,
+  midlandsNHSRegion,
+  northEastAndYorkshireNHSRegion,
+];

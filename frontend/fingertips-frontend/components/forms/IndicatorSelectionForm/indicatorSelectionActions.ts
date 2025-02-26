@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const $IndicatorSelectionFormSchema = z.object({
   searchState: z.string(),
@@ -46,9 +47,15 @@ export async function submitIndicatorSelection(
   const { searchState, indicatorsSelected } = validatedFields.data;
   const state = JSON.parse(searchState);
 
+  const areasSelected =
+    state[SearchParams.AreasSelected]?.length > 0
+      ? state[SearchParams.AreasSelected]
+      : [areaCodeForEngland];
+
   const searchStateManager = SearchStateManager.initialise({
     ...state,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
   });
   redirect(searchStateManager.generatePath('/chart'), RedirectType.push);
 }

@@ -24,3 +24,10 @@ export const southEastLondonICB: Area = {
   name: 'NHS South East London ICB',
   areaType: nhsIntegratedCareBoardsAreaType,
 };
+
+export const allIntegratedCareBoards = [
+  basildonAndBrentwoodICB,
+  cambridgeAndPeterboroughICB,
+  northCentralLondonICB,
+  southEastLondonICB,
+];

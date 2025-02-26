@@ -18,3 +18,9 @@ export const yorkshireAndHumberRegion: Area = {
   name: 'Yorkshire and the Humber region (statistical)',
   areaType: regionsAreaType,
 };
+
+export const allRegions = [
+  northEastRegion,
+  northWestRegion,
+  yorkshireAndHumberRegion,
+];
