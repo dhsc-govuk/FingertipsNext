@@ -16,7 +16,9 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      >{selectedFilterName}</Pill>
+      >
+        {selectedFilterName}
+      </Pill>
     );
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
@@ -31,7 +33,9 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      >{selectedFilterName}</Pill>
+      >
+        {selectedFilterName}
+      </Pill>
     );
 
     expect(screen.getByRole('paragraph')).toHaveTextContent('Dementia');
@@ -45,7 +49,9 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      >{selectedFilterName}</Pill>
+      >
+        {selectedFilterName}
+      </Pill>
     );
 
     await user.click(screen.getByTestId('remove-icon-div'));
@@ -58,7 +64,9 @@ describe('Pill Suite', () => {
       <Pill
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      >{selectedFilterName}</Pill>
+      >
+        {selectedFilterName}
+      </Pill>
     );
     expect(container.asFragment()).toMatchSnapshot();
   });

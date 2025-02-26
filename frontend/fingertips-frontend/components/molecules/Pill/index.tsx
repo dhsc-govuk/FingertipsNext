@@ -4,9 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 
-
-
-const StyledDivContainer = styled('div')({ 
+const StyledDivContainer = styled('div')({
   backgroundColor: 'white',
   border: '1px #D1D2D3 solid',
   borderRadius: '5px',
@@ -20,16 +18,13 @@ const StyledFilterChildren = styled('div')({
   wordWrap: 'break-word',
   paddingLeft: '0.5em',
   fontSize: 16,
-  marginBottom: '0'
+  marginBottom: '0',
 });
 
 const StyledIconDiv = styled('div')({
   alignItems: 'center',
-  display: 'flex'
+  display: 'flex',
 });
-
-
-
 
 interface PillProps {
   children: React.ReactNode;
@@ -42,19 +37,16 @@ export function Pill({
   selectedFilterId,
   removeFilter,
 }: Readonly<PillProps>) {
-
-
   return (
-   
     <StyledDivContainer data-testid="pill-container">
       <StyledIconDiv
         data-testid="remove-icon-div"
         onClick={(e) => {
           e.preventDefault();
-          removeFilter(selectedFilterId ?? '')}
-        }
+          removeFilter(selectedFilterId ?? '');
+        }}
       >
-      <RemoveIcon width="12" height="12" color="#000000" />
+        <RemoveIcon width="12" height="12" color="#000000" />
       </StyledIconDiv>
       <StyledFilterChildren data-testid="filter-name">
         {children}
