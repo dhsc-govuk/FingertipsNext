@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pill Suite snapshot test 1`] = `
+exports[`AreaSearchPill Component should match snapshot 1`] = `
 <DocumentFragment>
   .c2 {
   cursor: pointer;
@@ -35,6 +35,10 @@ exports[`Pill Suite snapshot test 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+.c4 {
+  padding-right: 5px;
 }
 
 <div
@@ -76,7 +80,20 @@ exports[`Pill Suite snapshot test 1`] = `
       class="c3"
       data-testid="filter-name"
     >
-      Dementia
+      <div
+        style="padding: 5px 10px 5px 10px; display: flex; font-weight: 300;"
+      >
+        <span
+          class="c4"
+        >
+          Test Area
+        </span>
+        <span
+          style="color: rgb(80, 90, 95); padding-top: 1px;"
+        >
+          Urban
+        </span>
+      </div>
     </div>
   </div>
 </DocumentFragment>
