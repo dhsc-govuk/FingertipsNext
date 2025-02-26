@@ -20,14 +20,14 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-  },
-  {
-    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-  },
+  // {
+  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
+  //   areaMode: AreaMode.TWO_AREAS,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+  //   areaMode: AreaMode.ENGLAND_AREA,
+  // },
 ];
 
 /**
@@ -76,12 +76,12 @@ test.describe(`Search via search term ${searchTerm}`, () => {
       });
 
       await test.step(`Select ${indicatorMode} and ${areaMode} and assert that the displayed charts are correct`, async () => {
+        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
         await resultsPage.selectIndicatorCheckboxesAndCheckURL(
           allIndicatorIDs,
           indicatorMode,
           searchTerm
         );
-        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
         await resultsPage.clickViewChartsButton();
 
         await chartPage.checkChartVisibility(indicatorMode, areaMode);

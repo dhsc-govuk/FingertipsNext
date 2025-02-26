@@ -96,7 +96,9 @@ export default class ResultsPage extends BasePage {
   }
 
   /**
-   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection
+   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
+   * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
+   * test function selectAreasFiltersAndCheckURL. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
    *
    * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
    * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
@@ -131,9 +133,7 @@ export default class ResultsPage extends BasePage {
   }
 
   /**
-   * Selects the required area filters - note that we do not pass in the areas to select, but instead we trust, and therefore test, the fingertips UI
-   * to only show us valid areas based on the indicators selected by the test function selectIndicatorCheckboxesAndCheckURL. If it allows us to select
-   * invalid areas, then the chart page will error.
+   * Selects the required area filters
    *
    * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
    * @param searchTerm - search term to be used in the URL check
