@@ -1,5 +1,4 @@
 ﻿create table Areas.Areas(
-    [Node] hierarchyid primary key clustered not null,
     [AreaKey] int  IDENTITY(1,1) not null,
     [AreaCode] nvarchar(20) not null,
     [AreaName] nvarchar(255) not null,  

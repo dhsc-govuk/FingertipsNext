@@ -2956,6 +2956,7 @@ SET IDENTITY_INSERT [dbo].[HealthMeasure] OFF
 GO
 
 --delete all existing data so we always start from a known position
+DELETE FROM [Areas].[AreaRelationships]
 DELETE FROM [Areas].[Areas]
 DELETE FROM [Areas].[AreaTypes]
 
@@ -2976,42 +2977,59 @@ GO
 
 SET IDENTITY_INSERT [Areas].[Areas] ON
 
-INSERT [Areas].[Areas] ([Node],[AreaKey],[AreaCode],[AreaName],[AreaTypeKey])
+INSERT [Areas].[Areas] ([AreaKey],[AreaCode],[AreaName],[AreaTypeKey])
 VALUES
-('/',1,'E92000001','England','england')
-
 -- first level data
-,('/1/',101,'E12000001','North East region (statistical)','regions')
-,('/2/',102,'E12000002','North West region (statistical)','regions')
-,('/3/',103,'E12000003','Yorkshire and the Humber region (statistical)','regions')
-,('/4/',104,'E40000007','East of England NHS Region','nhs-regions')
-,('/5/',105,'E40000003','London NHS Region','nhs-regions')
-,('/6/',106,'E40000005','South East NHS Region','nhs-regions')
-,('/7/',107,'E40000006','South West NHS Region','nhs-regions')
-,('/8/',108,'E40000010','North West NHS Region','nhs-regions')
-,('/9/',109,'E40000011','Midlands NHS Region','nhs-regions')
-,('/10/',110,'E40000012','North East and Yorkshire NHS Region','nhs-regions')
+(101,'E92000001','England','england')
 
 -- second level data
-,('/1/1/',201,'E06000047','County Durham','counties-and-unitary-authorities')
-,('/1/2/',202,'E06000005','Darlington','counties-and-unitary-authorities')
-,('/1/3/',203,'E08000037','Gateshead','counties-and-unitary-authorities')
-,('/4/1/',204,'E38000007','NHS Basildon And Brentwood ICB','nhs-integrated-care-boards')
-,('/4/2/',205,'E38000026','NHS Cambridgeshire and Peterborough ICB','nhs-integrated-care-boards')
-,('/5/1/',206,'E38000240','NHS North Central London ICB','nhs-integrated-care-boards')
-,('/5/2/',207,'E38000244','NHS South East London ICB','nhs-integrated-care-boards')
+,(201,'E12000001','North East region (statistical)','regions')
+,(202,'E12000002','North West region (statistical)','regions')
+,(203,'E12000003','Yorkshire and the Humber region (statistical)','regions')
+,(204,'E40000007','East of England NHS Region','nhs-regions')
+,(205,'E40000003','London NHS Region','nhs-regions')
+,(206,'E40000005','South East NHS Region','nhs-regions')
+,(207,'E40000006','South West NHS Region','nhs-regions')
+,(208,'E40000010','North West NHS Region','nhs-regions')
+,(209,'E40000011','Midlands NHS Region','nhs-regions')
+,(210,'E40000012','North East and Yorkshire NHS Region','nhs-regions')
 
 -- third level data
-,('/4/1/1/',301,'U15488','East Basildon PCN','nhs-primary-care-networks')
-,('/4/1/2/',302,'U55146','Central Basildon PCN','nhs-primary-care-networks')
-,('/5/1/1/',303,'U02795','North 2 Islington PCN','nhs-primary-care-networks')
-,('/5/1/2/',304,'U05885','South Camden PCN','nhs-primary-care-networks')
+,(301,'E47000001', 'CA-Greater Manchester', 'combined-authorities')
+,(302,'E47000002', 'CA-Sheffield City Region', 'combined-authorities')
+,(303,'E47000003', 'CA-West Yorkshire', 'combined-authorities')
+
+,(304,'E38000007','NHS Basildon And Brentwood ICB','nhs-integrated-care-boards')
+,(305,'E38000026','NHS Cambridgeshire and Peterborough ICB','nhs-integrated-care-boards')
+,(306,'E38000240','NHS North Central London ICB','nhs-integrated-care-boards')
+,(307,'E38000244','NHS South East London ICB','nhs-integrated-care-boards')
 
 -- fourth level data
-,('/4/1/1/1/',401,'F81186','Felmores Medical Centre','gps')
-,('/4/1/1/2/',402,'F81640','Aryan Medical Centre','gps')
-,('/5/1/1/1/',403,'F83004','Archway Medical Centre','gps')
-,('/5/1/1/2/',404,'F83008','The Goodinge Group Practice','gps')
+,(401,'E38000007','Mid and South Essex ICB - 99E','nhs-sub-integrated-care-boards')
+,(402,'E38000240','North Central London ICB - 93C','nhs-sub-integrated-care-boards')
+,(403,'E38000241','Humber and North Yorkshire ICB - 42D','nhs-sub-integrated-care-boards')
+,(404,'E38000243','Nottingham and Nottinghamshire ICB - 52R','nhs-sub-integrated-care-boards')
+
+,(405,'E06000047','County Durham','counties-and-unitary-authorities')
+,(406,'E06000005','Darlington','counties-and-unitary-authorities')
+,(407,'E08000037','Gateshead','counties-and-unitary-authorities')
+
+-- fifth level data
+,(501,'U15488','East Basildon PCN','nhs-primary-care-networks')
+,(502,'U55146','Central Basildon PCN','nhs-primary-care-networks')
+,(503,'U02795','North 2 Islington PCN','nhs-primary-care-networks')
+,(504,'U05885','South Camden PCN','nhs-primary-care-networks')
+
+,(505,'E07000008','Cambridge','districts-and-unitary-authorities')
+,(506,'E07000009','East Cambridgeshire','districts-and-unitary-authorities')
+,(507,'E07000010','Fenland','districts-and-unitary-authorities')
+,(508,'E07000011','Huntingdonshire','districts-and-unitary-authorities')
+
+-- sixth level data
+,(601,'F81186','Felmores Medical Centre','gps')
+,(602,'F81640','Aryan Medical Centre','gps')
+,(603,'F83004','Archway Medical Centre','gps')
+,(604,'F83008','The Goodinge Group Practice','gps')
 
 SET IDENTITY_INSERT [Areas].[Areas] OFF
 
@@ -3019,37 +3037,46 @@ GO
 
 INSERT [Areas].[AreaRelationships] ([ParentAreaKey],[ChildAreaKey])
 VALUES
-(1,101)
-,(1,102)
-,(1,103)
-,(1,104)
-,(1,105)
-,(1,106)
-,(1,107)
-,(1,108)
-,(1,109)
-,(1,110)
-
-,(101,201)
+(101,201)
 ,(101,202)
 ,(101,203)
+,(101,204)
+,(101,205)
+,(101,206)
+,(101,207)
+,(101,208)
+,(101,209)
+,(101,210)
 
-,(104,204)
-,(104,205)
+,(201,405)
+,(201,406)
+,(201,407)
 
-,(105,206)
-,(105,207)
+,(204,304)
+,(204,305)
 
-,(204,301)
-,(204,302)
+,(205,306)
+,(205,307)
 
-,(204,303)
-,(206,303)
-,(206,304)
+,(301,405)
+,(301,406)
+,(302,407)
 
-,(301,401)
-,(301,402)
+,(304,401)
+,(304,402)
+,(306,403)
+,(306,404)
 
-,(303,403)
-,(303,404)
+,(401,501)
+,(401,502)
+
+,(401,503)
+,(402,503)
+,(402,504)
+
+,(501,601)
+,(501,602)
+
+,(503,603)
+,(503,604)
 
