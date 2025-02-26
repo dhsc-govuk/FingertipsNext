@@ -86,7 +86,8 @@ public class IndicatorControllerTests
                     LowerConfidenceInterval = 1.1111f,
                     UpperConfidenceInterval = 2.2222f,
                     AgeBand = "Sample Age Band",
-                    Sex = "Sample Sex"
+                    Sex = "Sample Sex",
+                    Trend = "Sample Trend"
                 }
             ]
         }
