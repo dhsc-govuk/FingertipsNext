@@ -36,7 +36,7 @@ describe('Pill Suite', () => {
         {selectedFilterName}
       </Pill>
     );
-    expect(screen.getByText('Dementia')).toBeInTheDocument()
+    expect(screen.getByText('Dementia')).toBeInTheDocument();
   });
 
   it('should call the passed in handle function when clicking the remove icon', async () => {
