@@ -13,7 +13,7 @@ jest.mock('@azure/search-documents', () => ({
 describe('AreaSearchService', () => {
   const mockSearch = jest.fn();
 
-  const mockSearchClient = (SearchClient as jest.Mock).mockImplementation(
+(SearchClient as jest.Mock).mockImplementation(
     () => ({
       suggest: mockSearch,
       getDocument: jest.fn().mockResolvedValue({
