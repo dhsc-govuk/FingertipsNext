@@ -29,38 +29,51 @@ describe('IndicatorSearchServiceMock', () => {
   beforeAll(() => {
     indicatorSearchMock = new IndicatorSearchServiceMock(mockData);
   });
-
   it('should be successfully instantiated', async () => {
     expect(indicatorSearchMock).toBeInstanceOf(IndicatorSearchServiceMock);
   });
 
-  it('should perform a search operation on name', async () => {
-    expect(await indicatorSearchMock.searchWith('faced')).toEqual([
-      mockData[0],
-    ]);
+  describe('searchWith', () => {
+    it('should perform a search operation on name', async () => {
+      expect(await indicatorSearchMock.searchWith('faced')).toEqual([
+        mockData[0],
+      ]);
+    });
+
+    it('should perform a search operation on definition', async () => {
+      expect(await indicatorSearchMock.searchWith('justice')).toEqual([
+        mockData[1],
+      ]);
+    });
+
+    it('should filter out any not in Area1', async () => {
+      expect(await indicatorSearchMock.searchWith('Red', ['Area1'])).toEqual(
+        mockData
+      );
+    });
+
+    it('should filter out any not in Area2', async () => {
+      expect(await indicatorSearchMock.searchWith('Red', ['Area2'])).toEqual([
+        mockData[1],
+      ]);
+    });
+
+    it('should filter all out if unknown area', async () => {
+      expect(
+        await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
+      ).toHaveLength(0);
+    });
   });
 
-  it('should perform a search operation on definition', async () => {
-    expect(await indicatorSearchMock.searchWith('justice')).toEqual([
-      mockData[1],
-    ]);
-  });
+  describe('getDocument', () => {
+    it('should return the document corresponding to a given documentId', async () => {
+      expect(await indicatorSearchMock.getIndicator('2')).toEqual(mockData[1]);
+    });
 
-  it('should filter out any not in Area1', async () => {
-    expect(await indicatorSearchMock.searchWith('Red', ['Area1'])).toEqual(
-      mockData
-    );
-  });
-
-  it('should filter out any not in Area2', async () => {
-    expect(await indicatorSearchMock.searchWith('Red', ['Area2'])).toEqual([
-      mockData[1],
-    ]);
-  });
-
-  it('should filter all out if unknown area', async () => {
-    expect(
-      await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
-    ).toHaveLength(0);
+    it('should return nothing if given an invalid document id', async () => {
+      expect(
+        await indicatorSearchMock.getIndicator('invalid id')
+      ).toBeUndefined();
+    });
   });
 });

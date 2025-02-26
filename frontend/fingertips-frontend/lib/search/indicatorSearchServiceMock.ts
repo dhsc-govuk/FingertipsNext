@@ -27,4 +27,10 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       })
       .slice(0, 20);
   }
+
+  public async getIndicator(indicatorId: string): Promise<IndicatorDocument> {
+    return this.mockIndicatorData.filter((indicator) => {
+      return indicator.indicatorID === indicatorId;
+    })[0];
+  }
 }
