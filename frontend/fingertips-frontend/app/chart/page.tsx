@@ -57,7 +57,10 @@ export default async function ChartPage(
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
         areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(indicatorsSelected, areaCodes)
+        inequalities: shouldDisplayInequalities(
+          indicatorsSelected,
+          areasSelected
+        )
           ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
           : [],
       })
