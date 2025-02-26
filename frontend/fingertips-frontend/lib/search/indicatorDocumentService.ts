@@ -1,8 +1,4 @@
-import {
-  AzureKeyCredential,
-  SearchClient,
-  SearchOptions,
-} from '@azure/search-documents';
+import { AzureKeyCredential, SearchClient } from '@azure/search-documents';
 
 import {
   IIndicatorDocumentService,
