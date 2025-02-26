@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 public class HealthMeasureModelHelper(
-    int key = 1, 
+    int key = 1,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
@@ -17,7 +17,7 @@ public class HealthMeasureModelHelper(
     private SexDimensionModel? _sexDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
-        string code = "AreaCode", 
+        string code = "AreaCode",
         string name = "area name",
         DateTime? startDate = null,
         DateTime? endDate = null
@@ -33,7 +33,7 @@ public class HealthMeasureModelHelper(
         };
         return this;
     }
-    
+
     private AreaDimensionModel DefaultAreaDimension()
     {
         return new AreaDimensionModel
@@ -131,12 +131,23 @@ public class HealthMeasureModelHelper(
         };
     }
 
+    private TrendDimensionModel DefaultTrendDimension()
+    {
+        return new TrendDimensionModel
+        {
+            TrendKey = (byte)key,
+            Name = "NotYetCalculated",
+            HasValue = false
+        };
+    }
+
     public HealthMeasureModel Build()
     {
         var areaDimension = _areaDimension ?? DefaultAreaDimension();
         var ageDimension = _ageDimension ?? DefaultAgeDimension();
         var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
         var sexDimension = _sexDimension ?? DefaultSexDimension();
+        var trendDimension = DefaultTrendDimension();
 
         return new HealthMeasureModel
         {
@@ -150,10 +161,12 @@ public class HealthMeasureModelHelper(
             AgeKey = ageDimension.AgeKey,
             IndicatorKey = indicatorDimension.IndicatorKey,
             SexKey = sexDimension.SexKey,
+            TrendKey = trendDimension.TrendKey,
             AreaDimension = areaDimension,
             AgeDimension = ageDimension,
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
+            TrendDimension = trendDimension
         };
     }
 }
