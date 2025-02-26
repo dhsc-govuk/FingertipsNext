@@ -1,9 +1,6 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Collections;
-using System.Reflection.Metadata.Ecma335;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -153,7 +150,10 @@ public class AreaRepository : IAreaRepository
             .FromSqlInterpolated(
                 $"""
                 SELECT 
-                  * 
+                  AreaKey,
+                  AreaCode,
+                  AreaName,
+                  AreaTypeKey
                 FROM
                   Areas.Areas a                
                 JOIN
@@ -176,7 +176,10 @@ public class AreaRepository : IAreaRepository
             .FromSqlInterpolated(
                 $"""
                 SELECT
-                  *
+                  AreaKey,
+                  AreaCode,
+                  AreaName,
+                  AreaTypeKey
                 FROM
                   Areas.Areas a
                 JOIN
@@ -344,7 +347,10 @@ public class AreaRepository : IAreaRepository
                 $"""
                 --- Find all children of the Parents
                 SELECT DISTINCT
-                  * 
+                  AreaKey,
+                  AreaCode,
+                  AreaName,
+                  AreaTypeKey
                 FROM 
                   Areas.Areas a
                 JOIN 
