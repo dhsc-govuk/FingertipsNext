@@ -17,7 +17,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Area.AreaCode))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Area.AreaName))
             .ForMember(dest => dest.AreaType, opt => opt.MapFrom(src => src.Area.AreaType))
-            .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentArea));
+            .ForMember(dest => dest.Parents, opt => opt.MapFrom(src => src.ParentAreas));
         
         CreateMap<AreaModel, Schemas.Area>()
             .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.AreaCode))
