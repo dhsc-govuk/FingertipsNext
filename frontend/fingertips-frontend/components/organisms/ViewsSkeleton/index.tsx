@@ -4,12 +4,12 @@ import { selectedViewRenderer } from '@/lib/viewUtils/selectedViewRenderer';
 import { viewSelector } from '@/lib/viewUtils/viewUtils';
 
 interface ViewsSkeletonProps {
-  areaCodes: string[];
+  areaCodes?: string[];
   indicatorsSelected: string[];
 }
 
 export function ViewsSkeleton({
-  areaCodes,
+  areaCodes = [],
   indicatorsSelected,
 }: ViewsSkeletonProps) {
   return (
