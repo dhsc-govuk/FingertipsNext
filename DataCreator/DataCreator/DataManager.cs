@@ -107,8 +107,11 @@ namespace DataCreator
                 if (indicator.UsedInPoc)
                 {
                     var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
+                    //change the indicator name to the GDS compliant one
                     if(!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
+                    //some indicators should be hidden in search results so set that property here
+                    indicator.HideInSearchResults=indicatorUsedInPoc.HideInSearchResults;
                 }
                     
             }

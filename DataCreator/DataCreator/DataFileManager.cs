@@ -40,7 +40,8 @@ namespace DataCreator
                 indicators.Add(new SimpleIndicator
                 {
                     IndicatorID= int.Parse(split[0]),
-                    IndicatorName= split[1] 
+                    IndicatorName= split[1],
+                    HideInSearchResults =bool.Parse(split[2])
                 });
             }
 
