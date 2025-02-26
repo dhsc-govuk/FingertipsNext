@@ -152,6 +152,30 @@ describe('IndicatorSearchService', () => {
         },
       ]);
     });
+
+    it('should only return the first 20 results', async () => {
+      const fiftyResults = Array(50).fill({
+        document: {
+          indicatorId: '123',
+          name: 'Test Indicator',
+          latestDataPeriod: undefined,
+          dataSource: 'Test Source',
+          lastUpdated: '2024-01-01',
+        },
+      });
+
+      const mockSearchResults = {
+        latestDataPeriod: undefined,
+        results: fiftyResults,
+      };
+
+      mockSearch.mockResolvedValue(mockSearchResults);
+
+      const searchService = SearchServiceFactory.getIndicatorSearchService();
+      const results = await searchService.searchWith('Test Indicator');
+
+      expect(results).toHaveLength(20);
+    });
   });
 });
 

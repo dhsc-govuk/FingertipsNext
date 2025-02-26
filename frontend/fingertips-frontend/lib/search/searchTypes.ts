@@ -16,7 +16,7 @@ export type IndicatorDocument = {
   earliestDataPeriod: string; // Oldest value held in database column 'Year'.
   latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
-  associatedAreas: string[];
+  associatedAreaCodes: string[];
 };
 
 export type AreaDocument = {

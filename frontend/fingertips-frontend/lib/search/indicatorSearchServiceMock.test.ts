@@ -12,7 +12,7 @@ describe('IndicatorSearchServiceMock', () => {
       latestDataPeriod: '2023',
       dataSource: 'The Beano',
       lastUpdatedDate: new Date('December 6, 2024'),
-      associatedAreas: ['Area1'],
+      associatedAreaCodes: ['Area1'],
     },
     {
       indicatorID: '2',
@@ -22,7 +22,7 @@ describe('IndicatorSearchServiceMock', () => {
       latestDataPeriod: '2022',
       dataSource: 'Mega City 1',
       lastUpdatedDate: new Date('November 5, 2023'),
-      associatedAreas: ['Area1', 'Area2'],
+      associatedAreaCodes: ['Area1', 'Area2'],
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;
