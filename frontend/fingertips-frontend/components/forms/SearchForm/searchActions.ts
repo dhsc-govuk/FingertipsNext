@@ -67,7 +67,7 @@ export async function getSearchSuggestions(
   return [];
 }
 
-export async function getArea(
+export async function getAreaDocument(
   areaCode: string
 ): Promise<AreaDocument | undefined> {
   try {

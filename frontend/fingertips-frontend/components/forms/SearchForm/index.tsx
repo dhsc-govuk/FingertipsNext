@@ -1,6 +1,6 @@
 'use client';
 
-import { getArea } from './searchActions';
+import { getAreaDocument } from './searchActions';
 import { Button, InputField, H3 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
@@ -52,7 +52,7 @@ export const SearchForm = ({
   useEffect(() => {
     const fetchAreaDocumentAndUpdate = async (areaCode: string | undefined) => {
       if (areaCode == undefined) return null;
-      const area = await getArea(areaCode);
+      const area = await getAreaDocument(areaCode);
       if (area) {
         setDefaultAreas([area]);
       }

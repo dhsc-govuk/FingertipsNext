@@ -2,10 +2,6 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { Link } from 'govuk-react';
 import styled from 'styled-components';
 
-export interface SelectableAreaDocument extends AreaDocument {
-  checked: boolean;
-}
-
 const StyleAreaFilterPanel = styled('div')({
   paddingTop: '10px',
   paddingBottom: '10px',
