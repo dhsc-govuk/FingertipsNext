@@ -11,6 +11,7 @@ models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts
 models/HealthDataForArea.ts
 models/HealthDataPoint.ts
+models/HealthDataPointBenchmarkComparison.ts
 models/Indicator.ts
 models/IndicatorSummary.ts
 models/RootArea.ts
