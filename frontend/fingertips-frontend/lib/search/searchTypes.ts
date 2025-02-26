@@ -34,3 +34,7 @@ export interface IIndicatorSearchService {
 export interface IAreaSearchService {
   getAreaSuggestions(partialAreaName: string): Promise<AreaDocument[]>;
 }
+
+export interface IIndicatorDocumentService {
+  getIndicator(indicatorId: string): Promise<IndicatorDocument>;
+}
