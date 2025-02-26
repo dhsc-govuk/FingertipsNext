@@ -1,7 +1,7 @@
-import { OneAreaView } from '@/components/views/OneAreaView';
-import { EnglandView } from '@/components/views/EnglandView';
-import { ThreeOrMoreAreasView } from '@/components/views/ThreeOrMoreAreasView';
-import { TwoAreasView } from '@/components/views/TwoAreasView';
+import { OnceIndicatorOneAreaDashboard } from '@/components/dashboards/OnceIndicatorOneAreaDashboard';
+import { EnglandView } from '@/components/dashboards/EnglandView';
+import { ThreeOrMoreAreasView } from '@/components/dashboards/ThreeOrMoreAreasView';
+import { TwoAreasView } from '@/components/dashboards/TwoAreasView';
 
 export function selectedViewRenderer(
   selectedView: string,
@@ -11,7 +11,7 @@ export function selectedViewRenderer(
   switch (selectedView) {
     case 'oneAreaView':
       return (
-        <OneAreaView
+        <OnceIndicatorOneAreaDashboard
           areaCodes={areaCodes}
           indicatorsSelected={indicatorsSelected}
         />

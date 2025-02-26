@@ -1,8 +1,26 @@
-import { areaCodeForEngland } from '../chartHelpers/constants';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  areaCodeForEngland,
+  indicatorIdForPopulation,
+} from '../chartHelpers/constants';
+import { PopulationData } from '../chartHelpers/preparePopulationData';
+import { connection } from 'next/server';
+import { ApiClientFactory } from '../apiClient/apiClientFactory';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '../searchStateManager';
 
 export interface IViewProps {
   areaCodes: string[];
   indicatorsSelected: string[];
+}
+
+export interface ViewsSkeletonProps {
+  areaCodes?: string[];
+  indicatorsSelected: string[];
+  searchState: SearchStateParams;
 }
 
 export type chartOptions =
@@ -95,4 +113,61 @@ function getEnglandViewChartList(indicatorsSelected: string[]): chartOptions[] {
     chartList.push('basicTable');
   }
   return chartList;
+}
+
+interface IGetHealthDataForView {
+  chartList: chartOptions[];
+  searchState: SearchStateParams;
+}
+
+interface CominedHealthData {
+  healthIndicatorDataForAreas?: HealthDataForArea[];
+  healthIndicatorDataForEngland?: HealthDataForArea;
+  healthIndicatorDataForGroup?: HealthDataForArea;
+  populationDataForArea?: PopulationData;
+}
+export async function getHealthDataForView({
+  chartList,
+  searchState,
+}: IGetHealthDataForView): Promise<void | CominedHealthData> {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.IndicatorsSelected]: indicators,
+    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  const areasSelected = areaCodes ?? [];
+  const indicatorsSelected = indicators ?? [];
+
+  await connection();
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
+  const areaCodesToRequest =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
+      : [...areasSelected, areaCodeForEngland];
+
+  const indicatorsToRequest = chartList.includes('populationPyramid')
+    ? [...indicatorsSelected, indicatorIdForPopulation]
+    : indicatorsSelected;
+
+  console.log('fetching data for: ', chartList.toString());
+  console.log('for areas: ', areaCodesToRequest.toString());
+  console.log('for indicators: ', indicatorsToRequest.toString());
+
+  // build a promise array for what is to be fetched:
+  // for each indicator
+  // health data for areas (? with inequalities)
+  // health data for England
+  // health data for group
+  // population data for area
+
+  // await promise.all on that array
+
+  // let healthDataPromises: Promise<HealthDataForArea[][]> = [];
+
+  // try {
+  //   const healthIndicatorData = await Promise.all(healthDataPromises);
+  // } catch {}
 }

@@ -24,7 +24,7 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { ViewsSkeleton } from '@/components/organisms/ViewsSkeleton';
+import { ViewsContext } from '@/components/organisms/Views';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -100,10 +100,7 @@ export default async function ChartPage(
   return (
     // note: wrapping in fragment during dev for views causes tests on page.props to fail
     <>
-      <ViewsSkeleton
-        areaCodes={areaCodes}
-        indicatorsSelected={indicatorsSelected}
-      />
+      <ViewsContext searchState={stateManager.getSearchState()} />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
