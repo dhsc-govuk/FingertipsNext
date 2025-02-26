@@ -27,8 +27,25 @@
     <Build Include="Tables\Areas.sql" />
   </ItemGroup>
   <ItemGroup>
-    <SqlCmdVariable Include="FilePath">
+    <SqlCmdVariable Include="BlobStorageLocation">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="LocalFilePath">
       <Value>/var/opt/mssql/csv/</Value>
+      <DefaultValue>
+      </DefaultValue>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="MasterKeyPassword">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="UseAzureBlob">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
