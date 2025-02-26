@@ -103,7 +103,7 @@ jobs:
           dotnet-version: ${{ env.dotnet-version }}
 
       - name: Build database project
-        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}"
+        run: dotnet build fingertips-db.sqlproj --configuration ${{ env.dotnet-configuration }}
 
       - name: Upload .dacpac file artifact
         uses: actions/upload-artifact@v4
