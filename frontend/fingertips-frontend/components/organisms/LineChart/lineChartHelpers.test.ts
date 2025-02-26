@@ -600,6 +600,10 @@ describe('should display line chart', () => {
       ).toBe(false);
     });
 
+    it('should return false when no area codes are selected for an indicator', () => {
+      expect(shouldDisplayLineChart(mockData, ['1'], [])).toBe(false);
+    });
+
     it('should return false when health data contains less than 2 time periods', () => {
       const data = [
         {

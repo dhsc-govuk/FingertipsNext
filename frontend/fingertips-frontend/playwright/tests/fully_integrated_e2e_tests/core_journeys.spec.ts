@@ -1,6 +1,9 @@
 import { test } from '../../page-objects/pageFactory';
-import { getAllIndicatorIdsForSearchTerm } from '../../testHelpers';
-import { IndicatorMode, AreaMode } from '../../page-objects/pages/chartPage';
+import {
+  AreaMode,
+  getAllIndicatorIdsForSearchTerm,
+  IndicatorMode,
+} from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
