@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c14 {
+  .c17 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c14:focus {
+.c17:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c14:link,
-.c14:visited,
-.c14:active,
-.c14:hover {
+.c17:link,
+.c17:visited,
+.c17:active,
+.c17:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c14::-moz-focus-inner {
+.c17::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c14:hover,
-.c14:focus {
+.c17:hover,
+.c17:focus {
   background-color: #00572e;
 }
 
-.c14:active {
+.c17:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c14::before {
+.c17::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c14:active::before {
+.c17:active::before {
   top: -4px;
 }
 
-.c14:disabled {
+.c17:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c14:disabled:hover {
+.c17:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c14:disabled:focus {
+.c17:disabled:focus {
   outline: none;
 }
 
-.c14:disabled:active {
+.c17:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c14 svg {
+.c17 svg {
   max-width: 15px;
 }
 
@@ -205,7 +205,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
-.c16 {
+.c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -222,7 +222,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-top: 10px;
 }
 
-.c16 > .c5 {
+.c19 > .c5 {
   margin-bottom: 5px;
 }
 
@@ -326,12 +326,27 @@ exports[`snapshot test - renders the homepage 1`] = `
   word-wrap: normal;
 }
 
-.c15 {
+.c18 {
   margin: 0;
   border: 0;
   margin-top: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #bfc1c3;
+}
+
+.c15 {
+  margin-bottom: 5px;
+}
+
+.c16 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 19px;
+}
+
+.c14 {
+  margin: 0px;
+  background-color: #FFFFFF;
 }
 
 .c10 {
@@ -343,33 +358,33 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c14 {
+  .c17 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c17 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c17 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 svg {
+  .c17 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c17 {
     margin-bottom: 32px;
   }
 }
@@ -481,27 +496,27 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c16 {
+  .c19 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c16 {
+  .c19 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c16 {
+  .c19 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c16 {
+  .c19 {
     margin-bottom: 20px;
   }
 }
@@ -595,7 +610,7 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c15 {
+  .c18 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
@@ -717,42 +732,56 @@ exports[`snapshot test - renders the homepage 1`] = `
             value=""
           />
         </label>
-        <label
-          class="c9 c10"
-          data-testid="search-form-input-area"
-          style="margin-bottom: 5px;"
-        >
-          <span
-            class="c11"
-          >
-            Search by area
-          </span>
-          <span
-            class="c12"
-          >
-            <div
-              style="color: rgb(80, 90, 95);"
-            >
-              For example, district, county, region, NHS organisation or GP practice or code
-            </div>
-          </span>
-          <input
-            class="c13"
-            id="areaSearched"
-            name="areaSearched"
-            value=""
-          />
-        </label>
-        <a
-          class="c7"
-          data-testid="search-form-link-filter-area"
-          href="#"
-        >
-          Or filter by area
-        </a>
-        <br />
-        <button
+        <input
+          id="areaSearched"
+          name="areaSearched"
+          type="hidden"
+          value=""
+        />
+        <div
           class="c14"
+        >
+          <div
+            class="c15"
+          >
+            <label
+              class="c9"
+              data-testid="search-form-input-area"
+            >
+              <span
+                class="c11"
+              >
+                Search for an area
+              </span>
+              <span
+                class="c12"
+              >
+                <div
+                  style="color: rgb(80, 90, 95);"
+                >
+                  For example district, county, region, NHS organisation or GP practice or code
+                </div>
+              </span>
+              <input
+                class="c13"
+                value=""
+              />
+            </label>
+          </div>
+          <div
+            class="c16"
+          >
+            <a
+              class="c7"
+              data-testid="search-form-link-filter-area"
+              href="#"
+            >
+              Open area filter
+            </a>
+          </div>
+        </div>
+        <button
+          class="c17"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -762,7 +791,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
     </div>
     <hr
-      class="c15"
+      class="c18"
     />
     <h3
       class="c8"
@@ -778,7 +807,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </p>
     </div>
     <ul
-      class="c3 c16"
+      class="c3 c19"
     >
       <li
         class="c5 c6"

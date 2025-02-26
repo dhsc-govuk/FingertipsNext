@@ -15,6 +15,11 @@ describe('AreaSearchService', () => {
 
   (SearchClient as jest.Mock).mockImplementation(() => ({
     suggest: mockSearch,
+    getDocument: jest.fn().mockResolvedValue({
+      areaCode: '123',
+      areaType: 'Town',
+      areaName: 'Solihull',
+    }),
   }));
 
   mockSearch.mockResolvedValue({ results: [] });
@@ -97,6 +102,46 @@ describe('AreaSearchService', () => {
           areaName: 'London',
         },
       ]);
+    });
+
+    it('test that when getAreaDocument is called an area is returned', async () => {
+      const mockSearchResults = {
+        results: [
+          {
+            document: {
+              areaCode: '123',
+              areaType: 'Town',
+              areaName: 'Solihull',
+            },
+          },
+          {
+            document: {
+              areaCode: '234',
+              areaType: 'City',
+              areaName: 'Leeds',
+            },
+          },
+          {
+            document: {
+              areaCode: '345',
+              areaType: 'Mega City',
+              areaName: 'London',
+            },
+          },
+        ],
+      };
+
+      mockSearch.mockReset();
+      mockSearch.mockResolvedValue(mockSearchResults);
+
+      const searchService = new AreaSearchService('someUrl', 'someKey');
+      const areaDocument = await searchService.getAreaDocument('123');
+      expect(areaDocument).toBeDefined();
+      expect(areaDocument).toEqual({
+        areaCode: '123',
+        areaType: 'Town',
+        areaName: 'Solihull',
+      });
     });
   });
 });
