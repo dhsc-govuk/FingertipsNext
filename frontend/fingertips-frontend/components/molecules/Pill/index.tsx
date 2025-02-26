@@ -6,13 +6,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 
+
+
 interface PillProps {
-  selectedFilterName: string;
+  children: React.ReactNode | undefined;
   selectedFilterId: string;
   removeFilter: (filterId: string) => void;
 }
 
-const StyledDivContainer = styled('div')({
+const StyledDivContainer = styled('div')({ 
   backgroundColor: 'white',
   border: '1px #D1D2D3 solid',
   borderRadius: '5px',
@@ -39,8 +41,10 @@ const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
+
+
 export function Pill({
-  selectedFilterName,
+  children,
   selectedFilterId,
   removeFilter,
 }: Readonly<PillProps>) {
@@ -50,10 +54,10 @@ export function Pill({
         data-testid="remove-icon-div"
         onClick={() => removeFilter(selectedFilterId)}
       >
-        <RemoveIcon width="12" height="12" color="#000000" />
+      <RemoveIcon width="12" height="12" color="#000000" />
       </StyledIconDiv>
       <StyledFilterNameDiv data-testid="filter-name">
-        <StyledParagraph>{selectedFilterName}</StyledParagraph>
+        <StyledParagraph>{children}</StyledParagraph>
       </StyledFilterNameDiv>
     </StyledDivContainer>
   );

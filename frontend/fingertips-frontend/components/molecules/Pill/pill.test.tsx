@@ -14,10 +14,9 @@ describe('Pill Suite', () => {
   it('should render expected elements', () => {
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >{selectedFilterName}</Pill>
     );
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
@@ -30,10 +29,9 @@ describe('Pill Suite', () => {
   it('should render text passed in as prop', () => {
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >{selectedFilterName}</Pill>
     );
 
     expect(screen.getByRole('paragraph')).toHaveTextContent('Dementia');
@@ -45,10 +43,9 @@ describe('Pill Suite', () => {
 
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >{selectedFilterName}</Pill>
     );
 
     await user.click(screen.getByTestId('remove-icon-div'));
@@ -59,12 +56,10 @@ describe('Pill Suite', () => {
   it('snapshot test', () => {
     const container = render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >{selectedFilterName}</Pill>
     );
-
     expect(container.asFragment()).toMatchSnapshot();
   });
 });
