@@ -7,8 +7,6 @@ import {
   returnIndicatorIDsByIndicatorMode,
 } from '@/playwright/testHelpers';
 
-const filteredByDisplayIndicatorIds: string[] = [];
-
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
   readonly backLink = 'search-results-back-link';
@@ -103,28 +101,27 @@ export default class ResultsPage extends BasePage {
    *
    * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
    * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
-   * @param searchTerm - search term to be used in the URL check
    */
   async selectIndicatorCheckboxesAndCheckURL(
     allIndicatorIDs: string[],
-    indicatorMode: IndicatorMode,
-    searchTerm: string
+    indicatorMode: IndicatorMode
   ) {
-    await this.waitForURLToContain(searchTerm);
+    const filteredByDisplayIndicatorIds: string[] = [];
+
     // filter down the full list of indicators passed to this method to just the ones displayed on the page
     const displayedIndicatorCheckboxList = await this.page
       .getByTestId(this.indicatorCheckboxContainer)
       .getByRole('checkbox')
       .all();
+
     for (let i = 0; i < displayedIndicatorCheckboxList.length; i++) {
-      const indicatorDataTestID = String(
-        await displayedIndicatorCheckboxList[i].getAttribute('data-testid')
-      ).slice(25);
-      if (allIndicatorIDs.includes(indicatorDataTestID!)) {
+      const indicatorDataTestID =
+        await displayedIndicatorCheckboxList[i].getAttribute('value');
+
+      if (JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID!)) {
         filteredByDisplayIndicatorIds.push(indicatorDataTestID!);
       }
     }
-
     // then filter down the list of displayed indicators to the correct number for the passed indicator mode
     const filteredByIndicatorModeIndicatorIds: string[] =
       returnIndicatorIDsByIndicatorMode(
@@ -157,15 +154,18 @@ export default class ResultsPage extends BasePage {
    * @param searchTerm - search term to be used in the URL check
    */
   async selectAreasFiltersAndCheckURL(areaMode: AreaMode, searchTerm: string) {
-    // For area type filter currently defaulting to using NHS Integrated Care Boards (except for England area mode) - this will be refactored in the future
-    const defaultAreaTypeFilter = 'nhs-integrated-care-boards';
+    // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in the future
+    const defaultAreaTypeFilter = 'regions';
+    const defaultGroupType = 'England';
+
+    await this.waitForURLToContain(searchTerm);
+
     await this.page
       .getByTestId(this.areaTypeSelector)
       .selectOption(defaultAreaTypeFilter);
+    await this.waitForURLToContain(defaultAreaTypeFilter);
 
-    // For group type filter currently defaulting to using NHS Regions (except for England area mode) - this will be refactored in the future
-    const groupTypeDropdown = this.page.getByTestId(this.groupTypeSelector);
-    await groupTypeDropdown.selectOption('NHS Regions');
+    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in the future
 
     // Select appropriate number of checkboxes based on area mode
     const areaCheckboxList = this.page
@@ -181,19 +181,23 @@ export default class ResultsPage extends BasePage {
     const checkboxCount = checkboxCountMap[areaMode];
     for (let i = 0; i < checkboxCount; i++) {
       await areaCheckboxList.nth(i).check();
-
       if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
         await this.waitForURLToContain(defaultAreaTypeFilter);
       }
     }
+    await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
+      `Selected areas (${String(checkboxCount)})`
+    );
 
     // England area mode
     if (AreaMode.ENGLAND_AREA === areaMode) {
       await this.page
         .getByTestId(this.areaTypeSelector)
         .selectOption('England');
-      await groupTypeDropdown.selectOption('England');
-      await this.waitForURLToContain(`england`);
+      await this.page
+        .getByTestId(this.groupTypeSelector)
+        .selectOption('England');
+      await this.waitForURLToContain(defaultGroupType);
     }
 
     await this.waitForURLToContain(searchTerm);
