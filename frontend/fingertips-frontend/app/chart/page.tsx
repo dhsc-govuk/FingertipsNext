@@ -98,6 +98,7 @@ export default async function ChartPage(
     : undefined;
 
   return (
+    // note: wrapping in fragment during dev for views causes tests on page.props to fail
     <>
       <ViewsSkeleton
         areaCodes={areaCodes}
