@@ -39,7 +39,7 @@ describe('AreaAutoCompleteInputField', () => {
         inputFieldErrorStatus={false}
       />
     );
-    expect(screen.getByText('London')).toBeInTheDocument();
-    expect(screen.getByText('Manchester')).toBeInTheDocument();
+    expect(screen.getByText('001 - London')).toBeInTheDocument();
+    expect(screen.getByText('002 - Manchester')).toBeInTheDocument();
   });
 });
