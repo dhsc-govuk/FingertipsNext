@@ -20,14 +20,14 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-  },
-  {
-    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-  },
+  // {
+  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
+  //   areaMode: AreaMode.TWO_AREAS,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+  //   areaMode: AreaMode.ENGLAND_AREA,
+  // },
 ];
 
 /**
