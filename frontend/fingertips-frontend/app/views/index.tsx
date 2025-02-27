@@ -33,7 +33,7 @@ function viewSelector(
   }
 }
 
-export function ViewsContext({ searchState }: ViewsContextProps) {
+export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
   // determine which view is needed
   const stateManager = SearchStateManager.initialise(searchState);
   const {
