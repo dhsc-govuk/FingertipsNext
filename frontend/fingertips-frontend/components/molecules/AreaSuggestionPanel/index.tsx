@@ -1,7 +1,7 @@
-import { ListItem, UnorderedList } from 'govuk-react';
+import { ListItem, UnorderedList, SearchIcon } from 'govuk-react';
 import styled from 'styled-components';
 import { AreaDocument, formatAreaName } from '@/lib/search/searchTypes';
-import { SearchIcon } from 'govuk-react';
+
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
   flex-direction: column;
