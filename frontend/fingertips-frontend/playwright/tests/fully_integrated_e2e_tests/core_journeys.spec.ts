@@ -20,14 +20,14 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.TWO_AREAS,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-  //   areaMode: AreaMode.ENGLAND_AREA,
-  // },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+  },
+  {
+    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+    areaMode: AreaMode.ENGLAND_AREA,
+  },
 ];
 
 /**
@@ -88,4 +88,19 @@ test.describe(`Search via search term ${searchTerm}`, () => {
       });
     });
   });
+});
+
+// log out current url when a test fails
+test.afterEach(async ({ page }, testInfo) => {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    // Test failed - capture the URL
+    const url = page.url();
+    console.log(`Test failed! Current URL: ${url}`);
+
+    // You can also attach it to the test report
+    await testInfo.attach('failed-url', {
+      body: url,
+      contentType: 'text/plain',
+    });
+  }
 });
