@@ -1,13 +1,6 @@
 'use client';
 
 import { H2, H3 } from 'govuk-react';
-import { SearchStateParams } from '@/lib/searchStateManager';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-
-type OneIndicatorTwoOrMoreAreasDashboardProps = {
-  healthIndicatorData: HealthDataForArea[][];
-  searchState: SearchStateParams;
-};
 
 export function OneIndicatorTwoOrMoreAreasDashboard() {
   return (
