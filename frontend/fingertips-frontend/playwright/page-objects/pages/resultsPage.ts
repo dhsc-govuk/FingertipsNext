@@ -117,8 +117,11 @@ export default class ResultsPage extends BasePage {
     for (const checkbox of displayedIndicatorCheckboxList) {
       const indicatorDataTestID = await checkbox.getAttribute('value');
 
-      if (JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID!)) {
-        filteredByDisplayIndicatorIds.push(indicatorDataTestID!);
+      if (
+        indicatorDataTestID &&
+        JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID)
+      ) {
+        filteredByDisplayIndicatorIds.push(indicatorDataTestID);
       }
     }
     // then filter down the list of displayed indicators to the correct number for the passed indicator mode
