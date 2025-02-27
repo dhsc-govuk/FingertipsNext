@@ -148,7 +148,7 @@ export function AreaFilter({
               disabled: selectedAreasData && selectedAreasData?.length > 0,
             }}
           >
-            {availableAreaTypes?.map((areaType) => (
+            {availableAreaTypes?.sort((a, b) => a.name.localeCompare(b.name)).map((areaType) => (
               <option key={areaType.key} value={areaType.key}>
                 {areaType.name}
               </option>
@@ -168,7 +168,7 @@ export function AreaFilter({
               disabled: selectedAreasData && selectedAreasData?.length > 0,
             }}
           >
-            {availableGroupTypes?.map((areaType) => (
+            {availableGroupTypes?.sort((a, b) => a.name.localeCompare(b.name)).map((areaType) => (
               <option key={areaType.key} value={areaType.key}>
                 {areaType.name}
               </option>
@@ -177,7 +177,7 @@ export function AreaFilter({
 
           <FormGroup>
             <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
-            {availableAreas?.map((area) => {
+            {availableAreas?.sort((a, b) => a.name.localeCompare(b.name)).map((area) => {
               const isAreaSelectedValue = isAreaSelected(
                 area.code,
                 selectedAreasData
