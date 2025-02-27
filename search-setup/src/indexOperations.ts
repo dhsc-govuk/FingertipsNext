@@ -91,8 +91,8 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         name: IndicatorSearchIndexColumnNames.INDICATOR_HAS_INEQUALITIES,
         type: 'Edm.Boolean',
         searchable: false,
-        sortable: true,
-        filterable: true,
+        sortable: false,
+        filterable: false,
       },
     ],
     scoringProfiles: [
