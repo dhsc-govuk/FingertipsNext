@@ -7,7 +7,6 @@ import { LineChart } from '@/components/organisms/LineChart';
 
 type OneIndicatorOneAreaDashboardProps = {
   healthIndicatorData: HealthDataForArea[][];
-  // populationData: PopulationData;
   searchState: SearchStateParams;
 };
 
@@ -15,9 +14,6 @@ export function OneIndicatorOneAreaDashboard({
   healthIndicatorData,
   searchState,
 }: OneIndicatorOneAreaDashboardProps) {
-  // TODO: seperate out and pass data for the areas to LineChart
-  // TODO: add inequalities
-  // TODO: add population
   return (
     <>
       <H2>View indicator data for the selected area</H2>

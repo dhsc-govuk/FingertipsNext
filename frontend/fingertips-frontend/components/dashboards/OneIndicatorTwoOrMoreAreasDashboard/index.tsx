@@ -6,15 +6,10 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 type OneIndicatorTwoOrMoreAreasDashboardProps = {
   healthIndicatorData: HealthDataForArea[][];
-  // populationData: PopulationData;
-  // mapData: MapData;
   searchState: SearchStateParams;
 };
 
-export function OneIndicatorTwoOrMoreAreasDashboard({
-  healthIndicatorData,
-  searchState,
-}: OneIndicatorTwoOrMoreAreasDashboardProps) {
+export function OneIndicatorTwoOrMoreAreasDashboard({}: OneIndicatorTwoOrMoreAreasDashboardProps) {
   return (
     <>
       <H2>View indicator data for the selected areas</H2>

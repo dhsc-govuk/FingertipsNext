@@ -1,5 +1,4 @@
 import { TwoOrMoreIndicatorsAreasDashboard } from '@/components/dashboards/TwoOrMoreIndicatorsAreasDashboard';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   SearchParams,
@@ -17,15 +16,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
 }: OneIndicatorTwoOrMoreAreasViewProps) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.IndicatorsSelected]: indicators,
     [SearchParams.AreasSelected]: areaCodes,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
   const areasSelected = areaCodes ?? [];
-  const indicatorsSelected = indicators ?? [];
 
-  //  TODO: edge case of England as area
   const areaCodesToRequest =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
@@ -33,16 +29,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   await connection();
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-  // const healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-  //   indicatorId: Number(indicatorsSelected[0]),
-  //   areaCodes: areaCodesToRequest,
-  // });
-
-  // TODO: add inequalities to data fetch
   console.log('TODO: fetch health data with inequalites');
-  // TODO: get and pass population data
   console.log(
     'TODO: fetch population data for ',
     areaCodesToRequest,

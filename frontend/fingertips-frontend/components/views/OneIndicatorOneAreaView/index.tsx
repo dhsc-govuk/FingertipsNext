@@ -25,7 +25,6 @@ export default async function OneIndicatorOneAreaView({
   const areasSelected = areaCodes ?? [];
   const indicatorsSelected = indicators ?? [];
 
-  //  TODO: edge case of England as area
   const areaCodesToRequest =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
@@ -40,9 +39,7 @@ export default async function OneIndicatorOneAreaView({
     areaCodes: areaCodesToRequest,
   });
 
-  // TODO: get (and pass) inequalities data
   console.log('TODO: include inequalities data in healthData fetch');
-  // TODO: get and pass population data
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
   return (
