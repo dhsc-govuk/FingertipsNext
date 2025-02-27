@@ -10,9 +10,15 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
 
         let area = response.body;
 
-        client.assert(area.parent.code === "E38000007", "parent: wrong code");
-        client.assert(area.parent.name === "NHS Basildon And Brentwood ICB", "parent: wrong name");
-        client.assert(area.parent.areaType.key === "nhs-integrated-care-boards", "parent: wrong area type");
+        // 2025-02-26 for a short while we will have 2 areas with code E38000007
+        // - NHS Basildon And Brentwood ICB
+        // - Mid and South Essex ICB - 99E
+        // this should be resolved when we start using 'real' data in the database
+        client.assert(area.parents.length === 1, "wrong number of parents")
+        console.log("a1: [" + area.parents[0].code + "]")
+        client.assert(area.parents[0].code === "E38000007", "parent: wrong code");
+        client.assert(area.parents[0].name === "Mid and South Essex ICB - 99E", "parent: wrong name");
+        client.assert(area.parents[0].areaType.key === "nhs-sub-integrated-care-boards", "parent: wrong area type");
 
         client.assert(area.code === "U15488", "area: wrong code");
         client.assert(area.name === "East Basildon PCN", "area: wrong name");
@@ -25,14 +31,16 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
         client.assert(area.children[0].areaType.key === 'gps', "children: incorrect area type")
         client.assert(area.children[1].areaType.key === 'gps', "children: incorrect area type")
 
-        // 3 ancestors expected for basildon
-        client.assert(area.ancestors.length === 3, "ancestors: 3 expected");
+        // 4 ancestors expected for basildon
+        client.assert(area.ancestors.length === 4, "ancestors: 4 expected");
         client.assert(area.ancestors[0].code === 'E92000001', "ancestors: incorrect area[0] code")
-        client.assert(area.ancestors[0].areaType.key === '', "ancestors: incorrect area[0] area type")
+        client.assert(area.ancestors[0].areaType.key === 'england', "ancestors: incorrect area[0] area type")
         client.assert(area.ancestors[1].code === 'E40000007', "ancestors: incorrect area[1] code")
-        client.assert(area.ancestors[1].areaType.key === '', "ancestors: incorrect area[1] area type")
+        client.assert(area.ancestors[1].areaType.key === 'nhs-regions', "ancestors: incorrect area[1] area type")
         client.assert(area.ancestors[2].code === 'E38000007', "ancestors: incorrect area[2] code")
-        client.assert(area.ancestors[2].areaType.key === '', "ancestors: incorrect area[2] area type")
+        client.assert(area.ancestors[2].areaType.key === 'nhs-sub-integrated-care-boards', "ancestors: incorrect area[2] area type")
+        client.assert(area.ancestors[3].code === 'U15488', "ancestors: incorrect area[3] code")
+        client.assert(area.ancestors[3].areaType.key === 'nhs-primary-care-networks', "ancestors: incorrect area[3] area type")
 
         // 1 sibling expected for basildon
         client.assert(area.siblings.length > 0, "siblings: no siblings");

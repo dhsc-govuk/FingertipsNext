@@ -13,6 +13,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'NHS',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '1999',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
@@ -24,7 +25,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'DHSC',
     indicatorDefinition:
       'Total number of patients registered with the practice',
-    latestDataPeriod: '2022',
+    earliestDataPeriod: '1999',
+    latestDataPeriod: '1999',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
     associatedAreaCodes: [],
@@ -42,75 +44,109 @@ beforeEach(() => {
   user = userEvent.setup();
 });
 
-it('should have search result list item', () => {
-  render(
-    <SearchResult
-      result={MOCK_DATA[0]}
-      searchState={initialSearchState}
-      handleClick={mockHandleClick}
-    />
-  );
+describe('content', () => {
+  it('should have search result list item', () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
 
-  expect(screen.getByRole('listitem')).toBeInTheDocument();
-});
+    expect(screen.getByRole('listitem')).toBeInTheDocument();
+  });
 
-it('should contain 3 paragraphs and a heading', () => {
-  render(
-    <SearchResult
-      result={MOCK_DATA[0]}
-      searchState={initialSearchState}
-      handleClick={mockHandleClick}
-    />
-  );
+  it('should contain 2 paragraphs and a heading', () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
 
-  expect(screen.getAllByRole('paragraph')).toHaveLength(3);
-  expect(screen.getByRole('heading')).toBeInTheDocument();
-});
+    expect(screen.getAllByRole('paragraph')).toHaveLength(2);
+    expect(screen.getByRole('heading')).toBeInTheDocument();
+  });
 
-it('should contain expected text', () => {
-  render(
-    <SearchResult
-      result={MOCK_DATA[0]}
-      searchState={initialSearchState}
-      handleClick={mockHandleClick}
-    />
-  );
+  it('should contain expected text', () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
 
-  expect(screen.getByRole('heading').textContent).toContain('NHS');
-  expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain('2023');
-  expect(screen.getAllByRole('paragraph').at(1)?.textContent).toContain(
-    'NHS website'
-  );
-  expect(screen.getAllByRole('paragraph').at(2)?.textContent).toContain(
-    '06 December 2024'
-  );
-});
+    expect(screen.getByRole('heading').textContent).toContain('NHS');
+    expect(screen.getAllByRole('paragraph').at(0)?.textContent).toContain(
+      '2023'
+    );
+    expect(screen.getAllByRole('paragraph').at(1)?.textContent).toContain(
+      '06 December 2024'
+    );
+  });
 
-it('should display tag if indicator date is within one month of server date', () => {
-  const currentDate = new Date('December 7, 2024');
-  render(
-    <SearchResult
-      result={MOCK_DATA[0]}
-      searchState={initialSearchState}
-      handleClick={mockHandleClick}
-      currentDate={currentDate}
-    />
-  );
-  expect(screen.queryByText('Updated in last month')).toBeInTheDocument();
-});
+  it('should display tag if indicator date is within one month of server date', () => {
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+        currentDate={currentDate}
+      />
+    );
+    expect(screen.queryByText('Updated in last month')).toBeInTheDocument();
+  });
 
-it('should not display tag if indicator date is not within one month of server date', () => {
-  const currentDate = new Date('February 6, 2025');
-  render(
-    <SearchResult
-      result={MOCK_DATA[0]}
-      searchState={initialSearchState}
-      handleClick={mockHandleClick}
-      currentDate={currentDate}
-    />
-  );
+  it('should not display tag if indicator date is not within one month of server date', () => {
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(currentDate.getDate() + 1);
 
-  expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+        currentDate={currentDate}
+      />
+    );
+
+    expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+  });
+
+  it('should display a range of dates if earliest data period and latest data period are different', () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
+
+    expect(
+      screen.getByText('Data period:', { exact: false })
+    ).toHaveTextContent(
+      `Data period: ${MOCK_DATA[0].earliestDataPeriod} to ${MOCK_DATA[0].latestDataPeriod}`
+    );
+  });
+
+  it('should display a single date if earliest data period and latest data period match', () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[1]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
+
+    expect(
+      screen.getByText('Data period:', { exact: false })
+    ).toHaveTextContent(`Data period: ${MOCK_DATA[1].earliestDataPeriod}`);
+  });
 });
 
 describe('Indicator Checkbox', () => {

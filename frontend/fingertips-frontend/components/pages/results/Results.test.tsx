@@ -44,6 +44,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'NHS',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '1996',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
@@ -55,6 +56,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'DHSC',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '1997',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),

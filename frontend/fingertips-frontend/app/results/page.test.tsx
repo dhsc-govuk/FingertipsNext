@@ -33,6 +33,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorName: `indicator name for id ${id}`,
   indicatorDefinition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
+  earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
   associatedAreaCodes: [],
@@ -250,11 +251,11 @@ describe('Results Page', () => {
 
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...eastEnglandNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...londonNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
 
       const page = await ResultsPage({
