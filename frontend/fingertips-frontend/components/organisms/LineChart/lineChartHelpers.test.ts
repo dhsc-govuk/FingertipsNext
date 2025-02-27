@@ -90,6 +90,7 @@ describe('generateSeriesData', () => {
   it('should generate series data without benchmark data', () => {
     const expectedSeriesData = [
       {
+        animation: false,
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -102,6 +103,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
@@ -114,6 +116,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#A285D1',
         data: [
           [2010, 786.27434],
@@ -126,6 +129,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2010, 750.69151, 800.32766],
@@ -138,6 +142,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -150,6 +155,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2020, 460.69151, 500.32766],
@@ -203,6 +209,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
+        animation: false,
         color: GovukColours.Black,
         data: [
           [2006, 278.29134],
@@ -215,6 +222,7 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        animation: false,
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -227,6 +235,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
@@ -239,6 +248,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#A285D1',
         data: [
           [2010, 786.27434],
@@ -251,6 +261,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2010, 750.69151, 800.32766],
@@ -263,6 +274,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -275,6 +287,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2020, 460.69151, 500.32766],
@@ -353,6 +366,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
+        animation: false,
         color: GovukColours.Black,
         data: [
           [2006, 278.29134],
@@ -365,6 +379,7 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        animation: false,
         color: GovukColours.Turquoise,
         data: [
           [2006, 300],
@@ -377,6 +392,7 @@ describe('generateSeriesData', () => {
         type: 'line',
       },
       {
+        animation: false,
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -389,6 +405,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
@@ -401,6 +418,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#A285D1',
         data: [
           [2010, 786.27434],
@@ -413,6 +431,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2010, 750.69151, 800.32766],
@@ -425,6 +444,7 @@ describe('generateSeriesData', () => {
         whiskerLength: '20%',
       },
       {
+        animation: false,
         color: '#801650',
         data: [
           [2020, 478.27434],
@@ -437,6 +457,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2020, 460.69151, 500.32766],
@@ -494,6 +515,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
+        animation: false,
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -506,6 +528,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
@@ -534,6 +557,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
+        animation: false,
         color: '#F46A25',
         data: [
           [2006, 278.29134],
@@ -546,6 +570,7 @@ describe('generateSeriesData', () => {
         },
       },
       {
+        animation: false,
         color: '#B1B4B6',
         data: [
           [2006, 441.69151, 578.32766],
