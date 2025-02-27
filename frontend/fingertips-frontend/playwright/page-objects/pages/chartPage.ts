@@ -1,13 +1,12 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-
+import { compareElementSnapshot } from '@/playwright/testHelpers';
 export enum IndicatorMode {
   ONE_INDICATOR = 'ONE_INDICATOR',
   TWO_INDICATORS = 'TWO_INDICATORS',
   MULTIPLE_INDICATORS = 'MULTIPLE_INDICATORS', // 3+ indicators
 }
-
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
   TWO_AREAS = 'TWO_AREAS', // in the same group
@@ -15,7 +14,6 @@ export enum AreaMode {
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
-
 type ScenarioConfig = {
   visibleComponents: string[];
   hiddenComponents: string[];
@@ -31,17 +29,14 @@ export default class ChartPage extends BasePage {
   async navigateToChart() {
     await this.navigateTo('chart');
   }
-
   async checkURLIsCorrect(queryParams = '') {
     await this.checkURLMatches(
       `chart?${SearchParams.SearchedIndicator}=${queryParams}`
     );
   }
-
   async clickBackLink() {
     await this.page.getByTestId(this.backLink).click();
   }
-
   private getScenarioConfig(
     indicatorMode: IndicatorMode,
     areaMode: AreaMode
@@ -49,7 +44,6 @@ export default class ChartPage extends BasePage {
     // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
     // const defaultVisible = [this.populationPyramidComponent];
     const defaultVisible: never[] = [];
-
     const defaultHidden = [
       this.lineChartComponent,
       this.lineChartTableComponent,
@@ -57,7 +51,6 @@ export default class ChartPage extends BasePage {
       // DHSCFT-220 will implement this logic
       // this.barChartComponent,
     ];
-
     // Single indicator scenarios show all charts
     const singleIndicatorConfig: ScenarioConfig = {
       visibleComponents: [
@@ -69,7 +62,6 @@ export default class ChartPage extends BasePage {
       ],
       hiddenComponents: [],
     };
-
     // Map of three supported scenarios to their configurations
     const scenarioConfigs = new Map<string, ScenarioConfig>([
       [
@@ -94,17 +86,14 @@ export default class ChartPage extends BasePage {
         { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
       ],
     ]);
-
     const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
     if (!config) {
       throw new Error(
         'Combination of indicator and area modes not currently supported'
       );
     }
-
     return config;
   }
-
   /**
    * This test function is currently capable of testing three of the fifteen indicator + area
    * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
@@ -125,8 +114,8 @@ export default class ChartPage extends BasePage {
       await expect(this.page.getByTestId(component)).toBeVisible({
         visible: true,
       });
+      await compareElementSnapshot(this.page, component, "test")
     }
-
     // Check hidden components
     for (const component of hiddenComponents) {
       await expect(this.page.getByTestId(component)).toBeVisible({
@@ -134,6 +123,30 @@ export default class ChartPage extends BasePage {
       });
     }
   }
+  async checkLineChartMatchesSnapshot() {
+  await expect(this.page.getByTestId(this.lineChartComponent)).toBeVisible({
+    visible:true,
+  })
+  await compareElementSnapshot(this.page, this.lineChartComponent, "lineChart")
+  }
+async checkLineChartTableMatchesSnapshot() {
+  await expect(this.page.getByTestId(this.lineChartTableComponent)).toBeVisible({
+    visible:true,
+  })
+  await compareElementSnapshot(this.page, this.lineChartTableComponent, "lineChartTable")
+  }
 
-  //test
+async barChartMatchesSnapshot() {
+  await expect(this.page.getByTestId(this.barChartComponent)).toBeVisible({
+    visible:true,
+  })
+  await compareElementSnapshot(this.page, this.barChartComponent, "barChart")
+  }
+
+async populationPyramidMatchesSnapshot() {
+  await expect(this.page.getByTestId(this.populationPyramidComponent)).toBeVisible({
+    visible:true,
+  })
+  await compareElementSnapshot(this.page, this.populationPyramidComponent, "popPyramid")
+  }
 }

@@ -123,7 +123,7 @@ test.describe('Search via indicator', () => {
       await resultsPage.waitForURLToContain(
         `${searchTerm}&${SearchParams.IndicatorsSelected}=${indicatorsToSelect[0]}`
       );
-
+      
       await resultsPage.clickBackLink();
 
       await homePage.checkOnHomePage();
