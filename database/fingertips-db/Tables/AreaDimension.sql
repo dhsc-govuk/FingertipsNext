@@ -1,7 +1,7 @@
 ﻿--Data for all the geographical areas including CCBs, statistical areas, counties, GP Practices
 CREATE TABLE [dbo].[AreaDimension](
 	[AreaKey] [int] IDENTITY(1,1) NOT NULL,				--the surrogate key
-	[Code] [nvarchar](MAX) NOT NULL, 					--the area code, taken from the original Fingertips Pholio database. These are relevant outside Fingertips
+	[Code] [nvarchar](20) NOT NULL, 					--the area code, taken from the original Fingertips Pholio database. These are relevant outside Fingertips
 	[Name] [nvarchar](255) NOT NULL,					--the name of the area e.g. Leeds
 	[StartDate] [datetime2](7) NOT NULL,				--the start data that this row was relevant for, to support slowly changing dimensions if an area changes over time
 	[EndDate] [datetime2](7) NOT NULL,					--the end data that this row was relevant for, to support slowly changing dimensions if an area changes over time
