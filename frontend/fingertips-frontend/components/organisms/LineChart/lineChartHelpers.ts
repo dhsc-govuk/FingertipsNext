@@ -21,6 +21,7 @@ export function generateSeriesData(
           symbol: symbols[index % symbols.length],
         },
         color: chartColours[index % chartColours.length],
+        animation: false,
       };
 
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType = {
@@ -35,6 +36,7 @@ export function generateSeriesData(
         color: GovukColours.MidGrey,
         whiskerLength: '20%',
         lineWidth: 2,
+        animation: false,
       };
 
       return [lineSeries, confidenceIntervalSeries];
@@ -53,6 +55,7 @@ export function generateSeriesData(
       marker: {
         symbol: 'diamond',
       },
+      animation: false,
     };
     seriesData.unshift(groupSeries);
   }
@@ -66,6 +69,7 @@ export function generateSeriesData(
       marker: {
         symbol: 'circle',
       },
+      animation: false,
     };
     seriesData.unshift(englandSeries);
   }
