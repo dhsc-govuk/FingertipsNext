@@ -1,6 +1,6 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 
-type YearlyHealthDataGroupedByInequalities = Record<
+export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
 >;
