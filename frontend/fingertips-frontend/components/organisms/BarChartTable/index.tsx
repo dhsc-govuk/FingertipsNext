@@ -1,45 +1,69 @@
 'use client';
 
 import { Table } from 'govuk-react';
-// import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { HighchartsReact } from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import { HighchartsReact } from 'highcharts-react-official';
 
-
-type chartProps = {
-  sData: sampleData[]
-}
+type SparklineProps = {
+  value: number;
+};
 interface sampleData {
   text: string;
   value: number;
-};
-
-export function BarChartTable({ sData }: Readonly<chartProps>) {
+}
+type chartProps = {
+  sData: sampleData[]
+}
+export function Sparkline({ value }: Readonly<SparklineProps>) {
   const sparkLineOptions: Highcharts.Options = {
-    chart: { type: 'bar' },
+    credits: {
+      enabled: false,
+    },
+    chart: { type: 'bar', height: 60, width: 500 },
     title: {
       style: {
         display: 'none',
-      }
+      },
     },
     yAxis: { visible: false },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [sData] }],
+    series: [{ type: 'bar', data: [value] }],
+    legend: {
+      enabled: false,
+    },
+    accessibility: {
+      enabled: false,
+    },
   };
-
+  
   return (
-    <Table id={'test-sparkline'} head={ 
-     <Table.Row><Table.CellHeader>Sparkline</Table.CellHeader></Table.Row>
-    }>
-        {sData.map((data, index) => (
-          <><Table.Row key={index}>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={sparkLineOptions}
-            ></HighchartsReact>
-          </Table.Row>
-          </>
-        ))}
+    <HighchartsReact
+      highcharts = { Highcharts }
+      options = { sparkLineOptions }>
+    </HighchartsReact>
+);
+}
+
+export function BarChartTable({sData}:Readonly<chartProps>) {
+  return (
+    <Table
+      id={'test-sparkline'}
+      head={
+        <Table.Row>
+          <Table.CellHeader>heading 1</Table.CellHeader>
+          <Table.CellHeader>heading 2</Table.CellHeader>
+        </Table.Row>
+      }>
+      {sData.map(data => (
+        <Table.Row>
+          <Table.Cell>
+            {data.text}
+          </Table.Cell>
+          <Table.Cell>
+            <Sparkline value={data.value}/>
+          </Table.Cell>
+        </Table.Row>
+      ))}
     </Table>
   );
 }

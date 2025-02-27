@@ -35,16 +35,17 @@ type ChartProps = {
 interface sampleData {
   text: string;
   value: number;
-};
+}
 
-const sData:  sampleData[] = [
-  { text: 'heading 1',
-    value: 1 },
-  { text: 'heading 2',
-    value: 2},
-  { text: 'heading 3',
-    value: 3}
+const sData: sampleData[] = [
+  { text: 'row 1', value: 1 },
+  { text: 'row 2', value: 2 },
+  { text: 'row 3', value: 3 },
+  { text: 'row 4', value: 4 },
+  { text: 'row 5', value: 5 },
 ];
+
+const headings = ['heading 1 ', 'heading 2 ', 'heading 3 '];
 
 export function Chart({
   healthIndicatorData,
