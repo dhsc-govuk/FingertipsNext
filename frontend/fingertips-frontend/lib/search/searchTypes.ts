@@ -18,6 +18,7 @@ export type IndicatorDocument = {
   latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
+  hasInequalities: boolean;
 };
 
 export type AreaDocument = {
