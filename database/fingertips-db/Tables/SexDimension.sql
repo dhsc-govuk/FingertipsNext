@@ -2,7 +2,7 @@
 CREATE TABLE [dbo].[SexDimension](
 	[SexKey] [tinyint] IDENTITY(1,1) NOT NULL,			--The surrogate key
 	[Name] [nvarchar](50) NOT NULL,						--The name of the sex e.g. Female
-	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all persons)
+	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all sexes)
 	[SexId] [tinyint] NOT NULL,							--The original ID of the sex taken from the original Fingertips Pholio database.
  CONSTRAINT [PK_SexDimension] PRIMARY KEY CLUSTERED 
 (

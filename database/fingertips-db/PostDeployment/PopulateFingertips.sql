@@ -339,6 +339,35 @@ INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (3, N
 SET IDENTITY_INSERT [dbo].[SexDimension] OFF
 GO
 
+-- Create some deprivation dimension data
+SET IDENTITY_INSERT [dbo].[DeprivationDimension] ON
+
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (1, N'All', N'All', 1, 1)
+
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (2, N'Most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 1)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (3, N'Second most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 2)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (4, N'Third more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 3)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (5, N'Fourth more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 4)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (6, N'Fifth more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 5)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (7, N'Fifth less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 6)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (8, N'Fourth less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 7)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (9, N'Third less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 8)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (10, N'Second least deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 9)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (11, N'Least deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 10)
+
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (12, N'Most deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 1)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (13, N'Second most deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 2)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (14, N'Third more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 3)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (15, N'Fourth more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 4)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (16, N'Fifth more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 5)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (17, N'Fifth less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 6)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (18, N'Fourth less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 7)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (19, N'Third less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 8)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (20, N'Second least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 9)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (21, N'Least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 10)
+SET IDENTITY_INSERT [dbo].[DeprivationDimension] OFF
+GO
+
 -- create some population health measure data
 SET IDENTITY_INSERT [dbo].[HealthMeasure] ON
 
