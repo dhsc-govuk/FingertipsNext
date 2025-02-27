@@ -31,7 +31,7 @@ export interface IIndicatorSearchService {
     searchTerm: string,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]>;
-  getIndicator(indicatorId: string): Promise<IndicatorDocument>;
+  getIndicator(indicatorId: string): Promise<IndicatorDocument | undefined>;
 }
 
 export interface IAreaSearchService {
