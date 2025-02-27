@@ -9,7 +9,7 @@ type TwoOrMoreIndicatorsEnglandDashboardProps = {
   searchState: SearchStateParams;
 };
 
-export function TwoOrMoreIndicatorsEnglandDashboard({}: TwoOrMoreIndicatorsEnglandDashboardProps) {
+export function TwoOrMoreIndicatorsEnglandDashboard() {
   return (
     <>
       <H2>View indicators data for England</H2>

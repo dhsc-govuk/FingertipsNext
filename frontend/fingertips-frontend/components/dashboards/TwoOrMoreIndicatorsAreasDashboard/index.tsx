@@ -9,7 +9,7 @@ type TwoOrMoreIndicatorsAreasDashboardProps = {
   searchState: SearchStateParams;
 };
 
-export function TwoOrMoreIndicatorsAreasDashboard({}: TwoOrMoreIndicatorsAreasDashboardProps) {
+export function TwoOrMoreIndicatorsAreasDashboard() {
   return (
     <>
       <H2>View indicators data for the selected area(s)</H2>
