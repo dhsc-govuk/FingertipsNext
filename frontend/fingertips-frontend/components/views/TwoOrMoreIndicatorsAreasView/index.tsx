@@ -13,7 +13,7 @@ type OneIndicatorTwoOrMoreAreasViewProps = {
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
-}: OneIndicatorTwoOrMoreAreasViewProps) {
+}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areaCodes,

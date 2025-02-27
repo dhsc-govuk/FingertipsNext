@@ -93,7 +93,6 @@ export default async function ChartPage(
     indicatorsSelected.length === 1 &&
     areasSelected.length >= 2;
 
-  // TODO: reinstate?
   const mapData = mapDataIsRequired
     ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
     : undefined;

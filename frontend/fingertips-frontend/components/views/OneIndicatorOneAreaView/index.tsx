@@ -14,7 +14,7 @@ type OneIndicatorOneAreaViewProps = {
 
 export default async function OneIndicatorOneAreaView({
   searchState,
-}: OneIndicatorOneAreaViewProps) {
+}: Readonly<OneIndicatorOneAreaViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicators,

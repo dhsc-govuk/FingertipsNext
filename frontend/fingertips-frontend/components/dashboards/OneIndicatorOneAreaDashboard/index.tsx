@@ -13,7 +13,7 @@ type OneIndicatorOneAreaDashboardProps = {
 export function OneIndicatorOneAreaDashboard({
   healthIndicatorData,
   searchState,
-}: OneIndicatorOneAreaDashboardProps) {
+}: Readonly<OneIndicatorOneAreaDashboardProps>) {
   return (
     <>
       <H2>View indicator data for the selected area</H2>
