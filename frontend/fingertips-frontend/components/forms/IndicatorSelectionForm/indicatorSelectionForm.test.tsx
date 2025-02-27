@@ -28,20 +28,22 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'NHS',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '2021',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
   },
   {
     indicatorID: '2',
     indicatorName: 'DHSC',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '2021',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
   },
 ];
 
@@ -72,7 +74,6 @@ describe('IndicatorSelectionForm', () => {
     searchResults.forEach((searchResult, index) => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
         formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
       );

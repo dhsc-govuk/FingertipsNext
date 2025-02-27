@@ -18,7 +18,8 @@ export interface IndicatorDocument {
   indicatorName: string;
   indicatorDefinition: string;
   dataSource: string;
-  latestDataPeriod: string; // Most recent value held in database column 'Year'.
+  earliestDataPeriod: string; // Oldest value held in database column 'Year'.
+  latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
   hasInequalities: boolean;
@@ -36,6 +37,7 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_NAME = 'indicatorName',
   INDICATOR_DEFINITION = 'indicatorDefinition',
   INDICATOR_DATA_SOURCE = 'dataSource',
+  INDICATOR_EARLIEST_DATA_PERIOD = 'earliestDataPeriod',
   INDICATOR_LATEST_DATA_PERIOD = 'latestDataPeriod',
   INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
