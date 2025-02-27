@@ -44,6 +44,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
             comparison_method
             );
 
+        Console.WriteLine(indicatorData.Any() ? "FOUND": "NOT FOUND");
+        
         return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
     }
 }

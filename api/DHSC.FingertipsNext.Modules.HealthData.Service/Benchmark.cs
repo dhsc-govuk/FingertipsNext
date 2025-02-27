@@ -1,50 +1,45 @@
-using AutoMapper;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 public class Benchmark
 {
-    public const string LowIsGood = "Low Is Good";
-
     public const string Rag = "rag";
         
-    public static int GetRagCalc(float? lowerCi, float? upperCi, float? benchmark)
+    private static int GetRagCalc(float? lowerCi, float? upperCi, float? benchmark)
     {
         if (upperCi < benchmark) return -1;
         return lowerCi > benchmark ?  1: 0;
     }
 
-    public static IEnumerable<HealthDataForArea> MergeBenchmarkData(IEnumerable<HealthDataForArea> healthDataForArea,
-        IEnumerable<HealthDataForArea> healthDataForBenchmark, string comparisonMethod)
+    public static HealthDataForArea MergeBenchmarkData(HealthDataForArea areaData,
+        HealthDataForArea benchmarkData, string comparisonMethod)
     {
-        var firstEntry = healthDataForArea.Take(1).FirstOrDefault();
-        if (firstEntry == null) return healthDataForArea;
+        var areaCode = areaData.AreaCode;
         
-        var firstBenchmark = healthDataForBenchmark.Take(1).FirstOrDefault();
-        if (firstBenchmark == null) return healthDataForBenchmark;
+        // don't benchmark it against itself!
+        if (areaCode == benchmarkData.AreaCode) return areaData;
         
-        var areaCode = firstEntry.AreaCode;
-        var areaName = firstEntry.AreaName;
-        var healthData = firstEntry.HealthData;
-        var benchmarkHealthData = firstBenchmark.HealthData;
+        var areaName = areaData.AreaName;
+        var healthData = areaData.HealthData;
+        var benchmarkHealthData = benchmarkData.HealthData;
+        
+        // this could be slow if significant amounts of data are encountered
         var mergedHealthData = healthData.Select(entry =>
         {
             var matchingEntry = benchmarkHealthData.FirstOrDefault(item => item.Year == entry.Year);
-            return MergeEntries(entry, matchingEntry, comparisonMethod);
+            return matchingEntry == null ? entry : MergeEntries(entry, matchingEntry, comparisonMethod);
         });
         
-        return [new HealthDataForArea
+        return new HealthDataForArea
         {
             AreaCode = areaCode,
             AreaName = areaName,
             HealthData = mergedHealthData,
-        }];
+        };
     }
 
-    public static HealthDataPoint MergeEntries(HealthDataPoint entry, HealthDataPoint? benchmarkEntry, string comparisonMethod)
+    private static HealthDataPoint MergeEntries(HealthDataPoint entry, HealthDataPoint? benchmarkEntry, string comparisonMethod)
     {
         var clone = new HealthDataPoint
         {
@@ -59,13 +54,13 @@ public class Benchmark
         if (benchmarkEntry == null) return clone;
 
         var polarity = BenchmarkPolarity.LowIsGood;
-        var RagValue = GetRagCalc(entry.LowerConfidenceInterval, entry.UpperConfidenceInterval, benchmarkEntry.Value);
-        var RagString = BenchmarkPolarity.GetRagString(RagValue, polarity);
+        var ragValue = GetRagCalc(entry.LowerConfidenceInterval, entry.UpperConfidenceInterval, benchmarkEntry.Value);
+        var ragString = BenchmarkPolarity.GetRagString(ragValue, polarity);
         
         clone.Benchmark = new HealthDataPointBenchmark
         {
             Type = comparisonMethod, 
-            Value = RagString,
+            Value = ragString,
             ComparedTo = benchmarkEntry.Value,
         };
         

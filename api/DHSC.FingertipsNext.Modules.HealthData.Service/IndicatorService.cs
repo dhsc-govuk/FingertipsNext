@@ -30,7 +30,7 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     ///     An array of inequality dimensions to return. If the array is empty only data with no
     ///     inequality dimensions is retrieved.
     /// </param>
-    /// <param name="comparisonMethod">Optional String to set comparison method eg RAG or Quartiles</param>
+    /// <param name="comparisonMethod">Optional String to set comparison method e.g. RAG or Quartiles</param>
     /// <returns>
     ///     An enumerable of <c>HealthMeasure</c> matching the criteria,
     ///     otherwise an empty enumerable.
@@ -41,26 +41,34 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
         string[] inequalities,
         string comparisonMethod)
     {
+        // get the area codes and add our benchmark if it's not already there
+        var (areaCodesForSearch, wasBenchMarkAreaAdded) = GetAreaCodesForSearch(areaCodes, comparisonMethod);
+        
+        // get the data from the database
         var healthMeasureData = await _repository.GetIndicatorDataAsync(
             indicatorId,
-            areaCodes.Distinct().Take(10).ToArray(),
+            areaCodesForSearch.ToArray(),
             years.Distinct().Take(10).ToArray(),
             inequalities.Distinct().ToArray());
 
-        var healthDataForArea = GroupAndSelect(healthMeasureData);
+        var allHealthDataForAreas = GroupAndSelect(healthMeasureData);
 
-        if (comparisonMethod != Benchmark.Rag) return healthDataForArea;
-
-        var healthBenchmarkData = await _repository.GetIndicatorDataAsync(
-            indicatorId,
-            [AreaCodeEngland],
-            years.Distinct().Take(10).ToArray(),
-            inequalities.Distinct().ToArray());
-        var healthDataForBenchmark = GroupAndSelect(healthBenchmarkData);
-
-        return Benchmark.MergeBenchmarkData(healthDataForArea, healthDataForBenchmark, comparisonMethod);
+        // separate the data for results and data for performing benchmarks
+        var (healthDataForAreas, benchmarkHealthData) = SeparateHealthAndBenchMarkData(allHealthDataForAreas, comparisonMethod, wasBenchMarkAreaAdded);
+        
+        return ApplyBenchMarkedAreaData(healthDataForAreas, benchmarkHealthData, comparisonMethod);
     }
-
+    
+    private (string[] areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(string[] areaCodes, string comparisonMethod)
+    {
+        if (comparisonMethod != Benchmark.Rag || areaCodes.Contains(AreaCodeEngland))
+            return (areaCodesForSearch: areaCodes, wasBenchMarkAreaAdded: false);
+        
+        var areaCodesForSearch = new List<string>(areaCodes.Distinct().Take(10).ToArray());
+        areaCodesForSearch.Add(AreaCodeEngland);
+        return (areaCodesForSearch: areaCodesForSearch.ToArray(), wasBenchMarkAreaAdded: true);
+    }
+    
     private IEnumerable<HealthDataForArea> GroupAndSelect(IEnumerable<HealthMeasureModel> healthMeasureData)
     {
         return healthMeasureData
@@ -72,7 +80,31 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
                 HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
             });
     }
+    
+    private static (IEnumerable<HealthDataForArea> healthDataForAreas, HealthDataForArea benchmarkHealthData) 
+        SeparateHealthAndBenchMarkData(IEnumerable<HealthDataForArea> allHealthDataForAreas, string comparisonMethod, bool wasBenchMarkAreaAdded)
+    {
+        // do nothing, no benchmark selected
+        if (comparisonMethod != Benchmark.Rag) return (allHealthDataForAreas, null);
+        
+        // find the benchmark data
+        var benchmarkHealthData = allHealthDataForAreas.FirstOrDefault(data => data.AreaCode == AreaCodeEngland);
+        
+        // if we added the benchmark area then remove it from the results
+        return wasBenchMarkAreaAdded
+            ? (allHealthDataForAreas.Where(data => data.AreaCode != AreaCodeEngland), benchmarkHealthData)
+            : (allHealthDataForAreas, benchmarkHealthData);
+    }
 
-   
- 
+    private static IEnumerable<HealthDataForArea> ApplyBenchMarkedAreaData(
+        IEnumerable<HealthDataForArea> healthDataForAreas,
+        HealthDataForArea? benchmarkHealthData, string comparisonMethod)
+    {
+        if (benchmarkHealthData == null) return healthDataForAreas;
+        return healthDataForAreas.Select(areaData => Benchmark.MergeBenchmarkData(
+            areaData, 
+            benchmarkHealthData,
+            comparisonMethod));
+    }
+
 }
