@@ -372,6 +372,7 @@ exports[`Area Filter snapshot test 1`] = `
         >
           <label
             class="c13 c14"
+            data-testid="area-type-selector-container"
           >
             <span
               class="c5"
@@ -384,6 +385,7 @@ exports[`Area Filter snapshot test 1`] = `
           </label>
           <label
             class="c13 c14"
+            data-testid="group-type-selector-container"
           >
             <span
               class="c5"

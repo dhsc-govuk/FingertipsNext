@@ -79,13 +79,15 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
-Note that while all tests are executed in CI/CD pipelines, for e2e tests there is a difference between where and how the tests are executed.
+Isolated ui testing occurs in both CI/CD pipelines on push and pull requests, as well as when code merges to main.
 
-In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+Note that while all tests are executed in CI/CD pipelines, for e2e tests there is a difference between where and how the tests are executed:
 
-In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+
+ 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips.
 
 For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
 
@@ -95,34 +97,36 @@ For local development we also have the option to run the tests locally against m
 npm run test
 ```
 
-### Running the E2E tests
+### Running the Playwright UI and E2E tests
 
-To run the e2e tests locally against mock data headlessly:
+To run the ui tests locally against mock data headlessly:
 
 ```bash
-npm run test-e2e
+npm run test-ui-local-mocks
 ```
 
-To debug e2e test failures its best to run them using UI Mode:
+To debug ui test failures its best to run them using UI Mode:
 
 ```bash
 npx playwright test --ui
 ```
 
-To run the e2e tests locally against a local dockerised container fingertips instance headlessly:
+To run the e2e tests locally, which uses a local dockerised container fingertips instance headlessly:
 
 ```bash
 npm run test-e2e-local-docker
 ```
-You will need to have docker running locally first before executing this command.
+You will need to have docker running first before executing this command.
 
 If you wish to use UI mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
-Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. Also note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our e2e testing as close to real world as possible.
+Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
+
+Note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our ui and e2e testing as close to real world as possible.
 
 ### Accessibility Testing:
 
-Currently performed at the E2E stage. Libraries used: @axe-core/playwright and axe-playwright. 
+Performed at the ui stage. Libraries used: @axe-core/playwright and axe-playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 

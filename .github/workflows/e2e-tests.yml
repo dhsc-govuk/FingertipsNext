@@ -48,8 +48,7 @@ jobs:
             ${{ env.frontend-directory }}/node_modules
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-
+          restore-keys: ${{ runner.os }}-deps-
 
       - name: Install dependencies
         run: npm ci

@@ -33,9 +33,10 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorName: `indicator name for id ${id}`,
   indicatorDefinition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
+  earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
-  associatedAreas: [],
+  associatedAreaCodes: [],
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
@@ -77,7 +78,8 @@ describe('Results Page', () => {
 
     expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
-      'testing'
+      'testing',
+      undefined
     );
   });
 
@@ -122,7 +124,8 @@ describe('Results Page', () => {
       areaCode: londonNHSRegion.code,
     });
     expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
-      'testing'
+      'testing',
+      ['E40000007', 'E40000003']
     );
   });
 
@@ -247,11 +250,11 @@ describe('Results Page', () => {
 
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...eastEnglandNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...londonNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
 
       const page = await ResultsPage({
