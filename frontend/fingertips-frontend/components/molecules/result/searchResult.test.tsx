@@ -87,7 +87,7 @@ describe('content', () => {
   });
 
   it('should display tag if indicator date is within one month of server date', () => {
-    const currentDate = new Date('December 7, 2024');
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
     render(
       <SearchResult
         result={MOCK_DATA[0]}
@@ -100,7 +100,10 @@ describe('content', () => {
   });
 
   it('should not display tag if indicator date is not within one month of server date', () => {
-    const currentDate = new Date('February 6, 2025');
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(currentDate.getDate() + 1);
+
     render(
       <SearchResult
         result={MOCK_DATA[0]}
