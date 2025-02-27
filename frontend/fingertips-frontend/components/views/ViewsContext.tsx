@@ -25,7 +25,6 @@ function viewSelector(
       return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
     }
   } else if (indicators.length >= 2) {
-    // TODO: add special case for England
     if (areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland) {
       return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
     }

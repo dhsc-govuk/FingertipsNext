@@ -291,4 +291,28 @@ describe('Chart Page', () => {
       });
     });
   });
+  describe('ViewContext', () => {
+    it('should pass search state prop with data from the params to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.children[1].props.searchState).toEqual({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: ['E06000047'],
+      });
+    });
+  });
 });
