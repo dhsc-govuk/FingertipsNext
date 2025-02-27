@@ -1,7 +1,7 @@
 'use client';
 
 import { Pill } from '../Pill';
-import { AreaDocument, formatAreaName  } from '@/lib/search/searchTypes';
+import { AreaDocument, formatAreaName } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
 const StyleAreaName = styled('span')({
   paddingRight: '5px',

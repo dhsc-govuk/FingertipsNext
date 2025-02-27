@@ -1,4 +1,4 @@
-import { AreaDocument} from '@/lib/search/searchTypes';
+import { AreaDocument } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
 import { UnorderedList, ListItem } from 'govuk-react';
 import { AreaSearchPill } from '../AreaSearchPill';
