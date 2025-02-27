@@ -1,6 +1,6 @@
 'use client';
 
-import { H2 } from 'govuk-react';
+import { H2, H3 } from 'govuk-react';
 import { getChartListForView, IViewProps } from '@/lib/viewUtils/viewUtils';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
@@ -28,6 +28,8 @@ export function OnceIndicatorOneAreaDashboard({
         healthIndicatorData={healthIndicatorData[0]}
         searchState={searchState}
       />
+      <H3>Inequalities Visualisations</H3>
+      <H3>Population Visualisations</H3>
     </>
   );
 }

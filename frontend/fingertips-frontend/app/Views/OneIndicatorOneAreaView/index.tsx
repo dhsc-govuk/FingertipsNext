@@ -7,7 +7,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-import { shouldDisplayInequalities } from '../../Inequalities/inequalitiesHelpers';
+import { shouldDisplayInequalities } from '../../../components/organisms/Inequalities/inequalitiesHelpers';
 import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 
 type OneIndicatorOneAreaViewProps = {
@@ -27,6 +27,7 @@ export default async function OneIndicatorOneAreaView({
   const areasSelected = areaCodes ?? [];
   const indicatorsSelected = indicators ?? [];
 
+  //  TODO: edge case of England as area
   const areaCodesToRequest =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
@@ -42,7 +43,9 @@ export default async function OneIndicatorOneAreaView({
   });
 
   // TODO: get (and pass) inequalities data
+  console.log('TODO: include inequalities data in healthData fetch');
   // TODO: get and pass population data
+  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
   return (
     <OnceIndicatorOneAreaDashboard

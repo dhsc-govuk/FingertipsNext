@@ -24,7 +24,7 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { ViewsContext } from '@/components/organisms/Views';
+import { ViewsContext } from '@/app/Views';
 
 export default async function ChartPage(
   props: Readonly<{
