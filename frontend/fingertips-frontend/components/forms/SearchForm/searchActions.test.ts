@@ -110,12 +110,10 @@ describe('getAreaDocument', () => {
 
     const area = await getAreaDocument('123');
     expect(area).toBeDefined();
-    expect(area?.areaCode).toMatch(mockAreaDocument.areaCode);
-    expect(area?.areaName).toMatch(mockAreaDocument.areaName);
-    expect(area?.areaType).toMatch(mockAreaDocument.areaType);
+    expect(area).toMatchObject(mockAreaDocument);
   });
 
-  it('throw exception when getAreaDocument is called', async () => {
+  it('returns undefined when the getAreaDocument throws an exception', async () => {
     const getAreaDocumentMock = jest
       .fn()
       .mockImplementation((areaCode: string) => {
