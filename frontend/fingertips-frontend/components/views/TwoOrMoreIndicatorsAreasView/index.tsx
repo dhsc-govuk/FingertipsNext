@@ -36,10 +36,5 @@ export default async function TwoOrMoreIndicatorsAreasView({
     toString()
   );
 
-  return (
-    <TwoOrMoreIndicatorsAreasDashboard
-      searchState={searchState}
-      healthIndicatorData={[]}
-    />
-  );
+  return <TwoOrMoreIndicatorsAreasDashboard />;
 }

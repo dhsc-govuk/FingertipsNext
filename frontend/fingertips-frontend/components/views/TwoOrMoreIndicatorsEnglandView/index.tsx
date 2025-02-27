@@ -36,10 +36,5 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     toString()
   );
 
-  return (
-    <TwoOrMoreIndicatorsEnglandDashboard
-      searchState={searchState}
-      healthIndicatorData={[]}
-    />
-  );
+  return <TwoOrMoreIndicatorsEnglandDashboard />;
 }
