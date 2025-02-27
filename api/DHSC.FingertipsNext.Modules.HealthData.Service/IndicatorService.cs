@@ -61,10 +61,11 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     
     private (string[] areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(string[] areaCodes, string comparisonMethod)
     {
-        if (comparisonMethod != Benchmark.Rag || areaCodes.Contains(AreaCodeEngland))
-            return (areaCodesForSearch: areaCodes, wasBenchMarkAreaAdded: false);
-        
         var areaCodesForSearch = new List<string>(areaCodes.Distinct().Take(10).ToArray());
+        
+        if (comparisonMethod != Benchmark.Rag || areaCodes.Contains(AreaCodeEngland))
+            return (areaCodesForSearch: areaCodesForSearch.ToArray(), wasBenchMarkAreaAdded: false);
+        
         areaCodesForSearch.Add(AreaCodeEngland);
         return (areaCodesForSearch: areaCodesForSearch.ToArray(), wasBenchMarkAreaAdded: true);
     }

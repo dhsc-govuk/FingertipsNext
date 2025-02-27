@@ -80,7 +80,8 @@ public class IndicatorServiceTests
             1,
             inputAreaCodes,
             inputYears,
-            inputInequalities
+            inputInequalities,
+            ""
         );
 
         // expect
@@ -97,7 +98,7 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToRepository()
     {
-        await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
+        await _indicatorService.GetIndicatorDataAsync(1, [], [], [], "");
 
         await _repository.Received().GetIndicatorDataAsync(1, [], [], []);
     }
@@ -122,7 +123,7 @@ public class IndicatorServiceTests
 
         _repository.GetIndicatorDataAsync(1, [], [], []).Returns([healthMeasure]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], [], "");
 
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
@@ -170,7 +171,7 @@ public class IndicatorServiceTests
             (IEnumerable<HealthMeasureModel>)new List<HealthMeasureModel>()
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
-        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], [])).ToList();
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], [], null)).ToList();
 
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);

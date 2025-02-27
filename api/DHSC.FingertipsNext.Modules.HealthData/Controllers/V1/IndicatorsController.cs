@@ -33,7 +33,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         [FromQuery] string[]? area_codes = null,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
-        [FromQuery] string? comparison_method = null)
+        [FromQuery] string? comparison_method = "")
     {
         
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
