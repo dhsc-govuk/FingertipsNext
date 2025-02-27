@@ -34,15 +34,14 @@ function viewSelector(
 }
 
 export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
-  // determine which view is needed
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.IndicatorsSelected]: indicatorsSelecteds,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     // [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
   const areaCodes = areasSelected ?? [];
-  const indicators = indicatorsSelecteds ?? [];
+  const indicators = indicatorsSelected ?? [];
 
   return (
     <>

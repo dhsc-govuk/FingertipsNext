@@ -24,7 +24,7 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { ViewsContext } from '@/app/views';
+import { ViewsContext } from '@/components/views';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -94,20 +94,17 @@ export default async function ChartPage(
     areasSelected.length >= 2;
 
   // TODO: reinstate?
-  // const mapData = mapDataIsRequired
-  //   ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
-  //   : undefined;
+  const mapData = mapDataIsRequired
+    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+    : undefined;
 
   return (
-    // note: wrapping in fragment during dev for views causes tests on page.props to fail
-    <>
-      <ViewsContext searchState={stateManager.getSearchState()} />
-      {/* <Chart
-        populationData={preparedPopulationData}
-        healthIndicatorData={healthIndicatorData}
-        mapData={mapData}
-        searchState={stateManager.getSearchState()}
-      /> */}
-    </>
+    // <ViewsContext searchState={stateManager.getSearchState()} />;
+    <Chart
+      populationData={preparedPopulationData}
+      healthIndicatorData={healthIndicatorData}
+      mapData={mapData}
+      searchState={stateManager.getSearchState()}
+    />
   );
 }
