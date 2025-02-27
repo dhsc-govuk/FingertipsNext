@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[AreaKey] [int] NOT NULL,							--Foreign key to the area - what geography is this row for
 	[IndicatorKey] [smallint] NOT NULL,					--Foreign key to the indicator - what indicator is this row for
 	[SexKey] [tinyint] NOT NULL,						--Foreign key to the sex - what sex is this row for
-	[TrendKey] [tinyint] NULL DEFAULT 1,				--Foreign key to the trend - what trend applies to this row
+	[TrendKey] [tinyint] NULL DEFAULT 1,				--Foreign key to the trend - what trend applies to this row. It defaults to NotYetCalculated as trends are calculated during a subsequent step
 	[Count] [float] NULL,							--How many were counted for this data - e.g. how many people were counted in order to create this row			
 	[Value] [float] NULL,							--The value of the data e.g. how many people per 100 000. This is the key piece of data for this row 
 	[LowerCI] [float] NULL,							--The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
