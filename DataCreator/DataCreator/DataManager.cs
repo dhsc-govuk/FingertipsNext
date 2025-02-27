@@ -142,7 +142,6 @@ namespace DataCreator
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
-            AddSexIds(healthMeasures);
             await AddCategoryIds(healthMeasures);
 
             var indicatorWithAreasAndLatestUpdates = healthMeasures
@@ -158,7 +157,7 @@ namespace DataCreator
                 .ToList();
             
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
-            DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
+            DataFileManager.WriteHealthCsvData("healthdata", healthMeasures.Cast<SimpleHealthMeasureEntity>().ToList());
 
             return indicatorWithAreasAndLatestUpdates;
         }
@@ -200,27 +199,12 @@ namespace DataCreator
             return allAges.Where(age=>usedAgeIds.Contains(age.AgeID)).ToList();
         }
 
-        private static void AddSexIds(List<HealthMeasureEntity> healthMeasures)
-        {
-            foreach (var healthMeasure in healthMeasures)
-            {
-                switch (healthMeasure.Sex)
-                {
-                    case "Not applicable":
-                        healthMeasure.SexID = -1;
-                        break;
-                    case "Male":
-                        healthMeasure.SexID = 1;
-                        break;
-                    case "Female":
-                        healthMeasure.SexID = 2;
-                        break;
-                    case "Persons":
-                        healthMeasure.SexID = 4;
-                        break;
-                }
-            }
-        }
+        private static IEnumerable<HealthMeasureEntity> GetHealthDataForAreaAndIndicator(int indicatorId, List<string> areasWeWant, int yearFrom = 2018) => 
+            DataFileManager.GetHealthDataForIndicator(indicatorId)
+                .Where(x => areasWeWant.Contains(x.AreaCode))
+                .Where(x => x.Year >= yearFrom)
+                .ToList();
+
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();

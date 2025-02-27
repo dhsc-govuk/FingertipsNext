@@ -12,7 +12,6 @@
   <ItemGroup>
     <Folder Include="PostDeployment" />
     <Folder Include="Tables" />
-    <Folder Include="Scripts\" />
     <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +25,30 @@
     <Build Include="Tables\SexDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Tables\Areas.sql" />
+    <Build Include="Tables\AreaTypes.sql" />
+    <Build Include="Tables\AreaRelationships.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="BlobStorageLocation">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="LocalFilePath">
+      <Value>/var/opt/mssql/csv/</Value>
+      <DefaultValue>
+      </DefaultValue>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="MasterKeyPassword">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="UseAzureBlob">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
