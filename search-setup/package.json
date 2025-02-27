@@ -3,6 +3,7 @@
   "scripts": {
     "create-index": "tsc && node ./dist/src/main.js",
     "test": "jest",
+    "test:update:snapshot": "jest -u",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"
   },

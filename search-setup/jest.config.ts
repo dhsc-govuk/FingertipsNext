@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export default {
   transform: { '^.+\\.ts?$': 'ts-jest' },
   testEnvironment: 'node',

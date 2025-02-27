@@ -116,7 +116,7 @@ export function Chart({
       )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <Inequalities healthIndicatorData={dataWithoutEngland[0]} />
+        <Inequalities healthIndicatorData={healthIndicatorData[0][0]} />
       )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
