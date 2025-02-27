@@ -5,36 +5,41 @@ import { Table } from 'govuk-react';
 import { HighchartsReact } from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 
-type ChartProps = {
-  data: sampleData[];
+
+type chartProps = {
+  sData: sampleData[]
+}
+interface sampleData {
+  text: string;
+  value: number;
 };
 
-interface sampleData {
-  row1: 'text';
-  value1: [1, 3, 3];
-  row2: 'text';
-  value2: [1, 5, 3];
-  row3: 'text';
-  value3: [1, 2, 3, 4];
-}
-
-export function BarChartTable({ data }: Readonly<ChartProps>) {
+export function BarChartTable({ sData }: Readonly<chartProps>) {
   const sparkLineOptions: Highcharts.Options = {
     chart: { type: 'bar' },
-    title: { text: 'Sparkline chart' },
+    title: {
+      style: {
+        display: 'none',
+      }
+    },
     yAxis: { visible: false },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [data] }],
+    series: [{ type: 'bar', data: [sData] }],
   };
 
   return (
-    <Table id={'test-sparkline'} head={<Table.Row>Heading one</Table.Row>}>
-      <Table.Row>
-        <HighchartsReact
-          highcharts={Highcharts}
-          options={sparkLineOptions}
-        ></HighchartsReact>
-      </Table.Row>
+    <Table id={'test-sparkline'} head={ 
+     <Table.Row><Table.CellHeader>Sparkline</Table.CellHeader></Table.Row>
+    }>
+        {sData.map((data, index) => (
+          <><Table.Row key={index}>
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={sparkLineOptions}
+            ></HighchartsReact>
+          </Table.Row>
+          </>
+        ))}
     </Table>
   );
 }

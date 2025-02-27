@@ -33,23 +33,17 @@ type ChartProps = {
 };
 
 interface sampleData {
-  row1: 'text';
-  value1: [1, 3, 3];
-  row2: 'text';
-  value2: [1, 5, 3];
-  row3: 'text';
-  value3: [1, 2, 3, 4];
-}
+  text: string;
+  value: number;
+};
 
-const sData: sampleData[] = [
-  {
-    row1: 'text',
-    value1: [1, 3, 3],
-    row2: 'text',
-    value2: [1, 5, 3],
-    row3: 'text',
-    value3: [1, 2, 3, 4],
-  },
+const sData:  sampleData[] = [
+  { text: 'heading 1',
+    value: 1 },
+  { text: 'heading 2',
+    value: 2},
+  { text: 'heading 3',
+    value: 3}
 ];
 
 export function Chart({
@@ -96,7 +90,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      <BarChartTable data={sData}></BarChartTable>
+      <BarChartTable sData={sData}></BarChartTable>
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
