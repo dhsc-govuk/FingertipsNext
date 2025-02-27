@@ -22,7 +22,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       .filter((indicator) => {
         return (
           !areaCodes ||
-          indicator.associatedAreas.some((area) => areaCodes.includes(area))
+          indicator.associatedAreaCodes.some((area) => areaCodes.includes(area))
         );
       })
       .slice(0, 20);

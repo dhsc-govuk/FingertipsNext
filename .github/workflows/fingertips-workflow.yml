@@ -186,6 +186,26 @@ jobs:
       - name: Execute jest unit tests
         run: npm run test-ci
 
+  ui-tests-local-mocks:
+    needs: [check-changes]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        (
+          needs.check-changes.outputs.db_changed == 'true' ||
+          needs.check-changes.outputs.api_changed == 'true' || 
+          needs.check-changes.outputs.frontend_changed == 'true' ||
+          needs.check-changes.outputs.search_changed == 'true'
+        )
+      )
+    uses: ./.github/workflows/ui-tests.yml
+    with:
+      ui-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
+
   e2e-tests-local-docker:
     needs: [check-changes]
     if: >
@@ -500,6 +520,6 @@ jobs:
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.0-jammy
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

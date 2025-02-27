@@ -159,6 +159,7 @@ export function AreaFilter({
         <ShowHideContainer summary="Add or change areas">
           <StyledFilterSelect
             label="Select an area type"
+            data-testid="area-type-selector-container"
             input={{
               onChange: (e) => areaTypeSelected(e.target.value),
               defaultValue: searchState?.[SearchParams.AreaTypeSelected],
@@ -174,6 +175,7 @@ export function AreaFilter({
 
           <StyledFilterSelect
             label="Select a group type"
+            data-testid="group-type-selector-container"
             input={{
               onChange: (e) => groupTypeSelected(e.target.value),
               defaultValue: searchState?.[SearchParams.GroupTypeSelected],

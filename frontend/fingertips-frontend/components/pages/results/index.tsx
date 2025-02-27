@@ -34,6 +34,7 @@ type SearchResultsProps = {
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
+  currentDate?: Date;
 };
 
 const generateBackLinkPath = (state?: SearchStateParams) => {
@@ -50,6 +51,7 @@ export function SearchResults({
   availableAreas,
   selectedAreasData,
   searchState,
+  currentDate,
 }: Readonly<SearchResultsProps>) {
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
@@ -114,6 +116,7 @@ export function SearchResults({
               searchResults={searchResults}
               searchState={searchState}
               formAction={indicatorSelectionFormAction}
+              currentDate={currentDate}
             />
           </GridCol>
         </GridRow>

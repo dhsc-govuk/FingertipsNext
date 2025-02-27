@@ -10,8 +10,8 @@ public class AreaWithRelations: Area
     /// <summary>
     /// 
     /// </summary>
-    [JsonPropertyName("parent")]
-    public Area? Parent { get; init; } = null;
+    [JsonPropertyName("parents")]
+    public List<Area> Parents { get; init; } = [];
 
     /// <summary>
     /// 

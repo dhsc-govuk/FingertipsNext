@@ -36,9 +36,10 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   indicatorName: `indicator name for id ${id}`,
   indicatorDefinition: `Some definition for id ${id}`,
   dataSource: `Some data source for id ${id}`,
+  earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
-  associatedAreas: [],
+  associatedAreaCodes: [],
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
@@ -106,7 +107,32 @@ describe('Results Page', () => {
       });
 
       expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
-        'testing'
+        'testing',
+        undefined
+      );
+      expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
+    });
+
+    it('should pass the searchResults prop with the results of the searchWith filtered by areas selected', async () => {
+      mockIndicatorSearchService.searchWith.mockResolvedValue(
+        mockIndicatorSearchResults
+      );
+      mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
+      mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
+
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+        'testing',
+        ['E40000007', 'E40000003']
       );
       expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     });
@@ -232,11 +258,11 @@ describe('Results Page', () => {
 
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...eastEnglandNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...londonNHSRegion,
-        parent: englandArea,
+        parents: [englandArea],
       });
 
       const page = await ResultsPage({
@@ -248,6 +274,18 @@ describe('Results Page', () => {
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
         [SearchParams.GroupTypeSelected]: 'england',
       });
+    });
+
+    it('should pass the current date prop', async () => {
+      const date = new Date('January 1, 2000');
+      jest.useFakeTimers();
+      jest.setSystemTime(date);
+
+      const page = await ResultsPage({});
+
+      expect(page.props.currentDate).toEqual(date);
+
+      jest.useRealTimers();
     });
   });
 

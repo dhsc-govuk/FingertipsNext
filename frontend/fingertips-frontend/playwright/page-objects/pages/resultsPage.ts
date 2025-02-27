@@ -1,6 +1,11 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
+import {
+  AreaMode,
+  IndicatorMode,
+  returnIndicatorIDsByIndicatorMode,
+} from '@/playwright/testHelpers';
 
 export default class ResultsPage extends BasePage {
   readonly resultsText = 'Search results for';
@@ -13,19 +18,72 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchBox = `indicator-search-form-input`;
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
+  readonly indicatorCheckboxContainer = 'indicator-selection-form';
   readonly areaFilterContainer = 'area-filter-container';
+  readonly areaTypeSelector = 'area-type-selector-container';
+  readonly groupTypeSelector = 'group-type-selector-container';
+  readonly pillContainer = 'pill-container';
+  readonly filterName = 'filter-name';
+  readonly removeIcon = 'x-icon';
 
-  async areaFilterOptionsText() {
-    const areaTypeDropdownOptions = await this.page
-      .getByTestId(this.areaFilterContainer)
-      .getByRole('combobox', { name: 'Select an area type' })
-      .getByRole('option')
-      .all();
+  async navigateToResults(
+    searchIndicator: string,
+    selectedAreaCodes: string[]
+  ) {
+    const asQuery = selectedAreaCodes.reduce(
+      (accumulator, currentValue) =>
+        accumulator + `&${SearchParams.AreasSelected}=${currentValue}`,
+      ''
+    );
 
-    return Promise.all(areaTypeDropdownOptions.map((l) => l.textContent()));
+    await this.page.goto(
+      `results?${SearchParams.SearchedIndicator}=${searchIndicator}${asQuery}`
+    );
   }
 
-  async checkSearchResults(searchTerm: string) {
+  areaFilterPills() {
+    return this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByTestId(this.pillContainer);
+  }
+
+  async areaFilterPillsText() {
+    const pillFilterNames = await this.areaFilterPills()
+      .getByTestId(this.filterName)
+      .all();
+
+    return Promise.all(pillFilterNames.map(async (l) => await l.textContent()));
+  }
+
+  async closeAreaFilterPill(index: number) {
+    const pills = await this.areaFilterPills()
+      .getByTestId(this.removeIcon)
+      .all();
+
+    await pills[index].click();
+  }
+
+  areaFilterCombobox() {
+    return this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByTestId(this.areaTypeSelector)
+      .locator('select');
+  }
+
+  areaFilterOptions() {
+    return this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByTestId(this.areaTypeSelector)
+      .getByRole('option');
+  }
+
+  async areaFilterOptionsText() {
+    const options = await this.areaFilterOptions().all();
+
+    return Promise.all(options.map((l) => l.textContent()));
+  }
+
+  async checkSearchResultsTitle(searchTerm: string) {
     await expect(
       this.page.getByText(this.resultsText + ` ${searchTerm}`)
     ).toBeVisible();
@@ -36,14 +94,44 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURLMatches(
-      `results?${SearchParams.SearchedIndicator}=${queryParams}`
-    );
-  }
+  /**
+   * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
+   * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
+   * test function selectAreasFiltersAndCheckURL. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
+   *
+   * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
+   * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
+   */
+  async selectIndicatorCheckboxesAndCheckURL(
+    allIndicatorIDs: string[],
+    indicatorMode: IndicatorMode
+  ) {
+    const filteredByDisplayIndicatorIds: string[] = [];
 
-  async selectIndicatorCheckboxes(indicatorIDs: string[]) {
-    for (const indicatorID of indicatorIDs) {
+    // filter down the full list of indicators passed to this method to just the ones displayed on the page
+    const displayedIndicatorCheckboxList = await this.page
+      .getByTestId(this.indicatorCheckboxContainer)
+      .getByRole('checkbox')
+      .all();
+
+    for (const checkbox of displayedIndicatorCheckboxList) {
+      const indicatorDataTestID = await checkbox.getAttribute('value');
+
+      if (
+        indicatorDataTestID &&
+        JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID)
+      ) {
+        filteredByDisplayIndicatorIds.push(indicatorDataTestID);
+      }
+    }
+    // then filter down the list of displayed indicators to the correct number for the passed indicator mode
+    const filteredByIndicatorModeIndicatorIds: string[] =
+      returnIndicatorIDsByIndicatorMode(
+        filteredByDisplayIndicatorIds,
+        indicatorMode
+      );
+
+    for (const indicatorID of filteredByIndicatorModeIndicatorIds) {
       const checkbox = this.page.getByTestId(
         `${this.indicatorCheckboxPrefix}-${indicatorID}`
       );
@@ -59,6 +147,62 @@ export default class ResultsPage extends BasePage {
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
     }
+  }
+
+  /**
+   * Selects the required area filters based on area mode
+   *
+   * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
+   * @param searchTerm - search term to be used in the URL check
+   */
+  async selectAreasFiltersAndCheckURL(areaMode: AreaMode, searchTerm: string) {
+    // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in the future
+    const defaultAreaTypeFilter = 'regions';
+    const defaultGroupType = 'England';
+
+    await this.waitForURLToContain(searchTerm);
+
+    await this.page
+      .getByTestId(this.areaTypeSelector)
+      .selectOption(defaultAreaTypeFilter);
+    await this.waitForURLToContain(defaultAreaTypeFilter);
+
+    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in the future
+
+    // Select appropriate number of checkboxes based on area mode
+    const areaCheckboxList = this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('checkbox');
+    const checkboxCountMap = {
+      [AreaMode.ONE_AREA]: 1,
+      [AreaMode.TWO_AREAS]: 2,
+      [AreaMode.THREE_PLUS_AREAS]: 3,
+      [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
+      [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
+    };
+    const checkboxCount = checkboxCountMap[areaMode];
+    for (let i = 0; i < checkboxCount; i++) {
+      await areaCheckboxList.nth(i).check();
+      if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
+        await this.waitForURLToContain(defaultAreaTypeFilter);
+      }
+    }
+    await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
+      `Selected areas (${String(checkboxCount)})`
+    );
+
+    // England area mode
+    if (AreaMode.ENGLAND_AREA === areaMode) {
+      await this.page
+        .getByTestId(this.areaTypeSelector)
+        .selectOption('England');
+      await this.page
+        .getByTestId(this.groupTypeSelector)
+        .selectOption('England');
+      await this.waitForURLToContain(defaultGroupType);
+    }
+
+    await this.waitForURLToContain(searchTerm);
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {

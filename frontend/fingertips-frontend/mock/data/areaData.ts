@@ -66,23 +66,17 @@ export const mockAreaDataForRegionsStatistical: Record<
 > = {
   E12000001: {
     ...northEastRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E12000002: {
     ...northWestRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E12000003: {
     ...yorkshireAndHumberRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
 };
@@ -90,9 +84,7 @@ export const mockAreaDataForRegionsStatistical: Record<
 export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
   E40000007: {
     ...eastEnglandNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [
       basildonAndBrentwoodICB,
       cambridgeAndPeterboroughICB,
@@ -104,9 +96,7 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
   },
   E40000003: {
     ...londonNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [
       northCentralLondonICB,
       southEastLondonICB,
@@ -118,37 +108,27 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
   },
   E40000005: {
     ...southEastNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E40000006: {
     ...southWestNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E40000010: {
     ...northWestRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E40000011: {
     ...midlandsNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
   E40000012: {
     ...northEastAndYorkshireNHSRegion,
-    parent: {
-      ...englandArea,
-    },
+    parents: [englandArea],
     children: [],
   },
 };
@@ -157,19 +137,17 @@ export const mockAreaDataForCountiesAndUAs: Record<string, AreaWithRelations> =
   {
     E06000047: {
       ...countyDurham,
-      parent: {
-        ...northEastRegion,
-      },
+      parents: [northEastRegion],
       children: [],
     },
     E06000005: {
       ...darlington,
-      parent: { ...northEastRegion },
+      parents: [northEastRegion],
       children: [],
     },
     E08000037: {
       ...gateshead,
-      parent: { ...northEastRegion },
+      parents: [northEastRegion],
       children: [],
     },
   };

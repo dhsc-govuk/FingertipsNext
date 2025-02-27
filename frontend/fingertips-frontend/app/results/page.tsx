@@ -87,7 +87,8 @@ export default async function Page(
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
-          searchedIndicator
+          searchedIndicator,
+          areasSelected
         )
       : [];
 
@@ -112,6 +113,7 @@ export default async function Page(
         availableGroups={availableGroups}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
+        currentDate={new Date()}
       />
     );
   } catch (error) {
