@@ -93,20 +93,21 @@ export default async function ChartPage(
     indicatorsSelected.length === 1 &&
     areasSelected.length >= 2;
 
-  const mapData = mapDataIsRequired
-    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
-    : undefined;
+  // TODO: reinstate?
+  // const mapData = mapDataIsRequired
+  //   ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+  //   : undefined;
 
   return (
     // note: wrapping in fragment during dev for views causes tests on page.props to fail
     <>
       <ViewsContext searchState={stateManager.getSearchState()} />
-      <Chart
+      {/* <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
-      />
+      /> */}
     </>
   );
 }

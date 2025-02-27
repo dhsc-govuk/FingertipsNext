@@ -1,4 +1,4 @@
-import { OneIndicatorTwoOrMoreAreasDashboard } from '@/components/dashboards/OneIndicatorTwoOrMoreAreasDashboard';
+import { TwoOrMoreIndicatorsEnglandDashboard } from '@/components/dashboards/TwoOrMoreIndicatorsEnglandDashboard';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
@@ -10,10 +10,9 @@ import { connection } from 'next/server';
 
 type OneIndicatorTwoOrMoreAreasViewProps = {
   searchState: SearchStateParams;
-  // Group code for mapData
 };
 
-export default async function OneIndicatorTwoOrMoreAreasView({
+export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
 }: OneIndicatorTwoOrMoreAreasViewProps) {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -41,14 +40,17 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   //   areaCodes: areaCodesToRequest,
   // });
 
-  // TODO: inequalities data not in scope for view
+  // TODO: add inequalities to data fetch
+  console.log('TODO: fetch health data with inequalites');
   // TODO: get and pass population data
-  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
-  // TODO: get and pass map data
-  console.log('TODO: fetch map data for GROUP');
+  console.log(
+    'TODO: fetch population data for ',
+    areaCodesToRequest,
+    toString()
+  );
 
   return (
-    <OneIndicatorTwoOrMoreAreasDashboard
+    <TwoOrMoreIndicatorsEnglandDashboard
       searchState={searchState}
       healthIndicatorData={[]}
     />

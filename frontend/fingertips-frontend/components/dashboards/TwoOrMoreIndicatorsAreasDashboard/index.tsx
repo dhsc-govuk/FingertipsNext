@@ -4,24 +4,22 @@ import { H2, H3 } from 'govuk-react';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
-type OneIndicatorTwoOrMoreAreasDashboardProps = {
+type TwoOrMoreIndicatorsAreasDashboardProps = {
   healthIndicatorData: HealthDataForArea[][];
   // populationData: PopulationData;
-  // mapData: MapData;
   searchState: SearchStateParams;
 };
 
-export function OneIndicatorTwoOrMoreAreasDashboard({
+export function TwoOrMoreIndicatorsAreasDashboard({
   healthIndicatorData,
   searchState,
-}: OneIndicatorTwoOrMoreAreasDashboardProps) {
+}: TwoOrMoreIndicatorsAreasDashboardProps) {
   return (
     <>
-      <H2>View indicator data for the selected areas</H2>
-      <H3>LineChart IF 2 areas</H3>
-      <H3>Inequalities Visualisations</H3>
+      <H2>View indicators data for the selected area(s)</H2>
+      <H3>Spine Chart</H3>
+      <H3>Heatmap</H3>
       <H3>Population Visualisations</H3>
-      <H3>Thematic Map IF all areas in group</H3>
     </>
   );
 }

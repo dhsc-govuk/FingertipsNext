@@ -20,7 +20,7 @@ export function OneIndicatorOneAreaDashboard({
   // TODO: add population
   return (
     <>
-      <H2>View data for the selected area</H2>
+      <H2>View indicator data for the selected area</H2>
       <LineChart
         healthIndicatorData={healthIndicatorData[0]}
         searchState={searchState}

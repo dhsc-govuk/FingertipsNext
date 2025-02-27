@@ -5,6 +5,9 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
+import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 
 type ViewsContextProps = {
   searchState: SearchStateParams;
@@ -15,11 +18,18 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ) {
-  if (areaCodes.length === 1 && indicators.length === 1) {
-    return <OneIndicatorOneAreaView searchState={searchState} />;
-  }
-  if (areaCodes.length >= 2 && indicators.length === 1) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+  if (indicators.length === 1) {
+    if (areaCodes.length === 1) {
+      return <OneIndicatorOneAreaView searchState={searchState} />;
+    } else if (areaCodes.length >= 2) {
+      return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+    }
+  } else if (indicators.length >= 2) {
+    // TODO: add special case for England
+    if (areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland) {
+      return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
+    }
+    return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
   }
 }
 
