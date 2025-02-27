@@ -196,7 +196,7 @@ describe('IndicatorSearchService', () => {
     expect(mockGetDocument).toHaveBeenCalledWith(indicatorId);
   });
 
-  it('should get a single indicator a document', async () => {
+  it('should get a single indicator document', async () => {
     const mockResult = {
       indicatorId: '123',
       name: 'Test Indicator',
