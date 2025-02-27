@@ -114,9 +114,8 @@ export default class ResultsPage extends BasePage {
       .getByRole('checkbox')
       .all();
 
-    for (let i = 0; i < displayedIndicatorCheckboxList.length; i++) {
-      const indicatorDataTestID =
-        await displayedIndicatorCheckboxList[i].getAttribute('value');
+    for (const checkbox of displayedIndicatorCheckboxList) {
+      const indicatorDataTestID = await checkbox.getAttribute('value');
 
       if (JSON.stringify(allIndicatorIDs).includes(indicatorDataTestID!)) {
         filteredByDisplayIndicatorIds.push(indicatorDataTestID!);
