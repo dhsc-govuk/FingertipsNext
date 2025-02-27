@@ -20,6 +20,8 @@ import { createAndPopulateIndex } from './utils/indexHelper.js';
 async function main(): Promise<void> {
   const endpoint = getEnvironmentVariable('AI_SEARCH_SERVICE_ENDPOINT');
   const apiKey = getEnvironmentVariable('AI_SEARCH_API_KEY');
+  const indicatorSearchIndexName = process.env['INDICATOR_SEARCH_INDEX_NAME_OVERRIDE'] ?? INDICATOR_SEARCH_INDEX_NAME;
+  const areaSearchIndexName = process.env['AREA_SEARCH_INDEX_NAME_OVERRIDE'] ?? AREA_SEARCH_INDEX_NAME;
 
   const indexClient = new SearchIndexClient(
     endpoint,
@@ -31,7 +33,7 @@ async function main(): Promise<void> {
   await createAndPopulateIndex(
     indexClient,
     buildIndicatorSearchIndex,
-    INDICATOR_SEARCH_INDEX_NAME,
+      indicatorSearchIndexName,
     indicatorData
   );
 
@@ -42,7 +44,7 @@ async function main(): Promise<void> {
   await createAndPopulateIndex(
     indexClient,
     buildGeographySearchIndex,
-    AREA_SEARCH_INDEX_NAME,
+      areaSearchIndexName,
     extendedAreaData
   );
 }

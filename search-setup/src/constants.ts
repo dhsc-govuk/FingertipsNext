@@ -4,9 +4,6 @@ export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 
-export const TEST_INDICATOR_SEARCH_INDEX_NAME = 'test-indicator-search-index';
-export const TEST_AREA_SEARCH_INDEX_NAME = 'test-area-search-index';
-
 export const COUNTY_AREA_TYPE_NAME = 'Counties and Unitary Authorities';
 export const DISTRICT_AREA_TYPE_NAME = 'Districts and Unitary Authorities';
 
