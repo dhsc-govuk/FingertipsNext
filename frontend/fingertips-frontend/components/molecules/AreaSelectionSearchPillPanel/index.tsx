@@ -1,7 +1,7 @@
-import { AreaDocument, formatAreaName } from '@/lib/search/searchTypes';
+import { AreaDocument} from '@/lib/search/searchTypes';
 import styled from 'styled-components';
 import { UnorderedList, ListItem } from 'govuk-react';
-import { Pill } from '../Pill';
+import { AreaSearchPill } from '../AreaSearchPill';
 import { memo } from 'react';
 
 const StyleAreaSearchSelectionPanel = styled(UnorderedList)({
@@ -45,16 +45,13 @@ export const AreaAutoCompletePillPanel = memo(
             <StyleAreaAutoCompletePillPanelItem
               key={'selection-panel-area-' + area.areaCode}
             >
-              <Pill
-                removeFilter={(_: string) => {
+              <AreaSearchPill
+                onRemoveFilter={(_: string) => {
                   if (onRemovePill != null) {
                     onRemovePill(area);
                   }
                 }}
-                selectedFilterId={
-                  'pill_' + area.areaCode + area.areaName + area.areaType
-                }
-                selectedFilterName={formatAreaName(area)}
+                area={area}
               />
             </StyleAreaAutoCompletePillPanelItem>
           ))}

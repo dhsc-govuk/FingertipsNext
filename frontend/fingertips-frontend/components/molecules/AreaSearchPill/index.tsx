@@ -1,9 +1,8 @@
 'use client';
 
 import { Pill } from '../Pill';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, formatAreaName  } from '@/lib/search/searchTypes';
 import styled from 'styled-components';
-
 const StyleAreaName = styled('span')({
   paddingRight: '5px',
 });
@@ -26,7 +25,7 @@ export const AreaSearchPill = ({
           fontWeight: 300,
         }}
       >
-        <StyleAreaName>{area.areaName}</StyleAreaName>
+        <StyleAreaName>{formatAreaName(area)}</StyleAreaName>
         <span style={{ color: '#505A5F', paddingTop: '1px' }}>
           {area.areaType}
         </span>

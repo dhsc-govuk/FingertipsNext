@@ -112,78 +112,36 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   margin-bottom: 5px;
 }
 
-.c20 {
+.c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c20:focus {
+.c19:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c20:link {
+.c19:link {
   color: #1d70b8;
 }
 
-.c20:visited {
+.c19:visited {
   color: #4c2c92;
 }
 
-.c20:hover {
+.c19:hover {
   color: #2b8cc4;
 }
 
-.c20:active {
+.c19:active {
   color: #2b8cc4;
 }
 
-.c20:focus {
+.c19:focus {
   color: #0b0c0c;
-}
-
-.c17 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c17 > p {
-  margin: 0;
-}
-
-.c17 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c17 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c17 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
 }
 
 .c1 {
@@ -210,6 +168,8 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
 .c16 {
   word-wrap: break-word;
   padding-left: 0.5em;
+  font-size: 16px;
+  margin-bottom: 0;
 }
 
 .c14 {
@@ -223,14 +183,8 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   display: flex;
 }
 
-.c18 {
-  margin-bottom: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+.c17 {
+  padding-right: 5px;
 }
 
 .c9 {
@@ -259,7 +213,7 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   line-height: 1.415;
 }
 
-.c19 {
+.c18 {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 19px;
@@ -377,52 +331,18 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
 }
 
 @media print {
-  .c20 {
+  .c19 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c20[href^="/"]::after,
-  .c20[href^="http://"]::after,
-  .c20[href^="https://"]::after {
+  .c19[href^="/"]::after,
+  .c19[href^="http://"]::after,
+  .c19[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
-  }
-}
-
-@media print {
-  .c17 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c17 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c18 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c18 {
-    font-size: 16px;
-    line-height: 1.25;
   }
 }
 
@@ -510,11 +430,18 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
               data-testid="filter-name"
             >
               <div
-                class="c17 c18"
+                style="padding: 5px 10px 5px 10px; display: flex; font-weight: 300;"
               >
-                <p>
+                <span
+                  class="c17"
+                >
                   Some area name
-                </p>
+                </span>
+                <span
+                  style="color: rgb(80, 90, 95); padding-top: 1px;"
+                >
+                  Type
+                </span>
               </div>
             </div>
           </div>
@@ -522,10 +449,10 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
       </ul>
     </div>
     <div
-      class="c19"
+      class="c18"
     >
       <a
-        class="c20"
+        class="c19"
         data-testid="search-form-link-filter-area"
         href="#"
       >
