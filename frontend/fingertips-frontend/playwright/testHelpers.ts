@@ -40,7 +40,7 @@ export function getScenarioConfig(
   const singleIndicatorConfig: ScenarioConfig = {
     visibleComponents: [
       ChartPage.lineChartComponent,
-      // ChartPage.lineChartTableComponent,
+      ChartPage.lineChartTableComponent,
       ChartPage.barChartComponent,
       // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
       // ChartPage.populationPyramidComponent,

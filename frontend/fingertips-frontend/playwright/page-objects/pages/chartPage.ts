@@ -39,9 +39,18 @@ export default class ChartPage extends BasePage {
     );
     // Check that components expected to be visible are displayed
     for (const component of visibleComponents) {
-      await expect(this.page.getByTestId(component)).toBeVisible({
-        visible: true,
-      });
+      if (component !== 'lineChartTable-component') {
+        await expect(this.page.getByTestId(component)).toBeVisible({
+          visible: true,
+        });
+        // click into the tab view
+        if (component === 'lineChartTable-component') {
+          await this.page.getByTestId('tabTitle-table').click();
+          await expect(this.page.getByTestId(component)).toBeVisible({
+            visible: true,
+          });
+        }
+      }
     }
 
     // Check that components expected not to be visible are not displayed
