@@ -1,4 +1,4 @@
-import { OneIndicatorOneAreaDashboard } from '@/components/dashboards/OneIndicatorOneAreaDashboard';
+import { OneIndicatorTwoOrMoreAreasDashboard } from '@/components/dashboards/OneIndicatorTwoOrMoreAreasDashboard';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
@@ -8,13 +8,14 @@ import {
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 
-type OneIndicatorOneAreaViewProps = {
+type OneIndicatorTwoOrMoreAreasViewProps = {
   searchState: SearchStateParams;
+  // Group code for mapData
 };
 
-export default async function OneIndicatorOneAreaView({
+export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
-}: OneIndicatorOneAreaViewProps) {
+}: OneIndicatorTwoOrMoreAreasViewProps) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicators,
@@ -35,20 +36,22 @@ export default async function OneIndicatorOneAreaView({
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-    indicatorId: Number(indicatorsSelected[0]),
-    areaCodes: areaCodesToRequest,
-  });
+  // const healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
+  //   indicatorId: Number(indicatorsSelected[0]),
+  //   areaCodes: areaCodesToRequest,
+  // });
 
-  // TODO: get (and pass) inequalities data
-  console.log('TODO: include inequalities data in healthData fetch');
+  // TODO: inequalities data not in scope for view
   // TODO: get and pass population data
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
+  // TODO: get and pass map data
+  console.log('TODO: fetch map data for GROUP');
 
   return (
-    <OneIndicatorOneAreaDashboard
-      healthIndicatorData={[healthIndicatorData]}
+    <OneIndicatorTwoOrMoreAreasDashboard
       searchState={searchState}
+      healthIndicatorData={[]}
     />
   );
+  // <>OneIndicatorTwoOrMoreAreasView</>;
 }
