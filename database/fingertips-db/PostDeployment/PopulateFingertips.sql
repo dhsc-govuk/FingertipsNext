@@ -333,9 +333,9 @@ GO
 --create some sex dimension data
 SET IDENTITY_INSERT [dbo].[SexDimension] ON
 
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (1, N'Male', 0, 1, 1)
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (2, N'Female', 1, 1, 2)
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [IsFemale], [HasValue], [SexId]) VALUES (3, N'All', 0, 0, 4)
+INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (1, N'Male', 1, 1)
+INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (2, N'Female', 1, 2)
+INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (3, N'All', 0, 4)
 SET IDENTITY_INSERT [dbo].[SexDimension] OFF
 GO
 

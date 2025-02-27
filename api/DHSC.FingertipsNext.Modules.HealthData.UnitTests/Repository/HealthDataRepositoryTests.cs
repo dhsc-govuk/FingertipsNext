@@ -269,29 +269,29 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithSexDimensionData_IfSexInequalityIsSpecified()
+    public async Task Repository_ShouldIncludeResultsWithOnlySexDimensionData_IfSexInequalityIsSpecified()
     {
         // arrange
-        var maleHealthMeasure = new HealthMeasureModelHelper(key: 1, 2020)
-            .WithSexDimension(hasValue: true, isFemale: false)
+        var healthMeasureWithSex = new HealthMeasureModelHelper(key: 1, 2020)
+            .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(maleHealthMeasure);
+        PopulateDatabase(healthMeasureWithSex);
 
-        var femaleHealthMeasure = new HealthMeasureModelHelper(key: 2, 2020)
-            .WithSexDimension(hasValue: true, isFemale: true)
+        var healthMeasureWithSexAndAge = new HealthMeasureModelHelper(key: 2, 2020)
+            .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(femaleHealthMeasure);
+        PopulateDatabase(healthMeasureWithSexAndAge);
 
-        var personsHealthMeasure = new HealthMeasureModelHelper(key: 3, 2020)
-            .WithSexDimension(hasValue: false, isFemale: false)
+        var healthMeasureWithNoSexAndNoAge = new HealthMeasureModelHelper(key: 3, 2020)
+            .WithSexDimension(hasValue: false)
             .WithAgeDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
-        PopulateDatabase(personsHealthMeasure);
+        PopulateDatabase(healthMeasureWithNoSexAndNoAge);
 
         // act
         var result = await _repository.GetIndicatorDataAsync(500, [], [], ["sex"]);
@@ -301,13 +301,13 @@ public class HealthDataRepositoryTests
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            maleHealthMeasure,
-            personsHealthMeasure
+            healthMeasureWithSex,
+            healthMeasureWithNoSexAndNoAge
         });
     }
 
     [Fact]
-    public async Task Repository_ShouldIncludeResultsWithAgeDimensionData_IfAgeInequalityIsSpecified()
+    public async Task Repository_ShouldIncludeResultsWithOnlyAgeDimensionData_IfAgeInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoSex = new HealthMeasureModelHelper(1, 2020)
@@ -356,21 +356,21 @@ public class HealthDataRepositoryTests
     {
         // arrange
         var maleHealthMeasure = new HealthMeasureModelHelper(1, 2020)
-            .WithSexDimension(hasValue: true, isFemale: false)
+            .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
         PopulateDatabase(maleHealthMeasure);
 
         var femaleHealthMeasure = new HealthMeasureModelHelper(2, 2020)
-            .WithSexDimension(hasValue: true, isFemale: true)
+            .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
         PopulateDatabase(femaleHealthMeasure);
 
         var personsHealthMeasure = new HealthMeasureModelHelper(3, 2020)
-            .WithSexDimension(hasValue: false, isFemale: false)
+            .WithSexDimension(hasValue: false)
             .WithAgeDimension(hasValue: false)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
