@@ -49,7 +49,12 @@ public class AutoMapperProfilesTests
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-        AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
+
+        foreach (var parent in mappedAwr.Parents)
+        {
+            var parentSource = awr.ParentAreas.First(c => c.AreaCode == parent.Code);
+            AssertAreaPropertiesMatch(parent, parentSource);
+        }
 
         foreach (var child in mappedAwr.Children)
         {
@@ -68,12 +73,11 @@ public class AutoMapperProfilesTests
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForParent()
     {
         var awr = Fake.AreaWithRelationsModel;
-        awr.ParentArea = null;
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-        mappedAwr.Parent.ShouldBeNull();
 
+        AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
         AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
@@ -87,8 +91,8 @@ public class AutoMapperProfilesTests
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-        AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
 
+        AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         mappedAwr.Children.ShouldBeEmpty();
         AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
@@ -108,8 +112,8 @@ public class AutoMapperProfilesTests
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-        AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
 
+        AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
         mappedAwr.Ancestors.ShouldBeEmpty();
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
@@ -123,8 +127,8 @@ public class AutoMapperProfilesTests
         var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
 
         AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-        AssertAreaPropertiesMatch(mappedAwr.Parent, awr.ParentArea);
 
+        AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
         AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);

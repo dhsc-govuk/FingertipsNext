@@ -75,7 +75,8 @@ export default async function Page(
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
-          searchedIndicator
+          searchedIndicator,
+          areasSelected
         )
       : [];
 
