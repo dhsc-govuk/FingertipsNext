@@ -6,6 +6,7 @@ DELETE FROM [dbo].[AgeDimension]
 DELETE FROM [dbo].[AreaDimension]
 DELETE FROM  [dbo].[IndicatorDimension]
 DELETE FROM [dbo].[SexDimension]
+DELETE FROM [dbo].[DeprivationDimension]
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
