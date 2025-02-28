@@ -11,6 +11,10 @@ public class BenchmarkPolarity
     public const string RagWorse = "WORSE";
     public const string RagSimilar = "SIMILAR";
 
+    protected BenchmarkPolarity()
+    {
+    }
+
     public static string GetRagString(int ragValue, string polarity)
     {
         if (polarity == LowIsGood) return GetLowerIsGood(ragValue);

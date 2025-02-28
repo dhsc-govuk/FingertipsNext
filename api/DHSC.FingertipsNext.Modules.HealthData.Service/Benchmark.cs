@@ -6,6 +6,10 @@ public class Benchmark
 {
     public const string Rag = "rag";
 
+    protected Benchmark()
+    {
+    }
+
     private static int GetRagCalc(float? lowerCi, float? upperCi, float? benchmark)
     {
         if (upperCi < benchmark) return -1;

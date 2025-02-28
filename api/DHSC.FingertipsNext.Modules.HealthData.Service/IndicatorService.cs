@@ -63,7 +63,7 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
         return ApplyBenchMarkedAreaData(healthDataForAreas, benchmarkHealthData, comparisonMethod, Polarity);
     }
 
-    private (string[] areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(string[] areaCodes,
+    private static (string[] areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(string[] areaCodes,
         string comparisonMethod)
     {
         var areaCodesForSearch = new List<string>(areaCodes.Distinct().Take(10).ToArray());
