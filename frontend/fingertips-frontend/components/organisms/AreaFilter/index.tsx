@@ -17,10 +17,10 @@ import {
   SectionBreak,
   Select,
 } from 'govuk-react';
-import { Pill } from '@/components/molecules/Pill';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
+import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 
 interface AreaFilterProps {
   selectedAreasData?: AreaWithRelations[];
@@ -38,10 +38,6 @@ const StyledFilterPaneHeader = styled('div')({
   display: 'flex',
   marginBottom: '-1.3em',
   padding: '0.5em 1em',
-});
-
-const StyledFilterSelectedAreaDiv = styled('div')({
-  paddingBottom: '1.5em',
 });
 
 const StyledFilterDiv = styled('div')({
@@ -125,14 +121,6 @@ export function AreaFilter({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const removeSelectedArea = (areaCode: string) => {
-    searchStateManager.removeParamValueFromState(
-      SearchParams.AreasSelected,
-      areaCode
-    );
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
-  };
-
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -140,21 +128,10 @@ export function AreaFilter({
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
-        <StyledFilterSelectedAreaDiv>
-          <StyledFilterLabel>
-            {`Selected areas (${selectedAreasData?.length ?? 0})`}
-          </StyledFilterLabel>
-          {selectedAreasData
-            ? selectedAreasData.map((selectedArea) => (
-                <Pill
-                  key={selectedArea.code}
-                  selectedFilterName={selectedArea.name}
-                  selectedFilterId={selectedArea.code}
-                  removeFilter={removeSelectedArea}
-                />
-              ))
-            : null}
-        </StyledFilterSelectedAreaDiv>
+        <SelectedAreasPanel
+          selectedAreasData={selectedAreasData}
+          searchState={searchState}
+        />
 
         <ShowHideContainer summary="Add or change areas">
           <StyledFilterSelect

@@ -45,51 +45,17 @@ describe('Area Filter', () => {
     jest.clearAllMocks();
   });
 
-  it('snapshot test', () => {
-    const container = render(<AreaFilter availableAreaTypes={[]} />);
-
-    expect(container.asFragment()).toMatchSnapshot();
-  });
-
   it('should render the Filters heading', () => {
     render(<AreaFilter />);
 
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
   });
 
-  it('should render the selected areas when there are areas selected', () => {
+  it('should render the SelectedAreasPanel with the selected areas as pills', () => {
     render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
     expect(screen.getByText(/Selected areas \(2\)/i)).toBeInTheDocument();
     expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
-  });
-
-  it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
-    const expectedPath = [
-      `${mockPath}`,
-      `?${SearchParams.AreasSelected}=E40000012`,
-      `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
-    ].join('');
-
-    const user = userEvent.setup();
-    render(
-      <AreaFilter
-        selectedAreasData={mockSelectedAreasData}
-        searchState={{
-          [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-          [SearchParams.AreaTypeSelected]: 'NHS Regions',
-        }}
-      />
-    );
-
-    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
-    await user.click(
-      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
-    );
-
-    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-      scroll: false,
-    });
   });
 
   describe('Area type', () => {
