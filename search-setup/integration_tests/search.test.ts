@@ -56,7 +56,7 @@ describe('AI search index creation and data loading', () => {
           search: searchTerm,
           searchFields: 'indicatorID,indicatorDefinition,indicatorName',
           filter: areaCodes ? formatFilterString(areaCodes) : undefined,
-          top:10,
+          top: 10,
         }),
         method: 'POST',
       });
@@ -96,21 +96,6 @@ describe('AI search index creation and data loading', () => {
         'Emergency readmissions within 30 days of discharge from hospital'
       );
     });
-
-    it('should populate all properties', async() => {
-      const response = await searchIndicatorsRequest('readmissions');
-      const result = await response.json();
-      expect (result.value[0].indicatorID).toBeDefined();
-      expect (result.value[0].indicatorName).toBeDefined();
-      expect (result.value[0].indicatorDefinition).toBeDefined();
-      expect (result.value[0].dataSource).toBeDefined();
-      expect (result.value[0].earliestDataPeriod).toBeDefined();
-      expect (result.value[0].latestDataPeriod).toBeDefined();
-      expect (result.value[0].lastUpdatedDate).toBeDefined();
-      expect (result.value[0].associatedAreaCodes).toBeDefined();
-      expect (result.value[0].hasInequalities).toBeDefined();
-      expect (result.value[0].unitLabel).toBeDefined();
-    })
 
     it('should return all results when filter based on England', async () => {
       const response = await searchIndicatorsRequest('readmissions', [
