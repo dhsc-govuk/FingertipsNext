@@ -4,17 +4,19 @@
 TRUNCATE TABLE [dbo].[HealthMeasure]
 DELETE FROM [dbo].[AgeDimension]
 DELETE FROM [dbo].[AreaDimension]
+DELETE FROM [dbo].[DeprivationDimension]
 DELETE FROM  [dbo].[IndicatorDimension]
 DELETE FROM [dbo].[SexDimension]
-DELETE FROM [dbo].[DeprivationDimension]
+DELETE FROM [dbo].[TrendDimension]
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
 DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[AreaDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
-DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 
 --create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON
@@ -368,6 +370,16 @@ INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue
 INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (20, N'Second least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 9)
 INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (21, N'Least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 10)
 SET IDENTITY_INSERT [dbo].[DeprivationDimension] OFF
+GO
+
+--create the trend dimension data
+SET IDENTITY_INSERT [dbo].[TrendDimension] ON
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'NotYetCalculated', 0)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'CannotBeCalculated', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (3, N'Increasing', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (4, N'Decreasing', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'NoChange', 1)
+SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
 
 -- create some population health measure data
