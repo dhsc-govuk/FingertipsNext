@@ -14,29 +14,29 @@ describe('Pill Suite', () => {
   it('should render expected elements', () => {
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >
+        {selectedFilterName}
+      </Pill>
     );
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();
     expect(screen.getByTestId('remove-icon-div')).toBeInTheDocument();
-    expect(screen.getByRole('paragraph')).toBeInTheDocument();
     expect(screen.getByTestId('x-icon')).toBeInTheDocument();
   });
 
-  it('should render text passed in as prop', () => {
+  it('should render child text passed in as prop', () => {
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >
+        {selectedFilterName}
+      </Pill>
     );
-
-    expect(screen.getByRole('paragraph')).toHaveTextContent('Dementia');
+    expect(screen.getByText('Dementia')).toBeInTheDocument();
   });
 
   it('should call the passed in handle function when clicking the remove icon', async () => {
@@ -45,10 +45,11 @@ describe('Pill Suite', () => {
 
     render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >
+        {selectedFilterName}
+      </Pill>
     );
 
     await user.click(screen.getByTestId('remove-icon-div'));
@@ -59,12 +60,12 @@ describe('Pill Suite', () => {
   it('snapshot test', () => {
     const container = render(
       <Pill
-        selectedFilterName={selectedFilterName}
         selectedFilterId={selectedFilterId}
         removeFilter={mockFilterRemoveFunction}
-      />
+      >
+        {selectedFilterName}
+      </Pill>
     );
-
     expect(container.asFragment()).toMatchSnapshot();
   });
 });
