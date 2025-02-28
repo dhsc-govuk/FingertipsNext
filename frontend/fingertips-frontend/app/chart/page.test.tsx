@@ -176,7 +176,10 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.healthIndicatorData).toEqual([mockHealthData['1']]);
+        // using props.children[0] during transition to views in DHSCFT-380
+        expect(page.props.children[0].props.healthIndicatorData).toEqual([
+          mockHealthData['1'],
+        ]);
       });
 
       it('should pass population data to the Chart page', async () => {
@@ -196,7 +199,9 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.populationData).toEqual(expectedPopulationData);
+        expect(page.props.children[0].props.populationData).toEqual(
+          expectedPopulationData
+        );
       });
 
       it('should pass undefined if there was an error getting population data', async () => {
@@ -230,7 +235,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.searchState).toEqual({
+        expect(page.props.children[0].props.searchState).toEqual({
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
@@ -262,7 +267,7 @@ describe('Chart Page', () => {
         const expected = getMapData('nhs-regions', ['A1245', 'A1245']);
 
         expect(mockData).toHaveBeenCalled();
-        expect(page.props.mapData).toEqual(expected);
+        expect(page.props.children[0].props.mapData).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {
@@ -283,6 +288,30 @@ describe('Chart Page', () => {
         });
 
         expect(page.props.mapData).toEqual(undefined);
+      });
+    });
+  });
+  describe('ViewContext', () => {
+    it('should pass search state prop with data from the params to the Chart page', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
+
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+        mockHealthData['333']
+      );
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
+      });
+
+      expect(page.props.children[1].props.searchState).toEqual({
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: ['E06000047'],
       });
     });
   });
