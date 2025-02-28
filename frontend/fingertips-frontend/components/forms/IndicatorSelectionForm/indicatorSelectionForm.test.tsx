@@ -119,9 +119,7 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    expect(
-      screen.getByRole('button', { name: /View Data/i })
-    ).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: /View Data/i })).toBeEnabled();
   });
 
   it('should mark indicators selected as checked', () => {
