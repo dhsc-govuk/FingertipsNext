@@ -30,6 +30,16 @@ const isIndicatorSelected = (
     : false;
 };
 
+const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
+  if (
+    state?.[SearchParams.IndicatorsSelected] &&
+    state?.[SearchParams.IndicatorsSelected]?.length > 0
+  ) {
+    return false;
+  }
+  return true;
+};
+
 export function IndicatorSelectionForm({
   searchResults,
   searchState,
@@ -92,8 +102,13 @@ export function IndicatorSelectionForm({
       ) : (
         <Paragraph>No results found</Paragraph>
       )}
-      <Button type="submit" data-testid="search-results-button-submit">
-        View charts
+
+      <Button
+        type="submit"
+        data-testid="search-results-button-submit"
+        disabled={shouldDisableViewDataButton(searchState)}
+      >
+        View Data
       </Button>
     </form>
   );

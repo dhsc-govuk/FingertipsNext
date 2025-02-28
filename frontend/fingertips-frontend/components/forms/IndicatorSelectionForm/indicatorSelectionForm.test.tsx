@@ -95,6 +95,33 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
   });
 
+  it('should render the "View Data" button as disabled when there are no indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={[]}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View Data/i })).toBeDisabled();
+  });
+
+  it('should render the "View Data" button as enabled when there are indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={[]}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View Data/i })).toBeEnabled();
+  });
+
   it('should mark indicators selected as checked', () => {
     const stateWithIndicatorSelected = {
       ...state,
@@ -181,12 +208,15 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
         formAction={mockFormAction}
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /View charts/i }));
+    await user.click(screen.getByRole('button', { name: /View Data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
   });
