@@ -105,7 +105,7 @@ export default async function ChartPage(
         mapData={mapData}
         searchState={stateManager.getSearchState()}
       />
-      <ViewsContext searchState={stateManager.getSearchState()} />;
+      <ViewsContext searchState={stateManager.getSearchState()} />
     </>
   );
 }

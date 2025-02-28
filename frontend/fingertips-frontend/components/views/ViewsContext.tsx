@@ -8,6 +8,7 @@ import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
 import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
+import { JSX } from 'react';
 
 type ViewsContextProps = {
   searchState: SearchStateParams;
@@ -17,7 +18,7 @@ function viewSelector(
   areaCodes: string[],
   indicators: string[],
   searchState: SearchStateParams
-) {
+): JSX.Element | undefined {
   if (indicators.length === 1) {
     if (areaCodes.length === 1) {
       return <OneIndicatorOneAreaView searchState={searchState} />;
@@ -41,10 +42,5 @@ export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
   const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
 
-  return (
-    <>
-      <>Backlink</>
-      {viewSelector(areaCodes, indicators, searchState)}
-    </>
-  );
+  return viewSelector(areaCodes, indicators, searchState);
 }
