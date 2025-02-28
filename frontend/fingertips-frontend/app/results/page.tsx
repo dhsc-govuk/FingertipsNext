@@ -7,14 +7,8 @@ import {
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { AreaType, AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
-import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
-import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
-import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
-import { determineSelectedGroup } from '@/lib/areaFilterHelpers/determineSelectedGroup';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
 export default async function Page(
   props: Readonly<{
@@ -29,65 +23,22 @@ export default async function Page(
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.AreaTypeSelected]: selectedAreaType,
-    [SearchParams.GroupTypeSelected]: selectedGroupType,
-    [SearchParams.GroupSelected]: selectedGroup,
   } = stateManager.getSearchState();
   try {
     await connection();
-    const areasApi = ApiClientFactory.getAreasApiClient();
 
-    const availableAreaTypes = await areasApi.getAreaTypes();
+    const {
+      availableAreaTypes,
+      availableAreas,
+      selectedAreasData,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(stateManager.getSearchState());
 
-    const selectedAreasData =
-      areasSelected && areasSelected.length > 0
-        ? await Promise.all(
-            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-          )
-        : [];
-
-    const determinedSelectedAreaType = determineSelectedAreaType(
-      selectedAreaType as AreaTypeKeys,
-      selectedAreasData
-    );
-    stateManager.addParamValueToState(
-      SearchParams.AreaTypeSelected,
-      determinedSelectedAreaType
-    );
-
-    const availableGroupTypes: AreaType[] | undefined =
-      determineApplicableGroupTypes(
-        availableAreaTypes,
-        determinedSelectedAreaType
-      );
-
-    const determinedSelectedGroupType = determineSelectedGroupType(
-      selectedGroupType as AreaTypeKeys
-    );
-    stateManager.addParamValueToState(
-      SearchParams.GroupTypeSelected,
-      determinedSelectedGroupType
-    );
-
-    const availableGroups = await areasApi.getAreaTypeMembers({
-      areaTypeKey: determinedSelectedGroupType,
-    });
-
-    const determinedSelectedGroup = determineSelectedGroup(
-      selectedGroup,
-      availableGroups
-    );
-    stateManager.addParamValueToState(
-      SearchParams.GroupSelected,
-      determinedSelectedGroup
-    );
-
-    const availableArea: AreaWithRelations = await areasApi.getArea({
-      areaCode: determinedSelectedGroup,
-      includeChildren: true,
-      childAreaType: determinedSelectedAreaType,
-    });
-    const availableAreas = availableArea ? availableArea.children : [];
+    if (updatedSearchState) {
+      stateManager.setState(updatedSearchState);
+    }
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
@@ -95,10 +46,6 @@ export default async function Page(
           areasSelected
         )
       : [];
-
-    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
-      (a, b) => a.level - b.level
-    );
 
     const initialState: IndicatorSelectionState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
@@ -111,7 +58,7 @@ export default async function Page(
       <SearchResults
         initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
-        availableAreaTypes={sortedByLevelAreaTypes}
+        availableAreaTypes={availableAreaTypes}
         availableAreas={availableAreas}
         availableGroupTypes={availableGroupTypes}
         availableGroups={availableGroups}
