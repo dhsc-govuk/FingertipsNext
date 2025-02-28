@@ -25,7 +25,6 @@ import {
   eastEnglandNHSRegion,
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockSortedAreaTypes: AreaType[] = allAreaTypes.toSorted(
