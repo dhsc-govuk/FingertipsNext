@@ -218,6 +218,17 @@ describe('IndicatorSearchService', () => {
       lastUpdated: '2024-01-01',
     });
   });
+
+  it('should return undefined if getDocument throws an error', async () => {
+    mockGetDocument.mockImplementation = () => {
+      throw 'some error';
+    };
+
+    const searchService = SearchServiceFactory.getIndicatorSearchService();
+    const result = await searchService.getIndicator('123');
+
+    expect(result).toBeUndefined;
+  });
 });
 
 function getExpectedSearchTerm(searchTerm: string): string {
