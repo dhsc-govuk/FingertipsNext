@@ -1,6 +1,5 @@
 import { AreaType } from '@/generated-sources/ft-api-client';
 import { AreaTypeKeys, gpsAreaType, nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { types } from 'util';
 
 export const determineApplicableGroupTypes = (
   allAreaTypes?: AreaType[],
