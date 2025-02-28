@@ -134,15 +134,17 @@ To check there are 0 accessibility violations call expectNoAccessibilityViolatio
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
-## Visual Screenshot Snapshot Testing
+## Visual Screenshot Testing
 
 Only performed in the e2e tests and only when they run in CI/CD, therefore they are not performed when the e2e tests are run locally. This is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
+
+All screenshots are stored in github cache.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
 An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
 
-If you have made changes in your branch that have correctly resulted in the screenshots not matching the base screenshots, within the tolerance, then you need to update the base screenshots. There is a manual workflow job to do this and store them in the github cache. This job is named we shall seeee
+If you have made changes in your branch that have correctly resulted in the screenshots not matching, within tolerance, the base screenshots then you need to update the base screenshots. To do this execute a manual workflow from the 
 
 
 ## Code structure

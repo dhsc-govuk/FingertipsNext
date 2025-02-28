@@ -77,7 +77,7 @@ export function LineChart({
     credits: {
       enabled: false,
     },
-    chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
+    chart: { type: 'line', height: '70%', spacingBottom: 75, spacingTop: 4 },
     title: {
       style: {
         display: 'none',
@@ -94,7 +94,7 @@ export function LineChart({
     },
     legend: {
       title: {
-        text: 'Areas',
+        text: 'Baaaa',
       },
       verticalAlign: 'top',
       align: 'left',
