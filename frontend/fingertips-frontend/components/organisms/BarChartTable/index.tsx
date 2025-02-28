@@ -19,7 +19,7 @@ export function Sparkline({ value }: Readonly<SparklineProps>) {
     credits: {
       enabled: false,
     },
-    chart: { type: 'bar', height: 60, width: 500 },
+    chart: { type: 'bar', height: 60, width: 300 },
     title: {
       style: {
         display: 'none',
@@ -27,19 +27,23 @@ export function Sparkline({ value }: Readonly<SparklineProps>) {
     },
     yAxis: { visible: false },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [value] }],
+    series: [{ type: 'bar', data: [value]}],
     legend: {
       enabled: false,
     },
     accessibility: {
       enabled: false,
     },
+   //  boost: {useGPUTranslations: true,
+   //    enabled: true,
+   // }
   };
   
   return (
     <HighchartsReact
       highcharts = { Highcharts }
-      options = { sparkLineOptions }>
+      options = { sparkLineOptions }
+    >
     </HighchartsReact>
 );
 }

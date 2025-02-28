@@ -45,7 +45,14 @@ const sData: sampleData[] = [
   { text: 'row 5', value: 5 },
 ];
 
-const headings = ['heading 1 ', 'heading 2 ', 'heading 3 '];
+function generateData(numberOfData: number) {
+  return Array.from({length: numberOfData}, (_,index) => ( {
+    text: `row${index + 1}`, value: Math.floor(Math.random() * 1000)
+  }));
+}
+
+const largeDataSet = generateData(100)
+console.log('largeDataSet', largeDataSet);
 
 export function Chart({
   healthIndicatorData,
