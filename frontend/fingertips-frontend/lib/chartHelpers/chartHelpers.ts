@@ -47,3 +47,8 @@ export function seriesDataWithoutEnglandOrGroup(
       item.areaCode !== areaCodeForEngland && item.areaCode !== groupAreaCode
   );
 }
+
+export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
+  const distinctAreas = [...new Set(areasSelected)];
+  return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
+}
