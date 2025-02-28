@@ -173,127 +173,61 @@ GO
 DROP TABLE #TempHealthData;
 GO
 
---delete all existing data so we always start from a known position
-DELETE FROM [Areas].[AreaRelationships]
-DELETE FROM [Areas].[Areas]
-DELETE FROM [Areas].[AreaTypes]
-
-INSERT [Areas].[AreaTypes] ([AreaTypeKey],[Level],[HierarchyType],[AreaTypeName])
-VALUES 
-('england', 1, 'All', 'England'),
-('nhs-regions', 2, 'NHS', 'NHS Regions'),
-('nhs-integrated-care-boards', 3, 'NHS', 'NHS Integrated Care Boards'),
-('nhs-sub-integrated-care-boards', 4, 'NHS', 'NHS Sub Integrated Care Boards'),
-('nhs-primary-care-networks', 5, 'NHS', 'NHS Primary Care Networks'),
-('gps', 6, 'NHS', 'GPs'),
-('regions', 2, 'Admin', 'Regions'),
-('combined-authorities', 3, 'Admin', 'Combined Authorities'),
-('counties-and-unitary-authorities', 4, 'Admin', 'Counties and Unitary Authorities'),
-('districts-and-unitary-authorities', 5, 'Admin', 'Districts and Unitary Authorities')
-
+/* Area Data */
+CREATE TABLE #TempAreaData
+(
+    Children NVARCHAR (max),
+    Parents NVARCHAR (max),
+    AreaCode NVARCHAR(255),
+    AreaName NVARCHAR(255),
+    [Level] INT,
+    HierarchyType NVARCHAR(255),
+    AreaType NVARCHAR(255),
+    AreaTypeCode NVARCHAR(255)
+);
+DECLARE @sqlArea NVARCHAR(4000), @filePathArea NVARCHAR(500);
+IF '$(UseAzureBlob)' = '1'
+    SET @filePathArea = 'areas.csv';
+ELSE
+    SET @filePathArea = '$(LocalFilePath)areas.csv';
+SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH (' +
+               CASE WHEN '$(UseAzureBlob)' = '1'
+                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+               END + ')';
+EXEC sp_executesql @sqlArea;
 GO
 
-SET IDENTITY_INSERT [Areas].[Areas] ON
-
-INSERT [Areas].[Areas] ([AreaKey],[AreaCode],[AreaName],[AreaTypeKey])
-VALUES
--- first level data
-(101,'E92000001','England','england')
-
--- second level data
-,(201,'E12000001','North East region (statistical)','regions')
-,(202,'E12000002','North West region (statistical)','regions')
-,(203,'E12000003','Yorkshire and the Humber region (statistical)','regions')
-,(204,'E40000007','East of England NHS Region','nhs-regions')
-,(205,'E40000003','London NHS Region','nhs-regions')
-,(206,'E40000005','South East NHS Region','nhs-regions')
-,(207,'E40000006','South West NHS Region','nhs-regions')
-,(208,'E40000010','North West NHS Region','nhs-regions')
-,(209,'E40000011','Midlands NHS Region','nhs-regions')
-,(210,'E40000012','North East and Yorkshire NHS Region','nhs-regions')
-
--- third level data
-,(301,'E47000001', 'CA-Greater Manchester', 'combined-authorities')
-,(302,'E47000002', 'CA-Sheffield City Region', 'combined-authorities')
-,(303,'E47000003', 'CA-West Yorkshire', 'combined-authorities')
-
-,(304,'E38000007','NHS Basildon And Brentwood ICB','nhs-integrated-care-boards')
-,(305,'E38000026','NHS Cambridgeshire and Peterborough ICB','nhs-integrated-care-boards')
-,(306,'E38000240','NHS North Central London ICB','nhs-integrated-care-boards')
-,(307,'E38000244','NHS South East London ICB','nhs-integrated-care-boards')
-
--- fourth level data
-,(401,'E38000007','Mid and South Essex ICB - 99E','nhs-sub-integrated-care-boards')
-,(402,'E38000240','North Central London ICB - 93C','nhs-sub-integrated-care-boards')
-,(403,'E38000241','Humber and North Yorkshire ICB - 42D','nhs-sub-integrated-care-boards')
-,(404,'E38000243','Nottingham and Nottinghamshire ICB - 52R','nhs-sub-integrated-care-boards')
-
-,(405,'E06000047','County Durham','counties-and-unitary-authorities')
-,(406,'E06000005','Darlington','counties-and-unitary-authorities')
-,(407,'E08000037','Gateshead','counties-and-unitary-authorities')
-
--- fifth level data
-,(501,'U15488','East Basildon PCN','nhs-primary-care-networks')
-,(502,'U55146','Central Basildon PCN','nhs-primary-care-networks')
-,(503,'U02795','North 2 Islington PCN','nhs-primary-care-networks')
-,(504,'U05885','South Camden PCN','nhs-primary-care-networks')
-
-,(505,'E07000008','Cambridge','districts-and-unitary-authorities')
-,(506,'E07000009','East Cambridgeshire','districts-and-unitary-authorities')
-,(507,'E07000010','Fenland','districts-and-unitary-authorities')
-,(508,'E07000011','Huntingdonshire','districts-and-unitary-authorities')
-
--- sixth level data
-,(601,'F81186','Felmores Medical Centre','gps')
-,(602,'F81640','Aryan Medical Centre','gps')
-,(603,'F83004','Archway Medical Centre','gps')
-,(604,'F83008','The Goodinge Group Practice','gps')
-
-SET IDENTITY_INSERT [Areas].[Areas] OFF
-
+INSERT INTO [Areas].[AreaTypes]
+SELECT distinct
+    AreaTypeCode,
+    AreaType,
+    HierarchyType,
+    Level+1 As 'Level'
+FROM #TempAreaData;
 GO
 
-INSERT [Areas].[AreaRelationships] ([ParentAreaKey],[ChildAreaKey])
-VALUES
-(101,201)
-,(101,202)
-,(101,203)
-,(101,204)
-,(101,205)
-,(101,206)
-,(101,207)
-,(101,208)
-,(101,209)
-,(101,210)
+INSERT INTO [Areas].[Areas]
+SELECT
+    AreaCode,
+    AreaName,
+    AreaTypeCode
+FROM #TempAreaData;
+GO
 
-,(201,405)
-,(201,406)
-,(201,407)
+INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+SELECT
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = AreaCode),
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
+FROM #TempAreaData T
+CROSS APPLY
+    STRING_SPLIT(Children, '|')
+WHERE
+    value!='""'
+GO
 
-,(204,304)
-,(204,305)
+DROP TABLE #TempAreaData;
+GO
 
-,(205,306)
-,(205,307)
-
-,(301,405)
-,(301,406)
-,(302,407)
-
-,(304,401)
-,(304,402)
-,(306,403)
-,(306,404)
-
-,(401,501)
-,(401,502)
-
-,(401,503)
-,(402,503)
-,(402,504)
-
-,(501,601)
-,(501,602)
-
-,(503,603)
-,(503,604)
+PRINT N'Update complete.';
+GO
