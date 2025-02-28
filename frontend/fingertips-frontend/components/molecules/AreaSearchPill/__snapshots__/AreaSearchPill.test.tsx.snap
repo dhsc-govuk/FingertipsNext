@@ -37,8 +37,22 @@ exports[`AreaSearchPill Component should match snapshot 1`] = `
   display: flex;
 }
 
-.c4 {
+.c5 {
   padding-right: 5px;
+}
+
+.c4 {
+  padding: 5px 10px 5px 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 300;
+}
+
+.c6 {
+  color: #505A5F;
+  padding-top: 1px;
 }
 
 <div
@@ -81,15 +95,15 @@ exports[`AreaSearchPill Component should match snapshot 1`] = `
       data-testid="filter-name"
     >
       <div
-        style="padding: 5px 10px 5px 10px; display: flex; font-weight: 300;"
+        class="c4"
       >
         <span
-          class="c4"
+          class="c5"
         >
           Test Area
         </span>
         <span
-          style="color: rgb(80, 90, 95); padding-top: 1px;"
+          class="c6"
         >
           Urban
         </span>

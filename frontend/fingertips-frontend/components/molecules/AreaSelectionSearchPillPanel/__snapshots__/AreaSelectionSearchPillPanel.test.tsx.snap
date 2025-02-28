@@ -68,8 +68,22 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
   display: flex;
 }
 
-.c11 {
+.c12 {
   padding-right: 5px;
+}
+
+.c11 {
+  padding: 5px 10px 5px 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 300;
+}
+
+.c13 {
+  color: #505A5F;
+  padding-top: 1px;
 }
 
 .c3 {
@@ -191,15 +205,15 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
             data-testid="filter-name"
           >
             <div
-              style="padding: 5px 10px 5px 10px; display: flex; font-weight: 300;"
+              class="c11"
             >
               <span
-                class="c11"
+                class="c12"
               >
                 Some gp practice here
               </span>
               <span
-                style="color: rgb(80, 90, 95); padding-top: 1px;"
+                class="c13"
               >
                 some types information
               </span>

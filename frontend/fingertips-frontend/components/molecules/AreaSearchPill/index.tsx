@@ -7,6 +7,17 @@ const StyleAreaName = styled('span')({
   paddingRight: '5px',
 });
 
+const StylePillWrapper = styled('div')({
+  padding: '5px 10px 5px 10px',
+  display: 'flex',
+  fontWeight: 300,
+});
+
+const StylePillSpan = styled('span')({
+  color: '#505A5F',
+  paddingTop: '1px',
+});
+
 interface AreaSearchPillProps {
   area: AreaDocument;
   onRemoveFilter: (filterID: string) => void;
@@ -18,18 +29,10 @@ export const AreaSearchPill = ({
 }: Readonly<AreaSearchPillProps>) => {
   return (
     <Pill removeFilter={onRemoveFilter} selectedFilterId={area.areaCode}>
-      <div
-        style={{
-          padding: '5px 10px 5px 10px',
-          display: 'flex',
-          fontWeight: 300,
-        }}
-      >
+      <StylePillWrapper>
         <StyleAreaName>{formatAreaName(area)}</StyleAreaName>
-        <span style={{ color: '#505A5F', paddingTop: '1px' }}>
-          {area.areaType}
-        </span>
-      </div>
+        <StylePillSpan>{area.areaType}</StylePillSpan>
+      </StylePillWrapper>
     </Pill>
   );
 };

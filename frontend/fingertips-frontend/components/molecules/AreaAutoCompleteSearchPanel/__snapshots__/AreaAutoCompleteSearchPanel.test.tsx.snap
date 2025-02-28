@@ -112,35 +112,35 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   margin-bottom: 5px;
 }
 
-.c19 {
+.c21 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c19:focus {
+.c21:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c19:link {
+.c21:link {
   color: #1d70b8;
 }
 
-.c19:visited {
+.c21:visited {
   color: #4c2c92;
 }
 
-.c19:hover {
+.c21:hover {
   color: #2b8cc4;
 }
 
-.c19:active {
+.c21:active {
   color: #2b8cc4;
 }
 
-.c19:focus {
+.c21:focus {
   color: #0b0c0c;
 }
 
@@ -183,8 +183,22 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   display: flex;
 }
 
-.c17 {
+.c18 {
   padding-right: 5px;
+}
+
+.c17 {
+  padding: 5px 10px 5px 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 300;
+}
+
+.c19 {
+  color: #505A5F;
+  padding-top: 1px;
 }
 
 .c9 {
@@ -213,7 +227,7 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
   line-height: 1.415;
 }
 
-.c18 {
+.c20 {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 19px;
@@ -331,15 +345,15 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
 }
 
 @media print {
-  .c19 {
+  .c21 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c19[href^="/"]::after,
-  .c19[href^="http://"]::after,
-  .c19[href^="https://"]::after {
+  .c21[href^="/"]::after,
+  .c21[href^="http://"]::after,
+  .c21[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -430,15 +444,15 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
               data-testid="filter-name"
             >
               <div
-                style="padding: 5px 10px 5px 10px; display: flex; font-weight: 300;"
+                class="c17"
               >
                 <span
-                  class="c17"
+                  class="c18"
                 >
                   Some area name
                 </span>
                 <span
-                  style="color: rgb(80, 90, 95); padding-top: 1px;"
+                  class="c19"
                 >
                   Type
                 </span>
@@ -449,10 +463,10 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
       </ul>
     </div>
     <div
-      class="c18"
+      class="c20"
     >
       <a
-        class="c19"
+        class="c21"
         data-testid="search-form-link-filter-area"
         href="#"
       >
