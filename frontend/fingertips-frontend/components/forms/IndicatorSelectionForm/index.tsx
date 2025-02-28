@@ -93,7 +93,7 @@ export function IndicatorSelectionForm({
         <Paragraph>No results found</Paragraph>
       )}
       <Button type="submit" data-testid="search-results-button-submit">
-        View charts
+        View Data
       </Button>
     </form>
   );

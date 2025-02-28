@@ -186,7 +186,7 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /View charts/i }));
+    await user.click(screen.getByRole('button', { name: /View Data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
   });
