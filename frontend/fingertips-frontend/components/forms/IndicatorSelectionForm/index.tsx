@@ -32,9 +32,8 @@ const isIndicatorSelected = (
 
 const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
   if (
-    state &&
-    state[SearchParams.IndicatorsSelected] &&
-    state[SearchParams.IndicatorsSelected].length > 0
+    state?.[SearchParams.IndicatorsSelected] &&
+    state?.[SearchParams.IndicatorsSelected]?.length > 0
   ) {
     return false;
   }
