@@ -15,6 +15,7 @@ export function parseIndicatorData(
       dataSource,
       associatedAreaCodes,
       hasInequalities,
+      unitLabel,
     }): IndicatorDocument => {
       return {
         indicatorID: String(indicatorID),
@@ -26,6 +27,7 @@ export function parseIndicatorData(
         lastUpdatedDate: new Date(lastUpdatedDate),
         associatedAreaCodes,
         hasInequalities,
+        unitLabel,
       };
     }
   );
