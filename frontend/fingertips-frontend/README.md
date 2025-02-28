@@ -142,10 +142,9 @@ All screenshots are stored in github cache, not directly in the repository.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
-An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
+An allowable tolerance of ratio of pixel difference is configured in the playwright config file, see maxDiffPixelRatio.
 
-If you have made changes in your branch that have correctly resulted in the screenshots not matching, within tolerance, then firstly your e2e base screenshots then you need to update the base screenshots. To do go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
-
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you need to update the base screenshots. To do go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
 
 ## Code structure
 

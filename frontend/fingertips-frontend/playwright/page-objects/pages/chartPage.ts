@@ -52,6 +52,9 @@ export default class ChartPage extends BasePage {
           });
         }
         // visual comparisons are skipped when running e2e test locally or against azure by passing the --ignore-snapshots flag
+        console.log(
+          `checking visual comparison against base image of ${component}`
+        );
         await expect(component).toHaveScreenshot();
       }
     }
