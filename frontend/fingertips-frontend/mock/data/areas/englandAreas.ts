@@ -6,3 +6,5 @@ export const englandArea: Area = {
   name: 'England',
   areaType: englandAreaType,
 };
+
+export const allEngland = [englandArea];

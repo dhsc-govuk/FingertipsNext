@@ -24,3 +24,10 @@ export const southCamdenPCN: Area = {
   name: 'South Camden PCN',
   areaType: nhsPrimaryCareNetworksAreaType,
 };
+
+export const allPrimaryCareNetworks = [
+  eastBasildonPCN,
+  centralBasildonPCN,
+  north2IslingtonPCN,
+  southCamdenPCN,
+];
