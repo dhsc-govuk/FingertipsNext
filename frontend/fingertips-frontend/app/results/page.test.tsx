@@ -26,6 +26,7 @@ import {
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { englandArea } from '@/mock/data/areas/englandAreas';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockSortedAreaTypes: AreaType[] = allAreaTypes.toSorted(
   (a, b) => a.level - b.level
@@ -85,6 +86,7 @@ describe('Results Page', () => {
         searchState: JSON.stringify({
           ...searchState,
           [SearchParams.GroupTypeSelected]: 'england',
+          [SearchParams.GroupSelected]: areaCodeForEngland,
         }),
         indicatorsSelected: ['1', '2'],
         message: null,
@@ -254,15 +256,15 @@ describe('Results Page', () => {
         ...searchParams,
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+        [SearchParams.GroupTypeSelected]: 'england',
+        [SearchParams.GroupSelected]: areaCodeForEngland,
       };
 
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...eastEnglandNHSRegion,
-        parents: [englandArea],
       });
       mockAreasApi.getArea.mockResolvedValueOnce({
         ...londonNHSRegion,
-        parents: [englandArea],
       });
 
       const page = await ResultsPage({
@@ -273,6 +275,7 @@ describe('Results Page', () => {
         ...searchState,
         [SearchParams.AreaTypeSelected]: 'nhs-regions',
         [SearchParams.GroupTypeSelected]: 'england',
+        [SearchParams.GroupSelected]: areaCodeForEngland,
       });
     });
 

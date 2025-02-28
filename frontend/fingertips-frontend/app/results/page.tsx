@@ -77,6 +77,10 @@ export default async function Page(
       selectedGroup,
       availableGroups
     );
+    stateManager.addParamValueToState(
+      SearchParams.GroupSelected,
+      determinedSelectedGroup
+    );
 
     const availableArea: AreaWithRelations = await areasApi.getArea({
       areaCode: determinedSelectedGroup,
