@@ -2,6 +2,7 @@ import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 const mockData = [
   {
@@ -16,6 +17,7 @@ const mockData = [
         year: 2006,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 267,
@@ -25,6 +27,7 @@ const mockData = [
         year: 2004,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -40,6 +43,7 @@ const mockData = [
         year: 2010,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 567,
@@ -49,6 +53,7 @@ const mockData = [
         year: 2007,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -64,6 +69,7 @@ const mockData = [
         year: 2020,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 567,
@@ -73,6 +79,7 @@ const mockData = [
         year: 2012,
         sex: 'Persons',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -188,6 +195,7 @@ describe('generateSeriesData', () => {
           year: 2006,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
         {
           count: 267,
@@ -197,6 +205,7 @@ describe('generateSeriesData', () => {
           year: 2004,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
     };
@@ -301,7 +310,7 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockBenchmakData = {
+    const mockBenchmarkData = {
       areaCode: 'E92000001',
       areaName: 'England',
       healthData: [
@@ -313,6 +322,7 @@ describe('generateSeriesData', () => {
           year: 2006,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
         {
           count: 267,
@@ -322,6 +332,7 @@ describe('generateSeriesData', () => {
           year: 2004,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
     };
@@ -338,6 +349,7 @@ describe('generateSeriesData', () => {
           year: 2006,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
         {
           count: 101,
@@ -347,6 +359,7 @@ describe('generateSeriesData', () => {
           year: 2004,
           sex: 'Persons',
           ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
     };
@@ -454,7 +467,7 @@ describe('generateSeriesData', () => {
       mockData,
       symbols,
       chartColours,
-      mockBenchmakData,
+      mockBenchmarkData,
       mockParentData,
       false
     );
