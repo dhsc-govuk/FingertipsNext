@@ -1,32 +1,47 @@
-/* eslint-disable react/display-name */
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockOneIndicatorOneAreaView = jest.fn();
-jest.mock('./OneIndicatorOneAreaView/', () => () => {
-  mockOneIndicatorOneAreaView();
-  return <div />;
-});
+jest.mock(
+  './OneIndicatorOneAreaView/',
+  () =>
+    function fn() {
+      mockOneIndicatorOneAreaView();
+      return <div />;
+    }
+);
 
 const mockOneIndicatorTwoOrMoreAreasView = jest.fn();
-jest.mock('./OneIndicatorTwoOrMoreAreasView/', () => () => {
-  mockOneIndicatorTwoOrMoreAreasView();
-  return <div />;
-});
+jest.mock(
+  './OneIndicatorTwoOrMoreAreasView/',
+  () =>
+    function fn() {
+      mockOneIndicatorTwoOrMoreAreasView();
+      return <div />;
+    }
+);
 
 const mockTwoOrMoreIndicatorsAreasView = jest.fn();
-jest.mock('./TwoOrMoreIndicatorsAreasView/', () => () => {
-  mockTwoOrMoreIndicatorsAreasView();
-  return <div />;
-});
+jest.mock(
+  './TwoOrMoreIndicatorsAreasView/',
+  () =>
+    function fn() {
+      mockTwoOrMoreIndicatorsAreasView();
+      return <div />;
+    }
+);
 
 const mockTwoOrMoreIndicatorsEnglandView = jest.fn();
-jest.mock('./TwoOrMoreIndicatorsEnglandView/', () => () => {
-  mockTwoOrMoreIndicatorsEnglandView();
-  return <div />;
-});
+jest.mock(
+  './TwoOrMoreIndicatorsEnglandView/',
+  () =>
+    function fn() {
+      mockTwoOrMoreIndicatorsEnglandView();
+      return <div />;
+    }
+);
 
 async function generateSearchParams(value: SearchStateParams) {
   return value;
