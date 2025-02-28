@@ -142,7 +142,7 @@ If you are in a new branch, there wont be any screenshots for that branch yet, s
 
 An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
 
-If you have made changes in your branch that have correctly resulted in the screenshots not matching the base screenshots, within the tolerance, then you need to update the base screenshots. There is a manual workflow job to do this and store them in the github cache. This job is named...
+If you have made changes in your branch that have correctly resulted in the screenshots not matching the base screenshots, within the tolerance, then you need to update the base screenshots. There is a manual workflow job to do this and store them in the github cache. This job is named we shall seeee
 
 
 ## Code structure
