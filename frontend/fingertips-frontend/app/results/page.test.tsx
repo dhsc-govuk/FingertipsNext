@@ -215,8 +215,8 @@ describe('Results Page', () => {
       });
 
       expect(page.props.availableGroupTypes).toEqual([
-        nhsRegionsAreaType,
         englandAreaType,
+        nhsRegionsAreaType,
       ]);
     });
 
