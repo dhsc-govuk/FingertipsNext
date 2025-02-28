@@ -123,24 +123,22 @@ export function SearchResult({
             <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
-              <GridCol>
-                {result.hasInequalities ? (
+              { !isWithinOneMonth(currentDate, result.lastUpdatedDate) ?
+                (<GridCol>
+                  <GreyTag data-testid="tag-recent-indicator">
+                    Updated in last month
+                  </GreyTag>
+                </GridCol>)
+                : (<></>)
+              }
+              {result.hasInequalities ?
+                (<GridCol>
                   <GreyTag data-testid="tag-has-inequalities">
                     Contains inequality data
-                  </GreyTag>)
+                  </GreyTag>
+                </GridCol>)
                 : (<></>)
-                }
-              </GridCol>
-              <GridCol>
-                {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
-                    <GreyTag data-testid="tag-recent-indicator">
-                      Updated in last month
-                    </GreyTag>
-                  )
-                  : (<></>)
-                }
-              </GridCol>
-              <GridCol></GridCol>
+              }
             </TagRow>
           </Checkbox>
         </GridCol>
