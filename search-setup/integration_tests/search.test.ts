@@ -55,6 +55,7 @@ describe('AI search index creation and data loading', () => {
         body: JSON.stringify({
           search: searchTerm,
           searchFields: 'indicatorID,indicatorDefinition,indicatorName',
+          select: 'indicatorID,indicatorDefinition,indicatorName',
           filter: areaCodes ? formatFilterString(areaCodes) : undefined,
           top: 10,
         }),
