@@ -28,6 +28,10 @@ type SearchResultProps = {
   currentDate?: Date;
 };
 
+const TagsColumn = styled(GridCol)`
+  padding-right: 0px;
+`;
+
 const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 19, lineHeight: '1' })
 );
@@ -124,19 +128,19 @@ export function SearchResult({
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
               { !isWithinOneMonth(currentDate, result.lastUpdatedDate) ?
-                (<GridCol>
+                (<TagsColumn>
                   <GreyTag data-testid="tag-recent-indicator">
                     Updated in last month
                   </GreyTag>
-                </GridCol>)
+                </TagsColumn>)
                 : (<></>)
               }
               {result.hasInequalities ?
-                (<GridCol>
+                (<TagsColumn>
                   <GreyTag data-testid="tag-has-inequalities">
                     Contains inequality data
                   </GreyTag>
-                </GridCol>)
+                </TagsColumn>)
                 : (<></>)
               }
             </TagRow>
