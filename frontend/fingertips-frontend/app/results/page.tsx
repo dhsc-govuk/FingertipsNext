@@ -84,6 +84,14 @@ export default async function Page(
       (a, b) => a.level - b.level
     );
 
+    const sortedByLevelGroupTypes = availableGroupTypes?.toSorted(
+      (a, b) => a.level - b.level
+    );
+
+    const sortedAlphabeticallyAvailableAreas = availableAreas?.sort(
+      (a, b) => a.name.localeCompare(b.name)
+    );
+
     const initialState: IndicatorSelectionState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
       indicatorsSelected: indicatorsSelected ?? [],
@@ -96,8 +104,8 @@ export default async function Page(
         initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
         availableAreaTypes={sortedByLevelAreaTypes}
-        availableAreas={availableAreas}
-        availableGroupTypes={availableGroupTypes}
+        availableAreas={sortedAlphabeticallyAvailableAreas}
+        availableGroupTypes={sortedByLevelGroupTypes}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
         currentDate={new Date()}
