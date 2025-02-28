@@ -150,7 +150,7 @@ describe('should display inequalities', () => {
   it('should display inequalities when single indicator and a single area is selected', () => {
     render(
       <Chart
-        healthIndicatorData={[mockHealthData['1']]}
+        healthIndicatorData={[mockHealthData['337']]}
         indicatorsSelected={['1']}
         areasSelected={['A1']}
       />

@@ -23,7 +23,7 @@ interface InequalitiesBarChartTableProps {
   type?: Inequalities;
 }
 
-enum InequalitiesBarChartTableHeaders {
+export enum InequalitiesBarChartTableHeaders {
   GROUPING_TYPES = 'Grouping types',
   COMPARED_TO = 'Compared to',
   COUNT = 'Count',
@@ -41,16 +41,23 @@ const getCellHeader = (
       <StyledAlignRightHeader
         style={{ width: '16%' }}
         key={`heading-${header}`}
+        data-testid={`heading-${header}`}
       >
         {header} <br /> {areaName}
       </StyledAlignRightHeader>
     );
   return header === InequalitiesBarChartTableHeaders.GROUPING_TYPES ? (
-    <StyledAlignLeftHeader key={`heading-${header}`}>
+    <StyledAlignLeftHeader
+      key={`heading-${header}`}
+      data-testid={`heading-${header}`}
+    >
       {header}
     </StyledAlignLeftHeader>
   ) : (
-    <StyledAlignRightHeader key={`heading-${header}`}>
+    <StyledAlignRightHeader
+      key={`heading-${header}`}
+      data-testid={`heading-${header}`}
+    >
       {header}
     </StyledAlignRightHeader>
   );
@@ -72,7 +79,10 @@ export function InequalitiesBarChartTable({
         head={
           <>
             <Table.Row>
-              <StyledAlignRightHeader colSpan={6}>
+              <StyledAlignRightHeader
+                colSpan={6}
+                style={{ paddingRight: '30px' }}
+              >
                 95% confidence limits
               </StyledAlignRightHeader>
             </Table.Row>

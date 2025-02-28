@@ -68,7 +68,7 @@ export function InequalitiesTable({
   ];
 
   return (
-    <StyledDiv data-testid="inequalitiesSexTable-component">
+    <StyledDiv data-testid="inequalitiesTable-component">
       <Table
         head={
           <>

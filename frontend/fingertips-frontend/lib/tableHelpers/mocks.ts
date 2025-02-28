@@ -125,3 +125,16 @@ export const MOCK_PARENT_DATA = {
     },
   ],
 };
+
+export const GROUPED_YEAR_DATA = {
+  2004: {
+    Male: [MOCK_HEALTH_DATA[0].healthData[1]],
+    Female: [MOCK_HEALTH_DATA[0].healthData[2]],
+    All: [],
+  },
+  2008: {
+    All: [MOCK_HEALTH_DATA[1].healthData[0]],
+    Male: [MOCK_HEALTH_DATA[1].healthData[1]],
+    Female: [MOCK_HEALTH_DATA[1].healthData[2]],
+  },
+};
