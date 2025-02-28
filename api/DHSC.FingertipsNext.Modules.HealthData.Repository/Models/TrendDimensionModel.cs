@@ -10,8 +10,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 public class TrendDimensionModel
 {
     [Key]
-    public required byte TrendKey { get; set; }
+    public byte TrendKey { get; set; }
     [MaxLength(20)]
-    public required string Name { get; set; }
-    public required bool HasValue { get; set; }
+    public string? Name { get; set; }
+    public bool HasValue { get; set; }
 }
