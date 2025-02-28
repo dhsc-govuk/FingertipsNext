@@ -20,6 +20,7 @@ export interface IndicatorDocument {
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
   hasInequalities: boolean;
+  unitLabel: string;
 }
 
 export interface AreaDocument {
@@ -39,6 +40,7 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
   INDICATOR_HAS_INEQUALITIES = 'hasInequalities',
+  INDICATOR_UNIT_LABEL = 'unitLabel',
 }
 
 export enum AreaSearchIndexColumnNames {

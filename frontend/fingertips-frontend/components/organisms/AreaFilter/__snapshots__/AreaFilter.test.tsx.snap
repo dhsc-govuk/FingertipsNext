@@ -396,6 +396,18 @@ exports[`Area Filter snapshot test 1`] = `
               class="c15"
             />
           </label>
+          <label
+            class="c13 c14"
+          >
+            <span
+              class="c5"
+            >
+              Select a group
+            </span>
+            <select
+              class="c15"
+            />
+          </label>
           <div
             class="c16 c17"
           >

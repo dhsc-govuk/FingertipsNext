@@ -61,7 +61,27 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     sex: string;
+    /**
+     * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
+     * @type {string}
+     * @memberof HealthDataPoint
+     */
+    trend: HealthDataPointTrendEnum;
 }
+
+
+/**
+ * @export
+ */
+export const HealthDataPointTrendEnum = {
+    Increasing: 'Increasing',
+    Decreasing: 'Decreasing',
+    NoChange: 'NoChange',
+    CannotBeCalculated: 'CannotBeCalculated',
+    NotYetCalculated: 'NotYetCalculated'
+} as const;
+export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typeof HealthDataPointTrendEnum];
+
 
 /**
  * Check if a given object implements the HealthDataPoint interface.
@@ -70,6 +90,7 @@ export function instanceOfHealthDataPoint(value: object): value is HealthDataPoi
     if (!('year' in value) || value['year'] === undefined) return false;
     if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
     if (!('sex' in value) || value['sex'] === undefined) return false;
+    if (!('trend' in value) || value['trend'] === undefined) return false;
     return true;
 }
 
@@ -90,6 +111,7 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
         'ageBand': json['ageBand'],
         'sex': json['sex'],
+        'trend': json['trend'],
     };
 }
 
@@ -111,6 +133,7 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'upperCi': value['upperCi'],
         'ageBand': value['ageBand'],
         'sex': value['sex'],
+        'trend': value['trend'],
     };
 }
 

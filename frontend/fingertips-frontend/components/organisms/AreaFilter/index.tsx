@@ -26,6 +26,7 @@ interface AreaFilterProps {
   selectedAreasData?: AreaWithRelations[];
   availableAreaTypes?: AreaType[];
   availableGroupTypes?: AreaType[];
+  availableGroups?: Area[];
   availableAreas?: Area[];
   searchState?: SearchStateParams;
 }
@@ -63,10 +64,6 @@ const StyledFilterSelect = styled(Select)({
   marginBottom: '1em',
 });
 
-type AllowedParamsForHandleSelect =
-  | SearchParams.AreaTypeSelected
-  | SearchParams.GroupTypeSelected;
-
 const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
   selectedAreas ? selectedAreas?.some((area) => area.code === areaCode) : false;
 
@@ -74,6 +71,7 @@ export function AreaFilter({
   selectedAreasData,
   availableAreaTypes,
   availableGroupTypes,
+  availableGroups,
   availableAreas,
   searchState,
 }: Readonly<AreaFilterProps>) {
@@ -82,11 +80,32 @@ export function AreaFilter({
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  const areaTypeSelected = (
-    searchParamKey: AllowedParamsForHandleSelect,
-    valueSelected: string
-  ) => {
-    searchStateManager.addParamValueToState(searchParamKey, valueSelected);
+  const areaTypeSelected = (valueSelected: string) => {
+    searchStateManager.addParamValueToState(
+      SearchParams.AreaTypeSelected,
+      valueSelected
+    );
+    searchStateManager.removeParamValueFromState(
+      SearchParams.GroupTypeSelected
+    );
+    searchStateManager.removeParamValueFromState(SearchParams.GroupSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const groupTypeSelected = (valueSelected: string) => {
+    searchStateManager.addParamValueToState(
+      SearchParams.GroupTypeSelected,
+      valueSelected
+    );
+    searchStateManager.removeParamValueFromState(SearchParams.GroupSelected);
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const groupSelected = (valueSelected: string) => {
+    searchStateManager.addParamValueToState(
+      SearchParams.GroupSelected,
+      valueSelected
+    );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
@@ -142,8 +161,7 @@ export function AreaFilter({
             label="Select an area type"
             data-testid="area-type-selector-container"
             input={{
-              onChange: (e) =>
-                areaTypeSelected(SearchParams.AreaTypeSelected, e.target.value),
+              onChange: (e) => areaTypeSelected(e.target.value),
               defaultValue: searchState?.[SearchParams.AreaTypeSelected],
               disabled: selectedAreasData && selectedAreasData?.length > 0,
             }}
@@ -159,11 +177,7 @@ export function AreaFilter({
             label="Select a group type"
             data-testid="group-type-selector-container"
             input={{
-              onChange: (e) =>
-                areaTypeSelected(
-                  SearchParams.GroupTypeSelected,
-                  e.target.value
-                ),
+              onChange: (e) => groupTypeSelected(e.target.value),
               defaultValue: searchState?.[SearchParams.GroupTypeSelected],
               disabled: selectedAreasData && selectedAreasData?.length > 0,
             }}
@@ -171,6 +185,21 @@ export function AreaFilter({
             {availableGroupTypes?.map((areaType) => (
               <option key={areaType.key} value={areaType.key}>
                 {areaType.name}
+              </option>
+            ))}
+          </StyledFilterSelect>
+
+          <StyledFilterSelect
+            label="Select a group"
+            input={{
+              onChange: (e) => groupSelected(e.target.value),
+              defaultValue: searchState?.[SearchParams.GroupSelected],
+              disabled: selectedAreasData && selectedAreasData?.length > 0,
+            }}
+          >
+            {availableGroups?.map((area) => (
+              <option key={area.code} value={area.code}>
+                {area.name}
               </option>
             ))}
           </StyledFilterSelect>

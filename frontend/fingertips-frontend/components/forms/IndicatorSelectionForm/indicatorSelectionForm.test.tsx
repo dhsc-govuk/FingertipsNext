@@ -33,6 +33,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
     associatedAreaCodes: [],
+    unitLabel: '',
   },
   {
     indicatorID: '2',
@@ -44,6 +45,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
     associatedAreaCodes: [],
+    unitLabel: '',
   },
 ];
 
@@ -93,6 +95,33 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
+  });
+
+  it('should render the "View Data" button as disabled when there are no indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={[]}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View Data/i })).toBeDisabled();
+  });
+
+  it('should render the "View Data" button as enabled when there are indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={[]}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View Data/i })).toBeEnabled();
   });
 
   it('should mark indicators selected as checked', () => {
@@ -181,12 +210,15 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
         formAction={mockFormAction}
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /View charts/i }));
+    await user.click(screen.getByRole('button', { name: /View Data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
   });

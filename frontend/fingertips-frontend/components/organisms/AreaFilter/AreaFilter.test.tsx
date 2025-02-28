@@ -12,8 +12,9 @@ import {
   nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
-import { AreaType } from '@/generated-sources/ft-api-client';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import {
+  allNhsRegions,
   eastEnglandNHSRegion,
   northEastAndYorkshireNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
@@ -92,11 +93,13 @@ describe('Area Filter', () => {
   });
 
   describe('Area type', () => {
+    const areaTypeDropDownLabel = 'Select an area type';
+
     it('should disable the select area type drop down when there are areas selected', () => {
       render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).toBeDisabled();
     });
 
@@ -104,7 +107,7 @@ describe('Area Filter', () => {
       render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).not.toBeDisabled();
     });
 
@@ -113,7 +116,7 @@ describe('Area Filter', () => {
 
       expect(screen.getByText(/Selected areas \(0\)/i)).toBeInTheDocument();
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).toBeInTheDocument();
     });
 
@@ -121,13 +124,13 @@ describe('Area Filter', () => {
       render(<AreaFilter availableAreaTypes={allAreaTypes} />);
 
       const areaTypeDropDown = screen.getByRole('combobox', {
-        name: /Select an area type/i,
+        name: areaTypeDropDownLabel,
       });
 
       const allOptions = within(areaTypeDropDown).getAllByRole('option');
 
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).toHaveLength(allAreaTypes.length);
 
       allOptions.forEach((option, i) => {
@@ -146,7 +149,7 @@ describe('Area Filter', () => {
       );
 
       expect(
-        screen.getByRole('combobox', { name: /Select an area type/i })
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).toHaveTextContent('NHS Regions');
     });
 
@@ -168,7 +171,36 @@ describe('Area Filter', () => {
       );
 
       await user.selectOptions(
-        screen.getByRole('combobox', { name: /Select an area type/i }),
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel }),
+        'NHS Regions'
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should remove any previous state from the url for groupType and group selected when areaType is changed', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+
+      const user = userEvent.setup();
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.GroupTypeSelected]: 'england',
+            [SearchParams.GroupSelected]: 'england',
+          }}
+        />
+      );
+
+      await user.selectOptions(
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel }),
         'NHS Regions'
       );
 
@@ -185,14 +217,16 @@ describe('Area Filter', () => {
       nhsIntegratedCareBoardsAreaType,
     ];
 
+    const groupTypeDropDownLabel = 'Select a group type';
+
     it('should disable the select group type drop down when there are areas selected', () => {
       render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
 
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).toBeInTheDocument();
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).toBeDisabled();
     });
 
@@ -200,10 +234,10 @@ describe('Area Filter', () => {
       render(<AreaFilter selectedAreasData={[]} />);
 
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).toBeInTheDocument();
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).not.toBeDisabled();
     });
 
@@ -219,13 +253,13 @@ describe('Area Filter', () => {
       );
 
       const groupTypeDropDown = screen.getByRole('combobox', {
-        name: /Select a group type/i,
+        name: groupTypeDropDownLabel,
       });
 
       const allOptions = within(groupTypeDropDown).getAllByRole('option');
 
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).toHaveLength(3);
 
       allOptions.forEach((option, i) => {
@@ -246,7 +280,7 @@ describe('Area Filter', () => {
       );
 
       expect(
-        screen.getByRole('combobox', { name: /Select a group type/i })
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
       ).toHaveTextContent('England');
     });
 
@@ -272,8 +306,143 @@ describe('Area Filter', () => {
       );
 
       await user.selectOptions(
-        screen.getByRole('combobox', { name: /Select a group type/i }),
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel }),
         'England'
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should remove any previous state from the url for group selected when groupType is changed', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupTypeSelected}=england`,
+      ].join('');
+
+      const user = userEvent.setup();
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableGroupTypes={availableGroupTypes}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupSelected]: 'england',
+          }}
+        />
+      );
+
+      await user.selectOptions(
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel }),
+        'England'
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+  });
+
+  describe('Group', () => {
+    const availableGroups: Area[] = allNhsRegions;
+
+    const groupDropDownLabel = 'Select a group';
+
+    it('should disable the select group type drop down when there are areas selected', () => {
+      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should not disable the select group type drop down when there are no areas selected', () => {
+      render(<AreaFilter selectedAreasData={[]} />);
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).not.toBeDisabled();
+    });
+
+    it('should render all applicable groups provided', () => {
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableGroups={availableGroups}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      const groupDropDown = screen.getByRole('combobox', {
+        name: groupDropDownLabel,
+      });
+
+      const allOptions = within(groupDropDown).getAllByRole('option');
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toHaveLength(7);
+
+      allOptions.forEach((option, i) => {
+        expect(option.textContent).toEqual(availableGroups[i].name);
+      });
+    });
+
+    it('should have have the group selected as the pre-selected value', () => {
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableGroups={availableGroups}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupTypeSelected]: 'england',
+            [SearchParams.GroupSelected]: availableGroups[0].name,
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toHaveTextContent(availableGroups[0].name);
+    });
+
+    it('should add the selected group to the url', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupSelected}=${availableGroups[1].code}`,
+      ].join('');
+
+      const user = userEvent.setup();
+
+      render(
+        <AreaFilter
+          availableAreaTypes={allAreaTypes}
+          availableGroups={availableGroups}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      await user.selectOptions(
+        screen.getByRole('combobox', { name: groupDropDownLabel }),
+        availableGroups[1].name
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
