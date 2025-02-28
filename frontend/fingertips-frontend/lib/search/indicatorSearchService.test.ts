@@ -221,7 +221,7 @@ describe('IndicatorSearchService', () => {
 
   it('should return undefined if getDocument throws an error', async () => {
     mockGetDocument.mockImplementation = () => {
-      throw 'some error';
+      throw { err: 'some error' };
     };
 
     const searchService = SearchServiceFactory.getIndicatorSearchService();
