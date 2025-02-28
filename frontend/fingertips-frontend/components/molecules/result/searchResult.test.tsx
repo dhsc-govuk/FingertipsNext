@@ -18,6 +18,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
     associatedAreaCodes: [],
+    hasInequalities: false,
   },
   {
     indicatorID: '2',
@@ -29,6 +30,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
     associatedAreaCodes: [],
+    hasInequalities: true,
   },
 ];
 
@@ -114,6 +116,32 @@ describe('content', () => {
     );
 
     expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+  });
+
+  it('should display tag if inequalities data present for indicator', () => {
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
+    render(
+      <SearchResult
+        result={MOCK_DATA[1]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+        currentDate={currentDate}
+      />
+    );
+    expect(screen.queryByText('Contains inequality data')).toBeInTheDocument();
+  });
+
+  it('should NOT display tag if inequalities data NOT present for indicator', () => {
+    const currentDate = new Date(MOCK_DATA[0].lastUpdatedDate);
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+        currentDate={currentDate}
+      />
+    );
+    expect(screen.queryByText('Contains inequality data')).not.toBeInTheDocument();
   });
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
