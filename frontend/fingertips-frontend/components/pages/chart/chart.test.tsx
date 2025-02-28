@@ -262,4 +262,107 @@ describe('should not display line chart', () => {
 
     assertLineChartAndTableNotInDocument();
   });
+
+  describe('metadata', () => {
+    it('should display data source when a single indicator is selected and metadata exists', () => {
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'test',
+        [SearchParams.IndicatorsSelected]: ['123'],
+        [SearchParams.AreasSelected]: ['A1245'],
+      };
+
+      const metadata = {
+        indicatorID: '123',
+        indicatorName: 'pancakes eaten',
+        indicatorDefinition: 'number of pancakes consumed',
+        dataSource: 'BJSS Leeds',
+        earliestDataPeriod: '2025',
+        latestDataPeriod: '2025',
+        lastUpdatedDate: new Date('March 4, 2025'),
+        associatedAreaCodes: ['E06000047'],
+        unitLabel: 'pancakes',
+      };
+      render(
+        <Chart
+          healthIndicatorData={[mockHealthData['337']]}
+          searchState={state}
+          indicatorMetadata={metadata}
+        />
+      );
+
+      expect(screen.getByText('Data source:', { exact: false })).toBeVisible();
+    });
+
+    it('should not display data source when a single indicator is selected but no metadata exists', () => {
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'test',
+        [SearchParams.IndicatorsSelected]: ['123'],
+        [SearchParams.AreasSelected]: ['A1245'],
+      };
+
+      render(
+        <Chart
+          healthIndicatorData={[mockHealthData['337']]}
+          searchState={state}
+          indicatorMetadata={undefined}
+        />
+      );
+
+      expect(
+        screen.queryByText('Data source:', { exact: false })
+      ).not.toBeInTheDocument();
+    });
+
+    it('should not display data source when multiple indicators are selected and metadata is passed in', () => {
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'test',
+        [SearchParams.IndicatorsSelected]: ['123', '456'],
+        [SearchParams.AreasSelected]: ['A1245'],
+      };
+
+      const metadata = {
+        indicatorID: '123',
+        indicatorName: 'pancakes eaten',
+        indicatorDefinition: 'number of pancakes consumed',
+        dataSource: 'BJSS Leeds',
+        earliestDataPeriod: '2025',
+        latestDataPeriod: '2025',
+        lastUpdatedDate: new Date('March 4, 2025'),
+        associatedAreaCodes: ['E06000047'],
+        unitLabel: 'pancakes',
+      };
+
+      render(
+        <Chart
+          healthIndicatorData={[mockHealthData['337']]}
+          searchState={state}
+          indicatorMetadata={metadata}
+        />
+      );
+
+      expect(
+        screen.queryByText('Data source:', { exact: false })
+      ).not.toBeInTheDocument();
+    });
+
+    it('should not display data source when multiple indicators are selected and no metadata is passed in', () => {
+      const state: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'test',
+        [SearchParams.IndicatorsSelected]: ['123', '456'],
+        [SearchParams.AreasSelected]: ['A1245'],
+      };
+
+      render(
+        <Chart
+          healthIndicatorData={[mockHealthData['337']]}
+          searchState={state}
+          indicatorMetadata={undefined}
+        />
+      );
+
+      expect(
+        screen.queryByText('Data source:', { exact: false })
+      ).not.toBeInTheDocument();
+    });
+  });
 });

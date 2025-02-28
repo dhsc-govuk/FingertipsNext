@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2, H3 } from 'govuk-react';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
@@ -23,19 +23,26 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument;
 };
+
+const DataSourceParagraph = styled(Paragraph)(typography.font({ size: 16 }));
 
 export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
+  indicatorMetadata,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -67,6 +74,8 @@ export function Chart({
         )
       : undefined;
 
+  const shouldDisplayDataSource = indicatorsSelected?.length === 1;
+
   return (
     <>
       <BackLink
@@ -89,14 +98,21 @@ export function Chart({
                 id: 'lineChart',
                 title: 'Line chart',
                 content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
+                  <>
+                    <LineChart
+                      healthIndicatorData={dataWithoutEngland}
+                      benchmarkData={englandBenchmarkData}
+                      searchState={searchState}
+                      groupIndicatorData={groupData}
+                      xAxisTitle="Year"
+                      accessibilityLabel="A line chart showing healthcare data"
+                    />
+                    {shouldDisplayDataSource && indicatorMetadata ? (
+                      <DataSourceParagraph>
+                        {`Data source: ${indicatorMetadata.dataSource}`}
+                      </DataSourceParagraph>
+                    ) : null}
+                  </>
                 ),
               },
               {
