@@ -70,6 +70,6 @@ export const getDynamicKeys = (
 };
 
 export const shouldDisplayInequalities = (
-  indicatorsSelected: string[],
-  areasSelected: string[]
+  indicatorsSelected: string[] = [],
+  areasSelected: string[] = []
 ) => indicatorsSelected.length === 1 && areasSelected.length === 1;

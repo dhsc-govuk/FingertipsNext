@@ -4,7 +4,11 @@ import { LineChart } from '@/components/organisms/LineChart';
 import { BackLink, H2, H3 } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
@@ -22,35 +26,33 @@ import { Inequalities } from '@/components/organisms/Inequalities';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  selectedGroupCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
+  searchState: SearchStateParams;
 };
 
 export function Chart({
   healthIndicatorData,
-  selectedGroupCode,
   mapData,
   populationData,
-  searchedIndicator,
-  indicatorsSelected = [],
-  areasSelected = [],
+  searchState,
 }: Readonly<ChartProps>) {
-  const searchState = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  });
+  const stateManager = SearchStateManager.initialise(searchState);
 
-  const backLinkPath = searchState.generatePath('/results');
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  const backLinkPath = stateManager.generatePath('/results');
 
   const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
     0,
     areaCodeForEngland
   );
+
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
@@ -90,6 +92,7 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
+                    searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
@@ -113,7 +116,7 @@ export function Chart({
       )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <Inequalities healthIndicatorData={dataWithoutEngland[0]} />
+        <Inequalities healthIndicatorData={healthIndicatorData[0][0]} />
       )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}

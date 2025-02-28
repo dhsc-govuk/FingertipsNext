@@ -8,6 +8,7 @@ export const determineSelectedGroupType = (
   if (selectedGroupType) return selectedGroupType;
 
   if (selectedAreaData && selectedAreaData.length > 0) {
-    return selectedAreaData[0].parent?.areaType.key as AreaTypeKeys;
+    if (selectedAreaData[0].parents && selectedAreaData[0].parents.length > 0)
+      return selectedAreaData[0].parents[0].areaType.key as AreaTypeKeys;
   }
 };

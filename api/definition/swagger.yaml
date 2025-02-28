@@ -82,7 +82,7 @@ paths:
       tags:
         - areas
       summary: Get area
-      description: Get the full details of a given area, including it's parent, optionally including it's children, siblings, cousins and ancestors
+      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings, cousins and ancestors
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
@@ -292,8 +292,10 @@ components:
         - $ref: "#/components/schemas/Area"
         - type: object
           properties:
-            parent:
-              $ref: "#/components/schemas/Area"
+            parents:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
             children:
               type: array
               items:

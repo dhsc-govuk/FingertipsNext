@@ -1,7 +1,8 @@
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
+export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
+
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
-export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 
 export const COUNTY_AREA_TYPE_NAME = 'Counties and Unitary Authorities';
 export const DISTRICT_AREA_TYPE_NAME = 'Districts and Unitary Authorities';
@@ -14,9 +15,11 @@ export interface IndicatorDocument {
   indicatorName: string;
   indicatorDefinition: string;
   dataSource: string;
-  latestDataPeriod: string; // Most recent value held in database column 'Year'.
+  earliestDataPeriod: string; // Oldest value held in database column 'Year'.
+  latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
+  hasInequalities: boolean;
 }
 
 export interface AreaDocument {
@@ -31,9 +34,11 @@ export enum IndicatorSearchIndexColumnNames {
   INDICATOR_NAME = 'indicatorName',
   INDICATOR_DEFINITION = 'indicatorDefinition',
   INDICATOR_DATA_SOURCE = 'dataSource',
+  INDICATOR_EARLIEST_DATA_PERIOD = 'earliestDataPeriod',
   INDICATOR_LATEST_DATA_PERIOD = 'latestDataPeriod',
   INDICATOR_LAST_UPDATED = 'lastUpdatedDate',
   INDICATOR_AREAS = 'associatedAreaCodes',
+  INDICATOR_HAS_INEQUALITIES = 'hasInequalities',
 }
 
 export enum AreaSearchIndexColumnNames {
