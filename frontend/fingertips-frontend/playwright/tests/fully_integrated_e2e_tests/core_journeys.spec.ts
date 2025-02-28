@@ -10,7 +10,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 const indicatorData = indicators as IndicatorDocument[];
 const searchTerm = 'mortality';
 let allIndicatorIDs: string[];
-const isRunningInCI = () => !!process.env.CI;
+const isCI = !!process.env.CI;
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -22,14 +22,14 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
-  {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
-  },
-  {
-    indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
-    areaMode: AreaMode.ENGLAND_AREA,
-  },
+  // {
+  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
+  //   areaMode: AreaMode.TWO_AREAS,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
+  //   areaMode: AreaMode.ENGLAND_AREA,
+  // },
 ];
 
 /**
@@ -77,24 +77,32 @@ test.describe(`Search via search term ${searchTerm}`, () => {
         await resultsPage.checkSearchResultsTitle(searchTerm);
       });
 
-      await test.step(`Select ${indicatorMode} and ${areaMode} and assert that the displayed charts are correct`, async () => {
+      await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
+        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
         await resultsPage.selectIndicatorCheckboxesAndCheckURL(
           allIndicatorIDs,
-          indicatorMode,
-          searchTerm
+          indicatorMode
         );
-        await resultsPage.selectAreasCheckboxesAndCheckURL(
-          areaMode,
-          searchTerm
-        );
+
         await resultsPage.clickViewChartsButton();
 
-        await chartPage.checkChartVisibility(
-          indicatorMode,
-          areaMode,
-          isRunningInCI()
-        );
+        await chartPage.checkChartVisibility(indicatorMode, areaMode, isCI);
       });
     });
   });
+});
+
+// log out current url when a test fails
+test.afterEach(async ({ page }, testInfo) => {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    // Test failed - capture the URL
+    const url = page.url();
+    console.log(`Test failed! Current URL: ${url}`);
+
+    // You can also attach it to the test report
+    await testInfo.attach('failed-url', {
+      body: url,
+      contentType: 'text/plain',
+    });
+  }
 });

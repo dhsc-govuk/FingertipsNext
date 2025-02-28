@@ -42,7 +42,8 @@ export function getScenarioConfig(
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       ChartPage.barChartComponent,
-      ChartPage.populationPyramidComponent,
+      // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+      // ChartPage.populationPyramidComponent,
       ChartPage.inequalitiesComponent,
     ],
     hiddenComponents: [],

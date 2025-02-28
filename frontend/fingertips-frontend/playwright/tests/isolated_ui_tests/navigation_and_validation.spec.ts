@@ -1,10 +1,10 @@
 import { test } from '../../page-objects/pageFactory';
-import { IndicatorMode } from '../../page-objects/pages/chartPage';
 import {
   getAllIndicatorIdsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
   sortAlphabetically,
   getAllNHSRegionAreas,
+  IndicatorMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -87,8 +87,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Select single indicator, let area default to England and check on charts page', async () => {
       await resultsPage.selectIndicatorCheckboxesAndCheckURL(
         filteredIndicatorIds,
-        indicatorMode,
-        searchTerm
+        indicatorMode
       );
 
       await resultsPage.clickViewChartsButton();
@@ -192,4 +191,19 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await test.expect(resultsPage.areaFilterCombobox()).toBeEnabled();
     });
   });
+});
+
+// log out current url when a test fails
+test.afterEach(async ({ page }, testInfo) => {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    // Test failed - capture the URL
+    const url = page.url();
+    console.log(`Test failed! Current URL: ${url}`);
+
+    // You can also attach it to the test report
+    await testInfo.attach('failed-url', {
+      body: url,
+      contentType: 'text/plain',
+    });
+  }
 });

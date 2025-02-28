@@ -47,10 +47,4 @@ public interface IAreaRepository
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
     Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey);
-    
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns></returns>
-    Task<AreaModel?> GetRootAreaAsync();
 }
