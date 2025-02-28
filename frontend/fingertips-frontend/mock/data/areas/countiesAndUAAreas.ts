@@ -18,3 +18,5 @@ export const gateshead: Area = {
   name: 'Gateshead',
   areaType: countiesAndUnitaryAuthoritiesAreaType,
 };
+
+export const allCountiesAndUAAreas = [countyDurham, darlington, gateshead];
