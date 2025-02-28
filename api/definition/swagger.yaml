@@ -34,7 +34,7 @@ paths:
                 items:
                   type: string
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/areatypes:
     get:
       tags:
@@ -54,7 +54,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/AreaType"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/areatypes/{area_type_key}/areas:
     get:
       tags:
@@ -76,7 +76,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/{area_code}:
     get:
       tags:
@@ -100,7 +100,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/root:
     get:
       tags:
@@ -116,7 +116,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RootArea"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /healthcheck:
     get:
       tags:
@@ -171,7 +171,7 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /indicators/{indicator_id}:
     get:
       tags:
@@ -189,7 +189,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
       description: >
@@ -219,7 +219,7 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
@@ -555,7 +555,7 @@ components:
       description:
         The server could not understand the request due to invalid syntax.
         The client should modify the request and try again.
-    InternalServerErrror:
+    InternalServerError:
       content:
         application/json:
           schema:
