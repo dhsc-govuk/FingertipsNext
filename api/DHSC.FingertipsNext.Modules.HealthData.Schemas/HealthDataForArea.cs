@@ -3,26 +3,26 @@
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
-/// Associates a list of health data points with the relevant
-/// geographical area (represented by its unique code).
+///     Associates a list of health data points with the relevant
+///     geographical area (represented by its unique code).
 /// </summary>
 public class HealthDataForArea
 {
     /// <summary>
-    /// The unique area code that the health data is for
+    ///     The unique area code that the health data is for
     /// </summary>
     [JsonPropertyName("areaCode")]
-    public string AreaCode { get; init; } = String.Empty;
-    
-    /// <summary>
-    /// The name of the geographical area
-    /// </summary>
-    [JsonPropertyName("areaName")]
-    public string AreaName { get; init; } = String.Empty;
+    public string AreaCode { get; init; } = string.Empty;
 
     /// <summary>
-    /// The health data points for the area and indicator
+    ///     The name of the geographical area
+    /// </summary>
+    [JsonPropertyName("areaName")]
+    public string AreaName { get; init; } = string.Empty;
+
+    /// <summary>
+    ///     The health data points for the area and indicator
     /// </summary>
     [JsonPropertyName("healthData")]
-    public IEnumerable<HealthDataPoint> HealthData { get; init; } = [];
+    public IEnumerable<HealthDataPoint> HealthData { get; set; } = [];
 }

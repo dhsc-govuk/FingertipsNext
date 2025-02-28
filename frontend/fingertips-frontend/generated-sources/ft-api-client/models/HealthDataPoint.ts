@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { HealthDataPointBenchmark } from './HealthDataPointBenchmark';
+import {
+    HealthDataPointBenchmarkFromJSON,
+    HealthDataPointBenchmarkFromJSONTyped,
+    HealthDataPointBenchmarkToJSON,
+    HealthDataPointBenchmarkToJSONTyped,
+} from './HealthDataPointBenchmark';
+
 /**
  * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
  * @export
@@ -67,6 +75,12 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     trend: HealthDataPointTrendEnum;
+    /**
+     * 
+     * @type {HealthDataPointBenchmark}
+     * @memberof HealthDataPoint
+     */
+    benchmark?: HealthDataPointBenchmark;
 }
 
 
@@ -112,6 +126,7 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'ageBand': json['ageBand'],
         'sex': json['sex'],
         'trend': json['trend'],
+        'benchmark': json['benchmark'] == null ? undefined : HealthDataPointBenchmarkFromJSON(json['benchmark']),
     };
 }
 
@@ -134,6 +149,7 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'ageBand': value['ageBand'],
         'sex': value['sex'],
         'trend': value['trend'],
+        'benchmark': HealthDataPointBenchmarkToJSON(value['benchmark']),
     };
 }
 

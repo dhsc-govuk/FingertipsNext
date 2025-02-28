@@ -20,6 +20,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     /// <param name="area_codes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
+    /// <param name="comparison_method">eg RAG, Quartiles</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 10 years are supplied only data for the first 10 distinct years will be returned.
@@ -31,15 +32,20 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         [FromRoute] int indicatorId,
         [FromQuery] string[]? area_codes = null,
         [FromQuery] int[]? years = null,
-        [FromQuery] string[]? inequalities = null)
+        [FromQuery] string[]? inequalities = null,
+        [FromQuery] string? comparison_method = "")
     {
+        
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             area_codes ?? [],
             years ?? [],
-            inequalities ?? []
+            inequalities ?? [],
+            comparison_method
             );
 
+        Console.WriteLine(indicatorData.Any() ? "FOUND": "NOT FOUND");
+        
         return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
     }
 }
