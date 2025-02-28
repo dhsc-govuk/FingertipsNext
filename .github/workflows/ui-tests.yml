@@ -38,10 +38,9 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ${{ env.frontend-directory }}/node_modules
-          key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-deps-
+          path: ${{ env.frontend-directory }}/node_modules
+          key: cache/${{github.repository}}/${{github.ref}}
+          restore-keys: cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
         run: npm ci
