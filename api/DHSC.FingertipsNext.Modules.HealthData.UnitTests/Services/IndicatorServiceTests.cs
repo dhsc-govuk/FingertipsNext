@@ -119,7 +119,7 @@ public class IndicatorServiceTests
     {
         await _indicatorService.GetIndicatorDataAsync(1, [], [], [], "");
 
-        await _repository.Received().GetIndicatorDataAsync(1, [], [], []);
+        await _repository.Received().GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []);
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class IndicatorServiceTests
             HealthData = expectedHealthData
         };
 
-        _repository.GetIndicatorDataAsync(1, [], [], []).Returns([healthMeasure]);
+        _repository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], [], "");
 
@@ -186,7 +186,7 @@ public class IndicatorServiceTests
                 }
             }
         };
-        _repository.GetIndicatorDataAsync(1, [], [], []).Returns(
+        _repository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
             new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
