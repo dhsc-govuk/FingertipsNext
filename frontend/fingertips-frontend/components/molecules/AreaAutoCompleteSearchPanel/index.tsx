@@ -26,18 +26,24 @@ export default function AreaAutoCompleteInputField({
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
-  const [criteria, setCriteria] = useState<string>();
+  const defaultSelected = defaultSelectedAreas.length ? (defaultSelectedAreas[0].areaName) : ''
+
+  const [criteria, setCriteria] = useState<string>(defaultSelected);
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] =
     useState<AreaDocument[]>(defaultSelectedAreas);
 
-  const timeoutRef = useRef<number | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setSelectedAreas(defaultSelectedAreas);
   }, [defaultSelectedAreas]);
 
   useEffect(() => {
+
+    if(selectedAreas.length !== 0){
+      return ;
+    }
     const fetchSearchArea = async (criteria: string) => {
       if (criteria) {
         const areas = await getSearchSuggestions(criteria);
@@ -66,7 +72,7 @@ export default function AreaAutoCompleteInputField({
     );
 
     return fetchCleanUp;
-  }, [criteria]);
+  }, [criteria, selectedAreas]);
 
   const removePill = useCallback(
     (area: AreaDocument) => {
@@ -76,6 +82,9 @@ export default function AreaAutoCompleteInputField({
       setSelectedAreas(areas);
       if (onAreaSelected && areas.length === 0) {
         onAreaSelected(undefined);
+      }
+      if(areas.length === 0){
+        setCriteria('')
       }
     },
     [selectedAreas, onAreaSelected]
@@ -98,10 +107,10 @@ export default function AreaAutoCompleteInputField({
         searchHint={criteria ?? ''}
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
+          setCriteria(selectedArea.areaName);
           setSearchAreas([]);
           if (onAreaSelected) {
             onAreaSelected(selectedArea);
-            setCriteria('');
           }
         }}
       />
