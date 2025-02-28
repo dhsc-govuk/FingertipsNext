@@ -144,7 +144,7 @@ If you are in a new branch, there wont be any screenshots for that branch yet, s
 
 An allowable tolerance of ratio of pixel difference is configured in the playwright config file, see maxDiffPixelRatio.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you need to update the base screenshots. To do go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you likely need to update the base screenshots. First you should review and compare the expected (base) and actual (current) in the playwright report with a BA to confirm the new images are correct. Once confirmed go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
 
 ## Code structure
 
