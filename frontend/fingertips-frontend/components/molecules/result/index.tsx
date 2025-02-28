@@ -127,7 +127,7 @@ export function SearchResult({
             <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
-              { !isWithinOneMonth(currentDate, result.lastUpdatedDate) ?
+              { isWithinOneMonth(currentDate, result.lastUpdatedDate) ?
                 (<TagsColumn>
                   <GreyTag data-testid="tag-recent-indicator">
                     Updated in last month
