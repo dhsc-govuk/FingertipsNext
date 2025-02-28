@@ -227,7 +227,7 @@ describe('IndicatorSearchService', () => {
     const searchService = SearchServiceFactory.getIndicatorSearchService();
     const result = await searchService.getIndicator('123');
 
-    expect(result).toBeUndefined;
+    expect(result).toBeUndefined();
   });
 });
 
