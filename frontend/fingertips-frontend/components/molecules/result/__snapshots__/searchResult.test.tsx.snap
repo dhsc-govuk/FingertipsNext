@@ -440,17 +440,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
             </div>
             <div
               class="c1 c12"
-            >
-              <div
-                class="c3"
-              />
-              <div
-                class="c3"
-              />
-              <div
-                class="c3"
-              />
-            </div>
+            />
           </span>
         </label>
       </div>

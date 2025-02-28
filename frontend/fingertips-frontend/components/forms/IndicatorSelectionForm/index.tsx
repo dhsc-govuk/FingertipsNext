@@ -108,7 +108,7 @@ export function IndicatorSelectionForm({
         data-testid="search-results-button-submit"
         disabled={shouldDisableViewDataButton(searchState)}
       >
-        View Data
+        View data
       </Button>
     </form>
   );
