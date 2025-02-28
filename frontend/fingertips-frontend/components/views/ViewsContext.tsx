@@ -42,10 +42,5 @@ export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
   const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
 
-  return (
-    <>
-      <>Backlink</>
-      {viewSelector(areaCodes, indicators, searchState) ?? null}
-    </>
-  );
+  return viewSelector(areaCodes, indicators, searchState);
 }
