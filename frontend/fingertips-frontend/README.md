@@ -138,13 +138,13 @@ Any violations of this standard cause a test failure unless the rule violated ha
 
 Only performed in the e2e tests and only when they run in CI/CD, therefore they are not performed when the e2e tests are run locally. This is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
 
-All screenshots are stored in github cache.
+All screenshots are stored in github cache, not directly in the repository.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
 An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
 
-If you have made changes in your branch that have correctly resulted in the screenshots not matching, within tolerance, the base screenshots then you need to update the base screenshots. To do this execute a manual workflow from the 
+If you have made changes in your branch that have correctly resulted in the screenshots not matching, within tolerance, then firstly your e2e base screenshots then you need to update the base screenshots. To do go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
 
 
 ## Code structure

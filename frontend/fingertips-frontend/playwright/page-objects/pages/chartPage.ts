@@ -28,11 +28,7 @@ export default class ChartPage extends BasePage {
    * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
-  async checkChartVisibility(
-    indicatorMode: IndicatorMode,
-    areaMode: AreaMode,
-    compareVisualSnapshots: boolean
-  ) {
+  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
     const { visibleComponents, hiddenComponents } = getScenarioConfig(
       indicatorMode,
       areaMode
@@ -42,37 +38,29 @@ export default class ChartPage extends BasePage {
       `chart components: ${hiddenComponents} are not displayed.`
     );
     // Check that components expected to be visible are displayed
-    for (const component of visibleComponents) {
-      if (component !== 'lineChartTable-component') {
-        await expect(this.page.getByTestId(component)).toBeVisible({
+    for (const visibleComponent of visibleComponents) {
+      const component = this.page.getByTestId(visibleComponent);
+      if (visibleComponent !== 'lineChartTable-component') {
+        await expect(component).toBeVisible({
           visible: true,
         });
-        // click into the tab view
-        if (component === 'lineChartTable-component') {
+        // click into the tab view if checking lineChartTable
+        if (visibleComponent === 'lineChartTable-component') {
           await this.page.getByTestId('tabTitle-table').click();
-          await expect(this.page.getByTestId(component)).toBeVisible({
+          await expect(component).toBeVisible({
             visible: true,
           });
         }
+        // visual comparisons are skipped when running e2e test locally or against azure by passing the --ignore-snapshots flag
+        await expect(component).toHaveScreenshot();
       }
     }
 
     // Check that components expected not to be visible are not displayed
-    for (const component of hiddenComponents) {
-      await expect(this.page.getByTestId(component)).toBeVisible({
+    for (const hiddenComponent of hiddenComponents) {
+      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
         visible: false,
       });
-    }
-
-    if (compareVisualSnapshots) {
-      console.log(
-        'Executing visual comparisons as running in CI/CD environment.'
-      );
-      await expect(this.page).toHaveScreenshot();
-    } else {
-      console.log(
-        'Skipping visual comparison as running in local environment.'
-      );
     }
   }
 }
