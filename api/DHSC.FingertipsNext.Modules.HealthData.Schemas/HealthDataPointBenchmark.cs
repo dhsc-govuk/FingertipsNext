@@ -3,25 +3,19 @@ using System.Text.Json.Serialization;
 namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 /// <summary>
-/// Benchmark type and value
+///     Benchmark type and value
 /// </summary>
 public class HealthDataPointBenchmark
 {
     /// <summary>
-    /// The value
+    ///     The value
     /// </summary>
     [JsonPropertyName("value")]
-    public string? Value { get; init; } = String.Empty;
-    
+    public string Value { get; init; } = string.Empty;
+
     /// <summary>
-    /// Type
+    ///     Type
     /// </summary>
     [JsonPropertyName("type")]
-    public string? Type { get; init; } = String.Empty;
-    
-    /// <summary>
-    /// The compared value
-    /// </summary>
-    [JsonPropertyName("comparedTo")]
-    public float? ComparedTo { get; init; }
+    public string Type { get; init; } = string.Empty;
 }

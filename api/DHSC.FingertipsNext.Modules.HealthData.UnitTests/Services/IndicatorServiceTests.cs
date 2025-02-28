@@ -235,7 +235,7 @@ public class IndicatorServiceTests
         result[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode1);
         result[0].AreaName.ShouldBeEquivalentTo(expectedAreaName1);
         result[0].HealthData.First().Benchmark.ShouldBeEquivalentTo(new HealthDataPointBenchmark
-            { Value = expectedResult, Type = Benchmark.Rag, ComparedTo = benchmarkValue });
+            { Value = expectedResult, Type = Benchmark.Rag });
     }
 
     [Fact]

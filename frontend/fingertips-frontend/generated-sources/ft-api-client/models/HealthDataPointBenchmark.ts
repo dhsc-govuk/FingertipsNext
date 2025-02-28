@@ -31,12 +31,6 @@ export interface HealthDataPointBenchmark {
      * @memberof HealthDataPointBenchmark
      */
     type?: string;
-    /**
-     * the benchmark value used in the comparison
-     * @type {number}
-     * @memberof HealthDataPointBenchmark
-     */
-    comparedTo?: number;
 }
 
 /**
@@ -58,7 +52,6 @@ export function HealthDataPointBenchmarkFromJSONTyped(json: any, ignoreDiscrimin
         
         'value': json['value'] == null ? undefined : json['value'],
         'type': json['type'] == null ? undefined : json['type'],
-        'comparedTo': json['compared_to'] == null ? undefined : json['compared_to'],
     };
 }
 
@@ -75,7 +68,6 @@ export function HealthDataPointBenchmarkToJSONTyped(value?: HealthDataPointBench
         
         'value': value['value'],
         'type': value['type'],
-        'compared_to': value['comparedTo'],
     };
 }
 

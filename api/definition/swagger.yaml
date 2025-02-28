@@ -409,10 +409,6 @@ components:
               type: string
               example: rag
               description: the comparison method used
-            compared_to:
-              type: number
-              example: 123.456
-              description: the benchmark value used in the comparison
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant

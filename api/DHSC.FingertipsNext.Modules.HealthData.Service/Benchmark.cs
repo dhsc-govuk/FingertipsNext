@@ -63,8 +63,7 @@ public class Benchmark
         clone.Benchmark = new HealthDataPointBenchmark
         {
             Type = comparisonMethod,
-            Value = ragString,
-            ComparedTo = benchmarkEntry.Value
+            Value = ragString
         };
 
         return clone;
