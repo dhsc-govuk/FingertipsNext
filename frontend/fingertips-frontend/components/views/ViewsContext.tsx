@@ -37,7 +37,6 @@ export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
-    // [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
   const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
