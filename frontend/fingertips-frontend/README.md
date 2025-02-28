@@ -136,11 +136,14 @@ Any violations of this standard cause a test failure unless the rule violated ha
 
 ## Visual Screenshot Snapshot Testing
 
-Performed in the e2e tests and only when they run in CI/CD, they are not performed when the e2e tests are run locally to avoid flake as the screenshots will be different for different platforms.
+Only performed in the e2e tests and only when they run in CI/CD, therefore they are not performed when the e2e tests are run locally. This is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
 
-There is a manual workflow job to update the snapshots stored in the github cache. 
+If you are in a new branch, there wont be any screenshots for that branch, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
 An allowable tolerance of pixel difference is configured in the playwright config file, see maxDiffPixels.
+
+If you have made changes in your branch that have correctly resulted in the screenshots not matching the base screenshots, within the tolerance, then you need to update the base screenshots. There is a manual workflow job to do this and store them in the github cache. 
+
 
 ## Code structure
 
