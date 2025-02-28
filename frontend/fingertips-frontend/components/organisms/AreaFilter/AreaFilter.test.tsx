@@ -375,7 +375,7 @@ describe('Area Filter', () => {
       ).not.toBeDisabled();
     });
 
-    it('should render all applicable group provided', () => {
+    it('should render all applicable groups provided', () => {
       render(
         <AreaFilter
           availableAreaTypes={allAreaTypes}
