@@ -36,6 +36,7 @@ namespace DataCreator
             var greatgreatGrandchildrenOfNorthWestNHS = GetChildren(areas, greatGrandchildrenOfNorthWestNHS).Take(MAXNUMBERGPS).ToList();  //subset of GPs
 
             areasWeWant.Add(england.AreaCode);
+            areasWeWant.AddRange(level1s.Select(l=>l.AreaCode));
             areasWeWant.AddRange(childrenOfNorthWestAdmin.Select(area => area.AreaCode));
             areasWeWant.AddRange(grandchildrenOfNorthWestAdmin.Select(area => area.AreaCode));
             areasWeWant.AddRange(childrenOfNorthWestNHS.Select(area => area.AreaCode));
