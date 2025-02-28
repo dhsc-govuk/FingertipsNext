@@ -13,6 +13,7 @@ DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[AreaDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
 
 --create some age dimension data
 SET IDENTITY_INSERT [dbo].[AgeDimension] ON
