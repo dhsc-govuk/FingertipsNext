@@ -342,7 +342,7 @@ GO
 -- Create some deprivation dimension data
 SET IDENTITY_INSERT [dbo].[DeprivationDimension] ON
 
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (1, N'All', N'All', 1, 1)
+INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (1, N'All', N'All', 0, 1)
 
 INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (2, N'Most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 1)
 INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (3, N'Second most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 2)
