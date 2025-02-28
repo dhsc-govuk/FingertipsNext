@@ -40,6 +40,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
   associatedAreaCodes: [],
+  unitLabel: 'some unit label',
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),

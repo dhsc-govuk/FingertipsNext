@@ -49,6 +49,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
     associatedAreaCodes: [],
+    unitLabel: '',
   },
   {
     indicatorID: '2',
@@ -60,6 +61,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
     associatedAreaCodes: [],
+    unitLabel: '',
   },
 ];
 const searchedIndicator = 'test';

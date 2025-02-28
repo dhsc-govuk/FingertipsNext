@@ -18,6 +18,7 @@ export type IndicatorDocument = {
   latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
+  unitLabel: string;
 };
 
 export type AreaDocument = {
@@ -31,6 +32,7 @@ export interface IIndicatorSearchService {
     searchTerm: string,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]>;
+  getIndicator(indicatorId: string): Promise<IndicatorDocument | undefined>;
 }
 
 export interface IAreaSearchService {
