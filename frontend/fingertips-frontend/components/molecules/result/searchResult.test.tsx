@@ -19,6 +19,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     lastUpdatedDate: new Date('December 6, 2024'),
     associatedAreaCodes: [],
     hasInequalities: false,
+    unitLabel: '',
   },
   {
     indicatorID: '2',
@@ -31,6 +32,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     lastUpdatedDate: new Date('November 5, 2023'),
     associatedAreaCodes: [],
     hasInequalities: true,
+    unitLabel: '',
   },
 ];
 

@@ -19,6 +19,7 @@ export type IndicatorDocument = {
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
   hasInequalities: boolean;
+  unitLabel: string;
 };
 
 export type AreaDocument = {
@@ -32,6 +33,7 @@ export interface IIndicatorSearchService {
     searchTerm: string,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]>;
+  getIndicator(indicatorId: string): Promise<IndicatorDocument | undefined>;
 }
 
 export interface IAreaSearchService {

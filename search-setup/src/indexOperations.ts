@@ -101,6 +101,13 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         sortable: false,
         filterable: false,
       },
+      {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_UNIT_LABEL,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: false,
+        filterable: false,
+      },
     ],
     scoringProfiles: [
       {

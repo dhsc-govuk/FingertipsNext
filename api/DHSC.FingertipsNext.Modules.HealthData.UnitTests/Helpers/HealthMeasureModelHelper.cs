@@ -106,7 +106,6 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithSexDimension(
         string name = "sex name",
-        bool isFemale = false,
         bool hasValue = false,
         byte sexId = 0)
     {
@@ -114,7 +113,6 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = name,
-            IsFemale = isFemale,
             HasValue = hasValue,
             SexId = sexId
         };
@@ -128,7 +126,6 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = "sex name",
-            IsFemale = false,
             HasValue = false,
             SexId = 0
         };

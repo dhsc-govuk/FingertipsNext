@@ -10,12 +10,15 @@ jest.mock('@azure/search-documents', () => ({
 
 describe('IndicatorSearchService', () => {
   const mockSearch = jest.fn();
+  const mockGetDocument = jest.fn();
 
   (SearchClient as jest.Mock).mockImplementation(() => ({
     search: mockSearch,
+    getDocument: mockGetDocument,
   }));
 
   mockSearch.mockResolvedValue({ results: [] });
+  mockGetDocument.mockResolvedValue(undefined);
 
   describe('if the environment is configured it', () => {
     beforeEach(() => {
@@ -176,6 +179,55 @@ describe('IndicatorSearchService', () => {
 
       expect(results).toHaveLength(20);
     });
+  });
+
+  it('should call search client with correct parameter', async () => {
+    const indicatorId = '123';
+
+    const searchService = SearchServiceFactory.getIndicatorSearchService();
+    await searchService.getIndicator(indicatorId);
+
+    expect(SearchClient).toHaveBeenCalledWith(
+      'test-url',
+      INDICATOR_SEARCH_INDEX_NAME,
+      expect.any(Object)
+    );
+
+    expect(mockGetDocument).toHaveBeenCalledWith(indicatorId);
+  });
+
+  it('should get a single indicator document', async () => {
+    const mockResult = {
+      indicatorId: '123',
+      name: 'Test Indicator',
+      latestDataPeriod: undefined,
+      dataSource: 'Test Source',
+      lastUpdated: '2024-01-01',
+    };
+
+    mockGetDocument.mockResolvedValue(mockResult);
+
+    const searchService = SearchServiceFactory.getIndicatorSearchService();
+    const result = await searchService.getIndicator('123');
+
+    expect(result).toEqual({
+      indicatorId: '123',
+      name: 'Test Indicator',
+      latestDataPeriod: undefined,
+      dataSource: 'Test Source',
+      lastUpdated: '2024-01-01',
+    });
+  });
+
+  it('should return undefined if getDocument throws an error', async () => {
+    mockGetDocument.mockImplementation(async () => {
+      throw new Error('some error');
+    });
+
+    const searchService = SearchServiceFactory.getIndicatorSearchService();
+    const result = await searchService.getIndicator('123');
+
+    expect(result).toBeUndefined();
   });
 });
 
