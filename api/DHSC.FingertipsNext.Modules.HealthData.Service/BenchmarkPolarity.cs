@@ -4,12 +4,13 @@ public class BenchmarkPolarity
 {
     public const string LowIsGood = "Low Is Good";
     public const string HighIsGood = "High Is Good";
+    public const string NoJudgement = "NoJudgement";
     public const string RagLower = "LOWER";
     public const string RagHigher = "HIGHER";
     public const string RagBetter = "BETTER";
     public const string RagWorse = "WORSE";
     public const string RagSimilar = "SIMILAR";
-    
+
     public static string GetRagString(int ragValue, string polarity)
     {
         if (polarity == LowIsGood) return GetLowerIsGood(ragValue);
