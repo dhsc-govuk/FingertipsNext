@@ -15,6 +15,15 @@ describe('Inequalities suite', () => {
     expect(
       screen.getByTestId('inequalitiesTable-component')
     ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('inequalitiesBarChartTable-component')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
+    ).toBeInTheDocument();
   });
 
   describe('mapToInequalitiesTableData', () => {

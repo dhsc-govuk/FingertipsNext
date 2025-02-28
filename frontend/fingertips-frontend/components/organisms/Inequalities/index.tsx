@@ -10,6 +10,8 @@ import {
   groupHealthDataByYear,
   mapToKey,
 } from './inequalitiesHelpers';
+import { H4 } from 'govuk-react';
+import { TabContainer } from '@/components/layouts/tabContainer';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
@@ -88,17 +90,52 @@ export function Inequalities({
 
   return (
     <div data-testid="inequalities-component">
-      <InequalitiesTable
-        tableData={tableData}
-        yearlyHealthDataGroupedByInequalities={
-          yearlyHealthDataGroupedByInequalities
-        }
+      <H4>Inequalities data for a single time period</H4>
+      <TabContainer
+        id="inequalitiesBarChartAndTable"
+        items={[
+          {
+            id: 'inequalitiesBarChart',
+            title: 'Line chart',
+            content: <div>To be created</div>,
+          },
+          {
+            id: 'inequalitiesBarChartTable',
+            title: 'Tabular data',
+            content: (
+              <InequalitiesBarChartTable
+                tableData={barchartTableData}
+                yearlyHealthDataGroupedByInequalities={
+                  yearlyHealthDataGroupedByInequalities
+                }
+              />
+            ),
+          },
+        ]}
       />
-      <InequalitiesBarChartTable
-        tableData={barchartTableData}
-        yearlyHealthDataGroupedByInequalities={
-          yearlyHealthDataGroupedByInequalities
-        }
+      <br />
+      <H4>Inequalities data over time</H4>
+      <TabContainer
+        id="inequalitiesLineChartAndTable"
+        items={[
+          {
+            id: 'inequalitiesLineChart',
+            title: 'Line chart',
+            content: <div>To be created</div>,
+          },
+          {
+            id: 'inequalitiesLineChartTable',
+            title: 'Tabular data',
+            content: (
+              <InequalitiesTable
+                tableData={tableData}
+                yearlyHealthDataGroupedByInequalities={
+                  yearlyHealthDataGroupedByInequalities
+                }
+              />
+            ),
+          },
+        ]}
       />
     </div>
   );
