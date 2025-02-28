@@ -65,10 +65,14 @@ export default class ChartPage extends BasePage {
     }
 
     if (compareVisualSnapshots) {
-      // Only run visual snapshot comparison in CI and CD
+      console.log(
+        'Executing visual comparisons as running in CI/CD environment.'
+      );
       await expect(this.page).toHaveScreenshot();
     } else {
-      console.log('Skipping visual comparison in local environment');
+      console.log(
+        'Skipping visual comparison as running in local environment.'
+      );
     }
   }
 }
