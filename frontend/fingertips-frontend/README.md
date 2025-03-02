@@ -150,7 +150,7 @@ If you have made changes in your branch that have correctly resulted in the scre
 2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new images are correct.
 3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 
-Now that the screenshots are updated in the cache *for your current branch* you all subsequent workflow execution that trigger the e2e test in CI will pass. 
+Now that the screenshots are updated in the cache *for your current branch* you all subsequent workflow execution that trigger the e2e test in CI will pass.
 
 When you merge to main the screenshots will be automatically updated in the cache for main.
 
