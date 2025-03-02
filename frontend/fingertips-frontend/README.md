@@ -134,9 +134,9 @@ To check there are 0 accessibility violations call expectNoAccessibilityViolatio
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
-## Visual Screenshot Testing
+## Visual Screenshot Snapshot Testing
 
-Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Not running them locally is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
+Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Not running them locally is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshot snapshots will be different for different platforms.
 
 All screenshots are stored in github cache, not directly in the repository.
 
@@ -148,7 +148,7 @@ If you have made changes in your branch that have correctly resulted in the scre
 
 1. Download the `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new images are correct.
-3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
+3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 
 Now that the screenshots are updated in the cache *for your current branch* you all subsequent workflow execution that trigger the e2e test in CI will pass.
 

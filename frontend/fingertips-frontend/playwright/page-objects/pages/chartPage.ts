@@ -35,7 +35,7 @@ export default class ChartPage extends BasePage {
     );
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed.`
+      `chart components: ${hiddenComponents} are not displayed. Also checking the components via screenshot snapshot testing.`
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
@@ -51,9 +51,9 @@ export default class ChartPage extends BasePage {
             visible: true,
           });
         }
-        // visual comparisons are skipped when running e2e test locally or against azure by passing the --ignore-snapshots flag
+        // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
         console.log(
-          `checking visual comparison against base image of ${component}`
+          `checking component:${component} for unexpected visual changes - see directory README.md for details.`
         );
         await expect(component).toHaveScreenshot();
       }
