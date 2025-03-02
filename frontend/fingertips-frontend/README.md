@@ -136,20 +136,23 @@ Any violations of this standard cause a test failure unless the rule violated ha
 
 ## Visual Screenshot Testing
 
-Only performed in the e2e tests and only when they run in CI/CD, therefore they are not performed when the e2e tests are run locally. This is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
+Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Not running them locally is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshots will be different for different platforms.
 
 All screenshots are stored in github cache, not directly in the repository.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
-An allowable tolerance of ratio of pixel difference is configured in the playwright config file, see maxDiffPixelRatio.
+See maxDiffPixelRatio in the playwright config file for an allowable tolerance ratio of pixel difference.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you need to update the base screenshots:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then the e2e tests will fail and you you will need to update the base screenshots. To do this follow this step by step guide:
 
-1. Review and compare the expected (base) and actual (current) in the playwright report with a BA to confirm the new images are correct. To do this you will need to download the `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a Diff page that shows the before and after, there are other options but the Slider option I find most helpful.
-2. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
-3. Now the screenshots will be updated in the cache *for your current branch*.
-4. 
+1. Download the `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
+2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new images are correct.
+3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
+
+Now that the screenshots are updated in the cache *for your current branch* you all subsequent workflow execution that trigger the e2e test in CI will pass. 
+
+When you merge to main the screenshots will be automatically updated in the cache for main.
 
 ## Code structure
 
