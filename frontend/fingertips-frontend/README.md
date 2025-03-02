@@ -144,7 +144,12 @@ If you are in a new branch, there wont be any screenshots for that branch yet, s
 
 An allowable tolerance of ratio of pixel difference is configured in the playwright config file, see maxDiffPixelRatio.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you likely need to update the base screenshots. First you should review and compare the expected (base) and actual (current) in the playwright report with a BA to confirm the new images are correct. Once confirmed go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then you need to update the base screenshots:
+
+1. Review and compare the expected (base) and actual (current) in the playwright report with a BA to confirm the new images are correct. To do this you will need to download the `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a Diff page that shows the before and after, there are other options but the Slider option I find most helpful.
+2. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then pick your branch and tick the `Update snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated.
+3. Now the screenshots will be updated in the cache *for your current branch*.
+4. 
 
 ## Code structure
 
