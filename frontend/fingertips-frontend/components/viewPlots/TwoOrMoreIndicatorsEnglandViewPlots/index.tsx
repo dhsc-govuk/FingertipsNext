@@ -2,7 +2,7 @@
 
 import { H2, H3 } from 'govuk-react';
 
-export function TwoOrMoreIndicatorsEnglandDashboard() {
+export function TwoOrMoreIndicatorsEnglandViewPlots() {
   return (
     <>
       <H2>View indicators data for England</H2>

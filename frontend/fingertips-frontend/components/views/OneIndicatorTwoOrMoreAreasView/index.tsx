@@ -1,4 +1,4 @@
-import { OneIndicatorTwoOrMoreAreasDashboard } from '@/components/dashboards/OneIndicatorTwoOrMoreAreasDashboard';
+import { OneIndicatorTwoOrMoreAreasViewPlots } from '@/components/viewPlots/OneIndicatorTwoOrMoreAreasViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -27,5 +27,5 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
   console.log('TODO: fetch map data for GROUP');
 
-  return <OneIndicatorTwoOrMoreAreasDashboard />;
+  return <OneIndicatorTwoOrMoreAreasViewPlots />;
 }

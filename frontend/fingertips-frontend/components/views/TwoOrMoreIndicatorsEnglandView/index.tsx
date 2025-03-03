@@ -1,4 +1,4 @@
-import { TwoOrMoreIndicatorsEnglandDashboard } from '@/components/dashboards/TwoOrMoreIndicatorsEnglandDashboard';
+import { TwoOrMoreIndicatorsEnglandViewPlots } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -32,5 +32,5 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     toString()
   );
 
-  return <TwoOrMoreIndicatorsEnglandDashboard />;
+  return <TwoOrMoreIndicatorsEnglandViewPlots />;
 }

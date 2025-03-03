@@ -1,4 +1,4 @@
-import { OneIndicatorOneAreaDashboard } from '@/components/dashboards/OneIndicatorOneAreaDashboard';
+import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { ViewProps } from '../ViewsContext';
@@ -24,5 +24,5 @@ export default async function OneIndicatorOneAreaView({
   console.log('TODO: include inequalities data in healthData fetch');
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
-  return <OneIndicatorOneAreaDashboard />;
+  return <OneIndicatorOneAreaViewPlots />;
 }
