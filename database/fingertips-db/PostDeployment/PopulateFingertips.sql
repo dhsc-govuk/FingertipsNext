@@ -3327,6 +3327,22 @@ SELECT
 FROM #TempAreaData;
 GO
 
+-- Insert additional district-level records for applicable AreaCodes
+INSERT INTO [Areas].[Areas] (AreaCode, AreaName, AreaTypeKey)
+SELECT
+    AreaCode,
+    AreaName,
+    (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities') -- Lookup AreaTypeKey
+FROM #TempAreaData
+WHERE 
+    LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')  -- Match the required areaCode prefixes
+    AND NOT EXISTS (
+        SELECT 1 FROM [Areas].[Areas] 
+        WHERE AreaCode = #TempAreaData.AreaCode 
+        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities')
+    );
+GO
+
 INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area1  WHERE area1.[AreaCode] = T.AreaCode),
@@ -3336,6 +3352,19 @@ CROSS APPLY
     STRING_SPLIT(Children, '|')
 WHERE
     value!='""'
+GO
+
+-- Insert parent-child relationships for newly created district-level areas
+INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+SELECT
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = T.AreaCode 
+        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities')),
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
+FROM #TempAreaData T
+CROSS APPLY STRING_SPLIT(Children, '|')
+WHERE 
+    LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')
+    AND value != '""'
 GO
 
 DROP TABLE #TempAreaData;
