@@ -9,6 +9,7 @@ import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -27,14 +28,25 @@ export default async function Page(
   try {
     await connection();
 
+    const areasApi = ApiClientFactory.getAreasApiClient();
+
+    const selectedAreasData =
+      areasSelected && areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
+
     const {
       availableAreaTypes,
       availableAreas,
-      selectedAreasData,
       availableGroupTypes,
       availableGroups,
       updatedSearchState,
-    } = await getAreaFilterData(stateManager.getSearchState());
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
+      selectedAreasData
+    );
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
@@ -58,10 +70,12 @@ export default async function Page(
       <SearchResults
         initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
-        availableAreaTypes={availableAreaTypes}
-        availableAreas={availableAreas}
-        availableGroupTypes={availableGroupTypes}
-        availableGroups={availableGroups}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
         currentDate={new Date()}

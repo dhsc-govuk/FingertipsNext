@@ -13,25 +13,19 @@ import {
 } from '@/lib/searchStateManager';
 import { AreaFilter } from '@/components/organisms/AreaFilter';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  AreaWithRelations,
-  AreaType,
-  Area,
-} from '@/generated-sources/ft-api-client';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
 import {
   IndicatorSearchFormState,
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
+import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
-  availableAreaTypes?: AreaType[];
-  availableGroupTypes?: AreaType[];
-  availableGroups?: Area[];
-  availableAreas?: Area[];
+  areaFilterData?: AreaFilterData;
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
   currentDate?: Date;
@@ -45,10 +39,7 @@ const generateBackLinkPath = (state?: SearchStateParams) => {
 export function SearchResults({
   initialIndicatorSelectionState,
   searchResults,
-  availableAreaTypes,
-  availableGroupTypes,
-  availableGroups,
-  availableAreas,
+  areaFilterData,
   selectedAreasData,
   searchState,
   currentDate,
@@ -102,10 +93,7 @@ export function SearchResults({
           <GridCol setWidth="one-third">
             <AreaFilter
               key={JSON.stringify(searchState)}
-              availableAreaTypes={availableAreaTypes}
-              availableGroupTypes={availableGroupTypes}
-              availableGroups={availableGroups}
-              availableAreas={availableAreas}
+              areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
               searchState={searchState}
             />

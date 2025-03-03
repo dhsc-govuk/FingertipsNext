@@ -63,7 +63,13 @@ describe('SelectAreasFilterPanel', () => {
     });
 
     it('should render the select area type drop down when there are no areas selected', () => {
-      render(<SelectAreasFilterPanel availableAreaTypes={allAreaTypes} />);
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+          }}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: areaTypeDropDownLabel })
@@ -71,7 +77,11 @@ describe('SelectAreasFilterPanel', () => {
     });
 
     it('should render all the available areaTypes sorted by level', () => {
-      render(<SelectAreasFilterPanel availableAreaTypes={allAreaTypes} />);
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
+        />
+      );
 
       const areaTypeDropDown = screen.getByRole('combobox', {
         name: areaTypeDropDownLabel,
@@ -91,7 +101,7 @@ describe('SelectAreasFilterPanel', () => {
     it('should have have the areaTypeSelected as the pre-selected value', () => {
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -113,7 +123,7 @@ describe('SelectAreasFilterPanel', () => {
       const user = userEvent.setup();
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
           }}
@@ -140,7 +150,7 @@ describe('SelectAreasFilterPanel', () => {
       const user = userEvent.setup();
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.GroupTypeSelected]: 'england',
@@ -196,8 +206,10 @@ describe('SelectAreasFilterPanel', () => {
     it('should render all applicable group types provided', () => {
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -222,8 +234,10 @@ describe('SelectAreasFilterPanel', () => {
     it('should have have the groupTypeSelected as the pre-selected value', () => {
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.GroupTypeSelected]: 'england',
@@ -248,8 +262,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
@@ -279,8 +295,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
@@ -332,8 +350,10 @@ describe('SelectAreasFilterPanel', () => {
     it('should render all applicable groups provided', () => {
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -358,8 +378,10 @@ describe('SelectAreasFilterPanel', () => {
     it('should have have the group selected as the pre-selected value', () => {
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.GroupTypeSelected]: 'england',
@@ -385,8 +407,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
             [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
@@ -411,8 +435,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -433,8 +459,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
@@ -469,8 +497,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -496,8 +526,10 @@ describe('SelectAreasFilterPanel', () => {
 
       render(
         <SelectAreasFilterPanel
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.AreasSelected]: ['E40000007'],

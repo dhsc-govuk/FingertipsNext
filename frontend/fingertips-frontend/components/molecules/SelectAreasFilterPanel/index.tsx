@@ -12,12 +12,16 @@ import { Checkbox, FormGroup, LabelText, Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
-interface SelectAreasFilterPanelProps {
-  selectedAreasData?: AreaWithRelations[];
+export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
   availableGroupTypes?: AreaType[];
   availableGroups?: Area[];
   availableAreas?: Area[];
+};
+
+interface SelectAreasFilterPanelProps {
+  selectedAreasData?: AreaWithRelations[];
+  areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
 }
 
@@ -40,15 +44,13 @@ const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
 
 export function SelectAreasFilterPanel({
   selectedAreasData,
-  availableAreaTypes,
-  availableGroupTypes,
-  availableGroups,
-  availableAreas,
+  areaFilterData,
   searchState,
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  // const { availableAreaTypes, availableGroupTypes, availableGroups. availableAreas} = areaFilterData;
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const areaTypeSelected = (valueSelected: string) => {
@@ -107,7 +109,7 @@ export function SelectAreasFilterPanel({
           disabled: selectedAreasData && selectedAreasData?.length > 0,
         }}
       >
-        {availableAreaTypes?.map((areaType) => (
+        {areaFilterData?.availableAreaTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
             {areaType.name}
           </option>
@@ -123,7 +125,7 @@ export function SelectAreasFilterPanel({
           disabled: selectedAreasData && selectedAreasData?.length > 0,
         }}
       >
-        {availableGroupTypes?.map((areaType) => (
+        {areaFilterData?.availableGroupTypes?.map((areaType) => (
           <option key={areaType.key} value={areaType.key}>
             {areaType.name}
           </option>
@@ -138,7 +140,7 @@ export function SelectAreasFilterPanel({
           disabled: selectedAreasData && selectedAreasData?.length > 0,
         }}
       >
-        {availableGroups?.map((area) => (
+        {areaFilterData?.availableGroups?.map((area) => (
           <option key={area.code} value={area.code}>
             {area.name}
           </option>
@@ -147,7 +149,7 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
-        {availableAreas?.map((area) => {
+        {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,
             selectedAreasData

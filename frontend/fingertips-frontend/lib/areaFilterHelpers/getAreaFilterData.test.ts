@@ -9,10 +9,7 @@ import {
   nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
 } from './areaType';
-import {
-  eastEnglandNHSRegion,
-  londonNHSRegion,
-} from '@/mock/data/areas/nhsRegionsAreas';
+import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { SearchParams } from '../searchStateManager';
 import {
   mockAreaDataForNHSRegion,
@@ -38,23 +35,6 @@ describe('getAreaFilterData', () => {
 
     expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
-  });
-
-  it('should return selectedAreasData with data from getArea for each areaSelected', async () => {
-    mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
-    mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
-
-    const { selectedAreasData } = await getAreaFilterData({
-      [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
-    });
-
-    expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-      areaCode: eastEnglandNHSRegion.code,
-    });
-    expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
-      areaCode: londonNHSRegion.code,
-    });
-    expect(selectedAreasData).toEqual([eastEnglandNHSRegion, londonNHSRegion]);
   });
 
   it('should return availableGroupTypes prop with a subset of areaTypes that are applicable based upon the areaTypeSelected', async () => {

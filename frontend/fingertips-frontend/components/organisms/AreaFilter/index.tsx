@@ -1,21 +1,17 @@
-import {
-  Area,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { H3, SectionBreak } from 'govuk-react';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
-import { SelectAreasFilterPanel } from '@/components/molecules/SelectAreasFilterPanel';
+import {
+  AreaFilterData,
+  SelectAreasFilterPanel,
+} from '@/components/molecules/SelectAreasFilterPanel';
 
 interface AreaFilterProps {
   selectedAreasData?: AreaWithRelations[];
-  availableAreaTypes?: AreaType[];
-  availableGroupTypes?: AreaType[];
-  availableGroups?: Area[];
-  availableAreas?: Area[];
+  areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
 }
 
@@ -36,10 +32,7 @@ const StyledFilterDiv = styled('div')({
 
 export function AreaFilter({
   selectedAreasData,
-  availableAreaTypes,
-  availableGroupTypes,
-  availableGroups,
-  availableAreas,
+  areaFilterData,
   searchState,
 }: Readonly<AreaFilterProps>) {
   return (
@@ -57,10 +50,7 @@ export function AreaFilter({
         <ShowHideContainer summary="Add or change areas">
           <SelectAreasFilterPanel
             selectedAreasData={selectedAreasData}
-            availableAreaTypes={availableAreaTypes}
-            availableGroupTypes={availableGroupTypes}
-            availableGroups={availableGroups}
-            availableAreas={availableAreas}
+            areaFilterData={areaFilterData}
             searchState={searchState}
           />
         </ShowHideContainer>

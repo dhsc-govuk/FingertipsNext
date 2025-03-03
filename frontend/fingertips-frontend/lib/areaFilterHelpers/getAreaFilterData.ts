@@ -17,7 +17,6 @@ import { determineSelectedGroupType } from './determineSelectedGroupType';
 
 type AreaFilterData = {
   availableAreaTypes?: AreaType[];
-  selectedAreasData?: AreaWithRelations[];
   availableGroupTypes?: AreaType[];
   availableGroups?: Area[];
   availableAreas?: Area[];
@@ -25,12 +24,12 @@ type AreaFilterData = {
 };
 
 export const getAreaFilterData = async (
-  searchState: SearchStateParams
+  searchState: SearchStateParams,
+  selectedAreasData?: AreaWithRelations[]
 ): Promise<AreaFilterData> => {
   const stateManager = SearchStateManager.initialise(searchState);
 
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupTypeSelected]: selectedGroupType,
     [SearchParams.GroupSelected]: selectedGroup,
@@ -42,13 +41,6 @@ export const getAreaFilterData = async (
   const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
     (a, b) => a.level - b.level
   );
-
-  const selectedAreasData =
-    areasSelected && areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
-        )
-      : [];
 
   const determinedSelectedAreaType = determineSelectedAreaType(
     selectedAreaType as AreaTypeKeys,
@@ -94,7 +86,6 @@ export const getAreaFilterData = async (
 
   return {
     availableAreaTypes: sortedByLevelAreaTypes,
-    selectedAreasData,
     availableGroupTypes,
     availableGroups,
     availableAreas,
