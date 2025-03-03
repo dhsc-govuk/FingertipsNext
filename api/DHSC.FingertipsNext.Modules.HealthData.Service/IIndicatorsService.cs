@@ -21,5 +21,5 @@ public interface IIndicatorsService
     /// If more than 10 years are supplied only data for the first 10 distinct years will be returned.
     /// If more than 10 area codes are supplied only data for the first 10 distinct area codes will be returned.
     /// </remarks>
-    Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities);
+    Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, IEnumerable<string> areaCodes, IEnumerable<int> years, IEnumerable<string> inequalities);
 }

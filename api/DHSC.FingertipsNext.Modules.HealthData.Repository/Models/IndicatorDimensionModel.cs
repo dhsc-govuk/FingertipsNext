@@ -6,10 +6,10 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 public class IndicatorDimensionModel
 {
     [Key]
-    public required short IndicatorKey { get; set; }
+    public short IndicatorKey { get; set; }
     [MaxLength(255)]
-    public required string Name { get; set; }
-    public required int IndicatorId { get; set; }
-    public required DateTime StartDate { get; set; }
-    public required DateTime EndDate { get; set; }
+    public string Name { get; set; }
+    public int IndicatorId { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
 }

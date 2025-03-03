@@ -1,0 +1,313 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Inequalities bar chart table suite Sex inequality snapshot test - should match snapshot 1`] = `
+<DocumentFragment>
+  .c1 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c1:last-child {
+  padding-right: 0;
+}
+
+.c5 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c5:last-child {
+  padding-right: 0;
+}
+
+.c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c2 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c4 {
+  text-align: right;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-right: 0;
+}
+
+.c8 {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.c7 {
+  text-align: left;
+  width: 10%;
+}
+
+.c3 {
+  text-align: left;
+  vertical-align: top;
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c2 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c6 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    data-testid="inequalitiesBarChartTable-component"
+  >
+    <table
+      class="c0"
+    >
+      <thead
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <th
+            class="c1 c2 c3"
+            colspan="4"
+            style="padding-left: 20px;"
+          >
+            South FooBar
+          </th>
+          <th
+            class="c1 c2 c4"
+            colspan="2"
+            style="padding-right: 20px;"
+          >
+            95% confidence limits
+          </th>
+        </tr>
+        <tr
+          class=""
+        >
+          <th
+            class="c1 c2 c3"
+            data-testid="heading-Grouping types"
+            style="width: 16%;"
+          >
+            Grouping types
+          </th>
+          <th
+            class="c1 c2 c4"
+            data-testid="heading-Compared to Persons"
+            style="width: 16%;"
+          >
+            Compared to Persons
+          </th>
+          <th
+            class="c1 c2 c4"
+            data-testid="heading-Count"
+            style="width: 16%;"
+          >
+            Count
+          </th>
+          <th
+            class="c1 c2 c4"
+            data-testid="heading-Value"
+            style="width: 16%;"
+          >
+            Value
+          </th>
+          <th
+            class="c1 c2 c4"
+            data-testid="heading-Lower"
+            style="width: 16%;"
+          >
+            Lower
+          </th>
+          <th
+            class="c1 c2 c4"
+            data-testid="heading-Upper"
+            style="width: 16%;"
+          >
+            Upper
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class=""
+      >
+        <tr
+          class=""
+        >
+          <td
+            class="c5 c6 c7"
+          >
+            Persons
+          </td>
+          <td
+            class="c5 c6 c8"
+          />
+          <td
+            class="c5 c6 c8"
+          >
+            222
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            135.149304
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            441.69151
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c5 c6 c7"
+          >
+            Male
+          </td>
+          <td
+            class="c5 c6 c8"
+          />
+          <td
+            class="c5 c6 c8"
+          >
+            131
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            890.328253
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            441.69151
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            578.32766
+          </td>
+        </tr>
+        <tr
+          class=""
+        >
+          <td
+            class="c5 c6 c7"
+          >
+            Female
+          </td>
+          <td
+            class="c5 c6 c8"
+          />
+          <td
+            class="c5 c6 c8"
+          >
+            131
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            890.328253
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            441.69151
+          </td>
+          <td
+            class="c5 c6 c8"
+          >
+            578.32766
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

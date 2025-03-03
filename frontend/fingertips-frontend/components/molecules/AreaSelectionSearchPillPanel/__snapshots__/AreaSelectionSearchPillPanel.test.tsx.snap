@@ -33,48 +33,6 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
   margin-bottom: 5px;
 }
 
-.c11 {
-  margin: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  margin-bottom: 15px;
-}
-
-.c11 > p {
-  margin: 0;
-}
-
-.c11 > p > code {
-  padding: 0.2em 0.4em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(27,31,35,0.05);
-  border-radius: 3px;
-}
-
-.c11 > pre {
-  padding: 16px;
-  overflow: auto;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f6f8fa;
-  border-radius: 3px;
-}
-
-.c11 > pre > code {
-  display: inline;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  overflow: visible;
-  line-height: inherit;
-  word-wrap: normal;
-}
-
 .c9 {
   cursor: pointer;
 }
@@ -95,6 +53,8 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
 .c10 {
   word-wrap: break-word;
   padding-left: 0.5em;
+  font-size: 16px;
+  margin-bottom: 0;
 }
 
 .c8 {
@@ -109,13 +69,21 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
 }
 
 .c12 {
-  margin-bottom: 0;
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.1428571428571428;
+  padding-right: 5px;
+}
+
+.c11 {
+  padding: 5px 10px 5px 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 300;
+}
+
+.c13 {
+  color: #505A5F;
+  padding-top: 1px;
 }
 
 .c3 {
@@ -184,40 +152,6 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
   }
 }
 
-@media print {
-  .c11 {
-    font-size: 14px;
-    line-height: 1.15;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c11 {
-    font-size: 19px;
-    line-height: 1.3157894736842106;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c11 {
-    margin-bottom: 20px;
-  }
-}
-
-@media print {
-  .c12 {
-    font-size: 14px;
-    line-height: 1.2;
-  }
-}
-
-@media only screen and (min-width:641px) {
-  .c12 {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
 <div>
     <span
       class="c0"
@@ -271,11 +205,18 @@ exports[`AreaSelectionSearchPillPanel take a snapshot of component and it render
             data-testid="filter-name"
           >
             <div
-              class="c11 c12"
+              class="c11"
             >
-              <p>
+              <span
+                class="c12"
+              >
                 Some gp practice here
-              </p>
+              </span>
+              <span
+                class="c13"
+              >
+                some types information
+              </span>
             </div>
           </div>
         </div>

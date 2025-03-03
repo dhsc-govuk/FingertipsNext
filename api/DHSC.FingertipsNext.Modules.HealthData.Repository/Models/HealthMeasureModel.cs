@@ -7,29 +7,31 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 public class HealthMeasureModel
 {
     [Key]
-    public required int HealthMeasureKey { get; set; }
-    public required AreaDimensionModel AreaDimension { get; set; }
+    public int HealthMeasureKey { get; set; }
+    public AreaDimensionModel? AreaDimension { get; set; }
+
     [ForeignKey("AreaDimension")]
-    public required int AreaKey { get; set; }
-    public required IndicatorDimensionModel IndicatorDimension { get; set; }
+    public int AreaKey { get; set; }
+    public IndicatorDimensionModel? IndicatorDimension { get; set; }
+
     [ForeignKey("IndicatorDimension")]
-    public required short IndicatorKey { get; set; }
-    public required SexDimensionModel SexDimension { get; set; }
+    public short IndicatorKey { get; set; }
+    public SexDimensionModel? SexDimension { get; set; }
+
     [ForeignKey("SexDimension")]
-    public required byte SexKey { get; set; }
+    public byte SexKey { get; set; }
     public TrendDimensionModel? TrendDimension { get; set; }
     [ForeignKey("TrendDimension")]
     public byte TrendKey { get; set; }
-    public required AgeDimensionModel AgeDimension { get; set; }
+    public AgeDimensionModel? AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
-    public required short AgeKey { get; set; }
-    public required DeprivationDimensionModel DeprivationDimension { get; set; }
+    public short AgeKey { get; set; }
+    public DeprivationDimensionModel DeprivationDimension { get; set; }
     [ForeignKey("DeprivationDimension")]
-    public required short DeprivationKey { get; set; }
+    public short DeprivationKey { get; set; }
     public double? Count { get; set; }
     public double? Value { get; set; }
-    public double? LowerCI { get; set; }
-    public double? UpperCI { get; set; }
-    
-    public required short Year { get; set; }
+    public double? LowerCi { get; set; }
+    public double? UpperCi { get; set; }
+    public short Year { get; set; }
 }

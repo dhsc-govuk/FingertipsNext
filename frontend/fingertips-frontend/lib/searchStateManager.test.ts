@@ -39,6 +39,28 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('setState', () => {
+    it('should update the searchState with state provided', () => {
+      const params: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const stateManager = SearchStateManager.initialise(params);
+
+      stateManager.setState({
+        ...params,
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      });
+
+      expect(stateManager.getSearchState()).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      });
+    });
+  });
+
   describe('addParamValueToState', () => {
     it('should add a multi value type param value to the array when initially empty', () => {
       const stateManager = SearchStateManager.initialise({
