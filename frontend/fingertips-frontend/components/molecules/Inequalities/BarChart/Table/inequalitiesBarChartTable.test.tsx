@@ -1,9 +1,11 @@
-import { InequalitiesBarChartTableData } from '@/components/organisms/Inequalities';
 import { InequalitiesBarChartTable, InequalitiesBarChartTableHeaders } from '.';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { Inequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  Inequalities,
+  InequalitiesBarChartTableData,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
@@ -11,23 +13,25 @@ describe('Inequalities bar chart table suite', () => {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       data: {
         period: 2008,
-        Persons: {
-          value: 135.149304,
-          count: 222,
-          upper: 578.32766,
-          lower: 441.69151,
-        },
-        Male: {
-          value: 890.328253,
-          count: 131,
-          upper: 578.32766,
-          lower: 441.69151,
-        },
-        Female: {
-          value: 890.328253,
-          count: 131,
-          upper: 578.32766,
-          lower: 441.69151,
+        inequalities: {
+          Persons: {
+            value: 135.149304,
+            count: 222,
+            upper: 578.32766,
+            lower: 441.69151,
+          },
+          Male: {
+            value: 890.328253,
+            count: 131,
+            upper: 578.32766,
+            lower: 441.69151,
+          },
+          Female: {
+            value: 890.328253,
+            count: 131,
+            upper: 578.32766,
+            lower: 441.69151,
+          },
         },
       },
     };
@@ -72,9 +76,11 @@ describe('Inequalities bar chart table suite', () => {
         areaName: tableData.areaName,
         data: {
           period: 2004,
-          Persons: { value: 890.3432 },
-          Male: { value: 703.420759 },
-          Female: { value: 703.420759 },
+          inequalities: {
+            Persons: { value: 890.3432 },
+            Male: { value: 703.420759 },
+            Female: { value: 703.420759 },
+          },
         },
       };
 

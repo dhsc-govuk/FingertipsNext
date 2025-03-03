@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesTable } from '.';
+import { InequalitiesLineChartTable } from '.';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { InequalitiesLineChartTableData } from '@/components/organisms/Inequalities';
-import { Inequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  Inequalities,
+  InequalitiesLineChartTableData,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {
@@ -14,22 +16,26 @@ describe('Inequalities table suite', () => {
       rowData: [
         {
           period: 2004,
-          Persons: { value: 890.3432 },
-          Male: { value: 703.420759 },
-          Female: { value: 703.420759 },
+          inequalities: {
+            Persons: { value: 890.3432 },
+            Male: { value: 703.420759 },
+            Female: { value: 703.420759 },
+          },
         },
         {
           period: 2008,
-          Persons: { value: 135.149304 },
-          Male: { value: 890.328253 },
-          Female: { value: 890.328253 },
+          inequalities: {
+            Persons: { value: 135.149304 },
+            Male: { value: 890.328253 },
+            Female: { value: 890.328253 },
+          },
         },
       ],
     };
 
     it('should render the InequalitiesTable component', () => {
       render(
-        <InequalitiesTable
+        <InequalitiesLineChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
@@ -45,7 +51,7 @@ describe('Inequalities table suite', () => {
       const headings = ['Period', 'Persons', 'Male', 'Female'];
 
       render(
-        <InequalitiesTable
+        <InequalitiesLineChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
@@ -73,19 +79,21 @@ describe('Inequalities table suite', () => {
         rowData: [
           {
             period: 2004,
-            Persons: { value: 890.3432 },
-            Male: { value: 703.420759 },
-            Female: { value: 703.420759 },
+            inequalities: {
+              Persons: { value: 890.3432 },
+              Male: { value: 703.420759 },
+              Female: { value: 703.420759 },
+            },
           },
           {
             period: 2008,
-            Persons: { value: 135.149304 },
+            inequalities: { Persons: { value: 135.149304 } },
           },
         ],
       };
 
       render(
-        <InequalitiesTable
+        <InequalitiesLineChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
@@ -101,7 +109,7 @@ describe('Inequalities table suite', () => {
 
     it('snapshot test - should match snapshot', () => {
       const container = render(
-        <InequalitiesTable
+        <InequalitiesLineChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}

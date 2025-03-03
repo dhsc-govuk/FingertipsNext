@@ -1,10 +1,7 @@
 import {
-  InequalitiesBarChartTableData,
-  RowDataFields,
-} from '@/components/organisms/Inequalities';
-import {
   getDynamicKeys,
   Inequalities,
+  InequalitiesBarChartTableData,
   YearlyHealthDataGroupedByInequalities,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
@@ -91,35 +88,28 @@ export function InequalitiesBarChartTable({
                 getCellHeader(header, tableData.areaName)
               )}
             </Table.Row>
-            {dynamicKeys.map((key) => (
-              <Table.Row key={key}>
-                <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
-                <StyledAlignRightTableCell></StyledAlignRightTableCell>
-                <StyledAlignRightTableCell>
-                  {getDisplayedValue(
-                    (tableData.data[key] as RowDataFields).count
-                  )}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell>
-                  {getDisplayedValue(
-                    (tableData.data[key] as RowDataFields).value
-                  )}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell>
-                  {getDisplayedValue(
-                    (tableData.data[key] as RowDataFields).lower
-                  )}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell>
-                  {getDisplayedValue(
-                    (tableData.data[key] as RowDataFields).upper
-                  )}
-                </StyledAlignRightTableCell>
-              </Table.Row>
-            ))}
           </>
         }
-      ></Table>
+      >
+        {dynamicKeys.map((key) => (
+          <Table.Row key={key}>
+            <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
+            <StyledAlignRightTableCell></StyledAlignRightTableCell>
+            <StyledAlignRightTableCell>
+              {getDisplayedValue(tableData.data.inequalities[key]?.count)}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell>
+              {getDisplayedValue(tableData.data.inequalities[key]?.value)}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell>
+              {getDisplayedValue(tableData.data.inequalities[key]?.lower)}
+            </StyledAlignRightTableCell>
+            <StyledAlignRightTableCell>
+              {getDisplayedValue(tableData.data.inequalities[key]?.upper)}
+            </StyledAlignRightTableCell>
+          </Table.Row>
+        ))}
+      </Table>
     </div>
   );
 }

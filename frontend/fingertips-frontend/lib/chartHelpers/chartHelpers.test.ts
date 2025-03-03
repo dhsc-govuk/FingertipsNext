@@ -367,4 +367,8 @@ describe('isEnglandSoleSelectedArea', () => {
   it('should return true', () => {
     expect(isEnglandSoleSelectedArea(['E92000001'])).toBe(true);
   });
+
+  it('should return true when England duplicated', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001', 'E92000001'])).toBe(true);
+  });
 });

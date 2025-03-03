@@ -12,13 +12,10 @@ import {
 import {
   getDynamicKeys,
   Inequalities,
+  InequalitiesLineChartTableData,
   YearlyHealthDataGroupedByInequalities,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
-import {
-  RowDataFields,
-  InequalitiesLineChartTableData,
-} from '@/components/organisms/Inequalities';
 
 export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
@@ -52,7 +49,7 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
   );
 };
 
-export function InequalitiesTable({
+export function InequalitiesLineChartTable({
   tableData,
   yearlyHealthDataGroupedByInequalities,
   type = Inequalities.Sex,
@@ -92,7 +89,7 @@ export function InequalitiesTable({
             </StyledAlignLeftTableCell>
             {dynamicKeys.map((key, index) => (
               <StyledAlignRightTableCell key={key + index}>
-                {getDisplayedValue((data[key] as RowDataFields)?.value)}
+                {getDisplayedValue(data.inequalities[key]?.value)}
               </StyledAlignRightTableCell>
             ))}
           </Table.Row>

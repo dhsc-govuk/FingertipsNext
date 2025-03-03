@@ -5,6 +5,30 @@ export type YearlyHealthDataGroupedByInequalities = Record<
   Record<string, HealthDataPoint[] | undefined>
 >;
 
+export interface InequalitiesLineChartTableData {
+  areaName: string;
+  rowData: InequalitiesTableRowData[];
+}
+
+export interface InequalitiesBarChartTableData {
+  areaName: string;
+  data: InequalitiesTableRowData;
+}
+
+export interface RowDataFields {
+  count?: number;
+  value?: number;
+  lower?: number;
+  upper?: number;
+}
+
+export interface InequalitiesTableRowData {
+  period: number;
+  inequalities: {
+    [key: string]: RowDataFields | undefined;
+  };
+}
+
 export enum Sex {
   MALE = 'Male',
   FEMALE = 'Female',
@@ -51,6 +75,35 @@ export const getYearDataGroupedByInequalities = (
   }
 
   return yearlyDataGroupedByInequalities;
+};
+
+export const mapToInequalitiesTableData = (
+  yearDataGroupedByInequalities: Record<
+    string,
+    Record<string, HealthDataPoint[] | undefined>
+  >
+): InequalitiesTableRowData[] => {
+  return Object.keys(yearDataGroupedByInequalities).map((key) => {
+    const dynamicFields = Object.keys(
+      yearDataGroupedByInequalities[key]
+    ).reduce(
+      (acc: Record<string, RowDataFields | undefined>, current: string) => {
+        const currentTableKey = yearDataGroupedByInequalities[key][current];
+        acc[mapToKey(current)] = currentTableKey?.at(0)
+          ? {
+              count: currentTableKey[0].count,
+              value: currentTableKey[0].value,
+              lower: currentTableKey[0].lowerCi,
+              upper: currentTableKey[0].upperCi,
+            }
+          : undefined;
+        return acc;
+      },
+      {}
+    );
+
+    return { period: Number(key), inequalities: { ...dynamicFields } };
+  });
 };
 
 export const getDynamicKeys = (
