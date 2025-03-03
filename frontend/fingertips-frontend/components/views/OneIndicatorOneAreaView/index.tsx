@@ -19,19 +19,19 @@ export default async function OneIndicatorOneAreaView({
   // decomponse from stateManger
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areaCodes,
-    [SearchParams.IndicatorsSelected]: indicators,
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const areaSelected = areaCodes?.[0] ?? '';
-  const indicatorSelected = indicators?.[0] ?? '';
+  if (areasSelected?.length !== 1) {
+    throw new Error('Invalid parameters provided to view');
+  }
 
-  const areaCodesToRequest =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? [areaSelected, areaCodeForEngland, selectedGroupCode]
-      : [areaSelected, areaCodeForEngland];
-
+  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
+  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+    areaCodesToRequest.push(selectedGroupCode);
+  }
   // get required healthData
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
