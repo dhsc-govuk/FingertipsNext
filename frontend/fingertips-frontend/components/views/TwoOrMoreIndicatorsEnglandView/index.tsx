@@ -8,14 +8,12 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
+  const { [SearchParams.AreasSelected]: areasSelected } =
+    stateManager.getSearchState();
 
   if (
     areasSelected! &&
-    areasSelected?.length !== 1 &&
+    areasSelected.length !== 1 &&
     areasSelected[0] !== areaCodeForEngland
   ) {
     throw new Error('Invalid parameters provided to view');

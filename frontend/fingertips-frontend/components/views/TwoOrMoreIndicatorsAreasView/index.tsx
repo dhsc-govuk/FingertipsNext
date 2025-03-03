@@ -13,7 +13,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!areasSelected || areasSelected?.length! >= 2) {
+  if (!areasSelected || areasSelected.length < 2) {
     throw new Error('Invalid parameters provided to view');
   }
 
