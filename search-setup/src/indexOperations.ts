@@ -19,7 +19,7 @@ export async function createIndex(
   try {
     console.log('Trying to delete an existing index');
     await indexClient.deleteIndex(index);
-  } catch { }
+  } catch {}
 
   await indexClient.createOrUpdateIndex(index);
   console.log(`Created or modified index with name: ${index.name}`);
@@ -60,11 +60,18 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         filterable: true,
       },
       {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_EARLIEST_DATA_PERIOD,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: false,
+        filterable: false,
+      },
+      {
         name: IndicatorSearchIndexColumnNames.INDICATOR_LATEST_DATA_PERIOD,
         type: 'Edm.String',
         searchable: false,
-        sortable: true,
-        filterable: true,
+        sortable: false,
+        filterable: false,
       },
       {
         name: IndicatorSearchIndexColumnNames.INDICATOR_DATA_SOURCE,
@@ -86,6 +93,20 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         searchable: false,
         sortable: false,
         filterable: true,
+      },
+      {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_HAS_INEQUALITIES,
+        type: 'Edm.Boolean',
+        searchable: false,
+        sortable: false,
+        filterable: false,
+      },
+      {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_UNIT_LABEL,
+        type: 'Edm.String',
+        searchable: false,
+        sortable: false,
+        filterable: false,
       },
     ],
     scoringProfiles: [

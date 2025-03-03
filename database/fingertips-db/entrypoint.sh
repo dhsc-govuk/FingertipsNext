@@ -9,6 +9,9 @@ if [[ $TRUST_CERT == "True" ]]; then
     echo "WARNING: Server certificate validation has been disabled (by setting the TRUST_CERT environment variable). This should only be done for local development!"
 fi
 
+# Wait a little time for the db to be ready to accept connections
+sleep 10
+
 sqlpackage \
     /Action:publish \
     /SourceFile:fingertips-db.dacpac \

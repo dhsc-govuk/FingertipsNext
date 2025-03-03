@@ -1,4 +1,5 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
@@ -25,6 +26,7 @@ public class HealthDataRepository : IHealthDataRepository
             .Include(hm => hm.AgeDimension)
             .Include(hm => hm.SexDimension)
             .Include(hm => hm.IndicatorDimension)
+            .Include(hm => hm.TrendDimension)
             .Select(x => new HealthMeasureModel()
                 {
                     Year = x.Year,
@@ -40,8 +42,7 @@ public class HealthDataRepository : IHealthDataRepository
                     SexDimension = new SexDimensionModel()
                     {
                         Name = x.SexDimension.Name,
-                        HasValue = x.SexDimension.HasValue,
-                        IsFemale = x.SexDimension.IsFemale
+                        HasValue = x.SexDimension.HasValue
                     },
                     IndicatorDimension = new IndicatorDimensionModel()
                     {
@@ -51,6 +52,9 @@ public class HealthDataRepository : IHealthDataRepository
                     {
                         Code = x.AreaDimension.Code,
                         Name = x.AreaDimension.Name,
+                    },
+                    TrendDimension = new TrendDimensionModel() {
+                        Name = x.TrendDimension.Name
                     }
                 })
             .AsNoTracking()

@@ -106,7 +106,6 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithSexDimension(
         string name = "sex name",
-        bool isFemale = false,
         bool hasValue = false,
         byte sexId = 0)
     {
@@ -114,7 +113,6 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = name,
-            IsFemale = isFemale,
             HasValue = hasValue,
             SexId = sexId
         };
@@ -128,9 +126,18 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = "sex name",
-            IsFemale = false,
             HasValue = false,
             SexId = 0
+        };
+    }
+
+    private TrendDimensionModel DefaultTrendDimension()
+    {
+        return new TrendDimensionModel
+        {
+            TrendKey = (byte)key,
+            Name = "NotYetCalculated",
+            HasValue = false
         };
     }
 
@@ -140,6 +147,7 @@ public class HealthMeasureModelHelper(
         var ageDimension = _ageDimension ?? DefaultAgeDimension();
         var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
         var sexDimension = _sexDimension ?? DefaultSexDimension();
+        var trendDimension = DefaultTrendDimension();
 
         return new HealthMeasureModel
         {
@@ -153,10 +161,12 @@ public class HealthMeasureModelHelper(
             AgeKey = ageDimension.AgeKey,
             IndicatorKey = indicatorDimension.IndicatorKey,
             SexKey = sexDimension.SexKey,
+            TrendKey = trendDimension.TrendKey,
             AreaDimension = areaDimension,
             AgeDimension = ageDimension,
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
+            TrendDimension = trendDimension
         };
     }
 }

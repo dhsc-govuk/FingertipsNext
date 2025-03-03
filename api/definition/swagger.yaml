@@ -82,7 +82,7 @@ paths:
       tags:
         - areas
       summary: Get area
-      description: Get the full details of a given area, including it's parent, optionally including it's children, siblings, cousins and ancestors
+      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings, cousins and ancestors
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
@@ -292,8 +292,10 @@ components:
         - $ref: "#/components/schemas/Area"
         - type: object
           properties:
-            parent:
-              $ref: "#/components/schemas/Area"
+            parents:
+              type: array
+              items:
+                $ref: "#/components/schemas/Area"
             children:
               type: array
               items:
@@ -355,6 +357,7 @@ components:
         - year
         - ageBand
         - sex
+        - trend
       properties:
         year:
           type: integer
@@ -386,6 +389,14 @@ components:
           type: string
           example: Female
           description: Sex which the data are for.
+        trend:
+          type: string
+          example: Increasing
+          description: The statistical trend that applies to the data point,
+            given the preceding data. Will only be calculated if there are at
+            least 5 data points to use.
+          enum: [Increasing, Decreasing, NoChange, CannotBeCalculated,
+            NotYetCalculated]
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant

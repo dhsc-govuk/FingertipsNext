@@ -2,12 +2,17 @@
 
 public class AreaWithRelationsModel
 {
+    private List<AreaModel>? _parents;
     private List<AreaModel>? _children;
     private List<AreaModel>? _siblings;
     private List<AreaModel>? _ancestors;
     
     public required AreaModel Area { get; init; }
-    public AreaModel? ParentArea { get; set; }
+    public List<AreaModel> ParentAreas
+    {
+        get => _parents ?? new List<AreaModel>();
+        set => _parents = value;
+    }
     public List<AreaModel> Children
     {
         get => _children ?? new List<AreaModel>();

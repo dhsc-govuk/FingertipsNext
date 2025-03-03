@@ -8,20 +8,22 @@ public class HealthMeasureModel
 {
     [Key]
     public int HealthMeasureKey { get; set; }
-    public AreaDimensionModel AreaDimension { get; set; }
+    public AreaDimensionModel? AreaDimension { get; set; }
 
     [ForeignKey("AreaDimension")]
     public int AreaKey { get; set; }
-    public IndicatorDimensionModel IndicatorDimension { get; set; }
+    public IndicatorDimensionModel? IndicatorDimension { get; set; }
 
     [ForeignKey("IndicatorDimension")]
     public short IndicatorKey { get; set; }
-    public SexDimensionModel SexDimension { get; set; }
+    public SexDimensionModel? SexDimension { get; set; }
 
     [ForeignKey("SexDimension")]
     public byte SexKey { get; set; }
-    public AgeDimensionModel AgeDimension { get; set; }
-
+    public TrendDimensionModel? TrendDimension { get; set; }
+    [ForeignKey("TrendDimension")]
+    public byte TrendKey { get; set; }
+    public AgeDimensionModel? AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
     public short AgeKey { get; set; }
     public double? Count { get; set; }
