@@ -2,7 +2,42 @@
 
 exports[`SelectedAreasPanel snapshot test 1`] = `
 <DocumentFragment>
-  .c1 {
+  .c5 {
+  cursor: pointer;
+}
+
+.c3 {
+  background-color: white;
+  border: 1px #D1D2D3 solid;
+  border-radius: 5px;
+  padding: 0.3125em 0.3125em;
+  max-width: 100%;
+  margin: 0.3125em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  word-wrap: break-word;
+  padding-left: 0.5em;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,37 +93,8 @@ exports[`SelectedAreasPanel snapshot test 1`] = `
   word-wrap: normal;
 }
 
-.c5 {
-  cursor: pointer;
-}
-
-.c3 {
-  background-color: white;
-  border: 1px #D1D2D3 solid;
-  border-radius: 5px;
-  padding: 0.3125em 0.3125em;
-  max-width: 100%;
-  margin: 0.3125em 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c6 {
-  word-wrap: break-word;
-  padding-left: 0.5em;
-}
-
-.c4 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+.c0 {
+  padding-bottom: 1.5em;
 }
 
 .c8 {
@@ -99,10 +105,6 @@ exports[`SelectedAreasPanel snapshot test 1`] = `
   font-weight: 400;
   font-size: 14px;
   line-height: 1.1428571428571428;
-}
-
-.c0 {
-  padding-bottom: 1.5em;
 }
 
 .c2 {

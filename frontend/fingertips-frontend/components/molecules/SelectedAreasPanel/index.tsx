@@ -7,7 +7,8 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { Pill } from '../Pill';
-import { LabelText } from 'govuk-react';
+import { LabelText, Paragraph } from 'govuk-react';
+import { typography } from '@govuk-react/lib';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
@@ -17,6 +18,13 @@ interface SelectedAreasPanelProps {
 const StyledFilterSelectedAreaDiv = styled('div')({
   paddingBottom: '1.5em',
 });
+
+const StyledParagraph = styled(Paragraph)(
+  {
+    marginBottom: '0',
+  },
+  typography.font({ size: 16 })
+);
 
 const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
@@ -48,10 +56,11 @@ export function SelectedAreasPanel({
         ? selectedAreasData.map((selectedArea) => (
             <Pill
               key={selectedArea.code}
-              selectedFilterName={selectedArea.name}
               selectedFilterId={selectedArea.code}
               removeFilter={removeSelectedArea}
-            />
+            >
+              <StyledParagraph>{selectedArea.name}</StyledParagraph>
+            </Pill>
           ))
         : null}
     </StyledFilterSelectedAreaDiv>
