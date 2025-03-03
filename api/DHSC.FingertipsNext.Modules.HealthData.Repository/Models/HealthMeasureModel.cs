@@ -17,6 +17,9 @@ public class HealthMeasureModel
     public required SexDimensionModel SexDimension { get; set; }
     [ForeignKey("SexDimension")]
     public required byte SexKey { get; set; }
+    public TrendDimensionModel? TrendDimension { get; set; }
+    [ForeignKey("TrendDimension")]
+    public byte TrendKey { get; set; }
     public required AgeDimensionModel AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
     public required short AgeKey { get; set; }

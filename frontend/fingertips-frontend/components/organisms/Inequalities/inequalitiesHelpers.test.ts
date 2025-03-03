@@ -1,4 +1,7 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import {
   getDynamicKeys,
   getYearDataGroupedByInequalities,
@@ -23,6 +26,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       year: 2006,
       sex: 'All',
       ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
     {
       count: 400,
@@ -32,6 +36,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       year: 2006,
       sex: 'Male',
       ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
     {
       count: 267,
@@ -41,6 +46,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       year: 2004,
       sex: 'All',
       ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
     {
       count: 300,
@@ -50,6 +56,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       year: 2004,
       sex: 'Female',
       ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
   ],
 };

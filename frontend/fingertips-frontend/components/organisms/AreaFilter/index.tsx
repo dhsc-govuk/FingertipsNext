@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Area,
   AreaType,
@@ -16,7 +18,9 @@ import {
   LabelText,
   SectionBreak,
   Select,
+  Paragraph,
 } from 'govuk-react';
+import { typography } from '@govuk-react/lib';
 import { Pill } from '@/components/molecules/Pill';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
@@ -32,6 +36,13 @@ interface AreaFilterProps {
 }
 
 const StyledFilterPane = styled('div')({});
+
+const StyledParagraph = styled(Paragraph)(
+  {
+    marginBottom: '0',
+  },
+  typography.font({ size: 16 })
+);
 
 const StyledFilterPaneHeader = styled('div')({
   backgroundColor: '#D1D2D3',
@@ -148,10 +159,11 @@ export function AreaFilter({
             ? selectedAreasData.map((selectedArea) => (
                 <Pill
                   key={selectedArea.code}
-                  selectedFilterName={selectedArea.name}
                   selectedFilterId={selectedArea.code}
                   removeFilter={removeSelectedArea}
-                />
+                >
+                  <StyledParagraph>{selectedArea.name}</StyledParagraph>
+                </Pill>
               ))
             : null}
         </StyledFilterSelectedAreaDiv>
