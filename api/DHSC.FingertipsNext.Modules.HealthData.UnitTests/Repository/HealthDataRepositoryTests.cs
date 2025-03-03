@@ -234,7 +234,10 @@ public class HealthDataRepositoryTests
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.First().ShouldBeEquivalentTo(ResetKeys(expectedHealthMeasure));
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            ResetKeys(expectedHealthMeasure)
+        });
     }
 
     [Fact]
@@ -415,7 +418,7 @@ public class HealthDataRepositoryTests
 
         healthMeasure.TrendKey = 0;
         healthMeasure.TrendDimension.TrendKey = 0;
-        
+
         return healthMeasure;
     }
 }
