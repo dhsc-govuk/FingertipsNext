@@ -20,6 +20,7 @@ DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
 
 -- --create some age dimension data
 -- SET IDENTITY_INSERT [dbo].[AgeDimension] ON
@@ -3311,7 +3312,7 @@ GO
 
 INSERT INTO [Areas].[AreaTypes]
 SELECT distinct
-    AreaTypeCode,
+    replace(replace(AreaTypeCode, char(10),''), char(13),''),
     AreaType,
     HierarchyType,
     Level+1 As 'Level'
@@ -3322,14 +3323,14 @@ INSERT INTO [Areas].[Areas]
 SELECT
     AreaCode,
     AreaName,
-    AreaTypeCode
+    replace(replace(AreaTypeCode, char(10),''), char(13),'')
 FROM #TempAreaData;
 GO
 
 INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
 SELECT
-    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = AreaCode),
-    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area1  WHERE area1.[AreaCode] = T.AreaCode),
+    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area2 WHERE area2.[AreaCode] = value)
 FROM #TempAreaData T
 CROSS APPLY
     STRING_SPLIT(Children, '|')
