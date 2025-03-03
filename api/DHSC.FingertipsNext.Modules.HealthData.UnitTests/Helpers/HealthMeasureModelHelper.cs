@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 public class HealthMeasureModelHelper(
-    int key = 1, 
+    int key = 1,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
@@ -17,7 +17,7 @@ public class HealthMeasureModelHelper(
     private SexDimensionModel? _sexDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
-        string code = "AreaCode", 
+        string code = "AreaCode",
         string name = "area name",
         DateTime? startDate = null,
         DateTime? endDate = null
@@ -33,7 +33,7 @@ public class HealthMeasureModelHelper(
         };
         return this;
     }
-    
+
     private AreaDimensionModel DefaultAreaDimension()
     {
         return new AreaDimensionModel

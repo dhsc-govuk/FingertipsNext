@@ -1,5 +1,4 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
-using DHSC.FingertipsNext.Modules.HealthData.Service;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
@@ -17,7 +16,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
-    /// <param name="area_codes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns></returns>
@@ -29,13 +28,13 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     [Route("{indicatorId:int}/data")]
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
-        [FromQuery] string[]? area_codes = null,
+        [FromQuery(Name="area_codes")] string[]? areaCodes = null,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null)
     {
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
-            area_codes ?? [],
+            areaCodes ?? [],
             years ?? [],
             inequalities ?? []
             );

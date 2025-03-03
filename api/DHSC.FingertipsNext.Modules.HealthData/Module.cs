@@ -16,7 +16,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
     public override void RegisterModule(IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IIndicatorsService, IndicatorService>();
-        services.AddTransient<IRepository, HealthDataRepository>();
+        services.AddTransient<IHealthDataRepository, HealthDataRepository>();
         services.AddAutoMapper(typeof(AutoMapperProfiles));
         RegisterDbContext(services, configuration);
     }
@@ -33,8 +33,7 @@ public class Module : AbstractMonolithModule, IMonolithModule
         var dbUser = GetEnvironmentValue(configuration, dbUserEnvironmentVariable);
         var dbPassword = GetEnvironmentValue(configuration, dbPasswordEnvironmentVariable);
 
-        var trustServerCertificate = false;
-        trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
+        var trustServerCertificate = configuration.GetValue<bool>("TRUST_CERT");
 
         if (trustServerCertificate)
         {

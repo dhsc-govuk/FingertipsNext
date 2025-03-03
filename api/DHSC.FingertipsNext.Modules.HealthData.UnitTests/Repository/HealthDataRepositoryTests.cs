@@ -9,7 +9,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 public class HealthDataRepositoryTests
 {
     private readonly HealthDataDbContext _dbContext;
-    private HealthDataRepository _repository;
+    private HealthDataRepository _healthDataRepository;
 
     public HealthDataRepositoryTests()
     {
@@ -19,13 +19,13 @@ public class HealthDataRepositoryTests
             );
 
         _dbContext = new HealthDataDbContext(dbOptions.Options);
-        _repository = new HealthDataRepository(_dbContext);
+        _healthDataRepository = new HealthDataRepository(_dbContext);
     }
 
     [Fact]
     public void RepositoryInitialisation_ShouldThrowError_IfNullDBContextIsProvided()
     {
-        var act = () => _repository = new HealthDataRepository(null!);
+        var act = () => _healthDataRepository = new HealthDataRepository(null!);
 
         act.ShouldThrow<ArgumentNullException>().Message
             .ShouldBe("Value cannot be null. (Parameter 'healthDataDbContext')");
@@ -38,7 +38,7 @@ public class HealthDataRepositoryTests
         PopulateDatabase(new HealthMeasureModelHelper().WithIndicatorDimension(indicatorId: 1).Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(2, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(2, [], [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -55,14 +55,14 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(expectedIndicatorId, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(expectedIndicatorId, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure
+            ResetKeys(expectedHealthMeasure)
         });
     }
 
@@ -93,15 +93,15 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure1,
-            expectedHealthMeasure2,
+            ResetKeys(expectedHealthMeasure1),
+            ResetKeys(expectedHealthMeasure2),
         });
     }
 
@@ -115,7 +115,7 @@ public class HealthDataRepositoryTests
             .Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, ["Code2"], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, ["Code2"], [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -126,13 +126,13 @@ public class HealthDataRepositoryTests
     {
         // arrange
         var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithIndicatorDimension(indicatorId: 1).Build();
+            .WithIndicatorDimension().Build();
         var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2021)
-            .WithIndicatorDimension(indicatorId: 1).Build();
+            .WithIndicatorDimension().Build();
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 3, year: 2022)
-            .WithIndicatorDimension(indicatorId: 1).Build();
+            .WithIndicatorDimension().Build();
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 4, year: 2023)
-            .WithIndicatorDimension(indicatorId: 1).Build();
+            .WithIndicatorDimension().Build();
 
         PopulateDatabase(unexpectedHealthMeasure1);
         PopulateDatabase(unexpectedHealthMeasure2);
@@ -140,15 +140,15 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [], [2022, 2023], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [], [2022, 2023], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure1,
-            expectedHealthMeasure2,
+            ResetKeys(expectedHealthMeasure1),
+            ResetKeys(expectedHealthMeasure2),
         });
     }
 
@@ -164,7 +164,7 @@ public class HealthDataRepositoryTests
             .Build());
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(1, [], [2019], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [], [2019], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -201,14 +201,14 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, ["Code1"], [2023], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, ["Code1"], [2023], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure
+            ResetKeys(expectedHealthMeasure)
         });
     }
 
@@ -229,15 +229,12 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
-        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
-        {
-            expectedHealthMeasure
-        });
+        result.First().ShouldBeEquivalentTo(ResetKeys(expectedHealthMeasure));
     }
 
     [Fact]
@@ -257,14 +254,14 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure
+            ResetKeys(expectedHealthMeasure)
         });
     }
 
@@ -294,15 +291,15 @@ public class HealthDataRepositoryTests
         PopulateDatabase(personsHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["sex"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["sex"]);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            maleHealthMeasure,
-            personsHealthMeasure
+            ResetKeys(maleHealthMeasure),
+            ResetKeys(personsHealthMeasure)
         });
     }
 
@@ -323,7 +320,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
         PopulateDatabase(healthMeasureWithAgeAndSex);
-        
+
         var healthMeasureWithNoAgeAndSex = new HealthMeasureModelHelper(3, 2020)
             .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: false)
@@ -339,15 +336,15 @@ public class HealthDataRepositoryTests
         PopulateDatabase(healthMeasureWithNoAgeAndNoSex);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["age"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["age"]);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(2);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            healthMeasureWithAgeAndNoSex,
-            healthMeasureWithNoAgeAndNoSex
+            ResetKeys(healthMeasureWithAgeAndNoSex),
+            ResetKeys(healthMeasureWithNoAgeAndNoSex)
         });
     }
 
@@ -377,16 +374,16 @@ public class HealthDataRepositoryTests
         PopulateDatabase(personsHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], ["age", "sex"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["age", "sex"]);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(3);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            maleHealthMeasure,
-            femaleHealthMeasure,
-            personsHealthMeasure
+            ResetKeys(maleHealthMeasure),
+            ResetKeys(femaleHealthMeasure),
+            ResetKeys(personsHealthMeasure)
         });
     }
 
@@ -395,5 +392,27 @@ public class HealthDataRepositoryTests
         _dbContext.HealthMeasure.Add(healthMeasure);
         _dbContext.SaveChanges();
     }
+
+    private HealthMeasureModel ResetKeys(HealthMeasureModel healthMeasure)
+    {
+        healthMeasure.HealthMeasureKey = 0;
+
+        healthMeasure.AreaDimension.AreaKey = 0;
+        healthMeasure.AgeDimension.AgeKey = 0;
+        healthMeasure.IndicatorDimension.IndicatorKey = 0;
+        healthMeasure.SexDimension.SexKey = 0;
+
+        healthMeasure.AgeKey = 0;
+        healthMeasure.IndicatorKey = 0;
+        healthMeasure.IndicatorDimension.IndicatorId = 0;
+        healthMeasure.IndicatorDimension.StartDate = new DateTime();
+        healthMeasure.IndicatorDimension.EndDate = new DateTime();
+
+        healthMeasure.AreaKey = 0;
+        healthMeasure.SexKey = 0;
+        healthMeasure.AreaDimension.StartDate = new DateTime();
+        healthMeasure.AreaDimension.EndDate = new DateTime();
+
+        return healthMeasure;
+    }
 }
-    
