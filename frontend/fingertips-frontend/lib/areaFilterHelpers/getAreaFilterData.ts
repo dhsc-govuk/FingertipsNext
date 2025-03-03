@@ -9,12 +9,11 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '../searchStateManager';
-import { AreaTypeKeys, englandAreaType } from './areaType';
+import { AreaTypeKeys } from './areaType';
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
 import { determineSelectedAreaType } from './determineSelectedAreaType';
 import { determineSelectedGroup } from './determineSelectedGroup';
 import { determineSelectedGroupType } from './determineSelectedGroupType';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 import { determineAvailableAreas } from './determineAvailableAreas';
 
 type AreaFilterData = {
