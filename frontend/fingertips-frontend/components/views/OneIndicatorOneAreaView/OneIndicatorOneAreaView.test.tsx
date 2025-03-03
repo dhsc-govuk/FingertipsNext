@@ -23,7 +23,9 @@ describe('OneIndicatorOneAreaView', () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
     const searchState = await generateSearchParams(searchParams);
 
-    render(<OneIndicatorOneAreaView searchState={searchState} />);
+    await OneIndicatorOneAreaView({ searchState: searchState });
+
+    // render(<OneIndicatorOneAreaView searchState={searchState} />);
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
