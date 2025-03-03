@@ -148,13 +148,11 @@ If you have made changes in your branch that have correctly resulted in the scre
 
 1. Download `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new screenshots are correct.
-3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update or view screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
+3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 
 Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow execution that trigger the e2e test in CI will pass.
 
 When you merge to main the screenshots will be automatically updated in the cache for main.
-
-If you wish to inspect the current screenshots stored in the cache go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update or view screenshot snapshots?` checkbox. This will run a new workflow in which the screenshots will be saved out to the job artefacts the current screenshots, for 5 days.
 
 ## Code structure
 
