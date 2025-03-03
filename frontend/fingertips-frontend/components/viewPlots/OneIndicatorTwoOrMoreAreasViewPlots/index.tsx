@@ -2,7 +2,7 @@
 
 import { H2, H3 } from 'govuk-react';
 
-export function OneIndicatorTwoOrMoreAreasDashboard() {
+export function OneIndicatorTwoOrMoreAreasViewPlots() {
   return (
     <>
       <H2>View indicator data for the selected areas</H2>

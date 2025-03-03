@@ -43,27 +43,34 @@ jest.mock(
     }
 );
 
-async function generateSearchParams(value: SearchStateParams) {
-  return value;
-}
-
 describe('ViewsContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
   it.each([
-    [['foo'], ['zam'], mockOneIndicatorOneAreaView],
-    [['foo', 'bar'], ['zam'], mockOneIndicatorTwoOrMoreAreasView],
-    [['foo'], ['foo', 'bar', 'baz'], mockTwoOrMoreIndicatorsAreasView],
-    [[areaCodeForEngland], ['foo', 'bar'], mockTwoOrMoreIndicatorsEnglandView],
+    [['zam'], ['foo'], mockOneIndicatorOneAreaView],
+    [['zam'], ['foo', 'bar'], mockOneIndicatorTwoOrMoreAreasView],
+    [['foo', 'bar'], ['foo'], mockTwoOrMoreIndicatorsAreasView],
+    [['foo', 'bar'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
+    [
+      ['foo', 'bar', 'baz'],
+      [areaCodeForEngland],
+      mockTwoOrMoreIndicatorsEnglandView,
+    ],
+    [
+      ['foo', 'bar', 'baz'],
+      [areaCodeForEngland],
+      mockTwoOrMoreIndicatorsEnglandView,
+    ],
+    [['foo', 'bar', 'baz'], ['foo'], mockTwoOrMoreIndicatorsAreasView],
+    [['foo', 'bar'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
   ])(
     'should return the expected view',
-    async (areaCodes, indicators, correctView) => {
-      const searchParams: SearchStateParams = {
+    async (indicators, areaCodes, correctView) => {
+      const searchState: SearchStateParams = {
         [SearchParams.AreasSelected]: areaCodes,
         [SearchParams.IndicatorsSelected]: indicators,
       };
-      const searchState = await generateSearchParams(searchParams);
       render(<ViewsContext searchState={searchState} />);
 
       expect(correctView).toHaveBeenCalled();

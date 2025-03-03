@@ -10,7 +10,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 
-type ViewsContextProps = {
+export type ViewProps = {
   searchState: SearchStateParams;
 };
 
@@ -18,22 +18,27 @@ function viewSelector(
   areaCodes: string[],
   indicators: string[],
   searchState: SearchStateParams
-): JSX.Element | undefined {
-  if (indicators.length === 1) {
-    if (areaCodes.length === 1) {
-      return <OneIndicatorOneAreaView searchState={searchState} />;
-    } else if (areaCodes.length >= 2) {
-      return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
-    }
-  } else if (indicators.length >= 2) {
-    if (areaCodes.length === 1 && areaCodes[0] === areaCodeForEngland) {
-      return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
-    }
-    return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
+): JSX.Element {
+  if (indicators.length === 1 && areaCodes.length === 1) {
+    return <OneIndicatorOneAreaView searchState={searchState} />;
   }
+
+  if (indicators.length === 1 && areaCodes.length >= 2) {
+    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+  }
+
+  if (
+    indicators.length >= 2 &&
+    areaCodes.length === 1 &&
+    areaCodes[0] === areaCodeForEngland
+  ) {
+    return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
+  }
+
+  return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
 }
 
-export function ViewsContext({ searchState }: Readonly<ViewsContextProps>) {
+export function ViewsContext({ searchState }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,

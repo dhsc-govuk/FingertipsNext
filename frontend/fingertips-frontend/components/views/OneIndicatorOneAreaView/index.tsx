@@ -1,4 +1,4 @@
-import { OneIndicatorOneAreaDashboard } from '@/components/dashboards/OneIndicatorOneAreaDashboard';
+import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -52,7 +52,7 @@ export default async function OneIndicatorOneAreaView({
   // TODO: these should not be undefined by now
   if (healthIndicatorData && selectedGroupCode) {
     return (
-      <OneIndicatorOneAreaDashboard
+      <OneIndicatorOneAreaViewPlots
         healthIndicatorData={healthIndicatorData}
         selectedGroupCode={selectedGroupCode}
         searchState={searchState}
