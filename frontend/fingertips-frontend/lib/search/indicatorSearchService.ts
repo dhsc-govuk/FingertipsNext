@@ -57,4 +57,16 @@ export class IndicatorSearchService implements IIndicatorSearchService {
 
     return results.slice(0, 20);
   }
+
+  async getIndicator(
+    indicatorId: string
+  ): Promise<IndicatorDocument | undefined> {
+    const indicatorDocument = await this.searchClient
+      .getDocument(indicatorId)
+      .catch(() => {
+        return undefined;
+      });
+
+    return indicatorDocument;
+  }
 }

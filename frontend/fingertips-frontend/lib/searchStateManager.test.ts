@@ -13,6 +13,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       };
 
@@ -25,6 +26,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
     });
@@ -189,6 +191,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -237,6 +240,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
+        `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.ConfidenceIntervalSelected}=line-chart`,
       ].join('');
 
@@ -246,6 +250,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
 
