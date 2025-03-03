@@ -12,8 +12,8 @@ on:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
-      update-snapshots:
-        description: 'Update screenshot snapshots?'
+      update-or-view-screenshots:
+        description: 'Update or view screenshot snapshots?'
         type: string
         default: 'false'
         required: false
@@ -76,7 +76,7 @@ jobs:
       - name: Initialize snapshots if not in branch cache, or during manual snapshot update or when merging to main
         if: >
           ${{ steps.cache.outputs.cache-hit != 'true' ||
-          inputs.update-snapshots == 'true' ||
+          inputs.update-or-view-screenshots == 'true' ||
           github.ref == 'refs/heads/main' }}
         run: npm run test-e2e-ci-update-snapshots
 
@@ -105,14 +105,15 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
 
-      - name: Extract latest chart page screenshots from cache
+      - name: Extract latest chart page screenshots from branch cache
         uses: actions/cache@v3
+        if: ${{ inputs.update-or-view-screenshots == 'true'  }}
         with:
           path: ${{ env.frontend-directory }}/.test/**
-          key: cache/${{github.repository}}/${{github.ref}}
-          restore-keys: cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+          key: cache/${{github.repository}}/${{github.ref}}/view-screenshots
 
-      - name: Upload latest chart page screenshots from cache
+      - name: Upload latest chart page screenshots from branch cache
+        if: ${{ inputs.update-or-view-screenshots == 'true'  }}
         uses: actions/upload-artifact@v4
         with:
           name: test-snapshots

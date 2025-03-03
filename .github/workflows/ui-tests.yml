@@ -56,4 +56,4 @@ jobs:
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
-          retention-days: 10
+          retention-days: 5

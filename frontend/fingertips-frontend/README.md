@@ -138,21 +138,23 @@ Any violations of this standard cause a test failure unless the rule violated ha
 
 Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
 
-All screenshot snapshots are stored in github cache, not directly in the repository. Each run CI execution of the e2e tests will save out to the job artefacts the current screenshots, for 5 days, this allows inspection of the current screenshots.
+All screenshot snapshots are stored in github cache, not directly in the repository.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
 See maxDiffPixelRatio in the playwright config file for an allowable tolerance ratio of pixel difference.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio, then the e2e tests will fail and you you will need to update the base screenshots. To do this follow this step by step guide:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio, then the e2e tests will fail and you you will need to update the base screenshots. To do this follow this step by step guide:
 
-1. Download the `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
-2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new images are correct.
-3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
+1. Download `playwright-failure-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
+2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new screenshots are correct.
+3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update or view screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 
 Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow execution that trigger the e2e test in CI will pass.
 
 When you merge to main the screenshots will be automatically updated in the cache for main.
+
+If you wish to inspect the current screenshots stored in the cache go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update or view screenshot snapshots?` checkbox. This will run a new workflow in which the screenshots will be saved out to the job artefacts the current screenshots, for 5 days.
 
 ## Code structure
 
