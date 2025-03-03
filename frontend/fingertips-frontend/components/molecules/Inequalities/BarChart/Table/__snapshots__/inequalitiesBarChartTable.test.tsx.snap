@@ -48,7 +48,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding: 0.625em 0;
 }
 
-.c3 {
+.c4 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
@@ -74,7 +74,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   width: 10%;
 }
 
-.c4 {
+.c3 {
   text-align: left;
   vertical-align: top;
 }
@@ -147,8 +147,15 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
         >
           <th
             class="c1 c2 c3"
-            colspan="6"
-            style="padding-right: 30px;"
+            colspan="4"
+            style="padding-left: 20px;"
+          >
+            South FooBar
+          </th>
+          <th
+            class="c1 c2 c4"
+            colspan="2"
+            style="padding-right: 20px;"
           >
             95% confidence limits
           </th>
@@ -157,41 +164,44 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           class=""
         >
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c3"
             data-testid="heading-Grouping types"
+            style="width: 16%;"
           >
             Grouping types
           </th>
           <th
-            class="c1 c2 c3"
-            data-testid="heading-Compared to"
+            class="c1 c2 c4"
+            data-testid="heading-Compared to Persons"
             style="width: 16%;"
           >
-            Compared to 
-            <br />
-             South FooBar
+            Compared to Persons
           </th>
           <th
-            class="c1 c2 c3"
+            class="c1 c2 c4"
             data-testid="heading-Count"
+            style="width: 16%;"
           >
             Count
           </th>
           <th
-            class="c1 c2 c3"
+            class="c1 c2 c4"
             data-testid="heading-Value"
+            style="width: 16%;"
           >
             Value
           </th>
           <th
-            class="c1 c2 c3"
+            class="c1 c2 c4"
             data-testid="heading-Lower"
+            style="width: 16%;"
           >
             Lower
           </th>
           <th
-            class="c1 c2 c3"
+            class="c1 c2 c4"
             data-testid="heading-Upper"
+            style="width: 16%;"
           >
             Upper
           </th>

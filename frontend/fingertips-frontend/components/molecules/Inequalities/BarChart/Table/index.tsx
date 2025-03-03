@@ -22,30 +22,18 @@ interface InequalitiesBarChartTableProps {
 
 export enum InequalitiesBarChartTableHeaders {
   GROUPING_TYPES = 'Grouping types',
-  COMPARED_TO = 'Compared to',
+  COMPARED_TO = 'Compared to Persons',
   COUNT = 'Count',
   VALUE = 'Value',
   LOWER = 'Lower',
   UPPER = 'Upper',
 }
 
-const getCellHeader = (
-  header: InequalitiesBarChartTableHeaders,
-  areaName: string
-): ReactNode => {
-  if (header === InequalitiesBarChartTableHeaders.COMPARED_TO)
-    return (
-      <StyledAlignRightHeader
-        style={{ width: '16%' }}
-        key={`heading-${header}`}
-        data-testid={`heading-${header}`}
-      >
-        {header} <br /> {areaName}
-      </StyledAlignRightHeader>
-    );
-  return header === InequalitiesBarChartTableHeaders.GROUPING_TYPES ? (
+const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
+  header === InequalitiesBarChartTableHeaders.GROUPING_TYPES ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
+      style={{ width: '16%' }}
       data-testid={`heading-${header}`}
     >
       {header}
@@ -53,12 +41,12 @@ const getCellHeader = (
   ) : (
     <StyledAlignRightHeader
       key={`heading-${header}`}
+      style={{ width: '16%' }}
       data-testid={`heading-${header}`}
     >
       {header}
     </StyledAlignRightHeader>
   );
-};
 
 export function InequalitiesBarChartTable({
   tableData,
@@ -76,16 +64,22 @@ export function InequalitiesBarChartTable({
         head={
           <>
             <Table.Row>
+              <StyledAlignLeftHeader
+                style={{ paddingLeft: '20px' }}
+                colSpan={4}
+              >
+                {tableData.areaName}
+              </StyledAlignLeftHeader>
               <StyledAlignRightHeader
-                colSpan={6}
-                style={{ paddingRight: '30px' }}
+                colSpan={2}
+                style={{ paddingRight: '20px' }}
               >
                 95% confidence limits
               </StyledAlignRightHeader>
             </Table.Row>
             <Table.Row>
               {Object.values(InequalitiesBarChartTableHeaders).map((header) =>
-                getCellHeader(header, tableData.areaName)
+                getCellHeader(header)
               )}
             </Table.Row>
           </>
