@@ -110,10 +110,11 @@ jobs:
           key: cache/${{github.repository}}/${{github.ref}}
 
       - name: Upload latest chart page screenshots from cache for this branch
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-snapshots
           path: ${{ env.frontend-directory }}/.test/
+          retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution
         if: failure() && inputs.e2e-test-container-image != null
