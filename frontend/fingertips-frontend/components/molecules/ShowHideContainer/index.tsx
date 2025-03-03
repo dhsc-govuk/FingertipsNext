@@ -13,7 +13,7 @@ interface ShowHideContainerProps {
 const StyledFilterDetails = styled(Details)<{ showSideBar: boolean }>(
   {
     div: {
-      padding: '1em 0em',
+      padding: '0.5em 0em',
     },
     summary: {
       color: '#000000',
