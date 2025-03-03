@@ -88,8 +88,8 @@ export default async function Page(
       (a, b) => a.level - b.level
     );
 
-    const sortedAlphabeticallyAvailableAreas = availableAreas?.sort(
-      (a, b) => a.name.localeCompare(b.name)
+    const sortedAlphabeticallyAvailableAreas = availableAreas?.sort((a, b) =>
+      a.name.localeCompare(b.name)
     );
 
     const initialState: IndicatorSelectionState = {
