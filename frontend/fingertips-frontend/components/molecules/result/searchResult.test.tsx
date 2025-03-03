@@ -36,6 +36,21 @@ const MOCK_DATA: IndicatorDocument[] = [
   },
 ];
 
+const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument =
+{
+  indicatorID: '101',
+  indicatorName: 'NHS',
+  indicatorDefinition:
+    'Total number of patients registered with the practice',
+  earliestDataPeriod: '1999',
+  latestDataPeriod: '2023',
+  dataSource: 'NHS website',
+  lastUpdatedDate: new Date('December 6, 2024'),
+  associatedAreaCodes: [],
+  hasInequalities: true,
+  unitLabel: '',
+};
+
 const mockHandleClick = jest.fn();
 
 const initialSearchState: SearchStateParams = {
@@ -144,6 +159,26 @@ describe('content', () => {
       />
     );
     expect(screen.queryByText('Contains inequality data')).not.toBeInTheDocument();
+  });
+
+  it('should show LAST UPDATE tag then INEQUALITIES tag (left to right) if both present in data', () => {
+    const currentDate = new Date(MOCK_DATA_LASTUPDATED_INEQUALITIES.lastUpdatedDate);
+    render(
+      <SearchResult
+        result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+        currentDate={currentDate}
+      />
+    );
+
+    const lastUpdatedElement = screen.queryByText('Updated in last month');
+    const inequalitiesElement = screen.queryByText('Contains inequality data');
+
+    expect(lastUpdatedElement).toBeInTheDocument();
+    expect(inequalitiesElement).toBeInTheDocument();
+
+    expect(lastUpdatedElement!.compareDocumentPosition(inequalitiesElement!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
