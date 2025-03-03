@@ -1,30 +1,25 @@
 import { OneIndicatorOneAreaDashboard } from '@/components/dashboards/OneIndicatorOneAreaDashboard';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-
-type OneIndicatorOneAreaViewProps = {
-  searchState: SearchStateParams;
-};
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { ViewProps } from '../ViewsContext';
 
 export default async function OneIndicatorOneAreaView({
   searchState,
-}: Readonly<OneIndicatorOneAreaViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes ?? [];
+  if (areasSelected?.length !== 1) {
+    throw new Error('Invalid parameters provided to view');
+  }
 
-  const areaCodesToRequest =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-      : [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [areasSelected, areaCodeForEngland];
+  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+    areaCodesToRequest.push(selectedGroupCode);
+  }
 
   console.log('TODO: include inequalities data in healthData fetch');
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);

@@ -1,31 +1,27 @@
 import { TwoOrMoreIndicatorsEnglandDashboard } from '@/components/dashboards/TwoOrMoreIndicatorsEnglandDashboard';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-
-type OneIndicatorTwoOrMoreAreasViewProps = {
-  searchState: SearchStateParams;
-};
+import { ViewProps } from '../ViewsContext';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
   searchState,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes ?? [];
+  if (
+    areasSelected! &&
+    areasSelected?.length !== 1 &&
+    areasSelected[0] !== areaCodeForEngland
+  ) {
+    throw new Error('Invalid parameters provided to view');
+  }
 
-  const areaCodesToRequest =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-      : [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = areaCodeForEngland;
 
   await connection();
 

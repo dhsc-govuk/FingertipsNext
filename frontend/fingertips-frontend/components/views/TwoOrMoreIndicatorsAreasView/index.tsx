@@ -1,35 +1,30 @@
 import { TwoOrMoreIndicatorsAreasDashboard } from '@/components/dashboards/TwoOrMoreIndicatorsAreasDashboard';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-
-type OneIndicatorTwoOrMoreAreasViewProps = {
-  searchState: SearchStateParams;
-};
+import { ViewProps } from '../ViewsContext';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes ?? [];
+  if (!areasSelected || areasSelected?.length! >= 2) {
+    throw new Error('Invalid parameters provided to view');
+  }
 
-  const areaCodesToRequest =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-      : [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
+  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+    areaCodesToRequest.push(selectedGroupCode);
+  }
 
   await connection();
 
-  console.log('TODO: fetch health data with inequalites');
+  console.log('TODO: fetch health data');
   console.log(
     'TODO: fetch population data for ',
     areaCodesToRequest,
