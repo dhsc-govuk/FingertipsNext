@@ -39,24 +39,23 @@ export default class ChartPage extends BasePage {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
-      const component = this.page.getByTestId(visibleComponent);
       if (visibleComponent !== 'lineChartTable-component') {
-        await expect(component).toBeVisible({
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
           visible: true,
         });
       }
       // click into the tab view if checking lineChartTable
       if (visibleComponent === 'lineChartTable-component') {
         await this.page.getByTestId('tabTitle-table').click();
-        await expect(component).toBeVisible({
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
           visible: true,
         });
       }
       // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
       console.log(
-        `checking component:${component} for unexpected visual changes - see directory README.md for details.`
+        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await expect(component).toHaveScreenshot();
+      await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot();
     }
 
     // Check that components expected not to be visible are not displayed
