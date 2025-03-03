@@ -18,7 +18,7 @@ type OneIndicatorOneAreaDashboardProps = {
   searchState: SearchStateParams;
 };
 
-export function OneIndicatorOneAreaDashboard({
+export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   selectedGroupCode,
   searchState,
