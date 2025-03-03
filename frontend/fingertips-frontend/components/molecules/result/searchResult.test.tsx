@@ -178,7 +178,8 @@ describe('content', () => {
     expect(lastUpdatedElement).toBeInTheDocument();
     expect(inequalitiesElement).toBeInTheDocument();
 
-    expect(lastUpdatedElement!.compareDocumentPosition(inequalitiesElement!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    if (lastUpdatedElement && inequalitiesElement) // IF should always be true but check keeps the various tools happy
+      expect(lastUpdatedElement.compareDocumentPosition(inequalitiesElement)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
