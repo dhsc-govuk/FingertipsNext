@@ -290,7 +290,9 @@ describe('should not display line chart', () => {
         />
       );
 
-      expect(screen.getByText('Data source:', { exact: false })).toBeVisible();
+      expect(
+        screen.getAllByText('Data source:', { exact: false })[0]
+      ).toBeVisible();
     });
 
     it('should not display data source when a single indicator is selected but no metadata exists', () => {

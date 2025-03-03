@@ -107,11 +107,6 @@ export function Chart({
                       xAxisTitle="Year"
                       accessibilityLabel="A line chart showing healthcare data"
                     />
-                    {shouldDisplayDataSource && indicatorMetadata ? (
-                      <DataSourceParagraph>
-                        {`Data source: ${indicatorMetadata.dataSource}`}
-                      </DataSourceParagraph>
-                    ) : null}
                   </>
                 ),
               },
@@ -127,6 +122,15 @@ export function Chart({
                 ),
               },
             ]}
+            footer={
+              <>
+                {shouldDisplayDataSource && indicatorMetadata ? (
+                  <DataSourceParagraph>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </DataSourceParagraph>
+                ) : null}
+              </>
+            }
           />
         </>
       )}
