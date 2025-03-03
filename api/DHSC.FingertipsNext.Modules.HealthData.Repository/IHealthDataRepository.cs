@@ -2,7 +2,7 @@
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
-public interface IRepository
+public interface IHealthDataRepository
 {
     Task <IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId,
                                                                  string[] areaCodes,

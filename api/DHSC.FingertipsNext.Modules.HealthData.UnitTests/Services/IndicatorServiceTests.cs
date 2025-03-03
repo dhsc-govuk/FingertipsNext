@@ -13,7 +13,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
 
 public class IndicatorServiceTests
 {
-    readonly IRepository _repository;
+    readonly IHealthDataRepository _healthDataRepository;
     readonly Mapper _mapper;
     readonly IndicatorService _indicatorService;
 
@@ -22,8 +22,8 @@ public class IndicatorServiceTests
         var profiles = new AutoMapperProfiles();
         var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profiles));
         _mapper = new Mapper(configuration);
-        _repository = Substitute.For<IRepository>();
-        _indicatorService = new IndicatorService(_repository, _mapper);
+        _healthDataRepository = Substitute.For<IHealthDataRepository>();
+        _indicatorService = new IndicatorService(_healthDataRepository, _mapper);
     }
 
     public static IEnumerable<object[]> TestData =>
@@ -84,7 +84,7 @@ public class IndicatorServiceTests
         );
 
         // expect
-        await _repository
+        await _healthDataRepository
             .Received()
             .GetIndicatorDataAsync(
                 1,
@@ -99,7 +99,7 @@ public class IndicatorServiceTests
     {
         await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
 
-        await _repository.Received().GetIndicatorDataAsync(1, [], [], []);
+        await _healthDataRepository.Received().GetIndicatorDataAsync(1, [], [], []);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class IndicatorServiceTests
             HealthData = expectedHealthData
         };
 
-        _repository.GetIndicatorDataAsync(1, [], [], []).Returns([healthMeasure]);
+        _healthDataRepository.GetIndicatorDataAsync(1, [], [], []).Returns([healthMeasure]);
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
 
@@ -166,7 +166,7 @@ public class IndicatorServiceTests
                 }
             }
         };
-        _repository.GetIndicatorDataAsync(1, [], [], []).Returns(
+        _healthDataRepository.GetIndicatorDataAsync(1, [], [], []).Returns(
             (IEnumerable<HealthMeasureModel>)new List<HealthMeasureModel>()
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
