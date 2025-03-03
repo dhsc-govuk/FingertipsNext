@@ -6,6 +6,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 const mockData = [
   {
@@ -20,6 +21,7 @@ const mockData = [
         year: 2006,
         sex: 'All',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 267,
@@ -29,6 +31,7 @@ const mockData = [
         year: 2004,
         sex: 'All',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 267,
@@ -38,6 +41,7 @@ const mockData = [
         year: 2004,
         sex: 'Male',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -58,6 +62,7 @@ describe('sortHealthDataByDate', () => {
             year: 2004,
             sex: 'All',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 389,
@@ -67,6 +72,7 @@ describe('sortHealthDataByDate', () => {
             year: 2006,
             sex: 'All',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -90,6 +96,7 @@ describe('sortHealthDataByDate', () => {
             year: 2004,
             sex: 'Male',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 389,
@@ -99,6 +106,7 @@ describe('sortHealthDataByDate', () => {
             year: 2006,
             sex: 'Female',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -132,6 +140,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 389,
@@ -141,6 +150,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -158,6 +168,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -167,6 +178,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -205,6 +217,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -214,6 +227,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -229,6 +243,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -238,6 +253,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -256,6 +272,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -265,6 +282,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -288,6 +306,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -297,6 +316,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -312,6 +332,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -321,6 +342,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -339,6 +361,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -348,6 +371,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },

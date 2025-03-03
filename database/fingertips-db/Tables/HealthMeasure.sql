@@ -1,10 +1,11 @@
 ﻿--This holds the core health data. e.g. 800 Females under the age of 75 people per 100000 People with type 1 diabetes received a blood pressure check in Leeds in 2022
 CREATE TABLE [dbo].[HealthMeasure](
 	[HealthMeasureKey] [int] IDENTITY(1,1) NOT NULL, 	--The surrogate key
+	[AgeKey] [smallint] NOT NULL,						--Foreign key to the age - what age is this row for
 	[AreaKey] [int] NOT NULL,							--Foreign key to the area - what geography is this row for
 	[IndicatorKey] [smallint] NOT NULL,					--Foreign key to the indicator - what indicator is this row for
 	[SexKey] [tinyint] NOT NULL,						--Foreign key to the sex - what sex is this row for
-	[AgeKey] [smallint] NOT NULL,						--Foreign key to the age - what age is this row for
+	[TrendKey] [tinyint] NULL DEFAULT 1,				--Foreign key to the trend - what trend applies to this row. It defaults to NotYetCalculated as trends are calculated during a subsequent step
 	[Count] [float] NULL,							--How many were counted for this data - e.g. how many people were counted in order to create this row			
 	[Value] [float] NULL,							--The value of the data e.g. how many people per 100 000. This is the key piece of data for this row 
 	[LowerCI] [float] NULL,							--The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
@@ -39,4 +40,10 @@ REFERENCES [dbo].[SexDimension] ([SexKey])
 GO
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_SexDimension]
+GO
+ALTER TABLE [dbo].[HealthMeasure]  WITH CHECK ADD  CONSTRAINT [FK_HealthMeasure_TrendDimension] FOREIGN KEY([TrendKey])
+REFERENCES [dbo].[TrendDimension] ([TrendKey])
+GO
+
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_TrendDimension]
 GO

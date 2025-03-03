@@ -1,6 +1,7 @@
 import {
   HealthDataForArea,
   HealthDataPoint,
+  HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
   PopulationDataForArea,
@@ -19,6 +20,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '0-4',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -28,6 +30,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '5-9',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -37,6 +40,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '10-14',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -46,6 +50,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '15-19',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -55,6 +60,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '20-24',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -64,6 +70,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '50-54',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -73,6 +80,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '85-89',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -82,6 +90,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '90+',
     sex: 'Female',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -91,6 +100,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '0-4',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -100,6 +110,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '5-9',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -109,6 +120,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '10-14',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -118,6 +130,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '15-19',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -127,6 +140,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '20-24',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -136,6 +150,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '50-54',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
 
   {
@@ -146,6 +161,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '90+',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
   {
     year: 2023,
@@ -155,6 +171,7 @@ const mockData: HealthDataPoint[] = [
     upperCi: 0,
     ageBand: '85-89',
     sex: 'Male',
+    trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
 ];
 const mockAgeCategories = [
