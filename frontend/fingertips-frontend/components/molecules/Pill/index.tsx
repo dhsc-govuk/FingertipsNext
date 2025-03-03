@@ -1,30 +1,24 @@
 'use client';
 
-import { Paragraph } from 'govuk-react';
-import { typography } from '@govuk-react/lib';
 import React from 'react';
 import styled from 'styled-components';
 import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 
-interface PillProps {
-  selectedFilterName: string;
-  selectedFilterId: string;
-  removeFilter: (filterId: string) => void;
-}
-
-const StyledDivContainer = styled('div')({
-  backgroundColor: 'white',
+const StyledDivContainer = styled('div')<{ fill?: string }>(({ fill }) => ({
+  backgroundColor: fill ?? 'white',
   border: '1px #D1D2D3 solid',
   borderRadius: '5px',
   padding: '0.3125em 0.3125em',
   maxWidth: '100%',
   margin: '0.3125em 0',
   display: 'flex',
-});
+}));
 
-const StyledFilterNameDiv = styled('div')({
+const StyledFilterChildren = styled('div')({
   wordWrap: 'break-word',
   paddingLeft: '0.5em',
+  fontSize: 16,
+  marginBottom: '0',
 });
 
 const StyledIconDiv = styled('div')({
@@ -32,29 +26,33 @@ const StyledIconDiv = styled('div')({
   display: 'flex',
 });
 
-const StyledParagraph = styled(Paragraph)(
-  {
-    marginBottom: '0',
-  },
-  typography.font({ size: 16 })
-);
+interface PillProps {
+  children: React.ReactNode;
+  fill?: string;
+  selectedFilterId?: string;
+  removeFilter: (filterId: string) => void;
+}
 
 export function Pill({
-  selectedFilterName,
+  children,
+  fill,
   selectedFilterId,
   removeFilter,
 }: Readonly<PillProps>) {
   return (
-    <StyledDivContainer data-testid="pill-container">
+    <StyledDivContainer data-testid="pill-container" fill={fill}>
       <StyledIconDiv
         data-testid="remove-icon-div"
-        onClick={() => removeFilter(selectedFilterId)}
+        onClick={(e) => {
+          e.preventDefault();
+          removeFilter(selectedFilterId ?? '');
+        }}
       >
         <RemoveIcon width="12" height="12" color="#000000" />
       </StyledIconDiv>
-      <StyledFilterNameDiv data-testid="filter-name">
-        <StyledParagraph>{selectedFilterName}</StyledParagraph>
-      </StyledFilterNameDiv>
+      <StyledFilterChildren data-testid="filter-name">
+        {children}
+      </StyledFilterChildren>
     </StyledDivContainer>
   );
 }
