@@ -413,6 +413,9 @@ public class HealthDataRepositoryTests
         healthMeasure.AreaDimension.StartDate = new DateTime();
         healthMeasure.AreaDimension.EndDate = new DateTime();
 
+        healthMeasure.TrendKey = 0;
+        healthMeasure.TrendDimension.TrendKey = 0;
+        
         return healthMeasure;
     }
 }
