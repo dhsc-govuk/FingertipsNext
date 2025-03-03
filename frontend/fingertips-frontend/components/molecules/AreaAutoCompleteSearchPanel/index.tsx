@@ -26,7 +26,9 @@ export default function AreaAutoCompleteInputField({
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
-  const defaultSelected = defaultSelectedAreas.length ? (defaultSelectedAreas[0].areaName) : ''
+  const defaultSelected = defaultSelectedAreas.length
+    ? defaultSelectedAreas[0].areaName
+    : '';
 
   const [criteria, setCriteria] = useState<string>(defaultSelected);
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
@@ -40,9 +42,8 @@ export default function AreaAutoCompleteInputField({
   }, [defaultSelectedAreas]);
 
   useEffect(() => {
-
-    if(selectedAreas.length !== 0){
-      return ;
+    if (selectedAreas.length !== 0) {
+      return;
     }
     const fetchSearchArea = async (criteria: string) => {
       if (criteria) {
@@ -83,8 +84,8 @@ export default function AreaAutoCompleteInputField({
       if (onAreaSelected && areas.length === 0) {
         onAreaSelected(undefined);
       }
-      if(areas.length === 0){
-        setCriteria('')
+      if (areas.length === 0) {
+        setCriteria('');
       }
     },
     [selectedAreas, onAreaSelected]
