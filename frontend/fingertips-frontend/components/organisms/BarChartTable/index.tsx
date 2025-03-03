@@ -6,6 +6,7 @@ import { HighchartsReact } from 'highcharts-react-official';
 
 type SparklineProps = {
   value: number;
+  maxValue: number;
 };
 interface sampleData {
   text: string;
@@ -14,7 +15,8 @@ interface sampleData {
 type chartProps = {
   sData: sampleData[]
 }
-export function Sparkline({ value }: Readonly<SparklineProps>) {
+
+export function Sparkline({ value, maxValue }: Readonly<SparklineProps>) {
   const sparkLineOptions: Highcharts.Options = {
     credits: {
       enabled: false,
@@ -25,7 +27,7 @@ export function Sparkline({ value }: Readonly<SparklineProps>) {
         display: 'none',
       },
     },
-    yAxis: { visible: false },
+    yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
     series: [{ type: 'bar', data: [value]}],
     legend: {
@@ -34,9 +36,14 @@ export function Sparkline({ value }: Readonly<SparklineProps>) {
     accessibility: {
       enabled: false,
     },
-   //  boost: {useGPUTranslations: true,
-   //    enabled: true,
-   // }
+    plotOptions: {
+     bar: {
+        pointWidth: 20
+      }
+    },
+    tooltip: {
+      hideDelay: 0
+    }
   };
   
   return (
@@ -46,9 +53,13 @@ export function Sparkline({ value }: Readonly<SparklineProps>) {
     >
     </HighchartsReact>
 );
+  // potential chunking 
 }
 
 export function BarChartTable({sData}:Readonly<chartProps>) {
+  
+  const maxValue = Math.max(...sData.map(item => item.value))
+
   return (
     <Table
       id={'test-sparkline'}
@@ -59,12 +70,12 @@ export function BarChartTable({sData}:Readonly<chartProps>) {
         </Table.Row>
       }>
       {sData.map(data => (
-        <Table.Row>
+        <Table.Row key={`sparkline-${data.text}`}>
           <Table.Cell>
             {data.text}
           </Table.Cell>
           <Table.Cell>
-            <Sparkline value={data.value}/>
+            <Sparkline value={data.value} maxValue={maxValue}/>
           </Table.Cell>
         </Table.Row>
       ))}

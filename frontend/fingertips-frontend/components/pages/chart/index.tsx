@@ -52,7 +52,6 @@ function generateData(numberOfData: number) {
 }
 
 const largeDataSet = generateData(100)
-console.log('largeDataSet', largeDataSet);
 
 export function Chart({
   healthIndicatorData,
@@ -98,7 +97,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      <BarChartTable sData={sData}></BarChartTable>
+      <BarChartTable sData={largeDataSet}></BarChartTable>
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
