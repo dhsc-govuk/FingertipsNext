@@ -24,3 +24,5 @@ export const goodingeGP: Area = {
   name: 'The Goodinge Group Practice',
   areaType: gpsAreaType,
 };
+
+export const allGpsAreas = [felmoresGP, aryanGP, archwayGP, goodingeGP];

@@ -1,6 +1,7 @@
 import { expect } from '@jest/globals';
 import { generateHeatmapData } from './heatmapUtil';
 import { IndicatorRowData } from '@/components/organisms/Heatmap/index';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 const areaCodes: Array<string> = ['a1', 'a2'];
 const heatmapData: Array<IndicatorRowData> = [
@@ -20,6 +21,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2021,
@@ -29,6 +31,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -44,6 +47,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2021,
@@ -53,6 +57,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -68,6 +73,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -89,6 +95,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2021,
@@ -98,6 +105,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -113,6 +121,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2021,
@@ -122,6 +131,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },

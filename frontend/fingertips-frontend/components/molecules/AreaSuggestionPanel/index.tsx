@@ -56,7 +56,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
     <StyleSearchSuggestionPanel>
       {areas.map((area) => (
         <AreaSuggestionPanelItem
-          key={area.areaCode}
+          key={`${area.areaCode}-${area.areaType}`}
           onClick={() => onItemSelected(area)}
         >
           <SearchIcon
