@@ -16,7 +16,7 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }

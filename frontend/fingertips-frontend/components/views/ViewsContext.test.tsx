@@ -48,22 +48,14 @@ describe('ViewsContext', () => {
     jest.clearAllMocks();
   });
   it.each([
-    [['zam'], ['foo'], mockOneIndicatorOneAreaView],
-    [['zam'], ['foo', 'bar'], mockOneIndicatorTwoOrMoreAreasView],
-    [['foo', 'bar'], ['foo'], mockTwoOrMoreIndicatorsAreasView],
-    [['foo', 'bar'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
-    [
-      ['foo', 'bar', 'baz'],
-      [areaCodeForEngland],
-      mockTwoOrMoreIndicatorsEnglandView,
-    ],
-    [
-      ['foo', 'bar', 'baz'],
-      [areaCodeForEngland],
-      mockTwoOrMoreIndicatorsEnglandView,
-    ],
-    [['foo', 'bar', 'baz'], ['foo'], mockTwoOrMoreIndicatorsAreasView],
-    [['foo', 'bar'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
+    [['1'], ['A001'], mockOneIndicatorOneAreaView],
+    [['1'], ['A001', 'A002'], mockOneIndicatorTwoOrMoreAreasView],
+    [['1'], ['A001', 'A002', 'A003'], mockOneIndicatorTwoOrMoreAreasView],
+    [['1', '2'], ['A001'], mockTwoOrMoreIndicatorsAreasView],
+    [['1', '2', '3'], ['A001'], mockTwoOrMoreIndicatorsAreasView],
+    [['1', '2', '3'], ['A001', 'A002'], mockTwoOrMoreIndicatorsAreasView],
+    [['1', '2'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
+    [['1', '2', '3'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
   ])(
     'should return the expected view',
     async (indicators, areaCodes, correctView) => {
