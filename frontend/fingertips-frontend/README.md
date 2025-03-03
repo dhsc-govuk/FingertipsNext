@@ -138,7 +138,7 @@ Any violations of this standard cause a test failure unless the rule violated ha
 
 Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
 
-All screenshot snapshots are stored in github cache, not directly in the repository.
+All screenshot snapshots are stored in github cache, not directly in the repository. Each run CI execution of the e2e tests will save out to the job artefacts the current screenshots, for 5 days, this allows inspection of the current screenshots.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 

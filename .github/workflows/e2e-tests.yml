@@ -55,7 +55,9 @@ jobs:
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{github.ref}}
-          restore-keys: cache/${{github.repository}}/refs/heads/main
+          restore-keys: |
+            cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+            cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
         run: npm ci
@@ -103,13 +105,14 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
 
-      - name: Extract latest chart page screenshots from cache for this branch
+      - name: Extract latest chart page screenshots from cache
         uses: actions/cache@v3
         with:
           path: ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{github.ref}}
+          restore-keys: cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
 
-      - name: Upload latest chart page screenshots from cache for this branch
+      - name: Upload latest chart page screenshots from cache
         uses: actions/upload-artifact@v4
         with:
           name: test-snapshots
