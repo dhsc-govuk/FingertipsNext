@@ -2,21 +2,13 @@ import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicato
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-
-type OneIndicatorOneAreaViewProps = {
-  searchState: SearchStateParams;
-};
+import { ViewProps } from '../ViewsContext';
 
 export default async function OneIndicatorOneAreaView({
   searchState,
-}: Readonly<OneIndicatorOneAreaViewProps>) {
-  // decomponse from stateManger
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
@@ -24,8 +16,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  // TODO: validate indicator and group code
-  if (areasSelected?.length !== 1) {
+  if (areasSelected?.length !== 1 || indicatorSelected?.length !== 1) {
     throw new Error('Invalid parameters provided to view');
   }
 
@@ -33,7 +24,7 @@ export default async function OneIndicatorOneAreaView({
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
-  // get required healthData
+
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 

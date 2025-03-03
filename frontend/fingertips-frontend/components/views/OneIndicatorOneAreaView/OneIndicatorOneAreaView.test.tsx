@@ -14,20 +14,25 @@ const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 describe('OneIndicatorOneAreaView', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  afterEach(() => {
+    jest.resetAllMocks();
   });
-  // areas invalid, indicators invalid
-  it.skip('should return an error if given invalid parameters', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1', '2'],
-      [SearchParams.AreasSelected]: ['A001', 'A002'],
-    };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-    expect(() => OneIndicatorOneAreaView({ searchState: searchState })).toThrow(
-      'Invalid parameters provided to view'
-    );
-  });
+  it.each([
+    [['1'], ['A001', 'A002']],
+    [['1', '2'], ['A001']],
+  ])(
+    'should return an error if given invalid parameters',
+    (testIndicators, testAreas) => {
+      const searchState: SearchStateParams = {
+        [SearchParams.IndicatorsSelected]: testIndicators,
+        [SearchParams.AreasSelected]: testAreas,
+      };
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      expect(async () => {
+        await OneIndicatorOneAreaView({ searchState: searchState });
+      }).rejects.toThrow('Invalid parameters provided to view');
+    }
+  );
 
   it('should make 1 call to the healthIndicatorApi with the expected parameters', async () => {
     const searchState: SearchStateParams = {
