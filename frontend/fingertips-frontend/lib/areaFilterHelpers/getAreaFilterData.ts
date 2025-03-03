@@ -9,11 +9,13 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '../searchStateManager';
-import { AreaTypeKeys } from './areaType';
+import { AreaTypeKeys, englandAreaType } from './areaType';
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
 import { determineSelectedAreaType } from './determineSelectedAreaType';
 import { determineSelectedGroup } from './determineSelectedGroup';
 import { determineSelectedGroupType } from './determineSelectedGroupType';
+import { englandArea } from '@/mock/data/areas/englandAreas';
+import { determineAvailableAreas } from './determineAvailableAreas';
 
 type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -82,7 +84,10 @@ export const getAreaFilterData = async (
     includeChildren: true,
     childAreaType: determinedSelectedAreaType,
   });
-  const availableAreas = availableArea ? availableArea.children : [];
+  const availableAreas = determineAvailableAreas(
+    determinedSelectedAreaType,
+    availableArea
+  );
 
   return {
     availableAreaTypes: sortedByLevelAreaTypes,
