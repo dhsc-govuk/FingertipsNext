@@ -57,6 +57,13 @@ public class HealthDataRepository : IHealthDataRepository
                 TrendDimension = new TrendDimensionModel()
                 {
                     Name = x.TrendDimension.Name
+                },
+                DeprivationDimension = new DeprivationDimensionModel()
+                {
+                    Name = x.DeprivationDimension.Name,
+                    Type = x.DeprivationDimension.Type,
+                    Sequence = x.DeprivationDimension.Sequence,
+                    HasValue = x.DeprivationDimension.HasValue
                 }
             })
             .AsNoTracking()

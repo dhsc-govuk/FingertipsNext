@@ -196,12 +196,12 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(indicatorId: 500).Build();
         PopulateDatabase(unexpectedHealthMeasure5);
         
-        var unexpectedHealthMeasure6 = new HealthMeasureModelHelper(key: 5, year: 2023)
+        var unexpectedHealthMeasure6 = new HealthMeasureModelHelper(key: 6, year: 2023)
             .WithAreaDimension(code: "Code1").WithDeprivationDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500).Build();
         PopulateDatabase(unexpectedHealthMeasure6);
 
-        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 6, year: 2023)
+        var expectedHealthMeasure = new HealthMeasureModelHelper(key: 7, year: 2023)
             .WithAreaDimension(code: "Code1").WithIndicatorDimension(indicatorId: 500).Build();
         PopulateDatabase(expectedHealthMeasure);
 
@@ -290,14 +290,14 @@ public class HealthDataRepositoryTests
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _repository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
         result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
         {
-            expectedHealthMeasure
+            ResetKeys(expectedHealthMeasure)
         });
     }
 
@@ -451,6 +451,9 @@ public class HealthDataRepositoryTests
 
         healthMeasure.TrendKey = 0;
         healthMeasure.TrendDimension.TrendKey = 0;
+
+        healthMeasure.DeprivationKey = 0;
+        healthMeasure.DeprivationDimension.DeprivationKey = 0;
 
         return healthMeasure;
     }
