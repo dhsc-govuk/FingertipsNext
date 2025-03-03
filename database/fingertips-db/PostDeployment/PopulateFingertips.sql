@@ -3209,10 +3209,14 @@ GO
 /* Area Data */
 CREATE TABLE #TempAreaData
 (
-    Children NVARCHAR(MAX),
-    Parents NVARCHAR(MAX),
+    Children NVARCHAR (max),
+    Parents NVARCHAR (max),
     AreaCode NVARCHAR(255),
-    AreaName NVARCHAR(255)
+    AreaName NVARCHAR(255),
+    [Level] INT,
+    HierarchyType NVARCHAR(255),
+    AreaType NVARCHAR(255),
+    AreaTypeCode NVARCHAR(255)
 );
 DECLARE @sqlArea NVARCHAR(4000), @filePathArea NVARCHAR(500);
 IF '$(UseAzureBlob)' = '1'
@@ -3221,8 +3225,8 @@ ELSE
     SET @filePathArea = '$(LocalFilePath)areas.csv';
 SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH (' +
                CASE WHEN '$(UseAzureBlob)' = '1'
-                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
-                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
+                    ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                END + ')';
 EXEC sp_executesql @sqlArea;
 GO
@@ -3232,8 +3236,6 @@ SELECT RTRIM(AreaCode), RTRIM(AreaName), DATEADD(YEAR, -10, GETDATE()), DATEADD(
 FROM #TempAreaData;
 GO
 
-DROP TABLE #TempAreaData;
-GO
 
 /* Health Data */
 CREATE TABLE #TempHealthData
@@ -3285,30 +3287,6 @@ GO
 DROP TABLE #TempHealthData;
 GO
 
-/* Area Data */
-CREATE TABLE #TempAreaData
-(
-    Children NVARCHAR (max),
-    Parents NVARCHAR (max),
-    AreaCode NVARCHAR(255),
-    AreaName NVARCHAR(255),
-    [Level] INT,
-    HierarchyType NVARCHAR(255),
-    AreaType NVARCHAR(255),
-    AreaTypeCode NVARCHAR(255)
-);
-DECLARE @sqlArea NVARCHAR(4000), @filePathArea NVARCHAR(500);
-IF '$(UseAzureBlob)' = '1'
-    SET @filePathArea = 'areas.csv';
-ELSE
-    SET @filePathArea = '$(LocalFilePath)areas.csv';
-SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH (' +
-               CASE WHEN '$(UseAzureBlob)' = '1'
-                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
-                    ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
-               END + ')';
-EXEC sp_executesql @sqlArea;
-GO
 
 INSERT INTO [Areas].[AreaTypes]
 SELECT distinct
