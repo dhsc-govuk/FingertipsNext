@@ -20,6 +20,7 @@ public class HealthDataRepository : IRepository
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
             .Where(hm => inequalities.Contains("sex") || !hm.SexDimension.HasValue)
             .Where(hm => inequalities.Contains("age") || !hm.AgeDimension.HasValue)
+            .Where(hm => hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
