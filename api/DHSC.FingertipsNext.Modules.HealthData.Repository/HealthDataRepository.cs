@@ -32,8 +32,8 @@ public class HealthDataRepository : IHealthDataRepository
                     Year = x.Year,
                     Value = x.Value,
                     Count = x.Count,
-                    LowerCI =x.LowerCI,
-                    UpperCI = x.UpperCI,
+                    LowerCi =x.LowerCi,
+                    UpperCi = x.UpperCi,
                     AgeDimension = new AgeDimensionModel()
                     {
                         Name = x.AgeDimension.Name,
