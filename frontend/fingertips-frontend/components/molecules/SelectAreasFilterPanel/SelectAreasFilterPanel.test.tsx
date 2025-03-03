@@ -1,22 +1,18 @@
 import { render, screen, within } from '@testing-library/react';
-import { AreaFilter } from '.';
-import userEvent from '@testing-library/user-event';
-import { SearchParams } from '@/lib/searchStateManager';
-import {
-  mockAreaDataForNHSRegion,
-  mockAvailableAreas,
-} from '@/mock/data/areaData';
+import { SelectAreasFilterPanel } from '.';
+import { mockAvailableAreas } from '@/mock/data/areaData';
 import {
   allAreaTypes,
   englandAreaType,
   nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
+import { SearchParams } from '@/lib/searchStateManager';
+import userEvent from '@testing-library/user-event';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import {
   allNhsRegions,
   eastEnglandNHSRegion,
-  northEastAndYorkshireNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
 
 const mockPath = 'some-mock-path';
@@ -35,68 +31,24 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockSelectedAreasData = [
-  mockAreaDataForNHSRegion['E40000007'],
-  mockAreaDataForNHSRegion['E40000012'],
-];
+const mockSearchStateWithSelectedAreas = {
+  [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+};
 
-describe('Area Filter', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+const mockSearchStateWithNoSelectedAreas = {
+  [SearchParams.AreasSelected]: [],
+};
 
-  it('snapshot test', () => {
-    const container = render(<AreaFilter availableAreaTypes={[]} />);
-
-    expect(container.asFragment()).toMatchSnapshot();
-  });
-
-  it('should render the Filters heading', () => {
-    render(<AreaFilter />);
-
-    expect(screen.getByRole('heading')).toHaveTextContent('Filters');
-  });
-
-  it('should render the selected areas when there are areas selected', () => {
-    render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
-
-    expect(screen.getByText(/Selected areas \(2\)/i)).toBeInTheDocument();
-    expect(screen.getAllByTestId('pill-container')).toHaveLength(2);
-  });
-
-  it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
-    const expectedPath = [
-      `${mockPath}`,
-      `?${SearchParams.AreasSelected}=E40000012`,
-      `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
-    ].join('');
-
-    const user = userEvent.setup();
-    render(
-      <AreaFilter
-        selectedAreasData={mockSelectedAreasData}
-        searchState={{
-          [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-          [SearchParams.AreaTypeSelected]: 'NHS Regions',
-        }}
-      />
-    );
-
-    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
-    await user.click(
-      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
-    );
-
-    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-      scroll: false,
-    });
-  });
-
+describe('SelectAreasFilterPanel', () => {
   describe('Area type', () => {
     const areaTypeDropDownLabel = 'Select an area type';
 
     it('should disable the select area type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: areaTypeDropDownLabel })
@@ -104,24 +56,37 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select area type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreasData={[]} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithNoSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).not.toBeDisabled();
     });
 
-    it('should render the select area type drop down and indicate there are no areas selected', () => {
-      render(<AreaFilter availableAreaTypes={allAreaTypes} />);
+    it('should render the select area type drop down when there are no areas selected', () => {
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+          }}
+        />
+      );
 
-      expect(screen.getByText(/Selected areas \(0\)/i)).toBeInTheDocument();
       expect(
         screen.getByRole('combobox', { name: areaTypeDropDownLabel })
       ).toBeInTheDocument();
     });
 
     it('should render all the available areaTypes sorted by level', () => {
-      render(<AreaFilter availableAreaTypes={allAreaTypes} />);
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
+        />
+      );
 
       const areaTypeDropDown = screen.getByRole('combobox', {
         name: areaTypeDropDownLabel,
@@ -140,8 +105,8 @@ describe('Area Filter', () => {
 
     it('should have have the areaTypeSelected as the pre-selected value', () => {
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -156,17 +121,13 @@ describe('Area Filter', () => {
     it('should add the selected areaType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
-        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
       ].join('');
 
       const user = userEvent.setup();
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-          }}
+        <SelectAreasFilterPanel
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
         />
       );
 
@@ -183,16 +144,14 @@ describe('Area Filter', () => {
     it('should remove any previous state from the url for groupType and group selected when areaType is changed', async () => {
       const expectedPath = [
         `${mockPath}`,
-        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
       ].join('');
 
       const user = userEvent.setup();
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{ availableAreaTypes: allAreaTypes }}
           searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.GroupTypeSelected]: 'england',
             [SearchParams.GroupSelected]: 'england',
           }}
@@ -220,7 +179,11 @@ describe('Area Filter', () => {
     const groupTypeDropDownLabel = 'Select a group type';
 
     it('should disable the select group type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: groupTypeDropDownLabel })
@@ -231,7 +194,11 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select group type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreasData={[]} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithNoSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: groupTypeDropDownLabel })
@@ -243,9 +210,11 @@ describe('Area Filter', () => {
 
     it('should render all applicable group types provided', () => {
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -269,9 +238,11 @@ describe('Area Filter', () => {
 
     it('should have have the groupTypeSelected as the pre-selected value', () => {
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.GroupTypeSelected]: 'england',
@@ -287,19 +258,19 @@ describe('Area Filter', () => {
     it('should add the selected groupType to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
-        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupTypeSelected}=england`,
       ].join('');
 
       const user = userEvent.setup();
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
         />
@@ -318,19 +289,19 @@ describe('Area Filter', () => {
     it('should remove any previous state from the url for group selected when groupType is changed', async () => {
       const expectedPath = [
         `${mockPath}`,
-        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupTypeSelected}=england`,
       ].join('');
 
       const user = userEvent.setup();
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroupTypes={availableGroupTypes}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroupTypes: availableGroupTypes,
+          }}
           searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.GroupSelected]: 'england',
           }}
@@ -354,7 +325,11 @@ describe('Area Filter', () => {
     const groupDropDownLabel = 'Select a group';
 
     it('should disable the select group type drop down when there are areas selected', () => {
-      render(<AreaFilter selectedAreasData={mockSelectedAreasData} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: groupDropDownLabel })
@@ -365,7 +340,11 @@ describe('Area Filter', () => {
     });
 
     it('should not disable the select group type drop down when there are no areas selected', () => {
-      render(<AreaFilter selectedAreasData={[]} />);
+      render(
+        <SelectAreasFilterPanel
+          searchState={mockSearchStateWithNoSelectedAreas}
+        />
+      );
 
       expect(
         screen.getByRole('combobox', { name: groupDropDownLabel })
@@ -377,9 +356,11 @@ describe('Area Filter', () => {
 
     it('should render all applicable groups provided', () => {
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -403,9 +384,11 @@ describe('Area Filter', () => {
 
     it('should have have the group selected as the pre-selected value', () => {
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.GroupTypeSelected]: 'england',
@@ -422,19 +405,19 @@ describe('Area Filter', () => {
     it('should add the selected group to the url', async () => {
       const expectedPath = [
         `${mockPath}`,
-        `?${SearchParams.AreasSelected}=E40000012&${SearchParams.AreasSelected}=E40000007`,
-        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
         `&${SearchParams.GroupSelected}=${availableGroups[1].code}`,
       ].join('');
 
       const user = userEvent.setup();
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableGroups={availableGroups}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableGroups: availableGroups,
+          }}
           searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
         />
@@ -456,9 +439,11 @@ describe('Area Filter', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -478,17 +463,15 @@ describe('Area Filter', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
           }}
-          selectedAreasData={[
-            eastEnglandNHSRegion,
-            northEastAndYorkshireNHSRegion,
-          ]}
         />
       );
 
@@ -514,9 +497,11 @@ describe('Area Filter', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
           }}
@@ -541,14 +526,15 @@ describe('Area Filter', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
-        <AreaFilter
-          availableAreaTypes={allAreaTypes}
-          availableAreas={availableAreas}
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
             [SearchParams.AreasSelected]: ['E40000007'],
           }}
-          selectedAreasData={[eastEnglandNHSRegion]}
         />
       );
 

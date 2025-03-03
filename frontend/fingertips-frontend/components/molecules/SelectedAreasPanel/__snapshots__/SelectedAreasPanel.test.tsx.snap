@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectedAreasPanel snapshot test 1`] = `
+<DocumentFragment>
+  .c5 {
+  cursor: pointer;
+}
+
+.c3 {
+  background-color: white;
+  border: 1px #D1D2D3 solid;
+  border-radius: 5px;
+  padding: 0.3125em 0.3125em;
+  max-width: 100%;
+  margin: 0.3125em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  word-wrap: break-word;
+  padding-left: 0.5em;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.c4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c7 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c7 > p {
+  margin: 0;
+}
+
+.c7 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c7 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c7 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c0 {
+  padding-bottom: 1.5em;
+}
+
+.c8 {
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <span
+      class="c1 c2"
+    >
+      Selected areas (2)
+    </span>
+    <div
+      class="c3"
+      data-testid="pill-container"
+    >
+      <div
+        class="c4"
+        data-testid="remove-icon-div"
+      >
+        <svg
+          class="c5"
+          data-testid="x-icon"
+          fill="none"
+          height="12"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="3"
+          viewBox="0 0 25 25"
+          width="12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="18"
+            x2="6"
+            y1="6"
+            y2="18"
+          />
+          <line
+            x1="6"
+            x2="18"
+            y1="6"
+            y2="18"
+          />
+        </svg>
+      </div>
+      <div
+        class="c6"
+        data-testid="filter-name"
+      >
+        <div
+          class="c7 c8"
+        >
+          <p>
+            East of England NHS Region
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="c3"
+      data-testid="pill-container"
+    >
+      <div
+        class="c4"
+        data-testid="remove-icon-div"
+      >
+        <svg
+          class="c5"
+          data-testid="x-icon"
+          fill="none"
+          height="12"
+          stroke="#000000"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="3"
+          viewBox="0 0 25 25"
+          width="12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="18"
+            x2="6"
+            y1="6"
+            y2="18"
+          />
+          <line
+            x1="6"
+            x2="18"
+            y1="6"
+            y2="18"
+          />
+        </svg>
+      </div>
+      <div
+        class="c6"
+        data-testid="filter-name"
+      >
+        <div
+          class="c7 c8"
+        >
+          <p>
+            North East and Yorkshire NHS Region
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
