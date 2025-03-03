@@ -51,6 +51,6 @@ describe('tab container', () => {
       />
     );
 
-    expect(screen.getAllByText(footerContent).length).toEqual(items.length);
+    expect(screen.getAllByText(footerContent)).toHaveLength(3);
   });
 });
