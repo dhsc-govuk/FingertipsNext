@@ -12,6 +12,7 @@ import {
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 describe('Line chart table suite', () => {
   const mockHealthData = [
@@ -27,6 +28,7 @@ describe('Line chart table suite', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
         {
           year: 2004,
@@ -36,6 +38,7 @@ describe('Line chart table suite', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
     },
@@ -51,6 +54,7 @@ describe('Line chart table suite', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
     },

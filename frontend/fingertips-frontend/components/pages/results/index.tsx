@@ -30,6 +30,7 @@ type SearchResultsProps = {
   searchResults: IndicatorDocument[];
   availableAreaTypes?: AreaType[];
   availableGroupTypes?: AreaType[];
+  availableGroups?: Area[];
   availableAreas?: Area[];
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
@@ -46,6 +47,7 @@ export function SearchResults({
   searchResults,
   availableAreaTypes,
   availableGroupTypes,
+  availableGroups,
   availableAreas,
   selectedAreasData,
   searchState,
@@ -102,6 +104,7 @@ export function SearchResults({
               key={JSON.stringify(searchState)}
               availableAreaTypes={availableAreaTypes}
               availableGroupTypes={availableGroupTypes}
+              availableGroups={availableGroups}
               availableAreas={availableAreas}
               selectedAreasData={selectedAreasData}
               searchState={searchState}

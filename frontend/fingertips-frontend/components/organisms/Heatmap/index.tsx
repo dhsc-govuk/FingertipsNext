@@ -2,7 +2,10 @@
 
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import { generateHeatmapData } from './heatmapUtil';
 import { H3 } from 'govuk-react';
 import { useEffect, useState } from 'react';
@@ -36,6 +39,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -57,6 +61,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 9,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2024,
@@ -66,6 +71,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 3,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -81,6 +87,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             year: 2024,
@@ -90,6 +97,7 @@ const heatmapData: Array<IndicatorRowData> = [
             lowerCi: 2,
             ageBand: 'ageBand',
             sex: 'M',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
