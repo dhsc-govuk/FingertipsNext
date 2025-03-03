@@ -98,16 +98,14 @@ export function Chart({
                 id: 'lineChart',
                 title: 'Line chart',
                 content: (
-                  <>
-                    <LineChart
-                      healthIndicatorData={dataWithoutEngland}
-                      benchmarkData={englandBenchmarkData}
-                      searchState={searchState}
-                      groupIndicatorData={groupData}
-                      xAxisTitle="Year"
-                      accessibilityLabel="A line chart showing healthcare data"
-                    />
-                  </>
+                  <LineChart
+                    healthIndicatorData={dataWithoutEngland}
+                    benchmarkData={englandBenchmarkData}
+                    searchState={searchState}
+                    groupIndicatorData={groupData}
+                    xAxisTitle="Year"
+                    accessibilityLabel="A line chart showing healthcare data"
+                  />
                 ),
               },
               {
