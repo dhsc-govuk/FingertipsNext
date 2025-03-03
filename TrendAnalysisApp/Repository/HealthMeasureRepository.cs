@@ -8,14 +8,14 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
     /// <summary>
-    /// Retrieves a health measure result set for a given set of dimensions.
-    /// e.g. for an indicator with given dimensions for age group, area and sex.
+    /// Retrieves the 5 most recent health measure results for an indicator with a given set of dimensions.
+    /// i.e. indicator + age group, area and sex.
     /// </summary>
     /// <param name="ageId"></param>
     /// <param name="areaCode"></param>
     /// <param name="indicatorId"></param>
     /// <param name="sexId"></param>
-    /// <returns>A health measure result set entity</returns>
+    /// <returns>A list of Health Measure Models</returns>
     public async Task<IEnumerable<HealthMeasureModel>> GetForUniqueDimension(
         int ageId,
         string areaCode,
