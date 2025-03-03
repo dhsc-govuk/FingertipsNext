@@ -35,7 +35,7 @@ export default class ChartPage extends BasePage {
     );
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed. Also checking the components via screenshot snapshot testing.`
+      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
