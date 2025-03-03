@@ -81,17 +81,17 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
-Isolated ui testing occurs in both CI/CD pipelines on push and pull requests, as well as when code merges to main.
+Isolated ui testing, covering accessibility, page navigation and validations occurs in both CI on push and pull requests, as well in CD as when code merges to main.
 
-Note that while all tests are executed in CI/CD pipelines, for e2e tests there is a difference between where and how the tests are executed:
+For e2e tests there is a difference between where and how the tests are executed:
 
- 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing at this point.
 
- 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips.
+ 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
 
-For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
+For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips. 
 
-### Running the Unit tests
+### Running the Jest Unit tests
 
 ```bash
 npm run test
@@ -134,11 +134,11 @@ To check there are 0 accessibility violations call expectNoAccessibilityViolatio
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
-## Visual Screenshot Snapshot Testing
+### Visual Screenshot Snapshot Testing
 
-Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Not running them locally is following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake as the screenshot snapshots will be different for different platforms.
+Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
 
-All screenshots are stored in github cache, not directly in the repository.
+All screenshot snapshots are stored in github cache, not directly in the repository.
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
@@ -150,7 +150,7 @@ If you have made changes in your branch that have correctly resulted in the scre
 2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new images are correct.
 3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 
-Now that the screenshots are updated in the cache *for your current branch* you all subsequent workflow execution that trigger the e2e test in CI will pass.
+Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow execution that trigger the e2e test in CI will pass.
 
 When you merge to main the screenshots will be automatically updated in the cache for main.
 

@@ -93,7 +93,7 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
-      - name: Upload playwright report and screenshot if e2e tests fail - always on failure
+      - name: Upload playwright failure report and failure screenshot if e2e tests fail
         uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -101,7 +101,19 @@ jobs:
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
-          retention-days: 10
+          retention-days: 5
+
+      - name: Extract latest chart page screenshots from cache for this branch
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.frontend-directory }}/.test/**
+          key: cache/${{github.repository}}/${{github.ref}}
+
+      - name: Upload latest chart page screenshots from cache for this branch
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-snapshots
+          path: ${{ env.frontend-directory }}/.test/
 
       - name: Send slack message if e2e tests fail - for CD test execution
         if: failure() && inputs.e2e-test-container-image != null
