@@ -14,7 +14,7 @@ import { H3 } from 'govuk-react';
 
 type OneIndicatorOneAreaDashboardProps = {
   healthIndicatorData: HealthDataForArea[];
-  selectedGroupCode: string;
+  selectedGroupCode?: string;
   searchState: SearchStateParams;
 };
 

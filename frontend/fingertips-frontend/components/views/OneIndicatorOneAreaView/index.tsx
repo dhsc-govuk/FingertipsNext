@@ -24,6 +24,7 @@ export default async function OneIndicatorOneAreaView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
+  // TODO: validate indicator and group code
   if (areasSelected?.length !== 1) {
     throw new Error('Invalid parameters provided to view');
   }
@@ -44,20 +45,17 @@ export default async function OneIndicatorOneAreaView({
     });
   } catch (error) {
     console.log('error getting health indicator data for area', error);
+    throw new Error('error getting health indicator data for area');
   }
 
   console.log({ selectedGroupCode });
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
-  // TODO: these should not be undefined by now
-  if (healthIndicatorData && selectedGroupCode) {
-    return (
-      <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={healthIndicatorData}
-        selectedGroupCode={selectedGroupCode}
-        searchState={searchState}
-      />
-    );
-  }
-  return <p>not worked!</p>;
+  return (
+    <OneIndicatorOneAreaViewPlots
+      healthIndicatorData={healthIndicatorData}
+      // selectedGroupCode={selectedGroupCode}
+      searchState={searchState}
+    />
+  );
 }
