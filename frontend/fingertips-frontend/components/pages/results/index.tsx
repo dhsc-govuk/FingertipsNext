@@ -11,7 +11,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { AreaFilter } from '@/components/organisms/AreaFilter';
+import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
@@ -91,7 +91,7 @@ export function SearchResults({
         </form>
         <GridRow>
           <GridCol setWidth="one-third">
-            <AreaFilter
+            <AreaFilterPane
               key={JSON.stringify(searchState)}
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}

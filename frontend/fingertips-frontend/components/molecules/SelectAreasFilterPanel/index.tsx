@@ -1,8 +1,4 @@
-import {
-  Area,
-  AreaType,
-  AreaWithRelations,
-} from '@/generated-sources/ft-api-client';
+import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
   SearchStateManager,
@@ -20,7 +16,6 @@ export type AreaFilterData = {
 };
 
 interface SelectAreasFilterPanelProps {
-  selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
 }
@@ -39,19 +34,21 @@ const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
 });
 
-const isAreaSelected = (areaCode: string, selectedAreas?: Area[]): boolean =>
-  selectedAreas ? selectedAreas?.some((area) => area.code === areaCode) : false;
+const isAreaSelected = (areaCode: string, selectedAreas?: string[]): boolean =>
+  selectedAreas ? selectedAreas?.some((area) => area === areaCode) : false;
 
 export function SelectAreasFilterPanel({
-  selectedAreasData,
   areaFilterData,
   searchState,
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  // const { availableAreaTypes, availableGroupTypes, availableGroups. availableAreas} = areaFilterData;
   const searchStateManager = SearchStateManager.initialise(searchState);
+
+  const hasAreasSelected =
+    searchState?.[SearchParams.AreasSelected] &&
+    searchState?.[SearchParams.AreasSelected].length > 0;
 
   const areaTypeSelected = (valueSelected: string) => {
     searchStateManager.addParamValueToState(
@@ -106,7 +103,7 @@ export function SelectAreasFilterPanel({
         input={{
           onChange: (e) => areaTypeSelected(e.target.value),
           defaultValue: searchState?.[SearchParams.AreaTypeSelected],
-          disabled: selectedAreasData && selectedAreasData?.length > 0,
+          disabled: hasAreasSelected,
         }}
       >
         {areaFilterData?.availableAreaTypes?.map((areaType) => (
@@ -122,7 +119,7 @@ export function SelectAreasFilterPanel({
         input={{
           onChange: (e) => groupTypeSelected(e.target.value),
           defaultValue: searchState?.[SearchParams.GroupTypeSelected],
-          disabled: selectedAreasData && selectedAreasData?.length > 0,
+          disabled: hasAreasSelected,
         }}
       >
         {areaFilterData?.availableGroupTypes?.map((areaType) => (
@@ -137,7 +134,7 @@ export function SelectAreasFilterPanel({
         input={{
           onChange: (e) => groupSelected(e.target.value),
           defaultValue: searchState?.[SearchParams.GroupSelected],
-          disabled: selectedAreasData && selectedAreasData?.length > 0,
+          disabled: hasAreasSelected,
         }}
       >
         {areaFilterData?.availableGroups?.map((area) => (
@@ -152,7 +149,7 @@ export function SelectAreasFilterPanel({
         {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,
-            selectedAreasData
+            searchState?.[SearchParams.AreasSelected]
           );
 
           return (

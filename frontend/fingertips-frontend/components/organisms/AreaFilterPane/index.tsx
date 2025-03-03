@@ -9,7 +9,7 @@ import {
   SelectAreasFilterPanel,
 } from '@/components/molecules/SelectAreasFilterPanel';
 
-interface AreaFilterProps {
+interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
@@ -30,11 +30,11 @@ const StyledFilterDiv = styled('div')({
   padding: '1.5em 1em',
 });
 
-export function AreaFilter({
+export function AreaFilterPane({
   selectedAreasData,
   areaFilterData,
   searchState,
-}: Readonly<AreaFilterProps>) {
+}: Readonly<AreaFilterPaneProps>) {
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -49,7 +49,6 @@ export function AreaFilter({
 
         <ShowHideContainer summary="Add or change areas">
           <SelectAreasFilterPanel
-            selectedAreasData={selectedAreasData}
             areaFilterData={areaFilterData}
             searchState={searchState}
           />
