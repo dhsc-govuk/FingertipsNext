@@ -1,3 +1,5 @@
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+
 export const MOCK_ENGLAND_DATA = {
   areaCode: 'E92000001',
   areaName: 'England',
@@ -10,6 +12,7 @@ export const MOCK_ENGLAND_DATA = {
       upperCi: 0,
       ageBand: '0-4',
       sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
     {
       year: 2008,
@@ -19,6 +22,7 @@ export const MOCK_ENGLAND_DATA = {
       upperCi: 0,
       ageBand: '10-14',
       sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
   ],
 };
@@ -36,6 +40,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         year: 2004,
@@ -45,6 +50,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         year: 2004,
@@ -54,6 +60,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         year: 2004,
@@ -63,6 +70,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -78,6 +86,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         year: 2008,
@@ -87,6 +96,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         year: 2008,
@@ -96,6 +106,7 @@ export const MOCK_HEALTH_DATA = [
         upperCi: 578.32766,
         ageBand: 'All',
         sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -113,6 +124,7 @@ export const MOCK_PARENT_DATA = {
       upperCi: 1500,
       ageBand: 'All',
       sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
     {
       year: 2004,
@@ -122,6 +134,7 @@ export const MOCK_PARENT_DATA = {
       upperCi: 1500,
       ageBand: 'All',
       sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
   ],
 };

@@ -25,6 +25,7 @@ public class HealthDataRepository : IRepository
             .Include(hm => hm.AgeDimension)
             .Include(hm => hm.SexDimension)
             .Include(hm => hm.IndicatorDimension)
+            .Include(hm => hm.TrendDimension)
             .ToListAsync();
     }
 }
