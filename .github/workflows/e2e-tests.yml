@@ -51,7 +51,6 @@ jobs:
         id: cache
         with:
           path: |
-            ${{ env.frontend-directory }}/node_modules
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{github.ref}}
