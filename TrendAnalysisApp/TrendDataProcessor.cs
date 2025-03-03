@@ -14,18 +14,18 @@ public class TrendDataProcessor(HealthMeasureRepository healthMeasureRepo)
     /// <summary>
     /// Entrypoint for processing the trend data.
     /// </summary>
-    public void Process()
+    public async Task Process()
     {
         // TODO - DHSCFT-374 Trend Analysis - remove the below and actually process all indicators
-        var ageKey = 483; // <= 75 yrs
-        var areaKey = 3333; // England
-        var indicatorKey = 1; // Under 75 mortality from all causes
-        var sexKey = 1; // Male
+        var ageId = 163; // <= 75 yrs
+        var areaCode = "E92000001"; // England
+        var indicatorId = 108; // Under 75 mortality from all causes
+        var sexId = 1; // Male
 
-        var result = _healthMeasureRepo.GetForUniqueDimension(ageKey, areaKey, indicatorKey, sexKey);
+        var result = await _healthMeasureRepo.GetForUniqueDimension(ageId, areaCode, indicatorId, sexId);
 
-        Console.WriteLine($"Retrieved data for indicator: {result.IndicatorDimensionKey}");
-        Console.WriteLine($"Most recent year with data recorded: {result.MostRecentYearRecorded}");
-        Console.WriteLine($"Retrieve {result.Data.Count} data points for the health measure");
+        Console.WriteLine($"Retrieved data for indicator: {result.First().IndicatorDimension?.IndicatorId}");
+        Console.WriteLine($"Most recent year with data recorded: {result.First().Year}");
+        Console.WriteLine($"Retrieved {result.Count()} data points for the health measure");
     }
 }

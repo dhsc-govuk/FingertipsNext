@@ -1,17 +1,27 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TrendAnalysisApp.Repository.Models;
 
-/// <summary>
-/// The Health Measure Model class.
-/// Represents the Health Measure stored DB object.
-/// </summary>
 public class HealthMeasureModel
 {
-    public required int HealthMeasureKey { get; set; }
-    public required int AgeKey { get; set; }
-    public required int AreaKey { get; set; }
-    public required short IndicatorKey { get; set; }
-    public required byte SexKey { get; set; }
-    public required byte TrendKey { get; set; }
+    [Key]
+    public int HealthMeasureKey { get; set; }
+    public AgeDimensionModel? AgeDimension { get; set; }
+    [ForeignKey("AgeDimension")]
+    public short AgeKey { get; set; }
+    public AreaDimensionModel? AreaDimension { get; set; }
+    [ForeignKey("AreaDimension")]
+    public int AreaKey { get; set; }
+    public IndicatorDimensionModel? IndicatorDimension { get; set; }
+    [ForeignKey("IndicatorDimension")]
+    public short IndicatorKey { get; set; }
+    public SexDimensionModel? SexDimension { get; set; }
+    [ForeignKey("SexDimension")]
+    public byte SexKey { get; set; }
+    public TrendDimensionModel? TrendDimension { get; set; }
+    [ForeignKey("TrendDimension")]
+    public byte TrendKey { get; set; }
     public double? Count { get; set; }
     public double? Value { get; set; }
     public double? LowerCI { get; set; }
