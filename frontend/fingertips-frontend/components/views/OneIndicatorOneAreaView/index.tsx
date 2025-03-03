@@ -39,13 +39,12 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  console.log({ selectedGroupCode });
-  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
+  // console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
   return (
     <OneIndicatorOneAreaViewPlots
       healthIndicatorData={healthIndicatorData}
-      // selectedGroupCode={selectedGroupCode}
+      selectedGroupCode={selectedGroupCode}
       searchState={searchState}
     />
   );
