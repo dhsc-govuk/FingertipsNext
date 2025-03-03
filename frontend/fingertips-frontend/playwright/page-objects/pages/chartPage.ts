@@ -55,6 +55,7 @@ export default class ChartPage extends BasePage {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
+      await this.page.waitForTimeout(500); // temporary will be refactored out
       await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot();
     }
 
