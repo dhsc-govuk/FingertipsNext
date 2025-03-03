@@ -9,7 +9,7 @@ describe('Inequalities suite', () => {
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesTable-component')
+      screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('inequalitiesBarChartTable-component')

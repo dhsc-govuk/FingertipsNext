@@ -21,7 +21,7 @@ export enum InequalitiesTableHeadingsEnum {
   PERIOD = 'Period',
 }
 
-interface InequalitiesTableProps {
+interface InequalitiesLineChartTableProps {
   tableData: InequalitiesLineChartTableData;
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
   type?: Inequalities;
@@ -53,7 +53,7 @@ export function InequalitiesLineChartTable({
   tableData,
   yearlyHealthDataGroupedByInequalities,
   type = Inequalities.Sex,
-}: Readonly<InequalitiesTableProps>) {
+}: Readonly<InequalitiesLineChartTableProps>) {
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
     type
@@ -65,7 +65,7 @@ export function InequalitiesLineChartTable({
   ];
 
   return (
-    <StyledDiv data-testid="inequalitiesTable-component">
+    <StyledDiv data-testid="inequalitiesLineChartTable-component">
       <Table
         head={
           <>

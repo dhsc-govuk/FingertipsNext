@@ -43,7 +43,7 @@ describe('Inequalities table suite', () => {
       );
 
       expect(
-        screen.getByTestId('inequalitiesTable-component')
+        screen.getByTestId('inequalitiesLineChartTable-component')
       ).toBeInTheDocument();
     });
 

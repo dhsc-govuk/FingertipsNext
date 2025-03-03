@@ -154,7 +154,7 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
 
 <div
     class="c0"
-    data-testid="inequalitiesTable-component"
+    data-testid="inequalitiesLineChartTable-component"
   >
     <table
       class="c1"
