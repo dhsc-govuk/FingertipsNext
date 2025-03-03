@@ -73,8 +73,11 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Initialize snapshots if not in branch cache, or during manual snapshot update or when merging to main
-        if: ${{ steps.cache.outputs.cache-hit != 'true' || inputs.update-or-view-screenshots == 'true' || github.ref == 'refs/heads/main' }}
+      - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main
+        if: >
+          steps.cache.outputs.cache-hit != 'true' ||
+          inputs.update-or-view-screenshots == 'true' ||
+          github.ref == 'refs/heads/main'
         run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI
