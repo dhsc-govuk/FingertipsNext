@@ -338,13 +338,16 @@ DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 -- GO
 
 --create some sex dimension data
-SET IDENTITY_INSERT [dbo].[SexDimension] ON
-
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (1, N'Male', 1, 1)
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (2, N'Female', 1, 2)
-INSERT [dbo].[SexDimension] ([SexKey], [Name], [HasValue], [SexId]) VALUES (4, N'Persons', 0, 0)
-SET IDENTITY_INSERT [dbo].[SexDimension] OFF
-GO
+INSERT INTO [dbo].[SexDimension] 
+	(
+		Name,
+		HasValue,
+        SexId
+	)
+	VALUES
+	('Male',1,1),
+	('Female',1,2),
+	('Persons',0,4)
 
 -- Create some deprivation dimension data
 SET IDENTITY_INSERT [dbo].[DeprivationDimension] ON
