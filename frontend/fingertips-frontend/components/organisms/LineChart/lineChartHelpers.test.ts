@@ -1,5 +1,5 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
-import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
+import { generateSeriesData } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
