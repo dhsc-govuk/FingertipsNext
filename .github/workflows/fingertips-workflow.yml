@@ -298,6 +298,18 @@ jobs:
         with:
           name: dacpac
 
+      - name: Upload files to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az storage blob upload-batch `
+              --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
+              --source 'DataCreator/DataCreator/data/out' `
+              --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
+              --auth-mode 'login' `
+              --overwrite true
+
       - name: Deploy Database
         uses: azure/sql-action@v2.3
         with:
