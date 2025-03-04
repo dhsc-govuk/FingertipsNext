@@ -278,7 +278,7 @@ jobs:
       ]
     environment: development
     runs-on:
-      group: 'DHSC-Public-Runner'
+      group: 'DHSC-Public-Runner-Group'
     defaults:
       run:
         working-directory: ./database/fingertips-db
@@ -333,7 +333,7 @@ jobs:
         needs.check-changes.outputs.search_changed == 'true'
       )
     runs-on:
-      group: 'DHSC-Public-Runner'
+      group: 'DHSC-Public-Runner-Group'
     defaults:
       run:
         working-directory: ./search-setup

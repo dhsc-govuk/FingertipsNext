@@ -23,7 +23,7 @@ jobs:
   execute-e2e-tests:
     name: Execute e2e tests
     runs-on:
-      group: 'DHSC-Public-Runner'
+      group: 'DHSC-Public-Runner-Group'
     container:
       image: ${{ inputs.e2e-test-container-image }}
 

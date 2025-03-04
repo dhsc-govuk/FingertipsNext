@@ -60,7 +60,7 @@ on:
 jobs:
   terraform-pr-validation:
     runs-on:
-      group: 'DHSC-Public-Runner'
+      group: 'DHSC-Public-Runner-Group'
     if: ${{ inputs.source_trigger == 'pull_request' }}
     name: Validate Container Deployment - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
@@ -100,7 +100,7 @@ jobs:
 
   terraform-apply:
     runs-on:
-      group: 'DHSC-Public-Runner'
+      group: 'DHSC-Public-Runner-Group'
     if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch'}}
     name: Container Deploy - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
