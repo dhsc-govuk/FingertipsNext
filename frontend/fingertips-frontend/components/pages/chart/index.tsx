@@ -1,8 +1,6 @@
 'use client';
 
-import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2, H3 } from 'govuk-react';
-import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { BackLink, H2 } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
@@ -14,14 +12,10 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   isEnglandSoleSelectedArea,
-  seriesDataForIndicatorIndexAndArea,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
-import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
 
@@ -48,25 +42,10 @@ export function Chart({
 
   const backLinkPath = stateManager.generatePath('/results');
 
-  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
-    healthIndicatorData,
-    0,
-    areaCodeForEngland
-  );
-
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
   );
-
-  const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? seriesDataForIndicatorIndexAndArea(
-          healthIndicatorData,
-          0,
-          selectedGroupCode
-        )
-      : undefined;
 
   return (
     <>

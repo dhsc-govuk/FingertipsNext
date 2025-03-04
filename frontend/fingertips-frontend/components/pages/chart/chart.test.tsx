@@ -11,18 +11,6 @@ const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'See how the indicator has changed over time';
 
-const assertLineChartAndTableInDocument = () => {
-  expect(screen.getByTestId(lineChartTestId)).toBeInTheDocument();
-  expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
-  expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
-
-  expect(
-    screen.getByRole('heading', {
-      name: lineChartContainerTitle,
-    })
-  ).toBeInTheDocument();
-};
-
 const assertLineChartAndTableNotInDocument = () => {
   expect(screen.queryByTestId(lineChartTestId)).not.toBeInTheDocument();
   expect(screen.queryByTestId(lineChartTableTestId)).not.toBeInTheDocument();
