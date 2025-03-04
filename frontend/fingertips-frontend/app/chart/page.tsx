@@ -113,7 +113,7 @@ export default async function ChartPage(
         mapData={mapData}
         searchState={stateManager.getSearchState()}
         indicatorMetadata={indicatorMetadata}
-    />
+      />
       <ViewsContext searchState={stateManager.getSearchState()} />
     </>
   );
