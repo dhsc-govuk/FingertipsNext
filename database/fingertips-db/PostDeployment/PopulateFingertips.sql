@@ -389,8 +389,8 @@ INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'NoCh
 SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
 
--- create some population health measure data
-SET IDENTITY_INSERT [dbo].[HealthMeasure] ON
+-- -- create some population health measure data
+-- SET IDENTITY_INSERT [dbo].[HealthMeasure] ON
 
 -- INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3333, 3333, 3334, 2, 604, 1457071, 0, 0, 0, 2024)
 -- INSERT [dbo].[HealthMeasure] ([HealthMeasureKey], [AreaKey], [IndicatorKey], [SexKey], [AgeKey], [Count], [Value], [LowerCI], [UpperCI], [Year]) VALUES (3334, 3333, 3334, 2, 605, 1712742, 0, 0, 0, 2024)
