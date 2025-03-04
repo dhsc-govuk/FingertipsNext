@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Service;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
@@ -29,7 +30,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     [Route("{indicatorId:int}/data")]
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
-        [FromQuery(Name="area_codes")] string[]? areaCodes = null,
+        [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery] string? comparison_method = "None")

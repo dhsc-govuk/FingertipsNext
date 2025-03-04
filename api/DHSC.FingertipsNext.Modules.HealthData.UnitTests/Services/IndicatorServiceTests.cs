@@ -13,9 +13,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
 
 public class IndicatorServiceTests
 {
-    readonly IHealthDataRepository _healthDataRepository;
-    readonly Mapper _mapper;
-    readonly IndicatorService _indicatorService;
+    private readonly IHealthDataRepository _healthDataRepository;
+    private readonly IndicatorService _indicatorService;
+    private readonly Mapper _mapper;
 
     public IndicatorServiceTests()
     {
@@ -187,7 +187,7 @@ public class IndicatorServiceTests
             }
         };
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(
-            (IEnumerable<HealthMeasureModel>)new List<HealthMeasureModel>()
+            new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
         var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], [], BenchmarkComparisonMethod.None))
@@ -211,10 +211,8 @@ public class IndicatorServiceTests
         const string expectedAreaName1 = "Area 1";
 
 
-        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
+        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, upperCi: upperCi)
             .WithAreaDimension(expectedAreaCode1, expectedAreaName1).Build();
-        healthMeasure1.LowerCI = lowerCi;
-        healthMeasure1.UpperCI = upperCi;
 
         var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
 
@@ -254,10 +252,8 @@ public class IndicatorServiceTests
         const string expectedAreaName1 = "Area 1";
 
 
-        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023)
+        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023, lowerCi: 1, upperCi: 3)
             .WithAreaDimension(expectedAreaCode1, expectedAreaName1).Build();
-        healthMeasure1.LowerCI = 1;
-        healthMeasure1.UpperCI = 3;
 
         var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
 
