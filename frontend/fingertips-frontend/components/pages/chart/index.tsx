@@ -24,6 +24,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -76,6 +77,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
+      <BarChartEmbeddedTable healthIndicatorData={dataWithoutEngland}></BarChartEmbeddedTable>
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
