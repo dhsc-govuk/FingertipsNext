@@ -293,6 +293,9 @@ jobs:
         needs.check-changes.outputs.db_changed == 'true'
       )
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download DACPAC
         uses: actions/download-artifact@v4
         with:
@@ -302,11 +305,9 @@ jobs:
         shell: pwsh
         working-directory: ${{ github.workspace }}
         run: |
-          Get-ChildItem
-
           az storage blob upload-batch `
             --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
-            --source '.\DataCreator\DataCreator\data\out' `
+            --source 'DataCreator\DataCreator\data\out' `
             --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
             --auth-mode 'login' `
             --overwrite true
