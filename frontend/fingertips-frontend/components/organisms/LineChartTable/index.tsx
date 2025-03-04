@@ -203,22 +203,21 @@ export function LineChartTable({
   const englandRowData = sortPeriod(englandData);
   const sortedParentRowData = sortPeriod(parentData);
 
+  const healthDataLabelHeaders = healthIndicatorData.map((area) => ({
+    areaCode: area.areaCode,
+    areaName: area.areaName,
+  }));
+
   return (
     <StyledDiv data-testid="lineChartTable-component">
       <Table
         head={
           <>
             <HealthIndicatorRecentTitleHeader
-              healthAreas={healthIndicatorData.map((area) => ({
-                areaCode: area.areaCode,
-                areaName: area.areaName,
-              }))}
+              healthAreas={healthDataLabelHeaders}
             />
             <AreaLabelHeader
-              healthData={healthIndicatorData.map((area) => ({
-                areaCode: area.areaCode,
-                areaName: area.areaName,
-              }))}
+              healthData={healthDataLabelHeaders}
               parentData={
                 parentIndicatorData
                   ? {
