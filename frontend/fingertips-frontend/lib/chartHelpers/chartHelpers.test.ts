@@ -3,6 +3,7 @@ import {
   seriesDataWithoutEnglandOrGroup,
   sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
+  isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -379,5 +380,19 @@ describe('seriesDataWithoutEnglandOrParent', () => {
 
     const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
+  });
+});
+
+describe('isEnglandSoleSelectedArea', () => {
+  it('should return false', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001', 'E12000001'])).toBe(false);
+  });
+
+  it('should return true', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001'])).toBe(true);
+  });
+
+  it('should return true when England duplicated', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001', 'E92000001'])).toBe(true);
   });
 });

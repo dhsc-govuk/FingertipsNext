@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
+exports[`Inequalities table suite Sex inequality snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
   .c2 {
   padding: 10px 20px 10px 0;
@@ -154,7 +154,7 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
 
 <div
     class="c0"
-    data-testid="inequalitiesSexTable-component"
+    data-testid="inequalitiesLineChartTable-component"
   >
     <table
       class="c1"
@@ -204,6 +204,30 @@ exports[`Inequalities table suite snapshot test - should match snapshot 1`] = `
       <tbody
         class=""
       >
+        <tr
+          class=""
+        >
+          <td
+            class="c7 c8 c9"
+          >
+            2004
+          </td>
+          <td
+            class="c7 c8 c10"
+          >
+            890.3432
+          </td>
+          <td
+            class="c7 c8 c10"
+          >
+            703.420759
+          </td>
+          <td
+            class="c7 c8 c10"
+          >
+            703.420759
+          </td>
+        </tr>
         <tr
           class=""
         >

@@ -6,11 +6,11 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 public class AreaDimensionModel
 {
     [Key]
-    public required int AreaKey { get; set; }
+    public int AreaKey { get; set; }
     [MaxLength(20)]
-    public required string Code { get; set; }
+    public string Code { get; set; }
     [MaxLength(255)]
-    public required string Name { get; set; }
-    public required DateTime StartDate { get; set; }
-    public required DateTime EndDate { get; set; }
+    public string Name { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
 }

@@ -176,7 +176,10 @@ describe('should display inequalities', () => {
       [SearchParams.AreasSelected]: ['A1'],
     };
     render(
-      <Chart healthIndicatorData={[mockHealthData['1']]} searchState={state} />
+      <Chart
+        healthIndicatorData={[mockHealthData['337']]}
+        searchState={state}
+      />
     );
 
     expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
