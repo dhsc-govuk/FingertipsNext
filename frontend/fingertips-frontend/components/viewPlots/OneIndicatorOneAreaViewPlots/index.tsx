@@ -10,7 +10,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchStateParams } from '@/lib/searchStateManager';
-import { H3 } from 'govuk-react';
+import { H2, H3 } from 'govuk-react';
 
 type OneIndicatorOneAreaDashboardProps = {
   healthIndicatorData: HealthDataForArea[];
@@ -42,7 +42,8 @@ export function OneIndicatorOneAreaViewPlots({
         )
       : undefined;
   return (
-    <>
+    <section data-testid="oneIndicatorOneAreaViewPlot-component">
+      <H2>View data for selected indicators and areas</H2>
       <H3>See how the indicator has changed over time</H3>
       <TabContainer
         id="lineChartAndTable"
@@ -77,6 +78,6 @@ export function OneIndicatorOneAreaViewPlots({
 
       <H3>Inequalities Visualisations</H3>
       <H3>Population Visualisations</H3>
-    </>
+    </section>
   );
 }
