@@ -26,19 +26,19 @@ export default function AreaAutoCompleteInputField({
   defaultSelectedAreas,
   inputFieldErrorStatus = false,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
-  const defaultSelected = defaultSelectedAreas.length
-    ? defaultSelectedAreas[0].areaName
-    : '';
-
-  const [criteria, setCriteria] = useState<string>(defaultSelected);
+  const [criteria, setCriteria] = useState<string>();
   const [searchAreas, setSearchAreas] = useState<AreaDocument[]>([]);
   const [selectedAreas, setSelectedAreas] =
     useState<AreaDocument[]>(defaultSelectedAreas);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  console.log('Default to criteria =  ' + criteria);
 
   useEffect(() => {
     setSelectedAreas(defaultSelectedAreas);
+    const defaultSelected =
+      defaultSelectedAreas.length > 0 ? defaultSelectedAreas[0].areaName : '';
+    setCriteria(defaultSelected);
   }, [defaultSelectedAreas]);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function AreaAutoCompleteInputField({
   return (
     <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
-        value={criteria}
+        value={criteria ?? ''}
         onTextChange={setCriteria}
         disabled={selectedAreas.length > 0}
         touched={inputFieldErrorStatus}
