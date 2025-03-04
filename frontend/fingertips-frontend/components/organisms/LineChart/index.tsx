@@ -14,6 +14,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
+  yAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
   parentIndicatorData?: HealthDataForArea;
@@ -32,6 +33,7 @@ const chartName = 'lineChart';
 export function LineChart({
   healthIndicatorData,
   xAxisTitle,
+  yAxisTitle,
   accessibilityLabel,
   benchmarkData,
   parentIndicatorData,
@@ -79,7 +81,7 @@ export function LineChart({
       },
     },
     yAxis: {
-      title: undefined,
+      title: { text: yAxisTitle, margin: 20 },
       minorTickInterval: 'auto',
       minorTicksPerMajor: 2,
     },

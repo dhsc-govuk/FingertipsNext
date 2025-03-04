@@ -281,7 +281,9 @@ export function LineChartTable({
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>({englandBenchmarkData?.measurementUnits})</StyledSpan>
+                <StyledSpan>
+                  ({englandBenchmarkData?.measurementUnits})
+                </StyledSpan>
               </StyledGreyHeader>
             </Table.Row>
           </>
