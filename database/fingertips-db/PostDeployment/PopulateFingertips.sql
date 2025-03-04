@@ -3139,7 +3139,10 @@ GO
 BEGIN TRY DROP TABLE #TempHealthData; END TRY BEGIN CATCH END CATCH;
 GO
 
-IF '$(UseAzureBlob)' = '1'
+DECLARE @UseAzureBlob NVARCHAR(10) = '$(UseAzureBlob)';
+DECLARE @DistrictsAndUnitary NVARCHAR(255) = 'Districts and Unitary Authorities';
+
+IF @UseAzureBlob = '1'
 BEGIN
     IF NOT EXISTS (SELECT * FROM sys.symmetric_keys WHERE name = '##MS_DatabaseMasterKey##')
         EXEC('CREATE MASTER KEY ENCRYPTION BY PASSWORD = ''$(MasterKeyPassword)''');
@@ -3148,9 +3151,8 @@ BEGIN
     IF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'MyAzureBlobStorage')
         EXEC('CREATE EXTERNAL DATA SOURCE MyAzureBlobStorage WITH (TYPE = BLOB_STORAGE, LOCATION = ''$(BlobStorageLocation)'', CREDENTIAL = MyAzureBlobStorageCredential)');
 END;
-GO
 
-/* Age Data */
+-- Age Data
 CREATE TABLE #TempAgeData
 (
     AgeID INT,
@@ -3159,54 +3161,48 @@ CREATE TABLE #TempAgeData
     MaxYears INT
 );
 DECLARE @sqlAge NVARCHAR(4000), @filePathAge NVARCHAR(500);
-IF '$(UseAzureBlob)' = '1'
+IF @UseAzureBlob = '1'
     SET @filePathAge = 'agedata.csv';
 ELSE
     SET @filePathAge = '$(LocalFilePath)agedata.csv';
 SET @sqlAge = 'BULK INSERT #TempAgeData FROM ''' + @filePathAge + ''' WITH (' +
-              CASE WHEN '$(UseAzureBlob)' = '1'
+              CASE WHEN @UseAzureBlob = '1'
                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlAge;
-GO
 
 INSERT INTO [dbo].[AgeDimension] (Name, AgeID, HasValue)
 SELECT RTRIM(Age), AgeID, IIF(AgeID = 1, 0, 1)
 FROM #TempAgeData;
-GO
 
 DROP TABLE #TempAgeData;
-GO
 
-/* Indicator Data */
+-- Indicator Data
 CREATE TABLE #TempIndicatorData
 (
     IndicatorID INT,
     IndicatorName NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
-IF '$(UseAzureBlob)' = '1'
+IF @UseAzureBlob = '1'
     SET @filePathInd = 'indicators.csv';
 ELSE
     SET @filePathInd = '$(LocalFilePath)indicators.csv';
 SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH (' +
-              CASE WHEN '$(UseAzureBlob)' = '1'
+              CASE WHEN @UseAzureBlob = '1'
                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlInd;
-GO
 
 INSERT INTO [dbo].[IndicatorDimension] (Name, IndicatorId, StartDate, EndDate)
 SELECT TRIM('"' FROM IndicatorName), IndicatorID, DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
 FROM #TempIndicatorData;
-GO
 
 DROP TABLE #TempIndicatorData;
-GO
 
-/* Area Data */
+-- Area Data
 CREATE TABLE #TempAreaData
 (
     Children NVARCHAR (max),
@@ -3219,25 +3215,23 @@ CREATE TABLE #TempAreaData
     AreaTypeCode NVARCHAR(255)
 );
 DECLARE @sqlArea NVARCHAR(4000), @filePathArea NVARCHAR(500);
-IF '$(UseAzureBlob)' = '1'
+IF @UseAzureBlob = '1'
     SET @filePathArea = 'areas.csv';
 ELSE
     SET @filePathArea = '$(LocalFilePath)areas.csv';
 SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH (' +
-               CASE WHEN '$(UseAzureBlob)' = '1'
+               CASE WHEN @UseAzureBlob = '1'
                     THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                     ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                END + ')';
 EXEC sp_executesql @sqlArea;
-GO
 
 INSERT INTO dbo.AreaDimension (Code, Name, StartDate, EndDate)
 SELECT RTRIM(AreaCode), RTRIM(AreaName), DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
 FROM #TempAreaData;
-GO
 
 
-/* Health Data */
+-- Health Data
 CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
@@ -3261,17 +3255,16 @@ CREATE TABLE #TempHealthData
     CategoryId INT
 );
 DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
-IF '$(UseAzureBlob)' = '1'
+IF @UseAzureBlob = '1'
     SET @filePathHealth = 'healthdata.csv';
 ELSE
     SET @filePathHealth = '$(LocalFilePath)healthdata.csv';
 SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' WITH (' +
-                 CASE WHEN '$(UseAzureBlob)' = '1'
+                 CASE WHEN @UseAzureBlob = '1'
                       THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                       ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                  END + ')';
 EXEC sp_executesql @sqlHealth;
-GO
 
 INSERT INTO [dbo].[HealthMeasure] (AreaKey, IndicatorKey, SexKey, AgeKey, Count, Value, LowerCI, UpperCI, Year)
 SELECT
@@ -3282,10 +3275,8 @@ SELECT
     Count, Value, Lower95CI, Upper95CI, Year
 FROM #TempHealthData temp
 WHERE temp.Value IS NOT NULL;
-GO
 
 DROP TABLE #TempHealthData;
-GO
 
 
 INSERT INTO [Areas].[AreaTypes]
@@ -3295,7 +3286,6 @@ SELECT distinct
     HierarchyType,
     Level+1 As 'Level'
 FROM #TempAreaData;
-GO
 
 INSERT INTO [Areas].[Areas]
 SELECT
@@ -3303,23 +3293,21 @@ SELECT
     AreaName,
     replace(replace(AreaTypeCode, char(10),''), char(13),'')
 FROM #TempAreaData;
-GO
 
 -- Insert additional district-level records for applicable AreaCodes
 INSERT INTO [Areas].[Areas] (AreaCode, AreaName, AreaTypeKey)
 SELECT
     AreaCode,
     AreaName,
-    (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities') -- Lookup AreaTypeKey
+    (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary) -- Lookup AreaTypeKey
 FROM #TempAreaData
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')  -- Match the required areaCode prefixes
     AND NOT EXISTS (
         SELECT 1 FROM [Areas].[Areas] 
         WHERE AreaCode = #TempAreaData.AreaCode 
-        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities')
+        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
     );
-GO
 
 INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
 SELECT
@@ -3330,20 +3318,18 @@ CROSS APPLY
     STRING_SPLIT(Children, '|')
 WHERE
     value!='""'
-GO
 
 -- Insert parent-child relationships for newly created district-level areas
 INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = T.AreaCode 
-        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = 'Districts and Unitary Authorities')),
+        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)),
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
 FROM #TempAreaData T
 CROSS APPLY STRING_SPLIT(Children, '|')
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')
     AND value != '""'
-GO
 
 DROP TABLE #TempAreaData;
 GO
