@@ -300,10 +300,11 @@ jobs:
 
       - name: Upload files to Azure Blob Storage
         shell: pwsh
+        working-directory: ${{ github.workspace }}
         run: |
           az storage blob upload-batch `
             --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
-            --source '${{ github.workspace }}\DataCreator\DataCreator\data\out' `
+            --source 'DataCreator\DataCreator\data\out' `
             --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
             --auth-mode 'login' `
             --overwrite true
