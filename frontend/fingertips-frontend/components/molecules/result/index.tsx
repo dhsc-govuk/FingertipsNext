@@ -127,22 +127,24 @@ export function SearchResult({
             <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
-              { isWithinOneMonth(currentDate, result.lastUpdatedDate) ?
-                (<TagsColumn>
+              {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
+                <TagsColumn>
                   <GreyTag data-testid="tag-recent-indicator">
                     Updated in last month
                   </GreyTag>
-                </TagsColumn>)
-                : (<></>)
-              }
-              {result.hasInequalities ?
-                (<TagsColumn>
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
+              {result.hasInequalities ? (
+                <TagsColumn>
                   <GreyTag data-testid="tag-has-inequalities">
                     Contains inequality data
                   </GreyTag>
-                </TagsColumn>)
-                : (<></>)
-              }
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
             </TagRow>
           </Checkbox>
         </GridCol>

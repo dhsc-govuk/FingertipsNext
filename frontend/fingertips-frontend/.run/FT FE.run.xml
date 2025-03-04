@@ -1,5 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="FT FE" type="JavascriptDebugType" uri="http://localhost:3000">
+  <configuration
+    default="false"
+    name="FT FE"
+    type="JavascriptDebugType"
+    uri="http://localhost:3000"
+  >
     <method v="2" />
   </configuration>
 </component>

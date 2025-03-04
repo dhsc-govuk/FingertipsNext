@@ -36,12 +36,10 @@ const MOCK_DATA: IndicatorDocument[] = [
   },
 ];
 
-const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument =
-{
+const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   indicatorID: '101',
   indicatorName: 'NHS',
-  indicatorDefinition:
-    'Total number of patients registered with the practice',
+  indicatorDefinition: 'Total number of patients registered with the practice',
   earliestDataPeriod: '1999',
   latestDataPeriod: '2023',
   dataSource: 'NHS website',
@@ -158,11 +156,15 @@ describe('content', () => {
         currentDate={currentDate}
       />
     );
-    expect(screen.queryByText('Contains inequality data')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Contains inequality data')
+    ).not.toBeInTheDocument();
   });
 
   it('should show LAST UPDATE tag then INEQUALITIES tag (left to right) if both present in data', () => {
-    const currentDate = new Date(MOCK_DATA_LASTUPDATED_INEQUALITIES.lastUpdatedDate);
+    const currentDate = new Date(
+      MOCK_DATA_LASTUPDATED_INEQUALITIES.lastUpdatedDate
+    );
     render(
       <SearchResult
         result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
@@ -178,8 +180,11 @@ describe('content', () => {
     expect(lastUpdatedElement).toBeInTheDocument();
     expect(inequalitiesElement).toBeInTheDocument();
 
-    if (lastUpdatedElement && inequalitiesElement) // IF should always be true but check keeps the various tools happy
-      expect(lastUpdatedElement.compareDocumentPosition(inequalitiesElement)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    if (lastUpdatedElement && inequalitiesElement)
+      // IF should always be true but check keeps the various tools happy
+      expect(
+        lastUpdatedElement.compareDocumentPosition(inequalitiesElement)
+      ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
