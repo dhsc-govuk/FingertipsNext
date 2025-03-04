@@ -287,7 +287,7 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'feature/DHSCFT-354_import-csv-data' &&
+      github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true'
