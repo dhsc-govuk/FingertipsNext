@@ -8,7 +8,7 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];
-const searchTerm = 'mortality';
+const searchTerm = 'emergency';
 let allIndicatorIDs: string[];
 interface TestParams {
   indicatorMode: IndicatorMode;
