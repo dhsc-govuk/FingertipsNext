@@ -117,7 +117,7 @@ export const mockAreaDataForNHSRegion: Record<string, AreaWithRelations> = {
     children: [],
   },
   E40000010: {
-    ...northWestRegion,
+    ...northWestNHSRegion,
     parents: [englandArea],
     children: [],
   },
