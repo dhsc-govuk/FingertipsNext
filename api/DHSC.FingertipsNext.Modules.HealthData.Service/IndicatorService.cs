@@ -36,14 +36,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// </param>
     /// <param name="comparisonMethod">BenchmarkType to set comparison method e.g. None, RAG or Quartiles</param>
     /// <returns>
-    ///     An enumerable of <c>HealthMeasure</c> matching the criteria,
+    ///     An enumerable of <c>HealthDataForArea</c> matching the criteria,
     ///     otherwise an empty enumerable.
     /// </returns>
     public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId,
-                                                                            IEnumerable<string> areaCodes,
-                                                                            IEnumerable<int> years,
-                                                                            IEnumerable<string> inequalities,
-                                                                            BenchmarkComparisonMethod comparisonMethod)
+        IEnumerable<string> areaCodes,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities,
+        BenchmarkComparisonMethod comparisonMethod)
     {
         var benchmarkAreaCode = comparisonMethod == BenchmarkComparisonMethod.Rag ? AreaCodeEngland : "";
 
@@ -58,24 +58,29 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             years.Distinct().Take(10).ToArray(),
             inequalities.Distinct().ToArray());
 
-        var allHealthDataForAreas = GroupAndSelect(healthMeasureData);
+        var allHealthDataForAreas = GroupByArea(healthMeasureData);
 
         // separate the data for results and data for performing benchmarks
         var benchmarkHealthData = GetBenchMarkData(allHealthDataForAreas, benchmarkAreaCode);
-        var healthDataForAreas = wasBenchMarkAreaAdded
-            ? RemoveBenchmarkData(allHealthDataForAreas, benchmarkAreaCode)
-            : allHealthDataForAreas;
+        var healthDataForAreas = GetHealthDataForAreas(allHealthDataForAreas, benchmarkAreaCode, wasBenchMarkAreaAdded);
 
-        if (comparisonMethod == BenchmarkComparisonMethod.Rag && benchmarkHealthData != null)
-        {
-            var benchmarker = new BenchmarkComparisonEngine(benchmarkHealthData, Polarity);
-            return benchmarker.EnrichHealthDataForMultipleAreas(healthDataForAreas);
-        }
-
-        return healthDataForAreas;
+        // enrich the data with benchmark comparison
+        return BenchmarkComparisonIterator.ProcessBenchmarkComparisons(
+            healthDataForAreas,
+            benchmarkHealthData,
+            comparisonMethod,
+            Polarity
+        );
     }
 
-    private static (List<string> areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(
+    // Determine the area codes to use in the database query
+    // areaCodesForSearch: IEnumerable string - the codes for the database search
+    // wasBenchMarkAreaAdded: bool - if the benchmark area code was added or was already part of the requested area codes
+    // examples: given the benchmark area is England 
+    //   if then request param areaCodes did not already include it then add it wasBenchMarkAreaAdded = true
+    //   if then request param areaCodes already includes the benchmark area code then we do not need to add it and wasBenchMarkAreaAdded = false
+    // By doing this there is only one call to the database and benchmark and area data are separated afterwards
+    private static (IEnumerable<string> areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(
         IEnumerable<string> areaCodes,
         string benchmarkAreaCode)
     {
@@ -88,7 +93,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         return (areaCodesForSearch, wasBenchMarkAreaAdded: true);
     }
 
-    private IEnumerable<HealthDataForArea> GroupAndSelect(IEnumerable<HealthMeasureModel> healthMeasureData)
+    // group the data into areas
+    private IEnumerable<HealthDataForArea> GroupByArea(IEnumerable<HealthMeasureModel> healthMeasureData)
     {
         return healthMeasureData
             .GroupBy(data => new { code = data.AreaDimension.Code, name = data.AreaDimension.Name })
@@ -100,6 +106,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             });
     }
 
+    // find the benchmark data in the DB results
     private static HealthDataForArea? GetBenchMarkData(IEnumerable<HealthDataForArea> allHealthDataForAreas,
         string benchmarkAreaCode)
     {
@@ -108,6 +115,16 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             : allHealthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
     }
 
+    // get the health area data without the benchmark data - unless the benchmark area was specifically requested
+    private static IEnumerable<HealthDataForArea> GetHealthDataForAreas(
+        IEnumerable<HealthDataForArea> allHealthDataForAreas, string benchmarkAreaCode, bool wasBenchMarkAreaAdded)
+    {
+        return wasBenchMarkAreaAdded
+            ? RemoveBenchmarkData(allHealthDataForAreas, benchmarkAreaCode)
+            : allHealthDataForAreas;
+    }
+
+    // remove the benchmark data
     private static IEnumerable<HealthDataForArea> RemoveBenchmarkData(
         IEnumerable<HealthDataForArea> allHealthDataForAreas, string benchmarkAreaCode)
     {

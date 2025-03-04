@@ -2,12 +2,11 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
-public class BenchmarkPolarity
+/// <summary>
+///     converts a comparison to a benchmark comparison outcome
+/// </summary>
+public static class BenchmarkPolarity
 {
-    protected BenchmarkPolarity()
-    {
-    }
-
     public static BenchmarkOutcome GetOutcome(int comparison, IndicatorPolarity polarity)
     {
         if (polarity == IndicatorPolarity.LowIsGood) return GetLowerIsGood(comparison);
