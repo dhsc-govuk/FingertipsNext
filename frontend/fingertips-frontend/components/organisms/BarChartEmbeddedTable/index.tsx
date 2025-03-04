@@ -26,7 +26,7 @@ export function BarChartEmbeddedTable({healthIndicatorData}: Readonly<BarChartEm
       <Table.CellHeader>{BarChartEmbeddedTableHeadingEnum.AreaLower}</Table.CellHeader>
       <Table.CellHeader>{BarChartEmbeddedTableHeadingEnum.AreaUpper}</Table.CellHeader>
   </Table.Row>}>
-    
+    §
     
   </Table>)
 }
