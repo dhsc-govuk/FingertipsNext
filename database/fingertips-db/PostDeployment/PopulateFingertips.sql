@@ -3267,7 +3267,7 @@ ELSE
     SET @filePathHealth = '$(LocalFilePath)healthdata.csv';
 SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' WITH (' +
                  CASE WHEN '$(UseAzureBlob)' = '1'
-                      THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                      THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                       ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                  END + ')';
 EXEC sp_executesql @sqlHealth;
