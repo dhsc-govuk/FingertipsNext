@@ -301,6 +301,10 @@ jobs:
         with:
           name: dacpac
 
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Upload files to Azure Blob Storage
         shell: pwsh
         working-directory: ${{ github.workspace }}
