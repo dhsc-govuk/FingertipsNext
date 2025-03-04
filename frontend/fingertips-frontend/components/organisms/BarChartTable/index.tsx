@@ -53,7 +53,6 @@ export function Sparkline({ value, maxValue }: Readonly<SparklineProps>) {
     >
     </HighchartsReact>
 );
-  // potential chunking 
 }
 
 export function BarChartTable({sData}:Readonly<chartProps>) {
