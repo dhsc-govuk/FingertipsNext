@@ -76,45 +76,47 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      {shouldDisplayLineChart(
-        dataWithoutEngland,
-        indicatorsSelected,
-        areasSelected
-      ) && (
-        <>
-          <H3>See how the indicator has changed over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
-                ),
-              },
-              {
-                id: 'table',
-                title: 'Tabular data',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
-                    englandBenchmarkData={englandBenchmarkData}
-                    groupIndicatorData={groupData}
-                  />
-                ),
-              },
-            ]}
-          />
-        </>
-      )}
+      {/* scaffold for #411 */}
+      {false &&
+        shouldDisplayLineChart(
+          dataWithoutEngland,
+          indicatorsSelected,
+          areasSelected
+        ) && (
+          <>
+            <H3>See how the indicator has changed over time</H3>
+            <TabContainer
+              id="lineChartAndTable"
+              items={[
+                {
+                  id: 'lineChart',
+                  title: 'Line chart',
+                  content: (
+                    <LineChart
+                      healthIndicatorData={dataWithoutEngland}
+                      benchmarkData={englandBenchmarkData}
+                      searchState={searchState}
+                      groupIndicatorData={groupData}
+                      xAxisTitle="Year"
+                      accessibilityLabel="A line chart showing healthcare data"
+                    />
+                  ),
+                },
+                {
+                  id: 'table',
+                  title: 'Tabular data',
+                  content: (
+                    <LineChartTable
+                      healthIndicatorData={dataWithoutEngland}
+                      englandBenchmarkData={englandBenchmarkData}
+                      groupIndicatorData={groupData}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </>
+        )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <Inequalities
