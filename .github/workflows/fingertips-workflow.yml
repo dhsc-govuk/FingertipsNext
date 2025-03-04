@@ -303,7 +303,7 @@ jobs:
         run: |
           az storage blob upload-batch `
             --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
-            --source 'DataCreator/DataCreator/data/out' `
+            --source '${{ github.workspace }}\DataCreator\DataCreator\data\out' `
             --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
             --auth-mode 'login' `
             --overwrite true
