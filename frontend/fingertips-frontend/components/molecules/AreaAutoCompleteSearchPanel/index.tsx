@@ -32,7 +32,6 @@ export default function AreaAutoCompleteInputField({
     useState<AreaDocument[]>(defaultSelectedAreas);
 
   const timeoutRef = useRef<number | null>(null);
-  console.log('Default to criteria =  ' + criteria);
 
   useEffect(() => {
     setSelectedAreas(defaultSelectedAreas);
