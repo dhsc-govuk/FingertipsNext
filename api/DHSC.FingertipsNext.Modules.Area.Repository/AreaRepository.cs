@@ -1,6 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.Http.Headers;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -265,9 +266,11 @@ public class AreaRepository : IAreaRepository
             )
             .ToListAsync();
 
+        var areaTypes = await _dbContext.AreaType.ToListAsync();
+
         foreach (var area in areaList)
         {
-            area.AreaType = await _dbContext.AreaType.Where(areaType => areaType.AreaTypeKey == area.AreaTypeKey).FirstAsync();
+            area.AreaType = areaTypes.Where(areaType => areaType.AreaTypeKey == area.AreaTypeKey).First();
         }
 
         return [.. areaList.OrderBy(a => a.AreaType.Level)];
@@ -317,14 +320,18 @@ public class AreaRepository : IAreaRepository
                     AreaName,
                     AreaTypeKey
                 FROM
-                   	recursive_cte          
+                   	recursive_cte
+                WHERE
+                    AreaKey != {startingArea.AreaKey }
                 """
             )
             .ToListAsync();
 
+        var areaTypes = await _dbContext.AreaType.ToListAsync();
+
         foreach(var area in areaList)
         {
-            area.AreaType = await _dbContext.AreaType.Where(areaType => areaType.AreaTypeKey == area.AreaTypeKey).FirstAsync();
+            area.AreaType = areaTypes.Where(areaType => areaType.AreaTypeKey == area.AreaTypeKey).First();
         }
 
         return [.. areaList.OrderBy(a => a.AreaType.Level)];
