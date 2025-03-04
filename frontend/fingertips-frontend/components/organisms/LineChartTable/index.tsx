@@ -268,20 +268,20 @@ export function LineChartTable({
                       heading,
                       index + 1,
                       healthIndicatorData.length,
-                      data.measurementUnits ?? '%'
+                      data.measurementUnits
                     )
                   )
               )}
               {parentIndicatorData ? (
                 <StyledLightGreySubHeader>
-                  Value ({parentIndicatorData.measurementUnits ?? '%'})
+                  Value ({parentIndicatorData.measurementUnits})
                 </StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>({englandBenchmarkData?.measurementUnits ?? '%'})</StyledSpan>
+                <StyledSpan>({englandBenchmarkData?.measurementUnits})</StyledSpan>
               </StyledGreyHeader>
             </Table.Row>
           </>
