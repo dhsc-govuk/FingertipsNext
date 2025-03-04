@@ -28,6 +28,10 @@ type SearchResultProps = {
   currentDate?: Date;
 };
 
+const TagsColumn = styled(GridCol)`
+  padding-right: 0px;
+`;
+
 const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 19, lineHeight: '1' })
 );
@@ -123,17 +127,24 @@ export function SearchResult({
             <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
-              <GridCol>
-                {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
+              {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
+                <TagsColumn>
                   <GreyTag data-testid="tag-recent-indicator">
                     Updated in last month
                   </GreyTag>
-                ) : (
-                  <></>
-                )}
-              </GridCol>
-              <GridCol></GridCol>
-              <GridCol></GridCol>
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
+              {result.hasInequalities ? (
+                <TagsColumn>
+                  <GreyTag data-testid="tag-has-inequalities">
+                    Contains inequality data
+                  </GreyTag>
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
             </TagRow>
           </Checkbox>
         </GridCol>

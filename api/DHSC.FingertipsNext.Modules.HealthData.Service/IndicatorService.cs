@@ -10,7 +10,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 /// <remarks>
 /// Does not include anything specific to the hosting technology being used.
 /// </remarks>
-public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndicatorsService
+public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
 {
     /// <summary>
     /// Obtain health point data for a single indicator.
@@ -25,11 +25,11 @@ public class IndicatorService(IRepository _repository, IMapper _mapper) : IIndic
     /// <returns>An enumerable of <c>HealthMeasure</c> matching the criteria,
     /// otherwise an empty enumerable.</returns>
     public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId,
-                                                                            string[] areaCodes,
-                                                                            int[] years,
-                                                                            string[] inequalities)
+                                                                            IEnumerable<string> areaCodes,
+                                                                            IEnumerable<int> years,
+                                                                            IEnumerable<string> inequalities)
     {
-        var healthMeasureData = await _repository.GetIndicatorDataAsync(
+        var healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodes.Distinct().Take(10).ToArray(),
             years.Distinct().Take(10).ToArray(),
