@@ -26,7 +26,7 @@ public class HealthMeasureModel
     public AgeDimensionModel? AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
     public short AgeKey { get; set; }
-    public DeprivationDimensionModel DeprivationDimension { get; set; }
+    public DeprivationDimensionModel? DeprivationDimension { get; set; }
     [ForeignKey("DeprivationDimension")]
     public short DeprivationKey { get; set; }
     public double? Count { get; set; }

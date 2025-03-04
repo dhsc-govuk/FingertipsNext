@@ -28,6 +28,7 @@ public class HealthDataRepository : IHealthDataRepository
             .Include(hm => hm.SexDimension)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
+            .Include(hm => hm.DeprivationDimension)
             .Select(x => new HealthMeasureModel()
             {
                 Year = x.Year,
