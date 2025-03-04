@@ -79,9 +79,6 @@ export function OneIndicatorOneAreaViewPlots({
           />
         </>
       )}
-
-      <H3>Inequalities Visualisations</H3>
-      <H3>Population Visualisations</H3>
     </section>
   );
 }

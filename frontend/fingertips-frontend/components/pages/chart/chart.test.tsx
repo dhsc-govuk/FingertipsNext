@@ -81,31 +81,6 @@ describe('Page structure', () => {
   });
 });
 
-describe('Content', () => {
-  beforeEach(() => {
-    const state: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A1245'],
-    };
-    render(
-      <Chart
-        healthIndicatorData={[mockHealthData['337']]}
-        searchState={state}
-      />
-    );
-  });
-
-  it('should render the title with correct text', () => {
-    const heading = screen.getByRole('heading', { level: 2 });
-
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-});
-
 it('should render the PopulationPyramid component when Population data are provided', () => {
   render(
     <Chart

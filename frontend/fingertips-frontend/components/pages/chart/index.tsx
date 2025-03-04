@@ -54,7 +54,6 @@ export function Chart({
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
-      <H2>View data for selected indicators and areas</H2>
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <Inequalities
           healthIndicatorData={

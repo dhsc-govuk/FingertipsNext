@@ -177,7 +177,7 @@ describe('Chart Page', () => {
         });
 
         // using props.children[0] during transition to views in DHSCFT-380
-        expect(page.props.children[0].props.healthIndicatorData).toEqual([
+        expect(page.props.children[1].props.healthIndicatorData).toEqual([
           mockHealthData['1'],
         ]);
       });
@@ -199,7 +199,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.populationData).toEqual(
+        expect(page.props.children[1].props.populationData).toEqual(
           expectedPopulationData
         );
       });
@@ -267,7 +267,7 @@ describe('Chart Page', () => {
         const expected = getMapData('nhs-regions', ['A1245', 'A1245']);
 
         expect(mockData).toHaveBeenCalled();
-        expect(page.props.children[0].props.mapData).toEqual(expected);
+        expect(page.props.children[1].props.mapData).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {
