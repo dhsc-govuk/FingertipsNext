@@ -170,7 +170,10 @@ const getCellHeader = (
       data-testid={`header-${heading}-${index}`}
       key={`header-${heading}`}
     >
-      {heading} <StyledSpan>({units})</StyledSpan>
+      {heading}
+      <StyledSpan>
+        {heading === LineChartTableHeadingEnum.AreaValue ? `(${units})` : null}
+      </StyledSpan>
     </StyledAlignRightHeader>
   );
 };

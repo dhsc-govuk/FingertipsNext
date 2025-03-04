@@ -358,7 +358,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2 c11 c14"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="6 c17"
             >
@@ -369,23 +369,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2 c11 c14"
             data-testid="header-Lower-4"
           >
-            Lower 
+            Lower
             <span
               class="6 c17"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c14"
             data-testid="header-Upper-5"
           >
-            Upper 
+            Upper
             <span
               class="6 c17"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c14 c15"
@@ -878,7 +874,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c11 c14"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="6 c18"
             >
@@ -889,23 +885,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c11 c14"
             data-testid="header-Lower-4"
           >
-            Lower 
+            Lower
             <span
               class="6 c18"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c14"
             data-testid="header-Upper-5"
           >
-            Upper 
+            Upper
             <span
               class="6 c18"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c12 c16 c17"
@@ -923,7 +915,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c11 c14"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="6 c18"
             >
@@ -934,23 +926,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c11 c14"
             data-testid="header-Lower-4"
           >
-            Lower 
+            Lower
             <span
               class="6 c18"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c14"
             data-testid="header-Upper-5"
           >
-            Upper 
+            Upper
             <span
               class="6 c18"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c11 c14 c15"
