@@ -42,8 +42,6 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
-
   return (
     <OneIndicatorOneAreaViewPlots
       healthIndicatorData={healthIndicatorData}
