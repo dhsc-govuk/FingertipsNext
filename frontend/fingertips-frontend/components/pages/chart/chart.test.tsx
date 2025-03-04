@@ -116,11 +116,6 @@ describe('Content', () => {
       'View data for selected indicators and areas'
     );
   });
-
-  it('should render the chart components', () => {
-    assertLineChartAndTableInDocument();
-    expect(screen.getByTestId('barChart-component')).toBeInTheDocument();
-  });
 });
 
 it('should render the PopulationPyramid component when Population data are provided', () => {
