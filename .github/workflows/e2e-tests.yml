@@ -22,7 +22,8 @@ on:
 jobs:
   execute-e2e-tests:
     name: Execute e2e tests
-    runs-on: ubuntu-latest
+    runs-on:
+      group: 'DHSC-Public-Runner'
     container:
       image: ${{ inputs.e2e-test-container-image }}
 

@@ -29,7 +29,8 @@ on:
 jobs:
   build-and-push:
     name: Build and Push Container
-    runs-on: ubuntu-latest
+    runs-on:
+      group: 'DHSC-Public-Runner'
     steps:
       - name: Checkout source
         uses: actions/checkout@v4

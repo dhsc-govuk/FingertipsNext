@@ -277,7 +277,8 @@ jobs:
         push-container-frontend,
       ]
     environment: development
-    runs-on: windows-latest
+    runs-on:
+      group: 'DHSC-Public-Runner'
     defaults:
       run:
         working-directory: ./database/fingertips-db
@@ -298,13 +299,25 @@ jobs:
         with:
           name: dacpac
 
+      - name: Install SQLPackage
+        run: |
+          mkdir -p sqlpackage
+          curl -L -o sqlpackage.zip "https://aka.ms/sqlpackage-linux"
+          unzip sqlpackage.zip -d sqlpackage
+          chmod +x sqlpackage/sqlpackage
+          echo "$(pwd)/sqlpackage" >> $GITHUB_PATH
+
       - name: Deploy Database
-        uses: azure/sql-action@v2.3
-        with:
-          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          path: 'fingertips-db.dacpac'
-          action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
+        run: |
+          ./sqlpackage/sqlpackage \
+            /Action:Publish \
+            /SourceFile:"fingertips-db.dacpac" \
+            /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
+            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+            /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
+            /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
+            /p:DropObjectsNotInSource=true \
+            /p:BlockOnPossibleDataLoss=false
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
@@ -319,7 +332,8 @@ jobs:
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true'
       )
-    runs-on: ubuntu-latest
+    runs-on:
+      group: 'DHSC-Public-Runner'
     defaults:
       run:
         working-directory: ./search-setup
