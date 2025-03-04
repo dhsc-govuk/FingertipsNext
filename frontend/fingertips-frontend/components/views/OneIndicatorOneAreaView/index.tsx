@@ -20,7 +20,6 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  // const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
   const areaCodesToRequest = [...areasSelected];
   if (areaCodesToRequest[0] != areaCodeForEngland) {
     areaCodesToRequest.push(areaCodeForEngland);
@@ -43,7 +42,7 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  // console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
+  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
 
   return (
     <OneIndicatorOneAreaViewPlots

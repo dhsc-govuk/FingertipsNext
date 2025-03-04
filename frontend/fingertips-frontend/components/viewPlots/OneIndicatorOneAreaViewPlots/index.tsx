@@ -22,7 +22,7 @@ export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   selectedGroupCode,
   searchState,
-}: OneIndicatorOneAreaDashboardProps) {
+}: Readonly<OneIndicatorOneAreaDashboardProps>) {
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
