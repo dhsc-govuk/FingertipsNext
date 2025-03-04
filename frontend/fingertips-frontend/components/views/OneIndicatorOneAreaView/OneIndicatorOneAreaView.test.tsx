@@ -22,22 +22,22 @@ describe('OneIndicatorOneAreaView', () => {
     [['1', '2'], ['A001']],
   ])(
     'should return an error if given invalid parameters',
-    (testIndicators, testAreas) => {
+    async (testIndicators, testAreas) => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-      expect(async () => {
+      await expect(async () => {
         await OneIndicatorOneAreaView({ searchState: searchState });
       }).rejects.toThrow('Invalid parameters provided to view');
     }
   );
 
-  // TODO: case where area is England
   it.each([
     [['1'], ['A001'], 'G001', ['A001', areaCodeForEngland, 'G001']],
     [['1'], ['A001'], areaCodeForEngland, ['A001', areaCodeForEngland]],
+    [['1'], [areaCodeForEngland], undefined, [areaCodeForEngland]],
   ])(
     'should make 1 call to the healthIndicatorApi with the expected parameters',
     async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
