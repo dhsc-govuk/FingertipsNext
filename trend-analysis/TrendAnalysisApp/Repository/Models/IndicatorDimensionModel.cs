@@ -11,4 +11,7 @@ public class IndicatorDimensionModel
     [MaxLength(255)]
     public string? Name { get; set; }
     public int IndicatorId { get; set; }
+    public bool UseProportionsForTrend { get; set; }
+    // Need to see new DB schema - perhaps this will be a foreign key
+    public string? ValueType { get; set; }
 }

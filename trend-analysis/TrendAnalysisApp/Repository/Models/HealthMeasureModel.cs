@@ -23,7 +23,8 @@ public class HealthMeasureModel
     [ForeignKey("TrendDimension")]
     public byte TrendKey { get; set; }
     public double? Count { get; set; }
-    public double? Value { get; set; }
+    public double Denominator { get; set; }
+    public double Value { get; set; }
     public double? LowerCI { get; set; }
     public double? UpperCI { get; set; }
     public required short Year { get; set; }
