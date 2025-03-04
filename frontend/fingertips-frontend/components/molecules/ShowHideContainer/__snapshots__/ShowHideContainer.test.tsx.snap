@@ -90,7 +90,7 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
 }
 
 .c1 div {
-  padding: 1em 0em;
+  padding: 0.5em 0em;
 }
 
 .c1 summary {
@@ -243,7 +243,7 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
 }
 
 .c1 div {
-  padding: 1em 0em;
+  padding: 0.5em 0em;
 }
 
 .c1 summary {

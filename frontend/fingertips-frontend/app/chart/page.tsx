@@ -24,6 +24,7 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function ChartPage(
@@ -105,12 +106,15 @@ export default async function ChartPage(
     : undefined;
 
   return (
-    <Chart
-      populationData={preparedPopulationData}
-      healthIndicatorData={healthIndicatorData}
-      mapData={mapData}
-      searchState={stateManager.getSearchState()}
-      indicatorMetadata={indicatorMetadata}
+    <>
+      <Chart
+        populationData={preparedPopulationData}
+        healthIndicatorData={healthIndicatorData}
+        mapData={mapData}
+        searchState={stateManager.getSearchState()}
+        indicatorMetadata={indicatorMetadata}
     />
+      <ViewsContext searchState={stateManager.getSearchState()} />
+    </>
   );
 }

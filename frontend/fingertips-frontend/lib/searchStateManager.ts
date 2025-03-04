@@ -80,6 +80,10 @@ export class SearchStateManager {
     return new SearchStateManager();
   }
 
+  public setState(state: SearchStateParams) {
+    this.searchState = state;
+  }
+
   private constructPath(path: string) {
     if (this.searchStateParams.size === 0) {
       return path;

@@ -9,7 +9,16 @@ describe('Inequalities suite', () => {
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesSexTable-component')
+      screen.getByTestId('inequalitiesLineChartTable-component')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('inequalitiesBarChartTable-component')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
   });
 });

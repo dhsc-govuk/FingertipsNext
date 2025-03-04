@@ -13,6 +13,7 @@ import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
+  isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -134,7 +135,13 @@ export function Chart({
       )}
       <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <Inequalities healthIndicatorData={healthIndicatorData[0][0]} />
+        <Inequalities
+          healthIndicatorData={
+            !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
+              ? dataWithoutEngland[0]
+              : healthIndicatorData[0][0]
+          }
+        />
       )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
