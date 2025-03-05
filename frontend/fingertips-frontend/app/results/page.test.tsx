@@ -44,6 +44,7 @@ const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
   lastUpdatedDate: new Date(),
   associatedAreaCodes: [],
   unitLabel: 'some unit label',
+  hasInequalities: true,
 });
 const mockIndicatorSearchResults: IndicatorDocument[] = [
   generateIndicatorSearchResults('1'),
