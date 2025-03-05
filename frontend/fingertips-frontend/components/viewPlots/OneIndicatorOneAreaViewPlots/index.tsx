@@ -13,7 +13,7 @@ import {
 } from '@/lib/searchStateManager';
 import { H2, H3 } from 'govuk-react';
 
-type OneIndicatorOneAreaDashboardProps = {
+export type ViewPlotProps = {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
 };
@@ -21,7 +21,7 @@ type OneIndicatorOneAreaDashboardProps = {
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
-}: Readonly<OneIndicatorOneAreaDashboardProps>) {
+}: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
