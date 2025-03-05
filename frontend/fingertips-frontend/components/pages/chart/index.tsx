@@ -36,7 +36,9 @@ type ChartProps = {
   indicatorMetadata?: IndicatorDocument;
 };
 
-const DataSourceParagraph = styled(Paragraph)(typography.font({ size: 16 }));
+const StyledParagraphDataSource = styled(Paragraph)(
+  typography.font({ size: 16 })
+);
 
 export function Chart({
   healthIndicatorData,
@@ -74,8 +76,6 @@ export function Chart({
           selectedGroupCode
         )
       : undefined;
-
-  const shouldDisplayDataSource = indicatorsSelected?.length === 1;
 
   return (
     <>
@@ -123,10 +123,10 @@ export function Chart({
             ]}
             footer={
               <>
-                {shouldDisplayDataSource && indicatorMetadata ? (
-                  <DataSourceParagraph>
+                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
+                  <StyledParagraphDataSource>
                     {`Data source: ${indicatorMetadata.dataSource}`}
-                  </DataSourceParagraph>
+                  </StyledParagraphDataSource>
                 ) : null}
               </>
             }

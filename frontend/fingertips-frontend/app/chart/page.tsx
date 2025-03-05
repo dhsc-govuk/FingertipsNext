@@ -69,12 +69,12 @@ export default async function ChartPage(
     )
   );
 
-  const shouldDisplayDataSource = indicatorsSelected.length === 1;
-  const indicatorMetadata = shouldDisplayDataSource
-    ? await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorsSelected[0]
-      )
-    : undefined;
+  const indicatorMetadata =
+    indicatorsSelected.length === 1
+      ? await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          indicatorsSelected[0]
+        )
+      : undefined;
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
