@@ -24,6 +24,8 @@ export type AreaDocument = {
   areaName: string;
 };
 
+export type AreaDocumentWithoutType = Omit<AreaDocument, 'areaType'>;
+
 export interface IIndicatorSearchService {
   searchWith(
     searchTerm: string,

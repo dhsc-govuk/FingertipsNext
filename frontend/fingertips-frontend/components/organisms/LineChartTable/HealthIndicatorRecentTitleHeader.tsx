@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocumentWithoutType } from '@/lib/search/searchTypes';
 
 const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 14 }),
@@ -23,10 +23,10 @@ const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 
-export type HealthIndicatorTitleHeaderData = Omit<AreaDocument, 'areaType'>;
+
 
 interface HealthIndicatorTitleHeaderProps {
-  healthAreas: HealthIndicatorTitleHeaderData[];
+  healthAreas: AreaDocumentWithoutType[];
 }
 
 export const HealthIndicatorRecentTitleHeader = ({
@@ -35,7 +35,7 @@ export const HealthIndicatorRecentTitleHeader = ({
   return (
     <Table.Row>
       {healthAreas.map(
-        (area: HealthIndicatorTitleHeaderData, index: number) => (
+        (area: AreaDocumentWithoutType, index: number) => (
           <React.Fragment key={area.areaName + index}>
             {index === 0 && healthAreas.length > 1 && (
               <StyledTitleRow></StyledTitleRow>

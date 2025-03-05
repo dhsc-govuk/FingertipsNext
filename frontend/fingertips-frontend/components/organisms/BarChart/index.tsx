@@ -76,7 +76,7 @@ export function BarChart({
         data: healthIndicatorData.map((item) => ({
           y: item.healthData[0].value,
           name: item.areaName,
-          units: item.measurementUnits,
+          units: item.measurementUnits ?? '',
         })),
         colorByPoint: true,
       },

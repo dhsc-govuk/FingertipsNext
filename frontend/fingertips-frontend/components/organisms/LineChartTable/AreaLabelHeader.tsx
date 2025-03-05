@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocumentWithoutType } from '@/lib/search/searchTypes';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-export type AreaLabel = Omit<AreaDocument, 'areaType'>;
+
 
 const StyledTableCellHeader = styled(Table.CellHeader)(
   typography.font({ size: 14 }),
@@ -44,8 +44,8 @@ const StyledGreyHeader = styled(StyledAlignRightHeader)({
 });
 
 interface AreaLabelHeaderProps {
-  healthData: AreaLabel[];
-  parentData?: AreaLabel;
+  healthData: AreaDocumentWithoutType[];
+  parentData?: AreaDocumentWithoutType;
 }
 
 export const AreaLabelHeader = ({
