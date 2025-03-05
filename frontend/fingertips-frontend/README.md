@@ -142,7 +142,7 @@ All screenshot snapshots are stored in github cache, not directly in the reposit
 
 If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
 
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see maxDiffPixelRatio in the playwright config file), then the e2e tests will fail and you you will need to update the base screenshots. To do this:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots. To do this:
 
 1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new screenshots are correct.
