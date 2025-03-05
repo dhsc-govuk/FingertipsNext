@@ -42,7 +42,7 @@ describe('determineApplicableGroupTypes', () => {
   ];
 
   it.each<determineApplicableGroupTypesSet>([
-    ['england', []],
+    ['england', ['england']],
     ['nhs-regions', ['england']],
     ['nhs-integrated-care-boards', ['nhs-regions', 'england']],
     [
