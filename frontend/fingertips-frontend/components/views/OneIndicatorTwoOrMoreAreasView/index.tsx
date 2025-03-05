@@ -49,7 +49,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
       healthIndicatorData={healthIndicatorData}
-      selectedGroupCode={selectedGroupCode}
       searchState={searchState}
     />
   );

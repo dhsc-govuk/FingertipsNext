@@ -91,7 +91,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         mockHealthData['108'][1],
       ]);
       expect(page.props.searchState).toEqual(searchState);
-      expect(page.props.selectedGroupCode).toEqual(testGroup);
     }
   );
 });
