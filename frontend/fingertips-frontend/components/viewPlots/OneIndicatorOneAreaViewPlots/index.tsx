@@ -30,6 +30,7 @@ export function OneIndicatorOneAreaViewPlots({
     healthIndicatorData,
     selectedGroupCode
   );
+  console.log({ dataWithoutEngland });
   const englandBenchmarkData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );

@@ -152,15 +152,13 @@ const getBenchmarkCell = (areaCount: number) =>
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
 ): LineChartTableRowData[] =>
-  areaData.healthData
-    .filter((healthPoint) => healthPoint.sex === Sex.ALL)
-    .map((healthPoint) => ({
-      period: healthPoint.year,
-      count: healthPoint.count,
-      value: healthPoint.value,
-      lower: healthPoint.lowerCi,
-      upper: healthPoint.upperCi,
-    }));
+  areaData.healthData.map((healthPoint) => ({
+    period: healthPoint.year,
+    count: healthPoint.count,
+    value: healthPoint.value,
+    lower: healthPoint.lowerCi,
+    upper: healthPoint.upperCi,
+  }));
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',

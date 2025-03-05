@@ -13,9 +13,7 @@ export function sortHealthDataForAreaByDate(
 ): HealthDataForArea {
   return {
     ...data,
-    healthData: data.healthData
-      .filter((healthPoint) => healthPoint.sex === Sex.ALL)
-      .toSorted((a, b) => a.year - b.year),
+    healthData: data.healthData.toSorted((a, b) => a.year - b.year),
   };
 }
 
