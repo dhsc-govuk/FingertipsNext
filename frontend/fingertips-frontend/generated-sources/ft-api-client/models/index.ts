@@ -8,6 +8,7 @@ export * from './GetHealthcheck200Response';
 export * from './GetHealthcheck500Response';
 export * from './HealthDataForArea';
 export * from './HealthDataPoint';
+export * from './HealthDataPointBenchmarkComparison';
 export * from './Indicator';
 export * from './IndicatorSummary';
 export * from './RootArea';

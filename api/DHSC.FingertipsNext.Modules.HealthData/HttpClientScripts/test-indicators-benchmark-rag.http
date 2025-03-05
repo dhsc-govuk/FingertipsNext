@@ -1,0 +1,19 @@
+﻿
+### check GET health data with rag comparison
+
+GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_method=rag
+
+> {%
+    import fs from 'fs';
+
+    const expected = JSON.parse(fs.readFileSync('test-indicators-benchmark-rag_expected-response.json', 'utf8'));
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        let responseBody = response.body
+        client.assert(responseBody.length === expected.length);
+        client.assert(responseBody === expected);
+    });
+%}
+
+###

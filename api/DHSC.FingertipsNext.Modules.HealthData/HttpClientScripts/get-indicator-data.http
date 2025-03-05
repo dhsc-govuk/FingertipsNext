@@ -26,3 +26,8 @@ GET http://localhost:5144/Indicators/355/data
     ?years=sausage
 
 ###
+
+### example with benchmark comparison
+GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_method=Rag
+###
+
