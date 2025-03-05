@@ -9,20 +9,19 @@ import {
   seriesDataForIndicatorIndexAndArea,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2, H3 } from 'govuk-react';
-
-type OneIndicatorTwoOrMoreAreasViewPlotsProps = {
-  healthIndicatorData: HealthDataForArea[];
-  selectedGroupCode?: string;
-  searchState: SearchStateParams;
-};
+import { ViewPlotProps } from '../OneIndicatorOneAreaViewPlots';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
-  selectedGroupCode,
   searchState,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
+}: Readonly<ViewPlotProps>) {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
   // TODO: LineChart only if 2 areas
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -46,41 +45,42 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <H2>View data for selected indicators and areas</H2>
-      {/* {dataWithoutEngland[0]?.healthData.length > 1 && (
-        <>
-          <H3>See how the indicator has changed over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
-                ),
-              },
-              {
-                id: 'table',
-                title: 'Tabular data',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
-                    englandBenchmarkData={englandBenchmarkData}
-                    groupIndicatorData={groupData}
-                  />
-                ),
-              },
-            ]}
-          />
-        </>
-      )} */}
+      {dataWithoutEngland[0]?.healthData.length > 1 &&
+        areasSelected?.length === 2 && (
+          <>
+            <H3>See how the indicator has changed over time</H3>
+            <TabContainer
+              id="lineChartAndTable"
+              items={[
+                {
+                  id: 'lineChart',
+                  title: 'Line chart',
+                  content: (
+                    <LineChart
+                      healthIndicatorData={dataWithoutEngland}
+                      benchmarkData={englandBenchmarkData}
+                      searchState={searchState}
+                      groupIndicatorData={groupData}
+                      xAxisTitle="Year"
+                      accessibilityLabel="A line chart showing healthcare data"
+                    />
+                  ),
+                },
+                {
+                  id: 'table',
+                  title: 'Tabular data',
+                  content: (
+                    <LineChartTable
+                      healthIndicatorData={dataWithoutEngland}
+                      englandBenchmarkData={englandBenchmarkData}
+                      groupIndicatorData={groupData}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </>
+        )}
     </section>
   );
 }
