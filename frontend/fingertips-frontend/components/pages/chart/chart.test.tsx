@@ -284,6 +284,7 @@ describe('should not display line chart', () => {
         lastUpdatedDate: new Date('March 4, 2025'),
         associatedAreaCodes: ['E06000047'],
         unitLabel: 'pancakes',
+        hasInequalities: false,
       };
       render(
         <Chart
@@ -335,6 +336,7 @@ describe('should not display line chart', () => {
         lastUpdatedDate: new Date('March 4, 2025'),
         associatedAreaCodes: ['E06000047'],
         unitLabel: 'pancakes',
+        hasInequalities: false,
       };
 
       render(
