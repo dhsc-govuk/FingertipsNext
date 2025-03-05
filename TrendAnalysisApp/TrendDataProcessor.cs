@@ -17,10 +17,10 @@ public class TrendDataProcessor(HealthMeasureRepository healthMeasureRepo)
     public async Task Process()
     {
         // TODO - DHSCFT-374 Trend Analysis - remove the below and actually process all indicators
-        var ageId = 163; // <= 75 yrs
+        var ageId = 227; // 12+ years
         var areaCode = "E92000001"; // England
-        var indicatorId = 108; // Under 75 mortality from all causes
-        var sexId = 1; // Male
+        var indicatorId = 41203; // Preventable sight loss from diabetic eye disease
+        var sexId = 4; // Persons (all)
 
         var result = await _healthMeasureRepo.GetForUniqueDimension(ageId, areaCode, indicatorId, sexId);
 
