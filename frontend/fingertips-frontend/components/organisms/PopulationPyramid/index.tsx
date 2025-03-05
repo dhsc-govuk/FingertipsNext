@@ -19,7 +19,7 @@ export const generatePopPyramidTooltipStringList = (
   symbol?: string
 ) => [
   `<span style="color:${point.series.color}">${symbol}</span>`,
-  `<span> Value ${Math.abs(point.y!)}%<br/>${point.series.name}</span>`,
+  `<span> Value ${Math.abs(Number(point.y))}%<br/>${point.series.name}</span>`,
 ];
 
 export function PopulationPyramid({
