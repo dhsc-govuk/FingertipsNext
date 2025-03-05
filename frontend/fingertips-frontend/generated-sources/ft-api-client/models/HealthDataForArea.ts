@@ -27,7 +27,7 @@ import {
  * @interface HealthDataForArea
  */
 export interface HealthDataForArea {
-    measurementUnits: string
+    measurementUnits?: string
     /**
      * The unique area code that the health data are for
      * @type {string}
