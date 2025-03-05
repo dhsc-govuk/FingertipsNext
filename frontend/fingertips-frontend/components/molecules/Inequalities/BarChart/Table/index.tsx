@@ -33,6 +33,7 @@ const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
   header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
+      style={{ width: '16%' }}
       data-testid={`heading-${header}`}
     >
       {header}
