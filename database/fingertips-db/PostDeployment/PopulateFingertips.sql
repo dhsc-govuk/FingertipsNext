@@ -141,7 +141,7 @@ SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH
 EXEC sp_executesql @sqlInd;
 
 INSERT INTO [dbo].[IndicatorDimension] (Name, IndicatorId, StartDate, EndDate)
-SELECT TRIM('"' FROM IndicatorName), IndicatorID, DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
+SELECT REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''), IndicatorID, DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
 FROM #TempIndicatorData;
 
 DROP TABLE #TempIndicatorData;
