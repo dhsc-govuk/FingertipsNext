@@ -5,12 +5,15 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import {StyledAlignLeftHeader, StyledAlignRightHeader } from "./SharedStyleComponents"
+import {
+  StyledAlignLeftHeader,
+  StyledAlignRightHeader,
+  StyledGreyHeader,
+} from './SharedStyleComponents';
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthIndicatorRecentTitleHeader } from './HealthIndicatorRecentTitleHeader';
 import { AreaLabelHeader } from './AreaLabelHeader';
-
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -32,7 +35,6 @@ const StyledDiv = styled('div')({
   alignItems: 'center',
 });
 
-
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
   width: '27%',
 });
@@ -49,12 +51,6 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   width: '22%',
   padding: '0.5em',
   textAlign: 'center',
-});
-
-const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
 });
 
 const StyledLightGreyHeader = styled(StyledGreyHeader)({

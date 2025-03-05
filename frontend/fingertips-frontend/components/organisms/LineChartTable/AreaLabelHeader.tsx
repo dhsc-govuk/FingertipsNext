@@ -4,8 +4,10 @@ import { AreaDocumentWithoutType } from '@/lib/search/searchTypes';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {StyledTableCellHeader, StyledAlignLeftHeader, StyledAlignRightHeader} from "./SharedStyleComponents"
-
+import {
+  StyledAlignLeftHeader,
+  StyledGreyHeader,
+} from './SharedStyleComponents';
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   width: '10%',
@@ -15,14 +17,6 @@ const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
 
 const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
   background: GovukColours.LightGrey,
-});
-
-
-
-const StyledGreyHeader = styled(StyledAlignRightHeader)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: `solid #F3F2F1 2px`,
-  width: '16%',
 });
 
 interface AreaLabelHeaderProps {
