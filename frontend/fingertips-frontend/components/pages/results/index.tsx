@@ -64,7 +64,6 @@ export function SearchResults({
       <>
         {indicatorSelectionState.message && (
           <ErrorSummary
-            // description={indicatorSelectionState.message}
             errors={[
               {
                 targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,

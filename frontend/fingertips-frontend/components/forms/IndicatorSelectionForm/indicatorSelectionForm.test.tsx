@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import {queryByRole, render, screen} from '@testing-library/react';
 import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { formatDate } from '@/components/molecules/result';
@@ -99,10 +99,22 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
   });
 
+  it('should NOT render the "View Data" button if no indicators found for search', async () => {
+    render(
+        <IndicatorSelectionForm
+            searchResults={[]}
+            searchState={state}
+            formAction={mockFormAction}
+        />
+    );
+
+    expect(screen.queryByRole('button', {name: /View Data/i})).toBeNull();
+  });
+
   it('should render the "View Data" button as disabled when there are no indicators selected in state', () => {
     render(
       <IndicatorSelectionForm
-        searchResults={[]}
+        searchResults={MOCK_DATA}
         searchState={state}
         formAction={mockFormAction}
       />
@@ -114,7 +126,7 @@ describe('IndicatorSelectionForm', () => {
   it('should render the "View Data" button as enabled when there are indicators selected in state', () => {
     render(
       <IndicatorSelectionForm
-        searchResults={[]}
+        searchResults={MOCK_DATA}
         searchState={{
           ...state,
           [SearchParams.IndicatorsSelected]: ['1'],
