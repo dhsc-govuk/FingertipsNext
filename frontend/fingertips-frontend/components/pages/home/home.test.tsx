@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
@@ -81,7 +81,9 @@ it('should focus on the input boxes when there is a validation error', async () 
 
   setupUI(errorState);
 
-  const anchor = screen.getByText('Search subject').closest('a')!;
+  const anchor = within(screen.getByTestId('search-form-error-summary'))
+    .getByText('Enter a subject you want to search for')
+    .closest('a')!;
   await user.click(anchor);
 
   await waitFor(() => {
