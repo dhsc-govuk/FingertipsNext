@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2, H3 } from 'govuk-react';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
@@ -24,19 +24,28 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument;
 };
+
+const StyledParagraphDataSource = styled(Paragraph)(
+  typography.font({ size: 16 })
+);
 
 export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
+  indicatorMetadata,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -102,7 +111,7 @@ export function Chart({
               },
               {
                 id: 'table',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
@@ -112,6 +121,15 @@ export function Chart({
                 ),
               },
             ]}
+            footer={
+              <>
+                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
+                  <StyledParagraphDataSource>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </StyledParagraphDataSource>
+                ) : null}
+              </>
+            }
           />
         </>
       )}
