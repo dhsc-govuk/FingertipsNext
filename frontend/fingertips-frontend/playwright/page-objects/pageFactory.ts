@@ -41,8 +41,8 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
       ).toEqual([]);
     },
 
-    //Auto is set to true, so the fixture will be automatically used in all tests, scope is set to 'test' to create a new AxeScanner per test
-    { scope: 'test', auto: true },
+    //Auto is set to false, so accessibility tests will only be executed when we call expectNoAccessibilityViolations(axeBuilder) which is only in the isolated ui tests
+    { scope: 'test', auto: false },
   ],
 });
 

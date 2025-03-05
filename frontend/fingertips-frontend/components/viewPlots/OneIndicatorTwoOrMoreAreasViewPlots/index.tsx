@@ -1,15 +1,7 @@
 'use client';
 
-import { H2, H3 } from 'govuk-react';
+import { H2 } from 'govuk-react';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots() {
-  return (
-    <>
-      <H2>View indicator data for the selected areas</H2>
-      <H3>LineChart IF 2 areas</H3>
-      <H3>Inequalities Visualisations</H3>
-      <H3>Population Visualisations</H3>
-      <H3>Thematic Map IF all areas in group</H3>
-    </>
-  );
+  return <H2>View data for selected indicators and areas</H2>;
 }

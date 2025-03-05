@@ -20,6 +20,7 @@ export type IndicatorDocument = {
   associatedAreaCodes: string[];
   hasInequalities: boolean;
   unitLabel: string;
+  usedInPoc: boolean; // data maps to search-setup/assets/indicators.csv
 };
 
 export type AreaDocument = {

@@ -107,6 +107,7 @@ export default async function ChartPage(
 
   return (
     <>
+      <ViewsContext searchState={stateManager.getSearchState()} />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
@@ -114,7 +115,6 @@ export default async function ChartPage(
         searchState={stateManager.getSearchState()}
         indicatorMetadata={indicatorMetadata}
       />
-      <ViewsContext searchState={stateManager.getSearchState()} />
     </>
   );
 }
