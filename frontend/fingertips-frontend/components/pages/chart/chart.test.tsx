@@ -17,14 +17,6 @@ const state: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: ['1', '2'],
 };
 
-jest.mock('@/components/organisms/LineChart/', () => {
-  return {
-    LineChart: function LineChart() {
-      return <div data-testid="lineChart-component"></div>;
-    },
-  };
-});
-
 jest.mock('@/components/organisms/ThematicMap/', () => {
   return {
     ThematicMap: function ThematicMap() {
