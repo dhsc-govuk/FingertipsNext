@@ -100,16 +100,19 @@ export function IndicatorSelectionForm({
           ))}
         </UnorderedList>
       ) : (
-        <Paragraph>No results found</Paragraph>
+        <Paragraph>**No results found**</Paragraph>
       )}
 
-      <Button
-        type="submit"
-        data-testid="search-results-button-submit"
-        disabled={shouldDisableViewDataButton(searchState)}
-      >
-        View data
-      </Button>
+      {searchResults.length ? (
+        <Button
+          type="submit"
+          data-testid="search-results-button-submit"
+          disabled={shouldDisableViewDataButton(searchState)}
+        >
+          View data
+        </Button>
+        ) : (null)
+      }
     </form>
   );
 }

@@ -64,11 +64,11 @@ export function SearchResults({
       <>
         {indicatorSelectionState.message && (
           <ErrorSummary
-            description={indicatorSelectionState.message}
+            // description={indicatorSelectionState.message}
             errors={[
               {
                 targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
-                text: 'Available indicators',
+                text: 'Select any indicators you want to view',
               },
             ]}
             data-testid="search-result-form-error-summary"

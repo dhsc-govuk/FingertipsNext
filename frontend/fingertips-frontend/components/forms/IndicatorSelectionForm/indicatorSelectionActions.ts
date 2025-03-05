@@ -40,7 +40,7 @@ export async function submitIndicatorSelection(
       searchState: formData.get('searchState')?.toString() ?? '',
       indicatorsSelected: formData.getAll('indicator')?.toString().split(','),
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Please select at least one indicator',
+      // message: 'Please select at least one indicator',
     };
   }
 

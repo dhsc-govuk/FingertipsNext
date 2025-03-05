@@ -77,7 +77,7 @@ export const SearchForm = ({
         }
         meta={{
           touched: !!formState.message,
-          error: 'This field value may be required',
+          error: 'Enter a subject you want to search for',
         }}
         data-testid="indicator-search-form-input"
       >
