@@ -10,9 +10,12 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
-// ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   it.each([
     [
       ['1', '2'],
@@ -40,8 +43,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       'G001',
       ['A001', 'A002', areaCodeForEngland, 'G001'],
     ],
-    //   [['1'], ['A001'], areaCodeForEngland, ['A001', areaCodeForEngland]],
-    //   [['1'], [areaCodeForEngland], undefined, [areaCodeForEngland]],
+    [
+      ['1'],
+      ['A001', 'A002'],
+      areaCodeForEngland,
+      ['A001', 'A002', areaCodeForEngland],
+    ],
   ])(
     'should make 1 call to the healthIndicatorApi with the expected parameters',
     async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {

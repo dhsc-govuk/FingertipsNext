@@ -3,6 +3,8 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
@@ -28,6 +30,18 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   await connection();
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
+  let healthIndicatorData: HealthDataForArea[] | undefined;
+  try {
+    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
+      indicatorId: Number(indicatorSelected),
+      areaCodes: areaCodesToRequest,
+    });
+  } catch (error) {
+    console.log('error getting health indicator data for area', error);
+    throw new Error('error getting health indicator data for area');
+  }
 
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
   console.log('TODO: fetch map data for GROUP');
