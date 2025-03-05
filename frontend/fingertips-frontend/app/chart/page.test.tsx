@@ -222,7 +222,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.populationData).toEqual(undefined);
+        expect(page.props.children[0].props.populationData).toEqual(undefined);
       });
 
       it('should pass search state prop with data from the params to the Chart page', async () => {
@@ -293,7 +293,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.mapData).toEqual(undefined);
+        expect(page.props.children[0].props.mapData).toEqual(undefined);
       });
 
       it('should call get indicator endpoint and pass indicator metadata if a single indicator is selected', async () => {
@@ -314,6 +314,7 @@ describe('Chart Page', () => {
           lastUpdatedDate: new Date('March 4, 2025'),
           associatedAreaCodes: ['E06000047'],
           unitLabel: 'pancakes',
+          hasInequalities: true,
         });
 
         const page = await ChartPage({
@@ -323,7 +324,10 @@ describe('Chart Page', () => {
         expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
           indicatorId
         );
-        expect(page.props.indicatorMetadata).not.toBeUndefined();
+
+        expect(
+          page.props.children[0].props.indicatorMetadata
+        ).not.toBeUndefined();
       });
 
       it('should not call get indicator endpoint or pass metadata if multiple indicators are selected', async () => {
@@ -338,10 +342,11 @@ describe('Chart Page', () => {
         });
 
         expect(mockIndicatorSearchService.getIndicator).not.toHaveBeenCalled();
-        expect(page.props.indicatorMetadata).toBeUndefined();
+        expect(page.props.children[0].props.indicatorMetadata).toBeUndefined();
       });
     });
   });
+
   describe('ViewContext', () => {
     it('should pass search state prop with data from the params to the Chart page', async () => {
       const mockAreaCode = 'E06000047';
