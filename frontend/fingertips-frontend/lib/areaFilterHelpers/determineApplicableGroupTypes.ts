@@ -1,12 +1,14 @@
 import { AreaType } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeKeys,
+  englandAreaType,
   gpsAreaType,
   nhsIntegratedCareBoardsAreaType,
   nhsPrimaryCareNetworksAreaType,
   nhsRegionsAreaType,
   nhsSubIntegratedCareBoardsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
 export const determineApplicableGroupTypes = (
   allAreaTypes?: AreaType[],
@@ -38,6 +40,10 @@ export const determineApplicableGroupTypes = (
           nhsIntegratedCareBoardsAreaType,
           nhsRegionsAreaType,
         ];
+      }
+
+      if (selectedAreaTypeData.key === englandAreaType.key) {
+        return [englandAreaType];
       }
       return filteredAreaTypes;
     }
