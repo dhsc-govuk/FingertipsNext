@@ -35,9 +35,15 @@ export default function AreaAutoCompleteInputField({
 
   useEffect(() => {
     setSelectedAreas(defaultSelectedAreas);
+    const defaultSelected =
+      defaultSelectedAreas.length > 0 ? defaultSelectedAreas[0].areaName : '';
+    setCriteria(defaultSelected);
   }, [defaultSelectedAreas]);
 
   useEffect(() => {
+    if (selectedAreas.length !== 0) {
+      return;
+    }
     const fetchSearchArea = async (criteria: string) => {
       if (criteria) {
         const areas = await getSearchSuggestions(criteria);
@@ -66,7 +72,7 @@ export default function AreaAutoCompleteInputField({
     );
 
     return fetchCleanUp;
-  }, [criteria]);
+  }, [criteria, selectedAreas]);
 
   const removePill = useCallback(
     (area: AreaDocument) => {
@@ -77,6 +83,9 @@ export default function AreaAutoCompleteInputField({
       if (onAreaSelected && areas.length === 0) {
         onAreaSelected(undefined);
       }
+      if (areas.length === 0) {
+        setCriteria('');
+      }
     },
     [selectedAreas, onAreaSelected]
   );
@@ -84,7 +93,7 @@ export default function AreaAutoCompleteInputField({
   return (
     <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
-        value={criteria}
+        value={criteria ?? ''}
         onTextChange={setCriteria}
         disabled={selectedAreas.length > 0}
         touched={inputFieldErrorStatus}
@@ -98,10 +107,10 @@ export default function AreaAutoCompleteInputField({
         searchHint={criteria ?? ''}
         onItemSelected={(selectedArea: AreaDocument) => {
           setSelectedAreas([selectedArea]);
+          setCriteria(selectedArea.areaName);
           setSearchAreas([]);
           if (onAreaSelected) {
             onAreaSelected(selectedArea);
-            setCriteria('');
           }
         }}
       />
