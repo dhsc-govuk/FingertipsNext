@@ -1,6 +1,7 @@
 export const MOCK_ENGLAND_DATA = {
   areaCode: 'E92000001',
   areaName: 'England',
+  measurementUnits: 'cm',
   healthData: [
     {
       year: 2004,
@@ -27,6 +28,7 @@ export const MOCK_HEALTH_DATA = [
   {
     areaCode: 'A1425',
     areaName: 'Greater Manchester ICB - 00T',
+    measurementUnits: 'cm',
     healthData: [
       {
         year: 2008,
@@ -51,6 +53,7 @@ export const MOCK_HEALTH_DATA = [
   {
     areaCode: 'A1426',
     areaName: 'South FooBar',
+    measurementUnits: 'cm',
     healthData: [
       {
         year: 2004,
@@ -77,6 +80,7 @@ export const MOCK_HEALTH_DATA = [
 export const MOCK_PARENT_DATA = {
   areaCode: 'E40000014',
   areaName: 'NHS North West Region',
+  measurementUnits: '%',
   healthData: [
     {
       year: 2008,
