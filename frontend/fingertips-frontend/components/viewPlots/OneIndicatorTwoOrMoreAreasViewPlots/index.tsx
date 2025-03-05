@@ -3,7 +3,6 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   seriesDataWithoutEnglandOrGroup,
   seriesDataForIndicatorIndexAndArea,

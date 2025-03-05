@@ -12,6 +12,37 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const lineChartTestId = 'lineChart-component';
+const lineChartTableTestId = 'lineChartTable-component';
+const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
+const lineChartContainerTitle = 'See how the indicator has changed over time';
+
+const assertLineChartAndTableInDocument = async () => {
+  expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartTableTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(lineChartContainerTestId)).toBeInTheDocument();
+
+  expect(
+    screen.getByRole('heading', {
+      name: lineChartContainerTitle,
+    })
+  ).toBeInTheDocument();
+};
+
+const assertLineChartAndTableNotInDocument = () => {
+  expect(screen.queryByTestId(lineChartTestId)).not.toBeInTheDocument();
+  expect(screen.queryByTestId(lineChartTableTestId)).not.toBeInTheDocument();
+  expect(
+    screen.queryByTestId(lineChartContainerTestId)
+  ).not.toBeInTheDocument();
+
+  expect(
+    screen.queryByRole('heading', {
+      name: lineChartContainerTitle,
+    })
+  ).not.toBeInTheDocument();
+};
+
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   it('should render the view with correct title', () => {
     const searchState: SearchStateParams = {
@@ -47,18 +78,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         searchState={searchState}
       />
     );
-    expect(
-      screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-lineChartAndTable')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('lineChart-component')
-    ).toBeInTheDocument();
-    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
+
+    assertLineChartAndTableInDocument();
   });
 
   it('should not render the LineChart components when there are more than 2 areas', async () => {
@@ -72,13 +93,31 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         searchState={searchState}
       />
     );
-    expect(
-      screen.queryByRole('heading', {
-        name: 'See how the indicator has changed over time',
-      })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId('tabContainer-lineChartAndTable')
-    ).not.toBeInTheDocument();
+
+    assertLineChartAndTableNotInDocument();
+  });
+
+  it('should not display LineChart components when there are less than 2 time periods per area selected', () => {
+    const MOCK_DATA = [
+      {
+        areaCode: 'A1',
+        areaName: 'Area 1',
+        healthData: [mockHealthData['1'][0].healthData[0]],
+      },
+    ];
+
+    const state: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['0'],
+      [SearchParams.AreasSelected]: ['A001'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={MOCK_DATA}
+        searchState={state}
+      />
+    );
+
+    assertLineChartAndTableNotInDocument();
   });
 });
