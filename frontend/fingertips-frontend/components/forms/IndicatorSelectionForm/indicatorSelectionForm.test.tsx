@@ -99,7 +99,7 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
   });
 
-  it('should NOT render the "View Data" button if no indicators found for search', async () => {
+  it('should NOT render the "View data" button if no indicators found for search', async () => {
     render(
       <IndicatorSelectionForm
         searchResults={[]}
@@ -108,10 +108,10 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    expect(screen.queryByRole('button', { name: /View Data/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /View data/i })).toBeNull();
   });
 
-  it('should render the "View Data" button as disabled when there are no indicators selected in state', () => {
+  it('should render the "View data" button as disabled when there are no indicators selected in state', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
@@ -120,10 +120,10 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /View Data/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /View data/i })).toBeDisabled();
   });
 
-  it('should render the "View Data" button as enabled when there are indicators selected in state', () => {
+  it('should render the "View data" button as enabled when there are indicators selected in state', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
@@ -135,7 +135,7 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /View Data/i })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /View data/i })).toBeEnabled();
   });
 
   it('should mark indicators selected as checked', () => {
@@ -232,7 +232,7 @@ describe('IndicatorSelectionForm', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /View Data/i }));
+    await user.click(screen.getByRole('button', { name: /View data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
   });
