@@ -308,7 +308,7 @@ describe('Chart Page', () => {
         searchParams: generateSearchParams(searchParams),
       });
 
-      expect(page.props.children[1].props.searchState).toEqual({
+      expect(page.props.children[0].props.searchState).toEqual({
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: ['E06000047'],

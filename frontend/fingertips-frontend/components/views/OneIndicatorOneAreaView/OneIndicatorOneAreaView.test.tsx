@@ -59,25 +59,20 @@ describe('OneIndicatorOneAreaView', () => {
     }
   );
 
-  it.each([[['108'], ['E12000001'], 'E92000001']])(
-    'should call OneIndicatorOneAreaViewPlots with the correct props',
-    async (testIndicators, testAreas, testGroup) => {
-      const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: testIndicators,
-        [SearchParams.AreasSelected]: testAreas,
-        [SearchParams.GroupSelected]: testGroup,
-      };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-        mockHealthData['108'][1],
-      ]);
+  it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['A001'],
+      [SearchParams.GroupSelected]: 'G001',
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
+      mockHealthData['108'][1],
+    ]);
 
-      const page = await OneIndicatorOneAreaView({ searchState: searchState });
+    const page = await OneIndicatorOneAreaView({ searchState: searchState });
 
-      expect(page.props.healthIndicatorData).toEqual([
-        mockHealthData['108'][1],
-      ]);
-      expect(page.props.searchState).toEqual(searchState);
-      expect(page.props.selectedGroupCode).toEqual(testGroup);
-    }
-  );
+    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.searchState).toEqual(searchState);
+    expect(page.props.selectedGroupCode).toEqual('G001');
+  });
 });

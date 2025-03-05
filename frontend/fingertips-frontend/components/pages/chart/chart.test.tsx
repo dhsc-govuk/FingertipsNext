@@ -6,25 +6,6 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
-const lineChartTestId = 'lineChart-component';
-const lineChartTableTestId = 'lineChartTable-component';
-const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'See how the indicator has changed over time';
-
-const assertLineChartAndTableNotInDocument = () => {
-  expect(screen.queryByTestId(lineChartTestId)).not.toBeInTheDocument();
-  expect(screen.queryByTestId(lineChartTableTestId)).not.toBeInTheDocument();
-  expect(
-    screen.queryByTestId(lineChartContainerTestId)
-  ).not.toBeInTheDocument();
-
-  expect(
-    screen.queryByRole('heading', {
-      name: lineChartContainerTitle,
-    })
-  ).not.toBeInTheDocument();
-};
-
 const mockPopulationData: PopulationDataForArea = {
   ageCategories: [],
   femaleSeries: [],
@@ -175,52 +156,5 @@ describe('should display inequalities', () => {
     expect(
       screen.queryByTestId('inequalities-component')
     ).not.toBeInTheDocument();
-  });
-});
-
-describe('should not display line chart', () => {
-  it('should not display line chart and line chart table when multiple indicators are selected', () => {
-    const state: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['0', '1'],
-      [SearchParams.AreasSelected]: ['A1245'],
-    };
-
-    render(
-      <Chart healthIndicatorData={[mockHealthData['1']]} searchState={state} />
-    );
-
-    assertLineChartAndTableNotInDocument();
-  });
-
-  it('should not display line chart and line chart table when more than 2 area codes are selected', () => {
-    const state: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A1425', 'A1426', 'A1427'],
-    };
-    render(
-      <Chart healthIndicatorData={[mockHealthData['1']]} searchState={state} />
-    );
-
-    assertLineChartAndTableNotInDocument();
-  });
-
-  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
-    const MOCK_DATA = [
-      {
-        areaCode: 'A1',
-        areaName: 'Area 1',
-        healthData: [mockHealthData['1'][0].healthData[0]],
-      },
-    ];
-
-    const state: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['0'],
-    };
-
-    render(<Chart healthIndicatorData={[MOCK_DATA]} searchState={state} />);
-
-    assertLineChartAndTableNotInDocument();
   });
 });
