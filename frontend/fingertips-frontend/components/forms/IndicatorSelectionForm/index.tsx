@@ -81,7 +81,8 @@ export function IndicatorSelectionForm({
         hidden
       />
       {searchResults.length ? (
-        <UnorderedList listStyleType="none">
+        <>
+          <UnorderedList listStyleType="none">
           <ListItem>
             <SectionBreak visible={true} />
           </ListItem>
@@ -99,19 +100,18 @@ export function IndicatorSelectionForm({
             />
           ))}
         </UnorderedList>
+
+          <Button
+              type="submit"
+              data-testid="search-results-button-submit"
+              disabled={shouldDisableViewDataButton(searchState)}
+          >
+            View data
+          </Button>
+        </>
       ) : (
         <Paragraph>**No results found**</Paragraph>
       )}
-
-      {searchResults.length ? (
-        <Button
-          type="submit"
-          data-testid="search-results-button-submit"
-          disabled={shouldDisableViewDataButton(searchState)}
-        >
-          View data
-        </Button>
-      ) : null}
     </form>
   );
 }
