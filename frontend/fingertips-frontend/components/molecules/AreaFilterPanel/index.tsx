@@ -1,4 +1,3 @@
-import { AreaDocument } from '@/lib/search/searchTypes';
 import { Link } from 'govuk-react';
 import styled from 'styled-components';
 
@@ -9,11 +8,11 @@ const StyleAreaFilterPanel = styled('div')({
 });
 
 interface AreaFilterPanelProps {
-  areas: AreaDocument[];
+  areas: string[] | undefined;
 }
 
-const getDisplayText = function (areaSize: number) {
-  return areaSize > 0
+const getDisplayText = function (areas: string[] | undefined) {
+  return areas && areas.length > 0
     ? 'Open a filter to add or change areas'
     : 'Open area filter';
 };
@@ -21,8 +20,6 @@ const getDisplayText = function (areaSize: number) {
 export const AreaAutoCompleteFilterPanel = ({
   areas,
 }: AreaFilterPanelProps) => {
-  if (areas == null) return;
-
   return (
     <StyleAreaFilterPanel>
       <Link
@@ -32,7 +29,7 @@ export const AreaAutoCompleteFilterPanel = ({
           e.preventDefault();
         }}
       >
-        {getDisplayText(areas.length)}
+        {getDisplayText(areas)}
       </Link>
     </StyleAreaFilterPanel>
   );

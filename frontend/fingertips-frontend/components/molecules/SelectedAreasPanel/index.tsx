@@ -6,25 +6,19 @@ import {
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { Pill } from '../Pill';
-import { LabelText, Paragraph } from 'govuk-react';
-import { typography } from '@govuk-react/lib';
+import { LabelText } from 'govuk-react';
+import { AreaSelectedPill } from '../AreaSelectedPill';
+import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
+  inFilterPane?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
   paddingBottom: '1.5em',
 });
-
-const StyledParagraph = styled(Paragraph)(
-  {
-    marginBottom: '0',
-  },
-  typography.font({ size: 16 })
-);
 
 const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
@@ -33,6 +27,7 @@ const StyledFilterLabel = styled(LabelText)({
 export function SelectedAreasPanel({
   selectedAreasData,
   searchState,
+  inFilterPane,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -54,13 +49,15 @@ export function SelectedAreasPanel({
       </StyledFilterLabel>
       {selectedAreasData
         ? selectedAreasData.map((selectedArea) => (
-            <Pill
+            <AreaSelectedPill
               key={selectedArea.code}
-              selectedFilterId={selectedArea.code}
-              removeFilter={removeSelectedArea}
-            >
-              <StyledParagraph>{selectedArea.name}</StyledParagraph>
-            </Pill>
+              areaName={selectedArea.name}
+              areaCode={selectedArea.code}
+              areaTypeKey={selectedArea.areaType.key as AreaTypeKeys}
+              areaTypeName={selectedArea.areaType.name}
+              onRemoveFilter={removeSelectedArea}
+              inFilterPane={inFilterPane}
+            />
           ))
         : null}
     </StyledFilterSelectedAreaDiv>
