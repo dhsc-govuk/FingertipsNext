@@ -63,7 +63,6 @@ describe('OneIndicatorOneAreaView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001'],
-      [SearchParams.GroupSelected]: 'G001',
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
       mockHealthData['108'][1],
@@ -73,6 +72,5 @@ describe('OneIndicatorOneAreaView', () => {
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
     expect(page.props.searchState).toEqual(searchState);
-    expect(page.props.selectedGroupCode).toEqual('G001');
   });
 });

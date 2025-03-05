@@ -6,20 +6,26 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { H2, H3 } from 'govuk-react';
 
 type OneIndicatorOneAreaDashboardProps = {
   healthIndicatorData: HealthDataForArea[];
-  selectedGroupCode?: string;
   searchState: SearchStateParams;
 };
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
-  selectedGroupCode,
   searchState,
 }: Readonly<OneIndicatorOneAreaDashboardProps>) {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
+
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
