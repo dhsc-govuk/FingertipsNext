@@ -188,7 +188,9 @@ describe('Search Results Suite', () => {
       />
     );
 
-    const errorLink = screen.getByText('Select any indicators you want to view').closest('a')!;
+    const errorLink = screen
+      .getByText('Select any indicators you want to view')
+      .closest('a')!;
 
     await user.click(errorLink);
 
