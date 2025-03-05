@@ -47,7 +47,7 @@ describe('AreaSearchInputField', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should not be disabled if disabled prop is false', () => {
+  it('should be enabled if disabled prop is false', () => {
     const { getByRole } = render(
       <AreaSearchInputField
         value="London"
