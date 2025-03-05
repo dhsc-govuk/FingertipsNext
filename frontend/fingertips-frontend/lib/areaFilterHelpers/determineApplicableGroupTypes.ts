@@ -8,7 +8,6 @@ import {
   nhsRegionsAreaType,
   nhsSubIntegratedCareBoardsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 
 export const determineApplicableGroupTypes = (
   allAreaTypes?: AreaType[],
