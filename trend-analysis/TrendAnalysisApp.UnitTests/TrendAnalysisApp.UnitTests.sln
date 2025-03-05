@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendAnalysisApp", "TrendAnalysisApp.csproj", "{ED16C762-A261-F886-611D-210D1038AF15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendAnalysisApp.UnitTests", "TrendAnalysisApp.UnitTests.csproj", "{4BF74CF5-6906-7066-3686-8E01D30E3C36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,15 +10,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ED16C762-A261-F886-611D-210D1038AF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED16C762-A261-F886-611D-210D1038AF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED16C762-A261-F886-611D-210D1038AF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED16C762-A261-F886-611D-210D1038AF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF74CF5-6906-7066-3686-8E01D30E3C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF74CF5-6906-7066-3686-8E01D30E3C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF74CF5-6906-7066-3686-8E01D30E3C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF74CF5-6906-7066-3686-8E01D30E3C36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {80F940F3-94D6-4CD6-BD86-2671B6F6E009}
+		SolutionGuid = {CCD5A104-476B-4696-9650-71E52DA7BE2D}
 	EndGlobalSection
 EndGlobal

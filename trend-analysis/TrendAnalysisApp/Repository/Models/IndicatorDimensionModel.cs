@@ -11,4 +11,7 @@ public class IndicatorDimensionModel
     [MaxLength(255)]
     public string? Name { get; set; }
     public int IndicatorId { get; set; }
+    public bool UseProportionsForTrend { get; set; }
+    // TODO - DHSCFT-374 - should this be plain value or a foreign key and new table?
+    public string? ValueType { get; set; }
 }
