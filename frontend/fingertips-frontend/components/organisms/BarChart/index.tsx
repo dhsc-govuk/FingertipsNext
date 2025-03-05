@@ -59,7 +59,7 @@ export function BarChart({
     },
     tooltip: {
       format:
-        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}{point.units}',
     },
     plotOptions: {
       bar: {
@@ -76,6 +76,7 @@ export function BarChart({
         data: healthIndicatorData.map((item) => ({
           y: item.healthData[0].value,
           name: item.areaName,
+          units: item.measurementUnits,
         })),
         colorByPoint: true,
       },
