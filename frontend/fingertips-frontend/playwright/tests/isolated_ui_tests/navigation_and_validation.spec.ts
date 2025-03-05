@@ -16,7 +16,7 @@ import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 
 const indicatorData = mockIndicators as IndicatorDocument[];
-const searchTerm = 'mortality';
+const searchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];

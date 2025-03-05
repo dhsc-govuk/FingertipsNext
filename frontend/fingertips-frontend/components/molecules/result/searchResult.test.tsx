@@ -20,6 +20,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     hasInequalities: false,
     unitLabel: '',
+    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -33,6 +34,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     hasInequalities: true,
     unitLabel: '',
+    usedInPoc: true,
   },
 ];
 
@@ -47,6 +49,7 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   associatedAreaCodes: [],
   hasInequalities: true,
   unitLabel: '',
+  usedInPoc: true,
 };
 
 const mockHandleClick = jest.fn();

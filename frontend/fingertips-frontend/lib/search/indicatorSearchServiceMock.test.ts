@@ -15,6 +15,7 @@ describe('IndicatorSearchServiceMock', () => {
       associatedAreaCodes: ['Area1'],
       unitLabel: '',
       hasInequalities: false,
+      usedInPoc: true,
     },
     {
       indicatorID: '2',
@@ -27,6 +28,7 @@ describe('IndicatorSearchServiceMock', () => {
       associatedAreaCodes: ['Area1', 'Area2'],
       unitLabel: '',
       hasInequalities: true,
+      usedInPoc: true,
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;

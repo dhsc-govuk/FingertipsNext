@@ -99,13 +99,13 @@ export default async function ChartPage(
 
   return (
     <>
+      <ViewsContext searchState={stateManager.getSearchState()} />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
       />
-      <ViewsContext searchState={stateManager.getSearchState()} />
     </>
   );
 }

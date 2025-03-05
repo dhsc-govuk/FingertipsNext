@@ -35,6 +35,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
+    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -48,6 +49,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
+    usedInPoc: true,
   },
 ];
 
