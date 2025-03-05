@@ -92,7 +92,7 @@ export const getAreaFilterData = async (
     availableArea
   );
 
-  const sortedAlphabeticallyAvailableAreas = availableAreas?.sort((a, b) =>
+  const sortedAlphabeticallyAvailableAreas = availableAreas?.toSorted((a, b) =>
     a.name.localeCompare(b.name)
   );
 
