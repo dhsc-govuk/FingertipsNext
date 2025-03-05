@@ -3,21 +3,21 @@ import { AreaType } from '@/generated-sources/ft-api-client';
 export const combinedAuthoritiesAreaType = {
   key: 'combined-authorities',
   name: 'Combined Authorities',
-  hierarchyName: 'Admin',
+  hierarchyName: 'Administrative',
   level: 3,
 };
 
 export const countiesAndUnitaryAuthoritiesAreaType = {
   key: 'counties-and-unitary-authorities',
   name: 'Counties and Unitary Authorities',
-  hierarchyName: 'Admin',
+  hierarchyName: 'Administrative',
   level: 4,
 };
 
 export const districtAndUnitaryAuthoritiesAreaType = {
   key: 'districts-and-unitary-authorities',
   name: 'Districts and Unitary Authorities',
-  hierarchyName: 'Admin',
+  hierarchyName: 'Administrative',
   level: 5,
 };
 
@@ -59,14 +59,14 @@ export const nhsSubIntegratedCareBoardsAreaType = {
 export const regionsAreaType = {
   key: 'regions',
   name: 'Regions',
-  hierarchyName: 'Admin',
+  hierarchyName: 'Administrative',
   level: 2,
 };
 
 export const englandAreaType = {
   key: 'england',
   name: 'England',
-  hierarchyName: 'All',
+  hierarchyName: 'Both',
   level: 1,
 };
 
