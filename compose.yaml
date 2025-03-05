@@ -65,3 +65,5 @@ services:
       MSSQL_SA_PASSWORD: ${DB_PASSWORD}
     ports:
       - 1433:1433
+    volumes:
+      - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/
