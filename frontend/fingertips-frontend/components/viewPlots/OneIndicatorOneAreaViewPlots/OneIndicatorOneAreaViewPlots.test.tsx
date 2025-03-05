@@ -58,9 +58,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await screen.findByTestId('lineChart-component')
     ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-lineChartAndTable')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
   it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
@@ -74,6 +72,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     const state: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['0'],
+      [SearchParams.AreasSelected]: ['A001'],
     };
 
     render(
@@ -93,7 +92,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('tabContainer-lineChartAndTable')
+      screen.queryByTestId('lineChartTable-component')
     ).not.toBeInTheDocument();
   });
 });

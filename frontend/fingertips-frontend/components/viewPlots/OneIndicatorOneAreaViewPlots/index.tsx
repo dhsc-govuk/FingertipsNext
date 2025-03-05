@@ -4,10 +4,7 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import {
-  seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrGroup,
-} from '@/lib/chartHelpers/chartHelpers';
+import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { H2, H3 } from 'govuk-react';
@@ -27,18 +24,14 @@ export function OneIndicatorOneAreaViewPlots({
     healthIndicatorData,
     selectedGroupCode
   );
-  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
-    [healthIndicatorData],
-    0,
-    areaCodeForEngland
+  const englandBenchmarkData = healthIndicatorData.find(
+    (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? seriesDataForIndicatorIndexAndArea(
-          [healthIndicatorData],
-          0,
-          selectedGroupCode
+      ? healthIndicatorData.find(
+          (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
   return (

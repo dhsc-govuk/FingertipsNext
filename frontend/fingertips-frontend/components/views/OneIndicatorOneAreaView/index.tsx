@@ -21,7 +21,7 @@ export default async function OneIndicatorOneAreaView({
   }
 
   const areaCodesToRequest = [...areasSelected];
-  if (areaCodesToRequest[0] != areaCodeForEngland) {
+  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
@@ -38,7 +38,7 @@ export default async function OneIndicatorOneAreaView({
       areaCodes: areaCodesToRequest,
     });
   } catch (error) {
-    console.log('error getting health indicator data for area', error);
+    console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');
   }
 

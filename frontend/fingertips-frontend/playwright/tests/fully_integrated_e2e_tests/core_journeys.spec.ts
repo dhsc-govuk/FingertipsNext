@@ -8,7 +8,7 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];
-const searchTerm = 'resident';
+const searchTerm = 'hospital';
 let allIndicatorIDs: string[];
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -20,22 +20,26 @@ const coreTestJourneys: TestParams[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
   },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.TWO_AREAS,
+  },
+  {
+    indicatorMode: IndicatorMode.TWO_INDICATORS,
+    areaMode: AreaMode.TWO_AREAS,
+  },
   // {
   //   indicatorMode: IndicatorMode.TWO_INDICATORS,
-  //   areaMode: AreaMode.TWO_AREAS,
-  // },
-  // {
-  //   indicatorMode: IndicatorMode.MULTIPLE_INDICATORS,
   //   areaMode: AreaMode.ENGLAND_AREA,
   // },
 ];
 
 /**
- * This test currently tests, in parallel, three of the fifteen indicator + area
- * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
- * These three scenario combinations are know as core journeys and are defined above in coreTestJourneys,
+ * This test currently tests, in parallel, three out of four of the indicator + area
+ * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
+ * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components.
- * Note all 15 journeys are covered in lower level unit testing.
+ * All 15 journeys are covered in lower level unit testing.
  */
 test.beforeAll(
   `return all matching indicatorIDs from the real data source based on the searchTerm: ${searchTerm}`,
