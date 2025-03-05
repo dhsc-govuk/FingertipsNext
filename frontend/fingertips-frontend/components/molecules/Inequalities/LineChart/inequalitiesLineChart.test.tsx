@@ -18,9 +18,7 @@ describe('Inequalities LineChart suite', () => {
       screen.getByTestId('inequalitiesLineChart-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId(
-        'highcharts-react-component-inequalitiesLineChartTable'
-      )
+      screen.getByTestId('highcharts-react-component-inequalitiesLineChart')
     ).toBeInTheDocument();
   });
 });

@@ -83,8 +83,7 @@ export function InequalitiesLineChart({
     <div data-testid="inequalitiesLineChart-component">
       <HighchartsReact
         containerProps={{
-          'data-testid':
-            'highcharts-react-component-inequalitiesLineChartTable',
+          'data-testid': 'highcharts-react-component-inequalitiesLineChart',
         }}
         highcharts={Highcharts}
         options={lineChartOptions}
