@@ -12,6 +12,6 @@ public class IndicatorDimensionModel
     public string? Name { get; set; }
     public int IndicatorId { get; set; }
     public bool UseProportionsForTrend { get; set; }
-    // Need to see new DB schema - perhaps this will be a foreign key
+    // TODO - DHSCFT-374 - should this be plain value or a foreign key and new table?
     public string? ValueType { get; set; }
 }

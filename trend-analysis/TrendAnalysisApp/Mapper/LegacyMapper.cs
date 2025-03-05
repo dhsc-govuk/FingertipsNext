@@ -19,8 +19,7 @@ public class LegacyMapper {
         {
             { "Directly standardised rate", ValueTypeIds.DirectlyStandardisedRate },
             { "Crude rate", ValueTypeIds.CrudeRate },
-            { "Proportion", ValueTypeIds.Proportion },
-            { "Count", ValueTypeIds.Count }
+            { "Proportion", ValueTypeIds.Proportion }
         };
         ValueTypeMap = new ReadOnlyDictionary<string, int>(valueTypeDict);
 
