@@ -2,7 +2,10 @@ import { AreaType } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeKeys,
   gpsAreaType,
+  nhsIntegratedCareBoardsAreaType,
   nhsPrimaryCareNetworksAreaType,
+  nhsRegionsAreaType,
+  nhsSubIntegratedCareBoardsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 
 export const determineApplicableGroupTypes = (
@@ -23,15 +26,18 @@ export const determineApplicableGroupTypes = (
       );
 
       if (selectedAreaTypeData.key === gpsAreaType.key) {
-        return filteredAreaTypes.filter(
-          (areaType) => areaType.level >= selectedAreaTypeData.level - 2
-        );
+        return [
+          nhsPrimaryCareNetworksAreaType,
+          nhsSubIntegratedCareBoardsAreaType,
+        ];
       }
 
       if (selectedAreaTypeData.key === nhsPrimaryCareNetworksAreaType.key) {
-        return filteredAreaTypes.filter(
-          (areaType) => areaType.level >= selectedAreaTypeData.level - 3
-        );
+        return [
+          nhsSubIntegratedCareBoardsAreaType,
+          nhsIntegratedCareBoardsAreaType,
+          nhsRegionsAreaType,
+        ];
       }
       return filteredAreaTypes;
     }

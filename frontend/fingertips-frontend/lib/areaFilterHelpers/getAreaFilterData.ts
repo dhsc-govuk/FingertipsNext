@@ -57,6 +57,10 @@ export const getAreaFilterData = async (
     determinedSelectedAreaType
   );
 
+  const sortedByLevelGroupTypes = availableGroupTypes?.toSorted(
+    (a, b) => a.level - b.level
+  );
+
   const determinedSelectedGroupType = determineSelectedGroupType(
     selectedGroupType as AreaTypeKeys
   );
@@ -88,11 +92,15 @@ export const getAreaFilterData = async (
     availableArea
   );
 
+  const sortedAlphabeticallyAvailableAreas = availableAreas?.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
   return {
     availableAreaTypes: sortedByLevelAreaTypes,
-    availableGroupTypes,
+    availableGroupTypes: sortedByLevelGroupTypes,
     availableGroups,
-    availableAreas,
+    availableAreas: sortedAlphabeticallyAvailableAreas,
     updatedSearchState: stateManager.getSearchState(),
   };
 };
