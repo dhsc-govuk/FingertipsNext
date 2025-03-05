@@ -111,7 +111,7 @@ export function Chart({
               },
               {
                 id: 'table',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
