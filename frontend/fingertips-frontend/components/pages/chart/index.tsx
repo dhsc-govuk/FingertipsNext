@@ -123,6 +123,7 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          areasSelected={searchState[SearchParams.AreasSelected]}
         />
       )}
       <BarChart

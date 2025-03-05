@@ -1,4 +1,7 @@
-enum SymbolsEnum {
+// any required to allow customisation of Highcharts tooltips
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export enum SymbolsEnum {
   Circle = '\u25CF',
   Square = '\u25a0',
   Diamond = '\u25c6',
@@ -6,7 +9,7 @@ enum SymbolsEnum {
   TriangleDown = '\u25bC',
 }
 
-const symbolEncoder: Record<string, string> = {
+export const symbolEncoder: Record<string, string> = {
   'circle': SymbolsEnum.Circle,
   'square': SymbolsEnum.Square,
   'diamond': SymbolsEnum.Diamond,
@@ -14,15 +17,13 @@ const symbolEncoder: Record<string, string> = {
   'triangle-down': SymbolsEnum.TriangleDown,
 };
 
-// any required to allow customisation of Highcharts tooltips
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const pointFormatterHelper = (point: any) => {
+export const pointFormatterHelper = (
+  point: any,
+  generateTooltipList: (point: any, symbol?: string) => string[]
+) => {
   const symbol = symbolEncoder[point.graphic.symbolName] ?? SymbolsEnum.Circle;
 
-  const tooltipPointString = [
-    `<span style="color:${point.series.color}">${symbol}</span>`,
-    `<span> Value ${Math.abs(point.y)}%<br/>${point.series.name}</span>`,
-  ].join('');
+  const tooltipPointString = generateTooltipList(point, symbol).join('');
 
   return tooltipPointString;
 };

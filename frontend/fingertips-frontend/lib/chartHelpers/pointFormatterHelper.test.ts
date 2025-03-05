@@ -1,3 +1,4 @@
+import { generatePopPyramidTooltipStringList } from '@/components/organisms/PopulationPyramid';
 import { pointFormatterHelper } from './pointFormatterHelper';
 
 const mockPoint = {
@@ -13,7 +14,10 @@ const mockPoint = {
 
 describe('pointFormatterHelper', () => {
   it('should return a string with the default symbol code for circle when symbolName is empty string', () => {
-    const actual = pointFormatterHelper(mockPoint);
+    const actual = pointFormatterHelper(
+      mockPoint,
+      generatePopPyramidTooltipStringList
+    );
     expect(actual).toContain('\u25CF');
   });
 
@@ -27,7 +31,10 @@ describe('pointFormatterHelper', () => {
     'should return a string with the correct symbol code',
     (symbolName, symbolCode) => {
       mockPoint.graphic.symbolName = symbolName;
-      const actual = pointFormatterHelper(mockPoint);
+      const actual = pointFormatterHelper(
+        mockPoint,
+        generatePopPyramidTooltipStringList
+      );
       expect(actual).toContain(symbolCode);
     }
   );

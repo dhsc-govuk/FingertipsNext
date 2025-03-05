@@ -14,6 +14,14 @@ interface PyramidChartProps {
   accessibilityLabel?: string;
 }
 
+export const generatePopPyramidTooltipStringList = (
+  point: Highcharts.Point,
+  symbol?: string
+) => [
+  `<span style="color:${point.series.color}">${symbol}</span>`,
+  `<span> Value ${Math.abs(point.y!)}%<br/>${point.series.name}</span>`,
+];
+
 export function PopulationPyramid({
   healthIndicatorData,
   populationPyramidTitle,
@@ -93,7 +101,7 @@ export function PopulationPyramid({
         '<span style="font-weight: bold">AreaName</span><br/>' +
         '<span>Age {key}</span><br/>',
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this);
+        return pointFormatterHelper(this, generatePopPyramidTooltipStringList);
       },
       useHTML: true,
     },
