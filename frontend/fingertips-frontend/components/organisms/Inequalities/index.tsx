@@ -50,7 +50,7 @@ export function Inequalities({
           },
           {
             id: 'inequalitiesBarChartTable',
-            title: 'Tabular data',
+            title: 'Table',
             content: (
               <InequalitiesBarChartTable
                 tableData={barchartTableData}
@@ -74,7 +74,7 @@ export function Inequalities({
           },
           {
             id: 'inequalitiesLineChartTable',
-            title: 'Tabular data',
+            title: 'Table',
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartTableData}
