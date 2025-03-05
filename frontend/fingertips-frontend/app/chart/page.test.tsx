@@ -222,7 +222,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.populationData).toEqual(undefined);
+        expect(page.props.children[1].props.populationData).toEqual(undefined);
       });
 
       it('should pass search state prop with data from the params to the Chart page', async () => {
@@ -241,7 +241,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.searchState).toEqual({
+        expect(page.props.children[1].props.searchState).toEqual({
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
@@ -293,7 +293,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.mapData).toEqual(undefined);
+        expect(page.props.children[1].props.mapData).toEqual(undefined);
       });
 
       it('should call get indicator endpoint and pass indicator metadata if a single indicator is selected', async () => {
@@ -315,6 +315,7 @@ describe('Chart Page', () => {
           associatedAreaCodes: ['E06000047'],
           unitLabel: 'pancakes',
           hasInequalities: true,
+          usedInPoc: false,
         });
 
         const page = await ChartPage({
@@ -326,7 +327,7 @@ describe('Chart Page', () => {
         );
 
         expect(
-          page.props.children[0].props.indicatorMetadata
+          page.props.children[1].props.indicatorMetadata
         ).not.toBeUndefined();
       });
 
@@ -342,7 +343,7 @@ describe('Chart Page', () => {
         });
 
         expect(mockIndicatorSearchService.getIndicator).not.toHaveBeenCalled();
-        expect(page.props.children[0].props.indicatorMetadata).toBeUndefined();
+        expect(page.props.children[1].props.indicatorMetadata).toBeUndefined();
       });
     });
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import { BackLink } from 'govuk-react';
+import { BackLink, Paragraph } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
