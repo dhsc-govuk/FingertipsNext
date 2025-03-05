@@ -301,10 +301,28 @@ jobs:
         needs.check-changes.outputs.db_changed == 'true'
       )
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download DACPAC
         uses: actions/download-artifact@v4
         with:
           name: dacpac
+
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload files to Azure Blob Storage
+        shell: pwsh
+        working-directory: ${{ github.workspace }}
+        run: |
+          az storage blob upload-batch `
+            --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
+            --source 'DataCreator\DataCreator\data\out' `
+            --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
+            --auth-mode 'login' `
+            --overwrite true
 
       - name: Deploy Database
         uses: azure/sql-action@v2.3
@@ -312,7 +330,7 @@ jobs:
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           path: 'fingertips-db.dacpac'
           action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false'
+          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
