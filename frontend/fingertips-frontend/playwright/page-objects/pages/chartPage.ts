@@ -58,7 +58,7 @@ export default class ChartPage extends BasePage {
       );
       await this.page.waitForTimeout(500);
 
-      // for now just warn if visual comparisons dont match
+      // for now just warn if visual comparisons do not match
       try {
         await expect(
           this.page.getByTestId(visibleComponent)
