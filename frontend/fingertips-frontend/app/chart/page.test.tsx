@@ -176,7 +176,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        // using props.children[0] during transition to views in DHSCFT-380
+        // using props.children[1] during transition to views in DHSCFT-380
         expect(page.props.children[1].props.healthIndicatorData).toEqual([
           mockHealthData['1'],
         ]);
