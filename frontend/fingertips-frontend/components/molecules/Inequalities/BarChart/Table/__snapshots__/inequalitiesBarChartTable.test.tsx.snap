@@ -148,7 +148,6 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
           <th
             class="c1 c2 c3"
             colspan="4"
-            style="padding-left: 20px;"
           >
             South FooBar
           </th>
@@ -165,10 +164,9 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
         >
           <th
             class="c1 c2 c3"
-            data-testid="heading-Grouping types"
-            style="width: 16%;"
+            data-testid="heading-Groups"
           >
-            Grouping types
+            Groups
           </th>
           <th
             class="c1 c2 c4"
