@@ -8,6 +8,7 @@ import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorTwoOrMoreAreasView from '.';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { mockHealthData } from '@/mock/data/healthdata';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -67,6 +68,30 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         areaCodes: expectedAreaCodes,
         indicatorId: 1,
       });
+    }
+  );
+
+  it.each([[['1'], ['A001', 'A002'], 'G001']])(
+    'should call OneIndicatorOneAreaViewPlots with the correct props',
+    async (testIndicators, testAreas, testGroup) => {
+      const searchState: SearchStateParams = {
+        [SearchParams.IndicatorsSelected]: testIndicators,
+        [SearchParams.AreasSelected]: testAreas,
+        [SearchParams.GroupSelected]: testGroup,
+      };
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
+        mockHealthData['108'][1],
+      ]);
+
+      const page = await OneIndicatorTwoOrMoreAreasView({
+        searchState: searchState,
+      });
+
+      expect(page.props.healthIndicatorData).toEqual([
+        mockHealthData['108'][1],
+      ]);
+      expect(page.props.searchState).toEqual(searchState);
+      expect(page.props.selectedGroupCode).toEqual(testGroup);
     }
   );
 });

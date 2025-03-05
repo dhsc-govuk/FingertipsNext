@@ -46,5 +46,11 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
   console.log('TODO: fetch map data for GROUP');
 
-  return <OneIndicatorTwoOrMoreAreasViewPlots />;
+  return (
+    <OneIndicatorTwoOrMoreAreasViewPlots
+      healthIndicatorData={healthIndicatorData}
+      selectedGroupCode={selectedGroupCode}
+      searchState={searchState}
+    />
+  );
 }
