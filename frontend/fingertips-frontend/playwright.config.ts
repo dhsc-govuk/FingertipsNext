@@ -1,6 +1,8 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
+const isCI = !!process.env.CI;
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
+console.log(`The target URL for this test execution is ${url}`); // allows to see where tests are executed
 const jobUrl = process.env.JOB_URL;
 const runCommand =
   process.env.MOCK_SERVER === 'false' ? 'npm run dev-no-mocks' : 'npm run dev';
@@ -9,11 +11,18 @@ const runCommand =
 const config: PlaywrightTestConfig = {
   testDir: './playwright/tests',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI, // fails the build on CI if you accidentally left test.only in the source code.
-  retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
-  expect: { timeout: 10_000 },
-  reporter: process.env.CI
+  forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
+  retries: isCI ? 1 : 0,
+  workers: isCI ? 2 : undefined,
+  expect: {
+    timeout: 10_000,
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.01,
+      pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
+    },
+  },
+
+  reporter: isCI
     ? [
         ['list'],
         ['@estruyf/github-actions-reporter'],
