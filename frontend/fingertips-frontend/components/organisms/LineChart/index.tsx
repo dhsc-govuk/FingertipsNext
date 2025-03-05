@@ -99,7 +99,8 @@ export function LineChart({
     series: seriesData,
     tooltip: {
       format:
-        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
+        `${benchmarkData?.measurementUnits}`,
     },
     accessibility: {
       enabled: false,
