@@ -83,28 +83,28 @@ export function IndicatorSelectionForm({
       {searchResults.length ? (
         <>
           <UnorderedList listStyleType="none">
-          <ListItem>
-            <SectionBreak visible={true} />
-          </ListItem>
-          {searchResults.map((result) => (
-            <SearchResult
-              key={result.indicatorID}
-              result={result}
-              indicatorSelected={isIndicatorSelected(
-                result.indicatorID.toString(),
-                searchState
-              )}
-              searchState={searchState}
-              handleClick={handleClick}
-              currentDate={currentDate}
-            />
-          ))}
-        </UnorderedList>
+            <ListItem>
+              <SectionBreak visible={true} />
+            </ListItem>
+            {searchResults.map((result) => (
+              <SearchResult
+                key={result.indicatorID}
+                result={result}
+                indicatorSelected={isIndicatorSelected(
+                  result.indicatorID.toString(),
+                  searchState
+                )}
+                searchState={searchState}
+                handleClick={handleClick}
+                currentDate={currentDate}
+              />
+            ))}
+          </UnorderedList>
 
           <Button
-              type="submit"
-              data-testid="search-results-button-submit"
-              disabled={shouldDisableViewDataButton(searchState)}
+            type="submit"
+            data-testid="search-results-button-submit"
+            disabled={shouldDisableViewDataButton(searchState)}
           >
             View data
           </Button>
