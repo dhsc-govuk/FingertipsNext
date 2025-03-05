@@ -3,23 +3,9 @@ import React from 'react';
 import { AreaDocumentWithoutType } from '@/lib/search/searchTypes';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import {StyledTableCellHeader, StyledAlignLeftHeader, StyledAlignRightHeader} from "./SharedStyleComponents"
 
-
-
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
-  {
-    fontWeight: 'bold',
-    padding: '0.625em 0',
-  }
-);
-
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-  verticalAlign: 'top',
-});
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
   width: '10%',
@@ -31,11 +17,7 @@ const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
   background: GovukColours.LightGrey,
 });
 
-const StyledAlignRightHeader = styled(StyledTableCellHeader)({
-  textAlign: 'right',
-  paddingRight: '10px',
-  verticalAlign: 'top',
-});
+
 
 const StyledGreyHeader = styled(StyledAlignRightHeader)({
   backgroundColor: GovukColours.MidGrey,

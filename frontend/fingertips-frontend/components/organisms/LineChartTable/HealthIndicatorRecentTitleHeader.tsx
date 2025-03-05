@@ -3,21 +3,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
-import { typography } from '@govuk-react/lib';
 import { AreaDocumentWithoutType } from '@/lib/search/searchTypes';
+import {StyledAlignLeftHeader} from "./SharedStyleComponents"
 
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
-  {
-    fontWeight: 'bold',
-    padding: '0.625em 0',
-  }
-);
 
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-  verticalAlign: 'top',
-});
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',

@@ -5,10 +5,12 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
+import {StyledAlignLeftHeader, StyledAlignRightHeader } from "./SharedStyleComponents"
 import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthIndicatorRecentTitleHeader } from './HealthIndicatorRecentTitleHeader';
 import { AreaLabelHeader } from './AreaLabelHeader';
+
 
 interface TableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -30,24 +32,6 @@ const StyledDiv = styled('div')({
   alignItems: 'center',
 });
 
-const StyledTableCellHeader = styled(Table.CellHeader)(
-  typography.font({ size: 14 }),
-  {
-    fontWeight: 'bold',
-    padding: '0.625em 0',
-  }
-);
-
-const StyledAlignRightHeader = styled(StyledTableCellHeader)({
-  textAlign: 'right',
-  paddingRight: '10px',
-  verticalAlign: 'top',
-});
-
-const StyledAlignLeftHeader = styled(StyledTableCellHeader)({
-  textAlign: 'left',
-  verticalAlign: 'top',
-});
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
   width: '27%',
