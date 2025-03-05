@@ -16,7 +16,7 @@ describe('AreaSelectedPill', () => {
     mockRemoveFilter.mockClear();
   });
 
-  it('should render the AreaSearchPill correctly', () => {
+  it('should render the AreaSelectedPill correctly', () => {
     render(
       <AreaSelectedPill
         areaName={area.name}
