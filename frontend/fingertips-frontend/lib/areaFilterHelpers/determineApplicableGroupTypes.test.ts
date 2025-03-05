@@ -55,19 +55,9 @@ describe('determineApplicableGroupTypes', () => {
         'nhs-sub-integrated-care-boards',
         'nhs-integrated-care-boards',
         'nhs-regions',
-        'england',
       ],
     ],
-    [
-      'gps',
-      [
-        'nhs-primary-care-networks',
-        'nhs-sub-integrated-care-boards',
-        'nhs-integrated-care-boards',
-        'nhs-regions',
-        'england',
-      ],
-    ],
+    ['gps', ['nhs-primary-care-networks', 'nhs-sub-integrated-care-boards']],
     ['regions', ['england']],
     ['combined-authorities', ['regions', 'england']],
     [
