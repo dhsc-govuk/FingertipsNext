@@ -59,7 +59,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await homePage.checkOnHomePage();
       await homePage.clickSearchButton();
       await homePage.checkSummaryValidation(
-        `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
@@ -115,7 +115,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
       await homePage.checkSummaryValidation(
-        `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
     });
   });

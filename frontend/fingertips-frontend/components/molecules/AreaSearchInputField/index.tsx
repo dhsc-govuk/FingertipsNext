@@ -40,7 +40,7 @@ export const AreaSearchInputField = ({
         }
         meta={{
           touched: touched,
-          error: touched ? 'This field value may be required' : '',
+          error: touched ? 'Enter an area you want to search for' : '',
         }}
         data-testid="search-form-input-area"
       >
