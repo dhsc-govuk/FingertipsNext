@@ -10,10 +10,15 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!areasSelected || areasSelected.length < 2) {
+  if (
+    indicatorSelected?.length !== 1 ||
+    !areasSelected || // TODO: why is null assertion needed here?
+    areasSelected?.length < 2
+  ) {
     throw new Error('Invalid parameters provided to view');
   }
 
