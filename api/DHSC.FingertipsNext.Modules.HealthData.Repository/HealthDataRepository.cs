@@ -21,6 +21,7 @@ public class HealthDataRepository : IHealthDataRepository
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
             .Where(hm => inequalities.Contains("sex") ? true : hm.SexDimension.HasValue == false)
             .Where(hm => inequalities.Contains("age") ? true : hm.AgeDimension.HasValue == false)
+            // TODO: Will be expanded to allow the deprivation dimension to be retrieved based on a query param in DHSCFT-396
             .Where(hm => hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
