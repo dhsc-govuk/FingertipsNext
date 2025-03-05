@@ -14,6 +14,7 @@ describe('IndicatorSearchServiceMock', () => {
       lastUpdatedDate: new Date('December 6, 2024'),
       associatedAreaCodes: ['Area1'],
       unitLabel: '',
+      hasInequalities: false,
     },
     {
       indicatorID: '2',
@@ -25,6 +26,7 @@ describe('IndicatorSearchServiceMock', () => {
       lastUpdatedDate: new Date('November 5, 2023'),
       associatedAreaCodes: ['Area1', 'Area2'],
       unitLabel: '',
+      hasInequalities: true,
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;
