@@ -111,8 +111,7 @@ export function IndicatorSelectionForm({
         >
           View data
         </Button>
-        ) : null
-      }
+      ) : null}
     </form>
   );
 }
