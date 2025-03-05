@@ -9,7 +9,10 @@ import {
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
-import { generateSeriesData } from './lineChartHelpers';
+import {
+  generateSeriesData,
+  lineChartDefaultOptions,
+} from '@/components/organisms/LineChart/lineChartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
 
@@ -74,15 +77,7 @@ export function LineChart({
   );
 
   const lineChartOptions: Highcharts.Options = {
-    credits: {
-      enabled: false,
-    },
-    chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
-    title: {
-      style: {
-        display: 'none',
-      },
-    },
+    ...lineChartDefaultOptions,
     yAxis: {
       title: undefined,
       minorTickInterval: 'auto',
@@ -100,10 +95,6 @@ export function LineChart({
       align: 'left',
     },
     series: seriesData,
-    tooltip: {
-      format:
-        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
-    },
     accessibility: {
       enabled: false,
       description: accessibilityLabel,

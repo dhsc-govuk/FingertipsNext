@@ -1,11 +1,15 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { ChartColours } from '@/lib/chartHelpers/colours';
+import { SymbolKeyValue } from 'highcharts';
+import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
 >;
 
-export interface InequalitiesLineChartTableData {
+export interface InequalitiesChartData {
   areaName: string;
   rowData: InequalitiesTableRowData[];
 }
@@ -39,6 +43,23 @@ export enum Inequalities {
   Sex = 'sex',
   Deprivation = 'deprivation',
 }
+
+export const mapToChartSymbolsForInequality: Record<
+  Inequalities,
+  SymbolKeyValue[]
+> = {
+  [Inequalities.Sex]: ['circle', 'square', 'diamond'],
+  [Inequalities.Deprivation]: [],
+};
+
+export const mapToChartColorsForInequality: Record<Inequalities, string[]> = {
+  [Inequalities.Sex]: [
+    ChartColours.Orange,
+    ChartColours.OtherLightBlue,
+    ChartColours.Purple,
+  ],
+  [Inequalities.Deprivation]: [],
+};
 
 // 'All' -> 'Persons' mapping to be removed when db value is changed in subsequent ticket
 export const mapToKey = (key: string): string =>
@@ -120,6 +141,34 @@ export const getDynamicKeys = (
   const uniqueKeys = [...new Set(existingKeys)];
 
   return inequalityKeyMapping[type](uniqueKeys);
+};
+
+export const generateInequalitiesLineChartSeriesData = (
+  keys: string[],
+  type: Inequalities,
+  rowData: InequalitiesTableRowData[],
+  areasSelected: string[]
+): Highcharts.SeriesOptionsType[] => {
+  const markerList = mapToChartSymbolsForInequality[type];
+  const colorList = mapToChartColorsForInequality[type];
+
+  if (isEnglandSoleSelectedArea(areasSelected))
+    colorList[0] = GovukColours.Black;
+
+  const seriesData: Highcharts.SeriesOptionsType[] = keys.map((key, index) => ({
+    type: 'line',
+    name: key,
+    data: rowData.map((periodData) => [
+      periodData.period,
+      periodData.inequalities[key]?.value,
+    ]),
+    marker: {
+      symbol: markerList[index % markerList.length],
+    },
+    color: colorList[index % colorList.length],
+  }));
+
+  return seriesData;
 };
 
 export const shouldDisplayInequalities = (

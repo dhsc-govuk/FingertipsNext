@@ -13,6 +13,7 @@ export enum ChartColours {
   DarkBlue = '#12436D',
   LightBlue = '#5694CA',
   OtherLightPurple = '#6F72AF',
+  OtherLightBlue = '#57AEF8',
 }
 
 // The ordering of this array determines the order in which the colours are

@@ -4,14 +4,14 @@ import { InequalitiesLineChartTable } from '.';
 import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import {
   Inequalities,
-  InequalitiesLineChartTableData,
+  InequalitiesChartData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {
     const CELLS_PER_ROW = 4;
 
-    const tableData: InequalitiesLineChartTableData = {
+    const tableData: InequalitiesChartData = {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       rowData: [
         {
@@ -74,7 +74,7 @@ describe('Inequalities table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 2;
-      const tableData: InequalitiesLineChartTableData = {
+      const tableData: InequalitiesChartData = {
         areaName: MOCK_HEALTH_DATA[1].areaName,
         rowData: [
           {
