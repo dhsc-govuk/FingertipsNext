@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HighlightText should highlight the searchHint part of the text provided 1`] = `
+<DocumentFragment>
+  This is 
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    some
+  </span>
+   text
+</DocumentFragment>
+`;
+
+exports[`HighlightText should highlight the searchHint part of the text provided when there are parentheses 1`] = `
+<DocumentFragment>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    (This 
+  </span>
+  is) some text
+</DocumentFragment>
+`;

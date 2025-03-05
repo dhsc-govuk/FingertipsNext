@@ -97,6 +97,10 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
   color: #000000;
 }
 
+.c1 summary:hover {
+  color: #000000;
+}
+
 .c1 div {
   border-left: none;
 }
@@ -247,6 +251,10 @@ exports[`ShowHideContainer should not show the side bar when showSideBarWhenOpen
 }
 
 .c1 summary {
+  color: #000000;
+}
+
+.c1 summary:hover {
   color: #000000;
 }
 

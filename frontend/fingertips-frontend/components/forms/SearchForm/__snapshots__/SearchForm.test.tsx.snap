@@ -222,15 +222,14 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 5px;
 }
 
+.c6 {
+  margin-bottom: 1em;
+}
+
 .c8 {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 19px;
-}
-
-.c6 {
-  margin: 0px;
-  background-color: #FFFFFF;
 }
 
 .c2 {
@@ -420,17 +419,17 @@ exports[`snapshot test - renders the form 1`] = `
       id="areaSearched"
       name="areaSearched"
       type="hidden"
-      value="area"
+      value=""
     />
     <div
       class="c6"
     >
       <div
         class="c7"
+        data-testid="area-search-input-field"
       >
         <label
           class="c1"
-          data-testid="search-form-input-area"
         >
           <span
             class="c3"
@@ -452,17 +451,17 @@ exports[`snapshot test - renders the form 1`] = `
           />
         </label>
       </div>
-      <div
-        class="c8"
+    </div>
+    <div
+      class="c8"
+    >
+      <a
+        class="c9"
+        data-testid="search-form-link-filter-area"
+        href="#"
       >
-        <a
-          class="c9"
-          data-testid="search-form-link-filter-area"
-          href="#"
-        >
-          Open area filter
-        </a>
-      </div>
+        Open area filter
+      </a>
     </div>
     <button
       class="c10"

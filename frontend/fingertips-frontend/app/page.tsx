@@ -6,6 +6,9 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
+import { connection } from 'next/server';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { ErrorPage } from '@/components/pages/error';
 
 export default async function Page(
   props: Readonly<{
@@ -19,17 +22,40 @@ export default async function Page(
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
 
-  const initialState: SearchFormState = {
-    indicator: searchedIndicator ?? '',
-    areaSearched: areasSelected ? areasSelected[0] : '',
-    message: null,
-    errors: {},
-  };
+  try {
+    await connection();
 
-  return (
-    <Home
-      initialFormState={initialState}
-      searchState={stateManager.getSearchState()}
-    />
-  );
+    const areasApi = ApiClientFactory.getAreasApiClient();
+
+    const selectedAreasData =
+      areasSelected && areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
+
+    const initialState: SearchFormState = {
+      indicator: searchedIndicator ?? '',
+      areaSearched: areasSelected ? areasSelected[0] : '',
+      message: null,
+      errors: {},
+    };
+
+    return (
+      <Home
+        initialFormState={initialState}
+        selectedAreasData={selectedAreasData}
+        searchState={stateManager.getSearchState()}
+      />
+    );
+  } catch (error) {
+    console.log(`Error response received from call: ${error}`);
+    return (
+      <ErrorPage
+        errorText="An error has been returned by the service. Please try again."
+        errorLink="/"
+        errorLinkText="Return to Search"
+      />
+    );
+  }
 }
