@@ -11,7 +11,7 @@ interface BarChartProps {
   accessibilityLabel?: string;
   benchmarkLabel?: string;
   benchmarkValue?: number;
-  measurementUnits: string;
+  measurementUnit: string;
 }
 
 export function BarChart({
@@ -20,7 +20,7 @@ export function BarChart({
   accessibilityLabel,
   benchmarkLabel,
   benchmarkValue,
-  measurementUnits,
+  measurementUnit: measurementUnits,
 }: Readonly<BarChartProps>) {
   const barChartOptions: Highcharts.Options = {
     credits: {

@@ -30,7 +30,7 @@ export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   groupIndicatorData?: HealthDataForArea;
-  measurementUnits: string;
+  measurementUnit: string;
 }
 
 export interface LineChartTableRowData {
@@ -177,7 +177,7 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   groupIndicatorData,
-  measurementUnits,
+  measurementUnit: measurementUnits,
 }: Readonly<LineChartTableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
