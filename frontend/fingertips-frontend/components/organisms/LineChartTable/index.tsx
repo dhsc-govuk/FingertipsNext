@@ -19,6 +19,7 @@ interface TableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   parentIndicatorData?: HealthDataForArea;
+  measurementUnits: string;
 }
 
 interface LineChartTableRowData {
@@ -172,6 +173,7 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   parentIndicatorData,
+  measurementUnits,
 }: Readonly<TableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToTableData(areaData)
@@ -248,22 +250,20 @@ export function LineChartTable({
                       heading,
                       index + 1,
                       healthIndicatorData.length,
-                      data.measurementUnits
+                      measurementUnits
                     )
                   )
               )}
               {parentIndicatorData ? (
                 <StyledLightGreySubHeader>
-                  Value ({parentIndicatorData.measurementUnits})
+                  Value ({measurementUnits})
                 </StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>
-                  ({englandBenchmarkData?.measurementUnits})
-                </StyledSpan>
+                <StyledSpan>({measurementUnits})</StyledSpan>
               </StyledGreyHeader>
             </Table.Row>
           </>

@@ -18,6 +18,7 @@ interface LineChartProps {
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
   parentIndicatorData?: HealthDataForArea;
+  measurementUnits: string;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -37,6 +38,7 @@ export function LineChart({
   accessibilityLabel,
   benchmarkData,
   parentIndicatorData,
+  measurementUnits,
 }: Readonly<LineChartProps>) {
   const searchParams = useSearchParams();
   const existingParams = new URLSearchParams(searchParams);
@@ -100,7 +102,7 @@ export function LineChart({
     tooltip: {
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
-        `${benchmarkData?.measurementUnits}`,
+        `${measurementUnits}`,
     },
     accessibility: {
       enabled: false,
