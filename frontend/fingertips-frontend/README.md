@@ -130,7 +130,7 @@ Performed in the ui tests. Libraries used: @axe-core/playwright and axe-playwrig
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
-To check there are 0 accessibility violations call expectNoAccessibilityViolations();
+To check there are 0 accessibility violations on the page the test is currently on call expectNoAccessibilityViolations().
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
 
