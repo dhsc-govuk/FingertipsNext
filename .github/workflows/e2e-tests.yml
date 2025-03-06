@@ -4,7 +4,7 @@ env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
-  BRANCH_NAME:  github.head_name || github.ref_name
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 on:
   workflow_call:
