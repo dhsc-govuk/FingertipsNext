@@ -118,7 +118,7 @@ npm run test-e2e-local-docker
 ```
 You will need to have docker running first before executing this command.
 
-If you wish to use UI mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
+If you wish to use ui mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
 Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
 
