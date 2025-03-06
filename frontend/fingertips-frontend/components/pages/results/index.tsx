@@ -11,26 +11,21 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { AreaFilter } from '@/components/organisms/AreaFilter';
+import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  AreaWithRelations,
-  AreaType,
-  Area,
-} from '@/generated-sources/ft-api-client';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorSearchForm } from '@/components/forms/IndicatorSearchForm';
 import {
   IndicatorSearchFormState,
   searchIndicator,
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
+import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
-  availableAreaTypes?: AreaType[];
-  availableGroupTypes?: AreaType[];
-  availableAreas?: Area[];
+  areaFilterData?: AreaFilterData;
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
   currentDate?: Date;
@@ -44,9 +39,7 @@ const generateBackLinkPath = (state?: SearchStateParams) => {
 export function SearchResults({
   initialIndicatorSelectionState,
   searchResults,
-  availableAreaTypes,
-  availableGroupTypes,
-  availableAreas,
+  areaFilterData,
   selectedAreasData,
   searchState,
   currentDate,
@@ -71,11 +64,10 @@ export function SearchResults({
       <>
         {indicatorSelectionState.message && (
           <ErrorSummary
-            description={indicatorSelectionState.message}
             errors={[
               {
                 targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
-                text: 'Available indicators',
+                text: 'Select any indicators you want to view',
               },
             ]}
             data-testid="search-result-form-error-summary"
@@ -98,11 +90,9 @@ export function SearchResults({
         </form>
         <GridRow>
           <GridCol setWidth="one-third">
-            <AreaFilter
+            <AreaFilterPane
               key={JSON.stringify(searchState)}
-              availableAreaTypes={availableAreaTypes}
-              availableGroupTypes={availableGroupTypes}
-              availableAreas={availableAreas}
+              areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
               searchState={searchState}
             />

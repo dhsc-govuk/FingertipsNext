@@ -30,6 +30,16 @@ const isIndicatorSelected = (
     : false;
 };
 
+const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
+  if (
+    state?.[SearchParams.IndicatorsSelected] &&
+    state?.[SearchParams.IndicatorsSelected]?.length > 0
+  ) {
+    return false;
+  }
+  return true;
+};
+
 export function IndicatorSelectionForm({
   searchResults,
   searchState,
@@ -71,30 +81,37 @@ export function IndicatorSelectionForm({
         hidden
       />
       {searchResults.length ? (
-        <UnorderedList listStyleType="none">
-          <ListItem>
-            <SectionBreak visible={true} />
-          </ListItem>
-          {searchResults.map((result) => (
-            <SearchResult
-              key={result.indicatorID}
-              result={result}
-              indicatorSelected={isIndicatorSelected(
-                result.indicatorID.toString(),
-                searchState
-              )}
-              searchState={searchState}
-              handleClick={handleClick}
-              currentDate={currentDate}
-            />
-          ))}
-        </UnorderedList>
+        <>
+          <UnorderedList listStyleType="none">
+            <ListItem>
+              <SectionBreak visible={true} />
+            </ListItem>
+            {searchResults.map((result) => (
+              <SearchResult
+                key={result.indicatorID}
+                result={result}
+                indicatorSelected={isIndicatorSelected(
+                  result.indicatorID.toString(),
+                  searchState
+                )}
+                searchState={searchState}
+                handleClick={handleClick}
+                currentDate={currentDate}
+              />
+            ))}
+          </UnorderedList>
+
+          <Button
+            type="submit"
+            data-testid="search-results-button-submit"
+            disabled={shouldDisableViewDataButton(searchState)}
+          >
+            View data
+          </Button>
+        </>
       ) : (
-        <Paragraph>No results found</Paragraph>
+        <Paragraph>**No results found**</Paragraph>
       )}
-      <Button type="submit" data-testid="search-results-button-submit">
-        View charts
-      </Button>
     </form>
   );
 }

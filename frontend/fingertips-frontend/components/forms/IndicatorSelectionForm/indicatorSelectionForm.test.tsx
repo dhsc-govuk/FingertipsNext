@@ -28,20 +28,26 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'NHS',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '2021',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
+    unitLabel: '',
+    hasInequalities: false,
   },
   {
     indicatorID: '2',
     indicatorName: 'DHSC',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '2021',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
+    unitLabel: '',
+    hasInequalities: true,
   },
 ];
 
@@ -72,7 +78,6 @@ describe('IndicatorSelectionForm', () => {
     searchResults.forEach((searchResult, index) => {
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].indicatorName);
       expect(searchResult).toHaveTextContent(MOCK_DATA[index].latestDataPeriod);
-      expect(searchResult).toHaveTextContent(MOCK_DATA[index].dataSource);
       expect(searchResult).toHaveTextContent(
         formatDate(new Date(MOCK_DATA[index].lastUpdatedDate))
       );
@@ -92,6 +97,45 @@ describe('IndicatorSelectionForm', () => {
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
     expect(screen.queryAllByTestId('search-result')).toHaveLength(0);
+  });
+
+  it('should NOT render the "View data" button if no indicators found for search', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={[]}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: /View data/i })).toBeNull();
+  });
+
+  it('should render the "View data" button as disabled when there are no indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View data/i })).toBeDisabled();
+  });
+
+  it('should render the "View data" button as enabled when there are indicators selected in state', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /View data/i })).toBeEnabled();
   });
 
   it('should mark indicators selected as checked', () => {
@@ -180,12 +224,15 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
         formAction={mockFormAction}
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /View charts/i }));
+    await user.click(screen.getByRole('button', { name: /View data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
   });

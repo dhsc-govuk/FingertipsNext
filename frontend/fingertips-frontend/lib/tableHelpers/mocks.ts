@@ -1,0 +1,153 @@
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+
+export const MOCK_ENGLAND_DATA = {
+  areaCode: 'E92000001',
+  areaName: 'England',
+  healthData: [
+    {
+      year: 2004,
+      count: 200,
+      value: 904.874,
+      lowerCi: 0,
+      upperCi: 0,
+      ageBand: '0-4',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+    },
+    {
+      year: 2008,
+      count: 500,
+      value: 965.9843,
+      lowerCi: 0,
+      upperCi: 0,
+      ageBand: '10-14',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+    },
+  ],
+};
+
+export const MOCK_HEALTH_DATA = [
+  {
+    areaCode: 'A1425',
+    areaName: 'Greater Manchester ICB - 00T',
+    healthData: [
+      {
+        year: 2008,
+        count: 222,
+        value: 890.305692,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2004,
+        count: 267,
+        value: 703.420759,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2004,
+        count: 267,
+        value: 703.420759,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2004,
+        count: 267,
+        value: 703.420759,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ],
+  },
+  {
+    areaCode: 'A1426',
+    areaName: 'South FooBar',
+    healthData: [
+      {
+        year: 2008,
+        count: 222,
+        value: 135.149304,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2008,
+        count: 131,
+        value: 890.328253,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2008,
+        count: 131,
+        value: 890.328253,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        ageBand: 'All',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ],
+  },
+];
+
+export const MOCK_PARENT_DATA = {
+  areaCode: 'E40000014',
+  areaName: 'NHS North West Region',
+  healthData: [
+    {
+      year: 2008,
+      count: 777,
+      value: 1000,
+      lowerCi: 500,
+      upperCi: 1500,
+      ageBand: 'All',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+    },
+    {
+      year: 2004,
+      count: 777,
+      value: 1000,
+      lowerCi: 500,
+      upperCi: 1500,
+      ageBand: 'All',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+    },
+  ],
+};
+
+export const GROUPED_YEAR_DATA = {
+  2004: {
+    Male: [MOCK_HEALTH_DATA[0].healthData[1]],
+    Female: [MOCK_HEALTH_DATA[0].healthData[2]],
+    All: [],
+  },
+  2008: {
+    All: [MOCK_HEALTH_DATA[1].healthData[0]],
+    Male: [MOCK_HEALTH_DATA[1].healthData[1]],
+    Female: [MOCK_HEALTH_DATA[1].healthData[2]],
+  },
+};

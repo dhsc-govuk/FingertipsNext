@@ -2,67 +2,80 @@ import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
-jest.mock('react', () => {
-  const originalModule = jest.requireActual('react');
-
+const mockPath = 'some path';
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
   return {
     ...originalModule,
-    useActionState: jest
-      .fn()
-      .mockImplementation(
-        (
-          _: (
-            formState: SearchFormState,
-            formData: FormData
-          ) => Promise<SearchFormState>,
-          initialState: SearchFormState
-        ) => [initialState, '/action']
-      ),
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: jest.fn(),
+    })),
   };
 });
 
-const initialState: SearchFormState = {
-  indicator: '',
-  areaSearched: '',
+const mockSearchState: SearchStateParams = {};
+
+const initialDataState: SearchFormState = {
+  indicator: 'indicator',
+  areaSearched: 'area',
   message: null,
   errors: {},
 };
 
-it('snapshot test - renders the form', () => {
-  const container = render(<SearchForm searchFormState={initialState} />);
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(),
+    set: jest.fn(),
+  }),
+  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  usePathname: jest.fn(),
+}));
 
+const setupUI = (initialState: SearchFormState | null = null) => {
+  jest.mock('next/navigation', () => ({
+    useRouter: jest.fn().mockReturnValue({
+      push: jest.fn(),
+    }),
+    useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  }));
+
+  if (initialState == null) {
+    initialState = initialDataState;
+  }
+  const container = render(
+    <SearchForm formState={initialState} searchState={mockSearchState} />
+  );
+
+  return { container };
+};
+it('snapshot test - renders the form', () => {
+  const { container } = setupUI();
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should have an input field to input the indicatorId', () => {
-  render(<SearchForm searchFormState={initialState} />);
-
+  setupUI();
   expect(screen.getByTestId('indicator-search-form-input')).toBeInTheDocument();
-});
-
-it('should have an input field to input the area by location or organisation', () => {
-  render(<SearchForm searchFormState={initialState} />);
-
-  expect(screen.getByTestId('search-form-input-area')).toBeInTheDocument();
 });
 
 it('should set the input field with indicator value from the form state', () => {
   const indicatorState: SearchFormState = {
     indicator: 'test value',
-    areaSearched: '',
+    areaSearched: 'test area',
     message: '',
     errors: {},
   };
-  render(<SearchForm searchFormState={indicatorState} />);
+  setupUI(indicatorState);
 
   expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
     'test value'
   );
-});
 
-it('should display the filter by area link', () => {
-  render(<SearchForm searchFormState={initialState} />);
-  const link = screen.getByTestId('search-form-link-filter-area');
-  expect(link).toBeInTheDocument();
+  expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+    'test value'
+  );
 });

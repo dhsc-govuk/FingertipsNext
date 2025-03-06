@@ -8,7 +8,7 @@ The Fingertips frontend. A [Next.js](https://nextjs.org) project.
 
 Before starting development on this application you need to do the following:
 
-1. Ensure that you are using the correct Node.js version. The currently-supported version is specified in the [.nvmrc](.nvmrc) file. It is recommended you install nvm and use it to manage your Node.js version. With nvm installed you can install and use the correct Node.js version by running `nvm install` in this directory. This applies to a Mac but doesn't work on Windows. If you use Windows use [nvm-windows](https://github.com/coreybutler/nvm-windows) and follow [this](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/). Unfortunately this tool doesn't recognise the .nvmrc file, so use the `nvm install` and `nvm use` commands and specify the node version explicitly e.g. `nvm use 20.18.0`.
+1. Ensure that you are using the correct Node.js version. The currently-supported version is specified in the [.nvmrc](.nvmrc) file. It is recommended you install nvm and use it to manage your Node.js version. With nvm installed you can install and use the correct Node.js version by running `nvm install` in this directory. This applies to a Mac but doesn't work on Windows. If you use Windows use [nvm-windows](https://github.com/coreybutler/nvm-windows) and follow [this](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/). Unfortunately this tool doesn't recognise the .nvmrc file, so use the `nvm install` and `nvm use` commands and specify the node version defined in the [.nvmrc](.nvmrc) file explicitly e.g. `nvm use 20.18.0`.
 2. Install the necessary dependencies: `npm install`
 
 ### Linting
@@ -79,56 +79,78 @@ You can then open [http://localhost:3000](http://localhost:3000) with your brows
 
 ## Testing
 
-This project uses Jest + React Testing Library for unit testing and Playwright for e2e testing.
+This project uses Jest + React Testing Library for unit testing and Playwright for ui and e2e testing.
 
-Note that while all tests are executed in CI/CD pipelines, for e2e tests there is a difference between where and how the tests are executed.
+Isolated ui testing, covering accessibility, page navigation and validations occurs in both CI on push and pull requests, as well in CD as when code merges to main.
 
-In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent.
+For e2e tests there is a difference between where and how the tests are executed:
 
-In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing at this point.
+
+ 2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
 
 For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
 
-### Running the Unit tests
+### Running the Jest Unit tests
 
 ```bash
 npm run test
 ```
 
-### Running the E2E tests
+### Running the Playwright UI and E2E tests
 
-To run the e2e tests locally against mock data headlessly:
+To run the ui tests locally against mock data headlessly:
 
 ```bash
-npm run test-e2e
+npm run test-ui-local-mocks
 ```
 
-To debug e2e test failures its best to run them using UI Mode:
+To debug ui test failures its best to run them using UI Mode:
 
 ```bash
 npx playwright test --ui
 ```
 
-To run the e2e tests locally against a local dockerised container fingertips instance headlessly:
+To run the e2e tests locally, which uses a local dockerised container fingertips instance headlessly:
 
 ```bash
 npm run test-e2e-local-docker
 ```
-You will need to have docker running locally first before executing this command.
+You will need to have docker running first before executing this command.
 
 If you wish to use UI mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
-Note that each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. Also note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our e2e testing as close to real world as possible.
+Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
 
-### Accessibility Testing:
+Note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our ui and e2e testing as close to real world as possible.
 
-Currently performed at the E2E stage. Libraries used: @axe-core/playwright and axe-playwright. 
+### Accessibility Testing
+
+Performed in the ui tests. Libraries used: @axe-core/playwright and axe-playwright. 
 
 Configured to the WCAG2.2 AA standard in the following file playwright/page-objects/pageFactory.ts.
 
 To check there are 0 accessibility violations call expectNoAccessibilityViolations();
 
 Any violations of this standard cause a test failure unless the rule violated has been accepted in pageFactory.ts.
+
+### Visual Screenshot Snapshot Testing
+
+Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
+
+All screenshot snapshots are stored in github cache, not directly in the repository.
+
+If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
+
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots. To do this:
+
+1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
+2. Review and compare the expected (base) screenshots and actual (current) screenshots in the playwright report with a BA to confirm the new screenshots are correct.
+3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
+4. Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow executions that trigger the e2e tests in CI, for that branch will pass and when you merge to main the screenshots will be automatically updated in the cache for main.
+5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the cached screenshots to need to be updated, and link to the `Artifact download URL:` from the `Upload playwright artefacts` step of the `e2e-tests-local-docker` failure job. This allows the PR reviewer to check the before and after screenshots.
+
+Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from above.
 
 ## Code structure
 

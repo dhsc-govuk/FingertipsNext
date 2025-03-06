@@ -1,17 +1,39 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
-using Shouldly;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.Equivalency;
+using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Controllers.V1;
 
 public class IndicatorControllerTests
 {
-    private readonly IIndicatorsService _indicatorService;
+    private static readonly List<HealthDataForArea> SampleHealthData =
+    [
+        new()
+        {
+            AreaCode = "AreaCode1",
+            HealthData =
+            [
+                new HealthDataPoint
+                {
+                    Year = 2023,
+                    Count = 1,
+                    Value = 1,
+                    LowerConfidenceInterval = 1.1111f,
+                    UpperConfidenceInterval = 2.2222f,
+                    AgeBand = "Sample Age Band",
+                    Sex = "Sample Sex",
+                    Trend = "Sample Trend"
+                }
+            ]
+        }
+    ];
+
     private readonly IndicatorsController _controller;
+    private readonly IIndicatorsService _indicatorService;
 
     public IndicatorControllerTests()
     {
@@ -31,7 +53,8 @@ public class IndicatorControllerTests
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
                 ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
-                ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
+                ArgEx.IsEquivalentTo<string[]>(["age", "sex"]),
+                BenchmarkComparisonMethod.None
             );
     }
 
@@ -41,14 +64,15 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], [], BenchmarkComparisonMethod.None);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
+                Arg.Any<BenchmarkComparisonMethod>())
             .Returns(SampleHealthData);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -62,33 +86,13 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-           .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
-           .Returns([]);
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
+                Arg.Any<BenchmarkComparisonMethod>())
+            .Returns([]);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
         // expect
         response?.StatusCode.ShouldBe(404);
     }
-
-    private static readonly List<HealthDataForArea> SampleHealthData =
-    [
-        new()
-        {
-            AreaCode = "AreaCode1",
-            HealthData =
-            [
-                new()
-                {
-                    Year = 2023,
-                    Count = 1,
-                    Value = 1,
-                    LowerConfidenceInterval = 1.1111f,
-                    UpperConfidenceInterval = 2.2222f,
-                    AgeBand = "Sample Age Band",
-                    Sex = "Sample Sex"
-                }
-            ]
-        }
-    ];
 }

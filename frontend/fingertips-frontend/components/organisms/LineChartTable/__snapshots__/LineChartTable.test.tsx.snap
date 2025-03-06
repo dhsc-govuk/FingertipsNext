@@ -56,15 +56,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
   font-weight: bold;
   padding: 0.625em 0;
-}
-
-.c4 {
-  text-align: left;
-  vertical-align: top;
 }
 
 .c7 {
@@ -79,14 +74,34 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 16%;
 }
 
-.c5 {
-  border: none;
+.c13 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-right: 0;
 }
 
-.c6 {
+.c16 {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.c17 {
+  background-color: #B1B4B6;
+  border-top: solid #F3F2F1 2px;
+}
+
+.c14 {
+  text-align: left;
   width: 10%;
-  padding: 1em 0;
-  text-align: center;
+}
+
+.c4 {
+  text-align: left;
+  vertical-align: top;
 }
 
 .c0 {
@@ -104,6 +119,12 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   align-items: center;
 }
 
+.c6 {
+  width: 10%;
+  padding: 1em 0;
+  text-align: center;
+}
+
 .c10 {
   width: 27%;
 }
@@ -112,31 +133,6 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   width: 22%;
   padding: 0.5em;
   text-align: center;
-}
-
-.c13 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c14 {
-  text-align: left;
-  width: 10%;
-}
-
-.c16 {
-  text-align: right;
-  padding-right: 10px;
-}
-
-.c17 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
 }
 
 .c11 {
@@ -177,29 +173,29 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 @media print {
   .c3 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c3 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
 @media print {
   .c13 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c13 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
@@ -288,7 +284,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value
             <span
-              class="2 c11"
+              class="c11"
             >
               (cm)
             </span>
@@ -299,8 +295,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Lower
             <span
-              class="2 c11"
-            />
+              class="c11"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c7"
@@ -308,8 +306,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Upper
             <span
-              class="2 c11"
-            />
+              class="c11"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -317,7 +317,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           >
             Value  
             <span
-              class="2 c11"
+              class="c11"
             >
               (cm)
             </span>
@@ -359,7 +359,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             578.32766
           </td>
           <td
-            class="0 c15 c13 c16 c17"
+            class="c15 c13 c16 c17"
             data-testid="grey-table-cell"
           >
             904.874
@@ -397,7 +397,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             578.32766
           </td>
           <td
-            class="0 c15 c13 c16 c17"
+            class="c15 c13 c16 c17"
             data-testid="grey-table-cell"
           >
             965.9843
@@ -465,15 +465,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
   font-weight: bold;
   padding: 0.625em 0;
-}
-
-.c4 {
-  text-align: left;
-  vertical-align: top;
 }
 
 .c7 {
@@ -488,14 +483,34 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 16%;
 }
 
-.c5 {
-  border: none;
+.c14 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-right: 0;
 }
 
-.c6 {
+.c18 {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.c19 {
+  background-color: #B1B4B6;
+  border-top: solid #F3F2F1 2px;
+}
+
+.c15 {
+  text-align: left;
   width: 10%;
-  padding: 1em 0;
-  text-align: center;
+}
+
+.c4 {
+  text-align: left;
+  vertical-align: top;
 }
 
 .c0 {
@@ -511,6 +526,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.c6 {
+  width: 10%;
+  padding: 1em 0;
+  text-align: center;
 }
 
 .c10 {
@@ -529,33 +550,8 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   text-align: center;
 }
 
-.c14 {
-  font-family: "nta",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  padding-right: 0;
-}
-
-.c15 {
-  text-align: left;
-  width: 10%;
-}
-
 .c17 {
   border-left: solid black 1px;
-}
-
-.c18 {
-  text-align: right;
-  padding-right: 10px;
-}
-
-.c19 {
-  background-color: #B1B4B6;
-  border-top: solid #F3F2F1 2px;
 }
 
 .c12 {
@@ -596,29 +592,29 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 
 @media print {
   .c3 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c3 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
 @media print {
   .c14 {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
   .c14 {
-    font-size: 14px;
-    line-height: 1.4285714285714286;
+    font-size: 16px;
+    line-height: 1.25;
   }
 }
 
@@ -732,7 +728,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value
             <span
-              class="2 c12"
+              class="c12"
             >
               (cm)
             </span>
@@ -743,8 +739,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower
             <span
-              class="2 c12"
-            />
+              class="c12"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c7"
@@ -752,8 +750,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper
             <span
-              class="2 c12"
-            />
+              class="c12"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c4 c10 c11"
@@ -773,7 +773,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value
             <span
-              class="2 c12"
+              class="c12"
             >
               (cm)
             </span>
@@ -784,8 +784,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Lower
             <span
-              class="2 c12"
-            />
+              class="c12"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c7"
@@ -793,8 +795,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Upper
             <span
-              class="2 c12"
-            />
+              class="c12"
+            >
+              (%)
+            </span>
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -802,7 +806,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           >
             Value  
             <span
-              class="2 c12"
+              class="c12"
             >
               (cm)
             </span>
@@ -867,7 +871,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             578.32766
           </td>
           <td
-            class="0 c16 c14 c18 c19"
+            class="c16 c14 c18 c19"
             data-testid="grey-table-cell"
           >
             904.874
@@ -910,12 +914,12 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            131
+            222
           </td>
           <td
             class="c13 c14 c18"
           >
-            890.328253
+            1.4%
           </td>
           <td
             class="c13 c14 c18"
@@ -928,7 +932,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             578.32766
           </td>
           <td
-            class="0 c16 c14 c18 c19"
+            class="c16 c14 c18 c19"
             data-testid="grey-table-cell"
           >
             965.9843

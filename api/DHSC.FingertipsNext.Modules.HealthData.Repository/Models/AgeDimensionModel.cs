@@ -6,9 +6,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 public class AgeDimensionModel
 {
     [Key]
-    public required short AgeKey { get; set; }
+    public short AgeKey { get; set; }
     [MaxLength(50)]
-    public required string Name { get; set; }
-    public required short AgeID { get; set; }
-    public required bool HasValue { get; set; }
+    public string Name { get; set; }
+    public short AgeID { get; set; }
+    public bool HasValue { get; set; }
 }

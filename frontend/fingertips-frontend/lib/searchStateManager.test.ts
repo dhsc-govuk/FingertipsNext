@@ -13,6 +13,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       };
 
@@ -25,6 +26,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
     });
@@ -34,6 +36,28 @@ describe('SearchStateManager', () => {
       const newState = stateManager.getSearchState();
 
       expect(newState).toEqual({});
+    });
+  });
+
+  describe('setState', () => {
+    it('should update the searchState with state provided', () => {
+      const params: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const stateManager = SearchStateManager.initialise(params);
+
+      stateManager.setState({
+        ...params,
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      });
+
+      expect(stateManager.getSearchState()).toEqual({
+        [SearchParams.SearchedIndicator]: 'bang',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['A001', 'A002'],
+      });
     });
   });
 
@@ -189,6 +213,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -237,6 +262,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
+        `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.ConfidenceIntervalSelected}=line-chart`,
       ].join('');
 
@@ -246,6 +272,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreasSelected]: ['A001', 'A002'],
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
+        [SearchParams.GroupSelected]: 'A003',
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
 

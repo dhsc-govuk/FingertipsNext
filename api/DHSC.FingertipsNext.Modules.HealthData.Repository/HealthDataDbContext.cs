@@ -20,4 +20,5 @@ public class HealthDataDbContext : DbContext
     public DbSet<IndicatorDimensionModel> IndicatorDimension { get; set; }
     public DbSet<AgeDimensionModel> AgeDimension { get; set; }
     public DbSet<SexDimensionModel> SexDimension { get; set; }
+    public DbSet<TrendDimensionModel> TrendDimension { get; set; }
 }

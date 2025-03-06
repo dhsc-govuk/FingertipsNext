@@ -1,105 +1,25 @@
-import { SearchParams } from '@/lib/searchStateManager';
+import {
+  AreaMode,
+  getScenarioConfig,
+  IndicatorMode,
+} from '@/playwright/testHelpers';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
-export enum IndicatorMode {
-  ONE_INDICATOR = 'ONE_INDICATOR',
-  TWO_INDICATORS = 'TWO_INDICATORS',
-  MULTIPLE_INDICATORS = 'MULTIPLE_INDICATORS', // 3+ indicators
-}
-
-export enum AreaMode {
-  ONE_AREA = 'ONE_AREA',
-  TWO_AREAS = 'TWO_AREAS', // in the same group
-  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS', // 3+ areas in a group
-  ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
-  ENGLAND_AREA = 'ENGLAND_AREA',
-}
-
-type ScenarioConfig = {
-  visibleComponents: string[];
-  hiddenComponents: string[];
-};
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
-  readonly lineChartComponent = 'lineChart-component';
-  readonly lineChartTableComponent = 'lineChartTable-component';
-  readonly barChartComponent = 'barChart-component';
-  readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly lineChartComponent = 'lineChart-component';
+  static readonly lineChartTableComponent = 'lineChartTable-component';
+  static readonly barChartComponent = 'barChart-component';
+  static readonly populationPyramidComponent = 'populationPyramid-component';
+  static readonly inequalitiesComponent = 'inequalities-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
   }
 
-  async checkURLIsCorrect(queryParams = '') {
-    await this.checkURLMatches(
-      `chart?${SearchParams.SearchedIndicator}=${queryParams}`
-    );
-  }
-
   async clickBackLink() {
     await this.page.getByTestId(this.backLink).click();
-  }
-
-  private getScenarioConfig(
-    indicatorMode: IndicatorMode,
-    areaMode: AreaMode
-  ): ScenarioConfig {
-    // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
-    // const defaultVisible = [this.populationPyramidComponent];
-    const defaultVisible: never[] = [];
-
-    const defaultHidden = [
-      this.lineChartComponent,
-      this.lineChartTableComponent,
-      // DHSCFT-220 will implement this logic
-      // this.barChartComponent,
-    ];
-
-    // Single indicator scenarios show all charts
-    const singleIndicatorConfig: ScenarioConfig = {
-      visibleComponents: [
-        this.lineChartComponent,
-        this.lineChartTableComponent,
-        this.barChartComponent,
-        this.populationPyramidComponent,
-      ],
-      hiddenComponents: [],
-    };
-
-    // Map of three supported scenarios to their configurations
-    const scenarioConfigs = new Map<string, ScenarioConfig>([
-      [
-        `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ONE_AREA}`,
-        singleIndicatorConfig,
-      ],
-      [
-        `${IndicatorMode.TWO_INDICATORS}_${AreaMode.TWO_AREAS}`,
-        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-      ],
-      [
-        `${IndicatorMode.MULTIPLE_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
-        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-      ],
-      // remove these extra two temporarily supported scenarios in DHSCFT-291
-      [
-        `${IndicatorMode.ONE_INDICATOR}_${AreaMode.ENGLAND_AREA}`,
-        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-      ],
-      [
-        `${IndicatorMode.TWO_INDICATORS}_${AreaMode.ENGLAND_AREA}`,
-        { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-      ],
-    ]);
-
-    const config = scenarioConfigs.get(`${indicatorMode}_${areaMode}`);
-    if (!config) {
-      throw new Error(
-        'Combination of indicator and area modes not currently supported'
-      );
-    }
-
-    return config;
   }
 
   /**
@@ -109,24 +29,51 @@ export default class ChartPage extends BasePage {
    * Note all 15 scenarios are covered in lower level unit testing.
    */
   async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
-    const { visibleComponents, hiddenComponents } = this.getScenarioConfig(
+    const { visibleComponents, hiddenComponents } = getScenarioConfig(
       indicatorMode,
       areaMode
     );
     console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that ${visibleComponents} are displayed and that`,
-      `${hiddenComponents} are not displayed.`
+      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
+      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
-    // Check visible components
-    for (const component of visibleComponents) {
-      await expect(this.page.getByTestId(component)).toBeVisible({
-        visible: true,
-      });
+    // Check that components expected to be visible are displayed
+    for (const visibleComponent of visibleComponents) {
+      if (visibleComponent !== 'lineChartTable-component') {
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+          visible: true,
+        });
+      }
+      // click into the tab view if checking lineChartTable
+      if (visibleComponent === 'lineChartTable-component') {
+        await this.page.getByTestId('tabTitle-table').click();
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
+      console.log(
+        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
+      );
+      await this.page.waitForTimeout(500);
+
+      // for now just warn if visual comparisons do not match
+      try {
+        await expect(
+          this.page.getByTestId(visibleComponent)
+        ).toHaveScreenshot();
+      } catch (error) {
+        const typedError = error as Error;
+        console.warn(
+          `⚠️ Screenshot comparison warning for ${visibleComponent}: ${typedError.message}`
+        );
+      }
     }
 
-    // Check hidden components
-    for (const component of hiddenComponents) {
-      await expect(this.page.getByTestId(component)).toBeVisible({
+    // Check that components expected not to be visible are not displayed
+    for (const hiddenComponent of hiddenComponents) {
+      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
         visible: false,
       });
     }

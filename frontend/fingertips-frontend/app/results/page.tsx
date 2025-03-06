@@ -7,13 +7,9 @@ import {
 import { connection } from 'next/server';
 import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { Area, AreaType } from '@/generated-sources/ft-api-client';
-import { determineSelectedAreaType } from '@/lib/areaFilterHelpers/determineSelectedAreaType';
-import { determineApplicableGroupTypes } from '@/lib/areaFilterHelpers/determineApplicableGroupTypes';
-import { determineSelectedGroupType } from '@/lib/areaFilterHelpers/determineSelectedGroupType';
-import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -28,14 +24,12 @@ export default async function Page(
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.AreaTypeSelected]: selectedAreaType,
-    [SearchParams.GroupTypeSelected]: selectedGroupType,
   } = stateManager.getSearchState();
   try {
     await connection();
+
     const areasApi = ApiClientFactory.getAreasApiClient();
 
-    const availableAreaTypes = await areasApi.getAreaTypes();
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
@@ -43,45 +37,27 @@ export default async function Page(
           )
         : [];
 
-    const determinedSelectedAreaType = determineSelectedAreaType(
-      selectedAreaType as AreaTypeKeys,
+    const {
+      availableAreaTypes,
+      availableAreas,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
       selectedAreasData
     );
-    stateManager.addParamValueToState(
-      SearchParams.AreaTypeSelected,
-      determinedSelectedAreaType
-    );
 
-    const availableAreas: Area[] = await areasApi.getAreaTypeMembers({
-      areaTypeKey: determinedSelectedAreaType,
-    });
-
-    const availableGroupTypes: AreaType[] | undefined =
-      determineApplicableGroupTypes(
-        availableAreaTypes,
-        determinedSelectedAreaType
-      );
-
-    const determinedSelectedGroupType = determineSelectedGroupType(
-      selectedGroupType as AreaTypeKeys,
-      selectedAreasData
-    );
-    if (determinedSelectedGroupType) {
-      stateManager.addParamValueToState(
-        SearchParams.GroupTypeSelected,
-        determinedSelectedGroupType
-      );
+    if (updatedSearchState) {
+      stateManager.setState(updatedSearchState);
     }
 
     const searchResults = searchedIndicator
       ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
-          searchedIndicator
+          searchedIndicator,
+          areasSelected
         )
       : [];
-
-    const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
-      (a, b) => a.level - b.level
-    );
 
     const initialState: IndicatorSelectionState = {
       searchState: JSON.stringify(stateManager.getSearchState()),
@@ -94,9 +70,12 @@ export default async function Page(
       <SearchResults
         initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
-        availableAreaTypes={sortedByLevelAreaTypes}
-        availableAreas={availableAreas}
-        availableGroupTypes={availableGroupTypes}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
         currentDate={new Date()}

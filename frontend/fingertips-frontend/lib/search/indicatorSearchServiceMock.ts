@@ -22,9 +22,17 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       .filter((indicator) => {
         return (
           !areaCodes ||
-          indicator.associatedAreas.some((area) => areaCodes.includes(area))
+          indicator.associatedAreaCodes.some((area) => areaCodes.includes(area))
         );
       })
       .slice(0, 20);
+  }
+
+  public async getIndicator(
+    indicatorId: string
+  ): Promise<IndicatorDocument | undefined> {
+    return this.mockIndicatorData.find((indicator) => {
+      return indicator.indicatorID === indicatorId;
+    });
   }
 }

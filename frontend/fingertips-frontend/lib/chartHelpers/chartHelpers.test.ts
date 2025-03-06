@@ -1,11 +1,13 @@
 import {
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
-  sortHealthDataByDate,
+  seriesDataWithoutEnglandOrGroup,
+  sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
+  isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 const mockData = [
   {
@@ -18,8 +20,9 @@ const mockData = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
-        sex: 'Persons',
+        sex: 'All',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
         count: 267,
@@ -27,8 +30,19 @@ const mockData = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
-        sex: 'Persons',
+        sex: 'All',
         ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Male',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
     ],
   },
@@ -47,8 +61,9 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
-            sex: 'Persons',
+            sex: 'All',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 389,
@@ -56,15 +71,58 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
-            sex: 'Persons',
+            sex: 'All',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
     ];
-    const result = sortHealthDataByDate(mockData);
+    const result = sortHealthDataForAreasByDate(mockData);
 
     expect(result).toEqual(mockSortedData);
+  });
+
+  it('should filter out inequality health data', () => {
+    const mockData = [
+      {
+        areaCode: 'A1425',
+        areaName: 'North FooBar',
+        healthData: [
+          {
+            count: 267,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 703.420759,
+            year: 2004,
+            sex: 'Male',
+            ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+          {
+            count: 389,
+            lowerCi: 441.69151,
+            upperCi: 578.32766,
+            value: 278.29134,
+            year: 2006,
+            sex: 'Female',
+            ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+    ];
+
+    const expected = [
+      {
+        ...mockData[0],
+        healthData: [],
+      },
+    ];
+
+    const result = sortHealthDataForAreasByDate(mockData);
+
+    expect(result).toEqual(expected);
   });
 });
 
@@ -83,6 +141,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 389,
@@ -92,6 +151,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -109,6 +169,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -118,6 +179,7 @@ describe('sortHealthDataByYearDescending', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -156,6 +218,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -165,6 +228,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -180,6 +244,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -189,6 +254,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -207,6 +273,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -216,12 +283,13 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data);
+    const result = seriesDataWithoutEnglandOrGroup(data);
     expect(result).toEqual(dataWithoutEngland);
   });
 
@@ -239,6 +307,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -248,6 +317,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -263,6 +333,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -272,6 +343,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
@@ -290,6 +362,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2006,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
           {
             count: 267,
@@ -299,12 +372,27 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             year: 2004,
             sex: 'Persons',
             ageBand: 'All',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
           },
         ],
       },
     ];
 
-    const result = seriesDataWithoutEnglandOrParent(data, 'E12000001');
+    const result = seriesDataWithoutEnglandOrGroup(data, 'E12000001');
     expect(result).toEqual(dataWithoutParent);
+  });
+});
+
+describe('isEnglandSoleSelectedArea', () => {
+  it('should return false', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001', 'E12000001'])).toBe(false);
+  });
+
+  it('should return true', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001'])).toBe(true);
+  });
+
+  it('should return true when England duplicated', () => {
+    expect(isEnglandSoleSelectedArea(['E92000001', 'E92000001'])).toBe(true);
   });
 });

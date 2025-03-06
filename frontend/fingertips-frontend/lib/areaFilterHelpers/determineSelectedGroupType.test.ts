@@ -1,42 +1,32 @@
 import {
-  mockAreaDataForCountry,
-  mockAreaDataForNHSRegion,
-} from '@/mock/data/areaData';
+  nhsIntegratedCareBoardsAreaType,
+  nhsPrimaryCareNetworksAreaType,
+  nhsRegionsAreaType,
+} from './areaType';
 import { determineSelectedGroupType } from './determineSelectedGroupType';
 
-const mockParentAreaData = mockAreaDataForCountry['E92000001'];
-
-const mockAreaData = Object.values(mockAreaDataForNHSRegion).map((areaData) => {
-  return {
-    ...areaData,
-    parent: {
-      ...mockParentAreaData,
-    },
-  };
-});
-
 describe('DetermineSelectedGroupType', () => {
-  it('should return undefined if no selectedGroupType or selectedAreaData is provided', () => {
-    const selectedGroupType = determineSelectedGroupType();
-
-    expect(selectedGroupType).toBeUndefined();
-  });
-
   it('should always return the selectedGroupType if provided', () => {
     const selectedGroupType = determineSelectedGroupType(
-      'nhs-integrated-care-boards',
-      mockAreaData
+      'nhs-integrated-care-boards'
     );
 
     expect(selectedGroupType).toEqual('nhs-integrated-care-boards');
   });
 
-  it('should return the areaType of the parent of any of the selectedAreaData areas when selectedGroupType is not provided', () => {
-    const selectedGroupType = determineSelectedGroupType(
-      undefined,
-      mockAreaData
-    );
+  it('should return the first areaType from the availableGroupTypes provided', () => {
+    const selectedGroupType = determineSelectedGroupType(undefined, [
+      nhsRegionsAreaType,
+      nhsIntegratedCareBoardsAreaType,
+      nhsPrimaryCareNetworksAreaType,
+    ]);
 
-    expect(selectedGroupType).toEqual(mockParentAreaData.areaType.key);
+    expect(selectedGroupType).toEqual(nhsRegionsAreaType.key);
+  });
+
+  it('should return "england" as the default group type when selectedGroupType or availableGroupTypes are not provided', () => {
+    const selectedGroupType = determineSelectedGroupType();
+
+    expect(selectedGroupType).toEqual('england');
   });
 });

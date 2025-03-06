@@ -4,8 +4,12 @@ import {
   PopulationData,
   preparePopulationData,
 } from '@/lib/chartHelpers/preparePopulationData';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { asArray } from '@/lib/pageHelpers';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
+
 import {
   areaCodeForEngland,
   indicatorIdForPopulation,
@@ -15,7 +19,13 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+} from '@/generated-sources/ft-api-client';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { ViewsContext } from '@/components/views/ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -23,76 +33,88 @@ export default async function ChartPage(
   }>
 ) {
   const searchParams = await props.searchParams;
-  const searchedIndicator = searchParams?.[SearchParams.SearchedIndicator];
-  const indicatorsSelected = asArray(
-    searchParams?.[SearchParams.IndicatorsSelected]
-  );
-  const areaCodes = asArray(searchParams?.[SearchParams.AreasSelected]);
-  const selectedAreaType = searchParams?.[SearchParams.AreaTypeSelected];
+  const stateManager = SearchStateManager.initialise(searchParams);
+  const {
+    [SearchParams.IndicatorsSelected]: indicators,
+    [SearchParams.AreasSelected]: areaCodes,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  const areasSelected = areaCodes ?? [];
+  const indicatorsSelected = indicators ?? [];
 
   // We don't want to render this page statically
   await connection();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const areaApi = ApiClientFactory.getAreasApiClient();
 
-  let parentAreaCode: string | undefined;
-  if (indicatorsSelected.length === 1 && areaCodes.length <= 2) {
-    try {
-      const areaData = await areaApi.getArea({ areaCode: areaCodes[0] }); // DHSCFT-256 assumes one common parent
-      parentAreaCode = areaData?.parent?.code;
-    } catch (error) {
-      console.log('error getting area data ', error);
-    }
-  }
-
-  const areaCodesToRequest = parentAreaCode
-    ? [...areaCodes, areaCodeForEngland, parentAreaCode]
-    : [...areaCodes, areaCodeForEngland];
+  const areaCodesToRequest =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
+      : [...areasSelected, areaCodeForEngland];
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
       indicatorApi.getHealthDataForAnIndicator({
         indicatorId: Number(indicatorId),
         areaCodes: areaCodesToRequest,
+        inequalities: shouldDisplayInequalities(
+          indicatorsSelected,
+          areasSelected
+        )
+          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+          : [],
       })
     )
   );
+
+  const indicatorMetadata =
+    indicatorsSelected.length === 1
+      ? await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          indicatorsSelected[0]
+        )
+      : undefined;
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areaCodes, areaCodeForEngland],
+      areaCodes: [...areasSelected, areaCodeForEngland],
     });
   } catch (error) {
     console.log('error getting population data ', error);
   }
 
-  // Passing the first two area codes until business logic to select baseline comparator for pop pyramids is added
+  // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
   const preparedPopulationData: PopulationData | undefined = rawPopulationData
-    ? preparePopulationData(rawPopulationData, areaCodes[0], areaCodes[1])
+    ? preparePopulationData(
+        rawPopulationData,
+        areasSelected[0],
+        areasSelected[1]
+      )
     : undefined;
 
   // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
   const mapDataIsRequired =
     selectedAreaType &&
     indicatorsSelected.length === 1 &&
-    areaCodes.length >= 2;
+    areasSelected.length >= 2;
 
   const mapData = mapDataIsRequired
-    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areaCodes)
+    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
     : undefined;
 
   return (
-    <Chart
-      populationData={preparedPopulationData}
-      healthIndicatorData={healthIndicatorData}
-      parentAreaCode={parentAreaCode}
-      mapData={mapData}
-      searchedIndicator={searchedIndicator}
-      indicatorsSelected={indicatorsSelected}
-      areasSelected={areaCodes}
-    />
+    <>
+      <Chart
+        populationData={preparedPopulationData}
+        healthIndicatorData={healthIndicatorData}
+        mapData={mapData}
+        searchState={stateManager.getSearchState()}
+        indicatorMetadata={indicatorMetadata}
+      />
+      <ViewsContext searchState={stateManager.getSearchState()} />
+    </>
   );
 }

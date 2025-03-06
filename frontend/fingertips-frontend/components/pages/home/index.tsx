@@ -10,6 +10,7 @@ import {
   UnorderedList,
   SectionBreak,
 } from 'govuk-react';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { SearchForm } from '@/components/forms/SearchForm';
 import {
   SearchFormState,
@@ -23,26 +24,28 @@ const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
 );
 
-export const Home = ({
-  searchFormState,
-}: {
-  searchFormState: SearchFormState;
-}) => {
-  const [state, formAction] = useActionState(searchIndicator, searchFormState);
+interface HomeProps {
+  searchState?: SearchStateParams;
+  initialFormState: SearchFormState;
+}
+export const Home = ({ searchState, initialFormState }: HomeProps) => {
+  const [formState, setFormState] = useActionState(
+    searchIndicator,
+    initialFormState
+  );
 
   return (
-    <form action={formAction}>
-      {state.message && (
+    <form action={setFormState}>
+      {formState.message && (
         <ErrorSummary
-          description="At least one of the following fields must be populated:"
           errors={[
             {
               targetName: 'indicator',
-              text: 'Search subject',
+              text: 'Enter a subject you want to search for',
             },
             {
               targetName: 'areaSearched',
-              text: 'Search area',
+              text: 'Enter an area you want to search for',
             },
           ]}
           data-testid="search-form-error-summary"
@@ -77,7 +80,7 @@ export const Home = ({
       </UnorderedList>
       <br />
       <div id="search">
-        <SearchForm searchFormState={state}></SearchForm>
+        <SearchForm searchState={searchState} formState={formState} />
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>

@@ -3,26 +3,37 @@
 import { Table } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 import React, { ReactNode } from 'react';
-import {
-  StyledAlignLeftHeader,
-  StyledAlignRightHeader,
-  StyledGreyHeader,
-} from './SharedStyleComponents';
-import { LineChartTableHeadingEnum } from '../LineChart/lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthIndicatorRecentTitleHeader } from './HealthIndicatorRecentTitleHeader';
-import { AreaLabelHeader } from './AreaLabelHeader';
+import {
+  convertToPercentage,
+  StyledAlignLeftHeader,
+  StyledAlignLeftTableCell,
+  StyledAlignRightHeader,
+  StyledAlignRightTableCell,
+  StyledDiv,
+  StyledGreyHeader,
+  StyledGreyTableCellValue,
+} from '@/lib/tableHelpers';
+import { Sex } from '../Inequalities/inequalitiesHelpers';
 
-interface TableProps {
-  healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData: HealthDataForArea | undefined;
-  parentIndicatorData?: HealthDataForArea;
-  measurementUnits: string;
+export enum LineChartTableHeadingEnum {
+  AreaPeriod = 'Period',
+  BenchmarkTrend = 'Compared to benchmark',
+  AreaCount = 'Count',
+  AreaValue = 'Value',
+  AreaLower = 'Lower',
+  AreaUpper = 'Upper',
+  BenchmarkValue = 'Value ',
 }
 
-interface LineChartTableRowData {
+export interface TableProps {
+  healthIndicatorData: HealthDataForArea[];
+  englandBenchmarkData: HealthDataForArea | undefined;
+  groupIndicatorData?: HealthDataForArea;
+}
+
+export interface LineChartTableRowData {
   period: number;
   count?: number;
   value?: number;
@@ -30,10 +41,14 @@ interface LineChartTableRowData {
   upper?: number;
 }
 
-const StyledDiv = styled('div')({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
+  width: '10%',
+  padding: '1em 0',
+  textAlign: 'center',
+});
+
+const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
+  background: GovukColours.LightGrey,
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
@@ -63,27 +78,8 @@ const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
 });
 
-const StyledTableCell = styled(Table.Cell)(typography.font({ size: 14 }), {
-  paddingRight: '0',
-});
-
-const StyledAlignLeftTableCell = styled(StyledTableCell)({
-  textAlign: 'left',
-  width: '10%',
-});
-
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
-});
-
-const StyledAlignRightTableCell = styled(StyledTableCell)({
-  textAlign: 'right',
-  paddingRight: '10px',
-});
-
-const StyledBenchmarkValueTableCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: `solid #F3F2F1 2px`,
 });
 
 const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
@@ -94,15 +90,6 @@ const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
 const StyledSpan = styled('span')({
   display: 'block',
 });
-
-const mapToTableData = (areaData: HealthDataForArea): LineChartTableRowData[] =>
-  areaData.healthData.map((healthPoint) => ({
-    period: healthPoint.year,
-    count: healthPoint.count,
-    value: healthPoint.value,
-    lower: healthPoint.lowerCi,
-    upper: healthPoint.upperCi,
-  }));
 
 const sortPeriod = (
   tableRowData: LineChartTableRowData[]
@@ -131,7 +118,7 @@ const getBenchmarkHeader = (
   );
 
 const getCellHeader = (
-  heading: string,
+  heading: LineChartTableHeadingEnum,
   index: number,
   dataLength: number,
   units: string = '%'
@@ -166,27 +153,43 @@ const getBenchmarkCell = (areaCount: number) =>
     <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
   );
 
+export const mapToLineChartTableData = (
+  areaData: HealthDataForArea
+): LineChartTableRowData[] =>
+  areaData.healthData
+    .filter((healthPoint) => healthPoint.sex === Sex.ALL)
+    .map((healthPoint) => ({
+      period: healthPoint.year,
+      count: healthPoint.count,
+      value: healthPoint.value,
+      lower: healthPoint.lowerCi,
+      upper: healthPoint.upperCi,
+    }));
+
+const StyledTitleRow = styled(StyledAlignLeftHeader)({
+  border: 'none',
+});
+
 const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 4 : 3;
 
 export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
-  parentIndicatorData,
-  measurementUnits,
+  groupIndicatorData,
 }: Readonly<TableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
-    mapToTableData(areaData)
+    mapToLineChartTableData(areaData)
   );
   const englandData = englandBenchmarkData
-    ? mapToTableData(englandBenchmarkData)
+    ? mapToLineChartTableData(englandBenchmarkData)
     : [];
-  const parentData = parentIndicatorData
-    ? mapToTableData(parentIndicatorData)
+  const groupData = groupIndicatorData
+    ? mapToLineChartTableData(groupIndicatorData)
     : [];
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
-  const englandRowData = sortPeriod(englandData);
-  const sortedParentRowData = sortPeriod(parentData);
+  const sortedEnglandData = sortPeriod(englandData);
+  const sortedGroupData = sortPeriod(groupData);
 
   const healthDataLabelHeaders = healthIndicatorData.map((area) => ({
     areaCode: area.areaCode,
@@ -198,21 +201,36 @@ export function LineChartTable({
       <Table
         head={
           <>
-            <HealthIndicatorRecentTitleHeader
-              healthAreas={healthDataLabelHeaders}
-            />
-            <AreaLabelHeader
-              healthData={healthDataLabelHeaders}
-              parentData={
-                parentIndicatorData
-                  ? {
-                      areaCode: parentIndicatorData.areaCode,
-                      areaName: parentIndicatorData.areaName,
-                    }
-                  : undefined
-              }
-            />
-
+            <Table.Row>
+              {healthIndicatorData.map((area, index) => (
+                <React.Fragment key={area.areaName + index}>
+                  {index === 0 && healthIndicatorData.length > 1 && (
+                    <StyledTitleRow></StyledTitleRow>
+                  )}
+                  <StyledTitleRow colSpan={5}>
+                    {`${area.areaName} recent trend:`}
+                  </StyledTitleRow>
+                </React.Fragment>
+              ))}
+            </Table.Row>
+            <Table.Row>
+              {healthIndicatorData.map((area, index) => (
+                <React.Fragment key={area.areaName}>
+                  {index === 0 ? <Table.CellHeader /> : null}
+                  <StyledAreaNameHeader colSpan={5}>
+                    {area.areaName}
+                  </StyledAreaNameHeader>
+                </React.Fragment>
+              ))}
+              {groupIndicatorData ? (
+                <StyledGroupNameHeader data-testid="group-header">
+                  Group: {groupIndicatorData.areaName}
+                </StyledGroupNameHeader>
+              ) : null}
+              <StyledGreyHeader data-testid="england-header">
+                Benchmark: <br /> England
+              </StyledGreyHeader>
+            </Table.Row>
             <Table.Row>
               {healthIndicatorData.map((area, index) => (
                 <React.Fragment key={area.areaName}>
@@ -224,7 +242,7 @@ export function LineChartTable({
                   </StyledConfidenceLimitsHeader>
                 </React.Fragment>
               ))}
-              {parentIndicatorData ? <StyledLightGreyHeader /> : null}
+              {groupIndicatorData ? <StyledLightGreyHeader /> : null}
               <StyledGreyHeader></StyledGreyHeader>
             </Table.Row>
 
@@ -254,10 +272,8 @@ export function LineChartTable({
                     )
                   )
               )}
-              {parentIndicatorData ? (
-                <StyledLightGreySubHeader>
-                  Value ({measurementUnits})
-                </StyledLightGreySubHeader>
+              {groupIndicatorData ? (
+                <StyledLightGreySubHeader>Value (%)</StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
@@ -269,7 +285,7 @@ export function LineChartTable({
           </>
         }
       >
-        {englandRowData.map((point, index) => (
+        {sortedEnglandData.map((point, index) => (
           <Table.Row key={point.period + index}>
             <StyledAlignLeftTableCell numeric>
               {point.period}
@@ -293,14 +309,14 @@ export function LineChartTable({
                 </StyledAlignRightTableCell>
               </React.Fragment>
             ))}
-            {parentIndicatorData ? (
+            {groupIndicatorData ? (
               <StylesGroupValueTableCell>
-                {sortedParentRowData[index].value}
+                {convertToPercentage(sortedGroupData[index].value)}
               </StylesGroupValueTableCell>
             ) : null}
-            <StyledBenchmarkValueTableCell data-testid="grey-table-cell">
-              {englandRowData.length ? englandRowData[index].value : '-'}
-            </StyledBenchmarkValueTableCell>
+            <StyledGreyTableCellValue data-testid="grey-table-cell">
+              {convertToPercentage(sortedEnglandData[index].value)}
+            </StyledGreyTableCellValue>
           </Table.Row>
         ))}
       </Table>

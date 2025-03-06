@@ -1,62 +1,81 @@
 'use client';
 
 import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2, H3 } from 'govuk-react';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
+  isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrParent,
+  seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { Inequalities } from '@/components/organisms/Inequalities';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  parentAreaCode?: string;
   mapData?: MapData;
   populationData?: PopulationData;
-  searchedIndicator?: string;
-  indicatorsSelected?: string[];
-  areasSelected?: string[];
+  searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument;
 };
+
+const StyledParagraphDataSource = styled(Paragraph)(
+  typography.font({ size: 16 })
+);
 
 export function Chart({
   healthIndicatorData,
-  parentAreaCode,
   mapData,
   populationData,
-  searchedIndicator,
-  indicatorsSelected = [],
-  areasSelected = [],
+  searchState,
+  indicatorMetadata,
 }: Readonly<ChartProps>) {
-  const searchState = SearchStateManager.initialise({
-    [SearchParams.SearchedIndicator]: searchedIndicator,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  });
+  const stateManager = SearchStateManager.initialise(searchState);
 
-  const backLinkPath = searchState.generatePath('/results');
+  const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  const backLinkPath = stateManager.generatePath('/results');
 
   const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
     healthIndicatorData,
     0,
     areaCodeForEngland
   );
-  const dataWithoutEngland = seriesDataWithoutEnglandOrParent(
+
+  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
-    parentAreaCode
+    selectedGroupCode
   );
 
-  const parentBenchmarkData = parentAreaCode
-    ? seriesDataForIndicatorIndexAndArea(healthIndicatorData, 0, parentAreaCode)
-    : undefined;
+  const groupData =
+    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+      ? seriesDataForIndicatorIndexAndArea(
+          healthIndicatorData,
+          0,
+          selectedGroupCode
+        )
+      : undefined;
 
   return (
     <>
@@ -83,7 +102,8 @@ export function Chart({
                   <LineChart
                     healthIndicatorData={dataWithoutEngland}
                     benchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    searchState={searchState}
+                    groupIndicatorData={groupData}
                     xAxisTitle="Year"
                     accessibilityLabel="A line chart showing healthcare data"
                   />
@@ -91,20 +111,38 @@ export function Chart({
               },
               {
                 id: 'table',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
-                    parentIndicatorData={parentBenchmarkData}
+                    groupIndicatorData={groupData}
                   />
                 ),
               },
             ]}
+            footer={
+              <>
+                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
+                  <StyledParagraphDataSource>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </StyledParagraphDataSource>
+                ) : null}
+              </>
+            }
           />
         </>
       )}
       <br />
+      {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
+        <Inequalities
+          healthIndicatorData={
+            !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
+              ? dataWithoutEngland[0]
+              : healthIndicatorData[0][0]
+          }
+        />
+      )}
       <BarChart
         healthIndicatorData={healthIndicatorData[0]}
         yAxisTitle="Value"

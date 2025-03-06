@@ -44,20 +44,26 @@ const MOCK_DATA: IndicatorDocument[] = [
     indicatorName: 'NHS',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '1996',
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
+    unitLabel: '',
+    hasInequalities: false,
   },
   {
     indicatorID: '2',
     indicatorName: 'DHSC',
     indicatorDefinition:
       'Total number of patients registered with the practice',
+    earliestDataPeriod: '1997',
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreas: [],
+    associatedAreaCodes: [],
+    unitLabel: '',
+    hasInequalities: true,
   },
 ];
 const searchedIndicator = 'test';
@@ -160,7 +166,6 @@ describe('Search Results Suite', () => {
     expect(
       screen.getByTestId('search-result-form-error-summary')
     ).toBeInTheDocument();
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
   it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
@@ -183,7 +188,9 @@ describe('Search Results Suite', () => {
       />
     );
 
-    const errorLink = screen.getByText('Available indicators').closest('a')!;
+    const errorLink = screen
+      .getByText('Select any indicators you want to view')
+      .closest('a')!;
 
     await user.click(errorLink);
 

@@ -1,0 +1,52 @@
+name: Execute UI tests
+
+env:
+  frontend-directory: ./frontend/fingertips-frontend
+  NEXT_TELEMETRY_DISABLED: true
+  NODE_VERSION: 22.x
+
+on:
+  workflow_call:
+    inputs:
+      ui-test-container-image:
+        description: 'container image to run the ui tests in'
+        required: true
+        type: string
+
+jobs:
+  execute-ui-tests:
+    name: Execute ui tests
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ inputs.ui-test-container-image }}
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Playwright ui tests
+        run: npm run test-ui-local-mocks
+
+      - name: Upload playwright report and screenshot if ui tests fail - always on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-failure-artefacts
+          path: |
+            ${{ env.frontend-directory }}/playwright-report/
+            ${{ env.frontend-directory }}/test-results/*/*.png
+          retention-days: 5

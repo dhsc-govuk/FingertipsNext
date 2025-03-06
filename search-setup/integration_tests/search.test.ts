@@ -16,15 +16,14 @@ let apiKey: string;
 let urlPrefix: string;
 const URL_SUFFIX = '?api-version=2024-07-01';
 
-const ONS_AREA_CODE_ENGLAND = "E92000001"
+const ONS_AREA_CODE_ENGLAND = 'E92000001';
 
 //  associatedAreaCodes/any(a: a eq 'E09000023' or a eq 'E09000013' or a eq 'E09000025')
 function formatFilterString(areaCodes: string[]) {
   if (areaCodes.length == 0) return undefined;
   const areaCodeEqualityStrings = areaCodes.map((a) => `a eq '${a}'`);
   return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
-};
-
+}
 
 describe('AI search index creation and data loading', () => {
   searchEndpoint = process.env.AI_SEARCH_SERVICE_ENDPOINT!;
@@ -48,7 +47,6 @@ describe('AI search index creation and data loading', () => {
       searchTerm: string,
       areaCodes?: string[]
     ) => {
-
       return await fetch(`${urlPrefix}/docs/search.post.search${URL_SUFFIX}`, {
         headers: {
           'api-key': apiKey,
@@ -58,9 +56,8 @@ describe('AI search index creation and data loading', () => {
           search: searchTerm,
           searchFields: 'indicatorID,indicatorDefinition,indicatorName',
           select: 'indicatorID,indicatorDefinition,indicatorName',
-          filter: areaCodes
-            ? formatFilterString(areaCodes)
-            : undefined,
+          filter: areaCodes ? formatFilterString(areaCodes) : undefined,
+          top: 10,
         }),
         method: 'POST',
       });
@@ -120,7 +117,9 @@ describe('AI search index creation and data loading', () => {
     });
 
     it('should be 3 indicators with 65 and [ONS_AREA_CODE_ENGLAND]', async () => {
-      const response = await searchIndicatorsRequest('65', [ONS_AREA_CODE_ENGLAND]);
+      const response = await searchIndicatorsRequest('65', [
+        ONS_AREA_CODE_ENGLAND,
+      ]);
       const result = await response.json();
       expect(result.value).toHaveLength(3);
     });

@@ -24,8 +24,33 @@
     <Build Include="Tables\HealthMeasure.sql" />
     <Build Include="Tables\IndicatorDimension.sql" />
     <Build Include="Tables\SexDimension.sql" />
+    <Build Include="Tables\TrendDimension.sql" />
     <Build Include="Security\Areas.sql" />
     <Build Include="Tables\Areas.sql" />
+    <Build Include="Tables\AreaRelationships.sql" />
+    <Build Include="Tables\AreaTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="BlobStorageLocation">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="LocalFilePath">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="MasterKeyPassword">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="UseAzureBlob">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <Target Name="BeforeBuild">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
