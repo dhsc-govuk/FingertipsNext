@@ -65,7 +65,7 @@ describe('OneIndicatorOneAreaView', () => {
     }
   );
 
-  it('should call get indicator endpoint and pass indicator metadata if a single indicator is selected', async () => {
+  it('should call get indicator endpoint and pass indicator metadata', async () => {
     const indicatorId = '123';
     const searchParams: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'testing',

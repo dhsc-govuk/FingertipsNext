@@ -32,10 +32,8 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-  } = stateManager.getSearchState();
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -88,7 +86,7 @@ export function OneIndicatorOneAreaViewPlots({
             ]}
             footer={
               <>
-                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
+                {indicatorMetadata ? (
                   <StyledParagraphDataSource>
                     {`Data source: ${indicatorMetadata.dataSource}`}
                   </StyledParagraphDataSource>

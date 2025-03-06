@@ -288,20 +288,6 @@ describe('Chart Page', () => {
 
         expect(page.props.children[1].props.mapData).toEqual(undefined);
       });
-
-      it('should not call get indicator endpointmultiple indicators are selected', async () => {
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['123', '456'],
-          [SearchParams.AreasSelected]: ['E06000047'],
-        };
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(page.props.children[1].props.indicatorMetadata).toBeUndefined();
-      });
     });
   });
 
