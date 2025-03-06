@@ -1,7 +1,7 @@
 import {
   getDynamicKeys,
   Inequalities,
-  InequalitiesBarChartTableData,
+  InequalitiesBarChartData,
   YearlyHealthDataGroupedByInequalities,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
@@ -15,7 +15,7 @@ import { Table } from 'govuk-react';
 import React, { ReactNode } from 'react';
 
 interface InequalitiesBarChartTableProps {
-  tableData: InequalitiesBarChartTableData;
+  tableData: InequalitiesBarChartData;
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
   type?: Inequalities;
 }

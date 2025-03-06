@@ -1,11 +1,12 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
+import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import React from 'react';
 import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
-  InequalitiesBarChartTableData,
+  InequalitiesBarChartData,
   InequalitiesLineChartTableData,
   mapToInequalitiesTableData,
 } from './inequalitiesHelpers';
@@ -32,10 +33,13 @@ export function Inequalities({
   };
 
   const latestDataIndex = lineChartTableData.rowData.length - 1;
-  const barchartTableData: InequalitiesBarChartTableData = {
+  const barchartData: InequalitiesBarChartData = {
     areaName: healthIndicatorData.areaName,
     data: lineChartTableData.rowData[latestDataIndex],
   };
+
+  // TODO: Only a single type of inequality is shown at once. Hence, make the type deductions on this parent component and pass down all the required data to the children.
+  // Pass down benchmark data to each component - Persons if the type is Sex and England if the type is Deprivation
 
   return (
     <div data-testid="inequalities-component">
@@ -46,14 +50,21 @@ export function Inequalities({
           {
             id: 'inequalitiesBarChart',
             title: 'Bar chart',
-            content: <div>To be created</div>,
+            content: (
+              <InequalitiesBarChart
+                barChartData={barchartData}
+                yearlyHealthDataGroupedByInequalities={
+                  yearlyHealthDataGroupedByInequalities
+                }
+              />
+            ),
           },
           {
             id: 'inequalitiesBarChartTable',
             title: 'Table',
             content: (
               <InequalitiesBarChartTable
-                tableData={barchartTableData}
+                tableData={barchartData}
                 yearlyHealthDataGroupedByInequalities={
                   yearlyHealthDataGroupedByInequalities
                 }

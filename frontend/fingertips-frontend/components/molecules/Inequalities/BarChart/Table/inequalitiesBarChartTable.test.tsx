@@ -4,12 +4,12 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import {
   Inequalities,
-  InequalitiesBarChartTableData,
+  InequalitiesBarChartData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
-    const tableData: InequalitiesBarChartTableData = {
+    const tableData: InequalitiesBarChartData = {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       data: {
         period: 2008,
@@ -72,7 +72,7 @@ describe('Inequalities bar chart table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 3;
-      const mockData: InequalitiesBarChartTableData = {
+      const mockData: InequalitiesBarChartData = {
         areaName: tableData.areaName,
         data: {
           period: 2004,

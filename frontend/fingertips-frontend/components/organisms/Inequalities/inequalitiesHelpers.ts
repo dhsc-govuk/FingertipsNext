@@ -10,7 +10,7 @@ export interface InequalitiesLineChartTableData {
   rowData: InequalitiesTableRowData[];
 }
 
-export interface InequalitiesBarChartTableData {
+export interface InequalitiesBarChartData {
   areaName: string;
   data: InequalitiesTableRowData;
 }
