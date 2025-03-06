@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TrendAnalysisApp.Repository;
 namespace TrendAnalysisApp;
 
-internal class Program
+internal static class Program
 {
     static void Main(string[] args)
     {
