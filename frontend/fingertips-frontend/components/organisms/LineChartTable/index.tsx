@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
-  convertToPercentage,
   StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
   StyledAlignRightHeader,
@@ -27,10 +26,11 @@ export enum LineChartTableHeadingEnum {
   BenchmarkValue = 'Value ',
 }
 
-export interface TableProps {
+export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   groupIndicatorData?: HealthDataForArea;
+  measurementUnits: string;
 }
 
 export interface LineChartTableRowData {
@@ -121,7 +121,7 @@ const getCellHeader = (
   heading: LineChartTableHeadingEnum,
   index: number,
   dataLength: number,
-  units: string = '%'
+  units: string
 ): ReactNode => {
   if (heading === LineChartTableHeadingEnum.BenchmarkTrend)
     return getBenchmarkHeader(dataLength, heading, index);
@@ -177,7 +177,8 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   groupIndicatorData,
-}: Readonly<TableProps>) {
+  measurementUnits,
+}: Readonly<LineChartTableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
@@ -190,11 +191,6 @@ export function LineChartTable({
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const sortedEnglandData = sortPeriod(englandData);
   const sortedGroupData = sortPeriod(groupData);
-
-  const healthDataLabelHeaders = healthIndicatorData.map((area) => ({
-    areaCode: area.areaCode,
-    areaName: area.areaName,
-  }));
 
   return (
     <StyledDiv data-testid="lineChartTable-component">
@@ -311,11 +307,11 @@ export function LineChartTable({
             ))}
             {groupIndicatorData ? (
               <StylesGroupValueTableCell>
-                {convertToPercentage(sortedGroupData[index].value)}
+                {sortedGroupData[index].value}
               </StylesGroupValueTableCell>
             ) : null}
             <StyledGreyTableCellValue data-testid="grey-table-cell">
-              {convertToPercentage(sortedEnglandData[index].value)}
+              {sortedEnglandData[index].value}
             </StyledGreyTableCellValue>
           </Table.Row>
         ))}

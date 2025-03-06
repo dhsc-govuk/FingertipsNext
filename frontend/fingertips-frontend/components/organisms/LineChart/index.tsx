@@ -22,7 +22,7 @@ interface LineChartProps {
   showConfidenceIntervalsData?: string[];
   searchState: SearchStateParams;
   groupIndicatorData?: HealthDataForArea;
-  measurementUnits : string
+  measurementUnits: string;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -43,7 +43,7 @@ export function LineChart({
   benchmarkData,
   searchState,
   groupIndicatorData,
-  measurementUnits
+  measurementUnits,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {

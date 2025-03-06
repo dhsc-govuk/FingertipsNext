@@ -139,6 +139,10 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   display: block;
 }
 
+.c5 {
+  border: none;
+}
+
 @media print {
   .c12 {
     font-family: sans-serif;
@@ -286,7 +290,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             <span
               class="c11"
             >
-              (cm)
+              (undefined)
             </span>
           </th>
           <th
@@ -296,9 +300,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             Lower
             <span
               class="c11"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c7"
@@ -307,9 +309,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             Upper
             <span
               class="c11"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -319,7 +319,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             <span
               class="c11"
             >
-              (cm)
+              ()
             </span>
           </th>
         </tr>
@@ -558,6 +558,10 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   display: block;
 }
 
+.c5 {
+  border: none;
+}
+
 @media print {
   .c13 {
     font-family: sans-serif;
@@ -730,7 +734,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              (cm)
+              (undefined)
             </span>
           </th>
           <th
@@ -740,9 +744,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Lower
             <span
               class="c12"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c7"
@@ -751,9 +753,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Upper
             <span
               class="c12"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c4 c10 c11"
@@ -775,7 +775,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              (cm)
+              (undefined)
             </span>
           </th>
           <th
@@ -785,9 +785,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Lower
             <span
               class="c12"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c7"
@@ -796,9 +794,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Upper
             <span
               class="c12"
-            >
-              (%)
-            </span>
+            />
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -808,7 +804,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              (cm)
+              ()
             </span>
           </th>
         </tr>
@@ -919,7 +915,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            1.4%
+            135.149304
           </td>
           <td
             class="c13 c14 c18"
