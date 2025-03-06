@@ -40,6 +40,7 @@ export interface GetHealthDataForAnIndicatorRequest {
     areaCodes?: Array<string>;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
+    comparisonMethod?: GetHealthDataForAnIndicatorComparisonMethodEnum;
 }
 
 export interface GetIndicatorRequest {
@@ -76,6 +77,7 @@ export interface IndicatorsApiInterface {
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
      * @param {Array<'age' | 'sex'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
+     * @param {'None' | 'Rag'} [comparisonMethod] the comparison method to use eg RAG to compare to England
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
@@ -169,6 +171,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['inequalities'] = requestParameters['inequalities'];
         }
 
+        if (requestParameters['comparisonMethod'] != null) {
+            queryParameters['comparison_method'] = requestParameters['comparisonMethod'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -235,3 +241,11 @@ export const GetHealthDataForAnIndicatorInequalitiesEnum = {
     Sex: 'sex'
 } as const;
 export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataForAnIndicatorInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorInequalitiesEnum];
+/**
+ * @export
+ */
+export const GetHealthDataForAnIndicatorComparisonMethodEnum = {
+    None: 'None',
+    Rag: 'Rag'
+} as const;
+export type GetHealthDataForAnIndicatorComparisonMethodEnum = typeof GetHealthDataForAnIndicatorComparisonMethodEnum[keyof typeof GetHealthDataForAnIndicatorComparisonMethodEnum];
