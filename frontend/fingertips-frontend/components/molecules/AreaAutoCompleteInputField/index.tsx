@@ -9,6 +9,7 @@ import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
+const MAX_SUGGESTED_AREA_LIMIT = 20;
 
 const StyleAreaAutoCompleteInputField = styled('div')({
   marginBottom: '1em',
@@ -40,7 +41,7 @@ export function AreaAutoCompleteInputField({
     const fetchSearchArea = async (criteria: string) => {
       if (criteria) {
         const areas = await getSearchSuggestions(criteria);
-        setSearchAreas(areas.slice(0, 20));
+        setSearchAreas(areas.slice(0, MAX_SUGGESTED_AREA_LIMIT));
       }
     };
 
@@ -62,7 +63,7 @@ export function AreaAutoCompleteInputField({
           setSearchAreas([]);
           return;
         }
-        void fetchSearchArea(criteria);
+        fetchSearchArea(criteria);
       },
       DEBOUNCE_SEARCH_DELAY,
       criteria
