@@ -2,6 +2,12 @@ name: Fingertips Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      update-screenshots:
+        description: 'Update screenshot snapshots?'
+        type: boolean
+        default: false
+        required: false
   push:
     branches:
       - '**'
@@ -223,6 +229,8 @@ jobs:
         )
       )
     uses: ./.github/workflows/e2e-tests.yml
+    with:
+      update-screenshots: ${{ inputs.update-screenshots }}
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 

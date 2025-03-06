@@ -24,7 +24,7 @@ export function getScenarioConfig(
   indicatorMode: IndicatorMode,
   areaMode: AreaMode
 ): ScenarioConfig {
-  // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+  // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148
   // const defaultVisible = [this.populationPyramidComponent];
   const defaultVisible: never[] = [];
 
@@ -42,7 +42,7 @@ export function getScenarioConfig(
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       ChartPage.barChartComponent,
-      // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148.
+      // Temporarily disabled until the pop pyramid is implemented fully under DHSCFT-148
       // ChartPage.populationPyramidComponent,
       ChartPage.inequalitiesComponent,
     ],
