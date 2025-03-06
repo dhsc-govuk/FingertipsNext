@@ -37,7 +37,7 @@ export const AreaSearchInputField = ({
         }
         meta={{
           touched: hasError,
-          error: hasError ? 'This field value may be required' : '',
+          error: hasError ? 'Enter an area you want to search for' : '',
         }}
       >
         Search for an area

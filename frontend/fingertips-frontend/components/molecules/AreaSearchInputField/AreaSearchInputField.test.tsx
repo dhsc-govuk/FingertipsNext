@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react';
 import { AreaSearchInputField } from './index';
 
+const areaSearchErrorMessage = 'Enter an area you want to search for';
+
 describe('AreaSearchInputField', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
@@ -30,7 +32,7 @@ describe('AreaSearchInputField', () => {
       />
     );
 
-    expect(getByText('This field value may be required')).toBeInTheDocument();
+    expect(getByText(areaSearchErrorMessage)).toBeInTheDocument();
   });
 
   it('should not display error message if hasError is false', () => {
@@ -42,9 +44,7 @@ describe('AreaSearchInputField', () => {
       />
     );
 
-    expect(
-      queryByText('This field value may be required')
-    ).not.toBeInTheDocument();
+    expect(queryByText(areaSearchErrorMessage)).toBeNull();
   });
 
   it('should be enabled if disabled prop is false', () => {

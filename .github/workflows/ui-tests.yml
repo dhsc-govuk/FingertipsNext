@@ -35,14 +35,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ env.frontend-directory }}/node_modules
-          key: ${{ runner.os }}-deps-${{ hashFiles('./frontend/fingertips-frontend/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-deps-
-
       - name: Install dependencies
         run: npm ci
 
@@ -57,4 +49,4 @@ jobs:
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
-          retention-days: 10
+          retention-days: 5
