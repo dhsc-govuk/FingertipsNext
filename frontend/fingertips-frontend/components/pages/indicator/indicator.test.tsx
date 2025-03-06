@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { IndicatorDefinition, IndicatorMetadata } from '.';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
-import { init } from 'next/dist/compiled/webpack/webpack';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
 const indicatorMetadata: IndicatorMetadata = {
