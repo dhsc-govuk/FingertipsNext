@@ -45,7 +45,7 @@ export const inequalityKeyMapping: Record<
   (keys: string[]) => string[]
 > = {
   [Inequalities.Sex]: (sexKeys: string[]) =>
-    sexKeys.map((key) => key).toSorted((a, b) => b.localeCompare(a)),
+    sexKeys.toSorted((a, b) => b.localeCompare(a)),
   [Inequalities.Deprivation]: (keys: string[]) => keys,
 };
 
