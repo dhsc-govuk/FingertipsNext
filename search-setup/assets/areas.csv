@@ -1967,16 +1967,16 @@ E54000022|E54000023|E54000024|E54000025|E54000026,"",E40000007,East of England N
 E54000008|E54000048,"",E40000010,North West NHS Region,1,NHS,NHS Regions,nhs-regions
 E54000022|E54000023|E54000024|E54000025|E54000026,"",E40000011,Midlands NHS Region,1,NHS,NHS Regions,nhs-regions
 E54000010|E54000011|E54000013|E54000015|E54000018|E54000019,"",E40000012,North East and Yorkshire NHS Region,1,NHS,NHS Regions,nhs-regions
-E08000001|E08000002|E08000003|E08000004|E08000005|E08000006|E08000007|E08000008|E08000009|E08000010,"",E47000001,Greater Manchester Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E08000016|E08000017|E08000018|E08000019,"",E47000002,Sheffield City Region Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E08000032|E08000033|E08000034|E08000035|E08000036,"",E47000003,West Yorkshire Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000006|E08000011|E08000012|E08000013|E08000014|E08000015,"",E47000004,Liverpool City Region Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000001|E06000002|E06000003|E06000004|E06000005,"",E47000006,Tees Valley Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E08000025|E08000026|E08000027|E08000028|E08000029|E08000030|E08000031,"",E47000007,West Midlands Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000031|E10000003,"",E47000008,Cambs and Peterborough Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000022|E06000023|E06000025,"",E47000009,West of England Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000047|E08000023|E08000024|E08000037,"",E47000010,North East Combined Authority,2,Administrative,Combined Authorities,combined-authorities
-E06000057|E08000021|E08000022,"",E47000011,North of Tyne Combined Authority,2,Administrative,Combined Authorities,combined-authorities
+E08000001|E08000002|E08000003|E08000004|E08000005|E08000006|E08000007|E08000008|E08000009|E08000010,"",E47000001,Greater Manchester Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E08000016|E08000017|E08000018|E08000019,"",E47000002,Sheffield City Region Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E08000032|E08000033|E08000034|E08000035|E08000036,"",E47000003,West Yorkshire Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000006|E08000011|E08000012|E08000013|E08000014|E08000015,"",E47000004,Liverpool City Region Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000001|E06000002|E06000003|E06000004|E06000005,"",E47000006,Tees Valley Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E08000025|E08000026|E08000027|E08000028|E08000029|E08000030|E08000031,"",E47000007,West Midlands Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000031|E10000003,"",E47000008,Cambs and Peterborough Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000022|E06000023|E06000025,"",E47000009,West of England Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000047|E08000023|E08000024|E08000037,"",E47000010,North East Combined Authority,1,Administrative,Combined Authorities,combined-authorities
+E06000057|E08000021|E08000022,"",E47000011,North of Tyne Combined Authority,1,Administrative,Combined Authorities,combined-authorities
 "","",E81001,Dr I Saleh's Practice,5,NHS,GPs,gps
 "","",E81002,Greensand Surgery (Ampthill),5,NHS,GPs,gps
 "","",E81003,Dr Jl Henderson & Partners,5,NHS,GPs,gps
@@ -2508,7 +2508,7 @@ E06000057|E08000021|E08000022,"",E47000011,North of Tyne Combined Authority,2,Ad
 "","",E87756,Ground Floor Lanark Medical Centre,5,NHS,GPs,gps
 "","",E87762,The Good Practice,5,NHS,GPs,gps
 "","",E87768,Kings College Health Centre,5,NHS,GPs,gps
-E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|E12000009|E40000003|E40000005|E40000006|E40000007|E40000010|E40000011|E40000012,"",E92000001,England,0,Both,England,england
+E12000001|E12000002|E12000003|E12000004|E12000005|E12000006|E12000007|E12000008|E12000009|E40000003|E40000005|E40000006|E40000007|E40000010|E40000011|E40000012|E47000001|E47000002|E47000003|E47000004|E47000006|E47000007|E47000008|E47000009|E47000010|E47000011,"",E92000001,England,0,Both,England,england
 "","",F81001,Dr Khan & Partners,5,NHS,GPs,gps
 "","",F81003,Dr F Khan Carnavon Road Surgery,5,NHS,GPs,gps
 "","",F81004,The Eden Surgeries,5,NHS,GPs,gps
