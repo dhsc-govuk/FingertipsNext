@@ -1,3 +1,5 @@
+'use client';
+
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import { lineChartDefaultOptions } from '@/components/organisms/LineChart/lineChartHelpers';
