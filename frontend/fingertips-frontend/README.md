@@ -71,7 +71,7 @@ To perform a production build of the application, do the following:
 
 A [Dockerfile](Dockerfile) is provided to allow a container image to be built for the application. You can build and run a container by doing the following:
 
-1. [Install Docker](https://docs.docker.com/get-docker/) on your machine, if required
+1. [Install Docker](https://docs.docker.com/get-docker/) on your machine, if required.
 1. Build your container: `docker build -t fingertips-frontend .`
 1. Run your container: `docker run -p 3000:3000 fingertips-frontend`
 
