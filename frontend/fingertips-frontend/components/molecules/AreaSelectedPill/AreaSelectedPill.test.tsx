@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { AreaSelectedPill } from './index';
 import { userEvent } from '@testing-library/user-event';
-import { gpsAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 
