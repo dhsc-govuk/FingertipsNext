@@ -126,7 +126,10 @@ DROP TABLE #TempAgeData;
 CREATE TABLE #TempIndicatorData
 (
     IndicatorID INT,
-    IndicatorName NVARCHAR(255)
+    IndicatorName NVARCHAR(255),
+    -- Polarity NVARCHAR(255),
+    -- UseProportionsForTrend BIT,
+    -- ValueType NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -210,13 +213,13 @@ SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' W
                  END + ')';
 EXEC sp_executesql @sqlHealth;
 
-INSERT INTO [dbo].[HealthMeasure] (AreaKey, IndicatorKey, SexKey, AgeKey, Count, Value, LowerCI, UpperCI, Year)
+INSERT INTO [dbo].[HealthMeasure] (AreaKey, IndicatorKey, SexKey, AgeKey, Count, Denominator, Value, LowerCI, UpperCI, Year)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [Code] = LTRIM(RTRIM(temp.AreaCode))),
     (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = temp.IndicatorId),
     (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = LTRIM(RTRIM(temp.Sex))),
     (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = temp.AgeID),
-    Count, Value, Lower95CI, Upper95CI, Year
+    Count, Denominator, Value, Lower95CI, Upper95CI, Year
 FROM #TempHealthData temp
 WHERE temp.Value IS NOT NULL;
 
