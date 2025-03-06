@@ -12,7 +12,9 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { H2, H3 } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
 type OneIndicatorOneAreaViewProps = {
   healthIndicatorData: HealthDataForArea[];
@@ -25,6 +27,10 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorOneAreaViewProps>) {
+  const StyledParagraphDataSource = styled(Paragraph)(
+    typography.font({ size: 16 })
+  );
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -83,11 +89,10 @@ export function OneIndicatorOneAreaViewPlots({
             footer={
               <>
                 {indicatorsSelected?.length === 1 && indicatorMetadata ? (
-                  // <StyledParagraphDataSource>
-                  // {`Data source: ${indicatorMetadata.dataSource}`}
-                  <p> {`Data source: ${indicatorMetadata.dataSource}`}</p>
-                ) : // </StyledParagraphDataSource>
-                null}
+                  <StyledParagraphDataSource>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </StyledParagraphDataSource>
+                ) : null}
               </>
             }
           />
