@@ -5,6 +5,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function OneIndicatorOneAreaView({
   searchState,
@@ -42,10 +43,16 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
+  const indicatorMetadata =
+    await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+      indicatorSelected[0]
+    );
+
   return (
     <OneIndicatorOneAreaViewPlots
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
+      indicatorMetadata={indicatorMetadata}
     />
   );
 }

@@ -6,6 +6,7 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
   SearchStateManager,
@@ -13,18 +14,22 @@ import {
 } from '@/lib/searchStateManager';
 import { H2, H3 } from 'govuk-react';
 
-type OneIndicatorOneAreaDashboardProps = {
+type OneIndicatorOneAreaViewProps = {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument;
 };
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
-}: Readonly<OneIndicatorOneAreaDashboardProps>) {
+  indicatorMetadata,
+}: Readonly<OneIndicatorOneAreaViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+  } = stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -75,6 +80,16 @@ export function OneIndicatorOneAreaViewPlots({
                 ),
               },
             ]}
+            footer={
+              <>
+                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
+                  // <StyledParagraphDataSource>
+                  // {`Data source: ${indicatorMetadata.dataSource}`}
+                  <p> {`Data source: ${indicatorMetadata.dataSource}`}</p>
+                ) : // </StyledParagraphDataSource>
+                null}
+              </>
+            }
           />
         </>
       )}

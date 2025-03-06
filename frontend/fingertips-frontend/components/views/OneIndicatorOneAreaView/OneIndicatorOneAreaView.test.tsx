@@ -59,6 +59,8 @@ describe('OneIndicatorOneAreaView', () => {
     }
   );
 
+  // TODO: should call for the metadata
+
   it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
