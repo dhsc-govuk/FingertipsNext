@@ -1,17 +1,11 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
-public class HealthDataRepository : IHealthDataRepository
+public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
-    private readonly HealthDataDbContext _dbContext;
-
-    public HealthDataRepository(HealthDataDbContext healthDataDbContext)
-    {
-        _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
-    }
+    private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
     {

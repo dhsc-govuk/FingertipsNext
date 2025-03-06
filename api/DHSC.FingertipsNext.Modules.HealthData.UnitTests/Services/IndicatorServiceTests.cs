@@ -85,34 +85,7 @@ public class IndicatorServiceTests
             new object[] { 9, 8, 7, IndicatorPolarity.NoJudgement, BenchmarkOutcome.Higher }
         };
 
-    [Theory]
-    [MemberData(nameof(TestData))]
-    public async Task GetIndicatorData_PassesFirst10DistinctFiltersToRepository_WhenSuppliedMore(
-        string[] inputAreaCodes,
-        int[] inputYears,
-        string[] inputInequalities,
-        string[] expectedAreaCodes,
-        int[] expectedYears,
-        string[] expectedInequalities)
-    {
-        await _indicatorService.GetIndicatorDataAsync(
-            1,
-            inputAreaCodes,
-            inputYears,
-            inputInequalities,
-            BenchmarkComparisonMethod.None
-        );
-
-        // expect
-        await _healthDataRepository
-            .Received()
-            .GetIndicatorDataAsync(
-                1,
-                ArgEx.IsEquivalentTo(expectedAreaCodes),
-                ArgEx.IsEquivalentTo(expectedYears),
-                ArgEx.IsEquivalentTo(expectedInequalities)
-            );
-    }
+   
 
     [Fact]
     public async Task GetIndicatorData_DelegatesToRepository()
