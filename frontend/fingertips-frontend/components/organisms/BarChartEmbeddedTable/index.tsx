@@ -2,7 +2,7 @@
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
-import { sortHealthDataByYearDescending, sortHealthDataForAreasByDate } from '@/lib/chartHelpers/chartHelpers';
+import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -20,11 +20,18 @@ interface BarChartEmbeddedTable {
 
 export function BarChartEmbeddedTable({healthIndicatorData, benchmarkData}: Readonly<BarChartEmbeddedTable>){
     const mostRecentYearData = sortHealthDataByYearDescending(healthIndicatorData)
-  console.log('mostRecentYearData',mostRecentYearData)
   
-  const largestValue = mostRecentYearData.map((item)=> ({
-  ...item, healthData: item.healthData[0]
-}));
+  const tableRows = mostRecentYearData.map((item)=> ({
+    area: item.areaName, count: item.healthData[0].count, value: item.healthData[0].value, lowerCi: item.healthData[0].lowerCi, upperCi: item.healthData[0].upperCi
+  }));
+    
+  const sortedTableRows = tableRows.toSorted((a,b) => {
+    if( !a.value && !b.value) return 0
+    if (!a.value) return -1
+    if (!b.value) return 1
+    return b.value - a.value
+  });
+  
     
     function sortMostRecentBenchmark(benchmarkData: (HealthDataForArea | undefined)[]) {
       return benchmarkData?.map((item)=> ({
@@ -33,9 +40,6 @@ export function BarChartEmbeddedTable({healthIndicatorData, benchmarkData}: Read
     }
     
     const mostRecentBenchmarkData = sortMostRecentBenchmark([benchmarkData])
-    
-  console.log('benchmarkdata',benchmarkData)
-  console.log('sortMostRecentBenchmark', mostRecentBenchmarkData)
   
   return (<Table 
     head={<Table.Row>
@@ -66,22 +70,22 @@ export function BarChartEmbeddedTable({healthIndicatorData, benchmarkData}: Read
         </Table.Row>
       ))}
     
-    {largestValue.map((item) => (
-      <Table.Row key={`${item.areaName}`}>
+    {sortedTableRows.map((item) => (
+      <Table.Row key={`${item.area}`}>
         <Table.Cell>
-          {item.areaName}
+          {item.area}
         </Table.Cell>
         <Table.Cell>
-          {item.healthData.count}
+          {item.count}
         </Table.Cell>
         <Table.Cell>
-          {item.healthData.value}
+          {item.value}
         </Table.Cell>
         <Table.Cell>
-          {item.healthData.lowerCi}
+          {item.lowerCi}
         </Table.Cell>
         <Table.Cell>
-          {item.healthData.upperCi}
+          {item.upperCi}
         </Table.Cell>
       </Table.Row>
     ))}
