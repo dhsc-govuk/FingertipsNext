@@ -28,13 +28,16 @@ const state: SearchStateParams = {
 
 it('should render the Highcharts react component with passed parameters within the LineChart component', async () => {
   const xAxisPropsTitle = 'DifferentXTitle';
+  const yAxisPropsTitle = 'DifferentYTitle';
 
   render(
     <LineChart
       healthIndicatorData={mockHealthData[1]}
-      xAxisTitle={`${xAxisPropsTitle}`}
+      xAxisTitle={xAxisPropsTitle}
+      yAxisTitle={yAxisPropsTitle}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit="%"
     />
   );
 
@@ -52,6 +55,7 @@ it('should validate the checkbox is checked when passed the correct parameter of
       healthIndicatorData={mockHealthData[1]}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit="%"
     />
   );
 
@@ -71,6 +75,7 @@ it('should validate the checkbox is not checked when passed an incorrect paramet
       healthIndicatorData={mockHealthData[1]}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit="%"
     />
   );
 

@@ -155,8 +155,8 @@ const getBenchmarkCell = (areaCount: number) =>
 
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
-): LineChartTableRowData[] =>
-  areaData.healthData
+): LineChartTableRowData[] => {
+  const filterAreaData = areaData.healthData
     .filter((healthPoint) => healthPoint.sex === Sex.ALL)
     .map((healthPoint) => ({
       period: healthPoint.year,
@@ -165,6 +165,9 @@ export const mapToLineChartTableData = (
       lower: healthPoint.lowerCi,
       upper: healthPoint.upperCi,
     }));
+
+  return filterAreaData;
+};
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
@@ -177,7 +180,7 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   groupIndicatorData,
-  measurementUnit: measurementUnits,
+  measurementUnit,
 }: Readonly<LineChartTableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
@@ -250,7 +253,7 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignLeftHeader>
-              {healthIndicatorData.map((data) =>
+              {healthIndicatorData.map((_) =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) => value !== LineChartTableHeadingEnum.AreaPeriod
@@ -264,18 +267,20 @@ export function LineChartTable({
                       heading,
                       index + 1,
                       healthIndicatorData.length,
-                      measurementUnits
+                      measurementUnit
                     )
                   )
               )}
               {groupIndicatorData ? (
-                <StyledLightGreySubHeader>Value (%)</StyledLightGreySubHeader>
+                <StyledLightGreySubHeader>
+                  Value ({measurementUnit})
+                </StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>({measurementUnits})</StyledSpan>
+                <StyledSpan>({measurementUnit})</StyledSpan>
               </StyledGreyHeader>
             </Table.Row>
           </>

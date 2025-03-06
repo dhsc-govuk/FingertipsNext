@@ -20,7 +20,7 @@ export function BarChart({
   accessibilityLabel,
   benchmarkLabel,
   benchmarkValue,
-  measurementUnit: measurementUnits,
+  measurementUnit,
 }: Readonly<BarChartProps>) {
   const barChartOptions: Highcharts.Options = {
     credits: {
@@ -78,7 +78,7 @@ export function BarChart({
         data: healthIndicatorData.map((item) => ({
           y: item.healthData[0].value,
           name: item.areaName,
-          units: measurementUnits ?? '',
+          units: measurementUnit ?? '',
         })),
         colorByPoint: true,
       },
