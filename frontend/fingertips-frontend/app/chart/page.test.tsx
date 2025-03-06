@@ -15,16 +15,9 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
 
 jest.mock('@/components/pages/chart');
 jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
@@ -222,7 +215,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.populationData).toEqual(undefined);
+        expect(page.props.children[1].props.populationData).toEqual(undefined);
       });
 
       it('should pass search state prop with data from the params to the Chart page', async () => {
@@ -241,7 +234,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.searchState).toEqual({
+        expect(page.props.children[1].props.searchState).toEqual({
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
@@ -293,56 +286,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.mapData).toEqual(undefined);
-      });
-
-      it('should call get indicator endpoint and pass indicator metadata if a single indicator is selected', async () => {
-        const indicatorId = '123';
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: [indicatorId],
-          [SearchParams.AreasSelected]: ['E06000047'],
-        };
-
-        mockIndicatorSearchService.getIndicator.mockResolvedValueOnce({
-          indicatorID: indicatorId,
-          indicatorName: 'pancakes eaten',
-          indicatorDefinition: 'number of pancakes consumed',
-          dataSource: 'BJSS Leeds',
-          earliestDataPeriod: '2025',
-          latestDataPeriod: '2025',
-          lastUpdatedDate: new Date('March 4, 2025'),
-          associatedAreaCodes: ['E06000047'],
-          unitLabel: 'pancakes',
-          hasInequalities: true,
-        });
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
-          indicatorId
-        );
-
-        expect(
-          page.props.children[0].props.indicatorMetadata
-        ).not.toBeUndefined();
-      });
-
-      it('should not call get indicator endpoint or pass metadata if multiple indicators are selected', async () => {
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['123', '456'],
-          [SearchParams.AreasSelected]: ['E06000047'],
-        };
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(mockIndicatorSearchService.getIndicator).not.toHaveBeenCalled();
-        expect(page.props.children[0].props.indicatorMetadata).toBeUndefined();
+        expect(page.props.children[1].props.mapData).toEqual(undefined);
       });
     });
   });

@@ -18,28 +18,19 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
-import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument;
 };
-
-const StyledParagraphDataSource = styled(Paragraph)(
-  typography.font({ size: 16 })
-);
 
 export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
-  indicatorMetadata,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
