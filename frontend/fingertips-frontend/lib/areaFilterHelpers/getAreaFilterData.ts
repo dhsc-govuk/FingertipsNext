@@ -62,7 +62,8 @@ export const getAreaFilterData = async (
   );
 
   const determinedSelectedGroupType = determineSelectedGroupType(
-    selectedGroupType as AreaTypeKeys
+    selectedGroupType as AreaTypeKeys,
+    sortedByLevelGroupTypes
   );
   stateManager.addParamValueToState(
     SearchParams.GroupTypeSelected,

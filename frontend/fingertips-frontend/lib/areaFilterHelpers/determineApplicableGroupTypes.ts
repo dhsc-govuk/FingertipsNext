@@ -23,7 +23,7 @@ export const determineApplicableGroupTypes = (
         (areaType) =>
           areaType.level < selectedAreaTypeData.level &&
           (areaType.hierarchyName === selectedAreaTypeData.hierarchyName ||
-            areaType.hierarchyName === 'All')
+            areaType.hierarchyName === 'Both')
       );
 
       if (selectedAreaTypeData.key === gpsAreaType.key) {
