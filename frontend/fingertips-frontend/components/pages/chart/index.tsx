@@ -18,14 +18,12 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument;
 };
 
 export function Chart({

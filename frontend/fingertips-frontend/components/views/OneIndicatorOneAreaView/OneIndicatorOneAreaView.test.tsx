@@ -9,9 +9,15 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { IIndicatorSearchService } from '@/lib/search/searchTypes';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+
+const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
+SearchServiceFactory.getIndicatorSearchService = () =>
+  mockIndicatorSearchService;
 
 describe('OneIndicatorOneAreaView', () => {
   afterEach(() => {
@@ -59,7 +65,38 @@ describe('OneIndicatorOneAreaView', () => {
     }
   );
 
-  // TODO: should call for the metadata
+  it('should call get indicator endpoint and pass indicator metadata if a single indicator is selected', async () => {
+    const indicatorId = '123';
+    const searchParams: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'testing',
+      [SearchParams.IndicatorsSelected]: [indicatorId],
+      [SearchParams.AreasSelected]: ['E06000047'],
+    };
+
+    mockIndicatorSearchService.getIndicator.mockResolvedValueOnce({
+      indicatorID: indicatorId,
+      indicatorName: 'pancakes eaten',
+      indicatorDefinition: 'number of pancakes consumed',
+      dataSource: 'BJSS Leeds',
+      earliestDataPeriod: '2025',
+      latestDataPeriod: '2025',
+      lastUpdatedDate: new Date('March 4, 2025'),
+      associatedAreaCodes: ['E06000047'],
+      unitLabel: 'pancakes',
+      hasInequalities: true,
+      usedInPoc: false,
+    });
+
+    const page = await OneIndicatorOneAreaView({
+      searchState: searchParams,
+    });
+
+    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
+      indicatorId
+    );
+
+    expect(page.props.indicatorMetadata).not.toBeUndefined();
+  });
 
   it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
     const searchState: SearchStateParams = {
