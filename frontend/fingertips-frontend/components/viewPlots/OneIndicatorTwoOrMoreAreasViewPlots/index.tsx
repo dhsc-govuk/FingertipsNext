@@ -9,14 +9,20 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3 } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '../OneIndicatorOneAreaViewPlots';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
+  const StyledParagraphDataSource = styled(Paragraph)(
+    typography.font({ size: 16 })
+  );
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
@@ -78,6 +84,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                   ),
                 },
               ]}
+              footer={
+                <>
+                  {indicatorMetadata ? (
+                    <StyledParagraphDataSource>
+                      {`Data source: ${indicatorMetadata.dataSource}`}
+                    </StyledParagraphDataSource>
+                  ) : null}
+                </>
+              }
             />
           </>
         )}

@@ -23,11 +23,11 @@ const mockMetaData = {
   associatedAreaCodes: ['E06000047'],
   unitLabel: 'pancakes',
   hasInequalities: true,
-  usedInPoc: false,
+  usedInPoc: true,
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render the view with the title with correct text', () => {
+  it('should render the view with correct title', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['108'],
       [SearchParams.AreasSelected]: ['E12000001'],
@@ -77,7 +77,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
-  it('should display data source when a single indicator is selected and metadata exists', () => {
+  it('should display data source when metadata exists', () => {
     const searchState: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'test',
       [SearchParams.IndicatorsSelected]: ['123'],

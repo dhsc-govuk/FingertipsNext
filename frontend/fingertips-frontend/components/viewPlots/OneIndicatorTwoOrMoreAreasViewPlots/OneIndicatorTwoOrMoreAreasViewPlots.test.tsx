@@ -12,6 +12,20 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockMetaData = {
+  indicatorID: '108',
+  indicatorName: 'pancakes eaten',
+  indicatorDefinition: 'number of pancakes consumed',
+  dataSource: 'BJSS Leeds',
+  earliestDataPeriod: '2025',
+  latestDataPeriod: '2025',
+  lastUpdatedDate: new Date('March 4, 2025'),
+  associatedAreaCodes: ['E06000047'],
+  unitLabel: 'pancakes',
+  hasInequalities: true,
+  usedInPoc: true,
+};
+
 const lineChartTestId = 'lineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
@@ -67,7 +81,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     );
   });
 
-  it('should render the LineChart components when there are only 2 areas', async () => {
+  it('should render the LineChart components when there are 2 areas', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001', 'A002'],
@@ -80,6 +94,26 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     );
 
     assertLineChartAndTableInDocument();
+  });
+
+  it('should display data source when metadata exists', () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'test',
+      [SearchParams.IndicatorsSelected]: ['123'],
+      [SearchParams.AreasSelected]: ['A1245', 'A1426'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={[mockHealthData['108'][1]]}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+
+    expect(
+      screen.getAllByText('Data source:', { exact: false })[0]
+    ).toBeVisible();
   });
 
   it('should not render the LineChart components when there are more than 2 areas', async () => {
