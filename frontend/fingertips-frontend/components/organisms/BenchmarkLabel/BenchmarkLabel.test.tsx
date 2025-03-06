@@ -40,7 +40,6 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.LOWER,
       {
         backgroundColor: 'var(--other-light-blue, #5694CA)',
-        color: 'var(--other-black, #0B0C0C)',
       },
     ],
 

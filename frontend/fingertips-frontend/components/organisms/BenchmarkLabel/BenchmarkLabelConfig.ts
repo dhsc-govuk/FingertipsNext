@@ -2,6 +2,7 @@ import {
   GovukColours,
   GovukColourVars,
   QuintileColours,
+  TagColours,
 } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkLabelGroupType,
@@ -41,10 +42,36 @@ export const BenchmarkLabelGroupConfig: TBenchmarkLabelGroupConfig = {
     },
     [BenchmarkLabelType.LOWER]: {
       backgroundColor: GovukColourVars.GovOtherLightBlue,
-      color: GovukColourVars.GovOtherBlack,
     },
     [BenchmarkLabelType.HIGHER]: {
       backgroundColor: GovukColours.DarkBlue,
+      tint: 'SOLID',
+    },
+  },
+  [BenchmarkLabelGroupType.RAG_99]: {
+    default: {
+      backgroundColor: 'transparent',
+      color: GovukColours.Black,
+      border: '1px solid #0B0C0C',
+    },
+    [BenchmarkLabelType.BETTER]: {
+      backgroundColor: GovukColours.LightGreen,
+      color: GovukColourVars.GovOtherBlack,
+    },
+    [BenchmarkLabelType.SIMILAR]: {
+      backgroundColor: GovukColourVars.GovOtherYellow,
+      color: GovukColourVars.GovOtherBlack,
+    },
+    [BenchmarkLabelType.WORSE]: {
+      backgroundColor: TagColours.DarkRed,
+      tint: 'SOLID',
+    },
+    [BenchmarkLabelType.LOWER]: {
+      backgroundColor: TagColours.LightBlue,
+      color: GovukColourVars.GovOtherBlack,
+    },
+    [BenchmarkLabelType.HIGHER]: {
+      backgroundColor: GovukColours.Blue,
       tint: 'SOLID',
     },
   },

@@ -17,6 +17,7 @@ export interface BenchmarkData {
   title?: string;
   group: string;
   types: string[];
+  suffix?: string;
 }
 
 export const BenchmarkLegend = () => {
@@ -25,6 +26,12 @@ export const BenchmarkLegend = () => {
       group: 'rag',
       title: 'Areas compared to England',
       types: ['Better', 'Similar', 'Worse', 'not_compared', 'Lower', 'Higher'],
+      suffix: '(95% confidence)',
+    },
+    {
+      group: 'rag_99',
+      types: ['Better', 'Similar', 'Worse', 'not_compared', 'Lower', 'Higher'],
+      suffix: '(99.8% confidence)',
     },
     {
       title: ' Quintile groupings',
@@ -46,13 +53,16 @@ export const BenchmarkLegend = () => {
               {item.title}
             </DefaultBenchmarkLegendHeaderStyle>
           )}
-          {item.types.map((type, label_key) => (
-            <BenchmarkLabel
-              group={item.group}
-              type={type}
-              key={item.group + '_' + type + '_' + index + '-' + label_key}
-            />
-          ))}
+          <div>
+            {item.types.map((type, label_key) => (
+              <BenchmarkLabel
+                group={item.group}
+                type={type}
+                key={item.group + '_' + type + '_' + index + '-' + label_key}
+              />
+            ))}
+            {item.suffix}
+          </div>
         </DefaultBenchmarkLegendGroupPanelStyle>
       ))}
     </div>

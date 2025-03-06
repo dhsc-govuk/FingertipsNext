@@ -28,35 +28,9 @@ export const BenchmarkTagStyle = styled(Tag)<{
   };
 });
 
-const getBenchmarkLabel = (
-  type: BenchmarkLabelType,
-  group: BenchmarkLabelGroupType
-) => {
-  switch (group) {
-    case BenchmarkLabelGroupType.RAG:
-      switch (type) {
-        case BenchmarkLabelType.BETTER:
-          return 'Better';
-        case BenchmarkLabelType.SIMILAR:
-          return 'Similar';
-        case BenchmarkLabelType.WORSE:
-          return 'Worse';
-        case BenchmarkLabelType.LOWER:
-          return 'Lower';
-        case BenchmarkLabelType.HIGHER:
-          return 'Higher';
-        default:
-          return 'Not compared';
-      }
-
-    case BenchmarkLabelGroupType.QUINTILES:
-    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE: {
-      const value = type.toLowerCase();
-      return value[0].toUpperCase() + value.slice(1);
-    }
-    default:
-      return '';
-  }
+const getBenchmarkLabel = (type: BenchmarkLabelType) => {
+  const validTypes = Object.values(BenchmarkLabelType);
+  return validTypes.includes(type) ? type : 'Not compared';
 };
 
 export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
@@ -67,7 +41,7 @@ export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
     (type as BenchmarkLabelType) ?? BenchmarkLabelType.NOT_COMPARED;
   const groupType =
     (group as BenchmarkLabelGroupType) ?? BenchmarkLabelGroupType.RAG;
-  const label = getBenchmarkLabel(legendType, groupType);
+  const label = getBenchmarkLabel(legendType);
   return (
     <BenchmarkTagStyle legendType={legendType} group={groupType}>
       {label}

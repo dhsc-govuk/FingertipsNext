@@ -1,4 +1,4 @@
-export const enum BenchmarkLabelType {
+export enum BenchmarkLabelType {
   HIGHER = 'Higher',
   LOWER = 'Lower',
   BETTER = 'Better',
@@ -11,7 +11,7 @@ export const enum BenchmarkLabelType {
   WORST = 'Worst',
   WORSE = 'Worse',
   BEST = 'Best',
-  NOT_COMPARED = 'not_compared',
+  NOT_COMPARED = 'Not compared',
 }
 
 export type TBenchmarkLabelGroupConfig = Partial<
@@ -31,6 +31,7 @@ export interface BenchmarkLabelTypeConfig {
 
 export const enum BenchmarkLabelGroupType {
   RAG = 'rag',
+  RAG_99 = 'rag_99',
   QUINTILES = 'quintiles',
   QUINTILES_WITH_VALUE = 'quintiles_wv',
 }
