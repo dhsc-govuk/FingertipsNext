@@ -250,7 +250,7 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignLeftHeader>
-              {healthIndicatorData.map((data) =>
+              {healthIndicatorData.map((_) =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) => value !== LineChartTableHeadingEnum.AreaPeriod

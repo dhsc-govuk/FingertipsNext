@@ -68,6 +68,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -78,6 +79,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
       const lineChart = screen.getByTestId('lineChartTable-component');
@@ -89,6 +91,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
 
@@ -122,6 +125,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
 
@@ -145,6 +149,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
 
@@ -156,6 +161,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={undefined}
+          measurementUnit="%"
         />
       );
 
@@ -179,6 +185,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -189,6 +196,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
 
@@ -247,6 +255,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
       expect(
@@ -266,6 +275,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
 
@@ -280,6 +290,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
+          measurementUnit="%"
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -291,6 +302,7 @@ describe('Line chart table suite', () => {
         <LineChartTable
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -304,6 +316,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
+          measurementUnit="%"
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
