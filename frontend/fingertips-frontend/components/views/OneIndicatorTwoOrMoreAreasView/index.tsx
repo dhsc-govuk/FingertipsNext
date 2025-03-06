@@ -20,13 +20,16 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   if (
     indicatorSelected?.length !== 1 ||
-    !areasSelected || // TODO: why is null assertion needed here?
+    !areasSelected ||
     areasSelected?.length < 2
   ) {
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [...areasSelected];
+  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
+    areaCodesToRequest.push(areaCodeForEngland);
+  }
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
@@ -41,8 +44,8 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       areaCodes: areaCodesToRequest,
     });
   } catch (error) {
-    console.log('error getting health indicator data for area', error);
-    throw new Error('error getting health indicator data for area');
+    console.error('error getting health indicator data for areas', error);
+    throw new Error('error getting health indicator data for areas');
   }
 
   let indicatorMetadata: IndicatorDocument | undefined;
@@ -53,7 +56,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       );
   } catch (error) {
     console.error(
-      'error getting meta data for health indicator for area',
+      'error getting meta data for health indicator for areas',
       error
     );
   }

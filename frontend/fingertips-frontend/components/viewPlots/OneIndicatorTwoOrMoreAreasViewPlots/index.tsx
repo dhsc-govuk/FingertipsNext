@@ -33,18 +33,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     healthIndicatorData,
     selectedGroupCode
   );
-  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
-    [healthIndicatorData],
-    0,
-    areaCodeForEngland
+  const englandBenchmarkData = healthIndicatorData.find(
+    (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? seriesDataForIndicatorIndexAndArea(
-          [healthIndicatorData],
-          0,
-          selectedGroupCode
+      ? healthIndicatorData.find(
+          (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
 
