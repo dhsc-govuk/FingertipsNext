@@ -13,23 +13,13 @@ describe('AreaSelectedPill', () => {
   });
 
   it('should render the AreaSelectedPill correctly', () => {
-    render(
-      <AreaSelectedPill
-        area={area}
-        onRemoveFilter={mockRemoveFilter}
-      />
-    );
+    render(<AreaSelectedPill area={area} onRemoveFilter={mockRemoveFilter} />);
     expect(screen.getByText(area.name)).toBeInTheDocument();
     expect(screen.getByText(area.areaType.name)).toBeInTheDocument();
   });
 
   it('should call onRemoveFilter when the pill is clicked', async () => {
-    render(
-      <AreaSelectedPill
-        area={area}
-        onRemoveFilter={mockRemoveFilter}
-      />
-    );
+    render(<AreaSelectedPill area={area} onRemoveFilter={mockRemoveFilter} />);
     const user = userEvent.setup();
     await user.click(screen.getByTestId('remove-icon-div'));
     expect(mockRemoveFilter).toHaveBeenCalledTimes(1);
@@ -38,10 +28,7 @@ describe('AreaSelectedPill', () => {
 
   it('should match snapshot', () => {
     const { asFragment } = render(
-      <AreaSelectedPill
-        area={area}
-        onRemoveFilter={mockRemoveFilter}
-      />
+      <AreaSelectedPill area={area} onRemoveFilter={mockRemoveFilter} />
     );
     expect(asFragment()).toMatchSnapshot();
   });

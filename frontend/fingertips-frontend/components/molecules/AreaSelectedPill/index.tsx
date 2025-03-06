@@ -14,7 +14,7 @@ const StyleAreaType = styled('span')({
 });
 
 interface AreaSelectedPillProps {
-  area: AreaWithRelations
+  area: AreaWithRelations;
   onRemoveFilter: (filterID: string) => void;
   inFilterPane?: boolean;
 }
