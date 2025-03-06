@@ -46,16 +46,28 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache dependencies
+      - name: Cache dependencies for push
         uses: actions/cache@v3
-        id: cache
+        id: cache-push
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         with:
           path: |
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{github.ref}}
-          restore-keys: |
-            cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+          restore-keys: 
+            cache/${{github.repository}}/refs/heads/main
+
+      - name: Cache dependencies for pull request
+        uses: actions/cache@v3
+        id: cache-pr
+        if: github.event_name == 'pull_request'
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            ${{ env.frontend-directory }}/.test/**
+          key: cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+          restore-keys: 
             cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
@@ -76,7 +88,8 @@ jobs:
         if: >
           inputs.e2e-test-container-image == null &&
           (
-            steps.cache.outputs.cache-hit != 'true' ||
+            steps.cache-push.outputs.cache-hit != 'true' ||
+            steps.cache-pr.outputs.cache-hit != 'true' ||
             inputs.update-screenshots == 'true'
           ) &&
           (
