@@ -1,7 +1,6 @@
 import { Trend, TrendCondition } from '@/lib/common-types';
 import { TrendTag } from '.';
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
 
 describe('Trend Tag Suite', () => {
   it('should render expected elements', () => {

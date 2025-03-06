@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Paragraph, Tag } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { Arrow } from '@/components/atoms/Arrow';
+import { TagColours } from '@/lib/styleHelpers/colours';
 
 interface TagProps {
   trend: Trend;
@@ -19,9 +20,16 @@ const StyledDivContainer = styled('div')({
   alignItems: 'center',
 });
 
-const StyledDefaultTag = styled(Tag)({
-  textTransform: 'unset',
-  margin: '0.3125em',
+const StyledDefaultTag = styled(Tag)<{
+  trend: Trend;
+  trendCondition?: TrendCondition;
+}>(({ trend, trendCondition }) => {
+  return {
+    textTransform: 'unset',
+    margin: '0.3125em',
+    color: TagColours.GreyText,
+    ...getColour(trend, trendCondition),
+  };
 });
 
 const StyledParagraph = styled(Paragraph)(
@@ -32,53 +40,73 @@ const StyledParagraph = styled(Paragraph)(
   typography.font({ size: 14 })
 );
 
-function getColour(trend: Trend, trendCondition: TrendCondition | undefined) {
+const getColour = (trend: Trend, trendCondition?: TrendCondition) => {
   if (trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.SIMILAR)
-    return 'YELLOW';
+    return {
+      backgroundColor: TagColours.YellowBackground,
+      color: TagColours.YellowText,
+    };
+
   if (
     trend === Trend.BETTER ||
     trendCondition === TrendCondition.GETTING_BETTER
   )
-    return 'GREEN';
+    return {
+      backgroundColor: TagColours.GreenBackground,
+      color: TagColours.GreenText,
+    };
+
   if (trend === Trend.WORSE || trendCondition === TrendCondition.GETTING_WORSE)
-    return 'RED';
-  return 'GREY';
-}
+    return {
+      backgroundColor: TagColours.RedBackground,
+      color: TagColours.RedText,
+    };
+  if (trend === Trend.DECREASING)
+    return {
+      backgroundColor: TagColours.LightBlueBackground,
+    };
+  if (trend === Trend.INCREASING)
+    return {
+      backgroundColor: TagColours.LightBlue,
+    };
+  return {};
+};
 
-function displayTrendCondition(trendCondition: TrendCondition | undefined) {
+const displayTrendCondition = (trendCondition?: TrendCondition) => {
   return trendCondition ? `and ${trendCondition}` : '';
-}
+};
 
-export function TrendTag({
+const arrowDirectionMap: Partial<Record<Trend, Direction>> = {
+  [Trend.INCREASING]: Direction.UP,
+  [Trend.DECREASING]: Direction.DOWN,
+  [Trend.NO_SIGNIFICANT_CHANGE]: Direction.RIGHT,
+};
+
+export const TrendTag = ({
   trend,
   useArrow = true,
-  trendCondition = undefined,
-}: Readonly<TagProps>) {
-  const color = getColour(trend, trendCondition);
+  trendCondition,
+}: Readonly<TagProps>) => {
+  const arrowDirection = useArrow ? arrowDirectionMap[trend] : null;
+  const trendMessage =
+    trend === Trend.NO_SIGNIFICANT_CHANGE
+      ? trend
+      : trend + ' ' + displayTrendCondition(trendCondition);
+
   return (
     <div data-testid="trendTag-container">
-      <StyledDefaultTag tint={color}>
+      <StyledDefaultTag trend={trend} trendCondition={trendCondition}>
         <StyledDivContainer data-testid="tag-component">
-          {useArrow && (
+          {arrowDirection ? (
             <div>
-              {trend === Trend.INCREASING && <Arrow direction={Direction.UP} />}
-              {trend === Trend.DECREASING && (
-                <Arrow direction={Direction.DOWN} />
-              )}
-              {trend === Trend.NO_SIGNIFICANT_CHANGE && (
-                <Arrow direction={Direction.RIGHT} />
-              )}
+              <Arrow direction={arrowDirection} />
             </div>
-          )}
+          ) : null}
           <div>
-            <StyledParagraph>
-              {trend === Trend.NO_SIGNIFICANT_CHANGE
-                ? trend
-                : trend + ' ' + displayTrendCondition(trendCondition)}
-            </StyledParagraph>
+            <StyledParagraph>{trendMessage}</StyledParagraph>
           </div>
         </StyledDivContainer>
       </StyledDefaultTag>
     </div>
   );
-}
+};
