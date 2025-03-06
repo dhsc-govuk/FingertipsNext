@@ -6,22 +6,31 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { H2, H3 } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
+import styled from 'styled-components';
+import { typography } from '@govuk-react/lib';
 
-export type ViewPlotProps = {
+type OneIndicatorOneAreaViewProps = {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument;
 };
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
-}: Readonly<ViewPlotProps>) {
+  indicatorMetadata,
+}: Readonly<OneIndicatorOneAreaViewProps>) {
+  const StyledParagraphDataSource = styled(Paragraph)(
+    typography.font({ size: 16 })
+  );
+
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
@@ -75,6 +84,15 @@ export function OneIndicatorOneAreaViewPlots({
                 ),
               },
             ]}
+            footer={
+              <>
+                {indicatorMetadata ? (
+                  <StyledParagraphDataSource>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </StyledParagraphDataSource>
+                ) : null}
+              </>
+            }
           />
         </>
       )}

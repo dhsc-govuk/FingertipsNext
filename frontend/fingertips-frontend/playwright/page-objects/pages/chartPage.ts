@@ -36,27 +36,45 @@ export default class ChartPage extends BasePage {
     );
     console.log(
       `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed.`
+      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
     // Check that components expected to be visible are displayed
-    for (const component of visibleComponents) {
-      if (component !== 'lineChartTable-component') {
-        await expect(this.page.getByTestId(component)).toBeVisible({
+    for (const visibleComponent of visibleComponents) {
+      if (visibleComponent !== 'lineChartTable-component') {
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
           visible: true,
         });
-        // click into the tab view
-        if (component === 'lineChartTable-component') {
-          await this.page.getByTestId('tabTitle-table').click();
-          await expect(this.page.getByTestId(component)).toBeVisible({
-            visible: true,
-          });
-        }
+      }
+      // click into the tab view if checking lineChartTable
+      if (visibleComponent === 'lineChartTable-component') {
+        await this.page.getByTestId('tabTitle-table').click();
+        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+          visible: true,
+        });
+      }
+
+      // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
+      console.log(
+        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
+      );
+      await this.page.waitForTimeout(500);
+
+      // for now just warn if visual comparisons do not match
+      try {
+        await expect(
+          this.page.getByTestId(visibleComponent)
+        ).toHaveScreenshot();
+      } catch (error) {
+        const typedError = error as Error;
+        console.warn(
+          `⚠️ Screenshot comparison warning for ${visibleComponent}: ${typedError.message}`
+        );
       }
     }
 
     // Check that components expected not to be visible are not displayed
-    for (const component of hiddenComponents) {
-      await expect(this.page.getByTestId(component)).toBeVisible({
+    for (const hiddenComponent of hiddenComponents) {
+      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
         visible: false,
       });
     }
