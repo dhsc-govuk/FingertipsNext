@@ -43,7 +43,7 @@ export function LineChart({
   benchmarkData,
   searchState,
   groupIndicatorData,
-  measurementUnit: measurementUnits,
+  measurementUnit,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -107,7 +107,7 @@ export function LineChart({
     tooltip: {
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
-        `${measurementUnits}`,
+        `${measurementUnit}`,
     },
     accessibility: {
       enabled: false,
