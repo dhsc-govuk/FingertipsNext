@@ -25,3 +25,24 @@ export enum TagColours {
   GreyText = '#303436',
   GreyBackground = '#E1E2E3',
 }
+
+export enum GovukColourVars {
+  GovOtherGreen = `var(--other-green, ${GovukColours.Green})`,
+  GovOtherYellow = `var(--other-yellow, ${GovukColours.Yellow})`,
+  GovOtherBlack = `var(--other-black, ${GovukColours.Black})`,
+  GovOtherRed = `var(--other-red, ${GovukColours.Red})`,
+  GovOtherLightBlue = `var(--other-light-blue, ${GovukColours.LightBlue})`,
+}
+
+export enum QuintileColours {
+  Lowest = '#E4DDFF',
+  Low = '#CBBEF4',
+  Middle = '#AA90EC',
+  High = '#8B60E2',
+  Highest = '#6B33C3',
+  Worst = '#D494C1',
+  Worse = '#BC6AAA',
+  MiddleWithValue = '#A44596',
+  Better = '#812972',
+  Best = '#561950',
+}

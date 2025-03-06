@@ -2,6 +2,11 @@
 import { Tag } from 'govuk-react';
 import styled from 'styled-components';
 import React from 'react';
+import {
+  GovukColours,
+  GovukColourVars,
+  QuintileColours,
+} from '@/lib/styleHelpers/colours';
 
 export const enum BenchmarkLabelType {
   HIGHER = 'higher',
@@ -39,33 +44,30 @@ export const getDefaultBenchmarkTagStyle = (
       switch (type) {
         case BenchmarkLabelType.BETTER:
           return {
-            backgroundColor: 'var(--other-green, #00703C)',
-            tint: 'SOLID',
+            backgroundColor: GovukColourVars.GovOtherGreen,
           };
         case BenchmarkLabelType.SIMILAR:
           return {
-            backgroundColor: 'var(--other-yellow, #FD0)',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: GovukColourVars.GovOtherYellow,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.WORSE:
           return {
-            backgroundColor: 'var(--other-red, #D4351C)',
-            tint: 'SOLID',
+            backgroundColor: GovukColourVars.GovOtherRed,
           };
         case BenchmarkLabelType.LOWER:
           return {
-            backgroundColor: 'var(--other-light-blue, #5694CA)',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: GovukColourVars.GovOtherLightBlue,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.HIGHER:
           return {
-            backgroundColor: '#003078',
-            tint: 'SOLID',
+            backgroundColor: GovukColours.DarkBlue,
           };
         default:
           return {
             backgroundColor: 'transparent',
-            color: '#0B0C0C',
+            color: GovukColours.Black,
             border: '1px solid #0B0C0C',
           };
       }
@@ -74,29 +76,27 @@ export const getDefaultBenchmarkTagStyle = (
       switch (type) {
         case BenchmarkLabelType.LOWEST:
           return {
-            backgroundColor: '#E4DDFF',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: QuintileColours.Lowest,
+            color: GovukColourVars.GovOtherBlack,
           };
 
         case BenchmarkLabelType.LOW:
           return {
-            backgroundColor: '#CBBEF4',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: QuintileColours.Low,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.MIDDLE:
           return {
-            backgroundColor: '#AA90EC',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: QuintileColours.Middle,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.HIGH:
           return {
-            backgroundColor: '#8B60E2',
-            tint: 'SOLID',
+            backgroundColor: QuintileColours.High,
           };
         default:
           return {
-            backgroundColor: '#6B33C3',
-            tint: 'SOLID',
+            backgroundColor: QuintileColours.Highest,
           };
       }
     }
@@ -104,28 +104,25 @@ export const getDefaultBenchmarkTagStyle = (
       switch (type) {
         case BenchmarkLabelType.WORST:
           return {
-            backgroundColor: '#D494C1',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: QuintileColours.Worst,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.WORSE:
           return {
-            backgroundColor: '#BC6AAA',
-            color: 'var(--other-black, #0B0C0C)',
+            backgroundColor: QuintileColours.Worse,
+            color: GovukColourVars.GovOtherBlack,
           };
         case BenchmarkLabelType.MIDDLE:
           return {
-            backgroundColor: '#A44596',
-            tint: 'SOLID',
+            backgroundColor: QuintileColours.MiddleWithValue,
           };
         case BenchmarkLabelType.BETTER:
           return {
-            backgroundColor: '#812972',
-            tint: 'SOLID',
+            backgroundColor: QuintileColours.Better,
           };
         default:
           return {
-            backgroundColor: '#561950',
-            tint: 'SOLID',
+            backgroundColor: QuintileColours.Best,
           };
       }
     }
