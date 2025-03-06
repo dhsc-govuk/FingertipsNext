@@ -24,16 +24,16 @@ export const BenchmarkLegend = () => {
     {
       group: 'rag',
       title: 'Areas compared to England',
-      types: ['better', 'similar', 'worse', 'not_compared', 'lower', 'higher'],
+      types: ['Better', 'Similar', 'Worse', 'not_compared', 'Lower', 'Higher'],
     },
     {
       title: ' Quintile groupings',
       group: 'quintiles',
-      types: ['lowest', 'low', 'middle', 'high', 'highest'],
+      types: ['Lowest', 'Low', 'Middle', 'High', 'Highest'],
     },
     {
       group: 'quintiles_wv',
-      types: ['worst', 'worse', 'middle', 'better', 'best'],
+      types: ['Worst', 'Worse', 'Middle', 'Better', 'Best'],
     },
   ];
 

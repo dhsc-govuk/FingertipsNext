@@ -2,132 +2,16 @@
 import { Tag } from 'govuk-react';
 import styled from 'styled-components';
 import React from 'react';
+import { getDefaultBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import {
-  GovukColours,
-  GovukColourVars,
-  QuintileColours,
-} from '@/lib/styleHelpers/colours';
-
-export const enum BenchmarkLabelType {
-  HIGHER = 'higher',
-  LOWER = 'lower',
-  BETTER = 'better',
-  SIMILAR = 'similar',
-  LOWEST = 'lowest',
-  LOW = 'low',
-  MIDDLE = 'middle',
-  HIGH = 'high',
-  HIGHEST = 'highest',
-  WORST = 'worst',
-  WORSE = 'worse',
-  BEST = 'best',
-  NOT_COMPARED = 'not_compared',
-}
-
-export const enum BenchmarkLabelGroupType {
-  RAG = 'rag',
-  QUINTILES = 'quintiles',
-  QUINTILES_WITH_VALUE = 'quintiles_wv',
-}
+  BenchmarkLabelGroupType,
+  BenchmarkLabelType,
+} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 interface BenchmarkLabelProps {
   type?: BenchmarkLabelType | string;
   group?: BenchmarkLabelGroupType | string;
 }
-
-export const getDefaultBenchmarkTagStyle = (
-  group: BenchmarkLabelGroupType,
-  type: BenchmarkLabelType
-) => {
-  switch (group) {
-    case BenchmarkLabelGroupType.RAG: {
-      switch (type) {
-        case BenchmarkLabelType.BETTER:
-          return {
-            backgroundColor: GovukColourVars.GovOtherGreen,
-          };
-        case BenchmarkLabelType.SIMILAR:
-          return {
-            backgroundColor: GovukColourVars.GovOtherYellow,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.WORSE:
-          return {
-            backgroundColor: GovukColourVars.GovOtherRed,
-          };
-        case BenchmarkLabelType.LOWER:
-          return {
-            backgroundColor: GovukColourVars.GovOtherLightBlue,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.HIGHER:
-          return {
-            backgroundColor: GovukColours.DarkBlue,
-          };
-        default:
-          return {
-            backgroundColor: 'transparent',
-            color: GovukColours.Black,
-            border: '1px solid #0B0C0C',
-          };
-      }
-    }
-    case BenchmarkLabelGroupType.QUINTILES: {
-      switch (type) {
-        case BenchmarkLabelType.LOWEST:
-          return {
-            backgroundColor: QuintileColours.Lowest,
-            color: GovukColourVars.GovOtherBlack,
-          };
-
-        case BenchmarkLabelType.LOW:
-          return {
-            backgroundColor: QuintileColours.Low,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.MIDDLE:
-          return {
-            backgroundColor: QuintileColours.Middle,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.HIGH:
-          return {
-            backgroundColor: QuintileColours.High,
-          };
-        default:
-          return {
-            backgroundColor: QuintileColours.Highest,
-          };
-      }
-    }
-    case BenchmarkLabelGroupType.QUINTILES_WITH_VALUE: {
-      switch (type) {
-        case BenchmarkLabelType.WORST:
-          return {
-            backgroundColor: QuintileColours.Worst,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.WORSE:
-          return {
-            backgroundColor: QuintileColours.Worse,
-            color: GovukColourVars.GovOtherBlack,
-          };
-        case BenchmarkLabelType.MIDDLE:
-          return {
-            backgroundColor: QuintileColours.MiddleWithValue,
-          };
-        case BenchmarkLabelType.BETTER:
-          return {
-            backgroundColor: QuintileColours.Better,
-          };
-        default:
-          return {
-            backgroundColor: QuintileColours.Best,
-          };
-      }
-    }
-  }
-};
 
 export const BenchmarkTagStyle = styled(Tag)<{
   legendType: BenchmarkLabelType;
@@ -152,15 +36,15 @@ const getBenchmarkLabel = (
     case BenchmarkLabelGroupType.RAG:
       switch (type) {
         case BenchmarkLabelType.BETTER:
-          return 'Better (95%)';
+          return 'Better';
         case BenchmarkLabelType.SIMILAR:
           return 'Similar';
         case BenchmarkLabelType.WORSE:
-          return 'Worse (95%)';
+          return 'Worse';
         case BenchmarkLabelType.LOWER:
-          return 'Lower (95%)';
+          return 'Lower';
         case BenchmarkLabelType.HIGHER:
-          return 'Higher (95%)';
+          return 'Higher';
         default:
           return 'Not compared';
       }

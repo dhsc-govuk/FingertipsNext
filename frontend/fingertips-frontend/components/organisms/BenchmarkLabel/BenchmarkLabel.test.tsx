@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
+import { QuintileColours } from '@/lib/styleHelpers/colours';
 import {
-  BenchmarkLabel,
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
-  getDefaultBenchmarkTagStyle,
-} from '@/components/organisms/BenchmarkLabel/index';
-import { QuintileColours } from '@/lib/styleHelpers/colours';
+} from './BenchmarkLabelTypes';
+import { getDefaultBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
@@ -14,6 +14,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: 'var(--other-green, #00703C)',
+        tint: 'SOLID',
       },
     ],
 
@@ -31,6 +32,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.WORSE,
       {
         backgroundColor: 'var(--other-red, #D4351C)',
+        tint: 'SOLID',
       },
     ],
     [
@@ -47,6 +49,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.HIGHER,
       {
         backgroundColor: '#003078',
+        tint: 'SOLID',
       },
     ],
     [
@@ -87,6 +90,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.HIGH,
       {
         backgroundColor: '#8B60E2',
+        tint: 'SOLID',
       },
     ],
     [
@@ -94,6 +98,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.HIGHEST,
       {
         backgroundColor: '#6B33C3',
+        tint: 'SOLID',
       },
     ],
     [
@@ -117,6 +122,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.MIDDLE,
       {
         backgroundColor: '#A44596',
+        tint: 'SOLID',
       },
     ],
     [
@@ -124,6 +130,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: '#812972',
+        tint: 'SOLID',
       },
     ],
     [
@@ -131,6 +138,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.BEST,
       {
         backgroundColor: '#561950',
+        tint: 'SOLID',
       },
     ],
   ])(
@@ -161,7 +169,7 @@ describe('Testing the BenchmarkLabel Component', () => {
         group={BenchmarkLabelGroupType.RAG}
       />
     );
-    expect(getByText('Better (95%)')).toBeInTheDocument();
+    expect(getByText('Better')).toBeInTheDocument();
   });
 
   test('applies correct styles for RAG group and HIGHER type', () => {
