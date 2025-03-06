@@ -408,21 +408,17 @@ FROM
         private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
         {
             var areaPolarities = await connection.QueryAsync<IndicatorPolarity>(IndicatorPolaritySql);
-            var indicatorsWithMultiplePolarites=new List<int>();
-            foreach (var indicator in indicators)
-            {
-                var results = areaPolarities
-                     .Where(ai => ai.IndicatorId == indicator.IndicatorID)
-                     .ToList();
-                if (results.Count > 1)
-                    indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
-            }
             
             foreach (var indicator in indicators)
             {
-                var match  = areaPolarities
-                     .FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
-                indicator.Polarity = match != null ? match.Polarity : "Not applicable";
+                var match  = areaPolarities.FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
+                if(match != null)
+                {
+                    var split=match.Polarity.Trim().Split(" - ");
+                    indicator.Polarity = split[0] == "RAG" ? split[1] : "Not applicable";
+                }
+                else
+                    indicator.Polarity = "Not applicable";
             }
         }
 

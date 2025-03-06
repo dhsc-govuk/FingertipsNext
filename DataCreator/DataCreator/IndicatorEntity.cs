@@ -46,7 +46,7 @@
         public string Frequency { get; set; }
         public string Rounding { get; set; }
 
-        public string BenchmarkComparisonMethod { get; set; }
+        
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
@@ -64,13 +64,17 @@
     {
         public int IndicatorID { get; set; }
 
-        public string IndicatorName { get; set; }
+        
 
         public string Polarity { get; set; }
+
+        public string BenchmarkComparisonMethod { get; set; }
 
         public bool UseProportionsForTrend { get; set; }
 
         public string ValueType { get; set; }
+
+        public string IndicatorName { get; set; }
     }
 
     public record IndicatorWithAreasAndLatestUpdate
