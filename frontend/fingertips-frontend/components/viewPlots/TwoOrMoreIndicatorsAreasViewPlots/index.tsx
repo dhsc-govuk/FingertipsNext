@@ -1,14 +1,7 @@
 'use client';
 
-import { H2, H3 } from 'govuk-react';
+import { H2 } from 'govuk-react';
 
 export function TwoOrMoreIndicatorsAreasViewPlots() {
-  return (
-    <>
-      <H2>View indicators data for the selected area(s)</H2>
-      <H3>Spine Chart</H3>
-      <H3>Heatmap</H3>
-      <H3>Population Visualisations</H3>
-    </>
-  );
+  return <H2>View data for selected indicators and areas</H2>;
 }

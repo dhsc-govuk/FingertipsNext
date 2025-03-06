@@ -38,15 +38,14 @@ export const Home = ({ searchState, initialFormState }: HomeProps) => {
     <form action={setFormState}>
       {formState.message && (
         <ErrorSummary
-          description="At least one of the following fields must be populated:"
           errors={[
             {
               targetName: 'indicator',
-              text: 'Search subject',
+              text: 'Enter a subject you want to search for',
             },
             {
               targetName: 'areaSearched',
-              text: 'Search area',
+              text: 'Enter an area you want to search for',
             },
           ]}
           data-testid="search-form-error-summary"

@@ -37,14 +37,14 @@ describe('getAreaFilterData', () => {
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
   });
 
-  it('should return availableGroupTypes prop with a subset of areaTypes that are applicable based upon the areaTypeSelected', async () => {
+  it('should return availableGroupTypes prop with a subset of areaTypes sorted by level that are applicable based upon the areaTypeSelected', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
 
     const { availableGroupTypes } = await getAreaFilterData({
       [SearchParams.AreaTypeSelected]: nhsIntegratedCareBoardsAreaType.key,
     });
 
-    expect(availableGroupTypes).toEqual([nhsRegionsAreaType, englandAreaType]);
+    expect(availableGroupTypes).toEqual([englandAreaType, nhsRegionsAreaType]);
   });
 
   it('should return availableGroups with results from getAreaTypeMembers based upon selected groupType', async () => {
@@ -63,7 +63,11 @@ describe('getAreaFilterData', () => {
     expect(availableGroups).toEqual(allAreasForICBAreaType);
   });
 
-  it('should return availableAreas with the children from the getArea call based upon the group selected', async () => {
+  it('should return availableAreas with the children sorted alphabetically from the getArea call based upon the group selected', async () => {
+    const areasSortedAlphabetically = mockAreaDataForNHSRegion[
+      eastEnglandNHSRegion.code
+    ].children?.toSorted((a, b) => a.name.localeCompare(b.name));
+
     mockAreasApi.getArea.mockResolvedValueOnce(
       mockAreaDataForNHSRegion[eastEnglandNHSRegion.code]
     );
@@ -79,9 +83,7 @@ describe('getAreaFilterData', () => {
       includeChildren: true,
       childAreaType: nhsIntegratedCareBoardsAreaType.key,
     });
-    expect(availableAreas).toEqual(
-      mockAreaDataForNHSRegion[eastEnglandNHSRegion.code].children
-    );
+    expect(availableAreas).toEqual(areasSortedAlphabetically);
   });
 
   it('should return updatedSearchState with data from selected state or calculated', async () => {

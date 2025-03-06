@@ -12,9 +12,11 @@ interface TabItem {
 export const TabContainer = ({
   id,
   items,
+  footer,
 }: {
   id: string;
   items: TabItem[];
+  footer?: JSX.Element;
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -48,6 +50,7 @@ export const TabContainer = ({
           data-testid={`tabContent-${id}`}
         >
           {content}
+          <div data-testid={`tabFooter-${id}`}>{footer}</div>
         </Tabs.Panel>
       ))}
     </Tabs>
