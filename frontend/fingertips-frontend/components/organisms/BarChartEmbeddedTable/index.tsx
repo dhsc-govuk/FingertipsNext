@@ -14,26 +14,28 @@ export enum BarChartEmbeddedTableHeadingEnum {
 
 interface BarChartEmbeddedTable {
   healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData?: HealthDataForArea[];
+  benchmarkData?: HealthDataForArea;
 }
 
 
-export function BarChartEmbeddedTable({healthIndicatorData}: Readonly<BarChartEmbeddedTable>){
-  console.log(healthIndicatorData.map((item) => item.areaName))
-  const mostRecentYearData = sortHealthDataByYearDescending(healthIndicatorData)
+export function BarChartEmbeddedTable({healthIndicatorData, benchmarkData}: Readonly<BarChartEmbeddedTable>){
+    const mostRecentYearData = sortHealthDataByYearDescending(healthIndicatorData)
   console.log('mostRecentYearData',mostRecentYearData)
-const largestValue = mostRecentYearData.map((item) => ({
-  ...item, healthData: item.healthData.toSorted((a, b) => {
-    if(a.value === undefined) return 1
-    if(b.value === undefined) return 1
-    return a.value - b.value})
-}))
-  console.log('hello',largestValue)
   
-  // Math.max(...mostRecentYearData.map(item => item.healthData.map(point => point.value)))
-  
-  // create a function to loop through descendingHealthIndicatorData and get the first health data point from each array
-  // then loop through the extracted data points to find the largest value to put in the table
+  const largestValue = mostRecentYearData.map((item)=> ({
+  ...item, healthData: item.healthData[0]
+}));
+    
+    function sortMostRecentBenchmark(benchmarkData: (HealthDataForArea | undefined)[]) {
+      return benchmarkData?.map((item)=> ({
+        ...item, healthData: item?.healthData.toSorted((a, b) => b.year - a.year)[0]
+      }))
+    }
+    
+    const mostRecentBenchmarkData = sortMostRecentBenchmark([benchmarkData])
+    
+  console.log('benchmarkdata',benchmarkData)
+  console.log('sortMostRecentBenchmark', mostRecentBenchmarkData)
   
   return (<Table 
     head={<Table.Row>
@@ -43,13 +45,43 @@ const largestValue = mostRecentYearData.map((item) => ({
       <Table.CellHeader>{BarChartEmbeddedTableHeadingEnum.AreaLower}</Table.CellHeader>
       <Table.CellHeader>{BarChartEmbeddedTableHeadingEnum.AreaUpper}</Table.CellHeader>
   </Table.Row>}>
-    {mostRecentYearData.map((item) => (
+
+    {mostRecentBenchmarkData.map((item) => (
       <Table.Row key={`${item.areaName}`}>
         <Table.Cell>
           {item.areaName}
         </Table.Cell>
         <Table.Cell>
-          {item.healthData[0].count}
+          {item.healthData?.count}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData?.value}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData?.lowerCi}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData?.upperCi}
+        </Table.Cell>
+        </Table.Row>
+      ))}
+    
+    {largestValue.map((item) => (
+      <Table.Row key={`${item.areaName}`}>
+        <Table.Cell>
+          {item.areaName}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData.count}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData.value}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData.lowerCi}
+        </Table.Cell>
+        <Table.Cell>
+          {item.healthData.upperCi}
         </Table.Cell>
       </Table.Row>
     ))}

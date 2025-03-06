@@ -77,7 +77,7 @@ export function Chart({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      <BarChartEmbeddedTable healthIndicatorData={dataWithoutEngland}></BarChartEmbeddedTable>
+      <BarChartEmbeddedTable healthIndicatorData={dataWithoutEngland} benchmarkData={englandBenchmarkData}></BarChartEmbeddedTable>
       {shouldDisplayLineChart(
         dataWithoutEngland,
         indicatorsSelected,
