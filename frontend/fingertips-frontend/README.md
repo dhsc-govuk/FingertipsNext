@@ -140,7 +140,7 @@ Only performed in the e2e tests and only when they run in CI. Therefore they are
 
 All screenshot snapshots are stored in github cache, not directly in the repository.
 
-If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check the main branch for base screenshots using the fallback restore-keys.
+If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check and use the main branch for base screenshots using the fallback restore-keys. Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from above.
 
 If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots. To do this:
 
@@ -149,8 +149,6 @@ If you have made changes in your branch that have correctly resulted in the scre
 3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
 4. Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow executions that trigger the e2e tests in CI, for that branch will pass and when you merge to main the screenshots will be automatically updated in the cache for main.
 5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the cached screenshots to need to be updated, and link to the `Artifact download URL:` from the `Upload playwright artefacts` step of the `e2e-tests-local-docker` failure job. This allows the PR reviewer to check the before and after screenshots.
-
-Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from above.
 
 ## Code structure
 
