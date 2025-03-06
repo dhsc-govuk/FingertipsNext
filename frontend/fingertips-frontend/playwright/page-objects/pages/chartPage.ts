@@ -61,7 +61,7 @@ export default class ChartPage extends BasePage {
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(
+        await expect.soft(
           this.page.getByTestId(visibleComponent)
         ).toHaveScreenshot();
       } catch (error) {
