@@ -8,7 +8,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
 import { AreaSelectedPill } from '../AreaSelectedPill';
-import { AreaTypeKeys } from '@/lib/areaFilterHelpers/areaType';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
@@ -51,10 +50,7 @@ export function SelectedAreasPanel({
         ? selectedAreasData.map((selectedArea) => (
             <AreaSelectedPill
               key={selectedArea.code}
-              areaName={selectedArea.name}
-              areaCode={selectedArea.code}
-              areaTypeKey={selectedArea.areaType.key as AreaTypeKeys}
-              areaTypeName={selectedArea.areaType.name}
+              area={selectedArea}
               onRemoveFilter={removeSelectedArea}
               inFilterPane={inFilterPane}
             />

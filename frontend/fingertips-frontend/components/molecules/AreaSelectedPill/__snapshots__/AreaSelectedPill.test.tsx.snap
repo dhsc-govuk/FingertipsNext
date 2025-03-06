@@ -102,13 +102,13 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
           <span
             class="c4"
           >
-            123 - Test Area
+            East of England NHS Region
           </span>
            
           <span
             class="c5"
           >
-            GPs
+            NHS Regions
           </span>
         </p>
       </div>
