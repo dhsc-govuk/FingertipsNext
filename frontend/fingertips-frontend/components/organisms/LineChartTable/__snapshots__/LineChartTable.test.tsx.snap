@@ -290,7 +290,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             <span
               class="c11"
             >
-              (undefined)
+              (%)
             </span>
           </th>
           <th
@@ -319,7 +319,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             <span
               class="c11"
             >
-              ()
+              (%)
             </span>
           </th>
         </tr>
@@ -734,7 +734,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              (undefined)
+              (%)
             </span>
           </th>
           <th
@@ -775,7 +775,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              (undefined)
+              (%)
             </span>
           </th>
           <th
@@ -804,7 +804,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <span
               class="c12"
             >
-              ()
+              (%)
             </span>
           </th>
         </tr>
