@@ -86,9 +86,14 @@ jobs:
           )
         run: npm run test-e2e-ci-update-snapshots
 
-      - name: Run Playwright tests in CI
+      - name: Run Playwright tests in CI - skip screenshots for pull requests
         if: inputs.e2e-test-container-image == null
-        run: npm run test-e2e-ci-docker
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            npm run test-e2e-local-docker
+          else
+            npm run test-e2e-ci-docker
+          fi
 
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.e2e-test-container-image != null
