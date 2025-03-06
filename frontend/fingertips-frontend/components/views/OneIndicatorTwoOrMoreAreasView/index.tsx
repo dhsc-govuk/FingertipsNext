@@ -5,6 +5,8 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
@@ -43,13 +45,24 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for area');
   }
 
-  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
-  console.log('TODO: fetch map data for GROUP');
+  let indicatorMetadata: IndicatorDocument | undefined;
+  try {
+    indicatorMetadata =
+      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+        indicatorSelected[0]
+      );
+  } catch (error) {
+    console.error(
+      'error getting meta data for health indicator for area',
+      error
+    );
+  }
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
+      indicatorMetadata={indicatorMetadata}
     />
   );
 }

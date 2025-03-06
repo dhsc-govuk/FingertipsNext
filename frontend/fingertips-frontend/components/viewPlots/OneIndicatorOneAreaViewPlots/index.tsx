@@ -16,7 +16,7 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 
-type OneIndicatorOneAreaViewProps = {
+export type ViewPlotProps = {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   indicatorMetadata?: IndicatorDocument;
@@ -26,7 +26,7 @@ export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<OneIndicatorOneAreaViewProps>) {
+}: Readonly<ViewPlotProps>) {
   const StyledParagraphDataSource = styled(Paragraph)(
     typography.font({ size: 16 })
   );

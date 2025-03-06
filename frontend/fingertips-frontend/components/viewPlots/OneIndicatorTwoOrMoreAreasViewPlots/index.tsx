@@ -15,13 +15,14 @@ import { ViewPlotProps } from '../OneIndicatorOneAreaViewPlots';
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
+  indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
-  // TODO: LineChart only if 2 areas
+
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
