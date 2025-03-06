@@ -1,6 +1,5 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
-import { Sex } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]

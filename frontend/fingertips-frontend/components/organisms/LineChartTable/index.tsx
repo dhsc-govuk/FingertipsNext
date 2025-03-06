@@ -15,7 +15,6 @@ import {
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
-import { Sex } from '../Inequalities/inequalitiesHelpers';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
