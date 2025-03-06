@@ -25,6 +25,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -68,6 +69,13 @@ export default async function ChartPage(
     )
   );
 
+  const indicatorMetadata =
+    indicatorsSelected.length === 1
+      ? await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          indicatorsSelected[0]
+        )
+      : undefined;
+
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
     rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
@@ -105,6 +113,7 @@ export default async function ChartPage(
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
+        indicatorMetadata={indicatorMetadata}
       />
     </>
   );

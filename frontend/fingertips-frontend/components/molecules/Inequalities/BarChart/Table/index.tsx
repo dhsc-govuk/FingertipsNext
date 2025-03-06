@@ -21,7 +21,7 @@ interface InequalitiesBarChartTableProps {
 }
 
 export enum InequalitiesBarChartTableHeaders {
-  GROUPING_TYPES = 'Grouping types',
+  INEQUALITY_TYPE = 'Inequality type',
   COMPARED_TO = 'Compared to Persons',
   COUNT = 'Count',
   VALUE = 'Value',
@@ -30,7 +30,7 @@ export enum InequalitiesBarChartTableHeaders {
 }
 
 const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
-  header === InequalitiesBarChartTableHeaders.GROUPING_TYPES ? (
+  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
       style={{ width: '16%' }}
@@ -64,10 +64,7 @@ export function InequalitiesBarChartTable({
         head={
           <>
             <Table.Row>
-              <StyledAlignLeftHeader
-                style={{ paddingLeft: '20px' }}
-                colSpan={4}
-              >
+              <StyledAlignLeftHeader colSpan={4}>
                 {tableData.areaName}
               </StyledAlignLeftHeader>
               <StyledAlignRightHeader

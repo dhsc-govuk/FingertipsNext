@@ -10,6 +10,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 const indicatorData = indicators as IndicatorDocument[];
 const searchTerm = 'hospital';
 let allIndicatorIDs: string[];
+
 interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
