@@ -17,7 +17,6 @@ import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
-
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 jest.mock('@/components/pages/chart');
@@ -176,8 +175,8 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        // using props.children[0] during transition to views in DHSCFT-380
-        expect(page.props.children[0].props.healthIndicatorData).toEqual([
+        // using props.children[1] during transition to views in DHSCFT-380
+        expect(page.props.children[1].props.healthIndicatorData).toEqual([
           mockHealthData['1'],
         ]);
       });
@@ -199,7 +198,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.populationData).toEqual(
+        expect(page.props.children[1].props.populationData).toEqual(
           expectedPopulationData
         );
       });
@@ -216,7 +215,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.populationData).toEqual(undefined);
+        expect(page.props.children[1].props.populationData).toEqual(undefined);
       });
 
       it('should pass search state prop with data from the params to the Chart page', async () => {
@@ -235,7 +234,7 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[0].props.searchState).toEqual({
+        expect(page.props.children[1].props.searchState).toEqual({
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
@@ -267,7 +266,7 @@ describe('Chart Page', () => {
         const expected = getMapData('nhs-regions', ['A1245', 'A1245']);
 
         expect(mockData).toHaveBeenCalled();
-        expect(page.props.children[0].props.mapData).toEqual(expected);
+        expect(page.props.children[1].props.mapData).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {
@@ -287,10 +286,11 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.mapData).toEqual(undefined);
+        expect(page.props.children[1].props.mapData).toEqual(undefined);
       });
     });
   });
+
   describe('ViewContext', () => {
     it('should pass search state prop with data from the params to the Chart page', async () => {
       const mockAreaCode = 'E06000047';
@@ -308,7 +308,7 @@ describe('Chart Page', () => {
         searchParams: generateSearchParams(searchParams),
       });
 
-      expect(page.props.children[1].props.searchState).toEqual({
+      expect(page.props.children[0].props.searchState).toEqual({
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: ['E06000047'],
