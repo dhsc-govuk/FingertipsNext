@@ -75,9 +75,14 @@ jobs:
       - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main - for CI test execution
         if: >
           inputs.e2e-test-container-image == null &&
-          (steps.cache.outputs.cache-hit != 'true' ||
-          inputs.update-screenshots == 'true' ||
-          github.ref == 'refs/heads/main')
+          (
+            steps.cache.outputs.cache-hit != 'true' ||
+            inputs.update-screenshots == 'true'
+          ) &&
+          (
+            github.head_ref == 'main' ||
+            github.ref_name == 'main'
+          )
         run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI
