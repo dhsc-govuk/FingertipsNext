@@ -140,7 +140,7 @@ Only performed in the e2e tests and only when they run in CI. Therefore they are
 
 All screenshot snapshots are stored in github cache, not directly in the repository.
 
-If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check and use the main branch for base screenshots using the fallback restore-keys. Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from above.
+If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check and use the main branch for base screenshots using the fallback restore-keys. Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from below.
 
 If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
 

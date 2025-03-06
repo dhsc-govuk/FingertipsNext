@@ -4,6 +4,7 @@ env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
+  BRANCH_NAME:  github.head_name || github.ref_name
 
 on:
   workflow_call:
@@ -46,27 +47,14 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache dependencies for push
+      - name: Cache dependencies
         uses: actions/cache@v3
-        id: cache-push
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        id: cache
         with:
           path: |
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
-          key: cache/${{github.repository}}/${{github.ref}}
-          restore-keys: 
-            cache/${{github.repository}}/refs/heads/main
-
-      - name: Cache dependencies for pull request
-        uses: actions/cache@v3
-        id: cache-pr
-        if: github.event_name == 'pull_request'
-        with:
-          path: |
-            ~/.cache/ms-playwright
-            ${{ env.frontend-directory }}/.test/**
-          key: cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+          key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
           restore-keys: 
             cache/${{github.repository}}/refs/heads/main
 
@@ -88,8 +76,7 @@ jobs:
         if: >
           inputs.e2e-test-container-image == null &&
           (
-            steps.cache-push.outputs.cache-hit != 'true' ||
-            steps.cache-pr.outputs.cache-hit != 'true' ||
+            steps.cache.outputs.cache-hit != 'true' ||
             inputs.update-screenshots == 'true'
           ) &&
           (
