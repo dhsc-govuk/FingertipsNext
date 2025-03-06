@@ -15,11 +15,12 @@ import {
 } from 'govuk-react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
+import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
 export type IndicatorMetadata = {
   valueType: string;
   denominatorType: string;
-  ciMethod: string;
+  ciMethod: string | null;
   unitLabel: string;
   unitValue: string;
   indicatorDefinition: string;
@@ -27,7 +28,7 @@ export type IndicatorMetadata = {
   dataSource: string;
   method: string;
   standardPopulation: string;
-  ciMethodDetails: null;
+  ciMethodDetails: string | null;
   countSource: string;
   countDefinition: string;
   denominatorSource: string;
@@ -58,19 +59,30 @@ const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
 );
 
+const TopHeading = styled(H1)(spacing.withWhiteSpace({ marginBottom: 2 }));
+const StyledSectionBreak = styled(SectionBreak)(
+  spacing.withWhiteSpace({ margin: 4 })
+);
+
 export function IndicatorDefinition({
   indicatorMetadata,
 }: Readonly<IndicatorProps>) {
   return (
     <>
       <Caption>Background information and indicator definitions for</Caption>
-      <H1>{indicatorMetadata.indicatorName}</H1>
+      <TopHeading>{indicatorMetadata.indicatorName}</TopHeading>
 
-      <Paragraph>{`Indicator Id ${indicatorMetadata.indicatorID}`}</Paragraph>
-      <Paragraph>{`Last updated ${indicatorMetadata.lastUpdatedDate}`}</Paragraph>
-      <Paragraph>{`Frequency ${indicatorMetadata.frequency}`}</Paragraph>
+      <ZeroMarginParagraph
+        supportingText={true}
+      >{`Indicator ID ${indicatorMetadata.indicatorID}`}</ZeroMarginParagraph>
+      <ZeroMarginParagraph
+        supportingText={true}
+      >{`Last updated ${formatDate(indicatorMetadata.lastUpdatedDate)}`}</ZeroMarginParagraph>
+      <ZeroMarginParagraph
+        supportingText={true}
+      >{`Frequency ${indicatorMetadata.frequency}`}</ZeroMarginParagraph>
 
-      <SectionBreak visible={true} />
+      <StyledSectionBreak visible={true} />
 
       <ZeroMarginParagraph>Contents</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
@@ -96,7 +108,7 @@ export function IndicatorDefinition({
         </ListItem>
       </UnorderedList>
 
-      <H3>Indicator definitions</H3>
+      <H3 id="definitions">Indicator definitions</H3>
 
       <H4>Definition</H4>
       <Paragraph>{indicatorMetadata.indicatorDefinition}</Paragraph>
@@ -106,6 +118,8 @@ export function IndicatorDefinition({
       <Paragraph>{indicatorMetadata.countDefinition}</Paragraph>
       <H4>Definition of denominator</H4>
       <Paragraph>{indicatorMetadata.denominatorDefinition}</Paragraph>
+
+      <StyledSectionBreak visible={false} />
 
       <Table>
         <Table.Row>
@@ -142,7 +156,7 @@ export function IndicatorDefinition({
         </Table.Row>
       </Table>
 
-      <H3>Data sources and reuse</H3>
+      <H3 id="sources">Data sources and reuse</H3>
       <Table>
         <Table.Row>
           <Table.CellHeader>Data source</Table.CellHeader>
@@ -177,6 +191,67 @@ export function IndicatorDefinition({
           <Table.Cell>{indicatorMetadata.reuse}</Table.Cell>
         </Table.Row>
       </Table>
+      <H3 id="benchmarking">Benchmarking and confidence information</H3>
+      <Table>
+        <Table.Row>
+          <Table.CellHeader>Benchmarking method</Table.CellHeader>
+          <Table.Cell>{indicatorMetadata.method}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.CellHeader>Benchmarking significance level</Table.CellHeader>
+          <Table.Cell>Placeholder Benchmarking significance level?</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.CellHeader>Confidence interval method</Table.CellHeader>
+          <Table.Cell>{indicatorMetadata.ciMethod}</Table.Cell>
+        </Table.Row>
+      </Table>
+      {indicatorMetadata.ciMethodDetails ? (
+        <>
+          <H4>Confidence interval methodology</H4>
+          <Paragraph>{indicatorMetadata.ciMethodDetails}</Paragraph>
+        </>
+      ) : (
+        <></>
+      )}
+
+      <H3 id="rationale">Indicator rationale</H3>
+      <Paragraph>{indicatorMetadata.rationale}</Paragraph>
+
+      <H3 id="notes">Notes and caveats</H3>
+      <H4>Notes</H4>
+      <Paragraph>{indicatorMetadata.notes}</Paragraph>
+      <H4>Caveats</H4>
+      <Paragraph>{indicatorMetadata.caveats}</Paragraph>
+      <H4>Impact of Covid-19</H4>
+      <Paragraph>Placeholder Covid-19 impact?</Paragraph>
+
+      <H3 id="links">Public health profile usage and related content</H3>
+      <H4>This indicator is used in the following health profiles</H4>
+      <UnorderedList listStyleType="none">
+        <ListItem>
+          <Link href="#">Placeholder Profile 1</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">Placeholder Profile 2</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">Placeholder Profile 3</Link>
+        </ListItem>
+      </UnorderedList>
+
+      <H4>Related Content</H4>
+      <UnorderedList listStyleType="none">
+        <ListItem>
+          <Link href="#">Placeholder Link 1</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">Placeholder Link 2</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">Placeholder Link 3</Link>
+        </ListItem>
+      </UnorderedList>
     </>
   );
 }

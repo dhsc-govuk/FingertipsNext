@@ -14,7 +14,7 @@
     "rationale": "placeholder rationale",
     "method": "placeholder method",
     "standardPopulation": "placeholder standard population",
-    "ciMethodDetails": null,
+    "ciMethodDetails": "placeholder ci method details",
     "countSource": "placeholder numerator source",
     "countDefinition": "placeholder numerator definition\n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapien eget nisl dapibus sodales",
     "denominatorSource": "placeholder denominator source",
