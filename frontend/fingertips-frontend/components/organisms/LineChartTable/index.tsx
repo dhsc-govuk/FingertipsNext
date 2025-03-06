@@ -155,8 +155,8 @@ const getBenchmarkCell = (areaCount: number) =>
 
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
-): LineChartTableRowData[] =>
-  areaData.healthData
+): LineChartTableRowData[] => {
+  const filterAreaData = areaData.healthData
     .filter((healthPoint) => healthPoint.sex === Sex.ALL)
     .map((healthPoint) => ({
       period: healthPoint.year,
@@ -165,6 +165,9 @@ export const mapToLineChartTableData = (
       lower: healthPoint.lowerCi,
       upper: healthPoint.upperCi,
     }));
+
+  return filterAreaData;
+};
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',
@@ -177,7 +180,7 @@ export function LineChartTable({
   healthIndicatorData,
   englandBenchmarkData,
   groupIndicatorData,
-  measurementUnit: measurementUnits,
+  measurementUnit,
 }: Readonly<LineChartTableProps>) {
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
@@ -264,57 +267,61 @@ export function LineChartTable({
                       heading,
                       index + 1,
                       healthIndicatorData.length,
-                      measurementUnits
+                      measurementUnit
                     )
                   )
               )}
               {groupIndicatorData ? (
-                <StyledLightGreySubHeader>Value (%)</StyledLightGreySubHeader>
+                <StyledLightGreySubHeader>
+                  Value ({measurementUnit})
+                </StyledLightGreySubHeader>
               ) : null}
               <StyledGreyHeader
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>({measurementUnits})</StyledSpan>
+                <StyledSpan>({measurementUnit})</StyledSpan>
               </StyledGreyHeader>
             </Table.Row>
           </>
         }
       >
-        {sortedEnglandData.map((point, index) => (
-          <Table.Row key={point.period + index}>
-            <StyledAlignLeftTableCell numeric>
-              {point.period}
-            </StyledAlignLeftTableCell>
-            {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
-              <React.Fragment
-                key={healthIndicatorData[areaIndex].areaCode + index}
-              >
-                {getBenchmarkCell(healthIndicatorData.length)}
-                <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].count}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].value}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].lower}
-                </StyledAlignRightTableCell>
-                <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].upper}
-                </StyledAlignRightTableCell>
-              </React.Fragment>
-            ))}
-            {groupIndicatorData ? (
-              <StylesGroupValueTableCell>
-                {sortedGroupData[index].value}
-              </StylesGroupValueTableCell>
-            ) : null}
-            <StyledGreyTableCellValue data-testid="grey-table-cell">
-              {sortedEnglandData[index].value}
-            </StyledGreyTableCellValue>
-          </Table.Row>
-        ))}
+        {sortedEnglandData.map((point, index) => {
+          return (
+            <Table.Row key={point.period + index}>
+              <StyledAlignLeftTableCell numeric>
+                {point.period}
+              </StyledAlignLeftTableCell>
+              {sortedDataPerArea.map((sortedAreaData, areaIndex) => (
+                <React.Fragment
+                  key={healthIndicatorData[areaIndex].areaCode + index}
+                >
+                  {getBenchmarkCell(healthIndicatorData.length)}
+                  <StyledAlignRightTableCell numeric>
+                    {sortedAreaData[index].count}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {sortedAreaData[index].value}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {sortedAreaData[index].lower}
+                  </StyledAlignRightTableCell>
+                  <StyledAlignRightTableCell numeric>
+                    {sortedAreaData[index].upper}
+                  </StyledAlignRightTableCell>
+                </React.Fragment>
+              ))}
+              {groupIndicatorData ? (
+                <StylesGroupValueTableCell>
+                  {sortedGroupData[index].value}
+                </StylesGroupValueTableCell>
+              ) : null}
+              <StyledGreyTableCellValue data-testid="grey-table-cell">
+                {sortedEnglandData[index].value}
+              </StyledGreyTableCellValue>
+            </Table.Row>
+          );
+        })}
       </Table>
     </StyledDiv>
   );
