@@ -1,11 +1,8 @@
 import { InequalitiesBarChartTable, InequalitiesBarChartTableHeaders } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import {
-  Inequalities,
-  InequalitiesBarChartData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
@@ -40,8 +37,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -56,8 +52,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -87,8 +82,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={mockData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -104,8 +98,7 @@ describe('Inequalities bar chart table suite', () => {
       const container = render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 

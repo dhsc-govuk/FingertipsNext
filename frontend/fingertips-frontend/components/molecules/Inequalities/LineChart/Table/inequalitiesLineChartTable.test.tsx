@@ -1,11 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesLineChartTable } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import {
-  Inequalities,
-  InequalitiesLineChartTableData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { InequalitiesLineChartTableData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {
@@ -37,8 +34,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -53,8 +49,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -95,8 +90,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -111,8 +105,7 @@ describe('Inequalities table suite', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
