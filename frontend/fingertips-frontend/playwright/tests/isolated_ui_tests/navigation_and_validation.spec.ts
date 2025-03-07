@@ -111,8 +111,10 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
-      await homePage.clickSearchButton();
+      await homePage.closeAreaFilterPill(0);
+      await test.expect(homePage.areaFilterPills()).toHaveCount(0);
 
+      await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
       await homePage.checkSummaryValidation(
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`
