@@ -6,7 +6,7 @@ describe('Testing the benchmark component', () => {
   it('renders correctly with provided benchmark data', () => {
     render(<BenchmarkLegend />);
 
-    const txtEngland = screen.getByText('Areas compared to England');
+    const txtEngland = screen.getByText('Compared to England');
     expect(screen.queryByText('legend_panel_header')).not.toBeInTheDocument();
     expect(txtEngland).toBeInTheDocument();
 
@@ -18,7 +18,7 @@ describe('Testing the benchmark component', () => {
     expect(within(divRag).getByText('Lower')).toBeInTheDocument();
     expect(within(divRag).getByText('Higher')).toBeInTheDocument();
 
-    const txtQuintile = screen.getByText('Quintile groupings');
+    const txtQuintile = screen.getByText('Quintiles');
     expect(txtQuintile).toBeInTheDocument();
 
     const divQuintile = txtQuintile.parentElement as HTMLElement;

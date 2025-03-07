@@ -10,7 +10,14 @@ const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
 
 const DefaultBenchmarkLegendHeaderStyle = styled('h4')({
   alignSelf: 'stretch',
-  margin: '0.1em',
+  margin: '1em 0.1em 0.1em 0.1em',
+  fontFamily: 'nta,Arial,sans-serif',
+  fontWeight: 300,
+});
+
+const StyledLengendLabel = styled('span')({
+  fontFamily: 'nta,Arial,sans-serif',
+  fontWeight: 300,
 });
 
 export interface BenchmarkData {
@@ -24,7 +31,7 @@ export const BenchmarkLegend = () => {
   const model: BenchmarkData[] = [
     {
       group: 'rag',
-      title: 'Areas compared to England',
+      title: 'Compared to England',
       types: ['Better', 'Similar', 'Worse', 'not_compared', 'Lower', 'Higher'],
       suffix: '(95% confidence)',
     },
@@ -34,7 +41,7 @@ export const BenchmarkLegend = () => {
       suffix: '(99.8% confidence)',
     },
     {
-      title: ' Quintile groupings',
+      title: ' Quintiles',
       group: 'quintiles',
       types: ['Lowest', 'Low', 'Middle', 'High', 'Highest'],
     },
@@ -48,11 +55,11 @@ export const BenchmarkLegend = () => {
     <div>
       {model?.map((item, index) => (
         <DefaultBenchmarkLegendGroupPanelStyle key={item.group + '_' + index}>
-          {(item.title !== null || item.title == '') && (
+          {item.title ? (
             <DefaultBenchmarkLegendHeaderStyle>
               {item.title}
             </DefaultBenchmarkLegendHeaderStyle>
-          )}
+          ) : null}
           <div>
             {item.types.map((type, label_key) => (
               <BenchmarkLabel
@@ -61,7 +68,9 @@ export const BenchmarkLegend = () => {
                 key={item.group + '_' + type + '_' + index + '-' + label_key}
               />
             ))}
-            {item.suffix}
+            {item.suffix ? (
+              <StyledLengendLabel>{item.suffix}</StyledLengendLabel>
+            ) : null}
           </div>
         </DefaultBenchmarkLegendGroupPanelStyle>
       ))}

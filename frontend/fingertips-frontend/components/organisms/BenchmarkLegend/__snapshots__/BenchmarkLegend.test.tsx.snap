@@ -105,7 +105,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c9 {
+.c10 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -118,7 +118,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c10 {
+.c11 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -131,7 +131,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c11 {
+.c12 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -144,7 +144,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c12 {
+.c13 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -157,7 +157,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c13 {
+.c14 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -170,7 +170,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c14 {
+.c15 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -183,7 +183,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c15 {
+.c16 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -196,7 +196,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c16 {
+.c17 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -209,7 +209,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c17 {
+.c18 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -222,7 +222,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c18 {
+.c19 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -235,7 +235,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c19 {
+.c20 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -248,7 +248,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   color: var(--other-black,#0B0C0C);
 }
 
-.c20 {
+.c21 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -261,7 +261,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c21 {
+.c22 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -274,7 +274,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
-.c22 {
+.c23 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -301,7 +301,14 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 0.1em;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+.c9 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
 }
 
 @media print {
@@ -325,7 +332,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
       <h4
         class="c1"
       >
-        Areas compared to England
+        Compared to England
       </h4>
       <div>
         <strong
@@ -358,18 +365,19 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
         >
           Higher
         </strong>
-        (95% confidence)
+        <span
+          class="c9"
+        >
+          (95% confidence)
+        </span>
       </div>
     </div>
     <div
       class="c0"
     >
-      <h4
-        class="c1"
-      />
       <div>
         <strong
-          class="c2 c9"
+          class="c2 c10"
         >
           Better
         </strong>
@@ -379,7 +387,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
           Similar
         </strong>
         <strong
-          class="c2 c10"
+          class="c2 c11"
         >
           Worse
         </strong>
@@ -389,16 +397,20 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
           Not compared
         </strong>
         <strong
-          class="c2 c11"
+          class="c2 c12"
         >
           Lower
         </strong>
         <strong
-          class="c2 c12"
+          class="c2 c13"
         >
           Higher
         </strong>
-        (99.8% confidence)
+        <span
+          class="c9"
+        >
+          (99.8% confidence)
+        </span>
       </div>
     </div>
     <div
@@ -407,31 +419,31 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
       <h4
         class="c1"
       >
-         Quintile groupings
+         Quintiles
       </h4>
       <div>
         <strong
-          class="c2 c13"
+          class="c2 c14"
         >
           Lowest
         </strong>
         <strong
-          class="c2 c14"
+          class="c2 c15"
         >
           Low
         </strong>
         <strong
-          class="c2 c15"
+          class="c2 c16"
         >
           Middle
         </strong>
         <strong
-          class="c2 c16"
+          class="c2 c17"
         >
           High
         </strong>
         <strong
-          class="c2 c17"
+          class="c2 c18"
         >
           Highest
         </strong>
@@ -440,32 +452,29 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
     <div
       class="c0"
     >
-      <h4
-        class="c1"
-      />
       <div>
         <strong
-          class="c2 c18"
+          class="c2 c19"
         >
           Worst
         </strong>
         <strong
-          class="c2 c19"
+          class="c2 c20"
         >
           Worse
         </strong>
         <strong
-          class="c2 c20"
+          class="c2 c21"
         >
           Middle
         </strong>
         <strong
-          class="c2 c21"
+          class="c2 c22"
         >
           Better
         </strong>
         <strong
-          class="c2 c22"
+          class="c2 c23"
         >
           Best
         </strong>
