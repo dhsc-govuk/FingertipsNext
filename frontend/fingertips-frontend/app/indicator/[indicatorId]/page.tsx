@@ -19,7 +19,7 @@ export default async function IndicatorPage({
     );
 
   if (indicatorMetadata === undefined) {
-    redirect("")
+    redirect('');
   }
 
   const placeholderMetadata: IndicatorMetadata = {
