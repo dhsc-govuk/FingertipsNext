@@ -153,10 +153,10 @@ exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
 
 <div
     class="c0"
+    data-testid="area-search-input-field"
   >
     <label
       class="c1"
-      data-testid="search-form-input-area"
     >
       <span
         class="c2"

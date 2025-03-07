@@ -19,6 +19,7 @@ import {
 import { useActionState } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -26,9 +27,14 @@ const ZeroMarginParagraph = styled(Paragraph)(
 
 interface HomeProps {
   searchState?: SearchStateParams;
+  selectedAreasData?: AreaWithRelations[];
   initialFormState: SearchFormState;
 }
-export const Home = ({ searchState, initialFormState }: HomeProps) => {
+export const Home = ({
+  searchState,
+  initialFormState,
+  selectedAreasData,
+}: HomeProps) => {
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState
@@ -80,7 +86,11 @@ export const Home = ({ searchState, initialFormState }: HomeProps) => {
       </UnorderedList>
       <br />
       <div id="search">
-        <SearchForm searchState={searchState} formState={formState} />
+        <SearchForm
+          searchState={searchState}
+          formState={formState}
+          selectedAreasData={selectedAreasData}
+        />
       </div>
       <SectionBreak level="LARGE" visible />
       <H3 id="whatfor">What the service is for</H3>

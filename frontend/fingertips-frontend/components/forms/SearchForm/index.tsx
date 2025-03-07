@@ -1,20 +1,15 @@
 'use client';
 
-import { getAreaDocument } from './searchActions';
 import { Button, InputField, H3 } from 'govuk-react';
-import { usePathname, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import AreaAutoCompleteInputField from '@/components/molecules/AreaAutoCompleteSearchPanel';
-import { AreaDocument } from '@/lib/search/searchTypes';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-import { useEffect, useState } from 'react';
+import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
+import { AreaAutoCompleteFilterPanel } from '@/components/molecules/AreaFilterPanel';
+import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -23,42 +18,15 @@ const StyledInputField = styled(InputField)(
 interface SearchFormProps {
   searchState?: SearchStateParams;
   formState: SearchFormState;
+  selectedAreasData?: AreaWithRelations[];
 }
 
 export const SearchForm = ({
   searchState,
   formState,
+  selectedAreasData,
 }: Readonly<SearchFormProps>) => {
-  const stateManager = SearchStateManager.initialise(searchState);
-  const pathname = usePathname();
-  const router = useRouter();
-  const [areaCode, setAreaCode] = useState<string>(
-    formState.areaSearched ?? ''
-  );
-  const [defaultAreas, setDefaultAreas] = useState<AreaDocument[]>([]);
-
-  const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
-    if (!selectedAreaCode) {
-      stateManager.removeAllParamFromState(SearchParams.AreasSelected);
-    } else {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        selectedAreaCode
-      );
-    }
-    router.replace(stateManager.generatePath(pathname), { scroll: false });
-  };
-
-  useEffect(() => {
-    const fetchAreaDocumentAndUpdate = async (areaCode: string | undefined) => {
-      if (areaCode == undefined) return null;
-      const area = await getAreaDocument(areaCode);
-      if (area) {
-        setDefaultAreas([area]);
-      }
-    };
-    fetchAreaDocumentAndUpdate(areaCode);
-  }, [searchState, areaCode, formState]);
+  const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   return (
     <div data-testid="search-form">
@@ -87,16 +55,23 @@ export const SearchForm = ({
         type="hidden"
         name="areaSearched"
         id="areaSearched"
-        value={areaCode || ''}
+        value={selectedAreas || ''}
       />
       <AreaAutoCompleteInputField
-        onAreaSelected={(area: AreaDocument | undefined) => {
-          updateUrlWithSelectedArea(area?.areaCode ?? '');
-          setAreaCode(area?.areaCode ?? '');
-        }}
         inputFieldErrorStatus={!!formState.message}
-        defaultSelectedAreas={defaultAreas}
+        searchState={searchState}
+        firstSelectedArea={selectedAreasData?.[0]}
       />
+
+      {selectedAreas && selectedAreas.length > 0 ? (
+        <SelectedAreasPanel
+          searchState={searchState}
+          selectedAreasData={selectedAreasData}
+          inFilterPane={false}
+        />
+      ) : null}
+
+      <AreaAutoCompleteFilterPanel areas={selectedAreas} />
 
       <Button
         type="submit"

@@ -1,8 +1,6 @@
 'use client';
 
-import { LineChart } from '@/components/organisms/LineChart';
-import { BackLink, H2, H3, Paragraph } from 'govuk-react';
-import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { BackLink } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
@@ -14,38 +12,25 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   isEnglandSoleSelectedArea,
-  seriesDataForIndicatorIndexAndArea,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
-import { shouldDisplayLineChart } from '@/components/organisms/LineChart/lineChartHelpers';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { TabContainer } from '@/components/layouts/tabContainer';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
-import styled from 'styled-components';
-import { typography } from '@govuk-react/lib';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument;
 };
-
-const StyledParagraphDataSource = styled(Paragraph)(
-  typography.font({ size: 16 })
-);
 
 export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
-  indicatorMetadata,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -57,25 +42,10 @@ export function Chart({
 
   const backLinkPath = stateManager.generatePath('/results');
 
-  const englandBenchmarkData = seriesDataForIndicatorIndexAndArea(
-    healthIndicatorData,
-    0,
-    areaCodeForEngland
-  );
-
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
   );
-
-  const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
-      ? seriesDataForIndicatorIndexAndArea(
-          healthIndicatorData,
-          0,
-          selectedGroupCode
-        )
-      : undefined;
 
   return (
     <>
@@ -84,63 +54,6 @@ export function Chart({
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
-      <H2>View data for selected indicators and areas</H2>
-      {shouldDisplayLineChart(
-        dataWithoutEngland,
-        indicatorsSelected,
-        areasSelected
-      ) && (
-        <>
-          <H3>See how the indicator has changed over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    yAxisTitle={
-                      indicatorMetadata?.unitLabel
-                        ? `Value: ${indicatorMetadata?.unitLabel}`
-                        : ''
-                    }
-                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
-                ),
-              },
-              {
-                id: 'table',
-                title: 'Table',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
-                    englandBenchmarkData={englandBenchmarkData}
-                    groupIndicatorData={groupData}
-                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
-                  />
-                ),
-              },
-            ]}
-            footer={
-              <>
-                {indicatorsSelected?.length === 1 && indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
-          />
-        </>
-      )}
-      <br />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <Inequalities
           healthIndicatorData={
