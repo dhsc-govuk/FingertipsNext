@@ -38,12 +38,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     An enumerable of <c>HealthDataForArea</c> matching the criteria,
     ///     otherwise an empty enumerable.
     /// </returns>
-    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(
+    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync
+        (
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        BenchmarkComparisonMethod comparisonMethod)
+        BenchmarkComparisonMethod comparisonMethod
+        )
     {
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
         var areaCodesForSearch =areaCodes.ToList();
