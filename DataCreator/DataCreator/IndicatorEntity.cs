@@ -64,8 +64,7 @@
     {
         public int IndicatorID { get; set; }
 
-        
-
+       
         public string Polarity { get; set; }
 
         public string BenchmarkComparisonMethod { get; set; }
