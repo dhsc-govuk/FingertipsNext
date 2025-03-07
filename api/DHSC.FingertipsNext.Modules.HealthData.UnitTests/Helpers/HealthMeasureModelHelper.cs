@@ -9,19 +9,20 @@ public class HealthMeasureModelHelper(
     double? lowerCi = 1.0,
     double? upperCi = 1.0,
     short year = 2025
-    )
+)
 {
     private AreaDimensionModel? _areaDimension;
     private AgeDimensionModel? _ageDimension;
     private IndicatorDimensionModel? _indicatorDimension;
     private SexDimensionModel? _sexDimension;
+    private DeprivationDimensionModel? _deprivationDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
         string name = "area name",
         DateTime? startDate = null,
         DateTime? endDate = null
-        )
+    )
     {
         _areaDimension = new AreaDimensionModel
         {
@@ -50,7 +51,7 @@ public class HealthMeasureModelHelper(
         string name = "age name",
         short ageId = 0,
         bool hasValue = false
-        )
+    )
     {
         _ageDimension = new AgeDimensionModel
         {
@@ -79,7 +80,7 @@ public class HealthMeasureModelHelper(
         short indicatorId = 1,
         DateTime? startDate = null,
         DateTime? endDate = null
-        )
+    )
     {
         _indicatorDimension = new IndicatorDimensionModel
         {
@@ -141,6 +142,36 @@ public class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithDeprivationDimension(
+        string name = "All",
+        string type = "All",
+        byte sequence = 1,
+        bool hasValue = false)
+    {
+        _deprivationDimension = new DeprivationDimensionModel
+        {
+            DeprivationKey = (byte)key,
+            Name = name,
+            Type = type,
+            Sequence = sequence,
+            HasValue = hasValue
+        };
+
+        return this;
+    }
+
+    private DeprivationDimensionModel DefaultDeprivationDimension()
+    {
+        return new DeprivationDimensionModel()
+        {
+            DeprivationKey = (short)key,
+            Name = "All",
+            Type = "All",
+            Sequence = 1,
+            HasValue = false
+        };
+    }
+
     public HealthMeasureModel Build()
     {
         var areaDimension = _areaDimension ?? DefaultAreaDimension();
@@ -148,6 +179,7 @@ public class HealthMeasureModelHelper(
         var indicatorDimension = _indicatorDimension ?? DefaultIndicatorDimension();
         var sexDimension = _sexDimension ?? DefaultSexDimension();
         var trendDimension = DefaultTrendDimension();
+        var deprivationDimension = _deprivationDimension ?? DefaultDeprivationDimension();
 
         return new HealthMeasureModel
         {
@@ -162,11 +194,13 @@ public class HealthMeasureModelHelper(
             IndicatorKey = indicatorDimension.IndicatorKey,
             SexKey = sexDimension.SexKey,
             TrendKey = trendDimension.TrendKey,
+            DeprivationKey = deprivationDimension.DeprivationKey,
             AreaDimension = areaDimension,
             AgeDimension = ageDimension,
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
-            TrendDimension = trendDimension
+            TrendDimension = trendDimension,
+            DeprivationDimension = deprivationDimension
         };
     }
 }

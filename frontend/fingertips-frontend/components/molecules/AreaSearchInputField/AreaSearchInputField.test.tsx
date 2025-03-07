@@ -15,6 +15,7 @@ describe('AreaSearchInputField', () => {
     const { getByText } = render(
       <AreaSearchInputField value="London" onTextChange={jest.fn()} />
     );
+
     expect(
       getByText(
         'For example district, county, region, NHS organisation or GP practice or code'
@@ -22,37 +23,55 @@ describe('AreaSearchInputField', () => {
     ).toBeInTheDocument();
   });
 
-  it('should display error message if touched', () => {
+  it('should display error message if hasError is true', () => {
     const { getByText } = render(
       <AreaSearchInputField
         value="London"
-        touched={true}
+        hasError={true}
         onTextChange={jest.fn()}
       />
     );
+
     expect(getByText(areaSearchErrorMessage)).toBeInTheDocument();
   });
 
-  it('should not display error message if not touched', () => {
+  it('should not display error message if hasError is false', () => {
     const { queryByText } = render(
       <AreaSearchInputField
         value="London"
-        touched={false}
+        hasError={false}
         onTextChange={jest.fn()}
       />
     );
+
     expect(queryByText(areaSearchErrorMessage)).toBeNull();
   });
 
-  it('should not disable the input if disabled prop is not passed', () => {
-    const { getByTestId } = render(
+  it('should be enabled if disabled prop is false', () => {
+    const { getByRole } = render(
       <AreaSearchInputField
         value="London"
         disabled={false}
         onTextChange={jest.fn()}
       />
     );
-    const input = getByTestId('search-form-input-area');
-    expect(input).not.toBeDisabled();
+
+    const input = getByRole('textbox');
+
+    expect(input).toBeEnabled();
+  });
+
+  it('should be disabled if disabled prop is true', () => {
+    const { getByRole } = render(
+      <AreaSearchInputField
+        value="London"
+        disabled={true}
+        onTextChange={jest.fn()}
+      />
+    );
+
+    const input = getByRole('textbox');
+
+    expect(input).toBeDisabled();
   });
 });

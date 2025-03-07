@@ -32,7 +32,7 @@ export interface InequalitiesTableRowData {
 export enum Sex {
   MALE = 'Male',
   FEMALE = 'Female',
-  ALL = 'All',
+  ALL = 'Persons',
 }
 
 export enum InequalitiesTypes {
@@ -40,16 +40,12 @@ export enum InequalitiesTypes {
   Deprivation = 'deprivation',
 }
 
-// 'All' -> 'Persons' mapping to be removed when db value is changed in subsequent ticket
-export const mapToKey = (key: string): string =>
-  key === Sex.ALL ? 'Persons' : key;
-
 export const inequalityKeyMapping: Record<
   InequalitiesTypes,
   (keys: string[]) => string[]
 > = {
   [InequalitiesTypes.Sex]: (sexKeys: string[]) =>
-    sexKeys.map((key) => mapToKey(key)).toSorted((a, b) => b.localeCompare(a)),
+    sexKeys.toSorted((a, b) => b.localeCompare(a)),
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
@@ -101,7 +97,7 @@ export const mapToInequalitiesTableData = (
     ).reduce(
       (acc: Record<string, RowDataFields | undefined>, current: string) => {
         const currentTableKey = yearDataGroupedByInequalities[key][current];
-        acc[mapToKey(current)] = currentTableKey?.at(0)
+        acc[current] = currentTableKey?.at(0)
           ? {
               count: currentTableKey[0].count,
               value: currentTableKey[0].value,
