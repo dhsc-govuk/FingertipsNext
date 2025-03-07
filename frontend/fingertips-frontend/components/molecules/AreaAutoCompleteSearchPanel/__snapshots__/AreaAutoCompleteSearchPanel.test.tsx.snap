@@ -387,7 +387,7 @@ exports[`AreaAutoCompleteInputField take a component snapshot 1`] = `
         <input
           class="c5"
           disabled=""
-          value=""
+          value="Some area name"
         />
       </label>
     </div>
