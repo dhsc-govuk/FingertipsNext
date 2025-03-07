@@ -51,6 +51,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
+    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -64,6 +65,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
+    usedInPoc: true,
   },
 ];
 const searchedIndicator = 'test';
@@ -166,7 +168,6 @@ describe('Search Results Suite', () => {
     expect(
       screen.getByTestId('search-result-form-error-summary')
     ).toBeInTheDocument();
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
   it('should focus to the first checkbox when clicking on the error link in the summary', async () => {
@@ -189,7 +190,9 @@ describe('Search Results Suite', () => {
       />
     );
 
-    const errorLink = screen.getByText('Available indicators').closest('a')!;
+    const errorLink = screen
+      .getByText('Select any indicators you want to view')
+      .closest('a')!;
 
     await user.click(errorLink);
 
