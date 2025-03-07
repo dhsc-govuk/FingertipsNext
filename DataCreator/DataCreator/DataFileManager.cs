@@ -9,8 +9,7 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static CsvFileDescription csvFileDescription=new CsvFileDescription ()
-            ; 
+        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription (); 
 
         public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
             new JsonSerializerOptions
@@ -137,7 +136,6 @@ namespace DataCreator
             foreach (var file in Directory.GetFiles(OutFilePath))
             {
                 File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
-                //File.Copy(file, Path.Combine(@"..\..\..\..\..\frontend\fingertips-frontend\assets", Path.GetFileName(file)),true);
             }
         }
 
