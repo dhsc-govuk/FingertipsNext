@@ -338,15 +338,14 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
+.c14 {
+  margin-bottom: 1em;
+}
+
 .c16 {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 19px;
-}
-
-.c14 {
-  margin: 0px;
-  background-color: #FFFFFF;
 }
 
 .c10 {
@@ -743,10 +742,10 @@ exports[`snapshot test - renders the homepage 1`] = `
         >
           <div
             class="c15"
+            data-testid="area-search-input-field"
           >
             <label
               class="c9"
-              data-testid="search-form-input-area"
             >
               <span
                 class="c11"
@@ -768,17 +767,17 @@ exports[`snapshot test - renders the homepage 1`] = `
               />
             </label>
           </div>
-          <div
-            class="c16"
+        </div>
+        <div
+          class="c16"
+        >
+          <a
+            class="c7"
+            data-testid="search-form-link-filter-area"
+            href="#"
           >
-            <a
-              class="c7"
-              data-testid="search-form-link-filter-area"
-              href="#"
-            >
-              Open area filter
-            </a>
-          </div>
+            Open area filter
+          </a>
         </div>
         <button
           class="c17"
