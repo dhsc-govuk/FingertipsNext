@@ -40,7 +40,7 @@ export const AreaSearchInputField = ({
           error: hasError ? 'Enter an area you want to search for' : '',
         }}
       >
-        Search for an area
+        Search by area
       </InputField>
     </StyleAreaSearchInputField>
   );

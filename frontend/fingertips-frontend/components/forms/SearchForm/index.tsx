@@ -7,10 +7,13 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
-import { AreaAutoCompleteFilterPanel } from '@/components/molecules/AreaFilterPanel';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
+import {
+  AreaFilterData,
+  SelectAreasFilterPanel,
+} from '@/components/molecules/SelectAreasFilterPanel';
+import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -29,8 +32,6 @@ export const SearchForm = ({
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
-  console.log(`areaFilterData ${JSON.stringify(areaFilterData)}`);
-
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   return (
@@ -63,6 +64,7 @@ export const SearchForm = ({
         value={selectedAreas || ''}
       />
       <AreaAutoCompleteInputField
+        key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
         searchState={searchState}
         firstSelectedArea={selectedAreasData?.[0]}
@@ -70,13 +72,20 @@ export const SearchForm = ({
 
       {selectedAreas && selectedAreas.length > 0 ? (
         <SelectedAreasPanel
+          key={`selected-area-panel-${JSON.stringify(searchState)}`}
           searchState={searchState}
           selectedAreasData={selectedAreasData}
           inFilterPane={false}
         />
       ) : null}
 
-      <AreaAutoCompleteFilterPanel areas={selectedAreas} />
+      <ShowHideContainer summary="Filter by area" open={false}>
+        <SelectAreasFilterPanel
+          key={`area-filter-panel-${JSON.stringify(searchState)}`}
+          areaFilterData={areaFilterData}
+          searchState={searchState}
+        />
+      </ShowHideContainer>
 
       <Button
         type="submit"

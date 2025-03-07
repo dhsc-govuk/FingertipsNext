@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot test - renders the form 1`] = `
+exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c10 {
+  .c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c10:focus {
+.c19:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c10:link,
-.c10:visited,
-.c10:active,
-.c10:hover {
+.c19:link,
+.c19:visited,
+.c19:active,
+.c19:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c10::-moz-focus-inner {
+.c19::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c10:hover,
-.c10:focus {
+.c19:hover,
+.c19:focus {
   background-color: #00572e;
 }
 
-.c10:active {
+.c19:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c10::before {
+.c19::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c10:active::before {
+.c19:active::before {
   top: -4px;
 }
 
-.c10:disabled {
+.c19:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c10:disabled:hover {
+.c19:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c10:disabled:focus {
+.c19:disabled:focus {
   outline: none;
 }
 
-.c10:disabled:active {
+.c19:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c10 svg {
+.c19 svg {
   max-width: 15px;
 }
 
@@ -173,6 +173,93 @@ exports[`snapshot test - renders the form 1`] = `
   clear: both;
 }
 
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.c11 {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 25px;
+  color: #1d70b8;
+  cursor: pointer;
+}
+
+.c11:hover {
+  color: #2b8cc4;
+}
+
+.c11:focus {
+  outline: 4px solid #ffdd00;
+  outline-offset: -1px;
+  color: #0b0c0c;
+  background: #ffdd00;
+}
+
+.c11::-webkit-details-marker {
+  display: none;
+}
+
+.c11:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  border-width: 7px 0 7px 12.124px;
+  border-left-color: inherit;
+}
+
+[open] > .c10:before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  border-width: 12.124px 7px 0 7px;
+  border-top-color: inherit;
+}
+
+.c12 {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c13 {
+  padding: 15px;
+  padding-left: 20px;
+  border-left: 5px solid #bfc1c3;
+}
+
+.c13 p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c13 > :last-child,
+.c13 p:last-child {
+  margin-bottom: 0;
+}
+
 .c0 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
@@ -186,36 +273,31 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 {
+.c17 {
+  margin-bottom: 20px;
+}
+
+.c16 .c16:last-of-type {
+  margin-bottom: 0;
+}
+
+.c15 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 33px;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
 }
 
-.c9:focus {
+.c15:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
-  background-color: #ffdd00;
-}
-
-.c9:link {
-  color: #1d70b8;
-}
-
-.c9:visited {
-  color: #4c2c92;
-}
-
-.c9:hover {
-  color: #2b8cc4;
-}
-
-.c9:active {
-  color: #2b8cc4;
-}
-
-.c9:focus {
-  color: #0b0c0c;
 }
 
 .c7 {
@@ -226,10 +308,36 @@ exports[`snapshot test - renders the form 1`] = `
   margin-bottom: 1em;
 }
 
-.c8 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 19px;
+.c14 {
+  margin-bottom: 1em;
+}
+
+.c14 span {
+  font-weight: bold;
+}
+
+.c14 select {
+  width: 100%;
+}
+
+.c18 {
+  font-weight: bold;
+}
+
+.c9 div {
+  padding: 0.5em 0em;
+}
+
+.c9 summary {
+  color: #000000;
+}
+
+.c9 summary:hover {
+  color: #000000;
+}
+
+.c9 div {
+  border-left: none;
 }
 
 .c2 {
@@ -237,33 +345,33 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c10 {
+  .c19 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 svg {
+  .c19 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c19 {
     margin-bottom: 32px;
   }
 }
@@ -335,6 +443,32 @@ exports[`snapshot test - renders the form 1`] = `
 }
 
 @media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c8 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
   .c0 {
     color: #000;
   }
@@ -360,19 +494,30 @@ exports[`snapshot test - renders the form 1`] = `
   }
 }
 
-@media print {
-  .c9 {
-    font-family: sans-serif;
+@media only screen and (min-width:641px) {
+  .c17 {
+    margin-bottom: 30px;
   }
 }
 
 @media print {
-  .c9[href^="/"]::after,
-  .c9[href^="http://"]::after,
-  .c9[href^="https://"]::after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    word-wrap: break-word;
+  .c15 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c15 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c15 {
+    width: 50%;
+    height: 38px;
   }
 }
 
@@ -434,7 +579,7 @@ exports[`snapshot test - renders the form 1`] = `
           <span
             class="c3"
           >
-            Search for an area
+            Search by area
           </span>
           <span
             class="c4"
@@ -452,19 +597,76 @@ exports[`snapshot test - renders the form 1`] = `
         </label>
       </div>
     </div>
-    <div
-      class="c8"
+    <details
+      class="c8 c9"
     >
-      <a
-        class="c9"
-        data-testid="search-form-link-filter-area"
-        href="#"
+      <summary
+        class="c10 c11"
       >
-        Open area filter
-      </a>
-    </div>
+        <span
+          class="c12"
+        >
+          Filter by area
+        </span>
+      </summary>
+      <div
+        class="c13"
+      >
+        <div
+          data-testid="select-areas-filter-panel"
+        >
+          <label
+            class="c1 c14"
+            data-testid="area-type-selector-container"
+          >
+            <span
+              class="c3"
+            >
+              Select an area type
+            </span>
+            <select
+              class="c15"
+            />
+          </label>
+          <label
+            class="c1 c14"
+            data-testid="group-type-selector-container"
+          >
+            <span
+              class="c3"
+            >
+              Select a group type
+            </span>
+            <select
+              class="c15"
+            />
+          </label>
+          <label
+            class="c1 c14"
+          >
+            <span
+              class="c3"
+            >
+              Select a group
+            </span>
+            <select
+              class="c15"
+            />
+          </label>
+          <div
+            class="c16 c17"
+          >
+            <span
+              class="c3 c18"
+            >
+              Select one or more areas
+            </span>
+          </div>
+        </div>
+      </div>
+    </details>
     <button
-      class="c10"
+      class="c19"
       data-testid="search-form-button-submit"
       style="margin-top: 25px;"
       type="submit"

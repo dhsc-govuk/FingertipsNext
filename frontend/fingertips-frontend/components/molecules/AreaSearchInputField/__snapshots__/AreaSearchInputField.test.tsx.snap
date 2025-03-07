@@ -161,7 +161,7 @@ exports[`AreaSearchInputField should render correctly and match snapshot 1`] = `
       <span
         class="c2"
       >
-        Search for an area
+        Search by area
       </span>
       <span
         class="c3"
