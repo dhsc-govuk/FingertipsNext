@@ -86,7 +86,7 @@ export function OneIndicatorOneAreaViewPlots({
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
-                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
               },

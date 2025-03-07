@@ -30,7 +30,7 @@ export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
   englandBenchmarkData: HealthDataForArea | undefined;
   groupIndicatorData?: HealthDataForArea;
-  measurementUnit: string;
+  measurementUnit?: string;
 }
 
 export interface LineChartTableRowData {
@@ -126,7 +126,7 @@ const getCellHeader = (
   if (heading === LineChartTableHeadingEnum.BenchmarkTrend)
     return getBenchmarkHeader(dataLength, heading, index);
 
-  return heading === LineChartTableHeadingEnum.AreaCount ? (
+  return heading !== LineChartTableHeadingEnum.AreaValue ? (
     <StyledAlignRightHeader
       data-testid={`header-${heading}-${index}`}
       key={`header-${heading}`}
@@ -139,9 +139,7 @@ const getCellHeader = (
       key={`header-${heading}`}
     >
       {heading}
-      <StyledSpan>
-        {heading === LineChartTableHeadingEnum.AreaValue ? `(${units})` : null}
-      </StyledSpan>
+      <StyledSpan>{`(${units})`}</StyledSpan>
     </StyledAlignRightHeader>
   );
 };
@@ -253,7 +251,7 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignLeftHeader>
-              {healthIndicatorData.map((_) =>
+              {healthIndicatorData.map(() =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) => value !== LineChartTableHeadingEnum.AreaPeriod
@@ -267,7 +265,7 @@ export function LineChartTable({
                       heading,
                       index + 1,
                       healthIndicatorData.length,
-                      measurementUnit
+                      measurementUnit ?? ''
                     )
                   )
               )}

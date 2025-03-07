@@ -11,7 +11,7 @@ interface BarChartProps {
   accessibilityLabel?: string;
   benchmarkLabel?: string;
   benchmarkValue?: number;
-  measurementUnit: string;
+  measurementUnit?: string;
 }
 
 export function BarChart({
@@ -61,7 +61,8 @@ export function BarChart({
     },
     tooltip: {
       format:
-        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}{point.units}',
+        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
+        `${measurementUnit ?? ''}`,
     },
     plotOptions: {
       bar: {
@@ -78,7 +79,6 @@ export function BarChart({
         data: healthIndicatorData.map((item) => ({
           y: item.healthData[0].value,
           name: item.areaName,
-          units: measurementUnit ?? '',
         })),
         colorByPoint: true,
       },

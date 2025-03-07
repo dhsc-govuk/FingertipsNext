@@ -30,6 +30,7 @@ it('should render the Highcharts react component with passed parameters within t
   const xAxisPropsTitle = 'DifferentXTitle';
   const yAxisPropsTitle = 'DifferentYTitle';
 
+  const measurementUnit = '%';
   render(
     <LineChart
       healthIndicatorData={mockHealthData[1]}
@@ -37,7 +38,7 @@ it('should render the Highcharts react component with passed parameters within t
       yAxisTitle={yAxisPropsTitle}
       accessibilityLabel="Accessibility label"
       searchState={state}
-      measurementUnit="%"
+      measurementUnit={measurementUnit}
     />
   );
 
@@ -47,6 +48,8 @@ it('should render the Highcharts react component with passed parameters within t
 
   expect(highcharts).toBeInTheDocument();
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);
+  expect(highcharts).toHaveTextContent(yAxisPropsTitle);
+  expect(highcharts).toHaveTextContent(measurementUnit);
 });
 
 it('should validate the checkbox is checked when passed the correct parameter of lineChart', async () => {
