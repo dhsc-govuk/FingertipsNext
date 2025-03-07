@@ -7,11 +7,11 @@ const Div = styled('div')({
   margin: '4em 0',
 });
 
-const TH = styled('th')({
+const Th = styled('th')({
   borderBottom: '1px solid gray',
 });
 
-const TD = styled('td')({
+const Td = styled('td')({
   borderBottom: '1px solid gray',
   padding: '1em 0',
 });
@@ -26,33 +26,27 @@ export const DemoTrendTags: FC = () => {
       <table>
         <thead>
           <tr>
-            <TH>Trend</TH>
+            <Th>Trend</Th>
             {trendConditions.map((trendCondition) => (
-              <TH key={trendCondition ?? 'none'}>
+              <Th key={trendCondition ?? 'none'}>
                 {trendCondition ?? 'undefined'}
-              </TH>
+              </Th>
             ))}
           </tr>
         </thead>
         <tbody>
           {Object.values(Trend).map((trend) => (
             <tr key={trend}>
-              <TD>{trend}</TD>
+              <Td>{trend}</Td>
               {trendConditions.map((trendCondition) => (
-                <TD key={`${trend}-${trendCondition}`}>
-                  {trend === Trend.SIMILAR && trendCondition ? (
-                    'Invalid'
-                  ) : (
-                    <>
-                      <TrendTag trend={trend} trendCondition={trendCondition} />
-                      <TrendTag
-                        trend={trend}
-                        trendCondition={trendCondition}
-                        useArrow={false}
-                      />
-                    </>
-                  )}
-                </TD>
+                <Td key={`${trend}-${trendCondition}`}>
+                  <TrendTag trend={trend} trendCondition={trendCondition} />
+                  <TrendTag
+                    trend={trend}
+                    trendCondition={trendCondition}
+                    useArrow={false}
+                  />
+                </Td>
               ))}
             </tr>
           ))}

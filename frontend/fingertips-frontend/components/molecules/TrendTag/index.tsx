@@ -41,22 +41,19 @@ const StyledParagraph = styled(Paragraph)(
 );
 
 const getColour = (trend: Trend, trendCondition?: TrendCondition) => {
-  if (trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.SIMILAR)
+  if (trend === Trend.NO_SIGNIFICANT_CHANGE)
     return {
       backgroundColor: TagColours.YellowBackground,
       color: TagColours.YellowText,
     };
 
-  if (
-    trend === Trend.BETTER ||
-    trendCondition === TrendCondition.GETTING_BETTER
-  )
+  if (trendCondition === TrendCondition.GETTING_BETTER)
     return {
       backgroundColor: TagColours.GreenBackground,
       color: TagColours.GreenText,
     };
 
-  if (trend === Trend.WORSE || trendCondition === TrendCondition.GETTING_WORSE)
+  if (trendCondition === TrendCondition.GETTING_WORSE)
     return {
       backgroundColor: TagColours.RedBackground,
       color: TagColours.RedText,
