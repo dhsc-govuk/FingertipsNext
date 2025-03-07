@@ -2,6 +2,6 @@ namespace TrendAnalysisApp.Calculator.Legacy.Models;
 
 public class ValidationResult
 {
-        public bool IsValid { get; set; }
-        public string ValidationMessage { get; set; }
+        public required bool IsValid { get; set; }
+        public required string ValidationMessage { get; set; }
 }

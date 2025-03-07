@@ -4,8 +4,6 @@ namespace TrendAnalysisApp.Calculator.Legacy.Models
 {
   public class CoreDataSet : ValueWithCIsData, ICloneable
     {
-        private double? countPerYear;
-
         [System.Text.Json.Serialization.JsonIgnore]
         public bool IsCountValid
         {
