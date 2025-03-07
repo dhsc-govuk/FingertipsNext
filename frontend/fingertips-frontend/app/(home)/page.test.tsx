@@ -140,7 +140,7 @@ describe('Home page', () => {
     });
   });
 
-  describe('Check correct props to the error component are passed when there is an error', () => {
+  describe('Check correct props are passed to the error component when there is an error', () => {
     it('should pass the correct props when getAreaFilterData call returns an error', async () => {
       mockGetAreaFilterData.mockRejectedValue('Some areas api error');
 
