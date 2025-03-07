@@ -88,7 +88,7 @@ export function LineChart({
       },
     },
     yAxis: {
-      title: { text: yAxisTitle, margin: 20 },
+      title: yAxisTitle ? { text: yAxisTitle, margin: 20 } : undefined,
       minorTickInterval: 'auto',
       minorTicksPerMajor: 2,
     },
