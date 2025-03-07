@@ -14,7 +14,6 @@ import {
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
-import { Sex } from '../Inequalities/inequalitiesHelpers';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -153,19 +152,14 @@ const getBenchmarkCell = (areaCount: number) =>
 
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
-): LineChartTableRowData[] => {
-  const filterAreaData = areaData.healthData
-    .filter((healthPoint) => healthPoint.sex === Sex.ALL)
-    .map((healthPoint) => ({
-      period: healthPoint.year,
-      count: healthPoint.count,
-      value: healthPoint.value,
-      lower: healthPoint.lowerCi,
-      upper: healthPoint.upperCi,
-    }));
-
-  return filterAreaData;
-};
+): LineChartTableRowData[] =>
+  areaData.healthData.map((healthPoint) => ({
+    period: healthPoint.year,
+    count: healthPoint.count,
+    value: healthPoint.value,
+    lower: healthPoint.lowerCi,
+    upper: healthPoint.upperCi,
+  }));
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
   border: 'none',

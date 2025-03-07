@@ -342,6 +342,20 @@ describe('Line chart table suite', () => {
           upper: 578.32766,
           value: 703.420759,
         },
+        {
+          period: 2004,
+          count: 267,
+          value: 703.420759,
+          lower: 441.69151,
+          upper: 578.32766,
+        },
+        {
+          period: 2004,
+          count: 267,
+          value: 703.420759,
+          lower: 441.69151,
+          upper: 578.32766,
+        },
       ];
 
       expect(mapToLineChartTableData(MOCK_HEALTH_DATA[0])).toEqual(
