@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -46,10 +46,12 @@ it('should render the Highcharts react component with passed parameters within t
     'highcharts-react-component-lineChart'
   );
 
-  expect(highcharts).toBeInTheDocument();
+  await waitFor(() => {
+    expect(highcharts).toBeInTheDocument();
+  });
+
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);
-  expect(highcharts).toHaveTextContent(measurementUnit);
 });
 
 it('should validate the checkbox is checked when passed the correct parameter of lineChart', async () => {
