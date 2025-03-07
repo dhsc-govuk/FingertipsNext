@@ -4,6 +4,7 @@ env:
   frontend-directory: ./frontend/fingertips-frontend
   NEXT_TELEMETRY_DISABLED: true
   NODE_VERSION: 22.x
+  BRANCH_NAME: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || (github.head_ref || github.ref_name) }}
 
 on:
   workflow_call:
@@ -53,9 +54,8 @@ jobs:
           path: |
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
-          key: cache/${{github.repository}}/${{github.ref}}
-          restore-keys: |
-            cache/${{github.repository}}/refs/pull/${{github.event.pull_request.number}}/merge
+          key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
+          restore-keys: 
             cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
@@ -81,13 +81,19 @@ jobs:
           ) &&
           (
             github.head_ref == 'main' ||
-            github.ref_name == 'main'
+            github.ref_name == 'main' ||
+            github.event_name == 'workflow_dispatch'
           )
         run: npm run test-e2e-ci-update-snapshots
 
-      - name: Run Playwright tests in CI
+      - name: Run Playwright tests in CI - skip screenshots for pull requests
         if: inputs.e2e-test-container-image == null
-        run: npm run test-e2e-ci-docker
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            npm run test-e2e-local-docker
+          else
+            npm run test-e2e-ci-docker
+          fi
 
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.e2e-test-container-image != null
