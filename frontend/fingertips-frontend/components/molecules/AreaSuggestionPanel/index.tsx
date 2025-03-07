@@ -1,6 +1,14 @@
 import { ListItem, UnorderedList, SearchIcon } from 'govuk-react';
 import styled from 'styled-components';
-import { AreaDocument, formatAreaName } from '@/lib/search/searchTypes';
+import { AreaDocument } from '@/lib/search/searchTypes';
+import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
+import { usePathname, useRouter } from 'next/navigation';
+import { HighlightText } from '@/components/atoms/HighlightText';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -21,43 +29,47 @@ const AreaSuggestionPanelItem = styled(ListItem)`
   font-weight: 300;
 `;
 
-const StyleHighLightedText = styled('span')({
-  fontWeight: '600',
-});
-
-const highlightText = (text: string, searchHint: string) => {
-  const parts = text.split(new RegExp(`(${searchHint})`, 'gi'));
-  return parts.map((part, index) => {
-    if (part.toLowerCase() === searchHint.toLowerCase()) {
-      return (
-        <StyleHighLightedText key={'highlight_' + index}>
-          {part}
-        </StyleHighLightedText>
-      );
-    }
-    return part;
-  });
-};
-
 interface AreaAutoCompleteSuggestionPanelProps {
-  areas: AreaDocument[];
-  onItemSelected: (area: AreaDocument) => void;
+  suggestedAreas: AreaDocument[];
   searchHint: string;
+  searchState?: SearchStateParams;
 }
 
 export const AreaAutoCompleteSuggestionPanel = ({
-  areas,
-  onItemSelected,
+  suggestedAreas,
   searchHint,
+  searchState,
 }: AreaAutoCompleteSuggestionPanelProps) => {
-  if (areas.length === 0) return null;
+  const stateManager = SearchStateManager.initialise(searchState);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
+    if (!selectedAreaCode) {
+      stateManager.removeAllParamFromState(SearchParams.AreasSelected);
+    } else {
+      stateManager.addParamValueToState(
+        SearchParams.AreasSelected,
+        selectedAreaCode
+      );
+    }
+    router.replace(stateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const selectedAreas = searchState?.[SearchParams.AreasSelected];
+
+  if (
+    (selectedAreas && selectedAreas?.length > 0) ||
+    suggestedAreas.length === 0
+  )
+    return null;
 
   return (
-    <StyleSearchSuggestionPanel>
-      {areas.map((area) => (
+    <StyleSearchSuggestionPanel data-testid="area-suggestion-panel">
+      {suggestedAreas.map((area) => (
         <AreaSuggestionPanelItem
           key={`${area.areaCode}-${area.areaType}`}
-          onClick={() => onItemSelected(area)}
+          onClick={() => updateUrlWithSelectedArea(area.areaCode)}
         >
           <SearchIcon
             width="15px"
@@ -66,7 +78,10 @@ export const AreaAutoCompleteSuggestionPanel = ({
             style={{ padding: '0px', margin: 'auto 10px auto auto' }}
           />
           <div style={{ flexGrow: 3, padding: '5px' }}>
-            {highlightText(formatAreaName(area), searchHint)}
+            <HighlightText
+              text={formatAreaName(area.areaCode, area.areaName, area.areaType)}
+              searchHint={searchHint}
+            />
           </div>
           <div
             style={{
