@@ -265,7 +265,7 @@ describe('generateLineChartSeriesData', () => {
     expect(
       generateInequalitiesLineChartSeriesData(
         keys,
-        Inequalities.Sex,
+        InequalitiesTypes.Sex,
         mockInequalitiesRowData,
         areasSelected
       )
@@ -287,7 +287,7 @@ describe('generateLineChartSeriesData', () => {
     expect(
       generateInequalitiesLineChartSeriesData(
         keys,
-        Inequalities.Sex,
+        InequalitiesTypes.Sex,
         mockInequalitiesRowData,
         areasSelected
       )

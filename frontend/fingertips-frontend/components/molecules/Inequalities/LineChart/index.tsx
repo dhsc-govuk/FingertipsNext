@@ -5,18 +5,16 @@ import Highcharts from 'highcharts';
 import { lineChartDefaultOptions } from '@/components/organisms/LineChart/lineChartHelpers';
 import {
   generateInequalitiesLineChartSeriesData,
-  getDynamicKeys,
-  Inequalities,
+  InequalitiesTypes,
   InequalitiesChartData,
-  YearlyHealthDataGroupedByInequalities,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 interface InequalitiesLineChartProps {
   lineChartData: InequalitiesChartData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
+  dynamicKeys: string[];
   areasSelected: string[];
-  type?: Inequalities;
+  type?: InequalitiesTypes;
   yAxisTitleText?: string;
 }
 
@@ -31,16 +29,11 @@ const generateInequalitiesLineChartTooltipStringList = (
 
 export function InequalitiesLineChart({
   lineChartData,
-  yearlyHealthDataGroupedByInequalities,
+  dynamicKeys,
   areasSelected,
-  type = Inequalities.Sex,
+  type = InequalitiesTypes.Sex,
   yAxisTitleText = 'Value',
 }: Readonly<InequalitiesLineChartProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
-
   const seriesData = generateInequalitiesLineChartSeriesData(
     dynamicKeys,
     type,

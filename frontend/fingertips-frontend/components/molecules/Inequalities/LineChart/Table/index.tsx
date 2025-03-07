@@ -9,12 +9,7 @@ import {
   StyledDiv,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
-import {
-  getDynamicKeys,
-  Inequalities,
-  InequalitiesChartData,
-  YearlyHealthDataGroupedByInequalities,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
 
 export enum InequalitiesTableHeadingsEnum {
@@ -22,7 +17,7 @@ export enum InequalitiesTableHeadingsEnum {
 }
 
 interface InequalitiesLineChartTableProps {
-  tableData: InequalitiesLineChartTableData;
+  tableData: InequalitiesChartData;
   dynamicKeys: string[];
 }
 

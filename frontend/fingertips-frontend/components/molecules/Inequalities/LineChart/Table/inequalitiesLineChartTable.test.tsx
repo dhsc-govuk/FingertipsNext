@@ -1,11 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesLineChartTable } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import {
-  Inequalities,
-  InequalitiesChartData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {

@@ -45,20 +45,23 @@ export enum InequalitiesTypes {
 }
 
 export const mapToChartSymbolsForInequality: Record<
-  Inequalities,
+  InequalitiesTypes,
   SymbolKeyValue[]
 > = {
-  [Inequalities.Sex]: ['circle', 'square', 'diamond'],
-  [Inequalities.Deprivation]: [],
+  [InequalitiesTypes.Sex]: ['circle', 'square', 'diamond'],
+  [InequalitiesTypes.Deprivation]: [],
 };
 
-export const mapToChartColorsForInequality: Record<Inequalities, string[]> = {
-  [Inequalities.Sex]: [
+export const mapToChartColorsForInequality: Record<
+  InequalitiesTypes,
+  string[]
+> = {
+  [InequalitiesTypes.Sex]: [
     ChartColours.Orange,
     ChartColours.OtherLightBlue,
     ChartColours.Purple,
   ],
-  [Inequalities.Deprivation]: [],
+  [InequalitiesTypes.Deprivation]: [],
 };
 
 // 'All' -> 'Persons' mapping to be removed when db value is changed in subsequent ticket
@@ -153,7 +156,7 @@ export const getDynamicKeys = (
 
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
-  type: Inequalities,
+  type: InequalitiesTypes,
   rowData: InequalitiesTableRowData[],
   areasSelected: string[]
 ): Highcharts.SeriesOptionsType[] => {

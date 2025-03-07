@@ -83,11 +83,9 @@ export function Inequalities({
             title: 'Line chart',
             content: (
               <InequalitiesLineChart
-                yearlyHealthDataGroupedByInequalities={
-                  yearlyHealthDataGroupedByInequalities
-                }
                 lineChartData={lineChartData}
                 areasSelected={areasSelected}
+                dynamicKeys={dynamicKeys}
               />
             ),
           },
