@@ -3,38 +3,34 @@
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import {
-  getDynamicKeys,
-  Inequalities,
+  InequalitiesTypes,
   InequalitiesBarChartData,
-  YearlyHealthDataGroupedByInequalities,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  dynamicKeys: string[];
+  type?: InequalitiesTypes;
 }
 
-const mapToYAxisTitle: Record<Inequalities, string> = {
-  [Inequalities.Sex]: 'Sex',
-  [Inequalities.Deprivation]: 'Deprivation deciles',
+const mapToYAxisTitle: Record<InequalitiesTypes, string> = {
+  [InequalitiesTypes.Sex]: 'Sex',
+  [InequalitiesTypes.Deprivation]: 'Deprivation deciles',
 };
 
 // This needs to be done more elegantly
-const getKeysForSexInequality = (keys: string[], type: Inequalities) =>
-  type === Inequalities.Sex ? keys.filter((key) => key !== 'Persons') : keys;
+const getKeysForSexInequality = (keys: string[], type: InequalitiesTypes) =>
+  type === InequalitiesTypes.Sex
+    ? keys.filter((key) => key !== 'Persons')
+    : keys;
 
 export function InequalitiesBarChart({
   barChartData,
-  yearlyHealthDataGroupedByInequalities,
-  type = Inequalities.Sex,
+  dynamicKeys,
+  type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesBarChartProps>) {
   const yAxisTitlePrefix = 'Inequality type:';
 
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
   const barChartFields = getKeysForSexInequality(dynamicKeys, type);
 
   const seriesData: Highcharts.SeriesOptionsType[] = [

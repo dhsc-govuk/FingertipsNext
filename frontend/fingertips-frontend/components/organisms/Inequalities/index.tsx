@@ -63,9 +63,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChart
                 barChartData={barchartData}
-                yearlyHealthDataGroupedByInequalities={
-                  yearlyHealthDataGroupedByInequalities
-                }
+                dynamicKeys={dynamicKeys}
               />
             ),
           },

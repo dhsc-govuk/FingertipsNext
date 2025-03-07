@@ -61,6 +61,10 @@ export const inequalitiesBenchmarkColumnMapping: Record<
   [InequalitiesTypes.Deprivation]: 'England',
 };
 
+// export const mapToGetBenchmarkData: Record<InequalitiesTypes, (rowData: InequalitiesTableRowData[]) => BenchmarkColumn> = {
+//   [InequalitiesTypes.Sex]: (row)
+// }
+
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
@@ -129,6 +133,12 @@ export const getDynamicKeys = (
 
   return inequalityKeyMapping[type](uniqueKeys);
 };
+
+// export const getBenchmarkData = (
+//   type: InequalitiesTypes,
+//   yearDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
+//   englandData: HealthDataPoint[]
+// ) => {};
 
 export const shouldDisplayInequalities = (
   indicatorsSelected: string[] = [],
