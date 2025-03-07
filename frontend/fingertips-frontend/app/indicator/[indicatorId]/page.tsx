@@ -30,7 +30,6 @@ export default async function IndicatorPage({
     lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
   };
 
-  // TODO JH - look at the AI search mock returning the whole mockIndicatorData and not just the fields on IndicatorDocument
   const fullMetadata = {
     ...placeholderMetadata,
     ...indicatorMetadata,
