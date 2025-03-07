@@ -68,7 +68,7 @@ export function Chart({
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
-        measurementUnit=''
+        measurementUnit=""
         accessibilityLabel="A bar chart showing healthcare data"
       />
       {populationData ? (
