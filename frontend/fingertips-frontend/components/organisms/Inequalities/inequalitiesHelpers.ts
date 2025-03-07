@@ -35,7 +35,7 @@ export enum Sex {
   ALL = 'All',
 }
 
-export enum Inequalities {
+export enum InequalitiesTypes {
   Sex = 'sex',
   Deprivation = 'deprivation',
 }
@@ -45,12 +45,20 @@ export const mapToKey = (key: string): string =>
   key === Sex.ALL ? 'Persons' : key;
 
 export const inequalityKeyMapping: Record<
-  Inequalities,
+  InequalitiesTypes,
   (keys: string[]) => string[]
 > = {
-  [Inequalities.Sex]: (sexKeys: string[]) =>
+  [InequalitiesTypes.Sex]: (sexKeys: string[]) =>
     sexKeys.map((key) => mapToKey(key)).toSorted((a, b) => b.localeCompare(a)),
-  [Inequalities.Deprivation]: (keys: string[]) => keys,
+  [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
+};
+
+export const inequalitiesBenchmarkColumnMapping: Record<
+  InequalitiesTypes,
+  string
+> = {
+  [InequalitiesTypes.Sex]: 'Persons',
+  [InequalitiesTypes.Deprivation]: 'England',
 };
 
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
@@ -108,7 +116,7 @@ export const mapToInequalitiesTableData = (
 
 export const getDynamicKeys = (
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
-  type: Inequalities
+  type: InequalitiesTypes
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities

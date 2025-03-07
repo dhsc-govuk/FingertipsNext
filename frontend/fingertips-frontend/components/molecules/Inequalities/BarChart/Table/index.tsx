@@ -1,9 +1,4 @@
-import {
-  getDynamicKeys,
-  Inequalities,
-  InequalitiesBarChartTableData,
-  YearlyHealthDataGroupedByInequalities,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartTableData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayedValue,
   StyledAlignLeftHeader,
@@ -16,8 +11,7 @@ import React, { ReactNode } from 'react';
 
 interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartTableData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  dynamicKeys: string[];
 }
 
 export enum InequalitiesBarChartTableHeaders {
@@ -50,14 +44,8 @@ const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
 
 export function InequalitiesBarChartTable({
   tableData,
-  yearlyHealthDataGroupedByInequalities,
-  type = Inequalities.Sex,
+  dynamicKeys,
 }: Readonly<InequalitiesBarChartTableProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
-
   return (
     <div data-testid="inequalitiesBarChartTable-component">
       <Table
