@@ -9,6 +9,7 @@ import {
 import { connection } from 'next/server';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { ErrorPage } from '@/components/pages/error';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
 export default async function Page(
   props: Readonly<{
@@ -17,6 +18,7 @@ export default async function Page(
 ) {
   const searchParams = await props.searchParams;
   const stateManager = SearchStateManager.initialise(searchParams);
+
   const {
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
@@ -26,13 +28,27 @@ export default async function Page(
     await connection();
 
     const areasApi = ApiClientFactory.getAreasApiClient();
-
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
             areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
           )
         : [];
+
+    const {
+      availableAreaTypes,
+      availableAreas,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
+      selectedAreasData
+    );
+
+    if (updatedSearchState) {
+      stateManager.setState(updatedSearchState);
+    }
 
     const initialState: SearchFormState = {
       indicator: searchedIndicator ?? '',
@@ -44,6 +60,12 @@ export default async function Page(
     return (
       <Home
         initialFormState={initialState}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
       />
