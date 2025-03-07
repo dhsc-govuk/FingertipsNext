@@ -95,7 +95,7 @@ describe('SearchForm', () => {
     );
   });
 
-  it('should not render the selected areas panel when there are areasSelected', () => {
+  it('should not render the selected areas panel when there are no areasSelected', () => {
     render(
       <SearchForm
         formState={initialDataState}
