@@ -53,7 +53,7 @@ const initialStateWithAreas: SearchFormState = {
 };
 
 describe('Search actions', () => {
-  it('should redirect to search results if indicator only is provided', async () => {
+  it('should redirect to search results if only indicator is provided', async () => {
     const formData = getMockFormData({
       indicator: 'boom',
       searchState: noAreasSelectedState,
@@ -67,7 +67,7 @@ describe('Search actions', () => {
     );
   });
 
-  it('should redirect to search results if areas only are provided', async () => {
+  it('should redirect to search results if only areas are provided', async () => {
     const formData = getMockFormData({
       indicator: '',
       searchState: areasSelectedState,

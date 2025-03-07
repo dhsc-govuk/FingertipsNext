@@ -123,7 +123,7 @@ describe('SearchForm', () => {
     expect(screen.getByTestId('selected-areas-panel')).toBeInTheDocument();
   });
 
-  it('should render the select areas filter panel ', () => {
+  it('should render the select areas filter panel', () => {
     render(<SearchForm formState={initialDataState} />);
 
     expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
