@@ -105,7 +105,13 @@ export function Chart({
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
+                    yAxisTitle={
+                      indicatorMetadata?.unitLabel
+                        ? `Value: ${indicatorMetadata?.unitLabel}`
+                        : ''
+                    }
                     accessibilityLabel="A line chart showing healthcare data"
+                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
                   />
                 ),
               },
@@ -117,6 +123,7 @@ export function Chart({
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
+                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
                   />
                 ),
               },
@@ -148,6 +155,7 @@ export function Chart({
         yAxisTitle="Value"
         benchmarkLabel="England"
         benchmarkValue={800}
+        measurementUnit={indicatorMetadata?.unitLabel ?? ''}
         accessibilityLabel="A bar chart showing healthcare data"
       />
       {populationData ? (
