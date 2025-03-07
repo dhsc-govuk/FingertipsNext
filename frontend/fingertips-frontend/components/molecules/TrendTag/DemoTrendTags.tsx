@@ -40,12 +40,18 @@ export const DemoTrendTags: FC = () => {
               <TD>{trend}</TD>
               {trendConditions.map((trendCondition) => (
                 <TD key={`${trend}-${trendCondition}`}>
-                  <TrendTag trend={trend} trendCondition={trendCondition} />
-                  <TrendTag
-                    trend={trend}
-                    trendCondition={trendCondition}
-                    useArrow={false}
-                  />
+                  {trend === Trend.SIMILAR && trendCondition ? (
+                    'Invalid'
+                  ) : (
+                    <>
+                      <TrendTag trend={trend} trendCondition={trendCondition} />
+                      <TrendTag
+                        trend={trend}
+                        trendCondition={trendCondition}
+                        useArrow={false}
+                      />
+                    </>
+                  )}
                 </TD>
               ))}
             </tr>
