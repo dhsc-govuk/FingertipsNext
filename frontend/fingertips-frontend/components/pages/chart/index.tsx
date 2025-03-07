@@ -105,7 +105,11 @@ export function Chart({
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
-                    yAxisTitle="Unit"
+                    yAxisTitle={
+                      indicatorMetadata?.unitLabel
+                        ? `Value: ${indicatorMetadata?.unitLabel}`
+                        : ''
+                    }
                     measurementUnit={indicatorMetadata?.unitLabel ?? ''}
                     accessibilityLabel="A line chart showing healthcare data"
                   />
