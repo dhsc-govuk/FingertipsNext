@@ -1,5 +1,24 @@
 -- This file contains SQL statements that will be executed after the build script.
+TRUNCATE TABLE [dbo].[HealthMeasure]
+DELETE FROM [dbo].[AgeDimension]
+DELETE FROM [dbo].[AreaDimension]
+DELETE FROM [dbo].[DeprivationDimension]
+DELETE FROM  [dbo].[IndicatorDimension]
+DELETE FROM [dbo].[SexDimension]
+DELETE FROM [dbo].[TrendDimension]
+DELETE FROM [Areas].[AreaRelationships]
+DELETE FROM [Areas].[Areas]
+DELETE FROM [Areas].[AreaTypes];
 
+--reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
+DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
+DBCC CHECKIDENT ('[AgeDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[AreaDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[DeprivationDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
+DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
 	(
