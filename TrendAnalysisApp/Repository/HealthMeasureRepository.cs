@@ -8,25 +8,21 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
     /// <summary>
-    /// Retrieves the 5 most recent health measure results for an indicator with a given set of dimensions.
-    /// i.e. indicator + age group, area and sex.
+    /// Retrieves the 5 most recent health measure results for an indicator associated with a given area.
+    /// Currently, we will only calculate trends for HealthMeasures associated with all ages and all sexes.
     /// </summary>
-    /// <param name="ageId"></param>
     /// <param name="areaCode"></param>
-    /// <param name="indicatorId"></param>
-    /// <param name="sexId"></param>
+    /// <param name="indicatorKey"></param>
     /// <returns>A list of Health Measure Models</returns>
     public async Task<IEnumerable<HealthMeasureModel>> GetForUniqueDimension(
-        int ageId,
         string areaCode,
-        int indicatorId,
-        int sexId
+        int indicatorKey
     ) {
             return await _dbContext.HealthMeasure
-            .Where(hm => hm.AgeDimension == null || hm.AgeDimension.AgeID == ageId)
+            .Where(hm => hm.AgeDimension == null || hm.AgeDimension.HasValue == false)
             .Where(hm => hm.AreaDimension == null || hm.AreaDimension.Code == areaCode)
-            .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorId == indicatorId)
-            .Where(hm => hm.SexDimension == null || hm.SexDimension.SexId == sexId)
+            .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
+            .Where(hm => hm.SexDimension == null || hm.SexDimension.HasValue == false)
             .OrderByDescending(hm => hm.Year)
             .Take(5)
             .Include(hm => hm.AreaDimension)

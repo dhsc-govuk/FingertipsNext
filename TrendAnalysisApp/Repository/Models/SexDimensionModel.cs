@@ -7,4 +7,5 @@ public class SexDimensionModel
     [Key]
     public byte SexKey { get; set; }
     public byte SexId { get; set; }
+    public bool HasValue { get; set; }
 }
