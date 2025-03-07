@@ -3,6 +3,7 @@ import { expect } from '../pageFactory';
 
 export default class HomePage extends BasePage {
   readonly indicatorField = 'indicator-search-form-input';
+  readonly areaField = 'area-search-input-field';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   readonly areaFilterContainer = 'selected-areas-panel';
@@ -34,6 +35,8 @@ export default class HomePage extends BasePage {
   }
 
   async closeAreaFilterPill(index: number) {
+    await this.page.waitForLoadState();
+
     const pills = await this.areaFilterPills()
       .getByTestId(this.removeIcon)
       .all();
