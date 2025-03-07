@@ -37,8 +37,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -53,8 +52,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -95,8 +93,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -111,8 +108,7 @@ describe('Inequalities table suite', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();

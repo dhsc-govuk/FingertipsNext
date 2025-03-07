@@ -22,9 +22,8 @@ export enum InequalitiesTableHeadingsEnum {
 }
 
 interface InequalitiesLineChartTableProps {
-  tableData: InequalitiesChartData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  tableData: InequalitiesLineChartTableData;
+  dynamicKeys: string[];
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -51,14 +50,8 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 
 export function InequalitiesLineChartTable({
   tableData,
-  yearlyHealthDataGroupedByInequalities,
-  type = Inequalities.Sex,
+  dynamicKeys,
 }: Readonly<InequalitiesLineChartTableProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
-
   const tableHeaders = [
     ...Object.values(InequalitiesTableHeadingsEnum),
     ...dynamicKeys,

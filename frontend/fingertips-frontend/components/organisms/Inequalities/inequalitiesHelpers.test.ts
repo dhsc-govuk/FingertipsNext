@@ -8,7 +8,7 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
-  Inequalities,
+  InequalitiesTypes,
   InequalitiesTableRowData,
   mapToInequalitiesTableData,
   shouldDisplayInequalities,
@@ -188,7 +188,7 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['Persons', 'Male', 'Female'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Sex)
+      getDynamicKeys(yearlyHealthDataGroupedBySex, InequalitiesTypes.Sex)
     ).toEqual(expectedKeys);
   });
 
@@ -196,7 +196,10 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['All', 'Female', 'Male'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Deprivation)
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySex,
+        InequalitiesTypes.Deprivation
+      )
     ).toEqual(expectedKeys);
   });
 });

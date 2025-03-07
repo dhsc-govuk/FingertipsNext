@@ -6,20 +6,25 @@ import React from 'react';
 import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
+  InequalitiesTypes,
   InequalitiesBarChartTableData,
   InequalitiesChartData,
   mapToInequalitiesTableData,
+  getDynamicKeys,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
+  type?: InequalitiesTypes;
+  englandData?: HealthDataForArea;
   areasSelected?: string[];
 }
 
 export function Inequalities({
   healthIndicatorData,
+  type = InequalitiesTypes.Sex,
   areasSelected = [],
 }: Readonly<InequalitiesProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
@@ -28,6 +33,11 @@ export function Inequalities({
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
+
+  const dynamicKeys = getDynamicKeys(
+    yearlyHealthDataGroupedByInequalities,
+    type
+  );
 
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
@@ -57,9 +67,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChartTable
                 tableData={barchartTableData}
-                yearlyHealthDataGroupedByInequalities={
-                  yearlyHealthDataGroupedByInequalities
-                }
+                dynamicKeys={dynamicKeys}
               />
             ),
           },
@@ -89,9 +97,7 @@ export function Inequalities({
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartData}
-                yearlyHealthDataGroupedByInequalities={
-                  yearlyHealthDataGroupedByInequalities
-                }
+                dynamicKeys={dynamicKeys}
               />
             ),
           },
