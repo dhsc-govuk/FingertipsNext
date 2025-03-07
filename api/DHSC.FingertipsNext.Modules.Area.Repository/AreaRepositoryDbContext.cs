@@ -20,7 +20,7 @@ public class AreaRepositoryDbContext : DbContext
     public DbSet<AreaModel> Area { get; set; }
     public DbSet<AreaTypeModel> AreaType { get; set; }
     public DbSet<AreaRelationshipModel> AreaRelationship { get; set; }
-
+    public DbSet<DenormalisedAreaWithAreaTypeModel> DenormalisedAreaWithAreaType { get; set; }
 }
 
 
