@@ -38,8 +38,6 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  console.log(`areaFilterData ${JSON.stringify(areaFilterData)}`);
-
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState
@@ -95,6 +93,7 @@ export const Home = ({
           searchState={searchState}
           formState={formState}
           selectedAreasData={selectedAreasData}
+          areaFilterData={areaFilterData}
         />
       </div>
       <SectionBreak level="LARGE" visible />

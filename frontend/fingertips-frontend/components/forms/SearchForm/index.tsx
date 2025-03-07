@@ -10,6 +10,7 @@ import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { AreaAutoCompleteFilterPanel } from '@/components/molecules/AreaFilterPanel';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -19,13 +20,17 @@ interface SearchFormProps {
   searchState?: SearchStateParams;
   formState: SearchFormState;
   selectedAreasData?: AreaWithRelations[];
+  areaFilterData?: AreaFilterData;
 }
 
 export const SearchForm = ({
   searchState,
   formState,
   selectedAreasData,
+  areaFilterData,
 }: Readonly<SearchFormProps>) => {
+  console.log(`areaFilterData ${JSON.stringify(areaFilterData)}`);
+
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   return (
