@@ -4,6 +4,7 @@ import {
 } from '@/components/pages/indicator';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
+import { redirect } from 'next/navigation';
 
 export default async function IndicatorPage({
   params,
@@ -18,12 +19,7 @@ export default async function IndicatorPage({
     );
 
   if (indicatorMetadata === undefined) {
-    // TODO JH - scrap this & replace with basic 404 redirect
-    const src =
-      Math.random() < 0.5
-        ? 'https://http.cat/404.jpg'
-        : 'https://http.dog/404.jpg';
-    return <img src={src} style={{ width: '100%' }} />;
+    redirect("")
   }
 
   const placeholderMetadata: IndicatorMetadata = {
