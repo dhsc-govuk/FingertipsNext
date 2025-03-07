@@ -16,7 +16,10 @@ const StyledFilterDetails = styled(Details)<{ showSideBar: boolean }>(
       padding: '0.5em 0em',
     },
     summary: {
-      color: '#000000',
+      'color': '#000000',
+      ':hover': {
+        color: '#000000',
+      },
     },
   },
   ({ showSideBar }) => {
