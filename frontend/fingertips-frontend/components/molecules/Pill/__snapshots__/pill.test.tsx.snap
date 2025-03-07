@@ -10,8 +10,8 @@ exports[`Pill Suite snapshot test 1`] = `
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.3125em 0.3125em;
-  max-width: 100%;
+  padding: 0.5em 0.3125em;
+  width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -21,9 +21,12 @@ exports[`Pill Suite snapshot test 1`] = `
 
 .c3 {
   word-wrap: break-word;
-  padding-left: 0.5em;
+  padding: 0em 1em;
   font-size: 16px;
   margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .c1 {
@@ -35,6 +38,12 @@ exports[`Pill Suite snapshot test 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+@media print {
+  .c3 {
+    font-family: sans-serif;
+  }
 }
 
 <div

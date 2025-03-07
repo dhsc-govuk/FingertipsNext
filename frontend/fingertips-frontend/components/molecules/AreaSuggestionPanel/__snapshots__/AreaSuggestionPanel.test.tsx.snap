@@ -37,6 +37,10 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   display: block;
 }
 
+.c7 {
+  font-weight: 600;
+}
+
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -64,10 +68,6 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   margin: 0;
   font-size: 19px;
   font-weight: 300;
-}
-
-.c7 {
-  font-weight: 600;
 }
 
 @media print {
@@ -112,6 +112,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
 
 <ul
     class="c0 c1 c2"
+    data-testid="area-suggestion-panel"
   >
     <li
       class="c3 c4 c5"
@@ -135,13 +136,10 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
-        GP01 - 
         <span
           class="c7"
-        >
-          Green
-        </span>
-        wich
+        />
+        GP01 - Greenwich
       </div>
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
@@ -171,6 +169,9 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
+        <span
+          class="c7"
+        />
         GP02 - Cambridge
       </div>
       <div
@@ -201,6 +202,9 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
+        <span
+          class="c7"
+        />
         Central London
       </div>
       <div
