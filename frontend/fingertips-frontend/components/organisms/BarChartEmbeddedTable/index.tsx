@@ -51,8 +51,9 @@ export function BarChartEmbeddedTable({
   const mostRecentBenchmarkData = sortMostRecentBenchmark([benchmarkData]);
 
   return (
-    <Table data-testid="barChartEmbeddedTable-component">
-      head={
+    <div data-testid={"barChartEmbeddedTable-component"}>
+      <Table
+        head={
         <Table.Row>
           <Table.CellHeader>
             {BarChartEmbeddedTableHeadingEnum.AreaName}
@@ -70,26 +71,27 @@ export function BarChartEmbeddedTable({
             {BarChartEmbeddedTableHeadingEnum.AreaUpper}
           </Table.CellHeader>
         </Table.Row>
-      }
-      {mostRecentBenchmarkData.map((item) => (
-        <Table.Row key={`${item.areaName}`}>
-          <Table.Cell>{item.areaName}</Table.Cell>
-          <Table.Cell>{item.healthData?.count}</Table.Cell>
-          <Table.Cell>{item.healthData?.value}</Table.Cell>
-          <Table.Cell>{item.healthData?.lowerCi}</Table.Cell>
-          <Table.Cell>{item.healthData?.upperCi}</Table.Cell>
-        </Table.Row>
-      ))}
+      }>
+        {mostRecentBenchmarkData.map((item) => (
+          <Table.Row key={`${item.areaName}`}>
+            <Table.Cell>{item.areaName}</Table.Cell>
+            <Table.Cell>{item.healthData?.count}</Table.Cell>
+            <Table.Cell>{item.healthData?.value}</Table.Cell>
+            <Table.Cell>{item.healthData?.lowerCi}</Table.Cell>
+            <Table.Cell>{item.healthData?.upperCi}</Table.Cell>
+          </Table.Row>
+        ))}
 
-      {sortedTableRows.map((item) => (
-        <Table.Row key={`${item.area}`}>
-          <Table.Cell>{item.area}</Table.Cell>
-          <Table.Cell>{item.count}</Table.Cell>
-          <Table.Cell>{item.value}</Table.Cell>
-          <Table.Cell>{item.lowerCi}</Table.Cell>
-          <Table.Cell>{item.upperCi}</Table.Cell>
-        </Table.Row>
-      ))}
-    </Table>
+        {sortedTableRows.map((item) => (
+          <Table.Row key={`${item.area}`}>
+            <Table.Cell>{item.area}</Table.Cell>
+            <Table.Cell>{item.count}</Table.Cell>
+            <Table.Cell>{item.value}</Table.Cell>
+            <Table.Cell>{item.lowerCi}</Table.Cell>
+            <Table.Cell>{item.upperCi}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table>
+    </div>
   );
 }
