@@ -22,7 +22,7 @@ interface LineChartProps {
   showConfidenceIntervalsData?: string[];
   searchState: SearchStateParams;
   groupIndicatorData?: HealthDataForArea;
-  measurementUnit: string;
+  measurementUnit?: string;
 }
 
 const chartSymbols: SymbolKeyValue[] = [

@@ -71,9 +71,9 @@ export function OneIndicatorOneAreaViewPlots({
                     yAxisTitle={
                       indicatorMetadata?.unitLabel
                         ? `Value: ${indicatorMetadata?.unitLabel}`
-                        : ''
+                        : undefined
                     }
-                    measurementUnit={indicatorMetadata?.unitLabel ?? ''}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                     accessibilityLabel="A line chart showing healthcare data"
                   />
                 ),
