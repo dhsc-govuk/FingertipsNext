@@ -1,12 +1,13 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 
 [ApiController]
 [Route("indicators")]
-public class IndicatorsController(IIndicatorsService indicatorsService)
-    : ControllerBase
+public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
     readonly IIndicatorsService _indicatorsService = indicatorsService;
 
@@ -28,16 +29,31 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     [Route("{indicatorId:int}/data")]
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
-        [FromQuery(Name="area_codes")] string[]? areaCodes = null,
+        [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery] int[]? years = null,
-        [FromQuery] string[]? inequalities = null)
+        [FromQuery] string[]? inequalities = null
+    )
     {
+        if (areaCodes is { Length: > 10 })
+        {
+            return new BadRequestObjectResult(
+                new { message = "Too many area codes supplied. The maximum is 10." }
+            );
+        }
+
+        if (years is { Length: > 10 })
+        {
+            return new BadRequestObjectResult(
+                new { message = "Too many area years supplied. The maximum is 10." }
+            );
+        }
+
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? [],
             inequalities ?? []
-            );
+        );
 
         return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
     }
