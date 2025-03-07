@@ -34,15 +34,32 @@ const getMockFormData = (formData: Record<string, string>) =>
     get: (key: string) => formData[key],
   });
 
-const initialState: SearchFormState = {
-  indicator: '',
+const noAreasSelectedState = JSON.stringify({
+  [SearchParams.AreasSelected]: [],
+});
+
+const areasSelectedState = JSON.stringify({
+  [SearchParams.AreasSelected]: ['foo', 'bar'],
+});
+
+const initialStateWithoutAreas: SearchFormState = {
+  indicator: 'some indicator',
+  searchState: noAreasSelectedState,
+};
+
+const initialStateWithAreas: SearchFormState = {
+  indicator: 'some indicator',
+  searchState: areasSelectedState,
 };
 
 describe('Search actions', () => {
-  it('should redirect to search results with query param', async () => {
-    const formData = getMockFormData({ indicator: 'boom' });
+  it('should redirect to search results if indicator only is provided', async () => {
+    const formData = getMockFormData({
+      indicator: 'boom',
+      searchState: noAreasSelectedState,
+    });
 
-    await searchIndicator(initialState, formData);
+    await searchIndicator(initialStateWithoutAreas, formData);
 
     expect(redirectMock).toHaveBeenCalledWith(
       `/results?${SearchParams.SearchedIndicator}=boom`,
@@ -50,25 +67,45 @@ describe('Search actions', () => {
     );
   });
 
-  it('should return an appropriate message if no indicator is provided', async () => {
-    const formData = getMockFormData({ indicator: '  ' });
-
-    const state = await searchIndicator(initialState, formData);
-
-    expect(state.indicator).toBe('');
-    expect(state.message).toBe('Please enter a value for the indicator field');
-  });
-
-  it('should redirect to search result with query parameters- both for areaSelected and indicator', async () => {
+  it('should redirect to search results if areas only are provided', async () => {
     const formData = getMockFormData({
-      areaSearched: 'EP0001',
-      indicator: 'boom',
+      indicator: '',
+      searchState: areasSelectedState,
     });
 
-    await searchIndicator(initialState, formData);
+    await searchIndicator(initialStateWithoutAreas, formData);
+
     expect(redirectMock).toHaveBeenCalledWith(
-      `/results?${SearchParams.SearchedIndicator}=boom&${SearchParams.AreasSelected}=EP0001`,
+      `/results?${SearchParams.AreasSelected}=foo&${SearchParams.AreasSelected}=bar`,
       RedirectType.push
+    );
+  });
+
+  it('should redirect to search results if indicator and areas are provided', async () => {
+    const formData = getMockFormData({
+      indicator: 'boom',
+      searchState: areasSelectedState,
+    });
+
+    await searchIndicator(initialStateWithAreas, formData);
+
+    expect(redirectMock).toHaveBeenCalledWith(
+      `/results?${SearchParams.SearchedIndicator}=boom&${SearchParams.AreasSelected}=foo&${SearchParams.AreasSelected}=bar`,
+      RedirectType.push
+    );
+  });
+
+  it('should return an appropriate message if no indicator and no areas are provided', async () => {
+    const formData = getMockFormData({
+      indicator: '',
+      searchState: noAreasSelectedState,
+    });
+
+    const state = await searchIndicator(initialStateWithoutAreas, formData);
+
+    expect(state.indicator).toBe('');
+    expect(state.message).toBe(
+      'Please enter an indicator ID or select at least one area'
     );
   });
 });

@@ -899,6 +899,10 @@ exports[`snapshot test - renders the homepage 1`] = `
         >
           Find public health data
         </h3>
+        <input
+          hidden=""
+          name="searchState"
+        />
         <label
           class="c9 c10"
           data-testid="indicator-search-form-input"
@@ -924,12 +928,6 @@ exports[`snapshot test - renders the homepage 1`] = `
             value=""
           />
         </label>
-        <input
-          id="areaSearched"
-          name="areaSearched"
-          type="hidden"
-          value=""
-        />
         <div
           class="c14"
         >
@@ -956,6 +954,8 @@ exports[`snapshot test - renders the homepage 1`] = `
               </span>
               <input
                 class="c13"
+                id="areaSearched"
+                name="areaSearched"
                 value=""
               />
             </label>

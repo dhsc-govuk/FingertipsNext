@@ -52,7 +52,7 @@ export default async function Page(
 
     const initialState: SearchFormState = {
       indicator: searchedIndicator ?? '',
-      areaSearched: areasSelected ? areasSelected[0] : '',
+      searchState: JSON.stringify(stateManager.getSearchState()),
       message: null,
       errors: {},
     };

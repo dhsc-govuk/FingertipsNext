@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  eastEnglandNHSRegion,
+  londonNHSRegion,
+} from '@/mock/data/areas/nhsRegionsAreas';
 
 const mockPath = 'some path';
 jest.mock('next/navigation', () => {
@@ -21,7 +25,7 @@ const mockSearchState: SearchStateParams = {};
 
 const initialDataState: SearchFormState = {
   indicator: 'indicator',
-  areaSearched: 'area',
+  searchState: JSON.stringify(mockSearchState),
   message: null,
   errors: {},
 };
@@ -53,23 +57,41 @@ describe('SearchForm', () => {
     ).toBeInTheDocument();
   });
 
-  it('should set the input field with indicator value from the form state', () => {
-    const indicatorState: SearchFormState = {
+  it('should pre-populate the indicator input field with value from the form state', () => {
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
       indicator: 'test value',
-      areaSearched: 'test area',
-      message: '',
-      errors: {},
     };
     render(
-      <SearchForm formState={indicatorState} searchState={mockSearchState} />
+      <SearchForm formState={searchFormState} searchState={mockSearchState} />
     );
 
     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
       'test value'
     );
+  });
 
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      'test value'
+  it('should pre-populate the area search field with the first value for selectedAreasData', () => {
+    const searchState = {
+      [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+    };
+
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+      indicator: 'test value',
+      searchState: JSON.stringify(searchState),
+    };
+
+    render(
+      <SearchForm
+        formState={searchFormState}
+        searchState={searchState}
+        selectedAreasData={[eastEnglandNHSRegion, londonNHSRegion]}
+      />
+    );
+
+    expect(screen.getByRole('textbox', { name: /area/i })).toHaveValue(
+      eastEnglandNHSRegion.name
     );
   });
 

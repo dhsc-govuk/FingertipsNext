@@ -60,7 +60,7 @@ describe('Home page', () => {
 
       expect(page.props.initialFormState).toEqual({
         indicator: 'testing',
-        areaSearched: 'E40000007',
+        searchState: JSON.stringify(searchState),
         message: null,
         errors: {},
       });

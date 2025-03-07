@@ -37,6 +37,11 @@ export const SearchForm = ({
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
+      <input
+        name="searchState"
+        defaultValue={JSON.stringify(searchState)}
+        hidden
+      />
       <StyledInputField
         input={{
           id: 'indicator',
@@ -57,12 +62,6 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-      <input
-        type="hidden"
-        name="areaSearched"
-        id="areaSearched"
-        value={selectedAreas || ''}
-      />
       <AreaAutoCompleteInputField
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
