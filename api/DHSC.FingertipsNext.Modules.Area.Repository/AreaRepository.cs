@@ -8,42 +8,6 @@ using System.Net.Http.Headers;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
-/// <summary>
-///
-/// </summary>
-public static class Extensions
-{
-    public static IQueryable<AreaModel> ProcessIncludes(
-        this IIncludableQueryable<AreaModel,AreaTypeModel> queryable,
-        int maxLevel)
-    {
-        var query = queryable
-
-            .Include(a => a.Children)
-            .ThenInclude(a => a.Children)
-
-            .Include(a => a.Children)
-            .ThenInclude(x => x.Parents)
-
-            .Include(a => a.Children)
-            .ThenInclude(x => x.AreaType)
-
-
-
-
-            .Include(a => a.Parents)
-            .ThenInclude(x => x.Parents)
-
-            .Include(a => a.Parents)
-            .ThenInclude(x => x.Children)
-
-            .Include(a => a.Parents)
-            .ThenInclude(x => x.AreaType);
-
-        return query;
-    }
-}
-
 public class AreaRepository : IAreaRepository
 {
     private readonly AreaRepositoryDbContext _dbContext;
@@ -94,7 +58,7 @@ public class AreaRepository : IAreaRepository
     /// <summary>
     ///
     /// </summary>
-    /// <param name="areaType"></param>
+    /// <param name="areaTypeKey"></param>
     /// <returns></returns>
     public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey)
     {
@@ -112,50 +76,50 @@ public class AreaRepository : IAreaRepository
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
-    public async Task<AreaWithRelationsModel?> GetAreaAsync(
+    public async Task<AreaWithRelationsModel> GetAreaAsync(
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
-        string? childAreaType
+        string childAreaType
     )
     {
 
        var area = await _dbContext
             .Area
             .Include(a => a.AreaType)
-            .ProcessIncludes(3)
+            .Include(a => a.Children)
+                .ThenInclude(a => a.Children)
+
+                .Include(a => a.Children)
+                .ThenInclude(x => x.Parents)
+
+                .Include(a => a.Children)
+                .ThenInclude(x => x.AreaType)
+                
+            .Include(a => a.Parents)
+                .ThenInclude(x => x.Parents)
+
+                .Include(a => a.Parents)
+                .ThenInclude(x => x.Children)
+
+                .Include(a => a.Parents)
+                .ThenInclude(x => x.AreaType)
             .Where(a => a.AreaCode == areaCode)
             .AsSplitQuery()
             .FirstOrDefaultAsync();
 
-        var areasWithRelations = new AreaWithRelationsModel { Area = area};
-        areasWithRelations.ParentAreas = area.Parents.ToList();
-
-        areasWithRelations.Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : null;
-
-        // Get the principle requested area.
-   /*     var area = await _dbContext
-            .Area.Include(a => a.AreaType)
-            .Where(area => area.AreaCode == areaCode)
-            .FirstOrDefaultAsync();
-
-        if (area == null)
-            return null;
-
-        var areasWithRelations = new AreaWithRelationsModel { Area = area };
-
-        // Get the immediate parents
-        var parents = await GetParentAreas(area.AreaKey);
-
-        if (!parents.IsNullOrEmpty())
+        var areasWithRelations = new AreaWithRelationsModel
         {
-            areasWithRelations.ParentAreas = parents;
-        }
-*/
+            Area = area,
+            ParentAreas = area.Parents.ToList(),
+            Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : null
+        };
+
         if (includeChildren)
         {
-            var descendents = await GetDescendantAreas(area, childAreaType);
-            areasWithRelations.Children = area.Children.Concat(descendents).ToList();
+            areasWithRelations.Children = string.IsNullOrWhiteSpace(childAreaType) ? 
+                area.Children.ToList() :
+                (await GetDescendantAreas(area, childAreaType)).ToList();
         }
         return areasWithRelations;
     }

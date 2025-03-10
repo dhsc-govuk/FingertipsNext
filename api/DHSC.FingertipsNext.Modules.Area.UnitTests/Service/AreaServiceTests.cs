@@ -94,7 +94,7 @@ public class AreaServiceTests
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
-        await _service.GetAreaDetails("area1", null, null, null, null);
+        await _service.GetAreaDetails("area1", null, null, null);
 
         await _mockRepository.Received().GetAreaAsync("area1", false, false, null);
     }
@@ -106,7 +106,7 @@ public class AreaServiceTests
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null, null);
+        var result = await _service.GetAreaDetails("area1", null, null, null);
 
         result.ShouldBeNull();
     }
@@ -119,7 +119,7 @@ public class AreaServiceTests
             .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns(fakeAreaWithRelationsModel);
 
-        var result = await _service.GetAreaDetails("area1", null, null, null, null);
+        var result = await _service.GetAreaDetails("area1", null, null, null);
 
         var expectedResult = _mapper.Map<AreaWithRelations>(fakeAreaWithRelationsModel);
         result.ShouldBeEquivalentTo(expectedResult);
