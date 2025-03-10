@@ -6,12 +6,12 @@ import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { redirect } from 'next/navigation';
 
-export default async function IndicatorPage({
-  params,
-}: {
-  params: Promise<{ indicatorId: string }>;
-}) {
-  const { indicatorId } = await params;
+export default async function IndicatorPage(
+  props: Readonly<{
+    params: Promise<{ indicatorId: string }>;
+  }>
+) {
+  const { indicatorId } = await props.params;
 
   const indicatorMetadata =
     await SearchServiceFactory.getIndicatorSearchService().getIndicator(

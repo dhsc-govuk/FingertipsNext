@@ -36,13 +36,5 @@
 
   "notes": "placeholder notes Aliquam accumsan dolor ut velit feugiat pellentesque. Mauris sagittis, orci sit amet sollicitudin finibus, velit tellus rhoncus purus, non convallis felis mi non ex. Fusce elementum lacus ac turpis faucibus eleifend. Integer elementum lorem vel leo luctus suscipit vel id tortor. Nam pulvinar lacus sit amet erat venenatis, non semper nunc sollicitudin.",
   "caveats": "placeholder caveats  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque consequat magna sapien, ac dapibus arcu commodo vel. Nulla varius ut eros eget consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus posuere mollis dignissim. ",
-  "covidImpact": "placeholder covid-19 impact Donec id mi convallis, sollicitudin nisl id, semper augue. Vestibulum consectetur ante orci, vitae ornare justo tincidunt in. Sed sagittis vulputate sapien. Nam luctus lacus id congue tempor. Mauris in aliquet orci, sed mollis libero. Praesent eget felis tellus. Nunc quis lectus at turpis venenatis egestas nec et dolor.",
-
-  "profiles": [
-    "placeholder profile 1",
-    "placeholder profile 2",
-    "placeholder profile 3"
-  ],
-
-  "links": ["placeholder link 1", "placeholder link 2", "placeholder link 3"]
+  "covidImpact": "placeholder covid-19 impact Donec id mi convallis, sollicitudin nisl id, semper augue. Vestibulum consectetur ante orci, vitae ornare justo tincidunt in. Sed sagittis vulputate sapien. Nam luctus lacus id congue tempor. Mauris in aliquet orci, sed mollis libero. Praesent eget felis tellus. Nunc quis lectus at turpis venenatis egestas nec et dolor."
 }

@@ -56,9 +56,6 @@ export type IndicatorDefinitionProps = {
   notes: string;
   caveats: string;
   covidImpact: string;
-
-  profiles: string[];
-  links: string[];
 };
 
 type IndicatorProps = {
@@ -246,24 +243,28 @@ export function IndicatorDefinition({
       <H3 id="links">Public health profile usage and related content</H3>
       <H4>This indicator is used in the following health profiles</H4>
       <UnorderedList listStyleType="none">
-        {indicatorDefinitionProps.profiles.map((profile, idx) => {
-          return (
-            <ListItem key={`profiles-${idx}`}>
-              <Link href="#">{profile}</Link>
-            </ListItem>
-          );
-        })}
+        <ListItem>
+          <Link href="#">"placeholder profile 1"</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">"placeholder profile 2"</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">"placeholder profile 3"</Link>
+        </ListItem>
       </UnorderedList>
 
       <H4>Related Content</H4>
       <UnorderedList listStyleType="none">
-        {indicatorDefinitionProps.links.map((link, idx) => {
-          return (
-            <ListItem key={`links-${idx}`}>
-              <Link href="#">{link}</Link>
-            </ListItem>
-          );
-        })}
+        <ListItem>
+          <Link href="#">"placeholder link 1"</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">"placeholder link 2"</Link>
+        </ListItem>
+        <ListItem>
+          <Link href="#">"placeholder link 3"</Link>
+        </ListItem>
       </UnorderedList>
     </>
   );
