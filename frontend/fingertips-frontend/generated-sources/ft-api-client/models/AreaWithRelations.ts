@@ -70,6 +70,7 @@ export interface AreaWithRelations {
      * @memberof AreaWithRelations
      */
     siblings?: Array<Area>;
+}
 
 /**
  * Check if a given object implements the AreaWithRelations interface.
