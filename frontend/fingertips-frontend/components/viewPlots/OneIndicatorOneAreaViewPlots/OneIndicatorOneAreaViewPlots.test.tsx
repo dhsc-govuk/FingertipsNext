@@ -1,8 +1,9 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { act } from 'react';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -40,15 +41,14 @@ const searchState: SearchStateParams = {
 const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render back link with correct search parameters', () => {
+  it('should render back link with correct search parameters', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
       />
     );
-
-    const backLink = screen.getByRole('link', { name: /back/i });
+    const backLink = await screen.findByRole('link', { name: /back/i });
     const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}`;
 
     expect(backLink).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(backLink).toHaveAttribute('href', expectedUrl);
   });
 
-  it('should render the view with correct title', () => {
+  it('should render the view with correct title', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={[mockHealthData['108'][1]]}
@@ -65,7 +65,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = await screen.findByRole('heading', { level: 2 });
 
     expect(
       screen.getByTestId('oneIndicatorOneAreaViewPlot-component')
@@ -98,7 +98,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
-  it('should display data source when metadata exists', () => {
+  it('should display data source when metadata exists', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={testHealthData}
@@ -107,12 +107,13 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    expect(
-      screen.getAllByText('Data source:', { exact: false })[0]
-    ).toBeVisible();
+    screen.getAllByText('Data source:', { exact: false })[0];
+    const actual = await screen.findAllByText('Data source:', { exact: false });
+
+    expect(actual[0]).toBeVisible();
   });
 
-  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
+  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', async () => {
     const MOCK_DATA = [
       {
         areaCode: 'A1',
@@ -130,9 +131,11 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
 
     expect(
-      screen.queryByRole('heading', {
-        name: 'See how the indicator has changed over time',
-      })
+      await waitFor(() =>
+        screen.queryByRole('heading', {
+          name: 'See how the indicator has changed over time',
+        })
+      )
     ).not.toBeInTheDocument();
     expect(
       screen.queryByTestId('tabContainer-lineChartAndTable')

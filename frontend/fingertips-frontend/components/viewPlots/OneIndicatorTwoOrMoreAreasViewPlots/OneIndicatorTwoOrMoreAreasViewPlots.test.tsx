@@ -1,6 +1,6 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
@@ -55,7 +55,7 @@ const assertLineChartAndTableInDocument = async () => {
   ).toBeInTheDocument();
 };
 
-const assertLineChartAndTableNotInDocument = () => {
+const assertLineChartAndTableNotInDocument = async () => {
   expect(screen.queryByTestId(lineChartTestId)).not.toBeInTheDocument();
   expect(screen.queryByTestId(lineChartTableTestId)).not.toBeInTheDocument();
   expect(
@@ -70,7 +70,7 @@ const assertLineChartAndTableNotInDocument = () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
-  it('should render back link with correct search parameters', () => {
+  it('should render back link with correct search parameters', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
@@ -78,7 +78,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       />
     );
 
-    const backLink = screen.getByRole('link', { name: /back/i });
+    const backLink = await screen.findByRole('link', { name: /back/i });
     const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}&${SearchParams.AreasSelected}=${mockAreas[1]}`;
 
     expect(backLink).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     expect(backLink).toHaveAttribute('href', expectedUrl);
   });
 
-  it('should render the view with correct title', () => {
+  it('should render the view with correct title', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
@@ -94,7 +94,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       />
     );
 
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = await screen.findByRole('heading', { level: 2 });
 
     expect(
       screen.getByTestId('oneIndicatorTwoOrMoreAreasViewPlots-component')
@@ -130,7 +130,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     await assertLineChartAndTableInDocument();
   });
 
-  it('should display data source when metadata exists', () => {
+  it('should display data source when metadata exists', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
@@ -138,10 +138,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-
-    expect(
-      screen.getAllByText('Data source:', { exact: false })[0]
-    ).toBeVisible();
+    const actual = await screen.findAllByText('Data source:', { exact: false });
+    expect(actual[0]).toBeVisible();
   });
 
   it('should not render the LineChart components when there are more than 2 areas', async () => {
@@ -156,10 +154,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       />
     );
 
-    assertLineChartAndTableNotInDocument();
+    await waitFor(() => assertLineChartAndTableNotInDocument());
   });
 
-  it('should not display LineChart components when there are less than 2 time periods per area selected', () => {
+  it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
     const MOCK_DATA = [
       {
         areaCode: 'A1',
@@ -180,6 +178,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       />
     );
 
-    assertLineChartAndTableNotInDocument();
+    await waitFor(() => assertLineChartAndTableNotInDocument());
   });
 });
