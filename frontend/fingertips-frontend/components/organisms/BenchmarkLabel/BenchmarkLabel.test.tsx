@@ -5,7 +5,7 @@ import {
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
 } from './BenchmarkLabelTypes';
-import { getDefaultBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
@@ -143,7 +143,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   ])(
     'returns correct style for %s group and %s type',
     (group, type, expected) => {
-      const result = getDefaultBenchmarkTagStyle(
+      const result = getBenchmarkTagStyle(
         group as BenchmarkLabelGroupType,
         type as BenchmarkLabelType
       );

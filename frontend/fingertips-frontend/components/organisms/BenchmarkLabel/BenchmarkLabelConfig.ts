@@ -10,7 +10,7 @@ import {
   TBenchmarkLabelGroupConfig,
 } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
-export const getDefaultBenchmarkTagStyle = (
+export const getBenchmarkTagStyle = (
   group: BenchmarkLabelGroupType,
   type: BenchmarkLabelType
 ) => {

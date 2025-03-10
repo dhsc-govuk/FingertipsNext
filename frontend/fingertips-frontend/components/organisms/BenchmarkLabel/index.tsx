@@ -2,7 +2,7 @@
 import { Tag } from 'govuk-react';
 import styled from 'styled-components';
 import React from 'react';
-import { getDefaultBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import {
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
@@ -17,7 +17,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
   legendType: BenchmarkLabelType;
   group: BenchmarkLabelGroupType;
 }>(({ legendType, group }) => {
-  const theme = getDefaultBenchmarkTagStyle(group, legendType);
+  const theme = getBenchmarkTagStyle(group, legendType);
   return {
     padding: '5px 8px 4px 8px',
     alignItems: 'center',
