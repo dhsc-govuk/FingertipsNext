@@ -62,8 +62,9 @@ export function SelectAreasFilterPanel({
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const hasAreasSelected =
-    searchState?.[SearchParams.AreasSelected] &&
-    searchState?.[SearchParams.AreasSelected].length > 0;
+    (searchState?.[SearchParams.AreasSelected] &&
+      searchState?.[SearchParams.AreasSelected].length > 0) ||
+    searchState?.[SearchParams.GroupAreaSelected] === 'ALL';
 
   const areaTypeSelected = (valueSelected: string) => {
     searchStateManager.addParamValueToState(

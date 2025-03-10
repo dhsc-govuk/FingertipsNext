@@ -55,6 +55,20 @@ describe('SelectAreasFilterPanel', () => {
       ).toBeDisabled();
     });
 
+    it('should disable the select area type drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: 'ALL',
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
+      ).toBeDisabled();
+    });
+
     it('should not disable the select area type drop down when there are no areas selected', () => {
       render(
         <SelectAreasFilterPanel
@@ -193,7 +207,21 @@ describe('SelectAreasFilterPanel', () => {
       ).toBeDisabled();
     });
 
-    it('should not disable the select group type drop down when there are no areas selected', () => {
+    it('should disable the select group type drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: 'ALL',
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should enable the select group type drop down when there are no areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithNoSelectedAreas}
@@ -324,7 +352,7 @@ describe('SelectAreasFilterPanel', () => {
 
     const groupDropDownLabel = 'Select a group';
 
-    it('should disable the select group type drop down when there are areas selected', () => {
+    it('should disable the select group drop down when there are areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithSelectedAreas}
@@ -339,7 +367,21 @@ describe('SelectAreasFilterPanel', () => {
       ).toBeDisabled();
     });
 
-    it('should not disable the select group type drop down when there are no areas selected', () => {
+    it('should disable the select group drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: 'ALL',
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should enable the select group type drop down when there are no areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithNoSelectedAreas}
