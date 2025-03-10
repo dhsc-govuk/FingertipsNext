@@ -3,6 +3,11 @@ import { AreaAutoCompleteSuggestionPanel } from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
+import {
+  englandAreaType,
+  nhsRegionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -83,6 +88,30 @@ describe('AreaSuggestionPanel', () => {
     render(
       <AreaAutoCompleteSuggestionPanel
         suggestedAreas={mockAreas}
+        searchHint=""
+      />
+    );
+
+    await user.click(screen.getByText('GP01 - Greenwich'));
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should remove any previous area filter selection from the state', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=GP01`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={mockAreas}
+        searchState={{
+          [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
+          [SearchParams.GroupTypeSelected]: englandAreaType.key,
+          [SearchParams.GroupSelected]: englandArea.code,
+        }}
         searchHint=""
       />
     );

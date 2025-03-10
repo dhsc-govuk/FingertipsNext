@@ -104,6 +104,7 @@ exports[`SelectedAreasPanel snapshot test 1`] = `
 
 <div
     class="c0"
+    data-testid="selected-areas-panel"
   >
     <span
       class="c1 c2"
