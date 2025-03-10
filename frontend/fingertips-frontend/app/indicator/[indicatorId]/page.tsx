@@ -6,7 +6,7 @@ import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { redirect } from 'next/navigation';
 
-export default async function IndicatorPage(
+export default async function IndicatorDefinitionPage(
   props: Readonly<{
     params: Promise<{ indicatorId: string }>;
   }>
