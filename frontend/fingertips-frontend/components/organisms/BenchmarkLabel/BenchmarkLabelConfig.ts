@@ -20,25 +20,32 @@ export const getBenchmarkTagStyle = (
   return typeConf ?? groupConfig.default;
 };
 
+const similar = {
+  backgroundColor: GovukColours.Yellow,
+  color: GovukColours.Black,
+};
+
+const notCompared = {
+  backgroundColor: 'transparent',
+  color: GovukColours.Black,
+  border: '1px solid #0B0C0C',
+};
+
 export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
   [BenchmarkLabelGroupType.RAG]: {
-    default: {
-      backgroundColor: 'transparent',
-      color: GovukColours.Black,
-      border: '1px solid #0B0C0C',
-    },
+    default: notCompared,
     [BenchmarkLabelType.BETTER]: {
       backgroundColor: GovukColours.Green,
       tint: 'SOLID',
     },
-    [BenchmarkLabelType.SIMILAR]: {
-      backgroundColor: GovukColours.Yellow,
-      color: GovukColours.Black,
-    },
+    [BenchmarkLabelType.SIMILAR]: similar,
     [BenchmarkLabelType.WORSE]: {
       backgroundColor: GovukColours.Red,
       tint: 'SOLID',
     },
+  },
+  [BenchmarkLabelGroupType.BOB]: {
+    default: notCompared,
     [BenchmarkLabelType.LOWER]: {
       backgroundColor: GovukColours.LightBlue,
     },
@@ -46,29 +53,27 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
       backgroundColor: GovukColours.DarkBlue,
       tint: 'SOLID',
     },
+    [BenchmarkLabelType.SIMILAR]: similar,
   },
   [BenchmarkLabelGroupType.RAG_99]: {
-    default: {
-      backgroundColor: 'transparent',
-      color: GovukColours.Black,
-      border: '1px solid #0B0C0C',
-    },
+    default: notCompared,
     [BenchmarkLabelType.BETTER]: {
       backgroundColor: GovukColours.LightGreen,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.SIMILAR]: {
-      backgroundColor: GovukColours.Yellow,
-      color: GovukColours.Black,
-    },
+    [BenchmarkLabelType.SIMILAR]: similar,
     [BenchmarkLabelType.WORSE]: {
       backgroundColor: TagColours.DarkRed,
       tint: 'SOLID',
     },
+  },
+  [BenchmarkLabelGroupType.BOB_99]: {
+    default: notCompared,
     [BenchmarkLabelType.LOWER]: {
       backgroundColor: TagColours.LightBlue,
       color: GovukColours.Black,
     },
+    [BenchmarkLabelType.SIMILAR]: similar,
     [BenchmarkLabelType.HIGHER]: {
       backgroundColor: GovukColours.Blue,
       tint: 'SOLID',

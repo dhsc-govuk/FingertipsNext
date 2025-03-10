@@ -32,6 +32,8 @@ export interface BenchmarkLabelTypeConfig {
 export const enum BenchmarkLabelGroupType {
   RAG = 'rag',
   RAG_99 = 'rag_99',
+  BOB = 'bob',
+  BOB_99 = 'bob_99',
   QUINTILES = 'quintiles',
   QUINTILES_WITH_JUDGEMENT = 'quintiles_with_judgement',
 }
