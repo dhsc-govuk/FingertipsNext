@@ -22,7 +22,7 @@ describe('Inequalities suite', () => {
     ).toBeInTheDocument();
   });
 
-  it('check that measurement unit is rendered correctly when the inequality table is rendered', () => {
+  it('take a snapshot', () => {
     const component = render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
