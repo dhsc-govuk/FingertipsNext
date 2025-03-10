@@ -7,6 +7,10 @@ import { Paragraph, Tag } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { Arrow } from '@/components/atoms/Arrow';
 import { TagColours } from '@/lib/styleHelpers/colours';
+import {
+  getTrendColour,
+  getTrendConditionColours,
+} from '@/components/molecules/TrendTag/trendTagConfig';
 
 interface TagProps {
   trend: Trend;
@@ -24,11 +28,17 @@ const StyledDefaultTag = styled(Tag)<{
   trend: Trend;
   trendCondition?: TrendCondition;
 }>(({ trend, trendCondition }) => {
+  const trendConditionColours =
+    trend !== Trend.NO_SIGNIFICANT_CHANGE
+      ? getTrendConditionColours(trendCondition)
+      : null;
+
   return {
     textTransform: 'unset',
     margin: '0.3125em',
     color: TagColours.GreyText,
-    ...getColour(trend, trendCondition),
+    ...getTrendColour(trend),
+    ...trendConditionColours,
   };
 });
 
@@ -39,35 +49,6 @@ const StyledParagraph = styled(Paragraph)(
   },
   typography.font({ size: 14 })
 );
-
-const getColour = (trend: Trend, trendCondition?: TrendCondition) => {
-  if (trend === Trend.NO_SIGNIFICANT_CHANGE)
-    return {
-      backgroundColor: TagColours.YellowBackground,
-      color: TagColours.YellowText,
-    };
-
-  if (trendCondition === TrendCondition.GETTING_BETTER)
-    return {
-      backgroundColor: TagColours.GreenBackground,
-      color: TagColours.GreenText,
-    };
-
-  if (trendCondition === TrendCondition.GETTING_WORSE)
-    return {
-      backgroundColor: TagColours.RedBackground,
-      color: TagColours.RedText,
-    };
-  if (trend === Trend.DECREASING)
-    return {
-      backgroundColor: TagColours.LightBlueBackground,
-    };
-  if (trend === Trend.INCREASING)
-    return {
-      backgroundColor: TagColours.LightBlue,
-    };
-  return {};
-};
 
 const displayTrendCondition = (trendCondition?: TrendCondition) => {
   return trendCondition ? `and ${trendCondition}` : '';
