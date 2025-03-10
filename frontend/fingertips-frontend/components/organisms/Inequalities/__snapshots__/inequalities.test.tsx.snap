@@ -1,0 +1,901 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Inequalities suite take a snapshot 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c9 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c9:last-child {
+  padding-right: 0;
+}
+
+.c13 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c13:last-child {
+  padding-right: 0;
+}
+
+.c8 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c2 {
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.c6 {
+  margin-bottom: 30px;
+  display: block;
+}
+
+.c7 {
+  margin-bottom: 30px;
+  display: block;
+}
+
+.c3 {
+  margin-left: 25px;
+}
+
+.c3:before {
+  content: '\\2014  ';
+  margin-left: -25px;
+  padding-right: 5px;
+}
+
+.c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #0b0c0c;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c4:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c4:link {
+  color: #1d70b8;
+}
+
+.c4:visited {
+  color: #4c2c92;
+}
+
+.c4:hover {
+  color: #2b8cc4;
+}
+
+.c4:active {
+  color: #2b8cc4;
+}
+
+.c4:focus {
+  color: #0b0c0c;
+}
+
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c5:link {
+  color: #1d70b8;
+}
+
+.c5:visited {
+  color: #4c2c92;
+}
+
+.c5:hover {
+  color: #2b8cc4;
+}
+
+.c5:active {
+  color: #2b8cc4;
+}
+
+.c5:focus {
+  color: #0b0c0c;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.c10 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  font-weight: bold;
+  padding: 0.625em 0;
+}
+
+.c12 {
+  text-align: right;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.c14 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-right: 0;
+}
+
+.c16 {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.c15 {
+  text-align: left;
+  width: 10%;
+}
+
+.c11 {
+  text-align: left;
+  vertical-align: top;
+}
+
+.c17 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c18 {
+  text-align: center;
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c8 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c8 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    border-bottom: 1px solid #bfc1c3;
+    margin-bottom: 0;
+  }
+
+  .c2::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    margin-bottom: 50px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c6 {
+    margin-bottom: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    border: 1px solid #bfc1c3;
+    border-top: 0;
+  }
+
+  .c6 > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 50px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    border: 1px solid #bfc1c3;
+    border-top: 0;
+  }
+
+  .c7 > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    margin-left: 0;
+  }
+
+  .c3:before {
+    content: none;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c4 {
+    font-family: sans-serif;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-right: 5px;
+    float: left;
+    text-align: center;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: #0b0c0c;
+    margin-top: -5px;
+    margin-bottom: -1px;
+    padding-top: 14px;
+    padding-right: 19px;
+    padding-bottom: 16px;
+    padding-left: 19px;
+    border: 1px solid #bfc1c3;
+    border-bottom: 0;
+    background-color: #ffffff;
+  }
+
+  .c4:link,
+  .c4:visited {
+    color: #0b0c0c;
+  }
+
+  .c4:focus {
+    background-color: transparent;
+  }
+}
+
+@media print {
+  .c5 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c5 {
+    font-family: sans-serif;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c5 {
+    margin-right: 5px;
+    float: left;
+    text-align: center;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: #0b0c0c;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-bottom: 1px;
+    background-color: #f8f8f8;
+  }
+
+  .c5:link,
+  .c5:visited {
+    color: #0b0c0c;
+  }
+
+  .c5:focus {
+    background-color: #f8f8f8;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-top: 5px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media print {
+  .c14 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+<div
+    data-testid="inequalities-component"
+  >
+    <h4
+      class="c0"
+    >
+      Inequalities data in a single time period
+    </h4>
+    <div
+      class="c1"
+      data-testid="tabContainer-inequalitiesBarChartAndTable"
+    >
+      <ul
+        class="c2"
+      >
+        <li
+          class="c3"
+        >
+          <a
+            class="c4"
+            data-testid="tabTitle-inequalitiesBarChart"
+            href="#"
+          >
+            Bar chart
+          </a>
+        </li>
+        <li
+          class="c3"
+        >
+          <a
+            class="c5"
+            data-testid="tabTitle-inequalitiesBarChartTable"
+            href="#"
+          >
+            Table
+          </a>
+        </li>
+      </ul>
+      <section
+        class="c6"
+        data-testid="tabContent-inequalitiesBarChart"
+      >
+        <div>
+          To be created
+        </div>
+        <div
+          data-testid="tabFooter-inequalitiesBarChart"
+        />
+      </section>
+      <section
+        class="c7"
+        data-testid="tabContent-inequalitiesBarChartTable"
+      >
+        <div
+          data-testid="inequalitiesBarChartTable-component"
+        >
+          <table
+            class="c8"
+          >
+            <thead
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <th
+                  class="c9 c10 c11"
+                  colspan="4"
+                >
+                  South FooBar
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  colspan="2"
+                  style="padding-right: 20px;"
+                >
+                  95% confidence limits
+                </th>
+              </tr>
+              <tr
+                class=""
+              >
+                <th
+                  class="c9 c10 c11"
+                  data-testid="heading-Inequality type"
+                  style="width: 16%;"
+                >
+                  Inequality type
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="heading-Compared to Persons"
+                  style="width: 16%;"
+                >
+                  Compared to Persons
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="heading-Count"
+                  style="width: 16%;"
+                >
+                  Count
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="heading-Value"
+                  style="width: 16%;"
+                >
+                  Value 
+                  <span
+                    style="display: block; margin: auto;"
+                  >
+                    (kg)
+                  </span>
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="heading-Lower"
+                  style="width: 16%;"
+                >
+                  Lower
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="heading-Upper"
+                  style="width: 16%;"
+                >
+                  Upper
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <td
+                  class="c13 c14 c15"
+                >
+                  Male
+                </td>
+                <td
+                  class="c13 c14 c16"
+                />
+                <td
+                  class="c13 c14 c16"
+                >
+                  131
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  890.328253
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  441.69151
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  578.32766
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c13 c14 c15"
+                >
+                  Female
+                </td>
+                <td
+                  class="c13 c14 c16"
+                />
+                <td
+                  class="c13 c14 c16"
+                >
+                  131
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  890.328253
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  441.69151
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  578.32766
+                </td>
+              </tr>
+              <tr
+                class=""
+              >
+                <td
+                  class="c13 c14 c15"
+                >
+                  All
+                </td>
+                <td
+                  class="c13 c14 c16"
+                />
+                <td
+                  class="c13 c14 c16"
+                >
+                  222
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  135.149304
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  441.69151
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  578.32766
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          data-testid="tabFooter-inequalitiesBarChartTable"
+        />
+      </section>
+    </div>
+    <br />
+    <h4
+      class="c0"
+    >
+      Inequalities data over time
+    </h4>
+    <div
+      class="c1"
+      data-testid="tabContainer-inequalitiesLineChartAndTable"
+    >
+      <ul
+        class="c2"
+      >
+        <li
+          class="c3"
+        >
+          <a
+            class="c4"
+            data-testid="tabTitle-inequalitiesLineChart"
+            href="#"
+          >
+            Line chart
+          </a>
+        </li>
+        <li
+          class="c3"
+        >
+          <a
+            class="c5"
+            data-testid="tabTitle-inequalitiesLineChartTable"
+            href="#"
+          >
+            Table
+          </a>
+        </li>
+      </ul>
+      <section
+        class="c6"
+        data-testid="tabContent-inequalitiesLineChart"
+      >
+        <div>
+          To be created
+        </div>
+        <div
+          data-testid="tabFooter-inequalitiesLineChart"
+        />
+      </section>
+      <section
+        class="c7"
+        data-testid="tabContent-inequalitiesLineChartTable"
+      >
+        <div
+          class="c17"
+          data-testid="inequalitiesLineChartTable-component"
+        >
+          <table
+            class="c8"
+          >
+            <thead
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <th
+                  class="c9 c10 c18"
+                  colspan="4"
+                >
+                  South FooBar
+                </th>
+              </tr>
+              <tr
+                class=""
+              >
+                <th
+                  class="c9 c10 c11"
+                  data-testid="header-Period-0"
+                >
+                  Period
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="header-Male-1"
+                >
+                  Male
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="header-Female-2"
+                >
+                  Female
+                </th>
+                <th
+                  class="c9 c10 c12"
+                  data-testid="header-All-3"
+                >
+                  All
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class=""
+            >
+              <tr
+                class=""
+              >
+                <td
+                  class="c13 c14 c15"
+                >
+                  2008
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  890.328253
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  890.328253
+                </td>
+                <td
+                  class="c13 c14 c16"
+                >
+                  135.149304
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          data-testid="tabFooter-inequalitiesLineChartTable"
+        />
+      </section>
+    </div>
+  </div>
+</DocumentFragment>
+`;

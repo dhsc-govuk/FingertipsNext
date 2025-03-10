@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { Inequalities } from '.';
+import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
 describe('Inequalities suite', () => {
@@ -21,6 +22,16 @@ describe('Inequalities suite', () => {
       screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
   });
+
+  it("check", () => {
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        measurementUnit="kg"
+      />
+    );
+    expect(screen.findByText("kg")).toContain("(kg)")
+  })
 
   it('take a snapshot', () => {
     const component = render(
