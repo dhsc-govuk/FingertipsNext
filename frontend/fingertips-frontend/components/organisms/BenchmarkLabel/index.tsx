@@ -28,7 +28,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
   };
 });
 
-const getBenchmarkLabel = (type: BenchmarkLabelType) => {
+const getBenchmarkLabelText = (type: BenchmarkLabelType) => {
   const validTypes = Object.values(BenchmarkLabelType);
   return validTypes.includes(type) ? type : 'Not compared';
 };
@@ -41,10 +41,10 @@ export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
     (type as BenchmarkLabelType) ?? BenchmarkLabelType.NOT_COMPARED;
   const groupType =
     (group as BenchmarkLabelGroupType) ?? BenchmarkLabelGroupType.RAG;
-  const label = getBenchmarkLabel(legendType);
+  const labelText = getBenchmarkLabelText(legendType);
   return (
     <BenchmarkTagStyle legendType={legendType} group={groupType}>
-      {label}
+      {labelText}
     </BenchmarkTagStyle>
   );
 };
