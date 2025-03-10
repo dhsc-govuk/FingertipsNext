@@ -3,28 +3,17 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+import { ViewPlotProps } from '../ViewPlotProps';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
-
-export type ViewPlotProps = {
-  healthIndicatorData: HealthDataForArea[];
-  searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument;
-};
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,

@@ -36,7 +36,7 @@ export default async function OneIndicatorOneAreaView({
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
     healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected),
+      indicatorId: Number(indicatorSelected[0]),
       areaCodes: areaCodesToRequest,
     });
   } catch (error) {

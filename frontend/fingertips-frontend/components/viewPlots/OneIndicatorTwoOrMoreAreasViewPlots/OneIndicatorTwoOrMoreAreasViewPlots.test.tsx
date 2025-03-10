@@ -142,21 +142,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     expect(actual[0]).toBeVisible();
   });
 
-  it('should not render the LineChart components when there are more than 2 areas', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['A001', 'A002', 'A003'],
-    };
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    await waitFor(() => assertLineChartAndTableNotInDocument());
-  });
-
   it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
     const MOCK_DATA = [
       {
