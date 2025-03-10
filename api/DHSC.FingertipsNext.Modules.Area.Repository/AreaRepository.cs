@@ -1,5 +1,8 @@
-﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using System.Linq.Expressions;
+using System.Xml.XPath;
+using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
 
@@ -8,6 +11,39 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository;
 /// <summary>
 ///
 /// </summary>
+public static class Extensions
+{
+    public static IQueryable<AreaModel> ProcessIncludes(
+        this IIncludableQueryable<AreaModel,AreaTypeModel> queryable,
+        int maxLevel)
+    {
+        var query = queryable
+                
+            .Include(a => a.Children)
+            .ThenInclude(a => a.Children)
+            
+            .Include(a => a.Children)
+            .ThenInclude(x => x.Parents)
+
+            .Include(a => a.Children)
+            .ThenInclude(x => x.AreaType)
+
+
+            
+
+            .Include(a => a.Parents)
+            .ThenInclude(x => x.Parents)
+
+            .Include(a => a.Parents)
+            .ThenInclude(x => x.Children)
+
+            .Include(a => a.Parents)
+            .ThenInclude(x => x.AreaType);
+
+        return query;
+    }
+}
+
 public class AreaRepository : IAreaRepository
 {
     private readonly AreaRepositoryDbContext _dbContext;
@@ -85,8 +121,22 @@ public class AreaRepository : IAreaRepository
         string? childAreaType
     )
     {
+
+       var area = await _dbContext
+            .Area
+            .Include(a => a.AreaType)
+            .ProcessIncludes(3)
+            .Where(a => a.AreaCode == areaCode)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync();
+
+        var areasWithRelations = new AreaWithRelationsModel { Area = area};
+        areasWithRelations.ParentAreas = area.Parents.ToList();
+
+        areasWithRelations.Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : null;
+        
         // Get the principle requested area.
-        var area = await _dbContext
+   /*     var area = await _dbContext
             .Area.Include(a => a.AreaType)
             .Where(area => area.AreaCode == areaCode)
             .FirstOrDefaultAsync();
@@ -101,99 +151,15 @@ public class AreaRepository : IAreaRepository
         
         if (!parents.IsNullOrEmpty())
         {
-            areasWithRelations.ParentAreas = parents;
+            areasWithRelations.ParentAreas = parents; 
         }
-
+*/
         if (includeChildren)
         {
-            areasWithRelations.Children = await GetChildAreas(childAreaType, area);
+            var descendents = await GetDescendantAreas(area, childAreaType);
+            areasWithRelations.Children = area.Children.Concat(descendents).ToList();
         }
-
-        if (includeAncestors)
-        {
-            areasWithRelations.Ancestors = await GetAncestorAreas(area);
-        }
-
-        if (includeSiblings && !parents.IsNullOrEmpty())
-        {
-            areasWithRelations.Siblings = await GetSiblingAreas(area);
-        }
-
         return areasWithRelations;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="childAreaType"></param>
-    /// <param name="area"></param>
-    private async Task<List<AreaModel>> GetChildAreas(
-        string? childAreaType,
-        AreaModel area
-    )
-    {
-        if (string.IsNullOrWhiteSpace(childAreaType))
-        {
-            // direct children
-            return await GetDirectChildAreas(area.AreaKey);
-        }
-        else
-        {
-            // children lower down the hierarchy
-            return await GetDescendantAreas(area, childAreaType);
-        }
-    }
-
-    private async Task<List<AreaModel>> GetParentAreas(int childAreaKey)
-    {
-        return await _dbContext
-            .Area
-            .FromSqlInterpolated(
-                $"""
-                SELECT 
-                  AreaKey,
-                  AreaCode,
-                  AreaName,
-                  AreaTypeKey
-                FROM
-                  Areas.Areas a                
-                JOIN
-                  Areas.AreaRelationships ar
-                ON
-                  ar.ParentAreaKey = a.AreaKey
-                WHERE
-                  ar.ChildAreaKey = {childAreaKey}
-                """
-            )
-            .Include(a=>a.AreaType)
-            .OrderBy(a=>a.AreaName)
-            .ToListAsync();
-    }
-
-    private async Task<List<AreaModel>> GetDirectChildAreas(int parentAreaKey)
-    {
-        return await _dbContext
-            .Area
-            .FromSqlInterpolated(
-                $"""
-                SELECT
-                  AreaKey,
-                  AreaCode,
-                  AreaName,
-                  AreaTypeKey
-                FROM
-                  Areas.Areas a
-                JOIN
-                  Areas.AreaRelationships ar
-                ON
-                  ar.ChildAreaKey = a.AreaKey
-                WHERE
-                  ar.ParentAreaKey = {parentAreaKey}
-                """
-            )
-            .Include(a => a.AreaType)
-            .OrderBy(a => a.AreaName)
-            .ToListAsync();
     }
 
     // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex 
@@ -202,13 +168,13 @@ public class AreaRepository : IAreaRepository
     //
     // This function needs to traverse a graph (not just a tree) until it has found all descendants of 
     // the parent of the specific type. It should also make sure what is returned is unique.
-    private async Task<List<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
+    private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
         var areaWithAreaTypeList = await _dbContext
             .DenormalisedAreaWithAreaType
             .FromSql(
                 $"""
-                WITH recursive_cte(
+                    WITH recursive_cte(
                 AreaKey,
                 AreaCode,
                 AreaName,
@@ -271,110 +237,5 @@ public class AreaRepository : IAreaRepository
         return [.. areaWithAreaTypeList
             .Select(a => a.Normalise())
             .OrderBy(a => a.AreaType.Level)];
-    }
-
-    private async Task<List<AreaModel>> GetAncestorAreas(AreaModel startingArea)
-    {
-        List<DenormalisedAreaWithAreaTypeModel> areaWithAreaTypeList = 
-            await _dbContext.DenormalisedAreaWithAreaType.FromSql<DenormalisedAreaWithAreaTypeModel>
-            ($"""
-                WITH recursive_cte(
-                  AreaKey,
-                  AreaCode,
-                  AreaName,
-                  AreaTypeKey,
-                  ParentAreaKey) AS (
-                  SELECT
-                    ar.ParentAreaKey as AreaKey,
-                    a.AreaCode,
-                    a.AreaName,
-                   	a.AreaTypeKey,
-                   	ar.ParentAreaKey
-                  FROM
-                   	Areas.AreaRelationships ar
-                  JOIN
-                    Areas.Areas a ON a.AreaKey = ar.ParentAreaKey
-                  WHERE
-                   	ar.ChildAreaKey = {startingArea.AreaKey}
-                  UNION ALL
-                    SELECT
-                   	  ar.ParentAreaKey as AreaKey,
-                      a.AreaCode,
-                      a.AreaName,
-                   	  a.AreaTypeKey,
-                   	  ar.ParentAreaKey
-                    FROM
-                   	  Areas.AreaRelationships ar
-                    JOIN
-                      Areas.Areas a ON a.AreaKey = ar.ParentAreaKey
-                    INNER JOIN 
-                      recursive_cte ON recursive_cte.ParentAreaKey = ar.ChildAreaKey
-                  )
-                SELECT DISTINCT
-                  AreaKey,
-                  AreaCode,
-                  AreaName,
-                  rc.AreaTypeKey as AreaTypeKey,
-                  at.Level as Level,
-                  at.HierarchyType as HierarchyType,
-                  at.AreaTypeName as AreaTypeName
-                FROM
-                  recursive_cte rc
-                JOIN
-                  Areas.AreaTypes at
-                ON 
-                  rc.AreaTypeKey = at.AreaTypeKey
-                WHERE
-                  AreaKey != {startingArea.AreaKey }
-                """
-            )
-            .ToListAsync();
-
-        return [.. areaWithAreaTypeList
-            .Select(a => a.Normalise())
-            .OrderBy(a => a.AreaType.Level)];
-    }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="areaWithRelations"></param>
-    /// <param name="area"></param>
-    /// 
-    private async Task<List<AreaModel>> GetSiblingAreas(
-        AreaModel childArea
-    )
-    {
-        return await _dbContext
-            .Area
-            .FromSqlInterpolated(
-                $"""
-                --- Find all children of the Parents
-                SELECT DISTINCT
-                  AreaKey,
-                  AreaCode,
-                  AreaName,
-                  AreaTypeKey
-                FROM 
-                  Areas.Areas a
-                JOIN 
-                  Areas.AreaRelationships ar
-                ON 
-                  a.AreaKey = ar.ChildAreaKey
-                WHERE ar.ParentAreaKey IN 
-                (
-                  SELECT 
-                    ParentAreaKey 
-                  FROM
-                    Areas.AreaRelationships
-                  WHERE
-                    ChildAreaKey = { childArea.AreaKey } 
-                ) AND a.AreaKey != { childArea.AreaKey }
-                """
-            )
-            .Include(a => a.AreaType)
-            .OrderBy(a => a.AreaName)
-            .ToListAsync();
     }
 }
