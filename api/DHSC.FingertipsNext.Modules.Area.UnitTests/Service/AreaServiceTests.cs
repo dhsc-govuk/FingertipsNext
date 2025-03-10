@@ -91,19 +91,19 @@ public class AreaServiceTests
     public async Task GetAreaDetails_ShouldDelegateToRepositorySupplyingDefaults()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
         await _service.GetAreaDetails("area1", null, null, null, null);
 
-        await _mockRepository.Received().GetAreaAsync("area1", false, false, false, null);
+        await _mockRepository.Received().GetAreaAsync("area1", false, false, null);
     }
 
     [Fact]
     public async Task GetAreaDetails_ShouldReturnNull_IfRepositoryReturnsNull()
     {
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns((AreaWithRelationsModel?)null);
 
         var result = await _service.GetAreaDetails("area1", null, null, null, null);
@@ -116,7 +116,7 @@ public class AreaServiceTests
     {
         var fakeAreaWithRelationsModel = Fake.AreaWithRelationsModel;
         _mockRepository
-            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
+            .GetAreaAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<string?>())
             .Returns(fakeAreaWithRelationsModel);
 
         var result = await _service.GetAreaDetails("area1", null, null, null, null);
@@ -143,7 +143,7 @@ public class AreaServiceTests
     }
     
     [Fact]
-    public async Task GetAreaDetailsForAreaType_ShouldReturnMAppedList_IfRepositoryReturnsAreas()
+    public async Task GetAreaDetailsForAreaType_ShouldReturnMappedList_IfRepositoryReturnsAreas()
     {
         var fakeAreaModels = new List<AreaModel>{ Fake.AreaModel, Fake.AreaModel };
         _mockRepository

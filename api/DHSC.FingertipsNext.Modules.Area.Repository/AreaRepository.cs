@@ -116,7 +116,6 @@ public class AreaRepository : IAreaRepository
     public async Task<AreaWithRelationsModel?> GetAreaAsync(
         string areaCode,
         bool includeChildren,
-        bool includeAncestors,
         bool includeSiblings,
         string? childAreaType
     )

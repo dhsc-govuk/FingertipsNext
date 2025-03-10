@@ -63,7 +63,6 @@ public class AreaService : IAreaService
         var area = await _areaRepository.GetAreaAsync(
             areaCode,
             includeChildren ?? false,
-            includeAncestors ?? false,
             includeSiblings ?? false,
             childAreaType
         );
