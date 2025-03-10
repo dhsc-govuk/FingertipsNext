@@ -36,7 +36,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.RAG,
+      BenchmarkLabelGroupType.BOB,
       BenchmarkLabelType.LOWER,
       {
         backgroundColor: '#5694CA',
@@ -44,7 +44,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
     ],
 
     [
-      BenchmarkLabelGroupType.RAG,
+      BenchmarkLabelGroupType.BOB,
       BenchmarkLabelType.HIGHER,
       {
         backgroundColor: '#003078',
@@ -175,7 +175,7 @@ describe('Testing the BenchmarkLabel Component', () => {
     const { container } = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.HIGHER}
-        group={BenchmarkLabelGroupType.RAG}
+        group={BenchmarkLabelGroupType.BOB}
       />
     );
 
