@@ -489,9 +489,6 @@ Temporary Items
 search-setup/**/*.js
 search-setup/dist*/
 
-# useful for debug trend colours but not to be committed to main
-DemoTrendTags.tsx
-
 # asdf tool-versions is not used project wide but may be used by individuals
 .tool-versions
 /DataCreator/DataCreator/appsettings.json

@@ -53,8 +53,6 @@ export function OneIndicatorOneAreaViewPlots({
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <BenchmarkLegend />
-      <DemoTrendTags />
       <H2>View data for selected indicators and areas</H2>
       {dataWithoutEngland[0]?.healthData.length > 1 && (
         <>
