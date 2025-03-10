@@ -71,6 +71,27 @@ public class IndicatorControllerTests
         response?.StatusCode.ShouldBe(404);
     }
 
+    [Fact]
+    public async Task GetIndicatorData_ReturnsBadResponse_IfTooManyYearsSupplied()
+    {
+        var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"],
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
+        
+        response?.StatusCode.ShouldBe(400);
+        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter years").ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task GetIndicatorData_ReturnsBadResponse_IfTooManyAreaCodesSupplied()
+    {
+        var response = await _controller.GetIndicatorDataAsync(3,
+            ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"],
+            [1]) as BadRequestObjectResult;
+        
+        response?.StatusCode.ShouldBe(400);
+        (response?.Value as SimpleError)?.Message.Contains("Too many values supplied for parameter area_codes").ShouldBeTrue();
+    }
+
     private static readonly List<HealthDataForArea> SampleHealthData =
     [
         new()

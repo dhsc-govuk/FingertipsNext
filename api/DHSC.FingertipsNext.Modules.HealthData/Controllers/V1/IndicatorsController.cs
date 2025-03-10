@@ -1,4 +1,6 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Service;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,6 +11,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
+    const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is {1} but {2} supplied.";
     readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
@@ -22,11 +25,14 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns></returns>
     /// <remarks>
-    /// If more than 10 years are supplied only data for the first 10 distinct years will be returned.
-    /// If more than 10 area codes are supplied only data for the first 10 distinct area codes will be returned.
+    /// If more than 10 years are supplied the request will fail.
+    /// If more than 10 area codes are supplied the request will fail.
     /// </remarks>
     [HttpGet]
     [Route("{indicatorId:int}/data")]
+    [ProducesResponseType(typeof(HealthDataForArea[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
@@ -37,14 +43,14 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         if (areaCodes is { Length: > 10 })
         {
             return new BadRequestObjectResult(
-                new { message = "Too many area codes supplied. The maximum is 10." }
+                new SimpleError { Message = string.Format(TooManyParametersMessage, "area_codes", 10, areaCodes.Length) }
             );
         }
 
         if (years is { Length: > 10 })
         {
             return new BadRequestObjectResult(
-                new { message = "Too many area years supplied. The maximum is 10." }
+                new SimpleError { Message = string.Format(TooManyParametersMessage, "years", 10, years.Length) }
             );
         }
 
