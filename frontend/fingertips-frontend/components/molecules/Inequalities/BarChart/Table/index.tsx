@@ -18,6 +18,7 @@ interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartTableData;
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
   type?: Inequalities;
+  measurementUnit?: string;
 }
 
 export enum InequalitiesBarChartTableHeaders {
@@ -29,7 +30,10 @@ export enum InequalitiesBarChartTableHeaders {
   UPPER = 'Upper',
 }
 
-const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
+const getCellHeader = (
+  header: InequalitiesBarChartTableHeaders,
+  measurementUnit: string | undefined
+): ReactNode =>
   header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
@@ -44,13 +48,23 @@ const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
       style={{ width: '16%' }}
       data-testid={`heading-${header}`}
     >
-      {header}
+      {header === InequalitiesBarChartTableHeaders.VALUE && measurementUnit ? (
+        <>
+          {header}{' '}
+          <span
+            style={{ display: 'block', margin: 'auto' }}
+          >{`(${measurementUnit})`}</span>
+        </>
+      ) : (
+        header
+      )}
     </StyledAlignRightHeader>
   );
 
 export function InequalitiesBarChartTable({
   tableData,
   yearlyHealthDataGroupedByInequalities,
+  measurementUnit,
   type = Inequalities.Sex,
 }: Readonly<InequalitiesBarChartTableProps>) {
   const dynamicKeys = getDynamicKeys(
@@ -76,7 +90,7 @@ export function InequalitiesBarChartTable({
             </Table.Row>
             <Table.Row>
               {Object.values(InequalitiesBarChartTableHeaders).map((header) =>
-                getCellHeader(header)
+                getCellHeader(header, measurementUnit)
               )}
             </Table.Row>
           </>
