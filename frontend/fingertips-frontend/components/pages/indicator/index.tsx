@@ -244,26 +244,26 @@ export function IndicatorDefinition({
       <H4>This indicator is used in the following health profiles</H4>
       <UnorderedList listStyleType="none">
         <ListItem>
-          <Link href="#">"placeholder profile 1"</Link>
+          <Link href="#">placeholder profile 1</Link>
         </ListItem>
         <ListItem>
-          <Link href="#">"placeholder profile 2"</Link>
+          <Link href="#">placeholder profile 2</Link>
         </ListItem>
         <ListItem>
-          <Link href="#">"placeholder profile 3"</Link>
+          <Link href="#">placeholder profile 3</Link>
         </ListItem>
       </UnorderedList>
 
       <H4>Related Content</H4>
       <UnorderedList listStyleType="none">
         <ListItem>
-          <Link href="#">"placeholder link 1"</Link>
+          <Link href="#">placeholder link 1</Link>
         </ListItem>
         <ListItem>
-          <Link href="#">"placeholder link 2"</Link>
+          <Link href="#">placeholder link 2</Link>
         </ListItem>
         <ListItem>
-          <Link href="#">"placeholder link 3"</Link>
+          <Link href="#">placeholder link 3</Link>
         </ListItem>
       </UnorderedList>
     </>
