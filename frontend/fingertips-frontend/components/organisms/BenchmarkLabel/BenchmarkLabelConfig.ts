@@ -1,13 +1,12 @@
 import {
   GovukColours,
-  GovukColourVars,
   QuintileColours,
   TagColours,
 } from '@/lib/styleHelpers/colours';
 import {
+  BenchmarkLabelGroupConfig,
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
-  BenchmarkLabelGroupConfig,
 } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 export const getBenchmarkTagStyle = (
@@ -29,19 +28,19 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
       border: '1px solid #0B0C0C',
     },
     [BenchmarkLabelType.BETTER]: {
-      backgroundColor: GovukColourVars.GovOtherGreen,
+      backgroundColor: GovukColours.Green,
       tint: 'SOLID',
     },
     [BenchmarkLabelType.SIMILAR]: {
-      backgroundColor: GovukColourVars.GovOtherYellow,
-      color: GovukColourVars.GovOtherBlack,
+      backgroundColor: GovukColours.Yellow,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.WORSE]: {
-      backgroundColor: GovukColourVars.GovOtherRed,
+      backgroundColor: GovukColours.Red,
       tint: 'SOLID',
     },
     [BenchmarkLabelType.LOWER]: {
-      backgroundColor: GovukColourVars.GovOtherLightBlue,
+      backgroundColor: GovukColours.LightBlue,
     },
     [BenchmarkLabelType.HIGHER]: {
       backgroundColor: GovukColours.DarkBlue,
@@ -56,11 +55,11 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
     },
     [BenchmarkLabelType.BETTER]: {
       backgroundColor: GovukColours.LightGreen,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.SIMILAR]: {
-      backgroundColor: GovukColourVars.GovOtherYellow,
-      color: GovukColourVars.GovOtherBlack,
+      backgroundColor: GovukColours.Yellow,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.WORSE]: {
       backgroundColor: TagColours.DarkRed,
@@ -68,7 +67,7 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
     },
     [BenchmarkLabelType.LOWER]: {
       backgroundColor: TagColours.LightBlue,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.HIGHER]: {
       backgroundColor: GovukColours.Blue,
@@ -79,15 +78,15 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
     default: { backgroundColor: QuintileColours.Highest, tint: 'SOLID' },
     [BenchmarkLabelType.LOWEST]: {
       backgroundColor: QuintileColours.Lowest,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.LOW]: {
       backgroundColor: QuintileColours.Low,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.MIDDLE]: {
       backgroundColor: QuintileColours.Middle,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.HIGH]: {
       backgroundColor: QuintileColours.High,
@@ -98,11 +97,11 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
     default: { backgroundColor: QuintileColours.Best, tint: 'SOLID' },
     [BenchmarkLabelType.WORST]: {
       backgroundColor: QuintileColours.Worst,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.WORSE]: {
       backgroundColor: QuintileColours.Worse,
-      color: GovukColourVars.GovOtherBlack,
+      color: GovukColours.Black,
     },
     [BenchmarkLabelType.MIDDLE]: {
       backgroundColor: QuintileColours.MiddleWithValue,

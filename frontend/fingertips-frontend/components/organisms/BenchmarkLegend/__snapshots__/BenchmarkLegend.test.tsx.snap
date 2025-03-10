@@ -36,7 +36,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: var(--other-green,#00703C);
+  background-color: #00703C;
   tint: SOLID;
 }
 
@@ -49,8 +49,8 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: var(--other-yellow,#FFDD00);
-  color: var(--other-black,#0B0C0C);
+  background-color: #FFDD00;
+  color: #0B0C0C;
 }
 
 .c5 {
@@ -62,7 +62,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: var(--other-red,#D4351C);
+  background-color: #D4351C;
   tint: SOLID;
 }
 
@@ -89,7 +89,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: var(--other-light-blue,#5694CA);
+  background-color: #5694CA;
 }
 
 .c8 {
@@ -115,7 +115,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #85994B;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c11 {
@@ -141,7 +141,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #AFCFE5;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c13 {
@@ -167,7 +167,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #E4DDFF;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c15 {
@@ -180,7 +180,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #CBBEF4;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c16 {
@@ -193,7 +193,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #AA90EC;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c17 {
@@ -232,7 +232,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #D494C1;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c20 {
@@ -245,7 +245,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #BC6AAA;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 .c21 {

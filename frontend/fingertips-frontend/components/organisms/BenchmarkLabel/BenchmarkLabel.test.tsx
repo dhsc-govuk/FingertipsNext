@@ -13,7 +13,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.BETTER,
       {
-        backgroundColor: 'var(--other-green, #00703C)',
+        backgroundColor: '#00703C',
         tint: 'SOLID',
       },
     ],
@@ -22,8 +22,8 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.SIMILAR,
       {
-        backgroundColor: 'var(--other-yellow, #FFDD00)',
-        color: 'var(--other-black, #0B0C0C)',
+        backgroundColor: '#FFDD00',
+        color: '#0B0C0C',
       },
     ],
 
@@ -31,7 +31,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.WORSE,
       {
-        backgroundColor: 'var(--other-red, #D4351C)',
+        backgroundColor: '#D4351C',
         tint: 'SOLID',
       },
     ],
@@ -39,7 +39,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.LOWER,
       {
-        backgroundColor: 'var(--other-light-blue, #5694CA)',
+        backgroundColor: '#5694CA',
       },
     ],
 
@@ -65,7 +65,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.LOWEST,
       {
         backgroundColor: QuintileColours.Lowest,
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -73,7 +73,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.LOW,
       {
         backgroundColor: '#CBBEF4',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -81,7 +81,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.MIDDLE,
       {
         backgroundColor: '#AA90EC',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -105,7 +105,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.WORST,
       {
         backgroundColor: '#D494C1',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -113,7 +113,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.WORSE,
       {
         backgroundColor: '#BC6AAA',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
