@@ -3,7 +3,6 @@ import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen, waitFor } from '@testing-library/react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { act } from 'react';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -107,7 +106,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    screen.getAllByText('Data source:', { exact: false })[0];
     const actual = await screen.findAllByText('Data source:', { exact: false });
 
     expect(actual[0]).toBeVisible();
