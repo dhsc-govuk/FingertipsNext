@@ -24,4 +24,28 @@ export enum GovukColours {
 export enum TagColours {
   GreyText = '#303436',
   GreyBackground = '#E1E2E3',
+  // benchmarks
+  DarkRed = '#831504',
+  LightBlue = '#AFCFE5', //chart-lower99
+  // trends
+  YellowBackground = '#FFF5BB',
+  YellowText = '#514311',
+  GreenBackground = '#C4DED3',
+  GreenText = '#00502D',
+  RedBackground = '#F6C6BF',
+  RedText = '#270D0B',
+  LightBlueBackground = '#E3EFF6',
+}
+
+export enum QuintileColours {
+  Lowest = '#E4DDFF',
+  Low = '#CBBEF4',
+  Middle = '#AA90EC',
+  High = '#8B60E2',
+  Highest = '#6B33C3',
+  Worst = '#D494C1',
+  Worse = '#BC6AAA',
+  MiddleWithValue = '#A44596',
+  Better = '#812972',
+  Best = '#561950',
 }
