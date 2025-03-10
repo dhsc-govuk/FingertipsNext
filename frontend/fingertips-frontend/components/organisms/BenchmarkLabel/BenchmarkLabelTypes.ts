@@ -35,4 +35,3 @@ export const enum BenchmarkLabelGroupType {
   QUINTILES = 'quintiles',
   QUINTILES_WITH_JUDGEMENT = 'quintiles_with_judgement',
 }
-
