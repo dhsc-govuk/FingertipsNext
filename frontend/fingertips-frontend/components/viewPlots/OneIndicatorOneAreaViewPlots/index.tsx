@@ -15,8 +15,6 @@ import {
 import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {DemoTrendTags} from "@/components/molecules/TrendTag/DemoTrendTags";
-import {BenchmarkLegend} from "@/components/organisms/BenchmarkLegend";
 
 type OneIndicatorOneAreaViewProps = {
   healthIndicatorData: HealthDataForArea[];
