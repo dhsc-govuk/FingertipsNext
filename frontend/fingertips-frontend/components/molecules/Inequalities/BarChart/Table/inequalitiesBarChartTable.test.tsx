@@ -100,7 +100,7 @@ describe('Inequalities bar chart table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
-    it('check if the kg value is rendered correctly', () => {
+    it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
