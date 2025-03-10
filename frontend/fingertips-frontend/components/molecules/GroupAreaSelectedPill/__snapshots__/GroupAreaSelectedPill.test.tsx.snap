@@ -40,6 +40,10 @@ exports[`GroupAreaSelectedPill should match snapshot 1`] = `
   display: flex;
 }
 
+.c4 {
+  color: #505A5F;
+}
+
 @media print {
   .c3 {
     font-family: sans-serif;
@@ -91,7 +95,12 @@ exports[`GroupAreaSelectedPill should match snapshot 1`] = `
         <p
           style="margin: 0px;"
         >
-          All NHS Primary Care Network in East of England NHS Region, (6 areas)
+          All areas in East of England NHS Region
+          <span
+            class="c4"
+          >
+            NHS Primary Care Network
+          </span>
         </p>
       </div>
     </div>

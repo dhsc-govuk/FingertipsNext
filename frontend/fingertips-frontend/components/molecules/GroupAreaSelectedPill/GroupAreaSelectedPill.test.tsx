@@ -21,11 +21,9 @@ describe('GroupAreaSelectedPill', () => {
         onRemoveFilter={mockRemoveFilter}
       />
     );
-    expect(
-      screen.getByText(
-        `All ${areaTypeName} in ${area.name}, (${area.children?.length} areas)`
-      )
-    ).toBeInTheDocument();
+
+    expect(screen.getByText(`All areas in ${area.name}`)).toBeInTheDocument();
+    expect(screen.getByText(areaTypeName)).toBeInTheDocument();
   });
 
   it('should call onRemoveFilter when the pill is clicked', async () => {
