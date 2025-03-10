@@ -11,7 +11,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
-    const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is {1} but {2} supplied.";
+    private const int MaxParamArrayLength = 10;
+    private const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
@@ -41,17 +42,17 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery] string[]? inequalities = null,
         [FromQuery] string? comparison_method = "None")
     {
-        if (areaCodes is { Length: > 10 })
+        if (areaCodes is { Length: > MaxParamArrayLength })
         {
             return new BadRequestObjectResult(
-                new SimpleError { Message = string.Format(TooManyParametersMessage, "area_codes", 10, areaCodes.Length) }
+                new SimpleError { Message = string.Format(TooManyParametersMessage, "area_codes", areaCodes.Length) }
             );
         }
 
-        if (years is { Length: > 10 })
+        if (years is { Length: > MaxParamArrayLength })
         {
             return new BadRequestObjectResult(
-                new SimpleError { Message = string.Format(TooManyParametersMessage, "years", 10, years.Length) }
+                new SimpleError { Message = string.Format(TooManyParametersMessage, "years", years.Length) }
             );
         }
 
