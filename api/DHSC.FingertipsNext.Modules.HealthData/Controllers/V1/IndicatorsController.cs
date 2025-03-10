@@ -35,15 +35,16 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         [FromQuery] string[]? inequalities = null,
         [FromQuery] string? comparison_method = "None")
     {
-        var comparisonMethodParsed =
-            Enum.TryParse(comparison_method, true, out BenchmarkComparisonMethod benchmarkType);
+        var comparisonMethodParsed =Enum.TryParse(comparison_method, true, out BenchmarkComparisonMethod benchmarkType);
+        if (!comparisonMethodParsed)
+            benchmarkType = BenchmarkComparisonMethod.None;
 
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? [],
             inequalities ?? [],
-            comparisonMethodParsed ? benchmarkType : BenchmarkComparisonMethod.None
+            benchmarkType
         );
 
         Console.WriteLine(indicatorData.Any() ? "FOUND" : "NOT FOUND");

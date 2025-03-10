@@ -55,8 +55,7 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
                 },
                 TrendDimension = new TrendDimensionModel()
                 {
-                    Name = x.TrendDimension.Name,
-                    HasValue = x.TrendDimension.HasValue
+                    Name = x.TrendDimension.Name
                 }
             })
             .ToListAsync();
