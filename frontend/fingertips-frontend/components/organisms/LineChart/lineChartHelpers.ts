@@ -70,5 +70,9 @@ export function generateSeriesData(
     seriesData.unshift(englandSeries);
   }
 
+  if (benchmarkData && data.length === 0) {
+    console.log('might need to show some CIs for England here...');
+  }
+
   return seriesData;
 }
