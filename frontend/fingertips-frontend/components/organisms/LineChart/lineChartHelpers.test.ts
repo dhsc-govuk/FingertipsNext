@@ -1,5 +1,5 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
-import { generateSeriesData, shouldDisplayLineChart } from './lineChartHelpers';
+import { generateSeriesData } from './lineChartHelpers';
 import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
@@ -596,48 +596,5 @@ describe('generateSeriesData', () => {
     expect(generatedSeriesData[2].color).toBe(chartColours[1]);
     expect(generatedSeriesData[3].color).toBe(errorBarColour);
     expect(generatedSeriesData[4].color).toBe(chartColours[0]);
-  });
-});
-
-describe('should display line chart', () => {
-  describe('should return false', () => {
-    it('should return false when more than 1 indicator is selected', () => {
-      expect(shouldDisplayLineChart(mockData, ['1', '2'], ['A1425'])).toBe(
-        false
-      );
-    });
-
-    it('should return false when more than 2 area codes are selected for an indicator', () => {
-      expect(
-        shouldDisplayLineChart(mockData, ['1'], ['A1425', 'A1426', 'A1427'])
-      ).toBe(false);
-    });
-
-    it('should return false when no area codes are selected for an indicator', () => {
-      expect(shouldDisplayLineChart(mockData, ['1'], [])).toBe(false);
-    });
-
-    it('should return false when health data contains less than 2 time periods', () => {
-      const data = [
-        {
-          areaCode: 'A1426',
-          areaName: 'Area 2',
-          healthData: [mockData[0].healthData[0]],
-        },
-      ];
-      expect(shouldDisplayLineChart(data, ['1'], ['A1426'])).toBe(false);
-    });
-  });
-
-  describe('should return true', () => {
-    it('should return true when 1 indicator is selected, 2 areas are selected, and there are multiple data points', () => {
-      expect(
-        shouldDisplayLineChart(
-          [mockData[0], mockData[1]],
-          ['1'],
-          ['A1425', 'A1426']
-        )
-      ).toBe(true);
-    });
   });
 });

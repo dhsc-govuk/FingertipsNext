@@ -11,6 +11,7 @@ interface BarChartProps {
   accessibilityLabel?: string;
   benchmarkLabel?: string;
   benchmarkValue?: number;
+  measurementUnit?: string;
 }
 
 export function BarChart({
@@ -19,6 +20,7 @@ export function BarChart({
   accessibilityLabel,
   benchmarkLabel,
   benchmarkValue,
+  measurementUnit,
 }: Readonly<BarChartProps>) {
   const barChartOptions: Highcharts.Options = {
     credits: {
@@ -59,7 +61,8 @@ export function BarChart({
     },
     tooltip: {
       format:
-        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+        '<b>{point.category}</b><br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
+        `${measurementUnit ?? ''}`,
     },
     plotOptions: {
       bar: {

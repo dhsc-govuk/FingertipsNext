@@ -9,6 +9,7 @@ import {
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -16,7 +17,7 @@ import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 
 const indicatorData = mockIndicators as IndicatorDocument[];
-const searchTerm = 'mortality';
+const searchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
@@ -59,7 +60,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await homePage.checkOnHomePage();
       await homePage.clickSearchButton();
       await homePage.checkSummaryValidation(
-        `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
@@ -111,11 +112,15 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
-      await homePage.clickSearchButton();
+      await homePage.closeAreaFilterPill(0);
 
+      await test.expect(homePage.areaFilterPills()).toHaveCount(0);
+      await test.expect(homePage.page).not.toHaveURL(englandArea.code);
+
+      await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
       await homePage.checkSummaryValidation(
-        `There is a problemAt least one of the following fields must be populated:Search subjectSearch area`
+        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
     });
   });

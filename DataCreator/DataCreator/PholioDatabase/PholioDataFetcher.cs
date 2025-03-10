@@ -206,7 +206,7 @@ FROM
                     OriginalAreaType="Combined authorities",
                     NewAreaType=COMBINEDAUTHORITIES,
                     HierarchyType=Administrative,
-                    Level=2
+                    Level=1
                 },
                 new() {
                     OriginalAreaType="County unchanged",
@@ -359,12 +359,7 @@ FROM
                 var present = areas.TryGetValue(child.AreaCode, out AreaEntity value);
 
                 if (present)
-                {
-                    child.IsDirect = area.AreaType == COMBINEDAUTHORITIES
-                        ? area.Level == value.Level && area.HierarchyType == value.HierarchyType
-                        : area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
-                }
-
+                    child.IsDirect = area.Level == value.Level - 1 && area.HierarchyType == value.HierarchyType;
             }
             if (area.AreaCode == "E92000001") //England
                 allChildren = areas.Values.Where(a => a.Level == 1).Select(a => new AreaRelation { AreaCode = a.AreaCode, IsDirect = true }).ToList();

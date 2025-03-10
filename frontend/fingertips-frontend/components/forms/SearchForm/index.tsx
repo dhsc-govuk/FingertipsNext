@@ -1,20 +1,19 @@
 'use client';
 
-import { getAreaDocument } from './searchActions';
 import { Button, InputField, H3 } from 'govuk-react';
-import { usePathname, useRouter } from 'next/navigation';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import AreaAutoCompleteInputField from '@/components/molecules/AreaAutoCompleteSearchPanel';
-import { AreaDocument } from '@/lib/search/searchTypes';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-import { useEffect, useState } from 'react';
+import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
+import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import {
+  AreaFilterData,
+  SelectAreasFilterPanel,
+} from '@/components/molecules/SelectAreasFilterPanel';
+import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -23,46 +22,26 @@ const StyledInputField = styled(InputField)(
 interface SearchFormProps {
   searchState?: SearchStateParams;
   formState: SearchFormState;
+  selectedAreasData?: AreaWithRelations[];
+  areaFilterData?: AreaFilterData;
 }
 
 export const SearchForm = ({
   searchState,
   formState,
+  selectedAreasData,
+  areaFilterData,
 }: Readonly<SearchFormProps>) => {
-  const stateManager = SearchStateManager.initialise(searchState);
-  const pathname = usePathname();
-  const router = useRouter();
-  const [areaCode, setAreaCode] = useState<string>(
-    formState.areaSearched ?? ''
-  );
-  const [defaultAreas, setDefaultAreas] = useState<AreaDocument[]>([]);
-
-  const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
-    if (!selectedAreaCode) {
-      stateManager.removeAllParamFromState(SearchParams.AreasSelected);
-    } else {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        selectedAreaCode
-      );
-    }
-    router.replace(stateManager.generatePath(pathname), { scroll: false });
-  };
-
-  useEffect(() => {
-    const fetchAreaDocumentAndUpdate = async (areaCode: string | undefined) => {
-      if (areaCode == undefined) return null;
-      const area = await getAreaDocument(areaCode);
-      if (area) {
-        setDefaultAreas([area]);
-      }
-    };
-    fetchAreaDocumentAndUpdate(areaCode);
-  }, [searchState, areaCode, formState]);
+  const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
+      <input
+        name="searchState"
+        defaultValue={JSON.stringify(searchState)}
+        hidden
+      />
       <StyledInputField
         input={{
           id: 'indicator',
@@ -83,20 +62,29 @@ export const SearchForm = ({
       >
         Search by subject
       </StyledInputField>
-      <input
-        type="hidden"
-        name="areaSearched"
-        id="areaSearched"
-        value={areaCode || ''}
-      />
       <AreaAutoCompleteInputField
-        onAreaSelected={(area: AreaDocument | undefined) => {
-          updateUrlWithSelectedArea(area?.areaCode ?? '');
-          setAreaCode(area?.areaCode ?? '');
-        }}
+        key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
-        defaultSelectedAreas={defaultAreas}
+        searchState={searchState}
+        firstSelectedArea={selectedAreasData?.[0]}
       />
+
+      {selectedAreas && selectedAreas.length > 0 ? (
+        <SelectedAreasPanel
+          key={`selected-area-panel-${JSON.stringify(searchState)}`}
+          searchState={searchState}
+          selectedAreasData={selectedAreasData}
+          inFilterPane={false}
+        />
+      ) : null}
+
+      <ShowHideContainer summary="Filter by area" open={false}>
+        <SelectAreasFilterPanel
+          key={`area-filter-panel-${JSON.stringify(searchState)}`}
+          areaFilterData={areaFilterData}
+          searchState={searchState}
+        />
+      </ShowHideContainer>
 
       <Button
         type="submit"

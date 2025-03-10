@@ -156,9 +156,9 @@ export default class ResultsPage extends BasePage {
    * @param searchTerm - search term to be used in the URL check
    */
   async selectAreasFiltersAndCheckURL(areaMode: AreaMode, searchTerm: string) {
-    // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in the future
+    // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
     const defaultAreaTypeFilter = 'regions';
-    const defaultGroupType = 'England';
+    // const defaultGroupType = 'England';
 
     await this.waitForURLToContain(searchTerm);
 
@@ -167,7 +167,7 @@ export default class ResultsPage extends BasePage {
       .selectOption(defaultAreaTypeFilter);
     await this.waitForURLToContain(defaultAreaTypeFilter);
 
-    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in the future
+    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
 
     // Select appropriate number of checkboxes based on area mode
     const areaCheckboxList = this.page
@@ -196,10 +196,11 @@ export default class ResultsPage extends BasePage {
       await this.page
         .getByTestId(this.areaTypeSelector)
         .selectOption('England');
-      await this.page
-        .getByTestId(this.groupTypeSelector)
-        .selectOption('England');
-      await this.waitForURLToContain(defaultGroupType);
+      // uncommented in DHSCFT-255
+      // await this.page
+      //   .getByTestId(this.groupTypeSelector)
+      //   .selectOption('England');
+      // await this.waitForURLToContain(defaultGroupType);
     }
 
     await this.waitForURLToContain(searchTerm);

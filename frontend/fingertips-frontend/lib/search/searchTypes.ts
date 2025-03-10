@@ -20,6 +20,7 @@ export type IndicatorDocument = {
   associatedAreaCodes: string[];
   hasInequalities: boolean;
   unitLabel: string;
+  usedInPoc: boolean; // data maps to search-setup/assets/indicators.csv
 };
 
 export type AreaDocument = {
@@ -39,10 +40,4 @@ export interface IIndicatorSearchService {
 export interface IAreaSearchService {
   getAreaDocument(areaCode: string): Promise<AreaDocument | undefined>;
   getAreaSuggestions(partialAreaName: string): Promise<AreaDocument[]>;
-}
-
-export function formatAreaName(area: AreaDocument): string {
-  return area.areaType === AREA_TYPE_GP
-    ? `${area.areaCode} - ${area.areaName}`
-    : area.areaName;
 }

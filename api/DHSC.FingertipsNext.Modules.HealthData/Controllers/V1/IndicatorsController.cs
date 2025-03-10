@@ -12,7 +12,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
     const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is {1} but {2} supplied.";
-    readonly IIndicatorsService _indicatorsService = indicatorsService;
+    private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
     /// Get data for a public health indicator. Returns all data for all
@@ -23,6 +23,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
+    /// <param name="comparison_method">eg RAG, Quartiles</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 10 years are supplied the request will fail.
@@ -37,8 +38,8 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery] int[]? years = null,
-        [FromQuery] string[]? inequalities = null
-    )
+        [FromQuery] string[]? inequalities = null,
+        [FromQuery] string? comparison_method = "None")
     {
         if (areaCodes is { Length: > 10 })
         {
@@ -54,12 +55,19 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             );
         }
 
+        var comparisonMethodParsed= Enum.TryParse(comparison_method, true, out BenchmarkComparisonMethod benchmarkType);
+        if (!comparisonMethodParsed)
+            benchmarkType = BenchmarkComparisonMethod.None;
+
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? [],
-            inequalities ?? []
+            inequalities ?? [],
+            benchmarkType
         );
+
+        Console.WriteLine(indicatorData.Any() ? "FOUND" : "NOT FOUND");
 
         return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
     }

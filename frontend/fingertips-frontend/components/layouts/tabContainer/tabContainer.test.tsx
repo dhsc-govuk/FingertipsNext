@@ -39,4 +39,18 @@ describe('tab container', () => {
       expect(panels[index].textContent).toBe(expectedContentText[index]);
     });
   });
+
+  it('should render the footer with each item', () => {
+    const footerContent = 'Thrice!';
+
+    render(
+      <TabContainer
+        id="some-container"
+        items={items}
+        footer={<>{footerContent}</>}
+      />
+    );
+
+    expect(screen.getAllByText(footerContent)).toHaveLength(3);
+  });
 });

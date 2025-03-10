@@ -1,6 +1,13 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AreaAutoCompleteSuggestionPanel } from './index';
 import { AreaDocument } from '@/lib/search/searchTypes';
+import { SearchParams } from '@/lib/searchStateManager';
+import userEvent from '@testing-library/user-event';
+import {
+  englandAreaType,
+  nhsRegionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
+import { englandArea } from '@/mock/data/areas/englandAreas';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -8,74 +15,109 @@ const mockAreas: AreaDocument[] = [
   { areaCode: 'CT01', areaName: 'Central London', areaType: 'CT' },
 ];
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 describe('AreaSuggestionPanel', () => {
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
       <AreaAutoCompleteSuggestionPanel
-        areas={mockAreas}
-        searchHint="Green"
-        onItemSelected={jest.fn()}
+        suggestedAreas={mockAreas}
+        searchHint=""
       />
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should render correct area name', () => {
-    const { getByText } = render(
+  it('should not render the area suggestion panel when the searchState contains areasSelected', () => {
+    render(
       <AreaAutoCompleteSuggestionPanel
-        areas={mockAreas}
-        searchHint="Lon"
-        onItemSelected={jest.fn()}
-      />
-    );
-
-    expect(getByText('GP01 - Greenwich')).toBeInTheDocument();
-    expect(getByText('GP02 - Cambridge')).toBeInTheDocument();
-  });
-
-  it('should call onItemSelected when an item is clicked', () => {
-    const mockOnItemSelected = jest.fn();
-    const { getByText } = render(
-      <AreaAutoCompleteSuggestionPanel
-        areas={mockAreas}
+        suggestedAreas={[]}
         searchHint=""
-        onItemSelected={mockOnItemSelected}
+        searchState={{
+          [SearchParams.AreasSelected]: ['A001'],
+        }}
       />
     );
 
-    fireEvent.click(getByText('GP01 - Greenwich'));
-    expect(mockOnItemSelected).toHaveBeenCalledWith(mockAreas[0]);
-
-    fireEvent.click(getByText('Central London'));
-    expect(mockOnItemSelected).toHaveBeenCalledWith(mockAreas[2]);
+    expect(
+      screen.queryByTestId('area-suggestion-panel')
+    ).not.toBeInTheDocument();
   });
 
-  it('should render nothing if areas are empty', () => {
-    const { container } = render(
+  it('should render the suggestedAreas provided', () => {
+    render(
       <AreaAutoCompleteSuggestionPanel
-        areas={[]}
-        onItemSelected={jest.fn()}
-        searchHint="Lo"
+        suggestedAreas={mockAreas}
+        searchHint=""
       />
+    );
+
+    expect(screen.getByText('GP01 - Greenwich')).toBeInTheDocument();
+    expect(screen.getByText('GP02 - Cambridge')).toBeInTheDocument();
+    expect(screen.getByText('Central London')).toBeInTheDocument();
+  });
+
+  it('should render nothing if suggestedAreas are empty', () => {
+    const { container } = render(
+      <AreaAutoCompleteSuggestionPanel suggestedAreas={[]} searchHint="Lo" />
     );
     expect(container.firstChild).toBeNull();
   });
 
-  it.each([
-    ['GP01', 'GPs', 'Greenwich', 'GP01 - Greenwich'],
-    ['CT01', 'CT', 'Central London', 'Central London'],
-  ])(
-    'should format and render area correctly for areaCode = %s and areaType = %s and areaType = %s',
-    (areaCode, areaType, areaName, expectedText) => {
-      const area = { areaCode, areaName, areaType } as AreaDocument;
-      const { getByText } = render(
-        <AreaAutoCompleteSuggestionPanel
-          areas={[area]}
-          searchHint="some text"
-          onItemSelected={jest.fn()}
-        />
-      );
-      expect(getByText(expectedText)).toBeInTheDocument();
-    }
-  );
+  it('should update the url with the areaCode when an suggested area is clicked', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=GP01`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={mockAreas}
+        searchHint=""
+      />
+    );
+
+    await user.click(screen.getByText('GP01 - Greenwich'));
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should remove any previous area filter selection from the state', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=GP01`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={mockAreas}
+        searchState={{
+          [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
+          [SearchParams.GroupTypeSelected]: englandAreaType.key,
+          [SearchParams.GroupSelected]: englandArea.code,
+        }}
+        searchHint=""
+      />
+    );
+
+    await user.click(screen.getByText('GP01 - Greenwich'));
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
 });

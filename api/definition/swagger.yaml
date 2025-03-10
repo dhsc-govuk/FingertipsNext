@@ -34,7 +34,7 @@ paths:
                 items:
                   type: string
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/areatypes:
     get:
       tags:
@@ -54,7 +54,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/AreaType"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/areatypes/{area_type_key}/areas:
     get:
       tags:
@@ -76,7 +76,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/{area_code}:
     get:
       tags:
@@ -100,7 +100,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /areas/root:
     get:
       tags:
@@ -116,7 +116,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RootArea"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /healthcheck:
     get:
       tags:
@@ -171,7 +171,7 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
   /indicators/{indicator_id}:
     get:
       tags:
@@ -189,7 +189,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
       description: >
@@ -219,12 +219,13 @@ paths:
         "400":
           $ref: "#/components/responses/BadRequest"
         "500":
-          $ref: "#/components/responses/InternalServerErrror"
+          $ref: "#/components/responses/InternalServerError"
       parameters:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
+        - $ref: "#/components/parameters/comparison_method"
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
@@ -397,6 +398,32 @@ components:
             least 5 data points to use.
           enum: [Increasing, Decreasing, NoChange, CannotBeCalculated,
             NotYetCalculated]
+        benchmarkComparison:
+          type: object
+          properties:
+            outcome:
+              type: string
+              example: Lower
+              description: benchmark outcome
+              enum: [None, Lower, Higher, Better, Worse, Similar]
+            method:
+              type: string
+              example: rag
+              description: the benchmark comparison method used
+              enum: [None, Rag]
+            indicatorPolarity:
+              type: string
+              example: HighIsGood
+              description: the type of polarity applied to the outcome
+              enum: [NoJudgement, LowIsGood, HighIsGood]
+            benchmarkAreaCode:
+              type: string
+              example: E92000001
+              description: The code of the benchmark area
+            benchmarkAreaName:
+              type: string
+              example: England
+              description: The name of the benchmark area
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
@@ -453,6 +480,18 @@ components:
             - age
             - sex
       description: Determines the kind of inequality data that should be returned if an option is specified
+    comparison_method:
+      in: query
+      name: comparison_method
+      style: simple
+      schema:
+        type: string
+        example: Rag
+        enum:
+          - None
+          - Rag
+      required: false
+      description: the comparison method to use eg RAG to compare to England
     area_type_key:
       in: path
       name: area_type_key
@@ -555,7 +594,7 @@ components:
       description:
         The server could not understand the request due to invalid syntax.
         The client should modify the request and try again.
-    InternalServerErrror:
+    InternalServerError:
       content:
         application/json:
           schema:
