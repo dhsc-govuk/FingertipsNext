@@ -99,4 +99,20 @@ describe('BarChartEmbeddedTable', () => {
     expect(values).toEqual(sortedValues);
   });
   
+  it('should display an X in the table cell if there is no value', () => {
+    render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
+  
+    const noValueCells = screen.getAllByText("X")
+    expect(noValueCells).toHaveLength(2);
+    
+  });
+  
+  it('should display correct aria label when then is no value', () => {
+    render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
+
+    const noValueCells = screen.getAllByLabelText("Not compared")
+    expect(noValueCells).toHaveLength(2);
+    
+  });
+  
 });

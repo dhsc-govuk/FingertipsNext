@@ -15,7 +15,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
-    // [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
   
   if (
@@ -27,9 +27,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
-  // if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
-  //   areaCodesToRequest.push(selectedGroupCode);
-  // }
+  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
+    areaCodesToRequest.push(areaCodeForEngland);
+  }
+  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+    areaCodesToRequest.push(selectedGroupCode);
+  }
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
