@@ -74,6 +74,12 @@ export function OneIndicatorOneAreaViewPlots({
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
+                    yAxisTitle={
+                      indicatorMetadata?.unitLabel
+                        ? `Value: ${indicatorMetadata?.unitLabel}`
+                        : undefined
+                    }
+                    measurementUnit={indicatorMetadata?.unitLabel}
                     accessibilityLabel="A line chart showing healthcare data"
                   />
                 ),
@@ -86,6 +92,7 @@ export function OneIndicatorOneAreaViewPlots({
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
               },
