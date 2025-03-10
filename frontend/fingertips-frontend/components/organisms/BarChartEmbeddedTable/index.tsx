@@ -3,7 +3,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
-import { group } from '@actions/core';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -38,8 +38,8 @@ console.log('groupIndicatorData',groupIndicatorData)
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
     if (!a.value && !b.value) return 0;
-    if (!a.value) return -1;
-    if (!b.value) return 1;
+    if (!a.value) return 1;
+    if (!b.value) return -1;
     return b.value - a.value;
   });
 
@@ -96,7 +96,7 @@ console.log(group)
         </Table.Row>
       }>
         {mostRecentBenchmarkData.map((item) => (
-          <Table.Row key={`${item.areaName}`}>
+          <Table.Row key={`${item.areaName}`} style={{backgroundColor: GovukColours.MidGrey}}>
             {checkIfValueExists(item.areaName)}
             {checkIfValueExists(item.healthData?.count)}
             {checkIfValueExists(item.healthData?.value)}

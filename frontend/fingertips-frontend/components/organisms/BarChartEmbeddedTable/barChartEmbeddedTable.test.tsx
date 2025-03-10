@@ -1,8 +1,3 @@
-
-// should have a grey row colour for benchmark data
-// should display x in cells with undefined data
-
-
 import { render, screen } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
@@ -77,14 +72,16 @@ describe('BarChartEmbeddedTable', () => {
     expect(screen.getAllByRole('row')[1]).toHaveTextContent('England');
   });
   
+  it('should display the benchmark data table row with a grey background', () => {
+    
+    render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
+    expect(screen.getAllByRole('row')[1]).toHaveStyle('backgroundColor: GovukColours.MidGrey');
+    
+  });
+  
   it('should order the data displayed by largest value', () => {
 
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />);
-    // get header by role
-    // find column with heading value
-    // loop through the rows of value column
-    // sort through the values
-    // expect them to be sorted
     
     const header = screen.getAllByRole('columnheader');
     const valueColumnIndex = header.findIndex((item) => item.textContent?.includes('Value'));
@@ -100,19 +97,19 @@ describe('BarChartEmbeddedTable', () => {
   });
   
   it('should display an X in the table cell if there is no value', () => {
+    
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
   
     const noValueCells = screen.getAllByText("X")
     expect(noValueCells).toHaveLength(2);
-    
   });
   
   it('should display correct aria label when then is no value', () => {
+    
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
 
     const noValueCells = screen.getAllByLabelText("Not compared")
     expect(noValueCells).toHaveLength(2);
-    
   });
   
 });
