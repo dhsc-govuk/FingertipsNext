@@ -3,35 +3,42 @@ import {
   AreaMode,
   getAllIndicatorIdsForSearchTerm,
   IndicatorMode,
+  SearchMode,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];
-const searchTerm = 'hospital';
+const subjectSearchTerm = 'hospital';
+const areaSearchTerm = 'manchester';
 let allIndicatorIDs: string[];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
+  searchMode: SearchMode;
 }
 
 const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.ONLY_AREA,
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
   },
   // {
   //   indicatorMode: IndicatorMode.TWO_INDICATORS,
   //   areaMode: AreaMode.ENGLAND_AREA,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
   // },
 ];
 
@@ -40,11 +47,13 @@ const coreTestJourneys: TestParams[] = [
  * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
  * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components.
+ * They also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
  */
 test.beforeAll(
-  `return all matching indicatorIDs from the real data source based on the searchTerm: ${searchTerm}`,
+  `return all matching indicatorIDs from the real data source based on the searchMode`,
   () => {
+    // turn into a method and call inside the test loop
     const typedIndicatorData = indicatorData.map(
       (indicator: IndicatorDocument) => {
         return {
@@ -60,9 +69,9 @@ test.beforeAll(
     );
   }
 );
-test.describe(`Search via search term ${searchTerm}`, () => {
-  coreTestJourneys.forEach(({ indicatorMode, areaMode }) => {
-    test(`then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
+test.describe(`Search via`, () => {
+  coreTestJourneys.forEach(({ indicatorMode, areaMode, searchMode }) => {
+    test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
       homePage,
       resultsPage,
       chartPage,
