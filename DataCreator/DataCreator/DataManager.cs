@@ -131,7 +131,7 @@ namespace DataCreator
             }
         }
 
-        public async Task<List<IndicatorWithAreasAndLatestUpdate>> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
+        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
             
@@ -144,7 +144,7 @@ namespace DataCreator
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
             AddSexIds(healthMeasures);
-            await AddCategoryIds(healthMeasures);
+            CreateCategoryData(healthMeasures);
 
             var indicatorWithAreasAndLatestUpdates = healthMeasures
                 .GroupBy(measure => measure.IndicatorId)
@@ -164,28 +164,48 @@ namespace DataCreator
             return indicatorWithAreasAndLatestUpdates;
         }
 
-        private async Task AddCategoryIds(List<HealthMeasureEntity> healthMeasures)
+        private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
         {
-            var allCategoryData = (await _pholioDataFetcher.FetchCategoryDataAsync()).ToList();
-            
             var categoryData= new List<CategoryEntity>();
-            foreach(var healthMeasure in healthMeasures.Where(hm=>!string.IsNullOrEmpty(hm.Category)))
+            foreach(var healthMeasure in healthMeasures.Where(hm=>hm.Category!="All"))
             {
-                var match=allCategoryData
-                    .FirstOrDefault(cat=>
-                        cat.CategoryName.Equals(healthMeasure.Category.Trim(['\\','"']), StringComparison.CurrentCultureIgnoreCase) 
-                        && cat.CategoryTypeName.Equals(healthMeasure.CategoryType.Trim(['\\', '"']), StringComparison.CurrentCultureIgnoreCase));
-                if(match != null)
+                if(categoryData.FirstOrDefault(cd=>
+                    cd.CategoryName.Equals(healthMeasure.Category,StringComparison.CurrentCultureIgnoreCase) &&
+                    cd.CategoryTypeName.Equals(healthMeasure.CategoryType, StringComparison.CurrentCultureIgnoreCase))==null)
                 {
-                    healthMeasure.CategoryId = match.CategoryID;
-                    healthMeasure.CategoryTypeId = match.CategoryTypeID;
-                    if(!categoryData.Exists(cd=>cd.CategoryID == match.CategoryID && cd.CategoryTypeID==match.CategoryTypeID))
-                        categoryData.Add(match);
+                    categoryData.Add(new CategoryEntity
+                    {
+                        CategoryName= healthMeasure.Category,
+                        CategoryTypeName= healthMeasure.CategoryType,
+                        Sequence= CreateSequenceForCategory(healthMeasure.Category)
+                    });
                 }
             }
             DataFileManager.WriteCategoryCsvData("categories", categoryData);
         } 
 
+        private static int CreateSequenceForCategory(string categoryName)
+        {
+            if (categoryName.StartsWith("Most"))
+                return 10;
+            if (categoryName.StartsWith("Second most"))
+                return 9;
+            if (categoryName.StartsWith("Third more"))
+                return 8;
+            if (categoryName.StartsWith("Fourth more"))
+                return 7;
+            if (categoryName.StartsWith("Fifth more"))
+                return 6;
+            if (categoryName.StartsWith("Fifth less"))
+                return 5;
+            if (categoryName.StartsWith("Fourth less"))
+                return 4;
+            if (categoryName.StartsWith("Third less"))
+                return 3;
+            if (categoryName.StartsWith("Second least"))
+                return 2;
+            return 1;
+        }
 
         private static List<AgeEntity> AddAgeIds(List<HealthMeasureEntity> healthMeasures, IEnumerable<AgeEntity> allAges)
         {
