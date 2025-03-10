@@ -29,7 +29,7 @@ import {
 } from './AreaType';
 
 /**
- * 
+ *
  * @export
  * @interface AreaWithRelations
  */
@@ -47,36 +47,29 @@ export interface AreaWithRelations {
      */
     name: string;
     /**
-     * 
+     *
      * @type {AreaType}
      * @memberof AreaWithRelations
      */
     areaType: AreaType;
     /**
-     * 
+     *
      * @type {Array<Area>}
      * @memberof AreaWithRelations
      */
     parents?: Array<Area>;
     /**
-     * 
+     *
      * @type {Array<Area>}
      * @memberof AreaWithRelations
      */
     children?: Array<Area>;
     /**
-     * 
+     *
      * @type {Array<Area>}
      * @memberof AreaWithRelations
      */
     siblings?: Array<Area>;
-    /**
-     * 
-     * @type {Array<Area>}
-     * @memberof AreaWithRelations
-     */
-    ancestors?: Array<Area>;
-}
 
 /**
  * Check if a given object implements the AreaWithRelations interface.
@@ -97,14 +90,13 @@ export function AreaWithRelationsFromJSONTyped(json: any, ignoreDiscriminator: b
         return json;
     }
     return {
-        
+
         'code': json['code'],
         'name': json['name'],
         'areaType': json['areaType'],
         'parents': json['parents'] == null ? undefined : ((json['parents'] as Array<any>).map(AreaFromJSON)),
         'children': json['children'] == null ? undefined : ((json['children'] as Array<any>).map(AreaFromJSON)),
         'siblings': json['siblings'] == null ? undefined : ((json['siblings'] as Array<any>).map(AreaFromJSON)),
-        'ancestors': json['ancestors'] == null ? undefined : ((json['ancestors'] as Array<any>).map(AreaFromJSON)),
     };
 }
 
@@ -118,14 +110,13 @@ export function AreaWithRelationsToJSONTyped(value?: AreaWithRelations | null, i
     }
 
     return {
-        
+
         'code': value['code'],
         'name': value['name'],
         'areaType': value['areaType'],
         'parents': value['parents'] == null ? undefined : ((value['parents'] as Array<any>).map(AreaToJSON)),
         'children': value['children'] == null ? undefined : ((value['children'] as Array<any>).map(AreaToJSON)),
         'siblings': value['siblings'] == null ? undefined : ((value['siblings'] as Array<any>).map(AreaToJSON)),
-        'ancestors': value['ancestors'] == null ? undefined : ((value['ancestors'] as Array<any>).map(AreaToJSON)),
     };
 }
 

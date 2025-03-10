@@ -18,10 +18,10 @@ public static class Extensions
         int maxLevel)
     {
         var query = queryable
-                
+
             .Include(a => a.Children)
             .ThenInclude(a => a.Children)
-            
+
             .Include(a => a.Children)
             .ThenInclude(x => x.Parents)
 
@@ -29,7 +29,7 @@ public static class Extensions
             .ThenInclude(x => x.AreaType)
 
 
-            
+
 
             .Include(a => a.Parents)
             .ThenInclude(x => x.Parents)
@@ -109,7 +109,6 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="areaCode"></param>
     /// <param name="includeChildren"></param>
-    /// <param name="includeAncestors"></param>
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
@@ -133,7 +132,7 @@ public class AreaRepository : IAreaRepository
         areasWithRelations.ParentAreas = area.Parents.ToList();
 
         areasWithRelations.Siblings = includeSiblings ? area.Parents.SelectMany(p => p.Children).ToList() : null;
-        
+
         // Get the principle requested area.
    /*     var area = await _dbContext
             .Area.Include(a => a.AreaType)
@@ -145,12 +144,12 @@ public class AreaRepository : IAreaRepository
 
         var areasWithRelations = new AreaWithRelationsModel { Area = area };
 
-        // Get the immediate parents 
+        // Get the immediate parents
         var parents = await GetParentAreas(area.AreaKey);
-        
+
         if (!parents.IsNullOrEmpty())
         {
-            areasWithRelations.ParentAreas = parents; 
+            areasWithRelations.ParentAreas = parents;
         }
 */
         if (includeChildren)
@@ -161,11 +160,11 @@ public class AreaRepository : IAreaRepository
         return areasWithRelations;
     }
 
-    // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex 
+    // This uses recursive cte term to find all the descendants in the hierarchy - yes it is complex
     // and this represents a maintenance issue. But there is inherent complexity in what is being
     // implemented here.
     //
-    // This function needs to traverse a graph (not just a tree) until it has found all descendants of 
+    // This function needs to traverse a graph (not just a tree) until it has found all descendants of
     // the parent of the specific type. It should also make sure what is returned is unique.
     private async Task<ICollection<AreaModel>> GetDescendantAreas(AreaModel startingArea, string childAreaTypeKey)
     {
@@ -209,7 +208,7 @@ public class AreaRepository : IAreaRepository
                     Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
                 JOIN
                    	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
-                INNER JOIN 
+                INNER JOIN
                     recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
 
                 )
@@ -225,7 +224,7 @@ public class AreaRepository : IAreaRepository
                     recursive_cte rc
                 JOIN
                     Areas.AreaTypes at
-                ON 
+                ON
                     rc.AreaTypeKey = at.AreaTypeKey
                 WHERE
                     rc.AreaTypeKey = {childAreaTypeKey}

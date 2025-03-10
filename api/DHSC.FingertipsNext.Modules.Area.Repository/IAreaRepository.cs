@@ -21,8 +21,7 @@ public interface IAreaRepository
     Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType);
 
     /// <summary>
-    /// Get the full details of a given area, including its parent, optionally including
-    /// its children and ancestors.
+    /// Get the full details of a given area, including its parent, optionally including its children.
     /// </summary>
     /// <param name="areaCode">The area code of the area/geography</param>
     /// <param name="includeChildren">Optional. Include the child areas. By default, this is the direct children,
