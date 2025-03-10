@@ -14,11 +14,11 @@ export enum BenchmarkLabelType {
   NOT_COMPARED = 'Not compared',
 }
 
-export type TBenchmarkLabelGroupConfig = Partial<
-  Record<BenchmarkLabelGroupType, TBenchmarkLabelConfig>
+export type BenchmarkLabelGroupConfig = Partial<
+  Record<BenchmarkLabelGroupType, BenchmarkLabelConfig>
 >;
 
-export type TBenchmarkLabelConfig = Partial<
+export type BenchmarkLabelConfig = Partial<
   Record<BenchmarkLabelType | 'default', BenchmarkLabelTypeConfig>
 >;
 

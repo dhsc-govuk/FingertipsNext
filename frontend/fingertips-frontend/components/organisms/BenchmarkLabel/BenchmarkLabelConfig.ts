@@ -7,21 +7,21 @@ import {
 import {
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
-  TBenchmarkLabelGroupConfig,
+  BenchmarkLabelGroupConfig,
 } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 export const getBenchmarkTagStyle = (
   group: BenchmarkLabelGroupType,
   type: BenchmarkLabelType
 ) => {
-  const groupConfig = BenchmarkLabelGroupConfig[group];
+  const groupConfig = benchmarkLabelGroupConfig[group];
   if (!groupConfig) return null;
 
   const typeConf = groupConfig[type];
   return typeConf ?? groupConfig.default;
 };
 
-export const BenchmarkLabelGroupConfig: TBenchmarkLabelGroupConfig = {
+export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
   [BenchmarkLabelGroupType.RAG]: {
     default: {
       backgroundColor: 'transparent',
