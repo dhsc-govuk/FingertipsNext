@@ -560,25 +560,35 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   e2e-tests-development:
-    needs: [check-changes, deploy-frontend-dev]
+    needs: [
+      check-changes,
+      deploy-db-dev,
+      search-setup-dev,
+      deploy-api-dev,
+      deploy-frontend-dev
+    ]
     uses: ./.github/workflows/e2e-tests.yml
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
       (
-        github.ref_name == 'main' &&
-        github.event_name == 'workflow_dispatch'
-      ) ||
-      (
-        github.ref_name == 'main' &&
+        github.event_name != 'pull_request' &&
         (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' ||
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
+          (
+            github.ref_name == 'main' &&
+            github.event_name == 'workflow_dispatch'
+          ) ||
+          (
+            github.ref_name == 'main' &&
+            (
+              needs.check-changes.outputs.db_changed == 'true' ||
+              needs.check-changes.outputs.api_changed == 'true' ||
+              needs.check-changes.outputs.frontend_changed == 'true' ||
+              needs.check-changes.outputs.search_changed == 'true'
+            )
+          )
         )
       )
     with:
