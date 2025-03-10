@@ -21,4 +21,15 @@ describe('Inequalities suite', () => {
       screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
   });
+
+  it('check that measurement unit is rendered correctly when the inequality table is rendered', () => {
+    const component = render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        measurementUnit="kg"
+      />
+    );
+
+    expect(component.asFragment()).toMatchSnapshot();
+  });
 });
