@@ -100,6 +100,18 @@ describe('Inequalities bar chart table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('check if the kg value is rendered correctly', () => {
+      render(
+        <InequalitiesBarChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+          measurementUnit="kg"
+        />
+      );
+      expect(screen.getByText('(kg)')).toBeInTheDocument();
+    });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
