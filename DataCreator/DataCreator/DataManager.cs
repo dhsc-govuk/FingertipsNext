@@ -131,7 +131,7 @@ namespace DataCreator
             }
         }
 
-        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeDataAsync(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
+        public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators=false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
             

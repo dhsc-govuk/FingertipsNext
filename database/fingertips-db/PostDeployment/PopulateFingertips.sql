@@ -74,11 +74,9 @@ END;
 -- Deprivation Data
 CREATE TABLE #TempDeprivationData
 (
-    CategoryID INT,
     CategoryName NVARCHAR(255),
-    Sequence INT,
-    CategoryTypeID INT,
-    CategoryTypeName NVARCHAR(255)
+    CategoryTypeName NVARCHAR(255),
+    Sequence INT
 );
 DECLARE @sqlDeprivation NVARCHAR(4000), @filePathDeprivation NVARCHAR(500);
 IF @UseAzureBlob = '1'
