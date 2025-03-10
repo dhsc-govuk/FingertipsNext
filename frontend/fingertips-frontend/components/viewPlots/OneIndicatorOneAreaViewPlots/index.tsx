@@ -34,7 +34,6 @@ export function OneIndicatorOneAreaViewPlots({
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
-
   const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
