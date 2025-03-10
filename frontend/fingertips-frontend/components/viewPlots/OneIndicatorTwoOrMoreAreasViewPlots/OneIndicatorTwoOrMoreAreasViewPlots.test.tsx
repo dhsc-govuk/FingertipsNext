@@ -2,6 +2,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -24,6 +25,17 @@ const mockMetaData = {
   unitLabel: 'pancakes',
   hasInequalities: true,
   usedInPoc: true,
+};
+
+const mockSearch = 'test';
+const mockIndicator = ['108'];
+const mockAreas = ['E12000001', 'E12000003'];
+const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
+
+const searchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: mockSearch,
+  [SearchParams.IndicatorsSelected]: mockIndicator,
+  [SearchParams.AreasSelected]: mockAreas,
 };
 
 const lineChartTestId = 'lineChart-component';
@@ -59,20 +71,15 @@ const assertLineChartAndTableNotInDocument = () => {
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   it('should render back link with correct search parameters', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
-    };
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
       />
     );
 
     const backLink = screen.getByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.AreasSelected}=E12000001&${SearchParams.AreasSelected}=E12000003`;
+    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}&${SearchParams.AreasSelected}=${mockAreas[1]}`;
 
     expect(backLink).toBeInTheDocument();
     expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
@@ -80,13 +87,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   });
 
   it('should render the view with correct title', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={mockHealthData['108']}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
       />
     );
@@ -103,13 +106,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   });
 
   it('should render the LineChart components when there are 2 areas', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['108'],
-      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
-    };
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -128,19 +127,13 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
 
-    // await assertLineChartAndTableInDocument();
+    await assertLineChartAndTableInDocument();
   });
 
   it('should display data source when metadata exists', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['123'],
-      [SearchParams.AreasSelected]: ['A1245', 'A1426'],
-    };
-
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -158,7 +151,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     };
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={mockHealthData['108']}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
       />
     );

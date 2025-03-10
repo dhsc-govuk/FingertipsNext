@@ -2,6 +2,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen } from '@testing-library/react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -26,22 +27,29 @@ const mockMetaData = {
   usedInPoc: true,
 };
 
+const mockSearch = 'test';
+const mockIndicator = ['108'];
+const mockAreas = ['A001'];
+
+const searchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: mockSearch,
+  [SearchParams.IndicatorsSelected]: mockIndicator,
+  [SearchParams.AreasSelected]: mockAreas,
+};
+
+const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
+
 describe('OneIndicatorOneAreaViewPlots', () => {
   it('should render back link with correct search parameters', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
       />
     );
 
     const backLink = screen.getByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.AreasSelected}=A001`;
+    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}`;
 
     expect(backLink).toBeInTheDocument();
     expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
@@ -49,10 +57,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the view with correct title', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['108'],
-      [SearchParams.AreasSelected]: ['E12000001'],
-    };
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={[mockHealthData['108'][1]]}
@@ -73,13 +77,9 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the LineChart components', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['108'],
-      [SearchParams.AreasSelected]: ['E12000001'],
-    };
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -99,15 +99,9 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should display data source when metadata exists', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['123'],
-      [SearchParams.AreasSelected]: ['A1245'],
-    };
-
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -127,15 +121,10 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       },
     ];
 
-    const state: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
-
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={MOCK_DATA}
-        searchState={state}
+        searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
     );
