@@ -195,7 +195,7 @@ public class HealthDataRepositoryTests
             .WithAreaDimension(code: "Code1").WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500).Build();
         PopulateDatabase(unexpectedHealthMeasure5);
-        
+
         var unexpectedHealthMeasure6 = new HealthMeasureModelHelper(key: 6, year: 2023)
             .WithAreaDimension(code: "Code1").WithDeprivationDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500).Build();
@@ -246,6 +246,57 @@ public class HealthDataRepositoryTests
     }
 
     [Fact]
+    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
+    {
+        // arrange
+        var maleSexDimension = new SexDimensionModel
+        {
+            SexKey = 1,
+            Name = "Male",
+            HasValue = true,
+        };
+
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure1);
+
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure2);
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            ResetKeys(expectedHealthMeasure1),
+            ResetKeys(expectedHealthMeasure2),
+        });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleSexDimensionValuesAndNoneWithoutSexDimension()
+    {
+        // arrange
+        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithSexDimension(sexKey: 1, name: "Male", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure1);
+
+        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithSexDimension(sexKey: 2, name: "Female", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure2);
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldBeEmpty();
+    }
+
+    [Fact]
     public async Task Repository_ShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
     {
         // arrange
@@ -272,7 +323,59 @@ public class HealthDataRepositoryTests
             ResetKeys(expectedHealthMeasure)
         });
     }
-    
+
+    [Fact]
+    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
+    {
+        // arrange
+        var fifteenToFourtyFourYearsAgeDimension = new AgeDimensionModel
+        {
+            AgeKey = 1,
+            Name = "15-44 yrs",
+            HasValue = true,
+        };
+        
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure1);
+
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure2);
+        
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            ResetKeys(expectedHealthMeasure1),
+            ResetKeys(expectedHealthMeasure2),
+        });
+    }
+
+
+    [Fact]
+    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
+    {
+        // arrange
+        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithAgeDimension(ageKey: 1, name: "15-44 yrs", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure1);
+
+        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithAgeDimension(ageKey: 2, name: "65+ yrs", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure2);
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldBeEmpty();
+    }
+
     [Fact]
     public async Task Repository_ShouldOnlyIncludeResultsWithoutADeprivationDimensionValue()
     {
@@ -299,6 +402,60 @@ public class HealthDataRepositoryTests
         {
             ResetKeys(expectedHealthMeasure)
         });
+    }
+
+    [Fact]
+    public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
+    {
+        // arrange
+        var secondMostDeprivedDecile = new DeprivationDimensionModel
+        {
+            DeprivationKey = 1,
+            Name = "Second most deprived decile",
+            Type = "County & UA deprivation deciles in England",
+            Sequence = 9,
+            HasValue = true
+        };
+        
+        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure1);
+
+        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(expectedHealthMeasure2);
+        
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(new List<HealthMeasureModel>()
+        {
+            ResetKeys(expectedHealthMeasure1),
+            ResetKeys(expectedHealthMeasure2),
+        });
+    }
+
+
+    [Fact]
+    public async Task Repository_ShouldNotReturnResultsWhenIndicatorHasMultipleDeprivationDimensionValuesAndNoneWithoutDeprivationDimension()
+    {
+        // arrange
+        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+            .WithDeprivationDimension(name: "Most deprived decile", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure1);
+
+        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+            .WithDeprivationDimension(name: "Second most deprived decile", hasValue: true).WithIndicatorDimension(indicatorId: 500).Build();
+        PopulateDatabase(unexpectedHealthMeasure2);
+
+        // act
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+
+        // assert
+        result.ShouldBeEmpty();
     }
 
     [Fact]
