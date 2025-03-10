@@ -9,6 +9,7 @@ it('should render the Highcharts react component with passed yAxisPropsTitle par
   render(
     <BarChart
       healthIndicatorData={mockHealthData[1]}
+      measurementUnit="cm"
       yAxisTitle={yAxisPropsTitle}
     />
   );
@@ -20,7 +21,9 @@ it('should render the Highcharts react component with passed yAxisPropsTitle par
 });
 
 it('should render the BarChart title', () => {
-  render(<BarChart healthIndicatorData={mockHealthData[1]} />);
+  render(
+    <BarChart healthIndicatorData={mockHealthData[1]} measurementUnit="cm" />
+  );
 
   const title = screen.getByRole('heading', { level: 3 });
 

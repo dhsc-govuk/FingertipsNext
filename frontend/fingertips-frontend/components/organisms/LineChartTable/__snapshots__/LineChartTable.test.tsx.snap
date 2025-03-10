@@ -286,7 +286,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2 c3 c7"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="c11"
             >
@@ -297,23 +297,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2 c3 c7"
             data-testid="header-Lower-4"
           >
-            Lower 
-            <span
-              class="c11"
-            >
-              (%)
-            </span>
+            Lower
           </th>
           <th
             class="c2 c3 c7"
             data-testid="header-Upper-5"
           >
-            Upper 
-            <span
-              class="c11"
-            >
-              (%)
-            </span>
+            Upper
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -350,23 +340,23 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           <td
             class="c12 c13 c16"
           >
-            7.0%
+            703.420759
           </td>
           <td
             class="c12 c13 c16"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c12 c13 c16"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c15 c13 c16 c17"
             data-testid="grey-table-cell"
           >
-            9.0%
+            904.874
           </td>
         </tr>
         <tr
@@ -388,23 +378,23 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           <td
             class="c12 c13 c16"
           >
-            8.9%
+            890.305692
           </td>
           <td
             class="c12 c13 c16"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c12 c13 c16"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c15 c13 c16 c17"
             data-testid="grey-table-cell"
           >
-            9.7%
+            965.9843
           </td>
         </tr>
       </tbody>
@@ -734,7 +724,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c3 c7"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="c12"
             >
@@ -745,23 +735,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c3 c7"
             data-testid="header-Lower-4"
           >
-            Lower 
-            <span
-              class="c12"
-            >
-              (%)
-            </span>
+            Lower
           </th>
           <th
             class="c2 c3 c7"
             data-testid="header-Upper-5"
           >
-            Upper 
-            <span
-              class="c12"
-            >
-              (%)
-            </span>
+            Upper
           </th>
           <th
             class="c2 c3 c4 c10 c11"
@@ -779,7 +759,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c3 c7"
             data-testid="header-Value-3"
           >
-            Value 
+            Value
             <span
               class="c12"
             >
@@ -790,23 +770,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c3 c7"
             data-testid="header-Lower-4"
           >
-            Lower 
-            <span
-              class="c12"
-            >
-              (%)
-            </span>
+            Lower
           </th>
           <th
             class="c2 c3 c7"
             data-testid="header-Upper-5"
           >
-            Upper 
-            <span
-              class="c12"
-            >
-              (%)
-            </span>
+            Upper
           </th>
           <th
             class="c2 c3 c7 c8"
@@ -843,17 +813,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            7.0%
+            703.420759
           </td>
           <td
             class="c13 c14 c18"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c13 c14 c18"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c16 c14 c15 c17"
@@ -866,23 +836,23 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            1.4%
+            135.149304
           </td>
           <td
             class="c13 c14 c18"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c13 c14 c18"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c16 c14 c18 c19"
             data-testid="grey-table-cell"
           >
-            9.0%
+            904.874
           </td>
         </tr>
         <tr
@@ -904,17 +874,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            8.9%
+            890.305692
           </td>
           <td
             class="c13 c14 c18"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c13 c14 c18"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c16 c14 c15 c17"
@@ -927,23 +897,23 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c13 c14 c18"
           >
-            1.4%
+            135.149304
           </td>
           <td
             class="c13 c14 c18"
           >
-            4.4%
+            441.69151
           </td>
           <td
             class="c13 c14 c18"
           >
-            5.8%
+            578.32766
           </td>
           <td
             class="c16 c14 c18 c19"
             data-testid="grey-table-cell"
           >
-            9.7%
+            965.9843
           </td>
         </tr>
       </tbody>

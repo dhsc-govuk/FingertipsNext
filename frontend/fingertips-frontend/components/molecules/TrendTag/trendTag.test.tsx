@@ -1,7 +1,6 @@
 import { Trend, TrendCondition } from '@/lib/common-types';
 import { TrendTag } from '.';
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
 
 describe('Trend Tag Suite', () => {
   it('should render expected elements', () => {
@@ -68,13 +67,6 @@ describe('Trend Tag Suite', () => {
 
       expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent('Decreasing');
-    });
-
-    it('should not render arrow when useArrow prop is false', () => {
-      render(<TrendTag trend={Trend.BETTER} useArrow={false} />);
-
-      expect(screen.queryByTestId('arrow-icon')).not.toBeInTheDocument();
-      expect(screen.getByRole('paragraph')).toHaveTextContent('Better 95%');
     });
   });
 

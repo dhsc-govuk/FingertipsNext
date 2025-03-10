@@ -6,7 +6,7 @@ import { userEvent } from '@testing-library/user-event';
 
 const initialState: SearchFormState = {
   indicator: '',
-  areaSearched: '',
+  searchState: '',
   message: null,
   errors: {},
 };
@@ -56,7 +56,7 @@ it('should render the SearchForm component', () => {
 it('should display the error summary component when there is a validation error', () => {
   const errorState: SearchFormState = {
     indicator: '',
-    areaSearched: '',
+    searchState: '',
     message: 'Error message',
     errors: {},
   };
@@ -74,7 +74,7 @@ it('should focus on the input boxes when there is a validation error', async () 
 
   const errorState: SearchFormState = {
     indicator: '',
-    areaSearched: '',
+    searchState: '',
     message: 'Error message',
     errors: {},
   };
