@@ -1,6 +1,6 @@
 import {
   IndicatorDefinition,
-  IndicatorMetadata,
+  IndicatorDefinitionProps,
 } from '@/components/pages/indicator';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
@@ -19,14 +19,12 @@ export default async function IndicatorPage({
     );
 
   if (indicatorMetadata === undefined) {
-    redirect('');
+    redirect('/');
   }
 
-  const placeholderMetadata: IndicatorMetadata = {
+  const placeholderMetadata: IndicatorDefinitionProps = {
     ...placeholderIndicatorMetadata,
     indicatorID: String(placeholderIndicatorMetadata.indicatorID),
-    earliestDataPeriod: String(placeholderIndicatorMetadata.earliestDataPeriod),
-    latestDataPeriod: String(placeholderIndicatorMetadata.latestDataPeriod),
     lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
   };
 
@@ -35,5 +33,5 @@ export default async function IndicatorPage({
     ...indicatorMetadata,
   };
 
-  return <IndicatorDefinition indicatorMetadata={fullMetadata} />;
+  return <IndicatorDefinition indicatorDefinitionProps={fullMetadata} />;
 }

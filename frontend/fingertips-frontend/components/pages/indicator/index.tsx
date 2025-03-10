@@ -11,47 +11,58 @@ import {
   SectionBreak,
   Table,
   UnorderedList,
+  BackLink,
 } from 'govuk-react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
-export type IndicatorMetadata = {
-  valueType: string;
+export type IndicatorDefinitionProps = {
+  indicatorName: string;
+  indicatorID: string;
+  lastUpdatedDate: Date;
+  frequency: string;
+
+  indicatorDefinition: string;
+  method: string;
+  countDefinition: string;
+  denominatorDefinition: string;
   denominatorType: string;
-  ciMethod: string | null;
+
+  age: string;
+  sex: string;
   unitLabel: string;
   unitValue: string;
-  indicatorDefinition: string;
-  rationale: string;
-  dataSource: string;
-  method: string;
+  yearType: string;
+  valueType: string;
   standardPopulation: string;
-  ciMethodDetails: string | null;
-  countSource: string;
-  countDefinition: string;
-  denominatorSource: string;
-  denominatorDefinition: string;
   disclouseControl: string;
-  caveats: string;
+  rounding: string;
+
+  dataSource: string;
+  countSource: string;
+  denominatorSource: string;
   copyright: string;
   reuse: string | null;
-  notes: string;
-  frequency: string;
-  rounding: string;
-  polarity: string;
-  useProportionsForTrend: boolean;
+
+  benchmarkMethod: string;
+  benchmarkSignificanceLevel: string;
   benchmarkComparisonMethod: string;
-  latestDataPeriod: string;
-  earliestDataPeriod: string;
-  lastUpdatedDate: Date;
-  usedInPoc: boolean;
-  indicatorID: string;
-  indicatorName: string;
+  ciMethod: string | null;
+  ciMethodDetails: string | null;
+
+  rationale: string;
+
+  notes: string;
+  caveats: string;
+  covidImpact: string;
+
+  profiles: string[];
+  links: string[];
 };
 
 type IndicatorProps = {
-  indicatorMetadata: IndicatorMetadata;
+  indicatorDefinitionProps: IndicatorDefinitionProps;
 };
 
 const ZeroMarginParagraph = styled(Paragraph)(
@@ -63,23 +74,28 @@ const StyledSectionBreak = styled(SectionBreak)(
   spacing.withWhiteSpace({ margin: 4 })
 );
 
+// should return to charts page once forward path into indicator page implemented
+const backLinkPath = '/';
+
 export function IndicatorDefinition({
-  indicatorMetadata,
+  indicatorDefinitionProps,
 }: Readonly<IndicatorProps>) {
   return (
     <>
+      <BackLink href={backLinkPath} data-testid="search-results-back-link" />
+
       <Caption>Background information and indicator definitions for</Caption>
-      <TopHeading>{indicatorMetadata.indicatorName}</TopHeading>
+      <TopHeading>{indicatorDefinitionProps.indicatorName}</TopHeading>
 
       <ZeroMarginParagraph
         supportingText={true}
-      >{`Indicator ID ${indicatorMetadata.indicatorID}`}</ZeroMarginParagraph>
+      >{`Indicator ID ${indicatorDefinitionProps.indicatorID}`}</ZeroMarginParagraph>
       <ZeroMarginParagraph
         supportingText={true}
-      >{`Last updated ${formatDate(indicatorMetadata.lastUpdatedDate)}`}</ZeroMarginParagraph>
+      >{`Last updated ${formatDate(indicatorDefinitionProps.lastUpdatedDate)}`}</ZeroMarginParagraph>
       <ZeroMarginParagraph
         supportingText={true}
-      >{`Frequency ${indicatorMetadata.frequency}`}</ZeroMarginParagraph>
+      >{`Frequency ${indicatorDefinitionProps.frequency}`}</ZeroMarginParagraph>
 
       <StyledSectionBreak visible={true} />
 
@@ -110,48 +126,48 @@ export function IndicatorDefinition({
       <H3 id="definitions">Indicator definitions</H3>
 
       <H4>Definition</H4>
-      <Paragraph>{indicatorMetadata.indicatorDefinition}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.indicatorDefinition}</Paragraph>
       <H4>Methodology</H4>
-      <Paragraph>{indicatorMetadata.method}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.method}</Paragraph>
       <H4>Definition of numerator</H4>
-      <Paragraph>{indicatorMetadata.countDefinition}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.countDefinition}</Paragraph>
       <H4>Definition of denominator</H4>
-      <Paragraph>{indicatorMetadata.denominatorDefinition}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.denominatorDefinition}</Paragraph>
 
       <StyledSectionBreak visible={false} />
 
       <Table>
         <Table.Row>
           <Table.CellHeader>Age</Table.CellHeader>
-          <Table.Cell>Age not in metadata?</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.age}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Sex</Table.CellHeader>
-          <Table.Cell>Sex not in metadata?</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.sex}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Value Type</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.unitLabel}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.unitLabel}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Unit</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.unitValue}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.unitValue}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Year type</Table.CellHeader>
-          <Table.Cell>Year type not in metadata?</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.yearType}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Standard population/values</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.standardPopulation}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.standardPopulation}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Disclosure control</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.disclouseControl}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.disclouseControl}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Rounding</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.rounding}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.rounding}</Table.Cell>
         </Table.Row>
       </Table>
 
@@ -159,7 +175,7 @@ export function IndicatorDefinition({
       <Table>
         <Table.Row>
           <Table.CellHeader>Data source</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.dataSource}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.dataSource}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Current indicator source</Table.CellHeader>
@@ -175,91 +191,80 @@ export function IndicatorDefinition({
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Source of numerator</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.countSource}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.countSource}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Source of denominator</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.denominatorSource}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.denominatorSource}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Copyright</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.copyright}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.copyright}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Date reuse</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.reuse}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.reuse}</Table.Cell>
         </Table.Row>
       </Table>
       <H3 id="benchmarking">Benchmarking and confidence information</H3>
       <Table>
         <Table.Row>
           <Table.CellHeader>Benchmarking method</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.method}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.benchmarkMethod}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Benchmarking significance level</Table.CellHeader>
-          <Table.Cell>Placeholder Benchmarking significance level?</Table.Cell>
+          <Table.Cell>
+            {indicatorDefinitionProps.benchmarkSignificanceLevel}
+          </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Confidence interval method</Table.CellHeader>
-          <Table.Cell>{indicatorMetadata.ciMethod}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.ciMethod}</Table.Cell>
         </Table.Row>
       </Table>
-      {indicatorMetadata.ciMethodDetails ? (
+      {indicatorDefinitionProps.ciMethodDetails ? (
         <>
           <H4>Confidence interval methodology</H4>
-          <Paragraph>{indicatorMetadata.ciMethodDetails}</Paragraph>
+          <Paragraph>{indicatorDefinitionProps.ciMethodDetails}</Paragraph>
         </>
       ) : (
         <></>
       )}
 
       <H3 id="rationale">Indicator rationale</H3>
-      <Paragraph>{indicatorMetadata.rationale}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.rationale}</Paragraph>
 
       <H3 id="notes">Notes and caveats</H3>
       <H4>Notes</H4>
-      <Paragraph>{indicatorMetadata.notes}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.notes}</Paragraph>
       <H4>Caveats</H4>
-      <Paragraph>{indicatorMetadata.caveats}</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.caveats}</Paragraph>
       <H4>Impact of Covid-19</H4>
-      <Paragraph>Placeholder Covid-19 impact?</Paragraph>
+      <Paragraph>{indicatorDefinitionProps.covidImpact}</Paragraph>
 
       <H3 id="links">Public health profile usage and related content</H3>
       <H4>This indicator is used in the following health profiles</H4>
       <UnorderedList listStyleType="none">
-        <ListItem>
-          <Link href="#">Placeholder Profile 1</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#">Placeholder Profile 2</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#">Placeholder Profile 3</Link>
-        </ListItem>
+        {indicatorDefinitionProps.profiles.map((profile, idx) => {
+          return (
+            <ListItem key={`profiles-${idx}`}>
+              <Link href="#">{profile}</Link>
+            </ListItem>
+          );
+        })}
       </UnorderedList>
 
       <H4>Related Content</H4>
       <UnorderedList listStyleType="none">
-        <ListItem>
-          <Link href="#">Placeholder Link 1</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#">Placeholder Link 2</Link>
-        </ListItem>
-        <ListItem>
-          <Link href="#">Placeholder Link 3</Link>
-        </ListItem>
+        {indicatorDefinitionProps.links.map((link, idx) => {
+          return (
+            <ListItem key={`links-${idx}`}>
+              <Link href="#">{link}</Link>
+            </ListItem>
+          );
+        })}
       </UnorderedList>
     </>
   );
-}
-
-{
-  /* <Table>
-<Table.Row>
-  <Table.CellHeader>CH</Table.CellHeader>
-  <Table.Cell>C</Table.Cell>
-</Table.Row>
-</Table> */
 }

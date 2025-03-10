@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { IndicatorDefinition, IndicatorMetadata } from '.';
+import { IndicatorDefinition, IndicatorDefinitionProps } from '.';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
-const indicatorMetadata: IndicatorMetadata = {
+const indicatorMetadata: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
   indicatorID: String(placeholderIndicatorMetadata.indicatorID),
   earliestDataPeriod: String(placeholderIndicatorMetadata.earliestDataPeriod),
@@ -12,7 +12,7 @@ const indicatorMetadata: IndicatorMetadata = {
 };
 
 beforeEach(() => {
-  render(<IndicatorDefinition indicatorMetadata={indicatorMetadata} />);
+  render(<IndicatorDefinition indicatorDefinitionProps={indicatorMetadata} />);
 });
 
 describe('contents items should link to appropriate headings', () => {
