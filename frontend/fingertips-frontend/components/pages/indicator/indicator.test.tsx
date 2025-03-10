@@ -6,8 +6,6 @@ import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 const indicatorMetadata: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
   indicatorID: String(placeholderIndicatorMetadata.indicatorID),
-  earliestDataPeriod: String(placeholderIndicatorMetadata.earliestDataPeriod),
-  latestDataPeriod: String(placeholderIndicatorMetadata.latestDataPeriod),
   lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
 };
 
