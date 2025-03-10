@@ -40,8 +40,17 @@ const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
 });
 
-const isAreaSelected = (areaCode: string, selectedAreas?: string[]): boolean =>
-  selectedAreas ? selectedAreas?.some((area) => area === areaCode) : false;
+const isAreaSelected = (
+  areaCode: string,
+  selectedAreas?: string[],
+  groupAreaSelected?: string
+): boolean => {
+  if (groupAreaSelected === 'ALL') return true;
+
+  return selectedAreas
+    ? selectedAreas?.some((area) => area === areaCode)
+    : false;
+};
 
 export function SelectAreasFilterPanel({
   areaFilterData,
@@ -95,6 +104,22 @@ export function SelectAreasFilterPanel({
       searchStateManager.removeParamValueFromState(
         SearchParams.AreasSelected,
         areaCode
+      );
+    }
+
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const handleAllAreasSelected = (checked: boolean) => {
+    if (checked) {
+      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+      searchStateManager.addParamValueToState(
+        SearchParams.GroupAreaSelected,
+        'ALL'
+      );
+    } else {
+      searchStateManager.removeParamValueFromState(
+        SearchParams.GroupAreaSelected
       );
     }
 
@@ -155,6 +180,10 @@ export function SelectAreasFilterPanel({
         <Checkbox
           value={searchState?.[SearchParams.GroupSelected]}
           sizeVariant="SMALL"
+          defaultChecked={
+            searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+          }
+          onChange={(e) => handleAllAreasSelected(e.target.checked)}
         >
           Select all areas
         </Checkbox>
@@ -162,7 +191,8 @@ export function SelectAreasFilterPanel({
         {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,
-            searchState?.[SearchParams.AreasSelected]
+            searchState?.[SearchParams.AreasSelected],
+            searchState?.[SearchParams.GroupAreaSelected]
           );
 
           return (

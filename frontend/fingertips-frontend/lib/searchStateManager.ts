@@ -7,6 +7,7 @@ export enum SearchParams {
   AreaTypeSelected = 'ats',
   GroupTypeSelected = 'gts',
   GroupSelected = 'gs',
+  GroupAreaSelected = 'gas',
   ConfidenceIntervalSelected = 'cis',
 }
 
@@ -25,6 +26,7 @@ export type SearchStateParams = {
   [SearchParams.AreaTypeSelected]?: string;
   [SearchParams.GroupTypeSelected]?: string;
   [SearchParams.GroupSelected]?: string;
+  [SearchParams.GroupAreaSelected]?: string;
   [SearchParams.ConfidenceIntervalSelected]?: string[];
 };
 
