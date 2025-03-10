@@ -3,14 +3,16 @@ import { IndicatorDefinition, IndicatorDefinitionProps } from '.';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
-const indicatorMetadata: IndicatorDefinitionProps = {
+const indicatorDefinition: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
   indicatorID: String(placeholderIndicatorMetadata.indicatorID),
   lastUpdatedDate: new Date(placeholderIndicatorMetadata.lastUpdatedDate),
 };
 
 beforeEach(() => {
-  render(<IndicatorDefinition indicatorDefinitionProps={indicatorMetadata} />);
+  render(
+    <IndicatorDefinition indicatorDefinitionProps={indicatorDefinition} />
+  );
 });
 
 describe('contents items should link to appropriate headings', () => {
@@ -18,6 +20,7 @@ describe('contents items should link to appropriate headings', () => {
     linkText: string;
     titleText: string;
   }
+
   it.each<TestData>([
     {
       linkText: 'Indicator definitions',
@@ -55,33 +58,43 @@ describe('contents items should link to appropriate headings', () => {
 });
 
 describe('indicator description page', () => {
+  it('should match snapshot', () => {
+    const page = render(
+      <IndicatorDefinition indicatorDefinitionProps={indicatorDefinition} />
+    );
+
+    expect(page.asFragment()).toMatchSnapshot();
+  });
+
   it('should lead with a title containing the indicator name', () => {
     expect(screen.getAllByRole('heading')[0]).toHaveTextContent(
-      indicatorMetadata.indicatorName
+      indicatorDefinition.indicatorName
     );
   });
 
   it('should contain the indicator ID', () => {
     expect(
-      screen.getByText(indicatorMetadata.indicatorID, { exact: false })
+      screen.getByText(indicatorDefinition.indicatorID, { exact: false })
     ).toBeInTheDocument();
   });
 
   it('should contain the indicator definition', () => {
     expect(
-      screen.getByText(indicatorMetadata.indicatorDefinition, { exact: false })
+      screen.getByText(indicatorDefinition.indicatorDefinition, {
+        exact: false,
+      })
     ).toBeInTheDocument();
   });
 
   it('should contain the data source', () => {
     expect(
-      screen.getByText(indicatorMetadata.dataSource, { exact: false })
+      screen.getByText(indicatorDefinition.dataSource, { exact: false })
     ).toBeInTheDocument();
   });
 
   it('should contain the last updated date', () => {
     expect(
-      screen.getByText(formatDate(indicatorMetadata.lastUpdatedDate), {
+      screen.getByText(formatDate(indicatorDefinition.lastUpdatedDate), {
         exact: false,
       })
     ).toBeInTheDocument();
