@@ -51,9 +51,9 @@ export function getScenarioConfig(
   // Single indicator scenarios show all charts
   const singleIndicatorTwoAreasConfig: ScenarioConfig = {
     visibleComponents: [
+      ChartPage.barChartComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
-      ChartPage.barChartComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
       // Enable in DHSCFT-317
