@@ -4,7 +4,13 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { Checkbox, FormGroup, LabelText, Select } from 'govuk-react';
+import {
+  Checkbox,
+  FormGroup,
+  LabelText,
+  SectionBreak,
+  Select,
+} from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -146,6 +152,13 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
+        <Checkbox
+          value={searchState?.[SearchParams.GroupSelected]}
+          sizeVariant="SMALL"
+        >
+          Select all areas
+        </Checkbox>
+        <SectionBreak visible />
         {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,

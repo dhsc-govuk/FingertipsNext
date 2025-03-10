@@ -435,7 +435,7 @@ describe('SelectAreasFilterPanel', () => {
   });
 
   describe('Areas', () => {
-    it('should show all the applicable areas as checkboxes', () => {
+    it('should show the select all areas checkbox', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
@@ -450,7 +450,29 @@ describe('SelectAreasFilterPanel', () => {
         />
       );
 
-      expect(screen.getAllByRole('checkbox')).toHaveLength(7);
+      expect(
+        screen.getByRole('checkbox', { name: /Select all areas/i })
+      ).toBeInTheDocument();
+    });
+
+    it('should show all the applicable areas as checkboxes including the select all areas checkbox', () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      expect(screen.getAllByRole('checkbox')).toHaveLength(
+        availableAreas.length + 1
+      );
 
       availableAreas.forEach((area) => {
         expect(
