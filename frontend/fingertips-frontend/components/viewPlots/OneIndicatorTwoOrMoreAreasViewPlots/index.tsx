@@ -11,15 +11,15 @@ import { ViewPlotProps } from '../OneIndicatorOneAreaViewPlots';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 
+const StyledParagraphDataSource = styled(Paragraph)(
+  typography.font({ size: 16 })
+);
+
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
-  const StyledParagraphDataSource = styled(Paragraph)(
-    typography.font({ size: 16 })
-  );
-
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,

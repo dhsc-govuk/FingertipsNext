@@ -12,9 +12,13 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+
+const StyledParagraphDataSource = styled(Paragraph)(
+  typography.font({ size: 16 })
+);
 
 export type ViewPlotProps = {
   healthIndicatorData: HealthDataForArea[];
@@ -27,13 +31,11 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
-  const StyledParagraphDataSource = styled(Paragraph)(
-    typography.font({ size: 16 })
-  );
-
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
+
+  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -51,6 +53,11 @@ export function OneIndicatorOneAreaViewPlots({
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
+      <BackLink
+        data-testid="chart-page-back-link"
+        href={backLinkPath}
+        aria-label="Go back to the previous page"
+      />
       <H2>View data for selected indicators and areas</H2>
       {dataWithoutEngland[0]?.healthData.length > 1 && (
         <>
