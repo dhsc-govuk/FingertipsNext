@@ -37,9 +37,7 @@ describe('Indicator definition page', () => {
     const expectedIndicatorId = '123456';
 
     await IndicatorDefinitionPage({
-      params: new Promise((resolve, _) => {
-        resolve({ indicatorId: expectedIndicatorId });
-      }),
+      params: Promise.resolve({ indicatorId: expectedIndicatorId }),
     });
 
     expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
@@ -49,8 +47,8 @@ describe('Indicator definition page', () => {
 
   it('should pass indicator definition props from ai search to the definition page', async () => {
     const page = await IndicatorDefinitionPage({
-      params: new Promise((resolve, _) => {
-        resolve({ indicatorId: mockGetIndicatorResponse.indicatorID });
+      params: Promise.resolve({
+        indicatorId: mockGetIndicatorResponse.indicatorID,
       }),
     });
 
