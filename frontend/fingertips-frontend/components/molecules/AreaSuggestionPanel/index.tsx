@@ -48,6 +48,9 @@ export const AreaAutoCompleteSuggestionPanel = ({
     if (!selectedAreaCode) {
       stateManager.removeAllParamFromState(SearchParams.AreasSelected);
     } else {
+      stateManager.removeParamValueFromState(SearchParams.AreaTypeSelected);
+      stateManager.removeParamValueFromState(SearchParams.GroupTypeSelected);
+      stateManager.removeParamValueFromState(SearchParams.GroupSelected);
       stateManager.addParamValueToState(
         SearchParams.AreasSelected,
         selectedAreaCode

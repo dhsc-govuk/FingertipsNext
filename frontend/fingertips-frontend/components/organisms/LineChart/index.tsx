@@ -16,11 +16,13 @@ import { useEffect, useState } from 'react';
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
   xAxisTitle?: string;
+  yAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
   showConfidenceIntervalsData?: string[];
   searchState: SearchStateParams;
   groupIndicatorData?: HealthDataForArea;
+  measurementUnit?: string;
 }
 
 const chartSymbols: SymbolKeyValue[] = [
@@ -36,10 +38,12 @@ const chartName = 'lineChart';
 export function LineChart({
   healthIndicatorData,
   xAxisTitle,
+  yAxisTitle,
   accessibilityLabel,
   benchmarkData,
   searchState,
   groupIndicatorData,
+  measurementUnit,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -84,7 +88,7 @@ export function LineChart({
       },
     },
     yAxis: {
-      title: undefined,
+      title: yAxisTitle ? { text: yAxisTitle, margin: 20 } : undefined,
       minorTickInterval: 'auto',
       minorTicksPerMajor: 2,
     },
@@ -102,7 +106,8 @@ export function LineChart({
     series: seriesData,
     tooltip: {
       format:
-        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+        '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
+        `${measurementUnit}`,
     },
     accessibility: {
       enabled: false,

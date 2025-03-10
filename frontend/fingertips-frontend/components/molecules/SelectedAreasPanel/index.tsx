@@ -42,7 +42,7 @@ export function SelectedAreasPanel({
   };
 
   return (
-    <StyledFilterSelectedAreaDiv>
+    <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
       <StyledFilterLabel>
         {`Selected areas (${selectedAreasData?.length ?? 0})`}
       </StyledFilterLabel>
