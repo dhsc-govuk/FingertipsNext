@@ -101,7 +101,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.WORST,
       {
         backgroundColor: '#D494C1',
@@ -109,7 +109,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.WORSE,
       {
         backgroundColor: '#BC6AAA',
@@ -117,7 +117,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.MIDDLE,
       {
         backgroundColor: '#A44596',
@@ -125,7 +125,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: '#812972',
@@ -133,7 +133,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.BEST,
       {
         backgroundColor: '#561950',
@@ -196,7 +196,7 @@ describe('Testing the BenchmarkLabel Component', () => {
     const { container } = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');
@@ -206,7 +206,7 @@ describe('Testing the BenchmarkLabel Component', () => {
     const container = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
       />
     );
     expect(container.asFragment()).toMatchSnapshot();

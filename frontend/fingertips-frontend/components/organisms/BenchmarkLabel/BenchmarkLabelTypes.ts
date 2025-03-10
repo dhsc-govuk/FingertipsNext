@@ -33,5 +33,6 @@ export const enum BenchmarkLabelGroupType {
   RAG = 'rag',
   RAG_99 = 'rag_99',
   QUINTILES = 'quintiles',
-  QUINTILES_WITH_VALUE = 'quintiles_wv',
+  QUINTILES_WITH_JUDGEMENT = 'quintiles_with_judgement',
 }
+

@@ -1,6 +1,6 @@
 'use client';
 
-import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import styled from 'styled-components';
 
 const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
@@ -46,7 +46,7 @@ export const BenchmarkLegend = () => {
       types: ['Lowest', 'Low', 'Middle', 'High', 'Highest'],
     },
     {
-      group: 'quintiles_wv',
+      group: 'quintiles_with_judgement',
       types: ['Worst', 'Worse', 'Middle', 'Better', 'Best'],
     },
   ];

@@ -15,6 +15,8 @@ import {
 import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+import {DemoTrendTags} from "@/components/molecules/TrendTag/DemoTrendTags";
+import {BenchmarkLegend} from "@/components/organisms/BenchmarkLegend";
 
 type OneIndicatorOneAreaViewProps = {
   healthIndicatorData: HealthDataForArea[];
@@ -51,6 +53,8 @@ export function OneIndicatorOneAreaViewPlots({
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
+      <BenchmarkLegend />
+      <DemoTrendTags />
       <H2>View data for selected indicators and areas</H2>
       {dataWithoutEngland[0]?.healthData.length > 1 && (
         <>

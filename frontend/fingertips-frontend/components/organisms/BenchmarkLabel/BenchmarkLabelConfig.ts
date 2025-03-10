@@ -94,7 +94,7 @@ export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
       tint: 'SOLID',
     },
   },
-  [BenchmarkLabelGroupType.QUINTILES_WITH_VALUE]: {
+  [BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT]: {
     default: { backgroundColor: QuintileColours.Best, tint: 'SOLID' },
     [BenchmarkLabelType.WORST]: {
       backgroundColor: QuintileColours.Worst,
