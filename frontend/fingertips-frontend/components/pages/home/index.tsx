@@ -20,6 +20,7 @@ import { useActionState } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -27,11 +28,13 @@ const ZeroMarginParagraph = styled(Paragraph)(
 
 interface HomeProps {
   searchState?: SearchStateParams;
+  areaFilterData?: AreaFilterData;
   selectedAreasData?: AreaWithRelations[];
   initialFormState: SearchFormState;
 }
 export const Home = ({
   searchState,
+  areaFilterData,
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
@@ -90,6 +93,7 @@ export const Home = ({
           searchState={searchState}
           formState={formState}
           selectedAreasData={selectedAreasData}
+          areaFilterData={areaFilterData}
         />
       </div>
       <SectionBreak level="LARGE" visible />

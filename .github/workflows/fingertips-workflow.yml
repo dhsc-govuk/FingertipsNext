@@ -17,6 +17,7 @@ on:
       - frontend/fingertips-frontend/**
       - terraform/**
       - search-setup/**
+      - trend-analysis/**
   pull_request:
     branches:
       - main
@@ -26,6 +27,7 @@ on:
       - frontend/fingertips-frontend/**
       - terraform/**
       - search-setup/**
+      - trend-analysis/**
 
 jobs:
   check-changes:
@@ -35,6 +37,7 @@ jobs:
       api_changed: ${{ steps.check.outputs.api_changed }}
       frontend_changed: ${{ steps.check.outputs.frontend_changed }}
       search_changed: ${{ steps.check.outputs.search_changed }}
+      trend_analysis_changed: ${{ steps.check.outputs.trend_analysis_changed }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -77,6 +80,14 @@ jobs:
           else
             echo "No relevant changes found in search setup directory"
             echo "search_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+          if git diff --name-only $PREVIOUS_SHA HEAD | grep -E '^trend-analysis/'; then
+            echo "Trend analysis application changes detected"
+            echo "trend_analysis_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No relevant changes found in the trend analysis application"
+            echo "trend_analysis_changed=false" >> $GITHUB_OUTPUT
           fi
 
   determine-version:
@@ -146,6 +157,31 @@ jobs:
 
       - name: Build API
         run: dotnet build
+
+      - name: Run Unit Tests
+        run: dotnet test
+
+  trend-analysis-app-test:
+    needs: [check-changes, determine-version]
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.trend_analysis_changed == 'true'
+    name: Test Trend Analysis App
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['9.0.x']
+    defaults:
+      run:
+        working-directory: ./trend-analysis
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Run Unit Tests
         run: dotnet test

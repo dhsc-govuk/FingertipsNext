@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
-using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -39,97 +38,65 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     An enumerable of <c>HealthDataForArea</c> matching the criteria,
     ///     otherwise an empty enumerable.
     /// </returns>
-    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId,
+    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync
+        (
+        int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        BenchmarkComparisonMethod comparisonMethod)
+        BenchmarkComparisonMethod comparisonMethod
+        )
     {
-        var benchmarkAreaCode = comparisonMethod == BenchmarkComparisonMethod.Rag ? AreaCodeEngland : "";
-
-        // get the area codes and add our benchmark if it's not already there
-        var (areaCodesForSearch, wasBenchMarkAreaAdded) =
-            GetAreaCodesForSearch(areaCodes, benchmarkAreaCode);
+        //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
+        var areaCodesForSearch =areaCodes.ToList();
+        var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
+        var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
+        var hasBenchmarkDataBeenRequested = comparisonMethod == BenchmarkComparisonMethod.Rag;
+        
+        //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
+        if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
+            areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
         var healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
-            years.Distinct().Take(10).ToArray(),
+            years.Distinct().ToArray(),
             inequalities.Distinct().ToArray());
 
-        var allHealthDataForAreas = GroupByArea(healthMeasureData);
-
-        // separate the data for results and data for performing benchmarks
-        var benchmarkHealthData = GetBenchMarkData(allHealthDataForAreas, benchmarkAreaCode);
-        var healthDataForAreas = GetHealthDataForAreas(allHealthDataForAreas, benchmarkAreaCode, wasBenchMarkAreaAdded);
-
-        // enrich the data with benchmark comparison
-        return BenchmarkComparisonIterator.ProcessBenchmarkComparisons(
-            healthDataForAreas,
-            benchmarkHealthData,
-            comparisonMethod,
-            Polarity
-        );
-    }
-
-    // Determine the area codes to use in the database query
-    // areaCodesForSearch: IEnumerable string - the codes for the database search
-    // wasBenchMarkAreaAdded: bool - if the benchmark area code was added or was already part of the requested area codes
-    // examples: given the benchmark area is England 
-    //   if then request param areaCodes did not already include it then add it wasBenchMarkAreaAdded = true
-    //   if then request param areaCodes already includes the benchmark area code then we do not need to add it and wasBenchMarkAreaAdded = false
-    // By doing this there is only one call to the database and benchmark and area data are separated afterwards
-    private static (IEnumerable<string> areaCodesForSearch, bool wasBenchMarkAreaAdded) GetAreaCodesForSearch(
-        IEnumerable<string> areaCodes,
-        string benchmarkAreaCode)
-    {
-        var areaCodesForSearch = new List<string>(areaCodes.Distinct().Take(10));
-
-        if (benchmarkAreaCode == "" || areaCodes.Contains(benchmarkAreaCode))
-            return (areaCodesForSearch, wasBenchMarkAreaAdded: false);
-
-        areaCodesForSearch.Add(benchmarkAreaCode);
-        return (areaCodesForSearch, wasBenchMarkAreaAdded: true);
-    }
-
-    // group the data into areas
-    private IEnumerable<HealthDataForArea> GroupByArea(IEnumerable<HealthMeasureModel> healthMeasureData)
-    {
-        return healthMeasureData
-            .GroupBy(data => new { code = data.AreaDimension.Code, name = data.AreaDimension.Name })
+        var healthDataForAreas = healthMeasureData
+            .GroupBy(healthMeasure => new 
+            {
+                code = healthMeasure.AreaDimension.Code,
+                name = healthMeasure.AreaDimension.Name 
+            })
             .Select(group => new HealthDataForArea
             {
                 AreaCode = group.Key.code,
                 AreaName = group.Key.name,
                 HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
-            });
-    }
+            })
+            .ToList();
 
-    // find the benchmark data in the DB results
-    private static HealthDataForArea? GetBenchMarkData(IEnumerable<HealthDataForArea> allHealthDataForAreas,
-        string benchmarkAreaCode)
-    {
-        return benchmarkAreaCode == ""
-            ? null
-            : allHealthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-    }
+        if (!hasBenchmarkDataBeenRequested)
+            return healthDataForAreas;
 
-    // get the health area data without the benchmark data - unless the benchmark area was specifically requested
-    private static IEnumerable<HealthDataForArea> GetHealthDataForAreas(
-        IEnumerable<HealthDataForArea> allHealthDataForAreas, string benchmarkAreaCode, bool wasBenchMarkAreaAdded)
-    {
-        return wasBenchMarkAreaAdded
-            ? RemoveBenchmarkData(allHealthDataForAreas, benchmarkAreaCode)
-            : allHealthDataForAreas;
-    }
+        // separate the data for results and data for performing benchmarks
+        var benchmarkHealthData=healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
+        if(benchmarkHealthData == null)
+            return healthDataForAreas;
 
-    // remove the benchmark data
-    private static IEnumerable<HealthDataForArea> RemoveBenchmarkData(
-        IEnumerable<HealthDataForArea> allHealthDataForAreas, string benchmarkAreaCode)
-    {
-        return benchmarkAreaCode == ""
-            ? allHealthDataForAreas
-            : allHealthDataForAreas.Where(data => data.AreaCode != benchmarkAreaCode);
+        //if the benchmark area was not in the original request then remove the benchmark data
+        if (!wasBenchmarkAreaCodeRequested)
+            healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
+        
+        // enrich the data with benchmark comparison
+        return BenchmarkComparisonEngine.ProcessBenchmarkComparisons
+        (
+            healthDataForAreas,
+            benchmarkHealthData,
+            comparisonMethod,
+            Polarity
+        );
     }
 }
