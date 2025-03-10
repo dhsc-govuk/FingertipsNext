@@ -6,7 +6,7 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '../OneIndicatorOneAreaViewPlots';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -25,6 +25,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
+  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -47,6 +48,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       {dataWithoutEngland[0]?.healthData.length > 1 &&
         areasSelected?.length === 2 && (
           <>
+            <BackLink
+              data-testid="chart-page-back-link"
+              href={backLinkPath}
+              aria-label="Go back to the previous page"
+            />
             <H3>See how the indicator has changed over time</H3>
             <TabContainer
               id="lineChartAndTable"

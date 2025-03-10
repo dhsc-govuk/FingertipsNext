@@ -27,6 +27,27 @@ const mockMetaData = {
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
+  it('should render back link with correct search parameters', () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'test',
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['A001'],
+    };
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={[mockHealthData['108'][1]]}
+        searchState={searchState}
+      />
+    );
+
+    const backLink = screen.getByRole('link', { name: /back/i });
+    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.AreasSelected}=A001`;
+
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
+    expect(backLink).toHaveAttribute('href', expectedUrl);
+  });
+
   it('should render the view with correct title', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['108'],

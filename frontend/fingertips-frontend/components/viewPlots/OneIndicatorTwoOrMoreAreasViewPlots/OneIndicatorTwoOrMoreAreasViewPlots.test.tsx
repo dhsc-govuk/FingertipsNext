@@ -58,6 +58,27 @@ const assertLineChartAndTableNotInDocument = () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
+  it('should render back link with correct search parameters', () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: 'test',
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
+    };
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={[mockHealthData['108'][1]]}
+        searchState={searchState}
+      />
+    );
+
+    const backLink = screen.getByRole('link', { name: /back/i });
+    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.AreasSelected}=E12000001&${SearchParams.AreasSelected}=E12000003`;
+
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
+    expect(backLink).toHaveAttribute('href', expectedUrl);
+  });
+
   it('should render the view with correct title', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
@@ -83,17 +104,31 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
   it('should render the LineChart components when there are 2 areas', async () => {
     const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1'],
-      [SearchParams.AreasSelected]: ['A001', 'A002'],
+      [SearchParams.IndicatorsSelected]: ['108'],
+      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={mockHealthData['108']}
+        healthIndicatorData={[mockHealthData['108'][1]]}
         searchState={searchState}
+        indicatorMetadata={mockMetaData}
       />
     );
 
-    assertLineChartAndTableInDocument();
+    expect(
+      screen.getByRole('heading', {
+        name: 'See how the indicator has changed over time',
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-lineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('lineChart-component')
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
+
+    // await assertLineChartAndTableInDocument();
   });
 
   it('should display data source when metadata exists', () => {
