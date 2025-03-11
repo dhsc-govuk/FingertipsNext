@@ -54,8 +54,7 @@ jobs:
           path: |
             ~/.cache/ms-playwright
             ${{ env.frontend-directory }}/.test/**
-          key: cache/${{github.repository}}/${{env.BRANCH_NAME}}-${{ github.run_id }}-${{ inputs.update-screenshots }}
-          restore-keys: cache/${{github.repository}}/${{env.BRANCH_NAME}}-
+          key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
 
       - name: Install dependencies
         run: npm ci
@@ -74,7 +73,7 @@ jobs:
       - name: Debug cache hit
         run: echo "Cache hit value is ${{ steps.cache.outputs.cache-hit }}"
 
-      - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main - for CI test execution
+      - name: Create base snapshots if none in cache, or during manual snapshot update only if not a pull request - for CI test execution
         if: >
           inputs.e2e-test-container-image == null &&
           (
@@ -84,12 +83,7 @@ jobs:
           (
             github.event_name != 'pull_request'
           )
-        run: |
-          echo "Running snapshot creation because:"
-          echo "Cache hit: ${{ steps.cache.outputs.cache-hit }}"
-          echo "Update screenshots: ${{ inputs.update-screenshots }}"
-          echo "Event name: ${{ github.event_name }}"
-          npm run test-e2e-ci-update-snapshots
+        run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI - skip screenshots for pull requests
         if: inputs.e2e-test-container-image == null
