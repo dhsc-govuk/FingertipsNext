@@ -407,8 +407,17 @@ components:
           description: The statistical trend that applies to the data point,
             given the preceding data. Will only be calculated if there are at
             least 5 data points to use.
-          enum: [Increasing, Decreasing, NoChange, CannotBeCalculated,
-            NotYetCalculated]
+          enum: [
+            'Not yet calculated',
+            'Cannot be calculated',
+            'Increasing',
+            'Decreasing',
+            'No significant change',
+            'Increasing and getting better',
+            'Increasing and getting worse',
+            'Decreasing and getting better',
+            'Decreasing and getting worse'
+          ]
         benchmarkComparison:
           type: object
           properties:

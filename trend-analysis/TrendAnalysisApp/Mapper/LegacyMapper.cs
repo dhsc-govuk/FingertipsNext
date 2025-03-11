@@ -60,7 +60,7 @@ public class LegacyMapper {
         {
             Count = healthMeasure.Count,
             Value = healthMeasure.Value,
-            Denominator = healthMeasure.Denominator,
+            Denominator = healthMeasure.Denominator ?? 0,
             Year = healthMeasure.Year,
             LowerCI95 = healthMeasure.LowerCI,
             UpperCI95 = healthMeasure.UpperCI

@@ -1,3 +1,4 @@
+using TrendAnalysisApp.Calculator;
 using TrendAnalysisApp.Repository;
 
 namespace TrendAnalysisApp;
@@ -6,9 +7,16 @@ namespace TrendAnalysisApp;
 /// The Trend Data Processor Class.
 /// </summary>
 /// <param name="healthMeasureRepo">Repository for health measure data</param>
-public class TrendDataProcessor(HealthMeasureRepository healthMeasureRepo)
+/// <param name="trendCalculator"></param
+public class TrendDataProcessor(
+    HealthMeasureRepository healthMeasureRepo,
+    IndicatorRepository indicatorRepo,
+    TrendCalculator trendCalculator
+)
 {
     private readonly HealthMeasureRepository _healthMeasureRepo = healthMeasureRepo;
+    private readonly IndicatorRepository _indicatorRepo = indicatorRepo;
+    private readonly TrendCalculator _trendCalculator = trendCalculator;
 
 
     /// <summary>
@@ -16,14 +24,34 @@ public class TrendDataProcessor(HealthMeasureRepository healthMeasureRepo)
     /// </summary>
     public async Task Process()
     {
-        // TODO - DHSCFT-374 Trend Analysis - remove the below and actually process all indicators
-        var areaCode = "E92000001"; // England
-        var indicatorKey = 0; // Preventable sight loss from diabetic eye disease
+        var indicators = await _indicatorRepo.GetAll();
 
-        var result = await _healthMeasureRepo.GetForUniqueDimension(areaCode, indicatorKey);
+        foreach (var indicator in indicators) {
+            var healthMeasures = await _healthMeasureRepo.GetByIndicator(indicator.IndicatorKey);
+            var groupedHealthMeasures = healthMeasures
+                .GroupBy(hm => new {
+                    hm.AgeKey,
+                    hm.AreaKey,
+                    hm.DeprivationKey,
+                    hm.SexKey
+                });
 
-        Console.WriteLine($"Retrieved data for indicator: {result.First().IndicatorDimension?.IndicatorId}");
-        Console.WriteLine($"Most recent year with data recorded: {result.First().Year}");
-        Console.WriteLine($"Retrieved {result.Count()} data points for the health measure");
+            foreach (var hmGroup in groupedHealthMeasures) {
+                var mostRecentDataPoints = hmGroup
+                    .OrderByDescending(hm => hm.Year)
+                    .Take(_trendCalculator.RequiredNumberOfDataPoints);
+                
+                if (
+                    !mostRecentDataPoints.Any() ||
+                    mostRecentDataPoints.First().TrendDimension.Name != Constants.Trend.NotYetCalculatedDbString
+                ) { continue; }
+
+                var trend = _trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
+                _healthMeasureRepo.UpdateTrendKey(mostRecentDataPoints.First(), (byte) trend);
+            }
+
+            await _healthMeasureRepo.SaveChanges();
+            Console.WriteLine($"Processed indicator: {indicator.IndicatorKey}");
+        }
     }
 }

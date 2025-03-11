@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TrendAnalysisApp.Calculator;
+using TrendAnalysisApp.Calculator.Legacy;
+using TrendAnalysisApp.Mapper;
 using TrendAnalysisApp.Repository;
 namespace TrendAnalysisApp;
 
@@ -24,7 +27,11 @@ internal static class Program
             .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<HealthMeasureDbContext>(options => options.UseSqlServer(connString))
             .AddSingleton<TrendDataProcessor>()
+            .AddSingleton<IndicatorRepository>()
             .AddSingleton<HealthMeasureRepository>()
+            .AddSingleton<TrendCalculator>()
+            .AddSingleton<TrendMarkerCalculator>()
+            .AddSingleton<LegacyMapper>()
             .BuildServiceProvider();
     }
 }
