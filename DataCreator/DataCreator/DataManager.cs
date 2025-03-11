@@ -90,7 +90,7 @@ namespace DataCreator
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {
-            var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync()).ToList();
+            var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
             foreach (var indicator in indicators) 
             {
                 var match=indicatorWithAreasAndLatestUpdates.FirstOrDefault(indicatorWithAreasAndLatestUpdate =>
@@ -110,6 +110,9 @@ namespace DataCreator
                     var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
                     if(!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
+                    indicator.UseProportionsForTrend=indicatorUsedInPoc.UseProportionsForTrend;
+                    indicator.BenchmarkComparisonMethod=indicatorUsedInPoc.BenchmarkComparisonMethod;   
+                    indicator.Polarity=indicatorUsedInPoc.Polarity; 
                 }
                     
             }

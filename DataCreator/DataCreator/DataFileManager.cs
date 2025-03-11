@@ -31,15 +31,18 @@ namespace DataCreator
 
         public static List<SimpleIndicator> GetPocIndicators()
         {
-            var lines=File.ReadAllLines(@$"{InFilePath}\temp\pocindicators.csv");
+            var lines=File.ReadAllLines(@$"{InFilePath}\temp\pocindicators2.csv");
             var indicators=new List<SimpleIndicator>();   
             foreach (var line in lines)
             {
-                var split=line.Split('|');
+                var split=line.Split(',');
                 indicators.Add(new SimpleIndicator
                 {
                     IndicatorID= int.Parse(split[0]),
-                    IndicatorName= split[1] 
+                    IndicatorName= split[1],
+                    BenchmarkComparisonMethod= split[2],
+                    Polarity =split[3],
+                    UseProportionsForTrend =false //all seem to be false
                 });
             }
 

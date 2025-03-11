@@ -1,33 +1,32 @@
 ﻿IndicatorID,Polarity,BenchmarkComparisonMethod,UseProportionsForTrend,ValueType,IndicatorName
-41101,Low is good,CIs overlap reference value (95.0),False,Indirectly standardised proportion,Emergency readmissions within 30 days of discharge from hospital
-383,Not applicable,No comparison,True,Proportion,People reporting Alzheimer's disease or dementia
-247,Not applicable,Quintiles,True,Proportion,Dementia prevalence (Quality and Outcomes Framework)
-352,Not applicable,No comparison,True,Proportion,People with caring responsibility aged 16 years and over
-30302,High is good,CIs overlap reference value (95.0),False,Proportion,Population vaccination coverage: Hepatitis B aged 2 years
-20401,Low is good,CIs overlap reference value (95.0),False,Crude rate,"""Conception rate per 1,000 females aged 17 years and under"""
-41203,Low is good,CIs overlap reference value (95.0),False,Crude rate,Preventable sight loss from diabetic eye disease
-241,Not applicable,Quintiles,True,Proportion,Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework)
-337,Not applicable,Quintiles,False,Count,GP registered population by sex and quinary age band
-22401,Low is good,CIs overlap reference value (95.0),False,Directly standardised rate,Emergency hospital admissions due to falls aged 65 years and over
-90453,Not applicable,No comparison,True,Proportion,Former smokers (GP Patient Survey)
-91040,High is good,CIs overlap reference value (95.0),False,Proportion,NHS Health Checks offered to the total eligible population in the quarter
-91344,Not applicable,CIs overlap reference value (95.0),False,Indirectly standardised ratio,Urgent suspected cancer referrals (indirectly age-gender standardised referral ratio)
-91894,Not applicable,CIs overlap reference value (95.0),False,Proportion,Deaths in hospital for people with dementia aged 65 years and over
-92026,Low is good,CIs overlap reference value (95.0),False,Proportion,Obesity prevalence (including severe obesity) in Reception Year aged 4 to 5 years  (5 years data combined)
-92033,Low is good,CIs overlap reference value (95.0),False,Proportion,Obesity prevalence (including severe obesity) in Year 6 aged 10 to 11 years (5 years data combined)
-92266,Not applicable,CIs overlap reference value (95.0),False,Crude rate,General fertility rate in females
-92708,Not applicable,No comparison,False,Count,Resident population
-92904,Low is good,CIs overlap reference value (95.0),False,Crude rate,Admission episodes for alcohol-specific conditions aged 17 years and under
-93015,Low is good,CIs overlap reference value (95.0),False,Proportion,Physically inactive adults aged 19 years and over
-93085,Low is good,CIs overlap reference value (95.0),False,Proportion,Smokers at time of childbirth delivery
-93088,Low is good,CIs overlap reference value (95.0),False,Proportion,Overweight prevalence (including obesity) in adults aged 18 years and over (using adjusted self-reported height and weight)
-93124,Low is good,CIs overlap reference value (95.0),False,Crude rate,"""Acute hepatitis B incidence rate per 100,000"""
-93474,Not applicable,Overlapping CIs (95.0),False,Proportion,Deaths in hospital
+41101,Low is good,Confidence intervals overlapping reference value (95.0),False,Indirectly standardised proportion,Emergency readmissions within 30 days of discharge from hospital
+383,No judgement,Quintiles,False,Proportion,People reporting Alzheimer's disease or dementia
+247,No judgement,Confidence intervals overlapping reference value (99.8),False,Proportion,Dementia prevelence (Quality and Outcomes Framework)
+352,No judgement,Quintiles,False,Proportion,People with caring responsibility aged 16 years and over
+30302,High is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Hepatitis B vaccination coverage aged 2 years
+20401,Low is good,Confidence intervals overlapping reference value (95.0),False,Crude rate,Conception rate in females aged 17 years and under
+41203,Low is good,Confidence intervals overlapping reference value (95.0),False,Crude rate,Preventable sight loss from diabetic eye disease 
+241,No judgement,Confidence intervals overlapping reference value (99.8),False,Proportion,Diabetes prevelence aged 17 years and over (Quality and Outcomes Framework)
+337,"","",False,Count,GP registered population by sex and quinary age band
+22401,Low is good,Confidence intervals overlapping reference value (95.0),False,Directly standardised rate,Emergency hospital admissions due to falls aged 65 years and over
+90453,No judgement,Quintiles,False,Proportion,Former smokers (GP Patient Survey)
+91040,High is good,Confidence intervals overlapping reference value (95.0),False,Proportion,NHS Health Checks offered to the total eligible population in the quarter 
+91344,No judgement,Confidence intervals overlapping reference value (99.8),False,Indirectly standardised ratio,Urgent suspected cancer referrals 
+91894,No judgement,Confidence intervals overlapping reference value (95.0),False,Proportion,Deaths in hospital for people with dementia aged 65 years and over
+92033,Low is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years
+92266,No judgement,Confidence intervals overlapping reference value (95.0),False,Crude rate,General fertility rate in females
+92708,"","",False,Count,Resident population
+92904,Low is good,Confidence intervals overlapping reference value (95.0),False,Crude rate,Hospital admission episodes for alcohol-specific conditions aged 17 years and under
+93015,Low is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Physically inactive in adults aged 19 years and over
+93085,Low is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Smokers at time of childbirth delivery
+93088,Low is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Overweight prevalence (including obesity) in adults aged 18 years and over
+93124,Low is good,Confidence intervals overlapping reference value (95.0),False,Crude rate,Acute hepatitis B incidence rate 
+93474,No judgement,Confidence intervals overlapping reference value (95.0),False,Proportion,Deaths in hospital
 93553,Low is good,Quintiles,False,Score,Deprivation score (Index of Multiple Deprivation 2019)
-93701,Low is good,CIs overlap reference value (95.0),False,Proportion,Children in absolute low income families aged 15 years and under
-93748,Low is good,CIs overlap reference value (95.0),False,Directly standardised rate,Smoking attributable mortality (new method)
-93763,Low is good,CIs overlap reference value (95.0),False,Directly standardised rate,Alcohol-related mortality
-93861,Not applicable,No comparison,False,Proportion,Particulate air pollution attributable mortality (new method)
-94035,Not applicable,CIs overlap reference value (99.8),False,Directly standardised rate,Admissions to hospital for cataract surgery aged 65 years and over
-94063,Not applicable,No comparison,True,Proportion,Breast screening coverage aged 53 to 70 years
-94103,Low is good,CIs overlap reference value (99.8),False,Proportion,Perinatal mental health conditions prevalence (model-based estimated)
+93701,Low is good,Confidence intervals overlapping reference value (95.0),False,Proportion,Children in absolute low income families aged 15 years and under
+93748,No judgement,Confidence intervals overlapping reference value (95.0),False,Directly standardised rate,Smoking attributable mortality (new method)
+93763,Low is good,Confidence intervals overlapping reference value (95.0),False,Directly standardised rate,Alcohol-related mortality
+93861,No judgement,No comparison,False,Proportion,Particulate air pollution attributable mortality (new method)
+94035,No judgement,Confidence intervals overlapping reference value (99.8),False,Directly standardised rate,Hospital admissions for cataract surgery aged 65 years and over
+94063,No judgement,Confidence intervals overlapping reference value (99.8),False,Proportion,Breast screening coverage aged 53 to 70 years
+94103,Low is good,Quintiles,False,Proportion,Perinatal mental health conditions prevalence 
