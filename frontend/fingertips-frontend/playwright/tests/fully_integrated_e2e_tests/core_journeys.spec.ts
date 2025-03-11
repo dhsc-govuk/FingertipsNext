@@ -10,7 +10,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
-const areaSearchTerm = 'north west';
+const areaSearchTerm = 'north west region';
 let allIndicatorIDs: string[];
 
 interface TestParams {
@@ -23,7 +23,7 @@ const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -33,7 +33,7 @@ const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
     areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
   },
   // {
   //   indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -91,8 +91,8 @@ test.describe(`Search via`, () => {
       });
 
       await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
-        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, subjectSearchTerm);
-        await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+        await resultsPage.selectAreasFiltersIfRequired(searchMode, areaMode, subjectSearchTerm);
+        await resultsPage.selectIndicatorCheckboxes(
           allIndicatorIDs,
           indicatorMode
         );

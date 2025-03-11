@@ -88,7 +88,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select single indicator, let area default to England and check on charts page', async () => {
-      await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+      await resultsPage.selectIndicatorCheckboxes(
         filteredIndicatorIds,
         indicatorMode
       );

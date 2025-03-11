@@ -5,6 +5,7 @@ import { expect } from '../pageFactory';
 export default class HomePage extends BasePage {
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly areaSearchField = 'area-search-input-field';
+  readonly suggestedAreasPanel = 'area-suggestion-panel';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   readonly areaFilterContainer = 'selected-areas-panel';
@@ -23,6 +24,12 @@ export default class HomePage extends BasePage {
       await this.page.getByTestId(this.subjectSearchField).fill(subjectSearchTerm!);
 
       await this.page.getByTestId(this.areaSearchField).getByRole('textbox').fill(areaSearchTerm!);
+
+      await expect(this.page.getByTestId(this.suggestedAreasPanel)).toContainText(areaSearchTerm!, {ignoreCase: true});
+
+      await this.page.getByText(areaSearchTerm!).click();
+
+      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {ignoreCase: true});
     }
   }
 
