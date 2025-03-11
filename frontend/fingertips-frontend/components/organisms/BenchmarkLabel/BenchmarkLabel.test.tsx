@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel/index';
+import { QuintileColours } from '@/lib/styleHelpers/colours';
 import {
-  BenchmarkLabel,
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
-  getDefaultBenchmarkTagStyle,
-} from '@/components/organisms/BenchmarkLabel/index';
+} from './BenchmarkLabelTypes';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 
 describe('testing the function getBenchmarkLegendColourStyle', () => {
   test.each([
@@ -12,7 +13,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.BETTER,
       {
-        backgroundColor: 'var(--other-green, #00703C)',
+        backgroundColor: '#00703C',
         tint: 'SOLID',
       },
     ],
@@ -21,8 +22,8 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.SIMILAR,
       {
-        backgroundColor: 'var(--other-yellow, #FD0)',
-        color: 'var(--other-black, #0B0C0C)',
+        backgroundColor: '#FFDD00',
+        color: '#0B0C0C',
       },
     ],
 
@@ -30,21 +31,20 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.RAG,
       BenchmarkLabelType.WORSE,
       {
-        backgroundColor: 'var(--other-red, #D4351C)',
+        backgroundColor: '#D4351C',
         tint: 'SOLID',
       },
     ],
     [
-      BenchmarkLabelGroupType.RAG,
+      BenchmarkLabelGroupType.BOB,
       BenchmarkLabelType.LOWER,
       {
-        backgroundColor: 'var(--other-light-blue, #5694CA)',
-        color: 'var(--other-black, #0B0C0C)',
+        backgroundColor: '#5694CA',
       },
     ],
 
     [
-      BenchmarkLabelGroupType.RAG,
+      BenchmarkLabelGroupType.BOB,
       BenchmarkLabelType.HIGHER,
       {
         backgroundColor: '#003078',
@@ -64,8 +64,8 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelGroupType.QUINTILES,
       BenchmarkLabelType.LOWEST,
       {
-        backgroundColor: '#E4DDFF',
-        color: 'var(--other-black, #0B0C0C)',
+        backgroundColor: QuintileColours.Lowest,
+        color: '#0B0C0C',
       },
     ],
     [
@@ -73,7 +73,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.LOW,
       {
         backgroundColor: '#CBBEF4',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -81,7 +81,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       BenchmarkLabelType.MIDDLE,
       {
         backgroundColor: '#AA90EC',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
@@ -101,23 +101,23 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.WORST,
       {
         backgroundColor: '#D494C1',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.WORSE,
       {
         backgroundColor: '#BC6AAA',
-        color: 'var(--other-black, #0B0C0C)',
+        color: '#0B0C0C',
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.MIDDLE,
       {
         backgroundColor: '#A44596',
@@ -125,7 +125,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.BETTER,
       {
         backgroundColor: '#812972',
@@ -133,7 +133,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
       },
     ],
     [
-      BenchmarkLabelGroupType.QUINTILES_WITH_VALUE,
+      BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT,
       BenchmarkLabelType.BEST,
       {
         backgroundColor: '#561950',
@@ -143,7 +143,7 @@ describe('testing the function getBenchmarkLegendColourStyle', () => {
   ])(
     'returns correct style for %s group and %s type',
     (group, type, expected) => {
-      const result = getDefaultBenchmarkTagStyle(
+      const result = getBenchmarkTagStyle(
         group as BenchmarkLabelGroupType,
         type as BenchmarkLabelType
       );
@@ -168,14 +168,14 @@ describe('Testing the BenchmarkLabel Component', () => {
         group={BenchmarkLabelGroupType.RAG}
       />
     );
-    expect(getByText('Better (95%)')).toBeInTheDocument();
+    expect(getByText('Better')).toBeInTheDocument();
   });
 
   test('applies correct styles for RAG group and HIGHER type', () => {
     const { container } = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.HIGHER}
-        group={BenchmarkLabelGroupType.RAG}
+        group={BenchmarkLabelGroupType.BOB}
       />
     );
 
@@ -196,7 +196,7 @@ describe('Testing the BenchmarkLabel Component', () => {
     const { container } = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
       />
     );
     expect(container.firstChild).toHaveStyle('background-color: #D494C1');
@@ -206,7 +206,7 @@ describe('Testing the BenchmarkLabel Component', () => {
     const container = render(
       <BenchmarkLabel
         type={BenchmarkLabelType.WORST}
-        group={BenchmarkLabelGroupType.QUINTILES_WITH_VALUE}
+        group={BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT}
       />
     );
     expect(container.asFragment()).toMatchSnapshot();

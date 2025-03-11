@@ -13,6 +13,11 @@ describe('AreaSearchServiceMock', () => {
       areaType: 'town',
       areaName: 'Birmingham',
     },
+    {
+      areaCode: '5678',
+      areaType: 'town',
+      areaName: 'Leeds',
+    },
   ];
   let areaSearchMock: IAreaSearchService;
   beforeAll(() => {
@@ -32,6 +37,12 @@ describe('AreaSearchServiceMock', () => {
   it('should perform a search operation on areaCode', async () => {
     expect(await areaSearchMock.getAreaSuggestions('1234')).toEqual([
       mockData[0],
+    ]);
+  });
+
+  it('should be case agnostic', async () => {
+    expect(await areaSearchMock.getAreaSuggestions('leeds')).toEqual([
+      mockData[2],
     ]);
   });
 });
