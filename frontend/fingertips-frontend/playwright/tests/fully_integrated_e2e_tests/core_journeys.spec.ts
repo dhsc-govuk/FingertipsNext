@@ -96,7 +96,7 @@ test.describe(`Search via`, () => {
 
       await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
         await resultsPage.selectAreasFiltersIfRequired(
-          searchMode,
+          searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
           areaMode,
           subjectSearchTerm
         );
