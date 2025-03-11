@@ -272,6 +272,18 @@ describe('generateLineChartSeriesData', () => {
     ).toEqual(seriesData);
   });
 
+  it('should generate series data without England line color when empty area selected list is passed', () => {
+    const areas: string[] = [];
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        keys,
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areas
+      )
+    ).toEqual(seriesData);
+  });
+
   it('should generate expected series data with appropriate line colour when England is selected area', () => {
     const areasSelected = [areaCodeForEngland];
     const expectedPersonsLine = {
@@ -304,16 +316,5 @@ describe('generateLineChartSeriesData', () => {
         areasSelected
       )
     ).toEqual([]);
-  });
-
-  it('should generate series data without England line color when empty area selected list is passed', () => {
-    expect(
-      generateInequalitiesLineChartSeriesData(
-        keys,
-        InequalitiesTypes.Sex,
-        mockInequalitiesRowData,
-        []
-      )
-    ).toEqual(seriesData);
   });
 });
