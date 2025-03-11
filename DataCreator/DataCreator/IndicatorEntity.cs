@@ -15,7 +15,6 @@
         private string caveats;
         private string copyright;
         private string notes;
-        public string ValueType { get; set; }
 
         public string DenominatorType { get; set; }
 
@@ -47,11 +46,7 @@
         public string Frequency { get; set; }
         public string Rounding { get; set; }
 
-        public string Polarity { get; set; }
-
-        public bool UseProportionsForTrend { get; set; }
-
-        public string BenchmarkComparisonMethod { get; set; }
+        
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
@@ -68,6 +63,15 @@
     public record SimpleIndicator
     {
         public int IndicatorID { get; set; }
+
+       
+        public string Polarity { get; set; }
+
+        public string BenchmarkComparisonMethod { get; set; }
+
+        public bool UseProportionsForTrend { get; set; }
+
+        public string ValueType { get; set; }
 
         public string IndicatorName { get; set; }
     }
