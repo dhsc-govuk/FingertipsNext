@@ -10,7 +10,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 const indicatorData = indicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
-const areaSearchTerm = 'manchester';
+const areaSearchTerm = 'north west';
 let allIndicatorIDs: string[];
 
 interface TestParams {
@@ -28,7 +28,7 @@ const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.ONLY_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
     indicatorMode: IndicatorMode.TWO_INDICATORS,
@@ -38,7 +38,8 @@ const coreTestJourneys: TestParams[] = [
   // {
   //   indicatorMode: IndicatorMode.TWO_INDICATORS,
   //   areaMode: AreaMode.ENGLAND_AREA,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
+  //   cannot enable only area until DHSCFT-458 is actioned
+  //   searchMode: SearchMode.ONLY_AREA,
   // },
 ];
 
@@ -65,12 +66,12 @@ test.beforeAll(
 
     allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
       typedIndicatorData,
-      searchTerm
+      subjectSearchTerm
     );
   }
 );
 test.describe(`Search via`, () => {
-  coreTestJourneys.forEach(({ indicatorMode, areaMode, searchMode }) => {
+  coreTestJourneys.forEach(({ searchMode, indicatorMode, areaMode }) => {
     test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
       homePage,
       resultsPage,
@@ -81,16 +82,16 @@ test.describe(`Search via`, () => {
         await homePage.checkOnHomePage();
       });
 
-      await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
-        await homePage.typeIndicator(searchTerm);
+      await test.step(`Search for indicators and check results title contains the search term`, async () => {
+        await homePage.searchForIndicators(searchMode, subjectSearchTerm, areaSearchTerm);
         await homePage.clickSearchButton();
 
-        await resultsPage.waitForURLToContain(searchTerm);
-        await resultsPage.checkSearchResultsTitle(searchTerm);
+        await resultsPage.waitForURLToContain(subjectSearchTerm);
+        await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
       });
 
       await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
-        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, searchTerm);
+        await resultsPage.selectAreasFiltersAndCheckURL(areaMode, subjectSearchTerm);
         await resultsPage.selectIndicatorCheckboxesAndCheckURL(
           allIndicatorIDs,
           indicatorMode
