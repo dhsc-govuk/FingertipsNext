@@ -1,16 +1,74 @@
 -- This file contains SQL statements that will be executed after the build script.
+BEGIN TRY 
+    TRUNCATE TABLE [dbo].[HealthMeasure];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
 
---delete all existing data so we always start from a known position
-TRUNCATE TABLE [dbo].[HealthMeasure]
-DELETE FROM [dbo].[AgeDimension]
-DELETE FROM [dbo].[AreaDimension]
-DELETE FROM [dbo].[DeprivationDimension]
-DELETE FROM  [dbo].[IndicatorDimension]
-DELETE FROM [dbo].[SexDimension]
-DELETE FROM [dbo].[TrendDimension]
-DELETE FROM [Areas].[AreaRelationships]
-DELETE FROM [Areas].[Areas]
-DELETE FROM [Areas].[AreaTypes];
+BEGIN TRY 
+    DELETE FROM [dbo].[AgeDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AreaDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[DeprivationDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM  [dbo].[IndicatorDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[SexDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[TrendDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaRelationships];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[Areas];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaTypes];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
@@ -21,7 +79,6 @@ DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
-
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
 	(
@@ -34,46 +91,23 @@ INSERT INTO [dbo].[SexDimension]
 	('Female',1,2),
 	('Persons',0,4)
 
--- Create some deprivation dimension data
-SET IDENTITY_INSERT [dbo].[DeprivationDimension] ON
-
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (1, N'All', N'All', 0, 1)
-
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (2, N'Most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 1)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (3, N'Second most deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 2)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (4, N'Third more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 3)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (5, N'Fourth more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 4)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (6, N'Fifth more deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 5)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (7, N'Fifth less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 6)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (8, N'Fourth less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 7)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (9, N'Third less deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 8)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (10, N'Second least deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 9)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (11, N'Least deprived decile (IMD2019)', N'County & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 10)
-
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (12, N'Most deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 1)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (13, N'Second most deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 2)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (14, N'Third more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 3)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (15, N'Fourth more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 4)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (16, N'Fifth more deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 5)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (17, N'Fifth less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 6)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (18, N'Fourth less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 7)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (19, N'Third less deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 8)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (20, N'Second least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 9)
-INSERT [dbo].[DeprivationDimension] ([DeprivationKey], [Name], [Type], [HasValue], [Sequence]) VALUES (21, N'Least deprived decile (IMD2019)', N'District & UA deprivation deciles in England (IMD2019, 4/23 geography)', 1, 10)
-SET IDENTITY_INSERT [dbo].[DeprivationDimension] OFF
-GO
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'NotYetCalculated', 0)
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'CannotBeCalculated', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'Not yet calculated', 0)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'Cannot be calculated', 1)
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (3, N'Increasing', 1)
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (4, N'Decreasing', 1)
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'NoChange', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'No significant change', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (6, N'Increasing and getting better', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (7, N'Increasing and getting worse', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (8, N'Decreasing and getting better', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (9, N'Decreasing and getting worse', 1)
 SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
 
-
+BEGIN TRY DROP TABLE #TempDeprivationData; END TRY BEGIN CATCH END CATCH;
+GO
 BEGIN TRY DROP TABLE #TempAgeData; END TRY BEGIN CATCH END CATCH;
 GO
 BEGIN TRY DROP TABLE #TempIndicatorData; END TRY BEGIN CATCH END CATCH;
@@ -96,6 +130,57 @@ BEGIN
         EXEC('CREATE EXTERNAL DATA SOURCE MyAzureBlobStorage WITH (TYPE = BLOB_STORAGE, LOCATION = ''$(BlobStorageLocation)'', CREDENTIAL = MyAzureBlobStorageCredential)');
 END;
 
+-- Deprivation Data
+CREATE TABLE #TempDeprivationData
+(
+    CategoryName NVARCHAR(255),
+    CategoryTypeName NVARCHAR(255),
+    Sequence INT
+);
+DECLARE @sqlDeprivation NVARCHAR(4000), @filePathDeprivation NVARCHAR(500);
+IF @UseAzureBlob = '1'
+    SET @filePathDeprivation = 'categories.csv';
+ELSE
+    SET @filePathDeprivation = '$(LocalFilePath)categories.csv';
+SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDeprivation + ''' WITH (' +
+              CASE WHEN @UseAzureBlob = '1'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+              END + ')';
+EXEC sp_executesql @sqlDeprivation;
+
+--manually insert the ALL deprivation value
+INSERT [dbo].[DeprivationDimension] 
+(
+    [Name],
+    [Type],
+    [HasValue],
+    [Sequence]
+) 
+VALUES 
+(
+    N'All',
+    N'All',
+    0,
+    1
+)
+
+INSERT INTO [dbo].[DeprivationDimension] 
+(
+    Name,
+    Type,
+    HasValue,
+    Sequence
+)
+SELECT 
+    REPLACE(CategoryName, char(13), ''),
+    REPLACE(CategoryTypeName, char(13), ''),
+    1,
+    Sequence
+FROM #TempDeprivationData;
+
+DROP TABLE #TempDeprivationData;
+
 -- Age Data
 CREATE TABLE #TempAgeData
 (
@@ -116,9 +201,18 @@ SET @sqlAge = 'BULK INSERT #TempAgeData FROM ''' + @filePathAge + ''' WITH (' +
               END + ')';
 EXEC sp_executesql @sqlAge;
 
-INSERT INTO [dbo].[AgeDimension] (Name, AgeID, HasValue)
-SELECT RTRIM(Age), AgeID, IIF(AgeID = 1, 0, 1)
-FROM #TempAgeData;
+INSERT INTO [dbo].[AgeDimension] 
+(
+    Name,
+    AgeID,
+    HasValue
+)
+SELECT 
+    RTRIM(Age),
+    AgeID, 
+    IIF(AgeID = 1, 0, 1)
+FROM 
+    #TempAgeData;
 
 DROP TABLE #TempAgeData;
 
@@ -126,7 +220,11 @@ DROP TABLE #TempAgeData;
 CREATE TABLE #TempIndicatorData
 (
     IndicatorID INT,
-    IndicatorName NVARCHAR(255)
+    Polarity NVARCHAR(255),
+    BenchmarkComparisonMethod [nvarchar](255),
+    UseProportionsForTrend [nvarchar](255),
+    ValueType NVARCHAR(255),
+    IndicatorName NVARCHAR(255),
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -140,9 +238,28 @@ SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH
               END + ')';
 EXEC sp_executesql @sqlInd;
 
-INSERT INTO [dbo].[IndicatorDimension] (Name, IndicatorId, StartDate, EndDate)
-SELECT REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''), IndicatorID, DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
-FROM #TempIndicatorData;
+INSERT INTO [dbo].[IndicatorDimension] 
+(
+    Name,
+    IndicatorId,
+    Polarity,                        
+	UseProportionsForTrend,                
+	ValueType,                       
+	BenchmarkComparisonMethod,
+    StartDate,
+    EndDate
+)
+SELECT 
+    REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
+    IndicatorID,
+    Polarity,
+    UseProportionsForTrend,
+    ValueType,
+    BenchmarkComparisonMethod,
+    DATEADD(YEAR, -10, GETDATE()),
+    DATEADD(YEAR, 10, GETDATE())
+FROM 
+    #TempIndicatorData;
 
 DROP TABLE #TempIndicatorData;
 
@@ -170,33 +287,41 @@ SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH ('
                END + ')';
 EXEC sp_executesql @sqlArea;
 
-INSERT INTO dbo.AreaDimension (Code, Name, StartDate, EndDate)
-SELECT RTRIM(AreaCode), RTRIM(AreaName), DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
-FROM #TempAreaData;
+INSERT INTO dbo.AreaDimension 
+(
+    Code,
+    Name,
+    StartDate,
+    EndDate
+)
+SELECT
+    RTRIM(AreaCode),
+    RTRIM(AreaName),
+    DATEADD(YEAR, -10, GETDATE()),
+    DATEADD(YEAR, 10, GETDATE())
+FROM
+     #TempAreaData;
 
 
 -- Health Data
 CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
-    Category NVARCHAR(MAX),
-    CategoryType NVARCHAR(MAX),
-    Age NVARCHAR(255),
-    Sex NVARCHAR(255),
-    Trend NVARCHAR(255),
-    Denominator FLOAT,
-    Upper98CI FLOAT,
-    CategoryTypeId INT,
-    Lower98CI FLOAT,
-    Lower95CI FLOAT,
-    Value FLOAT,
-    Count FLOAT,
-    AreaCode NVARCHAR(255),
-    SexID INT,
-    AgeID INT,
     Year INT,
+    SexID INT,
+    AreaCode NVARCHAR(255),
+    Count FLOAT,
+    Value FLOAT,
+    Lower95CI FLOAT,
     Upper95CI FLOAT,
-    CategoryId INT
+    Lower98CI FLOAT,
+    Upper98CI FLOAT,
+    Denominator FLOAT,
+    Sex NVARCHAR(255),
+    Age NVARCHAR(255),
+    CategoryType NVARCHAR(MAX),
+    Category NVARCHAR(MAX),
+    AgeID INT
 );
 DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -210,13 +335,32 @@ SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' W
                  END + ')';
 EXEC sp_executesql @sqlHealth;
 
-INSERT INTO [dbo].[HealthMeasure] (AreaKey, IndicatorKey, SexKey, AgeKey, Count, Value, LowerCI, UpperCI, Year)
+INSERT INTO [dbo].[HealthMeasure]
+(
+    AreaKey,
+    IndicatorKey,
+    SexKey,
+    AgeKey,
+    DeprivationKey,
+    Count,
+    Denominator,
+    Value,
+    LowerCI,
+    UpperCI,
+    Year
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [Code] = LTRIM(RTRIM(temp.AreaCode))),
     (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = temp.IndicatorId),
     (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = LTRIM(RTRIM(temp.Sex))),
     (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = temp.AgeID),
-    Count, Value, Lower95CI, Upper95CI, Year
+    (SELECT TOP 1 [DeprivationKey] FROM [dbo].[DeprivationDimension] WHERE [Name] = LTRIM(RTRIM(temp.Category)) AND [Type]=LTRIM(RTRIM(temp.CategoryType))),
+    Count,
+    Denominator,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Year
 FROM #TempHealthData temp
 WHERE temp.Value IS NOT NULL;
 
@@ -229,47 +373,71 @@ SELECT distinct
     AreaType,
     HierarchyType,
     Level+1 As 'Level'
-FROM #TempAreaData;
+FROM
+    #TempAreaData;
 
 INSERT INTO [Areas].[Areas]
 SELECT
     AreaCode,
     AreaName,
     replace(replace(AreaTypeCode, char(10),''), char(13),'')
-FROM #TempAreaData;
+FROM
+    #TempAreaData;
 
 -- Insert additional district-level records for applicable AreaCodes
-INSERT INTO [Areas].[Areas] (AreaCode, AreaName, AreaTypeKey)
+INSERT INTO [Areas].[Areas] 
+(
+    AreaCode,
+    AreaName,
+    AreaTypeKey
+)
 SELECT
     AreaCode,
     AreaName,
     (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary) -- Lookup AreaTypeKey
-FROM #TempAreaData
+FROM
+     #TempAreaData
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')  -- Match the required areaCode prefixes
-    AND NOT EXISTS (
-        SELECT 1 FROM [Areas].[Areas] 
-        WHERE AreaCode = #TempAreaData.AreaCode 
-        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
+    AND NOT EXISTS
+    (
+        SELECT 
+            1
+        FROM 
+            [Areas].[Areas] 
+        WHERE
+            AreaCode = #TempAreaData.AreaCode 
+        AND 
+            AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
     );
 
-INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+INSERT INTO [Areas].[AreaRelationships] 
+(
+    ParentAreaKey,
+    ChildAreaKey
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area1  WHERE area1.[AreaCode] = T.AreaCode),
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area2 WHERE area2.[AreaCode] = value)
-FROM #TempAreaData T
+FROM
+    #TempAreaData T
 CROSS APPLY
     STRING_SPLIT(Children, '|')
 WHERE
     value!='""'
 
 -- Insert parent-child relationships for newly created district-level areas
-INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+INSERT INTO [Areas].[AreaRelationships] 
+(
+    ParentAreaKey,
+    ChildAreaKey
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = T.AreaCode 
         AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)),
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
-FROM #TempAreaData T
+FROM
+    #TempAreaData T
 CROSS APPLY STRING_SPLIT(Children, '|')
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')

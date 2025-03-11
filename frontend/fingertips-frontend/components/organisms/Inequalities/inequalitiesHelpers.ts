@@ -32,7 +32,7 @@ export interface InequalitiesTableRowData {
 export enum Sex {
   MALE = 'Male',
   FEMALE = 'Female',
-  ALL = 'Persons',
+  ALL = 'All',
 }
 
 export enum Inequalities {

@@ -8,44 +8,105 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 public static class BenchmarkComparisonEngine
 {
     /// <summary>
-    ///     Performs a comparison between two HealthDataPoints
+    ///     Loops over the area data applying benchmark comparisons
     /// </summary>
-    /// <param name="healthDataPointOfInterest">The health data point which needs benchmarking</param>
-    /// <param name="benchmarkHealthDataPoint">The health data point which the benchmarking is performed against</param>
-    /// <param name="comparisonMethod">The comparison method used</param>
-    /// <param name="indicatorPolarity">The indicator polarity used in the comparison</param>
-    /// <param name="benchmarkAreaCode">The area code of the benchmark data</param>
-    /// <param name="benchmarkAreaName">The area name of the benchmark data</param>
+    /// <param name="healthDataForAreasOfInterest">
+    ///     The areas which need benchmarking
+    /// </param>
+    /// <param name="benchmarkHealthData">
+    ///     The area data which is to be benchmarked against
+    /// </param>
+    /// <param name="comparisonMethod">
+    ///     The comparison method to be applied e.g. Rag
+    /// </param>
+    /// <param name="polarity">
+    ///     The indicator polarity applied to the comparison e.g. HighIsGood
+    /// </param>
     /// <returns>
-    ///     <c>BenchmarkComparison</c> a benchmark comparison
+    ///     An enumerable of <c>HealthDataForArea</c>
     /// </returns>
-    public static BenchmarkComparison GetBenchmarkComparison(
-        HealthDataPoint healthDataPointOfInterest,
-        HealthDataPoint benchmarkHealthDataPoint,
+    public static IEnumerable<HealthDataForArea> ProcessBenchmarkComparisons(
+        IEnumerable<HealthDataForArea> healthDataForAreasOfInterest,
+        HealthDataForArea benchmarkHealthData,
         BenchmarkComparisonMethod comparisonMethod,
-        IndicatorPolarity indicatorPolarity,
-        string benchmarkAreaCode,
-        string benchmarkAreaName
+        IndicatorPolarity polarity
     )
     {
-        var comparisonValue = GetComparison(healthDataPointOfInterest.LowerConfidenceInterval,
-            healthDataPointOfInterest.UpperConfidenceInterval,
-            benchmarkHealthDataPoint.Value);
-        var outcome = BenchmarkPolarity.GetOutcome(comparisonValue, indicatorPolarity);
-        return new BenchmarkComparison
+        foreach (var healthDataPointOfInterest in healthDataForAreasOfInterest
+             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode)
+             .SelectMany(healthDataForArea => healthDataForArea.HealthData))
         {
-            Method = comparisonMethod,
-            Outcome = outcome,
-            IndicatorPolarity = indicatorPolarity,
-            BenchmarkAreaCode = benchmarkAreaCode,
-            BenchmarkAreaName = benchmarkAreaName
-        };
+            var benchmarkHealthDataPoint = benchmarkHealthData.HealthData.FirstOrDefault(item => item.Year == healthDataPointOfInterest.Year);
+            if (benchmarkHealthDataPoint == null)
+                continue;
+
+            var comparisonValue = 0;
+            if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
+                comparisonValue = -1;
+            if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
+                comparisonValue = 1;
+
+            healthDataPointOfInterest.BenchmarkComparison= new BenchmarkComparison
+            {
+                Method = comparisonMethod,
+                Outcome = GetOutcome(comparisonValue, polarity),
+                IndicatorPolarity = polarity,
+                BenchmarkAreaCode = benchmarkHealthData.AreaCode,
+                BenchmarkAreaName = benchmarkHealthData.AreaName
+            };
+        }
+        return healthDataForAreasOfInterest;
     }
 
-    // determine the comparison
-    private static int GetComparison(float? lowerCi, float? upperCi, float? benchmark)
+    private static BenchmarkOutcome GetOutcome(int comparison, IndicatorPolarity polarity)
     {
-        if (upperCi < benchmark) return -1;
-        return lowerCi > benchmark ? 1 : 0;
+        switch (polarity)
+        {
+            case IndicatorPolarity.LowIsGood:
+                return GetLowerIsGood(comparison);
+            case IndicatorPolarity.HighIsGood:
+                return GetHigherIsGood(comparison);
+            default:
+                return GetNoJudgement(comparison);
+        }
+    }
+
+    private static BenchmarkOutcome GetNoJudgement(int comparison)
+    {
+        switch (comparison)
+        {
+            case < 0:
+                return BenchmarkOutcome.Lower;
+            case > 0:
+                return BenchmarkOutcome.Higher;
+            default:
+                return BenchmarkOutcome.Similar;
+        }
+    }
+
+    private static BenchmarkOutcome GetLowerIsGood(int comparison)
+    {
+        switch (comparison)
+        {
+            case < 0:
+                return BenchmarkOutcome.Better;
+            case > 0:
+                return BenchmarkOutcome.Worse;
+            default:
+                return BenchmarkOutcome.Similar;
+        }
+    }
+
+    private static BenchmarkOutcome GetHigherIsGood(int comparison)
+    {
+        switch (comparison)
+        {
+            case < 0:
+                return BenchmarkOutcome.Worse;
+            case > 0:
+                return BenchmarkOutcome.Better;
+            default:
+                return BenchmarkOutcome.Similar;
+        }
     }
 }

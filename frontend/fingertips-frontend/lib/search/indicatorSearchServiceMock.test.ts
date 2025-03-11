@@ -69,6 +69,18 @@ describe('IndicatorSearchServiceMock', () => {
         await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
       ).toHaveLength(0);
     });
+
+    it('indicator should be case agnostic', async () => {
+      expect(await indicatorSearchMock.searchWith('Justice')).toEqual([
+        mockData[1],
+      ]);
+    });
+
+    it('area should be case agnostic', async () => {
+      expect(
+        await indicatorSearchMock.searchWith('justice', ['area2'])
+      ).toEqual([mockData[1]]);
+    });
   });
 
   describe('getDocument', () => {

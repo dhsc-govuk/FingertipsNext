@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace DataCreator.PholioDatabase
 {
-    public class PholioDataFetcher
+    public class PholioDataFetcher(IConfiguration config)
     {
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _config = config;
         private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
@@ -118,31 +118,18 @@ JOIN
         private readonly string BenchmarkSql = @"
 SELECT distinct
 	indicator.IndicatorID,
-	comparatormethods.ComparatorMethodID
+	comparatormethods.ComparatorMethodID,
+    comparatormethods.ShortName
 FROM 
 	[dbo].[IndicatorMetadata] indicator
 JOIN
 	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
 JOIN
 	[dbo].[L_ComparatorMethods] comparatormethods ON gr.ComparatorMethodID=comparatormethods.ComparatorMethodID
-WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
+WHERE comparatormethods.ComparatorMethodID !=6
 	Order By indicator.IndicatorID 
 ";
 
-        private readonly string CategorySql = @"SELECT 
-		c.CategoryID,
-		c.Name CategoryName,
-		c.Sequence,
-		ct.CategoryTypeID,
-		ct.Name CategoryTypeName
-	FROM 
-		[dbo].[L_Categories] c
-	JOIN
-		[dbo].[L_CategoryTypes] ct ON c.CategoryTypeID =ct.CategoryTypeID
-	WHERE
-		c.Name LIKE '%decile%' OR c.Name LIKE '%quintile%'
-	ORDER BY
-		ct.Sequence, c.Sequence";
 
         private readonly string AgeSql = @"
 SELECT
@@ -153,8 +140,6 @@ SELECT
 FROM
 	[dbo].[L_Ages]
 ";
-
-        public PholioDataFetcher(IConfiguration config) => _config = config;
 
         public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
         {   
@@ -394,54 +379,63 @@ FROM
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
         }
 
-        /// <summary>
-        /// get the category data
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
-        {
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            return (await connection.QueryAsync<CategoryEntity>(CategorySql)).ToList();
-        }
-
 
         private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
         {
             var areaPolarities = await connection.QueryAsync<IndicatorPolarity>(IndicatorPolaritySql);
-            var indicatorsWithMultiplePolarites=new List<int>();
-            foreach (var indicator in indicators)
-            {
-                var results = areaPolarities
-                     .Where(ai => ai.IndicatorId == indicator.IndicatorID)
-                     .ToList();
-                if (results.Count > 1)
-                    indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
-            }
             
             foreach (var indicator in indicators)
             {
-                var match  = areaPolarities
-                     .FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
-                indicator.Polarity = match != null ? match.Polarity : "Not applicable";
+                var match  = areaPolarities.FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
+                if(match != null)
+                {
+                    var split=match.Polarity.Trim().Split(" - ");
+                    indicator.Polarity = split[0] == "RAG" ? split[1] : "Not applicable";
+                }
+                else
+                    indicator.Polarity = "Not applicable";
             }
         }
 
         private async Task AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
         {
-            var areaBenchmarks = await connection.QueryAsync<IndicatorBenchmark>(BenchmarkSql);
+            const int NinetyFiveAndNinetyNinePoint8= 17;
+            const int NinetyNinePoint8 = 18;
+            const int NinetyFive = 1;
+            const int Proportions = 5;
+
+            var benchmarks = await connection.QueryAsync<IndicatorBenchmark>(BenchmarkSql);
             var indicatorsWithMultiple = new List<int>();
+            //for each indicator we want to set the benchmark comparison method and proportions for trend flag
             foreach (var indicator in indicators)
             {
-                indicator.UseProportionsForTrend= areaBenchmarks.Any(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID==5);
-                var results = areaBenchmarks
-                     .Where(ab => ab.IndicatorId == indicator.IndicatorID && (ab.ComparatorMethodID==1 || ab.ComparatorMethodID == 15))
+                //if the indicator has a proportions method set the flag
+                indicator.UseProportionsForTrend= benchmarks.Any(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID==5);
+                
+                //some indivcatrors have more than 1 benchmark methods - its shouldn't affect PoC data
+                var results = benchmarks
+                     .Where(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID!= Proportions)
                      .ToList();
-                if (results.Count() > 1)
-                    indicatorsWithMultiple.Add(indicator.IndicatorID);
-                else if(results.Count > 0)
-                    indicator.BenchmarkComparisonMethod = results.First().ComparatorMethodID == 1 ? "RAG" : "QUINTILES";
+                //there is a rule for PoC than any indicator that has 'CIs overlap reference value (95.0 & 99.8)' will be use either
+                //CIs overlap reference value (95.0) or CIs overlap reference value (99.8)
+                if (results.Any(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8))
+                {
+                    if (results.Any(x => x.ComparatorMethodID == NinetyFive) || results.Any(x => x.ComparatorMethodID == NinetyNinePoint8))
+                        results.RemoveAll(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8);
+                    else
+                    {
+                        var toChange = results.First(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8);
+                        toChange.ComparatorMethodID = NinetyNinePoint8;
+                        toChange.ShortName = "CIs overlap reference value (99.8)";
+                    }
+                        
+                }
+                //a few still have 2 methods so use the first - doesn't affect PoC indicators
+                if (results.Count > 0)
+                    indicator.BenchmarkComparisonMethod = results.First().ShortName;
+                else
+                    indicator.BenchmarkComparisonMethod = "No comparison";
             }
-            indicators.RemoveAll(i => indicatorsWithMultiple.Contains(i.IndicatorID));
         }
     }
 
@@ -472,6 +466,7 @@ FROM
     {
         public int IndicatorId { get; set; }
         public int ComparatorMethodID { get; set; }
+        public string ShortName { get; set; }
     }
 
     public class ParentChildAreaCode
