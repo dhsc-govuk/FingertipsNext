@@ -12,24 +12,39 @@ export default class HomePage extends BasePage {
   readonly pillContainer = 'pill-container';
   readonly removeIcon = 'x-icon';
 
-  async searchForIndicators(searchMode: SearchMode, subjectSearchTerm?: string, areaSearchTerm?: string ) {
+  async searchForIndicators(
+    searchMode: SearchMode,
+    subjectSearchTerm?: string,
+    areaSearchTerm?: string
+  ) {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.page.getByTestId(this.subjectSearchField).fill(subjectSearchTerm!);
+      await this.page
+        .getByTestId(this.subjectSearchField)
+        .fill(subjectSearchTerm!);
     }
     //   cannot enable only area until DHSCFT-458 is actioned
     // if (searchMode === SearchMode.ONLY_AREA) {
     //   await this.page.getByTestId(this.areaSearchField).fill(areaSearchTerm!);
     // }
     if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.page.getByTestId(this.subjectSearchField).fill(subjectSearchTerm!);
+      await this.page
+        .getByTestId(this.subjectSearchField)
+        .fill(subjectSearchTerm!);
 
-      await this.page.getByTestId(this.areaSearchField).getByRole('textbox').fill(areaSearchTerm!);
+      await this.page
+        .getByTestId(this.areaSearchField)
+        .getByRole('textbox')
+        .fill(areaSearchTerm!);
 
-      await expect(this.page.getByTestId(this.suggestedAreasPanel)).toContainText(areaSearchTerm!, {ignoreCase: true});
+      await expect(
+        this.page.getByTestId(this.suggestedAreasPanel)
+      ).toContainText(areaSearchTerm!, { ignoreCase: true });
 
       await this.page.getByText(areaSearchTerm!).click();
 
-      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {ignoreCase: true});
+      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
+        ignoreCase: true,
+      });
     }
   }
 

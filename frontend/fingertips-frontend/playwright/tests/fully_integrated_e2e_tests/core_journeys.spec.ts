@@ -83,7 +83,11 @@ test.describe(`Search via`, () => {
       });
 
       await test.step(`Search for indicators and check results title contains the search term`, async () => {
-        await homePage.searchForIndicators(searchMode, subjectSearchTerm, areaSearchTerm);
+        await homePage.searchForIndicators(
+          searchMode,
+          subjectSearchTerm,
+          areaSearchTerm
+        );
         await homePage.clickSearchButton();
 
         await resultsPage.waitForURLToContain(subjectSearchTerm);
@@ -91,7 +95,11 @@ test.describe(`Search via`, () => {
       });
 
       await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
-        await resultsPage.selectAreasFiltersIfRequired(searchMode, areaMode, subjectSearchTerm);
+        await resultsPage.selectAreasFiltersIfRequired(
+          searchMode,
+          areaMode,
+          subjectSearchTerm
+        );
         await resultsPage.selectIndicatorCheckboxes(
           allIndicatorIDs,
           indicatorMode

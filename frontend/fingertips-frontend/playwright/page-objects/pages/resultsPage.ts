@@ -155,7 +155,11 @@ export default class ResultsPage extends BasePage {
    * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
    * @param searchTerm - search term to be used in the URL check
    */
-  async selectAreasFiltersIfRequired(searchMode: SearchMode, areaMode: AreaMode, searchTerm: string) {
+  async selectAreasFiltersIfRequired(
+    searchMode: SearchMode,
+    areaMode: AreaMode,
+    searchTerm: string
+  ) {
     // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
     const defaultAreaTypeFilter = 'regions';
     // const defaultGroupType = 'England';
@@ -164,51 +168,50 @@ export default class ResultsPage extends BasePage {
 
     // SearchMode.ONLY_AREA and SearchMode.BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-    await this.page
-      .getByTestId(this.areaTypeSelector)
-      .selectOption(defaultAreaTypeFilter);
-    
-
-    await this.waitForURLToContain(defaultAreaTypeFilter);
-
-    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
-
-    // Select appropriate number of checkboxes based on area mode
-    const areaCheckboxList = this.page
-      .getByTestId(this.areaFilterContainer)
-      .getByRole('checkbox');
-    const checkboxCountMap = {
-      [AreaMode.ONE_AREA]: 1,
-      [AreaMode.TWO_AREAS]: 2,
-      [AreaMode.THREE_PLUS_AREAS]: 3,
-      [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
-      [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
-    };
-    const checkboxCount = checkboxCountMap[areaMode];
-    for (let i = 0; i < checkboxCount; i++) {
-      await areaCheckboxList.nth(i).check();
-      if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
-        await this.waitForURLToContain(defaultAreaTypeFilter);
-      }
-    }
-    await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
-      `Selected areas (${String(checkboxCount)})`
-    );
-
-    // England area mode
-    if (AreaMode.ENGLAND_AREA === areaMode) {
       await this.page
         .getByTestId(this.areaTypeSelector)
-        .selectOption('England');
-      // uncomment in DHSCFT-255
-      // await this.page
-      //   .getByTestId(this.groupTypeSelector)
-      //   .selectOption('England');
-      // await this.waitForURLToContain(defaultGroupType);
-    }
+        .selectOption(defaultAreaTypeFilter);
 
-    await this.waitForURLToContain(searchTerm);
-  }
+      await this.waitForURLToContain(defaultAreaTypeFilter);
+
+      // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
+
+      // Select appropriate number of checkboxes based on area mode
+      const areaCheckboxList = this.page
+        .getByTestId(this.areaFilterContainer)
+        .getByRole('checkbox');
+      const checkboxCountMap = {
+        [AreaMode.ONE_AREA]: 1,
+        [AreaMode.TWO_AREAS]: 2,
+        [AreaMode.THREE_PLUS_AREAS]: 3,
+        [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
+        [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
+      };
+      const checkboxCount = checkboxCountMap[areaMode];
+      for (let i = 0; i < checkboxCount; i++) {
+        await areaCheckboxList.nth(i).check();
+        if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
+          await this.waitForURLToContain(defaultAreaTypeFilter);
+        }
+      }
+      await expect(
+        this.page.getByTestId(this.areaFilterContainer)
+      ).toContainText(`Selected areas (${String(checkboxCount)})`);
+
+      // England area mode
+      if (AreaMode.ENGLAND_AREA === areaMode) {
+        await this.page
+          .getByTestId(this.areaTypeSelector)
+          .selectOption('England');
+        // uncomment in DHSCFT-255
+        // await this.page
+        //   .getByTestId(this.groupTypeSelector)
+        //   .selectOption('England');
+        // await this.waitForURLToContain(defaultGroupType);
+      }
+
+      await this.waitForURLToContain(searchTerm);
+    }
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
