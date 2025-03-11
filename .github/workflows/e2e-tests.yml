@@ -79,10 +79,7 @@ jobs:
             inputs.update-screenshots == 'true'
           ) &&
           (
-            github.head_ref == 'main' ||
-            github.ref_name == 'main' ||
-            github.event_name == 'workflow_dispatch' ||
-            github.event_name == 'push'
+            github.event_name != 'pull_request'
           )
         run: npm run test-e2e-ci-update-snapshots
 
