@@ -27,7 +27,7 @@ You can format the code base (using [Prettier](https://prettier.io/docs/en/)) by
 npm run prettier
 ```
 
-Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html)
+Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html).
 
 ### Type Checking
 
