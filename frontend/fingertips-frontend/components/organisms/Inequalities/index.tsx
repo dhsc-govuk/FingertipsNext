@@ -83,6 +83,7 @@ export function Inequalities({
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartTableData}
+                measurementUnit={measurementUnit}
                 yearlyHealthDataGroupedByInequalities={
                   yearlyHealthDataGroupedByInequalities
                 }

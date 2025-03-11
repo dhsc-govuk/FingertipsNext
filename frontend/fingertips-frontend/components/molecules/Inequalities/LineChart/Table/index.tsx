@@ -25,6 +25,7 @@ interface InequalitiesLineChartTableProps {
   tableData: InequalitiesLineChartTableData;
   yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
   type?: Inequalities;
+  measurementUnit?: string;
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -52,6 +53,7 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 export function InequalitiesLineChartTable({
   tableData,
   yearlyHealthDataGroupedByInequalities,
+  measurementUnit,
   type = Inequalities.Sex,
 }: Readonly<InequalitiesLineChartTableProps>) {
   const dynamicKeys = getDynamicKeys(
@@ -72,6 +74,11 @@ export function InequalitiesLineChartTable({
             <Table.Row>
               <StyledAlignCenterHeader colSpan={4}>
                 {tableData.areaName}
+                {measurementUnit ? (
+                  <span style={{ display: 'block', marginTop: '21px' }}>
+                    Value: {measurementUnit}
+                  </span>
+                ) : null}
               </StyledAlignCenterHeader>
             </Table.Row>
             <Table.Row>

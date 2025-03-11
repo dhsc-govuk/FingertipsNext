@@ -170,6 +170,11 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
             colspan="4"
           >
             South FooBar
+            <span
+              style="display: block; margin-top: 21px;"
+            >
+              Value: per 100,000
+            </span>
           </th>
         </tr>
         <tr

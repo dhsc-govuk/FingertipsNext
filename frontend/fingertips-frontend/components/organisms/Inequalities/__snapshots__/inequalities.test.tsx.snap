@@ -830,6 +830,11 @@ exports[`Inequalities suite take a snapshot 1`] = `
                   colspan="4"
                 >
                   South FooBar
+                  <span
+                    style="display: block; margin-top: 21px;"
+                  >
+                    Value: kg
+                  </span>
                 </th>
               </tr>
               <tr

@@ -107,12 +107,35 @@ describe('Inequalities table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('When the UI is rendered with measurement unit it should render correctly', () => {
+      render(
+        <InequalitiesLineChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+          measurementUnit="per 100,000"
+        />
+      );
+      expect(screen.getByText('Value: per 100,000')).toBeInTheDocument();
+    });
+
+    it("Value: 'unit measurement' should not be in document when the unit measurement is not provided", () => {
+      render(
+        <InequalitiesLineChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+        />
+      );
+      expect(screen.queryByText('Value: per 100,000')).not.toBeInTheDocument();
+    });
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
+          measurementUnit="per 100,000"
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
