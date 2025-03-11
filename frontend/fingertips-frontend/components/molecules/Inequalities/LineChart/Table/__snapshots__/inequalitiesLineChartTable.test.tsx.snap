@@ -171,6 +171,7 @@ exports[`Inequalities table suite Sex inequality snapshot test - should match sn
           >
             South FooBar
             <span
+              data-testid="inequalitiesLineChartTable-measurementUnit"
               style="display: block; margin-top: 21px;"
             >
               Value: per 100,000
