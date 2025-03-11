@@ -150,7 +150,7 @@ export default class ResultsPage extends BasePage {
   }
 
   /**
-   * Selects the required area filters based on area mode
+   * Selects the required area filters based on area mode if the search mode is ONLY_SUBJECT
    *
    * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
    * @param searchTerm - search term to be used in the URL check
@@ -162,6 +162,7 @@ export default class ResultsPage extends BasePage {
 
     await this.waitForURLToContain(searchTerm);
 
+    // SearchMode.ONLY_AREA and SearchMode.BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {
     await this.page
       .getByTestId(this.areaTypeSelector)
@@ -199,7 +200,7 @@ export default class ResultsPage extends BasePage {
       await this.page
         .getByTestId(this.areaTypeSelector)
         .selectOption('England');
-      // uncommented in DHSCFT-255
+      // uncomment in DHSCFT-255
       // await this.page
       //   .getByTestId(this.groupTypeSelector)
       //   .selectOption('England');
