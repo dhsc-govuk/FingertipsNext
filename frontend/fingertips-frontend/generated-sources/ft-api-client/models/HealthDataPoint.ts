@@ -88,11 +88,15 @@ export interface HealthDataPoint {
  * @export
  */
 export const HealthDataPointTrendEnum = {
+    NotYetCalculated: 'Not yet calculated',
+    CannotBeCalculated: 'Cannot be calculated',
     Increasing: 'Increasing',
     Decreasing: 'Decreasing',
-    NoChange: 'NoChange',
-    CannotBeCalculated: 'CannotBeCalculated',
-    NotYetCalculated: 'NotYetCalculated'
+    NoSignificantChange: 'No significant change',
+    IncreasingAndGettingBetter: 'Increasing and getting better',
+    IncreasingAndGettingWorse: 'Increasing and getting worse',
+    DecreasingAndGettingBetter: 'Decreasing and getting better',
+    DecreasingAndGettingWorse: 'Decreasing and getting worse'
 } as const;
 export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typeof HealthDataPointTrendEnum];
 

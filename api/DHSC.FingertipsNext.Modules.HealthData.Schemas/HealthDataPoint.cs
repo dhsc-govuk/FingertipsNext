@@ -53,7 +53,8 @@ public class HealthDataPoint
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.
     ///     Will only be calculated if there are at least 5 data points to use.
-    ///     Values can be: Increasing, Decreasing, NoChange, CannotBeCalculated and NotYetCalculated.
+    ///     Values can be: Increasing/(and getting worse/better), Decreasing/(and getting worse/better),
+    ///     No change, Cannot be calculated and Not yet calculated.
     /// </summary>
     [JsonPropertyName("trend")]
     public string? Trend { get; init; } = string.Empty;
