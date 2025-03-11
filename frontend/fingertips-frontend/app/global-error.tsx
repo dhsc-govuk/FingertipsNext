@@ -18,7 +18,6 @@ export default function GlobalError() {
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>
-            <h3>Generic error</h3>
             <H1>Sorry, there is a problem with the service</H1>
             <Paragraph>Try again later.</Paragraph>
             <Paragraph>
