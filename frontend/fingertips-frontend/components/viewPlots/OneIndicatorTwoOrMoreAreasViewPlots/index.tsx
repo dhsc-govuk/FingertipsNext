@@ -29,10 +29,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorMetadata,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
