@@ -293,4 +293,27 @@ describe('generateLineChartSeriesData', () => {
       )
     ).toEqual(expectedEnglandSeriesData);
   });
+
+  it('should return empty list if no keys are passed', () => {
+    const areasSelected = ['A1'];
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        [],
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areasSelected
+      )
+    ).toEqual([]);
+  });
+
+  it('should generate series data without England line color when empty area selected list is passed', () => {
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        keys,
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        []
+      )
+    ).toEqual(seriesData);
+  });
 });
