@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c17 {
+  .c27 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c17:focus {
+.c27:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c17:link,
-.c17:visited,
-.c17:active,
-.c17:hover {
+.c27:link,
+.c27:visited,
+.c27:active,
+.c27:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c17::-moz-focus-inner {
+.c27::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c17:hover,
-.c17:focus {
+.c27:hover,
+.c27:focus {
   background-color: #00572e;
 }
 
-.c17:active {
+.c27:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c17::before {
+.c27::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c17:active::before {
+.c27:active::before {
   top: -4px;
 }
 
-.c17:disabled {
+.c27:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c17:disabled:hover {
+.c27:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c17:disabled:focus {
+.c27:disabled:focus {
   outline: none;
 }
 
-.c17:disabled:active {
+.c27:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c17 svg {
+.c27 svg {
   max-width: 15px;
 }
 
@@ -173,6 +173,93 @@ exports[`snapshot test - renders the homepage 1`] = `
   clear: both;
 }
 
+.c16 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.c19 {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 25px;
+  color: #1d70b8;
+  cursor: pointer;
+}
+
+.c19:hover {
+  color: #2b8cc4;
+}
+
+.c19:focus {
+  outline: 4px solid #ffdd00;
+  outline-offset: -1px;
+  color: #0b0c0c;
+  background: #ffdd00;
+}
+
+.c19::-webkit-details-marker {
+  display: none;
+}
+
+.c19:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  border-width: 7px 0 7px 12.124px;
+  border-left-color: inherit;
+}
+
+[open] > .c18:before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  border-width: 12.124px 7px 0 7px;
+  border-top-color: inherit;
+}
+
+.c20 {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c21 {
+  padding: 15px;
+  padding-left: 20px;
+  border-left: 5px solid #bfc1c3;
+}
+
+.c21 p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c21 > :last-child,
+.c21 p:last-child {
+  margin-bottom: 0;
+}
+
 .c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -205,7 +292,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
-.c19 {
+.c29 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -222,7 +309,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-top: 10px;
 }
 
-.c19 > .c5 {
+.c29 > .c5 {
   margin-bottom: 5px;
 }
 
@@ -326,12 +413,39 @@ exports[`snapshot test - renders the homepage 1`] = `
   word-wrap: normal;
 }
 
-.c18 {
+.c25 {
+  margin-bottom: 20px;
+}
+
+.c24 .c24:last-of-type {
+  margin-bottom: 0;
+}
+
+.c28 {
   margin: 0;
   border: 0;
   margin-top: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #bfc1c3;
+}
+
+.c23 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  width: 100%;
+  height: 33px;
+  padding: 5px 4px 4px;
+  border: 2px solid #0b0c0c;
+}
+
+.c23:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
 .c15 {
@@ -342,10 +456,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 1em;
 }
 
-.c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 19px;
+.c22 {
+  margin-bottom: 1em;
+}
+
+.c22 span {
+  font-weight: bold;
+}
+
+.c22 select {
+  width: 100%;
+}
+
+.c26 {
+  font-weight: bold;
+}
+
+.c17 div {
+  padding: 0.5em 0em;
+}
+
+.c17 summary {
+  color: #000000;
+}
+
+.c17 summary:hover {
+  color: #000000;
+}
+
+.c17 div {
+  border-left: none;
 }
 
 .c10 {
@@ -357,33 +497,33 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c17 {
+  .c27 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 {
+  .c27 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 {
+  .c27 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 svg {
+  .c27 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c17 {
+  .c27 {
     margin-bottom: 32px;
   }
 }
@@ -455,6 +595,32 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
+  .c16 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c16 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c16 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c16 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
   .c6 {
     font-size: 14px;
     line-height: 1.15;
@@ -495,27 +661,27 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c19 {
+  .c29 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c29 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c19 {
+  .c29 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c29 {
     margin-bottom: 20px;
   }
 }
@@ -609,9 +775,36 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c18 {
+  .c25 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c28 {
     margin-top: 30px;
     margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c23 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c23 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c23 {
+    width: 50%;
+    height: 38px;
   }
 }
 
@@ -706,6 +899,10 @@ exports[`snapshot test - renders the homepage 1`] = `
         >
           Find public health data
         </h3>
+        <input
+          hidden=""
+          name="searchState"
+        />
         <label
           class="c9 c10"
           data-testid="indicator-search-form-input"
@@ -731,12 +928,6 @@ exports[`snapshot test - renders the homepage 1`] = `
             value=""
           />
         </label>
-        <input
-          id="areaSearched"
-          name="areaSearched"
-          type="hidden"
-          value=""
-        />
         <div
           class="c14"
         >
@@ -750,7 +941,7 @@ exports[`snapshot test - renders the homepage 1`] = `
               <span
                 class="c11"
               >
-                Search for an area
+                Search by area
               </span>
               <span
                 class="c12"
@@ -763,24 +954,83 @@ exports[`snapshot test - renders the homepage 1`] = `
               </span>
               <input
                 class="c13"
+                id="areaSearched"
+                name="areaSearched"
                 value=""
               />
             </label>
           </div>
         </div>
-        <div
-          class="c16"
+        <details
+          class="c16 c17"
         >
-          <a
-            class="c7"
-            data-testid="search-form-link-filter-area"
-            href="#"
+          <summary
+            class="c18 c19"
           >
-            Open area filter
-          </a>
-        </div>
+            <span
+              class="c20"
+            >
+              Filter by area
+            </span>
+          </summary>
+          <div
+            class="c21"
+          >
+            <div
+              data-testid="select-areas-filter-panel"
+            >
+              <label
+                class="c9 c22"
+                data-testid="area-type-selector-container"
+              >
+                <span
+                  class="c11"
+                >
+                  Select an area type
+                </span>
+                <select
+                  class="c23"
+                />
+              </label>
+              <label
+                class="c9 c22"
+                data-testid="group-type-selector-container"
+              >
+                <span
+                  class="c11"
+                >
+                  Select a group type
+                </span>
+                <select
+                  class="c23"
+                />
+              </label>
+              <label
+                class="c9 c22"
+              >
+                <span
+                  class="c11"
+                >
+                  Select a group
+                </span>
+                <select
+                  class="c23"
+                />
+              </label>
+              <div
+                class="c24 c25"
+              >
+                <span
+                  class="c11 c26"
+                >
+                  Select one or more areas
+                </span>
+              </div>
+            </div>
+          </div>
+        </details>
         <button
-          class="c17"
+          class="c27"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -790,7 +1040,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
     </div>
     <hr
-      class="c18"
+      class="c28"
     />
     <h3
       class="c8"
@@ -806,7 +1056,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </p>
     </div>
     <ul
-      class="c3 c19"
+      class="c3 c29"
     >
       <li
         class="c5 c6"

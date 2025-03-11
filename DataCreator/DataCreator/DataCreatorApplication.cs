@@ -31,7 +31,7 @@
             Console.WriteLine($"Created areas, we are using {areasWeWant.Count} areas");
             //create the health data
            
-            var areasAndIndicators= await _dataManager.CreateHealthDataAndAgeDataAsync(areasWeWant, pocIndicators, ageData, yearFrom:2000, useIndicators:false);
+            var areasAndIndicators=  DataManager.CreateHealthDataAndAgeData(areasWeWant, pocIndicators, ageData, yearFrom:2000, useIndicators:false);
             Console.WriteLine($"Created all health data");
             //create the indicator data
             await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators, addAreasToIndicator: true);

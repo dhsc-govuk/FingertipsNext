@@ -65,8 +65,8 @@ exports[`Trend Tag Suite snapshot test 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   text-transform: uppercase;
-  background-color: #f6d7d2;
-  color: #942514;
+  background-color: #1d70b8;
+  color: #ffffff;
 }
 
 .c2 {
@@ -87,6 +87,8 @@ exports[`Trend Tag Suite snapshot test 1`] = `
 .c1 {
   text-transform: unset;
   margin: 0.3125em;
+  color: #270D0B;
+  background-color: #F6C6BF;
 }
 
 .c4 {
