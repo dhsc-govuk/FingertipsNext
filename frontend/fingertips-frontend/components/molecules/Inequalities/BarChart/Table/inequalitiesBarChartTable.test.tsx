@@ -112,12 +112,26 @@ describe('Inequalities bar chart table suite', () => {
       expect(screen.getByText('(kg)')).toBeInTheDocument();
     });
 
+    it('check if that measurementUnit value does shown when its not passed', () => {
+      render(
+        <InequalitiesBarChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+        />
+      );
+      expect(
+        screen.queryByTestId('inequalitiesBarChart-measurementUnit')
+      ).not.toBeInTheDocument();
+    });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
+          measurementUnit="kg"
         />
       );
 

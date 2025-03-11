@@ -75,7 +75,10 @@ export function InequalitiesLineChartTable({
               <StyledAlignCenterHeader colSpan={4}>
                 {tableData.areaName}
                 {measurementUnit ? (
-                  <span style={{ display: 'block', marginTop: '21px' }}>
+                  <span
+                    style={{ display: 'block', marginTop: '21px' }}
+                    data-testid="inequalitiesLineChartTable-measurementUnit"
+                  >
                     Value: {measurementUnit}
                   </span>
                 ) : null}

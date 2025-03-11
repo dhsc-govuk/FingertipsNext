@@ -1,5 +1,3 @@
-'use client';
-
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';

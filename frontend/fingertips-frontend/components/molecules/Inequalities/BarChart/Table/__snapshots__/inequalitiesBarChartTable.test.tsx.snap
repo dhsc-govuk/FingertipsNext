@@ -188,7 +188,12 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             data-testid="heading-Value"
             style="width: 16%;"
           >
-            Value
+            Value 
+            <span
+              style="display: block; margin: auto;"
+            >
+              (kg)
+            </span>
           </th>
           <th
             class="c1 c2 c4"

@@ -127,7 +127,10 @@ describe('Inequalities table suite', () => {
           type={Inequalities.Sex}
         />
       );
-      expect(screen.queryByText('Value: per 100,000')).not.toBeInTheDocument();
+
+      expect(
+        screen.queryByTestId('inequalitiesLineChartTable-measurementUnit')
+      ).not.toBeInTheDocument();
     });
     it('snapshot test - should match snapshot', () => {
       const container = render(
