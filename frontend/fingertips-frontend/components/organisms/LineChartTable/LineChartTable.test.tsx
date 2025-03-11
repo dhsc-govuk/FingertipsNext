@@ -12,11 +12,7 @@ import {
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {
-  HealthDataForArea,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 describe('Line chart table suite', () => {
   const mockHealthData = [

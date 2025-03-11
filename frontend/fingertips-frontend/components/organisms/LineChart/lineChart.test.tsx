@@ -55,10 +55,6 @@ it('should render the Highcharts react component with passed parameters within t
 });
 
 it('should render the Highcharts react component with England as a series, not a benchmark when England is the only area', async () => {
-  const xAxisPropsTitle = 'DifferentXTitle';
-  const yAxisPropsTitle = 'DifferentYTitle';
-
-  const measurementUnit = '%';
   render(
     <LineChart
       healthIndicatorData={[mockHealthData[1][1]]}
@@ -66,7 +62,7 @@ it('should render the Highcharts react component with England as a series, not a
       yAxisTitle={'YTitle'}
       accessibilityLabel="Accessibility label"
       searchState={state}
-      measurementUnit={measurementUnit}
+      measurementUnit={'%'}
     />
   );
 

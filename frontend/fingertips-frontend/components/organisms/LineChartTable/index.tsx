@@ -187,7 +187,7 @@ export function LineChartTable({
   const groupData = groupIndicatorData
     ? mapToLineChartTableData(groupIndicatorData)
     : [];
-  let sortedDataPerArea = tableData.map((area) => sortPeriod(area));
+  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const sortedEnglandData = sortPeriod(englandData);
   const sortedGroupData = sortPeriod(groupData);
 
