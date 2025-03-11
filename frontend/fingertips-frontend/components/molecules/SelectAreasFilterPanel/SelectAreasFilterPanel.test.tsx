@@ -593,14 +593,17 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should update the url with the group area selected param when all areas are selected for the group', () => {
+    it('should update the url with group area selected when adding the area selected is the same length as all availableAreas', async () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+      const allRemainingAreasCode = availableAreas
+        .filter((area) => area.code !== eastEnglandNHSRegion.code)
+        .map((area) => area.code);
+
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,
-        `&${SearchParams.GroupAreaSelected}=ALL`,
+        `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
       ].join('');
-      const availableAreas = mockAvailableAreas['nhs-regions'];
-      const allSelectedAreasCode = availableAreas.map((area) => area.code);
 
       render(
         <SelectAreasFilterPanel
@@ -610,9 +613,14 @@ describe('SelectAreasFilterPanel', () => {
           }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
-            [SearchParams.AreasSelected]: allSelectedAreasCode,
+            [SearchParams.AreasSelected]: allRemainingAreasCode,
           }}
         />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
@@ -708,7 +716,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should update the url when the select all areas checkbox is selected, removing any areas previously selected', async () => {
+    it('should update the url when the select all areas checkbox is selected, replacing any areas previously selected', async () => {
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreaTypeSelected}=nhs-regions`,

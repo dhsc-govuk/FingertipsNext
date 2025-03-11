@@ -13,7 +13,6 @@ import {
   Select,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import styled from 'styled-components';
 
 export type AreaFilterData = {
@@ -72,23 +71,6 @@ export function SelectAreasFilterPanel({
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
-  useEffect(() => {
-    const updatedAreasSelected = searchState?.[SearchParams.AreasSelected];
-
-    if (
-      areaFilterData?.availableAreas &&
-      areaFilterData?.availableAreas?.length > 0 &&
-      areaFilterData?.availableAreas?.length === updatedAreasSelected?.length
-    ) {
-      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
-      searchStateManager.addParamValueToState(
-        SearchParams.GroupAreaSelected,
-        ALL_AREAS_SELECTED
-      );
-      replace(searchStateManager.generatePath(pathname), { scroll: false });
-    }
-  }, [searchState, areaFilterData, pathname, replace, searchStateManager]);
-
   const hasAreasSelected =
     (searchState?.[SearchParams.AreasSelected] &&
       searchState?.[SearchParams.AreasSelected].length > 0) ||
@@ -129,6 +111,22 @@ export function SelectAreasFilterPanel({
         SearchParams.AreasSelected,
         areaCode
       );
+
+      const updatedAreasSelected =
+        searchStateManager.getSearchState()?.[SearchParams.AreasSelected];
+
+      if (
+        areaFilterData?.availableAreas &&
+        areaFilterData?.availableAreas?.length > 0 &&
+        areaFilterData?.availableAreas?.length === updatedAreasSelected?.length
+      ) {
+        searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+        searchStateManager.addParamValueToState(
+          SearchParams.GroupAreaSelected,
+          ALL_AREAS_SELECTED
+        );
+      }
+      replace(searchStateManager.generatePath(pathname), { scroll: false });
     } else if (
       !checked &&
       searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
@@ -157,7 +155,7 @@ export function SelectAreasFilterPanel({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
-  const handleAllAreasSelected = (checked: boolean) => {
+  const handleSelectAllAreasSelected = (checked: boolean) => {
     if (checked) {
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
@@ -230,7 +228,7 @@ export function SelectAreasFilterPanel({
           defaultChecked={
             searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
           }
-          onChange={(e) => handleAllAreasSelected(e.target.checked)}
+          onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
         >
           Select all areas
         </StyledSelectAllCheckBox>
