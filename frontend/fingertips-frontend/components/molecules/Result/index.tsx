@@ -18,7 +18,7 @@ import {
 } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
-import { isWithinOneMonth } from '@/lib/dateHelpers/dateComparison';
+import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -69,15 +69,6 @@ const GreyTag = styled(Tag)({
   color: TagColours.GreyText,
   backgroundColor: TagColours.GreyBackground,
 });
-
-export function formatDate(date: Date | undefined): string {
-  if (!date) return 'unknown';
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = date.toLocaleString('en-GB', { month: 'long' });
-  const year = date.getFullYear();
-
-  return `${day} ${month} ${year}`;
-}
 
 export function SearchResult({
   result,

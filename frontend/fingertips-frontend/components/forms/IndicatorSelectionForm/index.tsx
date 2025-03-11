@@ -1,4 +1,4 @@
-import { SearchResult } from '@/components/molecules/result';
+import { SearchResult } from '@/components/molecules/Result';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,

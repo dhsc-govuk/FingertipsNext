@@ -82,13 +82,12 @@ paths:
       tags:
         - areas
       summary: Get area
-      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings, cousins and ancestors
+      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
         - $ref: "#/components/parameters/include_children"
         - $ref: "#/components/parameters/include_siblings"
-        - $ref: "#/components/parameters/include_ancestors"
         - $ref: "#/components/parameters/child_area_type"
       responses:
         "200":
@@ -217,7 +216,18 @@ paths:
             Data containing the health data points for the indicator, years
             and geographical areas requested
         "400":
-          $ref: "#/components/responses/BadRequest"
+          description: Bad request. The server could not process the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
+              examples:
+                Too many area_codes:
+                  value:
+                    message: Too many values supplied for parameter area_codes. The maximum is 10 but 11 supplied.
+                Too many years:
+                  value:
+                    message: Too many values supplied for parameter years. The maximum is 10 but 11 supplied.
         "500":
           $ref: "#/components/responses/InternalServerError"
       parameters:
@@ -302,10 +312,6 @@ components:
               items:
                 $ref: "#/components/schemas/Area"
             siblings:
-              type: array
-              items:
-                $ref: "#/components/schemas/Area"
-            ancestors:
               type: array
               items:
                 $ref: "#/components/schemas/Area"
@@ -396,8 +402,17 @@ components:
           description: The statistical trend that applies to the data point,
             given the preceding data. Will only be calculated if there are at
             least 5 data points to use.
-          enum: [Increasing, Decreasing, NoChange, CannotBeCalculated,
-            NotYetCalculated]
+          enum: [
+            'Not yet calculated',
+            'Cannot be calculated',
+            'Increasing',
+            'Decreasing',
+            'No significant change',
+            'Increasing and getting better',
+            'Increasing and getting worse',
+            'Decreasing and getting better',
+            'Decreasing and getting worse'
+          ]
         benchmarkComparison:
           type: object
           properties:
@@ -512,12 +527,6 @@ components:
       in: query
       name: include_siblings
       description: include the sibling areas
-      schema:
-        type: boolean
-    include_ancestors:
-      in: query
-      name: include_ancestors
-      description: include the ancestor areas
       schema:
         type: boolean
     child_area_type:
