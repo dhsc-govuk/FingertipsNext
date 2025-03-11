@@ -16,6 +16,11 @@ export const getTrendColour = (trend: Trend) => {
       return {
         backgroundColor: TagColours.LightBlue,
       };
+    case Trend.NOT_AVAILABLE:
+      return {
+        backgroundColor: TagColours.GreyBackground,
+        color: TagColours.GreyText,
+      };
     default:
       return null;
   }
