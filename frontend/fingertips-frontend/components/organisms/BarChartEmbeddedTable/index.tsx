@@ -54,6 +54,7 @@ const sortedGroupData = groupIndicatorData
   }))
   
   
+  // return 1 so dont need to map through
   function sortMostRecentBenchmark(
     benchmarkData: (HealthDataForArea | undefined)[]
   ) {
@@ -70,7 +71,7 @@ const sortedGroupData = groupIndicatorData
       <Table.Cell aria-label={!value ? "Not compared" : undefined}>{!value ? "X" : value}</Table.Cell>
     )
   };
-
+  
   return (
     <div data-testid={"barChartEmbeddedTable-component"}>
       <Table
@@ -93,8 +94,9 @@ const sortedGroupData = groupIndicatorData
           </Table.CellHeader>
         </Table.Row>
       }>
+        {/*dont need to map through because its should just be one or zero*/}
         {mostRecentBenchmarkData.map((item) => (
-          <Table.Row key={`${item.areaName}`} style={{backgroundColor: GovukColours.MidGrey}}>
+          <Table.Row key={`${item.areaName}`} style={{backgroundColor: GovukColours.MidGrey}} data-testid="table-row-benchmark">
             {checkIfValueExists(item.areaName)}
             {checkIfValueExists(item.healthData?.count)}
             {checkIfValueExists(item.healthData?.value)}
@@ -103,9 +105,9 @@ const sortedGroupData = groupIndicatorData
           </Table.Row>
         ))}
 
-    
+    {/*dont need to map through because its should just be one or zero*/}
         {group?.map((item) => (
-          <Table.Row key={`${item.area}`} style={{backgroundColor: GovukColours.LightGrey}}>
+          <Table.Row key={`${item.area}`} style={{backgroundColor: GovukColours.LightGrey}} data-testid="table-row-group">
             {checkIfValueExists(item.area)}
             {checkIfValueExists(item.count)}
             {checkIfValueExists(item.value)}

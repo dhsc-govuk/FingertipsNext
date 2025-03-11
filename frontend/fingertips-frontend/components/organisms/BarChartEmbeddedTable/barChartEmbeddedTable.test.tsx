@@ -59,6 +59,33 @@ describe('BarChartEmbeddedTable', () => {
     ],
   };
 
+  const mockGroupData = {
+    areaCode: 'E40000014',
+    areaName: 'NHS North West Region',
+    healthData: [
+      {
+        year: 2008,
+        count: 777,
+        value: 1000,
+        lowerCi: 500,
+        upperCi: 1500,
+        ageBand: 'All',
+        sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2004,
+        count: 777,
+        value: 1000,
+        lowerCi: 500,
+        upperCi: 1500,
+        ageBand: 'All',
+        sex: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ],
+  };
+
   it('should render BarChartEmbeddedTable component', () => {
 
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} />);
@@ -70,7 +97,21 @@ describe('BarChartEmbeddedTable', () => {
     
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
     expect(screen.getAllByRole('row')[1]).toHaveTextContent('England');
+    expect(screen.getByTestId('table-row-benchmark')).toBeInTheDocument();
   });
+  
+  it('should display group data in the second row of table data, when the group selected is not England',() => {
+      render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} groupIndicatorData={mockGroupData} />);
+
+    expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
+  });
+
+  it('should not display group data in the second row of table data, when the group selected is England', async () => {
+    render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} groupIndicatorData={undefined} />);
+
+    expect(await screen.queryByTestId('table-row-group')).not.toBeInTheDocument();
+  });
+  
   
   it('should display data table row colours for benchmark and group', () => {
     
