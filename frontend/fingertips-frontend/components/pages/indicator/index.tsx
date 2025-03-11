@@ -55,7 +55,6 @@ export type IndicatorDefinitionProps = {
 
   notes: string;
   caveats: string;
-  covidImpact: string;
 };
 
 type IndicatorProps = {
@@ -237,8 +236,6 @@ export function IndicatorDefinition({
       <Paragraph>{indicatorDefinitionProps.notes}</Paragraph>
       <H4>Caveats</H4>
       <Paragraph>{indicatorDefinitionProps.caveats}</Paragraph>
-      <H4>Impact of Covid-19</H4>
-      <Paragraph>{indicatorDefinitionProps.covidImpact}</Paragraph>
 
       <H3 id="links">Public health profile usage and related content</H3>
       <H4>This indicator is used in the following health profiles</H4>
