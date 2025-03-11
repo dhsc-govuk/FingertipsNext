@@ -4477,7 +4477,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
         <td
           class="c2"
         >
-          placeholder unit label
+          placeholder value type
         </td>
       </tr>
       <tr
@@ -4491,7 +4491,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
         <td
           class="c2"
         >
-          placeholder unit value
+          placeholder unit label
         </td>
       </tr>
       <tr
@@ -5045,7 +5045,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
             class="c3"
             href="#"
           >
-            Current indicator source link?
+            placeholder current indicator source
           </a>
         </td>
       </tr>
@@ -5064,7 +5064,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapie
             class="c3"
             href="#"
           >
-            Previous indicator source link?
+            placeholder previous indicator source
           </a>
         </td>
       </tr>

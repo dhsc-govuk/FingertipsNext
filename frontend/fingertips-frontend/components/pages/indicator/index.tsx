@@ -144,11 +144,11 @@ export function IndicatorDefinition({
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Value Type</Table.CellHeader>
-          <Table.Cell>{indicatorDefinitionProps.unitLabel}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.valueType}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Unit</Table.CellHeader>
-          <Table.Cell>{indicatorDefinitionProps.unitValue}</Table.Cell>
+          <Table.Cell>{indicatorDefinitionProps.unitLabel}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Year type</Table.CellHeader>
@@ -177,13 +177,13 @@ export function IndicatorDefinition({
         <Table.Row>
           <Table.CellHeader>Current indicator source</Table.CellHeader>
           <Table.Cell>
-            <Link href="#">Current indicator source link?</Link>
+            <Link href="#">placeholder current indicator source</Link>
           </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.CellHeader>Previous indicator source</Table.CellHeader>
           <Table.Cell>
-            <Link href="#">Previous indicator source link?</Link>
+            <Link href="#">placeholder previous indicator source</Link>
           </Table.Cell>
         </Table.Row>
         <Table.Row>
