@@ -1,4 +1,4 @@
-import { isWithinOneMonth } from './dateComparison';
+import { isWithinOneMonth } from './dateHelpers';
 
 describe('should return true if indicator date is within one month of server date', () => {
   interface TestData {
