@@ -34,7 +34,7 @@ public class LegacyMapper {
     }
 
     /// <summary>
-    /// Maps indicator metadata and a list of health measures to a valid legacy calculaton request.
+    /// Maps indicator metadata and a list of health measures to a valid legacy calculation request.
     /// </summary>
     public TrendRequest ToLegacy(int valueTypeId, bool useProportions, IEnumerable<HealthMeasureModel> healthMeasures) {
         var legacyTrendRequest = new TrendRequest
