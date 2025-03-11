@@ -13,14 +13,15 @@ import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 interface InequalitiesLineChartProps {
   lineChartData: InequalitiesChartData;
   dynamicKeys: string[];
-  areasSelected: string[];
+  areasSelected?: string[];
   type?: InequalitiesTypes;
   yAxisTitleText?: string;
+  xAxisTitleText?: string;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
   point: Highcharts.Point,
-  symbol?: string
+  symbol: string
 ) => [
   `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
   <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
@@ -30,9 +31,10 @@ const generateInequalitiesLineChartTooltipStringList = (
 export function InequalitiesLineChart({
   lineChartData,
   dynamicKeys,
-  areasSelected,
+  areasSelected = [],
   type = InequalitiesTypes.Sex,
   yAxisTitleText = 'Value',
+  xAxisTitleText = 'Year',
 }: Readonly<InequalitiesLineChartProps>) {
   const seriesData = generateInequalitiesLineChartSeriesData(
     dynamicKeys,
@@ -49,7 +51,7 @@ export function InequalitiesLineChart({
       minorTicksPerMajor: 2,
     },
     xAxis: {
-      title: { text: 'Year', margin: 20 },
+      title: { text: xAxisTitleText, margin: 20 },
       tickLength: 0,
       allowDecimals: false,
     },

@@ -44,7 +44,7 @@ export enum InequalitiesTypes {
   Deprivation = 'deprivation',
 }
 
-export const mapToChartSymbolsForInequality: Record<
+const mapToChartSymbolsForInequality: Record<
   InequalitiesTypes,
   SymbolKeyValue[]
 > = {
@@ -52,10 +52,7 @@ export const mapToChartSymbolsForInequality: Record<
   [InequalitiesTypes.Deprivation]: [],
 };
 
-export const mapToChartColorsForInequality: Record<
-  InequalitiesTypes,
-  string[]
-> = {
+const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Sex]: [
     ChartColours.Orange,
     ChartColours.OtherLightBlue,
@@ -75,14 +72,6 @@ export const inequalityKeyMapping: Record<
   [InequalitiesTypes.Sex]: (sexKeys: string[]) =>
     sexKeys.map((key) => mapToKey(key)).toSorted((a, b) => b.localeCompare(a)),
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
-};
-
-export const inequalitiesBenchmarkColumnMapping: Record<
-  InequalitiesTypes,
-  string
-> = {
-  [InequalitiesTypes.Sex]: 'Persons',
-  [InequalitiesTypes.Deprivation]: 'England',
 };
 
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>

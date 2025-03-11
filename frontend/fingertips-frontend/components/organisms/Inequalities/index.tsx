@@ -14,22 +14,24 @@ import {
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
+  searchState: SearchStateParams;
   type?: InequalitiesTypes;
-  englandData?: HealthDataForArea;
-  areasSelected?: string[];
 }
 
 export function Inequalities({
   healthIndicatorData,
+  searchState,
   type = InequalitiesTypes.Sex,
-  areasSelected = [],
 }: Readonly<InequalitiesProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
   );
+
+  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
