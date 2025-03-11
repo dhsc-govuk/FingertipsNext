@@ -4,6 +4,7 @@ import {
   sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
   isEnglandSoleSelectedArea,
+  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -155,6 +156,59 @@ describe('sortHealthDataByYearDescending', () => {
 
     const result = sortHealthDataByYearDescending(mockData);
     expect(result).toEqual(mockSortedData);
+  });
+});
+
+describe('sortHealthDataPointsByDescendingYear', () => {
+  it('should sort the health data points by descending year', () => {
+    const mockHealthDataPoints = [
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ];
+
+    const mockSortedHealthDataPoints = [
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ];
+
+    const result = sortHealthDataPointsByDescendingYear(mockHealthDataPoints);
+    expect(result).toEqual(mockSortedHealthDataPoints);
   });
 });
 

@@ -45,7 +45,7 @@ export function LineChart({
   const loadHighchartsModules = async (callback: () => void) => {
     await import('highcharts/highcharts-more').then(callback);
   };
- console.log('groupIndicator line chart ', groupIndicatorData);
+  console.log('groupIndicator line chart ', groupIndicatorData);
   const {
     [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = searchState;

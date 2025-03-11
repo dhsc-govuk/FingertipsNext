@@ -17,7 +17,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
-  
+
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -64,5 +64,11 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
   console.log('TODO: fetch map data for GROUP');
 
-  return <OneIndicatorTwoOrMoreAreasViewPlots healthIndicatorData={healthIndicatorData} searchState={searchState} indicatorMetadata={indicatorMetadata} />;
+  return (
+    <OneIndicatorTwoOrMoreAreasViewPlots
+      healthIndicatorData={healthIndicatorData}
+      searchState={searchState}
+      indicatorMetadata={indicatorMetadata}
+    />
+  );
 }

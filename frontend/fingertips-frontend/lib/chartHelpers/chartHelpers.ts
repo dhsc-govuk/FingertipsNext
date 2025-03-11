@@ -1,4 +1,7 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPoint,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
 
 export function sortHealthDataForAreasByDate(
@@ -23,6 +26,15 @@ export function sortHealthDataByYearDescending(
     ...item,
     healthData: item.healthData.toSorted((a, b) => b.year - a.year),
   }));
+}
+
+export function sortHealthDataPointsByDescendingYear(
+  data: HealthDataPoint[] | undefined
+): HealthDataPoint[] {
+  if (!data) {
+    return [];
+  }
+  return data.toSorted((a, b) => b.year - a.year);
 }
 
 export function seriesDataForIndicatorIndexAndArea(
