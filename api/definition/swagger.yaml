@@ -217,7 +217,18 @@ paths:
             Data containing the health data points for the indicator, years
             and geographical areas requested
         "400":
-          $ref: "#/components/responses/BadRequest"
+          description: Bad request. The server could not process the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
+              examples:
+                Too many area_codes:
+                  value:
+                    message: Too many values supplied for parameter area_codes. The maximum is 10 but 11 supplied.
+                Too many years:
+                  value:
+                    message: Too many values supplied for parameter years. The maximum is 10 but 11 supplied.
         "500":
           $ref: "#/components/responses/InternalServerError"
       parameters:

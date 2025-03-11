@@ -23,6 +23,8 @@ export const AreaSearchInputField = ({
     <StyleAreaSearchInputField data-testid="area-search-input-field">
       <InputField
         input={{
+          id: 'areaSearched',
+          name: 'areaSearched',
           value: value ?? '',
           onChange: (e) => {
             onTextChange(e.target.value);
@@ -40,7 +42,7 @@ export const AreaSearchInputField = ({
           error: hasError ? 'Enter an area you want to search for' : '',
         }}
       >
-        Search for an area
+        Search by area
       </InputField>
     </StyleAreaSearchInputField>
   );

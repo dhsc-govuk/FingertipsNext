@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { LineChart } from '@/components/organisms/LineChart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -28,13 +28,17 @@ const state: SearchStateParams = {
 
 it('should render the Highcharts react component with passed parameters within the LineChart component', async () => {
   const xAxisPropsTitle = 'DifferentXTitle';
+  const yAxisPropsTitle = 'DifferentYTitle';
 
+  const measurementUnit = '%';
   render(
     <LineChart
       healthIndicatorData={mockHealthData[1]}
-      xAxisTitle={`${xAxisPropsTitle}`}
+      xAxisTitle={xAxisPropsTitle}
+      yAxisTitle={yAxisPropsTitle}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit={measurementUnit}
     />
   );
 
@@ -42,8 +46,12 @@ it('should render the Highcharts react component with passed parameters within t
     'highcharts-react-component-lineChart'
   );
 
-  expect(highcharts).toBeInTheDocument();
+  await waitFor(() => {
+    expect(highcharts).toBeInTheDocument();
+  });
+
   expect(highcharts).toHaveTextContent(xAxisPropsTitle);
+  expect(highcharts).toHaveTextContent(yAxisPropsTitle);
 });
 
 it('should validate the checkbox is checked when passed the correct parameter of lineChart', async () => {
@@ -52,6 +60,7 @@ it('should validate the checkbox is checked when passed the correct parameter of
       healthIndicatorData={mockHealthData[1]}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit="%"
     />
   );
 
@@ -71,6 +80,7 @@ it('should validate the checkbox is not checked when passed an incorrect paramet
       healthIndicatorData={mockHealthData[1]}
       accessibilityLabel="Accessibility label"
       searchState={state}
+      measurementUnit="%"
     />
   );
 
