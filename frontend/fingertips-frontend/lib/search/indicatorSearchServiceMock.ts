@@ -14,15 +14,27 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     return this.mockIndicatorData
       .filter((indicator) => {
         return (
-          indicator.indicatorID.includes(searchText) ||
-          indicator.indicatorName.includes(searchText) ||
-          indicator.indicatorDefinition.includes(searchText)
+          indicator.indicatorID
+            .toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          indicator.indicatorName
+            .toLocaleLowerCase()
+            .includes(searchText.toLocaleLowerCase()) ||
+          indicator.indicatorDefinition
+            .toLocaleLowerCase()
+            .includes(searchText.toLocaleLowerCase())
         );
       })
       .filter((indicator) => {
         return (
           !areaCodes ||
-          indicator.associatedAreaCodes.some((area) => areaCodes.includes(area))
+          indicator.associatedAreaCodes.some((area) =>
+            areaCodes
+              .map((areaCode) => {
+                return areaCode.toLowerCase();
+              })
+              .includes(area.toLowerCase())
+          )
         );
       })
       .slice(0, 20);
@@ -32,7 +44,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
     indicatorId: string
   ): Promise<IndicatorDocument | undefined> {
     return this.mockIndicatorData.find((indicator) => {
-      return indicator.indicatorID === indicatorId;
+      return indicator.indicatorID.toLowerCase() === indicatorId.toLowerCase();
     });
   }
 }

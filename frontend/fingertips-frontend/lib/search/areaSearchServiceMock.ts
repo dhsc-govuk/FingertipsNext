@@ -10,7 +10,10 @@ export class AreaSearchServiceMock implements IAreaSearchService {
   public async getAreaDocument(
     areaCode: string
   ): Promise<AreaDocument | undefined> {
-    return this.mockAreaData.find((areaDoc) => areaDoc.areaCode === areaCode);
+    return this.mockAreaData.find(
+      (areaDoc) =>
+        areaDoc.areaCode.toLocaleLowerCase() === areaCode.toLocaleLowerCase()
+    );
   }
 
   public async getAreaSuggestions(
@@ -19,8 +22,12 @@ export class AreaSearchServiceMock implements IAreaSearchService {
     return this.mockAreaData
       .filter((areaDoc) => {
         return (
-          areaDoc.areaCode.includes(partialAreaName) ||
-          areaDoc.areaName.includes(partialAreaName)
+          areaDoc.areaCode
+            .toLocaleLowerCase()
+            .includes(partialAreaName.toLocaleLowerCase()) ||
+          areaDoc.areaName
+            .toLocaleLowerCase()
+            .includes(partialAreaName.toLocaleLowerCase())
         );
       })
       .slice(0, 20);
