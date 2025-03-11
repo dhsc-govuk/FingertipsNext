@@ -11,6 +11,8 @@ import {
   InequalitiesTableRowData,
   mapToInequalitiesTableData,
   shouldDisplayInequalities,
+  InequalitiesBarChartData,
+  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 
@@ -204,6 +206,26 @@ describe('mapToInequalitiesTableData', () => {
 
     expect(mapToInequalitiesTableData(GROUPED_YEAR_DATA)).toEqual(
       expectedInequalitiesSexTableRow
+    );
+  });
+});
+
+describe('getBenchmarkData', () => {
+  const barChartData: InequalitiesBarChartData = {
+    areaName: 'Area 1',
+    data: {
+      period: 2008,
+      inequalities: {
+        Persons: { value: 135.149304 },
+        Male: { value: 890.328253 },
+        Female: { value: 890.328253 },
+      },
+    },
+  };
+
+  it('should get benchmark data', () => {
+    expect(getBenchmarkData(InequalitiesTypes.Sex, barChartData)).toBe(
+      135.149304
     );
   });
 });

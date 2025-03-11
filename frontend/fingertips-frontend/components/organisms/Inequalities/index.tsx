@@ -11,6 +11,7 @@ import {
   InequalitiesLineChartTableData,
   mapToInequalitiesTableData,
   getDynamicKeys,
+  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -18,7 +19,6 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
   type?: InequalitiesTypes;
-  englandData?: HealthDataForArea;
 }
 
 export function Inequalities({
@@ -48,8 +48,7 @@ export function Inequalities({
     data: lineChartTableData.rowData[latestDataIndex],
   };
 
-  // TODO: Only a single type of inequality is shown at once. Hence, make the type deductions on this parent component and pass down all the required data to the children.
-  // Pass down benchmark data to each component - Persons if the type is Sex and England if the type is Deprivation
+  const barChartBenchmarkValue = getBenchmarkData(type, barchartData);
 
   return (
     <div data-testid="inequalities-component">
@@ -64,6 +63,8 @@ export function Inequalities({
               <InequalitiesBarChart
                 barChartData={barchartData}
                 dynamicKeys={dynamicKeys}
+                benchmarkColumnValue={barChartBenchmarkValue}
+                yAxisLabel="Value"
               />
             ),
           },
