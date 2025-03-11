@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { Pill } from '../Pill';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
-interface AreaSelectedPillProps {
-  areaTypeName: string;
-  groupSelected: AreaWithRelations;
-  onRemoveFilter: (filterID: string) => void;
+interface GroupAreaSelectedPillProps {
+  areaTypeName?: string;
+  groupSelected?: AreaWithRelations;
+  onRemoveFilter: () => void;
   inFilterPane?: boolean;
 }
 
@@ -20,19 +20,17 @@ export const GroupAreaSelectedPill = ({
   groupSelected,
   onRemoveFilter,
   inFilterPane,
-}: Readonly<AreaSelectedPillProps>) => {
+}: Readonly<GroupAreaSelectedPillProps>) => {
   return (
-    <div style={{ display: 'inline' }}>
-      <Pill
-        removeFilter={onRemoveFilter}
-        selectedFilterId={groupSelected.code}
-        isFullWidth={inFilterPane}
-      >
-        <p style={{ margin: 0 }}>
-          All areas in {groupSelected.name}
-          <StyleAreaType>{areaTypeName}</StyleAreaType>
-        </p>
-      </Pill>
-    </div>
+    <Pill
+      removeFilter={onRemoveFilter}
+      selectedFilterId={groupSelected?.code}
+      isFullWidth={inFilterPane}
+    >
+      <p style={{ margin: 0 }}>
+        All areas in {groupSelected?.name}{' '}
+        <StyleAreaType>{areaTypeName}</StyleAreaType>
+      </p>
+    </Pill>
   );
 };

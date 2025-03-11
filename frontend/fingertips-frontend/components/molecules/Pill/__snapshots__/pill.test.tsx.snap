@@ -11,7 +11,7 @@ exports[`Pill Suite snapshot test 1`] = `
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
   padding: 0.5em 0.3125em;
-  width: 100%;
+  max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
   display: -webkit-flex;

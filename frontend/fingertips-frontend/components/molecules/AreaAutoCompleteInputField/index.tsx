@@ -77,7 +77,10 @@ export function AreaAutoCompleteInputField({
       <AreaSearchInputField
         value={criteria}
         onTextChange={setCriteria}
-        disabled={selectedAreasParams && selectedAreasParams?.length > 0}
+        disabled={
+          (selectedAreasParams && selectedAreasParams?.length > 0) ||
+          searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+        }
         hasError={inputFieldErrorStatus}
       />
       <AreaAutoCompleteSuggestionPanel

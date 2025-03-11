@@ -25,19 +25,17 @@ export const AreaSelectedPill = ({
   inFilterPane,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
-    <div style={{ display: 'inline' }}>
-      <Pill
-        removeFilter={onRemoveFilter}
-        selectedFilterId={area.code}
-        isFullWidth={inFilterPane}
-      >
-        <p style={{ margin: 0 }}>
-          <StyleAreaName>
-            {formatAreaName(area.code, area.name, area.areaType.key)}
-          </StyleAreaName>{' '}
-          <StyleAreaType>{area.areaType.name}</StyleAreaType>
-        </p>
-      </Pill>
-    </div>
+    <Pill
+      removeFilter={onRemoveFilter}
+      selectedFilterId={area.code}
+      isFullWidth={inFilterPane}
+    >
+      <p style={{ margin: 0 }}>
+        <StyleAreaName>
+          {formatAreaName(area.code, area.name, area.areaType.key)}
+        </StyleAreaName>{' '}
+        <StyleAreaType>{area.areaType.name}</StyleAreaType>
+      </p>
+    </Pill>
   );
 };

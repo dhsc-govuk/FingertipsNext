@@ -69,10 +69,12 @@ export const SearchForm = ({
         firstSelectedArea={selectedAreasData?.[0]}
       />
 
-      {selectedAreas && selectedAreas.length > 0 ? (
+      {(selectedAreas && selectedAreas.length > 0) ||
+      searchState?.[SearchParams.GroupAreaSelected] === 'ALL' ? (
         <SelectedAreasPanel
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
           searchState={searchState}
+          areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           inFilterPane={false}
         />
