@@ -1,0 +1,40 @@
+{
+  "indicatorName": "placeholder indicator name",
+  "indicatorID": "placeholder indicator id",
+  "lastUpdatedDate": "1066-10-14T12:00:00",
+  "frequency": "placeholder frequency",
+
+  "indicatorDefinition": "placeholder indicator definition. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dictum tempus molestie. Proin orci felis, ullamcorper auctor dui a, dictum luctus nisi. Integer dolor orci, pretium a lacinia quis, elementum a dui. Nunc a finibus massa, non imperdiet ex. Nunc pulvinar, lacus at egestas aliquam, ex mi semper odio, id molestie nulla metus sed leo.",
+  "method": "placeholder method",
+  "countDefinition": "placeholder numerator definition\n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapien eget nisl dapibus sodales",
+  "denominatorDefinition": "placeholder denominator definition\n Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis sapien eget nisl dapibus sodales",
+  "denominatorType": "placeholder denominator type",
+
+  "age": "placeholder age information",
+  "sex": "placeholder sex information",
+  "unitLabel": "placeholder unit label",
+  "unitValue": "placeholder unit value",
+  "valueType": "placeholder value type",
+  "yearType": "placeholder year type (e.g. financial)",
+  "standardPopulation": "placeholder standard population",
+  "disclouseControl": "placeholder disclouse (disclosure) control",
+  "rounding": "placeholder rounding",
+
+  "dataSource": "placeholder data source",
+  "countSource": "placeholder numerator source",
+  "denominatorSource": "placeholder denominator source",
+  "copyright": "placeholder copyright",
+  "reuse": "placeholder reuse",
+
+  "benchmarkMethod": "placeholder benchmarking method",
+  "benchmarkSignificanceLevel": "placeholder benchmarking signficance level",
+  "benchmarkComparisonMethod": "placeholder benchmarking comparison method",
+  "ciMethod": "placeholder ci method",
+  "ciMethodDetails": "placeholder ci method details. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dictum tempus molestie. Proin orci felis, ullamcorper auctor dui a, dictum luctus nisi. Integer dolor orci, pretium a lacinia quis, elementum a dui. Nunc a finibus massa, non imperdiet ex. Nunc pulvinar, lacus at egestas aliquam, ex mi semper odio, id molestie nulla metus sed leo. Maecenas eu nunc tincidunt, placerat ante ac, venenatis lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. \n Fusce bibendum vestibulum lacus, non bibendum tellus ullamcorper ut. Curabitur at ipsum leo. Proin convallis pulvinar mi vitae aliquet. ",
+
+  "rationale": " Donec arcu purus, auctor quis dolor suscipit, malesuada cursus nulla. Mauris et massa et libero tempus fringilla. Donec consectetur quis lorem sit amet lacinia. Maecenas non urna a risus gravida rutrum in sed lacus. In pharetra ultricies nisl vitae ultricies. Nulla ullamcorper et lectus eget imperdiet. Phasellus vel rutrum ex. \n Suspendisse ligula orci, vestibulum non tincidunt at, congue in quam. Sed imperdiet erat vitae metus tincidunt imperdiet. Donec eget nisi vitae purus consequat gravida eu vel mauris. Nunc eros orci, facilisis in eleifend a, iaculis ut leo. Ut at venenatis ex, in aliquet leo. Proin ut bibendum leo, eu viverra magna.",
+
+  "notes": "placeholder notes Aliquam accumsan dolor ut velit feugiat pellentesque. Mauris sagittis, orci sit amet sollicitudin finibus, velit tellus rhoncus purus, non convallis felis mi non ex. Fusce elementum lacus ac turpis faucibus eleifend. Integer elementum lorem vel leo luctus suscipit vel id tortor. Nam pulvinar lacus sit amet erat venenatis, non semper nunc sollicitudin.",
+  "caveats": "placeholder caveats  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque consequat magna sapien, ac dapibus arcu commodo vel. Nulla varius ut eros eget consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus posuere mollis dignissim. ",
+  "covidImpact": "placeholder covid-19 impact Donec id mi convallis, sollicitudin nisl id, semper augue. Vestibulum consectetur ante orci, vitae ornare justo tincidunt in. Sed sagittis vulputate sapien. Nam luctus lacus id congue tempor. Mauris in aliquet orci, sed mollis libero. Praesent eget felis tellus. Nunc quis lectus at turpis venenatis egestas nec et dolor."
+}
