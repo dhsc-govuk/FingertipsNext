@@ -18,6 +18,9 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { useEffect, useState } from 'react';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -33,12 +36,14 @@ export function Chart({
   searchState,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
+
+  const [indicatorMetadata, setIndicatorMetaData] =
+    useState<IndicatorDocument>();
 
   const backLinkPath = stateManager.generatePath('/results');
 
@@ -46,6 +51,17 @@ export function Chart({
     healthIndicatorData[0],
     selectedGroupCode
   );
+
+  useEffect(() => {
+    const fetchIndicatorMeta = async (indicator: string) => {
+      const document =
+        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          indicator
+        );
+      setIndicatorMetaData(document);
+    };
+    fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
+  }, [indicatorsSelected]);
 
   return (
     <>
@@ -61,6 +77,7 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          measurementUnit={indicatorMetadata?.unitLabel}
         />
       )}
       <BarChart
@@ -69,6 +86,7 @@ export function Chart({
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
+        measurementUnit={indicatorMetadata?.unitLabel}
       />
       {populationData ? (
         <>
