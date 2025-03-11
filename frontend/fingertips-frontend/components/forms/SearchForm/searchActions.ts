@@ -9,6 +9,7 @@ import {
 } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { AreaDocument } from '@/lib/search/searchTypes';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const $SearchFormSchema = z
   .object({
@@ -19,7 +20,8 @@ const $SearchFormSchema = z
     const stateParsed = JSON.parse(data.searchState);
     if (
       data.indicator.trim().length > 0 ||
-      stateParsed[SearchParams.AreasSelected]?.length > 0
+      stateParsed[SearchParams.AreasSelected]?.length > 0 ||
+      stateParsed[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
     ) {
       return true;
     }
