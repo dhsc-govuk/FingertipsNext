@@ -23,10 +23,8 @@ export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData, groupIndicatorData,
 }: Readonly<BarChartEmbeddedTable>) {
-  const mostRecentYearData =
-    sortHealthDataByYearDescending(healthIndicatorData);
-console.log('groupIndicatorData',groupIndicatorData)
-  console.log('healthIndicatorData',healthIndicatorData)
+  
+  const mostRecentYearData = sortHealthDataByYearDescending(healthIndicatorData);
   
   const tableRows = mostRecentYearData.map((item) => ({
     area: item.areaName,
@@ -42,19 +40,19 @@ console.log('groupIndicatorData',groupIndicatorData)
     if (!b.value) return -1;
     return b.value - a.value;
   });
-
-  // TO DO
-  // map through group indicator data - display most recent year
-  // only show group indicator data if Area selected is not england
   
+const sortedGroupData = groupIndicatorData
+  ? sortHealthDataByYearDescending([groupIndicatorData])
+  : undefined;
   
-  const group = groupIndicatorData?.healthData.map((item) => ({
-    count: item.count,
-    value: item.value,
-    lowerCi: item.lowerCi,
-    upperCi: item.upperCi,
+  const group = sortedGroupData?.map((item) => ({
+    area: item.areaName,
+    count: item.healthData[0].count,
+    value: item.healthData[0].value,
+    lowerCi: item.healthData[0].lowerCi,
+    upperCi: item.healthData[0].upperCi,
   }))
-console.log(group)
+  
   
   function sortMostRecentBenchmark(
     benchmarkData: (HealthDataForArea | undefined)[]
@@ -85,7 +83,7 @@ console.log(group)
             {BarChartEmbeddedTableHeadingEnum.AreaCount}
           </Table.CellHeader>
           <Table.CellHeader>
-            {BarChartEmbeddedTableHeadingEnum.AreaValue}
+            {BarChartEmbeddedTableHeadingEnum.AreaValue} %
           </Table.CellHeader>
           <Table.CellHeader>
             {BarChartEmbeddedTableHeadingEnum.AreaLower}
@@ -105,16 +103,16 @@ console.log(group)
           </Table.Row>
         ))}
 
-        {/*{group?.map((item) => (*/}
-        {/*  <Table.Row key={`${item.count}`}>*/}
-        {/*    {checkIfValueExists(item.count)}*/}
-        {/*    <Table.Cell>{item.value}</Table.Cell>*/}
-        {/*    <Table.Cell>{item.lowerCi}</Table.Cell>*/}
-        {/*    <Table.Cell>{item.upperCi}</Table.Cell>*/}
-        {/*  </Table.Row>*/}
-        {/*))}*/}
-        
-        
+    
+        {group?.map((item) => (
+          <Table.Row key={`${item.area}`} style={{backgroundColor: GovukColours.LightGrey}}>
+            {checkIfValueExists(item.area)}
+            {checkIfValueExists(item.count)}
+            {checkIfValueExists(item.value)}
+            {checkIfValueExists(item.lowerCi)}
+            {checkIfValueExists(item.upperCi)}
+          </Table.Row>
+        ))}
 
         {sortedTableRows.map((item) => (
           <Table.Row key={`${item.area}`}>

@@ -72,11 +72,13 @@ describe('BarChartEmbeddedTable', () => {
     expect(screen.getAllByRole('row')[1]).toHaveTextContent('England');
   });
   
-  it('should display the benchmark data table row with a grey background', () => {
+  it('should display data table row colours for benchmark and group', () => {
     
     render(<BarChartEmbeddedTable healthIndicatorData={mockHealthIndicatorData} benchmarkData={mockBenchmarkData} />);
+    // benchmark row
     expect(screen.getAllByRole('row')[1]).toHaveStyle('backgroundColor: GovukColours.MidGrey');
-    
+    // group row
+    expect(screen.getAllByRole('row')[2]).toHaveStyle('backgroundColor: GovukColours.LightGrey');
   });
   
   it('should order the data displayed by largest value', () => {
