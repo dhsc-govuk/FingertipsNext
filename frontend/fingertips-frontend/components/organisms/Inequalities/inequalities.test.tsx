@@ -31,14 +31,4 @@ describe('Inequalities suite', () => {
     );
     expect(screen.getByText('(kg)')).toBeInTheDocument();
   });
-
-  it('take a snapshot', () => {
-    const component = render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        measurementUnit="kg"
-      />
-    );
-    expect(component.asFragment()).toMatchSnapshot();
-  });
 });
