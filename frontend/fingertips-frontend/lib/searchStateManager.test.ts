@@ -1,3 +1,4 @@
+import { ALL_AREAS_SELECTED } from './areaFilterHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -14,7 +15,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
-        [SearchParams.GroupAreaSelected]: 'ALL',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       };
 
@@ -28,7 +29,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
-        [SearchParams.GroupAreaSelected]: 'ALL',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
     });
@@ -272,7 +273,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
-        [SearchParams.GroupAreaSelected]: 'ALL',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
 

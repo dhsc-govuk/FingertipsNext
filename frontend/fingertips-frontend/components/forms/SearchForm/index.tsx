@@ -14,6 +14,7 @@ import {
   SelectAreasFilterPanel,
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -70,7 +71,7 @@ export const SearchForm = ({
       />
 
       {(selectedAreas && selectedAreas.length > 0) ||
-      searchState?.[SearchParams.GroupAreaSelected] === 'ALL' ? (
+      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <SelectedAreasPanel
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
           searchState={searchState}

@@ -11,6 +11,7 @@ import { AreaSelectedPill } from '../AreaSelectedPill';
 import { GroupAreaSelectedPill } from '../GroupAreaSelectedPill';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
 import { AreaFilterData } from '../SelectAreasFilterPanel';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
@@ -63,7 +64,7 @@ export function SelectedAreasPanel({
 
   return (
     <StyledFilterSelectedAreaDiv data-testid="selected-areas-panel">
-      {searchState?.[SearchParams.GroupAreaSelected] === 'ALL' ? (
+      {searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <div data-testid="group-selected-areas-panel">
           <StyledFilterLabel>
             {`Selected areas (${areaFilterData?.availableAreas?.length})`}

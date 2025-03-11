@@ -6,6 +6,7 @@ import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSugg
 import styled from 'styled-components';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
@@ -79,7 +80,7 @@ export function AreaAutoCompleteInputField({
         onTextChange={setCriteria}
         disabled={
           (selectedAreasParams && selectedAreasParams?.length > 0) ||
-          searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+          searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
         }
         hasError={inputFieldErrorStatus}
       />

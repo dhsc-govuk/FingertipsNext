@@ -1,4 +1,5 @@
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -55,7 +56,7 @@ const isAreaSelected = (
   selectedAreas?: string[],
   groupAreaSelected?: string
 ): boolean => {
-  if (groupAreaSelected === 'ALL') return true;
+  if (groupAreaSelected === ALL_AREAS_SELECTED) return true;
 
   return selectedAreas
     ? selectedAreas?.some((area) => area === areaCode)
@@ -82,7 +83,7 @@ export function SelectAreasFilterPanel({
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
         SearchParams.GroupAreaSelected,
-        'ALL'
+        ALL_AREAS_SELECTED
       );
       replace(searchStateManager.generatePath(pathname), { scroll: false });
     }
@@ -91,7 +92,7 @@ export function SelectAreasFilterPanel({
   const hasAreasSelected =
     (searchState?.[SearchParams.AreasSelected] &&
       searchState?.[SearchParams.AreasSelected].length > 0) ||
-    searchState?.[SearchParams.GroupAreaSelected] === 'ALL';
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
 
   const areaTypeSelected = (valueSelected: string) => {
     searchStateManager.addParamValueToState(
@@ -130,7 +131,7 @@ export function SelectAreasFilterPanel({
       );
     } else if (
       !checked &&
-      searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
     ) {
       searchStateManager.removeParamValueFromState(
         SearchParams.GroupAreaSelected
@@ -161,7 +162,7 @@ export function SelectAreasFilterPanel({
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
         SearchParams.GroupAreaSelected,
-        'ALL'
+        ALL_AREAS_SELECTED
       );
     } else {
       searchStateManager.removeParamValueFromState(
@@ -227,7 +228,7 @@ export function SelectAreasFilterPanel({
           value={searchState?.[SearchParams.GroupSelected]}
           sizeVariant="SMALL"
           defaultChecked={
-            searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+            searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
           }
           onChange={(e) => handleAllAreasSelected(e.target.checked)}
         >

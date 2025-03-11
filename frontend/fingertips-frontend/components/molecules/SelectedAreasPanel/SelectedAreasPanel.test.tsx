@@ -4,6 +4,7 @@ import { SelectedAreasPanel } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -35,7 +36,7 @@ describe('SelectedAreasPanel', () => {
             availableAreas: mockSelectedAreasData,
           }}
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
             [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
@@ -51,7 +52,7 @@ describe('SelectedAreasPanel', () => {
             availableAreas: mockSelectedAreasData,
           }}
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
             [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
@@ -72,7 +73,7 @@ describe('SelectedAreasPanel', () => {
             availableAreas: mockSelectedAreasData,
           }}
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
             [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
@@ -95,7 +96,7 @@ describe('SelectedAreasPanel', () => {
             availableAreas: mockSelectedAreasData,
           }}
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
             [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />

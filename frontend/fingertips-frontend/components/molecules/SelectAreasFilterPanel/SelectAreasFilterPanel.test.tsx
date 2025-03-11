@@ -14,6 +14,7 @@ import {
   allNhsRegions,
   eastEnglandNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -59,7 +60,7 @@ describe('SelectAreasFilterPanel', () => {
       render(
         <SelectAreasFilterPanel
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
@@ -211,7 +212,7 @@ describe('SelectAreasFilterPanel', () => {
       render(
         <SelectAreasFilterPanel
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
@@ -371,7 +372,7 @@ describe('SelectAreasFilterPanel', () => {
       render(
         <SelectAreasFilterPanel
           searchState={{
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
@@ -644,7 +645,7 @@ describe('SelectAreasFilterPanel', () => {
           }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
@@ -694,7 +695,7 @@ describe('SelectAreasFilterPanel', () => {
           }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
-            [SearchParams.GroupAreaSelected]: 'ALL',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
@@ -753,7 +754,7 @@ describe('SelectAreasFilterPanel', () => {
           }}
           searchState={{
             [SearchParams.AreaTypeSelected]: 'nhs-regions',
-            [SearchParams.GroupSelected]: 'ALL',
+            [SearchParams.GroupSelected]: ALL_AREAS_SELECTED,
           }}
         />
       );
