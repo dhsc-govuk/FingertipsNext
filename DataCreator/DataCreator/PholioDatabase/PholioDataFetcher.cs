@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace DataCreator.PholioDatabase
 {
-    public class PholioDataFetcher
+    public class PholioDataFetcher(IConfiguration config)
     {
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _config = config;
         private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
@@ -129,20 +129,6 @@ WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
 	Order By indicator.IndicatorID 
 ";
 
-        private readonly string CategorySql = @"SELECT 
-		c.CategoryID,
-		c.Name CategoryName,
-		c.Sequence,
-		ct.CategoryTypeID,
-		ct.Name CategoryTypeName
-	FROM 
-		[dbo].[L_Categories] c
-	JOIN
-		[dbo].[L_CategoryTypes] ct ON c.CategoryTypeID =ct.CategoryTypeID
-	WHERE
-		c.Name LIKE '%decile%' OR c.Name LIKE '%quintile%'
-	ORDER BY
-		ct.Sequence, c.Sequence";
 
         private readonly string AgeSql = @"
 SELECT
@@ -153,8 +139,6 @@ SELECT
 FROM
 	[dbo].[L_Ages]
 ";
-
-        public PholioDataFetcher(IConfiguration config) => _config = config;
 
         public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
         {   
@@ -392,16 +376,6 @@ FROM
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
-        }
-
-        /// <summary>
-        /// get the category data
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
-        {
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            return (await connection.QueryAsync<CategoryEntity>(CategorySql)).ToList();
         }
 
 
