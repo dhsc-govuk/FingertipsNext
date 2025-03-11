@@ -8,6 +8,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using NSubstitute;
 using NSubstitute.Equivalency;
 using Shouldly;
+using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
 

@@ -4,8 +4,11 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 public interface IHealthDataRepository
 {
-    Task <IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId,
+    Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId,
                                                                  string[] areaCodes,
                                                                  int[] years,
-                                                                 string[] inequalities);
+                                                                 string[] inequalities); 
+    Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintilesAsync(int indicatorId,
+                                                                 string[] areaCodes,
+                                                                 int[] years);
 }

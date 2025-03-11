@@ -47,14 +47,41 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         BenchmarkComparisonMethod comparisonMethod
         )
     {
+        var areaCodesForSearch = areaCodes.ToList();
+
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
-        var areaCodesForSearch =areaCodes.ToList();
         var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
         var hasBenchmarkDataBeenRequested = comparisonMethod == BenchmarkComparisonMethod.Rag;
-        
-        //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
-        if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
+
+        if (comparisonMethod == BenchmarkComparisonMethod.Quintile)
+        {
+            // get the data from the database
+            var healthMeasureData2 = await healthDataRepository.GetIndicatorDataWithQuintilesAsync(
+                indicatorId,
+                areaCodesForSearch.ToArray(),
+                years.Distinct().ToArray());
+
+            var retVal= healthMeasureData2
+                .GroupBy(healthMeasure => new
+                {
+                    code = healthMeasure.AreaDimension.Code,
+                    name = healthMeasure.AreaDimension.Name
+                })
+                .Select(group => new HealthDataForArea
+                {
+                    AreaCode = group.Key.code,
+                    AreaName = group.Key.name,
+                    HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
+                })
+                .ToList();
+
+            return retVal;
+        }
+
+
+            //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
+            if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database

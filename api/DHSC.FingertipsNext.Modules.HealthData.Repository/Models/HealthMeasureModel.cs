@@ -34,4 +34,6 @@ public class HealthMeasureModel
     public double? LowerCi { get; set; }
     public double? UpperCi { get; set; }
     public short Year { get; set; }
+    [NotMapped] 
+    public BenchmarkComparisonModel? BenchmarkComparison { get; set; }
 }
