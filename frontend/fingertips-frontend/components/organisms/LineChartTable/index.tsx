@@ -174,6 +174,12 @@ export function LineChartTable({
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartTableProps>) {
+  const areaIsEngland =
+    englandBenchmarkData && healthIndicatorData.length === 0;
+  if (areaIsEngland) {
+    healthIndicatorData = [englandBenchmarkData];
+  }
+
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
@@ -183,7 +189,7 @@ export function LineChartTable({
   const groupData = groupIndicatorData
     ? mapToLineChartTableData(groupIndicatorData)
     : [];
-  const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
+  let sortedDataPerArea = tableData.map((area) => sortPeriod(area));
   const sortedEnglandData = sortPeriod(englandData);
   const sortedGroupData = sortPeriod(groupData);
 

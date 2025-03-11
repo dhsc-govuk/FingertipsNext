@@ -12,7 +12,11 @@ import {
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('Line chart table suite', () => {
   const mockHealthData = [
@@ -112,6 +116,21 @@ describe('Line chart table suite', () => {
           screen.getByTestId(`header-${heading}-${index}`)
         ).toBeInTheDocument()
       );
+    });
+
+    it('should render the expected elements when England is the only area', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={[]}
+          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
+        />
+      );
+
+      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
+        'England'
+      );
+      expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
     });
 
     it('should have grey cell color for benchmark column', () => {
