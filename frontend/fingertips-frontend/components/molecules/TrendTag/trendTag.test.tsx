@@ -68,6 +68,16 @@ describe('Trend Tag Suite', () => {
       expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent('Decreasing');
     });
+
+    it('should render trend not available', () => {
+      render(<TrendTag trend={Trend.NOT_AVAILABLE} />);
+      expect(
+        screen.queryByTestId('arrow', { exact: false })
+      ).not.toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(
+        'No trend data available'
+      );
+    });
   });
 
   it('snapshot test', () => {

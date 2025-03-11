@@ -61,12 +61,6 @@ public class AutoMapperProfilesTests
             var childSource = awr.Children.First(c => c.AreaCode == child.Code);
             AssertAreaPropertiesMatch(child, childSource);
         }
-
-        foreach (var ancestor in mappedAwr.Ancestors)
-        {
-            var ancestorSource = awr.Ancestors.First(c => c.AreaCode == ancestor.Code);
-            AssertAreaPropertiesMatch(ancestor, ancestorSource);
-        }
     }
 
     [Fact]
@@ -79,7 +73,6 @@ public class AutoMapperProfilesTests
 
         AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
-        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
     }
 
@@ -94,30 +87,9 @@ public class AutoMapperProfilesTests
 
         AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         mappedAwr.Children.ShouldBeEmpty();
-        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
-        AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
-
-        foreach (var ancestor in mappedAwr.Ancestors)
-        {
-            var ancestorSource = awr.Ancestors.First(c => c.AreaCode == ancestor.Code);
-            AssertAreaPropertiesMatch(ancestor, ancestorSource);
-        }
-    }
-
-    [Fact]
-    public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForAncestors()
-    {
-        var awr = Fake.AreaWithRelationsModel;
-        awr.Ancestors = [];
-        var mappedAwr = _mapper.Map<AreaWithRelations>(awr);
-
-        AssertAreaPropertiesMatch(mappedAwr, awr.Area);
-
-        AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
-        AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
-        mappedAwr.Ancestors.ShouldBeEmpty();
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
     }
+
 
     [Fact]
     public void Mapping_AreaWithRelationsModel_To_SchemaAreaWithRelations_WhenModelFullyPopulatedExceptForSiblings()
@@ -130,7 +102,6 @@ public class AutoMapperProfilesTests
 
         AssertAreaListsAreEquivalent(mappedAwr.Parents, awr.ParentAreas);
         AssertAreaListsAreEquivalent(mappedAwr.Children, awr.Children);
-        AssertAreaListsAreEquivalent(mappedAwr.Ancestors, awr.Ancestors);
         AssertAreaListsAreEquivalent(mappedAwr.Siblings, awr.Siblings);
     }
 

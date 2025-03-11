@@ -44,4 +44,8 @@ public class AreaModel
     /// </summary>
     [MaxLength(50)]
     public required string AreaTypeKey { get; set; }
+    
+    public virtual ICollection<AreaModel> Children { get; set; }
+    
+    public virtual ICollection<AreaModel> Parents { get; set; }
 }

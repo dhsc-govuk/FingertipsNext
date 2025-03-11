@@ -1,16 +1,74 @@
 -- This file contains SQL statements that will be executed after the build script.
+BEGIN TRY 
+    TRUNCATE TABLE [dbo].[HealthMeasure];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
 
---delete all existing data so we always start from a known position
-TRUNCATE TABLE [dbo].[HealthMeasure]
-DELETE FROM [dbo].[AgeDimension]
-DELETE FROM [dbo].[AreaDimension]
-DELETE FROM [dbo].[DeprivationDimension]
-DELETE FROM  [dbo].[IndicatorDimension]
-DELETE FROM [dbo].[SexDimension]
-DELETE FROM [dbo].[TrendDimension]
-DELETE FROM [Areas].[AreaRelationships]
-DELETE FROM [Areas].[Areas]
-DELETE FROM [Areas].[AreaTypes];
+BEGIN TRY 
+    DELETE FROM [dbo].[AgeDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AreaDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[DeprivationDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM  [dbo].[IndicatorDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[SexDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[TrendDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaRelationships];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[Areas];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaTypes];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
 DBCC CHECKIDENT ('[HealthMeasure]', RESEED, 0);
@@ -21,7 +79,6 @@ DBCC CHECKIDENT ('[IndicatorDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[SexDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[TrendDimension]', RESEED, 0);
 DBCC CHECKIDENT ('[Areas].[Areas]', RESEED, 0);
-
 --create some sex dimension data
 INSERT INTO [dbo].[SexDimension] 
 	(
@@ -33,8 +90,6 @@ INSERT INTO [dbo].[SexDimension]
 	('Male',1,1),
 	('Female',1,2),
 	('Persons',0,4)
-
-
 
 
 --create the trend dimension data
@@ -90,9 +145,21 @@ SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDepr
               END + ')';
 EXEC sp_executesql @sqlDeprivation;
 
-INSERT [dbo].[DeprivationDimension] ( [Name], [Type], [HasValue], [Sequence]) 
-VALUES (N'All', N'All', 0, 1)
-
+--manually insert the ALL deprivation value
+INSERT [dbo].[DeprivationDimension] 
+(
+    [Name],
+    [Type],
+    [HasValue],
+    [Sequence]
+) 
+VALUES 
+(
+    N'All',
+    N'All',
+    0,
+    1
+)
 
 INSERT INTO [dbo].[DeprivationDimension] 
 (
@@ -130,9 +197,18 @@ SET @sqlAge = 'BULK INSERT #TempAgeData FROM ''' + @filePathAge + ''' WITH (' +
               END + ')';
 EXEC sp_executesql @sqlAge;
 
-INSERT INTO [dbo].[AgeDimension] (Name, AgeID, HasValue)
-SELECT RTRIM(Age), AgeID, IIF(AgeID = 1, 0, 1)
-FROM #TempAgeData;
+INSERT INTO [dbo].[AgeDimension] 
+(
+    Name,
+    AgeID,
+    HasValue
+)
+SELECT 
+    RTRIM(Age),
+    AgeID, 
+    IIF(AgeID = 1, 0, 1)
+FROM 
+    #TempAgeData;
 
 DROP TABLE #TempAgeData;
 
@@ -140,7 +216,11 @@ DROP TABLE #TempAgeData;
 CREATE TABLE #TempIndicatorData
 (
     IndicatorID INT,
-    IndicatorName NVARCHAR(255)
+    Polarity NVARCHAR(255),
+    BenchmarkComparisonMethod [nvarchar](255),
+    UseProportionsForTrend [nvarchar](255),
+    ValueType NVARCHAR(255),
+    IndicatorName NVARCHAR(255),
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -154,9 +234,28 @@ SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH
               END + ')';
 EXEC sp_executesql @sqlInd;
 
-INSERT INTO [dbo].[IndicatorDimension] (Name, IndicatorId, StartDate, EndDate)
-SELECT REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''), IndicatorID, DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
-FROM #TempIndicatorData;
+INSERT INTO [dbo].[IndicatorDimension] 
+(
+    Name,
+    IndicatorId,
+    Polarity,                        
+	UseProportionsForTrend,                
+	ValueType,                       
+	BenchmarkComparisonMethod,
+    StartDate,
+    EndDate
+)
+SELECT 
+    REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
+    IndicatorID,
+    Polarity,
+    UseProportionsForTrend,
+    ValueType,
+    BenchmarkComparisonMethod,
+    DATEADD(YEAR, -10, GETDATE()),
+    DATEADD(YEAR, 10, GETDATE())
+FROM 
+    #TempIndicatorData;
 
 DROP TABLE #TempIndicatorData;
 
@@ -184,9 +283,20 @@ SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH ('
                END + ')';
 EXEC sp_executesql @sqlArea;
 
-INSERT INTO dbo.AreaDimension (Code, Name, StartDate, EndDate)
-SELECT RTRIM(AreaCode), RTRIM(AreaName), DATEADD(YEAR, -10, GETDATE()), DATEADD(YEAR, 10, GETDATE())
-FROM #TempAreaData;
+INSERT INTO dbo.AreaDimension 
+(
+    Code,
+    Name,
+    StartDate,
+    EndDate
+)
+SELECT
+    RTRIM(AreaCode),
+    RTRIM(AreaName),
+    DATEADD(YEAR, -10, GETDATE()),
+    DATEADD(YEAR, 10, GETDATE())
+FROM
+     #TempAreaData;
 
 
 -- Health Data
@@ -221,14 +331,32 @@ SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' W
                  END + ')';
 EXEC sp_executesql @sqlHealth;
 
-INSERT INTO [dbo].[HealthMeasure] (AreaKey, IndicatorKey, SexKey, AgeKey, DeprivationKey, Count, Value, LowerCI, UpperCI, Year)
+INSERT INTO [dbo].[HealthMeasure]
+(
+    AreaKey,
+    IndicatorKey,
+    SexKey,
+    AgeKey,
+    DeprivationKey,
+    Count,
+    Denominator,
+    Value,
+    LowerCI,
+    UpperCI,
+    Year
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [Code] = LTRIM(RTRIM(temp.AreaCode))),
     (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = temp.IndicatorId),
     (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = LTRIM(RTRIM(temp.Sex))),
     (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = temp.AgeID),
     (SELECT TOP 1 [DeprivationKey] FROM [dbo].[DeprivationDimension] WHERE [Name] = LTRIM(RTRIM(temp.Category)) AND [Type]=LTRIM(RTRIM(temp.CategoryType))),
-    Count, Value, Lower95CI, Upper95CI, Year
+    Count,
+    Denominator,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Year
 FROM #TempHealthData temp
 WHERE temp.Value IS NOT NULL;
 
@@ -241,47 +369,71 @@ SELECT distinct
     AreaType,
     HierarchyType,
     Level+1 As 'Level'
-FROM #TempAreaData;
+FROM
+    #TempAreaData;
 
 INSERT INTO [Areas].[Areas]
 SELECT
     AreaCode,
     AreaName,
     replace(replace(AreaTypeCode, char(10),''), char(13),'')
-FROM #TempAreaData;
+FROM
+    #TempAreaData;
 
 -- Insert additional district-level records for applicable AreaCodes
-INSERT INTO [Areas].[Areas] (AreaCode, AreaName, AreaTypeKey)
+INSERT INTO [Areas].[Areas] 
+(
+    AreaCode,
+    AreaName,
+    AreaTypeKey
+)
 SELECT
     AreaCode,
     AreaName,
     (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary) -- Lookup AreaTypeKey
-FROM #TempAreaData
+FROM
+     #TempAreaData
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')  -- Match the required areaCode prefixes
-    AND NOT EXISTS (
-        SELECT 1 FROM [Areas].[Areas] 
-        WHERE AreaCode = #TempAreaData.AreaCode 
-        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
+    AND NOT EXISTS
+    (
+        SELECT 
+            1
+        FROM 
+            [Areas].[Areas] 
+        WHERE
+            AreaCode = #TempAreaData.AreaCode 
+        AND 
+            AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
     );
 
-INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+INSERT INTO [Areas].[AreaRelationships] 
+(
+    ParentAreaKey,
+    ChildAreaKey
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area1  WHERE area1.[AreaCode] = T.AreaCode),
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] area2 WHERE area2.[AreaCode] = value)
-FROM #TempAreaData T
+FROM
+    #TempAreaData T
 CROSS APPLY
     STRING_SPLIT(Children, '|')
 WHERE
     value!='""'
 
 -- Insert parent-child relationships for newly created district-level areas
-INSERT INTO [Areas].[AreaRelationships] (ParentAreaKey, ChildAreaKey)
+INSERT INTO [Areas].[AreaRelationships] 
+(
+    ParentAreaKey,
+    ChildAreaKey
+)
 SELECT
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = T.AreaCode 
         AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)),
     (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
-FROM #TempAreaData T
+FROM
+    #TempAreaData T
 CROSS APPLY STRING_SPLIT(Children, '|')
 WHERE 
     LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')
