@@ -9,8 +9,7 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static CsvFileDescription csvFileDescription=new CsvFileDescription ()
-            ; 
+        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription (); 
 
         public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
             new JsonSerializerOptions
@@ -60,6 +59,7 @@ namespace DataCreator
         /// <returns></returns>
         public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, List<string> areasWeWant)
         {
+            const string ALL = "All";
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
             if (!File.Exists(filePath))
@@ -80,10 +80,17 @@ namespace DataCreator
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));
                 if(year < yearFrom)
                     continue; //if the row is not for a year we care about ignore it
-                var catType = split[9].Trim().Trim('\"');
-                if (!(catType == string.Empty || catType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
-                    continue;  //we only care about data that has a category type of ecile or no category type
-                
+                var categoryType = split[9].Trim().Trim('\"');
+                if (!(categoryType == string.Empty || categoryType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
+                    continue;  //we only care about data that has a category type of decile or no category type
+
+                var category = split[10].Trim().Trim('\"');
+                if (categoryType == string.Empty)
+                {
+                    categoryType = ALL;
+                    category = ALL;
+                }
+
                 var indicatorData = new HealthMeasureEntity
                 {
                     IndicatorId = indicatorId,
@@ -97,10 +104,9 @@ namespace DataCreator
                     Lower98CI = GetDoubleValue(split[15]),
                     Upper98CI = GetDoubleValue(split[16]),
                     Denominator = GetDoubleValue(split[18]),
-                    Trend = split[20].Trim(),
                     Year = year,
-                    Category = split[10].Trim().Trim('\"'),
-                    CategoryType = catType
+                    Category = category.Trim(),
+                    CategoryType = categoryType.Replace(',','-').Trim()
                 };
                 allData.Add(indicatorData);
             }
@@ -137,7 +143,6 @@ namespace DataCreator
             foreach (var file in Directory.GetFiles(OutFilePath))
             {
                 File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
-                //File.Copy(file, Path.Combine(@"..\..\..\..\..\frontend\fingertips-frontend\assets", Path.GetFileName(file)),true);
             }
         }
 

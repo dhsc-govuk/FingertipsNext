@@ -15,6 +15,7 @@ describe('IndicatorSearchServiceMock', () => {
       associatedAreaCodes: ['Area1'],
       unitLabel: '',
       hasInequalities: false,
+      usedInPoc: true,
     },
     {
       indicatorID: '2',
@@ -27,6 +28,7 @@ describe('IndicatorSearchServiceMock', () => {
       associatedAreaCodes: ['Area1', 'Area2'],
       unitLabel: '',
       hasInequalities: true,
+      usedInPoc: true,
     },
   ];
   let indicatorSearchMock: IIndicatorSearchService;
@@ -66,6 +68,18 @@ describe('IndicatorSearchServiceMock', () => {
       expect(
         await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
       ).toHaveLength(0);
+    });
+
+    it('indicator should be case agnostic', async () => {
+      expect(await indicatorSearchMock.searchWith('Justice')).toEqual([
+        mockData[1],
+      ]);
+    });
+
+    it('area should be case agnostic', async () => {
+      expect(
+        await indicatorSearchMock.searchWith('justice', ['area2'])
+      ).toEqual([mockData[1]]);
     });
   });
 

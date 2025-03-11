@@ -15,6 +15,6 @@ match those used to build associated containers/services. Please check the `.env
 | /indicators        | http://localhost:5144/indicators                                             | Healthcare data                              |
 | /areas/hierarchies | http://localhost:5144/areas/hierarchies                                      | Area hierarchy types                         |
 | /areas/areatypes   | http://localhost:5144/areas/areatypes?hierarchy_type=NHS                     | Area types                                   |
-| /area/{area_code}  | http://localhost:5144/areas/355?include_children=true&include_ancestors=true | Area details                                 |
+| /area/{area_code}  | http://localhost:5144/areas/355?include_children=true | Area details                                 |
 | /area/root         | http://localhost:5144/areas/root                                             | Root area details                            |
 

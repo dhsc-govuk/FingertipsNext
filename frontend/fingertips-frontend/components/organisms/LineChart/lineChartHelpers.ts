@@ -88,16 +88,3 @@ export function generateSeriesData(
 
   return seriesData;
 }
-
-export function shouldDisplayLineChart(
-  data: HealthDataForArea[],
-  indicatorsSelected: string[] = [],
-  areasSelected: string[] = []
-): boolean {
-  return (
-    indicatorsSelected.length === 1 &&
-    areasSelected.length > 0 &&
-    areasSelected.length <= 2 &&
-    data[0]?.healthData.length > 1
-  );
-}

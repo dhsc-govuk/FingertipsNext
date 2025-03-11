@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { IndicatorSelectionForm } from '.';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { formatDate } from '@/components/molecules/result';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
+import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -35,6 +35,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
+    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -48,6 +49,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
+    usedInPoc: true,
   },
 ];
 

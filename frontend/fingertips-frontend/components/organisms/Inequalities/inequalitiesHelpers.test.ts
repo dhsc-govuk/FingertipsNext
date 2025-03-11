@@ -28,7 +28,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 578.32766,
       value: 278.29134,
       year: 2006,
-      sex: 'All',
+      sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
@@ -48,7 +48,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 578.32766,
       value: 703.420759,
       year: 2004,
-      sex: 'All',
+      sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
     },
@@ -67,11 +67,11 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
 
 const yearlyHealthDataGroupedBySex = {
   2004: {
-    All: [MOCK_INEQUALITIES_DATA.healthData[2]],
+    Persons: [MOCK_INEQUALITIES_DATA.healthData[2]],
     Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
   },
   2006: {
-    All: [MOCK_INEQUALITIES_DATA.healthData[0]],
+    Persons: [MOCK_INEQUALITIES_DATA.healthData[0]],
     Male: [MOCK_INEQUALITIES_DATA.healthData[1]],
   },
 };
@@ -159,7 +159,7 @@ describe('groupHealthDataByYear', () => {
 describe('groupHealthDataByInequalities', () => {
   it('should group health data by sex', () => {
     const healthDataGroupedBySex = {
-      All: [
+      Persons: [
         MOCK_INEQUALITIES_DATA.healthData[0],
         MOCK_INEQUALITIES_DATA.healthData[2],
       ],
@@ -193,7 +193,7 @@ describe('getDynamicKeys', () => {
   });
 
   it('should get unique keys for inequality unsorted', () => {
-    const expectedKeys = ['All', 'Female', 'Male'];
+    const expectedKeys = ['Persons', 'Female', 'Male'];
 
     expect(
       getDynamicKeys(
