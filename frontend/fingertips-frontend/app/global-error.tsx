@@ -6,13 +6,7 @@ import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
 import { H1, Paragraph } from 'govuk-react';
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function GlobalError() {
   return (
     // global-error must include html and body tags
     <html lang="en">
