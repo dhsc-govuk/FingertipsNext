@@ -39,7 +39,7 @@ public class TrendDataProcessor(
             foreach (var hmGroup in groupedHealthMeasures) {
                 var mostRecentDataPoints = hmGroup
                     .OrderByDescending(hm => hm.Year)
-                    .Take(_trendCalculator.RequiredNumberOfDataPoints);
+                    .Take(TrendCalculator.RequiredNumberOfDataPoints);
                 
                 if (
                     !mostRecentDataPoints.Any() ||

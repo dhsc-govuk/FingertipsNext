@@ -60,6 +60,7 @@ public class LegacyMapper {
         {
             Count = healthMeasure.Count,
             Value = healthMeasure.Value,
+            // Legacy Calculator expects this value as a double, so we set this to 0 if null
             Denominator = healthMeasure.Denominator ?? 0,
             Year = healthMeasure.Year,
             LowerCI95 = healthMeasure.LowerCI,

@@ -9,7 +9,7 @@ public class TrendCalculator(TrendMarkerCalculator legacyCalculator, LegacyMappe
 {
     private readonly TrendMarkerCalculator legacyCalculator = legacyCalculator;
     private readonly LegacyMapper legacyMapper = legacyMapper;
-    public readonly int RequiredNumberOfDataPoints = 5;
+    public const int RequiredNumberOfDataPoints = 5;
 
     /// <summary>
     /// Calculates the latest trend for a given indicator and its most recent health measure data points.
