@@ -54,11 +54,15 @@ export function Chart({
 
   useEffect(() => {
     const fetchIndicatorMeta = async (indicator: string) => {
-      const document =
-        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-          indicator
-        );
-      setIndicatorMetaData(document);
+      try {
+        const document =
+          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+            indicator
+          );
+        setIndicatorMetaData(document);
+      } catch (e) {
+        console.error(e);
+      }
     };
     fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
   }, [indicatorsSelected]);
