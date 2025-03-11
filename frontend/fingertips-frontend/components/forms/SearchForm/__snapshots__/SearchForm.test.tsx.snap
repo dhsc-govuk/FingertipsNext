@@ -2,7 +2,7 @@
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c23 {
+  .c25 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c23:focus {
+.c25:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c23:link,
-.c23:visited,
-.c23:active,
-.c23:hover {
+.c25:link,
+.c25:visited,
+.c25:active,
+.c25:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c23::-moz-focus-inner {
+.c25::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c23:hover,
-.c23:focus {
+.c25:hover,
+.c25:focus {
   background-color: #00572e;
 }
 
-.c23:active {
+.c25:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c23::before {
+.c25::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c23:active::before {
+.c25:active::before {
   top: -4px;
 }
 
-.c23:disabled {
+.c25:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c23:disabled:hover {
+.c25:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c23:disabled:focus {
+.c25:disabled:focus {
   outline: none;
 }
 
-.c23:disabled:active {
+.c25:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c23 svg {
+.c25 svg {
   max-width: 15px;
 }
 
@@ -141,7 +141,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   border-width: 0 0 3px 3px;
 }
 
-.c20 {
+.c21 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -152,22 +152,22 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   cursor: pointer;
 }
 
-.c20:checked + span:after {
+.c21:checked + span:after {
   opacity: 1;
 }
 
-.c20:focus + span:before {
+.c21:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c20 + span {
+.c21 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -175,7 +175,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   touch-action: manipulation;
 }
 
-.c21::before {
+.c22::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -187,7 +187,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c21::after {
+.c22::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -379,7 +379,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
-.c22 {
+.c23 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
@@ -428,6 +428,15 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   font-weight: bold;
 }
 
+.c24 {
+  border-bottom-color: black;
+  margin-bottom: 0.5em;
+}
+
+.c20 {
+  margin-bottom: 0em;
+}
+
 .c9 div {
   padding: 0.5em 0em;
 }
@@ -449,33 +458,33 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c23 {
+  .c25 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c23 {
+  .c25 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c23 {
+  .c25 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c23 svg {
+  .c25 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c23 {
+  .c25 {
     margin-bottom: 32px;
   }
 }
@@ -794,27 +803,27 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
               Select one or more areas
             </span>
             <label
-              class="c19"
+              class="c19 c20"
             >
               <input
-                class="c20"
+                class="c21"
                 type="checkbox"
               />
               <span
-                class="c21"
+                class="c22"
               >
                 Select all areas
               </span>
             </label>
             <hr
-              class="c22"
+              class="c23 c24"
             />
           </div>
         </div>
       </div>
     </details>
     <button
-      class="c23"
+      class="c25"
       data-testid="search-form-button-submit"
       style="margin-top: 25px;"
       type="submit"

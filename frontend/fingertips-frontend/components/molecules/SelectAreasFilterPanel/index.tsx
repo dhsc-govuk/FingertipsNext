@@ -41,6 +41,15 @@ const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
 });
 
+const StyledSectionBreak = styled(SectionBreak)({
+  borderBottomColor: 'black',
+  marginBottom: '0.5em',
+});
+
+const StyledSelectAllCheckBox = styled(Checkbox)({
+  marginBottom: '0em',
+});
+
 const isAreaSelected = (
   areaCode: string,
   selectedAreas?: string[],
@@ -214,7 +223,7 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
-        <Checkbox
+        <StyledSelectAllCheckBox
           value={searchState?.[SearchParams.GroupSelected]}
           sizeVariant="SMALL"
           defaultChecked={
@@ -223,8 +232,8 @@ export function SelectAreasFilterPanel({
           onChange={(e) => handleAllAreasSelected(e.target.checked)}
         >
           Select all areas
-        </Checkbox>
-        <SectionBreak visible />
+        </StyledSelectAllCheckBox>
+        <StyledSectionBreak visible />
         {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,

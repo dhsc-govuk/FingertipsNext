@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c31 {
+  .c33 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c31:focus {
+.c33:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c31:link,
-.c31:visited,
-.c31:active,
-.c31:hover {
+.c33:link,
+.c33:visited,
+.c33:active,
+.c33:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c31::-moz-focus-inner {
+.c33::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c31:hover,
-.c31:focus {
+.c33:hover,
+.c33:focus {
   background-color: #00572e;
 }
 
-.c31:active {
+.c33:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c31::before {
+.c33::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c31:active::before {
+.c33:active::before {
   top: -4px;
 }
 
-.c31:disabled {
+.c33:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c31:disabled:hover {
+.c33:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c31:disabled:focus {
+.c33:disabled:focus {
   outline: none;
 }
 
-.c31:disabled:active {
+.c33:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c31 svg {
+.c33 svg {
   max-width: 15px;
 }
 
@@ -141,7 +141,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   border-width: 0 0 3px 3px;
 }
 
-.c28 {
+.c29 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -152,22 +152,22 @@ exports[`snapshot test - renders the homepage 1`] = `
   cursor: pointer;
 }
 
-.c28:checked + span:after {
+.c29:checked + span:after {
   opacity: 1;
 }
 
-.c28:focus + span:before {
+.c29:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c28 + span {
+.c29 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c29 {
+.c30 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -175,7 +175,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   touch-action: manipulation;
 }
 
-.c29::before {
+.c30::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -187,7 +187,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c29::after {
+.c30::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -390,7 +390,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
-.c33 {
+.c35 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -407,7 +407,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-top: 10px;
 }
 
-.c33 > .c5 {
+.c35 > .c5 {
   margin-bottom: 5px;
 }
 
@@ -519,13 +519,13 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c30 {
+.c31 {
   margin: 0;
   border: 0;
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c32 {
+.c34 {
   margin: 0;
   border: 0;
   margin-top: 20px;
@@ -576,6 +576,15 @@ exports[`snapshot test - renders the homepage 1`] = `
   font-weight: bold;
 }
 
+.c32 {
+  border-bottom-color: black;
+  margin-bottom: 0.5em;
+}
+
+.c28 {
+  margin-bottom: 0em;
+}
+
 .c17 div {
   padding: 0.5em 0em;
 }
@@ -601,33 +610,33 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c31 {
+  .c33 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c31 {
+  .c33 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c31 {
+  .c33 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c31 svg {
+  .c33 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c31 {
+  .c33 {
     margin-bottom: 32px;
   }
 }
@@ -792,27 +801,27 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c33 {
+  .c35 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c33 {
+  .c35 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c33 {
+  .c35 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c33 {
+  .c35 {
     margin-bottom: 20px;
   }
 }
@@ -912,7 +921,7 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c32 {
+  .c34 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
@@ -1157,27 +1166,27 @@ exports[`snapshot test - renders the homepage 1`] = `
                   Select one or more areas
                 </span>
                 <label
-                  class="c27"
+                  class="c27 c28"
                 >
                   <input
-                    class="c28"
+                    class="c29"
                     type="checkbox"
                   />
                   <span
-                    class="c29"
+                    class="c30"
                   >
                     Select all areas
                   </span>
                 </label>
                 <hr
-                  class="c30"
+                  class="c31 c32"
                 />
               </div>
             </div>
           </div>
         </details>
         <button
-          class="c31"
+          class="c33"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -1187,7 +1196,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
     </div>
     <hr
-      class="c32"
+      class="c34"
     />
     <h3
       class="c8"
@@ -1203,7 +1212,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </p>
     </div>
     <ul
-      class="c3 c33"
+      class="c3 c35"
     >
       <li
         class="c5 c6"
