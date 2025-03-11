@@ -19,6 +19,12 @@ export default class ChartPage extends BasePage {
     await this.navigateTo('chart');
   }
 
+  async checkOnChartPage() {
+    await expect(
+      this.page.getByText('View data for selected indicators and areas')
+    ).toBeVisible();
+  }
+
   async clickBackLink() {
     await this.page.getByTestId(this.backLink).click();
   }

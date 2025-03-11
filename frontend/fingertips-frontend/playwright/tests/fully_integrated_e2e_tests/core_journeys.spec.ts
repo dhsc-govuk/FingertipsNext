@@ -44,11 +44,10 @@ const coreTestJourneys: TestParams[] = [
 ];
 
 /**
- * This test currently tests, in parallel, three out of four of the indicator + area
- * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
+ * This test currently tests, in parallel, three out of four of the indicator + area scenario combinations from
+ * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
  * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
- * they were chosen as they are happy paths covering lots of chart components.
- * They also cover the three different search mode scenarios.
+ * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
  */
 test.beforeAll(
@@ -77,24 +76,22 @@ test.describe(`Search via`, () => {
       resultsPage,
       chartPage,
     }) => {
-      await test.step('Navigate to and verify search page', async () => {
+      await test.step('Navigate to home page and search for indicators', async () => {
         await homePage.navigateToHomePage();
         await homePage.checkOnHomePage();
-      });
 
-      await test.step(`Search for indicators and check results title contains the search term`, async () => {
         await homePage.searchForIndicators(
           searchMode,
           subjectSearchTerm,
           areaSearchTerm
         );
         await homePage.clickSearchButton();
-
-        await resultsPage.waitForURLToContain(subjectSearchTerm);
-        await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
       });
 
-      await test.step(`Select ${areaMode} then ${indicatorMode} and assert that the displayed charts are correct`, async () => {
+      await test.step(`check results page and select ${areaMode} then ${indicatorMode}`, async () => {
+        await resultsPage.waitForURLToContain(subjectSearchTerm);
+        await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+
         await resultsPage.selectAreasFiltersIfRequired(
           searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
           areaMode,
@@ -106,6 +103,10 @@ test.describe(`Search via`, () => {
         );
 
         await resultsPage.clickViewChartsButton();
+      });
+
+      await test.step(`check chart page and assert that the displayed charts are correct`, async () => {
+        await chartPage.checkOnChartPage();
 
         await chartPage.checkChartVisibility(indicatorMode, areaMode);
       });
