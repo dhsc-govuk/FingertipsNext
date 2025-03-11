@@ -174,9 +174,7 @@ export function LineChartTable({
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartTableProps>) {
-  const areaIsEngland =
-    englandBenchmarkData && healthIndicatorData.length === 0;
-  if (areaIsEngland) {
+  if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
   }
 
