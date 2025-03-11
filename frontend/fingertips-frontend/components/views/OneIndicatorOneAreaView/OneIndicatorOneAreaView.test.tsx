@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -61,6 +64,7 @@ describe('OneIndicatorOneAreaView', () => {
       ).toHaveBeenNthCalledWith(1, {
         areaCodes: expectedAreaCodes,
         indicatorId: 1,
+        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       });
     }
   );
