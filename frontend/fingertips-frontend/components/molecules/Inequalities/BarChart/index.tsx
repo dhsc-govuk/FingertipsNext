@@ -107,7 +107,8 @@ export function InequalitiesBarChart({
               this: Highcharts.PlotLineOrBand,
               e: Highcharts.PointerEventObject
             ) {
-              const axis = this.axis;
+              const context = { ...this };
+              const axis = context.axis;
               const series = axis.series[0];
               const chart = series.chart;
               const tooltip = chart.tooltip;
@@ -115,8 +116,8 @@ export function InequalitiesBarChart({
               if (!series || !tooltip) return;
 
               const normalizedEvent = chart.pointer.normalize(e);
-              const plotlineOptions = this
-                .options as Highcharts.AxisPlotLinesOptions;
+              const plotlineOptions =
+                context.options as Highcharts.AxisPlotLinesOptions;
 
               const point = {
                 series: series,
@@ -133,7 +134,8 @@ export function InequalitiesBarChart({
               tooltip.refresh(point);
             } as Highcharts.EventCallbackFunction<Highcharts.PlotLineOrBand>,
             mouseout: function (this: Highcharts.PlotLineOrBand) {
-              this.axis.chart.tooltip.hide();
+              const context = { ...this };
+              context.axis.chart.tooltip.hide();
             },
           },
         },
