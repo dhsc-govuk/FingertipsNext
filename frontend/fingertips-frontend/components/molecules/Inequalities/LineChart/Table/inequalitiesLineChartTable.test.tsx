@@ -101,6 +101,25 @@ describe('Inequalities table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('should render only period heading when empty dynamic keys are passed', () => {
+      const absentHeadings = ['Persons', 'Male', 'Female'];
+      const cellsPerRow = 1;
+
+      render(
+        <InequalitiesLineChartTable tableData={tableData} dynamicKeys={[]} />
+      );
+
+      expect(screen.getByTestId('header-Period-0')).toBeInTheDocument();
+      absentHeadings.forEach((heading, index) =>
+        expect(
+          screen.queryByTestId(`header-${heading}-${index + 1}`)
+        ).not.toBeInTheDocument()
+      );
+      expect(screen.getAllByRole('cell')).toHaveLength(
+        tableData.rowData.length * cellsPerRow
+      );
+    });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesLineChartTable

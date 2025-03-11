@@ -94,6 +94,17 @@ describe('Inequalities bar chart table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('should not display any table cells when empty dynamic keys list is passed', () => {
+      render(
+        <InequalitiesBarChartTable tableData={tableData} dynamicKeys={[]} />
+      );
+
+      Object.values(InequalitiesBarChartTableHeaders).forEach((header) => {
+        expect(screen.getByTestId(`heading-${header}`)).toBeInTheDocument();
+      });
+      expect(screen.queryAllByRole('cell')).toHaveLength(0);
+    });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
