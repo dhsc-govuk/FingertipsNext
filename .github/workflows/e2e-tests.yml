@@ -71,6 +71,9 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
+      - name: Debug cache hit
+        run: echo "Cache hit value is ${{ steps.cache.outputs.cache-hit }}"
+
       - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main - for CI test execution
         if: >
           inputs.e2e-test-container-image == null &&
@@ -81,7 +84,12 @@ jobs:
           (
             github.event_name != 'pull_request'
           )
-        run: npm run test-e2e-ci-update-snapshots
+        run: |
+          echo "Running snapshot creation because:"
+          echo "Cache hit: ${{ steps.cache.outputs.cache-hit }}"
+          echo "Update screenshots: ${{ inputs.update-screenshots }}"
+          echo "Event name: ${{ github.event_name }}"
+          npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI - skip screenshots for pull requests
         if: inputs.e2e-test-container-image == null

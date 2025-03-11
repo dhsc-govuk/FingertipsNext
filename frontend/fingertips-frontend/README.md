@@ -176,7 +176,7 @@ The generated code is held within `generated-sources/api-client` folder. Please 
 
 ### Generating mock handlers
 
-The following script will autogenerate mock handlers from an open-api spec. See https://github.com/zoubingwu/msw-auto-mock for details.
+The following script will autogenerate mock handlers from an open-api spec. See https://github.com/zoubingwu/msw-auto-mock for details:
 
 ```bash
 npm run generate:mocks
