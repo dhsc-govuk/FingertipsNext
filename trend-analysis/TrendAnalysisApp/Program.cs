@@ -14,6 +14,9 @@ internal static class Program
         CreateServices().GetRequiredService<TrendDataProcessor>().Process().Wait();
     }
 
+    // Note this the DB Context and HealthMeasureRepository are not currently threadsafe for parallel execution.
+    // DB changes are async and awaited on an indicator by indicator basis, which is more than fast enough for PoC.
+    // If we want to make this change in future, we will need to scope them to each thread.
     private static ServiceProvider CreateServices()
     {
         var configuration = new ConfigurationBuilder()
