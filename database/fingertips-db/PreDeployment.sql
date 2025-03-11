@@ -1,11 +1,69 @@
-﻿/*
- Pre-Deployment Script Template							
---------------------------------------------------------------------------------------
- This file contains SQL statements that will be executed before the build script.	
- Use SQLCMD syntax to include a file in the pre-deployment script.			
- Example:      :r .\myfile.sql								
- Use SQLCMD syntax to reference a variable in the pre-deployment script.		
- Example:      :setvar TableName MyTable							
-               SELECT * FROM [$(TableName)]					
---------------------------------------------------------------------------------------
-*/
+﻿BEGIN TRY 
+    TRUNCATE TABLE [dbo].[HealthMeasure];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AgeDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AreaDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[DeprivationDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM  [dbo].[IndicatorDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[SexDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[TrendDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaRelationships];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[Areas];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaTypes];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO

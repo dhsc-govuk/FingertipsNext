@@ -32,8 +32,6 @@ INSERT INTO [dbo].[SexDimension]
 	('Persons',0,4)
 
 
-
-
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'NotYetCalculated', 0)
@@ -87,9 +85,21 @@ SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDepr
               END + ')';
 EXEC sp_executesql @sqlDeprivation;
 
-INSERT [dbo].[DeprivationDimension] ( [Name], [Type], [HasValue], [Sequence]) 
-VALUES (N'All', N'All', 0, 1)
-
+--manually insert the ALL deprivation value
+INSERT [dbo].[DeprivationDimension] 
+(
+    [Name],
+    [Type],
+    [HasValue],
+    [Sequence]
+) 
+VALUES 
+(
+    N'All',
+    N'All',
+    0,
+    1
+)
 
 INSERT INTO [dbo].[DeprivationDimension] 
 (
