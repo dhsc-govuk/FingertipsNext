@@ -591,6 +591,73 @@ describe('SelectAreasFilterPanel', () => {
         scroll: false,
       });
     });
+
+    it('should update the url with the group area selected param when all areas are selected for the group', () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupAreaSelected}=ALL`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+      const allSelectedAreasCode = availableAreas.map((area) => area.code);
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.AreasSelected]: allSelectedAreasCode,
+          }}
+        />
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should update the url with all the remaining areas selected when group area selected was provided and an area is de-selected', async () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+      const allRemainingAreasCode = availableAreas
+        .filter((area) => area.code !== eastEnglandNHSRegion.code)
+        .map((area) => area.code);
+
+      const expectedAreasSelected = allRemainingAreasCode.map((areaCode, i) => {
+        const determineUrlPrefix = i === 0 ? '?' : '&';
+        return `${determineUrlPrefix}${SearchParams.AreasSelected}=${areaCode}`;
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        ...expectedAreasSelected,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupAreaSelected]: 'ALL',
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
   });
 
   describe('Select all areas', () => {

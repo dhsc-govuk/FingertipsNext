@@ -12,6 +12,7 @@ import {
   Select,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 export type AreaFilterData = {
@@ -61,6 +62,23 @@ export function SelectAreasFilterPanel({
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
+  useEffect(() => {
+    const updatedAreasSelected = searchState?.[SearchParams.AreasSelected];
+
+    if (
+      areaFilterData?.availableAreas &&
+      areaFilterData?.availableAreas?.length > 0 &&
+      areaFilterData?.availableAreas?.length === updatedAreasSelected?.length
+    ) {
+      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+      searchStateManager.addParamValueToState(
+        SearchParams.GroupAreaSelected,
+        'ALL'
+      );
+      replace(searchStateManager.generatePath(pathname), { scroll: false });
+    }
+  }, [searchState, areaFilterData, pathname, replace, searchStateManager]);
+
   const hasAreasSelected =
     (searchState?.[SearchParams.AreasSelected] &&
       searchState?.[SearchParams.AreasSelected].length > 0) ||
@@ -100,6 +118,24 @@ export function SelectAreasFilterPanel({
       searchStateManager.addParamValueToState(
         SearchParams.AreasSelected,
         areaCode
+      );
+    } else if (
+      !checked &&
+      searchState?.[SearchParams.GroupAreaSelected] === 'ALL'
+    ) {
+      searchStateManager.removeParamValueFromState(
+        SearchParams.GroupAreaSelected
+      );
+
+      const remainingAreasSelected = areaFilterData?.availableAreas
+        ?.filter((area) => {
+          return area.code !== areaCode;
+        })
+        .map((area) => area.code);
+
+      searchStateManager.addAllParamsToState(
+        SearchParams.AreasSelected,
+        remainingAreasSelected ?? []
       );
     } else {
       searchStateManager.removeParamValueFromState(
