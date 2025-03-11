@@ -1,4 +1,73 @@
 -- This file contains SQL statements that will be executed after the build script.
+BEGIN TRY 
+    TRUNCATE TABLE [dbo].[HealthMeasure];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AgeDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[AreaDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[DeprivationDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM  [dbo].[IndicatorDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[SexDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [dbo].[TrendDimension];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaRelationships];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[Areas];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
+
+BEGIN TRY 
+    DELETE FROM [Areas].[AreaTypes];
+END TRY
+BEGIN CATCH
+END CATCH;
+GO
 
 
 --reseed the tables, starting from 0. Currently identity insert is turned off for this seeding data
