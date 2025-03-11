@@ -51,7 +51,7 @@ public class TrendDataProcessor(
             }
 
             await _healthMeasureRepo.SaveChanges();
-            Console.WriteLine($"Processed indicator: {indicator.IndicatorKey}");
+            Console.WriteLine($"Processed indicator: ({indicator.IndicatorKey}) {indicator.Name}");
         }
     }
 }
