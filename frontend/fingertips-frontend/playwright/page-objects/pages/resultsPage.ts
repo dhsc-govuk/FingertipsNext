@@ -203,7 +203,7 @@ export default class ResultsPage extends BasePage {
         await this.page
           .getByTestId(this.areaTypeSelector)
           .selectOption('England');
-        // uncomment in DHSCFT-255
+        // uncommented in DHSCFT-255
         // await this.page
         //   .getByTestId(this.groupTypeSelector)
         //   .selectOption('England');
