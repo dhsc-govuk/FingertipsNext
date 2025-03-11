@@ -89,7 +89,7 @@ For e2e tests there is a difference between where and how the tests are executed
 
  2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
 
-For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
+For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
 ### Running the Jest Unit tests
 
