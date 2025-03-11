@@ -63,7 +63,7 @@ npm run dev
 
 To perform a production build of the application, do the following:
 
-1. Install dependencies: `npm install`
+1. Install dependencies: `npm install`.
 1. Build the application: `npm run build`. This will build the application into the `.next` directory.
 1. [Optionally] To run the production server: `npm run start` and open [http://localhost:3000](http://localhost:3000) with your browser to see the result. Note: this server does not auto-update when you change files.
 
