@@ -54,6 +54,34 @@ it('should render the Highcharts react component with passed parameters within t
   expect(highcharts).toHaveTextContent(yAxisPropsTitle);
 });
 
+it('should render the Highcharts react component with England as a series, not a benchmark when England is the only area', async () => {
+  const xAxisPropsTitle = 'DifferentXTitle';
+  const yAxisPropsTitle = 'DifferentYTitle';
+
+  const measurementUnit = '%';
+  render(
+    <LineChart
+      healthIndicatorData={[mockHealthData[1][1]]}
+      xAxisTitle={'XTitle'}
+      yAxisTitle={'YTitle'}
+      accessibilityLabel="Accessibility label"
+      searchState={state}
+      measurementUnit={measurementUnit}
+    />
+  );
+
+  const highcharts = await screen.findByTestId(
+    'highcharts-react-component-lineChart'
+  );
+
+  await waitFor(() => {
+    expect(highcharts).toBeInTheDocument();
+  });
+
+  expect(highcharts).toHaveTextContent('England');
+  expect(highcharts).not.toHaveTextContent('Benchmark');
+});
+
 it('should validate the checkbox is checked when passed the correct parameter of lineChart', async () => {
   render(
     <LineChart

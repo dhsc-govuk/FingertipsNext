@@ -70,24 +70,5 @@ export function generateSeriesData(
     seriesData.unshift(englandSeries);
   }
 
-  if (benchmarkData && data.length === 0) {
-    console.log('might need to show some CIs for England here...');
-
-    const englandConfidenceIntervalSeries: Highcharts.SeriesOptionsType = {
-      type: 'errorbar',
-      name: `${benchmarkData.areaName}`,
-      data: benchmarkData.healthData.map((point) => [
-        point.year,
-        point.lowerCi,
-        point.upperCi,
-      ]),
-      visible: showConfidenceIntervalsData,
-      color: GovukColours.MidGrey,
-      whiskerLength: '20%',
-      lineWidth: 2,
-    };
-    seriesData.unshift(englandConfidenceIntervalSeries);
-  }
-
   return seriesData;
 }
