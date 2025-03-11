@@ -2,7 +2,7 @@
 ### CHECK GET area details fully populated, including direct children and siblings
 
 # east basildon PCN
-GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=true&include_siblings=true
+GET http://localhost:5144/areas/U15488?include_children=true&include_siblings=true
 
 > {%
     client.test("Expected basildon data returned", function (callbackfn, thisArg) {
@@ -31,17 +31,6 @@ GET http://localhost:5144/areas/U15488?include_children=true&include_ancestors=t
         client.assert(area.children[0].areaType.key === 'gps', "children: incorrect area type")
         client.assert(area.children[1].areaType.key === 'gps', "children: incorrect area type")
 
-        // 4 ancestors expected for basildon
-        client.assert(area.ancestors.length === 4, "ancestors: 4 expected");
-        client.assert(area.ancestors[0].code === 'E92000001', "ancestors: incorrect area[0] code")
-        client.assert(area.ancestors[0].areaType.key === 'england', "ancestors: incorrect area[0] area type")
-        client.assert(area.ancestors[1].code === 'E40000007', "ancestors: incorrect area[1] code")
-        client.assert(area.ancestors[1].areaType.key === 'nhs-regions', "ancestors: incorrect area[1] area type")
-        client.assert(area.ancestors[2].code === 'E38000007', "ancestors: incorrect area[2] code")
-        client.assert(area.ancestors[2].areaType.key === 'nhs-sub-integrated-care-boards', "ancestors: incorrect area[2] area type")
-        client.assert(area.ancestors[3].code === 'U15488', "ancestors: incorrect area[3] code")
-        client.assert(area.ancestors[3].areaType.key === 'nhs-primary-care-networks', "ancestors: incorrect area[3] area type")
-
         // 1 sibling expected for basildon
         client.assert(area.siblings.length > 0, "siblings: no siblings");
         client.assert(area.siblings.filter(x => x.code === "U55146" && x.name == "Central Basildon PCN").length === 1, "siblings: U55146 missing or incorrect") // "NHS Cambridgeshire and Peterborough ICB"
@@ -59,11 +48,10 @@ GET http://localhost:5144/areas/E92000001?include_children=true&child_area_type=
         client.assert(response.status === 200, "Response status is not 200");
 
         let area = response.body;
-        
+
         // England is a root, so has no parent
         client.assert(!area.parent);
-        
-        client.assert(!area.ancestors || area.ancestors.length === 0);
+
         client.assert(area.code === "E92000001");
         client.assert(area.name === "England");
 
