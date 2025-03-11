@@ -82,7 +82,7 @@ jobs:
             github.head_ref == 'main' ||
             github.ref_name == 'main' ||
             github.event_name == 'workflow_dispatch' ||
-            steps.cache.outputs.cache-hit != 'true'
+            github.event_name == 'push'
           )
         run: npm run test-e2e-ci-update-snapshots
 
