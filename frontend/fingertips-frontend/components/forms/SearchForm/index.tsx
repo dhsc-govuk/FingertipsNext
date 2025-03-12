@@ -35,6 +35,13 @@ export const SearchForm = ({
 }: Readonly<SearchFormProps>) => {
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
+  const inputSuggestionDefaultValue =
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+      ? areaFilterData?.availableGroups?.find(
+          (group) => group.code === searchState?.[SearchParams.GroupSelected]
+        )?.name
+      : selectedAreasData?.[0].name;
+
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
@@ -67,7 +74,7 @@ export const SearchForm = ({
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
         searchState={searchState}
-        firstSelectedArea={selectedAreasData?.[0]}
+        selectedAreaName={inputSuggestionDefaultValue}
       />
 
       {(selectedAreas && selectedAreas.length > 0) ||
