@@ -54,7 +54,7 @@ const getCellHeader = (
           <span
             data-testid="inequalitiesBarChart-measurementUnit"
             style={{ display: 'block', margin: 'auto' }}
-          >{` (${measurementUnit})`}</span>
+          >{` ${measurementUnit}`}</span>
         </>
       ) : (
         header

@@ -29,6 +29,6 @@ describe('Inequalities suite', () => {
         measurementUnit="kg"
       />
     );
-    expect(screen.getByText('(kg)')).toBeInTheDocument();
+    expect(screen.getByText('kg')).toBeInTheDocument();
   });
 });

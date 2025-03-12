@@ -93,7 +93,7 @@ describe('Inequalities bar chart table suite', () => {
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
         expectedNumberOfRows *
-        Object.values(InequalitiesBarChartTableHeaders).length
+          Object.values(InequalitiesBarChartTableHeaders).length
       );
       screen
         .getAllByTestId('not-available')
@@ -109,7 +109,7 @@ describe('Inequalities bar chart table suite', () => {
           measurementUnit="kg"
         />
       );
-      expect(screen.getByText('(kg)')).toBeInTheDocument();
+      expect(screen.getByText('kg')).toBeInTheDocument();
     });
 
     it('check if that measurementUnit value is not shown when its not passed', () => {

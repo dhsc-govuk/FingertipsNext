@@ -193,7 +193,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
               data-testid="inequalitiesBarChart-measurementUnit"
               style="display: block; margin: auto;"
             >
-               (kg)
+               kg
             </span>
           </th>
           <th
