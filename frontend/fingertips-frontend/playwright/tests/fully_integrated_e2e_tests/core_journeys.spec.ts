@@ -7,7 +7,7 @@ import {
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-
+//@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const areaSearchTerm = 'north west region';
