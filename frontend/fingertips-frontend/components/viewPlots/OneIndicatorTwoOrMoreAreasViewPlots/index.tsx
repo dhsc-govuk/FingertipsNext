@@ -98,13 +98,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
               </>
             }
           />
-          <BarChartEmbeddedTable
-            healthIndicatorData={dataWithoutEngland}
-            benchmarkData={englandBenchmarkData}
-            groupIndicatorData={groupData}
-          ></BarChartEmbeddedTable>
         </>
       )}
+      <BarChartEmbeddedTable data-testid="barChartEmbeddedTable-component"
+        healthIndicatorData={dataWithoutEngland}
+        benchmarkData={englandBenchmarkData}
+        groupIndicatorData={groupData}
+      ></BarChartEmbeddedTable>
     </section>
   );
 }

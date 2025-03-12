@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
-import { expect } from '@jest/globals';
 
 describe('BarChartEmbeddedTable', () => {
   const mockHealthIndicatorData = [

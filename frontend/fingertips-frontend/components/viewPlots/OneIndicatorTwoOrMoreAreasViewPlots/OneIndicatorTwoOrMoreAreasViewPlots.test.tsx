@@ -45,6 +45,7 @@ const lineChartTestId = 'lineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'See how the indicator has changed over time';
+const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 
 const assertLineChartAndTableInDocument = async () => {
   expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
@@ -176,4 +177,34 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     await assertLineChartAndTableNotInDocument();
   });
+  
+  describe('BarChartEmbeddedTable', () => {
+    it('should render the BarChartEmbeddedTable component, when two or more areas are selected', () => {
+      
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={searchState}
+        />
+      );
+      expect(screen.getByTestId(barChartEmbeddedTable)).toBeInTheDocument();
+    });
+
+    it('should not render the BarChartEmbeddedTable component, when less than two areas are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: mockSearch,
+        [SearchParams.IndicatorsSelected]: mockIndicator,
+        [SearchParams.AreasSelected]: ['A1425'],
+      };
+      
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={searchState}
+        />
+      );
+      expect(await screen.queryByTestId(barChartEmbeddedTable)).not.toBeInTheDocument();
+    });
+    
+  })
 });
