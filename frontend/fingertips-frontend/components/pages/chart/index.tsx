@@ -17,8 +17,7 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { useState, useEffect } from 'react';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { useEffect, useState } from 'react';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
 type ChartProps = {
@@ -28,14 +27,15 @@ type ChartProps = {
   searchState: SearchStateParams;
 };
 
-export async function Chart({
+export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-
+  const [indicatorMetadata, setIndicatorMetaData] =
+    useState<IndicatorDocument>();
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
@@ -47,22 +47,27 @@ export async function Chart({
     selectedGroupCode
   );
 
-  if (indicatorsSelected?.length !== 1) {
-    throw new Error('Invalid parameters provided to view');
-  }
+  useEffect(() => {
+    const fetchIndicatorMeta = async (indicators: string[] | undefined) => {
+      try {
+        if (indicators?.length !== 1) {
+          throw new Error('Invalid parameters provided to view');
+        }
+        const document =
+          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+            indicators[0]
+          );
+        setIndicatorMetaData(document);
+      } catch (e) {
+        console.error(
+          'error getting meta data for health indicator for area',
+          e
+        );
+      }
+    };
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorsSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for area',
-      error
-    );
-  }
+    fetchIndicatorMeta(indicatorsSelected);
+  }, [indicatorsSelected]);
 
   return (
     <>
@@ -73,7 +78,6 @@ export async function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
-          measurementUnit={indicatorMetadata?.unitLabel}
         />
       )}
       <BarChart
@@ -82,7 +86,6 @@ export async function Chart({
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
-        measurementUnit={indicatorMetadata?.unitLabel}
       />
       {populationData ? (
         <>
