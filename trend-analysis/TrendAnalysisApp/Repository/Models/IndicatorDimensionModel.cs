@@ -10,6 +10,5 @@ public class IndicatorDimensionModel
     public string? Name { get; set; }
     public int IndicatorId { get; set; }
     public string? Polarity { get; set; }
-    public bool UseProportionsForTrend { get; set; }
     public string? ValueType { get; set; }
 }
