@@ -93,7 +93,7 @@ describe('Inequalities bar chart table suite', () => {
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
         expectedNumberOfRows *
-          Object.values(InequalitiesBarChartTableHeaders).length
+        Object.values(InequalitiesBarChartTableHeaders).length
       );
       screen
         .getAllByTestId('not-available')
@@ -112,7 +112,7 @@ describe('Inequalities bar chart table suite', () => {
       expect(screen.getByText('(kg)')).toBeInTheDocument();
     });
 
-    it('check if that measurementUnit value in not shown when its not passed', () => {
+    it('check if that measurementUnit value is not shown when its not passed', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
