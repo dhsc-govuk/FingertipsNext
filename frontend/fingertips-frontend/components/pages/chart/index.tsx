@@ -17,9 +17,9 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { useState, useEffect } from 'react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { useEffect, useState } from 'react';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -34,21 +34,17 @@ export function Chart({
   populationData,
   searchState,
 }: Readonly<ChartProps>) {
+  const [indicatorMetadata, setIndicatorMetaData] =
+    useState<IndicatorDocument>();
+
   const stateManager = SearchStateManager.initialise(searchState);
+
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-<<<<<<< HEAD
-  const [indicatorMetadata, setIndicatorMetaData] =
-    useState<IndicatorDocument>();
-
-  const backLinkPath = stateManager.generatePath('/results');
-
-=======
->>>>>>> main
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
@@ -56,19 +52,21 @@ export function Chart({
 
   useEffect(() => {
     const fetchIndicatorMeta = async (indicator: string) => {
-      try {
-        const document =
-          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-            indicator
-          );
-        setIndicatorMetaData(document);
-      } catch (e) {
-        console.error(e);
-      }
+      const document =
+        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+          indicator
+        );
+      setIndicatorMetaData(document);
     };
-    fetchIndicatorMeta(
-      indicatorsSelected?.length > 0 ? indicatorsSelected[0] : ''
-    );
+
+    try {
+      fetchIndicatorMeta(indicatorsSelected[0]);
+    } catch (error) {
+      console.error(
+        'error getting meta data for health indicator for area',
+        error
+      );
+    }
   }, [indicatorsSelected]);
 
   return (
