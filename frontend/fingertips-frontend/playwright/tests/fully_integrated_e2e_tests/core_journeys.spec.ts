@@ -8,6 +8,7 @@ import {
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
+
 //@ts-ignore
 const indicatorData = indicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
