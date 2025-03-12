@@ -16,7 +16,6 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 // so that the tests can be run without the need for a backend
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
 // and frontend/fingertips-frontend/assets/mockAreaData.json
-
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = mockIndicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
