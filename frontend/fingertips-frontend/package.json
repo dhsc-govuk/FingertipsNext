@@ -91,6 +91,8 @@
   },
   "overrides": {
     "axios": ">=1.8.2",
+    "@babel/core": ">=7.26.10",
+    "@babel/runtime": ">=7.26.10",
     "govuk-react": {
       "styled-components": "^5.3.0"
     },
