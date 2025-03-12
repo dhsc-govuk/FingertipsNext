@@ -21,8 +21,10 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
@@ -40,6 +42,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         )
       : undefined;
 
+  const shouldLineChartbeShown =
+    dataWithoutEngland[0]?.healthData.length > 1 &&
+    areasSelected &&
+    areasSelected?.length <= 2;
+
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <BackLink
@@ -48,7 +55,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      {dataWithoutEngland[0]?.healthData.length > 1 && (
+      {shouldLineChartbeShown && (
         <>
           <H3>See how the indicator has changed over time</H3>
           <TabContainer

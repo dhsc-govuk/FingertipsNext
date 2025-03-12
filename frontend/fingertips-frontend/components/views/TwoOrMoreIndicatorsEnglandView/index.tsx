@@ -23,11 +23,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
   await connection();
 
   console.log('TODO: fetch health data with inequalites');
-  console.log(
-    'TODO: fetch population data for ',
-    areaCodesToRequest,
-    toString()
-  );
+  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return <TwoOrMoreIndicatorsEnglandViewPlots />;
 }

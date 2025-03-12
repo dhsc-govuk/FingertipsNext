@@ -46,7 +46,7 @@ public class AutoMapperTests
         // arrange
         const string expectedAgeBand = "25-31";
         const string expectedSex = "Female";
-        const string expectedTrend = "NotYetCalculated";
+        const string expectedTrend = "Not yet calculated";
 
         var healthMeasure = new HealthMeasureModelHelper(year: 2007)
             .WithAgeDimension(name: expectedAgeBand).WithSexDimension(name: expectedSex).Build();

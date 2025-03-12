@@ -1,5 +1,8 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -38,6 +41,7 @@ export default async function OneIndicatorOneAreaView({
     healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
       indicatorId: Number(indicatorSelected[0]),
       areaCodes: areaCodesToRequest,
+      comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
     });
   } catch (error) {
     console.error('error getting health indicator data for area', error);

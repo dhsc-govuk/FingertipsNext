@@ -113,20 +113,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-
-    expect(
-      screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId('tabContainer-lineChartAndTable')
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByTestId('lineChart-component')
-    ).toBeInTheDocument();
-    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
-
     await assertLineChartAndTableInDocument();
   });
 
@@ -164,5 +150,27 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     );
 
     await waitFor(() => assertLineChartAndTableNotInDocument());
+  });
+
+  it('should not render the LineChart components when there are more than 2 areas', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: [...mockAreas, 'A003'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={[
+          mockHealthData[108][1],
+          mockHealthData[108][2],
+          mockHealthData[108][3],
+        ]}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+
+    await assertLineChartAndTableNotInDocument();
   });
 });

@@ -1,7 +1,10 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointBenchmarkComparison,
+} from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -14,6 +17,8 @@ import {
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
+import { BenchmarkLabelGroupType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -38,6 +43,7 @@ export interface LineChartTableRowData {
   value?: number;
   lower?: number;
   upper?: number;
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
 }
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
@@ -143,12 +149,24 @@ const getCellHeader = (
   );
 };
 
-const getBenchmarkCell = (areaCount: number) =>
-  areaCount < 2 ? (
-    <StyledAlignLeftTableCell></StyledAlignLeftTableCell>
-  ) : (
-    <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
+const getBenchmarkCell = (
+  areaCount: number,
+  benchmarkComparison?: HealthDataPointBenchmarkComparison
+) => {
+  const benchmarkLabel = (
+    <BenchmarkLabel
+      type={benchmarkComparison?.outcome}
+      group={BenchmarkLabelGroupType.RAG}
+    />
   );
+  return areaCount < 2 ? (
+    <StyledAlignLeftTableCell>{benchmarkLabel}</StyledAlignLeftTableCell>
+  ) : (
+    <StyledBenchmarkCellMultipleAreas>
+      {benchmarkLabel}
+    </StyledBenchmarkCellMultipleAreas>
+  );
+};
 
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
@@ -159,6 +177,7 @@ export const mapToLineChartTableData = (
     value: healthPoint.value,
     lower: healthPoint.lowerCi,
     upper: healthPoint.upperCi,
+    benchmarkComparison: healthPoint.benchmarkComparison,
   }));
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
@@ -291,7 +310,10 @@ export function LineChartTable({
               <React.Fragment
                 key={healthIndicatorData[areaIndex].areaCode + index}
               >
-                {getBenchmarkCell(healthIndicatorData.length)}
+                {getBenchmarkCell(
+                  healthIndicatorData.length,
+                  sortedAreaData[index].benchmarkComparison
+                )}
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>
