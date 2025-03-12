@@ -162,7 +162,6 @@ export default class ResultsPage extends BasePage {
   ) {
     // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
     const defaultAreaTypeFilter = 'regions';
-    // const defaultGroupType = 'England';
 
     await this.waitForURLToContain(searchTerm);
 
@@ -203,11 +202,10 @@ export default class ResultsPage extends BasePage {
         await this.page
           .getByTestId(this.areaTypeSelector)
           .selectOption('England');
-        // uncommented in DHSCFT-255
-        // await this.page
-        //   .getByTestId(this.groupTypeSelector)
-        //   .selectOption('England');
-        // await this.waitForURLToContain(defaultGroupType);
+        await this.page
+          .getByTestId(this.groupTypeSelector)
+          .selectOption('England');
+        await this.waitForURLToContain('England');
       }
 
       await this.waitForURLToContain(searchTerm);
