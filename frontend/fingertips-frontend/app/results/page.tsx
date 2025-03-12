@@ -5,6 +5,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
+import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -24,57 +25,70 @@ export default async function Page(
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   } = stateManager.getSearchState();
+  try {
+    await connection();
 
-  await connection();
+    const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const areasApi = ApiClientFactory.getAreasApiClient();
+    const selectedAreasData =
+      areasSelected && areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+          )
+        : [];
 
-  const selectedAreasData =
-    areasSelected && areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+    const {
+      availableAreaTypes,
+      availableAreas,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
+      selectedAreasData
+    );
+
+    if (updatedSearchState) {
+      stateManager.setState(updatedSearchState);
+    }
+
+    const searchResults = searchedIndicator
+      ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
+          searchedIndicator,
+          areasSelected
         )
       : [];
 
-  const {
-    availableAreaTypes,
-    availableAreas,
-    availableGroupTypes,
-    availableGroups,
-    updatedSearchState,
-  } = await getAreaFilterData(stateManager.getSearchState(), selectedAreasData);
+    const initialState: IndicatorSelectionState = {
+      searchState: JSON.stringify(stateManager.getSearchState()),
+      indicatorsSelected: indicatorsSelected ?? [],
+      message: null,
+      errors: {},
+    };
 
-  if (updatedSearchState) {
-    stateManager.setState(updatedSearchState);
+    return (
+      <SearchResults
+        initialIndicatorSelectionState={initialState}
+        searchResults={searchResults}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
+        selectedAreasData={selectedAreasData}
+        searchState={stateManager.getSearchState()}
+        currentDate={new Date()}
+      />
+    );
+  } catch (error) {
+    console.log(`Error response received from call: ${error}`);
+    return (
+      <ErrorPage
+        errorText="An error has been returned by the service. Please try again."
+        errorLink="/"
+        errorLinkText="Return to Search"
+      />
+    );
   }
-
-  const searchResults = searchedIndicator
-    ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
-        searchedIndicator,
-        areasSelected
-      )
-    : [];
-
-  const initialState: IndicatorSelectionState = {
-    searchState: JSON.stringify(stateManager.getSearchState()),
-    indicatorsSelected: indicatorsSelected ?? [],
-    message: null,
-    errors: {},
-  };
-
-  return (
-    <SearchResults
-      initialIndicatorSelectionState={initialState}
-      searchResults={searchResults}
-      areaFilterData={{
-        availableAreaTypes,
-        availableGroupTypes,
-        availableGroups,
-        availableAreas,
-      }}
-      selectedAreasData={selectedAreasData}
-      searchState={stateManager.getSearchState()}
-      currentDate={new Date()}
-    />
-  );
 }

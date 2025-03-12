@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Page snapshot test 1`] = `
+<DocumentFragment>
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.09375;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 48px;
+    line-height: 1.0416666666666667;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 50px;
+  }
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<h1
+    class="c0"
+  >
+    An error has occurred.
+  </h1>
+  .c0 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c0 > p {
+  margin: 0;
+}
+
+.c0 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c0 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c0 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <p>
+      test error text
+    </p>
+  </div>
+  .c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c0:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c0:link {
+  color: #1d70b8;
+}
+
+.c0:visited {
+  color: #4c2c92;
+}
+
+.c0:hover {
+  color: #2b8cc4;
+}
+
+.c0:active {
+  color: #2b8cc4;
+}
+
+.c0:focus {
+  color: #0b0c0c;
+}
+
+@media print {
+
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media print {
+  .c0 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c0[href^="/"]::after,
+  .c0[href^="http://"]::after,
+  .c0[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+@media print {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+<a
+    class="c0"
+    data-testid="error-page-link"
+    href="/test-link"
+  >
+    test error link text
+  </a>
+</DocumentFragment>
+`;
