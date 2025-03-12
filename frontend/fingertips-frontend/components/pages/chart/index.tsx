@@ -28,15 +28,12 @@ type ChartProps = {
   searchState: SearchStateParams;
 };
 
-export function Chart({
+export async function Chart({
   healthIndicatorData,
   mapData,
   populationData,
   searchState,
 }: Readonly<ChartProps>) {
-  const [indicatorMetadata, setIndicatorMetaData] =
-    useState<IndicatorDocument>();
-
   const stateManager = SearchStateManager.initialise(searchState);
 
   const {
@@ -50,24 +47,22 @@ export function Chart({
     selectedGroupCode
   );
 
-  useEffect(() => {
-    const fetchIndicatorMeta = async (indicator: string) => {
-      try {
-        const document =
-          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-            indicator
-          );
-        setIndicatorMetaData(document);
-      }
-      catch (error) {
-        console.error(
-          'error getting meta data for health indicator for area',
-          error
-        );
-      };
-      fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
+  if (indicatorsSelected?.length !== 1) {
+    throw new Error('Invalid parameters provided to view');
+  }
 
-    }, [indicatorsSelected]);
+  let indicatorMetadata: IndicatorDocument | undefined;
+  try {
+    indicatorMetadata =
+      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+        indicatorsSelected[0]
+      );
+  } catch (error) {
+    console.error(
+      'error getting meta data for health indicator for area',
+      error
+    );
+  }
 
   return (
     <>
