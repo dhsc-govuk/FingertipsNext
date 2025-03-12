@@ -6,6 +6,7 @@ import {
   IndicatorSearchFormState,
   searchIndicator,
 } from './indicatorSearchActions';
+import { time } from 'console';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
@@ -38,6 +39,10 @@ const areasSelectedState = JSON.stringify({
   [SearchParams.AreasSelected]: ['foo', 'bar'],
 });
 
+const indicatorsSelectedState = JSON.stringify({
+  [SearchParams.IndicatorsSelected]: ['1', '2'],
+});
+
 const initialStateWithoutAreas: IndicatorSearchFormState = {
   indicator: 'some indicator',
   searchState: noAreasSelectedState,
@@ -46,6 +51,11 @@ const initialStateWithoutAreas: IndicatorSearchFormState = {
 const initialStateWithAreas: IndicatorSearchFormState = {
   indicator: 'some indicator',
   searchState: areasSelectedState,
+};
+
+const initialStateWithIndicatorsSelected: IndicatorSearchFormState = {
+  indicator: 'some indicator',
+  searchState: indicatorsSelectedState,
 };
 
 describe('Search actions', () => {
@@ -102,6 +112,20 @@ describe('Search actions', () => {
     expect(state.indicator).toBe('');
     expect(state.message).toBe(
       'Please enter an indicator ID or select at least one area'
+    );
+  });
+
+  it('should redirect to search results and remove any indicators selected from URL', async () => {
+    const formData = getMockFormData({
+      indicator: 'boom',
+      searchState: indicatorsSelectedState,
+    });
+
+    await searchIndicator(initialStateWithIndicatorsSelected, formData);
+
+    expect(redirectMock).toHaveBeenCalledWith(
+      `/results?${SearchParams.SearchedIndicator}=boom`,
+      RedirectType.push
     );
   });
 });

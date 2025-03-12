@@ -1,6 +1,9 @@
 import { expect } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
-import { IndicatorSearchFormState } from './indicatorSearchActions';
+import {
+  IndicatorSearchFormState,
+  searchIndicator,
+} from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
