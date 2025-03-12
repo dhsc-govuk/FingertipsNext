@@ -166,7 +166,7 @@ export default class ResultsPage extends BasePage {
 
     await this.waitForURLToContain(searchTerm);
 
-    // SearchMode.ONLY_AREA and SearchMode.BOTH_SUBJECT_AND_AREA already have area filters selected
+    // only do the following for SearchMode.ONLY_SUBJECT as SearchMode.ONLY_AREA/BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.page
         .getByTestId(this.areaTypeSelector)
