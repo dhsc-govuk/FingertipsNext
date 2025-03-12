@@ -40,7 +40,7 @@ export const SearchForm = ({
       ? areaFilterData?.availableGroups?.find(
           (group) => group.code === searchState?.[SearchParams.GroupSelected]
         )?.name
-      : selectedAreasData?.[0].name;
+      : selectedAreasData?.[0]?.name;
 
   return (
     <div data-testid="search-form">
