@@ -38,68 +38,52 @@ jest.mock('next/navigation', () => {
 });
 
 describe('Page structure', () => {
-  describe('Navigation', () => {
-    it('should render back link with correct search parameters', () => {
-      render(
-        <Chart healthIndicatorData={[mockHealthData[1]]} searchState={state} />
-      );
+  it('should render the PopulationPyramid component when Population data are provided', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData[1]]}
+        populationData={{
+          dataForSelectedArea: mockPopulationData,
+          dataForEngland: undefined,
+          dataForBaseline: undefined,
+        }}
+        searchState={state}
+      />
+    );
 
-      const backLink = screen.getByRole('link', { name: /back/i });
-      const expectedUrl = `/results?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`;
+    const populationPyramid = screen.getByTestId('populationPyramid-component');
+    expect(populationPyramid).toBeInTheDocument();
+  });
 
-      expect(backLink).toBeInTheDocument();
-      expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
-      expect(backLink).toHaveAttribute('href', expectedUrl);
-    });
+  it('should render the ThematicMap component when all map props are provided', () => {
+    const areaType = 'regions';
+    const areaCodes = ['E12000001', 'E12000002'];
+    const mapData = getMapData(areaType, areaCodes);
+
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['92420']]}
+        mapData={mapData}
+        searchState={state}
+      />
+    );
+
+    const thematicMap = screen.queryByTestId('thematicMap-component');
+    expect(thematicMap).toBeInTheDocument();
+  });
+
+  it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
+    render(
+      <Chart
+        healthIndicatorData={[mockHealthData['92420']]}
+        searchState={state}
+      />
+    );
+    const thematicMap = screen.queryByTestId('thematicMap-component');
+
+    expect(thematicMap).not.toBeInTheDocument();
   });
 });
-
-it('should render the PopulationPyramid component when Population data are provided', () => {
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData[1]]}
-      populationData={{
-        dataForSelectedArea: mockPopulationData,
-        dataForEngland: undefined,
-        dataForBaseline: undefined,
-      }}
-      searchState={state}
-    />
-  );
-
-  const populationPyramid = screen.getByTestId('populationPyramid-component');
-  expect(populationPyramid).toBeInTheDocument();
-});
-
-it('should render the ThematicMap component when all map props are provided', () => {
-  const areaType = 'regions';
-  const areaCodes = ['E12000001', 'E12000002'];
-  const mapData = getMapData(areaType, areaCodes);
-
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData['92420']]}
-      mapData={mapData}
-      searchState={state}
-    />
-  );
-
-  const thematicMap = screen.queryByTestId('thematicMap-component');
-  expect(thematicMap).toBeInTheDocument();
-});
-
-it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
-  render(
-    <Chart
-      healthIndicatorData={[mockHealthData['92420']]}
-      searchState={state}
-    />
-  );
-  const thematicMap = screen.queryByTestId('thematicMap-component');
-
-  expect(thematicMap).not.toBeInTheDocument();
-});
-
 describe('should display inequalities', () => {
   it('should display inequalities when single indicator and a single area is selected', () => {
     const state: SearchStateParams = {

@@ -1,17 +1,51 @@
+import { SearchMode } from '@/playwright/testHelpers';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
 export default class HomePage extends BasePage {
-  readonly indicatorField = 'indicator-search-form-input';
-  readonly areaField = 'area-search-input-field';
+  readonly subjectSearchField = 'indicator-search-form-input';
+  readonly areaSearchField = 'area-search-input-field';
+  readonly suggestedAreasPanel = 'area-suggestion-panel';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
   readonly areaFilterContainer = 'selected-areas-panel';
   readonly pillContainer = 'pill-container';
   readonly removeIcon = 'x-icon';
 
-  async typeIndicator(indicator: string) {
-    await this.page.getByTestId(this.indicatorField).fill(indicator);
+  async searchForIndicators(
+    searchMode: SearchMode,
+    subjectSearchTerm?: string,
+    areaSearchTerm?: string
+  ) {
+    if (searchMode === SearchMode.ONLY_SUBJECT) {
+      await this.page
+        .getByTestId(this.subjectSearchField)
+        .fill(subjectSearchTerm!);
+    }
+    //   cannot enable only area until DHSCFT-458 is actioned
+    // if (searchMode === SearchMode.ONLY_AREA) {
+    //   await this.page.getByTestId(this.areaSearchField).fill(areaSearchTerm!);
+    // }
+    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
+      await this.page
+        .getByTestId(this.subjectSearchField)
+        .fill(subjectSearchTerm!);
+
+      await this.page
+        .getByTestId(this.areaSearchField)
+        .getByRole('textbox')
+        .fill(areaSearchTerm!);
+
+      await expect(
+        this.page.getByTestId(this.suggestedAreasPanel)
+      ).toContainText(areaSearchTerm!, { ignoreCase: true });
+
+      await this.page.getByText(areaSearchTerm!).click();
+
+      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
+        ignoreCase: true,
+      });
+    }
   }
 
   async clickSearchButton() {
@@ -46,7 +80,7 @@ export default class HomePage extends BasePage {
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
     const fieldValue = await this.page
-      .getByTestId(this.indicatorField)
+      .getByTestId(this.subjectSearchField)
       .inputValue();
     if (indicator) {
       expect(fieldValue).toEqual(indicator);
@@ -54,7 +88,7 @@ export default class HomePage extends BasePage {
   }
 
   async clearSearchIndicatorField() {
-    await this.page.getByTestId(this.indicatorField).clear();
+    await this.page.getByTestId(this.subjectSearchField).clear();
   }
 
   async checkSummaryValidation(expectedValidationMessage: string) {
