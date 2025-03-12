@@ -6,7 +6,6 @@ import {
   IndicatorSearchFormState,
   searchIndicator,
 } from './indicatorSearchActions';
-import { time } from 'console';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
