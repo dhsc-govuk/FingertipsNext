@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { Pill } from '../Pill';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface GroupAreaSelectedPillProps {
   areaTypeName?: string;
@@ -12,7 +13,7 @@ interface GroupAreaSelectedPillProps {
 }
 
 const StyleAreaType = styled('span')({
-  color: '#505A5F',
+  color: GovukColours.DarkGrey,
 });
 
 export const GroupAreaSelectedPill = ({

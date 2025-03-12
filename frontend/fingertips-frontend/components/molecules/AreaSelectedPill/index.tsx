@@ -4,13 +4,14 @@ import { Pill } from '../Pill';
 import styled from 'styled-components';
 import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyleAreaName = styled('span')({
   fontWeight: '500',
 });
 
 const StyleAreaType = styled('span')({
-  color: '#505A5F',
+  color: GovukColours.DarkGrey,
 });
 
 interface AreaSelectedPillProps {

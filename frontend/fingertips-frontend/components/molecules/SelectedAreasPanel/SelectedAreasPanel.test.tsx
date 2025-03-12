@@ -45,7 +45,7 @@ describe('SelectedAreasPanel', () => {
       expect(container.asFragment()).toMatchSnapshot();
     });
 
-    it('should render the group area selected panel and not render the standard selected areas panel ', () => {
+    it('should render the group area selected panel and not render the standard selected areas panel', () => {
       render(
         <SelectedAreasPanel
           areaFilterData={{
@@ -122,7 +122,7 @@ describe('SelectedAreasPanel', () => {
       expect(container.asFragment()).toMatchSnapshot();
     });
 
-    it('should render the standard area selected panel and not render the group selected areas panel ', () => {
+    it('should render the standard area selected panel and not render the group selected areas panel', () => {
       render(<SelectedAreasPanel />);
 
       expect(
