@@ -5,6 +5,7 @@ import {
   sortAlphabetically,
   getAllNHSRegionAreas,
   IndicatorMode,
+  SearchMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -17,14 +18,15 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 
 const indicatorData = mockIndicators as IndicatorDocument[];
-const searchTerm = 'hospital';
+const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
+const searchMode = SearchMode.ONLY_SUBJECT;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 let allNHSRegionAreas: AreaDocument[];
 
 test.beforeAll(
-  `get indicatorIDs from the mock data source for searchTerm: ${searchTerm} and get mock area data`,
+  `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {
     const typedIndicatorData = indicatorData.map(
       (indicator: IndicatorDocument) => {
@@ -37,7 +39,7 @@ test.beforeAll(
 
     allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
       typedIndicatorData,
-      searchTerm
+      subjectSearchTerm
     );
 
     filteredIndicatorIds = returnIndicatorIDsByIndicatorMode(
@@ -65,12 +67,12 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
-    await test.step(`Search for indicators using search term ${searchTerm} and check results title contains the search term`, async () => {
-      await homePage.typeIndicator(searchTerm);
+    await test.step(`Search for indicators using search term ${subjectSearchTerm} and check results title contains the search term`, async () => {
+      await homePage.searchForIndicators(searchMode, subjectSearchTerm);
       await homePage.clickSearchButton();
 
-      await resultsPage.waitForURLToContain(searchTerm);
-      await resultsPage.checkSearchResultsTitle(searchTerm);
+      await resultsPage.waitForURLToContain(subjectSearchTerm);
+      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
@@ -80,13 +82,13 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.checkForIndicatorSearchError();
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
 
-      await resultsPage.fillIndicatorSearch(searchTerm);
-      await resultsPage.clickIndicatorSearchButtonAndWait(searchTerm);
-      await resultsPage.checkSearchResultsTitle(searchTerm);
+      await resultsPage.fillIndicatorSearch(subjectSearchTerm);
+      await resultsPage.clickIndicatorSearchButtonAndWait(subjectSearchTerm);
+      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
     });
 
     await test.step('Select single indicator, let area default to England and check on charts page', async () => {
-      await resultsPage.selectIndicatorCheckboxesAndCheckURL(
+      await resultsPage.selectIndicatorCheckboxes(
         filteredIndicatorIds,
         indicatorMode
       );
@@ -100,14 +102,14 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Return to results page and verify selections are preselected', async () => {
       await chartPage.clickBackLink();
 
-      await resultsPage.checkSearchResultsTitle(searchTerm);
+      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
       await resultsPage.checkIndicatorCheckboxChecked(filteredIndicatorIds[0]);
     });
 
     await test.step('Return to search page and verify fields are correctly prepopulated', async () => {
       await resultsPage.clickBackLink();
 
-      await homePage.checkSearchFieldIsPrePopulatedWith(searchTerm);
+      await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
     });
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
@@ -129,7 +131,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     resultsPage,
   }) => {
     await test.step('Navigate directly to the results page', async () => {
-      await resultsPage.navigateToResults(searchTerm, [
+      await resultsPage.navigateToResults(subjectSearchTerm, [
         allNHSRegionAreas[0].areaCode,
         allNHSRegionAreas[1].areaCode,
         allNHSRegionAreas[2].areaCode,
