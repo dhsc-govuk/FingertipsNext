@@ -136,17 +136,15 @@ To check there are 0 accessibility violations on the page the test is currently 
 
 Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
 
-All screenshot snapshots are stored in github cache, not directly in the repository.
+All base screenshot snapshots are stored directly in the repository.
 
-If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check and use the main branch for base screenshots using the fallback restore-keys. Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from below.
-
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
 
 1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
-3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
-4. Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow executions that trigger the e2e tests in CI, for that branch will pass and when you merge to main the screenshots will be automatically updated in the cache for main.
-5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the cached screenshots to need to be updated, and link to the `Artifact download URL:` from the `Upload playwright artefacts` step of the `e2e-tests-local-docker` failure job. This allows the PR reviewer to check the before and after screenshots.
+3. Once the changes have been confirmed as correct run the npm script `test-e2e-update-snapshots` in which the base screenshots will be created locally. Check these screenshots match what has been confirmed as correct with the BA.
+4. Push up these screenshots to your branch.
+5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the base screenshots to need to be updated.
 
 ## Code structure
 

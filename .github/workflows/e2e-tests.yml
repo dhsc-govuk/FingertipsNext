@@ -64,7 +64,7 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Run Playwright tests in CI - skip screenshots for pull requests
+      - name: Run Playwright tests in CI - skip screenshot comparisons for pull_request workflows
         if: inputs.e2e-test-container-image == null
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -78,7 +78,7 @@ jobs:
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: Run Playwright tests in CD
+      - name: Run Playwright tests in CD - skip screenshot comparisons for this workflows
         if: inputs.e2e-test-container-image != null
         run: npm run test-e2e-ci-azure
         env:

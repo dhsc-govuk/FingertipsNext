@@ -15,4 +15,4 @@ Include a summary of what this pull request is changing and any relevant backgro
 
 Details of any validation you have performed to show that your changes are behaving as expected. For example, screenshots of how the UI looks with your changes, or output of any tests you did manually to demonstrate things were working as expected.
 
-If you had to update the chart component screenshots then please state that here and also link to the `Artifact download URL:` from the `Upload playwright artefacts` step of the `e2e-tests-local-docker` failure job.
+If you had to update the chart component screenshots then please state it here also. They will be visible in code reviews as they are stored in the repo.
