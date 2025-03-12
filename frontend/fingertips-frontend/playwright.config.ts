@@ -38,6 +38,7 @@ const config: PlaywrightTestConfig = {
       ]
     : [['list'], ['html']],
   use: {
+    viewport: { width: 1280, height: 720 },
     baseURL: url,
     trace: 'on-first-retry',
     screenshot: 'on-first-failure',

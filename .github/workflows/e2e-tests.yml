@@ -53,7 +53,6 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-            ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
           restore-keys: 
             cache/${{github.repository}}/refs/heads/main

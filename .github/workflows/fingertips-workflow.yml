@@ -246,7 +246,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
     with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
+      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -592,6 +592,6 @@ jobs:
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
