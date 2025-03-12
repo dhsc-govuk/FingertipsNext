@@ -54,6 +54,7 @@ export function getScenarioConfig(
       ChartPage.barChartComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
+      ChartPage.barChartEmbeddedTableComponent
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
       // Enable in DHSCFT-317

@@ -14,6 +14,7 @@ export default class ChartPage extends BasePage {
   static readonly populationPyramidComponent = 'populationPyramid-component';
   static readonly inequalitiesComponent = 'inequalities-component';
   static readonly thematicMapComponent = 'thematicMap-component';
+  static readonly barChartEmbeddedTableComponent = 'barChartEmbeddedTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
