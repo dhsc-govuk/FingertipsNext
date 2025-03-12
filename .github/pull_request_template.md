@@ -15,4 +15,4 @@ Include a summary of what this pull request is changing and any relevant backgro
 
 Details of any validation you have performed to show that your changes are behaving as expected. For example, screenshots of how the UI looks with your changes, or output of any tests you did manually to demonstrate things were working as expected.
 
-If you had to update the chart component screenshots then please state it here also. They will be visible in code reviews as they are stored in the repo.
+If you had to update the chart component base screenshots in the playwright e2e tests then please state it here. They will be visible in code reviews as they are stored in the repository.

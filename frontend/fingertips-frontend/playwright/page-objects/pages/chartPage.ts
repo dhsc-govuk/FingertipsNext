@@ -75,7 +75,7 @@ export default class ChartPage extends BasePage {
         });
       }
 
-      // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
+      // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
