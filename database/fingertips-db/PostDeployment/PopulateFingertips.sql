@@ -218,7 +218,6 @@ CREATE TABLE #TempIndicatorData
     IndicatorID INT,
     Polarity NVARCHAR(255),
     BenchmarkComparisonMethod [nvarchar](255),
-    UseProportionsForTrend [nvarchar](255),
     ValueType NVARCHAR(255),
     IndicatorName NVARCHAR(255),
 );
@@ -238,8 +237,7 @@ INSERT INTO [dbo].[IndicatorDimension]
 (
     Name,
     IndicatorId,
-    Polarity,                        
-	UseProportionsForTrend,                
+    Polarity,                                      
 	ValueType,                       
 	BenchmarkComparisonMethod,
     StartDate,
@@ -249,7 +247,6 @@ SELECT
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
     IndicatorID,
     Polarity,
-    UseProportionsForTrend,
     ValueType,
     BenchmarkComparisonMethod,
     DATEADD(YEAR, -10, GETDATE()),

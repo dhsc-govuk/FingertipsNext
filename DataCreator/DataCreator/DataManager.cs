@@ -110,7 +110,7 @@ namespace DataCreator
                     var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
                     if(!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                         indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
-                    indicator.UseProportionsForTrend=indicatorUsedInPoc.UseProportionsForTrend;
+                    
                     indicator.BenchmarkComparisonMethod=indicatorUsedInPoc.BenchmarkComparisonMethod;   
                     indicator.Polarity=indicatorUsedInPoc.Polarity; 
                 }

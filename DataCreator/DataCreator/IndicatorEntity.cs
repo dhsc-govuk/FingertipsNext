@@ -69,8 +69,6 @@
 
         public string BenchmarkComparisonMethod { get; set; }
 
-        public bool UseProportionsForTrend { get; set; }
-
         public string ValueType { get; set; }
 
         public string IndicatorName { get; set; }
