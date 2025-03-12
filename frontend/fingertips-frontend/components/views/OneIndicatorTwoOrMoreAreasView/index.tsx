@@ -5,8 +5,8 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
@@ -26,7 +26,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [...areasSelected];
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
@@ -40,12 +40,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
     healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected),
+      indicatorId: Number(indicatorSelected[0]),
       areaCodes: areaCodesToRequest,
     });
   } catch (error) {
-    console.error('error getting health indicator data for area', error);
-    throw new Error('error getting health indicator data for area');
+    console.error('error getting health indicator data for areas', error);
+    throw new Error('error getting health indicator data for areas');
   }
 
   let indicatorMetadata: IndicatorDocument | undefined;
@@ -56,13 +56,10 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       );
   } catch (error) {
     console.error(
-      'error getting meta data for health indicator for area',
+      'error getting meta data for health indicator for areas',
       error
     );
   }
-
-  console.log('TODO: fetch population data for ', areaCodesToRequest[0]);
-  console.log('TODO: fetch map data for GROUP');
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots

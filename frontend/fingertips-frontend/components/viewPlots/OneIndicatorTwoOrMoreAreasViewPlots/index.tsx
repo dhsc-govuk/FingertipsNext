@@ -1,36 +1,32 @@
 'use client';
 
-import { H2, Paragraph } from 'govuk-react';
+import { TabContainer } from '@/components/layouts/tabContainer';
+import { LineChart } from '@/components/organisms/LineChart';
+import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { BackLink, H2, H3, Paragraph } from 'govuk-react';
+import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-
-type OneIndicatorTwoOrMoreAreasViewPlotsProps = {
-  healthIndicatorData: HealthDataForArea[];
-  searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument;
-};
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
+
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
+}: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -47,22 +43,68 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         )
       : undefined;
 
-  return (
-    <section data-testid={'oneIndicatorTwoOrMoreAreasViewPlot-component'}>
-      <H2>View data for selected indicators and areas</H2>
-      <BarChartEmbeddedTable
-        healthIndicatorData={dataWithoutEngland}
-        benchmarkData={englandBenchmarkData}
-        groupIndicatorData={groupData}
-      ></BarChartEmbeddedTable>
+  const shouldLineChartbeShown =
+    dataWithoutEngland[0]?.healthData.length > 1 &&
+    areasSelected &&
+    areasSelected?.length <= 2;
 
-      <>
-        {indicatorMetadata ? (
-          <StyledParagraphDataSource>
-            {`Data source: ${indicatorMetadata.dataSource}`}
-          </StyledParagraphDataSource>
-        ) : null}
-      </>
+  return (
+    <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
+      <BackLink
+        data-testid="chart-page-back-link"
+        href={backLinkPath}
+        aria-label="Go back to the previous page"
+      />
+      <H2>View data for selected indicators and areas</H2>
+      {shouldLineChartbeShown && (
+        <>
+          <H3>See how the indicator has changed over time</H3>
+          <TabContainer
+            id="lineChartAndTable"
+            items={[
+              {
+                id: 'lineChart',
+                title: 'Line chart',
+                content: (
+                  <LineChart
+                    healthIndicatorData={dataWithoutEngland}
+                    benchmarkData={englandBenchmarkData}
+                    searchState={searchState}
+                    groupIndicatorData={groupData}
+                    xAxisTitle="Year"
+                    accessibilityLabel="A line chart showing healthcare data"
+                  />
+                ),
+              },
+              {
+                id: 'table',
+                title: 'Tabular data',
+                content: (
+                  <LineChartTable
+                    healthIndicatorData={dataWithoutEngland}
+                    englandBenchmarkData={englandBenchmarkData}
+                    groupIndicatorData={groupData}
+                  />
+                ),
+              },
+            ]}
+            footer={
+              <>
+                {indicatorMetadata ? (
+                  <StyledParagraphDataSource>
+                    {`Data source: ${indicatorMetadata.dataSource}`}
+                  </StyledParagraphDataSource>
+                ) : null}
+              </>
+            }
+          />
+          <BarChartEmbeddedTable
+            healthIndicatorData={dataWithoutEngland}
+            benchmarkData={englandBenchmarkData}
+            groupIndicatorData={groupData}
+          ></BarChartEmbeddedTable>
+        </>
+      )}
     </section>
   );
 }
