@@ -94,11 +94,15 @@ INSERT INTO [dbo].[SexDimension]
 
 --create the trend dimension data
 SET IDENTITY_INSERT [dbo].[TrendDimension] ON
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'NotYetCalculated', 0)
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'CannotBeCalculated', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (1, N'Not yet calculated', 0)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (2, N'Cannot be calculated', 1)
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (3, N'Increasing', 1)
 INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (4, N'Decreasing', 1)
-INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'NoChange', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (5, N'No significant change', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (6, N'Increasing and getting better', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (7, N'Increasing and getting worse', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (8, N'Decreasing and getting better', 1)
+INSERT [dbo].[TrendDimension] ([TrendKey], [Name], [HasValue]) VALUES (9, N'Decreasing and getting worse', 1)
 SET IDENTITY_INSERT [dbo].[TrendDimension] OFF
 GO
 

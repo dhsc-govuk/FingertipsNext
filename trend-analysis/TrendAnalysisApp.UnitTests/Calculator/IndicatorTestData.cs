@@ -9,7 +9,7 @@ public class IndicatorTestData
         Name = "Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework)",
         IndicatorId = 241,
         IndicatorKey = 123,
-        UseProportionsForTrend = true,
+        Polarity = "Not applicable",
         ValueType = "Proportion"
     };
 
@@ -67,7 +67,7 @@ public class IndicatorTestData
         Name = "Proportion of GP registered populations by age group",
         IndicatorId = 93468,
         IndicatorKey = 1234,
-        UseProportionsForTrend = false,
+        Polarity = "Not applicable",
         ValueType = "Proportion"
     };
 
@@ -115,7 +115,7 @@ public class IndicatorTestData
         Name = "Population vaccination coverage: MMR for one dose (2 years old)",
         IndicatorId = 30309,
         IndicatorKey = 12345,
-        UseProportionsForTrend = false,
+        Polarity = "High is good",
         ValueType = "Proportion"
     };
 
@@ -173,7 +173,7 @@ public class IndicatorTestData
         Name = "Preventable sight loss from diabetic eye disease",
         IndicatorId = 41203,
         IndicatorKey = 12346,
-        UseProportionsForTrend = false,
+        Polarity = "Low is good",
         ValueType = "Crude rate"
     };
 
@@ -231,7 +231,7 @@ public class IndicatorTestData
         Name = "Emergency readmissions within 30 days of discharge from hospital",
         IndicatorId = 41101,
         IndicatorKey = 12342,
-        UseProportionsForTrend = false,
+        Polarity = "Low is good",
         ValueType = "Indirectly standardised proportion"
     };
 
@@ -289,7 +289,7 @@ public class IndicatorTestData
         Name = "Under 75 mortality rate from cancer",
         IndicatorId = 40501,
         IndicatorKey = 357,
-        UseProportionsForTrend = false,
+        Polarity = "Low is good",
         ValueType = "Directly standardised rate"
     };
 

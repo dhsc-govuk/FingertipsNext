@@ -13,6 +13,9 @@ public class HealthMeasureModel
     public AreaDimensionModel? AreaDimension { get; set; }
     [ForeignKey("AreaDimension")]
     public int AreaKey { get; set; }
+    public DeprivationDimensionModel? DeprivationDimension { get; set; }
+    [ForeignKey("DeprivationDimension")]
+    public short DeprivationKey { get; set; }
     public IndicatorDimensionModel? IndicatorDimension { get; set; }
     [ForeignKey("IndicatorDimension")]
     public short IndicatorKey { get; set; }
@@ -23,7 +26,7 @@ public class HealthMeasureModel
     [ForeignKey("TrendDimension")]
     public byte TrendKey { get; set; }
     public double? Count { get; set; }
-    public double Denominator { get; set; }
+    public double? Denominator { get; set; }
     public double Value { get; set; }
     public double? LowerCI { get; set; }
     public double? UpperCI { get; set; }

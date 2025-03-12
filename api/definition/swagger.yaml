@@ -82,13 +82,12 @@ paths:
       tags:
         - areas
       summary: Get area
-      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings, cousins and ancestors
+      description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
       operationId: getArea
       parameters:
         - $ref: "#/components/parameters/area_code"
         - $ref: "#/components/parameters/include_children"
         - $ref: "#/components/parameters/include_siblings"
-        - $ref: "#/components/parameters/include_ancestors"
         - $ref: "#/components/parameters/child_area_type"
       responses:
         "200":
@@ -316,10 +315,6 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Area"
-            ancestors:
-              type: array
-              items:
-                $ref: "#/components/schemas/Area"
     IndicatorSummary:
       type: object
       description: A summary of a public health indicator
@@ -407,8 +402,17 @@ components:
           description: The statistical trend that applies to the data point,
             given the preceding data. Will only be calculated if there are at
             least 5 data points to use.
-          enum: [Increasing, Decreasing, NoChange, CannotBeCalculated,
-            NotYetCalculated]
+          enum: [
+            'Not yet calculated',
+            'Cannot be calculated',
+            'Increasing',
+            'Decreasing',
+            'No significant change',
+            'Increasing and getting better',
+            'Increasing and getting worse',
+            'Decreasing and getting better',
+            'Decreasing and getting worse'
+          ]
         benchmarkComparison:
           type: object
           properties:
@@ -523,12 +527,6 @@ components:
       in: query
       name: include_siblings
       description: include the sibling areas
-      schema:
-        type: boolean
-    include_ancestors:
-      in: query
-      name: include_ancestors
-      description: include the ancestor areas
       schema:
         type: boolean
     child_area_type:

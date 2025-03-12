@@ -34,18 +34,14 @@ public class LegacyMapper {
     }
 
     /// <summary>
-    /// Maps indicator metadata and a list of health measures to a valid legacy calculaton request.
+    /// Maps indicator metadata and a list of health measures to a valid legacy calculation request.
     /// </summary>
-    public TrendRequest ToLegacy(int valueTypeId, bool useProportions, IEnumerable<HealthMeasureModel> healthMeasures) {
+    public TrendRequest ToLegacy(int valueTypeId, IEnumerable<HealthMeasureModel> healthMeasures) {
         var legacyTrendRequest = new TrendRequest
         {
             YearRange = DefaultYearRange,
             ValueTypeId = valueTypeId
         };
-
-        if (useProportions) {
-            legacyTrendRequest.ComparatorMethodId = ComparatorMethodIds.SpcForProportions;
-        }
 
         legacyTrendRequest.Data = HealthMeasuresToLegacyDatasetList(healthMeasures);
         return legacyTrendRequest;
@@ -60,7 +56,8 @@ public class LegacyMapper {
         {
             Count = healthMeasure.Count,
             Value = healthMeasure.Value,
-            Denominator = healthMeasure.Denominator,
+            // Legacy Calculator expects this value as a double, so we set this to 0 if null
+            Denominator = healthMeasure.Denominator ?? 0,
             Year = healthMeasure.Year,
             LowerCI95 = healthMeasure.LowerCI,
             UpperCI95 = healthMeasure.UpperCI

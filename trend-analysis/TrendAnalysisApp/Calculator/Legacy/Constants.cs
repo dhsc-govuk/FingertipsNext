@@ -13,7 +13,6 @@ public class ComparatorMethodIds
     public const int NoComparison = -1;
     public const int SingleOverlappingCIsForOneCiLevel = 1;
     public const int SingleOverlappingCIsForSecondCiLevel = 18;
-    public const int SpcForProportions = 5;
     public const int SpcForDsr = 6;
     public const int DoubleOverlappingCIs = 12;
     public const int SuicidePreventionPlan = 14;
