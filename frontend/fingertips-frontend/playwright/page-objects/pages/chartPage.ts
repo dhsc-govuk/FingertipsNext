@@ -5,7 +5,13 @@ import {
 } from '@/playwright/testHelpers';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { PlaywrightTestArgs, PlaywrightTestOptions, PlaywrightWorkerArgs, PlaywrightWorkerOptions, TestType } from '@playwright/test';
+import {
+  PlaywrightTestArgs,
+  PlaywrightTestOptions,
+  PlaywrightWorkerArgs,
+  PlaywrightWorkerOptions,
+  TestType,
+} from '@playwright/test';
 
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
@@ -39,7 +45,10 @@ export default class ChartPage extends BasePage {
   async checkChartVisibility(
     indicatorMode: IndicatorMode,
     areaMode: AreaMode,
-    test: TestType<PlaywrightTestArgs & PlaywrightTestOptions, PlaywrightWorkerArgs & PlaywrightWorkerOptions>
+    test: TestType<
+      PlaywrightTestArgs & PlaywrightTestOptions,
+      PlaywrightWorkerArgs & PlaywrightWorkerOptions
+    >
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
