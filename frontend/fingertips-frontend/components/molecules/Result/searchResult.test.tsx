@@ -4,6 +4,8 @@ import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { string } from 'zod';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 let user: UserEvent;
 
@@ -56,6 +58,7 @@ const mockHandleClick = jest.fn();
 
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
+  [SearchParams.AreasSelected]: ['Area1'],
 };
 
 beforeEach(() => {
@@ -279,11 +282,29 @@ describe('Indicator Checkbox', () => {
   });
 
   it('should have a direct link to the indicator chart', () => {
-    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}`;
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${initialSearchState[SearchParams.AreasSelected]}`;
     render(
       <SearchResult
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
+  });
+
+  it('should populate the area selected parameter with the code for england if no area is selected', () => {
+    const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${areaCodeForEngland}`;
+    const searchState: SearchStateParams = {
+      ...initialSearchState,
+    };
+    searchState[SearchParams.AreasSelected] = undefined;
+
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={searchState}
         handleClick={mockHandleClick}
       />
     );
