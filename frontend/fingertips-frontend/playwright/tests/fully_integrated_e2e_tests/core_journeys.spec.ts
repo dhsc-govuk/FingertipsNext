@@ -107,7 +107,7 @@ test.describe(`Search via`, () => {
       await test.step(`check chart page and assert that the displayed charts are correct`, async () => {
         await chartPage.checkOnChartPage();
 
-        await chartPage.checkChartVisibility(indicatorMode, areaMode);
+        await chartPage.checkChartVisibility(indicatorMode, areaMode, test);
       });
     });
   });
