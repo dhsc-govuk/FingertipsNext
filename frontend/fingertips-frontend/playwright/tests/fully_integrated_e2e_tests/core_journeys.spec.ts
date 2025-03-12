@@ -53,7 +53,6 @@ const coreTestJourneys: TestParams[] = [
 test.beforeAll(
   `return all matching indicatorIDs from the real data source based on the subjectSearchTerm: ${subjectSearchTerm}`,
   () => {
-    // turn into a method and call inside the test loop
     const typedIndicatorData = indicatorData.map(
       (indicator: IndicatorDocument) => {
         return {
