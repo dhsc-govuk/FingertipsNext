@@ -17,14 +17,15 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
-import { useEffect, useState } from 'react';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+
+
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
+  measurementUnit?: string
 };
 
 export function Chart({
@@ -32,10 +33,10 @@ export function Chart({
   mapData,
   populationData,
   searchState,
+  measurementUnit
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const [indicatorMetadata, setIndicatorMetaData] =
-    useState<IndicatorDocument>();
+
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
@@ -47,27 +48,7 @@ export function Chart({
     selectedGroupCode
   );
 
-  useEffect(() => {
-    const fetchIndicatorMeta = async (indicators: string[] | undefined) => {
-      try {
-        if (indicators?.length !== 1) {
-          throw new Error('Invalid parameters provided to view');
-        }
-        const document =
-          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-            indicators[0]
-          );
-        setIndicatorMetaData(document);
-      } catch (e) {
-        console.error(
-          'error getting meta data for health indicator for area',
-          e
-        );
-      }
-    };
 
-    fetchIndicatorMeta(indicatorsSelected);
-  }, [indicatorsSelected]);
 
   return (
     <>
@@ -78,6 +59,7 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          measurementUnit={measurementUnit}
         />
       )}
       <BarChart
@@ -86,6 +68,7 @@ export function Chart({
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
+        measurementUnit={measurementUnit}
       />
       {populationData ? (
         <>
