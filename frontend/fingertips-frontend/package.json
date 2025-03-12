@@ -21,7 +21,7 @@
     "test-ui-local-mocks": "playwright test isolated_ui_tests --ignore-snapshots",
     "test-e2e-local-docker": "cross-env MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests || true && npm run stop:all",
     "test-e2e-ci-docker": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests",
-    "test-e2e-ci-update-snapshots": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests --update-snapshots",
+    "test-e2e-update-snapshots": "MOCK_SERVER=false npm run start:all && playwright test fully_integrated_e2e_tests --update-snapshots",
     "test-e2e-ci-azure": "MOCK_SERVER=false playwright test fully_integrated_e2e_tests --ignore-snapshots",
     "prettier": "prettier --write .",
     "prettier-ci": "prettier . --check"

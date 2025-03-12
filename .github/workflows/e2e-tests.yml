@@ -13,11 +13,6 @@ on:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
-      update-screenshots:
-        description: 'Update screenshot snapshots?'
-        type: string
-        default: 'false'
-        required: false
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
@@ -47,15 +42,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache dependencies
+      - name: Cache playwright dependencies
         uses: actions/cache@v3
         id: cache
         with:
           path: |
             ~/.cache/ms-playwright
           key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
-          restore-keys: 
-            cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
         run: npm ci
@@ -70,20 +63,6 @@ jobs:
       - name: Install playwright dependencies - for CI test execution
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
-
-      - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main - for CI test execution
-        if: >
-          inputs.e2e-test-container-image == null &&
-          (
-            steps.cache.outputs.cache-hit != 'true' ||
-            inputs.update-screenshots == 'true'
-          ) &&
-          (
-            github.head_ref == 'main' ||
-            github.ref_name == 'main' ||
-            github.event_name == 'workflow_dispatch'
-          )
-        run: npm run test-e2e-ci-update-snapshots
 
       - name: Run Playwright tests in CI - skip screenshots for pull requests
         if: inputs.e2e-test-container-image == null
