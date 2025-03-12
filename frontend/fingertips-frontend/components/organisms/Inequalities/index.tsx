@@ -14,10 +14,12 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
+  measurementUnit?: string;
 }
 
 export function Inequalities({
   healthIndicatorData,
+  measurementUnit,
 }: Readonly<InequalitiesProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
@@ -54,6 +56,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChartTable
                 tableData={barchartTableData}
+                measurementUnit={measurementUnit}
                 yearlyHealthDataGroupedByInequalities={
                   yearlyHealthDataGroupedByInequalities
                 }
@@ -78,6 +81,7 @@ export function Inequalities({
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartTableData}
+                measurementUnit={measurementUnit}
                 yearlyHealthDataGroupedByInequalities={
                   yearlyHealthDataGroupedByInequalities
                 }
