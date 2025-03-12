@@ -1,6 +1,5 @@
 'use client';
 
-import { BackLink } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
@@ -42,11 +41,14 @@ export function Chart({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
+<<<<<<< HEAD
   const [indicatorMetadata, setIndicatorMetaData] =
     useState<IndicatorDocument>();
 
   const backLinkPath = stateManager.generatePath('/results');
 
+=======
+>>>>>>> main
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
@@ -71,11 +73,6 @@ export function Chart({
 
   return (
     <>
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <Inequalities
           healthIndicatorData={
