@@ -10,7 +10,6 @@ public class IndicatorTestData
         IndicatorId = 241,
         IndicatorKey = 123,
         Polarity = "Not applicable",
-        UseProportionsForTrend = true,
         ValueType = "Proportion"
     };
 
@@ -69,7 +68,6 @@ public class IndicatorTestData
         IndicatorId = 93468,
         IndicatorKey = 1234,
         Polarity = "Not applicable",
-        UseProportionsForTrend = false,
         ValueType = "Proportion"
     };
 
@@ -118,7 +116,6 @@ public class IndicatorTestData
         IndicatorId = 30309,
         IndicatorKey = 12345,
         Polarity = "High is good",
-        UseProportionsForTrend = false,
         ValueType = "Proportion"
     };
 
@@ -177,7 +174,6 @@ public class IndicatorTestData
         IndicatorId = 41203,
         IndicatorKey = 12346,
         Polarity = "Low is good",
-        UseProportionsForTrend = false,
         ValueType = "Crude rate"
     };
 
@@ -236,7 +232,6 @@ public class IndicatorTestData
         IndicatorId = 41101,
         IndicatorKey = 12342,
         Polarity = "Low is good",
-        UseProportionsForTrend = false,
         ValueType = "Indirectly standardised proportion"
     };
 
@@ -295,7 +290,6 @@ public class IndicatorTestData
         IndicatorId = 40501,
         IndicatorKey = 357,
         Polarity = "Low is good",
-        UseProportionsForTrend = false,
         ValueType = "Directly standardised rate"
     };
 
