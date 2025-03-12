@@ -1,7 +1,7 @@
 --Increasing, decreasing, no change and cannot be calculated
 CREATE TABLE [dbo].[TrendDimension](
 	[TrendKey] [tinyint] IDENTITY(1,1) NOT NULL,        --The surrogate key
-	[Name] [nvarchar](20) NOT NULL,						--The name of the trend e.g. Increasing, Decreasing, NoChange
+	[Name] [nvarchar](80) NOT NULL,						--The name of the trend e.g. Increasing, Decreasing, No change
 	[HasValue] [bit] NOT NULL,							--A flag to indicate if the data has a value (if not it is for all persons/a dummy value)
  CONSTRAINT [PK_TrendDimension] PRIMARY KEY CLUSTERED
 (

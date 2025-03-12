@@ -175,4 +175,33 @@ describe('SelectedAreasPanel', () => {
       });
     });
   });
+
+  it('should remove the indicators selected from the state/url when the remove icon is clicked for the area selected', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.AreasSelected}=E40000012`,
+      `&${SearchParams.AreaTypeSelected}=NHS+Regions`,
+    ].join('');
+
+    const user = userEvent.setup();
+    render(
+      <SelectedAreasPanel
+        selectedAreasData={mockSelectedAreasData}
+        searchState={{
+          [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+          [SearchParams.AreaTypeSelected]: 'NHS Regions',
+          [SearchParams.IndicatorsSelected]: ['1', '2'],
+        }}
+      />
+    );
+
+    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+    await user.click(
+      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+    );
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+      scroll: false,
+    });
+  });
 });

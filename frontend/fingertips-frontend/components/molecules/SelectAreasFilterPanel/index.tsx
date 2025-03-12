@@ -152,6 +152,8 @@ export function SelectAreasFilterPanel({
       );
     }
 
+    searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 

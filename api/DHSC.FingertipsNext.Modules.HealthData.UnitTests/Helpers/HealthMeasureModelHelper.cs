@@ -137,7 +137,7 @@ public class HealthMeasureModelHelper(
         return new TrendDimensionModel
         {
             TrendKey = (byte)key,
-            Name = "NotYetCalculated",
+            Name = "Not yet calculated",
             HasValue = false
         };
     }

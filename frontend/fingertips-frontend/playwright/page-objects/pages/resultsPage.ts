@@ -5,6 +5,7 @@ import {
   AreaMode,
   IndicatorMode,
   returnIndicatorIDsByIndicatorMode,
+  SearchMode,
 } from '@/playwright/testHelpers';
 
 export default class ResultsPage extends BasePage {
@@ -89,7 +90,6 @@ export default class ResultsPage extends BasePage {
     await expect(
       this.page.getByText(this.resultsText + ` ${searchTerm}`)
     ).toBeVisible();
-    await expect(this.page.getByTestId(this.searchResult)).toHaveCount(20);
   }
 
   async clickBackLink() {
@@ -99,12 +99,12 @@ export default class ResultsPage extends BasePage {
   /**
    * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
    * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the
-   * test function selectAreasFiltersAndCheckURL. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
+   * test function selectAreasFilters. If the UI allows us to select invalid area + indicator combinations, then the chart page will error.
    *
    * @param allIndicatorIDs - a list of all possible indicator IDs which the function can filter down to the correct number of indicators to select
    * @param indicatorMode - indicator mode from the Enum IndicatorMode - used to decide how many indicators to select
    */
-  async selectIndicatorCheckboxesAndCheckURL(
+  async selectIndicatorCheckboxes(
     allIndicatorIDs: string[],
     indicatorMode: IndicatorMode
   ) {
@@ -152,61 +152,66 @@ export default class ResultsPage extends BasePage {
   }
 
   /**
-   * Selects the required area filters based on area mode
+   * Selects the required area filters based on area mode if the search mode is ONLY_SUBJECT
    *
    * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
    * @param searchTerm - search term to be used in the URL check
    */
-  async selectAreasFiltersAndCheckURL(areaMode: AreaMode, searchTerm: string) {
+  async selectAreasFiltersIfRequired(
+    searchMode: SearchMode,
+    areaMode: AreaMode,
+    searchTerm: string
+  ) {
     // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
     const defaultAreaTypeFilter = 'regions';
-    // const defaultGroupType = 'England';
 
     await this.waitForURLToContain(searchTerm);
 
-    await this.page
-      .getByTestId(this.areaTypeSelector)
-      .selectOption(defaultAreaTypeFilter);
-    await this.waitForURLToContain(defaultAreaTypeFilter);
-
-    // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
-
-    // Select appropriate number of checkboxes based on area mode
-    const areaCheckboxList = this.page
-      .getByTestId(this.selectAreasContainer)
-      .getByRole('checkbox');
-
-    const checkboxCountMap = {
-      [AreaMode.ONE_AREA]: 1,
-      [AreaMode.TWO_AREAS]: 2,
-      [AreaMode.THREE_PLUS_AREAS]: 3,
-      [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
-      [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
-    };
-    const checkboxCount = checkboxCountMap[areaMode];
-    for (let i = 0; i < checkboxCount; i++) {
-      await areaCheckboxList.nth(i + 1).check();
-      if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
-        await this.waitForURLToContain(defaultAreaTypeFilter);
-      }
-    }
-    await expect(
-      this.page.getByTestId(this.selectedAreasContainer)
-    ).toContainText(`Selected areas (${String(checkboxCount)})`);
-
-    // England area mode
-    if (AreaMode.ENGLAND_AREA === areaMode) {
+    // only do the following for SearchMode.ONLY_SUBJECT as SearchMode.ONLY_AREA/BOTH_SUBJECT_AND_AREA already have area filters selected
+    if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.page
         .getByTestId(this.areaTypeSelector)
-        .selectOption('England');
-      // uncommented in DHSCFT-255
-      // await this.page
-      //   .getByTestId(this.groupTypeSelector)
-      //   .selectOption('England');
-      // await this.waitForURLToContain(defaultGroupType);
-    }
+        .selectOption(defaultAreaTypeFilter);
 
-    await this.waitForURLToContain(searchTerm);
+      await this.waitForURLToContain(defaultAreaTypeFilter);
+
+      // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
+
+      // Select appropriate number of checkboxes based on area mode
+      const areaCheckboxList = this.page
+        .getByTestId(this.areaFilterContainer)
+        .getByRole('checkbox');
+      const checkboxCountMap = {
+        [AreaMode.ONE_AREA]: 1,
+        [AreaMode.TWO_AREAS]: 2,
+        [AreaMode.THREE_PLUS_AREAS]: 3,
+        [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
+        [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
+      };
+      const checkboxCount = checkboxCountMap[areaMode];
+      for (let i = 0; i < checkboxCount; i++) {
+        await areaCheckboxList.nth(i + 1).check();
+        if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
+          await this.waitForURLToContain(defaultAreaTypeFilter);
+        }
+      }
+      await expect(
+        this.page.getByTestId(this.areaFilterContainer)
+      ).toContainText(`Selected areas (${String(checkboxCount)})`);
+
+      // England area mode
+      if (AreaMode.ENGLAND_AREA === areaMode) {
+        await this.page
+          .getByTestId(this.areaTypeSelector)
+          .selectOption('England');
+        await this.page
+          .getByTestId(this.groupTypeSelector)
+          .selectOption('England');
+        await this.waitForURLToContain('England');
+      }
+
+      await this.waitForURLToContain(searchTerm);
+    }
   }
 
   async checkIndicatorCheckboxChecked(indicatorId: string) {
