@@ -6,7 +6,6 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using NSubstitute;
-using NSubstitute.Equivalency;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
@@ -26,51 +25,6 @@ public class IndicatorServiceTests
         _indicatorService = new IndicatorService(_healthDataRepository, _mapper);
     }
 
-    public static IEnumerable<object[]> TestData =>
-        new List<object[]>
-        {
-            new object[]
-            {
-                new[] { "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20", "a21" },
-                new[] { 20, 21, 22, 23, 24 }.Concat(Enumerable.Range(20, 12)).ToArray(),
-                new[] { "age", "sex" },
-                new[] { "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19" },
-                Enumerable.Range(20, 10).ToArray(),
-                new[] { "age", "sex" }
-            },
-            new object[]
-            {
-                new[]
-                {
-                    "a10", "a10", "a11", "a11", "a12", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19", "a20",
-                    "a21"
-                },
-                Enumerable.Range(20, 12).ToArray(),
-                new[] { "age", "sex" },
-                new[] { "a10", "a11", "a12", "a13", "a14", "a15", "a16", "a17", "a18", "a19" },
-                Enumerable.Range(20, 10).ToArray(),
-                new[] { "age", "sex" }
-            },
-            new object[]
-            {
-                new[] { "area1", "area2", "area1" },
-                new[] { 1999, 1999, 1999 },
-                new[] { "age", "sex" },
-                new[] { "area1", "area2" },
-                new[] { 1999 },
-                new[] { "age", "sex" }
-            },
-            new object[]
-            {
-                new[] { "area1", "area2" },
-                new[] { 1999, 2000 },
-                new[] { "age", "sex", "age", "sex" },
-                new[] { "area1", "area2" },
-                new[] { 1999, 2000 },
-                new[] { "age", "sex" }
-            }
-        };
-
     public static IEnumerable<object[]> BenchmarkTestData =>
         new List<object[]>
         {
@@ -85,7 +39,6 @@ public class IndicatorServiceTests
             new object[] { 9, 8, 7, IndicatorPolarity.NoJudgement, BenchmarkOutcome.Higher }
         };
 
-   
 
     [Fact]
     public async Task GetIndicatorData_DelegatesToRepository()
@@ -208,13 +161,15 @@ public class IndicatorServiceTests
         result.Count().ShouldBe(1);
         result[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode1);
         result[0].AreaName.ShouldBeEquivalentTo(expectedAreaName1);
+
         result[0].HealthData.First().BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
             Outcome = expectedResult,
             Method = BenchmarkComparisonMethod.Rag,
             BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
             BenchmarkAreaName = "Eng",
-            IndicatorPolarity = polarity
+            IndicatorPolarity = polarity,
+            BenchmarkValue = benchmarkValue
         });
     }
 
@@ -250,5 +205,79 @@ public class IndicatorServiceTests
         result[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode1);
         result[0].AreaName.ShouldBeEquivalentTo(expectedAreaName1);
         result[0].HealthData.First().BenchmarkComparison.ShouldBeEquivalentTo(null);
+    }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkingInequality()
+    {
+        const string expectedAreaCode1 = "Code1";
+        const string expectedAreaName1 = "Area 1";
+
+        var personsDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3)
+            .WithAreaDimension(expectedAreaCode1, expectedAreaName1).WithSexDimension().Build();
+        var maleDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 2, value: 3, upperCi: 4)
+            .WithAreaDimension(expectedAreaCode1, expectedAreaName1).WithSexDimension(null, "Male").Build();
+        var femaleDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 3, value: 4, upperCi: 5)
+            .WithAreaDimension(expectedAreaCode1, expectedAreaName1).WithSexDimension(null, "Female").Build();
+
+
+        const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
+        const string benchmarkAreaName = "Eng";
+        var englandDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6)
+            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
+
+        var mockHealthData = new List<HealthMeasureModel>
+            { personsDataPoint, maleDataPoint, femaleDataPoint, englandDataPoint };
+
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
+            .Returns(mockHealthData);
+
+        _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
+        var result =
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode1], [], ["Sex"],
+                BenchmarkComparisonMethod.Rag))
+            .ToList();
+
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        result[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode1);
+        result[0].AreaName.ShouldBeEquivalentTo(expectedAreaName1);
+        result[0].HealthData.Count().ShouldBe(3);
+
+        var personsResult = result[0].HealthData.ElementAt(0);
+        personsResult.Sex.ShouldBe("Persons");
+        personsResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Worse,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
+            BenchmarkAreaName = "Eng",
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 5
+        });
+
+        var maleResult = result[0].HealthData.ElementAt(1);
+        maleResult.Sex.ShouldBe("Male");
+        maleResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Similar,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = "",
+            BenchmarkAreaName = "",
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 2
+        });
+
+        var femaleResult = result[0].HealthData.ElementAt(2);
+        femaleResult.Sex.ShouldBe("Female");
+        femaleResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Better,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = "",
+            BenchmarkAreaName = "",
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 2
+        });
     }
 }
