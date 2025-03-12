@@ -32,29 +32,48 @@ public static class BenchmarkComparisonEngine
         IndicatorPolarity polarity
     )
     {
-        foreach (var healthDataPointOfInterest in healthDataForAreasOfInterest
-             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode)
-             .SelectMany(healthDataForArea => healthDataForArea.HealthData))
+        var inequalityAggregatedDimension = "Sex";
+        var inequalityDisaggregationTerm = "Persons";
+
+        var allHealthAreasOfInterest = healthDataForAreasOfInterest
+            .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
+
+        foreach (var healthAreaData in allHealthAreasOfInterest)
         {
-            var benchmarkHealthDataPoint = benchmarkHealthData.HealthData.FirstOrDefault(item => item.Year == healthDataPointOfInterest.Year);
-            if (benchmarkHealthDataPoint == null)
-                continue;
-
-            var comparisonValue = 0;
-            if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
-                comparisonValue = -1;
-            if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
-                comparisonValue = 1;
-
-            healthDataPointOfInterest.BenchmarkComparison= new BenchmarkComparison
+            var areaHealthData = healthAreaData.HealthData;
+            foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
-                Method = comparisonMethod,
-                Outcome = GetOutcome(comparisonValue, polarity),
-                IndicatorPolarity = polarity,
-                BenchmarkAreaCode = benchmarkHealthData.AreaCode,
-                BenchmarkAreaName = benchmarkHealthData.AreaName
-            };
+                var isInequalityDataPoint =
+                    GetProperty(healthDataPointOfInterest, inequalityAggregatedDimension) !=
+                    inequalityDisaggregationTerm;
+                var benchmarkHealthDataPoint = isInequalityDataPoint
+                    ? areaHealthData.FirstOrDefault(item =>
+                        item.Year == healthDataPointOfInterest.Year &&
+                        GetProperty(item, inequalityAggregatedDimension) == inequalityDisaggregationTerm)
+                    : benchmarkHealthData.HealthData.FirstOrDefault(item =>
+                        item.Year == healthDataPointOfInterest.Year);
+
+                if (benchmarkHealthDataPoint == null)
+                    continue;
+
+                var comparisonValue = 0;
+                if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
+                    comparisonValue = -1;
+                if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
+                    comparisonValue = 1;
+
+                healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
+                {
+                    Method = comparisonMethod,
+                    Outcome = GetOutcome(comparisonValue, polarity),
+                    IndicatorPolarity = polarity,
+                    BenchmarkValue = benchmarkHealthDataPoint.Value,
+                    BenchmarkAreaCode = isInequalityDataPoint ? "" : benchmarkHealthData.AreaCode,
+                    BenchmarkAreaName = isInequalityDataPoint ? "" : benchmarkHealthData.AreaName
+                };
+            }
         }
+
         return healthDataForAreasOfInterest;
     }
 
@@ -108,5 +127,15 @@ public static class BenchmarkComparisonEngine
             default:
                 return BenchmarkOutcome.Similar;
         }
+    }
+
+    private static string GetProperty(HealthDataPoint dataPoint, string propertyName)
+    {
+        return propertyName switch
+        {
+            "Sex" => dataPoint.Sex ?? "",
+            "AgeBand" => dataPoint.AgeBand ?? "",
+            _ => ""
+        };
     }
 }

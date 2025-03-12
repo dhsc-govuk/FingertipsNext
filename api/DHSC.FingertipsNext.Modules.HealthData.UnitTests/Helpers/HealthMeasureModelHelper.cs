@@ -11,11 +11,11 @@ public class HealthMeasureModelHelper(
     short year = 2025
 )
 {
-    private AreaDimensionModel? _areaDimension;
     private AgeDimensionModel? _ageDimension;
+    private AreaDimensionModel? _areaDimension;
+    private DeprivationDimensionModel? _deprivationDimension;
     private IndicatorDimensionModel? _indicatorDimension;
     private SexDimensionModel? _sexDimension;
-    private DeprivationDimensionModel? _deprivationDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
@@ -30,7 +30,7 @@ public class HealthMeasureModelHelper(
             Code = code,
             Name = name,
             StartDate = startDate ?? DateTime.Today,
-            EndDate = endDate ?? DateTime.Today.AddDays(1),
+            EndDate = endDate ?? DateTime.Today.AddDays(1)
         };
         return this;
     }
@@ -43,7 +43,7 @@ public class HealthMeasureModelHelper(
             Code = "AreaCode",
             Name = "area name",
             StartDate = DateTime.Today,
-            EndDate = DateTime.Today.AddDays(1),
+            EndDate = DateTime.Today.AddDays(1)
         };
     }
 
@@ -88,7 +88,7 @@ public class HealthMeasureModelHelper(
             Name = name,
             IndicatorId = indicatorId,
             StartDate = startDate ?? DateTime.Today,
-            EndDate = endDate ?? DateTime.Today.AddDays(1),
+            EndDate = endDate ?? DateTime.Today.AddDays(1)
         };
         return this;
     }
@@ -101,12 +101,12 @@ public class HealthMeasureModelHelper(
             Name = "indicator name",
             IndicatorId = 1,
             StartDate = DateTime.Today,
-            EndDate = DateTime.Today.AddDays(1),
+            EndDate = DateTime.Today.AddDays(1)
         };
     }
 
     public HealthMeasureModelHelper WithSexDimension(
-        string name = "sex name",
+        string name = "Persons",
         bool hasValue = false,
         byte sexId = 0)
     {
@@ -126,7 +126,7 @@ public class HealthMeasureModelHelper(
         return new SexDimensionModel
         {
             SexKey = (byte)key,
-            Name = "sex name",
+            Name = "Persons",
             HasValue = false,
             SexId = 0
         };
@@ -162,7 +162,7 @@ public class HealthMeasureModelHelper(
 
     private DeprivationDimensionModel DefaultDeprivationDimension()
     {
-        return new DeprivationDimensionModel()
+        return new DeprivationDimensionModel
         {
             DeprivationKey = (short)key,
             Name = "All",
