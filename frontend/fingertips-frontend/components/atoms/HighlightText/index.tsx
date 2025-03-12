@@ -8,7 +8,7 @@ export const HighlightText = ({
   text,
   searchHint,
 }: Readonly<{ text: string; searchHint: string }>) => {
-  const firstIndexOf = text.indexOf(searchHint);
+  const firstIndexOf = text.toLowerCase().indexOf(searchHint.toLowerCase());
   const lastIndexOf = firstIndexOf + searchHint.length;
 
   const firstStandardPart = text.slice(0, firstIndexOf);

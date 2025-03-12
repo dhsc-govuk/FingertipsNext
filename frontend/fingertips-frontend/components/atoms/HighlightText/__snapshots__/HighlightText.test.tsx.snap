@@ -16,6 +16,21 @@ exports[`HighlightText should highlight the searchHint part of the text provided
 </DocumentFragment>
 `;
 
+exports[`HighlightText should highlight the searchHint part of the text provided regardless of case 1`] = `
+<DocumentFragment>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    This
+  </span>
+   is some text
+</DocumentFragment>
+`;
+
 exports[`HighlightText should highlight the searchHint part of the text provided when there are parentheses 1`] = `
 <DocumentFragment>
   .c0 {
