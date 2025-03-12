@@ -9,7 +9,11 @@ import {
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  AreaDocument,
+  IndicatorDocument,
+  RawIndicatorDocument,
+} from '@/lib/search/searchTypes';
 import { englandArea } from '@/mock/data/areas/englandAreas';
 
 // tests in this file use mock service worker to mock the API response
@@ -17,7 +21,7 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
 // and frontend/fingertips-frontend/assets/mockAreaData.json
 
-const indicatorData = mockIndicators as IndicatorDocument[];
+const indicatorData = mockIndicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
@@ -29,10 +33,14 @@ test.beforeAll(
   `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {
     const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
+      (indicator): IndicatorDocument => {
         return {
           ...indicator,
-          lastUpdated: new Date(indicator.lastUpdatedDate),
+          indicatorID: String(indicator.indicatorID),
+          dataSource: indicator.dataSource ?? '',
+          earliestDataPeriod: String(indicator.earliestDataPeriod),
+          latestDataPeriod: String(indicator.latestDataPeriod),
+          lastUpdatedDate: new Date(indicator.lastUpdatedDate),
         };
       }
     );

@@ -6,9 +6,12 @@ import {
   SearchMode,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  IndicatorDocument,
+  RawIndicatorDocument,
+} from '@/lib/search/searchTypes';
 
-const indicatorData = indicators as IndicatorDocument[];
+const indicatorData = indicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const areaSearchTerm = 'north west region';
 let allIndicatorIDs: string[];
@@ -54,10 +57,14 @@ test.beforeAll(
   `return all matching indicatorIDs from the real data source based on the subjectSearchTerm: ${subjectSearchTerm}`,
   () => {
     const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
+      (indicator): IndicatorDocument => {
         return {
           ...indicator,
-          lastUpdated: new Date(indicator.lastUpdatedDate),
+          indicatorID: String(indicator.indicatorID),
+          dataSource: indicator.dataSource ?? '',
+          earliestDataPeriod: String(indicator.earliestDataPeriod),
+          latestDataPeriod: String(indicator.latestDataPeriod),
+          lastUpdatedDate: new Date(indicator.lastUpdatedDate),
         };
       }
     );

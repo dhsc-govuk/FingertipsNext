@@ -6,6 +6,7 @@ import {
   IndicatorDocument,
   IAreaSearchService,
   IIndicatorSearchService,
+  RawIndicatorDocument,
 } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
@@ -83,12 +84,13 @@ export class SearchServiceFactory {
       `buildIndicatorSearchService: useMockService: ${useMockServer}`
     );
     if (useMockServer === 'true') {
-      const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
+      const unparsedIndicatorData = mockIndicatorData as RawIndicatorDocument[];
       const typedIndicatorData = unparsedIndicatorData.map(
         (ind): IndicatorDocument => {
           return {
             ...ind,
             indicatorID: String(ind.indicatorID),
+            dataSource: ind.dataSource ?? '',
             earliestDataPeriod: String(ind.earliestDataPeriod),
             latestDataPeriod: String(ind.latestDataPeriod),
             lastUpdatedDate: new Date(ind.lastUpdatedDate),

@@ -9,6 +9,20 @@ export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 export const AREA_TYPE_GP = 'GPs';
 
+export type RawIndicatorDocument = {
+  indicatorID: number;
+  indicatorName: string;
+  indicatorDefinition: string;
+  dataSource: string | null;
+  earliestDataPeriod: number; // Oldest value held in database column 'Year'.
+  latestDataPeriod: number; // Newest value held in database column 'Year'.
+  lastUpdatedDate: string;
+  associatedAreaCodes: string[];
+  hasInequalities: boolean;
+  unitLabel: string;
+  usedInPoc: boolean; // data maps to search-setup/assets/indicators.csv
+};
+
 export type IndicatorDocument = {
   indicatorID: string;
   indicatorName: string;
