@@ -64,21 +64,16 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Run Playwright tests in CI - skip screenshot comparisons for pull_request workflows
+      - name: Run Playwright tests in CI
         if: inputs.e2e-test-container-image == null
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            npm run test-e2e-local-docker
-          else
-            npm run test-e2e-ci-docker
-          fi
+        run: npm run test-e2e-ci-docker
 
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.e2e-test-container-image != null
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: Run Playwright tests in CD - skip screenshot comparisons for this workflows
+      - name: Run Playwright tests in CD - skip screenshots
         if: inputs.e2e-test-container-image != null
         run: npm run test-e2e-ci-azure
         env:
