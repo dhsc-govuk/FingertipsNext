@@ -14,6 +14,12 @@ type ConfidenceIntervalCheckboxProps = {
   searchState: SearchStateParams;
 };
 
+const StyledParagraph = styled(Paragraph)(
+    spacing.withWhiteSpace({
+      margin: [{ size: 0 }],
+    })
+);
+
 export function ConfidenceIntervalCheckbox({
   chartName,
   showConfidenceIntervalsData,
@@ -37,12 +43,6 @@ export function ConfidenceIntervalCheckbox({
     }
     replace(stateManager.generatePath(pathname), { scroll: false });
   };
-
-  const StyledParagraph = styled(Paragraph)(
-    spacing.withWhiteSpace({
-      margin: [{ size: 0 }],
-    })
-  );
 
   return (
     <Checkbox

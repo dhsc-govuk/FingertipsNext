@@ -63,6 +63,7 @@ exports[`Error Page snapshot test 1`] = `
 
 <h1
     class="c0"
+    data-testid="error-page-title"
   >
     Sorry, there is a problem with the service
   </h1>

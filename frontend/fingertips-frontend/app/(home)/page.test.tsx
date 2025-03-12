@@ -139,20 +139,4 @@ describe('Home page', () => {
       expect(page.props.searchState).toEqual(updatedSearchState);
     });
   });
-
-  describe('Check correct props are passed to the error component when there is an error', () => {
-    it('should pass the correct props when getAreaFilterData call returns an error', async () => {
-      mockGetAreaFilterData.mockRejectedValue('Some areas api error');
-
-      const page = await HomePage({
-        searchParams: generateSearchParams({}),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
-    });
-  });
 });

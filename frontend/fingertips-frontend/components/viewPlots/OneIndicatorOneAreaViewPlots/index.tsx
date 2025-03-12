@@ -22,14 +22,15 @@ type OneIndicatorOneAreaViewProps = {
   indicatorMetadata?: IndicatorDocument;
 };
 
+const StyledParagraphDataSource = styled(Paragraph)(
+    typography.font({ size: 16 })
+);
+
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorOneAreaViewProps>) {
-  const StyledParagraphDataSource = styled(Paragraph)(
-    typography.font({ size: 16 })
-  );
 
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
