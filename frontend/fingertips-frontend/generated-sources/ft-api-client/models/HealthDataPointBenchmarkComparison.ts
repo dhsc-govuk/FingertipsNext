@@ -49,6 +49,12 @@ export interface HealthDataPointBenchmarkComparison {
      * @memberof HealthDataPointBenchmarkComparison
      */
     benchmarkAreaName?: string;
+    /**
+     * The value that was compared against to determine this benchmark outcome
+     * @type {number}
+     * @memberof HealthDataPointBenchmarkComparison
+     */
+    benchmarkValue?: number;
 }
 
 
@@ -107,6 +113,7 @@ export function HealthDataPointBenchmarkComparisonFromJSONTyped(json: any, ignor
         'indicatorPolarity': json['indicatorPolarity'] == null ? undefined : json['indicatorPolarity'],
         'benchmarkAreaCode': json['benchmarkAreaCode'] == null ? undefined : json['benchmarkAreaCode'],
         'benchmarkAreaName': json['benchmarkAreaName'] == null ? undefined : json['benchmarkAreaName'],
+        'benchmarkValue': json['benchmarkValue'] == null ? undefined : json['benchmarkValue'],
     };
 }
 
@@ -126,6 +133,7 @@ export function HealthDataPointBenchmarkComparisonToJSONTyped(value?: HealthData
         'indicatorPolarity': value['indicatorPolarity'],
         'benchmarkAreaCode': value['benchmarkAreaCode'],
         'benchmarkAreaName': value['benchmarkAreaName'],
+        'benchmarkValue': value['benchmarkValue'],
     };
 }
 

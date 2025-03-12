@@ -23,8 +23,9 @@ import {
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
 import {
-  HealthDataForArea,
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
+  HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
@@ -60,19 +61,18 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorId),
-          areaCodes: areaCodesToRequest,
-          inequalities: shouldDisplayInequalities(
-            indicatorsSelected,
-            areasSelected
-          )
-            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-            : [],
-        },
-        API_CACHE_CONFIG
-      )
+      indicatorApi.getHealthDataForAnIndicator({
+        indicatorId: Number(indicatorId),
+        areaCodes: areaCodesToRequest,
+        inequalities: shouldDisplayInequalities(
+          indicatorsSelected,
+          areasSelected
+        )
+          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+          : [],
+        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+      }, 
+      API_CACHE_CONFIG)
     )
   );
 
