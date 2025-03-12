@@ -83,6 +83,7 @@ export class SearchServiceFactory {
       `buildIndicatorSearchService: useMockService: ${useMockServer}`
     );
     if (useMockServer === 'true') {
+      //@ts-ignore
       const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
       const typedIndicatorData = unparsedIndicatorData.map(
         (ind): IndicatorDocument => {

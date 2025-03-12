@@ -16,7 +16,7 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 // so that the tests can be run without the need for a backend
 // see frontend/fingertips-frontend/assets/mockIndicatorData.json
 // and frontend/fingertips-frontend/assets/mockAreaData.json
-
+//@ts-ignore
 const indicatorData = mockIndicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
