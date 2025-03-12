@@ -89,8 +89,8 @@ describe('sortHealthDataByDate', () => {
         ],
       },
     ];
-    const result = sortHealthDataForAreasByDate(mockData);
 
+    const result = sortHealthDataForAreasByDate(mockData);
     expect(result).toEqual(mockSortedData);
   });
 });
