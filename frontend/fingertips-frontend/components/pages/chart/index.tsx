@@ -52,22 +52,22 @@ export function Chart({
 
   useEffect(() => {
     const fetchIndicatorMeta = async (indicator: string) => {
-      const document =
-        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-          indicator
+      try {
+        const document =
+          await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+            indicator
+          );
+        setIndicatorMetaData(document);
+      }
+      catch (error) {
+        console.error(
+          'error getting meta data for health indicator for area',
+          error
         );
-      setIndicatorMetaData(document);
-    };
-
-    try {
+      };
       fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
-    } catch (error) {
-      console.error(
-        'error getting meta data for health indicator for area',
-        error
-      );
-    }
-  }, [indicatorsSelected]);
+
+    }, [indicatorsSelected]);
 
   return (
     <>
