@@ -37,7 +37,7 @@ exports[`Testing the BenchmarkLabel Component snapshot testing of the UI 1`] = `
   font-weight: 300;
   text-transform: unset;
   background-color: #D494C1;
-  color: var(--other-black,#0B0C0C);
+  color: #0B0C0C;
 }
 
 @media print {
