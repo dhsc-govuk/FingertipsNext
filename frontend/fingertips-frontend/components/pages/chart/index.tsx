@@ -18,14 +18,12 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
 
-
-
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
-  measurementUnit?: string
+  measurementUnit?: string;
 };
 
 export function Chart({
@@ -33,7 +31,7 @@ export function Chart({
   mapData,
   populationData,
   searchState,
-  measurementUnit
+  measurementUnit,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -47,8 +45,6 @@ export function Chart({
     healthIndicatorData[0],
     selectedGroupCode
   );
-
-
 
   return (
     <>
