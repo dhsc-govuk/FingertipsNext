@@ -4,7 +4,6 @@ import { SearchResult } from '.';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { string } from 'zod';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 let user: UserEvent;
