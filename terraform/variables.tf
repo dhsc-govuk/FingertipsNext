@@ -75,7 +75,7 @@ variable "startup_probe" {
 variable "min_replicas" {
   description = "The minimum number of replicas for the container app."
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "max_replicas" {
