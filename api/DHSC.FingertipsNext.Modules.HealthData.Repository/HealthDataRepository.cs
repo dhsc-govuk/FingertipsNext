@@ -21,7 +21,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
-            .Where(hm => areaCodes.Length == 0 || areaCodes.Contains(hm.AreaDimension.Code))
+            .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
             // .Where(hm => inequalities.Contains("sex")
             //     ? true
