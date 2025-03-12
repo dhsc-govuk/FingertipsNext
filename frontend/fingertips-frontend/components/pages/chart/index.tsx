@@ -60,7 +60,7 @@ export function Chart({
     };
 
     try {
-      fetchIndicatorMeta(indicatorsSelected[0]);
+      fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
     } catch (error) {
       console.error(
         'error getting meta data for health indicator for area',
