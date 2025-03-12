@@ -83,7 +83,8 @@ export class SearchServiceFactory {
       `buildIndicatorSearchService: useMockService: ${useMockServer}`
     );
     if (useMockServer === 'true') {
-      //@ts-ignore
+      
+      //@ts-expect-error don't care about type checking this json file
       const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
       const typedIndicatorData = unparsedIndicatorData.map(
         (ind): IndicatorDocument => {
