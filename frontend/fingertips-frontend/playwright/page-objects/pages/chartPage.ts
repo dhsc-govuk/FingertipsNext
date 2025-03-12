@@ -5,7 +5,7 @@ import {
 } from '@/playwright/testHelpers';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
-import { TestType } from '@playwright/test';
+import { PlaywrightTestArgs, PlaywrightTestOptions, PlaywrightWorkerArgs, PlaywrightWorkerOptions, TestType } from '@playwright/test';
 
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
@@ -36,8 +36,11 @@ export default class ChartPage extends BasePage {
    * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode, test: TestType<any, any>) {
+  async checkChartVisibility(
+    indicatorMode: IndicatorMode,
+    areaMode: AreaMode,
+    test: TestType<PlaywrightTestArgs & PlaywrightTestOptions, PlaywrightWorkerArgs & PlaywrightWorkerOptions>
+  ) {
     const testInfo = test.info();
     const testName = testInfo.title;
     const { visibleComponents, hiddenComponents } = getScenarioConfig(
@@ -71,9 +74,9 @@ export default class ChartPage extends BasePage {
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(
-          this.page.getByTestId(visibleComponent)
-        ).toHaveScreenshot(`${testName}-${visibleComponent}.png`);
+        await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot(
+          `${testName}-${visibleComponent}.png`
+        );
       } catch (error) {
         const typedError = error as Error;
         console.warn(
