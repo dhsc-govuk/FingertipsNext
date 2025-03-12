@@ -64,7 +64,9 @@ export function Chart({
         console.error(e);
       }
     };
-    fetchIndicatorMeta(indicatorsSelected ? indicatorsSelected[0] : '');
+    fetchIndicatorMeta(
+      indicatorsSelected?.length > 0 ? indicatorsSelected[0] : ''
+    );
   }, [indicatorsSelected]);
 
   return (
