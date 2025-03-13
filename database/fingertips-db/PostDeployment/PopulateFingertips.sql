@@ -144,7 +144,7 @@ ELSE
     SET @filePathDeprivation = '$(LocalFilePath)categories.csv';
 SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDeprivation + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlDeprivation;
@@ -196,7 +196,7 @@ ELSE
     SET @filePathAge = '$(LocalFilePath)agedata.csv';
 SET @sqlAge = 'BULK INSERT #TempAgeData FROM ''' + @filePathAge + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlAge;
@@ -232,7 +232,7 @@ ELSE
     SET @filePathInd = '$(LocalFilePath)indicators.csv';
 SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlInd;
