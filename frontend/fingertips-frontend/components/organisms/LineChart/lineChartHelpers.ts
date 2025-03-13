@@ -1,12 +1,11 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
-import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export function generateSeriesData(
   data: HealthDataForArea[],
   symbols: SymbolKeyValue[],
-  chartColours: ChartColours[],
+  chartColours: GovukColours[],
   benchmarkData?: HealthDataForArea,
   parentIndicatorData?: HealthDataForArea,
   showConfidenceIntervalsData?: boolean

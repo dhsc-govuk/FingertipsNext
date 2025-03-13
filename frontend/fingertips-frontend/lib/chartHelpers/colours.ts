@@ -18,4 +18,3 @@ export const chartColours = [
   GovukColours.LightBlue,
   GovukColours.OtherLightPurple,
 ];
-GovukColours;
