@@ -8,10 +8,11 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
-import { ChartColours, chartColours } from '@/lib/chartHelpers/colours';
+import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
@@ -81,7 +82,7 @@ export function LineChart({
     seriesData = generateSeriesData(
       [sortedBenchMarkData],
       ['circle'],
-      [ChartColours.Black],
+      [GovukColours.DarkGrey],
       undefined,
       undefined,
       lineChartCI

@@ -1,6 +1,5 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData } from './lineChartHelpers';
-import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
@@ -87,10 +86,10 @@ const mockData = [
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
-const chartColours: ChartColours[] = [
-  ChartColours.Orange,
-  ChartColours.LightPurple,
-  ChartColours.DarkPink,
+const chartColours: GovukColours[] = [
+  GovukColours.Orange,
+  GovukColours.LightPurple,
+  GovukColours.DarkPink,
 ];
 
 describe('generateSeriesData', () => {
@@ -576,9 +575,9 @@ describe('generateSeriesData', () => {
   });
 
   it('should repeat colours when there are more series than colours', () => {
-    const chartColours: ChartColours[] = [
-      ChartColours.Orange,
-      ChartColours.LightPurple,
+    const chartColours: GovukColours[] = [
+      GovukColours.Orange,
+      GovukColours.LightPurple,
     ];
     const errorBarColour = '#B1B4B6';
 
