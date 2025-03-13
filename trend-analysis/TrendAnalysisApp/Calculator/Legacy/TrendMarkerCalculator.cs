@@ -9,7 +9,6 @@ namespace TrendAnalysisApp.Calculator.Legacy
         public const double ChiSquareConfidence = 9.54953570608324;
 
         private Dictionary<int, TrendMarkerCalculatedValue> _trendMarkerCalculatedValues;
-        private Dictionary<int, TrendMarkerCalculatedValueForProportion> _trendMarkerCalculatedValueForProportions;
         private double _chi2;
 
         public double Slope { get; set; }
@@ -40,9 +39,7 @@ namespace TrendAnalysisApp.Calculator.Legacy
             }
 
             // Is there a significant trend
-            var isSignificant = trendRequest.ComparatorMethodId == ComparatorMethodIds.SpcForProportions
-                ? IsSignificantForProportions(trendRequest)
-                : IsSignificant(trendRequest);
+            var isSignificant = IsSignificant(trendRequest);
 
             // Calculate trend marker if there is a significant trend
             if (isSignificant)
@@ -108,55 +105,6 @@ namespace TrendAnalysisApp.Calculator.Legacy
         }
 
         /// <summary>
-        /// Checks whether the core data set records are significant.
-        /// This calculation is only for the comparator method SPC for proportions
-        /// </summary>
-        /// <returns>A boolean result</returns>
-        private bool IsSignificantForProportions(TrendRequest trendRequest)
-        {
-            var validDataList = trendRequest.ValidData.ToList();
-            var dataList = GetMostRecentData(validDataList);
-            var counter = 1;
-            var denomSum = 0.0;
-            var countAndYearSum = 0.0;
-            var countSum = 0.0;
-            var denomAndYearSum = 0.0;
-            var denomAndYearPower2Sum = 0.0;
-
-            _trendMarkerCalculatedValueForProportions = new Dictionary<int, TrendMarkerCalculatedValueForProportion>();
-;
-            foreach (var coreDataSet in dataList)
-            {
-                var countValue = coreDataSet.Count.Value;
-                var logValue = Math.Log(countValue / (coreDataSet.Denominator - countValue));
-
-                var trendMarkerCalculatedValueForProportion = new TrendMarkerCalculatedValueForProportion()
-                {
-                    Value = logValue,
-                    MultipliedValue = logValue * counter
-                };
-
-                _trendMarkerCalculatedValueForProportions.Add(counter, trendMarkerCalculatedValueForProportion);
-
-                denomSum += coreDataSet.Denominator;
-                countAndYearSum += countValue * counter;
-                countSum += countValue;
-                denomAndYearSum += coreDataSet.Denominator * counter;
-                denomAndYearPower2Sum += coreDataSet.Denominator * Math.Pow(counter, 2);
-
-                counter++;
-            }
-
-
-            var numerator = denomSum * Math.Pow((denomSum * countAndYearSum) - (countSum * denomAndYearSum), 2);
-            var denominator = countSum * (denomSum - countSum) * ((denomSum * denomAndYearPower2Sum) - Math.Pow(denomAndYearSum, 2));
-            _chi2 = numerator / denominator;
-
-            var noOutliers = NoOutliersCheckForProportion();
-            return noOutliers && _chi2 > ChiSquareConfidence;
-        }
-
-        /// <summary>
         /// Check whether any outlier exists.
         /// This calculation is for comparator methods other than SPC for proportions
         /// </summary>
@@ -206,84 +154,6 @@ namespace TrendAnalysisApp.Calculator.Legacy
 
                     var beta = Math.Sqrt(sum1 / ((sum1 * sum5) - Math.Pow(sum3, 2)));
                     _chi2 = Math.Pow((Slope / beta), 2);
-                }
-            }
-
-            // Return
-            return Math.Abs(slopeSum) == NumberOfIterations;
-        }
-
-        /// <summary>
-        /// Check whether any outlier exists.
-        /// This calculation is only for the comparator method SPC for proportions
-        /// </summary>
-        /// <returns>A boolean result</returns>
-        private bool NoOutliersCheckForProportion()
-        {
-            var slopeSum = 0;
-
-            for (var checkCounter = 0; checkCounter <= PointsToUse; checkCounter++)
-            {
-                var valueSum = 0.0;
-                var multipliedValueSum = 0.0;
-                var sumTi = 0;
-                var nSumTi2 = 0;
-
-                foreach (var data in _trendMarkerCalculatedValueForProportions)
-                {
-                    if ((checkCounter == 0) || (checkCounter > 0 && data.Key != checkCounter))
-                    {
-                        valueSum += data.Value.Value;
-                        multipliedValueSum += data.Value.MultipliedValue;
-                    }
-                }
-
-                if (checkCounter == 0)
-                {
-                    multipliedValueSum = PointsToUse * multipliedValueSum;
-                }
-                else
-                {
-                    multipliedValueSum = (PointsToUse - 1) * multipliedValueSum;
-                }
-
-                switch (checkCounter)
-                {
-                    case 0:
-                        sumTi = 15;
-                        nSumTi2 = 275;
-                        break;
-                    case 1:
-                        sumTi = 14;
-                        nSumTi2 = 216;
-                        break;
-                    case 2:
-                        sumTi = 13;
-                        nSumTi2 = 204;
-                        break;
-                    case 3:
-                        sumTi = 12;
-                        nSumTi2 = 184;
-                        break;
-                    case 4:
-                        sumTi = 11;
-                        nSumTi2 = 156;
-                        break;
-                    case 5:
-                        sumTi = 10;
-                        nSumTi2 = 120;
-                        break;
-                }
-
-                // Calculate the slope value and sum of the slope values
-                var slopeValue = (multipliedValueSum - (valueSum * sumTi)) / (nSumTi2 - Math.Pow(sumTi, 2));
-
-                slopeSum += slopeValue < 0 ? -1 : 1;
-
-                // Calculate slope considering all trend marker calculated rows
-                if (checkCounter == 0)
-                {
-                    Slope = slopeValue;
                 }
             }
 

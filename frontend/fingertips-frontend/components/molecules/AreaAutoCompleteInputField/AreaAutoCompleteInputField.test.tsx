@@ -62,11 +62,13 @@ describe('AreaAutoCompleteInputField', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(mockAreas.length);
   });
 
-  it('should pre-populate the search input field with name of firstSelectedArea provided', () => {
+  it('should pre-populate the search input field with the selected name provided', () => {
     render(
       <AreaAutoCompleteInputField
         inputFieldErrorStatus={false}
-        firstSelectedArea={mockAreaDataForNHSRegion[eastEnglandNHSRegion.code]}
+        selectedAreaName={
+          mockAreaDataForNHSRegion[eastEnglandNHSRegion.code].name
+        }
       />
     );
 
