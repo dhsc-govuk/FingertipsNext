@@ -355,39 +355,40 @@ jobs:
           chmod +x sqlpackage/sqlpackage
           echo "$(pwd)/sqlpackage" >> $GITHUB_PATH
 
-      - name: Install SQLCMD on Ubuntu
+      - name: Install go-sqlcmd on Ubuntu
         run: |
-          sudo apt-get update
-          sudo apt-get install -y curl apt-transport-https gnupg ca-certificates
-          sudo mkdir -p /etc/apt/keyrings
-          curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/keyrings/microsoft.asc > /dev/null
-          echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.asc] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | sudo tee /etc/apt/sources.list.d/mssql-release.list
-          sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
-          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-          echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.profile
+          SQLCMD_VERSION="2.0.0"  # Change this to the latest version available
+          mkdir -p /opt/sqlcmd
+          curl -L -o sqlcmd.tar.bz2 "https://github.com/microsoft/go-sqlcmd/releases/download/v${SQLCMD_VERSION}/sqlcmd-v${SQLCMD_VERSION}-linux-x64.tar.bz2"
+          tar -xvjf sqlcmd.tar.bz2 -C /opt/sqlcmd
+          chmod +x /opt/sqlcmd/sqlcmd
+          echo 'export PATH="$PATH:/opt/sqlcmd"' >> ~/.bashrc
+          echo 'export PATH="$PATH:/opt/sqlcmd"' >> ~/.profile
           source ~/.bashrc
 
       - uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Detect Public IP Address via SQLCMD
+      - name: Detect Public IP Address via go-sqlcmd
         id: detect-ip
         run: |
-          export PATH="$PATH:/opt/mssql-tools/bin"
-    
-          ERROR_MSG=$(sqlcmd -S ${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
-    
-          echo "Raw SQLCMD Output: $ERROR_MSG"
-    
+          export PATH="$PATH:/opt/sqlcmd"
+
+          echo "Attempting to connect to SQL Server using go-sqlcmd..."
+
+          ERROR_MSG=$(/opt/sqlcmd/sqlcmd -S tcp:${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
+
+          echo "Raw SQLCMD Output:"
+          echo "$ERROR_MSG"
+
           IP_REGEX='([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})'
           if [[ $ERROR_MSG =~ $IP_REGEX ]]; then
               CLIENT_IP="${BASH_REMATCH[1]}"
-              echo "Detected IP: $CLIENT_IP"
+              echo "Detected IP Address: $CLIENT_IP"
               echo "CLIENT_IP=$CLIENT_IP" >> $GITHUB_ENV
           else
-              echo "Failed to detect IP address. Exiting..."
+              echo "Failed to extract IP address. The error message format might have changed."
               exit 1
           fi
     
