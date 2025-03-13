@@ -375,10 +375,10 @@ jobs:
       - name: Detect Public IP Address via SQLCMD
         id: detect-ip
         run: |
-          export CONNECTION_STRING="Server=${{ secrets.AZURE_SQL_SERVER }},1433;Database=master;User Id=${{ secrets.AZURE_SQL_USER }};Password=${{ secrets.AZURE_SQL_PASSWORD }};Encrypt=True;TrustServerCertificate=False;"
-          
+          export PATH="$PATH:/opt/mssql-tools/bin"
+    
           ERROR_MSG=$(sqlcmd -S ${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
-          
+    
           echo "Raw SQLCMD Output: $ERROR_MSG"
     
           IP_REGEX='([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})'
