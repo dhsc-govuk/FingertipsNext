@@ -6,14 +6,9 @@ import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
-  convertToPercentage,
   StyledAlignLeftHeader,
-  StyledAlignLeftTableCell,
   StyledAlignRightHeader,
-  StyledAlignRightTableCell,
-  StyledDiv,
   StyledGreyHeader,
-  StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
 import { Sex } from '../Inequalities/inequalitiesHelpers';
 
@@ -46,20 +41,16 @@ export interface SpineChartTableRowData {
   value?: number;
 }
 
-const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  width: '10%',
-  padding: '1em 0',
-  textAlign: 'center',
-});
-
 const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
+  textAlign: 'left', 
 });
 
 const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
-  borderTop: GovukColours.DarkGrey,
+  borderTop: GovukColours.LightGrey,
+  textAlign: 'center',
 });
 
 export function SpineChartTableHeader({
@@ -71,9 +62,9 @@ export function SpineChartTableHeader({
       <Table.Row>
         <Table.CellHeader colspan={3}  data-testid="empty-header">
         </Table.CellHeader>
-        <Table.CellHeader colspan={2} data-testid="area-header">
+        <StyledAlignLeftHeader colspan={2} data-testid="area-header">
           {areaName}
-        </Table.CellHeader>
+        </StyledAlignLeftHeader>
         <StyledGroupHeader data-testid="group-header">
           {groupName}
         </StyledGroupHeader>
@@ -82,8 +73,9 @@ export function SpineChartTableHeader({
         </StyledBenchmarkHeader>
       </Table.Row> 
       <Table.Row>
-        {Object.values(SpineChartTableHeadingEnum).map((heading) => (
-          <Table.CellHeader data-testid="$heading-header">
+        {Object.values(SpineChartTableHeadingEnum).map((heading, index) => (
+          <Table.CellHeader data-testid={`${heading}-header-${index}`}>
+          {heading}
           </Table.CellHeader>
         ))}
       </Table.Row>          
