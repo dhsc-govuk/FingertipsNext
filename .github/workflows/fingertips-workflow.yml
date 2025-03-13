@@ -370,36 +370,36 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Detect Public IP Address via go-sqlcmd
-        id: detect-ip
-        run: |
-          export PATH="$PATH:/opt/sqlcmd"
+      # - name: Detect Public IP Address via go-sqlcmd
+      #   id: detect-ip
+      #   run: |
+      #     export PATH="$PATH:/opt/sqlcmd"
 
-          echo "Attempting to connect to SQL Server using go-sqlcmd..."
+      #     echo "Attempting to connect to SQL Server using go-sqlcmd..."
 
-          ERROR_MSG=$(/opt/sqlcmd/sqlcmd -S tcp:${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
+      #     ERROR_MSG=$(/opt/sqlcmd/sqlcmd -S tcp:${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
 
-          echo "Raw SQLCMD Output:"
-          echo "$ERROR_MSG"
+      #     echo "Raw SQLCMD Output:"
+      #     echo "$ERROR_MSG"
 
-          IP_REGEX='([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})'
-          if [[ $ERROR_MSG =~ $IP_REGEX ]]; then
-              CLIENT_IP="${BASH_REMATCH[1]}"
-              echo "Detected IP Address: $CLIENT_IP"
-              echo "CLIENT_IP=$CLIENT_IP" >> $GITHUB_ENV
-          else
-              echo "Failed to extract IP address. The error message format might have changed."
-              exit 1
-          fi
+      #     IP_REGEX='([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})'
+      #     if [[ $ERROR_MSG =~ $IP_REGEX ]]; then
+      #         CLIENT_IP="${BASH_REMATCH[1]}"
+      #         echo "Detected IP Address: $CLIENT_IP"
+      #         echo "CLIENT_IP=$CLIENT_IP" >> $GITHUB_ENV
+      #     else
+      #         echo "Failed to extract IP address. The error message format might have changed."
+      #         exit 1
+      #     fi
     
-      - name: Add Temporary Firewall Rule
-        run: |
-          az sql server firewall-rule create \
-            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
-            --server "${{ secrets.AZURE_SQL_SERVER }}" \
-            --name "GitHubActionsFirewallRule" \
-            --start-ip-address "${{ env.PUBLIC_IP }}" \
-            --end-ip-address "${{ env.PUBLIC_IP }}"
+      # - name: Add Temporary Firewall Rule
+      #   run: |
+      #     az sql server firewall-rule create \
+      #       --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+      #       --server "${{ secrets.AZURE_SQL_SERVER }}" \
+      #       --name "GitHubActionsFirewallRule" \
+      #       --start-ip-address "${{ env.PUBLIC_IP }}" \
+      #       --end-ip-address "${{ env.PUBLIC_IP }}"
 
       - name: Upload files to Azure Blob Storage
         shell: bash
@@ -428,13 +428,13 @@ jobs:
             /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
             /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
 
-      - name: Remove Temporary Firewall Rule
-        if: always()
-        run: |
-          az sql server firewall-rule delete \
-            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
-            --server "${{ secrets.AZURE_SQL_SERVER }}" \
-            --name "GitHubActionsFirewallRule"
+      # - name: Remove Temporary Firewall Rule
+      #   if: always()
+      #   run: |
+      #     az sql server firewall-rule delete \
+      #       --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+      #       --server "${{ secrets.AZURE_SQL_SERVER }}" \
+      #       --name "GitHubActionsFirewallRule"
 
   run-trend-analysis-dev:
     needs: [check-changes, deploy-db-dev]
