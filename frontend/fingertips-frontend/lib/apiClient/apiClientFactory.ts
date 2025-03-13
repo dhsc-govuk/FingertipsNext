@@ -6,6 +6,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
 
+export const API_CACHE_CONFIG = { next: { revalidate: 3600 } };
+
 export class ApiClientFactory {
   private static areasApiInstance: AreasApi | null;
   private static indicatorsApiInstance: IndicatorsApi | null;
@@ -16,6 +18,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.areasApiInstance = new AreasApi(config);
@@ -29,6 +32,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.indicatorsApiInstance = new IndicatorsApi(config);
@@ -42,6 +46,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.systemApiInstance = new SystemApi(config);
