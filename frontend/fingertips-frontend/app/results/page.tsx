@@ -9,7 +9,10 @@ import { ErrorPage } from '@/components/pages/error';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorSelectionState } from '@/components/forms/IndicatorSelectionForm/indicatorSelectionActions';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 
 export default async function Page(
   props: Readonly<{
@@ -33,7 +36,9 @@ export default async function Page(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+            )
           )
         : [];
 
