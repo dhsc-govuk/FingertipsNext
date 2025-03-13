@@ -61,7 +61,7 @@ export function generateSeriesData(
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
       data: benchmarkData.healthData.map((point) => [point.year, point.value]),
-      color: GovukColours.Black,
+      color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
       },

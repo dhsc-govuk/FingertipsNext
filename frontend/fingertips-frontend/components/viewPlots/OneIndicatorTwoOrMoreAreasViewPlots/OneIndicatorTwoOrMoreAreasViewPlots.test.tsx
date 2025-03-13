@@ -30,7 +30,10 @@ const mockMetaData = {
 const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['E12000001', 'E12000003'];
-const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
+const testHealthData: HealthDataForArea[] = [
+  mockHealthData['108'][1],
+  mockHealthData['108'][2],
+];
 
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
