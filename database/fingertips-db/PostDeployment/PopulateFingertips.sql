@@ -264,7 +264,6 @@ DROP TABLE #TempIndicatorData;
 CREATE TABLE #TempAreaData
 (
     Children NVARCHAR (max),
-    Parents NVARCHAR (max),
     AreaCode NVARCHAR(255),
     AreaName NVARCHAR(255),
     [Level] INT,
