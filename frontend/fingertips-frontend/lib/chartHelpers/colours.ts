@@ -1,8 +1,8 @@
 import { GovukColours } from '../styleHelpers/colours';
 
-export type ChartColours = GovukColours | uniqueChartColours;
+export type ChartColours = GovukColours | UniqueChartColours;
 
-enum uniqueChartColours {
+enum UniqueChartColours {
   ChartDarkBlue = '#12436D',
 }
 
@@ -21,6 +21,6 @@ export const chartColours: ChartColours[] = [
   GovukColours.LightPink,
   GovukColours.Brown,
   GovukColours.LightBlue,
-  uniqueChartColours.ChartDarkBlue,
+  UniqueChartColours.ChartDarkBlue,
   GovukColours.OtherLightPurple,
 ];
