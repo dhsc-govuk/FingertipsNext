@@ -357,27 +357,9 @@ jobs:
 
       - name: Install go-sqlcmd on Ubuntu
         run: |
-          # Fetch the latest version dynamically from GitHub API
-          SQLCMD_VERSION=$(curl -s https://api.github.com/repos/microsoft/go-sqlcmd/releases/latest | jq -r .tag_name | sed 's/v//')
-
-          if [ -z "$SQLCMD_VERSION" ] || [ "$SQLCMD_VERSION" == "null" ]; then
-              echo "Failed to fetch latest go-sqlcmd version. Exiting."
-              exit 1
-          fi
-
-          echo "Installing go-sqlcmd version $SQLCMD_VERSION..."
-
+          SQLCMD_VERSION="1.6.0"
           mkdir -p /opt/sqlcmd
-          DOWNLOAD_URL="https://github.com/microsoft/go-sqlcmd/releases/download/v${SQLCMD_VERSION}/sqlcmd-v${SQLCMD_VERSION}-linux-x64.tar.bz2"
-
-          echo "Downloading from $DOWNLOAD_URL..."
-          curl -L -o sqlcmd.tar.bz2 "$DOWNLOAD_URL"
-
-          if [ ! -s sqlcmd.tar.bz2 ]; then
-              echo "Downloaded file is empty or invalid. Exiting."
-              exit 1
-          fi
-
+          curl -L -o sqlcmd.tar.bz2 "https://github.com/microsoft/go-sqlcmd/releases/download/v${SQLCMD_VERSION}/sqlcmd-v${SQLCMD_VERSION}-linux-x64.tar.bz2"
           tar -xvjf sqlcmd.tar.bz2 -C /opt/sqlcmd
           chmod +x /opt/sqlcmd/sqlcmd
           echo 'export PATH="$PATH:/opt/sqlcmd"' >> ~/.bashrc
