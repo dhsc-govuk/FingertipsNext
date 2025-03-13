@@ -81,6 +81,14 @@ public class HealthMeasureModelHelper(
         };
     }
 
+
+    public HealthMeasureModelHelper WithIndicatorDimension(IndicatorDimensionModel indicatorDimension)
+    {
+        _indicatorDimension = indicatorDimension;
+        
+        return this;
+    }
+    
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
         short indicatorId = 1,
@@ -88,15 +96,14 @@ public class HealthMeasureModelHelper(
         DateTime? endDate = null
     )
     {
-        _indicatorDimension = new IndicatorDimensionModel
+        return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
             IndicatorId = indicatorId,
             StartDate = startDate ?? DateTime.Today,
             EndDate = endDate ?? DateTime.Today.AddDays(1),
-        };
-        return this;
+        });
     }
 
     private IndicatorDimensionModel DefaultIndicatorDimension()
