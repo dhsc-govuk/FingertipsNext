@@ -1,7 +1,9 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -23,15 +25,38 @@ const mockMetaData = {
   associatedAreaCodes: ['E06000047'],
   unitLabel: 'pancakes',
   hasInequalities: true,
-  usedInPoc: false,
+  usedInPoc: true,
 };
 
+const mockSearch = 'test';
+const mockIndicator = ['108'];
+const mockAreas = ['A001'];
+
+const searchState: SearchStateParams = {
+  [SearchParams.SearchedIndicator]: mockSearch,
+  [SearchParams.IndicatorsSelected]: mockIndicator,
+  [SearchParams.AreasSelected]: mockAreas,
+};
+
+const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
+
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render the view with the title with correct text', () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['108'],
-      [SearchParams.AreasSelected]: ['E12000001'],
-    };
+  it('should render back link with correct search parameters', async () => {
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={testHealthData}
+        searchState={searchState}
+      />
+    );
+    const backLink = await screen.findByRole('link', { name: /back/i });
+    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}`;
+
+    expect(backLink).toBeInTheDocument();
+    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
+    expect(backLink).toHaveAttribute('href', expectedUrl);
+  });
+
+  it('should render the view with correct title', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={[mockHealthData['108'][1]]}
@@ -40,7 +65,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = await screen.findByRole('heading', { level: 2 });
 
     expect(
       screen.getByTestId('oneIndicatorOneAreaViewPlot-component')
@@ -52,13 +77,9 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   });
 
   it('should render the LineChart components', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['108'],
-      [SearchParams.AreasSelected]: ['E12000001'],
-    };
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
@@ -77,27 +98,53 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
 
-  it('should display data source when a single indicator is selected and metadata exists', () => {
+  it('should render the LineChart components in the special case that England is the only area', async () => {
+    const mockSearch = 'test';
+    const mockIndicator = ['108'];
+    const mockAreas = [areaCodeForEngland];
+
     const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: 'test',
-      [SearchParams.IndicatorsSelected]: ['123'],
-      [SearchParams.AreasSelected]: ['A1245'],
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: mockAreas,
     };
 
     render(
       <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={[mockHealthData['108'][1]]}
+        healthIndicatorData={[mockHealthData['108'][0]]}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+    expect(
+      screen.getByRole('heading', {
+        name: 'See how the indicator has changed over time',
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-lineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('lineChart-component')
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
+  });
+
+  it('should display data source when metadata exists', async () => {
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
     );
 
-    expect(
-      screen.getAllByText('Data source:', { exact: false })[0]
-    ).toBeVisible();
+    const actual = await screen.findAllByText('Data source:', { exact: false });
+
+    expect(actual[0]).toBeVisible();
   });
 
-  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', () => {
+  it('should not display line chart and line chart table when there are less than 2 time periods per area selected', async () => {
     const MOCK_DATA = [
       {
         areaCode: 'A1',
@@ -106,23 +153,20 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       },
     ];
 
-    const state: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
-
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={MOCK_DATA}
-        searchState={state}
+        searchState={searchState}
         indicatorMetadata={mockMetaData}
       />
     );
 
     expect(
-      screen.queryByRole('heading', {
-        name: 'See how the indicator has changed over time',
-      })
+      await waitFor(() =>
+        screen.queryByRole('heading', {
+          name: 'See how the indicator has changed over time',
+        })
+      )
     ).not.toBeInTheDocument();
     expect(
       screen.queryByTestId('tabContainer-lineChartAndTable')

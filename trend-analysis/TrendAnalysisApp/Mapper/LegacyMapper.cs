@@ -36,16 +36,12 @@ public class LegacyMapper {
     /// <summary>
     /// Maps indicator metadata and a list of health measures to a valid legacy calculation request.
     /// </summary>
-    public TrendRequest ToLegacy(int valueTypeId, bool useProportions, IEnumerable<HealthMeasureModel> healthMeasures) {
+    public TrendRequest ToLegacy(int valueTypeId, IEnumerable<HealthMeasureModel> healthMeasures) {
         var legacyTrendRequest = new TrendRequest
         {
             YearRange = DefaultYearRange,
             ValueTypeId = valueTypeId
         };
-
-        if (useProportions) {
-            legacyTrendRequest.ComparatorMethodId = ComparatorMethodIds.SpcForProportions;
-        }
 
         legacyTrendRequest.Data = HealthMeasuresToLegacyDatasetList(healthMeasures);
         return legacyTrendRequest;

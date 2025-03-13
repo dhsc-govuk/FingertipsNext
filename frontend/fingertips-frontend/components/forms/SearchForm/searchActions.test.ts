@@ -10,6 +10,7 @@ import { redirect, RedirectType } from 'next/navigation';
 import { SearchParams } from '@/lib/searchStateManager';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { AreaDocument } from '@/lib/search/searchTypes';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
@@ -77,6 +78,22 @@ describe('Search actions', () => {
 
     expect(redirectMock).toHaveBeenCalledWith(
       `/results?${SearchParams.AreasSelected}=foo&${SearchParams.AreasSelected}=bar`,
+      RedirectType.push
+    );
+  });
+
+  it('should redirect to search results if only a group area is selected', async () => {
+    const formData = getMockFormData({
+      indicator: '',
+      searchState: JSON.stringify({
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      }),
+    });
+
+    await searchIndicator(initialStateWithoutAreas, formData);
+
+    expect(redirectMock).toHaveBeenCalledWith(
+      `/results?${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
       RedirectType.push
     );
   });

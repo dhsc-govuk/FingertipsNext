@@ -37,10 +37,6 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   display: block;
 }
 
-.c7 {
-  font-weight: 600;
-}
-
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -116,6 +112,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   >
     <li
       class="c3 c4 c5"
+      data-testid="area-suggestion-item-GP01"
     >
       <svg
         class="c6"
@@ -136,10 +133,54 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
-        <span
-          class="c7"
-        />
-        GP01 - Greenwich
+        <span>
+          G
+        </span>
+        <span>
+          P
+        </span>
+        <span>
+          0
+        </span>
+        <span>
+          1
+        </span>
+        <span>
+           
+        </span>
+        <span>
+          -
+        </span>
+        <span>
+           
+        </span>
+        <span>
+          G
+        </span>
+        <span>
+          r
+        </span>
+        <span>
+          e
+        </span>
+        <span>
+          e
+        </span>
+        <span>
+          n
+        </span>
+        <span>
+          w
+        </span>
+        <span>
+          i
+        </span>
+        <span>
+          c
+        </span>
+        <span>
+          h
+        </span>
       </div>
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
@@ -149,6 +190,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
     </li>
     <li
       class="c3 c4 c5"
+      data-testid="area-suggestion-item-GP02"
     >
       <svg
         class="c6"
@@ -169,10 +211,54 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
-        <span
-          class="c7"
-        />
-        GP02 - Cambridge
+        <span>
+          G
+        </span>
+        <span>
+          P
+        </span>
+        <span>
+          0
+        </span>
+        <span>
+          2
+        </span>
+        <span>
+           
+        </span>
+        <span>
+          -
+        </span>
+        <span>
+           
+        </span>
+        <span>
+          C
+        </span>
+        <span>
+          a
+        </span>
+        <span>
+          m
+        </span>
+        <span>
+          b
+        </span>
+        <span>
+          r
+        </span>
+        <span>
+          i
+        </span>
+        <span>
+          d
+        </span>
+        <span>
+          g
+        </span>
+        <span>
+          e
+        </span>
       </div>
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
@@ -182,6 +268,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
     </li>
     <li
       class="c3 c4 c5"
+      data-testid="area-suggestion-item-CT01"
     >
       <svg
         class="c6"
@@ -202,10 +289,48 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
       <div
         style="flex-grow: 3; padding: 5px;"
       >
-        <span
-          class="c7"
-        />
-        Central London
+        <span>
+          C
+        </span>
+        <span>
+          e
+        </span>
+        <span>
+          n
+        </span>
+        <span>
+          t
+        </span>
+        <span>
+          r
+        </span>
+        <span>
+          a
+        </span>
+        <span>
+          l
+        </span>
+        <span>
+           
+        </span>
+        <span>
+          L
+        </span>
+        <span>
+          o
+        </span>
+        <span>
+          n
+        </span>
+        <span>
+          d
+        </span>
+        <span>
+          o
+        </span>
+        <span>
+          n
+        </span>
       </div>
       <div
         style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
