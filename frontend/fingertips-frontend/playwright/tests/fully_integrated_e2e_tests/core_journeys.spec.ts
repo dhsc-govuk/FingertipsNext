@@ -7,7 +7,7 @@ import {
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-
+//@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const areaSearchTerm = 'north west region';
@@ -107,7 +107,7 @@ test.describe(`Search via`, () => {
       await test.step(`check chart page and assert that the displayed charts are correct`, async () => {
         await chartPage.checkOnChartPage();
 
-        await chartPage.checkChartVisibility(indicatorMode, areaMode);
+        await chartPage.checkChartVisibility(indicatorMode, areaMode, test);
       });
     });
   });

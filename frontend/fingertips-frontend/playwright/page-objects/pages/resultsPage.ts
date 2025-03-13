@@ -23,6 +23,8 @@ export default class ResultsPage extends BasePage {
   readonly areaFilterContainer = 'area-filter-container';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
+  readonly selectedAreasContainer = 'selected-areas-panel';
+  readonly selectAreasContainer = 'select-areas-filter-panel';
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
@@ -188,7 +190,7 @@ export default class ResultsPage extends BasePage {
       };
       const checkboxCount = checkboxCountMap[areaMode];
       for (let i = 0; i < checkboxCount; i++) {
-        await areaCheckboxList.nth(i).check();
+        await areaCheckboxList.nth(i + 1).check();
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
           await this.waitForURLToContain(defaultAreaTypeFilter);
         }

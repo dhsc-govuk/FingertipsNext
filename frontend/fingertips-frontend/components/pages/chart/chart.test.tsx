@@ -126,6 +126,7 @@ describe('should display inequalities', () => {
       <Chart
         healthIndicatorData={[mockHealthData['337']]}
         searchState={state}
+        measurementUnit="per 100,000"
       />
     );
 

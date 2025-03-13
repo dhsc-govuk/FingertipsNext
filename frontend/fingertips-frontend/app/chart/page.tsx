@@ -25,6 +25,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -97,6 +99,19 @@ export default async function ChartPage(
     ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
     : undefined;
 
+  let indicatorMetadata: IndicatorDocument | undefined;
+  try {
+    indicatorMetadata =
+      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+        indicatorsSelected[0]
+      );
+  } catch (error) {
+    console.error(
+      'error getting meta data for health indicator for area',
+      error
+    );
+  }
+
   return (
     <>
       <ViewsContext searchState={stateManager.getSearchState()} />
@@ -105,6 +120,7 @@ export default async function ChartPage(
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
+        measurementUnit={indicatorMetadata?.unitLabel}
       />
     </>
   );

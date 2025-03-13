@@ -26,16 +26,6 @@ locals {
       max_replicas    = var.max_replicas
       revision_suffix = var.revision_suffix
       volume          = []
-      custom_scale_rules = [
-        {
-          name             = "cpu-scale-rule"
-          custom_rule_type = "cpu"
-          metadata = {
-            type  = "utilization"
-            value = 70
-          }
-        }
-      ]
     }
 
     ingress = {

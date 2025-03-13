@@ -12,6 +12,7 @@ import { chartColours } from '@/lib/chartHelpers/colours';
 import { generateSeriesData } from './lineChartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
@@ -68,7 +69,7 @@ export function LineChart({
     ? sortHealthDataForAreaByDate(groupIndicatorData)
     : undefined;
 
-  const seriesData = generateSeriesData(
+  let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
     chartSymbols,
     chartColours,
@@ -77,6 +78,16 @@ export function LineChart({
     lineChartCI
   );
 
+  if (sortedBenchMarkData && sortedHealthIndicatorData.length === 0) {
+    seriesData = generateSeriesData(
+      [sortedBenchMarkData],
+      ['circle'],
+      [GovukColours.DarkGrey],
+      undefined,
+      undefined,
+      lineChartCI
+    );
+  }
   const lineChartOptions: Highcharts.Options = {
     credits: {
       enabled: false,

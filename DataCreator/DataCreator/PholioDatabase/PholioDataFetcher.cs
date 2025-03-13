@@ -101,35 +101,11 @@ JOIN
 	[dbo].[L_Units] units ON indicator.UnitID=units.UnitID
 JOIN 
 	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID AND metadata.[1_Name] IS NOT NULL
+WHERE
+    indicator.IndicatorID IN @IndicatorIds
 ";
         
-        private readonly string IndicatorPolaritySql = @"
-SELECT distinct
-	indicator.IndicatorID,
-	Polarity.Polarity
-FROM 
-	[dbo].[IndicatorMetadata] indicator
-JOIN
-	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
-JOIN
-	[dbo].[L_Polarity] polarity ON gr.PolarityID = polarity.PolarityID
-";
-  
-        private readonly string BenchmarkSql = @"
-SELECT distinct
-	indicator.IndicatorID,
-	comparatormethods.ComparatorMethodID,
-    comparatormethods.ShortName
-FROM 
-	[dbo].[IndicatorMetadata] indicator
-JOIN
-	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
-JOIN
-	[dbo].[L_ComparatorMethods] comparatormethods ON gr.ComparatorMethodID=comparatormethods.ComparatorMethodID
-WHERE comparatormethods.ComparatorMethodID !=6
-	Order By indicator.IndicatorID 
-";
-
+        
 
         private readonly string AgeSql = @"
 SELECT
@@ -357,16 +333,11 @@ FROM
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
         /// </summary>
         /// <returns></returns>
-        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync()
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<SimpleIndicator> pocIndicators)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
-            var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql)).ToList();
-            indicators=indicators.Where(indicator=>!indicator.IndicatorName.Contains("CIA")).ToList();
-            await AddPolarityToIndicators(indicators, connection);
-            await AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(indicators, connection);
-
-            return indicators;
+            return (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new {IndicatorIds= pocIndicators.Select(x=>x.IndicatorID)})).ToList();
         }
 
         /// <summary>
@@ -377,65 +348,6 @@ FROM
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
-        }
-
-
-        private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
-        {
-            var areaPolarities = await connection.QueryAsync<IndicatorPolarity>(IndicatorPolaritySql);
-            
-            foreach (var indicator in indicators)
-            {
-                var match  = areaPolarities.FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
-                if(match != null)
-                {
-                    var split=match.Polarity.Trim().Split(" - ");
-                    indicator.Polarity = split[0] == "RAG" ? split[1] : "Not applicable";
-                }
-                else
-                    indicator.Polarity = "Not applicable";
-            }
-        }
-
-        private async Task AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
-        {
-            const int NinetyFiveAndNinetyNinePoint8= 17;
-            const int NinetyNinePoint8 = 18;
-            const int NinetyFive = 1;
-            const int Proportions = 5;
-
-            var benchmarks = await connection.QueryAsync<IndicatorBenchmark>(BenchmarkSql);
-            var indicatorsWithMultiple = new List<int>();
-            //for each indicator we want to set the benchmark comparison method and proportions for trend flag
-            foreach (var indicator in indicators)
-            {
-                //if the indicator has a proportions method set the flag
-                indicator.UseProportionsForTrend= benchmarks.Any(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID==5);
-                
-                //some indivcatrors have more than 1 benchmark methods - its shouldn't affect PoC data
-                var results = benchmarks
-                     .Where(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID!= Proportions)
-                     .ToList();
-                //there is a rule for PoC than any indicator that has 'CIs overlap reference value (95.0 & 99.8)' will be use either
-                //CIs overlap reference value (95.0) or CIs overlap reference value (99.8)
-                if (results.Any(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8))
-                {
-                    if (results.Any(x => x.ComparatorMethodID == NinetyFive) || results.Any(x => x.ComparatorMethodID == NinetyNinePoint8))
-                        results.RemoveAll(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8);
-                    else
-                    {
-                        var toChange = results.First(x => x.ComparatorMethodID == NinetyFiveAndNinetyNinePoint8);
-                        toChange.ComparatorMethodID = NinetyNinePoint8;
-                        toChange.ShortName = "CIs overlap reference value (99.8)";
-                    }
-                        
-                }
-                //a few still have 2 methods so use the first - doesn't affect PoC indicators
-                if (results.Count > 0)
-                    indicator.BenchmarkComparisonMethod = results.First().ShortName;
-                else
-                    indicator.BenchmarkComparisonMethod = "No comparison";
-            }
         }
     }
 

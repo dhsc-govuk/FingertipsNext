@@ -4,21 +4,21 @@ export const combinedAuthoritiesAreaType = {
   key: 'combined-authorities',
   name: 'Combined Authorities',
   hierarchyName: 'Administrative',
-  level: 3,
+  level: 2,
 };
 
 export const countiesAndUnitaryAuthoritiesAreaType = {
   key: 'counties-and-unitary-authorities',
   name: 'Counties and Unitary Authorities',
   hierarchyName: 'Administrative',
-  level: 4,
+  level: 3,
 };
 
 export const districtAndUnitaryAuthoritiesAreaType = {
   key: 'districts-and-unitary-authorities',
   name: 'Districts and Unitary Authorities',
   hierarchyName: 'Administrative',
-  level: 5,
+  level: 4,
 };
 
 export const gpsAreaType = {

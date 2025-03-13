@@ -20,7 +20,7 @@ public class TrendCalculator(TrendMarkerCalculator legacyCalculator, LegacyMappe
             return Trend.CannotBeCalculated;
         }
 
-        var legacyTrendRequest = legacyMapper.ToLegacy(mappedValueType, indicator.UseProportionsForTrend, healthMeasures);
+        var legacyTrendRequest = legacyMapper.ToLegacy(mappedValueType, healthMeasures);
         var legacyTrend = legacyCalculator.GetResults(legacyTrendRequest);
 
         return AdjustForPolarity(legacyMapper.TrendMarkerMap[legacyTrend.Marker], indicator.Polarity);
