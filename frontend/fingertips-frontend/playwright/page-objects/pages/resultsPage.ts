@@ -189,13 +189,14 @@ export default class ResultsPage extends BasePage {
       const checkboxCount = checkboxCountMap[areaMode];
       for (let i = 0; i < checkboxCount; i++) {
         await areaCheckboxList.nth(i + 1).check();
-        await expect(
-          this.page.getByTestId(this.areaFilterContainer)
-        ).toContainText(`Selected areas (${String(checkboxCount)})`);
+        await this.page.waitForLoadState();
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
           await this.waitForURLToContain(defaultAreaTypeFilter);
         }
       }
+      await expect(
+        this.page.getByTestId(this.areaFilterContainer)
+      ).toContainText(`Selected areas (${String(checkboxCount)})`);
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {

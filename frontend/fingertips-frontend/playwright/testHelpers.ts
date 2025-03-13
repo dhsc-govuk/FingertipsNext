@@ -32,12 +32,12 @@ export function getScenarioConfig(
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesComponent,
+    // Enable in DHSCFT-220
     // ChartPage.inequalitiesBarChartComponent,
+    // Enable in DHSCFT-220
     // ChartPage.inequalitiesLineChartComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    // Enable in DHSCFT-220
-    ChartPage.barChartComponent,
     // Enable in DHSCFT-317
     // ChartPage.thematicMapComponent,
     // ChartPage.basicTableComponent,
@@ -64,7 +64,6 @@ export function getScenarioConfig(
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      ChartPage.barChartComponent,
       // Enable in DHSCFT-317
       // ChartPage.thematicMapComponent,
       ChartPage.lineChartComponent,
@@ -85,7 +84,7 @@ export function getScenarioConfig(
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
       // ChartPage.spineChartComponent, 
-      ChartPage.heatMapComponent,
+      // ChartPage.heatMapComponent,
     ];
   }
   else {
@@ -94,7 +93,7 @@ export function getScenarioConfig(
     );
   }
 
-  // Calculate hidden components based on what is not explicitly defined as should be visible
+  // Work out which components should be hidden
   const hiddenComponents = allComponents.filter(
     component => !visibleComponents.includes(component)
   );
