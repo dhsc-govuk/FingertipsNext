@@ -1,8 +1,4 @@
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from './constants';
+import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 
 export interface PopulationDataForArea {
   areaName: string;
