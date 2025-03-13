@@ -388,7 +388,7 @@ jobs:
         run: |
           ./sqlpackage/sqlpackage \
             /Action:Publish \
-            /SourceFile:"fingertips-db.dacpac" \
+            /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
             /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
             /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
             /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
