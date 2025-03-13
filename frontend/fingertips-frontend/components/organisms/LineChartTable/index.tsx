@@ -193,6 +193,10 @@ export function LineChartTable({
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartTableProps>) {
+  if (englandBenchmarkData && healthIndicatorData.length === 0) {
+    healthIndicatorData = [englandBenchmarkData];
+  }
+
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
