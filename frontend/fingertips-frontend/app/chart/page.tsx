@@ -61,18 +61,20 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: Number(indicatorId),
-        areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(
-          indicatorsSelected,
-          areasSelected
-        )
-          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-          : [],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      }, 
-      API_CACHE_CONFIG)
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorId),
+          areaCodes: areaCodesToRequest,
+          inequalities: shouldDisplayInequalities(
+            indicatorsSelected,
+            areasSelected
+          )
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
+        API_CACHE_CONFIG
+      )
     )
   );
 
