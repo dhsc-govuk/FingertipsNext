@@ -48,10 +48,13 @@ export function getScenarioConfig(
   let visibleComponents: string[] = [];
 
   // 1 indicator, 1 area
-  if (indicatorMode === IndicatorMode.ONE_INDICATOR && areaMode === AreaMode.ONE_AREA) {
+  if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ONE_AREA
+  ) {
     visibleComponents = [
       ChartPage.lineChartComponent,
-      ChartPage.lineChartTableComponent, 
+      ChartPage.lineChartTableComponent,
       ChartPage.inequalitiesComponent,
       // ChartPage.inequalitiesBarChartComponent,
       // ChartPage.inequalitiesLineChartComponent,
@@ -60,7 +63,10 @@ export function getScenarioConfig(
     ];
   }
   // 1 indicator, 2+ areas
-  else if (indicatorMode === IndicatorMode.ONE_INDICATOR && areaMode === AreaMode.TWO_PLUS_AREAS) {
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.TWO_PLUS_AREAS
+  ) {
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
@@ -71,7 +77,10 @@ export function getScenarioConfig(
     ];
   }
   // 2+ indicators, England area
-  else if (indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS && areaMode === AreaMode.ENGLAND_AREA) {
+  else if (
+    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
+    areaMode === AreaMode.ENGLAND_AREA
+  ) {
     visibleComponents = [
       // ChartPage.basicTableComponent,
       // Enable in DHSCFT-148
@@ -79,15 +88,17 @@ export function getScenarioConfig(
     ];
   }
   // 2+ indicators, 2+ areas (not England)
-  else if (indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS && areaMode === AreaMode.TWO_PLUS_AREAS) {
+  else if (
+    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
+    areaMode === AreaMode.TWO_PLUS_AREAS
+  ) {
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      // ChartPage.spineChartComponent, 
+      // ChartPage.spineChartComponent,
       // ChartPage.heatMapComponent,
     ];
-  }
-  else {
+  } else {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
     );
@@ -95,14 +106,14 @@ export function getScenarioConfig(
 
   // Work out which components should be hidden
   const hiddenComponents = allComponents.filter(
-    component => !visibleComponents.includes(component)
+    (component) => !visibleComponents.includes(component)
   );
 
   const config: ScenarioConfig = {
     visibleComponents,
-    hiddenComponents
+    hiddenComponents,
   };
-  
+
   return config;
 }
 
