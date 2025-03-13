@@ -7,7 +7,7 @@ interface CheckValueInTableCellProps {
 }
 
 export function CheckValueInTableCell({
-  value = undefined,
+  value,
 }: Readonly<CheckValueInTableCellProps>) {
   return (
     <Table.Cell aria-label={!value && value !== 0 ? 'Not compared' : undefined}>

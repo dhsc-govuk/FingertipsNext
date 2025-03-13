@@ -63,24 +63,6 @@ export function BarChartEmbeddedTable({
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
 
-  // const checkIfValueExists = (value: string | number | undefined) => {
-  //   return (
-  //     <Table.Cell aria-label={!value ? 'Not compared' : undefined}>
-  //       {!value ? 'X' : value}
-  //     </Table.Cell>
-  //   );
-  // };
-
-  const checkIfValueExists = (value: string | number | undefined) => {
-    return (
-      <Table.Cell
-        aria-label={!value && value !== 0 ? 'Not compared' : undefined}
-      >
-        {!value && value !== 0 ? 'X' : value}
-      </Table.Cell>
-    );
-  };
-
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <Table
@@ -110,12 +92,11 @@ export function BarChartEmbeddedTable({
             style={{ backgroundColor: GovukColours.MidGrey }}
             data-testid="table-row-benchmark"
           >
-            {/*{CheckValueInTableCell(mostRecentBenchmarkData.area)}*/}
-            {checkIfValueExists(benchmarkData?.areaName)}
-            {checkIfValueExists(mostRecentBenchmarkData.count)}
-            {checkIfValueExists(mostRecentBenchmarkData.value)}
-            {checkIfValueExists(mostRecentBenchmarkData.lowerCi)}
-            {checkIfValueExists(mostRecentBenchmarkData.upperCi)}
+            <CheckValueInTableCell value={benchmarkData?.areaName} />
+            <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
+            <CheckValueInTableCell value={mostRecentBenchmarkData.value} />
+            <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
+            <CheckValueInTableCell value={mostRecentBenchmarkData.upperCi} />
           </Table.Row>
         ) : null}
 
@@ -125,21 +106,21 @@ export function BarChartEmbeddedTable({
             style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-group"
           >
-            {checkIfValueExists(groupIndicatorData?.areaName)}
-            {checkIfValueExists(mostRecentGroupData.count)}
-            {checkIfValueExists(mostRecentGroupData.value)}
-            {checkIfValueExists(mostRecentGroupData.lowerCi)}
-            {checkIfValueExists(mostRecentGroupData.upperCi)}
+            <CheckValueInTableCell value={groupIndicatorData?.areaName} />
+            <CheckValueInTableCell value={mostRecentGroupData.count} />
+            <CheckValueInTableCell value={mostRecentGroupData.value} />
+            <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
+            <CheckValueInTableCell value={mostRecentGroupData.upperCi} />
           </Table.Row>
         ) : null}
 
         {sortedTableRows.map((item) => (
           <Table.Row key={`${item.area}`}>
-            {checkIfValueExists(item.area)}
-            {checkIfValueExists(item.count)}
-            {checkIfValueExists(item.value)}
-            {checkIfValueExists(item.lowerCi)}
-            {checkIfValueExists(item.upperCi)}
+            <CheckValueInTableCell value={item.area} />
+            <CheckValueInTableCell value={item.count} />
+            <CheckValueInTableCell value={item.value} />
+            <CheckValueInTableCell value={item.lowerCi} />
+            <CheckValueInTableCell value={item.upperCi} />
           </Table.Row>
         ))}
       </Table>

@@ -63,13 +63,13 @@ export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
 }
 
 export function getMostRecentData(data: HealthDataPoint[]) {
-  if (!data) {
-    return undefined;
-  }
-  return {
-    count: data[0].count,
-    value: data[0].value,
-    lowerCi: data[0].lowerCi,
-    upperCi: data[0].upperCi,
-  };
+  return data.length > 0
+    ? {
+        count: data[0].count,
+        value: data[0].value,
+        lowerCi: data[0].lowerCi,
+        upperCi: data[0].upperCi,
+        year: data[0].year,
+      }
+    : undefined;
 }
