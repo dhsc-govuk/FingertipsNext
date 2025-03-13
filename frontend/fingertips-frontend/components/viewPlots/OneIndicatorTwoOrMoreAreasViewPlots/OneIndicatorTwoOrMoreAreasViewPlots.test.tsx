@@ -3,6 +3,8 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -12,6 +14,12 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({})),
   };
 });
+
+const mockMapData: MapData = {
+  mapJoinKey: 'RGN23CD',
+  mapFile: regionsMap,
+  mapGroupBoundary: regionsMap,
+};
 
 const mockMetaData = {
   indicatorID: '108',
@@ -175,5 +183,27 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     );
 
     await assertLineChartAndTableNotInDocument();
+  });
+
+  it('should render the ThematicMap when all areas in a group are selected', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.GroupAreaSelected]: 'ALL',
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={[
+          mockHealthData[108][1],
+          mockHealthData[108][2],
+          mockHealthData[108][3],
+        ]}
+        searchState={searchState}
+        mapData={mockMapData}
+      />
+    );
+    expect(
+      await screen.findByTestId('thematicMap-component')
+    ).toBeInTheDocument();
   });
 });

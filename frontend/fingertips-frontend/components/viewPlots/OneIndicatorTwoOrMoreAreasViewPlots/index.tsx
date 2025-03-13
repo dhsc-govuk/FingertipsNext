@@ -11,6 +11,7 @@ import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -30,6 +31,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 
@@ -104,6 +106,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
             }
           />
         </>
+      )}
+      {selectedGroupArea === 'ALL' && mapData && (
+        <ThematicMap
+          healthIndicatorData={healthIndicatorData}
+          mapData={mapData}
+        />
       )}
     </section>
   );

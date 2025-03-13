@@ -136,8 +136,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
-      [SearchParams.GroupSelected]: 'G001',
-      // TODO: change this to gas=ALL
+      [SearchParams.GroupAreaSelected]: 'ALL',
       [SearchParams.AreaTypeSelected]: 'regions',
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([

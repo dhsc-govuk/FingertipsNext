@@ -21,6 +21,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
   if (
@@ -66,10 +67,10 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     );
   }
 
-  // TODO: update to look for gas=ALL
-  const mapData = selectedAreaType
-    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
-    : undefined;
+  const mapData =
+    selectedGroupArea === 'ALL'
+      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      : undefined;
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
