@@ -318,7 +318,10 @@ jobs:
         e2e-tests-local-docker       
       ]
     environment: development
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./database/fingertips-db
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -344,28 +347,66 @@ jobs:
         with:
           name: dacpac
 
+      - name: Install SQLPackage
+        run: |
+          mkdir -p sqlpackage
+          curl -L -o sqlpackage.zip "https://aka.ms/sqlpackage-linux"
+          unzip sqlpackage.zip -d sqlpackage
+          chmod +x sqlpackage/sqlpackage
+          echo "$(pwd)/sqlpackage" >> $GITHUB_PATH
+
       - uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Get Public IP Address
+        id: get-ip
+        run: |
+          echo "PUBLIC_IP=$(curl -s https://api.ipify.org)" >> $GITHUB_ENV
+    
+      - name: Add Temporary Firewall Rule
+        run: |
+          az sql server firewall-rule create \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --server "${{ secrets.AZURE_SQL_SERVER }}" \
+            --name "GitHubActionsFirewallRule" \
+            --start-ip-address "${{ env.PUBLIC_IP }}" \
+            --end-ip-address "${{ env.PUBLIC_IP }}"
+
       - name: Upload files to Azure Blob Storage
-        shell: pwsh
+        shell: bash
         working-directory: ${{ github.workspace }}
         run: |
-          az storage blob upload-batch `
-            --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
-            --source 'DataCreator\DataCreator\data\out' `
-            --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
-            --auth-mode 'login' `
+          az storage blob upload-batch \
+            --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
+            --source "DataCreator/DataCreator/data/out" \
+            --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
+            --auth-mode "login" \
             --overwrite true
-
+      
       - name: Deploy Database
-        uses: azure/sql-action@v2.3
-        with:
-          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          path: 'fingertips-db.dacpac'
-          action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
+        run: |
+          ./sqlpackage/sqlpackage \
+            /Action:Publish \
+            /SourceFile:"fingertips-db.dacpac" \
+            /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
+            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+            /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
+            /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
+            /p:DropObjectsNotInSource=true \
+            /p:BlockOnPossibleDataLoss=false \
+            /p:GenerateSmartDefaults=true \
+            /v:UseAzureBlob=1 \
+            /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
+            /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
+
+      - name: Remove Temporary Firewall Rule
+        if: always()
+        run: |
+          az sql server firewall-rule delete \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --server "${{ secrets.AZURE_SQL_SERVER }}" \
+            --name "GitHubActionsFirewallRule"
 
   run-trend-analysis-dev:
     needs: [check-changes, deploy-db-dev]
