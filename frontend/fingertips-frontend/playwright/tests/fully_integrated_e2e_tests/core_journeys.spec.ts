@@ -27,16 +27,16 @@ const coreTestJourneys: TestParams[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.TWO_AREAS,
+    areaMode: AreaMode.TWO_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
-    indicatorMode: IndicatorMode.TWO_INDICATORS,
-    areaMode: AreaMode.TWO_AREAS,
+    indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
+    areaMode: AreaMode.TWO_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
   },
   // {
-  //   indicatorMode: IndicatorMode.TWO_INDICATORS,
+  //   indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
   //   areaMode: AreaMode.ENGLAND_AREA,
   //   cannot enable only area until DHSCFT-458 is actioned
   //   searchMode: SearchMode.ONLY_AREA,

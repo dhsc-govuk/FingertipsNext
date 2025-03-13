@@ -42,7 +42,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache playwright dependencies
+      - name: Cache playwright dependencies - for CI test execution
+        if: inputs.e2e-test-container-image == null
         uses: actions/cache@v3
         id: cache
         with:
@@ -81,12 +82,12 @@ jobs:
 
       - name: Upload playwright artefacts
         uses: actions/upload-artifact@v4
-        if: failure()
         with:
           name: playwright-artefacts
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
+            ${{ env.frontend-directory }}.test/spec/snaps/
           retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution
