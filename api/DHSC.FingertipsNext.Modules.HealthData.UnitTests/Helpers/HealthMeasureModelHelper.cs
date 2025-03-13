@@ -69,7 +69,7 @@ public class HealthMeasureModelHelper(
         return new AgeDimensionModel
         {
             AgeKey = (short)key,
-            Name = "age name",
+            Name = "All ages",
             AgeID = 0,
             HasValue = false
         };

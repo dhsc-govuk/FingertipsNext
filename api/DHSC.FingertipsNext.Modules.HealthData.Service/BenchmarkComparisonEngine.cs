@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 /// <summary>
-///     Given two HealthDataPoints determins the benchmark comparison
+///     Given two HealthDataPoints determines the benchmark comparison
 /// </summary>
 public static class BenchmarkComparisonEngine
 {
@@ -32,9 +32,6 @@ public static class BenchmarkComparisonEngine
         IndicatorPolarity polarity
     )
     {
-        var inequalityAggregatedDimension = "Sex";
-        var inequalityDisaggregationTerm = "Persons";
-
         var allHealthAreasOfInterest = healthDataForAreasOfInterest
             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
 
@@ -43,15 +40,11 @@ public static class BenchmarkComparisonEngine
             var areaHealthData = healthAreaData.HealthData;
             foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
-                var isInequalityDataPoint =
-                    GetProperty(healthDataPointOfInterest, inequalityAggregatedDimension) !=
-                    inequalityDisaggregationTerm;
-                var benchmarkHealthDataPoint = isInequalityDataPoint
-                    ? areaHealthData.FirstOrDefault(item =>
-                        item.Year == healthDataPointOfInterest.Year &&
-                        GetProperty(item, inequalityAggregatedDimension) == inequalityDisaggregationTerm)
-                    : benchmarkHealthData.HealthData.FirstOrDefault(item =>
-                        item.Year == healthDataPointOfInterest.Year);
+                var isInequality = IsInequalityDataPoint(healthDataPointOfInterest);
+                var dataForComparison = isInequality ? areaHealthData : benchmarkHealthData.HealthData;
+                var benchmarkHealthDataPoint = dataForComparison.FirstOrDefault(item =>
+                    item.Year == healthDataPointOfInterest.Year &&
+                    !IsInequalityDataPoint(item));
 
                 if (benchmarkHealthDataPoint == null)
                     continue;
@@ -68,8 +61,8 @@ public static class BenchmarkComparisonEngine
                     Outcome = GetOutcome(comparisonValue, polarity),
                     IndicatorPolarity = polarity,
                     BenchmarkValue = benchmarkHealthDataPoint.Value,
-                    BenchmarkAreaCode = isInequalityDataPoint ? "" : benchmarkHealthData.AreaCode,
-                    BenchmarkAreaName = isInequalityDataPoint ? "" : benchmarkHealthData.AreaName
+                    BenchmarkAreaCode = isInequality ? "" : benchmarkHealthData.AreaCode,
+                    BenchmarkAreaName = isInequality ? "" : benchmarkHealthData.AreaName
                 };
             }
         }
@@ -129,13 +122,11 @@ public static class BenchmarkComparisonEngine
         }
     }
 
-    private static string GetProperty(HealthDataPoint dataPoint, string propertyName)
+    private static bool IsInequalityDataPoint(HealthDataPoint healthDataPoint)
     {
-        return propertyName switch
-        {
-            "Sex" => dataPoint.Sex ?? "",
-            "AgeBand" => dataPoint.AgeBand ?? "",
-            _ => ""
-        };
+        if (healthDataPoint.Sex != "Persons") return true;
+        if (healthDataPoint.AgeBand != "All ages") return true;
+        // add any other conditions here that might determine if a datapoint is an inequality point or not
+        return false;
     }
 }
