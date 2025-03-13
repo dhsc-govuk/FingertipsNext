@@ -11,11 +11,11 @@ public class HealthMeasureModelHelper(
     short year = 2025
 )
 {
-    private AreaDimensionModel? _areaDimension;
-    private AgeDimensionModel? _ageDimension;
-    private IndicatorDimensionModel? _indicatorDimension;
-    private SexDimensionModel? _sexDimension;
-    private DeprivationDimensionModel? _deprivationDimension;
+    private AreaDimensionModel _areaDimension;
+    private AgeDimensionModel _ageDimension;
+    private IndicatorDimensionModel _indicatorDimension;
+    private SexDimensionModel _sexDimension;
+    private DeprivationDimensionModel _deprivationDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",

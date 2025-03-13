@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
+[SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
@@ -18,33 +20,19 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 AgeKeyCount = x.Select(hm => hm.AgeKey).Distinct().Count(),
                 DeprivationKeyCount = x.Select(hm => hm.DeprivationKey).Distinct().Count()
             });
-
+        
         return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
-            // .Where(hm => inequalities.Contains("sex")
-            //     ? true
-            //     : hm.SexDimension.HasValue == false || countInequalityDimensionsQuery.Select(f => f.SexKeyCount).Equals(1))
             .Where(hm => inequalities.Contains("sex")
                 ? true
-                : hm.SexDimension.HasValue == false || _dbContext.HealthMeasure
-                    .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId).Include(hm => hm.IndicatorDimension)
-                    .GroupBy(x => x.SexKey).Count() == 1)
-            // .Where(hm => inequalities.Contains("age")
-            //     ? true
-            //     : hm.AgeDimension.HasValue == false || _dbContext.HealthMeasure
-            //         .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId).Include(hm => hm.IndicatorDimension)
-            //         .GroupBy(x => x.AgeKey).Contains())
+                : hm.SexDimension.HasValue == false || countInequalityDimensionsQuery.First().SexKeyCount == 1)
             .Where(hm => inequalities.Contains("age")
                 ? true
-                : hm.AgeDimension.HasValue == false || _dbContext.HealthMeasure
-                    .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId).Include(hm => hm.IndicatorDimension)
-                    .GroupBy(x => x.AgeKey).Count() == 1)
+                : hm.AgeDimension.HasValue == false || countInequalityDimensionsQuery.First().AgeKeyCount == 1)
             // TODO: Will be expanded to allow the deprivation dimension to be retrieved based on a query param in DHSCFT-396
-            .Where(hm => hm.DeprivationDimension.HasValue == false || _dbContext.HealthMeasure
-                .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId).Include(hm => hm.IndicatorDimension)
-                .GroupBy(x => x.DeprivationKey).Count() == 1)
+            .Where(hm => hm.DeprivationDimension.HasValue == false || countInequalityDimensionsQuery.First().DeprivationKeyCount == 1)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
