@@ -32,9 +32,9 @@ describe('Spine chart table suite', () => {
         `Benchmark: England`
       );
 
-      Object.values(SpineChartTableHeadingEnum).forEach((heading) =>
+      Object.values(SpineChartTableHeadingEnum).forEach((heading, index) =>
         expect(
-          screen.getByTestId(`${heading}-header`)
+          screen.getByTestId(`${heading}-header-${index}`)
         ).toBeInTheDocument()
       );
     });
