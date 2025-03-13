@@ -16,35 +16,35 @@ export type PopulationData = {
   dataForBaseline?: PopulationDataForArea;
 };
 
-export function preparePopulationData(
-  rawData: HealthDataForArea,
-  selectedAreaCode?: string,
-  baselineAreaCode?: string
-): [PopulationDataForArea | undefined, PopulationData] {
-  const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
-    (dataForArea) => dataForArea.areaCode == areaCodeForEngland
-  );
-  const rawDataForSelected: HealthDataForArea | undefined = rawData.find(
-    (dataForArea) => dataForArea.areaCode == selectedAreaCode
-  );
-  const rawDataForBaseline: HealthDataForArea | undefined = rawData.find(
-    (dataForArea) => dataForArea.areaCode == baselineAreaCode
-  );
-  const areaSelectedData = preparePopulationDataForArea(
-    rawDataForSelected?.healthData
-  );
-  return [
-    areaSelectedData,
-    {
-      dataForEngland: preparePopulationDataForArea(
-        rawDataForEngland?.healthData
-      ),
-      dataForBaseline: preparePopulationDataForArea(
-        rawDataForBaseline?.healthData
-      ),
-    },
-  ];
-}
+// export function preparePopulationData(
+//   rawData: HealthDataForArea,
+//   selectedAreaCode?: string,
+//   baselineAreaCode?: string
+// ): [PopulationDataForArea | undefined, PopulationData] {
+//   const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
+//     (dataForArea) => dataForArea.areaCode == areaCodeForEngland
+//   );
+//   const rawDataForSelected: HealthDataForArea | undefined = rawData.find(
+//     (dataForArea) => dataForArea.areaCode == selectedAreaCode
+//   );
+//   const rawDataForBaseline: HealthDataForArea | undefined = rawData.find(
+//     (dataForArea) => dataForArea.areaCode == baselineAreaCode
+//   );
+//   const areaSelectedData = preparePopulationDataForArea(
+//     rawDataForSelected?.healthData
+//   );
+//   return [
+//     areaSelectedData,
+//     {
+//       dataForEngland: preparePopulationDataForArea(
+//         rawDataForEngland?.healthData
+//       ),
+//       dataForBaseline: preparePopulationDataForArea(
+//         rawDataForBaseline?.healthData
+//       ),
+//     },
+//   ];
+// }
 
 export function preparePopulationDataForArea(
   healthData?: HealthDataPoint[]

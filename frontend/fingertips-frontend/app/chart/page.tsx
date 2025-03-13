@@ -1,28 +1,19 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
-import {
-  PopulationData,
-  preparePopulationData,
-} from '@/lib/chartHelpers/preparePopulationData';
+
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
 
-import {
-  areaCodeForEngland,
-  indicatorIdForPopulation,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import {
-  HealthDataForArea,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-} from '@/generated-sources/ft-api-client';
+import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
@@ -69,26 +60,6 @@ export default async function ChartPage(
       })
     )
   );
-
-  let rawPopulationData: HealthDataForArea[] | undefined;
-  try {
-    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areasSelected, areaCodeForEngland],
-    });
-  } catch (error) {
-    console.log('error getting population data ', error);
-  }
-
-  // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
-  const preparedPopulationData: PopulationData | undefined = rawPopulationData
-    ? preparePopulationData(
-        rawPopulationData,
-        areasSelected[0],
-        areasSelected[1]
-      )
-    : undefined;
-
   // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
   const mapDataIsRequired =
     selectedAreaType &&
@@ -116,7 +87,6 @@ export default async function ChartPage(
     <>
       <ViewsContext searchState={stateManager.getSearchState()} />
       <Chart
-        populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
