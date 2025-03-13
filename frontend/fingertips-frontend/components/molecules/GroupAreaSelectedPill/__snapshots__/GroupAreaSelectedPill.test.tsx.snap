@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AreaSelectedPill should match snapshot 1`] = `
+exports[`GroupAreaSelectedPill should match snapshot 1`] = `
 <DocumentFragment>
   .c2 {
   cursor: pointer;
@@ -41,10 +41,6 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
 }
 
 .c4 {
-  font-weight: 500;
-}
-
-.c5 {
   color: #505A5F;
 }
 
@@ -96,16 +92,11 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
       <p
         style="margin: 0px;"
       >
+        All areas in East of England NHS Region 
         <span
           class="c4"
         >
-          East of England NHS Region
-        </span>
-         
-        <span
-          class="c5"
-        >
-          NHS Regions
+          NHS Primary Care Network
         </span>
       </p>
     </div>

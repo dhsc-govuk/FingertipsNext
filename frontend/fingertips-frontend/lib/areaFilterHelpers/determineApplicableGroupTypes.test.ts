@@ -59,7 +59,7 @@ describe('determineApplicableGroupTypes', () => {
     ],
     ['gps', ['nhs-primary-care-networks', 'nhs-sub-integrated-care-boards']],
     ['regions', ['england']],
-    ['combined-authorities', ['regions', 'england']],
+    ['combined-authorities', ['england']],
     [
       'counties-and-unitary-authorities',
       ['combined-authorities', 'regions', 'england'],
