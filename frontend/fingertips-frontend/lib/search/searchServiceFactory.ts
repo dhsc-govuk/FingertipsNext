@@ -12,10 +12,11 @@ import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 
-if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') && !tryReadEnvVar('JEST_WORKER_ID')) {
-  console.warn(
-      `SearchServiceFactory: using useMockService`
-  );
+if (
+  tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') &&
+  !tryReadEnvVar('JEST_WORKER_ID')
+) {
+  console.warn(`SearchServiceFactory: using useMockService`);
 }
 
 export class SearchServiceFactory {

@@ -15,9 +15,9 @@ type ConfidenceIntervalCheckboxProps = {
 };
 
 const StyledParagraph = styled(Paragraph)(
-    spacing.withWhiteSpace({
-      margin: [{ size: 0 }],
-    })
+  spacing.withWhiteSpace({
+    margin: [{ size: 0 }],
+  })
 );
 
 export function ConfidenceIntervalCheckbox({

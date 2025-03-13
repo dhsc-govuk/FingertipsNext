@@ -83,8 +83,6 @@ export default async function Page(
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);
-    return (
-      <ErrorPage />
-    );
+    return <ErrorPage />;
   }
 }

@@ -23,7 +23,7 @@ type OneIndicatorOneAreaViewProps = {
 };
 
 const StyledParagraphDataSource = styled(Paragraph)(
-    typography.font({ size: 16 })
+  typography.font({ size: 16 })
 );
 
 export function OneIndicatorOneAreaViewPlots({
@@ -31,7 +31,6 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorOneAreaViewProps>) {
-
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
