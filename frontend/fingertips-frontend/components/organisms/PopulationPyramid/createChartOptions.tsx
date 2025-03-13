@@ -36,7 +36,7 @@ export const createChartSeriesOptions = (
         // mirror axis on right side
         opposite: true,
         reversed: false,
-        categories: dataForArea?.ageCategories,
+        categories: dataForArea.ageCategories,
         linkedTo: 0,
         title: {
           text: xAxisTitle,
@@ -86,9 +86,11 @@ export const createChartSeriesOptions = (
     },
     tooltip: {
       padding: 10,
-      headerFormat:
-        '<span style="font-weight: bold">AreaName</span><br/>' +
-        '<span>Age {key}</span><br/>',
+      headerFormat: `<div style="margin:0px; padding:0px;">
+            <span style="font-weight: bold; display: block;">
+            ${dataForArea.areaName}
+            </span>
+        <span display:inline-block;>Age {key}</span><div>`,
       pointFormatter: function (this: Highcharts.Point) {
         return pointFormatterHelper(this);
       },

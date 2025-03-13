@@ -5,6 +5,7 @@ import {
 import { areaCodeForEngland } from './constants';
 
 export interface PopulationDataForArea {
+  areaName: string;
   ageCategories: Array<string>;
   femaleSeries: Array<number>;
   maleSeries: Array<number>;
@@ -16,10 +17,10 @@ export type PopulationData = {
 };
 
 export function preparePopulationData(
-  rawData: HealthDataForArea[],
+  rawData: HealthDataForArea,
   selectedAreaCode?: string,
   baselineAreaCode?: string
-): PopulationData {
+): [PopulationDataForArea | undefined, PopulationData] {
   const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
     (dataForArea) => dataForArea.areaCode == areaCodeForEngland
   );
@@ -29,16 +30,20 @@ export function preparePopulationData(
   const rawDataForBaseline: HealthDataForArea | undefined = rawData.find(
     (dataForArea) => dataForArea.areaCode == baselineAreaCode
   );
-
-  return {
-    dataForSelectedArea: preparePopulationDataForArea(
-      rawDataForSelected?.healthData
-    ),
-    dataForEngland: preparePopulationDataForArea(rawDataForEngland?.healthData),
-    dataForBaseline: preparePopulationDataForArea(
-      rawDataForBaseline?.healthData
-    ),
-  };
+  const areaSelectedData = preparePopulationDataForArea(
+    rawDataForSelected?.healthData
+  );
+  return [
+    areaSelectedData,
+    {
+      dataForEngland: preparePopulationDataForArea(
+        rawDataForEngland?.healthData
+      ),
+      dataForBaseline: preparePopulationDataForArea(
+        rawDataForBaseline?.healthData
+      ),
+    },
+  ];
 }
 
 export function preparePopulationDataForArea(
@@ -57,6 +62,7 @@ export function preparePopulationDataForArea(
   const maleSeries = generatePopulationSeries(healthData, 'Male');
 
   return {
+    areaName: '',
     ageCategories: ageCategories,
     femaleSeries: femaleSeries,
     maleSeries: maleSeries,
