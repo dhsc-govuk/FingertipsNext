@@ -66,9 +66,11 @@ describe('AreaSuggestionPanel', () => {
       />
     );
 
-    expect(screen.getByText('GP01 - Greenwich')).toBeInTheDocument();
-    expect(screen.getByText('GP02 - Cambridge')).toBeInTheDocument();
-    expect(screen.getByText('Central London')).toBeInTheDocument();
+    mockAreas.forEach((mockArea) => {
+      expect(
+        screen.getByTestId(`area-suggestion-item-${mockArea.areaCode}`)
+      ).toBeInTheDocument();
+    });
   });
 
   it('should render nothing if suggestedAreas are empty', () => {
@@ -92,7 +94,9 @@ describe('AreaSuggestionPanel', () => {
       />
     );
 
-    await user.click(screen.getByText('GP01 - Greenwich'));
+    await user.click(
+      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+    );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
@@ -116,7 +120,9 @@ describe('AreaSuggestionPanel', () => {
       />
     );
 
-    await user.click(screen.getByText('GP01 - Greenwich'));
+    await user.click(
+      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+    );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });

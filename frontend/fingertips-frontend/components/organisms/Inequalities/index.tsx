@@ -20,10 +20,12 @@ interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
   searchState: SearchStateParams;
   type?: InequalitiesTypes;
+  measurementUnit?: string;
 }
 
 export function Inequalities({
   healthIndicatorData,
+  measurementUnit,
   searchState,
   type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesProps>) {
@@ -69,6 +71,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChartTable
                 tableData={barchartTableData}
+                measurementUnit={measurementUnit}
                 dynamicKeys={dynamicKeys}
               />
             ),
@@ -97,6 +100,7 @@ export function Inequalities({
             content: (
               <InequalitiesLineChartTable
                 tableData={lineChartData}
+                measurementUnit={measurementUnit}
                 dynamicKeys={dynamicKeys}
               />
             ),

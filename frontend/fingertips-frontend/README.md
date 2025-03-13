@@ -27,7 +27,7 @@ You can format the code base (using [Prettier](https://prettier.io/docs/en/)) by
 npm run prettier
 ```
 
-Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html)
+Recommend you configure prettier as part of your IDE using the recommended [extension](https://prettier.io/docs/en/editors.html).
 
 ### Type Checking
 
@@ -63,7 +63,7 @@ npm run dev
 
 To perform a production build of the application, do the following:
 
-1. Install dependencies: `npm install`
+1. Install dependencies: `npm install`.
 1. Build the application: `npm run build`. This will build the application into the `.next` directory.
 1. [Optionally] To run the production server: `npm run start` and open [http://localhost:3000](http://localhost:3000) with your browser to see the result. Note: this server does not auto-update when you change files.
 
@@ -72,8 +72,8 @@ To perform a production build of the application, do the following:
 A [Dockerfile](Dockerfile) is provided to allow a container image to be built for the application. You can build and run a container by doing the following:
 
 1. [Install Docker](https://docs.docker.com/get-docker/) on your machine, if required.
-1. Build your container: `docker build -t fingertips-frontend .`
-1. Run your container: `docker run -p 3000:3000 fingertips-frontend`
+1. Build your container: `docker build -t fingertips-frontend .`.
+1. Run your container: `docker run -p 3000:3000 fingertips-frontend`.
 
 You can then open [http://localhost:3000](http://localhost:3000) with your browser to see the application. You can also view the images created with `docker images`.
 
@@ -85,11 +85,11 @@ Isolated ui testing, covering accessibility, page navigation and validations occ
 
 For e2e tests there is a difference between where and how the tests are executed:
 
- 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing at this point.
+ 1. In CI, which occurs on push and in pull requests, we execute the e2e tests against a dockerised container instance of fingertips running in the github runner agent. Note that we also perform visual screenshot snapshot testing of the chart components at this point.
 
  2. In CD, which occurs when code merges into main, we execute the e2e tests against the deployed azure instance of fingertips. Note we do not perform visual screenshot snapshot testing at this point.
 
-For local development we also have the option to run the tests locally against mocks or against a locally dockerised container instance of fingertips.
+For local development we also have the option to run the tests locally against mocks or against a containerised instance of fingertips using docker.
 
 ### Running the Jest Unit tests
 
@@ -134,19 +134,15 @@ To check there are 0 accessibility violations on the page the test is currently 
 
 ### Visual Screenshot Snapshot Testing
 
-Only performed in the e2e tests and only when they run in CI. Therefore they are not performed when the e2e tests are run locally, and they are not performed in CD when we merge into main. Running them locally is not recommended, following best practice as defined by the playwright docs - https://playwright.dev/docs/test-snapshots to avoid flake and complexity as the screenshot snapshots will be different for different platforms.
+Performed in the e2e tests when they are run locally and when they run in CI. They are not performed in CD when we merge into main. All base screenshot snapshots are stored directly in the repository.
 
-All screenshot snapshots are stored in github cache, not directly in the repository.
-
-If you are in a new branch, there wont be any screenshots for that branch yet, so the cache dependencies job will check and use the main branch for base screenshots using the fallback restore-keys. Note that if you merge main into your branch, and if the changes that come into your branch changed the way any of the tested chart components look, then your next push will fail on the screenshot comparisons and you will need to execute step 3 (in isolation) from below.
-
-If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the cached base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
+If you have made changes in your branch that have correctly resulted in the screenshots generated not matching the base screenshots, within the tolerance ratio (see `maxDiffPixelRatio` in the playwright config file), then the e2e tests will fail and you will need to update the base screenshots, to do this:
 
 1. Download `playwright-artefacts` from the github workflow summary page, and open the `index.html` file in the `playwright-report` folder, then in the Playwright report open the failed test and you will be presented with a 'Diff' page that shows the before and after.
 2. Review and compare the expected base screenshots and actual current screenshots in the playwright report with a BA to confirm the new screenshots are correct.
-3. Once the changes have been confirmed as correct go to `https://github.com/dhsc-govuk/FingertipsNext/actions/workflows/fingertips-workflow.yml` and click `Run workflow` then *pick your branch* and tick the `Update screenshot snapshots?` checkbox. This will run a new workflow in which the base screenshots will be updated in the cache against your branch reference. The e2e tests run in this workflow as well, using these new screenshots, and they should now pass.
-4. Now that the screenshots are updated in the cache *for your current branch* all subsequent workflow executions that trigger the e2e tests in CI, for that branch will pass and when you merge to main the screenshots will be automatically updated in the cache for main.
-5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the cached screenshots to need to be updated, and link to the `Artifact download URL:` from the `Upload playwright artefacts` step of the `e2e-tests-local-docker` failure job. This allows the PR reviewer to check the before and after screenshots.
+3. Once the changes have been confirmed as correct run the npm script `test-e2e-local-update-snapshots` in which the base screenshots will be created locally. Check these screenshots match what has been confirmed as correct with the BA.
+4. Push up these screenshots to your branch.
+5. Ensure that when you put your PR up for review you explicitly mention that your changes caused the base screenshots to need to be updated.
 
 ## Code structure
 
@@ -176,7 +172,7 @@ The generated code is held within `generated-sources/api-client` folder. Please 
 
 ### Generating mock handlers
 
-The following script will autogenerate mock handlers from an open-api spec. See https://github.com/zoubingwu/msw-auto-mock for details.
+The following script will autogenerate mock handlers from an open-api spec. See https://github.com/zoubingwu/msw-auto-mock for details:
 
 ```bash
 npm run generate:mocks
@@ -184,7 +180,7 @@ npm run generate:mocks
 
 The autogenerated code is held within `mock/server` folder. This script generates a skeleton of endpoints that the API returns with the intention of updating the handlers with the responses you wish the mock service worker to return. Therefore, re-rerunning this script will overwrite any changes made to this file.
 
-If you wish to autogenerate the mock handlers again, use the following command 
+If you wish to autogenerate the mock handlers again, use the following command:
 
 ```bash
 npm run generate:ft-mocks

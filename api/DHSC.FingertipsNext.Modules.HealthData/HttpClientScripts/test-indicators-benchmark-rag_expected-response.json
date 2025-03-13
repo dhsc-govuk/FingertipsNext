@@ -11,7 +11,7 @@
         "upperCi": 0.44051725,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -28,7 +28,7 @@
         "upperCi": 0.43873137,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -45,7 +45,7 @@
         "upperCi": 0.5120043,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -62,7 +62,7 @@
         "upperCi": 0.52557385,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -79,7 +79,7 @@
         "upperCi": 0.4981878,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -96,7 +96,7 @@
         "upperCi": 0.5149161,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -113,7 +113,7 @@
         "upperCi": 0.64618385,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -130,7 +130,7 @@
         "upperCi": 0.606869,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -147,7 +147,7 @@
         "upperCi": 0.68934494,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -164,7 +164,7 @@
         "upperCi": 0.8118535,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Rag",
@@ -181,7 +181,7 @@
         "upperCi": 0.6693846,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -198,7 +198,7 @@
         "upperCi": 0.54521894,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -215,7 +215,7 @@
         "upperCi": 0.55896,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -232,7 +232,7 @@
         "upperCi": 0.63687,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",
@@ -249,7 +249,7 @@
         "upperCi": 0.6817,
         "ageBand": "All ages",
         "sex": "Persons",
-        "trend": "NotYetCalculated",
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Worse",
           "method": "Rag",

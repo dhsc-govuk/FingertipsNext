@@ -120,11 +120,35 @@ describe('Inequalities table suite', () => {
       );
     });
 
+    it('When the UI is rendered with measurement unit it should render correctly', () => {
+      render(
+        <InequalitiesLineChartTable
+          tableData={tableData}
+          dynamicKeys={['Persons', 'Male', 'Female']}
+          measurementUnit="per 100,000"
+        />
+      );
+      expect(screen.getByText('Value: per 100,000')).toBeInTheDocument();
+    });
+
+    it("Value: 'unit measurement' should not be in document when the unit measurement is not provided", () => {
+      render(
+        <InequalitiesLineChartTable
+          tableData={tableData}
+          dynamicKeys={['Persons', 'Male', 'Female']}
+        />
+      );
+
+      expect(
+        screen.queryByTestId('inequalitiesLineChartTable-measurementUnit')
+      ).not.toBeInTheDocument();
+    });
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
           dynamicKeys={['Persons', 'Male', 'Female']}
+          measurementUnit="per 100,000"
         />
       );
       expect(container.asFragment()).toMatchSnapshot();

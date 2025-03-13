@@ -1,6 +1,5 @@
 'use client';
 
-import { BackLink } from 'govuk-react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   SearchParams,
@@ -24,6 +23,7 @@ type ChartProps = {
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
+  measurementUnit?: string;
 };
 
 export function Chart({
@@ -31,6 +31,7 @@ export function Chart({
   mapData,
   populationData,
   searchState,
+  measurementUnit,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -40,8 +41,6 @@ export function Chart({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  const backLinkPath = stateManager.generatePath('/results');
-
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData[0],
     selectedGroupCode
@@ -49,11 +48,6 @@ export function Chart({
 
   return (
     <>
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
         <Inequalities
           healthIndicatorData={
@@ -62,6 +56,7 @@ export function Chart({
               : healthIndicatorData[0][0]
           }
           searchState={searchState}
+          measurementUnit={measurementUnit}
         />
       )}
       <BarChart
@@ -70,6 +65,7 @@ export function Chart({
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
+        measurementUnit={measurementUnit}
       />
       {populationData ? (
         <>

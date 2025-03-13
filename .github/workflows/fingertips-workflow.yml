@@ -2,12 +2,6 @@ name: Fingertips Workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      update-screenshots:
-        description: 'Update screenshot snapshots?'
-        type: boolean
-        default: false
-        required: false
   push:
     branches:
       - '**'
@@ -246,7 +240,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
     with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
+      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -265,8 +259,6 @@ jobs:
         )
       )
     uses: ./.github/workflows/e2e-tests.yml
-    with:
-      update-screenshots: ${{ inputs.update-screenshots }}
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
@@ -366,7 +358,7 @@ jobs:
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           path: 'fingertips-db.dacpac'
           action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
+          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
@@ -592,6 +584,6 @@ jobs:
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.50.1-noble
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

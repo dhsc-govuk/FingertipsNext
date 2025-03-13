@@ -19,6 +19,7 @@ export enum InequalitiesTableHeadingsEnum {
 interface InequalitiesLineChartTableProps {
   tableData: InequalitiesChartData;
   dynamicKeys: string[];
+  measurementUnit?: string;
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -46,6 +47,7 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 export function InequalitiesLineChartTable({
   tableData,
   dynamicKeys,
+  measurementUnit,
 }: Readonly<InequalitiesLineChartTableProps>) {
   const tableHeaders = [
     ...Object.values(InequalitiesTableHeadingsEnum),
@@ -60,6 +62,14 @@ export function InequalitiesLineChartTable({
             <Table.Row>
               <StyledAlignCenterHeader colSpan={4}>
                 {tableData.areaName}
+                {measurementUnit ? (
+                  <span
+                    style={{ display: 'block', marginTop: '21px' }}
+                    data-testid="inequalitiesLineChartTable-measurementUnit"
+                  >
+                    Value: {measurementUnit}
+                  </span>
+                ) : null}
               </StyledAlignCenterHeader>
             </Table.Row>
             <Table.Row>

@@ -37,4 +37,14 @@ describe('Inequalities suite', () => {
       screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
   });
+
+  it('check if the measurement unit value "kg" is rendered correctly', () => {
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        measurementUnit="kg"
+      />
+    );
+    expect(screen.getByText('kg')).toBeInTheDocument();
+  });
 });
