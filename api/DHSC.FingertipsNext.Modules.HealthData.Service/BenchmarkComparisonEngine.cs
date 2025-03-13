@@ -55,14 +55,17 @@ public static class BenchmarkComparisonEngine
                 if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
                     comparisonValue = 1;
 
+                var benchmarkAreaCode = isInequality ? healthAreaData.AreaCode : benchmarkHealthData.AreaCode;
+                var benchmarkAreaName = isInequality ? healthAreaData.AreaName : benchmarkHealthData.AreaName;
+
                 healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
                 {
                     Method = comparisonMethod,
                     Outcome = GetOutcome(comparisonValue, polarity),
                     IndicatorPolarity = polarity,
                     BenchmarkValue = benchmarkHealthDataPoint.Value,
-                    BenchmarkAreaCode = isInequality ? "" : benchmarkHealthData.AreaCode,
-                    BenchmarkAreaName = isInequality ? "" : benchmarkHealthData.AreaName
+                    BenchmarkAreaCode = benchmarkAreaCode,
+                    BenchmarkAreaName = benchmarkAreaName
                 };
             }
         }
