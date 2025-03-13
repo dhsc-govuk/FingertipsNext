@@ -16,6 +16,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.areasApiInstance = new AreasApi(config);
@@ -29,6 +30,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.indicatorsApiInstance = new IndicatorsApi(config);
@@ -42,6 +44,7 @@ export class ApiClientFactory {
       const apiUrl = readEnvVar('FINGERTIPS_API_URL');
       const config: Configuration = new Configuration({
         basePath: apiUrl,
+        fetchApi: fetch,
       });
 
       this.systemApiInstance = new SystemApi(config);

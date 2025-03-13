@@ -50,17 +50,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: ['sex'],
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        { next: { revalidate: 3600 } }
+      );
     });
 
     it('should make 3 calls for get health data, when there are 2 indicators selected - first two for the indicators the last one for the population data', async () => {
@@ -80,24 +88,36 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: [],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: [],
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 2,
-        inequalities: [],
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 2,
+          inequalities: [],
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(3, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        3,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        { next: { revalidate: 3600 } }
+      );
     });
   });
 
@@ -121,17 +141,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
-        indicatorId: 333,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
+          indicatorId: 333,
+          inequalities: ['sex'],
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        { next: { revalidate: 3600 } }
+      );
     });
 
     it('should not include groupSelected in the API call if England is the groupSelected', async () => {
@@ -152,17 +180,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: 333,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: 333,
+          inequalities: ['sex'],
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        { next: { revalidate: 3600 } }
+      );
     });
 
     describe('Check correct props are passed to Chart page component', () => {

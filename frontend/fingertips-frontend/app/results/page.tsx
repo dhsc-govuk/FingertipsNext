@@ -33,7 +33,12 @@ export default async function Page(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+            areasSelected.map((area) =>
+              areasApi.getArea(
+                { areaCode: area },
+                { next: { revalidate: 3600 } }
+              )
+            )
           )
         : [];
 

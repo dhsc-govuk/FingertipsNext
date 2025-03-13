@@ -39,10 +39,13 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected[0]),
-      areaCodes: areaCodesToRequest,
-    });
+    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: areaCodesToRequest,
+      },
+      { next: { revalidate: 3600 } }
+    );
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');

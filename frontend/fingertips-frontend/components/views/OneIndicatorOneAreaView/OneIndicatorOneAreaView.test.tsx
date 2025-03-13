@@ -61,11 +61,15 @@ describe('OneIndicatorOneAreaView', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: expectedAreaCodes,
-        indicatorId: 1,
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: expectedAreaCodes,
+          indicatorId: 1,
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
+        { next: { revalidate: 3600 } }
+      );
     }
   );
 

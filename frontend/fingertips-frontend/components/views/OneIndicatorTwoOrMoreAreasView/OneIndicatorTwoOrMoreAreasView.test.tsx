@@ -70,10 +70,14 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: expectedAreaCodes,
-        indicatorId: 1,
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: expectedAreaCodes,
+          indicatorId: 1,
+        },
+        { next: { revalidate: 3600 } }
+      );
     }
   );
 

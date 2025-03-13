@@ -179,6 +179,7 @@ describe('Results Page', () => {
     });
 
     it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
+      mockGetAreaFilterData.mockResolvedValue({});
       mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
       mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
 
@@ -192,12 +193,20 @@ describe('Results Page', () => {
         searchParams: generateSearchParams(searchState),
       });
 
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-        areaCode: eastEnglandNHSRegion.code,
-      });
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
-        areaCode: londonNHSRegion.code,
-      });
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCode: eastEnglandNHSRegion.code,
+        },
+        { next: { revalidate: 3600 } }
+      );
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCode: londonNHSRegion.code,
+        },
+        { next: { revalidate: 3600 } }
+      );
       expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,

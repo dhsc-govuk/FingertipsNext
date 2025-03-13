@@ -57,25 +57,31 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: Number(indicatorId),
-        areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(
-          indicatorsSelected,
-          areasSelected
-        )
-          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-          : [],
-      })
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorId),
+          areaCodes: areaCodesToRequest,
+          inequalities: shouldDisplayInequalities(
+            indicatorsSelected,
+            areasSelected
+          )
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
+        },
+        { next: { revalidate: 3600 } }
+      )
     )
   );
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
-    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areasSelected, areaCodeForEngland],
-    });
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: indicatorIdForPopulation,
+        areaCodes: [...areasSelected, areaCodeForEngland],
+      },
+      { next: { revalidate: 3600 } }
+    );
   } catch (error) {
     console.log('error getting population data ', error);
   }

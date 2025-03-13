@@ -33,7 +33,10 @@ describe('getAreaFilterData', () => {
 
     const { availableAreaTypes } = await getAreaFilterData({});
 
-    expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
+    expect(mockAreasApi.getAreaTypes).toHaveBeenCalledWith(
+      {},
+      { next: { revalidate: 3600 } }
+    );
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
   });
 
@@ -57,9 +60,12 @@ describe('getAreaFilterData', () => {
       [SearchParams.GroupTypeSelected]: nhsRegionsAreaType.key,
     });
 
-    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
-      areaTypeKey: nhsRegionsAreaType.key,
-    });
+    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith(
+      {
+        areaTypeKey: nhsRegionsAreaType.key,
+      },
+      { next: { revalidate: 3600 } }
+    );
     expect(availableGroups).toEqual(allAreasForICBAreaType);
   });
 
@@ -78,11 +84,14 @@ describe('getAreaFilterData', () => {
       [SearchParams.GroupSelected]: eastEnglandNHSRegion.code,
     });
 
-    expect(mockAreasApi.getArea).toHaveBeenCalledWith({
-      areaCode: eastEnglandNHSRegion.code,
-      includeChildren: true,
-      childAreaType: nhsIntegratedCareBoardsAreaType.key,
-    });
+    expect(mockAreasApi.getArea).toHaveBeenCalledWith(
+      {
+        areaCode: eastEnglandNHSRegion.code,
+        includeChildren: true,
+        childAreaType: nhsIntegratedCareBoardsAreaType.key,
+      },
+      { next: { revalidate: 3600 } }
+    );
     expect(availableAreas).toEqual(areasSortedAlphabetically);
   });
 

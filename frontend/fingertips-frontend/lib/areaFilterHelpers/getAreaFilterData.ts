@@ -38,7 +38,10 @@ export const getAreaFilterData = async (
 
   const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const availableAreaTypes = await areasApi.getAreaTypes();
+  const availableAreaTypes = await areasApi.getAreaTypes(
+    {},
+    { next: { revalidate: 3600 } }
+  );
   const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
     (a, b) => a.level - b.level
   );
@@ -70,9 +73,12 @@ export const getAreaFilterData = async (
     determinedSelectedGroupType
   );
 
-  const availableGroups = await areasApi.getAreaTypeMembers({
-    areaTypeKey: determinedSelectedGroupType,
-  });
+  const availableGroups = await areasApi.getAreaTypeMembers(
+    {
+      areaTypeKey: determinedSelectedGroupType,
+    },
+    { next: { revalidate: 3600 } }
+  );
 
   const determinedSelectedGroup = determineSelectedGroup(
     selectedGroup,
@@ -83,11 +89,14 @@ export const getAreaFilterData = async (
     determinedSelectedGroup
   );
 
-  const availableArea: AreaWithRelations = await areasApi.getArea({
-    areaCode: determinedSelectedGroup,
-    includeChildren: true,
-    childAreaType: determinedSelectedAreaType,
-  });
+  const availableArea: AreaWithRelations = await areasApi.getArea(
+    {
+      areaCode: determinedSelectedGroup,
+      includeChildren: true,
+      childAreaType: determinedSelectedAreaType,
+    },
+    { next: { revalidate: 3600 } }
+  );
   const availableAreas = determineAvailableAreas(
     determinedSelectedAreaType,
     availableArea

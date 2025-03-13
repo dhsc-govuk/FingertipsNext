@@ -38,11 +38,14 @@ export default async function OneIndicatorOneAreaView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected[0]),
-      areaCodes: areaCodesToRequest,
-      comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-    });
+    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: areaCodesToRequest,
+        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+      },
+      { next: { revalidate: 3600 } }
+    );
   } catch (error) {
     console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');
