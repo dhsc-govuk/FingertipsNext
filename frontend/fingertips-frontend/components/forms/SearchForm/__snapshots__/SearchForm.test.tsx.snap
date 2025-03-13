@@ -2,7 +2,7 @@
 
 exports[`SearchForm snapshot test - renders the form 1`] = `
 <DocumentFragment>
-  .c19 {
+  .c25 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 22px;
 }
 
-.c19:focus {
+.c25:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c19:link,
-.c19:visited,
-.c19:active,
-.c19:hover {
+.c25:link,
+.c25:visited,
+.c25:active,
+.c25:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c19::-moz-focus-inner {
+.c25::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c19:hover,
-.c19:focus {
+.c25:hover,
+.c25:focus {
   background-color: #00572e;
 }
 
-.c19:active {
+.c25:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c19::before {
+.c25::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   background: transparent;
 }
 
-.c19:active::before {
+.c25:active::before {
   top: -4px;
 }
 
-.c19:disabled {
+.c25:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c19:disabled:hover {
+.c25:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c19:disabled:focus {
+.c25:disabled:focus {
   outline: none;
 }
 
-.c19:disabled:active {
+.c25:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c19 svg {
+.c25 svg {
   max-width: 15px;
 }
 
@@ -104,6 +104,104 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   display: block;
   margin-bottom: 15px;
   color: #6f777b;
+}
+
+.c19 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  position: relative;
+  min-height: 40px;
+  padding: 0 0 0 40px;
+  clear: left;
+  padding-right: 22px;
+  margin-bottom: 10px;
+}
+
+.c19 span {
+  padding: 12px 15px 13px 0;
+  font-size: 16px;
+}
+
+.c19 span:before {
+  width: 25px;
+  height: 25px;
+  top: 8px;
+}
+
+.c19 span:after {
+  top: 15px;
+  left: 6px;
+  width: 11px;
+  height: 4.5px;
+  border-width: 0 0 3px 3px;
+}
+
+.c21 {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.c21:checked + span:after {
+  opacity: 1;
+}
+
+.c21:focus + span:before {
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #ffdd00;
+}
+
+.c21 + span {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.c22 {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 15px 5px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.c22::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  background: transparent;
+}
+
+.c22::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 18px;
+  height: 7px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border: solid;
+  border-width: 0 0 5px 5px;
+  border-top-color: transparent;
+  background: transparent;
+  opacity: 0;
 }
 
 .c3 {
@@ -281,6 +379,12 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   margin-bottom: 0;
 }
 
+.c23 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
 .c15 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -324,6 +428,15 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   font-weight: bold;
 }
 
+.c24 {
+  border-bottom-color: black;
+  margin-bottom: 0.5em;
+}
+
+.c20 {
+  margin-bottom: 0em;
+}
+
 .c9 div {
   padding: 0.5em 0em;
 }
@@ -345,33 +458,33 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
 }
 
 @media print {
-  .c19 {
+  .c25 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c25 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c25 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 svg {
+  .c25 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c19 {
+  .c25 {
     margin-bottom: 32px;
   }
 }
@@ -387,6 +500,33 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
   .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c19 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c19 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c19 span {
+    font-size: 19px;
+    padding: 10px 15px 10px 1px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c19 {
+    margin-bottom: 10px;
   }
 }
 
@@ -662,12 +802,28 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
             >
               Select one or more areas
             </span>
+            <label
+              class="c19 c20"
+            >
+              <input
+                class="c21"
+                type="checkbox"
+              />
+              <span
+                class="c22"
+              >
+                Select all areas
+              </span>
+            </label>
+            <hr
+              class="c23 c24"
+            />
           </div>
         </div>
       </div>
     </details>
     <button
-      class="c19"
+      class="c25"
       data-testid="search-form-button-submit"
       style="margin-top: 25px;"
       type="submit"

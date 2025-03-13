@@ -29,7 +29,7 @@ const StyledDefaultTag = styled(Tag)<{
   trendCondition?: TrendCondition;
 }>(({ trend, trendCondition }) => {
   const trendConditionColours =
-    trend !== Trend.NO_SIGNIFICANT_CHANGE
+    trend !== Trend.NO_SIGNIFICANT_CHANGE && trend !== Trend.NOT_AVAILABLE
       ? getTrendConditionColours(trendCondition)
       : null;
 
@@ -58,6 +58,7 @@ const arrowDirectionMap: Partial<Record<Trend, Direction>> = {
   [Trend.INCREASING]: Direction.UP,
   [Trend.DECREASING]: Direction.DOWN,
   [Trend.NO_SIGNIFICANT_CHANGE]: Direction.RIGHT,
+  [Trend.NOT_AVAILABLE]: undefined,
 };
 
 export const TrendTag = ({
@@ -67,7 +68,7 @@ export const TrendTag = ({
 }: Readonly<TagProps>) => {
   const arrowDirection = useArrow ? arrowDirectionMap[trend] : null;
   const trendMessage =
-    trend === Trend.NO_SIGNIFICANT_CHANGE
+    trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.NOT_AVAILABLE
       ? trend
       : trend + ' ' + displayTrendCondition(trendCondition);
 

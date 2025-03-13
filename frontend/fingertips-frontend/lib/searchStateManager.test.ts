@@ -1,3 +1,4 @@
+import { ALL_AREAS_SELECTED } from './areaFilterHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
@@ -14,6 +15,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       };
 
@@ -27,6 +29,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
     });
@@ -205,6 +208,27 @@ describe('SearchStateManager', () => {
     });
   });
 
+  describe('addAllParamsToState', () => {
+    it('should replace all the param values currently in state for the param key with the params provided', () => {
+      const initialAreasSelected = ['A001', 'A002'];
+      const updatedAreasSelected = ['A002', 'A003', 'A004'];
+
+      const stateManager = SearchStateManager.initialise({
+        [SearchParams.AreasSelected]: initialAreasSelected,
+      });
+
+      stateManager.addAllParamsToState(
+        SearchParams.AreasSelected,
+        updatedAreasSelected
+      );
+
+      const newState = stateManager.getSearchState();
+      expect(newState).toEqual({
+        [SearchParams.AreasSelected]: updatedAreasSelected,
+      });
+    });
+  });
+
   describe('getSearchState', () => {
     it('should return the current state', () => {
       const state: SearchStateParams = {
@@ -219,31 +243,6 @@ describe('SearchStateManager', () => {
       const stateManager = SearchStateManager.initialise(state);
 
       expect(stateManager.getSearchState()).toEqual(state);
-    });
-  });
-
-  describe('setStateFromParams', () => {
-    it('should set the search state from URLSearchParams provided', () => {
-      const params = new URLSearchParams();
-      params.append(SearchParams.SearchedIndicator, 'bang');
-      params.append(SearchParams.IndicatorsSelected, '1');
-      params.append(SearchParams.IndicatorsSelected, '2');
-      params.append(SearchParams.IndicatorsSelected, '3');
-      params.append(SearchParams.AreasSelected, 'A001');
-      params.append(SearchParams.AreasSelected, 'A002');
-      params.append(SearchParams.AreaTypeSelected, 'Some area type');
-      params.append(SearchParams.GroupTypeSelected, 'Some group type');
-
-      const stateManager = SearchStateManager.setStateFromParams(params);
-      const newState = stateManager.getSearchState();
-
-      expect(newState).toEqual({
-        [SearchParams.SearchedIndicator]: 'bang',
-        [SearchParams.IndicatorsSelected]: ['1', '2', '3'],
-        [SearchParams.AreasSelected]: ['A001', 'A002'],
-        [SearchParams.AreaTypeSelected]: 'Some area type',
-        [SearchParams.GroupTypeSelected]: 'Some group type',
-      });
     });
   });
 
@@ -263,6 +262,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
+        `&${SearchParams.GroupAreaSelected}=ALL`,
         `&${SearchParams.ConfidenceIntervalSelected}=line-chart`,
       ].join('');
 
@@ -273,6 +273,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.ConfidenceIntervalSelected]: ['line-chart'],
       });
 

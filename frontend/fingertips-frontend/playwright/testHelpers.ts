@@ -1,6 +1,12 @@
 import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 
+export enum SearchMode {
+  ONLY_SUBJECT = 'ONLY_SUBJECT',
+  ONLY_AREA = 'ONLY_AREA',
+  BOTH_SUBJECT_AND_AREA = 'BOTH_SUBJECT_AND_AREA',
+}
+
 export enum IndicatorMode {
   ONE_INDICATOR = 'ONE_INDICATOR',
   TWO_INDICATORS = 'TWO_INDICATORS',
@@ -51,10 +57,9 @@ export function getScenarioConfig(
   // Single indicator scenarios show all charts
   const singleIndicatorTwoAreasConfig: ScenarioConfig = {
     visibleComponents: [
-      // Enable in DHSCFT-435
-      // ChartPage.lineChartComponent,
-      // ChartPage.lineChartTableComponent,
       ChartPage.barChartComponent,
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
       // Enable in DHSCFT-317

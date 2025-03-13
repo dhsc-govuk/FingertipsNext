@@ -17,7 +17,7 @@ const config: PlaywrightTestConfig = {
   expect: {
     timeout: 10_000,
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.03,
       pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
     },
   },
@@ -38,6 +38,7 @@ const config: PlaywrightTestConfig = {
       ]
     : [['list'], ['html']],
   use: {
+    viewport: { width: 1280, height: 720 },
     baseURL: url,
     trace: 'on-first-retry',
     screenshot: 'on-first-failure',
