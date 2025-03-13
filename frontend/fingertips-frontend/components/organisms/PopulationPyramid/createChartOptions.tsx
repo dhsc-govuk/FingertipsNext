@@ -14,6 +14,12 @@ export const createChartSeriesOptions = (
       type: 'bar',
       height: 800,
     },
+    plotOptions: {
+      series: {
+        stacking: 'normal',
+        crisp: false,
+      },
+    },
     credits: { enabled: false },
     title: { style: { display: 'none' } },
     legend: { verticalAlign: 'top', layout: 'horizontal' },

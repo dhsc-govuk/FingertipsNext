@@ -19,13 +19,13 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
-  if (indicators.length === 1 && areaCodes.length === 1) {
+  if (indicators.length === 1 && areaCodes.length >= 1) {
     return <OneIndicatorOneAreaView searchState={searchState} />;
   }
 
-  if (indicators.length === 1 && areaCodes.length >= 2) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
-  }
+  // if (indicators.length === 1 && areaCodes.length >= 2) {
+  //   return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+  // }
 
   if (
     indicators.length >= 2 &&
