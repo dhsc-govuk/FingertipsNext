@@ -85,7 +85,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E06000047', 'A002'],
     };
 
-    mockIndicatorSearchService.getIndicator.mockResolvedValueOnce({
+    const mockResponse = {
       indicatorID: indicatorId,
       indicatorName: 'pancakes eaten',
       indicatorDefinition: 'number of pancakes consumed',
@@ -97,7 +97,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       unitLabel: 'pancakes',
       hasInequalities: true,
       usedInPoc: false,
-    });
+    };
+
+    mockIndicatorSearchService.getIndicator.mockResolvedValueOnce(mockResponse);
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchParams,
@@ -106,30 +108,24 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
       indicatorId
     );
-
-    expect(page.props.indicatorMetadata).not.toBeUndefined();
+    expect(page.props.indicatorMetadata).toBe(mockResponse);
   });
 
-  it.each([[['1'], ['A001', 'A002'], 'G001']])(
-    'should call OneIndicatorOneAreaViewPlots with the correct props',
-    async (testIndicators, testAreas, testGroup) => {
-      const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: testIndicators,
-        [SearchParams.AreasSelected]: testAreas,
-        [SearchParams.GroupSelected]: testGroup,
-      };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-        mockHealthData['108'][1],
-      ]);
+  it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['A001', 'A002'],
+      [SearchParams.GroupSelected]: 'G001',
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
+      mockHealthData['108'][1],
+    ]);
 
-      const page = await OneIndicatorTwoOrMoreAreasView({
-        searchState: searchState,
-      });
+    const page = await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+    });
 
-      expect(page.props.healthIndicatorData).toEqual([
-        mockHealthData['108'][1],
-      ]);
-      expect(page.props.searchState).toEqual(searchState);
-    }
-  );
+    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.searchState).toEqual(searchState);
+  });
 });

@@ -1,3 +1,5 @@
+import { GovukColours } from '../styleHelpers/colours';
+
 export enum ChartColours {
   Orange = '#F46A25',
   LightPurple = '#A285D1',
@@ -13,7 +15,7 @@ export enum ChartColours {
   DarkBlue = '#12436D',
   LightBlue = '#5694CA',
   OtherLightPurple = '#6F72AF',
-  Black = '#0B0C0C',
+  Black = GovukColours.Black,
 }
 
 // The ordering of this array determines the order in which the colours are
