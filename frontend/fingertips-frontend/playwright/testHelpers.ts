@@ -46,7 +46,6 @@ export function getScenarioConfig(
     visibleComponents: [
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
-      ChartPage.barChartComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
       ChartPage.inequalitiesComponent,
@@ -57,7 +56,6 @@ export function getScenarioConfig(
   // Single indicator scenarios show all charts
   const singleIndicatorTwoAreasConfig: ScenarioConfig = {
     visibleComponents: [
-      ChartPage.barChartComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       // Enable in DHSCFT-148
