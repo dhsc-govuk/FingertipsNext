@@ -23,7 +23,7 @@ namespace DataCreator
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
-        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
+        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
