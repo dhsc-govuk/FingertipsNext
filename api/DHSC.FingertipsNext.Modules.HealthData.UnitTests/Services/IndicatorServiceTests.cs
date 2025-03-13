@@ -262,8 +262,8 @@ public class IndicatorServiceTests
         {
             Outcome = BenchmarkOutcome.Similar,
             Method = BenchmarkComparisonMethod.Rag,
-            BenchmarkAreaCode = "",
-            BenchmarkAreaName = "",
+            BenchmarkAreaCode = expectedAreaCode1,
+            BenchmarkAreaName = expectedAreaName1,
             IndicatorPolarity = IndicatorPolarity.HighIsGood,
             BenchmarkValue = 2
         });
@@ -274,8 +274,8 @@ public class IndicatorServiceTests
         {
             Outcome = BenchmarkOutcome.Better,
             Method = BenchmarkComparisonMethod.Rag,
-            BenchmarkAreaCode = "",
-            BenchmarkAreaName = "",
+            BenchmarkAreaCode = expectedAreaCode1,
+            BenchmarkAreaName = expectedAreaName1,
             IndicatorPolarity = IndicatorPolarity.HighIsGood,
             BenchmarkValue = 2
         });
