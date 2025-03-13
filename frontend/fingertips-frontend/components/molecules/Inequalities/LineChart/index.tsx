@@ -17,6 +17,7 @@ interface InequalitiesLineChartProps {
   type?: InequalitiesTypes;
   yAxisTitleText?: string;
   xAxisTitleText?: string;
+  measurementUnit?: string;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
@@ -25,13 +26,14 @@ const generateInequalitiesLineChartTooltipStringList = (
 ) => [
   `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
   <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.series.name}</br>Value: ${point.y}</span></div></div>`,
+  `<div><span>${point.series.name}</br>Value: ${point.y}`,
 ];
 
 export function InequalitiesLineChart({
   lineChartData,
   dynamicKeys,
   areasSelected = [],
+  measurementUnit,
   type = InequalitiesTypes.Sex,
   yAxisTitleText = 'Value',
   xAxisTitleText = 'Year',
@@ -46,7 +48,10 @@ export function InequalitiesLineChart({
   const lineChartOptions: Highcharts.Options = {
     ...lineChartDefaultOptions,
     yAxis: {
-      title: { text: yAxisTitleText, margin: 20 },
+      title: {
+        text: `${yAxisTitleText}${measurementUnit ? ': ' + measurementUnit : ''}`,
+        margin: 20,
+      },
       minorTickInterval: 'auto',
       minorTicksPerMajor: 2,
     },
@@ -68,9 +73,11 @@ export function InequalitiesLineChart({
         `<span style="font-weight: bold">${lineChartData.areaName}</span><br/>` +
         '<span>Year {point.x}</span><br/>',
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(
-          this,
-          generateInequalitiesLineChartTooltipStringList
+        return (
+          pointFormatterHelper(
+            this,
+            generateInequalitiesLineChartTooltipStringList
+          ) + ` ${measurementUnit}</span></div></div>`
         );
       },
       useHTML: true,

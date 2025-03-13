@@ -91,6 +91,7 @@ export function Inequalities({
                 lineChartData={lineChartData}
                 areasSelected={areasSelected}
                 dynamicKeys={dynamicKeys}
+                measurementUnit={measurementUnit}
               />
             ),
           },
