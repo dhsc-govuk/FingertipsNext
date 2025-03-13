@@ -41,8 +41,8 @@ public static class BenchmarkComparisonEngine
             foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
                 var isInequality = IsInequalityDataPoint(healthDataPointOfInterest);
-                var dataForComparison = isInequality ? areaHealthData : benchmarkHealthData.HealthData;
-                var benchmarkHealthDataPoint = dataForComparison.FirstOrDefault(item =>
+                var benchmarkHealthDataPoints = isInequality ? areaHealthData : benchmarkHealthData.HealthData;
+                var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
                     item.Year == healthDataPointOfInterest.Year &&
                     !IsInequalityDataPoint(item));
 
