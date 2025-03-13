@@ -42,14 +42,23 @@ namespace DataCreator
             areasWeWant.AddRange(chosenPcns);
             areasWeWant.AddRange(chosenGps);
 
-            areas=areas.Where(area => areasWeWant.Contains(area.AreaCode)).ToList();
-            DataFileManager.WriteJsonData("areas", areas);
+            var cleanedAreas =new  List<AreaEntity>();
+            //remove all areas that we don't want
+            foreach(var area in areas)
+            {
+                if (!areasWeWant.Contains(area.AreaCode))
+                    continue;
+                area.ChildAreas.RemoveAll(a=>!areasWeWant.Contains(a.AreaCode));
+                cleanedAreas.Add(area);
+            }
 
-            var simpleAreasWeWant = areas.Select(area => new SimpleAreaWithRelations
+            
+            DataFileManager.WriteJsonData("areas", cleanedAreas);
+
+            var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
             {
                 AreaCode = area.AreaCode.Trim(),
                 AreaName = area.AreaName.Trim(),
-                Parents = string.Join('|', area.ParentAreas.Select(p => p.AreaCode.Trim())),
                 Children = string.Join('|', area.ChildAreas.Select(c => c.AreaCode.Trim())),
                 Level = area.Level,
                 HierarchyType = area.HierarchyType,
