@@ -8,18 +8,21 @@ import {
 import {
   barChartDefaultOptions,
   getPlotline,
-} from '@/components/organisms/BarChart/barChartHelpers';
+} from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
   dynamicKeys: string[];
-  benchmarkColumnValue?: number;
   yAxisLabel: string;
+  benchmarkValue?: number;
   type?: InequalitiesTypes;
+  measurementUnit?: string;
+  areasSelected?: string[];
 }
 
-const mapToYAxisTitle: Record<InequalitiesTypes, string> = {
+const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
   [InequalitiesTypes.Sex]: 'Sex',
   [InequalitiesTypes.Deprivation]: 'Deprivation deciles',
 };
@@ -33,14 +36,6 @@ const mapToGetBarChartKeys: Record<
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
-const mapToBenchMarkLabel: Record<
-  InequalitiesTypes,
-  (areaName: string) => string
-> = {
-  [InequalitiesTypes.Sex]: (areaName: string) => `${areaName} persons`,
-  [InequalitiesTypes.Deprivation]: (_: string) => `England`,
-};
-
 const getMaxValue = (values: (number | undefined)[]) =>
   Math.max(...values.filter((number) => number !== undefined));
 
@@ -50,17 +45,19 @@ const generateInequalitiesBarChartTooltipList = (
 ) => [
   `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
   <span style="color: ${point.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.category}</br>Value: ${point.y}</span></div></div>`,
+  `<div><span>${point.category}</br>Value: ${point.y}`,
 ];
 
 export function InequalitiesBarChart({
   barChartData,
   dynamicKeys,
   yAxisLabel,
-  benchmarkColumnValue = undefined,
+  measurementUnit,
+  benchmarkValue = undefined,
   type = InequalitiesTypes.Sex,
+  areasSelected = [],
 }: Readonly<InequalitiesBarChartProps>) {
-  const yAxisTitlePrefix = 'Inequality type:';
+  const xAxisTitlePrefix = 'Inequality type:';
 
   const barChartFields = mapToGetBarChartKeys[type](dynamicKeys);
 
@@ -68,7 +65,7 @@ export function InequalitiesBarChart({
     ...barChartFields.map(
       (field) => barChartData.data.inequalities[field]?.value
     ),
-    benchmarkColumnValue,
+    benchmarkValue,
   ]);
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
@@ -86,19 +83,24 @@ export function InequalitiesBarChart({
     xAxis: {
       ...barChartDefaultOptions.xAxis,
       title: {
-        text: `${yAxisTitlePrefix} ${mapToYAxisTitle[type]}`,
+        text: `${xAxisTitlePrefix} ${mapToXAxisTitle[type]}`,
         margin: 20,
       },
       categories: barChartFields,
     },
     yAxis: {
-      title: { text: yAxisLabel, margin: 20 },
+      title: {
+        text: `${yAxisLabel}${measurementUnit ? ': ' + measurementUnit : ''}`,
+        margin: 20,
+      },
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
           ...getPlotline(
-            mapToBenchMarkLabel[type](barChartData.areaName),
-            benchmarkColumnValue
+            isEnglandSoleSelectedArea(areasSelected)
+              ? 'England'
+              : `${barChartData.areaName} persons`,
+            benchmarkValue
           ),
           events: {
             mouseover: function (
@@ -129,11 +131,14 @@ export function InequalitiesBarChart({
                 tooltipPos: [normalizedEvent.chartX, normalizedEvent.chartY],
               } as unknown as Highcharts.Point;
 
+              tooltip.update({ shape: 'rect' });
               tooltip.refresh(point);
             } as Highcharts.EventCallbackFunction<Highcharts.PlotLineOrBand>,
             mouseout: function (this: Highcharts.PlotLineOrBand) {
               const context = { ...this };
-              context.axis.chart.tooltip.hide();
+              const chart = context.axis.chart;
+              chart.tooltip.hide();
+              chart.tooltip.update({ shape: 'callout' });
             },
           },
         },
@@ -149,9 +154,9 @@ export function InequalitiesBarChart({
       headerFormat: `<span style="font-weight: bold">${barChartData.areaName}</span><br/>`,
       useHTML: true,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(
-          this,
-          generateInequalitiesBarChartTooltipList
+        return (
+          pointFormatterHelper(this, generateInequalitiesBarChartTooltipList) +
+          `${measurementUnit ? ' ' + measurementUnit : ''}`
         );
       },
     },

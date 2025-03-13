@@ -49,14 +49,6 @@ export const inequalityKeyMapping: Record<
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
-export const inequalitiesBenchmarkColumnMapping: Record<
-  InequalitiesTypes,
-  string
-> = {
-  [InequalitiesTypes.Sex]: 'Persons',
-  [InequalitiesTypes.Deprivation]: 'England',
-};
-
 const mapToGetBenchmarkFunction: Record<
   InequalitiesTypes,
   (barChartData: InequalitiesBarChartData) => number | undefined

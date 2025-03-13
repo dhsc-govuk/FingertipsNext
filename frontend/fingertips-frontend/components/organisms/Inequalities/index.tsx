@@ -15,9 +15,11 @@ import {
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
+  searchState: SearchStateParams;
   type?: InequalitiesTypes;
   measurementUnit?: string;
 }
@@ -25,11 +27,14 @@ interface InequalitiesProps {
 export function Inequalities({
   healthIndicatorData,
   measurementUnit,
+  searchState,
   type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
   );
+
+  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
@@ -65,7 +70,9 @@ export function Inequalities({
               <InequalitiesBarChart
                 barChartData={barchartData}
                 dynamicKeys={dynamicKeys}
-                benchmarkColumnValue={barChartBenchmarkValue}
+                benchmarkValue={barChartBenchmarkValue}
+                measurementUnit={measurementUnit}
+                areasSelected={areasSelected}
                 yAxisLabel="Value"
               />
             ),

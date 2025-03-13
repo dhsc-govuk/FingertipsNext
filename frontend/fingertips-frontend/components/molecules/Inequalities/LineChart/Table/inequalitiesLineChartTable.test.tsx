@@ -105,8 +105,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="per 100,000"
         />
       );
@@ -129,8 +128,7 @@ describe('Inequalities table suite', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="per 100,000"
         />
       );
