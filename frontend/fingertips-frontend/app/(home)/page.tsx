@@ -7,7 +7,10 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { ErrorPage } from '@/components/pages/error';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
@@ -32,10 +35,7 @@ export default async function Page(
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
             areasSelected.map((area) =>
-              areasApi.getArea(
-                { areaCode: area },
-                { next: { revalidate: 3600 } }
-              )
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
             )
           )
         : [];

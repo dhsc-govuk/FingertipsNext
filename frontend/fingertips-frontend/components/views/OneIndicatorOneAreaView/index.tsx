@@ -3,7 +3,10 @@ import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -44,7 +47,7 @@ export default async function OneIndicatorOneAreaView({
         areaCodes: areaCodesToRequest,
         comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       },
-      { next: { revalidate: 3600 } }
+      API_CACHE_CONFIG
     );
   } catch (error) {
     console.error('error getting health indicator data for area', error);

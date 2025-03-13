@@ -7,7 +7,10 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorTwoOrMoreAreasView from '.';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
@@ -76,7 +79,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
     }
   );

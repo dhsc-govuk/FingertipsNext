@@ -10,7 +10,10 @@ import {
 } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { AreasApi } from '@/generated-sources/ft-api-client';
 import {
   mockAreaDataForNHSRegion,
@@ -198,14 +201,14 @@ describe('Results Page', () => {
         {
           areaCode: eastEnglandNHSRegion.code,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
         2,
         {
           areaCode: londonNHSRegion.code,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,

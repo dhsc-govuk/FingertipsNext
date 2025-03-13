@@ -11,7 +11,10 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
@@ -57,7 +60,7 @@ describe('Chart Page', () => {
           indicatorId: 1,
           inequalities: ['sex'],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -67,7 +70,7 @@ describe('Chart Page', () => {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
     });
 
@@ -95,7 +98,7 @@ describe('Chart Page', () => {
           indicatorId: 1,
           inequalities: [],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -106,7 +109,7 @@ describe('Chart Page', () => {
           indicatorId: 2,
           inequalities: [],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -116,7 +119,7 @@ describe('Chart Page', () => {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
     });
   });
@@ -148,7 +151,7 @@ describe('Chart Page', () => {
           indicatorId: 333,
           inequalities: ['sex'],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -158,7 +161,7 @@ describe('Chart Page', () => {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
     });
 
@@ -187,7 +190,7 @@ describe('Chart Page', () => {
           indicatorId: 333,
           inequalities: ['sex'],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
@@ -197,7 +200,7 @@ describe('Chart Page', () => {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       );
     });
 

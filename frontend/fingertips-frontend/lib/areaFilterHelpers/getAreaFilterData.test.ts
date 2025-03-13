@@ -1,5 +1,8 @@
 import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { getAreaFilterData } from './getAreaFilterData';
 import {
@@ -35,7 +38,7 @@ describe('getAreaFilterData', () => {
 
     expect(mockAreasApi.getAreaTypes).toHaveBeenCalledWith(
       {},
-      { next: { revalidate: 3600 } }
+      API_CACHE_CONFIG
     );
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
   });
@@ -64,7 +67,7 @@ describe('getAreaFilterData', () => {
       {
         areaTypeKey: nhsRegionsAreaType.key,
       },
-      { next: { revalidate: 3600 } }
+      API_CACHE_CONFIG
     );
     expect(availableGroups).toEqual(allAreasForICBAreaType);
   });
@@ -90,7 +93,7 @@ describe('getAreaFilterData', () => {
         includeChildren: true,
         childAreaType: nhsIntegratedCareBoardsAreaType.key,
       },
-      { next: { revalidate: 3600 } }
+      API_CACHE_CONFIG
     );
     expect(availableAreas).toEqual(areasSortedAlphabetically);
   });

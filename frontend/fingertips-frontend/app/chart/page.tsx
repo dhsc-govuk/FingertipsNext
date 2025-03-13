@@ -14,7 +14,10 @@ import {
   areaCodeForEngland,
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -68,7 +71,7 @@ export default async function ChartPage(
             ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
             : [],
         },
-        { next: { revalidate: 3600 } }
+        API_CACHE_CONFIG
       )
     )
   );
@@ -80,7 +83,7 @@ export default async function ChartPage(
         indicatorId: indicatorIdForPopulation,
         areaCodes: [...areasSelected, areaCodeForEngland],
       },
-      { next: { revalidate: 3600 } }
+      API_CACHE_CONFIG
     );
   } catch (error) {
     console.log('error getting population data ', error);

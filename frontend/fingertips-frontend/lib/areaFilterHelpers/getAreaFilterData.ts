@@ -3,7 +3,10 @@ import {
   AreaType,
   AreaWithRelations,
 } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '../apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '../apiClient/apiClientFactory';
 import {
   SearchParams,
   SearchStateManager,
@@ -38,10 +41,7 @@ export const getAreaFilterData = async (
 
   const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const availableAreaTypes = await areasApi.getAreaTypes(
-    {},
-    { next: { revalidate: 3600 } }
-  );
+  const availableAreaTypes = await areasApi.getAreaTypes({}, API_CACHE_CONFIG);
   const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
     (a, b) => a.level - b.level
   );
@@ -77,7 +77,7 @@ export const getAreaFilterData = async (
     {
       areaTypeKey: determinedSelectedGroupType,
     },
-    { next: { revalidate: 3600 } }
+    API_CACHE_CONFIG
   );
 
   const determinedSelectedGroup = determineSelectedGroup(
@@ -95,7 +95,7 @@ export const getAreaFilterData = async (
       includeChildren: true,
       childAreaType: determinedSelectedAreaType,
     },
-    { next: { revalidate: 3600 } }
+    API_CACHE_CONFIG
   );
   const availableAreas = determineAvailableAreas(
     determinedSelectedAreaType,

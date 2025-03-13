@@ -6,6 +6,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
 
+export const API_CACHE_CONFIG = { next: { revalidate: 3600 } };
+
 export class ApiClientFactory {
   private static areasApiInstance: AreasApi | null;
   private static indicatorsApiInstance: IndicatorsApi | null;
