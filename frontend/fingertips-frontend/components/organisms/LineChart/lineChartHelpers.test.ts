@@ -211,7 +211,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
-        color: GovukColours.Black,
+        color: GovukColours.DarkGrey,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
@@ -365,7 +365,7 @@ describe('generateSeriesData', () => {
 
     const expectedSeriesData = [
       {
-        color: GovukColours.Black,
+        color: GovukColours.DarkGrey,
         data: [
           [2006, 278.29134],
           [2004, 703.420759],
