@@ -14,7 +14,10 @@ import {
   areaCodeForEngland,
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -57,25 +60,31 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: Number(indicatorId),
-        areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(
-          indicatorsSelected,
-          areasSelected
-        )
-          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-          : [],
-      })
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorId),
+          areaCodes: areaCodesToRequest,
+          inequalities: shouldDisplayInequalities(
+            indicatorsSelected,
+            areasSelected
+          )
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
+        },
+        API_CACHE_CONFIG
+      )
     )
   );
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
-    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areasSelected, areaCodeForEngland],
-    });
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: indicatorIdForPopulation,
+        areaCodes: [...areasSelected, areaCodeForEngland],
+      },
+      API_CACHE_CONFIG
+    );
   } catch (error) {
     console.log('error getting population data ', error);
   }
