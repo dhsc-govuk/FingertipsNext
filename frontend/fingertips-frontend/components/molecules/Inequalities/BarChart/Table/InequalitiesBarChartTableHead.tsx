@@ -3,7 +3,7 @@ import {
   StyledAlignLeftHeader,
   StyledAlignRightHeader,
 } from '@/lib/tableHelpers';
-import React, { ReactNode } from 'react';
+import React, { FC } from 'react';
 
 export enum InequalitiesBarChartTableHeaders {
   INEQUALITY_TYPE = 'Inequality type',
@@ -14,10 +14,12 @@ export enum InequalitiesBarChartTableHeaders {
   UPPER = 'Upper',
 }
 
-const getCellHeader = (
-  header: InequalitiesBarChartTableHeaders,
-  measurementUnit = ''
-): ReactNode =>
+interface CellHeaderProps {
+  header: InequalitiesBarChartTableHeaders;
+  measurementUnit?: string;
+}
+
+const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) =>
   header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
@@ -64,9 +66,13 @@ export const InequalitiesBarChartTableHead = ({
         </StyledAlignRightHeader>
       </Table.Row>
       <Table.Row>
-        {Object.values(InequalitiesBarChartTableHeaders).map((header) =>
-          getCellHeader(header, measurementUnit)
-        )}
+        {Object.values(InequalitiesBarChartTableHeaders).map((header) => (
+          <CellHeader
+            header={header}
+            measurementUnit={measurementUnit}
+            key={header}
+          />
+        ))}
       </Table.Row>
     </>
   );
