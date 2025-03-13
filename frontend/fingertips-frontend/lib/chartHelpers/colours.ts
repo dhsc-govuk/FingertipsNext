@@ -20,7 +20,7 @@ export const chartColours: ChartColours[] = [
   GovukColours.Blue,
   GovukColours.LightPink,
   GovukColours.Brown,
-  GovukColours.LightBlue,
   UniqueChartColours.ChartDarkBlue,
+  GovukColours.LightBlue,
   GovukColours.OtherLightPurple,
 ];
