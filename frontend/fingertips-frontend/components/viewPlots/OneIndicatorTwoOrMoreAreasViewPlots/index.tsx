@@ -72,6 +72,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
+                    measurementUnit={indicatorMetadata?.unitLabel}
                     accessibilityLabel="A line chart showing healthcare data"
                   />
                 ),
@@ -105,6 +106,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         healthIndicatorData={dataWithoutEngland}
         benchmarkData={englandBenchmarkData}
         groupIndicatorData={groupData}
+        measurementUnit={indicatorMetadata?.unitLabel}
       ></BarChartEmbeddedTable>
     </section>
   );

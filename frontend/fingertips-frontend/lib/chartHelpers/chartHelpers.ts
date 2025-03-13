@@ -61,3 +61,15 @@ export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   const distinctAreas = [...new Set(areasSelected)];
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
 }
+
+export function getMostRecentData(data: HealthDataPoint[]) {
+  if (!data) {
+    return undefined;
+  }
+  return {
+    count: data[0].count,
+    value: data[0].value,
+    lowerCi: data[0].lowerCi,
+    upperCi: data[0].upperCi,
+  };
+}

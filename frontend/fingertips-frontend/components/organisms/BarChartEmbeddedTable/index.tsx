@@ -3,10 +3,12 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
+  getMostRecentData,
   sortHealthDataByYearDescending,
   sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -20,12 +22,14 @@ interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
+  measurementUnit?: string;
 }
 
 export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
   groupIndicatorData,
+  measurementUnit,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -49,41 +53,30 @@ export function BarChartEmbeddedTable({
     benchmarkData?.healthData
   );
 
-  const mostRecentHealthDataForBenchmark =
-    sortedHealthDataForBenchmark.length > 0
-      ? sortedHealthDataForBenchmark[0]
-      : undefined;
-
-  const mostRecentBenchmarkData = mostRecentHealthDataForBenchmark
-    ? {
-        area: benchmarkData?.areaName,
-        count: mostRecentHealthDataForBenchmark.count,
-        value: mostRecentHealthDataForBenchmark.value,
-        lowerCi: mostRecentHealthDataForBenchmark.lowerCi,
-        upperCi: mostRecentHealthDataForBenchmark.upperCi,
-      }
-    : undefined;
+  const mostRecentBenchmarkData = getMostRecentData(
+    sortedHealthDataForBenchmark
+  );
 
   const sortedGroupHealthData = sortHealthDataPointsByDescendingYear(
     groupIndicatorData?.healthData
   );
-  const mostRecentGroupHealthData =
-    sortedGroupHealthData.length > 0 ? sortedGroupHealthData[0] : undefined;
 
-  const mostRecentGroupData = mostRecentGroupHealthData
-    ? {
-        area: groupIndicatorData?.areaName,
-        count: mostRecentGroupHealthData.count,
-        value: mostRecentGroupHealthData.value,
-        lowerCi: mostRecentGroupHealthData.lowerCi,
-        upperCi: mostRecentGroupHealthData.upperCi,
-      }
-    : undefined;
+  const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
+
+  // const checkIfValueExists = (value: string | number | undefined) => {
+  //   return (
+  //     <Table.Cell aria-label={!value ? 'Not compared' : undefined}>
+  //       {!value ? 'X' : value}
+  //     </Table.Cell>
+  //   );
+  // };
 
   const checkIfValueExists = (value: string | number | undefined) => {
     return (
-      <Table.Cell aria-label={!value ? 'Not compared' : undefined}>
-        {!value ? 'X' : value}
+      <Table.Cell
+        aria-label={!value && value !== 0 ? 'Not compared' : undefined}
+      >
+        {!value && value !== 0 ? 'X' : value}
       </Table.Cell>
     );
   };
@@ -100,7 +93,7 @@ export function BarChartEmbeddedTable({
               {BarChartEmbeddedTableHeadingEnum.Count}
             </Table.CellHeader>
             <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.Value} %
+              {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
             </Table.CellHeader>
             <Table.CellHeader>
               {BarChartEmbeddedTableHeadingEnum.Lower}
@@ -113,11 +106,12 @@ export function BarChartEmbeddedTable({
       >
         {mostRecentBenchmarkData ? (
           <Table.Row
-            key={`${mostRecentBenchmarkData.area}`}
+            key={`${benchmarkData?.areaName}`}
             style={{ backgroundColor: GovukColours.MidGrey }}
             data-testid="table-row-benchmark"
           >
-            {checkIfValueExists(mostRecentBenchmarkData.area)}
+            {/*{CheckValueInTableCell(mostRecentBenchmarkData.area)}*/}
+            {checkIfValueExists(benchmarkData?.areaName)}
             {checkIfValueExists(mostRecentBenchmarkData.count)}
             {checkIfValueExists(mostRecentBenchmarkData.value)}
             {checkIfValueExists(mostRecentBenchmarkData.lowerCi)}
@@ -127,11 +121,11 @@ export function BarChartEmbeddedTable({
 
         {mostRecentGroupData ? (
           <Table.Row
-            key={`${mostRecentGroupData.area}`}
+            key={`${mostRecentGroupData.count}`}
             style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-group"
           >
-            {checkIfValueExists(mostRecentGroupData.area)}
+            {checkIfValueExists(groupIndicatorData?.areaName)}
             {checkIfValueExists(mostRecentGroupData.count)}
             {checkIfValueExists(mostRecentGroupData.value)}
             {checkIfValueExists(mostRecentGroupData.lowerCi)}
