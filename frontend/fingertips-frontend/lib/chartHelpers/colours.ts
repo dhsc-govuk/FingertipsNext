@@ -2,7 +2,7 @@ import { GovukColours } from '../styleHelpers/colours';
 
 export type ChartColours = GovukColours | UniqueChartColours;
 
-enum UniqueChartColours {
+export enum UniqueChartColours {
   ChartDarkBlue = '#12436D',
   OtherLightBlue = '#57AEF8',
 }

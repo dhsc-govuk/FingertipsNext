@@ -77,7 +77,8 @@ export function InequalitiesLineChart({
           pointFormatterHelper(
             this,
             generateInequalitiesLineChartTooltipStringList
-          ) + ` ${measurementUnit}</span></div></div>`
+          ) +
+          `${measurementUnit ? ' ' + measurementUnit : ''}</span></div></div>`
         );
       },
       useHTML: true,

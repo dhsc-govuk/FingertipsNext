@@ -14,7 +14,7 @@ import {
   shouldDisplayInequalities,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
-import { ChartColours } from '@/lib/chartHelpers/colours';
+import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -228,7 +228,7 @@ describe('generateLineChartSeriesData', () => {
     marker: {
       symbol: 'circle',
     },
-    color: ChartColours.Orange,
+    color: GovukColours.Orange,
   };
 
   const seriesData = [
@@ -243,7 +243,7 @@ describe('generateLineChartSeriesData', () => {
       marker: {
         symbol: 'square',
       },
-      color: ChartColours.OtherLightBlue,
+      color: UniqueChartColours.OtherLightBlue,
     },
     {
       type: 'line',
@@ -255,7 +255,7 @@ describe('generateLineChartSeriesData', () => {
       marker: {
         symbol: 'diamond',
       },
-      color: ChartColours.Purple,
+      color: GovukColours.Purple,
     },
   ];
 

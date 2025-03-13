@@ -1,5 +1,5 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
-import { ChartColours } from '@/lib/chartHelpers/colours';
+import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { SymbolKeyValue } from 'highcharts';
 import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -54,9 +54,9 @@ const mapToChartSymbolsForInequality: Record<
 
 const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Sex]: [
-    ChartColours.Orange,
-    ChartColours.OtherLightBlue,
-    ChartColours.Purple,
+    GovukColours.Orange,
+    UniqueChartColours.OtherLightBlue,
+    GovukColours.Purple,
   ],
   [InequalitiesTypes.Deprivation]: [],
 };
