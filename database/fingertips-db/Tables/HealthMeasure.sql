@@ -64,6 +64,6 @@ GO
 
 CREATE NONCLUSTERED INDEX IndicatorKeyAgeKeyIndex
 ON [dbo].[HealthMeasure] ([IndicatorKey])
-INCLUDE ([AgeKey, DeprivationKey, SexKey])
+INCLUDE ([AgeKey], [DeprivationKey], [SexKey])
 GO
 
