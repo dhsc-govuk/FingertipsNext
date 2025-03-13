@@ -20,12 +20,6 @@ type ConfidenceIntervalCheckboxProps = {
   searchState: SearchStateParams;
 };
 
-const StyledParagraph = styled(Paragraph)(
-  spacing.withWhiteSpace({
-    margin: [{ size: 0 }],
-  })
-);
-
 export function ConfidenceIntervalCheckbox({
   chartName,
   showConfidenceIntervalsData,
