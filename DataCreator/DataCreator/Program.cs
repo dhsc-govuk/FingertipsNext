@@ -21,7 +21,6 @@ namespace DataCreator
                 .AddSingleton<IConfiguration>(configuration)
                 .AddSingleton<DataCreatorApplication>()
                 .AddSingleton<PholioDataFetcher>()
-                .AddSingleton<PostcodeFetcher>()
                 .AddSingleton<DataFileManager>()
                 .AddSingleton<DataManager>()
                 .BuildServiceProvider();

@@ -27,7 +27,7 @@
             var ageData= await _dataManager.GetAgeDataAsync();
             Console.WriteLine($"Got age data");
             //create the area chosen for PoC
-            var areasWeWant=await _dataManager.CreateAreaDataAsync(addLongLat: false);
+            var areasWeWant=await _dataManager.CreateAreaDataAsync();
             Console.WriteLine($"Created areas, we are using {areasWeWant.Count} areas");
             //create the health data
            
