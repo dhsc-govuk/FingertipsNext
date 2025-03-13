@@ -183,21 +183,19 @@ export default class ResultsPage extends BasePage {
         .getByRole('checkbox');
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
-        [AreaMode.TWO_AREAS]: 2,
-        [AreaMode.THREE_PLUS_AREAS]: 3,
-        [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
+        [AreaMode.TWO_PLUS_AREAS]: 2,
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };
       const checkboxCount = checkboxCountMap[areaMode];
       for (let i = 0; i < checkboxCount; i++) {
         await areaCheckboxList.nth(i + 1).check();
+        await expect(
+          this.page.getByTestId(this.areaFilterContainer)
+        ).toContainText(`Selected areas (${String(checkboxCount)})`);
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
           await this.waitForURLToContain(defaultAreaTypeFilter);
         }
       }
-      await expect(
-        this.page.getByTestId(this.areaFilterContainer)
-      ).toContainText(`Selected areas (${String(checkboxCount)})`);
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
