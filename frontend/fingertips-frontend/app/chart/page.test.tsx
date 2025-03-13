@@ -77,12 +77,14 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: ['sex'],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
         API_CACHE_CONFIG
       );
       expect(
@@ -115,22 +117,26 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: [],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: [],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
         API_CACHE_CONFIG
       );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 2,
-        inequalities: [],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 2,
+          inequalities: [],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
         API_CACHE_CONFIG
       );
       expect(
@@ -167,12 +173,14 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
-        indicatorId: 333,
-        inequalities: ['sex'],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
+          indicatorId: 333,
+          inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
         API_CACHE_CONFIG
       );
       expect(
@@ -206,12 +214,14 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: 333,
-        inequalities: ['sex'],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: 333,
+          inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
         API_CACHE_CONFIG
       );
       expect(
