@@ -19,6 +19,7 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -86,6 +87,16 @@ export function SearchResult({
       SearchParams.IndicatorsSelected,
       indicatorId
     );
+
+    const areasSelected =
+      stateManager.getSearchState()[SearchParams.AreasSelected];
+
+    if (!areasSelected || areasSelected.length < 1) {
+      stateManager.addParamValueToState(
+        SearchParams.AreasSelected,
+        areaCodeForEngland
+      );
+    }
 
     return stateManager.generatePath(chartPath);
   };
