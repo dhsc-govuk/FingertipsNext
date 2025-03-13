@@ -419,7 +419,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
             >
               <a
                 class="c8"
-                href="/chart?si=test&is=1"
+                href="/chart?si=test&is=1&as=Area1"
               >
                 NHS
               </a>

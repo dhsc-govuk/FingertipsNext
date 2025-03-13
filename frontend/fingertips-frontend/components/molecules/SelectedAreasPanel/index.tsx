@@ -38,6 +38,9 @@ export function SelectedAreasPanel({
       SearchParams.AreasSelected,
       areaCode
     );
+
+    searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 

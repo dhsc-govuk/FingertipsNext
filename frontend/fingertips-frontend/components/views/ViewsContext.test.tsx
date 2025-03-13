@@ -68,4 +68,13 @@ describe('ViewsContext', () => {
       expect(correctView).toHaveBeenCalled();
     }
   );
+
+  it('should error if an invalid state is provided', () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: undefined,
+    };
+
+    expect(() => render(<ViewsContext searchState={searchState} />)).toThrow();
+  });
 });

@@ -2,7 +2,15 @@
 
 exports[`HighlightText should highlight the searchHint part of the text provided 1`] = `
 <DocumentFragment>
-  This is 
+  <span>
+    T
+  </span>
+  <span>
+    h
+  </span>
+  <span>
+    i
+  </span>
   .c0 {
   font-weight: 600;
 }
@@ -10,9 +18,145 @@ exports[`HighlightText should highlight the searchHint part of the text provided
 <span
     class="c0"
   >
-    some
+    s
   </span>
-   text
+  <span>
+     
+  </span>
+  <span>
+    i
+  </span>
+  <span>
+    s
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    s
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    o
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    m
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    e
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    t
+  </span>
+  <span>
+    e
+  </span>
+  <span>
+    x
+  </span>
+  <span>
+    t
+  </span>
+</DocumentFragment>
+`;
+
+exports[`HighlightText should highlight the searchHint part of the text provided regardless of case 1`] = `
+<DocumentFragment>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    T
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    h
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    i
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    s
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    i
+  </span>
+  <span>
+    s
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    s
+  </span>
+  <span>
+    o
+  </span>
+  <span>
+    m
+  </span>
+  <span>
+    e
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    t
+  </span>
+  <span>
+    e
+  </span>
+  <span>
+    x
+  </span>
+  <span>
+    t
+  </span>
 </DocumentFragment>
 `;
 
@@ -25,8 +169,85 @@ exports[`HighlightText should highlight the searchHint part of the text provided
 <span
     class="c0"
   >
-    (This 
+    (
   </span>
-  is) some text
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    T
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    h
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    i
+  </span>
+  .c0 {
+  font-weight: 600;
+}
+
+<span
+    class="c0"
+  >
+    s
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    i
+  </span>
+  <span>
+    s
+  </span>
+  <span>
+    )
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    s
+  </span>
+  <span>
+    o
+  </span>
+  <span>
+    m
+  </span>
+  <span>
+    e
+  </span>
+  <span>
+     
+  </span>
+  <span>
+    t
+  </span>
+  <span>
+    e
+  </span>
+  <span>
+    x
+  </span>
+  <span>
+    t
+  </span>
 </DocumentFragment>
 `;
