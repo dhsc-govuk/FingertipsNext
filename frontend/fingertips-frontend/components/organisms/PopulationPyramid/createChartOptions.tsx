@@ -1,8 +1,9 @@
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import Highcharts, { Axis, Tick } from 'highcharts';
+import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
-export const createChartOptions = (
+export const createChartSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
@@ -116,4 +117,62 @@ export const createChartOptions = (
       description: accessibilityLabel,
     },
   };
+};
+
+export const createAdditionalChartSeries = (
+  healthIndicatorData: PopulationData | undefined
+): Array<SeriesOptionsType> => {
+  const series: Array<SeriesOptionsType> = [];
+  if (!healthIndicatorData) {
+    return [];
+  }
+  if (healthIndicatorData.dataForEngland) {
+    series.push(
+      {
+        name: 'England',
+        data: healthIndicatorData.dataForEngland.femaleSeries,
+        type: 'line',
+        color: '#3D3D3D',
+        dashStyle: 'Solid',
+        marker: { symbol: 'circle' },
+      },
+      {
+        name: 'England',
+        data: healthIndicatorData.dataForEngland.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
+        type: 'line',
+        color: '#3D3D3D',
+        dashStyle: 'Solid',
+        marker: { symbol: 'circle' },
+        showInLegend: false,
+      }
+    );
+  }
+  if (healthIndicatorData.dataForBaseline) {
+    series.push(
+      {
+        name: 'Baseline',
+        type: 'line',
+        data: healthIndicatorData.dataForBaseline.femaleSeries,
+        color: '#28A197',
+        dashStyle: 'Dash',
+        marker: { symbol: 'diamond' },
+        dataLabels: { enabled: false },
+      },
+      {
+        name: 'Baseline',
+        type: 'line',
+        data: healthIndicatorData.dataForBaseline.maleSeries.map(
+          (datapoint) => -datapoint
+        ),
+        color: '#28A197',
+        dashStyle: 'Dash',
+        marker: { symbol: 'diamond' },
+        dataLabels: { enabled: false },
+        showInLegend: false,
+      }
+    );
+  }
+  return series;
 };

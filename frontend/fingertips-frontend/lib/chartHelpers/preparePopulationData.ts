@@ -11,7 +11,6 @@ export interface PopulationDataForArea {
 }
 
 export type PopulationData = {
-  dataForSelectedArea: PopulationDataForArea;
   dataForEngland?: PopulationDataForArea;
   dataForBaseline?: PopulationDataForArea;
 };
