@@ -100,7 +100,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      <BarChartEmbeddedTable data-testid="barChartEmbeddedTable-component"
+      <BarChartEmbeddedTable
+        data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}
         benchmarkData={englandBenchmarkData}
         groupIndicatorData={groupData}

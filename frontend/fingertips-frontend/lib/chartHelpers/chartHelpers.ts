@@ -24,7 +24,7 @@ export function sortHealthDataByYearDescending(
 ): HealthDataForArea[] {
   return data.map((item) => ({
     ...item,
-    healthData: item.healthData.toSorted((a, b) => b.year - a.year),
+    healthData: sortHealthDataPointsByDescendingYear(item.healthData),
   }));
 }
 

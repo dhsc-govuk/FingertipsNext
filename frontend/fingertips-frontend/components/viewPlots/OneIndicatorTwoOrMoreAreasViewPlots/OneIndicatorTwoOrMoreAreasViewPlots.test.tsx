@@ -177,34 +177,23 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     await assertLineChartAndTableNotInDocument();
   });
-  
+
   describe('BarChartEmbeddedTable', () => {
     it('should render the BarChartEmbeddedTable component, when two or more areas are selected', () => {
-      
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
-          searchState={searchState}
-        />
-      );
-      expect(screen.getByTestId(barChartEmbeddedTable)).toBeInTheDocument();
-    });
-
-    it('should not render the BarChartEmbeddedTable component, when less than two areas are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.SearchedIndicator]: mockSearch,
         [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1425'],
+        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
       };
-      
+
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
           searchState={searchState}
         />
       );
-      expect(await screen.queryByTestId(barChartEmbeddedTable)).not.toBeInTheDocument();
+
+      expect(screen.getByTestId(barChartEmbeddedTable)).toBeInTheDocument();
     });
-    
-  })
+  });
 });

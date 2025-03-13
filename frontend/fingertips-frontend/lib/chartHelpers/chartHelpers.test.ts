@@ -210,6 +210,11 @@ describe('sortHealthDataPointsByDescendingYear', () => {
     const result = sortHealthDataPointsByDescendingYear(mockHealthDataPoints);
     expect(result).toEqual(mockSortedHealthDataPoints);
   });
+
+  it('should return an empty array when the health point data is undefined', () => {
+    const result = sortHealthDataPointsByDescendingYear(undefined);
+    expect(result).toEqual([]);
+  });
 });
 
 describe('seriesDataForIndicatorIndexAndArea', () => {

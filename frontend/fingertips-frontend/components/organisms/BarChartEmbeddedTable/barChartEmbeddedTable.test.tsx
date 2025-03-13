@@ -30,6 +30,58 @@ describe('BarChartEmbeddedTable', () => {
         },
       ],
     },
+    {
+      areaCode: 'E40000014',
+      areaName: 'NHS North West Region',
+      healthData: [
+        {
+          year: 2008,
+          count: 777,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+        },
+        {
+          year: 2004,
+          count: 777,
+          value: 1000,
+          lowerCi: 500,
+          upperCi: 1500,
+          ageBand: 'All',
+          sex: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+        },
+      ],
+    },
+    {
+      areaCode: 'A1426',
+      areaName: 'Area 2',
+      healthData: [
+        {
+          year: 2004,
+          count: 157,
+          value: 723.090354,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+        },
+        {
+          year: 2008,
+          count: 256,
+          value: 905.145997,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+        },
+      ],
+    },
   ];
 
   const mockBenchmarkData = {
@@ -40,8 +92,8 @@ describe('BarChartEmbeddedTable', () => {
         year: 2004,
         count: 200,
         value: 904.874,
-        lowerCi: 0,
-        upperCi: 0,
+        lowerCi: undefined,
+        upperCi: undefined,
         ageBand: '0-4',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -50,8 +102,8 @@ describe('BarChartEmbeddedTable', () => {
         year: 2008,
         count: 500,
         value: 965.9843,
-        lowerCi: 0,
-        upperCi: 0,
+        lowerCi: undefined,
+        upperCi: undefined,
         ageBand: '10-14',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -115,21 +167,26 @@ describe('BarChartEmbeddedTable', () => {
         groupIndicatorData={mockGroupData}
       />
     );
-
+    expect(screen.getAllByRole('row')[2]).toHaveTextContent(
+      'NHS North West Region'
+    );
     expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
   });
 
-  it('should not display group data in the second row of table data, when the group selected is England', async () => {
+  it('should not display group row or benchmark row in the table, when no data is passed', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
-        benchmarkData={mockBenchmarkData}
+        benchmarkData={undefined}
         groupIndicatorData={undefined}
       />
     );
 
     expect(
       await screen.queryByTestId('table-row-group')
+    ).not.toBeInTheDocument();
+    expect(
+      await screen.queryByTestId('table-row-benchmark')
     ).not.toBeInTheDocument();
   });
 

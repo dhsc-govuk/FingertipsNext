@@ -49,7 +49,7 @@ export function LineChart({
   const loadHighchartsModules = async (callback: () => void) => {
     await import('highcharts/highcharts-more').then(callback);
   };
- 
+
   const {
     [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
   } = searchState;

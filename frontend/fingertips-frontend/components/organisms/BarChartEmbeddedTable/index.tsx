@@ -10,13 +10,13 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
-  AreaCount = 'Count',
-  AreaValue = 'Value',
-  AreaLower = 'Lower',
-  AreaUpper = 'Upper',
+  Count = 'Count',
+  Value = 'Value',
+  Lower = 'Lower',
+  Upper = 'Upper',
 }
 
-interface BarChartEmbeddedTable {
+interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
@@ -26,7 +26,7 @@ export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
   groupIndicatorData,
-}: Readonly<BarChartEmbeddedTable>) {
+}: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
 
@@ -97,16 +97,16 @@ export function BarChartEmbeddedTable({
               {BarChartEmbeddedTableHeadingEnum.AreaName}
             </Table.CellHeader>
             <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.AreaCount}
+              {BarChartEmbeddedTableHeadingEnum.Count}
             </Table.CellHeader>
             <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.AreaValue} %
+              {BarChartEmbeddedTableHeadingEnum.Value} %
             </Table.CellHeader>
             <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.AreaLower}
+              {BarChartEmbeddedTableHeadingEnum.Lower}
             </Table.CellHeader>
             <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.AreaUpper}
+              {BarChartEmbeddedTableHeadingEnum.Upper}
             </Table.CellHeader>
           </Table.Row>
         }
