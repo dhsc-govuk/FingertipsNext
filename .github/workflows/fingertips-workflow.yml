@@ -357,7 +357,7 @@ jobs:
 
       - name: Install go-sqlcmd on Ubuntu
         run: |
-          SQLCMD_VERSION="2.0.0"  # Change this to the latest version available
+          SQLCMD_VERSION="1.8.2"
           mkdir -p /opt/sqlcmd
           curl -L -o sqlcmd.tar.bz2 "https://github.com/microsoft/go-sqlcmd/releases/download/v${SQLCMD_VERSION}/sqlcmd-v${SQLCMD_VERSION}-linux-x64.tar.bz2"
           tar -xvjf sqlcmd.tar.bz2 -C /opt/sqlcmd
