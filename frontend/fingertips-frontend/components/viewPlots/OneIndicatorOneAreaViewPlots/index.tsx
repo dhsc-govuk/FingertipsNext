@@ -13,6 +13,7 @@ import { ViewPlotProps } from '../ViewPlotProps';
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PyramidPopulationChartView } from '../PyramidPopulationChartView';
+import { selectAll } from '@testing-library/user-event/dist/cjs/event/index.js';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -113,6 +114,9 @@ export function OneIndicatorOneAreaViewPlots({
 
       <PyramidPopulationChartView
         populationHealthDataForAreas={populationHealthIndicatorData}
+        selectedAreaCode={dataWithoutEngland[0].areaCode}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage"
       />
     </section>
   );
