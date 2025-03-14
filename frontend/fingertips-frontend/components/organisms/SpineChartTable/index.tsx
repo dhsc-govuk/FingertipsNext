@@ -7,7 +7,10 @@ import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignLeftHeader,
+  StyledAlignLeftTableCell,
   StyledAlignRightHeader,
+  StyledAlignRightTableCell,
+  StyledDiv,
   StyledGreyHeader,
 } from '@/lib/tableHelpers';
 import { Sex } from '../Inequalities/inequalitiesHelpers';
@@ -36,9 +39,16 @@ export interface TableHeaderProps {
 }
 
 export interface SpineChartTableRowData {
-  period: number;
+  indicatorId: number;
+  indicator: string;
+  unit: string;
+  period?: number;
   count?: number;
   value?: number;
+  groupValue?: number;
+  benchmarkValue?: number;
+  benchmarkWorst?: number;
+  benchmarkBest?: number;
 }
 
 const StyledGroupHeader = styled(StyledGreyHeader)({
@@ -47,10 +57,34 @@ const StyledGroupHeader = styled(StyledGreyHeader)({
   textAlign: 'left', 
 });
 
+const StyledGroupSubHeader = styled(StyledGreyHeader)({
+  backgroundColor: GovukColours.LightGrey,
+  borderTop: GovukColours.MidGrey,
+  textAlign: 'right', 
+});
+
 const StyledBenchmarkHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
   textAlign: 'center',
+});
+
+const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
+  backgroundColor: GovukColours.MidGrey,
+  borderTop: GovukColours.LightGrey,
+  textAlign: 'right,
+});
+
+const StyledGroupCell = styled(StyledAlignRightTableCell)({
+  backgroundColor: GovukColours.LightGrey,
+  borderTop: GovukColours.MidGrey,
+  textAlign: 'right', 
+});
+
+const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
+  backgroundColor: GovukColours.MidGrey,
+  borderTop: GovukColours.LightGrey,
+  textAlign: 'right',
 });
 
 export function SpineChartTableHeader({
@@ -74,10 +108,72 @@ export function SpineChartTableHeader({
       </Table.Row> 
       <Table.Row>
         {Object.values(SpineChartTableHeadingEnum).map((heading, index) => (
+          (index === 0) || (index === 1)?
+          <StyledAlignLeftHeader data-testid={`${heading}-header-${index}`}>
+          {heading}
+          </StyledAlignLeftHeader>:
+          (index === 2) || (index === 3)?
           <Table.CellHeader data-testid={`${heading}-header-${index}`}>
           {heading}
-          </Table.CellHeader>
+          </Table.CellHeader>:
+          (index === 4)?
+          <StyledAlignRightHeader data-testid={`${heading}-header-${index}`}>
+          {heading}
+          </StyledAlignRightHeader>:
+          (index === 5)?
+          <StyledGroupSubHeader data-testid={`${heading}-header-${index}`}>
+          {heading}
+          </StyledGroupSubHeader>:  
+          <StyledBenchmarkSubHeader data-testid={`${heading}-header-${index}`}>
+          {heading}
+          </StyledBenchmarkSubHeader>   
         ))}
+      </Table.Row>          
+    </>
+  )
+}
+
+export function SpineChartTableRow({
+  indicator,
+  unit,
+  period,
+  count,
+  value,
+  groupValue,
+  benchmarkValue,
+  benchmarkWorst,
+  benchmarkBest,
+}: Readonly<SpineChartTableRowData>) {
+  return (
+    <>
+      <Table.Row>
+          <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
+          {indicator}
+          </StyledAlignLeftTableCell>
+          <StyledAlignLeftTableCell data-testid={`unit-cell`}>
+          {unit}
+          </StyledAlignLeftTableCell>
+          <StyledDiv data-testid={`period-cell`}>
+          {period}
+          </StyledDiv>
+          <StyledDiv data-testid={`count-cell`}>
+          {count}
+          </StyledDiv>  
+          <StyledAlignRightTableCell data-testid={`value-cell`}>
+          {value}
+          </StyledAlignRightTableCell>  
+          <StyledGroupCell data-testid={`group-value-cell`}>
+          {groupValue}
+          </StyledGroupCell>  
+          <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
+          {benchmarkValue}
+          </StyledBenchmarkCell>  
+          <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
+          {benchmarkWorst}
+          </StyledBenchmarkCell>
+          <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
+          {benchmarkBest}
+          </StyledBenchmarkCell>                      
       </Table.Row>          
     </>
   )
