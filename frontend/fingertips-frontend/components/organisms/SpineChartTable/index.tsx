@@ -39,10 +39,9 @@ export interface TableHeaderProps {
 }
 
 export interface SpineChartTableRowData {
-  indicatorId: number;
   indicator: string;
   unit: string;
-  period?: number;
+  period: string;
   count?: number;
   value?: number;
   groupValue?: number;
@@ -72,7 +71,7 @@ const StyledBenchmarkHeader = styled(StyledGreyHeader)({
 const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.MidGrey,
   borderTop: GovukColours.LightGrey,
-  textAlign: 'right,
+  textAlign: 'right',
 });
 
 const StyledGroupCell = styled(StyledAlignRightTableCell)({
