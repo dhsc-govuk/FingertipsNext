@@ -10,10 +10,21 @@ import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
+
+function shouldLineChartBeShown(
+  dataWithoutEnglandOrGroup: HealthDataForArea[],
+  englandBenchmarkData: HealthDataForArea | undefined
+) {
+  return (
+    dataWithoutEnglandOrGroup[0]?.healthData.length > 1 ||
+    (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
+  );
+}
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
@@ -25,7 +36,7 @@ export function OneIndicatorOneAreaViewPlots({
     stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 
-  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
+  const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
   );
@@ -47,7 +58,10 @@ export function OneIndicatorOneAreaViewPlots({
         aria-label="Go back to the previous page"
       />
       <H2>View data for selected indicators and areas</H2>
-      {dataWithoutEngland[0]?.healthData.length > 1 && (
+      {shouldLineChartBeShown(
+        dataWithoutEnglandOrGroup,
+        englandBenchmarkData
+      ) && (
         <>
           <H3>See how the indicator has changed over time</H3>
           <TabContainer
@@ -58,7 +72,7 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutEngland}
+                    healthIndicatorData={dataWithoutEnglandOrGroup}
                     benchmarkData={englandBenchmarkData}
                     searchState={searchState}
                     groupIndicatorData={groupData}
@@ -78,7 +92,7 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Tabular data',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
+                    healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
