@@ -22,7 +22,7 @@ describe('pointFormatterHelper', () => {
   it('should return a string with the default symbol code for circle when symbolName is empty string', () => {
     const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
     expect(actual).toContain('\u25CF');
-    expect(mockGenerateTooltipList).toHaveBeenCalled();
+    expect(mockGenerateTooltipList).toHaveBeenCalledWith(mockPoint, '\u25CF');
   });
 
   it.each([
@@ -37,7 +37,10 @@ describe('pointFormatterHelper', () => {
       mockPoint.graphic.symbolName = symbolName;
       const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
       expect(actual).toContain(symbolCode);
-      expect(mockGenerateTooltipList).toHaveBeenCalled();
+      expect(mockGenerateTooltipList).toHaveBeenCalledWith(
+        mockPoint,
+        symbolCode
+      );
     }
   );
 });

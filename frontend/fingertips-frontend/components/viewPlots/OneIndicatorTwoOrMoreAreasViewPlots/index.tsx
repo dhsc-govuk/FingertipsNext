@@ -3,6 +3,7 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
+import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
@@ -80,6 +81,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
+                    measurementUnit={indicatorMetadata?.unitLabel}
                     accessibilityLabel="A line chart showing healthcare data"
                   />
                 ),
@@ -108,6 +110,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      <BarChartEmbeddedTable
+        data-testid="barChartEmbeddedTable-component"
+        healthIndicatorData={dataWithoutEngland}
+        benchmarkData={englandBenchmarkData}
+        groupIndicatorData={groupData}
+        measurementUnit={indicatorMetadata?.unitLabel}
+      ></BarChartEmbeddedTable>
       {
         // TODO: restore this
         // selectedGroupArea === 'ALL'
