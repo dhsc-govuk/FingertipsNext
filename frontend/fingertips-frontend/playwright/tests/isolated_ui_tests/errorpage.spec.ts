@@ -18,15 +18,15 @@ test.describe('Error page tests', () => {
       .toContainText('Sorry, there is a problem with the service');
   });
 
-  // test('Chart page displays ErrorPage when API returns unexpected error', async ({
-  //   chartPage,
-  // }) => {
-  //   await chartPage.navigateToChart();
-  //
-  //   await test
-  //     .expect(chartPage.errorPageTitle())
-  //     .toContainText('Sorry, there is a problem with the service');
-  // });
+  test('Chart page displays ErrorPage when API returns unexpected error', async ({
+    chartPage,
+  }) => {
+    await chartPage.page.goto('/chart?is=ERROR90453');
+
+    await test
+      .expect(chartPage.errorPageTitle())
+      .toContainText('Sorry, there is a problem with the service');
+  });
 
   test('Indicator page displays ErrorPage when API returns unexpected error', async ({
     indicatorPage,

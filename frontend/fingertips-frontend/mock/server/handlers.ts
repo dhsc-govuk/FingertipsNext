@@ -81,7 +81,12 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/indicators/:indicatorId`, async () => {
+  http.get(`${baseURL}/indicators/:indicatorId`, async ({ params }) => {
+    const indicatorId = params.indicatorId;
+    if (typeof indicatorId === 'string' && indicatorId.startsWith('ERROR')) {
+      return HttpResponse.json({ error: `ERROR Scenario ${params.indicatorId}` }, { status: 500 });
+    }
+
     const resultArray = [[getGetIndicator200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
