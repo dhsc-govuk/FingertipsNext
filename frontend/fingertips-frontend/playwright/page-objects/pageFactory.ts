@@ -4,11 +4,13 @@ import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
+import IndicatorPage from "@/playwright/page-objects/pages/indicatorPage";
 
 type pages = {
   homePage: HomePage;
   resultsPage: ResultsPage;
   chartPage: ChartPage;
+  indicatorPage: IndicatorPage;
 };
 
 const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
@@ -55,6 +57,9 @@ export const test = testBase.extend<pages>({
   },
   chartPage: async ({ page }, use) => {
     await use(new ChartPage(page));
+  },
+  indicatorPage: async ({ page }, use) => {
+    await use(new IndicatorPage(page));
   },
 });
 

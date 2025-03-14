@@ -19,6 +19,10 @@ export class AreaSearchServiceMock implements IAreaSearchService {
   public async getAreaSuggestions(
     partialAreaName: string
   ): Promise<AreaDocument[]> {
+    if (partialAreaName.startsWith('ERROR')) {
+      throw new Error(`Mock AI Search Service Error - ${partialAreaName}`);
+    }
+
     return this.mockAreaData
       .filter((areaDoc) => {
         return (

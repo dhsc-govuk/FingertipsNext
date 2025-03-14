@@ -50,7 +50,6 @@ export const handlers = [
   ),
   http.get(`${baseURL}/areas/:areaCode`, async ({ request, params }) => {
     const areaCode = params.areaCode;
-
     const url = new URL(request.url);
     const includeChildren = url.searchParams.get('include_children') ?? 'false';
     const childAreaType = url.searchParams.get('child_area_type') ?? '';
@@ -58,6 +57,11 @@ export const handlers = [
     if (typeof areaCode !== 'string') {
       return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
     }
+
+    if (areaCode.startsWith('ERROR')) {
+      return HttpResponse.json({ error: `ERROR Scenario ${areaCode}` }, { status: 500 });
+    }
+
     const resultArray = [
       [
         getGetArea200Response(areaCode, includeChildren, childAreaType),
@@ -88,6 +92,7 @@ export const handlers = [
       const indicatorId = params.indicatorId;
       const url = new URL(request.url);
       const areaCodes = url.searchParams.getAll('area_codes');
+
       if (typeof indicatorId !== 'string') {
         return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
           status: 400,

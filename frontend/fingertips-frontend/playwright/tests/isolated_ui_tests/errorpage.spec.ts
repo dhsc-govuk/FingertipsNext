@@ -1,76 +1,77 @@
 import { test } from '../../page-objects/pageFactory';
-import {
-    getAllIndicatorIdsForSearchTerm,
-    getAllNHSRegionAreas,
-    IndicatorMode,
-    returnIndicatorIDsByIndicatorMode,
-    SearchMode,
-    sortAlphabetically,
-} from '../../testHelpers';
-import mockIndicators from '../../../assets/mockIndicatorData.json';
-import mockAreas from '../../../assets/mockAreaData.json';
-import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 import { server } from '@/mock/server/node';
-import { http, HttpResponse } from 'msw';
-
-// tests in this file use mock service worker to mock the API response
-// so that the tests can be run without the need for a backend
-// see frontend/fingertips-frontend/assets/mockIndicatorData.json
-// and frontend/fingertips-frontend/assets/mockAreaData.json
 const subjectSearchTerm = 'hospital';
 
-const baseURL = process.env.FINGERTIPS_API_URL;
-
 test.beforeAll(
-    `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
-    () => {
-
-    }
+  `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
+  () => {}
 );
 
 test.describe('Error page tests', () => {
-    test('HomePage displays ErrorPage when API unavailable', async ({
-                                                                        homePage,
-                                                                    }) => {
-        const a = server.listHandlers().length;
+  test('Home page displays ErrorPage when API returns unexpected error', async ({
+    homePage,
+  }) => {
+    await homePage.navigateToHomePage('?as=ERRORY07275');
 
-        server.use(
-            http.get(`${baseURL}/areas/*`, async () => {
-                return new HttpResponse('Test API error 500', { status: 500 });
-            })
-        );
+    await test
+      .expect(homePage.errorPageTitle())
+      .toContainText('Sorry, there is a problem with the service');
+  });
 
-        const b = server.listHandlers().length;
+  // test('Chart page displays ErrorPage when API returns unexpected error', async ({
+  //   chartPage,
+  // }) => {
+  //   await chartPage.navigateToChart();
+  //
+  //   await test
+  //     .expect(chartPage.errorPageTitle())
+  //     .toContainText('Sorry, there is a problem with the service');
+  // });
 
-        await homePage.navigateToHomePage();
-        await homePage.checkOnHomePage();
-        await homePage.searchForIndicators(
-            SearchMode.BOTH_SUBJECT_AND_AREA,
-            'hospital',
-            'north west region'
-        );
-        await homePage.clickSearchButton();
+  test('Indicator page displays ErrorPage when API returns unexpected error', async ({
+    indicatorPage,
+  }) => {
+    await indicatorPage.navigateToIndicatorPage('ERROR90453');
 
-        await test
-            .expect(homePage.errorPageTitle())
-            .toContainText('Sorry, there is a problem with the service');
-    });
+    await test
+      .expect(indicatorPage.errorPageTitle())
+      .toContainText('Sorry, there is a problem with the service');
+  });
+
+  test('Results page displays ErrorPage when API returns unexpected error', async ({
+    resultsPage,
+  }) => {
+    await resultsPage.navigateToResults('ERROR90453', ['ERRORY07275']);
+
+    await test
+      .expect(resultsPage.errorPageTitle())
+      .toContainText('Sorry, there is a problem with the service');
+  });
+
+  test('Navigating to an unsupported url should show the not found page', async ({
+    homePage,
+  }) => {
+    await homePage.page.goto('cabbage');
+
+    await test
+      .expect(homePage.errorPageTitle())
+      .toContainText('Page not found');
+  });
 });
 
 // log out current url when a test fails
 test.afterEach(async ({ page }, testInfo) => {
-    if (testInfo.status !== testInfo.expectedStatus) {
-        // Test failed - capture the URL
-        const url = page.url();
-        console.log(`Test failed! Current URL: ${url}`);
+  if (testInfo.status !== testInfo.expectedStatus) {
+    // Test failed - capture the URL
+    const url = page.url();
+    console.log(`Test failed! Current URL: ${url}`);
 
-        // You can also attach it to the test report
-        await testInfo.attach('failed-url', {
-            body: url,
-            contentType: 'text/plain',
-        });
-    }
+    // You can also attach it to the test report
+    await testInfo.attach('failed-url', {
+      body: url,
+      contentType: 'text/plain',
+    });
+  }
 
-    server.resetHandlers();
+  server.resetHandlers();
 });

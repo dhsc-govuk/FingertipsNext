@@ -11,7 +11,6 @@ export default class HomePage extends BasePage {
   readonly areaFilterContainer = 'selected-areas-panel';
   readonly pillContainer = 'pill-container';
   readonly removeIcon = 'x-icon';
-  readonly errorPageTitleHeaderId = 'error-page-title';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -49,16 +48,12 @@ export default class HomePage extends BasePage {
     }
   }
 
-  errorPageTitle() {
-    return this.page.getByTestId(this.errorPageTitleHeaderId);
-  }
-
   async clickSearchButton() {
     await this.page.getByTestId(this.searchButton).click();
   }
 
-  async navigateToHomePage() {
-    await this.navigateTo('/');
+  async navigateToHomePage(queryString?: string) {
+    await this.navigateTo(`/${queryString}`);
   }
 
   async checkOnHomePage() {
