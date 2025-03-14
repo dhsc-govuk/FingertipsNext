@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 /// <summary>
-///     Given two HealthDataPoints determins the benchmark comparison
+///     Given two HealthDataPoints determines the benchmark comparison
 /// </summary>
 public static class BenchmarkComparisonEngine
 {
@@ -32,29 +32,44 @@ public static class BenchmarkComparisonEngine
         IndicatorPolarity polarity
     )
     {
-        foreach (var healthDataPointOfInterest in healthDataForAreasOfInterest
-             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode)
-             .SelectMany(healthDataForArea => healthDataForArea.HealthData))
+        var allHealthAreasOfInterest = healthDataForAreasOfInterest
+            .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
+
+        foreach (var healthAreaData in allHealthAreasOfInterest)
         {
-            var benchmarkHealthDataPoint = benchmarkHealthData.HealthData.FirstOrDefault(item => item.Year == healthDataPointOfInterest.Year);
-            if (benchmarkHealthDataPoint == null)
-                continue;
-
-            var comparisonValue = 0;
-            if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
-                comparisonValue = -1;
-            if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
-                comparisonValue = 1;
-
-            healthDataPointOfInterest.BenchmarkComparison= new BenchmarkComparison
+            var areaHealthData = healthAreaData.HealthData;
+            foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
-                Method = comparisonMethod,
-                Outcome = GetOutcome(comparisonValue, polarity),
-                IndicatorPolarity = polarity,
-                BenchmarkAreaCode = benchmarkHealthData.AreaCode,
-                BenchmarkAreaName = benchmarkHealthData.AreaName
-            };
+                var isInequality = IsInequalityDataPoint(healthDataPointOfInterest);
+                var benchmarkHealthDataPoints = isInequality ? areaHealthData : benchmarkHealthData.HealthData;
+                var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
+                    item.Year == healthDataPointOfInterest.Year &&
+                    !IsInequalityDataPoint(item));
+
+                if (benchmarkHealthDataPoint == null)
+                    continue;
+
+                var comparisonValue = 0;
+                if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
+                    comparisonValue = -1;
+                if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
+                    comparisonValue = 1;
+
+                var benchmarkAreaCode = isInequality ? healthAreaData.AreaCode : benchmarkHealthData.AreaCode;
+                var benchmarkAreaName = isInequality ? healthAreaData.AreaName : benchmarkHealthData.AreaName;
+
+                healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
+                {
+                    Method = comparisonMethod,
+                    Outcome = GetOutcome(comparisonValue, polarity),
+                    IndicatorPolarity = polarity,
+                    BenchmarkValue = benchmarkHealthDataPoint.Value,
+                    BenchmarkAreaCode = benchmarkAreaCode,
+                    BenchmarkAreaName = benchmarkAreaName
+                };
+            }
         }
+
         return healthDataForAreasOfInterest;
     }
 
@@ -108,5 +123,13 @@ public static class BenchmarkComparisonEngine
             default:
                 return BenchmarkOutcome.Similar;
         }
+    }
+
+    private static bool IsInequalityDataPoint(HealthDataPoint healthDataPoint)
+    {
+        if (healthDataPoint.Sex != "Persons") return true;
+        if (healthDataPoint.AgeBand != "All ages") return true;
+        // add any other conditions here that might determine if a datapoint is an inequality point or not
+        return false;
     }
 }

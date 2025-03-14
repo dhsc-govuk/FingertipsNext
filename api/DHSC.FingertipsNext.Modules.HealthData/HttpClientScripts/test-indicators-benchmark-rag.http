@@ -1,7 +1,7 @@
 ﻿
 ### check GET health data with rag comparison
 
-GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_method=rag
+GET http://localhost:5144/indicators/ç/data?area_codes=N81096&comparison_method=rag
 
 > {%
     import fs from 'fs';
