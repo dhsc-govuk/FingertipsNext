@@ -69,7 +69,7 @@ export function AreaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Area
         
         'code': json['code'],
         'name': json['name'],
-        'areaType': json['areaType'],
+        'areaType': AreaTypeFromJSON(json['areaType']),
     };
 }
 
@@ -86,7 +86,7 @@ export function AreaToJSONTyped(value?: Area | null, ignoreDiscriminator: boolea
         
         'code': value['code'],
         'name': value['name'],
-        'areaType': value['areaType'],
+        'areaType': AreaTypeToJSON(value['areaType']),
     };
 }
 

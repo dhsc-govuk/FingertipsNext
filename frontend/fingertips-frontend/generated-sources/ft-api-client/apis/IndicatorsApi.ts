@@ -15,12 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  BadRequest,
   GetAreaHierarchies500Response,
   HealthDataForArea,
   Indicator,
   IndicatorSummary,
 } from '../models/index';
 import {
+    BadRequestFromJSON,
+    BadRequestToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     HealthDataForAreaFromJSON,
