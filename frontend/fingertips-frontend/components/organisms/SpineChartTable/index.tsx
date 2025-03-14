@@ -1,7 +1,10 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { HealthDataForArea, Indicator } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  Indicator,
+} from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -13,7 +16,6 @@ import {
   StyledDiv,
   StyledGreyHeader,
 } from '@/lib/tableHelpers';
-import { Sex } from '../Inequalities/inequalitiesHelpers';
 
 export enum SpineChartTableHeadingEnum {
   IndicatorName = 'Indicator',
@@ -62,13 +64,13 @@ export interface SpineChartTableProps {
 const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
-  textAlign: 'left', 
+  textAlign: 'left',
 });
 
 const StyledGroupSubHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
-  textAlign: 'right', 
+  textAlign: 'right',
 });
 
 const StyledBenchmarkHeader = styled(StyledGreyHeader)({
@@ -86,7 +88,7 @@ const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
 const StyledGroupCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
-  textAlign: 'right', 
+  textAlign: 'right',
 });
 
 const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
@@ -102,7 +104,7 @@ export const mapToSpineChartTableData = (
   groupIndicatorData: HealthDataForArea[],
   englandBenchmarkData: HealthDataForArea[],
   best: number[],
-  worst: number[],
+  worst: number[]
 ): SpineChartTableRowData[] =>
   indicators.map((item, index) => ({
     indicatorId: item.indicatorId,
@@ -111,13 +113,13 @@ export const mapToSpineChartTableData = (
     period: indicatorHealthData[index].healthData[0].year,
     count: indicatorHealthData[index].healthData[0].count,
     value: indicatorHealthData[index].healthData[0].value,
-    groupValue:  groupIndicatorData[index].healthData[0].value,
+    groupValue: groupIndicatorData[index].healthData[0].value,
     benchmarkValue: englandBenchmarkData[index].healthData[0].value,
-    benchmarkBest:  best[index],
+    benchmarkBest: best[index],
     benchmarkWorst: worst[index],
   }));
 
-const sortIndicator = (
+const sortByIndicator = (
   tableRowData: SpineChartTableRowData[]
 ): SpineChartTableRowData[] =>
   tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
@@ -129,8 +131,10 @@ export function SpineChartTableHeader({
   return (
     <>
       <Table.Row>
-        <Table.CellHeader colspan={3}  data-testid="empty-header">
-        </Table.CellHeader>
+        <Table.CellHeader
+          colspan={3}
+          data-testid="empty-header"
+        ></Table.CellHeader>
         <StyledAlignLeftHeader colspan={2} data-testid="area-header">
           {areaName}
         </StyledAlignLeftHeader>
@@ -140,45 +144,46 @@ export function SpineChartTableHeader({
         <StyledBenchmarkHeader colspan={3} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
-      </Table.Row> 
+      </Table.Row>
       <Table.Row>
-        {Object.values(SpineChartTableHeadingEnum).map((heading, index) => (
-          (index === 0) || (index === 1)?
-          <StyledAlignLeftHeader data-testid={`${heading}-header-${index}`}>
-          {heading}
-          </StyledAlignLeftHeader>:
-          (index === 2) || (index === 3)?
-          <Table.CellHeader data-testid={`${heading}-header-${index}`}>
-          {heading}
-          </Table.CellHeader>:
-          (index === 4)?
-          <StyledAlignRightHeader data-testid={`${heading}-header-${index}`}>
-          {heading}
-          </StyledAlignRightHeader>:
-          (index === 5)?
-          <StyledGroupSubHeader data-testid={`${heading}-header-${index}`}>
-          {heading}
-          </StyledGroupSubHeader>:  
-          <StyledBenchmarkSubHeader data-testid={`${heading}-header-${index}`}>
-          {heading}
-          </StyledBenchmarkSubHeader>   
-        ))}
-      </Table.Row>          
+        {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
+          index === 0 || index === 1 ? (
+            <StyledAlignLeftHeader data-testid={`${heading}-header-${index}`}>
+              {heading}
+            </StyledAlignLeftHeader>
+          ) : index === 2 || index === 3 ? (
+            <Table.CellHeader data-testid={`${heading}-header-${index}`}>
+              {heading}
+            </Table.CellHeader>
+          ) : index === 4 ? (
+            <StyledAlignRightHeader data-testid={`${heading}-header-${index}`}>
+              {heading}
+            </StyledAlignRightHeader>
+          ) : index === 5 ? (
+            <StyledGroupSubHeader data-testid={`${heading}-header-${index}`}>
+              {heading}
+            </StyledGroupSubHeader>
+          ) : (
+            <StyledBenchmarkSubHeader
+              data-testid={`${heading}-header-${index}`}
+            >
+              {heading}
+            </StyledBenchmarkSubHeader>
+          )
+        )}
+      </Table.Row>
     </>
-  )
+  );
 }
 
 export function SpineChartMissingValue({
   value,
 }: Readonly<SpineChartMissingData>) {
-  return (
-    <>
-      {value  || 'X'}         
-    </>
-  )
+  return <>{value || 'X'}</>;
 }
 
 export function SpineChartTableRow({
+  indicatorId,
   indicator,
   unit,
   period,
@@ -190,38 +195,34 @@ export function SpineChartTableRow({
   benchmarkBest,
 }: Readonly<SpineChartTableRowData>) {
   return (
-    <>
-      <Table.Row>
-          <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
-          {indicator}
-          </StyledAlignLeftTableCell>
-          <StyledAlignLeftTableCell data-testid={`unit-cell`}>
-          {unit}
-          </StyledAlignLeftTableCell>
-          <StyledDiv data-testid={`period-cell`}>
-          {period}
-          </StyledDiv>
-          <StyledDiv data-testid={`count-cell`}>
-            <SpineChartMissingValue value={count} />
-          </StyledDiv>  
-          <StyledAlignRightTableCell data-testid={`value-cell`}>
-            <SpineChartMissingValue value={value} />
-          </StyledAlignRightTableCell>  
-          <StyledGroupCell data-testid={`group-value-cell`}>
-            <SpineChartMissingValue value={groupValue} />
-          </StyledGroupCell>  
-          <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
-            <SpineChartMissingValue value={benchmarkValue} /> 
-          </StyledBenchmarkCell>  
-          <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-            {benchmarkWorst} 
-          </StyledBenchmarkCell>
-          <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-            {benchmarkBest}
-          </StyledBenchmarkCell>                      
-      </Table.Row>          
-    </>
-  )
+    <Table.Row key={indicatorId}>
+      <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
+        {indicator}
+      </StyledAlignLeftTableCell>
+      <StyledAlignLeftTableCell data-testid={`unit-cell`}>
+        {unit}
+      </StyledAlignLeftTableCell>
+      <StyledDiv data-testid={`period-cell`}>{period}</StyledDiv>
+      <StyledDiv data-testid={`count-cell`}>
+        <SpineChartMissingValue value={count} />
+      </StyledDiv>
+      <StyledAlignRightTableCell data-testid={`value-cell`}>
+        <SpineChartMissingValue value={value} />
+      </StyledAlignRightTableCell>
+      <StyledGroupCell data-testid={`group-value-cell`}>
+        <SpineChartMissingValue value={groupValue} />
+      </StyledGroupCell>
+      <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
+        <SpineChartMissingValue value={benchmarkValue} />
+      </StyledBenchmarkCell>
+      <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
+        {benchmarkWorst}
+      </StyledBenchmarkCell>
+      <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
+        {benchmarkBest}
+      </StyledBenchmarkCell>
+    </Table.Row>
+  );
 }
 
 export function SpineChartTable({
@@ -233,35 +234,41 @@ export function SpineChartTable({
   worst,
   best,
 }: Readonly<SpineChartTableProps>) {
-  const tableData = mapToSpineChartTableData(indicators,
-    measurementUnits, indicatorHealthData,
-    groupIndicatorData, englandBenchmarkData, worst, best)
-  const sortedData = sortIndicator(tableData);
-
-  const rows = sortedData.forEach((row) => {
-    <SpineChartTableRow 
-      indicatorId={row.indicatorId}
-      indicator={row.indicator}
-      unit={row.unit}
-      period={row.period}
-      count={row.count}
-      value={row.value}
-      groupValue={row.groupValue}
-      benchmarkValue={row.benchmarkValue}
-      benchmarkWorst={row.benchmarkWorst}
-      benchmarkBest={row.benchmarkBest}
-    />
-  });
+  const tableData = mapToSpineChartTableData(
+    indicators,
+    measurementUnits,
+    indicatorHealthData,
+    groupIndicatorData,
+    englandBenchmarkData,
+    worst,
+    best
+  );
+  const sortedData = sortByIndicator(tableData);
 
   return (
     <StyledDiv data-testid="spineChartTable-component">
       <Table>
         <SpineChartTableHeader
           areaName={indicatorHealthData[0].areaName}
-          groupName={groupIndicatorData[0].areaName} />
-          
-        rows
+          groupName={groupIndicatorData[0].areaName}
+        />
+        {sortedData.map((row) => {
+          return (
+            <SpineChartTableRow
+            indicatorId={row.indicatorId}
+            indicator={row.indicator}
+            unit={row.unit}
+            period={row.period}
+            count={row.count}
+            value={row.value}
+            groupValue={row.groupValue}
+            benchmarkValue={row.benchmarkValue}
+            benchmarkWorst={row.benchmarkWorst}
+            benchmarkBest={row.benchmarkBest}
+          />
+          )
+        })}
       </Table>
-    </StyledDiv>    
+    </StyledDiv>
   );
 }
