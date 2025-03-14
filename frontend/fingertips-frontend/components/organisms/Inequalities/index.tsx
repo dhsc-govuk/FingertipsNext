@@ -1,5 +1,6 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
+import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
 import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineChart';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import React from 'react';
@@ -7,10 +8,11 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
   InequalitiesTypes,
-  InequalitiesBarChartTableData,
+  InequalitiesBarChartData,
   InequalitiesChartData,
   mapToInequalitiesTableData,
   getDynamicKeys,
+  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -49,10 +51,12 @@ export function Inequalities({
   };
 
   const latestDataIndex = lineChartData.rowData.length - 1;
-  const barchartTableData: InequalitiesBarChartTableData = {
+  const barchartData: InequalitiesBarChartData = {
     areaName: healthIndicatorData.areaName,
     data: lineChartData.rowData[latestDataIndex],
   };
+
+  const barChartBenchmarkValue = getBenchmarkData(type, barchartData);
 
   return (
     <div data-testid="inequalities-component">
@@ -63,14 +67,23 @@ export function Inequalities({
           {
             id: 'inequalitiesBarChart',
             title: 'Bar chart',
-            content: <div>To be created</div>,
+            content: (
+              <InequalitiesBarChart
+                barChartData={barchartData}
+                dynamicKeys={dynamicKeys}
+                benchmarkValue={barChartBenchmarkValue}
+                measurementUnit={measurementUnit}
+                areasSelected={areasSelected}
+                yAxisLabel="Value"
+              />
+            ),
           },
           {
             id: 'inequalitiesBarChartTable',
             title: 'Table',
             content: (
               <InequalitiesBarChartTable
-                tableData={barchartTableData}
+                tableData={barchartData}
                 measurementUnit={measurementUnit}
                 dynamicKeys={dynamicKeys}
               />

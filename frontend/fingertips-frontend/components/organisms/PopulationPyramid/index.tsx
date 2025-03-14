@@ -16,7 +16,7 @@ interface PyramidChartProps {
 
 export const generatePopPyramidTooltipStringList = (
   point: Highcharts.Point,
-  symbol?: string
+  symbol: string
 ) => [
   `<span style="color:${point.series.color}">${symbol}</span>`,
   `<span> Value ${Math.abs(Number(point.y))}%<br/>${point.series.name}</span>`,

@@ -7,6 +7,7 @@ enum SymbolsEnum {
   Diamond = '\u25c6',
   Triangle = '\u25b2',
   TriangleDown = '\u25bC',
+  PlotLine = '\ufe31',
 }
 
 const symbolEncoder: Record<string, string> = {
@@ -15,6 +16,7 @@ const symbolEncoder: Record<string, string> = {
   'diamond': SymbolsEnum.Diamond,
   'triangle': SymbolsEnum.Triangle,
   'triangle-down': SymbolsEnum.TriangleDown,
+  'plot-line': SymbolsEnum.PlotLine,
 };
 
 export const pointFormatterHelper = (

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -31,6 +31,9 @@ describe('Inequalities suite', () => {
       screen.getByTestId('inequalitiesBarChartTable-component')
     ).toBeInTheDocument();
     expect(
+      screen.getByTestId('inequalitiesBarChart-component')
+    ).toBeInTheDocument();
+    expect(
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
     ).toBeInTheDocument();
     expect(
@@ -42,6 +45,7 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
         measurementUnit="kg"
         searchState={state}
       />

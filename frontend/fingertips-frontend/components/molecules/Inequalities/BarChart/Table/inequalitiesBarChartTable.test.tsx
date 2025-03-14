@@ -1,38 +1,11 @@
 import { InequalitiesBarChartTable, InequalitiesBarChartTableHeaders } from '.';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { InequalitiesBarChartTableData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { tableData } from '../mocks';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
-    const tableData: InequalitiesBarChartTableData = {
-      areaName: MOCK_HEALTH_DATA[1].areaName,
-      data: {
-        period: 2008,
-        inequalities: {
-          Persons: {
-            value: 135.149304,
-            count: 222,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Male: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Female: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-        },
-      },
-    };
-
     it('should render the inequalitiesBarChartTable component', () => {
       render(
         <InequalitiesBarChartTable
@@ -67,7 +40,7 @@ describe('Inequalities bar chart table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 3;
-      const mockData: InequalitiesBarChartTableData = {
+      const mockData: InequalitiesBarChartData = {
         areaName: tableData.areaName,
         data: {
           period: 2004,

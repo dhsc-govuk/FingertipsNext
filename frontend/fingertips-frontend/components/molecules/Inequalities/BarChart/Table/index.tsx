@@ -1,4 +1,4 @@
-import { InequalitiesBarChartTableData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayedValue,
   StyledAlignLeftHeader,
@@ -10,7 +10,7 @@ import { Table } from 'govuk-react';
 import React, { ReactNode } from 'react';
 
 interface InequalitiesBarChartTableProps {
-  tableData: InequalitiesBarChartTableData;
+  tableData: InequalitiesBarChartData;
   dynamicKeys: string[];
   measurementUnit?: string;
 }
