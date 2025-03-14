@@ -69,7 +69,10 @@ describe('Inequalities bar chart table suite', () => {
 
     it('should not display any table cells when empty dynamic keys list is passed', () => {
       render(
-        <InequalitiesBarChartTable tableData={tableData} dynamicKeys={[]} />
+        <InequalitiesBarChartTable
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
+        />
       );
 
       Object.values(InequalitiesBarChartTableHeaders).forEach((header) => {
