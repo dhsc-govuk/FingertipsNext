@@ -11,11 +11,11 @@ public class HealthMeasureModelHelper(
     short year = 2025
 )
 {
-    private AreaDimensionModel? _areaDimension;
-    private AgeDimensionModel? _ageDimension;
-    private IndicatorDimensionModel? _indicatorDimension;
-    private SexDimensionModel? _sexDimension;
-    private DeprivationDimensionModel? _deprivationDimension;
+    private AreaDimensionModel _areaDimension;
+    private AgeDimensionModel _ageDimension;
+    private IndicatorDimensionModel _indicatorDimension;
+    private SexDimensionModel _sexDimension;
+    private DeprivationDimensionModel _deprivationDimension;
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
@@ -47,21 +47,27 @@ public class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithAgeDimension(AgeDimensionModel ageDimension)
+    {
+        _ageDimension = ageDimension;
+
+        return this;
+    }
+
     public HealthMeasureModelHelper WithAgeDimension(
+        short? ageKey = null,
         string name = "age name",
         short ageId = 0,
         bool hasValue = false
     )
     {
-        _ageDimension = new AgeDimensionModel
+        return WithAgeDimension(new AgeDimensionModel
         {
-            AgeKey = (short)key,
+            AgeKey = ageKey ?? (short) key,
             Name = name,
             AgeID = ageId,
             HasValue = hasValue
-        };
-
-        return this;
+        });
     }
 
     private AgeDimensionModel DefaultAgeDimension()
@@ -75,6 +81,14 @@ public class HealthMeasureModelHelper(
         };
     }
 
+
+    public HealthMeasureModelHelper WithIndicatorDimension(IndicatorDimensionModel indicatorDimension)
+    {
+        _indicatorDimension = indicatorDimension;
+        
+        return this;
+    }
+    
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
         short indicatorId = 1,
@@ -82,15 +96,14 @@ public class HealthMeasureModelHelper(
         DateTime? endDate = null
     )
     {
-        _indicatorDimension = new IndicatorDimensionModel
+        return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
             IndicatorId = indicatorId,
             StartDate = startDate ?? DateTime.Today,
             EndDate = endDate ?? DateTime.Today.AddDays(1),
-        };
-        return this;
+        });
     }
 
     private IndicatorDimensionModel DefaultIndicatorDimension()
@@ -105,20 +118,26 @@ public class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithSexDimension(SexDimensionModel sexDimension)
+    {
+        _sexDimension = sexDimension;
+        
+        return this;
+    }
+
     public HealthMeasureModelHelper WithSexDimension(
+        byte? sexKey = null,
         string name = "sex name",
         bool hasValue = false,
         byte sexId = 0)
     {
-        _sexDimension = new SexDimensionModel
+        return WithSexDimension(new SexDimensionModel
         {
-            SexKey = (byte)key,
+            SexKey = sexKey ?? (byte) key,
             Name = name,
             HasValue = hasValue,
             SexId = sexId
-        };
-
-        return this;
+        });
     }
 
     private SexDimensionModel DefaultSexDimension()
@@ -142,22 +161,27 @@ public class HealthMeasureModelHelper(
         };
     }
 
+    public HealthMeasureModelHelper WithDeprivationDimension(DeprivationDimensionModel deprivationDimension)
+    {
+        _deprivationDimension = deprivationDimension;
+        
+        return this;
+    }
+
     public HealthMeasureModelHelper WithDeprivationDimension(
         string name = "All",
         string type = "All",
         byte sequence = 1,
         bool hasValue = false)
     {
-        _deprivationDimension = new DeprivationDimensionModel
+        return WithDeprivationDimension(new DeprivationDimensionModel
         {
             DeprivationKey = (byte)key,
             Name = name,
             Type = type,
             Sequence = sequence,
             HasValue = hasValue
-        };
-
-        return this;
+        });
     }
 
     private DeprivationDimensionModel DefaultDeprivationDimension()

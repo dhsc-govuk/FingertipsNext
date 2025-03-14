@@ -42,7 +42,7 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType)
+    public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType)
     {
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
