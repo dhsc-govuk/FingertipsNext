@@ -191,7 +191,7 @@ describe('Spine chart table suite', () => {
     });
   });
 
-  describe('Spine chart table header', () => {
+  describe('Spine chart table row', () => {
     it('should have grey cell color for benchmark column', () => {
       render(
         <SpineChartTableRow
@@ -270,19 +270,17 @@ describe('Spine chart table suite', () => {
     it('should have the value', () => {
       render(<SpineChartMissingValue value={100} />);
 
-      expect(screen.getByText('100'));
+      expect(screen.getByText('100')).toBeInTheDocument();
     });
 
     it('should have X', () => {
       render(<SpineChartMissingValue value={undefined} />);
 
-      expect(screen.getByText('X'));
+      expect(screen.getByText('X')).toBeInTheDocument();
     });
   });
 
   describe('Spine chart table', () => {
-    const CELLS_PER_ROW = 7;
-
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <SpineChartTable
