@@ -102,7 +102,7 @@ export function BarChartEmbeddedTable({
 
         {mostRecentGroupData ? (
           <Table.Row
-            key={`${mostRecentGroupData.count}`}
+            key={`${groupIndicatorData?.areaName}`}
             style={{ backgroundColor: GovukColours.LightGrey }}
             data-testid="table-row-group"
           >
