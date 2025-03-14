@@ -15,6 +15,7 @@ export enum IndicatorMode {
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
   TWO_PLUS_AREAS = 'TWO_PLUS_AREAS',
+  ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
 
@@ -38,8 +39,7 @@ export function getScenarioConfig(
     // ChartPage.inequalitiesLineChartComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    // Enable in DHSCFT-317
-    // ChartPage.thematicMapComponent,
+    ChartPage.thematicMapComponent,
     // Enable in DHSCFT-143
     // ChartPage.barChartEmbeddedTableComponent,
     // Pending
@@ -74,10 +74,19 @@ export function getScenarioConfig(
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      // Enable in DHSCFT-317
-      // ChartPage.thematicMapComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
+      // Enable in DHSCFT-143
+      // ChartPage.barChartEmbeddedTableComponent,
+    ];
+  }
+  // 1 indicator, all areas in a group
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
+  ) {
+    visibleComponents = [
+      ChartPage.thematicMapComponent,
       // Enable in DHSCFT-143
       // ChartPage.barChartEmbeddedTableComponent,
     ];

@@ -184,6 +184,7 @@ export default class ResultsPage extends BasePage {
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
         [AreaMode.TWO_PLUS_AREAS]: 2,
+        [AreaMode.ALL_AREAS_IN_A_GROUP]: await areaCheckboxList.count(),
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };
       const checkboxCount = checkboxCountMap[areaMode];
