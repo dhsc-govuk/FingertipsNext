@@ -63,8 +63,9 @@ exports[`Error Page snapshot test 1`] = `
 
 <h1
     class="c0"
+    data-testid="error-page-title"
   >
-    An error has occurred.
+    Sorry, there is a problem with the service
   </h1>
   .c0 {
   margin: 0;
@@ -156,41 +157,83 @@ exports[`Error Page snapshot test 1`] = `
     class="c0"
   >
     <p>
-      test error text
+      Try again later.
     </p>
   </div>
-  .c0 {
+  .c1 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c0:focus {
+.c1:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c0:link {
+.c1:link {
   color: #1d70b8;
 }
 
-.c0:visited {
+.c1:visited {
   color: #4c2c92;
 }
 
-.c0:hover {
+.c1:hover {
   color: #2b8cc4;
 }
 
-.c0:active {
+.c1:active {
   color: #2b8cc4;
 }
 
-.c0:focus {
+.c1:focus {
   color: #0b0c0c;
 }
 
+.c0 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c0 > p {
+  margin: 0;
+}
+
+.c0 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c0 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c0 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
 @media print {
 
 }
@@ -208,15 +251,15 @@ exports[`Error Page snapshot test 1`] = `
 }
 
 @media print {
-  .c0 {
+  .c1 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c0[href^="/"]::after,
-  .c0[href^="http://"]::after,
-  .c0[href^="https://"]::after {
+  .c1[href^="/"]::after,
+  .c1[href^="http://"]::after,
+  .c1[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -224,23 +267,39 @@ exports[`Error Page snapshot test 1`] = `
 }
 
 @media print {
-
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
 }
 
 @media only screen and (min-width:641px) {
-
+  .c0 {
+    margin-bottom: 20px;
+  }
 }
 
-<a
+<div
     class="c0"
-    data-testid="error-page-link"
-    href="/test-link"
   >
-    test error link text
-  </a>
+    <p>
+      You can 
+      <a
+        class="c1"
+        href="/"
+        node="[object Object]"
+      >
+        go back to the homepage
+      </a>
+       and start your search again.
+    </p>
+  </div>
 </DocumentFragment>
 `;

@@ -1,7 +1,10 @@
 import type { Page as PlaywrightPage } from 'playwright-core';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
+
 export default class BasePage {
+  readonly errorPageTitleHeaderId = 'error-page-title';
+
   constructor(public readonly page: PlaywrightPage) {}
 
   async waitForURLToContain(containsURL: string) {
@@ -31,5 +34,9 @@ export default class BasePage {
     }
     await this.page.waitForLoadState();
     return pageNavigation;
+  }
+
+  errorPageTitle() {
+    return this.page.getByTestId(this.errorPageTitleHeaderId);
   }
 }

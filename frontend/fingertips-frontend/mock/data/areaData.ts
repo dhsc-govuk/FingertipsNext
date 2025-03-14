@@ -1,5 +1,8 @@
 import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { AreaTypeKeys } from '../../lib/areaFilterHelpers/areaType';
+import {
+  AreaTypeKeys,
+  gpsAreaType,
+} from '../../lib/areaFilterHelpers/areaType';
 import { allEngland, englandArea } from './areas/englandAreas';
 import {
   allRegions,
@@ -44,6 +47,7 @@ import {
   felmoresGP,
   goodingeGP,
 } from './areas/gpsAreas';
+import { ErrorAreaCode } from '@/mock/ErrorTriggeringIds';
 
 export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
   E92000001: {
@@ -205,6 +209,12 @@ export const mockAreaDataForGP: Record<string, AreaWithRelations> = {
   },
   F83008: {
     ...goodingeGP,
+    children: [],
+  },
+  [`${ErrorAreaCode}`]: {
+    code: `${ErrorAreaCode}`,
+    name: 'Error House GP Surgery',
+    areaType: gpsAreaType,
     children: [],
   },
 };

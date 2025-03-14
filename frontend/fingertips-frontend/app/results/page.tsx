@@ -88,12 +88,6 @@ export default async function Page(
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);
-    return (
-      <ErrorPage
-        errorText="An error has been returned by the service. Please try again."
-        errorLink="/"
-        errorLinkText="Return to Search"
-      />
-    );
+    return <ErrorPage />;
   }
 }

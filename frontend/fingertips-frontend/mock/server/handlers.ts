@@ -7,6 +7,7 @@ import {
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 faker.seed(1);
 
@@ -50,7 +51,6 @@ export const handlers = [
   ),
   http.get(`${baseURL}/areas/:areaCode`, async ({ request, params }) => {
     const areaCode = params.areaCode;
-
     const url = new URL(request.url);
     const includeChildren = url.searchParams.get('include_children') ?? 'false';
     const childAreaType = url.searchParams.get('child_area_type') ?? '';
@@ -58,6 +58,14 @@ export const handlers = [
     if (typeof areaCode !== 'string') {
       return HttpResponse.json({ error: 'Bad request' }, { status: 400 });
     }
+
+    if (areaCode.startsWith(ErrorIdPrefix)) {
+      return HttpResponse.json(
+        { error: `ERROR Scenario ${areaCode}` },
+        { status: 500 }
+      );
+    }
+
     const resultArray = [
       [
         getGetArea200Response(areaCode, includeChildren, childAreaType),
@@ -77,7 +85,18 @@ export const handlers = [
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
-  http.get(`${baseURL}/indicators/:indicatorId`, async () => {
+  http.get(`${baseURL}/indicators/:indicatorId`, async ({ params }) => {
+    const indicatorId = params.indicatorId;
+    if (
+      typeof indicatorId === 'string' &&
+      indicatorId.startsWith(ErrorIdPrefix)
+    ) {
+      return HttpResponse.json(
+        { error: `ERROR Scenario ${params.indicatorId}` },
+        { status: 500 }
+      );
+    }
+
     const resultArray = [[getGetIndicator200Response(), { status: 200 }]];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
@@ -88,6 +107,7 @@ export const handlers = [
       const indicatorId = params.indicatorId;
       const url = new URL(request.url);
       const areaCodes = url.searchParams.getAll('area_codes');
+
       if (typeof indicatorId !== 'string') {
         return HttpResponse.json(getGetHealthDataForAnIndicator400Response(), {
           status: 400,

@@ -1,4 +1,5 @@
 import { IAreaSearchService, AreaDocument } from './searchTypes';
+import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 export class AreaSearchServiceMock implements IAreaSearchService {
   mockAreaData: AreaDocument[];
@@ -19,6 +20,10 @@ export class AreaSearchServiceMock implements IAreaSearchService {
   public async getAreaSuggestions(
     partialAreaName: string
   ): Promise<AreaDocument[]> {
+    if (partialAreaName.startsWith(ErrorIdPrefix)) {
+      throw new Error(`Mock AI Search Service Error - ${partialAreaName}`);
+    }
+
     return this.mockAreaData
       .filter((areaDoc) => {
         return (
