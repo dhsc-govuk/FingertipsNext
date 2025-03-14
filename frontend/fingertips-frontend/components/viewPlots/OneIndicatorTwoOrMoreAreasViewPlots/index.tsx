@@ -112,12 +112,10 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         // TODO: restore this
         // selectedGroupArea === 'ALL'
         selectedGroupCode && mapData && (
-          <>
-            <ThematicMap
-              healthIndicatorData={healthIndicatorData}
-              mapData={mapData}
-            />
-          </>
+          <ThematicMap
+            healthIndicatorData={healthIndicatorData}
+            mapData={mapData}
+          />
         )
       }
     </section>
