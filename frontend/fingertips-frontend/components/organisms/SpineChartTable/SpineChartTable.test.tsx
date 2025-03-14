@@ -11,9 +11,7 @@ import {
 } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
-import {
-  MOCK_HEALTH_DATA,
-} from '@/lib/tableHelpers/mocks';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
 describe('Spine chart table suite', () => {
   const mockHeaderData = {
@@ -43,7 +41,7 @@ describe('Spine chart table suite', () => {
     {
       indicatorId: 1,
       title: 'Test indicator 2',
-      definition: '',      
+      definition: '',
     },
   ];
 
@@ -81,7 +79,7 @@ describe('Spine chart table suite', () => {
           trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
-    },    
+    },
   ];
 
   const mockGroup = [
@@ -116,7 +114,7 @@ describe('Spine chart table suite', () => {
           trend: HealthDataPointTrendEnum.NotYetCalculated,
         },
       ],
-    },    
+    },
   ];
 
   const mockBest = [1666, 22];
@@ -185,7 +183,7 @@ describe('Spine chart table suite', () => {
         `background-color: ${GovukColours.LightGrey}`
       );
 
-      expect(screen.getByTestId('Value-header-5')).toHaveStyle(
+      expect(screen.getByTestId('GroupValue-header-5')).toHaveStyle(
         `background-color: ${GovukColours.LightGrey}`
       );
     });
@@ -243,7 +241,7 @@ describe('Spine chart table suite', () => {
     it('should have X for missing data', () => {
       render(
         <SpineChartTableRow
-        indicatorId={mockRowData.indicatorId}
+          indicatorId={mockRowData.indicatorId}
           indicator={mockRowData.indicator}
           unit={mockRowData.unit}
           period={mockRowData.period}
@@ -324,47 +322,54 @@ describe('Spine chart table suite', () => {
           best={mockBest}
         />
       );
-     
-      const expectedIndicators = ["Test indicator 2","Test indicator 1"]
-      const indictors = screen.getAllByTestId(`indicator-cell`)
+
+      const expectedIndicators = ['Test indicator 2', 'Test indicator 1'];
+      const indictors = screen.getAllByTestId(`indicator-cell`);
       expect(indictors[0]).toHaveTextContent(expectedIndicators[0]);
       expect(indictors[1]).toHaveTextContent(expectedIndicators[1]);
-    });    
+    });
   });
 
   describe('mapToSpineChartTableData', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
         {
-          "benchmarkBest": 959,
-          "benchmarkValue": 890.305692,
-          "benchmarkWorst": 1666,
-          "count": 222,
-          "groupValue": 980.305692,
-          "indicator": "Test indicator 1",
-          "indicatorId": 2,
-          "period": 2008,
-          "unit": "kg",
-          "value": 890.305692,
+          benchmarkBest: 959,
+          benchmarkValue: 890.305692,
+          benchmarkWorst: 1666,
+          count: 222,
+          groupValue: 980.305692,
+          indicator: 'Test indicator 1',
+          indicatorId: 2,
+          period: 2008,
+          unit: 'kg',
+          value: 890.305692,
         },
         {
-          "benchmarkBest": 100,
-          "benchmarkValue": 135.149304,
-          "benchmarkWorst": 22,
-          "count": 111,
-          "groupValue": 690.305692,
-          "indicator": "Test indicator 2",
-          "indicatorId": 1,
-          "period": 2024,
-          "unit": "per 1000",
-          "value": 690.305692,
+          benchmarkBest: 100,
+          benchmarkValue: 135.149304,
+          benchmarkWorst: 22,
+          count: 111,
+          groupValue: 690.305692,
+          indicator: 'Test indicator 2',
+          indicatorId: 1,
+          period: 2024,
+          unit: 'per 1000',
+          value: 690.305692,
         },
-      ]
+      ];
 
-      expect(mapToSpineChartTableData(
-        mockIndicatorData, mockUnits, mockHealthData, 
-        mockGroup, MOCK_HEALTH_DATA, mockWorst, 
-        mockBest)).toEqual(expectedRowData);
+      expect(
+        mapToSpineChartTableData(
+          mockIndicatorData,
+          mockUnits,
+          mockHealthData,
+          mockGroup,
+          MOCK_HEALTH_DATA,
+          mockWorst,
+          mockBest
+        )
+      ).toEqual(expectedRowData);
     });
-  });  
+  });
 });
