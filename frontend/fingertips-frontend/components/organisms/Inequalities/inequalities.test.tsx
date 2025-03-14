@@ -47,7 +47,6 @@ describe('Inequalities suite', () => {
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
         searchState={state}
         measurementUnit="kg"
-        searchState={state}
       />
     );
     expect(screen.getByText('kg')).toBeInTheDocument();
