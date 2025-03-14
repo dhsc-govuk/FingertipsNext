@@ -18,8 +18,6 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     throw new Error('Invalid parameters provided to view');
   }
 
-  const areaCodesToRequest = areaCodeForEngland;
-
   await connection();
 
   return <TwoOrMoreIndicatorsEnglandViewPlots />;
