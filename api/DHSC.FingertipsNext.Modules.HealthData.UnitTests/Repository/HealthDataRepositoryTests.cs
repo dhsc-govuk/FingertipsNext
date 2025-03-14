@@ -261,6 +261,12 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleSexDimensionValue()
     {
         // arrange
+        var indicatorDimension = new IndicatorDimensionModel
+        {
+            IndicatorKey = 1,
+            IndicatorId = 500
+        };
+
         var maleSexDimension = new SexDimensionModel
         {
             SexKey = 1,
@@ -269,11 +275,11 @@ public class HealthDataRepositoryTests
         };
 
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithSexDimension(maleSexDimension).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
@@ -355,6 +361,12 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleAgeDimensionValue()
     {
         // arrange
+        var indicatorDimension = new IndicatorDimensionModel
+        {
+            IndicatorKey = 1,
+            IndicatorId = 500
+        };
+
         var fifteenToFourtyFourYearsAgeDimension = new AgeDimensionModel
         {
             AgeKey = 1,
@@ -363,11 +375,11 @@ public class HealthDataRepositoryTests
         };
         
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithAgeDimension(fifteenToFourtyFourYearsAgeDimension).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure2);
         
         // act
@@ -455,6 +467,12 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWhenIndicatorHasASingleDeprivationDimensionValue()
     {
         // arrange
+        var indicatorDimension = new IndicatorDimensionModel
+        {
+            IndicatorKey = 1,
+            IndicatorId = 500
+        };
+
         var secondMostDeprivedDecile = new DeprivationDimensionModel
         {
             DeprivationKey = 1,
@@ -465,11 +483,11 @@ public class HealthDataRepositoryTests
         };
         
         var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure1);
 
         var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorId: 500).Build();
+            .WithDeprivationDimension(secondMostDeprivedDecile).WithIndicatorDimension(indicatorDimension).Build();
         PopulateDatabase(expectedHealthMeasure2);
         
         // act
