@@ -1,68 +1,12 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export interface PopulationDataForArea {
   areaName: string;
+  areaCode: string;
   ageCategories: Array<string>;
   femaleSeries: Array<number>;
   maleSeries: Array<number>;
-}
-
-export type PopulationData = {
-  dataForEngland?: PopulationDataForArea;
-  dataForBaseline?: PopulationDataForArea;
-};
-
-// export function preparePopulationData(
-//   rawData: HealthDataForArea,
-//   selectedAreaCode?: string,
-//   baselineAreaCode?: string
-// ): [PopulationDataForArea | undefined, PopulationData] {
-//   const rawDataForEngland: HealthDataForArea | undefined = rawData.find(
-//     (dataForArea) => dataForArea.areaCode == areaCodeForEngland
-//   );
-//   const rawDataForSelected: HealthDataForArea | undefined = rawData.find(
-//     (dataForArea) => dataForArea.areaCode == selectedAreaCode
-//   );
-//   const rawDataForBaseline: HealthDataForArea | undefined = rawData.find(
-//     (dataForArea) => dataForArea.areaCode == baselineAreaCode
-//   );
-//   const areaSelectedData = preparePopulationDataForArea(
-//     rawDataForSelected?.healthData
-//   );
-//   return [
-//     areaSelectedData,
-//     {
-//       dataForEngland: preparePopulationDataForArea(
-//         rawDataForEngland?.healthData
-//       ),
-//       dataForBaseline: preparePopulationDataForArea(
-//         rawDataForBaseline?.healthData
-//       ),
-//     },
-//   ];
-// }
-
-export function preparePopulationDataForArea(
-  healthData?: HealthDataPoint[]
-): PopulationDataForArea | undefined {
-  if (!healthData) {
-    return undefined;
-  }
-  const dataSortedByAgeBand = sortByAgeBand(healthData);
-  let ageCategories = dataSortedByAgeBand.map(
-    (healthDataPoint) => healthDataPoint.ageBand
-  );
-  ageCategories = [...new Set(ageCategories)];
-
-  const femaleSeries = generatePopulationSeries(healthData, 'Female');
-  const maleSeries = generatePopulationSeries(healthData, 'Male');
-
-  return {
-    areaName: '',
-    ageCategories: ageCategories,
-    femaleSeries: femaleSeries,
-    maleSeries: maleSeries,
-  };
 }
 
 function sortByAgeBand(healthData: HealthDataPoint[]): HealthDataPoint[] {
@@ -89,3 +33,36 @@ function generatePopulationSeries(
     return parseFloat(percentage.toFixed(2));
   });
 }
+
+/*
+ The function will be use to convert population health data to data that can be use by the pyramid chart 
+*/
+export const convertHealthDataForAreaForPyramidData = (
+  healthDataForArea: HealthDataForArea | undefined
+): PopulationDataForArea | undefined => {
+  if (!healthDataForArea) {
+    return undefined;
+  }
+  const dataSortedByAgeBand = sortByAgeBand(healthDataForArea.healthData);
+  let ageCategories = dataSortedByAgeBand.map(
+    (healthDataPoint) => healthDataPoint.ageBand
+  );
+  ageCategories = [...new Set(ageCategories)];
+
+  const femaleSeries = generatePopulationSeries(
+    healthDataForArea.healthData,
+    'Female'
+  );
+  const maleSeries = generatePopulationSeries(
+    healthDataForArea.healthData,
+    'Male'
+  );
+
+  return {
+    areaName: healthDataForArea.areaName,
+    areaCode: healthDataForArea.areaCode,
+    ageCategories: ageCategories,
+    femaleSeries: femaleSeries,
+    maleSeries: maleSeries,
+  };
+};

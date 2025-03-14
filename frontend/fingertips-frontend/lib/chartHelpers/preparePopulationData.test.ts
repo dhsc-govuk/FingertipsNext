@@ -7,7 +7,7 @@ import {
   PopulationDataForArea,
   // preparePopulationData,
   // PopulationData,
-  preparePopulationDataForArea,
+  convertHealthDataForAreaForPyramidData,
 } from './preparePopulationData';
 // import { areaCodeForEngland } from './constants';
 
@@ -209,21 +209,21 @@ describe('preparePopulationData', () => {
       const expected = mockAgeCategories;
 
       const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
+        convertHealthDataForAreaForPyramidData(mockData);
       expect(actual?.ageCategories).toEqual(expected);
     });
 
     it('should return an object with female population data as a percentage sorted by age band old to youngest', () => {
       const expected = mockFemaleSeries;
       const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
+        convertHealthDataForAreaForPyramidData(mockData);
       expect(actual?.femaleSeries).toEqual(expected);
     });
 
     it('should return an object with male population data as a percentage sorted by age band sorted old to youngest', () => {
       const expected = mockMaleSeries;
       const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
+        convertHealthDataForAreaForPyramidData(mockData);
       expect(actual?.maleSeries).toEqual(expected);
     });
   });

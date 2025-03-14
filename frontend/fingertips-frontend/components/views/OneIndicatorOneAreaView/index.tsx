@@ -1,6 +1,7 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 
@@ -11,6 +12,16 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+
+const getIndicatorIDByAreaSelectedCode = (
+  areaCode: string | undefined
+): string | undefined => {
+  if (areaCode) {
+    return '';
+  }
+
+  return undefined;
+};
 
 export default async function OneIndicatorOneAreaView({
   searchState,
@@ -43,6 +54,22 @@ export default async function OneIndicatorOneAreaView({
       indicatorId: Number(indicatorSelected[0]),
       areaCodes: areaCodesToRequest,
       comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+    });
+  } catch (error) {
+    console.error('error getting health indicator data for area', error);
+    throw new Error('error getting health indicator data for area');
+  }
+
+  // Get the population area data from the selected area. GetHealthDataForAnIndicatorInequalitiesEnum
+  let healthPopulationData: HealthDataForArea[] | undefined;
+  try {
+    healthPopulationData = await indicatorApi.getHealthDataForAnIndicator({
+      indicatorId: Number(getIndicatorIDByAreaSelectedCode(areasSelected[0])),
+      areaCodes: areaCodesToRequest,
+      inequalities: [
+        GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+      ],
     });
   } catch (error) {
     console.error('error getting health indicator data for area', error);
