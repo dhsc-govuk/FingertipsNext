@@ -331,6 +331,7 @@ SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' W
                  END + ')';
 EXEC sp_executesql @sqlHealth;
 
+ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
 INSERT INTO [dbo].[HealthMeasure]
 (
     AreaKey,
@@ -346,19 +347,32 @@ INSERT INTO [dbo].[HealthMeasure]
     Year
 )
 SELECT
-    (SELECT TOP 1 [AreaKey] FROM [dbo].[AreaDimension] WHERE [Code] = LTRIM(RTRIM(temp.AreaCode))),
-    (SELECT TOP 1 [IndicatorKey] FROM [dbo].[IndicatorDimension] WHERE IndicatorId = temp.IndicatorId),
-    (SELECT TOP 1 [SexKey] FROM [dbo].[SexDimension] WHERE [Name] = LTRIM(RTRIM(temp.Sex))),
-    (SELECT TOP 1 [AgeKey] FROM [dbo].[AgeDimension] WHERE [AgeID] = temp.AgeID),
-    (SELECT TOP 1 [DeprivationKey] FROM [dbo].[DeprivationDimension] WHERE [Name] = LTRIM(RTRIM(temp.Category)) AND [Type]=LTRIM(RTRIM(temp.CategoryType))),
+    areadim.AreaKey,
+    inddim.[IndicatorKey],
+    sexdim.[SexKey],
+    agedim.[AgeKey],
+    depdim.[DeprivationKey],
     Count,
     Denominator,
     Value,
     Lower95CI,
     Upper95CI,
     Year
-FROM #TempHealthData temp
+FROM 
+	#TempHealthData temp
+JOIN
+	[dbo].[AreaDimension] areadim ON LTRIM(RTRIM(temp.AreaCode))=areadim.[Code]
+JOIN
+	[dbo].[IndicatorDimension] inddim ON inddim.IndicatorId = temp.IndicatorId
+JOIN
+	[dbo].[SexDimension] sexdim ON sexdim.[Name] = LTRIM(RTRIM(temp.Sex))
+JOIN
+	[dbo].[AgeDimension] agedim ON agedim.[AgeID] = temp.AgeID
+JOIN
+	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
 WHERE temp.Value IS NOT NULL;
+
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
 
 DROP TABLE #TempHealthData;
 
