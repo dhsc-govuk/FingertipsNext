@@ -12,7 +12,8 @@ import {
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
-  additionDataForAreas?: PopulationData;
+  dataForEngland?: PopulationDataForArea;
+  dataForBaseline?: PopulationDataForArea;
   populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
@@ -21,7 +22,8 @@ interface PyramidChartProps {
 
 export function PopulationPyramid({
   dataForSelectedArea,
-  additionDataForAreas,
+  dataForEngland,
+  dataForBaseline,
   populationPyramidTitle,
   xAxisTitle,
   yAxisTitle,
@@ -35,8 +37,10 @@ export function PopulationPyramid({
     dataForSelectedArea,
     accessibilityLabel ?? ''
   );
-
-  const seriesOptions = createAdditionalChartSeries(additionDataForAreas);
+  const seriesOptions = createAdditionalChartSeries(
+    dataForEngland,
+    dataForBaseline
+  );
   seriesOptions.map((series) => {
     populationPyramidOptions.series?.push(series);
   });

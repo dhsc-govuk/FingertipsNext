@@ -1,7 +1,6 @@
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 export const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -128,17 +127,16 @@ export const createChartSeriesOptions = (
 };
 
 export const createAdditionalChartSeries = (
-  healthIndicatorData: PopulationData | undefined
+  dataForEngland: PopulationDataForArea | undefined,
+  dataForBaseline: PopulationDataForArea | undefined
 ): Array<SeriesOptionsType> => {
   const series: Array<SeriesOptionsType> = [];
-  if (!healthIndicatorData) {
-    return [];
-  }
-  if (healthIndicatorData.dataForEngland) {
+
+  if (dataForEngland) {
     series.push(
       {
         name: 'England',
-        data: healthIndicatorData.dataForEngland.femaleSeries,
+        data: dataForEngland.femaleSeries,
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -146,9 +144,7 @@ export const createAdditionalChartSeries = (
       },
       {
         name: 'England',
-        data: healthIndicatorData.dataForEngland.maleSeries.map(
-          (datapoint) => -datapoint
-        ),
+        data: dataForEngland.maleSeries.map((datapoint) => -datapoint),
         type: 'line',
         color: '#3D3D3D',
         dashStyle: 'Solid',
@@ -157,12 +153,12 @@ export const createAdditionalChartSeries = (
       }
     );
   }
-  if (healthIndicatorData.dataForBaseline) {
+  if (dataForBaseline) {
     series.push(
       {
         name: 'Baseline',
         type: 'line',
-        data: healthIndicatorData.dataForBaseline.femaleSeries,
+        data: dataForBaseline.femaleSeries,
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
@@ -171,9 +167,7 @@ export const createAdditionalChartSeries = (
       {
         name: 'Baseline',
         type: 'line',
-        data: healthIndicatorData.dataForBaseline.maleSeries.map(
-          (datapoint) => -datapoint
-        ),
+        data: dataForBaseline.maleSeries.map((datapoint) => -datapoint),
         color: '#28A197',
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
