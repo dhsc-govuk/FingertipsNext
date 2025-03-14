@@ -39,6 +39,12 @@ public class HealthDataPoint
     public float? UpperConfidenceInterval { get; init; }
 
     /// <summary>
+    /// False if the data point is disaggregated on one of more inequality dimensions
+    /// True if not disaggregated 
+    /// </summary>
+    public bool IsAggregate { get; init; }
+
+    /// <summary>
     ///     Age band which the data are for.
     /// </summary>
     [JsonPropertyName("ageBand")]

@@ -76,7 +76,12 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Type = x.DeprivationDimension.Type,
                     Sequence = x.DeprivationDimension.Sequence,
                     HasValue = x.DeprivationDimension.HasValue
-                }
+                },
+                IsAggregate = ( 
+                      (!x.SexDimension.HasValue || countInequalityDimensionsQuery.First().SexKeyCount == 1)
+                    && (!x.AgeDimension.HasValue || countInequalityDimensionsQuery.First().AgeKeyCount == 1)
+                    && (!x.DeprivationDimension.HasValue || countInequalityDimensionsQuery.First().DeprivationKeyCount == 1)
+                    )
             })
             .AsNoTracking()
             .ToListAsync();
