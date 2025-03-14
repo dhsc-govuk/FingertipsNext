@@ -1,5 +1,5 @@
 import { IAreaSearchService, AreaDocument } from './searchTypes';
-import {ErrorIdPrefix} from "@/mock/ErrorTriggeringIds";
+import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 export class AreaSearchServiceMock implements IAreaSearchService {
   mockAreaData: AreaDocument[];

@@ -1,6 +1,6 @@
 import { test } from '../../page-objects/pageFactory';
 import { server } from '@/mock/server/node';
-import {ErrorAreaCode, ErrorIndicatorId} from "@/mock/ErrorTriggeringIds";
+import { ErrorAreaCode, ErrorIndicatorId } from '@/mock/ErrorTriggeringIds';
 const subjectSearchTerm = 'hospital';
 
 test.beforeAll(
@@ -42,7 +42,9 @@ test.describe('Error page tests', () => {
   test('Results page displays ErrorPage when API returns unexpected error', async ({
     resultsPage,
   }) => {
-    await resultsPage.navigateToResults(`${ErrorIndicatorId}`, [`${ErrorAreaCode}`]);
+    await resultsPage.navigateToResults(`${ErrorIndicatorId}`, [
+      `${ErrorAreaCode}`,
+    ]);
 
     await test
       .expect(resultsPage.errorPageTitle())

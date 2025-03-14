@@ -7,7 +7,7 @@ import {
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import {ErrorIdPrefix} from "@/mock/ErrorTriggeringIds";
+import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 faker.seed(1);
 
@@ -87,7 +87,10 @@ export const handlers = [
   }),
   http.get(`${baseURL}/indicators/:indicatorId`, async ({ params }) => {
     const indicatorId = params.indicatorId;
-    if (typeof indicatorId === 'string' && indicatorId.startsWith(ErrorIdPrefix)) {
+    if (
+      typeof indicatorId === 'string' &&
+      indicatorId.startsWith(ErrorIdPrefix)
+    ) {
       return HttpResponse.json(
         { error: `ERROR Scenario ${params.indicatorId}` },
         { status: 500 }

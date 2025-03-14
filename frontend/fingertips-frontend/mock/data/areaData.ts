@@ -47,7 +47,7 @@ import {
   felmoresGP,
   goodingeGP,
 } from './areas/gpsAreas';
-import {ErrorAreaCode} from "@/mock/ErrorTriggeringIds";
+import { ErrorAreaCode } from '@/mock/ErrorTriggeringIds';
 
 export const mockAreaDataForCountry: Record<string, AreaWithRelations> = {
   E92000001: {
@@ -211,7 +211,7 @@ export const mockAreaDataForGP: Record<string, AreaWithRelations> = {
     ...goodingeGP,
     children: [],
   },
-    [`${ErrorAreaCode}`]: {
+  [`${ErrorAreaCode}`]: {
     code: `${ErrorAreaCode}`,
     name: 'Error House GP Surgery',
     areaType: gpsAreaType,
