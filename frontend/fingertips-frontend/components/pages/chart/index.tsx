@@ -78,16 +78,6 @@ export function Chart({
           />
         </>
       ) : null}
-      {healthIndicatorData.length === 1 && mapData ? (
-        <>
-          <ThematicMap
-            healthIndicatorData={healthIndicatorData[0]}
-            mapData={mapData}
-            mapTitle="Compare indicator data within the area group"
-          />
-          <br />
-        </>
-      ) : null}
     </>
   );
 }

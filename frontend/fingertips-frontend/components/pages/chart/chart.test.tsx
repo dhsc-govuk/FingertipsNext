@@ -55,23 +55,6 @@ describe('Page structure', () => {
     expect(populationPyramid).toBeInTheDocument();
   });
 
-  it('should render the ThematicMap component when all map props are provided', () => {
-    const areaType = 'regions';
-    const areaCodes = ['E12000001', 'E12000002'];
-    const mapData = getMapData(areaType, areaCodes);
-
-    render(
-      <Chart
-        healthIndicatorData={[mockHealthData['92420']]}
-        mapData={mapData}
-        searchState={state}
-      />
-    );
-
-    const thematicMap = screen.queryByTestId('thematicMap-component');
-    expect(thematicMap).toBeInTheDocument();
-  });
-
   it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
     render(
       <Chart

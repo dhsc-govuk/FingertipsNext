@@ -57,6 +57,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
+      <p> in ViewPlot</p>
       <BackLink
         data-testid="chart-page-back-link"
         href={backLinkPath}
@@ -107,12 +108,18 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {selectedGroupArea === 'ALL' && mapData && (
-        <ThematicMap
-          healthIndicatorData={healthIndicatorData}
-          mapData={mapData}
-        />
-      )}
+      {
+        // TODO: restore this
+        // selectedGroupArea === 'ALL'
+        selectedGroupCode && mapData && (
+          <>
+            <ThematicMap
+              healthIndicatorData={healthIndicatorData}
+              mapData={mapData}
+            />
+          </>
+        )
+      }
     </section>
   );
 }
