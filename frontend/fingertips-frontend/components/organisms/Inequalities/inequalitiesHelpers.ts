@@ -1,8 +1,8 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
-import { SymbolKeyValue } from 'highcharts';
 import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { chartSymbols } from '../LineChart/lineChartHelpers';
 
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
@@ -43,14 +43,6 @@ export enum InequalitiesTypes {
   Sex = 'sex',
   Deprivation = 'deprivation',
 }
-
-const mapToChartSymbolsForInequality: Record<
-  InequalitiesTypes,
-  SymbolKeyValue[]
-> = {
-  [InequalitiesTypes.Sex]: ['circle', 'square', 'diamond'],
-  [InequalitiesTypes.Deprivation]: [],
-};
 
 const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Sex]: [
@@ -145,7 +137,6 @@ export const generateInequalitiesLineChartSeriesData = (
   rowData: InequalitiesTableRowData[],
   areasSelected: string[]
 ): Highcharts.SeriesOptionsType[] => {
-  const markerList = mapToChartSymbolsForInequality[type];
   const colorList = mapToChartColorsForInequality[type];
 
   if (isEnglandSoleSelectedArea(areasSelected))
@@ -159,7 +150,7 @@ export const generateInequalitiesLineChartSeriesData = (
       periodData.inequalities[key]?.value,
     ]),
     marker: {
-      symbol: markerList[index % markerList.length],
+      symbol: chartSymbols[index % chartSymbols.length],
     },
     color: colorList[index % colorList.length],
   }));

@@ -19,6 +19,14 @@ export const lineChartDefaultOptions: Highcharts.Options = {
   },
 };
 
+export const chartSymbols: SymbolKeyValue[] = [
+  'square',
+  'triangle',
+  'triangle-down',
+  'circle',
+  'diamond',
+];
+
 export function generateSeriesData(
   data: HealthDataForArea[],
   symbols: SymbolKeyValue[],

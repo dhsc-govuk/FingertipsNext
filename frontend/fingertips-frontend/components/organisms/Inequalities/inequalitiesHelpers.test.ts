@@ -226,7 +226,7 @@ describe('generateLineChartSeriesData', () => {
       [2008, 135.149304],
     ],
     marker: {
-      symbol: 'circle',
+      symbol: 'square',
     },
     color: GovukColours.Orange,
   };
@@ -241,7 +241,7 @@ describe('generateLineChartSeriesData', () => {
         [2008, 890.328253],
       ],
       marker: {
-        symbol: 'square',
+        symbol: 'triangle',
       },
       color: UniqueChartColours.OtherLightBlue,
     },
@@ -253,7 +253,7 @@ describe('generateLineChartSeriesData', () => {
         [2008, 890.328253],
       ],
       marker: {
-        symbol: 'diamond',
+        symbol: 'triangle-down',
       },
       color: GovukColours.Purple,
     },

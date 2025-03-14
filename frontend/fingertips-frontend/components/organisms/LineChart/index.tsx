@@ -1,6 +1,6 @@
 'use client';
 
-import Highcharts, { SymbolKeyValue } from 'highcharts';
+import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
   sortHealthDataForAreaByDate,
@@ -10,6 +10,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
 import {
+  chartSymbols,
   generateSeriesData,
   lineChartDefaultOptions,
 } from '@/components/organisms/LineChart/lineChartHelpers';
@@ -28,14 +29,6 @@ interface LineChartProps {
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
 }
-
-const chartSymbols: SymbolKeyValue[] = [
-  'square',
-  'triangle',
-  'triangle-down',
-  'circle',
-  'diamond',
-];
 
 const chartName = 'lineChart';
 
