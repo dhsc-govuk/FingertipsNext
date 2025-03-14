@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.SqlServer.Types;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 

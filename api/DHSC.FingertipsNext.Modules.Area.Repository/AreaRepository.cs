@@ -1,7 +1,6 @@
 ﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Net.Http.Headers;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
