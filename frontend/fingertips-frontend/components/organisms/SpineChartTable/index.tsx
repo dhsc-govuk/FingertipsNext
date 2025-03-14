@@ -1,7 +1,7 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { HealthDataForArea, Indicator } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -27,21 +27,16 @@ export enum SpineChartTableHeadingEnum {
   BenchmarkBest = 'Best',
 }
 
-export interface TableProps {
-  healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData: HealthDataForArea;
-  groupIndicatorData: HealthDataForArea;
-}
-
 export interface TableHeaderProps {
   areaName: string;
   groupName: string;
 }
 
 export interface SpineChartTableRowData {
+  indicatorId: number;
   indicator: string;
   unit: string;
-  period: string;
+  period: number;
   count?: number;
   value?: number;
   groupValue?: number;
@@ -52,6 +47,16 @@ export interface SpineChartTableRowData {
 
 export interface SpineChartMissingData {
   value?: number;
+}
+
+export interface SpineChartTableProps {
+  indicators: Indicator[];
+  measurementUnits: string[];
+  indicatorHealthData: HealthDataForArea[];
+  groupIndicatorData: HealthDataForArea[];
+  englandBenchmarkData: HealthDataForArea[];
+  best: number[];
+  worst: number[];
 }
 
 const StyledGroupHeader = styled(StyledGreyHeader)({
@@ -89,6 +94,33 @@ const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
   borderTop: GovukColours.LightGrey,
   textAlign: 'right',
 });
+
+export const mapToSpineChartTableData = (
+  indicators: Indicator[],
+  measurementUnits: string[],
+  indicatorHealthData: HealthDataForArea[],
+  groupIndicatorData: HealthDataForArea[],
+  englandBenchmarkData: HealthDataForArea[],
+  best: number[],
+  worst: number[],
+): SpineChartTableRowData[] =>
+  indicators.map((item, index) => ({
+    indicatorId: item.indicatorId,
+    indicator: item.title,
+    unit: measurementUnits[index],
+    period: indicatorHealthData[index].healthData[0].year,
+    count: indicatorHealthData[index].healthData[0].count,
+    value: indicatorHealthData[index].healthData[0].value,
+    groupValue:  groupIndicatorData[index].healthData[0].value,
+    benchmarkValue: englandBenchmarkData[index].healthData[0].value,
+    benchmarkBest:  best[index],
+    benchmarkWorst: worst[index],
+  }));
+
+const sortIndicator = (
+  tableRowData: SpineChartTableRowData[]
+): SpineChartTableRowData[] =>
+  tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
 
 export function SpineChartTableHeader({
   areaName,
@@ -190,4 +222,46 @@ export function SpineChartTableRow({
       </Table.Row>          
     </>
   )
+}
+
+export function SpineChartTable({
+  indicators,
+  measurementUnits,
+  indicatorHealthData,
+  groupIndicatorData,
+  englandBenchmarkData,
+  worst,
+  best,
+}: Readonly<SpineChartTableProps>) {
+  const tableData = mapToSpineChartTableData(indicators,
+    measurementUnits, indicatorHealthData,
+    groupIndicatorData, englandBenchmarkData, worst, best)
+  const sortedData = sortIndicator(tableData);
+
+  const rows = sortedData.forEach((row) => {
+    <SpineChartTableRow 
+      indicatorId={row.indicatorId}
+      indicator={row.indicator}
+      unit={row.unit}
+      period={row.period}
+      count={row.count}
+      value={row.value}
+      groupValue={row.groupValue}
+      benchmarkValue={row.benchmarkValue}
+      benchmarkWorst={row.benchmarkWorst}
+      benchmarkBest={row.benchmarkBest}
+    />
+  });
+
+  return (
+    <StyledDiv data-testid="spineChartTable-component">
+      <Table>
+        <SpineChartTableHeader
+          areaName={indicatorHealthData[0].areaName}
+          groupName={groupIndicatorData[0].areaName} />
+          
+        rows
+      </Table>
+    </StyledDiv>    
+  );
 }
