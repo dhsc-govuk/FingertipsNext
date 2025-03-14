@@ -3,6 +3,7 @@ import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
