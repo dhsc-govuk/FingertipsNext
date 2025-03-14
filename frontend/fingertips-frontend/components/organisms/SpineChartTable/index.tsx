@@ -61,6 +61,10 @@ export interface SpineChartTableProps {
   worst: number[];
 }
 
+const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
+  textAlign: 'center',
+});
+
 const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
   textAlign: 'center',
 });
@@ -156,9 +160,9 @@ export function SpineChartTableHeader({
               {heading}
             </StyledAlignLeftHeader>
           ) : index === 2 || index === 3 ? (
-            <Table.CellHeader data-testid={`${heading}-header-${index}`}>
+            <StyledAlignCentreHeader data-testid={`${heading}-header-${index}`}>
               {heading}
-            </Table.CellHeader>
+            </StyledAlignCentreHeader>
           ) : index === 4 ? (
             <StyledAlignRightHeader data-testid={`${heading}-header-${index}`}>
               {heading}
