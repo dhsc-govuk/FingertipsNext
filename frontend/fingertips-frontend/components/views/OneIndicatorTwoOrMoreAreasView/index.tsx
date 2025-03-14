@@ -68,7 +68,8 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    selectedGroupArea === 'ALL'
+    // selectedGroupArea === 'ALL'
+    selectedGroupArea
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 
