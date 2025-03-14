@@ -6,7 +6,7 @@ import {
   Indicator,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignLeftHeader,
@@ -23,8 +23,8 @@ export enum SpineChartTableHeadingEnum {
   IndicatorPeriod = 'Period',
   AreaCount = 'Count',
   AreaValue = 'Value',
-  GroupValue = 'Value',
-  BenchmarkValue = 'Value',
+  GroupValue = 'Value ',
+  BenchmarkValue = 'Value  ',
   BenchmarkWorst = 'Worst',
   BenchmarkBest = 'Best',
 }
@@ -153,7 +153,7 @@ export function SpineChartTableHeader({
           Benchmark: England
         </StyledBenchmarkHeader>
       </Table.Row>
-      <Table.Row>
+      <Table.Row key={areaName}>
         {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
           index === 0 || index === 1 ? (
             <StyledAlignLeftHeader data-testid={`${heading}-header-${index}`}>
@@ -255,7 +255,7 @@ export function SpineChartTable({
 
   return (
     <StyledDiv data-testid="spineChartTable-component">
-      <Table>
+      <Table key={indicators[0].indicatorId}>
         <SpineChartTableHeader
           areaName={indicatorHealthData[0].areaName}
           groupName={groupIndicatorData[0].areaName}
