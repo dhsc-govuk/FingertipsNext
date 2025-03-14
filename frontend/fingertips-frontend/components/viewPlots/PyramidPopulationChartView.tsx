@@ -1,3 +1,4 @@
+'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { useEffect, useState } from 'react';
