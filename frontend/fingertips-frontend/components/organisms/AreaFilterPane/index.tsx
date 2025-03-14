@@ -44,6 +44,7 @@ export function AreaFilterPane({
       <StyledFilterDiv>
         <SelectedAreasPanel
           selectedAreasData={selectedAreasData}
+          areaFilterData={areaFilterData}
           searchState={searchState}
         />
 

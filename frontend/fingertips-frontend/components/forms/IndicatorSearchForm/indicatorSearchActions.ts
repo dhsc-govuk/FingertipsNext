@@ -67,5 +67,7 @@ export async function searchIndicator(
     indicator
   );
 
+  searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
   redirect(searchStateManager.generatePath('/results'), RedirectType.push);
 }

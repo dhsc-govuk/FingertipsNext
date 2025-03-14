@@ -5,6 +5,13 @@ import {
 } from '@/playwright/testHelpers';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
+import {
+  PlaywrightTestArgs,
+  PlaywrightTestOptions,
+  PlaywrightWorkerArgs,
+  PlaywrightWorkerOptions,
+  TestType,
+} from '@playwright/test';
 
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
@@ -21,6 +28,12 @@ export default class ChartPage extends BasePage {
     await this.navigateTo('chart');
   }
 
+  async checkOnChartPage() {
+    await expect(
+      this.page.getByText('View data for selected indicators and areas')
+    ).toBeVisible();
+  }
+
   async clickBackLink() {
     await this.page.getByTestId(this.backLink).click();
   }
@@ -31,7 +44,16 @@ export default class ChartPage extends BasePage {
    * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
-  async checkChartVisibility(indicatorMode: IndicatorMode, areaMode: AreaMode) {
+  async checkChartVisibility(
+    indicatorMode: IndicatorMode,
+    areaMode: AreaMode,
+    test: TestType<
+      PlaywrightTestArgs & PlaywrightTestOptions,
+      PlaywrightWorkerArgs & PlaywrightWorkerOptions
+    >
+  ) {
+    const testInfo = test.info();
+    const testName = testInfo.title;
     const { visibleComponents, hiddenComponents } = getScenarioConfig(
       indicatorMode,
       areaMode
@@ -55,7 +77,7 @@ export default class ChartPage extends BasePage {
         });
       }
 
-      // screenshot snapshot comparisons are skipped when running e2e test locally or against deployed azure environments
+      // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
@@ -63,9 +85,9 @@ export default class ChartPage extends BasePage {
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(
-          this.page.getByTestId(visibleComponent)
-        ).toHaveScreenshot();
+        await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot(
+          `${testName}-${visibleComponent}.png`
+        );
       } catch (error) {
         const typedError = error as Error;
         console.warn(

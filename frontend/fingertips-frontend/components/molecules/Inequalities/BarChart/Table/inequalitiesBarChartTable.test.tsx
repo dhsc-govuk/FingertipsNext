@@ -100,12 +100,38 @@ describe('Inequalities bar chart table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
+      render(
+        <InequalitiesBarChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+          measurementUnit="kg"
+        />
+      );
+      expect(screen.getByText('kg')).toBeInTheDocument();
+    });
+
+    it('check if that measurementUnit value is not shown when its not passed', () => {
+      render(
+        <InequalitiesBarChartTable
+          tableData={tableData}
+          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
+          type={Inequalities.Sex}
+        />
+      );
+      expect(
+        screen.queryByTestId('inequalitiesBarChart-measurementUnit')
+      ).not.toBeInTheDocument();
+    });
+
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
           tableData={tableData}
           yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
           type={Inequalities.Sex}
+          measurementUnit="kg"
         />
       );
 

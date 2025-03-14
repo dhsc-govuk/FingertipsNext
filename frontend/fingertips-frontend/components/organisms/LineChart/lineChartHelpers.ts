@@ -1,7 +1,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
-import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { ChartColours } from '@/lib/chartHelpers/colours';
 
 export function generateSeriesData(
   data: HealthDataForArea[],
@@ -62,7 +62,7 @@ export function generateSeriesData(
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
       data: benchmarkData.healthData.map((point) => [point.year, point.value]),
-      color: GovukColours.Black,
+      color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
       },
