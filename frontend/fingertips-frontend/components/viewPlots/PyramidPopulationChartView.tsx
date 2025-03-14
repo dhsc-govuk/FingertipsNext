@@ -96,7 +96,7 @@ export const PyramidPopulationChartView = ({
         items={[
           {
             id: 'populationPyramidChart',
-            title: 'Population Pyramid',
+            title: 'Population pyramid',
             content: (
               <PopulationPyramid
                 dataForSelectedArea={selectedPopulationHealthDataForArea}
@@ -106,6 +106,11 @@ export const PyramidPopulationChartView = ({
                 yAxisTitle={yAxisTitle}
               />
             ),
+          },
+          {
+            id: 'populationPyramidTable',
+            title: 'Table',
+            content: <div>The table here</div>,
           },
         ]}
       />
