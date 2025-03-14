@@ -7,10 +7,12 @@ import {
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
-  Inequalities,
+  InequalitiesTypes,
   InequalitiesTableRowData,
   mapToInequalitiesTableData,
   shouldDisplayInequalities,
+  InequalitiesBarChartData,
+  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 
@@ -141,7 +143,7 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['Persons', 'Male', 'Female'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Sex)
+      getDynamicKeys(yearlyHealthDataGroupedBySex, InequalitiesTypes.Sex)
     ).toEqual(expectedKeys);
   });
 
@@ -149,7 +151,10 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['Persons', 'Female', 'Male'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Deprivation)
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySex,
+        InequalitiesTypes.Deprivation
+      )
     ).toEqual(expectedKeys);
   });
 });
@@ -201,6 +206,26 @@ describe('mapToInequalitiesTableData', () => {
 
     expect(mapToInequalitiesTableData(GROUPED_YEAR_DATA)).toEqual(
       expectedInequalitiesSexTableRow
+    );
+  });
+});
+
+describe('getBenchmarkData', () => {
+  const barChartData: InequalitiesBarChartData = {
+    areaName: 'Area 1',
+    data: {
+      period: 2008,
+      inequalities: {
+        Persons: { value: 135.149304 },
+        Male: { value: 890.328253 },
+        Female: { value: 890.328253 },
+      },
+    },
+  };
+
+  it('should get benchmark data', () => {
+    expect(getBenchmarkData(InequalitiesTypes.Sex, barChartData)).toBe(
+      135.149304
     );
   });
 });
