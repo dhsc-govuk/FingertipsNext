@@ -17,10 +17,10 @@ export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'lineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly barChartComponent = 'barChart-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
   static readonly inequalitiesComponent = 'inequalities-component';
   static readonly thematicMapComponent = 'thematicMap-component';
+  static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
 
