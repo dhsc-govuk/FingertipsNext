@@ -132,16 +132,16 @@ export function SpineChartTableHeader({
     <>
       <Table.Row>
         <Table.CellHeader
-          colspan={3}
+          colSpan={3}
           data-testid="empty-header"
         ></Table.CellHeader>
-        <StyledAlignLeftHeader colspan={2} data-testid="area-header">
+        <StyledAlignLeftHeader colSpan={2} data-testid="area-header">
           {areaName}
         </StyledAlignLeftHeader>
         <StyledGroupHeader data-testid="group-header">
           {groupName}
         </StyledGroupHeader>
-        <StyledBenchmarkHeader colspan={3} data-testid="england-header">
+        <StyledBenchmarkHeader colSpan={3} data-testid="england-header">
           Benchmark: England
         </StyledBenchmarkHeader>
       </Table.Row>
