@@ -1,5 +1,6 @@
 import { test } from '../../page-objects/pageFactory';
 import { server } from '@/mock/server/node';
+import {ErrorAreaCode, ErrorIndicatorId} from "@/mock/ErrorTriggeringIds";
 const subjectSearchTerm = 'hospital';
 
 test.beforeAll(
@@ -11,7 +12,7 @@ test.describe('Error page tests', () => {
   test('Home page displays ErrorPage when API returns unexpected error', async ({
     homePage,
   }) => {
-    await homePage.navigateToHomePage('?as=ERRORY07275');
+    await homePage.navigateToHomePage(`?as=${ErrorAreaCode}`);
 
     await test
       .expect(homePage.errorPageTitle())
@@ -21,7 +22,7 @@ test.describe('Error page tests', () => {
   test('Chart page displays ErrorPage when API returns unexpected error', async ({
     chartPage,
   }) => {
-    await chartPage.page.goto('/chart?is=ERROR90453');
+    await chartPage.page.goto(`/chart?is=${ErrorIndicatorId}`);
 
     await test
       .expect(chartPage.errorPageTitle())
@@ -31,7 +32,7 @@ test.describe('Error page tests', () => {
   test('Indicator page displays ErrorPage when API returns unexpected error', async ({
     indicatorPage,
   }) => {
-    await indicatorPage.navigateToIndicatorPage('ERROR90453');
+    await indicatorPage.navigateToIndicatorPage(`${ErrorIndicatorId}`);
 
     await test
       .expect(indicatorPage.errorPageTitle())
@@ -41,7 +42,7 @@ test.describe('Error page tests', () => {
   test('Results page displays ErrorPage when API returns unexpected error', async ({
     resultsPage,
   }) => {
-    await resultsPage.navigateToResults('ERROR90453', ['ERRORY07275']);
+    await resultsPage.navigateToResults(`${ErrorIndicatorId}`, [`${ErrorAreaCode}`]);
 
     await test
       .expect(resultsPage.errorPageTitle())
