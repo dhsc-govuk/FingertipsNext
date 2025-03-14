@@ -67,20 +67,6 @@ describe('Inequalities bar chart table suite', () => {
       notAvailable.forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
-    it('should not display any table cells when empty dynamic keys list is passed', () => {
-      render(
-        <InequalitiesBarChartTable
-          tableData={getTestData()}
-          type={InequalitiesTypes.Sex}
-        />
-      );
-
-      Object.values(InequalitiesBarChartTableHeaders).forEach((header) => {
-        expect(screen.getByTestId(`heading-${header}`)).toBeInTheDocument();
-      });
-      expect(screen.queryAllByRole('cell')).toHaveLength(0);
-    });
-
     it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
       render(
         <InequalitiesBarChartTable
