@@ -13,14 +13,11 @@ import {
   isEnglandSoleSelectedArea,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
-import { ThematicMap } from '@/components/organisms/ThematicMap';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { Inequalities } from '@/components/organisms/Inequalities';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
-  mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
   measurementUnit?: string;
@@ -28,7 +25,6 @@ type ChartProps = {
 
 export function Chart({
   healthIndicatorData,
-  mapData,
   populationData,
   searchState,
   measurementUnit,

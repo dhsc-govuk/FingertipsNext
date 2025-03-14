@@ -121,7 +121,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     expect(page.props.indicatorMetadata).toBe(mockResponse);
   });
 
-  it('should call OneIndicatorTwoOrMoreAreasView with the correct props', async () => {
+  it('should call OneIndicatorTwoOrMoreAreasViewPlot with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001', 'A002'],

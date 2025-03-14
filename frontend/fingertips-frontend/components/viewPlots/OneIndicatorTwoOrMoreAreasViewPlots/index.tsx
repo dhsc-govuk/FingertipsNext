@@ -31,7 +31,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    //  TODO: reinstate this
+    // [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 

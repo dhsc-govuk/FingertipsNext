@@ -4,7 +4,6 @@ import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 
 const mockPopulationData: PopulationDataForArea = {
   ageCategories: [],
