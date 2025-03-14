@@ -75,8 +75,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const mapData =
     // TODO: restore this
-    // selectedGroupArea === 'ALL'
-    selectedGroupCode
+    selectedGroupArea === 'ALL' && selectedGroupCode
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 

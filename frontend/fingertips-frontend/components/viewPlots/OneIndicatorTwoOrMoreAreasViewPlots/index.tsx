@@ -57,7 +57,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <p> in ViewPlot</p>
       <BackLink
         data-testid="chart-page-back-link"
         href={backLinkPath}
