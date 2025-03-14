@@ -10,20 +10,29 @@ import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
+interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
+  mapData?: MapData;
+}
+
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+  mapData,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    //  TODO: reinstate this
+    // [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 
@@ -99,6 +108,16 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      {
+        // TODO: restore this
+        // selectedGroupArea === 'ALL'
+        selectedGroupCode && mapData && (
+          <ThematicMap
+            healthIndicatorData={healthIndicatorData}
+            mapData={mapData}
+          />
+        )
+      }
     </section>
   );
 }

@@ -14,6 +14,7 @@ import {
 import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
+import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -21,6 +22,8 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
 SearchServiceFactory.getIndicatorSearchService = () =>
   mockIndicatorSearchService;
+
+const mockMapData = { joinKey: 'RGN23CD', mapFile: regionsMap };
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
@@ -118,7 +121,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     expect(page.props.indicatorMetadata).toBe(mockResponse);
   });
 
-  it('should call OneIndicatorOneAreaViewPlots with the correct props', async () => {
+  it('should call OneIndicatorTwoOrMoreAreasViewPlot with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001', 'A002'],
@@ -134,5 +137,28 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
     expect(page.props.searchState).toEqual(searchState);
+  });
+
+  it('should pass the map data if all areas in the group are selected', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
+      [SearchParams.GroupAreaSelected]: 'ALL',
+      [SearchParams.AreaTypeSelected]: 'regions',
+      // TODO: remove this
+      [SearchParams.GroupSelected]: 'a group',
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
+      mockHealthData['108'][1],
+    ]);
+
+    const page = await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+    });
+
+    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.searchState).toEqual(searchState);
+    expect(page.props.mapData.mapJoinKey).toEqual(mockMapData.joinKey);
+    expect(page.props.mapData.mapFile).toEqual(mockMapData.mapFile);
   });
 });

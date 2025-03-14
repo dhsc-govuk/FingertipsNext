@@ -10,6 +10,10 @@ import {
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+} from '@/lib/thematicMapUtils/getMapData';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
@@ -19,6 +23,8 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
   if (
@@ -67,11 +73,18 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     );
   }
 
+  const mapData =
+    // TODO: restore this
+    selectedGroupArea === 'ALL' && selectedGroupCode
+      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      : undefined;
+
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
+      mapData={mapData}
     />
   );
 }
