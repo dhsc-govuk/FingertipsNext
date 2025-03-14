@@ -22,9 +22,9 @@ export enum SpineChartTableHeadingEnum {
   IndicatorUnit = 'Unit',
   IndicatorPeriod = 'Period',
   AreaCount = 'Count',
-  AreaValue = 'Value',
-  GroupValue = 'Value ',
-  BenchmarkValue = 'Value  ',
+  AreaValue = 'AreaValue',
+  GroupValue = 'GroupValue',
+  BenchmarkValue = 'Value',
   BenchmarkWorst = 'Worst',
   BenchmarkBest = 'Best',
 }
@@ -153,26 +153,39 @@ export function SpineChartTableHeader({
           Benchmark: England
         </StyledBenchmarkHeader>
       </Table.Row>
-      <Table.Row key={areaName}>
+      <Table.Row>
         {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
           index === 0 || index === 1 ? (
-            <StyledAlignLeftHeader data-testid={`${heading}-header-${index}`}>
+            <StyledAlignLeftHeader
+              key={index}
+              data-testid={`${heading}-header-${index}`}
+            >
               {heading}
             </StyledAlignLeftHeader>
           ) : index === 2 || index === 3 ? (
-            <StyledAlignCentreHeader data-testid={`${heading}-header-${index}`}>
+            <StyledAlignCentreHeader
+              key={index}
+              data-testid={`${heading}-header-${index}`}
+            >
               {heading}
             </StyledAlignCentreHeader>
           ) : index === 4 ? (
-            <StyledAlignRightHeader data-testid={`${heading}-header-${index}`}>
-              {heading}
+            <StyledAlignRightHeader
+              key={index}
+              data-testid={`${heading}-header-${index}`}
+            >
+              Value
             </StyledAlignRightHeader>
           ) : index === 5 ? (
-            <StyledGroupSubHeader data-testid={`${heading}-header-${index}`}>
-              {heading}
+            <StyledGroupSubHeader
+              key={index}
+              data-testid={`${heading}-header-${index}`}
+            >
+              Value
             </StyledGroupSubHeader>
           ) : (
             <StyledBenchmarkSubHeader
+              key={index}
               data-testid={`${heading}-header-${index}`}
             >
               {heading}
@@ -191,7 +204,6 @@ export function SpineChartMissingValue({
 }
 
 export function SpineChartTableRow({
-  indicatorId,
   indicator,
   unit,
   period,
@@ -203,14 +215,16 @@ export function SpineChartTableRow({
   benchmarkBest,
 }: Readonly<SpineChartTableRowData>) {
   return (
-    <Table.Row key={indicatorId}>
+    <Table.Row>
       <StyledAlignLeftTableCell data-testid={`indicator-cell`}>
         {indicator}
       </StyledAlignLeftTableCell>
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      <StyledAlignCentreTableCell data-testid={`period-cell`}>{period}</StyledAlignCentreTableCell>
+      <StyledAlignCentreTableCell data-testid={`period-cell`}>
+        {period}
+      </StyledAlignCentreTableCell>
       <StyledAlignCentreTableCell data-testid={`count-cell`}>
         <SpineChartMissingValue value={count} />
       </StyledAlignCentreTableCell>
@@ -255,26 +269,28 @@ export function SpineChartTable({
 
   return (
     <StyledDiv data-testid="spineChartTable-component">
-      <Table key={indicators[0].indicatorId}>
+      <Table>
         <SpineChartTableHeader
           areaName={indicatorHealthData[0].areaName}
           groupName={groupIndicatorData[0].areaName}
         />
-        {sortedData.map((row) => {
+        {sortedData.map((row,index) => {
           return (
+            <React.Fragment key={index}>
             <SpineChartTableRow
-            indicatorId={row.indicatorId}
-            indicator={row.indicator}
-            unit={row.unit}
-            period={row.period}
-            count={row.count}
-            value={row.value}
-            groupValue={row.groupValue}
-            benchmarkValue={row.benchmarkValue}
-            benchmarkWorst={row.benchmarkWorst}
-            benchmarkBest={row.benchmarkBest}
-          />
-          )
+              indicatorId={index}
+              indicator={row.indicator}
+              unit={row.unit}
+              period={row.period}
+              count={row.count}
+              value={row.value}
+              groupValue={row.groupValue}
+              benchmarkValue={row.benchmarkValue}
+              benchmarkWorst={row.benchmarkWorst}
+              benchmarkBest={row.benchmarkBest}
+            />
+            </React.Fragment>
+          );
         })}
       </Table>
     </StyledDiv>
