@@ -11,6 +11,7 @@ export default class HomePage extends BasePage {
   readonly areaFilterContainer = 'selected-areas-panel';
   readonly pillContainer = 'pill-container';
   readonly removeIcon = 'x-icon';
+  readonly errorPageTitleHeaderId = 'error-page-title';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -46,6 +47,10 @@ export default class HomePage extends BasePage {
         ignoreCase: true,
       });
     }
+  }
+
+  errorPageTitle() {
+    return this.page.getByTestId(this.errorPageTitleHeaderId);
   }
 
   async clickSearchButton() {
