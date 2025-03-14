@@ -196,4 +196,23 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       expect(screen.getByTestId(barChartEmbeddedTable)).toBeInTheDocument();
     });
   });
+
+  it('should render the title for BarChartEmbeddedTable', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={testHealthData}
+        searchState={searchState}
+      />
+    );
+
+    expect(
+      screen.getByText('Compare an indicator by areas')
+    ).toBeInTheDocument();
+  });
 });

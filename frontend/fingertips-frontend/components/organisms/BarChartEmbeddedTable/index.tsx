@@ -9,6 +9,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
+import React from 'react';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -16,6 +17,7 @@ export enum BarChartEmbeddedTableHeadingEnum {
   Value = 'Value',
   Lower = 'Lower',
   Upper = 'Upper',
+  ConfidenceLimit = '95% confidence limits',
 }
 
 interface BarChartEmbeddedTableProps {
@@ -24,6 +26,15 @@ interface BarChartEmbeddedTableProps {
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
 }
+
+const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
+  return title.split(" ").map((word, index) => (
+    <React.Fragment key={index}>
+      {word}
+      <br />
+    </React.Fragment>
+  ));
+};
 
 export function BarChartEmbeddedTable({
   healthIndicatorData,
@@ -62,28 +73,39 @@ export function BarChartEmbeddedTable({
   );
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
-
+  
+  
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <Table
         head={
-          <Table.Row>
-            <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.AreaName}
+          <React.Fragment>
+            <Table.Row>
+            <Table.CellHeader colSpan={3}>
             </Table.CellHeader>
-            <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.Count}
-            </Table.CellHeader>
-            <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
-            </Table.CellHeader>
-            <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.Lower}
-            </Table.CellHeader>
-            <Table.CellHeader>
-              {BarChartEmbeddedTableHeadingEnum.Upper}
-            </Table.CellHeader>
-          </Table.Row>
+              <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
+                {formatHeader(BarChartEmbeddedTableHeadingEnum.ConfidenceLimit)}
+              </Table.CellHeader>
+            </Table.Row>
+
+            <Table.Row>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.AreaName}
+              </Table.CellHeader>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.Count}
+              </Table.CellHeader>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
+              </Table.CellHeader>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.Lower}
+              </Table.CellHeader>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.Upper}
+              </Table.CellHeader>
+            </Table.Row>
+          </React.Fragment>
         }
       >
         {mostRecentBenchmarkData ? (
