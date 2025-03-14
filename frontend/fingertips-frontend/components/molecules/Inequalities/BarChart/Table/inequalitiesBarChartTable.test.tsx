@@ -1,47 +1,16 @@
 import { InequalitiesBarChartTable, InequalitiesBarChartTableHeaders } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import {
-  Inequalities,
-  InequalitiesBarChartTableData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { tableData } from '../mocks';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
-    const tableData: InequalitiesBarChartTableData = {
-      areaName: MOCK_HEALTH_DATA[1].areaName,
-      data: {
-        period: 2008,
-        inequalities: {
-          Persons: {
-            value: 135.149304,
-            count: 222,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Male: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Female: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-        },
-      },
-    };
-
     it('should render the inequalitiesBarChartTable component', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -56,8 +25,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -72,7 +40,7 @@ describe('Inequalities bar chart table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 3;
-      const mockData: InequalitiesBarChartTableData = {
+      const mockData: InequalitiesBarChartData = {
         areaName: tableData.areaName,
         data: {
           period: 2004,
@@ -87,8 +55,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={mockData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -100,12 +67,22 @@ describe('Inequalities bar chart table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('should not display any table cells when empty dynamic keys list is passed', () => {
+      render(
+        <InequalitiesBarChartTable tableData={tableData} dynamicKeys={[]} />
+      );
+
+      Object.values(InequalitiesBarChartTableHeaders).forEach((header) => {
+        expect(screen.getByTestId(`heading-${header}`)).toBeInTheDocument();
+      });
+      expect(screen.queryAllByRole('cell')).toHaveLength(0);
+    });
+
     it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="kg"
         />
       );
@@ -116,8 +93,7 @@ describe('Inequalities bar chart table suite', () => {
       render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(
@@ -129,8 +105,7 @@ describe('Inequalities bar chart table suite', () => {
       const container = render(
         <InequalitiesBarChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="kg"
         />
       );

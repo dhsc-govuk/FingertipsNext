@@ -53,6 +53,20 @@ services:
       SA_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
 
+  db-apply-trends:
+    profiles:
+      - all
+      - db
+      - api
+
+    depends_on:
+      db-setup:
+        condition: service_completed_successfully
+
+    build: trend-analysis/TrendAnalysisApp
+    environment:
+      SQLCONNSTR_FINGERTIPS_DB: Server=db;Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=False;TrustServerCertificate=False;
+
   db:
     profiles:
       - all

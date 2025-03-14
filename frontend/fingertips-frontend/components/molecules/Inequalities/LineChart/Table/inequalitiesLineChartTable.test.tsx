@@ -1,17 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesLineChartTable } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import {
-  Inequalities,
-  InequalitiesLineChartTableData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {
     const CELLS_PER_ROW = 4;
 
-    const tableData: InequalitiesLineChartTableData = {
+    const tableData: InequalitiesChartData = {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       rowData: [
         {
@@ -37,8 +34,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -53,8 +49,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -74,7 +69,7 @@ describe('Inequalities table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 2;
-      const tableData: InequalitiesLineChartTableData = {
+      const tableData: InequalitiesChartData = {
         areaName: MOCK_HEALTH_DATA[1].areaName,
         rowData: [
           {
@@ -95,8 +90,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -107,12 +101,30 @@ describe('Inequalities table suite', () => {
         .forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
+    it('should render only period heading when empty dynamic keys are passed', () => {
+      const absentHeadings = ['Persons', 'Male', 'Female'];
+      const cellsPerRow = 1;
+
+      render(
+        <InequalitiesLineChartTable tableData={tableData} dynamicKeys={[]} />
+      );
+
+      expect(screen.getByTestId('header-Period-0')).toBeInTheDocument();
+      absentHeadings.forEach((heading, index) =>
+        expect(
+          screen.queryByTestId(`header-${heading}-${index + 1}`)
+        ).not.toBeInTheDocument()
+      );
+      expect(screen.getAllByRole('cell')).toHaveLength(
+        tableData.rowData.length * cellsPerRow
+      );
+    });
+
     it('When the UI is rendered with measurement unit it should render correctly', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="per 100,000"
         />
       );
@@ -123,8 +135,7 @@ describe('Inequalities table suite', () => {
       render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
         />
       );
 
@@ -136,8 +147,7 @@ describe('Inequalities table suite', () => {
       const container = render(
         <InequalitiesLineChartTable
           tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          dynamicKeys={['Persons', 'Male', 'Female']}
           measurementUnit="per 100,000"
         />
       );

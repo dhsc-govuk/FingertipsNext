@@ -1,9 +1,4 @@
-import {
-  getDynamicKeys,
-  Inequalities,
-  InequalitiesBarChartTableData,
-  YearlyHealthDataGroupedByInequalities,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesBarChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayedValue,
   StyledAlignLeftHeader,
@@ -15,9 +10,8 @@ import { Table } from 'govuk-react';
 import React, { ReactNode } from 'react';
 
 interface InequalitiesBarChartTableProps {
-  tableData: InequalitiesBarChartTableData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  tableData: InequalitiesBarChartData;
+  dynamicKeys: string[];
   measurementUnit?: string;
 }
 
@@ -64,15 +58,9 @@ const getCellHeader = (
 
 export function InequalitiesBarChartTable({
   tableData,
-  yearlyHealthDataGroupedByInequalities,
+  dynamicKeys,
   measurementUnit,
-  type = Inequalities.Sex,
 }: Readonly<InequalitiesBarChartTableProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
-
   return (
     <div data-testid="inequalitiesBarChartTable-component">
       <Table

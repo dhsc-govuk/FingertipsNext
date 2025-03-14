@@ -2,8 +2,9 @@ import { GovukColours } from '../styleHelpers/colours';
 
 export type ChartColours = GovukColours | UniqueChartColours;
 
-enum UniqueChartColours {
+export enum UniqueChartColours {
   ChartDarkBlue = '#12436D',
+  OtherLightBlue = '#57AEF8',
 }
 
 // The ordering of this array determines the order in which the colours are
