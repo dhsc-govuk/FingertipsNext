@@ -1,10 +1,17 @@
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { Checkbox, FormGroup, LabelText, Select } from 'govuk-react';
+import {
+  Checkbox,
+  FormGroup,
+  LabelText,
+  SectionBreak,
+  Select,
+} from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -34,8 +41,26 @@ const StyledFilterLabel = styled(LabelText)({
   fontWeight: 'bold',
 });
 
-const isAreaSelected = (areaCode: string, selectedAreas?: string[]): boolean =>
-  selectedAreas ? selectedAreas?.some((area) => area === areaCode) : false;
+const StyledSectionBreak = styled(SectionBreak)({
+  borderBottomColor: 'black',
+  marginBottom: '0.5em',
+});
+
+const StyledSelectAllCheckBox = styled(Checkbox)({
+  marginBottom: '0em',
+});
+
+const isAreaSelected = (
+  areaCode: string,
+  selectedAreas?: string[],
+  groupAreaSelected?: string
+): boolean => {
+  if (groupAreaSelected === ALL_AREAS_SELECTED) return true;
+
+  return selectedAreas
+    ? selectedAreas?.some((area) => area === areaCode)
+    : false;
+};
 
 export function SelectAreasFilterPanel({
   areaFilterData,
@@ -47,8 +72,9 @@ export function SelectAreasFilterPanel({
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const hasAreasSelected =
-    searchState?.[SearchParams.AreasSelected] &&
-    searchState?.[SearchParams.AreasSelected].length > 0;
+    (searchState?.[SearchParams.AreasSelected] &&
+      searchState?.[SearchParams.AreasSelected].length > 0) ||
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
 
   const areaTypeSelected = (valueSelected: string) => {
     searchStateManager.addParamValueToState(
@@ -85,10 +111,62 @@ export function SelectAreasFilterPanel({
         SearchParams.AreasSelected,
         areaCode
       );
+
+      const updatedAreasSelected =
+        searchStateManager.getSearchState()?.[SearchParams.AreasSelected];
+
+      if (
+        areaFilterData?.availableAreas &&
+        areaFilterData?.availableAreas?.length > 0 &&
+        areaFilterData?.availableAreas?.length === updatedAreasSelected?.length
+      ) {
+        searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+        searchStateManager.addParamValueToState(
+          SearchParams.GroupAreaSelected,
+          ALL_AREAS_SELECTED
+        );
+      }
+      replace(searchStateManager.generatePath(pathname), { scroll: false });
+    } else if (
+      !checked &&
+      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+    ) {
+      searchStateManager.removeParamValueFromState(
+        SearchParams.GroupAreaSelected
+      );
+
+      const remainingAreasSelected = areaFilterData?.availableAreas
+        ?.filter((area) => {
+          return area.code !== areaCode;
+        })
+        .map((area) => area.code);
+
+      searchStateManager.addAllParamsToState(
+        SearchParams.AreasSelected,
+        remainingAreasSelected ?? []
+      );
     } else {
       searchStateManager.removeParamValueFromState(
         SearchParams.AreasSelected,
         areaCode
+      );
+    }
+
+    searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
+
+    replace(searchStateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const handleSelectAllAreasSelected = (checked: boolean) => {
+    if (checked) {
+      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+      searchStateManager.addParamValueToState(
+        SearchParams.GroupAreaSelected,
+        ALL_AREAS_SELECTED
+      );
+    } else {
+      searchStateManager.removeParamValueFromState(
+        SearchParams.GroupAreaSelected
       );
     }
 
@@ -146,10 +224,22 @@ export function SelectAreasFilterPanel({
 
       <FormGroup>
         <StyledFilterLabel>Select one or more areas</StyledFilterLabel>
+        <StyledSelectAllCheckBox
+          value={searchState?.[SearchParams.GroupSelected]}
+          sizeVariant="SMALL"
+          defaultChecked={
+            searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+          }
+          onChange={(e) => handleSelectAllAreasSelected(e.target.checked)}
+        >
+          Select all areas
+        </StyledSelectAllCheckBox>
+        <StyledSectionBreak visible />
         {areaFilterData?.availableAreas?.map((area) => {
           const isAreaSelectedValue = isAreaSelected(
             area.code,
-            searchState?.[SearchParams.AreasSelected]
+            searchState?.[SearchParams.AreasSelected],
+            searchState?.[SearchParams.GroupAreaSelected]
           );
 
           return (

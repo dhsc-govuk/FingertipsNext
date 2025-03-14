@@ -1,5 +1,8 @@
 import { AreasApi, AreaType } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { mockDeep } from 'jest-mock-extended';
 import { getAreaFilterData } from './getAreaFilterData';
 import {
@@ -33,7 +36,10 @@ describe('getAreaFilterData', () => {
 
     const { availableAreaTypes } = await getAreaFilterData({});
 
-    expect(mockAreasApi.getAreaTypes).toHaveBeenCalled();
+    expect(mockAreasApi.getAreaTypes).toHaveBeenCalledWith(
+      {},
+      API_CACHE_CONFIG
+    );
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
   });
 
@@ -57,9 +63,12 @@ describe('getAreaFilterData', () => {
       [SearchParams.GroupTypeSelected]: nhsRegionsAreaType.key,
     });
 
-    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith({
-      areaTypeKey: nhsRegionsAreaType.key,
-    });
+    expect(mockAreasApi.getAreaTypeMembers).toHaveBeenCalledWith(
+      {
+        areaTypeKey: nhsRegionsAreaType.key,
+      },
+      API_CACHE_CONFIG
+    );
     expect(availableGroups).toEqual(allAreasForICBAreaType);
   });
 
@@ -78,11 +87,14 @@ describe('getAreaFilterData', () => {
       [SearchParams.GroupSelected]: eastEnglandNHSRegion.code,
     });
 
-    expect(mockAreasApi.getArea).toHaveBeenCalledWith({
-      areaCode: eastEnglandNHSRegion.code,
-      includeChildren: true,
-      childAreaType: nhsIntegratedCareBoardsAreaType.key,
-    });
+    expect(mockAreasApi.getArea).toHaveBeenCalledWith(
+      {
+        areaCode: eastEnglandNHSRegion.code,
+        includeChildren: true,
+        childAreaType: nhsIntegratedCareBoardsAreaType.key,
+      },
+      API_CACHE_CONFIG
+    );
     expect(availableAreas).toEqual(areasSortedAlphabetically);
   });
 

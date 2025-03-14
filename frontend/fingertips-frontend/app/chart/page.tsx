@@ -14,7 +14,10 @@ import {
   areaCodeForEngland,
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -25,6 +28,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -55,25 +60,31 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: Number(indicatorId),
-        areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(
-          indicatorsSelected,
-          areasSelected
-        )
-          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-          : [],
-      })
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorId),
+          areaCodes: areaCodesToRequest,
+          inequalities: shouldDisplayInequalities(
+            indicatorsSelected,
+            areasSelected
+          )
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
+        },
+        API_CACHE_CONFIG
+      )
     )
   );
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
-    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areasSelected, areaCodeForEngland],
-    });
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: indicatorIdForPopulation,
+        areaCodes: [...areasSelected, areaCodeForEngland],
+      },
+      API_CACHE_CONFIG
+    );
   } catch (error) {
     console.log('error getting population data ', error);
   }
@@ -97,6 +108,19 @@ export default async function ChartPage(
     ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
     : undefined;
 
+  let indicatorMetadata: IndicatorDocument | undefined;
+  try {
+    indicatorMetadata =
+      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
+        indicatorsSelected[0]
+      );
+  } catch (error) {
+    console.error(
+      'error getting meta data for health indicator for area',
+      error
+    );
+  }
+
   return (
     <>
       <ViewsContext searchState={stateManager.getSearchState()} />
@@ -105,6 +129,7 @@ export default async function ChartPage(
         healthIndicatorData={healthIndicatorData}
         mapData={mapData}
         searchState={stateManager.getSearchState()}
+        measurementUnit={indicatorMetadata?.unitLabel}
       />
     </>
   );

@@ -7,6 +7,7 @@ export enum SearchParams {
   AreaTypeSelected = 'ats',
   GroupTypeSelected = 'gts',
   GroupSelected = 'gs',
+  GroupAreaSelected = 'gas',
   ConfidenceIntervalSelected = 'cis',
 }
 
@@ -25,6 +26,7 @@ export type SearchStateParams = {
   [SearchParams.AreaTypeSelected]?: string;
   [SearchParams.GroupTypeSelected]?: string;
   [SearchParams.GroupSelected]?: string;
+  [SearchParams.GroupAreaSelected]?: string;
   [SearchParams.ConfidenceIntervalSelected]?: string[];
 };
 
@@ -161,39 +163,18 @@ export class SearchStateManager {
     this.searchState[searchParamKey] = undefined;
   }
 
-  public static setStateFromParams(params: URLSearchParams) {
-    const newState = Object.values(SearchParams).reduce<SearchStateParams>(
-      (state, searchParamKey) => {
-        if (isMultiValueTypeParam(searchParamKey)) {
-          const paramValues = params.getAll(searchParamKey);
+  public addAllParamsToState(
+    searchParamKey: SearchParamKeys,
+    paramsToAdd: string[]
+  ) {
+    if (isMultiValueTypeParam(searchParamKey)) {
+      const newState: SearchStateParams = {
+        ...this.searchState,
+        [searchParamKey]: [...paramsToAdd],
+      };
 
-          if (paramValues.length > 0) {
-            const newState: SearchStateParams = {
-              ...state,
-              [searchParamKey]: paramValues,
-            };
-
-            return newState;
-          }
-        } else {
-          const paramValue = params.get(searchParamKey);
-
-          if (paramValue) {
-            const newState: SearchStateParams = {
-              ...state,
-              [searchParamKey]: paramValue,
-            };
-
-            return newState;
-          }
-        }
-        return state;
-      },
-      {}
-    );
-
-    const searchStateManager = new SearchStateManager(newState);
-    return searchStateManager;
+      this.searchState = newState;
+    }
   }
 
   public getSearchState() {

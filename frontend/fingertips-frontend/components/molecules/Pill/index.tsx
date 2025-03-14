@@ -11,7 +11,7 @@ const StyledDivContainer = styled('div')<{ isFullWidth: boolean }>(
     border: '1px #D1D2D3 solid',
     borderRadius: '5px',
     padding: '0.5em 0.3125em',
-    width: isFullWidth ? '100%' : 'max-content',
+    maxWidth: isFullWidth ? '100%' : 'max-content',
     margin: '0.3125em 0',
     display: 'flex',
   })

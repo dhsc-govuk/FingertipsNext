@@ -23,6 +23,7 @@ type ChartProps = {
   mapData?: MapData;
   populationData?: PopulationData;
   searchState: SearchStateParams;
+  measurementUnit?: string;
 };
 
 export function Chart({
@@ -30,6 +31,7 @@ export function Chart({
   mapData,
   populationData,
   searchState,
+  measurementUnit,
 }: Readonly<ChartProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -53,6 +55,7 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          measurementUnit={measurementUnit}
         />
       )}
       <BarChart
@@ -61,6 +64,7 @@ export function Chart({
         benchmarkLabel="England"
         benchmarkValue={800}
         accessibilityLabel="A bar chart showing healthcare data"
+        measurementUnit={measurementUnit}
       />
       {populationData ? (
         <>

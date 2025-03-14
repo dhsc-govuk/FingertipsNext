@@ -10,6 +10,14 @@ describe('HighlightText', () => {
     expect(container.asFragment()).toMatchSnapshot();
   });
 
+  it('should highlight the searchHint part of the text provided regardless of case', () => {
+    const container = render(
+      <HighlightText text="This is some text" searchHint="this" />
+    );
+
+    expect(container.asFragment()).toMatchSnapshot();
+  });
+
   it('should highlight the searchHint part of the text provided when there are parentheses', () => {
     const container = render(
       <HighlightText text="(This is) some text" searchHint="(This " />

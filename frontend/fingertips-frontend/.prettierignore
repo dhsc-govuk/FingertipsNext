@@ -12,3 +12,4 @@ package-lock.json
 public
 **/generated-sources/**
 **/assets/**
+**.png

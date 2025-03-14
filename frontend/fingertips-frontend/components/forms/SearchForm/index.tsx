@@ -14,6 +14,7 @@ import {
   SelectAreasFilterPanel,
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -33,6 +34,13 @@ export const SearchForm = ({
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
+
+  const inputSuggestionDefaultValue =
+    searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+      ? areaFilterData?.availableGroups?.find(
+          (group) => group.code === searchState?.[SearchParams.GroupSelected]
+        )?.name
+      : selectedAreasData?.[0]?.name;
 
   return (
     <div data-testid="search-form">
@@ -66,13 +74,15 @@ export const SearchForm = ({
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
         searchState={searchState}
-        firstSelectedArea={selectedAreasData?.[0]}
+        selectedAreaName={inputSuggestionDefaultValue}
       />
 
-      {selectedAreas && selectedAreas.length > 0 ? (
+      {(selectedAreas && selectedAreas.length > 0) ||
+      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <SelectedAreasPanel
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
           searchState={searchState}
+          areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           inFilterPane={false}
         />

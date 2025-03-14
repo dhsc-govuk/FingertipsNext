@@ -23,7 +23,7 @@ namespace DataCreator
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
-        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
+        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
@@ -35,11 +35,13 @@ namespace DataCreator
             var indicators=new List<SimpleIndicator>();   
             foreach (var line in lines)
             {
-                var split=line.Split('|');
+                var split=line.Split(',');
                 indicators.Add(new SimpleIndicator
                 {
                     IndicatorID= int.Parse(split[0]),
-                    IndicatorName= split[1] 
+                    IndicatorName= split[1],
+                    BenchmarkComparisonMethod= split[2],
+                    Polarity =split[3]
                 });
             }
 

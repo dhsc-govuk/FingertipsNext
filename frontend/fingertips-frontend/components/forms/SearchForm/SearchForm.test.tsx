@@ -7,6 +7,8 @@ import {
   eastEnglandNHSRegion,
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 
 const mockPath = 'some path';
 jest.mock('next/navigation', () => {
@@ -68,6 +70,33 @@ describe('SearchForm', () => {
 
     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
       'test value'
+    );
+  });
+
+  it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {
+    const searchState = {
+      [SearchParams.GroupSelected]: eastEnglandNHSRegion.code,
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+    };
+
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+      indicator: 'test value',
+      searchState: JSON.stringify(searchState),
+    };
+
+    render(
+      <SearchForm
+        formState={searchFormState}
+        searchState={searchState}
+        areaFilterData={{
+          availableGroups: Object.values(mockAreaDataForNHSRegion),
+        }}
+      />
+    );
+
+    expect(screen.getByRole('textbox', { name: /area/i })).toHaveValue(
+      eastEnglandNHSRegion.name
     );
   });
 

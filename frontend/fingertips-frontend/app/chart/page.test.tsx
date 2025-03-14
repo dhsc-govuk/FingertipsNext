@@ -11,7 +11,10 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
@@ -50,17 +53,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: ['sex'],
+        },
+        API_CACHE_CONFIG
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        API_CACHE_CONFIG
+      );
     });
 
     it('should make 3 calls for get health data, when there are 2 indicators selected - first two for the indicators the last one for the population data', async () => {
@@ -80,24 +91,36 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 1,
-        inequalities: [],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 1,
+          inequalities: [],
+        },
+        API_CACHE_CONFIG
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: 2,
-        inequalities: [],
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: 2,
+          inequalities: [],
+        },
+        API_CACHE_CONFIG
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(3, {
-        areaCodes: ['A001', areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        3,
+        {
+          areaCodes: ['A001', areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        API_CACHE_CONFIG
+      );
     });
   });
 
@@ -121,17 +144,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
-        indicatorId: 333,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
+          indicatorId: 333,
+          inequalities: ['sex'],
+        },
+        API_CACHE_CONFIG
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        API_CACHE_CONFIG
+      );
     });
 
     it('should not include groupSelected in the API call if England is the groupSelected', async () => {
@@ -152,17 +183,25 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: 333,
-        inequalities: ['sex'],
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: 333,
+          inequalities: ['sex'],
+        },
+        API_CACHE_CONFIG
+      );
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(2, {
-        areaCodes: [mockAreaCode, areaCodeForEngland],
-        indicatorId: indicatorIdForPopulation,
-      });
+      ).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCodes: [mockAreaCode, areaCodeForEngland],
+          indicatorId: indicatorIdForPopulation,
+        },
+        API_CACHE_CONFIG
+      );
     });
 
     describe('Check correct props are passed to Chart page component', () => {
