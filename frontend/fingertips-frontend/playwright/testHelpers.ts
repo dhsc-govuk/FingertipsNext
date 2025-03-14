@@ -40,8 +40,7 @@ export function getScenarioConfig(
     // ChartPage.populationPyramidComponent,
     // Enable in DHSCFT-317
     // ChartPage.thematicMapComponent,
-    // Enable in DHSCFT-143
-    // ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.barChartEmbeddedTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
     // ChartPage.spineChartComponent,
