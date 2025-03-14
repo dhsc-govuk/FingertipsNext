@@ -40,6 +40,8 @@ export function getScenarioConfig(
     // ChartPage.populationPyramidComponent,
     // Enable in DHSCFT-317
     // ChartPage.thematicMapComponent,
+    // Enable in DHSCFT-143
+    // ChartPage.barChartEmbeddedTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
     // ChartPage.spineChartComponent,
@@ -75,6 +77,8 @@ export function getScenarioConfig(
       // ChartPage.thematicMapComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
+      // Enable in DHSCFT-143
+      // ChartPage.barChartEmbeddedTableComponent,
     ];
   }
   // 2+ indicators, England area
