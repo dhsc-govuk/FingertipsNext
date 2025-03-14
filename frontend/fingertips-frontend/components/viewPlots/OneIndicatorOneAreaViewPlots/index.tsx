@@ -10,6 +10,7 @@ import { BackLink, H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
+import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -98,6 +99,17 @@ export function OneIndicatorOneAreaViewPlots({
           />
         </>
       )}
+
+      <PopulationPyramid
+        dataForSelectedArea={{
+          areaName: 'London',
+          ageCategories: ['0 to 10', '11 to 30', '31  to 40', '41 to 75'],
+          femaleSeries: [89, 10, 10, 92, 50],
+          maleSeries: [19, 20, 40, 22, 11, 50],
+        }}
+        xAxisTitle="Ages"
+        yAxisTitle="Percentage"
+      />
     </section>
   );
 }
