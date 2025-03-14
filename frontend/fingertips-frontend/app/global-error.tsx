@@ -5,6 +5,7 @@ import { FTHeader } from '@/components/molecules/Header';
 import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
 import { H1, Paragraph } from 'govuk-react';
+import {ErrorPage} from "@/components/pages/error";
 
 // next.js will only use this page in production builds, meaning that
 // in dev builds you will see the developer oriented unhandled exception
@@ -18,13 +19,7 @@ export default function GlobalError() {
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>
-            <H1 data-testid="error-page-title">
-              Sorry, there is a problem with the service
-            </H1>
-            <Paragraph>Try again later.</Paragraph>
-            <Paragraph>
-              You can [go back to the homepage](/) and start your search again.
-            </Paragraph>
+            <ErrorPage />
           </FTContainer>
           <FTFooter />
         </StyledComponentsRegistry>
