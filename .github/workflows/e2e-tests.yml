@@ -87,7 +87,6 @@ jobs:
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
-            ${{ env.frontend-directory }}.test/spec/snaps/
           retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution

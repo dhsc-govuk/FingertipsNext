@@ -59,6 +59,7 @@ export function getScenarioConfig(
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       ChartPage.inequalitiesComponent,
+      // Enable in DHSCFT-220
       // ChartPage.inequalitiesBarChartComponent,
       // ChartPage.inequalitiesLineChartComponent,
       // Enable in DHSCFT-148
@@ -87,6 +88,7 @@ export function getScenarioConfig(
     areaMode === AreaMode.ENGLAND_AREA
   ) {
     visibleComponents = [
+      // Pending
       // ChartPage.basicTableComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
@@ -98,10 +100,11 @@ export function getScenarioConfig(
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
     visibleComponents = [
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
+      // Pending
       // ChartPage.spineChartComponent,
       // ChartPage.heatMapComponent,
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
     ];
   } else {
     throw new Error(
