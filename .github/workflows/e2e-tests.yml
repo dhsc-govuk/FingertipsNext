@@ -83,7 +83,7 @@ jobs:
       - name: Upload playwright artefacts
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artefacts
+          name: playwright-artefacts-${{ github.job }}
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png

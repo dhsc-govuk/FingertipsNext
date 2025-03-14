@@ -99,6 +99,12 @@ npm run test
 
 ### Running the Playwright UI and E2E tests
 
+To run playwright tests locally, you will first need to install the playwright browser dependencies:
+
+```bash
+npx playwright install --with-deps chromium webkit
+```
+
 To run the ui tests locally against mock data headlessly:
 
 ```bash
