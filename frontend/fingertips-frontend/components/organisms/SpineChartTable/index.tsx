@@ -61,6 +61,10 @@ export interface SpineChartTableProps {
   worst: number[];
 }
 
+const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
+  textAlign: 'center',
+});
+
 const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
@@ -202,10 +206,10 @@ export function SpineChartTableRow({
       <StyledAlignLeftTableCell data-testid={`unit-cell`}>
         {unit}
       </StyledAlignLeftTableCell>
-      <StyledDiv data-testid={`period-cell`}>{period}</StyledDiv>
-      <StyledDiv data-testid={`count-cell`}>
+      <StyledAlignCentreTableCell data-testid={`period-cell`}>{period}</StyledAlignCentreTableCell>
+      <StyledAlignCentreTableCell data-testid={`count-cell`}>
         <SpineChartMissingValue value={count} />
-      </StyledDiv>
+      </StyledAlignCentreTableCell>
       <StyledAlignRightTableCell data-testid={`value-cell`}>
         <SpineChartMissingValue value={value} />
       </StyledAlignRightTableCell>
