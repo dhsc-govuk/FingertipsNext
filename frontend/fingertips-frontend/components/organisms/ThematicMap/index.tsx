@@ -6,12 +6,59 @@ import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
   mapTitle?: string;
 }
+
+const mapBenchmarkToColourRef: Record<string, number> = {
+  'Not compared': 5,
+  'Better': 15,
+  'Similar': 25,
+  'Worse': 35,
+  'Lower': 45,
+  'Higher': 55,
+};
+
+const colourScale = [
+  {
+    to: 10,
+    name: 'Not compared',
+    color: GovukColours.White,
+  },
+  {
+    from: 10,
+    to: 20,
+    name: 'Better',
+    color: GovukColours.Green,
+  },
+  {
+    from: 20,
+    to: 30,
+    name: 'Similar',
+    color: GovukColours.Yellow,
+  },
+  {
+    from: 30,
+    to: 40,
+    name: 'Worse',
+    color: GovukColours.Red,
+  },
+  {
+    from: 40,
+    to: 50,
+    name: 'Lower',
+    color: GovukColours.LightBlue,
+  },
+  {
+    from: 50,
+    name: 'Higher',
+    color: GovukColours.DarkBlue,
+  },
+];
 
 const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
@@ -33,13 +80,19 @@ export function ThematicMap({
     caption: { text: 'map source: data source:' },
     accessibility: { enabled: false },
     credits: { enabled: false },
+    legend: {
+      enabled: true,
+      verticalAlign: 'top',
+    },
     mapView: {
       projection: { name: 'Miller' },
       fitToGeometry: mapData.mapGroupBoundary.features[0].geometry,
       padding: 20,
     },
     mapNavigation: { enabled: true },
-    colorAxis: { min: 0 },
+    colorAxis: {
+      dataClasses: colourScale,
+    },
     series: [
       {
         type: 'map',
@@ -63,10 +116,22 @@ export function ThematicMap({
         showInLegend: false,
         mapData: mapData.mapFile,
         data: healthIndicatorData.map((areaData) => {
+          let tempBenchmark = 0;
+          if (areaData.healthData[0].benchmarkComparison) {
+            tempBenchmark =
+              mapBenchmarkToColourRef[
+                areaData.healthData[0].benchmarkComparison.outcome as string
+              ];
+            console.log(
+              areaData.healthData[0].benchmarkComparison?.outcome,
+              tempBenchmark
+            );
+          }
           return {
             areaName: areaData.areaName,
             areaCode: areaData.areaCode,
             value: areaData.healthData[0].value,
+            benchmarkComparison: tempBenchmark,
           };
         }),
         joinBy: [mapData.mapJoinKey, 'areaCode'],
@@ -83,7 +148,8 @@ export function ThematicMap({
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
           pointFormat:
-            '<span style="font-size: large">Value: {point.value} units</span>',
+            '<span style="font-size: large">Value: {point.value} units</span>' +
+            '<br /><span>benchmark: {point.benchmarkComparison}</span>',
           footerFormat: '',
         },
       },

@@ -7,7 +7,10 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -52,6 +55,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
+        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       },
       API_CACHE_CONFIG
     );
