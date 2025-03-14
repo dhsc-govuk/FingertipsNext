@@ -6,7 +6,6 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { BarChart } from '@/components/organisms/BarChart';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
@@ -55,17 +54,10 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          searchState={searchState}
           measurementUnit={measurementUnit}
         />
       )}
-      <BarChart
-        healthIndicatorData={healthIndicatorData[0]}
-        yAxisTitle="Value"
-        benchmarkLabel="England"
-        benchmarkValue={800}
-        accessibilityLabel="A bar chart showing healthcare data"
-        measurementUnit={measurementUnit}
-      />
       {populationData ? (
         <>
           <br />

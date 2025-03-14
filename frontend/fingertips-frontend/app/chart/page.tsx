@@ -14,7 +14,10 @@ import {
   areaCodeForEngland,
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -57,9 +60,10 @@ export default async function ChartPage(
         ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
         : [...areasSelected, areaCodeForEngland];
 
-    const healthIndicatorData = await Promise.all(
-      indicatorsSelected.map((indicatorId) =>
-        indicatorApi.getHealthDataForAnIndicator({
+  const healthIndicatorData = await Promise.all(
+    indicatorsSelected.map((indicatorId) =>
+      indicatorApi.getHealthDataForAnIndicator(
+        {
           indicatorId: Number(indicatorId),
           areaCodes: areaCodesToRequest,
           inequalities: shouldDisplayInequalities(
@@ -68,19 +72,24 @@ export default async function ChartPage(
           )
             ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
             : [],
-        })
+        },
+        API_CACHE_CONFIG
       )
-    );
+    )
+  );
 
-    let rawPopulationData: HealthDataForArea[] | undefined;
-    try {
-      rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
+  let rawPopulationData: HealthDataForArea[] | undefined;
+  try {
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      {
         indicatorId: indicatorIdForPopulation,
         areaCodes: [...areasSelected, areaCodeForEngland],
-      });
-    } catch (error) {
-      console.log('error getting population data ', error);
-    }
+      },
+      API_CACHE_CONFIG
+    );
+  } catch (error) {
+    console.log('error getting population data ', error);
+  }
 
     // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
     const preparedPopulationData: PopulationData | undefined = rawPopulationData

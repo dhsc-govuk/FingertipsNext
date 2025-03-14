@@ -42,7 +42,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache playwright dependencies
+      - name: Cache playwright dependencies - for CI test execution
+        if: inputs.e2e-test-container-image == null
         uses: actions/cache@v3
         id: cache
         with:
@@ -79,11 +80,14 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
+      - name: Set dynamic artifact name
+        id: set-artifact-name
+        run: echo "ARTIFACT_NAME=playwright-artifacts-$(date +%s)" >> $GITHUB_ENV
+
       - name: Upload playwright artefacts
         uses: actions/upload-artifact@v4
-        if: failure()
         with:
-          name: playwright-artefacts
+          name: ${{ env.ARTIFACT_NAME }}
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
