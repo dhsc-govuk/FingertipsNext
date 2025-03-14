@@ -3,17 +3,16 @@ import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableC
 import React from 'react';
 
 describe('CheckValueInTableCell', () => {
-  
   const renderWithTableComponent = (component: React.ReactNode) => {
     return render(
       <table>
         <tbody>
-        <tr>{component}</tr>
+          <tr>{component}</tr>
         </tbody>
       </table>
-    )
+    );
   };
-  
+
   it('should return the value if its present and is not 0', () => {
     renderWithTableComponent(<CheckValueInTableCell value={42} />);
     expect(screen.getByText(42)).toBeInTheDocument();
