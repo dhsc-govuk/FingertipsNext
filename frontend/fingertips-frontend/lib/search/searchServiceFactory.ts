@@ -11,12 +11,10 @@ import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
+import { logUsingMockAiSearchService } from '@/lib/logging';
 
-if (
-  tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') &&
-  !tryReadEnvVar('JEST_WORKER_ID')
-) {
-  console.warn(`SearchServiceFactory: using useMockService`);
+if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE')) {
+  logUsingMockAiSearchService('SearchServiceFactory');
 }
 
 export class SearchServiceFactory {
@@ -75,7 +73,6 @@ export class SearchServiceFactory {
 
   private static buildAreaSearchService(): IAreaSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
-    console.debug(`buildAreaSearchService: useMockService: ${useMockServer}`);
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
@@ -86,9 +83,6 @@ export class SearchServiceFactory {
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
-    console.debug(
-      `buildIndicatorSearchService: useMockService: ${useMockServer}`
-    );
     if (useMockServer === 'true') {
       //@ts-expect-error don't care about type checking this json file
       const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
