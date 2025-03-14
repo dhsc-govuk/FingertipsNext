@@ -4,8 +4,7 @@ import StyledComponentsRegistry from '@/lib/registry';
 import { FTHeader } from '@/components/molecules/Header';
 import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
-import { H1, Paragraph } from 'govuk-react';
-import {ErrorPage} from "@/components/pages/error";
+import { ErrorPage } from '@/components/pages/error';
 
 // next.js will only use this page in production builds, meaning that
 // in dev builds you will see the developer oriented unhandled exception
