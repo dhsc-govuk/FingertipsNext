@@ -138,7 +138,7 @@ export function SpineChartTableHeader({
 }: Readonly<TableHeaderProps>) {
   return (
     <>
-      <Table.Row>
+      <Table.Row key={areaName}>
         <Table.CellHeader
           colSpan={3}
           data-testid="empty-header"
