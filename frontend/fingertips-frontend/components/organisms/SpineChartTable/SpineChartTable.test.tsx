@@ -88,7 +88,9 @@ describe('Spine chart table suite', () => {
         `background-color: ${GovukColours.LightGrey}`
       );
     });
+  });
 
+  describe('Spine chart table header', () => {
     it('should have grey cell color for benchmark column', () => {
       render(
         <SpineChartTableRow
@@ -134,6 +136,5 @@ describe('Spine chart table suite', () => {
         `background-color: ${GovukColours.LightGrey}`
       );
     });
-
   });
 });

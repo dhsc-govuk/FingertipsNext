@@ -50,6 +50,10 @@ export interface SpineChartTableRowData {
   benchmarkBest?: number;
 }
 
+export interface SpineChartMissingData {
+  value?: number;
+}
+
 const StyledGroupHeader = styled(StyledGreyHeader)({
   backgroundColor: GovukColours.LightGrey,
   borderTop: GovukColours.MidGrey,
@@ -132,6 +136,16 @@ export function SpineChartTableHeader({
   )
 }
 
+export function SpineChartMissingValue({
+  value,
+}: Readonly<SpineChartMissingData>) {
+  return (
+    <>
+      {value  || 'X'}         
+    </>
+  )
+}
+
 export function SpineChartTableRow({
   indicator,
   unit,
@@ -156,22 +170,22 @@ export function SpineChartTableRow({
           {period}
           </StyledDiv>
           <StyledDiv data-testid={`count-cell`}>
-          {count}
+            <SpineChartMissingValue value={count} />
           </StyledDiv>  
           <StyledAlignRightTableCell data-testid={`value-cell`}>
-          {value}
+            <SpineChartMissingValue value={value} />
           </StyledAlignRightTableCell>  
           <StyledGroupCell data-testid={`group-value-cell`}>
-          {groupValue}
+            <SpineChartMissingValue value={groupValue} />
           </StyledGroupCell>  
           <StyledBenchmarkCell data-testid={`benchmark-value-cell`}>
-          {benchmarkValue}
+            <SpineChartMissingValue value={benchmarkValue} /> 
           </StyledBenchmarkCell>  
           <StyledBenchmarkCell data-testid={`benchmark-worst-cell`}>
-          {benchmarkWorst}
+            {benchmarkWorst} 
           </StyledBenchmarkCell>
           <StyledBenchmarkCell data-testid={`benchmark-best-cell`}>
-          {benchmarkBest}
+            {benchmarkBest}
           </StyledBenchmarkCell>                      
       </Table.Row>          
     </>
