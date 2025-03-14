@@ -4,7 +4,7 @@ import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
 import { test as baseTest } from '@playwright/test';
-import IndicatorPage from "@/playwright/page-objects/pages/indicatorPage";
+import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
 
 type pages = {
   homePage: HomePage;
