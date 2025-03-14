@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesLineChartTable } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { InequalitiesLineChartTableData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities table suite', () => {
   describe('Sex inequality', () => {
     const CELLS_PER_ROW = 4;
 
-    const tableData: InequalitiesLineChartTableData = {
+    const tableData: InequalitiesChartData = {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       rowData: [
         {
@@ -69,7 +69,7 @@ describe('Inequalities table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 2;
-      const tableData: InequalitiesLineChartTableData = {
+      const tableData: InequalitiesChartData = {
         areaName: MOCK_HEALTH_DATA[1].areaName,
         rowData: [
           {
@@ -99,6 +99,25 @@ describe('Inequalities table suite', () => {
       screen
         .getAllByTestId('not-available')
         .forEach((id) => expect(id).toHaveTextContent('X'));
+    });
+
+    it('should render only period heading when empty dynamic keys are passed', () => {
+      const absentHeadings = ['Persons', 'Male', 'Female'];
+      const cellsPerRow = 1;
+
+      render(
+        <InequalitiesLineChartTable tableData={tableData} dynamicKeys={[]} />
+      );
+
+      expect(screen.getByTestId('header-Period-0')).toBeInTheDocument();
+      absentHeadings.forEach((heading, index) =>
+        expect(
+          screen.queryByTestId(`header-${heading}-${index + 1}`)
+        ).not.toBeInTheDocument()
+      );
+      expect(screen.getAllByRole('cell')).toHaveLength(
+        tableData.rowData.length * cellsPerRow
+      );
     });
 
     it('When the UI is rendered with measurement unit it should render correctly', () => {

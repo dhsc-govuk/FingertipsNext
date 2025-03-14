@@ -25,6 +25,9 @@ describe('Inequalities suite', () => {
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
     expect(
+      screen.getByTestId('inequalitiesLineChart-component')
+    ).toBeInTheDocument();
+    expect(
       screen.getByTestId('inequalitiesBarChartTable-component')
     ).toBeInTheDocument();
     expect(
