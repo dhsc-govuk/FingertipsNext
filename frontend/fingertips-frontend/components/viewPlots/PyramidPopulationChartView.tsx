@@ -1,96 +1,102 @@
 'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { TabContainer } from '../layouts/tabContainer';
+import { TabContainer } from '@/components/layouts/tabContainer';
+import { SelectInputField } from '../molecules/SelectInputField';
+import { AreaDocument } from '@/lib/search/searchTypes';
+
+const filterHealthDataForArea = (
+  dataForAreas: HealthDataForArea[],
+  areaCodes: string[]
+) => {
+  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
+    return areaCodes.includes(area.areaCode);
+  });
+
+  const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
+    return (
+      area.areaCode == areaCodeForEngland && !areaCodes.includes(area.areaCode)
+    );
+  });
+
+  let baseline: HealthDataForArea | undefined = undefined;
+  if (england) {
+    baseline = dataForAreas.find((area: HealthDataForArea, _: number) => {
+      return (
+        !areaCodes.includes(area.areaCode) && england.areaCode != area.areaCode
+      );
+    });
+  }
+  return { areas, england, baseline };
+};
 
 interface PyramidPopulationChartViewProps {
   populationHealthDataForAreas: HealthDataForArea[];
-  selectedAreaCode: string;
   xAxisTitle: string;
   yAxisTitle: string;
 }
 
 export const PyramidPopulationChartView = ({
   populationHealthDataForAreas,
-  selectedAreaCode,
   xAxisTitle,
   yAxisTitle,
 }: PyramidPopulationChartViewProps) => {
-  const [
-    selectedPopulationHealthDataForArea,
-    setSelectedPopulationHealthDataForArea,
-  ] = useState<PopulationDataForArea>();
-  const [
-    selectedPopulationEnglandBenchmarkDataForArea,
-    setPopulationEnglandBenchmarkDataForArea,
-  ] = useState<PopulationDataForArea | undefined>();
-  const [
-    selectedPopulationBaselineDataForArea,
-    setPopulationBaselineDataForArea,
-  ] = useState<PopulationDataForArea | undefined>();
-  // we have to transform the data so we can be able to use it in the PopulationPyramid
-  // and also
-  useEffect(() => {
-    const doDataConversion = (dataForAreas: HealthDataForArea[]) => {
-      const selectedHealthDataForArea = dataForAreas.find(
-        (area: HealthDataForArea, _: number) => {
-          return area.areaCode == selectedAreaCode;
-        }
-      );
-      // there are either group data area or just the England Data benchmark here
-      const englandBenchmarkDataForArea = dataForAreas.find(
-        (area: HealthDataForArea, _: number) => {
-          return (
-            area.areaCode == areaCodeForEngland &&
-            area.areaCode != selectedAreaCode
-          );
-        }
-      );
-      let baselineHealthDataForArea: PopulationDataForArea | undefined =
-        undefined;
-      if (englandBenchmarkDataForArea) {
-        const baselineHealthDataForAreas = dataForAreas.filter(
-          (area: HealthDataForArea, _: number) => {
-            return (
-              area.areaCode != selectedAreaCode &&
-              englandBenchmarkDataForArea.areaCode != area.areaCode
-            );
-          }
-        );
-        baselineHealthDataForArea = convertHealthDataForAreaForPyramidData(
-          baselineHealthDataForAreas?.length
-            ? baselineHealthDataForAreas[0]
-            : undefined
-        );
-      }
+  const areaCodesSelected = populationHealthDataForAreas.map(
+    (area) => area.areaCode
+  );
+  const convertedData = ((
+    dataAreas: HealthDataForArea[],
+    areaCodes: string[]
+  ) => {
+    const { areas, england, baseline } = filterHealthDataForArea(
+      dataAreas,
+      areaCodes
+    );
 
-      if (selectedHealthDataForArea) {
-        setSelectedPopulationHealthDataForArea(
-          convertHealthDataForAreaForPyramidData(selectedHealthDataForArea)
-        );
-        setPopulationEnglandBenchmarkDataForArea(
-          convertHealthDataForAreaForPyramidData(englandBenchmarkDataForArea)
-        );
-        setPopulationBaselineDataForArea(baselineHealthDataForArea);
-      }
+    const pyramidAreas = areas.map((area) =>
+      convertHealthDataForAreaForPyramidData(area)
+    );
+    const pyramidEngland = convertHealthDataForAreaForPyramidData(england);
+    const pyramidBaseline = convertHealthDataForAreaForPyramidData(baseline);
+    return {
+      areas: pyramidAreas,
+      england: pyramidEngland,
+      baseline: pyramidBaseline,
     };
-    try {
-      doDataConversion(populationHealthDataForAreas);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [populationHealthDataForAreas, selectedAreaCode]);
+  })(populationHealthDataForAreas, areaCodesSelected);
 
-  if (!selectedPopulationHealthDataForArea) return <></>;
+  if (convertedData.areas?.length === 0) {
+    return <></>;
+  }
 
+  const selectedArea: PopulationDataForArea = convertedData
+    .areas[0] as PopulationDataForArea;
   return (
-    <>
+    <div>
+      <div>
+        <h1>Related Population Data</h1>
+        <button>Close</button>
+        <div>
+          <SelectInputField
+            title="Select an area"
+            areas={populationHealthDataForAreas.map(
+              (healthData: HealthDataForArea, _: number) => {
+                return {
+                  areaCode: healthData.areaCode,
+                  areaName: healthData.areaName,
+                };
+              }
+            )}
+            onSelected={(area: Omit<AreaDocument, 'areaType'>) => {}}
+          />
+        </div>
+      </div>
       <TabContainer
         id="pyramidChartAndTableView"
         items={[
@@ -99,9 +105,9 @@ export const PyramidPopulationChartView = ({
             title: 'Population pyramid',
             content: (
               <PopulationPyramid
-                dataForSelectedArea={selectedPopulationHealthDataForArea}
-                dataForBaseline={selectedPopulationBaselineDataForArea}
-                dataForEngland={selectedPopulationEnglandBenchmarkDataForArea}
+                dataForSelectedArea={selectedArea}
+                dataForBaseline={convertedData.baseline}
+                dataForEngland={convertedData.england}
                 xAxisTitle={xAxisTitle}
                 yAxisTitle={yAxisTitle}
               />
@@ -114,6 +120,6 @@ export const PyramidPopulationChartView = ({
           },
         ]}
       />
-    </>
+    </div>
   );
 };
