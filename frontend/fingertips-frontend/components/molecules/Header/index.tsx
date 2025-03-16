@@ -7,10 +7,16 @@ const ZeroPaddingMain = styled(Main)`
   padding: 0px;
 `;
 
+const ServiceTitle = styled('span')({
+  fontWeight: '700',
+});
+
 export function FTHeader() {
   return (
     <header>
-      <TopNav />
+      <TopNav
+        serviceTitle={<ServiceTitle>Access public health data</ServiceTitle>}
+      />
       <ZeroPaddingMain>
         <PhaseBanner level="alpha">
           This is a new service - your <Link href="#">feedback</Link> will help
