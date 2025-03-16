@@ -2,7 +2,7 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { Select } from 'govuk-react';
 import styled from 'styled-components';
 
-const StyledSelectInputField = styled(Select)({
+const StyledAreaSelectInputField = styled(Select)({
   span: {
     fontWeight: 'bold',
   },
@@ -12,21 +12,21 @@ const StyledSelectInputField = styled(Select)({
   marginBottom: '25px',
 });
 
-interface SelectInputFieldProps {
+interface AreaSelectInputFieldProps {
   selectedAreaCode?: string;
   onSelected?: (area: Omit<AreaDocument, 'areaType'>) => void;
   areas: Omit<AreaDocument, 'areaType'>[];
   title: string;
 }
 
-export const SelectInputField = ({
+export const AreaSelectInputField = ({
   areas,
   selectedAreaCode,
   onSelected,
   title,
-}: SelectInputFieldProps) => {
+}: AreaSelectInputFieldProps) => {
   return (
-    <StyledSelectInputField
+    <StyledAreaSelectInputField
       label={title}
       data-testid="area-type-selector-container-pyramid"
       input={{
@@ -54,6 +54,6 @@ export const SelectInputField = ({
           </option>
         );
       })}
-    </StyledSelectInputField>
+    </StyledAreaSelectInputField>
   );
 };

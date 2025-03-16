@@ -49,8 +49,6 @@ export function OneIndicatorOneAreaViewPlots({
         )
       : undefined;
 
-  // SelectedArea, englandBenchmarkArea, BaselineArea
-  const selectedAreaCodes = ['A1425'];
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <BackLink
@@ -113,7 +111,6 @@ export function OneIndicatorOneAreaViewPlots({
 
       <PyramidPopulationChartView
         populationHealthDataForAreas={populationHealthIndicatorData}
-        selectedAreaCodes={['A1425']}
         xAxisTitle="Age"
         yAxisTitle="Percentage"
       />

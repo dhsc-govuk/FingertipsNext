@@ -8,28 +8,29 @@ import {
 } from '@/lib/chartHelpers/preparePopulationData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { SelectInputField } from '../molecules/SelectInputField';
+import { AreaSelectInputField } from '../molecules/SelectInputField';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
 const filterHealthDataForArea = (
   dataForAreas: HealthDataForArea[],
-  areaCodes: string[]
+  groupAreaCode: string | undefined
 ) => {
+  // the group area code wil be the baseline
   const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
-    return areaCodes.includes(area.areaCode);
+    return groupAreaCode != area.areaCode;
   });
 
   const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
     return (
-      area.areaCode == areaCodeForEngland && !areaCodes.includes(area.areaCode)
+      area.areaCode == areaCodeForEngland && groupAreaCode != area.areaCode
     );
   });
 
   let baseline: HealthDataForArea | undefined = undefined;
-  if (england) {
+  if (england && groupAreaCode) {
     baseline = dataForAreas.find((area: HealthDataForArea, _: number) => {
       return (
-        !areaCodes.includes(area.areaCode) && england.areaCode != area.areaCode
+        groupAreaCode == area.areaCode && england.areaCode != area.areaCode
       );
     });
   }
@@ -38,25 +39,24 @@ const filterHealthDataForArea = (
 
 interface PyramidPopulationChartViewProps {
   populationHealthDataForAreas: HealthDataForArea[];
+  selectedGroupAreaCode: string | undefined;
   xAxisTitle: string;
   yAxisTitle: string;
 }
 
 export const PyramidPopulationChartView = ({
   populationHealthDataForAreas,
+  selectedGroupAreaCode,
   xAxisTitle,
   yAxisTitle,
 }: PyramidPopulationChartViewProps) => {
-  const areaCodesSelected = populationHealthDataForAreas.map(
-    (area) => area.areaCode
-  );
   const convertedData = ((
     dataAreas: HealthDataForArea[],
-    areaCodes: string[]
+    groupAreaCode: string | undefined
   ) => {
     const { areas, england, baseline } = filterHealthDataForArea(
       dataAreas,
-      areaCodes
+      groupAreaCode
     );
 
     const pyramidAreas = areas.map((area) =>
@@ -69,7 +69,7 @@ export const PyramidPopulationChartView = ({
       england: pyramidEngland,
       baseline: pyramidBaseline,
     };
-  })(populationHealthDataForAreas, areaCodesSelected);
+  })(populationHealthDataForAreas, selectedGroupAreaCode);
 
   if (convertedData.areas?.length === 0) {
     return <></>;
@@ -83,7 +83,7 @@ export const PyramidPopulationChartView = ({
         <h1>Related Population Data</h1>
         <button>Close</button>
         <div>
-          <SelectInputField
+          <AreaSelectInputField
             title="Select an area"
             areas={populationHealthDataForAreas.map(
               (healthData: HealthDataForArea, _: number) => {
@@ -93,7 +93,9 @@ export const PyramidPopulationChartView = ({
                 };
               }
             )}
-            onSelected={(area: Omit<AreaDocument, 'areaType'>) => {}}
+            onSelected={(area: Omit<AreaDocument, 'areaType'>) => {
+              console.log(area);
+            }}
           />
         </div>
       </div>
