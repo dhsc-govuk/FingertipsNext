@@ -274,21 +274,21 @@ export function SpineChartTable({
           areaName={indicatorHealthData[0].areaName}
           groupName={groupIndicatorData[0].areaName}
         />
-        {sortedData.map((row,index) => {
+        {sortedData.map((row, index) => {
           return (
             <React.Fragment key={index}>
-            <SpineChartTableRow
-              indicatorId={index}
-              indicator={row.indicator}
-              unit={row.unit}
-              period={row.period}
-              count={row.count}
-              value={row.value}
-              groupValue={row.groupValue}
-              benchmarkValue={row.benchmarkValue}
-              benchmarkWorst={row.benchmarkWorst}
-              benchmarkBest={row.benchmarkBest}
-            />
+              <SpineChartTableRow
+                indicatorId={index}
+                indicator={row.indicator}
+                unit={row.unit}
+                period={row.period}
+                count={row.count}
+                value={row.value}
+                groupValue={row.groupValue}
+                benchmarkValue={row.benchmarkValue}
+                benchmarkWorst={row.benchmarkWorst}
+                benchmarkBest={row.benchmarkBest}
+              />
             </React.Fragment>
           );
         })}
