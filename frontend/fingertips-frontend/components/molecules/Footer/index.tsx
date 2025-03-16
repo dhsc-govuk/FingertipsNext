@@ -4,13 +4,19 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Footer, Link } from 'govuk-react';
 import styled from 'styled-components';
 
-const FooterContainer = styled('div')({
+const FooterContainer = styled('ul')({
+  padding: 0,
   marginBottom: 15,
+});
+
+const FooterListItem = styled('li')({
+  display: 'inline-block',
+  marginRight: 15,
+  marginBottom: 5,
 });
 
 const FooterLink = styled(Link)({
   'fontWeight': 300,
-  'marginRight': 15,
   ':link': {
     color: GovukColours.Black,
   },
@@ -24,15 +30,30 @@ export function FTFooter() {
     <Footer
       meta={
         <FooterContainer>
-          <FooterLink href="#">Help</FooterLink>
-          <FooterLink href="#">Privacy</FooterLink>
-          <FooterLink href="#">Cookies</FooterLink>
-          <FooterLink href="#">Accessibility statement</FooterLink>
-          <FooterLink href="#">Contact</FooterLink>
-          <FooterLink href="#">Terms and conditions</FooterLink>
-          <br />
-          <FooterLink href="#">Rhestr o Wasanaethau Cymraeg</FooterLink>
-          <FooterLink href="#">Government Digital Service</FooterLink>
+          <FooterListItem>
+            <FooterLink href="#">Help</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Privacy</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Cookies</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Accessibility statement</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Contact</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Terms and conditions</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Rhestr o Wasanaethau Cymraeg</FooterLink>
+          </FooterListItem>
+          <FooterListItem>
+            <FooterLink href="#">Government Digital Service</FooterLink>
+          </FooterListItem>
         </FooterContainer>
       }
       copyright={{

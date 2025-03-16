@@ -2,35 +2,35 @@
 
 exports[`FTFooter should match snapshot 1`] = `
 <DocumentFragment>
-  .c5 {
+  .c6 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c5:link {
+.c6:link {
   color: #1d70b8;
 }
 
-.c5:visited {
+.c6:visited {
   color: #4c2c92;
 }
 
-.c5:hover {
+.c6:hover {
   color: #2b8cc4;
 }
 
-.c5:active {
+.c6:active {
   color: #2b8cc4;
 }
 
-.c5:focus {
+.c6:focus {
   color: #0b0c0c;
 }
 
@@ -39,23 +39,23 @@ exports[`FTFooter should match snapshot 1`] = `
   margin: 0 15px;
 }
 
-.c9:link,
-.c9:visited {
+.c10:link,
+.c10:visited {
   color: #454a4c;
 }
 
-.c9:hover {
+.c10:hover {
   color: #171819;
 }
 
-.c7 {
+.c8 {
   display: inline-block;
   margin-right: 10px;
   margin-bottom: 15px;
   vertical-align: top;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
 }
 
@@ -94,13 +94,13 @@ exports[`FTFooter should match snapshot 1`] = `
   flex-basis: 320px;
 }
 
-.c10 {
+.c11 {
   margin-right: 15px;
   margin-bottom: 25px;
   margin-left: 15px;
 }
 
-.c11 {
+.c12 {
   display: inline-block;
   text-align: center;
   -webkit-text-decoration: none;
@@ -114,12 +114,12 @@ exports[`FTFooter should match snapshot 1`] = `
   background-size: 125px 102px;
 }
 
-.c11:link,
-.c11:visited {
+.c12:link,
+.c12:visited {
   color: #454a4c;
 }
 
-.c11:hover {
+.c12:hover {
   color: #171819;
 }
 
@@ -138,32 +138,38 @@ exports[`FTFooter should match snapshot 1`] = `
 }
 
 .c4 {
+  padding: 0;
   margin-bottom: 15px;
 }
 
-.c6 {
-  font-weight: 300;
+.c5 {
+  display: inline-block;
   margin-right: 15px;
+  margin-bottom: 5px;
 }
 
-.c6:link {
+.c7 {
+  font-weight: 300;
+}
+
+.c7:link {
   color: #0B0C0C;
 }
 
-.c6:visited {
+.c7:visited {
   color: #0B0C0C;
 }
 
 @media print {
-  .c5 {
+  .c6 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c5[href^="/"]::after,
-  .c5[href^="http://"]::after,
-  .c5[href^="https://"]::after {
+  .c6[href^="/"]::after,
+  .c6[href^="http://"]::after,
+  .c6[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -183,7 +189,7 @@ exports[`FTFooter should match snapshot 1`] = `
 }
 
 @media only screen and (min-width:769px) {
-  .c7 {
+  .c8 {
     margin-bottom: 0;
   }
 }
@@ -241,62 +247,93 @@ exports[`FTFooter should match snapshot 1`] = `
         <div
           class="c3"
         >
-          <div
+          <ul
             class="c4"
           >
-            <a
-              class="c5 c6"
-              href="#"
+            <li
+              class="c5"
             >
-              Help
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Privacy
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Cookies
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Accessibility statement
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Accessibility statement
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Contact
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Terms and conditions
-            </a>
-            <br />
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Rhestr o Wasanaethau Cymraeg
-            </a>
-            <a
-              class="c5 c6"
-              href="#"
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Rhestr o Wasanaethau Cymraeg
+              </a>
+            </li>
+            <li
+              class="c5"
             >
-              Government Digital Service
-            </a>
-          </div>
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Government Digital Service
+              </a>
+            </li>
+          </ul>
           <div>
             <svg
-              class="c7"
+              class="c8"
               focusable="false"
               height="17"
               role="presentation"
@@ -310,11 +347,11 @@ exports[`FTFooter should match snapshot 1`] = `
               />
             </svg>
             <span
-              class="c8"
+              class="c9"
             >
               All content is available under the 
               <a
-                class="c5 c9"
+                class="c6 c10"
                 href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
                 rel="license"
               >
@@ -325,10 +362,10 @@ exports[`FTFooter should match snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c10"
+          class="c11"
         >
           <a
-            class="c5 c11"
+            class="c6 c12"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
             image="[object Object]"
           >
