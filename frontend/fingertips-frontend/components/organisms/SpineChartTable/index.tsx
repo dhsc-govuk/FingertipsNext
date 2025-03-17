@@ -154,41 +154,57 @@ export function SpineChartTableHeader({
         </StyledBenchmarkHeader>
       </Table.Row>
       <Table.Row>
-        {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
-          index === 0 || index === 1 ? (
-            <StyledAlignLeftHeader
-              key={heading}
-              data-testid={`${heading}-header`}
-            >
-              {heading}
-            </StyledAlignLeftHeader>
-          ) : index === 2 || index === 3 ? (
-            <StyledAlignCentreHeader
-              key={index}
-              data-testid={`${heading}-header`}
-            >
-              {heading}
-            </StyledAlignCentreHeader>
-          ) : index === 4 ? (
-            <StyledAlignRightHeader
-              key={index}
-              data-testid={`${heading}-header`}
-            >
-              Value
-            </StyledAlignRightHeader>
-          ) : index === 5 ? (
-            <StyledGroupSubHeader key={index} data-testid={`${heading}-header`}>
-              Value
-            </StyledGroupSubHeader>
-          ) : (
-            <StyledBenchmarkSubHeader
-              key={index}
-              data-testid={`${heading}-header`}
-            >
-              {heading}
-            </StyledBenchmarkSubHeader>
-          )
-        )}
+        {Object.values(SpineChartTableHeadingEnum).map((heading) => {
+          switch (heading) {
+            case SpineChartTableHeadingEnum.IndicatorName:
+            case SpineChartTableHeadingEnum.IndicatorUnit:
+              return (
+                <StyledAlignLeftHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledAlignLeftHeader>
+              );
+            case SpineChartTableHeadingEnum.IndicatorPeriod:
+            case SpineChartTableHeadingEnum.AreaCount:
+              return (
+                <StyledAlignCentreHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledAlignCentreHeader>
+              );
+            case SpineChartTableHeadingEnum.AreaValue:
+              return (
+                <StyledAlignRightHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  Value
+                </StyledAlignRightHeader>
+              );
+            case SpineChartTableHeadingEnum.GroupValue:
+              return (
+                <StyledGroupSubHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  Value
+                </StyledGroupSubHeader>
+              );
+            default:
+              return (
+                <StyledBenchmarkSubHeader
+                  key={heading}
+                  data-testid={`${heading}-header`}
+                >
+                  {heading}
+                </StyledBenchmarkSubHeader>
+              );
+          }
+        })}
       </Table.Row>
     </>
   );
