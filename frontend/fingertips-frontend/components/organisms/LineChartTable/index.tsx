@@ -234,7 +234,7 @@ export function LineChartTable({
                     <StyledDivContainer>
                       {`${area.areaName} recent trend: `}
                       <TrendTag
-                        trendFromRes={
+                        trendFromResponse={
                           area.healthData[area.healthData.length - 1].trend
                         }
                       />

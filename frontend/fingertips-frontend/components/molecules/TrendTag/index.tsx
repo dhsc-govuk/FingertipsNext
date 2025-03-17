@@ -14,7 +14,7 @@ import {
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 
 interface TagProps {
-  trendFromRes: HealthDataPointTrendEnum;
+  trendFromResponse: HealthDataPointTrendEnum;
 }
 
 const StyledDivContainer = styled('div')({
@@ -96,8 +96,8 @@ export const mapTrendResponse = (
   };
 };
 
-export const TrendTag = ({ trendFromRes }: Readonly<TagProps>) => {
-  const { trend, trendCondition } = mapTrendResponse(trendFromRes);
+export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
+  const { trend, trendCondition } = mapTrendResponse(trendFromResponse);
   const arrowDirection = arrowDirectionMap[trend];
   const trendMessage =
     trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.NOT_AVAILABLE

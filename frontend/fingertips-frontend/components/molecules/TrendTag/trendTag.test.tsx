@@ -7,7 +7,7 @@ describe('Trend Tag Suite', () => {
   it('should render expected elements', () => {
     render(
       <TrendTag
-        trendFromRes={HealthDataPointTrendEnum.IncreasingAndGettingBetter}
+        trendFromResponse={HealthDataPointTrendEnum.IncreasingAndGettingBetter}
       />
     );
 
@@ -52,8 +52,8 @@ describe('Trend Tag Suite', () => {
       ],
     ])(
       'should break down trend strings from the API to relevant values for %s',
-      (trendFromRes, expectedTrend, expectedTrendCondition) => {
-        const { trend, trendCondition } = mapTrendResponse(trendFromRes);
+      (trendFromResponse, expectedTrend, expectedTrendCondition) => {
+        const { trend, trendCondition } = mapTrendResponse(trendFromResponse);
         expect(trend).toEqual(expectedTrend);
         expect(trendCondition).toEqual(expectedTrendCondition);
       }
@@ -64,7 +64,9 @@ describe('Trend Tag Suite', () => {
     it('should render decreasing trend', () => {
       render(
         <TrendTag
-          trendFromRes={HealthDataPointTrendEnum.DecreasingAndGettingBetter}
+          trendFromResponse={
+            HealthDataPointTrendEnum.DecreasingAndGettingBetter
+          }
         />
       );
 
@@ -77,7 +79,7 @@ describe('Trend Tag Suite', () => {
     it('should render increasing trend', () => {
       render(
         <TrendTag
-          trendFromRes={HealthDataPointTrendEnum.IncreasingAndGettingWorse}
+          trendFromResponse={HealthDataPointTrendEnum.IncreasingAndGettingWorse}
         />
       );
 
@@ -89,7 +91,9 @@ describe('Trend Tag Suite', () => {
 
     it('should render no significant change', () => {
       render(
-        <TrendTag trendFromRes={HealthDataPointTrendEnum.NoSignificantChange} />
+        <TrendTag
+          trendFromResponse={HealthDataPointTrendEnum.NoSignificantChange}
+        />
       );
 
       expect(screen.getByTestId('arrow-right')).toBeInTheDocument();
@@ -99,14 +103,18 @@ describe('Trend Tag Suite', () => {
     });
 
     it('should render increasing trend without condition', () => {
-      render(<TrendTag trendFromRes={HealthDataPointTrendEnum.Increasing} />);
+      render(
+        <TrendTag trendFromResponse={HealthDataPointTrendEnum.Increasing} />
+      );
 
       expect(screen.getByTestId('arrow-up')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent('Increasing');
     });
 
     it('should render decreasing trend without condition', () => {
-      render(<TrendTag trendFromRes={HealthDataPointTrendEnum.Decreasing} />);
+      render(
+        <TrendTag trendFromResponse={HealthDataPointTrendEnum.Decreasing} />
+      );
 
       expect(screen.getByTestId('arrow-down')).toBeInTheDocument();
       expect(screen.getByRole('paragraph')).toHaveTextContent('Decreasing');
@@ -114,7 +122,9 @@ describe('Trend Tag Suite', () => {
 
     it('should render trend not available', () => {
       render(
-        <TrendTag trendFromRes={HealthDataPointTrendEnum.CannotBeCalculated} />
+        <TrendTag
+          trendFromResponse={HealthDataPointTrendEnum.CannotBeCalculated}
+        />
       );
       expect(
         screen.queryByTestId('arrow', { exact: false })
@@ -128,7 +138,7 @@ describe('Trend Tag Suite', () => {
   it('snapshot test', () => {
     const container = render(
       <TrendTag
-        trendFromRes={HealthDataPointTrendEnum.IncreasingAndGettingWorse}
+        trendFromResponse={HealthDataPointTrendEnum.IncreasingAndGettingWorse}
       />
     );
 
