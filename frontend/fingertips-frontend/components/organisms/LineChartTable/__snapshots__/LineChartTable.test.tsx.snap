@@ -2,7 +2,49 @@
 
 exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c16 {
+  .c10 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c10 > p {
+  margin: 0;
+}
+
+.c10 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c10 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c10 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,7 +80,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c12 {
+.c18 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -48,17 +90,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   font-weight: 400;
 }
 
-.c12:last-child {
+.c18:last-child {
   padding-right: 0;
 }
 
-.c15 {
+.c21 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c15:last-child {
+.c21:last-child {
   padding-right: 0;
 }
 
@@ -87,19 +129,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding: 0.625em 0;
 }
 
-.c7 {
+.c13 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c8 {
+.c14 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
 
-.c13 {
+.c19 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -109,17 +151,17 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding-right: 0;
 }
 
-.c18 {
+.c23 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c19 {
+.c24 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c14 {
+.c20 {
   text-align: left;
   width: 10%;
 }
@@ -144,7 +186,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   align-items: center;
 }
 
-.c17 {
+.c22 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -158,23 +200,73 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   border: 1px solid #0B0C0C;
 }
 
-.c6 {
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  text-transform: unset;
+  margin: 0.3125em;
+  color: #303436;
+  background-color: #E1E2E3;
+}
+
+.c11 {
+  margin-bottom: 0;
+  margin-left: 0.3125em;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.c12 {
   width: 10%;
   padding: 1em 0;
   text-align: center;
 }
 
-.c10 {
+.c16 {
   width: 27%;
 }
 
-.c9 {
+.c15 {
   width: 22%;
   padding: 0.5em;
   text-align: center;
 }
 
-.c11 {
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+.c17 {
   display: block;
 }
 
@@ -183,21 +275,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 @media print {
-  .c16 {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c7 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c16 {
+  .c7 {
     font-size: 16px;
     line-height: 1;
   }
 }
 
 @media print {
-  .c12 {
+  .c18 {
     font-family: sans-serif;
   }
 }
@@ -243,16 +355,30 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 }
 
 @media print {
-  .c13 {
+  .c19 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c19 {
     font-size: 16px;
     line-height: 1.25;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
   }
 }
 
@@ -273,7 +399,33 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2 c3 c4 c5"
             colspan="5"
           >
-            Greater Manchester ICB - 00T recent trend:
+            <div
+              class="c6"
+            >
+              Greater Manchester ICB - 00T recent trend: 
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="c7 c8"
+                >
+                  <div
+                    class="c9"
+                    data-testid="tag-component"
+                  >
+                    <div>
+                      <div
+                        class="c10 c11"
+                      >
+                        <p>
+                          No trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
           </th>
         </tr>
         <tr
@@ -283,13 +435,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c2"
           />
           <th
-            class="c2 c3 c4 c6"
+            class="c2 c3 c4 c12"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
             data-testid="england-header"
           >
             Benchmark: 
@@ -305,13 +457,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             colspan="4"
           />
           <th
-            class="c2 c3 c4 c9"
+            class="c2 c3 c4 c15"
             colspan="2"
           >
             95% confidence limits
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
           />
         </tr>
         <tr
@@ -324,47 +476,47 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             Period
           </th>
           <th
-            class="c2 c3 c4 c10"
+            class="c2 c3 c4 c16"
             data-testid="header-Compared to benchmark-1"
           >
             Compared to benchmark
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Count-2"
           >
             Count
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Value-3"
           >
             Value
             <span
-              class="c11"
+              class="c17"
             >
               (%)
             </span>
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Lower-4"
           >
             Lower
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Upper-5"
           >
             Upper
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
             data-testid="header-Value -6"
           >
             Value  
             <span
-              class="c11"
+              class="c17"
             >
               (%)
             </span>
@@ -378,41 +530,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="c12 c13 c14"
+            class="c18 c19 c20"
           >
             2004
           </td>
           <td
-            class="c15 c13 c14"
+            class="c21 c19 c20"
           >
             <strong
-              class="c16 c17"
+              class="c7 c22"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             267
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             703.420759
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             441.69151
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             578.32766
           </td>
           <td
-            class="c15 c13 c18 c19"
+            class="c21 c19 c23 c24"
             data-testid="grey-table-cell"
           >
             904.874
@@ -422,41 +574,41 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           class=""
         >
           <td
-            class="c12 c13 c14"
+            class="c18 c19 c20"
           >
             2008
           </td>
           <td
-            class="c15 c13 c14"
+            class="c21 c19 c20"
           >
             <strong
-              class="c16 c17"
+              class="c7 c22"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             222
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             890.305692
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             441.69151
           </td>
           <td
-            class="c12 c13 c18"
+            class="c18 c19 c23"
           >
             578.32766
           </td>
           <td
-            class="c15 c13 c18 c19"
+            class="c21 c19 c23 c24"
             data-testid="grey-table-cell"
           >
             965.9843
@@ -470,7 +622,49 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
 
 exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should match snapshot 1`] = `
 <DocumentFragment>
-  .c18 {
+  .c10 {
+  margin: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.c10 > p {
+  margin: 0;
+}
+
+.c10 > p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+}
+
+.c10 > pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.c10 > pre > code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+}
+
+.c7 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -506,7 +700,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c13 {
+.c19 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -516,17 +710,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   font-weight: 400;
 }
 
-.c13:last-child {
+.c19:last-child {
   padding-right: 0;
 }
 
-.c16 {
+.c22 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c16:last-child {
+.c22:last-child {
   padding-right: 0;
 }
 
@@ -555,19 +749,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding: 0.625em 0;
 }
 
-.c7 {
+.c13 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c8 {
+.c14 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
   width: 16%;
 }
 
-.c14 {
+.c20 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -577,17 +771,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c20 {
+.c25 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c21 {
+.c26 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c15 {
+.c21 {
   text-align: left;
   width: 10%;
 }
@@ -612,7 +806,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   align-items: center;
 }
 
-.c19 {
+.c24 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -626,33 +820,83 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   border: 1px solid #0B0C0C;
 }
 
-.c6 {
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c8 {
+  text-transform: unset;
+  margin: 0.3125em;
+  color: #303436;
+  background-color: #E1E2E3;
+}
+
+.c11 {
+  margin-bottom: 0;
+  margin-left: 0.3125em;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.c12 {
   width: 10%;
   padding: 1em 0;
   text-align: center;
 }
 
-.c10 {
+.c16 {
   width: 27%;
 }
 
-.c11 {
+.c17 {
   border-left: solid black 1px;
   width: 18%;
   padding-left: 0.5em;
 }
 
-.c9 {
+.c15 {
   width: 22%;
   padding: 0.5em;
   text-align: center;
 }
 
-.c17 {
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+.c23 {
   border-left: solid black 1px;
 }
 
-.c12 {
+.c18 {
   display: block;
 }
 
@@ -661,21 +905,41 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c18 {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c7 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c18 {
+  .c7 {
     font-size: 16px;
     line-height: 1;
   }
 }
 
 @media print {
-  .c13 {
+  .c19 {
     font-family: sans-serif;
   }
 }
@@ -721,16 +985,30 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c14 {
+  .c20 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c14 {
+  .c20 {
     font-size: 16px;
     line-height: 1.25;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.4285714285714286;
   }
 }
 
@@ -754,13 +1032,65 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2 c3 c4 c5"
             colspan="5"
           >
-            Greater Manchester ICB - 00T recent trend:
+            <div
+              class="c6"
+            >
+              Greater Manchester ICB - 00T recent trend: 
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="c7 c8"
+                >
+                  <div
+                    class="c9"
+                    data-testid="tag-component"
+                  >
+                    <div>
+                      <div
+                        class="c10 c11"
+                      >
+                        <p>
+                          No trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
           </th>
           <th
             class="c2 c3 c4 c5"
             colspan="5"
           >
-            South FooBar recent trend:
+            <div
+              class="c6"
+            >
+              South FooBar recent trend: 
+              <div
+                data-testid="trendTag-container"
+              >
+                <strong
+                  class="c7 c8"
+                >
+                  <div
+                    class="c9"
+                    data-testid="tag-component"
+                  >
+                    <div>
+                      <div
+                        class="c10 c11"
+                      >
+                        <p>
+                          No trend data available
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </strong>
+              </div>
+            </div>
           </th>
         </tr>
         <tr
@@ -770,19 +1100,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c2"
           />
           <th
-            class="c2 c3 c4 c6"
+            class="c2 c3 c4 c12"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c2 c3 c4 c6"
+            class="c2 c3 c4 c12"
             colspan="5"
           >
             South FooBar
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
             data-testid="england-header"
           >
             Benchmark: 
@@ -798,7 +1128,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             colspan="4"
           />
           <th
-            class="c2 c3 c4 c9"
+            class="c2 c3 c4 c15"
             colspan="2"
           >
             95% confidence limits
@@ -808,13 +1138,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             colspan="3"
           />
           <th
-            class="c2 c3 c4 c9"
+            class="c2 c3 c4 c15"
             colspan="2"
           >
             95% confidence limits
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
           />
         </tr>
         <tr
@@ -827,82 +1157,82 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Period
           </th>
           <th
-            class="c2 c3 c4 c10 c11"
+            class="c2 c3 c4 c16 c17"
             data-testid="header-Compared to benchmark-1"
           >
             Compared to benchmark
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Count-2"
           >
             Count
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Value-3"
           >
             Value
             <span
-              class="c12"
+              class="c18"
             >
               (%)
             </span>
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Lower-4"
           >
             Lower
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Upper-5"
           >
             Upper
           </th>
           <th
-            class="c2 c3 c4 c10 c11"
+            class="c2 c3 c4 c16 c17"
             data-testid="header-Compared to benchmark-1"
           >
             Compared to benchmark
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Count-2"
           >
             Count
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Value-3"
           >
             Value
             <span
-              class="c12"
+              class="c18"
             >
               (%)
             </span>
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Lower-4"
           >
             Lower
           </th>
           <th
-            class="c2 c3 c7"
+            class="c2 c3 c13"
             data-testid="header-Upper-5"
           >
             Upper
           </th>
           <th
-            class="c2 c3 c7 c8"
+            class="c2 c3 c13 c14"
             data-testid="header-Value -6"
           >
             Value  
             <span
-              class="c12"
+              class="c18"
             >
               (%)
             </span>
@@ -916,70 +1246,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="c13 c14 c15"
+            class="c19 c20 c21"
           >
             2004
           </td>
           <td
-            class="c16 c14 c15 c17"
+            class="c22 c20 c21 c23"
           >
             <strong
-              class="c18 c19"
+              class="c7 c24"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             267
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             703.420759
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             441.69151
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             578.32766
           </td>
           <td
-            class="c16 c14 c15 c17"
+            class="c22 c20 c21 c23"
           >
             <strong
-              class="c18 c19"
+              class="c7 c24"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             222
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             135.149304
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             441.69151
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             578.32766
           </td>
           <td
-            class="c16 c14 c20 c21"
+            class="c22 c20 c25 c26"
             data-testid="grey-table-cell"
           >
             904.874
@@ -989,70 +1319,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="c13 c14 c15"
+            class="c19 c20 c21"
           >
             2008
           </td>
           <td
-            class="c16 c14 c15 c17"
+            class="c22 c20 c21 c23"
           >
             <strong
-              class="c18 c19"
+              class="c7 c24"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             222
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             890.305692
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             441.69151
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             578.32766
           </td>
           <td
-            class="c16 c14 c15 c17"
+            class="c22 c20 c21 c23"
           >
             <strong
-              class="c18 c19"
+              class="c7 c24"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             222
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             135.149304
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             441.69151
           </td>
           <td
-            class="c13 c14 c20"
+            class="c19 c20 c25"
           >
             578.32766
           </td>
           <td
-            class="c16 c14 c20 c21"
+            class="c22 c20 c25 c26"
             data-testid="grey-table-cell"
           >
             965.9843
