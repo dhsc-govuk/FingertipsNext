@@ -69,6 +69,7 @@ describe('Chart Page', () => {
         {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
+          inequalities: ['age', 'sex'],
         },
         API_CACHE_CONFIG
       );
@@ -118,6 +119,7 @@ describe('Chart Page', () => {
         {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
+          inequalities: ['age', 'sex'],
         },
         API_CACHE_CONFIG
       );
@@ -160,6 +162,7 @@ describe('Chart Page', () => {
         {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
+          inequalities: ['age', 'sex'],
         },
         API_CACHE_CONFIG
       );
@@ -199,6 +202,7 @@ describe('Chart Page', () => {
         {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: indicatorIdForPopulation,
+          inequalities: ['age', 'sex'],
         },
         API_CACHE_CONFIG
       );
