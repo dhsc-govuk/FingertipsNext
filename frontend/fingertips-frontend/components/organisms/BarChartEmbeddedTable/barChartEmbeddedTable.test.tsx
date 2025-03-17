@@ -155,7 +155,7 @@ describe('BarChartEmbeddedTable', () => {
         benchmarkData={mockBenchmarkData}
       />
     );
-    expect(screen.getAllByRole('row')[1]).toHaveTextContent('England');
+    expect(screen.getAllByRole('row')[2]).toHaveTextContent('England');
     expect(screen.getByTestId('table-row-benchmark')).toBeInTheDocument();
   });
 
@@ -167,7 +167,7 @@ describe('BarChartEmbeddedTable', () => {
         groupIndicatorData={mockGroupData}
       />
     );
-    expect(screen.getAllByRole('row')[2]).toHaveTextContent(
+    expect(screen.getAllByRole('row')[3]).toHaveTextContent(
       'NHS North West Region'
     );
     expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
