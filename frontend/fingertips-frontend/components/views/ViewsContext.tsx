@@ -9,9 +9,14 @@ import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
+import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
+import { ChartPageWrapper } from '../pages/chartPageWrapper';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export type ViewProps = {
   searchState: SearchStateParams;
+  areaFilterData?: AreaFilterData;
+  selectedAreasData?: AreaWithRelations[];
 };
 
 function viewSelector(
@@ -42,7 +47,11 @@ function viewSelector(
   throw new Error('Parameters do not match any known view');
 }
 
-export function ViewsContext({ searchState }: Readonly<ViewProps>) {
+export function ViewsContext({
+  searchState,
+  areaFilterData,
+  selectedAreasData,
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
@@ -51,5 +60,13 @@ export function ViewsContext({ searchState }: Readonly<ViewProps>) {
   const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
 
-  return viewSelector(areaCodes, indicators, searchState);
+  return (
+    <ChartPageWrapper
+      searchState={searchState}
+      areaFilterData={areaFilterData}
+      selectedAreasData={selectedAreasData}
+    >
+      {viewSelector(areaCodes, indicators, searchState)}
+    </ChartPageWrapper>
+  );
 }
