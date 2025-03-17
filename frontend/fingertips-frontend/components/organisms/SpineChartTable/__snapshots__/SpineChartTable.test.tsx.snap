@@ -242,55 +242,55 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
         >
           <th
             class="c2 c3 c4"
-            data-testid="Indicator-header-0"
+            data-testid="Indicator-header"
           >
             Indicator
           </th>
           <th
             class="c2 c3 c4"
-            data-testid="Unit-header-1"
+            data-testid="Unit-header"
           >
             Unit
           </th>
           <th
             class="c2 c3 c4 c9"
-            data-testid="Period-header-2"
+            data-testid="Period-header"
           >
             Period
           </th>
           <th
             class="c2 c3 c4 c9"
-            data-testid="Count-header-3"
+            data-testid="Count-header"
           >
             Count
           </th>
           <th
             class="c2 c3 c5"
-            data-testid="AreaValue-header-4"
+            data-testid="AreaValue-header"
           >
             Value
           </th>
           <th
             class="c2 c3 c5 c6 c10"
-            data-testid="GroupValue-header-5"
+            data-testid="GroupValue-header"
           >
             Value
           </th>
           <th
             class="c2 c3 c5 c6 c11"
-            data-testid="Value-header-6"
+            data-testid="Value-header"
           >
             Value
           </th>
           <th
             class="c2 c3 c5 c6 c11"
-            data-testid="Worst-header-7"
+            data-testid="Worst-header"
           >
             Worst
           </th>
           <th
             class="c2 c3 c5 c6 c11"
-            data-testid="Best-header-8"
+            data-testid="Best-header"
           >
             Best
           </th>
@@ -344,13 +344,13 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c12 c13 c16 c18"
             data-testid="benchmark-worst-cell"
           >
-            22
+            100
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-best-cell"
           >
-            100
+            22
           </td>
         </tr>
         <tr
@@ -402,13 +402,13 @@ exports[`Spine chart table suite Spine chart table snapshot test - should match 
             class="c12 c13 c16 c18"
             data-testid="benchmark-worst-cell"
           >
-            1666
+            959
           </td>
           <td
             class="c12 c13 c16 c18"
             data-testid="benchmark-best-cell"
           >
-            959
+            1666
           </td>
         </tr>
       </tbody>

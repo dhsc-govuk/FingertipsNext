@@ -141,10 +141,8 @@ describe('Spine chart table suite', () => {
         `Benchmark: England`
       );
 
-      Object.values(SpineChartTableHeadingEnum).forEach((heading, index) =>
-        expect(
-          screen.getByTestId(`${heading}-header-${index}`)
-        ).toBeInTheDocument()
+      Object.values(SpineChartTableHeadingEnum).forEach((heading) =>
+        expect(screen.getByTestId(`${heading}-header`)).toBeInTheDocument()
       );
     });
 
@@ -160,13 +158,13 @@ describe('Spine chart table suite', () => {
         `background-color: ${GovukColours.MidGrey}`
       );
 
-      expect(screen.getByTestId('Value-header-6')).toHaveStyle(
+      expect(screen.getByTestId('Value-header')).toHaveStyle(
         `background-color: ${GovukColours.MidGrey}`
       );
-      expect(screen.getByTestId('Worst-header-7')).toHaveStyle(
+      expect(screen.getByTestId('Worst-header')).toHaveStyle(
         `background-color: ${GovukColours.MidGrey}`
       );
-      expect(screen.getByTestId('Best-header-8')).toHaveStyle(
+      expect(screen.getByTestId('Best-header')).toHaveStyle(
         `background-color: ${GovukColours.MidGrey}`
       );
     });
@@ -183,7 +181,7 @@ describe('Spine chart table suite', () => {
         `background-color: ${GovukColours.LightGrey}`
       );
 
-      expect(screen.getByTestId('GroupValue-header-5')).toHaveStyle(
+      expect(screen.getByTestId('GroupValue-header')).toHaveStyle(
         `background-color: ${GovukColours.LightGrey}`
       );
     });
