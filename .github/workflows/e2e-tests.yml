@@ -80,11 +80,15 @@ jobs:
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
+      - name: Set dynamic artifact name
+        id: set-artifact-name
+        run: echo "ARTIFACT_NAME=playwright-artifacts-$(date +%s)" >> $GITHUB_ENV
+
       - name: Upload playwright artefacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artefacts-${{ github.job }}
+          name: ${{ env.ARTIFACT_NAME }}
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png
