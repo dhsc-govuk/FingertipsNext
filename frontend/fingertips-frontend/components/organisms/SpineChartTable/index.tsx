@@ -155,14 +155,14 @@ export function SpineChartTableHeader({
       </Table.Row>
       <Table.Row>
         {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
-          (index === 0 || index === 1) ? (
+          index === 0 || index === 1 ? (
             <StyledAlignLeftHeader
               key={heading}
               data-testid={`${heading}-header-${index}`}
             >
               {heading}
             </StyledAlignLeftHeader>
-          ) : (index === 2 || index === 3) ? (
+          ) : index === 2 || index === 3 ? (
             <StyledAlignCentreHeader
               key={index}
               data-testid={`${heading}-header-${index}`}
