@@ -72,20 +72,18 @@ export default class ChartPage extends BasePage {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
-      if (!visibleComponent.toLowerCase().includes('table')) {
-        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
-          visible: true,
-        });
-      }
-      // click tab to view the table view if checking a table component
-      if (visibleComponent.toLowerCase().includes('table')) {
+      // click tab to view the table view if checking a none embedded table component
+      if (
+        visibleComponent.toLowerCase().includes('table') &&
+        visibleComponent !== 'barChartEmbeddedTable-component'
+      ) {
         await this.page
           .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
           .click();
-        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
-          visible: true,
-        });
       }
+      await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+        visible: true,
+      });
 
       // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
