@@ -26,6 +26,7 @@ import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/i
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -106,9 +107,42 @@ export default async function ChartPage(
     );
   }
 
+  // Area filtering data
+  const areasApi = ApiClientFactory.getAreasApiClient();
+
+  const selectedAreasData =
+    areasSelected && areasSelected.length > 0
+      ? await Promise.all(
+          areasSelected.map((area) =>
+            areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+          )
+        )
+      : [];
+
+  const {
+    availableAreaTypes,
+    availableAreas,
+    availableGroupTypes,
+    availableGroups,
+    updatedSearchState,
+  } = await getAreaFilterData(stateManager.getSearchState(), selectedAreasData);
+
+  if (updatedSearchState) {
+    stateManager.setState(updatedSearchState);
+  }
+
   return (
     <>
-      <ViewsContext searchState={stateManager.getSearchState()} />
+      <ViewsContext
+        searchState={stateManager.getSearchState()}
+        selectedAreasData={selectedAreasData}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
+      />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}

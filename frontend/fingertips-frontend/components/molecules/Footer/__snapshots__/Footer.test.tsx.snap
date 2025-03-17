@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FTFooter should match snapshot 1`] = `
+<DocumentFragment>
+  .c6 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c6:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c6:link {
+  color: #1d70b8;
+}
+
+.c6:visited {
+  color: #4c2c92;
+}
+
+.c6:hover {
+  color: #2b8cc4;
+}
+
+.c6:active {
+  color: #2b8cc4;
+}
+
+.c6:focus {
+  color: #0b0c0c;
+}
+
+.c1 {
+  max-width: 960px;
+  margin: 0 15px;
+}
+
+.c10:link,
+.c10:visited {
+  color: #454a4c;
+}
+
+.c10:hover {
+  color: #171819;
+}
+
+.c8 {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  vertical-align: top;
+}
+
+.c9 {
+  display: inline-block;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: -15px;
+  margin-left: -15px;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c3 {
+  margin-right: 15px;
+  margin-bottom: 25px;
+  margin-left: 15px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-flex-basis: 320px;
+  -ms-flex-preferred-size: 320px;
+  flex-basis: 320px;
+}
+
+.c11 {
+  margin-right: 15px;
+  margin-bottom: 25px;
+  margin-left: 15px;
+}
+
+.c12 {
+  display: inline-block;
+  text-align: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  min-width: 125px;
+  padding-top: 112px;
+  background-image: url(govuk-crest.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  background-size: 125px 102px;
+}
+
+.c12:link,
+.c12:visited {
+  color: #454a4c;
+}
+
+.c12:hover {
+  color: #171819;
+}
+
+.c0 {
+  border-top: 1px solid #a1acb2;
+  background: #f3f2f1;
+  color: #454a4c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1428571428571428;
+  padding-top: 25px;
+  padding-bottom: 15px;
+}
+
+.c4 {
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.c5 {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.c7 {
+  font-weight: 300;
+}
+
+.c7:link {
+  color: #0B0C0C;
+}
+
+.c7:visited {
+  color: #0B0C0C;
+}
+
+@media print {
+  .c6 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c6[href^="/"]::after,
+  .c6[href^="http://"]::after,
+  .c6[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin: 0 30px;
+  }
+}
+
+@media only screen and (min-width:1020px) {
+  .c1 {
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (min-width:769px) {
+  .c8 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c2 {
+    font-family: sans-serif;
+  }
+}
+
+@media only screen and (min-width:769px) {
+  .c3 {
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    padding-top: 40px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    padding-bottom: 25px;
+  }
+}
+
+<footer
+    class="c0"
+    role="contentinfo"
+  >
+    <div
+      class="c1"
+    >
+      <div
+        class="c2"
+      >
+        <div
+          class="c3"
+        >
+          <ul
+            class="c4"
+          >
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Accessibility statement
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Rhestr o Wasanaethau Cymraeg
+              </a>
+            </li>
+            <li
+              class="c5"
+            >
+              <a
+                class="c6 c7"
+                href="#"
+              >
+                Government Digital Service
+              </a>
+            </li>
+          </ul>
+          <div>
+            <svg
+              class="c8"
+              focusable="false"
+              height="17"
+              role="presentation"
+              viewBox="0 0 483.2 195.7"
+              width="41"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+                fill="currentColor"
+              />
+            </svg>
+            <span
+              class="c9"
+            >
+              All content is available under the 
+              <a
+                class="c6 c10"
+                href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                rel="license"
+              >
+                Open Government Licence v3.0
+              </a>
+              , except where otherwise stated
+            </span>
+          </div>
+        </div>
+        <div
+          class="c11"
+        >
+          <a
+            class="c6 c12"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            image="[object Object]"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;
