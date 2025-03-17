@@ -10,24 +10,10 @@ import { StyledDiv } from '@/lib/tableHelpers';
 
 import { SpineChartTableHeader } from './SpineChartTableHeader';
 
-import { SpineChartTableRow } from './SpineChartTableRow';
-
-export interface SpineChartTableRowData {
-  indicatorId: number;
-  indicator: string;
-  unit: string;
-  period: number;
-  count?: number;
-  value?: number;
-  groupValue?: number;
-  benchmarkValue?: number;
-  benchmarkWorst?: number;
-  benchmarkBest?: number;
-}
-
-export interface SpineChartMissingData {
-  value?: number;
-}
+import {
+  SpineChartTableRowData,
+  SpineChartTableRow,
+} from './SpineChartTableRow';
 
 export interface SpineChartTableProps {
   indicators: Indicator[];

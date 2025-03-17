@@ -1,10 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import {
-  SpineChartTable,
-  SpineChartTableRowData,
-  mapToSpineChartTableData,
-} from '.';
+import { SpineChartTableRowData } from './SpineChartTableRow';
+import { SpineChartTable, mapToSpineChartTableData } from '.';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 

@@ -13,6 +13,23 @@ import {
   StyledBenchmarkCell,
 } from './SpineChartTableStyles';
 
+export interface SpineChartMissingData {
+  value?: number;
+}
+
+export interface SpineChartTableRowData {
+  indicatorId: number;
+  indicator: string;
+  unit: string;
+  period: number;
+  count?: number;
+  value?: number;
+  groupValue?: number;
+  benchmarkValue?: number;
+  benchmarkWorst?: number;
+  benchmarkBest?: number;
+}
+
 export function SpineChartMissingValue({
   value,
 }: Readonly<SpineChartMissingData>) {
