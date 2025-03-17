@@ -82,7 +82,12 @@ jobs:
 
       - name: Set dynamic artifact name
         id: set-artifact-name
-        run: echo "ARTIFACT_NAME=playwright-artifacts-$(date +%s)" >> $GITHUB_ENV
+        run: |
+          if [ "${{ inputs.e2e-test-container-image != null }}" = "true" ]; then
+          echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
+          else
+          echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
+          fi
 
       - name: Upload playwright artefacts
         if: always()
