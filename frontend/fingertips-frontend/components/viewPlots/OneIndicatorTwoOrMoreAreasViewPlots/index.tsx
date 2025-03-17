@@ -32,7 +32,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    //  TODO: reinstate this
+    //  DHSCFT-483 to reinstate this
     // [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
@@ -112,7 +112,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
       ></BarChartEmbeddedTable>
       {
-        // TODO: restore this
+        // DHSCFT-483 to restore this
         // selectedGroupArea === 'ALL'
         selectedGroupCode && mapData && (
           <ThematicMap

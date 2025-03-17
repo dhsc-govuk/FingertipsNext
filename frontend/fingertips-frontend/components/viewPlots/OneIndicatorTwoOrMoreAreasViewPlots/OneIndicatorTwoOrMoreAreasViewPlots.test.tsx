@@ -193,7 +193,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     const searchState: SearchStateParams = {
       [SearchParams.GroupAreaSelected]: 'ALL',
       [SearchParams.AreaTypeSelected]: 'regions',
-      // TODO: remove this when using GAS
+      //  DHSCFT-483 to remove this when using GAS
       [SearchParams.GroupSelected]: 'a group',
     };
 
