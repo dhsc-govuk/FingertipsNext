@@ -13,6 +13,15 @@ jest.mock('next/navigation', () => {
   };
 });
 
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
 const mockOneIndicatorOneAreaView = jest.fn();
 jest.mock(
   './OneIndicatorOneAreaView/',
