@@ -41,6 +41,22 @@ describe('Inequalities suite', () => {
     ).toBeInTheDocument();
   });
 
+  it('should render expected text', () => {
+    render(
+      <Inequalities
+        healthIndicatorData={MOCK_HEALTH_DATA[1]}
+        searchState={state}
+      />
+    );
+
+    expect(screen.getAllByRole('heading', { level: 4 })[0]).toHaveTextContent(
+      'Inequalities data in a single time period'
+    );
+    expect(screen.getAllByRole('heading', { level: 4 })[1]).toHaveTextContent(
+      'Inequalities data over time'
+    );
+  });
+
   it('check if the measurement unit value "kg" is rendered correctly', () => {
     render(
       <Inequalities

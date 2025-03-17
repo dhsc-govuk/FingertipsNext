@@ -3,6 +3,7 @@ import {
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
+import { Sex } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -55,6 +56,12 @@ export function seriesDataWithoutEnglandOrGroup(
     (item) =>
       item.areaCode !== areaCodeForEngland && item.areaCode !== groupAreaCode
   );
+}
+
+export function getHealthDataWithoutInequalities(
+  data: HealthDataForArea
+): HealthDataPoint[] {
+  return data?.healthData?.filter((data) => data.sex === Sex.PERSONS);
 }
 
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {

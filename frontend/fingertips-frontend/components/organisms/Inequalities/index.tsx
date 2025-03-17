@@ -73,7 +73,6 @@ export function Inequalities({
                 dynamicKeys={dynamicKeys}
                 benchmarkValue={barChartBenchmarkValue}
                 measurementUnit={measurementUnit}
-                areasSelected={areasSelected}
                 yAxisLabel="Value"
               />
             ),

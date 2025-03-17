@@ -22,11 +22,7 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import {
-  HealthDataForArea,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-} from '@/generated-sources/ft-api-client';
-import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -64,12 +60,6 @@ export default async function ChartPage(
         {
           indicatorId: Number(indicatorId),
           areaCodes: areaCodesToRequest,
-          inequalities: shouldDisplayInequalities(
-            indicatorsSelected,
-            areasSelected
-          )
-            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-            : [],
         },
         API_CACHE_CONFIG
       )

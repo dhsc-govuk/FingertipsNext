@@ -1,21 +1,11 @@
 'use client';
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
-import {
-  isEnglandSoleSelectedArea,
-  seriesDataWithoutEnglandOrGroup,
-} from '@/lib/chartHelpers/chartHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
-import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { Inequalities } from '@/components/organisms/Inequalities';
 
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
@@ -29,35 +19,9 @@ export function Chart({
   healthIndicatorData,
   mapData,
   populationData,
-  searchState,
-  measurementUnit,
 }: Readonly<ChartProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
-
-  const {
-    [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
-
-  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
-    healthIndicatorData[0],
-    selectedGroupCode
-  );
-
   return (
     <>
-      {shouldDisplayInequalities(indicatorsSelected, areasSelected) && (
-        <Inequalities
-          healthIndicatorData={
-            !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
-              ? dataWithoutEngland[0]
-              : healthIndicatorData[0][0]
-          }
-          searchState={searchState}
-          measurementUnit={measurementUnit}
-        />
-      )}
       {populationData ? (
         <>
           <br />

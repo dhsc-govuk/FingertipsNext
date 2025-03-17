@@ -58,7 +58,6 @@ describe('Chart Page', () => {
         {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 1,
-          inequalities: ['sex'],
         },
         API_CACHE_CONFIG
       );
@@ -96,7 +95,6 @@ describe('Chart Page', () => {
         {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 1,
-          inequalities: [],
         },
         API_CACHE_CONFIG
       );
@@ -107,7 +105,6 @@ describe('Chart Page', () => {
         {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 2,
-          inequalities: [],
         },
         API_CACHE_CONFIG
       );
@@ -149,7 +146,6 @@ describe('Chart Page', () => {
         {
           areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
           indicatorId: 333,
-          inequalities: ['sex'],
         },
         API_CACHE_CONFIG
       );
@@ -188,7 +184,6 @@ describe('Chart Page', () => {
         {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: 333,
-          inequalities: ['sex'],
         },
         API_CACHE_CONFIG
       );

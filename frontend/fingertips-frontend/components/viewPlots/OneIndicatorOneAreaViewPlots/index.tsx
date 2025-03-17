@@ -3,7 +3,11 @@
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
-import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getHealthDataWithoutInequalities,
+  isEnglandSoleSelectedArea,
+  seriesDataWithoutEnglandOrGroup,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { BackLink, H2, H3, Paragraph } from 'govuk-react';
@@ -11,6 +15,7 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { Inequalities } from '@/components/organisms/Inequalities';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -32,17 +37,39 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreasSelected]: areasSelected,
+  } = stateManager.getSearchState();
   const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
   );
+
+  const dataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
+    ? [
+        {
+          ...dataWithoutEnglandOrGroup[0],
+          healthData: getHealthDataWithoutInequalities(
+            dataWithoutEnglandOrGroup[0]
+          ),
+        },
+      ]
+    : [];
+
   const englandBenchmarkData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
+
+  const englandBenchmarkWithoutInequalities: HealthDataForArea = {
+    areaCode: areaCodeForEngland,
+    areaName: 'England',
+    healthData: englandBenchmarkData
+      ? getHealthDataWithoutInequalities(englandBenchmarkData)
+      : [],
+  };
 
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
@@ -72,8 +99,8 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutEnglandOrGroup}
-                    benchmarkData={englandBenchmarkData}
+                    healthIndicatorData={dataWithoutInequalities}
+                    benchmarkData={englandBenchmarkWithoutInequalities}
                     searchState={searchState}
                     groupIndicatorData={groupData}
                     xAxisTitle="Year"
@@ -89,11 +116,11 @@ export function OneIndicatorOneAreaViewPlots({
               },
               {
                 id: 'table',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutEnglandOrGroup}
-                    englandBenchmarkData={englandBenchmarkData}
+                    healthIndicatorData={dataWithoutInequalities}
+                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
                     groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
                   />
@@ -112,6 +139,15 @@ export function OneIndicatorOneAreaViewPlots({
           />
         </>
       )}
+      <Inequalities
+        healthIndicatorData={
+          !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
+            ? dataWithoutEnglandOrGroup[0]
+            : healthIndicatorData[0]
+        }
+        searchState={searchState}
+        measurementUnit={indicatorMetadata?.unitLabel}
+      />
     </section>
   );
 }
