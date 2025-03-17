@@ -64,4 +64,10 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("benchmarkComparison")]
     public BenchmarkComparison? BenchmarkComparison { get; set; }
+
+    /// <summary>
+    ///     Is the data an aggregated point
+    /// </summary>
+    [JsonPropertyName("isAggregated")]
+    public bool IsAggregated { get; set; }
 }

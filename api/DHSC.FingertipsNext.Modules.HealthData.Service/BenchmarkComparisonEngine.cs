@@ -40,14 +40,19 @@ public static class BenchmarkComparisonEngine
             var areaHealthData = healthAreaData.HealthData;
             foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
-                var isInequality = IsInequalityDataPoint(healthDataPointOfInterest);
-                var benchmarkHealthDataPoints = isInequality ? areaHealthData : benchmarkHealthData.HealthData;
+                var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregated
+                    ? benchmarkHealthData.HealthData
+                    : areaHealthData;
                 var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
                     item.Year == healthDataPointOfInterest.Year &&
-                    !IsInequalityDataPoint(item));
+                    item.IsAggregated);
 
                 if (benchmarkHealthDataPoint == null)
                     continue;
+
+                if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
+                    healthDataPointOfInterest.UpperConfidenceInterval == null ||
+                    benchmarkHealthDataPoint.Value == null) continue;
 
                 var comparisonValue = 0;
                 if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
@@ -55,8 +60,12 @@ public static class BenchmarkComparisonEngine
                 if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
                     comparisonValue = 1;
 
-                var benchmarkAreaCode = isInequality ? healthAreaData.AreaCode : benchmarkHealthData.AreaCode;
-                var benchmarkAreaName = isInequality ? healthAreaData.AreaName : benchmarkHealthData.AreaName;
+                var benchmarkAreaCode = healthDataPointOfInterest.IsAggregated
+                    ? benchmarkHealthData.AreaCode
+                    : healthAreaData.AreaCode;
+                var benchmarkAreaName = healthDataPointOfInterest.IsAggregated
+                    ? benchmarkHealthData.AreaName
+                    : healthAreaData.AreaName;
 
                 healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
                 {
@@ -75,61 +84,41 @@ public static class BenchmarkComparisonEngine
 
     private static BenchmarkOutcome GetOutcome(int comparison, IndicatorPolarity polarity)
     {
-        switch (polarity)
+        return polarity switch
         {
-            case IndicatorPolarity.LowIsGood:
-                return GetLowerIsGood(comparison);
-            case IndicatorPolarity.HighIsGood:
-                return GetHigherIsGood(comparison);
-            default:
-                return GetNoJudgement(comparison);
-        }
+            IndicatorPolarity.LowIsGood => GetLowerIsGood(comparison),
+            IndicatorPolarity.HighIsGood => GetHigherIsGood(comparison),
+            _ => GetNoJudgement(comparison)
+        };
     }
 
     private static BenchmarkOutcome GetNoJudgement(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Lower;
-            case > 0:
-                return BenchmarkOutcome.Higher;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
+            < 0 => BenchmarkOutcome.Lower,
+            > 0 => BenchmarkOutcome.Higher,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 
     private static BenchmarkOutcome GetLowerIsGood(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Better;
-            case > 0:
-                return BenchmarkOutcome.Worse;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
+            < 0 => BenchmarkOutcome.Better,
+            > 0 => BenchmarkOutcome.Worse,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 
     private static BenchmarkOutcome GetHigherIsGood(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Worse;
-            case > 0:
-                return BenchmarkOutcome.Better;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
-    }
-
-    private static bool IsInequalityDataPoint(HealthDataPoint healthDataPoint)
-    {
-        if (healthDataPoint.Sex != "Persons") return true;
-        if (healthDataPoint.AgeBand != "All ages") return true;
-        // add any other conditions here that might determine if a datapoint is an inequality point or not
-        return false;
+            < 0 => BenchmarkOutcome.Worse,
+            > 0 => BenchmarkOutcome.Better,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 }

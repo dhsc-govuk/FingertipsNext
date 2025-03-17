@@ -137,16 +137,16 @@ public class IndicatorServiceTests
         const string expectedAreaName1 = "Area 1";
 
 
-        var healthMeasure1 = new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, upperCi: upperCi)
-            .WithAreaDimension(expectedAreaCode1, expectedAreaName1).Build();
+        var healthMeasure1 =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, upperCi: upperCi, isAggregated: true)
+                .WithAreaDimension(expectedAreaCode1, expectedAreaName1).Build();
 
         var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
 
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
         const string benchmarkAreaName = "Eng";
-        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023)
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregated: true, value: benchmarkValue)
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
-        healthMeasure2.Value = benchmarkValue;
         mockHealthData.Add(healthMeasure2);
 
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
@@ -223,8 +223,9 @@ public class IndicatorServiceTests
 
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
         const string benchmarkAreaName = "Eng";
-        var englandDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6)
-            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
+        var englandDataPoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6)
+                .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
 
         var mockHealthData = new List<HealthMeasureModel>
             { personsDataPoint, maleDataPoint, femaleDataPoint, englandDataPoint };
@@ -245,7 +246,7 @@ public class IndicatorServiceTests
         result[0].HealthData.Count().ShouldBe(3);
 
         var personsResult = result[0].HealthData.ElementAt(0);
-        personsResult.Sex.ShouldBe("Persons");
+        personsResult.Sex.ShouldBe("sex name");
         personsResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
             Outcome = BenchmarkOutcome.Worse,

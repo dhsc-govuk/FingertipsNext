@@ -4,11 +4,12 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 public class HealthMeasureModelHelper(
     int key = 1,
+    short year = 2025,
+    bool isAggregated = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
-    double? upperCi = 1.0,
-    short year = 2025
+    double? upperCi = 1.0
 )
 {
     private AreaDimensionModel _areaDimension;
@@ -55,19 +56,20 @@ public class HealthMeasureModelHelper(
     }
 
     public HealthMeasureModelHelper WithAgeDimension(
-        short? ageKey = null,
         string name = "age name",
         short ageId = 0,
         bool hasValue = false
     )
     {
-        return WithAgeDimension(new AgeDimensionModel
+        _ageDimension = new AgeDimensionModel
         {
             AgeKey = ageKey ?? (short) key,
             Name = name,
             AgeID = ageId,
             HasValue = hasValue
-        });
+        };
+
+        return this;
     }
 
     private AgeDimensionModel DefaultAgeDimension()
@@ -96,7 +98,7 @@ public class HealthMeasureModelHelper(
         DateTime? endDate = null
     )
     {
-        return WithIndicatorDimension(new IndicatorDimensionModel
+        _indicatorDimension = new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
@@ -126,18 +128,19 @@ public class HealthMeasureModelHelper(
     }
 
     public HealthMeasureModelHelper WithSexDimension(
-        byte? sexKey = null,
-        string name = "sex name",
+        string name = "Persons",
         bool hasValue = false,
         byte sexId = 0)
     {
-        return WithSexDimension(new SexDimensionModel
+        _sexDimension = new SexDimensionModel
         {
             SexKey = sexKey ?? (byte) key,
             Name = name,
             HasValue = hasValue,
             SexId = sexId
-        });
+        };
+
+        return this;
     }
 
     private SexDimensionModel DefaultSexDimension()
@@ -145,7 +148,7 @@ public class HealthMeasureModelHelper(
         return new SexDimensionModel
         {
             SexKey = (byte)key,
-            Name = "sex name",
+            Name = "Persons",
             HasValue = false,
             SexId = 0
         };
@@ -174,14 +177,16 @@ public class HealthMeasureModelHelper(
         byte sequence = 1,
         bool hasValue = false)
     {
-        return WithDeprivationDimension(new DeprivationDimensionModel
+        _deprivationDimension = new DeprivationDimensionModel
         {
             DeprivationKey = (byte)key,
             Name = name,
             Type = type,
             Sequence = sequence,
             HasValue = hasValue
-        });
+        };
+
+        return this;
     }
 
     private DeprivationDimensionModel DefaultDeprivationDimension()
@@ -224,7 +229,8 @@ public class HealthMeasureModelHelper(
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
-            DeprivationDimension = deprivationDimension
+            DeprivationDimension = deprivationDimension,
+            IsAggregated = isAggregated
         };
     }
 }
