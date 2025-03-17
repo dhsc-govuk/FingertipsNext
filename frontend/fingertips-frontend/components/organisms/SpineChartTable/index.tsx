@@ -200,7 +200,7 @@ export function SpineChartTableHeader({
 export function SpineChartMissingValue({
   value,
 }: Readonly<SpineChartMissingData>) {
-  return <>{value || 'X'}</>;
+  return <>{value ?? 'X'}</>;
 }
 
 export function SpineChartTableRow({
