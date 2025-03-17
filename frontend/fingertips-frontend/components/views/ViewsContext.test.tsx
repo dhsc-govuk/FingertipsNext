@@ -3,6 +3,15 @@ import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
 const mockOneIndicatorOneAreaView = jest.fn();
 jest.mock(
   './OneIndicatorOneAreaView/',

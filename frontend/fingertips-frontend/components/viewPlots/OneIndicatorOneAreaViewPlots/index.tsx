@@ -10,7 +10,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { BackLink, H2, H3, Paragraph } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
@@ -41,7 +41,6 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
-  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -79,11 +78,6 @@ export function OneIndicatorOneAreaViewPlots({
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
         dataWithoutEnglandOrGroup,
@@ -115,7 +109,7 @@ export function OneIndicatorOneAreaViewPlots({
                 ),
               },
               {
-                id: 'table',
+                id: 'lineChartTable',
                 title: 'Table',
                 content: (
                   <LineChartTable

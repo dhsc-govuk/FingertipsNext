@@ -58,7 +58,7 @@ export default class HomePage extends BasePage {
 
   async checkOnHomePage() {
     await expect(
-      this.page.getByText('Access public health data')
+      this.page.getByRole('heading', { name: 'Access public health data' })
     ).toBeVisible();
   }
 
