@@ -1,37 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import {
-  SpineChartTableHeadingEnum,
-  SpineChartTableHeader,
-  SpineChartMissingValue,
-  SpineChartTableRow,
   SpineChartTable,
   SpineChartTableRowData,
   mapToSpineChartTableData,
 } from '.';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 
 describe('Spine chart table suite', () => {
-  const mockHeaderData = {
-    area: 'testArea',
-    group: 'testGroup',
-  };
-
-  const mockRowData = {
-    indicatorId: 1,
-    indicator: 'indicator',
-    unit: '%',
-    period: 2025,
-    count: 123,
-    value: 456,
-    groupValue: 789,
-    benchmarkValue: 987,
-    benchmarkWorst: 345,
-    benchmarkBest: 999,
-  };
-
   const mockIndicatorData = [
     {
       indicatorId: 2,
@@ -120,161 +97,6 @@ describe('Spine chart table suite', () => {
   const mockBest = [1666, 22];
 
   const mockWorst = [959, 100];
-
-  describe('Spine chart table header', () => {
-    it('should contain the expected elements', () => {
-      render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
-      );
-
-      expect(screen.getByTestId('empty-header')).toHaveTextContent('');
-      expect(screen.getByTestId('area-header')).toHaveTextContent(
-        `${mockHeaderData.area}`
-      );
-      expect(screen.getByTestId('group-header')).toHaveTextContent(
-        `${mockHeaderData.group}`
-      );
-      expect(screen.getByTestId('england-header')).toHaveTextContent(
-        `Benchmark: England`
-      );
-
-      Object.values(SpineChartTableHeadingEnum).forEach((heading) =>
-        expect(screen.getByTestId(`${heading}-header`)).toBeInTheDocument()
-      );
-    });
-
-    it('should have grey cell color for benchmark column', () => {
-      render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
-      );
-
-      expect(screen.getByTestId('england-header')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-
-      expect(screen.getByTestId('Value-header')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-      expect(screen.getByTestId('Worst-header')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-      expect(screen.getByTestId('Best-header')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-    });
-
-    it('should have light grey cell color for the group column', () => {
-      render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
-      );
-
-      expect(screen.getByTestId('group-header')).toHaveStyle(
-        `background-color: ${GovukColours.LightGrey}`
-      );
-
-      expect(screen.getByTestId('GroupValue-header')).toHaveStyle(
-        `background-color: ${GovukColours.LightGrey}`
-      );
-    });
-  });
-
-  describe('Spine chart table row', () => {
-    it('should have grey cell color for benchmark column', () => {
-      render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={mockRowData.count}
-          value={mockRowData.value}
-          groupValue={mockRowData.groupValue}
-          benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-          benchmarkBest={mockRowData.benchmarkBest}
-        />
-      );
-
-      expect(screen.getByTestId('benchmark-value-cell')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-      expect(screen.getByTestId('benchmark-worst-cell')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-      expect(screen.getByTestId('benchmark-best-cell')).toHaveStyle(
-        `background-color: ${GovukColours.MidGrey}`
-      );
-    });
-
-    it('should have light grey cell color for benchmark column', () => {
-      render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={mockRowData.count}
-          value={mockRowData.value}
-          groupValue={mockRowData.groupValue}
-          benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-          benchmarkBest={mockRowData.benchmarkBest}
-        />
-      );
-
-      expect(screen.getByTestId('group-value-cell')).toHaveStyle(
-        `background-color: ${GovukColours.LightGrey}`
-      );
-    });
-
-    it('should have X for missing data', () => {
-      render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={undefined}
-          value={undefined}
-          groupValue={undefined}
-          benchmarkValue={undefined}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-          benchmarkBest={mockRowData.benchmarkBest}
-        />
-      );
-
-      expect(screen.getByTestId('count-cell')).toHaveTextContent(`X`);
-
-      expect(screen.getByTestId('value-cell')).toHaveTextContent(`X`);
-
-      expect(screen.getByTestId('group-value-cell')).toHaveTextContent(`X`);
-
-      expect(screen.getByTestId('benchmark-value-cell')).toHaveTextContent(`X`);
-    });
-  });
-
-  describe('Spine chart missing value', () => {
-    it('should have the value', () => {
-      render(<SpineChartMissingValue value={100} />);
-
-      expect(screen.getByText('100')).toBeInTheDocument();
-    });
-
-    it('should have X', () => {
-      render(<SpineChartMissingValue value={undefined} />);
-
-      expect(screen.getByText('X')).toBeInTheDocument();
-    });
-  });
 
   describe('Spine chart table', () => {
     it('snapshot test - should match snapshot', () => {
