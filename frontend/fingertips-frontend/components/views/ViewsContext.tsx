@@ -24,7 +24,7 @@ function viewSelector(
   areaCodes: string[],
   indicators: string[],
   searchState: SearchStateParams
-): JSX.Element | undefined {
+): JSX.Element {
   if (indicators.length === 1 && areaCodes.length === 1) {
     return <OneIndicatorOneAreaView searchState={searchState} />;
   }
