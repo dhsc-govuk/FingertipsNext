@@ -52,7 +52,6 @@ export function ViewsContext({
   areaFilterData,
   selectedAreasData,
 }: Readonly<ViewProps>) {
-  console.log(`areaFilterData ${areaFilterData}`);
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
