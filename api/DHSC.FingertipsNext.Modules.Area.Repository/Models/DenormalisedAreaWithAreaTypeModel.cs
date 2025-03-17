@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
@@ -56,7 +55,6 @@ public class DenormalisedAreaWithAreaTypeModel
     /// </summary>
     public AreaModel Normalise()
     {
-        Console.Write(AreaName);
         return new AreaModel { 
             AreaKey = AreaKey, 
             AreaCode = AreaCode, 

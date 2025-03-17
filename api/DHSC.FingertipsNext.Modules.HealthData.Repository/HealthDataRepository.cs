@@ -1,6 +1,5 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Repository.Models.BenchmarkComparisonModel;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -67,88 +66,18 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintilesAsync(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years)
     {
-        var healthData = await _dbContext.DenormalisedHealthMeasure.FromSql(
-                $"""
-                SELECT 
-                  hm.HealthMeasureKey,
-                  'A1234' as AreaDimensionCode,
-                  'SomeArea' as AreaDimensionName,
-                  ind.Name as IndicatorDimensionName,
-                  'Male' as SexDimensionName,
-                  'true' as SexDimensionHasValue,
-                  'trendName' as TrendDimensionName,
-                  'over 18' as AgeDimensionName,
-                  'true' as AgeDimensionHasValue,
-                  'most deprived' as DeprivationDimensionName,
-                  'IMD 2019' as DeprivationDimensionType,
-                  '9' as DeprivationDimensionSequence,
-                  'true' as DeprivationDimentionHasValue,
-                  Count,
-                  Value,
-                  LowerCi,
-                  UpperCi,
-                  Year,
-                  'similar' as BenchmarkComparisonOutcome,
-                  'CI with reference 95' as BenchmarkComparisonMethod,
-                  'High is better' as BenchmarkComparisonIndicatorPolarity,
-                  'E92000001' as BenchmarkComparisonAreaCode,
-                  'England' as BenchmarkComparisonAreaName
-                FROM
-                  dbo.HealthMeasure hm
-                JOIN
-                  dbo.IndicatorDimension ind
-                ON
-                  hm.IndicatorKey = ind.IndicatorKey
-                JOIN
-                  dbo.AreaDimension ad
-                ON
-                  hm.AreaKey = ad.AreaKey
-                JOIN
-                  dbo.SexDimension as sex
-                ON
-                  hm.SexKey = sex.SexKey
-                JOIN
-                  dbo.AgeDimension as age
-                ON
-                  hm.AgeKey = age.AgeKey
-                JOIN
-                  dbo.DeprivationDimension as imd
-                ON
-                  hm.DeprivationKey = imd.DeprivationKey
-                WHERE
-                  ind.IndicatorId = {indicatorId}
-                AND
-                  ad.Code in {areaCodes}
-                AND
-                  hm.Year in {years}
-                AND
-                  age.hasValue = false
-                AND
-                  sex.hasValue = false
-                AND
-                  imd.hasValue = false
-                ORDER BY
-                  hm.Year;
-                """
-            )
-            .ToListAsync();
+        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql(
+              "exec dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @IndicatorId=337, @AreaCode='A82003,A82008,A82009,A82010'"
+            ).ToListAsync();
 
-            
-        foreach (var item in healthData)
-        {
-            item.BenchmarkComparison = new BenchmarkComparison()
-            {
-                Outcome = "Best",
-                Method = "Quintile",
-                IndicatorPolarity = "HighIsGood",
-                BenchmarkAreaName = "England",
-                BenchmarkAreaCode = "E92000001"
-            };
-        }
 
-        return healthData;
+        var healthData = denormalisedHealthData.Select(healthData => healthData.Normalise()).ToList();
+
+        return [.. denormalisedHealthData
+            .Select(a => a.Normalise())
+            .OrderBy(a => a.AreaType.Level)];
     }
 
 

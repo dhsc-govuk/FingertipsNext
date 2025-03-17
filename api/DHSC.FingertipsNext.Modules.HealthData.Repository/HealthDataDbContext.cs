@@ -5,7 +5,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 public class HealthDataDbContext : DbContext
 {
-
     public HealthDataDbContext()
     {
     }
@@ -23,6 +22,4 @@ public class HealthDataDbContext : DbContext
     public DbSet<TrendDimensionModel> TrendDimension { get; set; }
     public DbSet<DeprivationDimensionModel> DeprivationDimension { get; set; }
     public DbSet<DenormalisedHealthMeasureModel> DenormalisedHealthMeasure { get; set; }
-
-    
 }

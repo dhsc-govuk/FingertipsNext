@@ -57,7 +57,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         if (comparisonMethod == BenchmarkComparisonMethod.Quintile)
         {
             // get the data from the database
-            var healthMeasureData2 = await healthDataRepository.GetIndicatorDataWithQuintilesAsync(
+            var healthMeasureData2 = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
                 indicatorId,
                 areaCodesForSearch.ToArray(),
                 years.Distinct().ToArray());
