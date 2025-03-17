@@ -124,53 +124,56 @@ export default async function ChartPage(
       );
     }
 
-  // Area filtering data
-  const areasApi = ApiClientFactory.getAreasApiClient();
+    // Area filtering data
+    const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const selectedAreasData =
-    areasSelected && areasSelected.length > 0
-      ? await Promise.all(
-          areasSelected.map((area) =>
-            areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+    const selectedAreasData =
+      areasSelected && areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+            )
           )
-        )
-      : [];
+        : [];
 
-  const {
-    availableAreaTypes,
-    availableAreas,
-    availableGroupTypes,
-    availableGroups,
-    updatedSearchState,
-  } = await getAreaFilterData(stateManager.getSearchState(), selectedAreasData);
+    const {
+      availableAreaTypes,
+      availableAreas,
+      availableGroupTypes,
+      availableGroups,
+      updatedSearchState,
+    } = await getAreaFilterData(
+      stateManager.getSearchState(),
+      selectedAreasData
+    );
 
-  if (updatedSearchState) {
-    stateManager.setState(updatedSearchState);
-  }
-
-  return (
-    <>
-      <ViewsContext
-        searchState={stateManager.getSearchState()}
-        selectedAreasData={selectedAreasData}
-        areaFilterData={{
-          availableAreaTypes,
-          availableGroupTypes,
-          availableGroups,
-          availableAreas,
-        }}
-      />
-      <Chart
-        populationData={preparedPopulationData}
-        healthIndicatorData={healthIndicatorData}
-        mapData={mapData}
-        searchState={stateManager.getSearchState()}
-        measurementUnit={indicatorMetadata?.unitLabel}
-      />
-    </>
-  );
-    } catch (error) {
-        console.log(`Error response received from call: ${error}`);
-        return <ErrorPage />;
+    if (updatedSearchState) {
+      stateManager.setState(updatedSearchState);
     }
+
+    return (
+      <>
+        <ViewsContext
+          searchState={stateManager.getSearchState()}
+          selectedAreasData={selectedAreasData}
+          areaFilterData={{
+            availableAreaTypes,
+            availableGroupTypes,
+            availableGroups,
+            availableAreas,
+          }}
+        />
+        <Chart
+          populationData={preparedPopulationData}
+          healthIndicatorData={healthIndicatorData}
+          mapData={mapData}
+          searchState={stateManager.getSearchState()}
+          measurementUnit={indicatorMetadata?.unitLabel}
+        />
+      </>
+    );
+  } catch (error) {
+    console.log(`Error response received from call: ${error}`);
+    return <ErrorPage />;
+  }
 }
