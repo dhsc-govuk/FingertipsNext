@@ -150,6 +150,7 @@ export default async function ChartPage(
     <>
       <ViewsContext
         searchState={stateManager.getSearchState()}
+        selectedAreasData={selectedAreasData}
         areaFilterData={{
           availableAreaTypes,
           availableGroupTypes,

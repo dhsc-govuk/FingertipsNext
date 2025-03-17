@@ -11,10 +11,12 @@ import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
+import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 
 export type ViewProps = {
   searchState: SearchStateParams;
   areaFilterData?: AreaFilterData;
+  selectedAreasData?: AreaWithRelations[];
 };
 
 function viewSelector(
@@ -48,6 +50,7 @@ function viewSelector(
 export function ViewsContext({
   searchState,
   areaFilterData,
+  selectedAreasData,
 }: Readonly<ViewProps>) {
   console.log(`areaFilterData ${areaFilterData}`);
   const stateManager = SearchStateManager.initialise(searchState);
@@ -59,7 +62,11 @@ export function ViewsContext({
   const indicators = indicatorsSelected ?? [];
 
   return (
-    <ChartPageWrapper searchState={searchState} areaFilterData={areaFilterData}>
+    <ChartPageWrapper
+      searchState={searchState}
+      areaFilterData={areaFilterData}
+      selectedAreasData={selectedAreasData}
+    >
       {viewSelector(areaCodes, indicators, searchState)}
     </ChartPageWrapper>
   );
