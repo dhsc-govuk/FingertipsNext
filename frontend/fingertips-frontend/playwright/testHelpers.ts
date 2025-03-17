@@ -39,7 +39,8 @@ export function getScenarioConfig(
     // ChartPage.inequalitiesLineChartComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    ChartPage.thematicMapComponent,
+    // Enable in DHSCFT-483
+    // ChartPage.thematicMapComponent,
     // Enable in DHSCFT-143
     // ChartPage.barChartEmbeddedTableComponent,
     // Pending
@@ -80,13 +81,15 @@ export function getScenarioConfig(
       // ChartPage.barChartEmbeddedTableComponent,
     ];
   }
+  // Enable in DHSCFT-483
   // 1 indicator, all areas in a group
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
   ) {
     visibleComponents = [
-      ChartPage.thematicMapComponent,
+      // Enable in DHSCFT-483
+      // ChartPage.thematicMapComponent,
       // Enable in DHSCFT-143
       // ChartPage.barChartEmbeddedTableComponent,
     ];
