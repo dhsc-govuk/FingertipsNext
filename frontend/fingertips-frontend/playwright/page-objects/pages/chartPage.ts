@@ -19,6 +19,14 @@ export default class ChartPage extends BasePage {
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
   static readonly inequalitiesComponent = 'inequalities-component';
+  static readonly inequalitiesBarChartTableComponent =
+    'inequalitiesBarChartTable-component';
+  static readonly inequalitiesLineChartTableComponent =
+    'inequalitiesLineChartTable-component';
+  static readonly inequalitiesBarChartComponent =
+    'inequalitiesBarChart-component';
+  static readonly inequalitiesLineChartComponent =
+    'inequalitiesLineChart-component';
   static readonly thematicMapComponent = 'thematicMap-component';
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
@@ -64,14 +72,16 @@ export default class ChartPage extends BasePage {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
-      if (visibleComponent !== 'lineChartTable-component') {
+      if (!visibleComponent.toLowerCase().includes('table')) {
         await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
           visible: true,
         });
       }
-      // click into the tab view if checking lineChartTable
-      if (visibleComponent === 'lineChartTable-component') {
-        await this.page.getByTestId('tabTitle-table').click();
+      // click tab to view the table view if checking a table component
+      if (visibleComponent.toLowerCase().includes('table')) {
+        await this.page
+          .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
+          .click();
         await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
           visible: true,
         });
@@ -81,7 +91,7 @@ export default class ChartPage extends BasePage {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500);
+      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear
 
       // for now just warn if visual comparisons do not match
       try {

@@ -88,7 +88,7 @@ export function OneIndicatorOneAreaViewPlots({
                 ),
               },
               {
-                id: 'table',
+                id: 'lineChartTable',
                 title: 'Tabular data',
                 content: (
                   <LineChartTable
