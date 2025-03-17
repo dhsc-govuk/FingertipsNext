@@ -145,7 +145,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
       [SearchParams.GroupAreaSelected]: 'ALL',
       [SearchParams.AreaTypeSelected]: 'regions',
-      // TODO: remove this
+      // DHSCFT-483 to remove this
       [SearchParams.GroupSelected]: 'a group',
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([

@@ -16,8 +16,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorsApi, AreasApi } from '@/generated-sources/ft-api-client';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
-import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import {
   allAreaTypes,
