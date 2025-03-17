@@ -9,9 +9,11 @@ import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
+import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 
 export type ViewProps = {
   searchState: SearchStateParams;
+  areaFilterData?: AreaFilterData;
 };
 
 function viewSelector(
@@ -42,7 +44,11 @@ function viewSelector(
   throw new Error('Parameters do not match any known view');
 }
 
-export function ViewsContext({ searchState }: Readonly<ViewProps>) {
+export function ViewsContext({
+  searchState,
+  areaFilterData,
+}: Readonly<ViewProps>) {
+  console.log(`areaFilterData ${areaFilterData}`);
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
