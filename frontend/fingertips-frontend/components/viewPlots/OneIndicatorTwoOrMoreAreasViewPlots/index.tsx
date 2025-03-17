@@ -7,7 +7,7 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { BackLink, H2, H3, Paragraph } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -26,7 +26,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
-  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -50,11 +49,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
@@ -78,7 +72,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 ),
               },
               {
-                id: 'table',
+                id: 'lineChartTable',
                 title: 'Tabular data',
                 content: (
                   <LineChartTable

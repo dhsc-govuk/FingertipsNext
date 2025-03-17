@@ -74,22 +74,6 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
-  it('should render back link with correct search parameters', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    const backLink = await screen.findByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}&${SearchParams.AreasSelected}=${mockAreas[1]}`;
-
-    expect(backLink).toBeInTheDocument();
-    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
-    expect(backLink).toHaveAttribute('href', expectedUrl);
-  });
-
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
