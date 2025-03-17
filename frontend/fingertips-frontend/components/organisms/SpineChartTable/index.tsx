@@ -155,14 +155,14 @@ export function SpineChartTableHeader({
       </Table.Row>
       <Table.Row>
         {Object.values(SpineChartTableHeadingEnum).map((heading, index) =>
-          index === 0 || index === 1 ? (
+          (index === 0 || index === 1) ? (
             <StyledAlignLeftHeader
-              key={index}
+              key={heading}
               data-testid={`${heading}-header-${index}`}
             >
               {heading}
             </StyledAlignLeftHeader>
-          ) : index === 2 || index === 3 ? (
+          ) : (index === 2 || index === 3) ? (
             <StyledAlignCentreHeader
               key={index}
               data-testid={`${heading}-header-${index}`}
@@ -262,8 +262,8 @@ export function SpineChartTable({
     indicatorHealthData,
     groupIndicatorData,
     englandBenchmarkData,
-    worst,
-    best
+    best,
+    worst
   );
   const sortedData = sortByIndicator(tableData);
 
@@ -274,11 +274,11 @@ export function SpineChartTable({
           areaName={indicatorHealthData[0].areaName}
           groupName={groupIndicatorData[0].areaName}
         />
-        {sortedData.map((row, index) => {
+        {sortedData.map((row) => {
           return (
-            <React.Fragment key={index}>
+            <React.Fragment key={row.indicatorId}>
               <SpineChartTableRow
-                indicatorId={index}
+                indicatorId={row.indicatorId}
                 indicator={row.indicator}
                 unit={row.unit}
                 period={row.period}
