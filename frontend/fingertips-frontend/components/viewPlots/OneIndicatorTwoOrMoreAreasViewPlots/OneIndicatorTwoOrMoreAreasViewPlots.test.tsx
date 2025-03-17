@@ -44,7 +44,7 @@ const searchState: SearchStateParams = {
 const lineChartTestId = 'lineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'See how the indicator has changed over time';
+const lineChartContainerTitle = 'Indicator data over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 
 const assertLineChartAndTableInDocument = async () => {

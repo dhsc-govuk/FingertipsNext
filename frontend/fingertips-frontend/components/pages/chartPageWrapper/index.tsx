@@ -34,14 +34,14 @@ export function ChartPageWrapper({
         aria-label="Go back to the previous page"
       />
       <GridRow>
-        <GridCol setWidth="one-third">
+        {/* <GridCol setWidth="one-third">
           <AreaFilterPane
             key={JSON.stringify(searchState)}
             areaFilterData={areaFilterData}
             selectedAreasData={selectedAreasData}
             searchState={searchState}
           />
-        </GridCol>
+        </GridCol> */}
         <GridCol>{children}</GridCol>
       </GridRow>
     </>

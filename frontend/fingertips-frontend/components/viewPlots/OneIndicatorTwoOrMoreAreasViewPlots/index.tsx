@@ -52,7 +52,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
-          <H3>See how the indicator has changed over time</H3>
+          <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -73,7 +73,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
               },
               {
                 id: 'lineChartTable',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
