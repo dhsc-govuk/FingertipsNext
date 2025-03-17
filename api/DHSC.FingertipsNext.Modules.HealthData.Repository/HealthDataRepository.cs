@@ -17,9 +17,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .GroupBy(x => x.IndicatorKey)
             .Select(x => new
             {
-                SexKeyCount = x.Select(hm => hm.SexKey).Distinct().Count(),
-                AgeKeyCount = x.Select(hm => hm.AgeKey).Distinct().Count(),
-                DeprivationKeyCount = x.Select(hm => hm.DeprivationKey).Distinct().Count()
+                SexKeyCount = inequalities.Contains("sex") ? 1 : x.Select(hm => hm.SexKey).Distinct().Count(),
+                AgeKeyCount = inequalities.Contains("age") ? 1 : x.Select(hm => hm.AgeKey).Distinct().Count(),
+                DeprivationKeyCount = inequalities.Contains("deprivation") ? 1 : x.Select(hm => hm.DeprivationKey).Distinct().Count()
             })
             .AsNoTracking()
             .ToListAsync();
