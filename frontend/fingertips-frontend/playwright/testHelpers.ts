@@ -33,10 +33,10 @@ export function getScenarioConfig(
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesComponent,
-    // Enable in DHSCFT-220
-    // ChartPage.inequalitiesBarChartComponent,
-    // Enable in DHSCFT-220
-    // ChartPage.inequalitiesLineChartComponent,
+    ChartPage.inequalitiesBarChartComponent,
+    ChartPage.inequalitiesLineChartComponent,
+    ChartPage.inequalitiesBarChartTableComponent,
+    ChartPage.inequalitiesLineChartTableComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
     // Enable in DHSCFT-483
@@ -60,9 +60,10 @@ export function getScenarioConfig(
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       ChartPage.inequalitiesComponent,
-      // Enable in DHSCFT-220
-      // ChartPage.inequalitiesBarChartComponent,
-      // ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartTableComponent,
+      ChartPage.inequalitiesLineChartTableComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
     ];
