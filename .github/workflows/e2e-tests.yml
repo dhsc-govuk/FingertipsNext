@@ -81,6 +81,7 @@ jobs:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Set dynamic artifact name
+        if: always()
         id: set-artifact-name
         run: |
           if [ "${{ inputs.e2e-test-container-image == null }}" = "true" ]; then
