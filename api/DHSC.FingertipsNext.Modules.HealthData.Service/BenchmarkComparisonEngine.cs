@@ -37,22 +37,21 @@ public static class BenchmarkComparisonEngine
 
         foreach (var healthAreaData in allHealthAreasOfInterest)
         {
-            var areaHealthData = healthAreaData.HealthData;
+            var sameAreaHealthData = healthAreaData.HealthData;
             foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
             {
+                if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
+                    healthDataPointOfInterest.UpperConfidenceInterval == null) continue;
+
                 var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregated
                     ? benchmarkHealthData.HealthData
-                    : areaHealthData;
+                    : sameAreaHealthData;
                 var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
                     item.Year == healthDataPointOfInterest.Year &&
-                    item.IsAggregated);
+                    item.IsAggregated && item.Value != null);
 
                 if (benchmarkHealthDataPoint == null)
                     continue;
-
-                if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
-                    healthDataPointOfInterest.UpperConfidenceInterval == null ||
-                    benchmarkHealthDataPoint.Value == null) continue;
 
                 var comparisonValue = 0;
                 if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
