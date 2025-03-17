@@ -5,9 +5,7 @@ import {
   HealthDataForArea,
   Indicator,
 } from '@/generated-sources/ft-api-client';
-import styled from 'styled-components';
 import React from 'react';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
@@ -16,6 +14,17 @@ import {
   StyledDiv,
   StyledGreyHeader,
 } from '@/lib/tableHelpers';
+
+import {
+  StyledAlignCentreHeader,
+  StyledAlignCentreTableCell,
+  StyledGroupHeader,
+  StyledGroupSubHeader,
+  StyledBenchmarkHeader,
+  StyledBenchmarkSubHeader,
+  StyledGroupCell,
+  StyledBenchmarkCell,
+} from './SpineChartTableStyles'
 
 export enum SpineChartTableHeadingEnum {
   IndicatorName = 'Indicator',
@@ -60,50 +69,6 @@ export interface SpineChartTableProps {
   best: number[];
   worst: number[];
 }
-
-const StyledAlignCentreHeader = styled(StyledAlignLeftHeader)({
-  textAlign: 'center',
-});
-
-const StyledAlignCentreTableCell = styled(StyledAlignLeftTableCell)({
-  textAlign: 'center',
-});
-
-const StyledGroupHeader = styled(StyledGreyHeader)({
-  backgroundColor: GovukColours.LightGrey,
-  borderTop: GovukColours.MidGrey,
-  textAlign: 'left',
-});
-
-const StyledGroupSubHeader = styled(StyledGreyHeader)({
-  backgroundColor: GovukColours.LightGrey,
-  borderTop: GovukColours.MidGrey,
-  textAlign: 'right',
-});
-
-const StyledBenchmarkHeader = styled(StyledGreyHeader)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: GovukColours.LightGrey,
-  textAlign: 'center',
-});
-
-const StyledBenchmarkSubHeader = styled(StyledGreyHeader)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: GovukColours.LightGrey,
-  textAlign: 'right',
-});
-
-const StyledGroupCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GovukColours.LightGrey,
-  borderTop: GovukColours.MidGrey,
-  textAlign: 'right',
-});
-
-const StyledBenchmarkCell = styled(StyledAlignRightTableCell)({
-  backgroundColor: GovukColours.MidGrey,
-  borderTop: GovukColours.LightGrey,
-  textAlign: 'right',
-});
 
 export const mapToSpineChartTableData = (
   indicators: Indicator[],
