@@ -10,6 +10,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
+import { ChartPageWrapper } from '../pages/chartPageWrapper';
 
 export type ViewProps = {
   searchState: SearchStateParams;
@@ -57,5 +58,9 @@ export function ViewsContext({
   const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
 
-  return viewSelector(areaCodes, indicators, searchState);
+  return (
+    <ChartPageWrapper searchState={searchState} areaFilterData={areaFilterData}>
+      {viewSelector(areaCodes, indicators, searchState)}
+    </ChartPageWrapper>
+  );
 }
