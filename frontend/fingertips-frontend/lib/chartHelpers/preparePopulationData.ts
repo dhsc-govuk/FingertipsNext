@@ -2,8 +2,8 @@ import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export interface PopulationDataForArea {
-  areaName: string;
-  areaCode: string;
+  areaName?: string;
+  areaCode?: string;
   ageCategories: Array<string>;
   femaleSeries: Array<number>;
   maleSeries: Array<number>;

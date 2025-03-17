@@ -91,6 +91,7 @@ export default async function OneIndicatorOneAreaView({
 
   return (
     <OneIndicatorOneAreaViewPlots
+      populationHealthIndicatorData={healthPopulationData}
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}

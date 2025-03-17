@@ -108,11 +108,11 @@ export function OneIndicatorOneAreaViewPlots({
           />
         </>
       )}
-
       <PyramidPopulationChartView
         populationHealthDataForAreas={populationHealthIndicatorData}
         xAxisTitle="Age"
         yAxisTitle="Percentage"
+        groupAreaCode="A1425"
       />
     </section>
   );

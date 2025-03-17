@@ -43,6 +43,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   it('should render back link with correct search parameters', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
+        populationHealthIndicatorData={[]}
         healthIndicatorData={testHealthData}
         searchState={searchState}
       />
@@ -58,6 +59,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
+        populationHealthIndicatorData={[]}
         healthIndicatorData={[mockHealthData['108'][1]]}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
@@ -78,6 +80,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   it('should render the LineChart components', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
+        populationHealthIndicatorData={[]}
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
@@ -100,6 +103,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
   it('should display data source when metadata exists', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
+        populationHealthIndicatorData={[]}
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
@@ -122,6 +126,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     render(
       <OneIndicatorOneAreaViewPlots
+        populationHealthIndicatorData={[]}
         healthIndicatorData={MOCK_DATA}
         searchState={searchState}
         indicatorMetadata={mockMetaData}

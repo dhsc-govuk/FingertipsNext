@@ -17,6 +17,7 @@ interface AreaSelectInputFieldProps {
   onSelected?: (area: Omit<AreaDocument, 'areaType'>) => void;
   areas: Omit<AreaDocument, 'areaType'>[];
   title: string;
+  visibility?: boolean;
 }
 
 export const AreaSelectInputField = ({
@@ -24,7 +25,9 @@ export const AreaSelectInputField = ({
   selectedAreaCode,
   onSelected,
   title,
+  visibility = true,
 }: AreaSelectInputFieldProps) => {
+  if (!visibility) return <></>;
   return (
     <StyledAreaSelectInputField
       label={title}

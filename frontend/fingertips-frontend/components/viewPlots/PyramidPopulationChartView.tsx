@@ -1,7 +1,7 @@
 'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useMemo } from 'react';
+import { useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
@@ -15,8 +15,7 @@ const filterHealthDataForArea = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string | undefined
 ) => {
-  // the group area code wil be the baseline
-  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
+  let areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
     return groupAreaCode != area.areaCode;
   });
 
@@ -34,22 +33,38 @@ const filterHealthDataForArea = (
       );
     });
   }
+
+  //removed baseline and england area from the areas
+  if (england) {
+    areas = areas.filter((area: HealthDataForArea) => {
+      return area.areaCode != england.areaCode;
+    });
+  }
+
+  if (baseline) {
+    areas = areas.filter((area: HealthDataForArea) => {
+      return area.areaCode != baseline.areaCode;
+    });
+  }
+
   return { areas, england, baseline };
 };
 
 interface PyramidPopulationChartViewProps {
   populationHealthDataForAreas: HealthDataForArea[];
-  selectedGroupAreaCode: string | undefined;
   xAxisTitle: string;
   yAxisTitle: string;
+  groupAreaCode: string;
 }
 
 export const PyramidPopulationChartView = ({
   populationHealthDataForAreas,
-  selectedGroupAreaCode,
   xAxisTitle,
   yAxisTitle,
+  groupAreaCode,
 }: PyramidPopulationChartViewProps) => {
+  const [toggleClose, setToggleClose] = useState<boolean>();
+
   const convertedData = ((
     dataAreas: HealthDataForArea[],
     groupAreaCode: string | undefined
@@ -69,59 +84,97 @@ export const PyramidPopulationChartView = ({
       england: pyramidEngland,
       baseline: pyramidBaseline,
     };
-  })(populationHealthDataForAreas, selectedGroupAreaCode);
+  })(populationHealthDataForAreas, groupAreaCode);
 
-  if (convertedData.areas?.length === 0) {
-    return <></>;
-  }
+  const defaultArea = (() => {
+    let area =
+      convertedData?.areas?.length === 1 ? convertedData?.areas[0] : undefined;
+    if (!area) {
+      if (convertedData?.areas?.length > 0) {
+        area = convertedData?.areas[0];
+      }
+    }
+    return area;
+  })();
 
-  const selectedArea: PopulationDataForArea = convertedData
-    .areas[0] as PopulationDataForArea;
+  const [selectedArea, setSelectedPopulationForArea] = useState<
+    PopulationDataForArea | undefined
+  >(defaultArea);
+
   return (
     <div>
-      <div>
-        <h1>Related Population Data</h1>
-        <button>Close</button>
+      <h1>Related Population Data</h1>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setToggleClose(!toggleClose);
+        }}
+      >
+        {toggleClose != true ? 'Close' : 'Open'}
+      </button>
+      {toggleClose ? null : (
         <div>
-          <AreaSelectInputField
-            title="Select an area"
-            areas={populationHealthDataForAreas.map(
-              (healthData: HealthDataForArea, _: number) => {
-                return {
-                  areaCode: healthData.areaCode,
-                  areaName: healthData.areaName,
-                };
-              }
-            )}
-            onSelected={(area: Omit<AreaDocument, 'areaType'>) => {
-              console.log(area);
-            }}
-          />
+          <div>
+            <AreaSelectInputField
+              title="Select an area"
+              areas={convertedData?.areas.map(
+                (healthData: PopulationDataForArea | undefined, _: number) => {
+                  return {
+                    areaCode: healthData?.areaCode,
+                    areaName: healthData?.areaName,
+                  } as Omit<AreaDocument, 'areaType'>;
+                }
+              )}
+              onSelected={(area: Omit<AreaDocument, 'areaType'>) => {
+                if (convertedData.areas) {
+                  const selectedArea = convertedData.areas.find(
+                    (pArea: PopulationDataForArea | undefined, _: number) => {
+                      return pArea?.areaCode == area?.areaCode;
+                    }
+                  );
+                  setSelectedPopulationForArea(selectedArea);
+                  console.log(selectedArea);
+                }
+              }}
+              visibility={convertedData?.areas.length === 1 ? false : true}
+            />
+          </div>
+          {selectedArea ? (
+            <TabContainer
+              id="pyramidChartAndTableView"
+              items={[
+                {
+                  id: 'populationPyramidChart',
+                  title: 'Population pyramid',
+                  content: (
+                    <>
+                      <div style={{ margin: '0px', padding: '0px' }}>
+                        <h3 style={{ margin: '0px', padding: '0px' }}>
+                          Resident Population profile {selectedArea?.areaName}{' '}
+                          2024{' '}
+                        </h3>
+                      </div>
+
+                      <PopulationPyramid
+                        dataForSelectedArea={selectedArea}
+                        dataForBaseline={convertedData.baseline}
+                        dataForEngland={convertedData.england}
+                        xAxisTitle={xAxisTitle}
+                        yAxisTitle={yAxisTitle}
+                      />
+                    </>
+                  ),
+                },
+                {
+                  id: 'populationPyramidTable',
+                  title: 'Table',
+                  content: <div>The table here</div>,
+                },
+              ]}
+            />
+          ) : null}
         </div>
-      </div>
-      <TabContainer
-        id="pyramidChartAndTableView"
-        items={[
-          {
-            id: 'populationPyramidChart',
-            title: 'Population pyramid',
-            content: (
-              <PopulationPyramid
-                dataForSelectedArea={selectedArea}
-                dataForBaseline={convertedData.baseline}
-                dataForEngland={convertedData.england}
-                xAxisTitle={xAxisTitle}
-                yAxisTitle={yAxisTitle}
-              />
-            ),
-          },
-          {
-            id: 'populationPyramidTable',
-            title: 'Table',
-            content: <div>The table here</div>,
-          },
-        ]}
-      />
+      )}
     </div>
   );
 };
