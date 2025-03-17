@@ -76,7 +76,7 @@ export function ViewsContext({
     areaCodes =
       areaFilterData?.availableAreas?.map((area) => {
         return area.code;
-      }) || [];
+      }) ?? [];
   } else {
     areaCodes = areasSelected ?? [];
   }

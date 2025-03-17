@@ -77,6 +77,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
+      areaCodes={areaCodes}
     />
   );
 }
