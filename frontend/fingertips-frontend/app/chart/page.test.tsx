@@ -15,9 +15,23 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import { IndicatorsApi, AreasApi } from '@/generated-sources/ft-api-client';
 import { getMapData } from '@/lib/thematicMapUtils/getMapData';
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import {
+  allAreaTypes,
+  englandAreaType,
+  nhsRegionsAreaType,
+} from '@/lib/areaFilterHelpers/areaType';
+import {
+  mockAvailableAreas,
+  mockAreaDataForNHSRegion,
+} from '@/mock/data/areaData';
+import {
+  eastEnglandNHSRegion,
+  londonNHSRegion,
+} from '@/mock/data/areas/nhsRegionsAreas';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -26,6 +40,16 @@ jest.mock('@/components/pages/chart');
 jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
   getMapData: jest.fn(),
 }));
+
+jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
+
+const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
+  typeof getAreaFilterData
+>;
+mockGetAreaFilterData.mockResolvedValue({});
+
+const mockAreasApi = mockDeep<AreasApi>();
+ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -352,6 +376,66 @@ describe('Chart Page', () => {
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: ['E06000047'],
       });
+    });
+
+    it('should pass the areaFilterData prop with the data from the getAreaFilterData call', async () => {
+      const areaFilterData = {
+        availableAreaTypes: allAreaTypes,
+        availableGroupTypes: [nhsRegionsAreaType, englandAreaType],
+        availableGroups: mockAvailableAreas['nhs-integrated-care-boards'],
+        availableAreas:
+          mockAreaDataForNHSRegion[eastEnglandNHSRegion.code].children,
+      };
+
+      mockGetAreaFilterData.mockResolvedValue(areaFilterData);
+
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+      };
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockGetAreaFilterData).toHaveBeenCalledWith(searchState, []);
+      expect(page.props.children[0].props.areaFilterData).toEqual(
+        areaFilterData
+      );
+    });
+
+    it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
+      mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
+      mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
+
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+      };
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCode: eastEnglandNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCode: londonNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
+      expect(page.props.children[0].props.selectedAreasData).toEqual([
+        eastEnglandNHSRegion,
+        londonNHSRegion,
+      ]);
     });
   });
 });

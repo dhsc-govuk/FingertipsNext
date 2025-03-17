@@ -394,32 +394,6 @@ SELECT
 FROM
     #TempAreaData;
 
--- Insert additional district-level records for applicable AreaCodes
-INSERT INTO [Areas].[Areas] 
-(
-    AreaCode,
-    AreaName,
-    AreaTypeKey
-)
-SELECT
-    AreaCode,
-    AreaName,
-    (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary) -- Lookup AreaTypeKey
-FROM
-     #TempAreaData
-WHERE 
-    LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')  -- Match the required areaCode prefixes
-    AND NOT EXISTS
-    (
-        SELECT 
-            1
-        FROM 
-            [Areas].[Areas] 
-        WHERE
-            AreaCode = #TempAreaData.AreaCode 
-        AND 
-            AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)
-    );
 
 INSERT INTO [Areas].[AreaRelationships] 
 (
@@ -436,22 +410,45 @@ CROSS APPLY
 WHERE
     value!='""'
 
--- Insert parent-child relationships for newly created district-level areas
-INSERT INTO [Areas].[AreaRelationships] 
+-- Insert additional district-level records for applicable AreaCodes
+--create a table variable to temporarily store the data
+--insert the higher level UAs into into
+DECLARE @HigherLevels TABLE
 (
+    AreaKey INT, 
+    AreaCode NVARCHAR(255), 
+    AreaName NVARCHAR(255)
+)
+INSERT INTO @HigherLevels
+SELECT
+    AreaKey,
+    AreaCode,
+    AreaName
+FROM 
+    [Areas].[Areas] a 
+WHERE 
+    a.AreaCode LIKE 'E09%' OR a.AreaCode LIKE 'E08%' OR a.AreaCode LIKE 'E06%'
+
+--replicate the higher level UAs and give them the lower level area type
+INSERT INTO [Areas].[Areas]
+SELECT 
+	AreaCode,
+	AreaName,
+	'districts-and-unitary-authorities'
+FROM
+	@HigherLevels
+
+ --the lower level UA has the high level UA as the parent
+ INSERT INTO [Areas].[AreaRelationships]
+ (
     ParentAreaKey,
     ChildAreaKey
-)
-SELECT
-    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = T.AreaCode 
-        AND AreaTypeKey = (SELECT TOP 1 AreaTypeKey FROM [Areas].[AreaTypes] WHERE AreaTypeName = @DistrictsAndUnitary)),
-    (SELECT TOP 1 [AreaKey] FROM [Areas].[Areas] WHERE [AreaCode] = value)
-FROM
-    #TempAreaData T
-CROSS APPLY STRING_SPLIT(Children, '|')
-WHERE 
-    LEFT(AreaCode, 3) IN ('E06', 'E08', 'E09')
-    AND value != '""'
+ )
+ SELECT 
+	higher.AreaKey,
+	(SELECT TOP 1 AreaKey FROM [Areas].[Areas] WHERE [AreaName]=higher.AreaName AND [AreaTypeKey]='districts-and-unitary-authorities')
+ FROM
+	@HigherLevels higher
 
 DROP TABLE #TempAreaData;
 GO
