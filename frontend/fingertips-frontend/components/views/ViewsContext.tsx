@@ -12,6 +12,7 @@ import { JSX } from 'react';
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export type ViewProps = {
   searchState: SearchStateParams;
@@ -23,13 +24,18 @@ function viewSelector(
   areaCodes: string[],
   indicators: string[],
   searchState: SearchStateParams
-): JSX.Element {
+): JSX.Element | undefined {
   if (indicators.length === 1 && areaCodes.length === 1) {
     return <OneIndicatorOneAreaView searchState={searchState} />;
   }
 
   if (indicators.length === 1 && areaCodes.length >= 2) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+    return (
+      <OneIndicatorTwoOrMoreAreasView
+        searchState={searchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
 
   if (
@@ -41,7 +47,12 @@ function viewSelector(
   }
 
   if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
+    return (
+      <TwoOrMoreIndicatorsAreasView
+        searchState={searchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
 
   throw new Error('Parameters do not match any known view');
@@ -56,9 +67,19 @@ export function ViewsContext({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
-  const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
+
+  let areaCodes;
+  if (groupAreaSelected === ALL_AREAS_SELECTED) {
+    areaCodes =
+      areaFilterData?.availableAreas?.map((area) => {
+        return area.code;
+      }) || [];
+  } else {
+    areaCodes = areasSelected ?? [];
+  }
 
   return (
     <ChartPageWrapper
