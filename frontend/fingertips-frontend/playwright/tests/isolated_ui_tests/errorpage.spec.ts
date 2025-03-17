@@ -1,12 +1,6 @@
 import { test } from '../../page-objects/pageFactory';
 import { server } from '@/mock/server/node';
 import { ErrorAreaCode, ErrorIndicatorId } from '@/mock/ErrorTriggeringIds';
-const subjectSearchTerm = 'hospital';
-
-test.beforeAll(
-  `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
-  () => {}
-);
 
 test.describe('Error page tests', () => {
   test('Home page displays ErrorPage when API returns unexpected error', async ({
