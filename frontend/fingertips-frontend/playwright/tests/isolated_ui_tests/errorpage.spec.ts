@@ -66,4 +66,3 @@ test.describe('Error page tests', () => {
     await homePage.expectNoAccessibilityViolations(axeBuilder);
   });
 });
-
