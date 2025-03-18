@@ -362,6 +362,7 @@ describe('Chart Page', () => {
       const searchState: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.AreasSelected]: ['an area'],
       };
 
       const page = await ChartPage({

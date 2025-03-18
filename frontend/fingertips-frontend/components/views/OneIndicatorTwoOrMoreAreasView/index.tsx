@@ -15,18 +15,23 @@ import {
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
 
+interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
+  areaCodes: string[];
+}
+
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
-}: Readonly<ViewProps>) {
+  areaCodes,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
+  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -85,6 +90,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
+      areaCodes={areaCodes}
     />
   );
 }

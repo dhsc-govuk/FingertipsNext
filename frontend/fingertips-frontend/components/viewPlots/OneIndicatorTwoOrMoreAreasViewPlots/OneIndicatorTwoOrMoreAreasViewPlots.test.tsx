@@ -46,7 +46,6 @@ const testHealthData: HealthDataForArea[] = [
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: mockIndicator,
-  [SearchParams.AreasSelected]: mockAreas,
 };
 
 const lineChartTestId = 'lineChart-component';
@@ -87,6 +86,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
+        areaCodes={mockAreas}
       />
     );
 
@@ -107,6 +107,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={mockAreas}
       />
     );
     await assertLineChartAndTableInDocument();
@@ -118,6 +119,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={mockAreas}
       />
     );
     const actual = await screen.findAllByText('Data source:', { exact: false });
@@ -142,6 +144,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={MOCK_DATA}
         searchState={state}
+        areaCodes={mockAreas}
       />
     );
 
@@ -157,13 +160,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={[
-          mockHealthData[108][1],
-          mockHealthData[108][2],
-          mockHealthData[108][3],
-        ]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={[...mockAreas, 'third area']}
       />
     );
 
@@ -171,7 +171,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   });
 
   describe('BarChartEmbeddedTable', () => {
-    it('should render the BarChartEmbeddedTable component, when two or more areas are selected', () => {
+    it('should render the BarChartEmbeddedTable component, when two or more areas are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.SearchedIndicator]: mockSearch,
         [SearchParams.IndicatorsSelected]: mockIndicator,
@@ -182,10 +182,13 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
           searchState={searchState}
+          areaCodes={mockAreas}
         />
       );
 
-      expect(screen.getByTestId(barChartEmbeddedTable)).toBeInTheDocument();
+      expect(
+        await screen.findByTestId(barChartEmbeddedTable)
+      ).toBeInTheDocument();
     });
   });
 
