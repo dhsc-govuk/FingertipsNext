@@ -386,4 +386,76 @@ public class IndicatorServiceTests
             result.First().HealthData.ElementAt(1).BenchmarkComparison.ShouldBeNull();
         }
     }
+
+    [Fact]
+    public async Task GetIndicatorData_ShouldBenchmarkDeprivations()
+    {
+        var englandPoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3, isAggregate: true)
+                .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng").WithDeprivationDimension().Build();
+        
+        var aggregatePoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6, isAggregate: true)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension().Build();
+
+        var disAggregatePoint1 =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 7, value: 8, upperCi: 9, isAggregate: false)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension("one").Build();
+        
+        var disAggregatePoint2 =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 3, upperCi: 4, isAggregate: false)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension("two").Build();
+
+        var mockHealthData = new List<HealthMeasureModel>
+            { englandPoint, aggregatePoint, disAggregatePoint1, disAggregatePoint2 };
+
+
+        _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
+            .Returns(mockHealthData);
+
+        _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
+        var result =
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Deprivation"],
+                BenchmarkComparisonMethod.Rag))
+            .ToList();
+
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(1);
+        var areasResults = result.First().HealthData;
+        var aggregatePointResult = areasResults.ElementAt(0);
+        aggregatePointResult.Deprivation.ShouldBe("All");
+        aggregatePointResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Better,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = IndicatorService.AreaCodeEngland,
+            BenchmarkAreaName = "Eng",
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 2
+        });
+        
+        var disAggregatePointResult1 = areasResults.ElementAt(1);
+        disAggregatePointResult1.Deprivation.ShouldBe("one");
+        disAggregatePointResult1.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Better,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = expectedAreaCode,
+            BenchmarkAreaName = expectedAreaName,
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 5
+        });
+        
+        var disAggregatePointResult2 = areasResults.ElementAt(2);
+        disAggregatePointResult2.Deprivation.ShouldBe("two");
+        disAggregatePointResult2.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Worse,
+            Method = BenchmarkComparisonMethod.Rag,
+            BenchmarkAreaCode = expectedAreaCode,
+            BenchmarkAreaName = expectedAreaName,
+            IndicatorPolarity = IndicatorPolarity.HighIsGood,
+            BenchmarkValue = 5
+        });
+    }
 }
