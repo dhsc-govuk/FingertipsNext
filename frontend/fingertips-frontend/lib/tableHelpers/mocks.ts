@@ -164,7 +164,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -174,7 +174,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -184,7 +184,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -194,7 +194,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NoSignificantChange,
       },
     ],
@@ -210,7 +210,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -220,7 +220,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 220.69151,
         upperCi: 224.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -230,7 +230,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 237.69151,
         upperCi: 245.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
       },
       {
@@ -240,7 +240,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         lowerCi: 258.69151,
         upperCi: 262.32766,
         ageBand: 'All',
-        sex: 'All',
+        sex: 'Persons',
         trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
       },
     ],
