@@ -57,6 +57,12 @@ describe('Pill Suite', () => {
     expect(mockFilterRemoveFunction).toHaveBeenCalledWith(selectedFilterId);
   });
 
+  it('should not render the remove icon when no removeFilter function is provided', () => {
+    render(<Pill>{selectedFilterName}</Pill>);
+
+    expect(screen.queryByTestId('remove-icon-div')).not.toBeInTheDocument();
+  });
+
   it('snapshot test', () => {
     const container = render(
       <Pill

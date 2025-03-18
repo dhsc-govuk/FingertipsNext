@@ -29,7 +29,6 @@ import {
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
 export default async function ChartPage(
@@ -51,6 +50,19 @@ export default async function ChartPage(
 
   // We don't want to render this page statically
   await connection();
+
+  const selectedIndicatorsData =
+    indicatorsSelected && indicatorsSelected.length > 0
+      ? (
+          await Promise.all(
+            indicatorsSelected.map((indicator) =>
+              SearchServiceFactory.getIndicatorSearchService().getIndicator(
+                indicator
+              )
+            )
+          )
+        ).filter((indicatorDocument) => indicatorDocument !== undefined)
+      : [];
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -109,18 +121,7 @@ export default async function ChartPage(
     ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
     : undefined;
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorsSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for area',
-      error
-    );
-  }
+  const indicatorMetadata = selectedIndicatorsData[0];
 
   // Area filtering data
   const areasApi = ApiClientFactory.getAreasApiClient();
@@ -146,16 +147,7 @@ export default async function ChartPage(
     stateManager.setState(updatedSearchState);
   }
 
-  const selectedIndicatorsData =
-    indicators && indicators.length > 0
-      ? await Promise.all(
-          indicators.map((indicator) =>
-            SearchServiceFactory.getIndicatorSearchService().getIndicator(
-              indicator
-            )
-          )
-        )
-      : [];
+  console.log(`indicatorsSelected ${indicatorsSelected}`);
 
   return (
     <>

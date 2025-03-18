@@ -22,7 +22,7 @@ export function SelectedIndicatorsPanel({
   searchState,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   return (
-    <StyledFilterSelectedIndicatorDiv>
+    <StyledFilterSelectedIndicatorDiv data-testid="selected-indicators-panel">
       <StyledFilterLabel>Selected indicators</StyledFilterLabel>
       {selectedIndicatorsData.map((indicator) => (
         <IndicatorSelectedPill
