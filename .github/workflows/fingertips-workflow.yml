@@ -316,16 +316,13 @@ jobs:
       ]
     environment: development
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./database/fingertips-db
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
+      github.ref_name == 'feature/DHSCFT-TECH_remove-default-branch' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true' ||
