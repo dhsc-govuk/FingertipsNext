@@ -18,7 +18,7 @@ public interface IAreaRepository
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType);
+    Task<List<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType);
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -31,11 +31,11 @@ public interface IAreaRepository
     /// request children for. If no child area type is supplied, or is empty/white space then the direct child areas
     /// will be retrieved.</param>
     /// <returns>The requested area, or null if it cannot be located.</returns>
-    Task<AreaWithRelationsModel?> GetAreaAsync(
+    Task<AreaWithRelationsModel> GetAreaAsync(
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
-        string? childAreaType
+        string childAreaType
     );
 
     /// <summary>

@@ -79,18 +79,19 @@ export default async function ChartPage(
       )
     );
 
-    let rawPopulationData: HealthDataForArea[] | undefined;
-    try {
-      rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: indicatorIdForPopulation,
-          areaCodes: [...areasSelected, areaCodeForEngland],
-        },
-        API_CACHE_CONFIG
-      );
-    } catch (error) {
-      console.log('error getting population data ', error);
-    }
+      let rawPopulationData: HealthDataForArea[] | undefined;
+      try {
+        rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+          {
+            indicatorId: indicatorIdForPopulation,
+            areaCodes: [...areasSelected, areaCodeForEngland],
+            inequalities: ['age', 'sex'],
+          },
+          API_CACHE_CONFIG
+        );
+      } catch (error) {
+        console.log('error getting population data ', error);
+      }
 
     // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
     const preparedPopulationData: PopulationData | undefined = rawPopulationData
