@@ -123,10 +123,10 @@ namespace DataCreator
         public static List<IndicatorWithAreasAndLatestUpdate> CreateHealthDataAndAgeData(List<string> areasWeWant, List<SimpleIndicator> pocIndicators, IEnumerable<AgeEntity> allAges, int yearFrom, bool useIndicators = false)
         {
             var healthMeasures = new List<HealthMeasureEntity>();
-
+            var areasDict = areasWeWant.ToDictionary(a => a);
             foreach (var pocIndicator in pocIndicators)
             {
-                var data = DataFileManager.GetHealthDataForIndicator(pocIndicator.IndicatorID, yearFrom, areasWeWant);
+                var data = DataFileManager.GetHealthDataForIndicator(pocIndicator.IndicatorID, yearFrom, areasDict);
 
                 Console.WriteLine($"Grabbed {data.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(data);
