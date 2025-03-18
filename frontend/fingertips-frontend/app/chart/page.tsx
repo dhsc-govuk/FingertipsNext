@@ -105,9 +105,10 @@ export default async function ChartPage(
     indicatorsSelected.length === 1 &&
     areasSelected.length >= 2;
 
-  const mapData = mapDataIsRequired
-    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
-    : undefined;
+  // const mapData = mapDataIsRequired
+  //   ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+  //   : undefined;
+  const mapData = undefined;
 
   let indicatorMetadata: IndicatorDocument | undefined;
   try {
