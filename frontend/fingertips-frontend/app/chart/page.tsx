@@ -127,23 +127,23 @@ export default async function ChartPage(
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
 
-      // set England as areas if all other areas are removed
-      // DHSCFT-481 to futher refine this behaviour
-      if (areasSelected.length === 0) {
-        stateManager.addParamValueToState(
-          SearchParams.AreasSelected,
-          areaCodeForEngland
-        );
-      }
+    // set England as areas if all other areas are removed
+    // DHSCFT-481 to futher refine this behaviour
+    if (areasSelected.length === 0) {
+      stateManager.addParamValueToState(
+        SearchParams.AreasSelected,
+        areaCodeForEngland
+      );
+    }
 
-      const selectedAreasData =
-        areasSelected && areasSelected.length > 0
-          ? await Promise.all(
-              areasSelected.map((area) =>
-                areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
-              )
+    const selectedAreasData =
+      areasSelected && areasSelected.length > 0
+        ? await Promise.all(
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
             )
-          : [];
+          )
+        : [];
 
     const {
       availableAreaTypes,
