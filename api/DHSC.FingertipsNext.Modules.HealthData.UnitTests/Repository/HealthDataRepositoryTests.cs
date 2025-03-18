@@ -583,14 +583,14 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWithAllInequalityData_IfBothAreSpecified()
     {
         // arrange
-        var maleHealthMeasure = new HealthMeasureModelHelper(1, 2020)
+        var maleHealthMeasure = new HealthMeasureModelHelper(1, 2020, isAggregate:false)
             .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)
             .Build();
         PopulateDatabase(maleHealthMeasure);
 
-        var femaleHealthMeasure = new HealthMeasureModelHelper(2, 2020)
+        var femaleHealthMeasure = new HealthMeasureModelHelper(2, 2020, isAggregate:false)
             .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(indicatorId: 500)

@@ -56,20 +56,19 @@ public class HealthMeasureModelHelper(
     }
 
     public HealthMeasureModelHelper WithAgeDimension(
+        short? ageKey = null,
         string name = "age name",
         short ageId = 0,
         bool hasValue = false
     )
     {
-        _ageDimension = new AgeDimensionModel
+        return WithAgeDimension(new AgeDimensionModel
         {
             AgeKey = ageKey ?? (short) key,
             Name = name,
             AgeID = ageId,
             HasValue = hasValue
-        };
-
-        return this;
+        });
     }
 
     private AgeDimensionModel DefaultAgeDimension()
@@ -98,7 +97,7 @@ public class HealthMeasureModelHelper(
         DateTime? endDate = null
     )
     {
-        _indicatorDimension = new IndicatorDimensionModel
+        return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
@@ -128,19 +127,18 @@ public class HealthMeasureModelHelper(
     }
 
     public HealthMeasureModelHelper WithSexDimension(
-        string name = "Persons",
+        byte? sexKey = null,
+        string name = "sex name",
         bool hasValue = false,
         byte sexId = 0)
     {
-        _sexDimension = new SexDimensionModel
+        return WithSexDimension(new SexDimensionModel
         {
             SexKey = sexKey ?? (byte) key,
             Name = name,
             HasValue = hasValue,
             SexId = sexId
-        };
-
-        return this;
+        });
     }
 
     private SexDimensionModel DefaultSexDimension()
