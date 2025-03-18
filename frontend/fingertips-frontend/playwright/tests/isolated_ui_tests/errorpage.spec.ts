@@ -1,5 +1,4 @@
 import { test } from '../../page-objects/pageFactory';
-import { server } from '@/mock/server/node';
 import { ErrorAreaCode, ErrorIndicatorId } from '@/mock/ErrorTriggeringIds';
 
 // we are intentionally setting failOnUnhandledError to false as we are testing error handling in this file
@@ -68,19 +67,3 @@ test.describe('Error page tests', () => {
   });
 });
 
-// log out current url when a test fails
-test.afterEach(async ({ page }, testInfo) => {
-  if (testInfo.status !== testInfo.expectedStatus) {
-    // Test failed - capture the URL
-    const url = page.url();
-    console.log(`Test failed! Current URL: ${url}`);
-
-    // You can also attach it to the test report
-    await testInfo.attach('failed-url', {
-      body: url,
-      contentType: 'text/plain',
-    });
-  }
-
-  server.resetHandlers();
-});
