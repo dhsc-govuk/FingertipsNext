@@ -147,8 +147,6 @@ export default async function ChartPage(
     stateManager.setState(updatedSearchState);
   }
 
-  console.log(`indicatorsSelected ${indicatorsSelected}`);
-
   return (
     <>
       <ViewsContext
