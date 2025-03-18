@@ -1,7 +1,7 @@
 ﻿
 ### check GET health data with rag comparison
 
-GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_method=rag
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag
 
 > {%
     import fs from 'fs';
@@ -17,3 +17,19 @@ GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_metho
 %}
 
 ###
+
+### GET health data with rag and sex inequalities
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag&inequalities=sex
+
+> {%
+    import fs from 'fs';
+
+    const expected = JSON.parse(fs.readFileSync('test-indicators-benchmark-rag-sex_expected-response.json', 'utf8'));
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        let responseBody = response.body
+        client.assert(responseBody.length === expected.length);
+        client.assert(responseBody === expected);
+    });
+%}
