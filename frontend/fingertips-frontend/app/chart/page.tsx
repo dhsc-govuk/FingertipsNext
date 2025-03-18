@@ -74,7 +74,8 @@ export default async function ChartPage(
             )
               ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
               : [],
-            comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+            comparisonMethod:
+              GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
           },
           API_CACHE_CONFIG
         )
