@@ -45,8 +45,8 @@ export function OneIndicatorOneAreaViewPlots({
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? healthIndicatorData.find(
-        (areaData) => areaData.areaCode === selectedGroupCode
-      )
+          (areaData) => areaData.areaCode === selectedGroupCode
+        )
       : undefined;
 
   return (

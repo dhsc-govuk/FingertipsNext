@@ -1,7 +1,7 @@
 'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
