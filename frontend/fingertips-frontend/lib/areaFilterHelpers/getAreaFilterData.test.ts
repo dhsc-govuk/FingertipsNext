@@ -37,18 +37,18 @@ describe('getAreaFilterData', () => {
   it('should call sortAreaTypesByHierarchyAndLevel and return the correctly sorted area types', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
 
-  const mockSortedAreaTypes: AreaType[] = [
-    englandAreaType,
-    combinedAuthoritiesAreaType,
-    regionsAreaType,
-    countiesAndUnitaryAuthoritiesAreaType,
-    districtAndUnitaryAuthoritiesAreaType,
-    nhsRegionsAreaType,
-    nhsIntegratedCareBoardsAreaType,
-    nhsSubIntegratedCareBoardsAreaType,
-    nhsPrimaryCareNetworksAreaType,
-    gpsAreaType,
-  ];
+    const mockSortedAreaTypes: AreaType[] = [
+      englandAreaType,
+      combinedAuthoritiesAreaType,
+      regionsAreaType,
+      countiesAndUnitaryAuthoritiesAreaType,
+      districtAndUnitaryAuthoritiesAreaType,
+      nhsRegionsAreaType,
+      nhsIntegratedCareBoardsAreaType,
+      nhsSubIntegratedCareBoardsAreaType,
+      nhsPrimaryCareNetworksAreaType,
+      gpsAreaType,
+    ];
 
     const { availableAreaTypes } = await getAreaFilterData({});
 

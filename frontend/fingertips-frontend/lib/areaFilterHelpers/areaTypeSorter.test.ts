@@ -7,12 +7,9 @@ import {
   englandAreaType,
   regionsAreaType,
   nhsSubIntegratedCareBoardsAreaType,
-  nhsPrimaryCareNetworksAreaType,
   nhsIntegratedCareBoardsAreaType,
   gpsAreaType,
-  nhsRegionsAreaType,
   districtAndUnitaryAuthoritiesAreaType,
-  combinedAuthoritiesAreaType,
   countiesAndUnitaryAuthoritiesAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 
@@ -45,7 +42,6 @@ describe('areaTypeSorter', () => {
     expect(sortedAreaTypes).toEqual(expectedSortedWithoutAdmin);
   });
 
-  
   it('should return correct order when only a subset of AreaType data is given', () => {
     const mockAreaTypes: AreaType[] = [
       districtAndUnitaryAuthoritiesAreaType,
@@ -58,15 +54,14 @@ describe('areaTypeSorter', () => {
     ];
 
     const mocksortedAreaTypes: AreaType[] = [
-        englandAreaType,
-        regionsAreaType,
-        countiesAndUnitaryAuthoritiesAreaType,
-        districtAndUnitaryAuthoritiesAreaType,
-        nhsIntegratedCareBoardsAreaType,
-        nhsSubIntegratedCareBoardsAreaType,
-        gpsAreaType,
-      ];
-
+      englandAreaType,
+      regionsAreaType,
+      countiesAndUnitaryAuthoritiesAreaType,
+      districtAndUnitaryAuthoritiesAreaType,
+      nhsIntegratedCareBoardsAreaType,
+      nhsSubIntegratedCareBoardsAreaType,
+      gpsAreaType,
+    ];
 
     const sortedAreaTypes = areaTypeSorter(mockAreaTypes);
 

@@ -1,28 +1,27 @@
 import { AreaType } from '@/generated-sources/ft-api-client';
 
 export const areaTypeSorter = (availableAreaTypes: AreaType[]): AreaType[] => {
-    const areaTypesGroupedByHierarchy = availableAreaTypes.reduce(
-        (result: Record<string, AreaType[]>, areaType: AreaType) => {
-          (result[areaType.hierarchyName] =
-            result[areaType.hierarchyName] || []).push(areaType);
-          return result;
-        },
-        {}
-    )
+  const areaTypesGroupedByHierarchy = availableAreaTypes.reduce(
+    (result: Record<string, AreaType[]>, areaType: AreaType) => {
+      (result[areaType.hierarchyName] =
+        result[areaType.hierarchyName] || []).push(areaType);
+      return result;
+    },
+    {}
+  );
 
-    const sortAreaTypesByLevel = (areaTypes: AreaType[] = []) =>
-      areaTypes.toSorted((a, b) => a.level - b.level);
+  const sortAreaTypesByLevel = (areaTypes: AreaType[] = []) =>
+    areaTypes.toSorted((a, b) => a.level - b.level);
 
-    const sortHierarchy = (name: string) => {
-      const areaTypes = areaTypesGroupedByHierarchy[name];
+  const sortHierarchy = (name: string) => {
+    const areaTypes = areaTypesGroupedByHierarchy[name];
 
-      return sortAreaTypesByLevel(areaTypes);
-    };
+    return sortAreaTypesByLevel(areaTypes);
+  };
 
-    return [
-      ...sortHierarchy('Both'),
-      ...sortHierarchy('Administrative'),
-      ...sortHierarchy('NHS'),
-    ];
-  }
-  
+  return [
+    ...sortHierarchy('Both'),
+    ...sortHierarchy('Administrative'),
+    ...sortHierarchy('NHS'),
+  ];
+};
