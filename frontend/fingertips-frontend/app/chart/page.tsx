@@ -146,11 +146,23 @@ export default async function ChartPage(
     stateManager.setState(updatedSearchState);
   }
 
+  const selectedIndicatorsData =
+    indicators && indicators.length > 0
+      ? await Promise.all(
+          indicators.map((indicator) =>
+            SearchServiceFactory.getIndicatorSearchService().getIndicator(
+              indicator
+            )
+          )
+        )
+      : [];
+
   return (
     <>
       <ViewsContext
         searchState={stateManager.getSearchState()}
         selectedAreasData={selectedAreasData}
+        selectedIndicatorsData={selectedIndicatorsData}
         areaFilterData={{
           availableAreaTypes,
           availableGroupTypes,

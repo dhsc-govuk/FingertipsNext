@@ -12,11 +12,13 @@ import { JSX } from 'react';
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export type ViewProps = {
   searchState: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: AreaWithRelations[];
+  selectedIndicatorsData?: IndicatorDocument[];
 };
 
 function viewSelector(
@@ -51,6 +53,7 @@ export function ViewsContext({
   searchState,
   areaFilterData,
   selectedAreasData,
+  selectedIndicatorsData,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -65,6 +68,7 @@ export function ViewsContext({
       searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
+      selectedIndicatorsData={selectedIndicatorsData}
     >
       {viewSelector(areaCodes, indicators, searchState)}
     </ChartPageWrapper>
