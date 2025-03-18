@@ -3,8 +3,7 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { H3 } from 'govuk-react';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import {
   createChartSeriesOptions,
   createAdditionalChartSeries,

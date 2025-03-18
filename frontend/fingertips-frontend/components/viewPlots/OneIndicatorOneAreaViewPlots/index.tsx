@@ -112,8 +112,8 @@ export function OneIndicatorOneAreaViewPlots({
         healthDataForAreas={populationHealthIndicatorData}
         xAxisTitle="Age"
         yAxisTitle="Percentage"
-        selectedGroupAreaCode={selectedGroupCode ?? ''},
-      currentDate= {Date()}
+        selectedGroupAreaCode={selectedGroupCode ?? ''}
+        currentDate={new Date(Date.now())}
       />
     </section>
   );

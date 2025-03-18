@@ -1,7 +1,7 @@
 'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
@@ -66,7 +66,6 @@ const createPopulationDataFrom = (
     baseline: pyramidBaseline,
   };
 };
-
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
@@ -74,18 +73,16 @@ interface PyramidPopulationChartViewProps {
   selectedGroupAreaCode?: string;
   currentDate?: Date;
 }
-
 export const PyramidPopulationChartView = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
   currentDate,
   selectedGroupAreaCode,
-}: PyramidPopulationChartViewProps) => {
+}: Readonly<PyramidPopulationChartViewProps>) => {
   const [toggleClose, setToggleClose] = useState<boolean>();
 
   const convertedData = useMemo(() => {
-    console.log('Process and selection');
     return createPopulationDataFrom(
       healthDataForAreas,
       selectedGroupAreaCode ?? ''
@@ -102,7 +99,7 @@ export const PyramidPopulationChartView = ({
     }
     return area;
   })();
-  console.log(convertedData);
+
   const [selectedArea, setSelectedPopulationForArea] = useState<
     PopulationDataForArea | undefined
   >(defaultArea);
