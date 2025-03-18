@@ -2,6 +2,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -52,6 +53,19 @@ jest.mock(
     }
 );
 
+const mockAvailableAreas = [
+  {
+    code: 'A010',
+    name: 'Area 10',
+    areaType: { key: '', name: '', level: 1, hierarchyName: '' },
+  },
+  {
+    code: 'A020',
+    name: 'Area 20',
+    areaType: { key: '', name: '', level: 1, hierarchyName: '' },
+  },
+];
+
 describe('ViewsContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -73,6 +87,35 @@ describe('ViewsContext', () => {
         [SearchParams.IndicatorsSelected]: indicators,
       };
       render(<ViewsContext searchState={searchState} />);
+
+      expect(correctView).toHaveBeenCalled();
+    }
+  );
+
+  it.each([
+    [['1'], ['A001'], mockAvailableAreas, mockOneIndicatorTwoOrMoreAreasView],
+    [
+      ['1'],
+      ['A001', 'A002'],
+      [mockAvailableAreas[1]],
+      mockOneIndicatorOneAreaView,
+    ],
+  ])(
+    'should return the expected view when all areas in a group are selected',
+    async (indicators, areaCodes, testAvailableAreas, correctView) => {
+      const searchState: SearchStateParams = {
+        [SearchParams.AreasSelected]: areaCodes,
+        [SearchParams.IndicatorsSelected]: indicators,
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      };
+      render(
+        <ViewsContext
+          searchState={searchState}
+          areaFilterData={{
+            availableAreas: testAvailableAreas,
+          }}
+        />
+      );
 
       expect(correctView).toHaveBeenCalled();
     }

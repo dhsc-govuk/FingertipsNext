@@ -115,6 +115,15 @@ export default async function ChartPage(
   // Area filtering data
   const areasApi = ApiClientFactory.getAreasApiClient();
 
+  // set England as areas if all other areas are removed
+  // DHSCFT-481 to futher refine this behaviour
+  if (areasSelected.length === 0) {
+    stateManager.addParamValueToState(
+      SearchParams.AreasSelected,
+      areaCodeForEngland
+    );
+  }
+
   const selectedAreasData =
     areasSelected && areasSelected.length > 0
       ? await Promise.all(
