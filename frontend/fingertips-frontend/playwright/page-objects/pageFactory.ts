@@ -13,10 +13,40 @@ type pages = {
   indicatorPage: IndicatorPage;
 };
 
-const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
+const testBase = baseTest.extend<{
+  axeBuilder: AxeBuilder;
+  failOnUnhandledError: boolean;
+}>({
+  failOnUnhandledError: [true, { option: true }],
+  page: async ({ page, failOnUnhandledError }, use) => {
+    // Console errors
+    page.on('console', (message) => {
+      if (failOnUnhandledError && message.type() === 'error') {
+        throw new Error(`Console error: ${message.text()}`);
+      }
+    });
+
+    // Uncaught exceptions
+    page.on('pageerror', (error) => {
+      if (failOnUnhandledError) {
+        throw new Error(`Page error: ${error.message}`);
+      }
+    });
+
+    // Network request failures
+    page.on('requestfailed', (request) => {
+      if (failOnUnhandledError) {
+        throw new Error(
+          `Request failed: ${request.url()} ${request.failure()?.errorText || ''}`
+        );
+      }
+    });
+
+    await use(page);
+  },
   axeBuilder: [
     async ({ page }, use, testInfo) => {
-      //Initialize an AxeBuilder with the specified accessibility standards
+      // Initialize an AxeBuilder with the specified accessibility standards
       const axeBuilder = new AxeBuilder({ page }).withTags([
         'wcag2a',
         'wcag2aa',
@@ -27,7 +57,7 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
 
       await use(axeBuilder);
 
-      //Execute the scan
+      // Execute the scan
       const accessibilityResults = await axeBuilder.analyze();
 
       if (accessibilityResults.violations.length > 0) {
@@ -36,14 +66,14 @@ const testBase = baseTest.extend<{ axeBuilder: AxeBuilder }>({
         );
       }
 
-      //Expect no accessibility violations
+      // Expect no accessibility violations
       expect(
         accessibilityResults.violations,
         'Auto-accessibility test failed.'
       ).toEqual([]);
     },
 
-    //Auto is set to false, so accessibility tests will only be executed when we call expectNoAccessibilityViolations(axeBuilder) which is only in the isolated ui tests
+    // auto set to false, so a11y tests only execute when we call expectNoAccessibilityViolations(axeBuilder) which is only in the isolated ui tests
     { scope: 'test', auto: false },
   ],
 });

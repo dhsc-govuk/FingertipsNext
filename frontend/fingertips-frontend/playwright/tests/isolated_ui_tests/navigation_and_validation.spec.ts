@@ -25,6 +25,9 @@ let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 let allNHSRegionAreas: AreaDocument[];
 
+// remove this in bugfix DHSCFT-482
+test.use({ failOnUnhandledError: false });
+
 test.beforeAll(
   `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {

@@ -2,6 +2,9 @@ import { test } from '../../page-objects/pageFactory';
 import { server } from '@/mock/server/node';
 import { ErrorAreaCode, ErrorIndicatorId } from '@/mock/ErrorTriggeringIds';
 
+// we are intentionally setting failOnUnhandledError to false as we are testing error handling in this file
+test.use({ failOnUnhandledError: false });
+
 test.describe('Error page tests', () => {
   test('Home page displays ErrorPage when API returns unexpected error', async ({
     homePage,
