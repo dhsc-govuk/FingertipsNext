@@ -105,9 +105,10 @@ export default async function ChartPage(
     indicatorsSelected.length === 1 &&
     areasSelected.length >= 2;
 
-  const mapData = mapDataIsRequired
-    ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
-    : undefined;
+  // const mapData = mapDataIsRequired
+  //   ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+  //   : undefined;
+  const mapData = undefined;
 
   let indicatorMetadata: IndicatorDocument | undefined;
   try {
@@ -124,6 +125,14 @@ export default async function ChartPage(
 
   // Area filtering data
   const areasApi = ApiClientFactory.getAreasApiClient();
+
+  // DHSCFT-481 to futher refine this behaviour
+  if (areasSelected.length === 0) {
+    stateManager.addParamValueToState(
+      SearchParams.AreasSelected,
+      areaCodeForEngland
+    );
+  }
 
   const selectedAreasData =
     areasSelected && areasSelected.length > 0
