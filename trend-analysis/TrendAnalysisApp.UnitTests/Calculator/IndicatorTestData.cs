@@ -9,7 +9,7 @@ public class IndicatorTestData
         Name = "Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework)",
         IndicatorId = 241,
         IndicatorKey = 123,
-        Polarity = "Not applicable",
+        Polarity = "No judgement",
         ValueType = "Proportion"
     };
 
@@ -67,7 +67,7 @@ public class IndicatorTestData
         Name = "Proportion of GP registered populations by age group",
         IndicatorId = 93468,
         IndicatorKey = 1234,
-        Polarity = "Not applicable",
+        Polarity = "No judgement",
         ValueType = "Proportion"
     };
 

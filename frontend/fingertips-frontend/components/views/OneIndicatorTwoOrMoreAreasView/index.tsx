@@ -3,21 +3,29 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
+interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
+  areaCodes: string[];
+}
+
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
-}: Readonly<ViewProps>) {
+  areaCodes,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
+  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -39,10 +47,13 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected[0]),
-      areaCodes: areaCodesToRequest,
-    });
+    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: areaCodesToRequest,
+      },
+      API_CACHE_CONFIG
+    );
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
@@ -66,6 +77,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
+      areaCodes={areaCodes}
     />
   );
 }

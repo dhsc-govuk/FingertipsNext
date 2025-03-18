@@ -56,3 +56,45 @@ GO
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_DeprivationDimension]
 GO
+
+CREATE NONCLUSTERED INDEX [AgeIndex] ON [dbo].[HealthMeasure]
+(
+	[AgeKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [AreaIndex] ON [dbo].[HealthMeasure]
+(
+	[AreaKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [DeprivationIndex] ON [dbo].[HealthMeasure]
+(
+	[DeprivationKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [IndicatorIndex] ON [dbo].[HealthMeasure]
+(
+	[IndicatorKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [SexIndex] ON [dbo].[HealthMeasure]
+(
+	[SexKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [TrendIndex] ON [dbo].[HealthMeasure]
+(
+	[TrendKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
+(
+	[Year] ASC
+)
+GO

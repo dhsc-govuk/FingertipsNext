@@ -14,7 +14,10 @@ import {
   areaCodeForEngland,
   indicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -27,6 +30,7 @@ import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/i
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -57,25 +61,32 @@ export default async function ChartPage(
 
   const healthIndicatorData = await Promise.all(
     indicatorsSelected.map((indicatorId) =>
-      indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: Number(indicatorId),
-        areaCodes: areaCodesToRequest,
-        inequalities: shouldDisplayInequalities(
-          indicatorsSelected,
-          areasSelected
-        )
-          ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-          : [],
-      })
+      indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicatorId),
+          areaCodes: areaCodesToRequest,
+          inequalities: shouldDisplayInequalities(
+            indicatorsSelected,
+            areasSelected
+          )
+            ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
+            : [],
+        },
+        API_CACHE_CONFIG
+      )
     )
   );
 
   let rawPopulationData: HealthDataForArea[] | undefined;
   try {
-    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: indicatorIdForPopulation,
-      areaCodes: [...areasSelected, areaCodeForEngland],
-    });
+    rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: indicatorIdForPopulation,
+        areaCodes: [...areasSelected, areaCodeForEngland],
+        inequalities: ['age', 'sex'],
+      },
+      API_CACHE_CONFIG
+    );
   } catch (error) {
     console.log('error getting population data ', error);
   }
@@ -112,9 +123,51 @@ export default async function ChartPage(
     );
   }
 
+  // Area filtering data
+  const areasApi = ApiClientFactory.getAreasApiClient();
+
+  // set England as areas if all other areas are removed
+  // DHSCFT-481 to futher refine this behaviour
+  if (areasSelected.length === 0) {
+    stateManager.addParamValueToState(
+      SearchParams.AreasSelected,
+      areaCodeForEngland
+    );
+  }
+
+  const selectedAreasData =
+    areasSelected && areasSelected.length > 0
+      ? await Promise.all(
+          areasSelected.map((area) =>
+            areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+          )
+        )
+      : [];
+
+  const {
+    availableAreaTypes,
+    availableAreas,
+    availableGroupTypes,
+    availableGroups,
+    updatedSearchState,
+  } = await getAreaFilterData(stateManager.getSearchState(), selectedAreasData);
+
+  if (updatedSearchState) {
+    stateManager.setState(updatedSearchState);
+  }
+
   return (
     <>
-      <ViewsContext searchState={stateManager.getSearchState()} />
+      <ViewsContext
+        searchState={stateManager.getSearchState()}
+        selectedAreasData={selectedAreasData}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
+      />
       <Chart
         populationData={preparedPopulationData}
         healthIndicatorData={healthIndicatorData}

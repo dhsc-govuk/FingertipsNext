@@ -1,7 +1,31 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
-import { ChartColours } from '@/lib/chartHelpers/colours';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { ChartColours } from '@/lib/chartHelpers/colours';
+
+export const lineChartDefaultOptions: Highcharts.Options = {
+  credits: {
+    enabled: false,
+  },
+  chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
+  title: {
+    style: {
+      display: 'none',
+    },
+  },
+  tooltip: {
+    format:
+      '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}',
+  },
+};
+
+export const chartSymbols: SymbolKeyValue[] = [
+  'square',
+  'triangle',
+  'triangle-down',
+  'circle',
+  'diamond',
+];
 
 export function generateSeriesData(
   data: HealthDataForArea[],
@@ -62,7 +86,7 @@ export function generateSeriesData(
       type: 'line',
       name: `Benchmark: ${benchmarkData.areaName}`,
       data: benchmarkData.healthData.map((point) => [point.year, point.value]),
-      color: GovukColours.Black,
+      color: GovukColours.DarkGrey,
       marker: {
         symbol: 'circle',
       },

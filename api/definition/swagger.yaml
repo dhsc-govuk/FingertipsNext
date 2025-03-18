@@ -168,7 +168,11 @@ paths:
                 items:
                   $ref: "#/components/schemas/IndicatorSummary"
         "400":
-          $ref: "#/components/responses/BadRequest"
+          description: Bad request. The server could not process the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"
   /indicators/{indicator_id}:
@@ -205,6 +209,9 @@ paths:
         or more area codes and one or more years in the query string.
       responses:
         "200":
+          description:
+            Data containing the health data points for the indicator, years
+            and geographical areas requested
           content:
             application/json:
               schema:
@@ -212,15 +219,12 @@ paths:
                 items:
                   $ref: "#/components/schemas/HealthDataForArea"
                 title: GetHealthDataForAnIndicatorOk
-          description:
-            Data containing the health data points for the indicator, years
-            and geographical areas requested
         "400":
           description: Bad request. The server could not process the request.
           content:
             application/json:
               schema:
-                $ref: "#/components/responses/BadRequest"
+                $ref: "#/components/schemas/BadRequest"
               examples:
                 Too many area_codes:
                   value:
@@ -297,7 +301,6 @@ components:
           description: The name of the area / geography
         areaType:
           $ref: "#/components/schemas/AreaType"
-          type: object
     AreaWithRelations:
       allOf:
         - $ref: "#/components/schemas/Area"
@@ -461,6 +464,16 @@ components:
           items:
             $ref: "#/components/schemas/HealthDataPoint"
           description: The health data points for the area and indicator
+    BadRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      description:
+        The server could not understand the request due to invalid syntax.
+        The client should modify the request and try again.
   parameters:
     years:
       in: query
@@ -498,13 +511,10 @@ components:
     comparison_method:
       in: query
       name: comparison_method
-      style: simple
       schema:
         type: string
         example: Rag
-        enum:
-          - None
-          - Rag
+        enum: [None, Rag]
       required: false
       description: the comparison method to use eg RAG to compare to England
     area_type_key:
@@ -590,19 +600,6 @@ components:
       description:
         The server cannot find the requested resource. The endpoint may be
         invalid or the resource may no longer exist.
-    BadRequest:
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-              - message
-            properties:
-              message:
-                type: string
-      description:
-        The server could not understand the request due to invalid syntax.
-        The client should modify the request and try again.
     InternalServerError:
       content:
         application/json:

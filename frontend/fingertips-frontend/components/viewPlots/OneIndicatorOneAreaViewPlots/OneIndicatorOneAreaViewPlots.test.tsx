@@ -3,6 +3,7 @@ import { OneIndicatorOneAreaViewPlots } from '.';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen, waitFor } from '@testing-library/react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -40,21 +41,6 @@ const searchState: SearchStateParams = {
 const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render back link with correct search parameters', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-    const backLink = await screen.findByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}`;
-
-    expect(backLink).toBeInTheDocument();
-    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
-    expect(backLink).toHaveAttribute('href', expectedUrl);
-  });
-
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
@@ -79,6 +65,38 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     render(
       <OneIndicatorOneAreaViewPlots
         healthIndicatorData={testHealthData}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+    expect(
+      screen.getByRole('heading', {
+        name: 'See how the indicator has changed over time',
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId('tabContainer-lineChartAndTable')
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('lineChart-component')
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
+  });
+
+  it('should render the LineChart components in the special case that England is the only area', async () => {
+    const mockSearch = 'test';
+    const mockIndicator = ['108'];
+    const mockAreas = [areaCodeForEngland];
+
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: mockAreas,
+    };
+
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={[mockHealthData['108'][0]]}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
       />

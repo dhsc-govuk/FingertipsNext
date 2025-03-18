@@ -17,10 +17,20 @@ export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'lineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
-  static readonly barChartComponent = 'barChart-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
   static readonly inequalitiesComponent = 'inequalities-component';
+  static readonly inequalitiesBarChartTableComponent =
+    'inequalitiesBarChartTable-component';
+  static readonly inequalitiesLineChartTableComponent =
+    'inequalitiesLineChartTable-component';
+  static readonly inequalitiesBarChartComponent =
+    'inequalitiesBarChart-component';
+  static readonly inequalitiesLineChartComponent =
+    'inequalitiesLineChart-component';
   static readonly thematicMapComponent = 'thematicMap-component';
+  static readonly heatMapComponent = 'heatmapChart-component';
+  static readonly barChartEmbeddedTableComponent =
+    'barChartEmbeddedTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -62,24 +72,24 @@ export default class ChartPage extends BasePage {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
-      if (visibleComponent !== 'lineChartTable-component') {
-        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
-          visible: true,
-        });
+      // click tab to view the table view if checking a none embedded table component
+      if (
+        visibleComponent.toLowerCase().includes('table') &&
+        visibleComponent !== 'barChartEmbeddedTable-component'
+      ) {
+        await this.page
+          .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
+          .click();
       }
-      // click into the tab view if checking lineChartTable
-      if (visibleComponent === 'lineChartTable-component') {
-        await this.page.getByTestId('tabTitle-table').click();
-        await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
-          visible: true,
-        });
-      }
+      await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+        visible: true,
+      });
 
       // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500);
+      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear
 
       // for now just warn if visual comparisons do not match
       try {

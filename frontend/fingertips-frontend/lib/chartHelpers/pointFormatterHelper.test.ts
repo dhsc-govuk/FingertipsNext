@@ -11,10 +11,18 @@ const mockPoint = {
   },
 };
 
+const mockGenerateTooltipList = jest
+  .fn()
+  .mockImplementation((point: typeof mockPoint, symbol: string) => [
+    symbol,
+    point.series.name,
+  ]);
+
 describe('pointFormatterHelper', () => {
   it('should return a string with the default symbol code for circle when symbolName is empty string', () => {
-    const actual = pointFormatterHelper(mockPoint);
+    const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
     expect(actual).toContain('\u25CF');
+    expect(mockGenerateTooltipList).toHaveBeenCalledWith(mockPoint, '\u25CF');
   });
 
   it.each([
@@ -27,8 +35,12 @@ describe('pointFormatterHelper', () => {
     'should return a string with the correct symbol code',
     (symbolName, symbolCode) => {
       mockPoint.graphic.symbolName = symbolName;
-      const actual = pointFormatterHelper(mockPoint);
+      const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
       expect(actual).toContain(symbolCode);
+      expect(mockGenerateTooltipList).toHaveBeenCalledWith(
+        mockPoint,
+        symbolCode
+      );
     }
   );
 });

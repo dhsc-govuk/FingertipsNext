@@ -19,6 +19,7 @@ import {
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { BenchmarkLabelGroupType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -72,6 +73,14 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   width: '22%',
   padding: '0.5em',
   textAlign: 'center',
+});
+
+const StyledDivContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'left',
+  alignItems: 'center',
+  gap: 8,
+  paddingLeft: 8,
 });
 
 const StyledLightGreyHeader = styled(StyledGreyHeader)({
@@ -193,6 +202,10 @@ export function LineChartTable({
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartTableProps>) {
+  if (englandBenchmarkData && healthIndicatorData.length === 0) {
+    healthIndicatorData = [englandBenchmarkData];
+  }
+
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
@@ -218,7 +231,14 @@ export function LineChartTable({
                     <StyledTitleRow></StyledTitleRow>
                   )}
                   <StyledTitleRow colSpan={5}>
-                    {`${area.areaName} recent trend:`}
+                    <StyledDivContainer>
+                      {'Recent trend: '}
+                      <TrendTag
+                        trendFromResponse={
+                          area.healthData[area.healthData.length - 1].trend
+                        }
+                      />
+                    </StyledDivContainer>
                   </StyledTitleRow>
                 </React.Fragment>
               ))}

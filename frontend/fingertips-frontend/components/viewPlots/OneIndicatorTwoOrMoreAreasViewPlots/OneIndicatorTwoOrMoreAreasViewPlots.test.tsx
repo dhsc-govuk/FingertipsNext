@@ -38,13 +38,13 @@ const testHealthData: HealthDataForArea[] = [
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: mockIndicator,
-  [SearchParams.AreasSelected]: mockAreas,
 };
 
 const lineChartTestId = 'lineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'See how the indicator has changed over time';
+const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 
 const assertLineChartAndTableInDocument = async () => {
   expect(await screen.findByTestId(lineChartTestId)).toBeInTheDocument();
@@ -73,27 +73,12 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
-  it('should render back link with correct search parameters', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    const backLink = await screen.findByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}&${SearchParams.AreasSelected}=${mockAreas[1]}`;
-
-    expect(backLink).toBeInTheDocument();
-    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
-    expect(backLink).toHaveAttribute('href', expectedUrl);
-  });
-
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
+        areaCodes={mockAreas}
       />
     );
 
@@ -114,6 +99,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={mockAreas}
       />
     );
     await assertLineChartAndTableInDocument();
@@ -125,6 +111,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={mockAreas}
       />
     );
     const actual = await screen.findAllByText('Data source:', { exact: false });
@@ -149,6 +136,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={MOCK_DATA}
         searchState={state}
+        areaCodes={mockAreas}
       />
     );
 
@@ -164,16 +152,35 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={[
-          mockHealthData[108][1],
-          mockHealthData[108][2],
-          mockHealthData[108][3],
-        ]}
+        healthIndicatorData={testHealthData}
         searchState={searchState}
         indicatorMetadata={mockMetaData}
+        areaCodes={[...mockAreas, 'third area']}
       />
     );
 
     await assertLineChartAndTableNotInDocument();
+  });
+
+  describe('BarChartEmbeddedTable', () => {
+    it('should render the BarChartEmbeddedTable component, when two or more areas are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: mockSearch,
+        [SearchParams.IndicatorsSelected]: mockIndicator,
+        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={searchState}
+          areaCodes={mockAreas}
+        />
+      );
+
+      expect(
+        await screen.findByTestId(barChartEmbeddedTable)
+      ).toBeInTheDocument();
+    });
   });
 });

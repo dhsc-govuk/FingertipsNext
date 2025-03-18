@@ -94,7 +94,8 @@ jobs:
     needs: check-changes
     if: >
       github.event_name == 'workflow_dispatch' || 
-      needs.check-changes.outputs.db_changed == 'true'
+      needs.check-changes.outputs.db_changed == 'true' ||
+      needs.check-changes.outputs.trend_analysis_changed == 'true'
     name: Build Database
     runs-on: ubuntu-latest
     env:
@@ -159,6 +160,7 @@ jobs:
     needs: [check-changes, determine-version]
     if: >
       github.event_name == 'workflow_dispatch' ||
+      needs.check-changes.outputs.db_changed == 'true' ||
       needs.check-changes.outputs.trend_analysis_changed == 'true'
     name: Test Trend Analysis App
     runs-on: ubuntu-latest
@@ -311,12 +313,12 @@ jobs:
         check-changes,
         push-container-api,
         push-container-frontend,
+        frontend-build-and-test,
+        api-build-and-test,
+        e2e-tests-local-docker       
       ]
     environment: development
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./database/fingertips-db
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -326,9 +328,14 @@ jobs:
       github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.db_changed == 'true'
+        needs.check-changes.outputs.db_changed == 'true' ||
+        needs.check-changes.outputs.trend_analysis_changed == 'true'
       )
     steps:
+      - name: Set git core.longpaths flag
+        run: |
+          git config --system core.longpaths true
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -359,6 +366,32 @@ jobs:
           path: 'fingertips-db.dacpac'
           action: 'publish'
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
+
+  run-trend-analysis-dev:
+    # Only run job if the DB has had a clean deploy
+    needs: deploy-db-dev
+    environment: development
+    name: Run Trend Analysis App
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['9.0.x']
+    defaults:
+      run:
+        working-directory: ./trend-analysis/TrendAnalysisApp
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Process trends
+        env:
+          SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        run: dotnet run
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev]
@@ -555,9 +588,10 @@ jobs:
     needs: [
       check-changes,
       deploy-db-dev,
+      run-trend-analysis-dev,
       search-setup-dev,
       deploy-api-dev,
-      deploy-frontend-dev
+      deploy-frontend-dev      
     ]
     uses: ./.github/workflows/e2e-tests.yml
     if: >
