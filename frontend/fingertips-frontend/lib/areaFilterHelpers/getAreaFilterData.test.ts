@@ -9,15 +9,10 @@ import {
   allAreaTypes,
   AreaTypeKeys,
   englandAreaType,
-  regionsAreaType,
-  nhsSubIntegratedCareBoardsAreaType,
-  nhsPrimaryCareNetworksAreaType,
   nhsIntegratedCareBoardsAreaType,
-  gpsAreaType,
   nhsRegionsAreaType,
-  districtAndUnitaryAuthoritiesAreaType,
-  combinedAuthoritiesAreaType,
-  countiesAndUnitaryAuthoritiesAreaType,
+  adminHierarchyAreaTypes,
+  nhsHierarchyAreaTypes,
 } from './areaType';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { SearchParams } from '../searchStateManager';
@@ -34,21 +29,14 @@ describe('getAreaFilterData', () => {
     jest.clearAllMocks();
   });
 
-  it('should call sortAreaTypesByHierarchyAndLevel and return the correctly sorted area types', async () => {
+  it('should return availableAreaTypes from the getAreaTypes call that have been sorted by hierarchy and level', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
 
-    const mockSortedAreaTypes: AreaType[] = [
-      englandAreaType,
-      combinedAuthoritiesAreaType,
-      regionsAreaType,
-      countiesAndUnitaryAuthoritiesAreaType,
-      districtAndUnitaryAuthoritiesAreaType,
-      nhsRegionsAreaType,
-      nhsIntegratedCareBoardsAreaType,
-      nhsSubIntegratedCareBoardsAreaType,
-      nhsPrimaryCareNetworksAreaType,
-      gpsAreaType,
-    ];
+    const expectedSortedAreaTypes: AreaType[] = [  
+      englandAreaType,  
+      ...adminHierarchyAreaTypes.sort((a, b) => a.level - b.level),  
+      ...nhsHierarchyAreaTypes.sort((a, b) => a.level - b.level),  
+    ];  
 
     const { availableAreaTypes } = await getAreaFilterData({});
 
@@ -57,7 +45,7 @@ describe('getAreaFilterData', () => {
       API_CACHE_CONFIG
     );
 
-    expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
+    expect(availableAreaTypes).toEqual(expectedSortedAreaTypes);
   });
 
   it('should return availableGroupTypes prop with a subset of areaTypes sorted by level that are applicable based upon the areaTypeSelected', async () => {
