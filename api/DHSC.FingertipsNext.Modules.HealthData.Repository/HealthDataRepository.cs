@@ -37,7 +37,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 ? true
                 : hm.AgeDimension.HasValue == false)
             // TODO: Will be expanded to allow the deprivation dimension to be retrieved based on a query param in DHSCFT-396
-            .Where(hm => countInequalityDimensionsQuery.First().DeprivationKeyCount == 1 ? true : hm.DeprivationDimension.HasValue == false)
+            .Where(hm => countInequalityDimensionsQuery[0].DeprivationKeyCount == 1 ? true : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
