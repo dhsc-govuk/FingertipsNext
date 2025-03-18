@@ -505,6 +505,11 @@ jobs:
             name        = "DB_PASSWORD"
             secret_name = "fingertips-sql-password"
             value       = null
+          },
+          {
+            name        = "ApplicationInsightsConnectionString"
+            secret_name = "fingertips-frontend-application-insights"
+            value       = null
           }
         ]
       container_liveness_probe: |
