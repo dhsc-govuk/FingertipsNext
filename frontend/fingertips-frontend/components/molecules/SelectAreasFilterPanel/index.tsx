@@ -14,6 +14,7 @@ import {
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
+import { useRef } from 'react';
 
 export type AreaFilterData = {
   availableAreaTypes?: AreaType[];
@@ -68,6 +69,7 @@ export function SelectAreasFilterPanel({
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const timeout = useRef<NodeJS.Timeout>(null);
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -126,7 +128,6 @@ export function SelectAreasFilterPanel({
           ALL_AREAS_SELECTED
         );
       }
-      replace(searchStateManager.generatePath(pathname), { scroll: false });
     } else if (
       !checked &&
       searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
@@ -151,8 +152,10 @@ export function SelectAreasFilterPanel({
         areaCode
       );
     }
-
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    if (timeout.current) clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => {
+      replace(searchStateManager.generatePath(pathname), { scroll: false });
+    }, 500);
   };
 
   const handleSelectAllAreasSelected = (checked: boolean) => {
