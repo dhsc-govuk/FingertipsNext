@@ -138,14 +138,14 @@ public class IndicatorServiceTests
         BenchmarkOutcome expectedResult)
     {
         var healthMeasure1 =
-            new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, upperCi: upperCi, isAggregated: true)
+            new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, upperCi: upperCi, isAggregate: true)
                 .WithAreaDimension(expectedAreaCode, expectedAreaName).Build();
 
         var mockHealthData = new List<HealthMeasureModel> { healthMeasure1 };
 
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
         const string benchmarkAreaName = "Eng";
-        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregated: true, value: benchmarkValue)
+        var healthMeasure2 = new HealthMeasureModelHelper(year: 2023, isAggregate: true, value: benchmarkValue)
             .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
         mockHealthData.Add(healthMeasure2);
 
@@ -206,12 +206,15 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_ShouldReturnExpectedResult_BenchmarkingInequality()
     {
-        var personsDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3)
-            .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension().Build();
-        var maleDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 2, value: 3, upperCi: 4)
-            .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
-        var femaleDataPoint = new HealthMeasureModelHelper(year: 2023, lowerCi: 3, value: 4, upperCi: 5)
-            .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Female").Build();
+        var personsDataPoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension().Build();
+        var maleDataPoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 2, value: 3, upperCi: 4, isAggregate: false)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
+        var femaleDataPoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 3, value: 4, upperCi: 5, isAggregate: false)
+                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Female").Build();
 
 
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
@@ -284,18 +287,18 @@ public class IndicatorServiceTests
         bool shouldBenchmark)
     {
         var englandPoint =
-            new HealthMeasureModelHelper(year: 2023, lowerCi: 0.125, value: 2.25, upperCi: 9.78, isAggregated: true)
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 0.125, value: 2.25, upperCi: 9.78, isAggregate: true)
                 .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng").WithSexDimension().Build();
         var aggregatePoint =
-            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: benchmarkValue, upperCi: 3, isAggregated: true)
+            new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: benchmarkValue, upperCi: 3, isAggregate: true)
                 .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension().Build();
 
-        var disAggregatedPoint =
-            new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, value: 3, upperCi: upperCi, isAggregated: false)
+        var disAggregatePoint =
+            new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, value: 3, upperCi: upperCi, isAggregate: false)
                 .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
 
         var mockHealthData = new List<HealthMeasureModel>
-            { englandPoint, aggregatePoint, disAggregatedPoint };
+            { englandPoint, aggregatePoint, disAggregatePoint };
 
 
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())

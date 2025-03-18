@@ -68,6 +68,6 @@ public class HealthDataPoint
     /// <summary>
     ///     Is the data an aggregated point
     /// </summary>
-    [JsonPropertyName("isAggregated")]
-    public bool IsAggregated { get; set; }
+    [JsonPropertyName("isAggregate")]
+    public bool IsAggregate { get; set; }
 }

@@ -34,5 +34,5 @@ public class HealthMeasureModel
     public double? LowerCi { get; set; }
     public double? UpperCi { get; set; }
     public short Year { get; set; }
-    public bool IsAggregated { get; set; }
+    public bool IsAggregate { get; set; }
 }

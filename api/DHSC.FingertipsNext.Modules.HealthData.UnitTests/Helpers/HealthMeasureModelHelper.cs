@@ -5,7 +5,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 public class HealthMeasureModelHelper(
     int key = 1,
     short year = 2025,
-    bool isAggregated = true,
+    bool isAggregate = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
@@ -230,7 +230,7 @@ public class HealthMeasureModelHelper(
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
             DeprivationDimension = deprivationDimension,
-            IsAggregated = isAggregated
+            IsAggregate = isAggregate
         };
     }
 }

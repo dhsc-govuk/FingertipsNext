@@ -43,12 +43,12 @@ public static class BenchmarkComparisonEngine
                 if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
                     healthDataPointOfInterest.UpperConfidenceInterval == null) continue;
 
-                var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregated
+                var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregate
                     ? benchmarkHealthData.HealthData
                     : sameAreaHealthData;
                 var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
                     item.Year == healthDataPointOfInterest.Year &&
-                    item.IsAggregated && item.Value != null);
+                    item.IsAggregate && item.Value != null);
 
                 if (benchmarkHealthDataPoint == null)
                     continue;
@@ -59,10 +59,10 @@ public static class BenchmarkComparisonEngine
                 if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
                     comparisonValue = 1;
 
-                var benchmarkAreaCode = healthDataPointOfInterest.IsAggregated
+                var benchmarkAreaCode = healthDataPointOfInterest.IsAggregate
                     ? benchmarkHealthData.AreaCode
                     : healthAreaData.AreaCode;
-                var benchmarkAreaName = healthDataPointOfInterest.IsAggregated
+                var benchmarkAreaName = healthDataPointOfInterest.IsAggregate
                     ? benchmarkHealthData.AreaName
                     : healthAreaData.AreaName;
 
