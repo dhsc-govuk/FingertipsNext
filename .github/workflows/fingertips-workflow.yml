@@ -467,8 +467,8 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.head_ref == 'main' ||
-        github.ref_name == 'main'
+        github.head_ref == 'feature/DHSCFT-498_enable-application-insights-fingertips-api' ||
+        github.ref_name == 'feature/DHSCFT-498_enable-application-insights-fingertips-api'
       ) &&
       (
         github.event_name == 'workflow_dispatch' ||
