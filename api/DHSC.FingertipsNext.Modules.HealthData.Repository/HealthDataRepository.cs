@@ -30,10 +30,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
-            .Where(hm => inequalities.Contains("sex") || countInequalityDimensionsQuery.First().SexKeyCount == 1
+            .Where(hm => inequalities.Contains("sex") || countInequalityDimensionsQuery[0].SexKeyCount == 1
                 ? true
                 : hm.SexDimension.HasValue == false)
-            .Where(hm => inequalities.Contains("age") || countInequalityDimensionsQuery.First().AgeKeyCount == 1
+            .Where(hm => inequalities.Contains("age") || countInequalityDimensionsQuery[0].AgeKeyCount == 1
                 ? true
                 : hm.AgeDimension.HasValue == false)
             // TODO: Will be expanded to allow the deprivation dimension to be retrieved based on a query param in DHSCFT-396
