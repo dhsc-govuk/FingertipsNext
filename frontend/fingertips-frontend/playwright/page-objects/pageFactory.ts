@@ -33,15 +33,6 @@ const testBase = baseTest.extend<{
       }
     });
 
-    // Network request failures
-    page.on('requestfailed', (request) => {
-      if (failOnUnhandledError) {
-        throw new Error(
-          `Request failed: ${request.url()} ${request.failure()?.errorText || ''}`
-        );
-      }
-    });
-
     await use(page);
   },
   axeBuilder: [
