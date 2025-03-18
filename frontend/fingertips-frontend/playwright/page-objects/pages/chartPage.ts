@@ -81,6 +81,14 @@ export default class ChartPage extends BasePage {
           .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
           .click();
       }
+      // if its one of the chart components that has a confidence interval checkbox then click it
+      if (visibleComponent === 'lineChart-component') {
+        await this.page
+          .getByTestId(
+            `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
+          )
+          .click();
+      }
       await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
         visible: true,
       });
@@ -89,7 +97,7 @@ export default class ChartPage extends BasePage {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear
+      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
 
       // for now just warn if visual comparisons do not match
       try {
