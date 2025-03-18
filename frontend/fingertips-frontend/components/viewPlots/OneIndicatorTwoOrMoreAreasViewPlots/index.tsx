@@ -79,6 +79,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
               },
