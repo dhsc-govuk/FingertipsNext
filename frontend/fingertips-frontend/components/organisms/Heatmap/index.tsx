@@ -1,207 +1,126 @@
 'use client';
 
+import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
-import {
-  HealthDataForArea,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { generateHeatmapData } from './heatmapUtil';
-import { H3 } from 'govuk-react';
 import { useEffect, useState } from 'react';
-
-export interface IndicatorRowData {
-  indicator: string; // For display purposes
-  year: number; // To match against the health data in the following array
-  rowData: Array<HealthDataForArea>; // Set of health data across set of areas for the indicator above
+import { IndicatorData } from './heatmapUtil';
+interface HeatmapProps {
+  indicatorData: IndicatorData[];
 }
 
-interface HeatmapChartProps {
-  accessibilityLabel: string;
+const formatTooltip = (
+  areaName: string,
+  indicatorName: string,
+  value: string,
+  unitValue: string
+): string => {
+  return `<b>${areaName}</b></br>${indicatorName}</br>${formatValue(value, unitValue)}`;
+};
+
+const formatValue = (value: string, unitValue: string) => {
+  return unitValue === '%' ? `${value}${unitValue}` : `${value} ${unitValue}`;
+};
+
+interface chartItem {
+  x: number;
+  y: number;
+
+  dataPoint: HealthDataPoint;
 }
 
-// Temporary test data for Heatmap
-const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
-const heatmapData: Array<IndicatorRowData> = [
-  {
-    indicator: 'Indicator1',
-    year: 2023,
-    rowData: [
-      {
-        areaCode: 'a1',
-        areaName: 'area1',
-        healthData: [
-          {
-            year: 2023,
-            count: 3,
-            value: 27,
-            upperCi: 8,
-            lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
-            trend: HealthDataPointTrendEnum.NotYetCalculated,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    indicator: 'Indicator2',
-    year: 2024,
-    rowData: [
-      {
-        areaCode: 'a1',
-        areaName: 'area1',
-        healthData: [
-          {
-            year: 2023,
-            count: 5,
-            value: 33,
-            upperCi: 18,
-            lowerCi: 9,
-            ageBand: 'ageBand',
-            sex: 'M',
-            trend: HealthDataPointTrendEnum.NotYetCalculated,
-          },
-          {
-            year: 2024,
-            count: 13,
-            value: 11,
-            upperCi: 23,
-            lowerCi: 3,
-            ageBand: 'ageBand',
-            sex: 'M',
-            trend: HealthDataPointTrendEnum.NotYetCalculated,
-          },
-        ],
-      },
-      {
-        areaCode: 'a2',
-        areaName: 'area2',
-        healthData: [
-          {
-            year: 2019,
-            count: 3,
-            value: 27,
-            upperCi: 8,
-            lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
-            trend: HealthDataPointTrendEnum.NotYetCalculated,
-          },
-          {
-            year: 2024,
-            count: 9,
-            value: 82,
-            upperCi: 99,
-            lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
-            trend: HealthDataPointTrendEnum.NotYetCalculated,
-          },
-        ],
-      },
-    ],
-  },
-];
+function generateChartData(): void {
+  return;
+}
 
-export function HeatmapChart({
-  accessibilityLabel,
-}: Readonly<HeatmapChartProps>) {
-  const [isReady, setIsReady] = useState(false);
+export function Heatmap({}: Readonly<HeatmapProps>) {
+  const [options, setOptions] = useState<Highcharts.Options>();
+  const loadHighchartsModules = async (callback: () => void) => {
+    await import('highcharts/modules/heatmap').then(callback);
+  };
 
-  useEffect(() => {
-    // Initialize the Heatmap module
-    if (typeof window !== 'undefined') {
-      import('highcharts/modules/heatmap').then(() => {
-        setIsReady(true);
-      });
-    }
-  }, []);
-
-  if (!isReady) return null;
-
-  const options: Highcharts.Options = {
-    title: {
-      text: 'Heatmap Chart Title',
-      style: {
-        display: 'none',
-      },
-    },
-    chart: {
-      type: 'heatmap',
-      height: '50%',
-      spacingBottom: 50,
-      spacingTop: 20,
-      marginLeft: 300,
-    },
-    series: [
-      {
-        type: 'heatmap',
-        name: 'Heatmap Series',
-        borderWidth: 1,
-        data: generateHeatmapData(heatmapData, areaCodes),
-        dataLabels: {
-          enabled: true,
-          formatter: function () {
-            const context = { ...this };
-            return context.value ?? 'X';
-          },
-          style: {
-            fontSize: '20px',
-          },
-        },
-      },
-    ],
-    yAxis: {
-      categories: heatmapData.map((i) => i.indicator + '|' + i.year),
-      labels: {
-        useHTML: true,
-        formatter: function () {
-          const context = { ...this };
-          return formatIndicatorLabel(context.value as string);
-        },
-        style: {
-          fontSize: '20px',
-          wordBreak: 'break-none',
-        },
-      },
-      title: undefined,
-    },
-    xAxis: {
-      categories: areaCodes,
-      opposite: true,
-      labels: {
-        rotation: -60,
-        style: {
-          fontSize: '20px',
-        },
-      },
-    },
-    accessibility: {
-      enabled: false,
-      description: accessibilityLabel,
-    },
+  const heatmapOptions: Highcharts.Options = {
     credits: {
       enabled: false,
     },
+
+    chart: { type: 'heatmap', plotBorderWidth: 1 },
+
+    title: { style: { display: 'none' } },
+
+    xAxis: {
+      categories: ['1', '2', '3'],
+      opposite: true,
+    },
+    yAxis: {
+      categories: ['A', 'B', 'C'],
+      reversed: true,
+      title: undefined,
+      //labels: { format: '{substr value 0 1}' },
+    },
+
+    tooltip: {
+      format:
+        '<b>{series.xAxis.categories.(point.x)}</b><br>{series.yAxis.categories.(point.y)}',
+    },
+
+    // DATA FORMAT - [xCoord, yCoord, Value]
+    series: [
+      {
+        name: 'Series Name!',
+        borderWidth: 1,
+        nullColor: GovukColours.White,
+        data: [
+          [0, 0, 'Foo'],
+          [0, 1, 1],
+          [0, 2, 2],
+          [1, 0, 3],
+          [1, 1, 4],
+          [1, 2, 5],
+          [2, 0, 6],
+          [2, 1, 7],
+          [2, 2, 8],
+        ],
+        dataLabels: {
+          enabled: true,
+          color: '#000000',
+        },
+        type: 'heatmap',
+      },
+    ],
+
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+        },
+      ],
+    },
+
+    legend: {},
   };
 
+  useEffect(() => {
+    loadHighchartsModules(() => {
+      setOptions(heatmapOptions);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!options) {
+    return null;
+  }
+
   return (
-    <div data-testid="heatmapChart-component">
-      <H3>Heatmap Chart Title</H3>
+    <div data-testid="heatmap-component">
       <HighchartsReact
-        containerProps={{
-          'data-testid': 'highcharts-react-component-heatmapChart',
-        }}
+        containerProps={{ 'data-testid': 'highcharts-react-component-heatmap' }}
         highcharts={Highcharts}
         options={options}
       />
     </div>
   );
-}
-
-function formatIndicatorLabel(label: string): string {
-  const [indicator, year] = label.split('|');
-  return `<table width='250px'><tr><td><a href='/'>${indicator}</a></td><td>${year}</td></tr></table>`;
 }
