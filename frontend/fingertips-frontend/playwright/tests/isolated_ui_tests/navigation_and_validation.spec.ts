@@ -220,10 +220,10 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Clear search bar and search, verify url is updated to remove indicator', async () => {
-      await resultsPage.clearIndicatorSearchBox()
-      await resultsPage.clickIndicatorSearchButton()
-      await test.expect(resultsPage.page).not.toHaveURL(/&is=/)
-    })
+      await resultsPage.clearIndicatorSearchBox();
+      await resultsPage.clickIndicatorSearchButton();
+      await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
+    });
   });
 });
 
