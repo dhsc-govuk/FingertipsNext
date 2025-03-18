@@ -36,49 +36,59 @@ public static class BenchmarkComparisonEngine
             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
 
         foreach (var healthAreaData in allHealthAreasOfInterest)
-        {
-            var sameAreaHealthData = healthAreaData.HealthData;
-            foreach (var healthDataPointOfInterest in healthAreaData.HealthData)
-            {
-                if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
-                    healthDataPointOfInterest.UpperConfidenceInterval == null) continue;
-
-                var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregate
-                    ? benchmarkHealthData.HealthData
-                    : sameAreaHealthData;
-                var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
-                    item.Year == healthDataPointOfInterest.Year &&
-                    item.IsAggregate && item.Value != null);
-
-                if (benchmarkHealthDataPoint == null)
-                    continue;
-
-                var comparisonValue = 0;
-                if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
-                    comparisonValue = -1;
-                if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
-                    comparisonValue = 1;
-
-                var benchmarkAreaCode = healthDataPointOfInterest.IsAggregate
-                    ? benchmarkHealthData.AreaCode
-                    : healthAreaData.AreaCode;
-                var benchmarkAreaName = healthDataPointOfInterest.IsAggregate
-                    ? benchmarkHealthData.AreaName
-                    : healthAreaData.AreaName;
-
-                healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
-                {
-                    Method = comparisonMethod,
-                    Outcome = GetOutcome(comparisonValue, polarity),
-                    IndicatorPolarity = polarity,
-                    BenchmarkValue = benchmarkHealthDataPoint.Value,
-                    BenchmarkAreaCode = benchmarkAreaCode,
-                    BenchmarkAreaName = benchmarkAreaName
-                };
-            }
-        }
+            ProcessBenchmarkComparisonsForArea(healthAreaData, benchmarkHealthData, comparisonMethod,
+                polarity);
 
         return healthDataForAreasOfInterest;
+    }
+
+    private static void ProcessBenchmarkComparisonsForArea(HealthDataForArea areaHealthData,
+        HealthDataForArea benchmarkHealthData,
+        BenchmarkComparisonMethod comparisonMethod,
+        IndicatorPolarity polarity)
+    {
+        var areaHealthDataPoints = areaHealthData.HealthData;
+        var areaCode = areaHealthData.AreaCode;
+        var areaName = areaHealthData.AreaName;
+
+        foreach (var healthDataPointOfInterest in areaHealthDataPoints)
+        {
+            if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
+                healthDataPointOfInterest.UpperConfidenceInterval == null) continue;
+
+            var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregate
+                ? benchmarkHealthData.HealthData
+                : areaHealthDataPoints;
+            var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
+                item.Year == healthDataPointOfInterest.Year &&
+                item.IsAggregate && item.Value != null);
+
+            if (benchmarkHealthDataPoint == null)
+                continue;
+
+            var comparisonValue = 0;
+            if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
+                comparisonValue = -1;
+            if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
+                comparisonValue = 1;
+
+            var benchmarkAreaCode = healthDataPointOfInterest.IsAggregate
+                ? benchmarkHealthData.AreaCode
+                : areaCode;
+            var benchmarkAreaName = healthDataPointOfInterest.IsAggregate
+                ? benchmarkHealthData.AreaName
+                : areaName;
+
+            healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
+            {
+                Method = comparisonMethod,
+                Outcome = GetOutcome(comparisonValue, polarity),
+                IndicatorPolarity = polarity,
+                BenchmarkValue = benchmarkHealthDataPoint.Value,
+                BenchmarkAreaCode = benchmarkAreaCode,
+                BenchmarkAreaName = benchmarkAreaName
+            };
+        }
     }
 
     private static BenchmarkOutcome GetOutcome(int comparison, IndicatorPolarity polarity)
