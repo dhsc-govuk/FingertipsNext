@@ -7,6 +7,10 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
+    private const string Sex = "sex";
+    private const string Age = "age";
+    private const string Deprivation = "deprivation";
+
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
     private struct InequalitiesCount
@@ -16,33 +20,19 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         public int? DeprivationCount { get; init; }
     }
 
-    private static bool InequalitiesParamsContainSex(string[] inequalities)
+    private static bool ShouldIncludeSexDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionsCount)
     {
-        return inequalities.Contains("sex");
+        return inequalitiesParams.Contains(Sex) || inequalityDimensionsCount[0].SexCount == 1;
     }
 
-    private static bool ShouldIncludeSexDimension(string[] inequalities, List<InequalitiesCount> inequalityDimensionsCount)
+    private static bool ShouldIncludeAgeDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionsCount)
     {
-        return InequalitiesParamsContainSex(inequalities) || inequalityDimensionsCount[0].SexCount == 1;
-    }
-
-    private static bool InequalitiesParamsContainAge(string[] inequalities)
-    {
-        return inequalities.Contains("age");
-    }
-
-    private static bool ShouldIncludeAgeDimension(string[] inequalities, List<InequalitiesCount> inequalityDimensionsCount)
-    {
-        return InequalitiesParamsContainAge(inequalities) || inequalityDimensionsCount[0].AgeCount == 1;
-    }
-
-    private static bool InequalitiesParamsContainDeprivation(string[] inequalities)
-    {
-        return inequalities.Contains("deprivation");
+        return inequalitiesParams.Contains(Age) || inequalityDimensionsCount[0].AgeCount == 1;
     }
 
     private static bool ShouldIncludeDeprivationDimension(List<InequalitiesCount> inequalityDimensionsCount)
     {
+        // TODO: Will be expanded to check the inequalities params contain "deprivation" in DHSCFT-396.
         return inequalityDimensionsCount[0].DeprivationCount == 1;
     }
 
@@ -54,9 +44,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .GroupBy(x => x.IndicatorKey)
             .Select(x => new InequalitiesCount()
             {
-                SexCount = InequalitiesParamsContainSex(inequalities) ? null : x.Select(hm => hm.SexKey).Distinct().Count(),
-                AgeCount = InequalitiesParamsContainAge(inequalities) ? null : x.Select(hm => hm.AgeKey).Distinct().Count(),
-                DeprivationCount = InequalitiesParamsContainDeprivation(inequalities) ? null : x.Select(hm => hm.DeprivationKey).Distinct().Count()
+                // When new inequality dimensions are added, we will need to add a count for them here.
+                SexCount = inequalities.Contains(Sex) ? null : x.Select(hm => hm.SexKey).Distinct().Count(),
+                AgeCount = inequalities.Contains(Age) ? null : x.Select(hm => hm.AgeKey).Distinct().Count(),
+                DeprivationCount = inequalities.Contains(Deprivation) ? null : x.Select(hm => hm.DeprivationKey).Distinct().Count()
             })
             .ToListAsync();
     }
@@ -79,7 +70,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(hm => ShouldIncludeAgeDimension(inequalities, inequalityDimensionsCount)
                 ? true
                 : hm.AgeDimension.HasValue == false)
-            // TODO: Will be expanded to allow the deprivation dimension to be retrieved based on a query param in DHSCFT-396
             .Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionsCount) ? true : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
