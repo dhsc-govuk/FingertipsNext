@@ -11,12 +11,13 @@ internal static class Program
 {
     static void Main(string[] args)
     {
-        CreateServices().GetRequiredService<TrendDataProcessor>().Process().Wait();
+        var serviceProvider = CreateServices();
+        serviceProvider.GetRequiredService<TrendDataProcessor>().Process(serviceProvider).Wait();
     }
 
-    // Note this the DB Context and HealthMeasureRepository are not currently threadsafe for parallel execution.
-    // DB changes are async and awaited on an indicator by indicator basis, which is more than fast enough for PoC.
-    // If we want to make this change in future, we will need to scope them to each thread.
+    // Sets up the services for the console application
+    // Note that the DB Context is transient so that it can be managed on a per thread basis
+    // see: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/#implicitly-sharing-dbcontext-instances-via-dependency-injection
     private static ServiceProvider CreateServices()
     {
         var configuration = new ConfigurationBuilder()
@@ -28,12 +29,15 @@ internal static class Program
         
         return new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
-            .AddDbContext<HealthMeasureDbContext>(options => options.UseSqlServer(connString))
+            .AddDbContext<HealthMeasureDbContext>(
+                options => options.UseSqlServer(connString),
+                ServiceLifetime.Transient
+            )
             .AddSingleton<TrendDataProcessor>()
             .AddSingleton<IndicatorRepository>()
-            .AddSingleton<HealthMeasureRepository>()
             .AddSingleton<TrendCalculator>()
-            .AddSingleton<TrendMarkerCalculator>()
+            // The legacy calculator is not threadsafe so is instantiated per thread
+            .AddTransient<TrendMarkerCalculator>()
             .AddSingleton<LegacyMapper>()
             .BuildServiceProvider();
     }

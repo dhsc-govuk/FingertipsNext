@@ -19,6 +19,8 @@ services:
     depends_on:
       db-setup:
         condition: service_completed_successfully
+      db-apply-trends:
+        condition: service_completed_successfully
 
     build: api
     environment:
