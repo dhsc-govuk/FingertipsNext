@@ -232,7 +232,7 @@ export function LineChartTable({
                   )}
                   <StyledTitleRow colSpan={5}>
                     <StyledDivContainer>
-                      {`${area.areaName} recent trend: `}
+                      {'Recent trend: '}
                       <TrendTag
                         trendFromResponse={
                           area.healthData[area.healthData.length - 1].trend

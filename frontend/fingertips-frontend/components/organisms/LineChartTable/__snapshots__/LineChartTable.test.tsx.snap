@@ -402,7 +402,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             <div
               class="c6"
             >
-              Greater Manchester ICB - 00T recent trend: 
+              Recent trend: 
               <div
                 data-testid="trendTag-container"
               >
@@ -1035,7 +1035,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <div
               class="c6"
             >
-              Greater Manchester ICB - 00T recent trend: 
+              Recent trend: 
               <div
                 data-testid="trendTag-container"
               >
@@ -1067,7 +1067,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <div
               class="c6"
             >
-              South FooBar recent trend: 
+              Recent trend: 
               <div
                 data-testid="trendTag-container"
               >

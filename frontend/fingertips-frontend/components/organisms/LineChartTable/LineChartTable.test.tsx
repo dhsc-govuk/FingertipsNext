@@ -98,7 +98,7 @@ describe('Line chart table suite', () => {
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        `${mockHealthData[0].areaName} recent trend: No trend data available`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
         mockHealthData[0].areaName
@@ -204,7 +204,7 @@ describe('Line chart table suite', () => {
       // Right-facing arrow for the 'no significant change' trend
       expect(screen.getByTestId('arrow-right')).toBeVisible();
       expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        'Manchester - Counties and Unitary Authorities recent trend: No significant change'
+        'Recent trend: No significant change'
       );
     });
   });
@@ -234,10 +234,10 @@ describe('Line chart table suite', () => {
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        `${mockHealthData[0].areaName} recent trend: No trend data available`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        `${mockHealthData[1].areaName} recent trend: No trend data available`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
         mockHealthData[0].areaName
@@ -330,10 +330,10 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByTestId('arrow-up')).toHaveLength(1);
 
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        'Manchester - Counties and Unitary Authorities recent trend: No significant change'
+        'Recent trend: No significant change'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        'South FooBar recent trend: Increasing and getting worse'
+        'Recent trend: Increasing and getting worse'
       );
     });
   });
