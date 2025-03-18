@@ -30,7 +30,7 @@ interface BarChartEmbeddedTableProps {
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
-  return title.split(" ").map((word, index) => (
+  return title.split(' ').map((word, index) => (
     <React.Fragment key={index}>
       {word}
       <br />
@@ -46,6 +46,9 @@ export function BarChartEmbeddedTable({
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
+const flatten = healthIndicatorData.map(item => (item.healthData.map(item => item.value).filter(value => value !== undefined)).flat())
+  // const maxValue = Math.max(...flatten.map(item => item.))
+  console.log('flatten', flatten);
 
   const tableRows = mostRecentYearData.map((item) => ({
     area: item.areaName,
@@ -76,16 +79,14 @@ export function BarChartEmbeddedTable({
   );
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
-  
-  
+
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <Table
         head={
           <React.Fragment>
             <Table.Row>
-            <Table.CellHeader colSpan={5}>
-            </Table.CellHeader>
+              <Table.CellHeader colSpan={5}></Table.CellHeader>
               <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
                 {formatHeader(BarChartEmbeddedTableHeadingEnum.ConfidenceLimit)}
               </Table.CellHeader>
@@ -124,11 +125,13 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={benchmarkData?.areaName} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.value}/>
-            <Table.Cell>
-            <SparklineChart value={mostRecentBenchmarkData.value}></SparklineChart>
+             <CheckValueInTableCell value={mostRecentBenchmarkData.value} />
+              <Table.Cell colSpan={2}>
+              <SparklineChart
+                value={mostRecentBenchmarkData.value}
+              ></SparklineChart>
             </Table.Cell>
-              <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
+            <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.upperCi} />
           </Table.Row>
         ) : null}
@@ -144,9 +147,11 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={mostRecentGroupData.count} />
             <CheckValueInTableCell value={mostRecentGroupData.value} />
             <Table.Cell>
-            <SparklineChart value={mostRecentGroupData.value}></SparklineChart>
+              <SparklineChart
+                value={mostRecentGroupData.value}
+              ></SparklineChart>
             </Table.Cell>
-              <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
+            <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
             <CheckValueInTableCell value={mostRecentGroupData.upperCi} />
           </Table.Row>
         ) : null}

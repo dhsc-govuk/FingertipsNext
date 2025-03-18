@@ -218,6 +218,7 @@ describe('BarChartEmbeddedTable', () => {
     );
     const areaRows = screen.getAllByRole('row').slice(2);
     const cells = screen.getAllByRole('cell');
+    console.log(areaRows);
 
     const values = areaRows.map(() => {
       return parseInt(String(cells[valueColumnIndex].textContent || 0));
@@ -249,5 +250,20 @@ describe('BarChartEmbeddedTable', () => {
 
     const noValueCells = screen.getAllByLabelText('Not compared');
     expect(noValueCells).toHaveLength(2);
+  });
+
+  it('should render the SparklineChart bars for each area displayed in the table', () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+
+    const sparkline = screen.getAllByTestId(
+      'highcharts-react-component-barChartEmbeddedTable'
+    );
+
+    expect(sparkline).toHaveLength(4);
   });
 });
