@@ -316,9 +316,6 @@ jobs:
       ]
     environment: development
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./database/fingertips-db
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
