@@ -83,6 +83,7 @@ export default async function ChartPage(
       {
         indicatorId: indicatorIdForPopulation,
         areaCodes: [...areasSelected, areaCodeForEngland],
+        inequalities: ['age', 'sex'],
       },
       API_CACHE_CONFIG
     );
