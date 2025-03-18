@@ -45,8 +45,8 @@ export function OneIndicatorOneAreaViewPlots({
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? healthIndicatorData.find(
-          (areaData) => areaData.areaCode === selectedGroupCode
-        )
+        (areaData) => areaData.areaCode === selectedGroupCode
+      )
       : undefined;
 
   return (
@@ -109,10 +109,11 @@ export function OneIndicatorOneAreaViewPlots({
         </>
       )}
       <PyramidPopulationChartView
-        populationHealthDataForAreas={populationHealthIndicatorData}
+        healthDataForAreas={populationHealthIndicatorData}
         xAxisTitle="Age"
         yAxisTitle="Percentage"
-        groupAreaCode="A1425"
+        selectedGroupAreaCode={selectedGroupCode ?? ''},
+      currentDate= {Date()}
       />
     </section>
   );

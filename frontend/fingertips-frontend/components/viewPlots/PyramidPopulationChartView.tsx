@@ -1,7 +1,7 @@
 'use client';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
@@ -13,93 +13,118 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 
 const filterHealthDataForArea = (
   dataForAreas: HealthDataForArea[],
-  groupAreaCode: string | undefined
+  selectedGroupAreaCode: string | undefined
 ) => {
-  let areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
-    return groupAreaCode != area.areaCode;
+  if (dataForAreas.length == 1) {
+    return { areas: dataForAreas, england: undefined, baseline: undefined };
+  }
+
+  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
+    return (
+      selectedGroupAreaCode != area.areaCode &&
+      area.areaCode != areaCodeForEngland
+    );
   });
 
   const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
     return (
-      area.areaCode == areaCodeForEngland && groupAreaCode != area.areaCode
+      area.areaCode == areaCodeForEngland &&
+      selectedGroupAreaCode != area.areaCode
     );
   });
 
   let baseline: HealthDataForArea | undefined = undefined;
-  if (england && groupAreaCode) {
+  if (england && selectedGroupAreaCode) {
     baseline = dataForAreas.find((area: HealthDataForArea, _: number) => {
       return (
-        groupAreaCode == area.areaCode && england.areaCode != area.areaCode
+        selectedGroupAreaCode == area.areaCode &&
+        england.areaCode != area.areaCode
       );
-    });
-  }
-
-  //removed baseline and england area from the areas
-  if (england) {
-    areas = areas.filter((area: HealthDataForArea) => {
-      return area.areaCode != england.areaCode;
-    });
-  }
-
-  if (baseline) {
-    areas = areas.filter((area: HealthDataForArea) => {
-      return area.areaCode != baseline.areaCode;
     });
   }
 
   return { areas, england, baseline };
 };
 
+const createPopulationDataFrom = (
+  dataForAreas: HealthDataForArea[],
+  groupAreaCode: string
+) => {
+  const { areas, england, baseline } = filterHealthDataForArea(
+    dataForAreas,
+    groupAreaCode
+  );
+
+  const pyramidAreas = areas.map((area) =>
+    convertHealthDataForAreaForPyramidData(area)
+  );
+  const pyramidEngland = convertHealthDataForAreaForPyramidData(england);
+  const pyramidBaseline = convertHealthDataForAreaForPyramidData(baseline);
+  return {
+    areas: pyramidAreas,
+    england: pyramidEngland,
+    baseline: pyramidBaseline,
+  };
+};
+
 interface PyramidPopulationChartViewProps {
-  populationHealthDataForAreas: HealthDataForArea[];
+  healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
-  groupAreaCode: string;
+  selectedGroupAreaCode?: string;
+  currentDate?: Date;
 }
 
 export const PyramidPopulationChartView = ({
-  populationHealthDataForAreas,
+  healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  groupAreaCode,
+  currentDate,
+  selectedGroupAreaCode,
 }: PyramidPopulationChartViewProps) => {
   const [toggleClose, setToggleClose] = useState<boolean>();
 
-  const convertedData = ((
-    dataAreas: HealthDataForArea[],
-    groupAreaCode: string | undefined
-  ) => {
-    const { areas, england, baseline } = filterHealthDataForArea(
-      dataAreas,
-      groupAreaCode
+  const convertedData = useMemo(() => {
+    console.log('Process and selection');
+    return createPopulationDataFrom(
+      healthDataForAreas,
+      selectedGroupAreaCode ?? ''
     );
-
-    const pyramidAreas = areas.map((area) =>
-      convertHealthDataForAreaForPyramidData(area)
-    );
-    const pyramidEngland = convertHealthDataForAreaForPyramidData(england);
-    const pyramidBaseline = convertHealthDataForAreaForPyramidData(baseline);
-    return {
-      areas: pyramidAreas,
-      england: pyramidEngland,
-      baseline: pyramidBaseline,
-    };
-  })(populationHealthDataForAreas, groupAreaCode);
+  }, [healthDataForAreas, selectedGroupAreaCode]);
 
   const defaultArea = (() => {
     let area =
-      convertedData?.areas?.length === 1 ? convertedData?.areas[0] : undefined;
+      convertedData.areas?.length === 1 ? convertedData.areas[0] : undefined;
     if (!area) {
-      if (convertedData?.areas?.length > 0) {
-        area = convertedData?.areas[0];
+      if (convertedData.areas?.length > 0) {
+        area = convertedData.areas[0];
       }
     }
     return area;
   })();
-
+  console.log(convertedData);
   const [selectedArea, setSelectedPopulationForArea] = useState<
     PopulationDataForArea | undefined
   >(defaultArea);
+
+  const onAreaSelectedHandler = useCallback(
+    (area: Omit<AreaDocument, 'areaType'>) => {
+      if (healthDataForAreas) {
+        const healthData = healthDataForAreas.find(
+          (healthArea: HealthDataForArea, _: number) => {
+            return (
+              healthArea.areaCode === area.areaCode &&
+              area.areaName === healthArea.areaName
+            );
+          }
+        );
+        setSelectedPopulationForArea(
+          convertHealthDataForAreaForPyramidData(healthData)
+        );
+      }
+    },
+    [healthDataForAreas]
+  );
 
   return (
     <div>
@@ -125,21 +150,11 @@ export const PyramidPopulationChartView = ({
                   } as Omit<AreaDocument, 'areaType'>;
                 }
               )}
-              onSelected={(area: Omit<AreaDocument, 'areaType'>) => {
-                if (convertedData.areas) {
-                  const selectedArea = convertedData.areas.find(
-                    (pArea: PopulationDataForArea | undefined, _: number) => {
-                      return pArea?.areaCode == area?.areaCode;
-                    }
-                  );
-                  setSelectedPopulationForArea(selectedArea);
-                  console.log(selectedArea);
-                }
-              }}
+              onSelected={onAreaSelectedHandler}
               visibility={convertedData?.areas.length === 1 ? false : true}
             />
           </div>
-          {selectedArea ? (
+          {selectedArea != undefined ? (
             <TabContainer
               id="pyramidChartAndTableView"
               items={[
@@ -150,8 +165,8 @@ export const PyramidPopulationChartView = ({
                     <>
                       <div style={{ margin: '0px', padding: '0px' }}>
                         <h3 style={{ margin: '0px', padding: '0px' }}>
-                          Resident Population profile {selectedArea?.areaName}{' '}
-                          2024{' '}
+                          Resident Population profile {selectedArea?.areaName}
+                          {' ' + currentDate?.getFullYear()}
                         </h3>
                       </div>
 

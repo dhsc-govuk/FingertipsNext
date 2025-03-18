@@ -95,7 +95,7 @@ export const createChartSeriesOptions = (
             <span style="font-weight: bold; display: block;">
             ${dataForArea.areaName}
             </span>
-        <span display:inline-block;>Age {key}</span><div>`,
+        <span>Age {key}</span><div>`,
       pointFormatter: function (this: Highcharts.Point) {
         return pointFormatterHelper(this);
       },

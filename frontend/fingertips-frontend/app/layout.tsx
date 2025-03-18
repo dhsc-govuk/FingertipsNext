@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 const benchmarkEnglandData = mockHealthData['337'][0];
-const selectedData = mockHealthData['337'][1];
+const groupAreaForHealth = mockHealthData['337'][2];
 
 export default function RootLayout({
   children,
@@ -29,10 +29,10 @@ export default function RootLayout({
             {/* {children} */}
 
             <PyramidPopulationChartView
-              populationHealthDataForAreas={mockHealthData['337']}
-              selectedAreaCode={selectedData.areaCode}
+              healthDataForAreas={[mockHealthData['337'][1]]}
               xAxisTitle="Age"
               yAxisTitle="Percentage"
+              currentDate={new Date(Date.now())}
             />
           </FTContainer>
           <FTFooter />
