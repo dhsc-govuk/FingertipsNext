@@ -65,7 +65,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       ['A001', 'A002', areaCodeForEngland],
     ],
   ])(
-    'should make 1 call to the healthIndicatorApi with the expected parameters',
+    'should make appropriate number of calls to the healthIndicatorApi with the expected parameters',
     async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: [testIndicators],
@@ -80,14 +80,20 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        1,
-        {
-          areaCodes: expectedAreaCodes,
-          indicatorId: Number(testIndicators),
-        },
-        API_CACHE_CONFIG
-      );
+      ).toHaveBeenCalledTimes(expectedAreaCodes.length);
+
+      expectedAreaCodes.forEach((areaCode, index) => {
+        expect(
+          mockIndicatorsApi.getHealthDataForAnIndicator
+        ).toHaveBeenNthCalledWith(
+          index + 1,
+          {
+            areaCodes: [areaCode],
+            indicatorId: Number(testIndicators),
+          },
+          API_CACHE_CONFIG
+        );
+      });
     }
   );
 

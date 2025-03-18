@@ -53,13 +53,19 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-      },
-      API_CACHE_CONFIG
-    );
+    healthIndicatorData = (
+      await Promise.all(
+        areaCodesToRequest.map((areaCode) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorSelected[0]),
+              areaCodes: [areaCode],
+            },
+            API_CACHE_CONFIG
+          )
+        )
+      )
+    ).flat();
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
