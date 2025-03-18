@@ -5,7 +5,8 @@ import { expect } from '@jest/globals';
 describe('SparklineChart', () => {
   it('Should render the highcharts react component', () => {
     const mockValue = 48;
-    render(<SparklineChart value={mockValue} />);
+    const maxValue = 100;
+    render(<SparklineChart value={mockValue} maxValue={maxValue} />);
 
     expect(
       screen.getByTestId('highcharts-react-component-barChartEmbeddedTable')

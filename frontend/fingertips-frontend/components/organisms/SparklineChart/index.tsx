@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 
 interface SparklineChartProps {
   value: number | undefined;
-  maxValue?: number;
+  maxValue: number;
 }
 export function SparklineChart({
   value,
@@ -27,7 +27,7 @@ export function SparklineChart({
         display: 'none',
       },
     },
-    yAxis: { visible: false, min: 0 },
+    yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
     series: [{ type: 'bar', data: [value] }],
     accessibility: {

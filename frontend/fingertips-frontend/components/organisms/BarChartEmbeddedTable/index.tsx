@@ -46,9 +46,13 @@ export function BarChartEmbeddedTable({
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
-const flatten = healthIndicatorData.map(item => (item.healthData.map(item => item.value).filter(value => value !== undefined)).flat())
-  // const maxValue = Math.max(...flatten.map(item => item.))
-  console.log('flatten', flatten);
+
+  const extractValues = healthIndicatorData.flatMap((item) =>
+    item.healthData
+      .map((item) => item.value)
+      .filter((value) => value !== undefined)
+  );
+  const maxValue = Math.max(...extractValues);
 
   const tableRows = mostRecentYearData.map((item) => ({
     area: item.areaName,
@@ -82,7 +86,7 @@ const flatten = healthIndicatorData.map(item => (item.healthData.map(item => ite
 
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
-      <Table
+      <Table style={{padding: 0}}
         head={
           <React.Fragment>
             <Table.Row>
@@ -125,10 +129,11 @@ const flatten = healthIndicatorData.map(item => (item.healthData.map(item => ite
             <CheckValueInTableCell value={benchmarkData?.areaName} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
-             <CheckValueInTableCell value={mostRecentBenchmarkData.value} />
-              <Table.Cell colSpan={2}>
+            <CheckValueInTableCell value={mostRecentBenchmarkData.value}/>
+            <Table.Cell>
               <SparklineChart
                 value={mostRecentBenchmarkData.value}
+                maxValue={maxValue}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -149,7 +154,8 @@ const flatten = healthIndicatorData.map(item => (item.healthData.map(item => ite
             <Table.Cell>
               <SparklineChart
                 value={mostRecentGroupData.value}
-              ></SparklineChart>
+                maxValue={maxValue}
+              />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
             <CheckValueInTableCell value={mostRecentGroupData.upperCi} />
@@ -163,7 +169,7 @@ const flatten = healthIndicatorData.map(item => (item.healthData.map(item => ite
             <CheckValueInTableCell value={item.count} />
             <CheckValueInTableCell value={item.value} />
             <Table.Cell>
-              <SparklineChart value={item.value}></SparklineChart>
+              <SparklineChart value={item.value} maxValue={maxValue} />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
             <CheckValueInTableCell value={item.upperCi} />
