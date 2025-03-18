@@ -20,23 +20,23 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         public int? DeprivationCount { get; init; }
     }
 
-    private static bool ShouldIncludeSexDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionsCount)
+    private static bool ShouldIncludeSexDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionKeysCount)
     {
-        return inequalitiesParams.Contains(Sex) || inequalityDimensionsCount[0].SexCount == 1;
+        return inequalitiesParams.Contains(Sex) || inequalityDimensionKeysCount[0].SexCount == 1;
     }
 
-    private static bool ShouldIncludeAgeDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionsCount)
+    private static bool ShouldIncludeAgeDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionKeysCount)
     {
-        return inequalitiesParams.Contains(Age) || inequalityDimensionsCount[0].AgeCount == 1;
+        return inequalitiesParams.Contains(Age) || inequalityDimensionKeysCount[0].AgeCount == 1;
     }
 
-    private static bool ShouldIncludeDeprivationDimension(List<InequalitiesCount> inequalityDimensionsCount)
+    private static bool ShouldIncludeDeprivationDimension(List<InequalitiesCount> inequalityDimensionKeysCount)
     {
         // TODO: Will be expanded to check the inequalities params contain "deprivation" in DHSCFT-396.
-        return inequalityDimensionsCount[0].DeprivationCount == 1;
+        return inequalityDimensionKeysCount[0].DeprivationCount == 1;
     }
 
-    private async Task<List<InequalitiesCount>> CountInequalityDimensions(int indicatorId, string[] inequalities)
+    private async Task<List<InequalitiesCount>> CountDistinctInequalityDimensionKeys(int indicatorId, string[] inequalities)
     {
         return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
@@ -54,8 +54,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
     {
-        var inequalityDimensionsCount = await CountInequalityDimensions(indicatorId, inequalities);
-        if (inequalityDimensionsCount.Count == 0)
+        var inequalityDimensionKeysCount = await CountDistinctInequalityDimensionKeys(indicatorId, inequalities);
+        if (inequalityDimensionKeysCount.Count == 0)
         {
             return Array.Empty<HealthMeasureModel>();
         }
@@ -64,13 +64,13 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
-            .Where(hm => ShouldIncludeSexDimension(inequalities, inequalityDimensionsCount)
+            .Where(hm => ShouldIncludeSexDimension(inequalities, inequalityDimensionKeysCount)
                 ? true
                 : hm.SexDimension.HasValue == false)
-            .Where(hm => ShouldIncludeAgeDimension(inequalities, inequalityDimensionsCount)
+            .Where(hm => ShouldIncludeAgeDimension(inequalities, inequalityDimensionKeysCount)
                 ? true
                 : hm.AgeDimension.HasValue == false)
-            .Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionsCount) ? true : hm.DeprivationDimension.HasValue == false)
+            .Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionKeysCount) ? true : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
