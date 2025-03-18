@@ -53,13 +53,13 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
   it.each([
     [
-      ['1'],
+      '1',
       ['A001', 'A002'],
       'G001',
       ['A001', 'A002', areaCodeForEngland, 'G001'],
     ],
     [
-      ['1'],
+      '1',
       ['A001', 'A002'],
       areaCodeForEngland,
       ['A001', 'A002', areaCodeForEngland],
@@ -68,7 +68,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     'should make 1 call to the healthIndicatorApi with the expected parameters',
     async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
       const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: testIndicators,
+        [SearchParams.IndicatorsSelected]: [testIndicators],
         [SearchParams.GroupSelected]: testGroup,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
@@ -84,7 +84,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         1,
         {
           areaCodes: expectedAreaCodes,
-          indicatorId: 1,
+          indicatorId: Number(testIndicators),
         },
         API_CACHE_CONFIG
       );
@@ -129,6 +129,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.GroupSelected]: 'G001',
+      [SearchParams.AreaTypeSelected]: 'regions',
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
       mockHealthData['108'][1],
@@ -136,7 +137,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: ['A001', 'A002'],
+      areaCodes: ['E12000001', 'E12000003'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);

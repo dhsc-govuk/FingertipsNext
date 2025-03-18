@@ -79,7 +79,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    // DHSCFT-483 to restore to selectedGroupArea only
+    // DHSCFT-483 to restore to selectedGroupArea
     selectedGroupArea === 'ALL' && selectedGroupCode
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
