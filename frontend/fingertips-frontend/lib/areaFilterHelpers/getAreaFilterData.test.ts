@@ -9,8 +9,15 @@ import {
   allAreaTypes,
   AreaTypeKeys,
   englandAreaType,
+  regionsAreaType,
+  nhsSubIntegratedCareBoardsAreaType,
+  nhsPrimaryCareNetworksAreaType,
   nhsIntegratedCareBoardsAreaType,
+  gpsAreaType,
   nhsRegionsAreaType,
+  districtAndUnitaryAuthoritiesAreaType,
+  combinedAuthoritiesAreaType,
+  countiesAndUnitaryAuthoritiesAreaType,
 } from './areaType';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { SearchParams } from '../searchStateManager';
@@ -27,12 +34,21 @@ describe('getAreaFilterData', () => {
     jest.clearAllMocks();
   });
 
-  it('should return availableAreaTypes with a sorted by level list of areaTypes from the getAreaTypes call', async () => {
+  it('should call sortAreaTypesByHierarchyAndLevel and return the correctly sorted area types', async () => {
     mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
 
-    const mockSortedAreaTypes: AreaType[] = allAreaTypes.toSorted(
-      (a, b) => a.level - b.level
-    );
+  const mockSortedAreaTypes: AreaType[] = [
+    englandAreaType,
+    combinedAuthoritiesAreaType,
+    regionsAreaType,
+    countiesAndUnitaryAuthoritiesAreaType,
+    districtAndUnitaryAuthoritiesAreaType,
+    nhsRegionsAreaType,
+    nhsIntegratedCareBoardsAreaType,
+    nhsSubIntegratedCareBoardsAreaType,
+    nhsPrimaryCareNetworksAreaType,
+    gpsAreaType,
+  ];
 
     const { availableAreaTypes } = await getAreaFilterData({});
 
@@ -40,6 +56,7 @@ describe('getAreaFilterData', () => {
       {},
       API_CACHE_CONFIG
     );
+
     expect(availableAreaTypes).toEqual(mockSortedAreaTypes);
   });
 
