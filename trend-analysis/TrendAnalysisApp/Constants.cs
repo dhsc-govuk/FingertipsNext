@@ -12,7 +12,7 @@ public static class Constants {
     public static class Polarity {
         public const string LowIsGood = "Low is good";
         public const string HighIsGood = "High is good";
-        public const string NotApplicable = "Not applicable";
+        public const string NoJudgement = "No judgement";
     }
 
     public static class Trend {

@@ -7,7 +7,7 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { BackLink, H2, H3, Paragraph } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -16,17 +16,19 @@ const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
+interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
+  areaCodes: string[];
+}
+
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+  areaCodes,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
-  const backLinkPath = stateManager.generatePath('/results');
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -45,16 +47,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const shouldLineChartbeShown =
     dataWithoutEngland[0]?.healthData.length > 1 &&
-    areasSelected &&
-    areasSelected?.length <= 2;
+    areaCodes &&
+    areaCodes?.length <= 2;
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
@@ -78,7 +75,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 ),
               },
               {
-                id: 'table',
+                id: 'lineChartTable',
                 title: 'Tabular data',
                 content: (
                   <LineChartTable
