@@ -28,6 +28,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   searchState,
   indicatorMetadata,
   mapData,
+  areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {

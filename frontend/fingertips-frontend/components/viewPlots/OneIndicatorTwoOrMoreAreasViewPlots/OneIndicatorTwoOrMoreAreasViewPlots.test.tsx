@@ -209,6 +209,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ]}
         searchState={searchState}
         mapData={mockMapData}
+        areaCodes={mockAreas}
       />
     );
     expect(

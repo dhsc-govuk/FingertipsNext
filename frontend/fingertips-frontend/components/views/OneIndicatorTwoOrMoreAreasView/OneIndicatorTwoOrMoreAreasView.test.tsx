@@ -158,6 +158,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
+      areaCodes: ['E12000004', 'E12000006'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
