@@ -40,7 +40,6 @@ export default async function ChartPage(
     const {
       [SearchParams.IndicatorsSelected]: indicators,
       [SearchParams.AreasSelected]: areaCodes,
-      [SearchParams.AreaTypeSelected]: selectedAreaType,
       [SearchParams.GroupSelected]: selectedGroupCode,
     } = stateManager.getSearchState();
 
