@@ -30,6 +30,7 @@ export const AreaSelectedPill = ({
       removeFilter={onRemoveFilter}
       selectedFilterId={area.code}
       isFullWidth={inFilterPane}
+      ariaLabelPostfix={area.name}
     >
       <p style={{ margin: 0 }}>
         <StyleAreaName>

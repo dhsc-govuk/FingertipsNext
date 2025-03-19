@@ -43,6 +43,7 @@ interface PillProps {
   selectedFilterId?: string;
   removeFilter: (filterId: string) => void;
   isFullWidth?: boolean;
+  ariaLabelPostfix?: string;
 }
 
 export function Pill({
@@ -50,10 +51,12 @@ export function Pill({
   selectedFilterId,
   removeFilter,
   isFullWidth = true,
+  ariaLabelPostfix = '',
 }: Readonly<PillProps>) {
   return (
     <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
       <RemoveAreaButton
+        aria-label={`Remove area ${ariaLabelPostfix}`}
         data-testid="remove-icon-div"
         onClick={(e) => {
           e.preventDefault();
