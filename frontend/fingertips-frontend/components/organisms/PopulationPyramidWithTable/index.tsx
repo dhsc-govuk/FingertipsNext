@@ -12,7 +12,7 @@ import {
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { AreaSelectInputField } from '../molecules/SelectInputField';
+import { AreaSelectInputField } from '@/components/molecules/SelectInputField';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
 const filterHealthDataForArea = (
@@ -76,7 +76,7 @@ interface PyramidPopulationChartViewProps {
   yAxisTitle?: string;
   selectedGroupAreaCode?: string;
 }
-export const PyramidPopulationChartView = ({
+export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,

@@ -16,7 +16,6 @@ export type ViewProps = {
   selectedAreasData?: AreaWithRelations[];
 };
 
-
 export function ViewsContext({
   searchState,
   areaFilterData,
@@ -46,7 +45,11 @@ export function ViewsContext({
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
     >
-      <ViewsSelector areaCodes={areaCodes} indicators={indicators} searchState={searchState} />
+      <ViewsSelector
+        areaCodes={areaCodes}
+        indicators={indicators}
+        searchState={searchState}
+      />
     </ChartPageWrapper>
   );
 }

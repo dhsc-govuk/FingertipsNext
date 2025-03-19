@@ -13,16 +13,13 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import {
-  GetHealthDataForAnIndicatorInequalitiesEnum
-} from '@/generated-sources/ft-api-client';
+import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
 const enum IndicationPopulationTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
 }
-
 
 export default async function OneIndicatorOneAreaView({
   searchState,
@@ -78,7 +75,6 @@ export default async function OneIndicatorOneAreaView({
     );
   }
 
-
   const healthPopulationData: HealthDataForArea[] = await (async () => {
     try {
       // determined which indicator to use for the selected area
@@ -108,7 +104,7 @@ export default async function OneIndicatorOneAreaView({
 
   return (
     <OneIndicatorOneAreaViewPlots
-      populationHealthIndicatorData={healthPopulationData}
+      healthPopulationData={healthPopulationData}
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
