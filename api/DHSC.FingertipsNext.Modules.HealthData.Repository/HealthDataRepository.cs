@@ -30,10 +30,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return inequalitiesParams.Contains(Age) || inequalityDimensionKeysCount[0].AgeCount == 1;
     }
 
-    private static bool ShouldIncludeDeprivationDimension(List<InequalitiesCount> inequalityDimensionKeysCount)
+    private static bool ShouldIncludeDeprivationDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionKeysCount)
     {
-        // TODO: Will be expanded to check the inequalities params contain "deprivation" in DHSCFT-396.
-        return inequalityDimensionKeysCount[0].DeprivationCount == 1;
+        return inequalitiesParams.Contains(Deprivation) || inequalityDimensionKeysCount[0].DeprivationCount == 1;
     }
 
     private async Task<List<InequalitiesCount>> CountDistinctInequalityDimensionKeys(int indicatorId, string[] inequalities)
@@ -70,7 +69,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(hm => ShouldIncludeAgeDimension(inequalities, inequalityDimensionKeysCount)
                 ? true
                 : hm.AgeDimension.HasValue == false)
-            .Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionKeysCount) ? true : hm.DeprivationDimension.HasValue == false)
+            .Where(hm => ShouldIncludeDeprivationDimension(inequalities, inequalityDimensionKeysCount) 
+                ? true 
+                : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
@@ -114,7 +115,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Type = x.DeprivationDimension.Type,
                     Sequence = x.DeprivationDimension.Sequence,
                     HasValue = x.DeprivationDimension.HasValue
-                }
+                },
+                IsAggregate = (!x.SexDimension.HasValue || inequalityDimensionKeysCount.First().SexCount == 1) &&
+                               (!x.AgeDimension.HasValue || inequalityDimensionKeysCount.First().AgeCount == 1) &&
+                               (!x.DeprivationDimension.HasValue || inequalityDimensionKeysCount.First().DeprivationCount == 1)
             })
             .AsNoTracking()
             .ToListAsync();
