@@ -9,7 +9,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
@@ -30,7 +30,7 @@ export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+}: Readonly<OneIndicatorViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
