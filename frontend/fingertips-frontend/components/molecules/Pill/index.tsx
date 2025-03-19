@@ -33,6 +33,7 @@ const RemoveAreaButton = styled('button')({
   alignItems: 'center',
   backgroundColor: 'transparent',
   border: "0",
+  borderRadius: '5px',
   display: 'flex',
   padding: '5px',
 });
