@@ -347,59 +347,9 @@ jobs:
         with:
           name: dacpac
 
-      - name: Install SQLPackage
-        run: |
-          mkdir -p sqlpackage
-          curl -L -o sqlpackage.zip "https://aka.ms/sqlpackage-linux"
-          unzip sqlpackage.zip -d sqlpackage
-          chmod +x sqlpackage/sqlpackage
-          echo "$(pwd)/sqlpackage" >> $GITHUB_PATH
-
-      - name: Install go-sqlcmd on Ubuntu
-        run: |
-          SQLCMD_VERSION="1.6.0"
-          mkdir -p /opt/sqlcmd
-          curl -L -o sqlcmd.tar.bz2 "https://github.com/microsoft/go-sqlcmd/releases/download/v${SQLCMD_VERSION}/sqlcmd-v${SQLCMD_VERSION}-linux-x64.tar.bz2"
-          tar -xvjf sqlcmd.tar.bz2 -C /opt/sqlcmd
-          chmod +x /opt/sqlcmd/sqlcmd
-          echo 'export PATH="$PATH:/opt/sqlcmd"' >> ~/.bashrc
-          echo 'export PATH="$PATH:/opt/sqlcmd"' >> ~/.profile
-          source ~/.bashrc
-
       - uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # - name: Detect Public IP Address via go-sqlcmd
-      #   id: detect-ip
-      #   run: |
-      #     export PATH="$PATH:/opt/sqlcmd"
-
-      #     echo "Attempting to connect to SQL Server using go-sqlcmd..."
-
-      #     ERROR_MSG=$(/opt/sqlcmd/sqlcmd -S tcp:${{ secrets.AZURE_SQL_SERVER }} -U ${{ secrets.AZURE_SQL_USER }} -P ${{ secrets.AZURE_SQL_PASSWORD }} -d master -Q "SELECT 'Validating connection'" 2>&1 || true)
-
-      #     echo "Raw SQLCMD Output:"
-      #     echo "$ERROR_MSG"
-
-      #     IP_REGEX='([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})'
-      #     if [[ $ERROR_MSG =~ $IP_REGEX ]]; then
-      #         CLIENT_IP="${BASH_REMATCH[1]}"
-      #         echo "Detected IP Address: $CLIENT_IP"
-      #         echo "CLIENT_IP=$CLIENT_IP" >> $GITHUB_ENV
-      #     else
-      #         echo "Failed to extract IP address. The error message format might have changed."
-      #         exit 1
-      #     fi
-    
-      # - name: Add Temporary Firewall Rule
-      #   run: |
-      #     az sql server firewall-rule create \
-      #       --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
-      #       --server "${{ secrets.AZURE_SQL_SERVER }}" \
-      #       --name "GitHubActionsFirewallRule" \
-      #       --start-ip-address "${{ env.PUBLIC_IP }}" \
-      #       --end-ip-address "${{ env.PUBLIC_IP }}"
 
       - name: Upload files to Azure Blob Storage
         shell: bash
@@ -414,11 +364,11 @@ jobs:
       
       - name: Deploy Database
         run: |
-          ./sqlpackage/sqlpackage \
+          sqlpackage \
             /Action:Publish \
             /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
             /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
-            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE_TEMP }}" \
             /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
             /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
             /p:DropObjectsNotInSource=true \
@@ -427,14 +377,6 @@ jobs:
             /v:UseAzureBlob=1 \
             /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
             /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
-
-      # - name: Remove Temporary Firewall Rule
-      #   if: always()
-      #   run: |
-      #     az sql server firewall-rule delete \
-      #       --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
-      #       --server "${{ secrets.AZURE_SQL_SERVER }}" \
-      #       --name "GitHubActionsFirewallRule"
 
   run-trend-analysis-dev:
     needs: [check-changes, deploy-db-dev]
