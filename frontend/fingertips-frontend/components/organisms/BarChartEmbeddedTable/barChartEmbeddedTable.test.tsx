@@ -218,7 +218,6 @@ describe('BarChartEmbeddedTable', () => {
     );
     const areaRows = screen.getAllByRole('row').slice(2);
     const cells = screen.getAllByRole('cell');
-    console.log(areaRows);
 
     const values = areaRows.map(() => {
       return parseInt(String(cells[valueColumnIndex].textContent || 0));
