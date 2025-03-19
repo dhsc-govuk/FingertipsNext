@@ -311,6 +311,7 @@ jobs:
       [
         determine-version,
         check-changes,
+        database-build
         # push-container-api,
         # push-container-frontend,
         # frontend-build-and-test,
