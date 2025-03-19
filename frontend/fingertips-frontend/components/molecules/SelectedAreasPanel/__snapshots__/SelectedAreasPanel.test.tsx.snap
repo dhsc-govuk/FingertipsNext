@@ -24,7 +24,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.5em 0.3125em;
+  padding: 0.5em 0.3125em 0.5em 0em;
   max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
@@ -35,7 +35,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
 
 .c6 {
   word-wrap: break-word;
-  padding: 0em 1em;
+  padding: 0em 1em 0em 0.75em;
   font-size: 16px;
   margin-bottom: 0;
   font-family: "nta",Arial,sans-serif;
@@ -48,10 +48,19 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: 5px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  padding: 5px;
+}
+
+.c4:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
 .c7 {
@@ -118,7 +127,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
         class="c3"
         data-testid="pill-container"
       >
-        <div
+        <button
           class="c4"
           data-testid="remove-icon-div"
         >
@@ -148,7 +157,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
               y2="18"
             />
           </svg>
-        </div>
+        </button>
         <div
           class="c6"
           data-testid="filter-name"
@@ -174,7 +183,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
         class="c3"
         data-testid="pill-container"
       >
-        <div
+        <button
           class="c4"
           data-testid="remove-icon-div"
         >
@@ -204,7 +213,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
               y2="18"
             />
           </svg>
-        </div>
+        </button>
         <div
           class="c6"
           data-testid="filter-name"
@@ -255,7 +264,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.5em 0.3125em;
+  padding: 0.5em 0.3125em 0.5em 0em;
   max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
@@ -266,7 +275,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
 
 .c6 {
   word-wrap: break-word;
-  padding: 0em 1em;
+  padding: 0em 1em 0em 0.75em;
   font-size: 16px;
   margin-bottom: 0;
   font-family: "nta",Arial,sans-serif;
@@ -279,10 +288,19 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: 5px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  padding: 5px;
+}
+
+.c4:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
 .c7 {
@@ -345,7 +363,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
         class="c3"
         data-testid="pill-container"
       >
-        <div
+        <button
           class="c4"
           data-testid="remove-icon-div"
         >
@@ -375,7 +393,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
               y2="18"
             />
           </svg>
-        </div>
+        </button>
         <div
           class="c6"
           data-testid="filter-name"

@@ -10,7 +10,7 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.5em 0.3125em;
+  padding: 0.5em 0.3125em 0.5em 0em;
   max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
@@ -21,7 +21,7 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
 
 .c3 {
   word-wrap: break-word;
-  padding: 0em 1em;
+  padding: 0em 1em 0em 0.75em;
   font-size: 16px;
   margin-bottom: 0;
   font-family: "nta",Arial,sans-serif;
@@ -34,10 +34,19 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: 5px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  padding: 5px;
+}
+
+.c1:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
 .c4 {
@@ -58,7 +67,7 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
     class="c0"
     data-testid="pill-container"
   >
-    <div
+    <button
       class="c1"
       data-testid="remove-icon-div"
     >
@@ -88,7 +97,7 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
           y2="18"
         />
       </svg>
-    </div>
+    </button>
     <div
       class="c3"
       data-testid="filter-name"
