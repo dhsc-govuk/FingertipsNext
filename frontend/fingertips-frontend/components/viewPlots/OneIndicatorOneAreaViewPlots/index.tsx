@@ -20,15 +20,11 @@ const StyledParagraphDataSource = styled(Paragraph)(
 
 interface OneIndicatorOneAreaViewPlots extends ViewPlotProps {
   populationHealthIndicatorData: HealthDataForArea[];
-  defaultSelectedArea?: string;
-  onPyramidAreaSelected?: (areaCode: string) => void;
 }
 
 export function OneIndicatorOneAreaViewPlots({
   healthIndicatorData,
   populationHealthIndicatorData,
-  onPyramidAreaSelected,
-  defaultSelectedArea,
   searchState,
   indicatorMetadata,
 }: Readonly<OneIndicatorOneAreaViewPlots>) {
@@ -117,8 +113,6 @@ export function OneIndicatorOneAreaViewPlots({
         xAxisTitle="Age"
         yAxisTitle="Percentage"
         selectedGroupAreaCode={selectedGroupCode ?? ''}
-        defaultSelectedAreaCode={defaultSelectedArea}
-        currentDate={new Date(Date.now())}
       />
     </section>
   );

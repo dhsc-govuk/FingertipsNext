@@ -1,5 +1,8 @@
 'use client';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPoint,
+} from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { useCallback, useMemo, useState } from 'react';
 import {
@@ -73,17 +76,15 @@ interface PyramidPopulationChartViewProps {
   yAxisTitle?: string;
   selectedGroupAreaCode?: string;
   defaultSelectedAreaCode?: string;
-  currentDate?: Date;
 }
 export const PyramidPopulationChartView = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  currentDate,
   defaultSelectedAreaCode,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-
+  const [latestYear, setLatestYear] = useState<number>();
   const convertedData = useMemo(() => {
     return createPopulationDataFrom(
       healthDataForAreas,
@@ -107,6 +108,16 @@ export const PyramidPopulationChartView = ({
             );
           }
         );
+        // Get the latest of the year in the data point on the selected area.
+        if (healthData && healthData.healthData.length > 0) {
+          let currentYear = healthData.healthData[0].year;
+          healthData.healthData.find((point: HealthDataPoint) => {
+            if (point.year > currentYear) {
+              currentYear = point.year;
+            }
+          });
+          setLatestYear(currentYear);
+        }
         setSelectedPopulationForArea(
           convertHealthDataForAreaForPyramidData(healthData)
         );
@@ -147,8 +158,7 @@ export const PyramidPopulationChartView = ({
                       <div style={{ margin: '0px', padding: '0px' }}>
                         <h3 style={{ margin: '0px', padding: '0px' }}>
                           Resident Population profile {selectedArea?.areaName}
-                          {' ' +
-                            (currentDate ? currentDate?.getFullYear() : '')}
+                          {' ' + (latestYear ? latestYear : '')}
                         </h3>
                       </div>
 
