@@ -6,6 +6,7 @@ import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
+import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { AreaSelectInputField } from '../molecules/SelectInputField';
@@ -68,9 +69,10 @@ const createPopulationDataFrom = (
 };
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
-  xAxisTitle: string;
-  yAxisTitle: string;
+  xAxisTitle?: string;
+  yAxisTitle?: string;
   selectedGroupAreaCode?: string;
+  defaultSelectedAreaCode?: string;
   currentDate?: Date;
 }
 export const PyramidPopulationChartView = ({
@@ -78,9 +80,9 @@ export const PyramidPopulationChartView = ({
   xAxisTitle,
   yAxisTitle,
   currentDate,
+  defaultSelectedAreaCode,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-  const [toggleClose, setToggleClose] = useState<boolean>();
 
   const convertedData = useMemo(() => {
     return createPopulationDataFrom(
@@ -89,20 +91,10 @@ export const PyramidPopulationChartView = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const defaultArea = (() => {
-    let area =
-      convertedData.areas?.length === 1 ? convertedData.areas[0] : undefined;
-    if (!area) {
-      if (convertedData.areas?.length > 0) {
-        area = convertedData.areas[0];
-      }
-    }
-    return area;
-  })();
-
-  const [selectedArea, setSelectedPopulationForArea] = useState<
-    PopulationDataForArea | undefined
-  >(defaultArea);
+  const defaultArea = convertedData.areas.find((area, _) => {
+    return area?.areaCode === defaultSelectedAreaCode;
+  });
+  const [selectedArea, setSelectedPopulationForArea] = useState(defaultArea);
 
   const onAreaSelectedHandler = useCallback(
     (area: Omit<AreaDocument, 'areaType'>) => {
@@ -126,15 +118,7 @@ export const PyramidPopulationChartView = ({
   return (
     <div>
       <h1>Related Population Data</h1>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setToggleClose(!toggleClose);
-        }}
-      >
-        {toggleClose != true ? 'Close' : 'Open'}
-      </button>
-      {toggleClose ? null : (
+      <ShowHideContainer summary="Open">
         <div>
           <div>
             <AreaSelectInputField
@@ -163,7 +147,8 @@ export const PyramidPopulationChartView = ({
                       <div style={{ margin: '0px', padding: '0px' }}>
                         <h3 style={{ margin: '0px', padding: '0px' }}>
                           Resident Population profile {selectedArea?.areaName}
-                          {' ' + currentDate?.getFullYear()}
+                          {' ' +
+                            (currentDate ? currentDate?.getFullYear() : '')}
                         </h3>
                       </div>
 
@@ -186,7 +171,7 @@ export const PyramidPopulationChartView = ({
             />
           ) : null}
         </div>
-      )}
+      </ShowHideContainer>
     </div>
   );
 };
