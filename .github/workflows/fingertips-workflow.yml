@@ -406,7 +406,7 @@ jobs:
 
       - name: Process trends
         env:
-          SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING_TEMP }}
         run: dotnet run
 
   search-setup-dev:
