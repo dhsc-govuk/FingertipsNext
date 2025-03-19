@@ -318,10 +318,7 @@ jobs:
         e2e-tests-local-docker       
       ]
     environment: development
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./database/fingertips-db
+    runs-on: self-hosted
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
