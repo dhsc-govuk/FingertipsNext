@@ -26,24 +26,32 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
-  if (indicators.length === 1 && areaCodes.length === 1) {
-    return <OneIndicatorOneAreaView searchState={searchState} />;
+  const determinedAreaCodes =
+    areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
+
+  const updatedSearchState = {
+    ...searchState,
+    [SearchParams.AreasSelected]: determinedAreaCodes,
+  };
+
+  if (indicators.length === 1 && determinedAreaCodes.length === 1) {
+    return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
   }
 
-  if (indicators.length === 1 && areaCodes.length >= 2) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+  if (indicators.length === 1 && determinedAreaCodes.length >= 2) {
+    return <OneIndicatorTwoOrMoreAreasView searchState={updatedSearchState} />;
   }
 
   if (
     indicators.length >= 2 &&
-    areaCodes.length === 1 &&
-    areaCodes[0] === areaCodeForEngland
+    determinedAreaCodes.length === 1 &&
+    determinedAreaCodes[0] === areaCodeForEngland
   ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
+    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
   }
 
-  if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
+  if (indicators.length >= 2 && determinedAreaCodes.length >= 1) {
+    return <TwoOrMoreIndicatorsAreasView searchState={updatedSearchState} />;
   }
 
   throw new Error('Parameters do not match any known view');
@@ -65,6 +73,7 @@ export function ViewsContext({
 
   return (
     <ChartPageWrapper
+      key={JSON.stringify(searchState)}
       searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}

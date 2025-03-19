@@ -48,6 +48,15 @@ export default async function ChartPage(
   const areasSelected = areaCodes ?? [];
   const indicatorsSelected = indicators ?? [];
 
+  // if (areasSelected.length === 0) {
+  //   stateManager.setState({
+  //     ...stateManager.getSearchState(),
+  //     [SearchParams.AreaTypeSelected]: undefined,
+  //     [SearchParams.GroupTypeSelected]: undefined,
+  //     [SearchParams.GroupSelected]: undefined,
+  //   });
+  // }
+
   // We don't want to render this page statically
   await connection();
 
