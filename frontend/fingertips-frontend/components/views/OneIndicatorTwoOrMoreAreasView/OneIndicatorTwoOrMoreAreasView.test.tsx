@@ -15,7 +15,6 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -96,7 +95,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const testIndicators = '1';
     const testAreas = new Array(15).fill('a', 0, 15);
     const testGroup = 'G001';
-    const expectedAreaCodes = [...new Array(10).fill('a', 0, 10), 'G001'];
 
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: [testIndicators],
@@ -109,7 +107,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       areaCodes: testAreas,
     });
 
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      2
+    );
 
     const expected1 = {
       areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
