@@ -29,10 +29,10 @@ const StyledFilterChildren = styled('div')(
 );
 
 const RemoveAreaButton = styled('button')({
-    ...FOCUSABLE,
+  ...FOCUSABLE,
   alignItems: 'center',
   backgroundColor: 'transparent',
-  border: "0",
+  border: '0',
   borderRadius: '5px',
   display: 'flex',
   padding: '5px',
