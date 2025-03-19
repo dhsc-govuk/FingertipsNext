@@ -109,14 +109,6 @@ export const PopulationPyramidWithTable = ({
     convertedData.areas.length > 0 ? convertedData.areas[0] : undefined
   );
 
-  const [selectedHealthData, setSelectedHealthData] = useState<
-    HealthDataForArea | undefined
-  >(
-    healthDataForAreas?.find((area, _) => {
-      return selectedArea?.areaCode == area.areaCode;
-    })
-  );
-
   const onAreaSelectedHandler = useCallback(
     (area: Omit<AreaDocument, 'areaType'>) => {
       if (healthDataForAreas) {
@@ -128,7 +120,6 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-        setSelectedHealthData(healthData);
         setSelectedPopulationForArea(
           convertHealthDataForAreaForPyramidData(healthData)
         );
@@ -139,15 +130,28 @@ export const PopulationPyramidWithTable = ({
 
   // Use  this to update the header title when selection is made.
   useEffect(() => {
-    const year = getLatestYear(selectedHealthData?.healthData);
+    console.log('Hello changes');
+    const healthDataForArea = healthDataForAreas?.find((area, _) => {
+      return (
+        selectedArea?.areaCode == area.areaCode &&
+        selectedArea?.areaName == area.areaName
+      );
+    });
+    if (!healthDataForArea) {
+      setTitle('');
+      return;
+    }
+
+    const year = getLatestYear(healthDataForArea.healthData);
     let title = undefined;
     if (!year) {
-      title = `Resident population profile for ${selectedHealthData?.areaCode}`;
+      title = `Resident population profile for ${healthDataForArea.areaName}`;
     } else {
-      title = `Resident population profile for ${selectedHealthData?.areaCode} ${year}`;
+      title = `Resident population profile for ${healthDataForArea.areaName} ${year}`;
     }
     setTitle(title);
-  }, [selectedHealthData]);
+    console.log(healthDataForArea);
+  }, [selectedArea, healthDataForAreas]);
 
   return (
     <div>
