@@ -223,6 +223,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     // DHSCFT-483 to add test
-    // it('should render the ThematicMap when all areas in a group are selected'...
+    it.todo(
+      'should not render the ThematicMap when not all areas in a group are selected'
+    );
   });
 });
