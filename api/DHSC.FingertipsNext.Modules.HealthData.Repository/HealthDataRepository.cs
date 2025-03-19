@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
-[SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
     private const string Sex = "sex";

@@ -77,7 +77,7 @@ namespace DataCreator
                 if (split.Length != 27)
                     continue; //avoid bad data
                 var areaCode = split[4].Trim().CleanAreaCode();
-                if(!areasDict.TryGetValue(areaCode, out var area)) 
+                if(!areasDict.TryGetValue(areaCode, out _)) 
                     continue; //if the row is not for an area we are interested in then ignore it
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));
                 if(year < yearFrom)

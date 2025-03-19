@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.Area.Controllers;
 using DHSC.FingertipsNext.Modules.Area.Repository;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using DHSC.FingertipsNext.Modules.Area.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Data.SqlClient;
