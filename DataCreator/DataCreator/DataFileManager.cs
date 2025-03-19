@@ -81,7 +81,7 @@ namespace DataCreator
                     continue;
                 var areaCode = split[4].Trim().CleanAreaCode();
 
-                if(!areasDict.TryGetValue(areaCode, out _))
+                if(!areasDict.ContainsKey(areaCode))
                     continue; //if the row is not for an area we are interested in then ignore it
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));
                 if(year < yearFrom)
