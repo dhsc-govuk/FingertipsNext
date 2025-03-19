@@ -20,6 +20,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         public int? DeprivationCount { get; init; }
     }
 
+    private static bool ShouldIncludeSexDimension2(string[] inequalitiesParams, HealthMeasureModel healthMeasureModel)
+    {
+        return inequalitiesParams.Contains(Sex) || !healthMeasureModel.IndicatorDimension.HasMultipleSexes;
+    }
     private static bool ShouldIncludeSexDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionKeysCount)
     {
         return inequalitiesParams.Contains(Sex) || inequalityDimensionKeysCount[0].SexCount == 1;
@@ -28,6 +32,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     private static bool ShouldIncludeAgeDimension(string[] inequalitiesParams, List<InequalitiesCount> inequalityDimensionKeysCount)
     {
         return inequalitiesParams.Contains(Age) || inequalityDimensionKeysCount[0].AgeCount == 1;
+    }
+    private static bool ShouldIncludeAgeDimension2(string[] inequalitiesParams, HealthMeasureModel healthMeasureModel)
+    {
+        return inequalitiesParams.Contains(Age) || !healthMeasureModel.IndicatorDimension.HasMultipleAges;
     }
 
     private static bool ShouldIncludeDeprivationDimension(List<InequalitiesCount> inequalityDimensionKeysCount)
@@ -54,23 +62,23 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
     {
-        var inequalityDimensionKeysCount = await CountDistinctInequalityDimensionKeys(indicatorId, inequalities);
-        if (inequalityDimensionKeysCount.Count == 0)
-        {
-            return Array.Empty<HealthMeasureModel>();
-        }
+        //var inequalityDimensionKeysCount = await CountDistinctInequalityDimensionKeys(indicatorId, inequalities);
+        //if (inequalityDimensionKeysCount.Count == 0)
+        //{
+        //    return Array.Empty<HealthMeasureModel>();
+        //}
 
         return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
-            .Where(hm => ShouldIncludeSexDimension(inequalities, inequalityDimensionKeysCount)
+            .Where(hm => inequalities.Contains(Sex) || !hm.IndicatorDimension.HasMultipleSexes
                 ? true
                 : hm.SexDimension.HasValue == false)
-            .Where(hm => ShouldIncludeAgeDimension(inequalities, inequalityDimensionKeysCount)
-                ? true
-                : hm.AgeDimension.HasValue == false)
-            .Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionKeysCount) ? true : hm.DeprivationDimension.HasValue == false)
+            .Where(hm => inequalities.Contains(Age) && hm.IndicatorDimension.HasMultipleAges
+                ? hm.AgeDimension.HasValue == true
+                : true)
+            //.Where(hm => ShouldIncludeDeprivationDimension(inequalityDimensionKeysCount) ? true : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)

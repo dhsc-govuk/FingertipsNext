@@ -72,6 +72,12 @@
         public string ValueType { get; set; }
 
         public string IndicatorName { get; set; }
+
+        public bool HasMultipleSexes { get; set; }
+
+        public bool HasMultipleAges { get; set; }
+
+        public bool HasMultipleDeprivation { get; set; }
     }
 
     public record IndicatorWithAreasAndLatestUpdate
@@ -85,6 +91,12 @@
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
         public bool HasInequalities { get; set; }
+
+        public bool HasMultipleSexes { get; set; }
+
+        public bool HasMultipleAges{ get; set; }
+
+        public bool HasMultipleDeprivation { get; set; }
     }
 }
 

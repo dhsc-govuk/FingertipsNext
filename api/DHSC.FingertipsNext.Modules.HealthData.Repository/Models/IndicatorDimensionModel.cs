@@ -12,4 +12,10 @@ public class IndicatorDimensionModel
     public int IndicatorId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+
+    public bool HasMultipleSexes { get; set; }
+
+    public bool HasMultipleAges { get; set; }
+
+    public bool HasMultipleDeprivation { get; set; }
 }

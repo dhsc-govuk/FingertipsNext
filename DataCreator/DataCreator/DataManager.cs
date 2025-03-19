@@ -88,6 +88,9 @@ namespace DataCreator
                     indicator.LatestDataPeriod = match.LatestDataPeriod;
                     indicator.EarliestDataPeriod = match.EarliestDataPeriod;
                     indicator.HasInequalities = match.HasInequalities;
+                    indicator.HasMultipleAges = match.HasMultipleAges;
+                    indicator.HasMultipleSexes = match.HasMultipleSexes;
+                    indicator.HasMultipleDeprivation = match.HasMultipleDeprivation;
                 }
 
                 indicator.UsedInPoc = pocIndicators.Select(i => i.IndicatorID).Contains(indicator.IndicatorID);
@@ -100,7 +103,6 @@ namespace DataCreator
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
                 }
-
             }
             AddLastUpdatedDate(indicators);
             var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
@@ -140,13 +142,16 @@ namespace DataCreator
                 .Select(group => new IndicatorWithAreasAndLatestUpdate
                 {
                     IndicatorID = group.Key,
-                    AssociatedAreaCodes = group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod = group.OrderByDescending(g => g.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
-                    HasInequalities = group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty(d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    AssociatedAreaCodes = group.Select(healthMeasureEntity => healthMeasureEntity.AreaCode).Distinct().ToList(),
+                    LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    HasInequalities = group.Any(healthMeasureEntity => healthMeasureEntity.Sex != "Persons" || !string.IsNullOrEmpty(healthMeasureEntity.CategoryType)), //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    HasMultipleSexes= group.Select(healthMeasureEntity=> healthMeasureEntity.Sex).Distinct().Count() > 1,
+                    HasMultipleAges= group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
+                    HasMultipleDeprivation= group.Select(healthMeasureEntity => healthMeasureEntity.CategoryType).Distinct().Count() > 1
                 })
                 .ToList();
-
+           
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
