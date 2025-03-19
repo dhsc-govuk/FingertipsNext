@@ -17,8 +17,8 @@ describe('areaTypeSorter', () => {
   it('should return area types sorted by hierarchy and level', () => {
     const expectedSortedAreaTypes: AreaType[] = [
       englandAreaType,
-      ...adminHierarchyAreaTypes.sort((a, b) => a.level - b.level),
-      ...nhsHierarchyAreaTypes.sort((a, b) => a.level - b.level),
+      ...adminHierarchyAreaTypes.toSorted((a, b) => a.level - b.level),
+      ...nhsHierarchyAreaTypes.toSorted((a, b) => a.level - b.level),
     ];
 
     const sortedAreaTypes = areaTypeSorter(allAreaTypes);
@@ -34,7 +34,7 @@ describe('areaTypeSorter', () => {
 
     const expectedSortedWithoutAdmin: AreaType[] = [
       englandAreaType,
-      ...nhsHierarchyAreaTypes.sort((a, b) => a.level - b.level),
+      ...nhsHierarchyAreaTypes.toSorted((a, b) => a.level - b.level),
     ];
 
     const sortedAreaTypes = areaTypeSorter(mockAreaTypesWithoutAdmin);

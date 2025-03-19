@@ -3,8 +3,10 @@ import { AreaType } from '@/generated-sources/ft-api-client';
 export const areaTypeSorter = (availableAreaTypes: AreaType[]): AreaType[] => {
   const areaTypesGroupedByHierarchy = availableAreaTypes.reduce(
     (result: Record<string, AreaType[]>, areaType: AreaType) => {
-      (result[areaType.hierarchyName] =
-        result[areaType.hierarchyName] || []).push(areaType);
+      const hierarchyArrary = result[areaType.hierarchyName] || [];
+      result[areaType.hierarchyName] = hierarchyArrary;
+      hierarchyArrary.push(areaType);
+
       return result;
     },
     {}

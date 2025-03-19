@@ -34,8 +34,8 @@ describe('getAreaFilterData', () => {
 
     const expectedSortedAreaTypes: AreaType[] = [
       englandAreaType,
-      ...adminHierarchyAreaTypes.sort((a, b) => a.level - b.level),
-      ...nhsHierarchyAreaTypes.sort((a, b) => a.level - b.level),
+      ...adminHierarchyAreaTypes.toSorted((a, b) => a.level - b.level),
+      ...nhsHierarchyAreaTypes.toSorted((a, b) => a.level - b.level),
     ];
 
     const { availableAreaTypes } = await getAreaFilterData({});
