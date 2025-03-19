@@ -19,7 +19,7 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import {
-  HealthDataForArea,
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
