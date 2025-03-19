@@ -42,7 +42,7 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string? hierarchyType)
+    public async Task<List<AreaTypeModel>> GetAreaTypesAsync(string hierarchyType)
     {
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
@@ -136,13 +136,31 @@ public class AreaRepository : IAreaRepository
             .DenormalisedAreaWithAreaType
             .FromSql(
                 $"""
-                    WITH recursive_cte(
-                AreaKey,
-                AreaCode,
-                AreaName,
-                AreaTypeKey,
-                AreaLevel,
-                ParentAreaKey) AS (
+                WITH 
+                StartingArea as (
+                Select
+                	*
+                FROM
+                    Areas.Areas area
+                WHERE
+                    area.AreaKey = {startingArea.AreaKey}
+                ),
+                TargetAreaType as (
+                Select
+                    *
+                FROM 
+                    Areas.AreaTypes at
+                WHERE
+                --- this is the taget areaType
+                   at.AreaTypeKey = {childAreaTypeKey}
+                ),
+                recursive_cte(
+                    AreaKey,
+                    AreaCode,
+                    AreaName,
+                    AreaTypeKey,
+                    AreaLevel,
+                    ParentAreaKey) AS (
                 SELECT
                    	ar.ChildAreaKey as AreaKey,
                     a.AreaCode,
@@ -155,9 +173,9 @@ public class AreaRepository : IAreaRepository
                 JOIN
                     Areas.Areas a ON a.AreaKey = ar.ChildAreaKey
                 JOIN
+                    StartingArea sa ON ar.ParentAreaKey = sa.AreaKey
+                JOIN
                    	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
-                WHERE
-                   	ar.ParentAreaKey = {startingArea.AreaKey}
                 UNION ALL
                 SELECT
                    	ar.ChildAreaKey as AreaKey,
@@ -174,24 +192,27 @@ public class AreaRepository : IAreaRepository
                    	Areas.AreaTypes at2 ON at2.AreaTypeKey = a.AreaTypeKey
                 INNER JOIN
                     recursive_cte ON recursive_cte.AreaKey = ar.ParentAreaKey
-
+                CROSS JOIN 
+                    TargetAreaType tat
+                WHERE
+                    at2.[Level] <= tat.[Level]
+                AND
+                    at2.HierarchyType = tat.HierarchyType
                 )
                 SELECT DISTINCT
                     AreaKey,
                     AreaCode,
                     AreaName,
-                    rc.AreaTypeKey as AreaTypeKey,
-                    at.Level as Level,
-                    at.HierarchyType as HierarchyType,
-                    at.AreaTypeName as AreaTypeName
+                    tat.AreaTypeKey as AreaTypeKey,
+                    tat.Level as Level,
+                    tat.HierarchyType as HierarchyType,
+                    tat.AreaTypeName as AreaTypeName
                 FROM
                     recursive_cte rc
                 JOIN
-                    Areas.AreaTypes at
+                    TargetAreaType tat
                 ON
-                    rc.AreaTypeKey = at.AreaTypeKey
-                WHERE
-                    rc.AreaTypeKey = {childAreaTypeKey}
+                    rc.AreaTypeKey = tat.AreaTypeKey
                 """
             )
             .ToListAsync();

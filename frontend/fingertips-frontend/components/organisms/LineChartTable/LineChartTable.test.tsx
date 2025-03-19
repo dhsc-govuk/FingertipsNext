@@ -9,6 +9,7 @@ import {
 import {
   MOCK_ENGLAND_DATA,
   MOCK_HEALTH_DATA,
+  MOCK_HEALTH_DATA_WITH_TRENDS,
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -97,7 +98,7 @@ describe('Line chart table suite', () => {
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        `${mockHealthData[0].areaName} recent trend:`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
         mockHealthData[0].areaName
@@ -190,6 +191,22 @@ describe('Line chart table suite', () => {
         ).toHaveTextContent('X');
       }
     });
+
+    it('should render trend markers based on data returned by the API', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={[MOCK_HEALTH_DATA_WITH_TRENDS[0]]}
+          englandBenchmarkData={undefined}
+          measurementUnit="per 100,000"
+        />
+      );
+
+      // Right-facing arrow for the 'no significant change' trend
+      expect(screen.getByTestId('arrow-right')).toBeVisible();
+      expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
+        'Recent trend: No significant change'
+      );
+    });
   });
 
   describe('1 Indicator, 2 Areas', () => {
@@ -217,10 +234,10 @@ describe('Line chart table suite', () => {
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        `${mockHealthData[0].areaName} recent trend:`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        `${mockHealthData[1].areaName} recent trend:`
+        'Recent trend: No trend data available'
       );
       expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
         mockHealthData[0].areaName
@@ -295,6 +312,29 @@ describe('Line chart table suite', () => {
       );
 
       expectPeriodsToBeDisplayedInAscendingOrder(CELLS_PER_ROW);
+    });
+
+    it('should render trend markers for 2 indicators based on data returned by the API', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={MOCK_HEALTH_DATA_WITH_TRENDS}
+          englandBenchmarkData={undefined}
+          measurementUnit="per 100,000"
+        />
+      );
+
+      // Should be one indicator with 'no significant change' and the other 'increasing and getting worse'
+      expect(screen.getByTestId('arrow-right')).toBeVisible();
+      expect(screen.getByTestId('arrow-up')).toBeVisible();
+      expect(screen.getAllByTestId('arrow-right')).toHaveLength(1);
+      expect(screen.getAllByTestId('arrow-up')).toHaveLength(1);
+
+      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
+        'Recent trend: No significant change'
+      );
+      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
+        'Recent trend: Increasing and getting worse'
+      );
     });
   });
 

@@ -11,11 +11,10 @@ import {
   getTrendColour,
   getTrendConditionColours,
 } from '@/components/molecules/TrendTag/trendTagConfig';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 
 interface TagProps {
-  trend: Trend;
-  useArrow?: boolean;
-  trendCondition?: TrendCondition;
+  trendFromResponse: HealthDataPointTrendEnum;
 }
 
 const StyledDivContainer = styled('div')({
@@ -61,12 +60,45 @@ const arrowDirectionMap: Partial<Record<Trend, Direction>> = {
   [Trend.NOT_AVAILABLE]: undefined,
 };
 
-export const TrendTag = ({
-  trend,
-  useArrow = true,
-  trendCondition,
-}: Readonly<TagProps>) => {
-  const arrowDirection = useArrow ? arrowDirectionMap[trend] : null;
+interface MappedTrend {
+  trend: Trend;
+  trendCondition?: TrendCondition;
+}
+
+/**
+ * Breaks down the trend string returned from the API to a trend and trend condition.
+ * @param trendResString - string returned from the API representing the trend.
+ * @returns - the mapped trend broken into trend and trend condition.
+ */
+export const mapTrendResponse = (
+  trendResString: HealthDataPointTrendEnum
+): MappedTrend => {
+  switch (trendResString) {
+    case HealthDataPointTrendEnum.NoSignificantChange:
+      return { trend: Trend.NO_SIGNIFICANT_CHANGE };
+    case HealthDataPointTrendEnum.Increasing:
+      return { trend: Trend.INCREASING };
+    case HealthDataPointTrendEnum.Decreasing:
+      return { trend: Trend.DECREASING };
+    case HealthDataPointTrendEnum.NotYetCalculated:
+    case HealthDataPointTrendEnum.CannotBeCalculated:
+      return { trend: Trend.NOT_AVAILABLE };
+  }
+
+  const isIncreasing = trendResString.startsWith('Increasing');
+  const isGettingBetter = trendResString.endsWith('getting better');
+
+  return {
+    trend: isIncreasing ? Trend.INCREASING : Trend.DECREASING,
+    trendCondition: isGettingBetter
+      ? TrendCondition.GETTING_BETTER
+      : TrendCondition.GETTING_WORSE,
+  };
+};
+
+export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
+  const { trend, trendCondition } = mapTrendResponse(trendFromResponse);
+  const arrowDirection = arrowDirectionMap[trend];
   const trendMessage =
     trend === Trend.NO_SIGNIFICANT_CHANGE || trend === Trend.NOT_AVAILABLE
       ? trend
