@@ -14,6 +14,8 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
+import { request } from 'http';
+import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
   areaCodes: string[];
@@ -55,14 +57,15 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   try {
     healthIndicatorData = (
       await Promise.all(
-        areaCodesToRequest.map((areaCode) =>
-          indicatorApi.getHealthDataForAnIndicator(
-            {
-              indicatorId: Number(indicatorSelected[0]),
-              areaCodes: [areaCode],
-            },
-            API_CACHE_CONFIG
-          )
+        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorSelected[0]),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
         )
       )
     ).flat();

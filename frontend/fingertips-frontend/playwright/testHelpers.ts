@@ -88,7 +88,7 @@ export function getScenarioConfig(
     visibleComponents = [
       ChartPage.thematicMapComponent,
       ChartPage.barChartEmbeddedTableComponent,
-      // DHSCFT-465 - to be removed when inequalities are moved from the Chart component into the correct Views
+      // Remove in DHSCFT-465 when inequalities are moved from the Chart component into the correct Views
       ChartPage.inequalitiesComponent,
       ChartPage.inequalitiesBarChartComponent,
       ChartPage.inequalitiesLineChartComponent,
