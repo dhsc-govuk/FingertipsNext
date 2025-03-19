@@ -32,7 +32,7 @@ public class TrendCalculator(TrendMarkerCalculator legacyCalculator, LegacyMappe
 
         if (
             polarity == null ||
-            polarity == Polarity.NotApplicable || 
+            polarity == Polarity.NoJudgement || 
             (!isIncreasing && !isDecreasing)
         ) {
             return trend;

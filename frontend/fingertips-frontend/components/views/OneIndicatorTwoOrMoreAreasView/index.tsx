@@ -11,16 +11,21 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
+interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
+  areaCodes: string[];
+}
+
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
-}: Readonly<ViewProps>) {
+  areaCodes,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
+  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -72,6 +77,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
+      areaCodes={areaCodes}
     />
   );
 }
