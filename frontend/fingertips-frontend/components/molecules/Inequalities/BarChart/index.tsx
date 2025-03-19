@@ -1,9 +1,9 @@
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import {
-  InequalitiesTypes,
+  getAggregatePointInfo,
   InequalitiesBarChartData,
-  Sex,
+  InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   barChartDefaultOptions,
@@ -11,10 +11,15 @@ import {
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import {
+  BenchmarkLabelGroupType,
+  BenchmarkLabelType,
+} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
-  dynamicKeys: string[];
   yAxisLabel: string;
   benchmarkValue?: number;
   type?: InequalitiesTypes;
@@ -25,15 +30,6 @@ interface InequalitiesBarChartProps {
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
   [InequalitiesTypes.Sex]: 'Sex',
   [InequalitiesTypes.Deprivation]: 'Deprivation deciles',
-};
-
-const mapToGetBarChartKeys: Record<
-  InequalitiesTypes,
-  (keys: string[]) => string[]
-> = {
-  [InequalitiesTypes.Sex]: (keys: string[]) =>
-    keys.filter((key) => key !== Sex.PERSONS),
-  [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
 const getMaxValue = (values: (number | undefined)[]) =>
@@ -50,31 +46,39 @@ const generateInequalitiesBarChartTooltipList = (
 
 export function InequalitiesBarChart({
   barChartData,
-  dynamicKeys,
   yAxisLabel,
   measurementUnit,
-  benchmarkValue = undefined,
   type = InequalitiesTypes.Sex,
   areasSelected = [],
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
+  const { inequalities } = barChartData.data;
+  const { benchmarkValue, disAggregateKeys: barChartFields } =
+    getAggregatePointInfo(inequalities);
 
-  const barChartFields = mapToGetBarChartKeys[type](dynamicKeys);
+  if (type === InequalitiesTypes.Sex) barChartFields.reverse();
 
   const yAxisMaxValue = getMaxValue([
-    ...barChartFields.map(
-      (field) => barChartData.data.inequalities[field]?.value
-    ),
+    ...barChartFields.map((field) => inequalities[field]?.value),
     benchmarkValue,
   ]);
 
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
-      data: barChartFields.map((field) => ({
-        name: field,
-        y: barChartData.data.inequalities[field]?.value,
-      })),
+      data: barChartFields.map((field) => {
+        const colours = getBenchmarkTagStyle(
+          BenchmarkLabelGroupType.RAG,
+          inequalities[field]?.benchmarkComparison
+            ?.outcome as BenchmarkLabelType
+        );
+
+        return {
+          name: field,
+          y: inequalities[field]?.value,
+          color: colours?.backgroundColor ?? undefined,
+        };
+      }),
     },
   ];
 
@@ -164,6 +168,7 @@ export function InequalitiesBarChart({
 
   return (
     <div data-testid="inequalitiesBarChart-component">
+      <BenchmarkLegend rag />
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-inequalitiesBarChart',

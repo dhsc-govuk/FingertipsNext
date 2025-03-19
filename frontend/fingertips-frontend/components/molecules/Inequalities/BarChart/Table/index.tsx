@@ -1,7 +1,7 @@
 import {
+  getAggregatePointInfo,
   InequalitiesBarChartData,
   InequalitiesTypes,
-  inequalityKeyMapping,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayedValue,
@@ -34,15 +34,9 @@ export function InequalitiesBarChartTable({
 }: Readonly<InequalitiesBarChartTableProps>) {
   const { areaName, data } = tableData;
   const inequalities = { ...data.inequalities };
-  const keys = Object.keys(inequalities);
-  const sortedKeys = inequalityKeyMapping[type](keys);
+  const { sortedKeys, disAggregateKeys } = getAggregatePointInfo(inequalities);
 
-  // remove the benchmark comparison from the primary row as this benchmark is against england, not used in this table
-  const primaryKey = sortedKeys[0] as keyof typeof inequalities;
-  inequalities[primaryKey] = {
-    ...inequalities[primaryKey],
-    benchmarkComparison: undefined,
-  };
+  if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
   return (
     <div data-testid="inequalitiesBarChartTable-component">
@@ -58,9 +52,11 @@ export function InequalitiesBarChartTable({
           <Table.Row key={key}>
             <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
             <StyledAlignLeftTableCellNoPadding>
-              <InequalitiesBenchmarkLabel
-                comparison={inequalities[key]?.benchmarkComparison}
-              />
+              {disAggregateKeys.includes(key) ? (
+                <InequalitiesBenchmarkLabel
+                  comparison={inequalities[key]?.benchmarkComparison}
+                />
+              ) : null}
             </StyledAlignLeftTableCellNoPadding>
             <StyledAlignRightTableCell>
               {getDisplayedValue(inequalities[key]?.count)}

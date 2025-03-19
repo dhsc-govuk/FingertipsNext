@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 
 describe('Testing the benchmark component', () => {
   it('Snapshot testing of the UI', () => {
-    const container = render(<BenchmarkLegend />);
+    const container = render(<BenchmarkLegend rag quintiles />);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });
