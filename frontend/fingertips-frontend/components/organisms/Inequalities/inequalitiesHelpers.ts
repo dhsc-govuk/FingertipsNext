@@ -7,6 +7,8 @@ import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { chartSymbols } from '../LineChart/lineChartHelpers';
 
+export const localeSort = (a: string, b: string) => a.localeCompare(b);
+
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
@@ -197,10 +199,10 @@ export const getAggregatePointInfo = (
     (key) => inequalities[key]?.isAggregate
   );
 
-  const sortedKeys = Object.keys(inequalities).sort();
+  const sortedKeys = Object.keys(inequalities).sort(localeSort);
   const disAggregateKeys = Object.keys(inequalities)
     .filter((key) => !inequalities[key]?.isAggregate)
-    .sort();
+    .sort(localeSort);
 
   return {
     benchmarkPoint,
