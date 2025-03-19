@@ -30,8 +30,8 @@ interface BarChartEmbeddedTableProps {
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
-  return title.split(' ').map((word) => (
-    <React.Fragment>
+  return title.split(' ').map((word, index) => (
+    <React.Fragment key={`${word}-${index}`}>
       {word}
       <br />
     </React.Fragment>
@@ -106,7 +106,9 @@ export function BarChartEmbeddedTable({
               <Table.CellHeader>
                 {BarChartEmbeddedTableHeadingEnum.Count}
               </Table.CellHeader>
-              <Table.CellHeader>
+              <Table.CellHeader
+                style={{ textAlign: 'right', paddingRight: '0px' }}
+              >
                 {BarChartEmbeddedTableHeadingEnum.Value} {measurementUnit}
               </Table.CellHeader>
               <Table.CellHeader></Table.CellHeader>
@@ -129,8 +131,11 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={benchmarkData?.areaName} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.value} />
-            <Table.Cell>
+            <CheckValueInTableCell
+              value={mostRecentBenchmarkData.value}
+              style={{ textAlign: 'right', paddingRight: '0px' }}
+            />
+            <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
                 value={mostRecentBenchmarkData.value}
                 maxValue={maxValue}
@@ -150,8 +155,11 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={groupIndicatorData?.areaName} />
             <CheckValueInTableCell value={mostRecentGroupData.year} />
             <CheckValueInTableCell value={mostRecentGroupData.count} />
-            <CheckValueInTableCell value={mostRecentGroupData.value} />
-            <Table.Cell>
+            <CheckValueInTableCell
+              value={mostRecentGroupData.value}
+              style={{ textAlign: 'right', paddingRight: '0px' }}
+            />
+            <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
                 value={mostRecentGroupData.value}
                 maxValue={maxValue}
@@ -167,8 +175,11 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={item.area} />
             <CheckValueInTableCell value={item.period} />
             <CheckValueInTableCell value={item.count} />
-            <CheckValueInTableCell value={item.value} />
-            <Table.Cell>
+            <CheckValueInTableCell
+              value={item.value}
+              style={{ textAlign: 'right', paddingRight: '0px' }}
+            />
+            <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart value={item.value} maxValue={maxValue} />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
