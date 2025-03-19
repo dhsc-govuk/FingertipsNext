@@ -31,6 +31,11 @@ const coreTestJourneys: TestParams[] = [
     searchMode: SearchMode.ONLY_SUBJECT,
   },
   {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  },
+  {
     indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
