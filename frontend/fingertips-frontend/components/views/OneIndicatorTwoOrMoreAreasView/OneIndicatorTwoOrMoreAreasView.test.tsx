@@ -109,9 +109,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       areaCodes: testAreas,
     });
 
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      Math.ceil(expectedAreaCodes.length / maxIndicatorAPIRequestSize)
-    );
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
 
     const expected1 = {
       areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
