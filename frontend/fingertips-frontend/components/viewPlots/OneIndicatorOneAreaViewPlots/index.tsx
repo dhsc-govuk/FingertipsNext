@@ -12,6 +12,7 @@ import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
+
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
@@ -26,11 +27,16 @@ function shouldLineChartBeShown(
   );
 }
 
+interface OneIndicatorOneAreaViewPlotsProps extends ViewPlotProps {
+  healthPopulationData: HealthDataForArea[];
+}
+
 export function OneIndicatorOneAreaViewPlots({
+  healthPopulationData,
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+}: Readonly<OneIndicatorOneAreaViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const { [SearchParams.GroupSelected]: selectedGroupCode } =
     stateManager.getSearchState();
@@ -46,8 +52,8 @@ export function OneIndicatorOneAreaViewPlots({
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? healthIndicatorData.find(
-          (areaData) => areaData.areaCode === selectedGroupCode
-        )
+        (areaData) => areaData.areaCode === selectedGroupCode
+      )
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
@@ -56,56 +62,56 @@ export function OneIndicatorOneAreaViewPlots({
         dataWithoutEnglandOrGroup,
         englandBenchmarkData
       ) && (
-        <>
-          <H3>Indicator data over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    healthIndicatorData={dataWithoutEnglandOrGroup}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    yAxisTitle={
-                      indicatorMetadata?.unitLabel
-                        ? `Value: ${indicatorMetadata?.unitLabel}`
-                        : undefined
-                    }
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                    accessibilityLabel="A line chart showing healthcare data"
-                  />
-                ),
-              },
-              {
-                id: 'lineChartTable',
-                title: 'Table',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={dataWithoutEnglandOrGroup}
-                    englandBenchmarkData={englandBenchmarkData}
-                    groupIndicatorData={groupData}
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                  />
-                ),
-              },
-            ]}
-            footer={
-              <>
-                {indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
-          />
-        </>
-      )}
+          <>
+            <H3>Indicator data over time</H3>
+            <TabContainer
+              id="lineChartAndTable"
+              items={[
+                {
+                  id: 'lineChart',
+                  title: 'Line chart',
+                  content: (
+                    <LineChart
+                      healthIndicatorData={dataWithoutEnglandOrGroup}
+                      benchmarkData={englandBenchmarkData}
+                      searchState={searchState}
+                      groupIndicatorData={groupData}
+                      xAxisTitle="Year"
+                      yAxisTitle={
+                        indicatorMetadata?.unitLabel
+                          ? `Value: ${indicatorMetadata?.unitLabel}`
+                          : undefined
+                      }
+                      measurementUnit={indicatorMetadata?.unitLabel}
+                      accessibilityLabel="A line chart showing healthcare data"
+                    />
+                  ),
+                },
+                {
+                  id: 'lineChartTable',
+                  title: 'Table',
+                  content: (
+                    <LineChartTable
+                      healthIndicatorData={dataWithoutEnglandOrGroup}
+                      englandBenchmarkData={englandBenchmarkData}
+                      groupIndicatorData={groupData}
+                      measurementUnit={indicatorMetadata?.unitLabel}
+                    />
+                  ),
+                },
+              ]}
+              footer={
+                <>
+                  {indicatorMetadata ? (
+                    <StyledParagraphDataSource>
+                      {`Data source: ${indicatorMetadata.dataSource}`}
+                    </StyledParagraphDataSource>
+                  ) : null}
+                </>
+              }
+            />
+          </>
+        )}
     </section>
   );
 }

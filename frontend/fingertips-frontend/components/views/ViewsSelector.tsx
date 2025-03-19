@@ -17,12 +17,17 @@ export const ViewsSelector = ({
   indicators,
   searchState,
 }: ViewsSelectorProps): JSX.Element => {
-  if (indicators.length === 1 && areaCodes.length >= 1) {
+  if (indicators.length === 1 && areaCodes.length === 1) {
     return <OneIndicatorOneAreaView searchState={searchState} />;
   }
 
   if (indicators.length === 1 && areaCodes.length >= 2) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={searchState} />;
+    return (
+      <OneIndicatorTwoOrMoreAreasView
+        searchState={searchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
 
   if (
@@ -32,8 +37,14 @@ export const ViewsSelector = ({
   ) {
     return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
   }
+
   if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={searchState} />;
+    return (
+      <TwoOrMoreIndicatorsAreasView
+        searchState={searchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
-  return <></>;
+  throw new Error('Parameters do not match any known view');
 };
