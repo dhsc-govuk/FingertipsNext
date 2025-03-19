@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { redirect, RedirectType } from 'next/navigation';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const $IndicatorSelectionFormSchema = z.object({
   searchState: z.string(),

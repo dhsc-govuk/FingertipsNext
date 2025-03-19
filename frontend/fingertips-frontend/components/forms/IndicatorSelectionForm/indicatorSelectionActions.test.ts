@@ -4,7 +4,6 @@ import {
   submitIndicatorSelection,
 } from './indicatorSelectionActions';
 import { redirect, RedirectType } from 'next/navigation';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
