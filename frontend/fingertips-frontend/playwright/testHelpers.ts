@@ -134,11 +134,7 @@ function filterIndicatorsByName(
   return indicators.filter(
     (indicator) =>
       indicator.usedInPoc === true &&
-      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) &&
-      // the following filters are needed due to an API bug see DHSCFT-434
-      !indicator.indicatorName.includes('years') &&
-      !indicator.indicatorName.includes('females') &&
-      !indicator.indicatorName.includes('sex')
+      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
   );
 }
 
