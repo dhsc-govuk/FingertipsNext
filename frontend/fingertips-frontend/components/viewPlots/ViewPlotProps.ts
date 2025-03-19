@@ -3,13 +3,13 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export type OneIndicatorViewPlotProps = {
-  healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
+  healthIndicatorData: HealthDataForArea[];
   indicatorMetadata?: IndicatorDocument;
 };
 
 export type MultiIndicatorViewPlotProps = {
-  healthIndicatorData: HealthDataForArea[][];
   searchState: SearchStateParams;
+  healthIndicatorData: HealthDataForArea[][];
   indicatorMetadata?: IndicatorDocument[];
 };
