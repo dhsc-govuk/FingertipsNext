@@ -15,6 +15,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
+import { maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -80,22 +81,55 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(expectedAreaCodes.length);
-
-      expectedAreaCodes.forEach((areaCode, index) => {
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicator
-        ).toHaveBeenNthCalledWith(
-          index + 1,
-          {
-            areaCodes: [areaCode],
-            indicatorId: Number(testIndicators),
-          },
-          API_CACHE_CONFIG
-        );
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: expectedAreaCodes,
+          indicatorId: Number(testIndicators),
+        },
+        API_CACHE_CONFIG
+      );
     }
   );
+
+  it('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
+    const testIndicators = '1';
+    const testAreas = new Array(15).fill('a', 0, 15);
+    const testGroup = 'G001';
+    const expectedAreaCodes = [...new Array(10).fill('a', 0, 10), 'G001'];
+
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: [testIndicators],
+      [SearchParams.GroupSelected]: testGroup,
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+
+    await OneIndicatorTwoOrMoreAreasView({
+      searchState: searchState,
+      areaCodes: testAreas,
+    });
+
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
+      Math.ceil(expectedAreaCodes.length / maxIndicatorAPIRequestSize)
+    );
+
+    const expected1 = {
+      areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
+      indicatorId: Number(testIndicators),
+    };
+
+    const expected2 = {
+      areaCodes: ['a', 'a', 'a', 'a', 'a', 'E92000001', 'G001'],
+      indicatorId: Number(testIndicators),
+    };
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(1, expected1, API_CACHE_CONFIG);
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(2, expected2, API_CACHE_CONFIG);
+  });
 
   it('should call get indicator endpoint and pass indicator metadata', async () => {
     const indicatorId = '123';

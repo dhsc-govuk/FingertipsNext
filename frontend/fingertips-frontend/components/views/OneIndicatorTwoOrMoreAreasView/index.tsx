@@ -14,7 +14,6 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
-import { request } from 'http';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
