@@ -30,8 +30,8 @@ interface BarChartEmbeddedTableProps {
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
-  return title.split(' ').map((word, index) => (
-    <React.Fragment key={index}>
+  return title.split(' ').map((word) => (
+    <React.Fragment>
       {word}
       <br />
     </React.Fragment>
