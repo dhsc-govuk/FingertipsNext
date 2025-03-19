@@ -27,19 +27,13 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
-  // const determinedAreaCodes =
-  //   areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
+  const determinedAreaCodes =
+    areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
 
-  const determinedAreaCodes = areaCodes;
-
-  // const updatedSearchState = {
-  //   ...searchState,
-  //   [SearchParams.AreasSelected]: determinedAreaCodes,
-  // };
-
-  console.log(`determinedAreaCodes ${determinedAreaCodes}`);
-
-  const updatedSearchState = searchState;
+  const updatedSearchState = {
+    ...searchState,
+    [SearchParams.AreasSelected]: determinedAreaCodes,
+  };
 
   if (indicators.length === 1 && determinedAreaCodes.length === 1) {
     return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
@@ -49,7 +43,7 @@ function viewSelector(
     return (
       <OneIndicatorTwoOrMoreAreasView
         searchState={updatedSearchState}
-        areaCodes={areaCodes}
+        areaCodes={determinedAreaCodes}
       />
     );
   }
@@ -66,7 +60,7 @@ function viewSelector(
     return (
       <TwoOrMoreIndicatorsAreasView
         searchState={updatedSearchState}
-        areaCodes={areaCodes}
+        areaCodes={determinedAreaCodes}
       />
     );
   }

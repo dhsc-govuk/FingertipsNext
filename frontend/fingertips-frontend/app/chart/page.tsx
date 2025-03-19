@@ -51,15 +51,6 @@ export default async function ChartPage(
     const areasSelected = areaCodes ?? [];
     const indicatorsSelected = indicators ?? [];
 
-    // if (areasSelected.length === 0) {
-    //   stateManager.setState({
-    //     ...stateManager.getSearchState(),
-    //     [SearchParams.AreaTypeSelected]: undefined,
-    //     [SearchParams.GroupTypeSelected]: undefined,
-    //     [SearchParams.GroupSelected]: undefined,
-    //   });
-    // }
-
     // We don't want to render this page statically
     await connection();
 
@@ -140,15 +131,6 @@ export default async function ChartPage(
 
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
-
-    // set England as areas if all other areas are removed
-    // DHSCFT-481 to futher refine this behaviour
-    // if (areasSelected.length === 0) {
-    //   stateManager.addParamValueToState(
-    //     SearchParams.AreasSelected,
-    //     areaCodeForEngland
-    //   );
-    // }
 
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
