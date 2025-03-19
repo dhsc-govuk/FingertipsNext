@@ -1,6 +1,7 @@
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { generatePopPyramidTooltipStringList } from '.';
 
 export const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -38,7 +39,6 @@ export const createChartSeriesOptions = (
         tickColor: '#D7D7D7',
       },
       {
-        // mirror axis on right side
         opposite: true,
         reversed: false,
         categories: dataForArea.ageCategories,
@@ -97,7 +97,7 @@ export const createChartSeriesOptions = (
             </span>
         <span>Age {key}</span><div>`,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this);
+        return pointFormatterHelper(this, generatePopPyramidTooltipStringList);
       },
       useHTML: true,
     },
@@ -109,6 +109,15 @@ export const createChartSeriesOptions = (
         xAxis: 0,
         color: '#5352BE',
         pointWidth: 17,
+        dataLabels: {
+          enabled: true,
+          inside: false,
+          format: '{(abs point.y):.1f}%',
+          color: '#000000',
+          style: {
+            fontWeight: 'light',
+          },
+        },
       },
       {
         name: 'Male',
@@ -117,6 +126,15 @@ export const createChartSeriesOptions = (
         xAxis: 1,
         color: '#57AEF8',
         pointWidth: 17,
+        dataLabels: {
+          enabled: true,
+          inside: false,
+          format: '{(abs point.y):.1f}%',
+          color: '#000000',
+          style: {
+            fontWeight: 'light',
+          },
+        },
       },
     ],
     accessibility: {

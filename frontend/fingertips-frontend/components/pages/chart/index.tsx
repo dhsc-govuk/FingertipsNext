@@ -6,8 +6,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
+
 import {
   isEnglandSoleSelectedArea,
   seriesDataWithoutEnglandOrGroup,
@@ -20,7 +19,6 @@ import { Inequalities } from '@/components/organisms/Inequalities';
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
-  populationData?: PopulationData;
   searchState: SearchStateParams;
   measurementUnit?: string;
 };
@@ -28,7 +26,6 @@ type ChartProps = {
 export function Chart({
   healthIndicatorData,
   mapData,
-  populationData,
   searchState,
   measurementUnit,
 }: Readonly<ChartProps>) {
@@ -58,18 +55,6 @@ export function Chart({
           measurementUnit={measurementUnit}
         />
       )}
-      {populationData ? (
-        <>
-          <br />
-          <PopulationPyramid
-            healthIndicatorData={populationData}
-            populationPyramidTitle="Related population data"
-            xAxisTitle="Age"
-            yAxisTitle="Percentage of total population"
-            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
-          />
-        </>
-      ) : null}
       {healthIndicatorData.length === 1 && mapData ? (
         <>
           <ThematicMap
