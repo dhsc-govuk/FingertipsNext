@@ -4,7 +4,7 @@ import {
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
@@ -14,6 +14,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { AreaSelectInputField } from '@/components/molecules/SelectInputField';
 import { AreaDocument } from '@/lib/search/searchTypes';
+import { HeaderChartTitle } from './HeaderChartTitle';
 
 const filterHealthDataForArea = (
   dataForAreas: HealthDataForArea[],
@@ -70,6 +71,19 @@ const createPopulationDataFrom = (
     baseline: pyramidBaseline,
   };
 };
+const getLatestYear = (
+  points: HealthDataPoint[] | undefined
+): number | undefined => {
+  if (!points) return undefined;
+  let currentYear = points[0].year;
+  points.find((point: HealthDataPoint) => {
+    if (point.year > currentYear) {
+      currentYear = point.year;
+    }
+  });
+  return currentYear;
+};
+
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle?: string;
@@ -82,7 +96,8 @@ export const PopulationPyramidWithTable = ({
   yAxisTitle,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-  const [latestYear, setLatestYear] = useState<number>();
+  const [title, setTitle] = useState<string>();
+
   const convertedData = useMemo(() => {
     return createPopulationDataFrom(
       healthDataForAreas,
@@ -91,10 +106,16 @@ export const PopulationPyramidWithTable = ({
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
   const [selectedArea, setSelectedPopulationForArea] = useState(
-    convertedData.areas.length === 1 ? convertedData.areas[0] : undefined
+    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined
   );
 
-  console.log(convertedData);
+  const [selectedHealthData, setSelectedHealthData] = useState<
+    HealthDataForArea | undefined
+  >(
+    healthDataForAreas?.find((area, _) => {
+      return selectedArea?.areaCode == area.areaCode;
+    })
+  );
 
   const onAreaSelectedHandler = useCallback(
     (area: Omit<AreaDocument, 'areaType'>) => {
@@ -107,16 +128,7 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-        // Get the latest of the year in the data point on the selected area.
-        if (healthData && healthData.healthData.length > 0) {
-          let currentYear = healthData.healthData[0].year;
-          healthData.healthData.find((point: HealthDataPoint) => {
-            if (point.year > currentYear) {
-              currentYear = point.year;
-            }
-          });
-          setLatestYear(currentYear);
-        }
+        setSelectedHealthData(healthData);
         setSelectedPopulationForArea(
           convertHealthDataForAreaForPyramidData(healthData)
         );
@@ -124,6 +136,18 @@ export const PopulationPyramidWithTable = ({
     },
     [healthDataForAreas]
   );
+
+  // Use  this to update the header title when selection is made.
+  useEffect(() => {
+    const year = getLatestYear(selectedHealthData?.healthData);
+    let title = undefined;
+    if (!year) {
+      title = `Resident population profile for ${selectedHealthData?.areaCode}`;
+    } else {
+      title = `Resident population profile for ${selectedHealthData?.areaCode} ${year}`;
+    }
+    setTitle(title);
+  }, [selectedHealthData]);
 
   return (
     <div>
@@ -154,13 +178,7 @@ export const PopulationPyramidWithTable = ({
                   title: 'Population pyramid',
                   content: (
                     <>
-                      <div style={{ margin: '0px', padding: '0px' }}>
-                        <h3 style={{ margin: '0px', padding: '0px' }}>
-                          Resident Population profile {selectedArea?.areaName}
-                          {' ' + (latestYear ? latestYear : '')}
-                        </h3>
-                      </div>
-
+                      <HeaderChartTitle title={title ?? ''} />
                       <PopulationPyramid
                         dataForSelectedArea={selectedArea}
                         dataForBaseline={convertedData.baseline}

@@ -47,6 +47,7 @@ export function AreaFilterPane({
           areaFilterData={areaFilterData}
           searchState={searchState}
         />
+
         <ShowHideContainer summary="Add or change areas">
           <SelectAreasFilterPanel
             areaFilterData={areaFilterData}

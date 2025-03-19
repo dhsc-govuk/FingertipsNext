@@ -13,7 +13,6 @@ interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
   dataForEngland?: PopulationDataForArea;
   dataForBaseline?: PopulationDataForArea;
-  populationPyramidTitle?: string;
   xAxisTitle?: string;
   yAxisTitle?: string;
   accessibilityLabel?: string;
@@ -31,7 +30,6 @@ export function PopulationPyramid({
   dataForSelectedArea,
   dataForEngland,
   dataForBaseline,
-  populationPyramidTitle,
   xAxisTitle,
   yAxisTitle,
   accessibilityLabel,
@@ -55,7 +53,6 @@ export function PopulationPyramid({
   }
   return (
     <div data-testid="populationPyramid-component">
-      <H3>{populationPyramidTitle}</H3>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-populationPyramid',
