@@ -623,7 +623,8 @@ jobs:
               needs.check-changes.outputs.db_changed == 'true' ||
               needs.check-changes.outputs.api_changed == 'true' ||
               needs.check-changes.outputs.frontend_changed == 'true' ||
-              needs.check-changes.outputs.search_changed == 'true'
+              needs.check-changes.outputs.search_changed == 'true' ||
+              needs.check-changes.outputs.trend_analysis_changed == 'true'
             )
           )
         )
