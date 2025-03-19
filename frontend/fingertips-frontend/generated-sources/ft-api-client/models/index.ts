@@ -3,6 +3,7 @@
 export * from './Area';
 export * from './AreaType';
 export * from './AreaWithRelations';
+export * from './BadRequest';
 export * from './GetAreaHierarchies500Response';
 export * from './GetHealthcheck200Response';
 export * from './GetHealthcheck500Response';
