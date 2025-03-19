@@ -200,7 +200,7 @@ export const getAggregatePointInfo = (
   );
 
   const sortedKeys = Object.keys(inequalities).sort(localeSort);
-  const disAggregateKeys = Object.keys(inequalities)
+  const inequalityDimensions = Object.keys(inequalities)
     .filter((key) => !inequalities[key]?.isAggregate)
     .sort(localeSort);
 
@@ -209,6 +209,6 @@ export const getAggregatePointInfo = (
     benchmarkValue,
     aggregateKey,
     sortedKeys,
-    disAggregateKeys,
+    inequalityDimensions,
   };
 };

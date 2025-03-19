@@ -53,7 +53,7 @@ export function InequalitiesBarChart({
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
-  const { benchmarkValue, disAggregateKeys: barChartFields } =
+  const { benchmarkValue, inequalityDimensions: barChartFields } =
     getAggregatePointInfo(inequalities);
 
   if (type === InequalitiesTypes.Sex) barChartFields.reverse();

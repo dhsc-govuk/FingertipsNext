@@ -34,7 +34,8 @@ export function InequalitiesBarChartTable({
 }: Readonly<InequalitiesBarChartTableProps>) {
   const { areaName, data } = tableData;
   const inequalities = { ...data.inequalities };
-  const { sortedKeys, disAggregateKeys } = getAggregatePointInfo(inequalities);
+  const { sortedKeys, inequalityDimensions } =
+    getAggregatePointInfo(inequalities);
 
   if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
@@ -52,7 +53,7 @@ export function InequalitiesBarChartTable({
           <Table.Row key={key}>
             <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
             <StyledAlignLeftTableCellNoPadding>
-              {disAggregateKeys.includes(key) ? (
+              {inequalityDimensions.includes(key) ? (
                 <InequalitiesBenchmarkLabel
                   comparison={inequalities[key]?.benchmarkComparison}
                 />
