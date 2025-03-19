@@ -163895,5 +163895,22 @@
     "hierarchyType": "NHS",
     "areaType": "GPs",
     "areaTypeCode": null
+  },
+  {
+    "addressLine1": "20 Error House",
+    "addressLine2": "Errorton",
+    "addressLine3": "West Yorkshire",
+    "addressLine4": null,
+    "postcode": "WF99 9AA",
+    "latitude": 0,
+    "longitude": 0,
+    "parentAreas": [],
+    "childAreas": [],
+    "areaCode": "ERROR-AreaCode-1",
+    "areaName": "Error House GP Surgery",
+    "level": 5,
+    "hierarchyType": "NHS",
+    "areaType": "GPs",
+    "areaTypeCode": null
   }
 ]

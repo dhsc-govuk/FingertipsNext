@@ -126,7 +126,6 @@ export function SelectAreasFilterPanel({
           ALL_AREAS_SELECTED
         );
       }
-      replace(searchStateManager.generatePath(pathname), { scroll: false });
     } else if (
       !checked &&
       searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
@@ -151,8 +150,6 @@ export function SelectAreasFilterPanel({
         areaCode
       );
     }
-
-    searchStateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
 
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };

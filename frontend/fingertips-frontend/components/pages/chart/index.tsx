@@ -6,7 +6,8 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { BarChart } from '@/components/organisms/BarChart';
+import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import {
   isEnglandSoleSelectedArea,
   seriesDataWithoutEnglandOrGroup,
@@ -19,6 +20,7 @@ import { Inequalities } from '@/components/organisms/Inequalities';
 type ChartProps = {
   healthIndicatorData: HealthDataForArea[][];
   mapData?: MapData;
+  populationData?: PopulationData;
   searchState: SearchStateParams;
   measurementUnit?: string;
 };
@@ -26,6 +28,7 @@ type ChartProps = {
 export function Chart({
   healthIndicatorData,
   mapData,
+  populationData,
   searchState,
   measurementUnit,
 }: Readonly<ChartProps>) {
@@ -51,17 +54,22 @@ export function Chart({
               ? dataWithoutEngland[0]
               : healthIndicatorData[0][0]
           }
+          searchState={searchState}
           measurementUnit={measurementUnit}
         />
       )}
-      <BarChart
-        healthIndicatorData={healthIndicatorData[0]}
-        yAxisTitle="Value"
-        benchmarkLabel="England"
-        benchmarkValue={800}
-        accessibilityLabel="A bar chart showing healthcare data"
-        measurementUnit={measurementUnit}
-      />
+      {populationData ? (
+        <>
+          <br />
+          <PopulationPyramid
+            healthIndicatorData={populationData}
+            populationPyramidTitle="Related population data"
+            xAxisTitle="Age"
+            yAxisTitle="Percentage of total population"
+            accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"
+          />
+        </>
+      ) : null}
       {healthIndicatorData.length === 1 && mapData ? (
         <>
           <ThematicMap

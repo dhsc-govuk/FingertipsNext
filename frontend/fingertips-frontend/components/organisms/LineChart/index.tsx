@@ -1,6 +1,6 @@
 'use client';
 
-import Highcharts, { SymbolKeyValue } from 'highcharts';
+import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
   sortHealthDataForAreaByDate,
@@ -9,9 +9,14 @@ import {
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { chartColours } from '@/lib/chartHelpers/colours';
-import { generateSeriesData } from './lineChartHelpers';
+import {
+  chartSymbols,
+  generateSeriesData,
+  lineChartDefaultOptions,
+} from '@/components/organisms/LineChart/lineChartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface LineChartProps {
   healthIndicatorData: HealthDataForArea[];
@@ -24,14 +29,6 @@ interface LineChartProps {
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
 }
-
-const chartSymbols: SymbolKeyValue[] = [
-  'square',
-  'triangle',
-  'triangle-down',
-  'circle',
-  'diamond',
-];
 
 const chartName = 'lineChart';
 
@@ -68,7 +65,7 @@ export function LineChart({
     ? sortHealthDataForAreaByDate(groupIndicatorData)
     : undefined;
 
-  const seriesData = generateSeriesData(
+  let seriesData = generateSeriesData(
     sortedHealthIndicatorData,
     chartSymbols,
     chartColours,
@@ -77,16 +74,18 @@ export function LineChart({
     lineChartCI
   );
 
+  if (sortedBenchMarkData && sortedHealthIndicatorData.length === 0) {
+    seriesData = generateSeriesData(
+      [sortedBenchMarkData],
+      ['circle'],
+      [GovukColours.DarkGrey],
+      undefined,
+      undefined,
+      lineChartCI
+    );
+  }
   const lineChartOptions: Highcharts.Options = {
-    credits: {
-      enabled: false,
-    },
-    chart: { type: 'line', height: '50%', spacingBottom: 50, spacingTop: 20 },
-    title: {
-      style: {
-        display: 'none',
-      },
-    },
+    ...lineChartDefaultOptions,
     yAxis: {
       title: yAxisTitle ? { text: yAxisTitle, margin: 20 } : undefined,
       minorTickInterval: 'auto',
@@ -107,7 +106,7 @@ export function LineChart({
     tooltip: {
       format:
         '<b>{point.series.name}</b><br/>Year: {point.x}<br/><br/><span style="color:{color}">\u25CF</span> Value {point.y}' +
-        `${measurementUnit}`,
+        ` ${measurementUnit}`,
     },
     accessibility: {
       enabled: false,

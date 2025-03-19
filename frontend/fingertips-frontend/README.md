@@ -99,6 +99,12 @@ npm run test
 
 ### Running the Playwright UI and E2E tests
 
+To run playwright tests locally, you will first need to install the playwright browser dependencies:
+
+```bash
+npx playwright install --with-deps chromium webkit
+```
+
 To run the ui tests locally against mock data headlessly:
 
 ```bash
@@ -122,7 +128,7 @@ If you wish to use ui mode when running against a dockerised container fingertip
 
 Each test will be executed in parallel using Chromium and Webkit as defined in playwright.config.ts. 
 
-Note we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless for details, we do to this make our ui and e2e testing as close to real world as possible.
+To make our isolated ui testing and fully integrated e2e testing as close to real world as possible, we use the full chromium headless mode offered by recent playwright versions see https://playwright.dev/docs/release-notes#try-new-chromium-headless.
 
 ### Accessibility Testing
 

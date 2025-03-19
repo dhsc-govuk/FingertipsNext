@@ -3,7 +3,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 
 /// <summary>
-///     Given two HealthDataPoints determins the benchmark comparison
+///     Given two HealthDataPoints determines the benchmark comparison
 /// </summary>
 public static class BenchmarkComparisonEngine
 {
@@ -32,81 +32,116 @@ public static class BenchmarkComparisonEngine
         IndicatorPolarity polarity
     )
     {
-        foreach (var healthDataPointOfInterest in healthDataForAreasOfInterest
-             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode)
-             .SelectMany(healthDataForArea => healthDataForArea.HealthData))
-        {
-            var benchmarkHealthDataPoint = benchmarkHealthData.HealthData.FirstOrDefault(item => item.Year == healthDataPointOfInterest.Year);
-            if (benchmarkHealthDataPoint == null)
-                continue;
+        var allHealthAreasOfInterest = healthDataForAreasOfInterest
+            .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
 
-            var comparisonValue = 0;
-            if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
-                comparisonValue = -1;
-            if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
-                comparisonValue = 1;
+        foreach (var healthAreaData in allHealthAreasOfInterest)
+            ProcessBenchmarkComparisonsForArea(healthAreaData, benchmarkHealthData, comparisonMethod,
+                polarity);
 
-            healthDataPointOfInterest.BenchmarkComparison= new BenchmarkComparison
-            {
-                Method = comparisonMethod,
-                Outcome = GetOutcome(comparisonValue, polarity),
-                IndicatorPolarity = polarity,
-                BenchmarkAreaCode = benchmarkHealthData.AreaCode,
-                BenchmarkAreaName = benchmarkHealthData.AreaName
-            };
-        }
         return healthDataForAreasOfInterest;
     }
 
+    private static void ProcessBenchmarkComparisonsForArea(HealthDataForArea areaHealthData,
+        HealthDataForArea benchmarkHealthData,
+        BenchmarkComparisonMethod comparisonMethod,
+        IndicatorPolarity polarity)
+    {
+        var areaHealthDataPoints = areaHealthData.HealthData;
+        foreach (var healthDataPointOfInterest in areaHealthDataPoints) ProcessBenchmarkComparisonsForAreaPoint(
+            healthDataPointOfInterest,
+            areaHealthData,
+            benchmarkHealthData,
+            comparisonMethod,
+            polarity);
+        
+    }
+
+    private static void ProcessBenchmarkComparisonsForAreaPoint(
+        HealthDataPoint healthDataPointOfInterest,
+        HealthDataForArea areaHealthData,
+        HealthDataForArea benchmarkHealthData,
+        BenchmarkComparisonMethod comparisonMethod,
+        IndicatorPolarity polarity
+        )
+    {
+        var areaHealthDataPoints = areaHealthData.HealthData;
+        var areaCode = areaHealthData.AreaCode;
+        var areaName = areaHealthData.AreaName;
+        
+        if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
+            healthDataPointOfInterest.UpperConfidenceInterval == null) return;
+
+        var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregate
+            ? benchmarkHealthData.HealthData
+            : areaHealthDataPoints;
+        var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
+            item.Year == healthDataPointOfInterest.Year &&
+            item.IsAggregate && item.Value != null);
+
+        if (benchmarkHealthDataPoint == null) return;
+
+        var comparisonValue = 0;
+        if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
+            comparisonValue = -1;
+        if (healthDataPointOfInterest.LowerConfidenceInterval > benchmarkHealthDataPoint.Value)
+            comparisonValue = 1;
+
+        var benchmarkAreaCode = healthDataPointOfInterest.IsAggregate
+            ? benchmarkHealthData.AreaCode
+            : areaCode;
+        var benchmarkAreaName = healthDataPointOfInterest.IsAggregate
+            ? benchmarkHealthData.AreaName
+            : areaName;
+
+        healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
+        {
+            Method = comparisonMethod,
+            Outcome = GetOutcome(comparisonValue, polarity),
+            IndicatorPolarity = polarity,
+            BenchmarkValue = benchmarkHealthDataPoint.Value,
+            BenchmarkAreaCode = benchmarkAreaCode,
+            BenchmarkAreaName = benchmarkAreaName
+        };
+    } 
+
     private static BenchmarkOutcome GetOutcome(int comparison, IndicatorPolarity polarity)
     {
-        switch (polarity)
+        return polarity switch
         {
-            case IndicatorPolarity.LowIsGood:
-                return GetLowerIsGood(comparison);
-            case IndicatorPolarity.HighIsGood:
-                return GetHigherIsGood(comparison);
-            default:
-                return GetNoJudgement(comparison);
-        }
+            IndicatorPolarity.LowIsGood => GetLowerIsGood(comparison),
+            IndicatorPolarity.HighIsGood => GetHigherIsGood(comparison),
+            _ => GetNoJudgement(comparison)
+        };
     }
 
     private static BenchmarkOutcome GetNoJudgement(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Lower;
-            case > 0:
-                return BenchmarkOutcome.Higher;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
+            < 0 => BenchmarkOutcome.Lower,
+            > 0 => BenchmarkOutcome.Higher,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 
     private static BenchmarkOutcome GetLowerIsGood(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Better;
-            case > 0:
-                return BenchmarkOutcome.Worse;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
+            < 0 => BenchmarkOutcome.Better,
+            > 0 => BenchmarkOutcome.Worse,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 
     private static BenchmarkOutcome GetHigherIsGood(int comparison)
     {
-        switch (comparison)
+        return comparison switch
         {
-            case < 0:
-                return BenchmarkOutcome.Worse;
-            case > 0:
-                return BenchmarkOutcome.Better;
-            default:
-                return BenchmarkOutcome.Similar;
-        }
+            < 0 => BenchmarkOutcome.Worse,
+            > 0 => BenchmarkOutcome.Better,
+            _ => BenchmarkOutcome.Similar
+        };
     }
 }

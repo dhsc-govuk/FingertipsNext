@@ -51,7 +51,7 @@ export interface GetAreaTypesRequest {
 
 /**
  * AreasApi - interface
- *
+ * 
  * @export
  * @interface AreasApiInterface
  */
@@ -70,7 +70,7 @@ export interface AreasApiInterface {
     getAreaRaw(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AreaWithRelations>>;
 
     /**
-     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings, cousins and
+     * Get the full details of a given area, including it\'s parents, optionally including it\'s children, siblings and cousins
      * Get area
      */
     getArea(requestParameters: GetAreaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AreaWithRelations>;
@@ -140,7 +140,7 @@ export interface AreasApiInterface {
 }
 
 /**
- *
+ * 
  */
 export class AreasApi extends runtime.BaseAPI implements AreasApiInterface {
 

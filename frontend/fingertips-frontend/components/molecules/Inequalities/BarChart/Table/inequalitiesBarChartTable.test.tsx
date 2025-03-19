@@ -1,47 +1,21 @@
-import { InequalitiesBarChartTable, InequalitiesBarChartTableHeaders } from '.';
-import { GROUPED_YEAR_DATA, MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { InequalitiesBarChartTable } from '.';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
+import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { getTestData } from '../mocks';
+import { InequalitiesBarChartTableHeaders } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
 import {
-  Inequalities,
-  InequalitiesBarChartTableData,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+  HealthDataPointBenchmarkComparisonMethodEnum,
+  HealthDataPointBenchmarkComparisonOutcomeEnum,
+} from '@/generated-sources/ft-api-client';
 
 describe('Inequalities bar chart table suite', () => {
   describe('Sex inequality', () => {
-    const tableData: InequalitiesBarChartTableData = {
-      areaName: MOCK_HEALTH_DATA[1].areaName,
-      data: {
-        period: 2008,
-        inequalities: {
-          Persons: {
-            value: 135.149304,
-            count: 222,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Male: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Female: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-        },
-      },
-    };
-
     it('should render the inequalitiesBarChartTable component', () => {
       render(
         <InequalitiesBarChartTable
-          tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
         />
       );
 
@@ -55,9 +29,8 @@ describe('Inequalities bar chart table suite', () => {
 
       render(
         <InequalitiesBarChartTable
-          tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
         />
       );
 
@@ -72,40 +45,33 @@ describe('Inequalities bar chart table suite', () => {
 
     it('should display x if data point is not available', () => {
       const expectedNumberOfRows = 3;
-      const mockData: InequalitiesBarChartTableData = {
-        areaName: tableData.areaName,
-        data: {
-          period: 2004,
-          inequalities: {
-            Persons: { value: 890.3432 },
-            Male: { value: 703.420759 },
-            Female: { value: 703.420759 },
-          },
-        },
-      };
-
+      const expectedNumberOfCols = Object.values(
+        InequalitiesBarChartTableHeaders
+      ).length;
+      const mockData = getTestData();
+      mockData.data.inequalities.Persons = { value: 1 };
+      mockData.data.inequalities.Male = { value: 1 };
+      mockData.data.inequalities.Female = { value: 1 };
       render(
         <InequalitiesBarChartTable
           tableData={mockData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          type={InequalitiesTypes.Sex}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
-        expectedNumberOfRows *
-          Object.values(InequalitiesBarChartTableHeaders).length
+        expectedNumberOfRows * expectedNumberOfCols
       );
-      screen
-        .getAllByTestId('not-available')
-        .forEach((id) => expect(id).toHaveTextContent('X'));
+
+      const notAvailable = screen.getAllByTestId('not-available');
+      expect(notAvailable).toHaveLength(9);
+      notAvailable.forEach((id) => expect(id).toHaveTextContent('X'));
     });
 
     it('check if the measurementUnit value "kg" is rendered correctly with braces', () => {
       render(
         <InequalitiesBarChartTable
-          tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
           measurementUnit="kg"
         />
       );
@@ -115,9 +81,8 @@ describe('Inequalities bar chart table suite', () => {
     it('check if that measurementUnit value is not shown when its not passed', () => {
       render(
         <InequalitiesBarChartTable
-          tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
         />
       );
       expect(
@@ -128,14 +93,50 @@ describe('Inequalities bar chart table suite', () => {
     it('snapshot test - should match snapshot', () => {
       const container = render(
         <InequalitiesBarChartTable
-          tableData={tableData}
-          yearlyHealthDataGroupedByInequalities={GROUPED_YEAR_DATA}
-          type={Inequalities.Sex}
+          tableData={getTestData()}
+          type={InequalitiesTypes.Sex}
           measurementUnit="kg"
         />
       );
 
       expect(container.asFragment()).toMatchSnapshot();
+    });
+
+    describe('Benchmarked', () => {
+      it('should render with benchmarks', () => {
+        const mockData = getTestData();
+        mockData.data.inequalities.Persons = {
+          ...mockData.data.inequalities.Persons,
+          benchmarkComparison: {
+            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Better,
+            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+          },
+        };
+        mockData.data.inequalities.Male = {
+          ...mockData.data.inequalities.Male,
+          benchmarkComparison: {
+            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Worse,
+            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+          },
+        };
+        mockData.data.inequalities.Female = {
+          ...mockData.data.inequalities.Female,
+          benchmarkComparison: {
+            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Similar,
+            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+          },
+        };
+        render(
+          <InequalitiesBarChartTable
+            tableData={mockData}
+            type={InequalitiesTypes.Sex}
+          />
+        );
+
+        expect(screen.queryByText('Better')).toBeNull();
+        expect(screen.getByText('Worse')).toBeInTheDocument();
+        expect(screen.getByText('Similar')).toBeInTheDocument();
+      });
     });
   });
 });

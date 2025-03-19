@@ -3,13 +3,17 @@ import {
   AreaType,
   AreaWithRelations,
 } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '../apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '../apiClient/apiClientFactory';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '../searchStateManager';
 import { AreaTypeKeys } from './areaType';
+import { areaTypeSorter } from '@/lib/areaFilterHelpers/areaTypeSorter';
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
 import { determineSelectedAreaType } from './determineSelectedAreaType';
 import { determineSelectedGroup } from './determineSelectedGroup';
@@ -38,10 +42,8 @@ export const getAreaFilterData = async (
 
   const areasApi = ApiClientFactory.getAreasApiClient();
 
-  const availableAreaTypes = await areasApi.getAreaTypes();
-  const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
-    (a, b) => a.level - b.level
-  );
+  const availableAreaTypes = await areasApi.getAreaTypes({}, API_CACHE_CONFIG);
+  const sortedByHierarchyAndLevelAreaTypes = areaTypeSorter(availableAreaTypes);
 
   const determinedSelectedAreaType = determineSelectedAreaType(
     selectedAreaType as AreaTypeKeys,
@@ -70,9 +72,12 @@ export const getAreaFilterData = async (
     determinedSelectedGroupType
   );
 
-  const availableGroups = await areasApi.getAreaTypeMembers({
-    areaTypeKey: determinedSelectedGroupType,
-  });
+  const availableGroups = await areasApi.getAreaTypeMembers(
+    {
+      areaTypeKey: determinedSelectedGroupType,
+    },
+    API_CACHE_CONFIG
+  );
 
   const determinedSelectedGroup = determineSelectedGroup(
     selectedGroup,
@@ -83,11 +88,14 @@ export const getAreaFilterData = async (
     determinedSelectedGroup
   );
 
-  const availableArea: AreaWithRelations = await areasApi.getArea({
-    areaCode: determinedSelectedGroup,
-    includeChildren: true,
-    childAreaType: determinedSelectedAreaType,
-  });
+  const availableArea: AreaWithRelations = await areasApi.getArea(
+    {
+      areaCode: determinedSelectedGroup,
+      includeChildren: true,
+      childAreaType: determinedSelectedAreaType,
+    },
+    API_CACHE_CONFIG
+  );
   const availableAreas = determineAvailableAreas(
     determinedSelectedAreaType,
     availableArea
@@ -98,7 +106,7 @@ export const getAreaFilterData = async (
   );
 
   return {
-    availableAreaTypes: sortedByLevelAreaTypes,
+    availableAreaTypes: sortedByHierarchyAndLevelAreaTypes,
     availableGroupTypes: sortedByLevelGroupTypes,
     availableGroups,
     availableAreas: sortedAlphabeticallyAvailableAreas,
