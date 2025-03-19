@@ -75,13 +75,11 @@ interface PyramidPopulationChartViewProps {
   xAxisTitle?: string;
   yAxisTitle?: string;
   selectedGroupAreaCode?: string;
-  defaultSelectedAreaCode?: string;
 }
 export const PyramidPopulationChartView = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  defaultSelectedAreaCode,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const [latestYear, setLatestYear] = useState<number>();
@@ -92,10 +90,11 @@ export const PyramidPopulationChartView = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const defaultArea = convertedData.areas.find((area, _) => {
-    return area?.areaCode === defaultSelectedAreaCode;
-  });
-  const [selectedArea, setSelectedPopulationForArea] = useState(defaultArea);
+  const [selectedArea, setSelectedPopulationForArea] = useState(
+    convertedData.areas.length === 1 ? convertedData.areas[0] : undefined
+  );
+
+  console.log(convertedData);
 
   const onAreaSelectedHandler = useCallback(
     (area: Omit<AreaDocument, 'areaType'>) => {
