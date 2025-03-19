@@ -27,10 +27,6 @@ type AreaFilterData = {
   updatedSearchState?: SearchStateParams;
 };
 
-const sortAreaTypesByLevel = (areaTypes: AreaType[]) => {
-  return areaTypes.toSorted((a, b) => a.level - b.level);
-};
-
 export const getAreaFilterData = async (
   searchState: SearchStateParams,
   selectedAreasData?: AreaWithRelations[]
@@ -46,19 +42,9 @@ export const getAreaFilterData = async (
   const areasApi = ApiClientFactory.getAreasApiClient();
 
   const availableAreaTypes = await areasApi.getAreaTypes({}, API_CACHE_CONFIG);
-  const areaTypesGroupedByHierarchy = availableAreaTypes.reduce(
-    (result: Record<string, AreaType[]>, areaType: AreaType) => {
-      (result[areaType.hierarchyName] =
-        result[areaType.hierarchyName] || []).push(areaType);
-      return result;
-    },
-    {}
+  const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
+    (a, b) => a.level - b.level
   );
-  const sortedByLevelAreaTypes = [
-    ...sortAreaTypesByLevel(areaTypesGroupedByHierarchy['Both']),
-    ...sortAreaTypesByLevel(areaTypesGroupedByHierarchy['Administrative']),
-    ...sortAreaTypesByLevel(areaTypesGroupedByHierarchy['NHS']),
-  ];
 
   const determinedSelectedAreaType = determineSelectedAreaType(
     selectedAreaType as AreaTypeKeys,
