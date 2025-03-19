@@ -391,7 +391,7 @@ jobs:
       )
     environment: development
     name: Run Trend Analysis App
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         dotnet-version: ['9.0.x']
