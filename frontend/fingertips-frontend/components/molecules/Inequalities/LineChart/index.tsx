@@ -41,7 +41,7 @@ export function InequalitiesLineChart({
   const seriesData = generateInequalitiesLineChartSeriesData(
     dynamicKeys,
     type,
-    lineChartData.rowData,
+    lineChartData,
     areasSelected
   );
 

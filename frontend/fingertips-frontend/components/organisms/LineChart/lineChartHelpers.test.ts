@@ -1,5 +1,9 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
-import { generateSeriesData } from './lineChartHelpers';
+import {
+  generateSeriesData,
+  generateStandardLineChartOptions,
+  lineChartDefaultOptions,
+} from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
@@ -595,5 +599,73 @@ describe('generateSeriesData', () => {
     expect(generatedSeriesData[2].color).toBe(chartColours[1]);
     expect(generatedSeriesData[3].color).toBe(errorBarColour);
     expect(generatedSeriesData[4].color).toBe(chartColours[0]);
+  });
+});
+
+describe('generateStandardLineChartOptions', () => {
+  it('should generate standard line chart options', () => {
+    const expectedSeriesData = [
+      {
+        color: '#F46A25',
+        data: [
+          [2004, 703.420759],
+          [2006, 278.29134],
+        ],
+        name: 'North FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2004, 441.69151, 578.32766],
+          [2006, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+    ];
+
+    const expected = {
+      ...lineChartDefaultOptions,
+      yAxis: {
+        ...lineChartDefaultOptions.yAxis,
+        title: { text: 'yAxis', margin: 20 },
+      },
+      xAxis: {
+        ...lineChartDefaultOptions.xAxis,
+        title: { text: 'xAxis', margin: 20 },
+      },
+      legend: {
+        ...lineChartDefaultOptions.legend,
+        title: { text: 'Areas' },
+      },
+      accessibility: {
+        ...lineChartDefaultOptions.accessibility,
+        description: 'accessibility',
+      },
+      series: expectedSeriesData,
+      tooltip: {
+        format: lineChartDefaultOptions.tooltip?.format + '%',
+      },
+    };
+
+    expect(
+      generateStandardLineChartOptions([mockData[0]], false, {
+        benchmarkData: undefined,
+        groupIndicatorData: undefined,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      })
+    ).toEqual(expected);
   });
 });

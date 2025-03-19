@@ -101,6 +101,16 @@ describe('OneIndicatorOneAreaViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
+
+    const highcharts = await screen.findByTestId(
+      'highcharts-react-component-lineChart'
+    );
+    await waitFor(() => {
+      expect(highcharts).toBeInTheDocument();
+    });
+
+    expect(highcharts).toHaveTextContent('England');
+    expect(highcharts).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
         name: 'See how the indicator has changed over time',
