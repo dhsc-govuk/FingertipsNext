@@ -19,10 +19,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import {
-  AreaTypeKeysForMapMeta,
-  getMapData,
-} from '@/lib/thematicMapUtils/getMapData';
-import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
@@ -45,7 +41,6 @@ export default async function ChartPage(
     const {
       [SearchParams.IndicatorsSelected]: indicators,
       [SearchParams.AreasSelected]: areaCodes,
-      [SearchParams.AreaTypeSelected]: selectedAreaType,
       [SearchParams.GroupSelected]: selectedGroupCode,
     } = stateManager.getSearchState();
 
@@ -103,16 +98,6 @@ export default async function ChartPage(
           areasSelected[0],
           areasSelected[1]
         )
-      : undefined;
-
-    // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
-    const mapDataIsRequired =
-      selectedAreaType &&
-      indicatorsSelected.length === 1 &&
-      areasSelected.length >= 2;
-
-    const mapData = mapDataIsRequired
-      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 
     let indicatorMetadata: IndicatorDocument | undefined;
@@ -179,7 +164,6 @@ export default async function ChartPage(
         <Chart
           populationData={preparedPopulationData}
           healthIndicatorData={healthIndicatorData}
-          mapData={mapData}
           searchState={stateManager.getSearchState()}
           measurementUnit={indicatorMetadata?.unitLabel}
         />

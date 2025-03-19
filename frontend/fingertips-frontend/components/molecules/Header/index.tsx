@@ -1,5 +1,6 @@
 'use client';
 
+import { contactEmailLink } from '@/lib/links';
 import { Link, Main, PhaseBanner, TopNav } from 'govuk-react';
 import styled from 'styled-components';
 
@@ -19,8 +20,9 @@ export function FTHeader() {
       />
       <ZeroPaddingMain>
         <PhaseBanner level="alpha">
-          This is a new service - your <Link href="#">feedback</Link> will help
-          us to improve it.
+          This is a new service - your{' '}
+          <Link href={contactEmailLink}>feedback</Link> will help us to improve
+          it.
         </PhaseBanner>
       </ZeroPaddingMain>
     </header>

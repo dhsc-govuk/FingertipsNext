@@ -1,5 +1,6 @@
 'use client';
 
+import { contactEmailLink, GDSLink } from '@/lib/links';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Footer, Link } from 'govuk-react';
 import styled from 'styled-components';
@@ -43,7 +44,7 @@ export function FTFooter() {
             <FooterLink href="#">Accessibility statement</FooterLink>
           </FooterListItem>
           <FooterListItem>
-            <FooterLink href="#">Contact</FooterLink>
+            <FooterLink href={contactEmailLink}>Contact</FooterLink>
           </FooterListItem>
           <FooterListItem>
             <FooterLink href="#">Terms and conditions</FooterLink>
@@ -52,7 +53,7 @@ export function FTFooter() {
             <FooterLink href="#">Rhestr o Wasanaethau Cymraeg</FooterLink>
           </FooterListItem>
           <FooterListItem>
-            <FooterLink href="#">Government Digital Service</FooterLink>
+            <FooterLink href={GDSLink}>Government Digital Service</FooterLink>
           </FooterListItem>
         </FooterContainer>
       }
