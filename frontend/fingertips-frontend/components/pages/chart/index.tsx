@@ -63,7 +63,7 @@ export function Chart({
           <br />
           <PopulationPyramid
             healthIndicatorData={populationData}
-            populationPyramidTitle="Population INDICATOR for SELECTED area"
+            populationPyramidTitle="Related population data"
             xAxisTitle="Age"
             yAxisTitle="Percentage of total population"
             accessibilityLabel="A pyramid chart showing population data for SELECTED AREA"

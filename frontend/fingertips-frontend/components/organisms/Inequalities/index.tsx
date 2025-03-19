@@ -60,7 +60,7 @@ export function Inequalities({
 
   return (
     <div data-testid="inequalities-component">
-      <H4>Inequalities data in a single time period</H4>
+      <H4>Inequalities data for a single time period</H4>
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[
