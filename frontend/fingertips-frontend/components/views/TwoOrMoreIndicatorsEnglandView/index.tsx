@@ -18,7 +18,12 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     throw new Error('Invalid parameters provided to view');
   }
 
+  const areaCodesToRequest = areaCodeForEngland;
+
   await connection();
+
+  console.log('TODO: fetch health data with inequalites');
+  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return <TwoOrMoreIndicatorsEnglandViewPlots />;
 }
