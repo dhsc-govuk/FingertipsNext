@@ -13,6 +13,7 @@ import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export type ViewProps = {
   searchState: SearchStateParams;
@@ -26,20 +27,31 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
-  const determinedAreaCodes =
-    areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
+  // const determinedAreaCodes =
+  //   areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
 
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: determinedAreaCodes,
-  };
+  const determinedAreaCodes = areaCodes;
+
+  // const updatedSearchState = {
+  //   ...searchState,
+  //   [SearchParams.AreasSelected]: determinedAreaCodes,
+  // };
+
+  console.log(`determinedAreaCodes ${determinedAreaCodes}`);
+
+  const updatedSearchState = searchState;
 
   if (indicators.length === 1 && determinedAreaCodes.length === 1) {
     return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
   }
 
   if (indicators.length === 1 && determinedAreaCodes.length >= 2) {
-    return <OneIndicatorTwoOrMoreAreasView searchState={updatedSearchState} />;
+    return (
+      <OneIndicatorTwoOrMoreAreasView
+        searchState={updatedSearchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
 
   if (
@@ -51,7 +63,12 @@ function viewSelector(
   }
 
   if (indicators.length >= 2 && determinedAreaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={updatedSearchState} />;
+    return (
+      <TwoOrMoreIndicatorsAreasView
+        searchState={updatedSearchState}
+        areaCodes={areaCodes}
+      />
+    );
   }
 
   throw new Error('Parameters do not match any known view');
@@ -67,9 +84,19 @@ export function ViewsContext({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
-  const areaCodes = areasSelected ?? [];
   const indicators = indicatorsSelected ?? [];
+
+  let areaCodes;
+  if (groupAreaSelected === ALL_AREAS_SELECTED) {
+    areaCodes =
+      areaFilterData?.availableAreas?.map((area) => {
+        return area.code;
+      }) ?? [];
+  } else {
+    areaCodes = areasSelected ?? [];
+  }
 
   return (
     <ChartPageWrapper

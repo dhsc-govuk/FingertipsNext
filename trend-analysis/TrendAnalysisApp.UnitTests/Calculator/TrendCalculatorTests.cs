@@ -10,7 +10,7 @@ public class TrendCalculatorTests
     private readonly TrendCalculator tc = new(new TrendMarkerCalculator(), new LegacyMapper());
 
     [Theory]
-    [InlineData(Trend.Increasing, Constants.Polarity.NotApplicable)]
+    [InlineData(Trend.Increasing, Constants.Polarity.NoJudgement)]
     [InlineData(Trend.NoChange, Constants.Polarity.HighIsGood)]
     [InlineData(Trend.CannotBeCalculated, Constants.Polarity.LowIsGood)]
     [InlineData(Trend.IncreasingAndGettingBetter, Constants.Polarity.LowIsGood)]

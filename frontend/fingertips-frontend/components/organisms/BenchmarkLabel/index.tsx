@@ -40,7 +40,8 @@ export const BenchmarkLabel: React.FC<BenchmarkLabelProps> = ({
   const legendType =
     (type as BenchmarkLabelType) ?? BenchmarkLabelType.NOT_COMPARED;
   const groupType =
-    (group as BenchmarkLabelGroupType) ?? BenchmarkLabelGroupType.RAG;
+    (group?.toLowerCase() as BenchmarkLabelGroupType) ??
+    BenchmarkLabelGroupType.RAG;
   const labelText = getBenchmarkLabelText(legendType);
   return (
     <BenchmarkTagStyle legendType={legendType} group={groupType}>
