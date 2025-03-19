@@ -449,6 +449,29 @@ components:
               type: number
               example: 123
               description: The value used in the comparison
+        deprivation:
+          $ref: "#/components/schemas/DeprivationData"
+    DeprivationData:
+      type: object
+      description: Details of the deprivation category that this data point belongs to.
+      required:
+        - sequence
+        - value
+        - type
+      properties:
+        sequence:
+          type: number
+          format: integer
+          example: 2
+          description: A number which represents this deprivation value's inherent sequence. Can be used to show values ordered by their deprivation dimension.
+        value:
+          type: string
+          example: Second most deprived decile (IMD2019)
+          description: The deprivation value for this data point.
+        type:
+          type: string
+          example: District & UA deprivation deciles in England (IMD2019, 4/21 geography)
+          description: The deprivation category that this data point's deprivation value belongs to.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
