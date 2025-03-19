@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 import { typography } from '@govuk-react/lib';
+import { FOCUSABLE } from '@govuk-react/constants';
 
 const StyledDivContainer = styled('div')<{ isFullWidth: boolean }>(
   ({ isFullWidth }) => ({
@@ -27,8 +28,11 @@ const StyledFilterChildren = styled('div')(
   typography.common()
 );
 
-const StyledIconDiv = styled('div')({
+const RemoveAreaButton = styled('button')({
+    ...FOCUSABLE,
   alignItems: 'center',
+  backgroundColor: 'transparent',
+  border: "0",
   display: 'flex',
 });
 
@@ -47,7 +51,7 @@ export function Pill({
 }: Readonly<PillProps>) {
   return (
     <StyledDivContainer data-testid="pill-container" isFullWidth={isFullWidth}>
-      <StyledIconDiv
+      <RemoveAreaButton
         data-testid="remove-icon-div"
         onClick={(e) => {
           e.preventDefault();
@@ -55,7 +59,7 @@ export function Pill({
         }}
       >
         <RemoveIcon width="12" height="12" color="#000000" />
-      </StyledIconDiv>
+      </RemoveAreaButton>
       <StyledFilterChildren data-testid="filter-name">
         {children}
       </StyledFilterChildren>
