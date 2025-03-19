@@ -6,12 +6,12 @@ import { RemoveIcon } from '@/components/atoms/RemoveIcon';
 import { typography } from '@govuk-react/lib';
 import { FOCUSABLE } from '@govuk-react/constants';
 
-const StyledDivContainer = styled('div')<{ isFullWidth: boolean }>(
+const PillContainer = styled('div')<{ isFullWidth: boolean }>(
   ({ isFullWidth }) => ({
     backgroundColor: 'white',
     border: '1px #D1D2D3 solid',
     borderRadius: '5px',
-    padding: '0.5em 0.3125em',
+    padding: '0.5em 0.3125em 0.5em 0em',
     maxWidth: isFullWidth ? '100%' : 'max-content',
     margin: '0.3125em 0',
     display: 'flex',
@@ -21,7 +21,7 @@ const StyledDivContainer = styled('div')<{ isFullWidth: boolean }>(
 const StyledFilterChildren = styled('div')(
   {
     wordWrap: 'break-word',
-    padding: '0em 1em',
+    padding: '0em 1em 0em 0.75em',
     fontSize: 16,
     marginBottom: '0',
   },
@@ -34,6 +34,7 @@ const RemoveAreaButton = styled('button')({
   backgroundColor: 'transparent',
   border: "0",
   display: 'flex',
+  padding: '5px',
 });
 
 interface PillProps {
@@ -50,7 +51,7 @@ export function Pill({
   isFullWidth = true,
 }: Readonly<PillProps>) {
   return (
-    <StyledDivContainer data-testid="pill-container" isFullWidth={isFullWidth}>
+    <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
       <RemoveAreaButton
         data-testid="remove-icon-div"
         onClick={(e) => {
@@ -63,6 +64,6 @@ export function Pill({
       <StyledFilterChildren data-testid="filter-name">
         {children}
       </StyledFilterChildren>
-    </StyledDivContainer>
+    </PillContainer>
   );
 }
