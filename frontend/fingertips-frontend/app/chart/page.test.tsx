@@ -15,7 +15,13 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorsApi, AreasApi } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorsApi,
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  AreasApi,
+} from '@/generated-sources/ft-api-client';
+import { getMapData } from '@/lib/thematicMapUtils/getMapData';
+import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import {
   allAreaTypes,
@@ -81,6 +87,7 @@ describe('Chart Page', () => {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 1,
           inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );
@@ -120,6 +127,7 @@ describe('Chart Page', () => {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 1,
           inequalities: [],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );
@@ -131,6 +139,7 @@ describe('Chart Page', () => {
           areaCodes: ['A001', areaCodeForEngland],
           indicatorId: 2,
           inequalities: [],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );
@@ -174,6 +183,7 @@ describe('Chart Page', () => {
           areaCodes: [mockAreaCode, areaCodeForEngland, mockParentAreaCode],
           indicatorId: 333,
           inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );
@@ -214,6 +224,7 @@ describe('Chart Page', () => {
           areaCodes: [mockAreaCode, areaCodeForEngland],
           indicatorId: 333,
           inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );

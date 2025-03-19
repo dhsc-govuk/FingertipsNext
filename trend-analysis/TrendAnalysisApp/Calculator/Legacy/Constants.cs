@@ -1,6 +1,6 @@
 namespace TrendAnalysisApp.Calculator.Legacy;
 
-public class ValueTypeIds
+public static class ValueTypeIds
 {
     public const int DirectlyStandardisedRate = 1;
     public const int CrudeRate = 3;
@@ -8,7 +8,7 @@ public class ValueTypeIds
     public const int Count = 7;
 }
 
-public class ComparatorMethodIds
+public static class ComparatorMethodIds
 {
     public const int NoComparison = -1;
     public const int SingleOverlappingCIsForOneCiLevel = 1;

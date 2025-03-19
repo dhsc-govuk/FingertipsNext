@@ -13,6 +13,7 @@ import {
   SearchStateParams,
 } from '../searchStateManager';
 import { AreaTypeKeys } from './areaType';
+import { areaTypeSorter } from '@/lib/areaFilterHelpers/areaTypeSorter';
 import { determineApplicableGroupTypes } from './determineApplicableGroupTypes';
 import { determineSelectedAreaType } from './determineSelectedAreaType';
 import { determineSelectedGroup } from './determineSelectedGroup';
@@ -42,9 +43,7 @@ export const getAreaFilterData = async (
   const areasApi = ApiClientFactory.getAreasApiClient();
 
   const availableAreaTypes = await areasApi.getAreaTypes({}, API_CACHE_CONFIG);
-  const sortedByLevelAreaTypes = availableAreaTypes?.toSorted(
-    (a, b) => a.level - b.level
-  );
+  const sortedByHierarchyAndLevelAreaTypes = areaTypeSorter(availableAreaTypes);
 
   const determinedSelectedAreaType = determineSelectedAreaType(
     selectedAreaType as AreaTypeKeys,
@@ -107,7 +106,7 @@ export const getAreaFilterData = async (
   );
 
   return {
-    availableAreaTypes: sortedByLevelAreaTypes,
+    availableAreaTypes: sortedByHierarchyAndLevelAreaTypes,
     availableGroupTypes: sortedByLevelGroupTypes,
     availableGroups,
     availableAreas: sortedAlphabeticallyAvailableAreas,

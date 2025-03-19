@@ -21,6 +21,7 @@ import {
 import {
   HealthDataForArea,
   GetHealthDataForAnIndicatorInequalitiesEnum,
+  HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
@@ -68,6 +69,8 @@ export default async function ChartPage(
             )
               ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
               : [],
+            comparisonMethod:
+              GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
           },
           API_CACHE_CONFIG
         )
