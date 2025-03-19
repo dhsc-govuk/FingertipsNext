@@ -52,8 +52,12 @@ export default class HomePage extends BasePage {
     await this.page.getByTestId(this.searchButton).click();
   }
 
-  async navigateToHomePage() {
-    await this.navigateTo('/');
+  async navigateToHomePage(queryString?: string) {
+    if (queryString) {
+      await this.navigateTo(`/${queryString}`);
+    } else {
+      await this.navigateTo('/');
+    }
   }
 
   async checkOnHomePage() {

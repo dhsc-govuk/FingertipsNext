@@ -30,7 +30,10 @@ internal static class Program
         return new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<HealthMeasureDbContext>(
-                options => options.UseSqlServer(connString),
+                options => options.UseSqlServer(
+                    connString,
+                    sqlServerOptions => sqlServerOptions.CommandTimeout(Constants.Database.CommandTimeout)
+                ),
                 ServiceLifetime.Transient
             )
             .AddSingleton<TrendDataProcessor>()
