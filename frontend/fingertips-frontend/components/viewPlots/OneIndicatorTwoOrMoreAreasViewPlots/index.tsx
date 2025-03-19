@@ -105,15 +105,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      <BarChartEmbeddedTable
-        data-testid="barChartEmbeddedTable-component"
-        healthIndicatorData={dataWithoutEngland}
-        benchmarkData={englandBenchmarkData}
-        groupIndicatorData={groupData}
-        measurementUnit={indicatorMetadata?.unitLabel}
-      ></BarChartEmbeddedTable>
       {
-        // DHSCFT-483 to restore this
+        // DHSCFT-483 to restore this to use only the selectedGroupArea flag
         // selectedGroupArea === 'ALL'
         selectedGroupCode && mapData && (
           <ThematicMap
@@ -122,6 +115,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         )
       }
+      <BarChartEmbeddedTable
+        data-testid="barChartEmbeddedTable-component"
+        healthIndicatorData={dataWithoutEngland}
+        benchmarkData={englandBenchmarkData}
+        groupIndicatorData={groupData}
+        measurementUnit={indicatorMetadata?.unitLabel}
+      ></BarChartEmbeddedTable>
     </section>
   );
 }

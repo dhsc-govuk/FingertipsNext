@@ -184,9 +184,7 @@ export default class ResultsPage extends BasePage {
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
         [AreaMode.TWO_PLUS_AREAS]: 2,
-        // -1 as first checkbox is 'All'
-        // -2 as selecting all areas will also change to ALL and ViewContext will not handle this until DHSCFT-482
-        [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 2,
+        [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 1, // as first checkbox is 'All'
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };
       const checkboxCount = checkboxCountMap[areaMode];
