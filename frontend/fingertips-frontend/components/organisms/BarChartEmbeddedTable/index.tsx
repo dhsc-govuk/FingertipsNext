@@ -86,7 +86,7 @@ export function BarChartEmbeddedTable({
 
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
-      <Table style={{padding: 0}}
+      <Table
         head={
           <React.Fragment>
             <Table.Row>
@@ -129,7 +129,7 @@ export function BarChartEmbeddedTable({
             <CheckValueInTableCell value={benchmarkData?.areaName} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
-            <CheckValueInTableCell value={mostRecentBenchmarkData.value}/>
+            <CheckValueInTableCell value={mostRecentBenchmarkData.value} />
             <Table.Cell>
               <SparklineChart
                 value={mostRecentBenchmarkData.value}
