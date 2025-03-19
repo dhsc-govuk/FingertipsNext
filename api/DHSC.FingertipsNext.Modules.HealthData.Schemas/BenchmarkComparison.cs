@@ -33,4 +33,6 @@ public class BenchmarkComparison
 
     [JsonPropertyName("benchmarkAreaName")]
     public string BenchmarkAreaName { get; init; } = string.Empty;
+
+    [JsonPropertyName("benchmarkValue")] public float? BenchmarkValue { get; init; }
 }

@@ -4,11 +4,12 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 
 public class HealthMeasureModelHelper(
     int key = 1,
+    short year = 2025,
+    bool isAggregate = true,
     double? count = 1.0,
     double? value = 1.0,
     double? lowerCi = 1.0,
-    double? upperCi = 1.0,
-    short year = 2025
+    double? upperCi = 1.0
 )
 {
     private AreaDimensionModel _areaDimension;
@@ -75,7 +76,7 @@ public class HealthMeasureModelHelper(
         return new AgeDimensionModel
         {
             AgeKey = (short)key,
-            Name = "age name",
+            Name = "All ages",
             AgeID = 0,
             HasValue = false
         };
@@ -145,7 +146,7 @@ public class HealthMeasureModelHelper(
         return new SexDimensionModel
         {
             SexKey = (byte)key,
-            Name = "sex name",
+            Name = "Persons",
             HasValue = false,
             SexId = 0
         };
@@ -174,14 +175,16 @@ public class HealthMeasureModelHelper(
         byte sequence = 1,
         bool hasValue = false)
     {
-        return WithDeprivationDimension(new DeprivationDimensionModel
+        _deprivationDimension = new DeprivationDimensionModel
         {
             DeprivationKey = (byte)key,
             Name = name,
             Type = type,
             Sequence = sequence,
             HasValue = hasValue
-        });
+        };
+
+        return this;
     }
 
     private DeprivationDimensionModel DefaultDeprivationDimension()
@@ -224,7 +227,8 @@ public class HealthMeasureModelHelper(
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
-            DeprivationDimension = deprivationDimension
+            DeprivationDimension = deprivationDimension,
+            IsAggregate = isAggregate
         };
     }
 }
