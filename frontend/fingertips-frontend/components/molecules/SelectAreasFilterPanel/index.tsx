@@ -152,7 +152,10 @@ export function SelectAreasFilterPanel({
       );
     }
 
-    replace(searchStateManager.generatePath(pathname), { scroll: false });
+    replace(
+      `${searchStateManager.generatePath(pathname)}#select-area-${areaCode}`,
+      { scroll: false }
+    );
   };
 
   const handleSelectAllAreasSelected = (checked: boolean) => {
@@ -248,6 +251,7 @@ export function SelectAreasFilterPanel({
               name="area"
               defaultChecked={isAreaSelectedValue}
               onChange={(e) => handleAreaSelected(area.code, e.target.checked)}
+              id={`select-area-${area.code}`}
             >
               {area.name}
             </Checkbox>

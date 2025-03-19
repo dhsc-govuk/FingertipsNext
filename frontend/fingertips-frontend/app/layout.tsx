@@ -3,6 +3,7 @@ import { FTFooter } from '@/components/molecules/Footer';
 import { FTHeader } from '@/components/molecules/Header';
 import StyledComponentsRegistry from '@/lib/registry';
 import type { Metadata } from 'next';
+import FocusOnFragment from '@/components/focusOnFragment';
 
 export const metadata: Metadata = {
   title: 'FingertipsNext',
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <FocusOnFragment />
         <StyledComponentsRegistry>
           <FTHeader />
           <FTContainer>{children}</FTContainer>
