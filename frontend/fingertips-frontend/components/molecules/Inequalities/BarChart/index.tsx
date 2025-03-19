@@ -56,6 +56,8 @@ export function InequalitiesBarChart({
   const { benchmarkValue, inequalityDimensions: barChartFields } =
     getAggregatePointInfo(inequalities);
 
+  // for sex inequality we always want Male, Female which is reverse alphabetical order
+  // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) barChartFields.reverse();
 
   const yAxisMaxValue = getMaxValue([

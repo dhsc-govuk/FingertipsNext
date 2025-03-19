@@ -37,6 +37,8 @@ export function InequalitiesBarChartTable({
   const { sortedKeys, inequalityDimensions } =
     getAggregatePointInfo(inequalities);
 
+  // for sex inequality we always want Persons, Male, Female which is reverse alphabetical order
+  // pending a better solution where an order key is supplied by API
   if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
   return (
