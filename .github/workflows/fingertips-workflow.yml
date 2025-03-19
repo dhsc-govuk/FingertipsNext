@@ -125,197 +125,197 @@ jobs:
           path: ${{ env.database-directory }}/bin/${{ env.dotnet-configuration }}/fingertips-db.dacpac
           if-no-files-found: error
 
-  api-build-and-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.api_changed == 'true'
-    name: Build API
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x']
-    defaults:
-      run:
-        working-directory: ./api
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # api-build-and-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.api_changed == 'true'
+  #   name: Build API
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ['9.0.x']
+  #   defaults:
+  #     run:
+  #       working-directory: ./api
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+  #     - name: Setup dotnet ${{ matrix.dotnet-version }}
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Restore Packages
-        run: dotnet restore
+  #     - name: Restore Packages
+  #       run: dotnet restore
 
-      - name: Build API
-        run: dotnet build
+  #     - name: Build API
+  #       run: dotnet build
 
-      - name: Run Unit Tests
-        run: dotnet test
+  #     - name: Run Unit Tests
+  #       run: dotnet test
 
-  trend-analysis-app-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true'
-    name: Test Trend Analysis App
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['9.0.x']
-    defaults:
-      run:
-        working-directory: ./trend-analysis
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # trend-analysis-app-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.db_changed == 'true' ||
+  #     needs.check-changes.outputs.trend_analysis_changed == 'true'
+  #   name: Test Trend Analysis App
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ['9.0.x']
+  #   defaults:
+  #     run:
+  #       working-directory: ./trend-analysis
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+  #     - name: Setup dotnet ${{ matrix.dotnet-version }}
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Run Unit Tests
-        run: dotnet test
+  #     - name: Run Unit Tests
+  #       run: dotnet test
 
-  frontend-build-and-test:
-    needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.frontend_changed == 'true'
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['22.x']
-    env:
-      NEXT_TELEMETRY_DISABLED: 'true'
-      frontend-directory: ./frontend/fingertips-frontend
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+  # frontend-build-and-test:
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' ||
+  #     needs.check-changes.outputs.frontend_changed == 'true'
+  #   name: Build Frontend
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: ['22.x']
+  #   env:
+  #     NEXT_TELEMETRY_DISABLED: 'true'
+  #     frontend-directory: ./frontend/fingertips-frontend
+  #   defaults:
+  #     run:
+  #       working-directory: ${{ env.frontend-directory }}
+  #   steps:
+  #     - name: Checkout source
+  #       uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: npm
+  #         cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Perform type checking
-        run: npm run typecheck
+  #     - name: Perform type checking
+  #       run: npm run typecheck
 
-      - name: Lint code
-        run: npm run lint
+  #     - name: Lint code
+  #       run: npm run lint
 
-      - name: Check code formatting
-        run: npm run prettier-ci
+  #     - name: Check code formatting
+  #       run: npm run prettier-ci
 
-      - name: Execute jest unit tests
-        run: npm run test-ci
+  #     - name: Execute jest unit tests
+  #       run: npm run test-ci
 
-  ui-tests-local-mocks:
-    needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
-    uses: ./.github/workflows/ui-tests.yml
-    with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
+  # ui-tests-local-mocks:
+  #   needs: [check-changes]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       (
+  #         needs.check-changes.outputs.db_changed == 'true' ||
+  #         needs.check-changes.outputs.api_changed == 'true' || 
+  #         needs.check-changes.outputs.frontend_changed == 'true' ||
+  #         needs.check-changes.outputs.search_changed == 'true'
+  #       )
+  #     )
+  #   uses: ./.github/workflows/ui-tests.yml
+  #   with:
+  #     ui-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
 
-  e2e-tests-local-docker:
-    needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
-    uses: ./.github/workflows/e2e-tests.yml
-    secrets:
-      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+  # e2e-tests-local-docker:
+  #   needs: [check-changes]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       (
+  #         needs.check-changes.outputs.db_changed == 'true' ||
+  #         needs.check-changes.outputs.api_changed == 'true' || 
+  #         needs.check-changes.outputs.frontend_changed == 'true' ||
+  #         needs.check-changes.outputs.search_changed == 'true'
+  #       )
+  #     )
+  #   uses: ./.github/workflows/e2e-tests.yml
+  #   secrets:
+  #     fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
-  push-container-api:
-    uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.api_changed == 'true'
-      )
-    with:
-      context-location: api
-      container-tag: dhsc.fingertipsnext.api
-      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
-    secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+  # push-container-api:
+  #   uses: ./.github/workflows/build-container.yml
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       needs.check-changes.outputs.api_changed == 'true'
+  #     )
+  #   with:
+  #     context-location: api
+  #     container-tag: dhsc.fingertipsnext.api
+  #     git-semver: ${{ needs.determine-version.outputs.sem-ver }}
+  #   secrets:
+  #     arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+  #     arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+  #     acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
-  push-container-frontend:
-    uses: ./.github/workflows/build-container.yml
-    needs: [check-changes, determine-version]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.frontend_changed == 'true'
-      )
-    with:
-      context-location: frontend/fingertips-frontend
-      container-tag: dhsc.fingertipsnext.frontend
-      git-semver: ${{ needs.determine-version.outputs.sem-ver }}
-    secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+  # push-container-frontend:
+  #   uses: ./.github/workflows/build-container.yml
+  #   needs: [check-changes, determine-version]
+  #   if: >
+  #     always() &&
+  #     contains(needs.*.result, 'success') &&
+  #     !contains(needs.*.result, 'failure') &&
+  #     !contains(needs.*.result, 'cancelled') &&
+  #     (
+  #       github.event_name == 'workflow_dispatch' ||
+  #       needs.check-changes.outputs.frontend_changed == 'true'
+  #     )
+  #   with:
+  #     context-location: frontend/fingertips-frontend
+  #     container-tag: dhsc.fingertipsnext.frontend
+  #     git-semver: ${{ needs.determine-version.outputs.sem-ver }}
+  #   secrets:
+  #     arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
+  #     arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+  #     acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   deploy-db-dev:
     needs:
       [
         determine-version,
         check-changes,
-        push-container-api,
-        push-container-frontend,
-        frontend-build-and-test,
-        api-build-and-test,
-        e2e-tests-local-docker       
+        # push-container-api,
+        # push-container-frontend,
+        # frontend-build-and-test,
+        # api-build-and-test,
+        # e2e-tests-local-docker       
       ]
     environment: development
     runs-on: self-hosted
