@@ -52,7 +52,7 @@ namespace DataCreator
                 cleanedAreas.Add(area);
             }
 
-            
+
             DataFileManager.WriteJsonData("areas", cleanedAreas);
 
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
@@ -72,7 +72,7 @@ namespace DataCreator
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
-       
+
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {

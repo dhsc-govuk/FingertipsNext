@@ -15,7 +15,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     public const string AreaCodeEngland = "E92000001";
 
     // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity = IndicatorPolarity.HighIsGood;
+    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
 
     /// <summary>
     ///     Obtain health point data for a single indicator.

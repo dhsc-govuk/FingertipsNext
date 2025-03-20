@@ -47,9 +47,10 @@ export default class ChartPage extends BasePage {
   }
 
   /**
-   * This test function is currently capable of testing three of the fifteen indicator + area
-   * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
+   * This function tests a subset of indicator + area scenario combinations from
+   * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
+   * The selected scenario combinations are defined above in scenarioConfigs and were chosen
+   * as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
   async checkChartVisibility(
@@ -81,6 +82,14 @@ export default class ChartPage extends BasePage {
           .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
           .click();
       }
+      // if its one of the chart components that has a confidence interval checkbox then click it
+      if (visibleComponent === 'lineChart-component') {
+        await this.page
+          .getByTestId(
+            `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
+          )
+          .click();
+      }
       await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
         visible: true,
       });
@@ -89,7 +98,7 @@ export default class ChartPage extends BasePage {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear
+      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
 
       // for now just warn if visual comparisons do not match
       try {
