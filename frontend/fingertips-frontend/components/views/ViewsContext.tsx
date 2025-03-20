@@ -27,14 +27,19 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
+  const updatedSearchState = {
+    ...searchState,
+    [SearchParams.AreasSelected]: areaCodes,
+  };
+
   if (indicators.length === 1 && areaCodes.length === 1) {
-    return <OneIndicatorOneAreaView searchState={searchState} />;
+    return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
   }
 
   if (indicators.length === 1 && areaCodes.length >= 2) {
     return (
       <OneIndicatorTwoOrMoreAreasView
-        searchState={searchState}
+        searchState={updatedSearchState}
         areaCodes={areaCodes}
       />
     );
@@ -45,13 +50,13 @@ function viewSelector(
     areaCodes.length === 1 &&
     areaCodes[0] === areaCodeForEngland
   ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
+    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
   }
 
   if (indicators.length >= 2 && areaCodes.length >= 1) {
     return (
       <TwoOrMoreIndicatorsAreasView
-        searchState={searchState}
+        searchState={updatedSearchState}
         areaCodes={areaCodes}
       />
     );
@@ -100,20 +105,15 @@ export function ViewsContext({
     areaFilterData?.availableAreas
   );
 
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: areaCodes,
-  };
-
   return (
     <ChartPageWrapper
-      key={JSON.stringify(updatedSearchState)}
-      searchState={updatedSearchState}
+      key={JSON.stringify(searchState)}
+      searchState={searchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
-      {viewSelector(areaCodes, indicators, updatedSearchState)}
+      {viewSelector(areaCodes, indicators, searchState)}
     </ChartPageWrapper>
   );
 }
