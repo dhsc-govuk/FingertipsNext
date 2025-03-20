@@ -4,6 +4,9 @@ import {
   sortHealthDataForAreasByDate,
   sortHealthDataByYearDescending,
   isEnglandSoleSelectedArea,
+  sortHealthDataPointsByDescendingYear,
+  getMostRecentData,
+  getHealthDataWithoutInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -23,6 +26,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 267,
@@ -33,6 +37,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 267,
@@ -43,6 +48,7 @@ const mockData = [
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
       },
     ],
   },
@@ -64,6 +70,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
           },
           {
             count: 267,
@@ -74,6 +81,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Male',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: false,
           },
           {
             count: 389,
@@ -84,12 +92,13 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
           },
         ],
       },
     ];
-    const result = sortHealthDataForAreasByDate(mockData);
 
+    const result = sortHealthDataForAreasByDate(mockData);
     expect(result).toEqual(mockSortedData);
   });
 });
@@ -155,6 +164,64 @@ describe('sortHealthDataByYearDescending', () => {
 
     const result = sortHealthDataByYearDescending(mockData);
     expect(result).toEqual(mockSortedData);
+  });
+});
+
+describe('sortHealthDataPointsByDescendingYear', () => {
+  it('should sort the health data points by descending year', () => {
+    const mockHealthDataPoints = [
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ];
+
+    const mockSortedHealthDataPoints = [
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        count: 267,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 703.420759,
+        year: 2004,
+        sex: 'Persons',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ];
+
+    const result = sortHealthDataPointsByDescendingYear(mockHealthDataPoints);
+    expect(result).toEqual(mockSortedHealthDataPoints);
+  });
+
+  it('should return an empty array when the health point data is undefined', () => {
+    const result = sortHealthDataPointsByDescendingYear(undefined);
+    expect(result).toEqual([]);
   });
 });
 
@@ -362,5 +429,34 @@ describe('isEnglandSoleSelectedArea', () => {
 
   it('should return true when England duplicated', () => {
     expect(isEnglandSoleSelectedArea(['E92000001', 'E92000001'])).toBe(true);
+  });
+});
+
+describe('getMostRecentData', () => {
+  it('should return the most recent health data point', () => {
+    const result = getMostRecentData(mockData[0].healthData);
+    const expected = {
+      count: 389,
+      value: 278.29134,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      year: 2006,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should return undefined when there is no data passed', () => {
+    const result = getMostRecentData([]);
+
+    expect(result).toEqual(undefined);
+  });
+});
+
+describe('getHealthDataWithoutInequalities', () => {
+  it('should return health data without inequalities', () => {
+    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
+      mockData[0].healthData.slice(0, 2)
+    );
   });
 });

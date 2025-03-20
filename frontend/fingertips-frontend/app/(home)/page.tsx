@@ -7,7 +7,10 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { ErrorPage } from '@/components/pages/error';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 
@@ -31,7 +34,9 @@ export default async function Page(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-            areasSelected.map((area) => areasApi.getArea({ areaCode: area }))
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+            )
           )
         : [];
 
@@ -72,12 +77,6 @@ export default async function Page(
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);
-    return (
-      <ErrorPage
-        errorText="An error has been returned by the service. Please try again."
-        errorLink="/"
-        errorLinkText="Return to Search"
-      />
-    );
+    return <ErrorPage />;
   }
 }

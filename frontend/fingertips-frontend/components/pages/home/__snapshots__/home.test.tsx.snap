@@ -2,7 +2,7 @@
 
 exports[`snapshot test - renders the homepage 1`] = `
 <DocumentFragment>
-  .c27 {
+  .c33 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,36 +27,36 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 22px;
 }
 
-.c27:focus {
+.c33:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
 }
 
-.c27:link,
-.c27:visited,
-.c27:active,
-.c27:hover {
+.c33:link,
+.c33:visited,
+.c33:active,
+.c33:hover {
   color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c27::-moz-focus-inner {
+.c33::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-.c27:hover,
-.c27:focus {
+.c33:hover,
+.c33:focus {
   background-color: #00572e;
 }
 
-.c27:active {
+.c33:active {
   top: 2px;
   box-shadow: none;
 }
 
-.c27::before {
+.c33::before {
   content: "";
   display: block;
   position: absolute;
@@ -67,30 +67,30 @@ exports[`snapshot test - renders the homepage 1`] = `
   background: transparent;
 }
 
-.c27:active::before {
+.c33:active::before {
   top: -4px;
 }
 
-.c27:disabled {
+.c33:disabled {
   opacity: 0.5;
   background: #00703c;
 }
 
-.c27:disabled:hover {
+.c33:disabled:hover {
   background-color: #00703c;
   cursor: default;
 }
 
-.c27:disabled:focus {
+.c33:disabled:focus {
   outline: none;
 }
 
-.c27:disabled:active {
+.c33:disabled:active {
   top: 0;
   box-shadow: 0 2px 0 #002413;
 }
 
-.c27 svg {
+.c33 svg {
   max-width: 15px;
 }
 
@@ -104,6 +104,104 @@ exports[`snapshot test - renders the homepage 1`] = `
   display: block;
   margin-bottom: 15px;
   color: #6f777b;
+}
+
+.c27 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  position: relative;
+  min-height: 40px;
+  padding: 0 0 0 40px;
+  clear: left;
+  padding-right: 22px;
+  margin-bottom: 10px;
+}
+
+.c27 span {
+  padding: 12px 15px 13px 0;
+  font-size: 16px;
+}
+
+.c27 span:before {
+  width: 25px;
+  height: 25px;
+  top: 8px;
+}
+
+.c27 span:after {
+  top: 15px;
+  left: 6px;
+  width: 11px;
+  height: 4.5px;
+  border-width: 0 0 3px 3px;
+}
+
+.c29 {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.c29:checked + span:after {
+  opacity: 1;
+}
+
+.c29:focus + span:before {
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #ffdd00;
+}
+
+.c29 + span {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.c30 {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 15px 5px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.c30::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  background: transparent;
+}
+
+.c30::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 9px;
+  width: 18px;
+  height: 7px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border: solid;
+  border-width: 0 0 5px 5px;
+  border-top-color: transparent;
+  background: transparent;
+  opacity: 0;
 }
 
 .c11 {
@@ -292,7 +390,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 5px;
 }
 
-.c29 {
+.c35 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -309,7 +407,7 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-top: 10px;
 }
 
-.c29 > .c5 {
+.c35 > .c5 {
   margin-bottom: 5px;
 }
 
@@ -421,7 +519,13 @@ exports[`snapshot test - renders the homepage 1`] = `
   margin-bottom: 0;
 }
 
-.c28 {
+.c31 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c34 {
   margin: 0;
   border: 0;
   margin-top: 20px;
@@ -472,6 +576,15 @@ exports[`snapshot test - renders the homepage 1`] = `
   font-weight: bold;
 }
 
+.c32 {
+  border-bottom-color: black;
+  margin-bottom: 0.5em;
+}
+
+.c28 {
+  margin-bottom: 0em;
+}
+
 .c17 div {
   padding: 0.5em 0em;
 }
@@ -497,33 +610,33 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c27 {
+  .c33 {
     font-size: 14px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c27 {
+  .c33 {
     font-size: 19px;
     line-height: 19px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c27 {
+  .c33 {
     width: auto;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c27 svg {
+  .c33 svg {
     margin-left: 10px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c27 {
+  .c33 {
     margin-bottom: 32px;
   }
 }
@@ -539,6 +652,33 @@ exports[`snapshot test - renders the homepage 1`] = `
   .c12 {
     font-size: 19px;
     line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c27 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c27 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c27 span {
+    font-size: 19px;
+    padding: 10px 15px 10px 1px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c27 {
+    margin-bottom: 10px;
   }
 }
 
@@ -661,27 +801,27 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media print {
-  .c29 {
+  .c35 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c29 {
+  .c35 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media print {
-  .c29 {
+  .c35 {
     color: #000;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c29 {
+  .c35 {
     margin-bottom: 20px;
   }
 }
@@ -781,7 +921,7 @@ exports[`snapshot test - renders the homepage 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c28 {
+  .c34 {
     margin-top: 30px;
     margin-bottom: 30px;
   }
@@ -1025,12 +1165,28 @@ exports[`snapshot test - renders the homepage 1`] = `
                 >
                   Select one or more areas
                 </span>
+                <label
+                  class="c27 c28"
+                >
+                  <input
+                    class="c29"
+                    type="checkbox"
+                  />
+                  <span
+                    class="c30"
+                  >
+                    Select all areas
+                  </span>
+                </label>
+                <hr
+                  class="c31 c32"
+                />
               </div>
             </div>
           </div>
         </details>
         <button
-          class="c27"
+          class="c33"
           data-testid="search-form-button-submit"
           style="margin-top: 25px;"
           type="submit"
@@ -1040,7 +1196,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </div>
     </div>
     <hr
-      class="c28"
+      class="c34"
     />
     <h3
       class="c8"
@@ -1056,7 +1212,7 @@ exports[`snapshot test - renders the homepage 1`] = `
       </p>
     </div>
     <ul
-      class="c3 c29"
+      class="c3 c35"
     >
       <li
         class="c5 c6"

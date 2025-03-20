@@ -7,7 +7,10 @@ import HomePage from './page';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { AreasApi } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import {
   allAreaTypes,
   nhsRegionsAreaType,
@@ -97,12 +100,20 @@ describe('Home page', () => {
         searchParams: generateSearchParams(searchState),
       });
 
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-        areaCode: eastEnglandNHSRegion.code,
-      });
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
-        areaCode: londonNHSRegion.code,
-      });
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCode: eastEnglandNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCode: londonNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
       expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,
@@ -137,22 +148,6 @@ describe('Home page', () => {
       });
 
       expect(page.props.searchState).toEqual(updatedSearchState);
-    });
-  });
-
-  describe('Check correct props are passed to the error component when there is an error', () => {
-    it('should pass the correct props when getAreaFilterData call returns an error', async () => {
-      mockGetAreaFilterData.mockRejectedValue('Some areas api error');
-
-      const page = await HomePage({
-        searchParams: generateSearchParams({}),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
     });
   });
 });

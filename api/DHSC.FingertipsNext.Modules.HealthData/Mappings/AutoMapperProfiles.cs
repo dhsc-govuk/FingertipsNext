@@ -33,6 +33,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.AgeBand, options => options.MapFrom(src => src.AgeDimension.Name))
             .ForMember(dest => dest.Sex, options => options.MapFrom(src => src.SexDimension.Name))
             .ForMember(dest => dest.Trend, options => options.MapFrom(src => src.TrendDimension.Name))
-            .ForMember(dest => dest.BenchmarkComparison, options => options.MapFrom(src => src.BenchmarkComparison));
+            .ForMember(dest => dest.BenchmarkComparison, options => options.MapFrom(src => src.BenchmarkComparison))
+            .ForMember(dest => dest.Deprivation, options => options.MapFrom(src => src.DeprivationDimension.Name));
     }
 }

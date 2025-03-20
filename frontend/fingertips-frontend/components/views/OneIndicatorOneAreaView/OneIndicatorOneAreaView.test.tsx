@@ -2,12 +2,18 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
@@ -58,10 +64,16 @@ describe('OneIndicatorOneAreaView', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(1, {
-        areaCodes: expectedAreaCodes,
-        indicatorId: 1,
-      });
+      ).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCodes: expectedAreaCodes,
+          indicatorId: 1,
+          inequalities: ['sex'],
+          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+        },
+        API_CACHE_CONFIG
+      );
     }
   );
 

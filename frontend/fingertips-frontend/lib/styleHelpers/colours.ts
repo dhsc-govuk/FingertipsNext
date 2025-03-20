@@ -11,14 +11,16 @@ export enum GovukColours {
   MidGrey = '#B1B4B6',
   LightGrey = '#F3F2F1',
   White = '#FFFFFF',
-  LightPurple = '#6F72AF',
+  LightPurple = '#A285D1',
   BrightPurple = '#912B88',
   Pink = '#D53880',
   LightPink = '#F499BE',
-  Orange = '#F47738',
+  Orange = '#F46A25',
   Brown = '#B58840',
   LightGreen = '#85994B',
   Turquoise = '#28A197',
+  DarkPink = '#801650',
+  OtherLightPurple = '#6F72AF',
 }
 
 export enum TagColours {

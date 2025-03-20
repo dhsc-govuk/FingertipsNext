@@ -4,13 +4,15 @@ import { Pill } from '../Pill';
 import styled from 'styled-components';
 import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyleAreaName = styled('span')({
   fontWeight: '500',
+  fontSize: '19px',
 });
 
 const StyleAreaType = styled('span')({
-  color: '#505A5F',
+  color: GovukColours.DarkGrey,
 });
 
 interface AreaSelectedPillProps {
@@ -25,19 +27,18 @@ export const AreaSelectedPill = ({
   inFilterPane,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
-    <div style={{ display: 'inline' }}>
-      <Pill
-        removeFilter={onRemoveFilter}
-        selectedFilterId={area.code}
-        isFullWidth={inFilterPane}
-      >
-        <p style={{ margin: 0 }}>
-          <StyleAreaName>
-            {formatAreaName(area.code, area.name, area.areaType.key)}
-          </StyleAreaName>{' '}
-          <StyleAreaType>{area.areaType.name}</StyleAreaType>
-        </p>
-      </Pill>
-    </div>
+    <Pill
+      removeFilter={onRemoveFilter}
+      selectedFilterId={area.code}
+      isFullWidth={inFilterPane}
+      ariaLabelPostfix={area.name}
+    >
+      <p style={{ margin: 0 }}>
+        <StyleAreaName>
+          {formatAreaName(area.code, area.name, area.areaType.key)}
+        </StyleAreaName>{' '}
+        <StyleAreaType>{area.areaType.name}</StyleAreaType>
+      </p>
+    </Pill>
   );
 };

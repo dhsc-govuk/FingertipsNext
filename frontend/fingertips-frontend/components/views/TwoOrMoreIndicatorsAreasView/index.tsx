@@ -4,14 +4,18 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 
+interface TwoOrMoreIndicatorsAreasViewProps extends ViewProps {
+  areaCodes: string[];
+}
+
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
-}: Readonly<ViewProps>) {
+  areaCodes,
+}: Readonly<TwoOrMoreIndicatorsAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
+  const areasSelected = areaCodes;
 
   if (!areasSelected) {
     throw new Error('Invalid parameters provided to view');
@@ -25,11 +29,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
 
   console.log('TODO: fetch health data');
-  console.log(
-    'TODO: fetch population data for ',
-    areaCodesToRequest,
-    toString()
-  );
+  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return <TwoOrMoreIndicatorsAreasViewPlots />;
 }

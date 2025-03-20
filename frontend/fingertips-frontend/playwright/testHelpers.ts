@@ -1,15 +1,20 @@
 import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 
+export enum SearchMode {
+  ONLY_SUBJECT = 'ONLY_SUBJECT',
+  ONLY_AREA = 'ONLY_AREA',
+  BOTH_SUBJECT_AND_AREA = 'BOTH_SUBJECT_AND_AREA',
+}
+
 export enum IndicatorMode {
   ONE_INDICATOR = 'ONE_INDICATOR',
-  TWO_INDICATORS = 'TWO_INDICATORS',
+  TWO_PLUS_INDICATORS = 'TWO_PLUS_INDICATORS',
 }
 
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
-  TWO_AREAS = 'TWO_AREAS', // in the same group
-  THREE_PLUS_AREAS = 'THREE_PLUS_AREAS', // 3+ areas in a group
+  TWO_PLUS_AREAS = 'TWO_PLUS_AREAS',
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
@@ -23,75 +28,106 @@ export function getScenarioConfig(
   indicatorMode: IndicatorMode,
   areaMode: AreaMode
 ): ScenarioConfig {
-  // Enable in DHSCFT-148
-  // const defaultVisible = [this.populationPyramidComponent];
-  const defaultVisible: never[] = [];
-
-  const defaultHidden = [
+  // Define all available components
+  const allComponents = [
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesComponent,
-    // DHSCFT-220 will implement this logic
-    // this.barChartComponent,
+    ChartPage.inequalitiesBarChartComponent,
+    ChartPage.inequalitiesLineChartComponent,
+    ChartPage.inequalitiesBarChartTableComponent,
+    ChartPage.inequalitiesLineChartTableComponent,
+    // Enable in DHSCFT-148
+    // ChartPage.populationPyramidComponent,
+    ChartPage.thematicMapComponent,
+    ChartPage.barChartEmbeddedTableComponent,
+    // Pending
+    // ChartPage.basicTableComponent,
+    // ChartPage.spineChartComponent,
+    // ChartPage.heatMapComponent,
   ];
 
-  // Single indicator scenarios show all charts
-  const singleIndicatorOneAreaConfig: ScenarioConfig = {
-    visibleComponents: [
+  let visibleComponents: string[] = [];
+
+  // 1 indicator, 1 area
+  if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ONE_AREA
+  ) {
+    visibleComponents = [
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
-      ChartPage.barChartComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
       ChartPage.inequalitiesComponent,
-    ],
-    hiddenComponents: [],
-  };
-
-  // Single indicator scenarios show all charts
-  const singleIndicatorTwoAreasConfig: ScenarioConfig = {
-    visibleComponents: [
-      // Enable in DHSCFT-435
-      // ChartPage.lineChartComponent,
-      // ChartPage.lineChartTableComponent,
-      ChartPage.barChartComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartTableComponent,
+      ChartPage.inequalitiesLineChartTableComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      // Enable in DHSCFT-317
-      // ChartPage.thematicMapComponent
-    ],
-    hiddenComponents: [],
-  };
-
-  // Map of the four supported scenarios, known as the core journeys, to their chart page configurations
-  const scenarioConfigs = new Map<[IndicatorMode, AreaMode], ScenarioConfig>([
-    [
-      [IndicatorMode.ONE_INDICATOR, AreaMode.ONE_AREA],
-      singleIndicatorOneAreaConfig,
-    ],
-    [
-      [IndicatorMode.ONE_INDICATOR, AreaMode.TWO_AREAS],
-      singleIndicatorTwoAreasConfig,
-    ],
-    [
-      [IndicatorMode.TWO_INDICATORS, AreaMode.TWO_AREAS],
-      { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-    ],
-    // [
-    //   [IndicatorMode.TWO_INDICATORS, AreaMode.ENGLAND_AREA],
-    //   { visibleComponents: defaultVisible, hiddenComponents: defaultHidden },
-    // ],
-  ]);
-
-  const config = Array.from(scenarioConfigs.entries()).find(
-    ([[mode, area]]) => mode === indicatorMode && area === areaMode
-  )?.[1];
-
-  if (!config) {
+    ];
+  }
+  // 1 indicator, 2+ areas
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.TWO_PLUS_AREAS
+  ) {
+    visibleComponents = [
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+    ];
+  }
+  // 1 indicator, all areas in a group
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
+  ) {
+    visibleComponents = [
+      ChartPage.thematicMapComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+    ];
+  }
+  // 2+ indicators, England area
+  else if (
+    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
+    areaMode === AreaMode.ENGLAND_AREA
+  ) {
+    visibleComponents = [
+      // Pending
+      // ChartPage.basicTableComponent,
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+    ];
+  }
+  // 2+ indicators, 2+ areas (not England)
+  else if (
+    indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
+    areaMode === AreaMode.TWO_PLUS_AREAS
+  ) {
+    visibleComponents = [
+      // Pending
+      // ChartPage.spineChartComponent,
+      // ChartPage.heatMapComponent,
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+    ];
+  } else {
     throw new Error(
-      `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not one of the four core journeys`
+      `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
     );
   }
+
+  // Work out which components should be hidden
+  const hiddenComponents = allComponents.filter(
+    (component) => !visibleComponents.includes(component)
+  );
+
+  const config: ScenarioConfig = {
+    visibleComponents,
+    hiddenComponents,
+  };
 
   return config;
 }
@@ -106,11 +142,7 @@ function filterIndicatorsByName(
   return indicators.filter(
     (indicator) =>
       indicator.usedInPoc === true &&
-      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) &&
-      // the following filters are needed due to an API bug see DHSCFT-434
-      !indicator.indicatorName.includes('years') &&
-      !indicator.indicatorName.includes('females') &&
-      !indicator.indicatorName.includes('sex')
+      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
   );
 }
 
@@ -138,7 +170,7 @@ export function returnIndicatorIDsByIndicatorMode(
   switch (indicatorMode) {
     case IndicatorMode.ONE_INDICATOR:
       return [indicators[0]];
-    case IndicatorMode.TWO_INDICATORS:
+    case IndicatorMode.TWO_PLUS_INDICATORS:
       return [indicators[0], indicators[1]];
     default:
       throw new Error('Invalid indicator mode');

@@ -11,6 +11,11 @@ import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
+import { logUsingMockAiSearchService } from '@/lib/logging';
+
+if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE')) {
+  logUsingMockAiSearchService('SearchServiceFactory');
+}
 
 export class SearchServiceFactory {
   private static readonly DISTRICT_AREA_TYPE_NAME =
@@ -24,7 +29,7 @@ export class SearchServiceFactory {
 
   /*
    * The following code is duplicated between the search-setup project and here.
-   * Both have to make the same updates to the areaData. It is preferrable to make
+   * Both have to make the same updates to the areaData. It is preferable to make
    * this shared code common by creating a shared package but the Typescript,
    * Javascript, Jest and eslint tooling is not currently in place to support this
    *
@@ -68,7 +73,6 @@ export class SearchServiceFactory {
 
   private static buildAreaSearchService(): IAreaSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
-    console.log(`buildAreaSearchService: useMockService: ${useMockServer}`);
     return useMockServer === 'true'
       ? this.buildAreaSearchServiceMock(mockAreaData)
       : new AreaSearchService(
@@ -79,10 +83,8 @@ export class SearchServiceFactory {
 
   private static buildIndicatorSearchService(): IIndicatorSearchService {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
-    console.log(
-      `buildIndicatorSearchService: useMockService: ${useMockServer}`
-    );
     if (useMockServer === 'true') {
+      //@ts-expect-error don't care about type checking this json file
       const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
       const typedIndicatorData = unparsedIndicatorData.map(
         (ind): IndicatorDocument => {

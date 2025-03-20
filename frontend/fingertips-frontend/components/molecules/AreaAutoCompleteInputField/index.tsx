@@ -5,7 +5,7 @@ import { AreaSearchInputField } from '@/components/molecules/AreaSearchInputFiel
 import { AreaAutoCompleteSuggestionPanel } from '@/components/molecules/AreaSuggestionPanel';
 import styled from 'styled-components';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const MIN_SEARCH_SIZE = 3;
 const DEBOUNCE_SEARCH_DELAY = 300;
@@ -18,13 +18,13 @@ const StyleAreaAutoCompleteInputField = styled('div')({
 interface AreaAutoCompleteInputFieldProps {
   inputFieldErrorStatus: boolean;
   searchState?: SearchStateParams;
-  firstSelectedArea?: AreaWithRelations;
+  selectedAreaName?: string;
 }
 
 export function AreaAutoCompleteInputField({
   searchState,
   inputFieldErrorStatus = false,
-  firstSelectedArea,
+  selectedAreaName,
 }: Readonly<AreaAutoCompleteInputFieldProps>) {
   const selectedAreasParams = searchState?.[SearchParams.AreasSelected];
 
@@ -34,8 +34,8 @@ export function AreaAutoCompleteInputField({
   const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (firstSelectedArea) {
-      setCriteria(firstSelectedArea?.name ?? '');
+    if (selectedAreaName) {
+      setCriteria(selectedAreaName ?? '');
     }
 
     const fetchSearchArea = async (criteria: string) => {
@@ -56,7 +56,7 @@ export function AreaAutoCompleteInputField({
     timeoutRef.current = setTimeout(
       (criteria: string) => {
         if (
-          firstSelectedArea ||
+          selectedAreaName ||
           criteria == null ||
           criteria.length < MIN_SEARCH_SIZE
         ) {
@@ -70,14 +70,17 @@ export function AreaAutoCompleteInputField({
     );
 
     return fetchCleanUp;
-  }, [criteria, firstSelectedArea]);
+  }, [criteria, selectedAreaName]);
 
   return (
     <StyleAreaAutoCompleteInputField>
       <AreaSearchInputField
         value={criteria}
         onTextChange={setCriteria}
-        disabled={selectedAreasParams && selectedAreasParams?.length > 0}
+        disabled={
+          (selectedAreasParams && selectedAreasParams?.length > 0) ||
+          searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED
+        }
         hasError={inputFieldErrorStatus}
       />
       <AreaAutoCompleteSuggestionPanel

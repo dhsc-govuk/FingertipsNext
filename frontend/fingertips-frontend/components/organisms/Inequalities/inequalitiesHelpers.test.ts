@@ -3,16 +3,24 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
+  generateInequalitiesLineChartSeriesData,
+  getAggregatePointInfo,
+  getBenchmarkData,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
-  Inequalities,
+  InequalitiesBarChartData,
   InequalitiesTableRowData,
+  InequalitiesTypes,
   mapToInequalitiesTableData,
+  RowDataFields,
   shouldDisplayInequalities,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
+import { UniqueChartColours } from '@/lib/chartHelpers/colours';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -71,6 +79,49 @@ const yearlyHealthDataGroupedBySex = {
     Male: [MOCK_INEQUALITIES_DATA.healthData[1]],
   },
 };
+
+const mockInequalitiesRowData = [
+  {
+    period: 2004,
+    inequalities: {
+      Male: {
+        value: 703.420759,
+        count: 267,
+        upper: 578.32766,
+        lower: 441.69151,
+      },
+      Female: {
+        value: 703.420759,
+        count: 267,
+        upper: 578.32766,
+        lower: 441.69151,
+      },
+    },
+  },
+  {
+    period: 2008,
+    inequalities: {
+      Persons: {
+        value: 135.149304,
+        count: 222,
+        upper: 578.32766,
+        lower: 441.69151,
+      },
+      Male: {
+        value: 890.328253,
+        count: 131,
+        upper: 578.32766,
+        lower: 441.69151,
+      },
+      Female: {
+        value: 890.328253,
+        count: 131,
+        upper: 578.32766,
+        lower: 441.69151,
+      },
+    },
+  },
+];
 
 describe('should display inequalities', () => {
   describe('should return false', () => {
@@ -141,7 +192,7 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['Persons', 'Male', 'Female'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Sex)
+      getDynamicKeys(yearlyHealthDataGroupedBySex, InequalitiesTypes.Sex)
     ).toEqual(expectedKeys);
   });
 
@@ -149,7 +200,10 @@ describe('getDynamicKeys', () => {
     const expectedKeys = ['Persons', 'Female', 'Male'];
 
     expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, Inequalities.Deprivation)
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySex,
+        InequalitiesTypes.Deprivation
+      )
     ).toEqual(expectedKeys);
   });
 });
@@ -157,50 +211,163 @@ describe('getDynamicKeys', () => {
 describe('mapToInequalitiesTableData', () => {
   it('should map to inequalitiesSexTable row data', () => {
     const expectedInequalitiesSexTableRow: InequalitiesTableRowData[] = [
-      {
-        period: 2004,
-        inequalities: {
-          Male: {
-            value: 703.420759,
-            count: 267,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Female: {
-            value: 703.420759,
-            count: 267,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-        },
-      },
-      {
-        period: 2008,
-        inequalities: {
-          Persons: {
-            value: 135.149304,
-            count: 222,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Male: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-          Female: {
-            value: 890.328253,
-            count: 131,
-            upper: 578.32766,
-            lower: 441.69151,
-          },
-        },
-      },
+      ...mockInequalitiesRowData,
     ];
 
     expect(mapToInequalitiesTableData(GROUPED_YEAR_DATA)).toEqual(
       expectedInequalitiesSexTableRow
     );
+  });
+});
+
+describe('getBenchmarkData', () => {
+  const barChartData: InequalitiesBarChartData = {
+    areaName: 'Area 1',
+    data: {
+      period: 2008,
+      inequalities: {
+        Persons: { value: 135.149304 },
+        Male: { value: 890.328253 },
+        Female: { value: 890.328253 },
+      },
+    },
+  };
+
+  it('should get benchmark data', () => {
+    expect(getBenchmarkData(InequalitiesTypes.Sex, barChartData)).toBe(
+      135.149304
+    );
+  });
+});
+
+describe('generateLineChartSeriesData', () => {
+  const keys = ['Persons', 'Male', 'Female'];
+  const personsLine = {
+    type: 'line',
+    name: 'Persons',
+    data: [
+      [2004, undefined],
+      [2008, 135.149304],
+    ],
+    marker: {
+      symbol: 'square',
+    },
+    color: GovukColours.Orange,
+  };
+
+  const seriesData = [
+    personsLine,
+    {
+      type: 'line',
+      name: 'Male',
+      data: [
+        [2004, 703.420759],
+        [2008, 890.328253],
+      ],
+      marker: {
+        symbol: 'triangle',
+      },
+      color: UniqueChartColours.OtherLightBlue,
+    },
+    {
+      type: 'line',
+      name: 'Female',
+      data: [
+        [2004, 703.420759],
+        [2008, 890.328253],
+      ],
+      marker: {
+        symbol: 'triangle-down',
+      },
+      color: GovukColours.Purple,
+    },
+  ];
+
+  it('should generate expected series data for inequalities line chart', () => {
+    const areasSelected = ['A1'];
+
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        keys,
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areasSelected
+      )
+    ).toEqual(seriesData);
+  });
+
+  it('should generate series data without England line color when empty area selected list is passed', () => {
+    const areas: string[] = [];
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        keys,
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areas
+      )
+    ).toEqual(seriesData);
+  });
+
+  it('should generate expected series data with appropriate line colour when England is selected area', () => {
+    const areasSelected = [areaCodeForEngland];
+    const expectedPersonsLine = {
+      ...personsLine,
+      color: GovukColours.Black,
+    };
+
+    const expectedEnglandSeriesData = [
+      expectedPersonsLine,
+      ...seriesData.slice(1),
+    ];
+
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        keys,
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areasSelected
+      )
+    ).toEqual(expectedEnglandSeriesData);
+  });
+
+  it('should return empty list if no keys are passed', () => {
+    const areasSelected = ['A1'];
+    expect(
+      generateInequalitiesLineChartSeriesData(
+        [],
+        InequalitiesTypes.Sex,
+        mockInequalitiesRowData,
+        areasSelected
+      )
+    ).toEqual([]);
+  });
+});
+
+describe('getAggregatePointInfo', () => {
+  const testData: Record<string, RowDataFields | undefined> = {
+    ...mockInequalitiesRowData[1].inequalities,
+  };
+  testData.Persons = { ...testData.Persons, isAggregate: true };
+  testData.Male = { ...testData.Male, isAggregate: false };
+  testData.Female = { ...testData.Female, isAggregate: false };
+  it('should return the benchmark point and value', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('benchmarkPoint', testData.Persons);
+    expect(result).toHaveProperty('benchmarkValue', testData.Persons?.value);
+  });
+
+  it('should return the aggregate key', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('aggregateKey', 'Persons');
+  });
+
+  it('should return the inequalityDimensions', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('inequalityDimensions', ['Female', 'Male']);
+  });
+
+  it('should return all the keys sorted', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('sortedKeys', ['Female', 'Male', 'Persons']);
   });
 });

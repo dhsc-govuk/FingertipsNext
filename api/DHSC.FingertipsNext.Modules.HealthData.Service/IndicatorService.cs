@@ -16,7 +16,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     public const string AreaCodeEngland = "E92000001";
 
     // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity = IndicatorPolarity.HighIsGood;
+    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
 
     /// <summary>
     ///     Obtain health point data for a single indicator.
@@ -119,7 +119,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
 
         // separate the data for results and data for performing benchmarks
         var benchmarkHealthData=healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if(benchmarkHealthData == null)
+        if(benchmarkHealthData == null && !inequalities.Any())
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data

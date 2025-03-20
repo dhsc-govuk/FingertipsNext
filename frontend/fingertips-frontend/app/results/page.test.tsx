@@ -10,7 +10,10 @@ import {
 } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { mockDeep } from 'jest-mock-extended';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { AreasApi } from '@/generated-sources/ft-api-client';
 import {
   mockAreaDataForNHSRegion,
@@ -179,6 +182,7 @@ describe('Results Page', () => {
     });
 
     it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
+      mockGetAreaFilterData.mockResolvedValue({});
       mockAreasApi.getArea.mockResolvedValueOnce(eastEnglandNHSRegion);
       mockAreasApi.getArea.mockResolvedValueOnce(londonNHSRegion);
 
@@ -192,12 +196,20 @@ describe('Results Page', () => {
         searchParams: generateSearchParams(searchState),
       });
 
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(1, {
-        areaCode: eastEnglandNHSRegion.code,
-      });
-      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(2, {
-        areaCode: londonNHSRegion.code,
-      });
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        1,
+        {
+          areaCode: eastEnglandNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
+      expect(mockAreasApi.getArea).toHaveBeenNthCalledWith(
+        2,
+        {
+          areaCode: londonNHSRegion.code,
+        },
+        API_CACHE_CONFIG
+      );
       expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,
@@ -245,39 +257,6 @@ describe('Results Page', () => {
       expect(page.props.currentDate).toEqual(date);
 
       jest.useRealTimers();
-    });
-  });
-
-  describe('Check correct props to the error component are passed when there is an error', () => {
-    it('should pass the correct props when getAreaFilterData call returns an error', async () => {
-      mockGetAreaFilterData.mockRejectedValue('Some areas api error');
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
-    });
-
-    it('should pass the correct props when searchWith returns an error', async () => {
-      mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
-      mockIndicatorSearchService.searchWith.mockRejectedValue(
-        'Some search-service error'
-      );
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
     });
   });
 });

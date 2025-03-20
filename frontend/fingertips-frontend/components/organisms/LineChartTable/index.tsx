@@ -1,7 +1,10 @@
 'use client';
 
 import { Table } from 'govuk-react';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointBenchmarkComparison,
+} from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -14,6 +17,9 @@ import {
   StyledGreyHeader,
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
+import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
+import { BenchmarkLabelGroupType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -38,6 +44,7 @@ export interface LineChartTableRowData {
   value?: number;
   lower?: number;
   upper?: number;
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
 }
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
@@ -66,6 +73,14 @@ const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
   width: '22%',
   padding: '0.5em',
   textAlign: 'center',
+});
+
+const StyledDivContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'left',
+  alignItems: 'center',
+  gap: 8,
+  paddingLeft: 8,
 });
 
 const StyledLightGreyHeader = styled(StyledGreyHeader)({
@@ -143,12 +158,24 @@ const getCellHeader = (
   );
 };
 
-const getBenchmarkCell = (areaCount: number) =>
-  areaCount < 2 ? (
-    <StyledAlignLeftTableCell></StyledAlignLeftTableCell>
-  ) : (
-    <StyledBenchmarkCellMultipleAreas></StyledBenchmarkCellMultipleAreas>
+const getBenchmarkCell = (
+  areaCount: number,
+  benchmarkComparison?: HealthDataPointBenchmarkComparison
+) => {
+  const benchmarkLabel = (
+    <BenchmarkLabel
+      type={benchmarkComparison?.outcome}
+      group={BenchmarkLabelGroupType.RAG}
+    />
   );
+  return areaCount < 2 ? (
+    <StyledAlignLeftTableCell>{benchmarkLabel}</StyledAlignLeftTableCell>
+  ) : (
+    <StyledBenchmarkCellMultipleAreas>
+      {benchmarkLabel}
+    </StyledBenchmarkCellMultipleAreas>
+  );
+};
 
 export const mapToLineChartTableData = (
   areaData: HealthDataForArea
@@ -159,6 +186,7 @@ export const mapToLineChartTableData = (
     value: healthPoint.value,
     lower: healthPoint.lowerCi,
     upper: healthPoint.upperCi,
+    benchmarkComparison: healthPoint.benchmarkComparison,
   }));
 
 const StyledTitleRow = styled(StyledAlignLeftHeader)({
@@ -174,6 +202,10 @@ export function LineChartTable({
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartTableProps>) {
+  if (englandBenchmarkData && healthIndicatorData.length === 0) {
+    healthIndicatorData = [englandBenchmarkData];
+  }
+
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
@@ -199,7 +231,14 @@ export function LineChartTable({
                     <StyledTitleRow></StyledTitleRow>
                   )}
                   <StyledTitleRow colSpan={5}>
-                    {`${area.areaName} recent trend:`}
+                    <StyledDivContainer>
+                      {'Recent trend: '}
+                      <TrendTag
+                        trendFromResponse={
+                          area.healthData[area.healthData.length - 1].trend
+                        }
+                      />
+                    </StyledDivContainer>
                   </StyledTitleRow>
                 </React.Fragment>
               ))}
@@ -287,7 +326,10 @@ export function LineChartTable({
               <React.Fragment
                 key={healthIndicatorData[areaIndex].areaCode + index}
               >
-                {getBenchmarkCell(healthIndicatorData.length)}
+                {getBenchmarkCell(
+                  healthIndicatorData.length,
+                  sortedAreaData[index].benchmarkComparison
+                )}
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
                 </StyledAlignRightTableCell>

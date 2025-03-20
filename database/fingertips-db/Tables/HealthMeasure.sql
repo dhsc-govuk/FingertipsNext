@@ -5,9 +5,10 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[AreaKey] [int] NOT NULL,                         --Foreign key to the area - what geography is this row for
 	[IndicatorKey] [smallint] NOT NULL,               --Foreign key to the indicator - what indicator is this row for
 	[SexKey] [tinyint] NOT NULL,                      --Foreign key to the sex - what sex is this row for
-	[TrendKey] [tinyint] NULL DEFAULT 1,              --Foreign key to the trend - what trend applies to this row. It defaults to NotYetCalculated as trends are calculated during a subsequent step
+	[TrendKey] [tinyint] NULL DEFAULT 1,              --Foreign key to the trend - what trend applies to this row. It defaults to Not yet calculated as trends are calculated during a subsequent step
 	[DeprivationKey] [smallint] NOT NULL DEFAULT 1,   --Foreign key to the deprivation dimension - what deprivation value applies to this row. It defaults to All, as not all health data is broken down by deprivation measures.
 	[Count] [float] NULL,                             --How many were counted for this data - e.g. how many people were counted in order to create this row
+	[Denominator] [float] NULL,                       --The denominator for the data that was collected e.g. if we count the number of people in England with condition X, then the denominator is the population of England
 	[Value] [float] NULL,                             --The value of the data e.g. how many people per 100 000. This is the key piece of data for this row
 	[LowerCI] [float] NULL,                           --The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
 	[UpperCI] [float] NULL,                           --The upper confidence interval value - a statistically calculated value using methodology described in the indicator metadata
@@ -54,4 +55,46 @@ REFERENCES [dbo].[DeprivationDimension] ([DeprivationKey])
 GO
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT [FK_HealthMeasure_DeprivationDimension]
+GO
+
+CREATE NONCLUSTERED INDEX [AgeIndex] ON [dbo].[HealthMeasure]
+(
+	[AgeKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [AreaIndex] ON [dbo].[HealthMeasure]
+(
+	[AreaKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [DeprivationIndex] ON [dbo].[HealthMeasure]
+(
+	[DeprivationKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [IndicatorIndex] ON [dbo].[HealthMeasure]
+(
+	[IndicatorKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [SexIndex] ON [dbo].[HealthMeasure]
+(
+	[SexKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [TrendIndex] ON [dbo].[HealthMeasure]
+(
+	[TrendKey] ASC
+)
+GO
+
+CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
+(
+	[Year] ASC
+)
 GO

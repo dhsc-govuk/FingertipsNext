@@ -9,12 +9,7 @@ import {
   StyledDiv,
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
-import {
-  getDynamicKeys,
-  Inequalities,
-  InequalitiesLineChartTableData,
-  YearlyHealthDataGroupedByInequalities,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { InequalitiesChartData } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ReactNode } from 'react';
 
 export enum InequalitiesTableHeadingsEnum {
@@ -22,9 +17,9 @@ export enum InequalitiesTableHeadingsEnum {
 }
 
 interface InequalitiesLineChartTableProps {
-  tableData: InequalitiesLineChartTableData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  tableData: InequalitiesChartData;
+  dynamicKeys: string[];
+  measurementUnit?: string;
 }
 
 const StyledAlignCenterHeader = styled(StyledTableCellHeader)({
@@ -51,14 +46,9 @@ const getCellHeader = (heading: string, index: number): ReactNode => {
 
 export function InequalitiesLineChartTable({
   tableData,
-  yearlyHealthDataGroupedByInequalities,
-  type = Inequalities.Sex,
+  dynamicKeys,
+  measurementUnit,
 }: Readonly<InequalitiesLineChartTableProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
-
   const tableHeaders = [
     ...Object.values(InequalitiesTableHeadingsEnum),
     ...dynamicKeys,
@@ -72,6 +62,14 @@ export function InequalitiesLineChartTable({
             <Table.Row>
               <StyledAlignCenterHeader colSpan={4}>
                 {tableData.areaName}
+                {measurementUnit ? (
+                  <span
+                    style={{ display: 'block', marginTop: '21px' }}
+                    data-testid="inequalitiesLineChartTable-measurementUnit"
+                  >
+                    Value: {measurementUnit}
+                  </span>
+                ) : null}
               </StyledAlignCenterHeader>
             </Table.Row>
             <Table.Row>

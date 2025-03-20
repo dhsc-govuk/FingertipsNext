@@ -9,21 +9,21 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription (); 
+        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription ();
 
-        public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
+        public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data,
             new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         }));
 
-        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
+        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
-        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithRelations> data) =>
+        public static void WriteSimpleAreaCsvData(string fileName, IEnumerable<SimpleAreaWithChildren> data) =>
              new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteAgeCsvData(string fileName, IEnumerable<AgeEntity> data) =>
@@ -32,20 +32,22 @@ namespace DataCreator
         public static List<SimpleIndicator> GetPocIndicators()
         {
             var lines=File.ReadAllLines(@$"{InFilePath}\temp\pocindicators.csv");
-            var indicators=new List<SimpleIndicator>();   
+            var indicators=new List<SimpleIndicator>();
             foreach (var line in lines)
             {
-                var split=line.Split('|');
+                var split=line.Split(',');
                 indicators.Add(new SimpleIndicator
                 {
                     IndicatorID= int.Parse(split[0]),
-                    IndicatorName= split[1] 
+                    IndicatorName= split[1],
+                    BenchmarkComparisonMethod= split[2],
+                    Polarity =split[3]
                 });
             }
 
             return indicators;
         }
-            
+
 
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
@@ -57,14 +59,15 @@ namespace DataCreator
         /// <param name="yearFrom"></param>
         /// <param name="areasWeWant"></param>
         /// <returns></returns>
-        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, List<string> areasWeWant)
+        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, Dictionary<string,string> areasDict)
         {
+            const string ALL = "All";
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>().ToList();
 
-            var areasDict = areasWeWant.ToDictionary(a => a);
+
             var lines = File.ReadAllLines(filePath);
             var allData= new List<HealthMeasureEntity>();
             for(var count=1; count<lines.Length; count++) //start at 1 to avoid first line which is column names
@@ -73,16 +76,27 @@ namespace DataCreator
                 var split=Regex.Split(lines[count], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 if (split.Length != 27)
                     continue; //avoid bad data
+
+                if (split[6].Equals("CCG", StringComparison.CurrentCultureIgnoreCase)) //CCGs and ICBs share the same area code so do this to avoid doubling up data
+                    continue;
                 var areaCode = split[4].Trim().CleanAreaCode();
-                if(!areasDict.TryGetValue(areaCode, out var area)) 
+
+                if(!areasDict.ContainsKey(areaCode))
                     continue; //if the row is not for an area we are interested in then ignore it
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));
                 if(year < yearFrom)
                     continue; //if the row is not for a year we care about ignore it
-                var catType = split[9].Trim().Trim('\"');
-                if (!(catType == string.Empty || catType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
-                    continue;  //we only care about data that has a category type of ecile or no category type
-                
+                var categoryType = split[9].Trim().Trim('\"');
+                if (!(categoryType == string.Empty || categoryType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
+                    continue;  //we only care about data that has a category type of decile or no category type
+
+                var category = split[10].Trim().Trim('\"');
+                if (categoryType == string.Empty)
+                {
+                    categoryType = ALL;
+                    category = ALL;
+                }
+
                 var indicatorData = new HealthMeasureEntity
                 {
                     IndicatorId = indicatorId,
@@ -96,10 +110,9 @@ namespace DataCreator
                     Lower98CI = GetDoubleValue(split[15]),
                     Upper98CI = GetDoubleValue(split[16]),
                     Denominator = GetDoubleValue(split[18]),
-                    Trend = split[20].Trim(),
                     Year = year,
-                    Category = split[10].Trim().Trim('\"'),
-                    CategoryType = catType
+                    Category = category.Trim(),
+                    CategoryType = categoryType.Replace(',','-').Trim()
                 };
                 allData.Add(indicatorData);
             }
@@ -111,13 +124,13 @@ namespace DataCreator
         {
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\lastupdated.csv";
-            
+
             var lines = File.ReadAllLines(filePath);
             var allData = new List<IndicatorLastUpdatedEntity>();
             for (var count = 1; count < lines.Length; count++)
             {
                 var split = lines[count].Split(',');
-                allData.Add(new IndicatorLastUpdatedEntity 
+                allData.Add(new IndicatorLastUpdatedEntity
                 {
                     IndicatorId = int.Parse(split[0].Trim('\"')),
                     LastUpdatedDate= split[1].Trim('\"')

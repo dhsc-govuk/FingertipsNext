@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace DataCreator.PholioDatabase
 {
-    public class PholioDataFetcher
+    public class PholioDataFetcher(IConfiguration config)
     {
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _config = config;
         private const string Region = "Regions";
         public const string Administrative = "Administrative";
         public const string NHS = "NHS";
@@ -101,48 +101,11 @@ JOIN
 	[dbo].[L_Units] units ON indicator.UnitID=units.UnitID
 JOIN 
 	[dbo].[IndicatorMetadataTextValues] metadata ON indicator.IndicatorID=metadata.IndicatorID AND metadata.[1_Name] IS NOT NULL
+WHERE
+    indicator.IndicatorID IN @IndicatorIds
 ";
         
-        private readonly string IndicatorPolaritySql = @"
-SELECT distinct
-	indicator.IndicatorID,
-	Polarity.Polarity
-FROM 
-	[dbo].[IndicatorMetadata] indicator
-JOIN
-	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
-JOIN
-	[dbo].[L_Polarity] polarity ON gr.PolarityID = polarity.PolarityID
-";
-  
-        private readonly string BenchmarkSql = @"
-SELECT distinct
-	indicator.IndicatorID,
-	comparatormethods.ComparatorMethodID
-FROM 
-	[dbo].[IndicatorMetadata] indicator
-JOIN
-	[dbo].[grouping] gr ON indicator.IndicatorID = gr.IndicatorID
-JOIN
-	[dbo].[L_ComparatorMethods] comparatormethods ON gr.ComparatorMethodID=comparatormethods.ComparatorMethodID
-WHERE comparatormethods.ComparatorMethodID IN (1,5,15)
-	Order By indicator.IndicatorID 
-";
-
-        private readonly string CategorySql = @"SELECT 
-		c.CategoryID,
-		c.Name CategoryName,
-		c.Sequence,
-		ct.CategoryTypeID,
-		ct.Name CategoryTypeName
-	FROM 
-		[dbo].[L_Categories] c
-	JOIN
-		[dbo].[L_CategoryTypes] ct ON c.CategoryTypeID =ct.CategoryTypeID
-	WHERE
-		c.Name LIKE '%decile%' OR c.Name LIKE '%quintile%'
-	ORDER BY
-		ct.Sequence, c.Sequence";
+        
 
         private readonly string AgeSql = @"
 SELECT
@@ -153,8 +116,6 @@ SELECT
 FROM
 	[dbo].[L_Ages]
 ";
-
-        public PholioDataFetcher(IConfiguration config) => _config = config;
 
         public async Task<IEnumerable<AreaEntity>> FetchAreasAsync()
         {   
@@ -372,16 +333,11 @@ FROM
         /// Get the indicators, adding in the Trend polarity as well as benchmarking details
         /// </summary>
         /// <returns></returns>
-        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync()
+        public async Task<List<IndicatorEntity>> FetchIndicatorsAsync(List<SimpleIndicator> pocIndicators)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
 
-            var indicators = (await connection.QueryAsync<IndicatorEntity>(IndicatorSql)).ToList();
-            indicators=indicators.Where(indicator=>!indicator.IndicatorName.Contains("CIA")).ToList();
-            await AddPolarityToIndicators(indicators, connection);
-            await AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(indicators, connection);
-
-            return indicators;
+            return (await connection.QueryAsync<IndicatorEntity>(IndicatorSql, new {IndicatorIds= pocIndicators.Select(x=>x.IndicatorID)})).ToList();
         }
 
         /// <summary>
@@ -392,56 +348,6 @@ FROM
         {
             using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
             return (await connection.QueryAsync<AgeEntity>(AgeSql)).ToList();
-        }
-
-        /// <summary>
-        /// get the category data
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<CategoryEntity>> FetchCategoryDataAsync()
-        {
-            using var connection = new SqlConnection(_config.GetConnectionString("PholioDatabase"));
-            return (await connection.QueryAsync<CategoryEntity>(CategorySql)).ToList();
-        }
-
-
-        private async Task AddPolarityToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
-        {
-            var areaPolarities = await connection.QueryAsync<IndicatorPolarity>(IndicatorPolaritySql);
-            var indicatorsWithMultiplePolarites=new List<int>();
-            foreach (var indicator in indicators)
-            {
-                var results = areaPolarities
-                     .Where(ai => ai.IndicatorId == indicator.IndicatorID)
-                     .ToList();
-                if (results.Count > 1)
-                    indicatorsWithMultiplePolarites.Add(indicator.IndicatorID);
-            }
-            
-            foreach (var indicator in indicators)
-            {
-                var match  = areaPolarities
-                     .FirstOrDefault(ai => ai.IndicatorId == indicator.IndicatorID);
-                indicator.Polarity = match != null ? match.Polarity : "Not applicable";
-            }
-        }
-
-        private async Task AddBenchmarkComparisonAndUseProportionsForTrendToIndicators(List<IndicatorEntity> indicators, SqlConnection connection)
-        {
-            var areaBenchmarks = await connection.QueryAsync<IndicatorBenchmark>(BenchmarkSql);
-            var indicatorsWithMultiple = new List<int>();
-            foreach (var indicator in indicators)
-            {
-                indicator.UseProportionsForTrend= areaBenchmarks.Any(ab => ab.IndicatorId == indicator.IndicatorID && ab.ComparatorMethodID==5);
-                var results = areaBenchmarks
-                     .Where(ab => ab.IndicatorId == indicator.IndicatorID && (ab.ComparatorMethodID==1 || ab.ComparatorMethodID == 15))
-                     .ToList();
-                if (results.Count() > 1)
-                    indicatorsWithMultiple.Add(indicator.IndicatorID);
-                else if(results.Count > 0)
-                    indicator.BenchmarkComparisonMethod = results.First().ComparatorMethodID == 1 ? "RAG" : "QUINTILES";
-            }
-            indicators.RemoveAll(i => indicatorsWithMultiple.Contains(i.IndicatorID));
         }
     }
 
@@ -472,6 +378,7 @@ FROM
     {
         public int IndicatorId { get; set; }
         public int ComparatorMethodID { get; set; }
+        public string ShortName { get; set; }
     }
 
     public class ParentChildAreaCode

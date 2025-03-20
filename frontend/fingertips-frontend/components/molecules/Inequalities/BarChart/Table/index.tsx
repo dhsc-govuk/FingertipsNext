@@ -1,102 +1,77 @@
 import {
-  getDynamicKeys,
-  Inequalities,
-  InequalitiesBarChartTableData,
-  YearlyHealthDataGroupedByInequalities,
+  getAggregatePointInfo,
+  InequalitiesBarChartData,
+  InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import {
   getDisplayedValue,
-  StyledAlignLeftHeader,
   StyledAlignLeftTableCell,
-  StyledAlignRightHeader,
   StyledAlignRightTableCell,
 } from '@/lib/tableHelpers';
 import { Table } from 'govuk-react';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { InequalitiesBarChartTableHead } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
+import { InequalitiesBenchmarkLabel } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBenchmarkLabel';
+import styled from 'styled-components';
+
+export const StyledAlignLeftTableCellNoPadding = styled(
+  StyledAlignLeftTableCell
+)({
+  padding: 0,
+  height: '2.8125em', //45px
+});
 
 interface InequalitiesBarChartTableProps {
-  tableData: InequalitiesBarChartTableData;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
-  type?: Inequalities;
+  tableData: InequalitiesBarChartData;
+  type?: InequalitiesTypes;
+  measurementUnit?: string;
 }
-
-export enum InequalitiesBarChartTableHeaders {
-  INEQUALITY_TYPE = 'Inequality type',
-  COMPARED_TO = 'Compared to Persons',
-  COUNT = 'Count',
-  VALUE = 'Value',
-  LOWER = 'Lower',
-  UPPER = 'Upper',
-}
-
-const getCellHeader = (header: InequalitiesBarChartTableHeaders): ReactNode =>
-  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
-    <StyledAlignLeftHeader
-      key={`heading-${header}`}
-      style={{ width: '16%' }}
-      data-testid={`heading-${header}`}
-    >
-      {header}
-    </StyledAlignLeftHeader>
-  ) : (
-    <StyledAlignRightHeader
-      key={`heading-${header}`}
-      style={{ width: '16%' }}
-      data-testid={`heading-${header}`}
-    >
-      {header}
-    </StyledAlignRightHeader>
-  );
 
 export function InequalitiesBarChartTable({
   tableData,
-  yearlyHealthDataGroupedByInequalities,
-  type = Inequalities.Sex,
+  type = InequalitiesTypes.Sex,
+  measurementUnit,
 }: Readonly<InequalitiesBarChartTableProps>) {
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
+  const { areaName, data } = tableData;
+  const inequalities = { ...data.inequalities };
+  const { sortedKeys, inequalityDimensions } =
+    getAggregatePointInfo(inequalities);
+
+  // for sex inequality we always want Persons, Male, Female which is reverse alphabetical order
+  // pending a better solution where an order key is supplied by API
+  if (type === InequalitiesTypes.Sex) sortedKeys.reverse();
 
   return (
     <div data-testid="inequalitiesBarChartTable-component">
       <Table
         head={
-          <>
-            <Table.Row>
-              <StyledAlignLeftHeader colSpan={4}>
-                {tableData.areaName}
-              </StyledAlignLeftHeader>
-              <StyledAlignRightHeader
-                colSpan={2}
-                style={{ paddingRight: '20px' }}
-              >
-                95% confidence limits
-              </StyledAlignRightHeader>
-            </Table.Row>
-            <Table.Row>
-              {Object.values(InequalitiesBarChartTableHeaders).map((header) =>
-                getCellHeader(header)
-              )}
-            </Table.Row>
-          </>
+          <InequalitiesBarChartTableHead
+            areaName={areaName}
+            measurementUnit={measurementUnit}
+          />
         }
       >
-        {dynamicKeys.map((key) => (
+        {sortedKeys.map((key) => (
           <Table.Row key={key}>
             <StyledAlignLeftTableCell>{key}</StyledAlignLeftTableCell>
-            <StyledAlignRightTableCell></StyledAlignRightTableCell>
+            <StyledAlignLeftTableCellNoPadding>
+              {inequalityDimensions.includes(key) ? (
+                <InequalitiesBenchmarkLabel
+                  comparison={inequalities[key]?.benchmarkComparison}
+                />
+              ) : null}
+            </StyledAlignLeftTableCellNoPadding>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(tableData.data.inequalities[key]?.count)}
+              {getDisplayedValue(inequalities[key]?.count)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(tableData.data.inequalities[key]?.value)}
+              {getDisplayedValue(inequalities[key]?.value)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(tableData.data.inequalities[key]?.lower)}
+              {getDisplayedValue(inequalities[key]?.lower)}
             </StyledAlignRightTableCell>
             <StyledAlignRightTableCell>
-              {getDisplayedValue(tableData.data.inequalities[key]?.upper)}
+              {getDisplayedValue(inequalities[key]?.upper)}
             </StyledAlignRightTableCell>
           </Table.Row>
         ))}

@@ -13,11 +13,6 @@ on:
         description: 'container image to run the e2e tests in - for CD test executions'
         required: false
         type: string
-      update-screenshots:
-        description: 'Update screenshot snapshots?'
-        type: string
-        default: 'false'
-        required: false
     secrets:
       slack-webhook-url:
         description: 'URL of the slack webhook'
@@ -47,16 +42,14 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
-      - name: Cache dependencies
+      - name: Cache playwright dependencies - for CI test execution
+        if: inputs.e2e-test-container-image == null
         uses: actions/cache@v3
         id: cache
         with:
           path: |
             ~/.cache/ms-playwright
-            ${{ env.frontend-directory }}/.test/**
           key: cache/${{github.repository}}/${{env.BRANCH_NAME}}
-          restore-keys: 
-            cache/${{github.repository}}/refs/heads/main
 
       - name: Install dependencies
         run: npm ci
@@ -72,45 +65,36 @@ jobs:
         if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Create base snapshots if none in cache, or during manual snapshot update or when merging to main - for CI test execution
-        if: >
-          inputs.e2e-test-container-image == null &&
-          (
-            steps.cache.outputs.cache-hit != 'true' ||
-            inputs.update-screenshots == 'true'
-          ) &&
-          (
-            github.head_ref == 'main' ||
-            github.ref_name == 'main' ||
-            github.event_name == 'workflow_dispatch'
-          )
-        run: npm run test-e2e-ci-update-snapshots
-
-      - name: Run Playwright tests in CI - skip screenshots for pull requests
+      - name: Run Playwright tests in CI
         if: inputs.e2e-test-container-image == null
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            npm run test-e2e-local-docker
-          else
-            npm run test-e2e-ci-docker
-          fi
+        run: npm run test-e2e-ci-docker
 
       - name: Set Job URL for slack message - for CD test execution
         if: inputs.e2e-test-container-image != null
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: Run Playwright tests in CD
+      - name: Run Playwright tests in CD - skip screenshots
         if: inputs.e2e-test-container-image != null
         run: npm run test-e2e-ci-azure
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
+      - name: Set dynamic artifact name
+        if: always()
+        id: set-artifact-name
+        run: |
+          if [ "${{ inputs.e2e-test-container-image == null }}" = "true" ]; then
+            echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
+          else
+            echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
+          fi
+
       - name: Upload playwright artefacts
+        if: always()
         uses: actions/upload-artifact@v4
-        if: failure()
         with:
-          name: playwright-artefacts
+          name: ${{ env.ARTIFACT_NAME }}
           path: |
             ${{ env.frontend-directory }}/playwright-report/
             ${{ env.frontend-directory }}/test-results/*/*.png

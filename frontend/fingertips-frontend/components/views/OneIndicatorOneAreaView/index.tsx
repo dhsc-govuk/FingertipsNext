@@ -1,6 +1,13 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  GetHealthDataForAnIndicatorComparisonMethodEnum,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -35,10 +42,15 @@ export default async function OneIndicatorOneAreaView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator({
-      indicatorId: Number(indicatorSelected),
-      areaCodes: areaCodesToRequest,
-    });
+    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
+      {
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: areaCodesToRequest,
+        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
+        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
+      },
+      API_CACHE_CONFIG
+    );
   } catch (error) {
     console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');

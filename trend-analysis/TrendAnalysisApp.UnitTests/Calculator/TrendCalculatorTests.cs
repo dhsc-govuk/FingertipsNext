@@ -9,6 +9,28 @@ public class TrendCalculatorTests
 {
     private readonly TrendCalculator tc = new(new TrendMarkerCalculator(), new LegacyMapper());
 
+    [Theory]
+    [InlineData(Trend.Increasing, Constants.Polarity.NoJudgement)]
+    [InlineData(Trend.NoChange, Constants.Polarity.HighIsGood)]
+    [InlineData(Trend.CannotBeCalculated, Constants.Polarity.LowIsGood)]
+    [InlineData(Trend.IncreasingAndGettingBetter, Constants.Polarity.LowIsGood)]
+    public void TestTrendPolarityAdjustmentDoesNotAdjustWhenNotRequired(Trend trend, string polarity) {
+        TrendCalculator.AdjustForPolarity(trend, polarity).ShouldBe(trend);
+    }
+
+    [Theory]
+    [InlineData(Trend.Increasing, Constants.Polarity.HighIsGood, Trend.IncreasingAndGettingBetter)]
+    [InlineData(Trend.Increasing, Constants.Polarity.LowIsGood, Trend.IncreasingAndGettingWorse)]
+    [InlineData(Trend.Decreasing, Constants.Polarity.HighIsGood, Trend.DecreasingAndGettingWorse)]
+    [InlineData(Trend.Decreasing, Constants.Polarity.LowIsGood, Trend.DecreasingAndGettingBetter)]
+    public void TestTrendPolarityAdjustmentAdjustsCorrectly(
+        Trend trend,
+        string polarity,
+        Trend adjustedTrend
+    ) {
+        TrendCalculator.AdjustForPolarity(trend, polarity).ShouldBe(adjustedTrend);
+    }
+
     [Fact]
     public void TestDiabetesPrevalenceTrendIsCalculatedCorrectly() {
         // Indicator ID: 241 Diabetes prevalence aged 17 years and over (Quality and Outcomes Framework)
@@ -44,8 +66,8 @@ public class TrendCalculatorTests
             IndicatorTestData.YorkshireMmrCoverageHealthMeasurePoints
         );
 
-        result.ShouldBe(Trend.Decreasing);
-        result.ToString().ShouldBe("Decreasing");
+        result.ShouldBe(Trend.DecreasingAndGettingWorse);
+        result.ToString().ShouldBe("DecreasingAndGettingWorse");
     }
 
     [Fact]
@@ -58,8 +80,8 @@ public class TrendCalculatorTests
             IndicatorTestData.DiabeticEyeDiseaseHealthMeasurePoints
         );
 
-        result.ShouldBe(Trend.Increasing);
-        result.ToString().ShouldBe("Increasing");
+        result.ShouldBe(Trend.IncreasingAndGettingWorse);
+        result.ToString().ShouldBe("IncreasingAndGettingWorse");
     }
 
     [Fact]
@@ -87,8 +109,8 @@ public class TrendCalculatorTests
             IndicatorTestData.Under75CancerMortalityHealthMeasurePoints
         );
 
-        result.ShouldBe(Trend.Decreasing);
-        result.ToString().ShouldBe("Decreasing");
+        result.ShouldBe(Trend.DecreasingAndGettingBetter);
+        result.ToString().ShouldBe("DecreasingAndGettingBetter");
     }
 
     [Fact]

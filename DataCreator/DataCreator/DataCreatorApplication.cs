@@ -15,23 +15,23 @@
             }
             catch
             {
-
+                Console.WriteLine("Error deleting temporary files");
             }
 
             DataFileManager.UnzipSourceFiles();
             Console.WriteLine("Unzipped source CSV files");
             //get the ids of the indicators chosen for PoC (about 30)
             var pocIndicators=DataFileManager.GetPocIndicators();
-            Console.WriteLine($"Got {pocIndicators.Count()} indicators");
+            Console.WriteLine($"Got {pocIndicators.Count} indicators");
             //get the age data - this is age range data
             var ageData= await _dataManager.GetAgeDataAsync();
             Console.WriteLine($"Got age data");
             //create the area chosen for PoC
-            var areasWeWant=await _dataManager.CreateAreaDataAsync(addLongLat: false);
+            var areasWeWant=await _dataManager.CreateAreaDataAsync();
             Console.WriteLine($"Created areas, we are using {areasWeWant.Count} areas");
             //create the health data
            
-            var areasAndIndicators= await _dataManager.CreateHealthDataAndAgeDataAsync(areasWeWant, pocIndicators, ageData, yearFrom:2000, useIndicators:false);
+            var areasAndIndicators=  DataManager.CreateHealthDataAndAgeData(areasWeWant, pocIndicators, ageData, yearFrom:2000, useIndicators:false);
             Console.WriteLine($"Created all health data");
             //create the indicator data
             await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators, addAreasToIndicator: true);

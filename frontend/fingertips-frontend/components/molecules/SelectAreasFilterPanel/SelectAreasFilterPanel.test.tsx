@@ -14,6 +14,7 @@ import {
   allNhsRegions,
   eastEnglandNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -47,6 +48,20 @@ describe('SelectAreasFilterPanel', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithSelectedAreas}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: areaTypeDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should disable the select area type drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+          }}
         />
       );
 
@@ -193,7 +208,21 @@ describe('SelectAreasFilterPanel', () => {
       ).toBeDisabled();
     });
 
-    it('should not disable the select group type drop down when there are no areas selected', () => {
+    it('should disable the select group type drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: groupTypeDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should enable the select group type drop down when there are no areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithNoSelectedAreas}
@@ -324,7 +353,7 @@ describe('SelectAreasFilterPanel', () => {
 
     const groupDropDownLabel = 'Select a group';
 
-    it('should disable the select group type drop down when there are areas selected', () => {
+    it('should disable the select group drop down when there are areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithSelectedAreas}
@@ -339,7 +368,21 @@ describe('SelectAreasFilterPanel', () => {
       ).toBeDisabled();
     });
 
-    it('should not disable the select group type drop down when there are no areas selected', () => {
+    it('should disable the select group drop down when group area selected is ALL', () => {
+      render(
+        <SelectAreasFilterPanel
+          searchState={{
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('combobox', { name: groupDropDownLabel })
+      ).toBeDisabled();
+    });
+
+    it('should enable the select group type drop down when there are no areas selected', () => {
       render(
         <SelectAreasFilterPanel
           searchState={mockSearchStateWithNoSelectedAreas}
@@ -435,7 +478,7 @@ describe('SelectAreasFilterPanel', () => {
   });
 
   describe('Areas', () => {
-    it('should show all the applicable areas as checkboxes', () => {
+    it('should show all the applicable areas as checkboxes including the select all areas checkbox', () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
@@ -450,7 +493,9 @@ describe('SelectAreasFilterPanel', () => {
         />
       );
 
-      expect(screen.getAllByRole('checkbox')).toHaveLength(7);
+      expect(screen.getAllByRole('checkbox')).toHaveLength(
+        availableAreas.length + 1
+      );
 
       availableAreas.forEach((area) => {
         expect(
@@ -541,6 +586,190 @@ describe('SelectAreasFilterPanel', () => {
       const user = userEvent.setup();
       await user.click(
         screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should update the url with group area selected when adding the area selected is the same length as all availableAreas', async () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+      const allRemainingAreasCode = availableAreas
+        .filter((area) => area.code !== eastEnglandNHSRegion.code)
+        .map((area) => area.code);
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupAreaSelected}=${ALL_AREAS_SELECTED}`,
+      ].join('');
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.AreasSelected]: allRemainingAreasCode,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should update the url with all the remaining areas selected when group area selected was provided and an area is de-selected', async () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+      const allRemainingAreasCode = availableAreas
+        .filter((area) => area.code !== eastEnglandNHSRegion.code)
+        .map((area) => area.code);
+
+      const expectedAreasSelected = allRemainingAreasCode.map((areaCode, i) => {
+        const determineUrlPrefix = i === 0 ? '?' : '&';
+        return `${determineUrlPrefix}${SearchParams.AreasSelected}=${areaCode}`;
+      });
+
+      const expectedPath = [
+        `${mockPath}`,
+        ...expectedAreasSelected,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+  });
+
+  describe('Select all areas', () => {
+    const selectAllAreasCheckboxLabel = 'Select all areas';
+
+    it('should show the select all areas checkbox', () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      expect(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
+      ).toBeInTheDocument();
+    });
+
+    it('should have ALL the checkboxes pre-selected when group area selected provided in the searchState is set to ALL', () => {
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+          }}
+        />
+      );
+
+      const allCheckboxes = screen.getAllByRole('checkbox');
+
+      expect(allCheckboxes).toHaveLength(availableAreas.length + 1);
+      allCheckboxes.forEach((checkbox) => {
+        expect(checkbox).toBeChecked();
+      });
+    });
+
+    it('should update the url when the select all areas checkbox is selected, replacing any areas previously selected', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupAreaSelected}=ALL`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000007', 'E40000012'],
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should update the url when select all areas checkbox is de-selected', async () => {
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+          }}
+          searchState={{
+            [SearchParams.AreaTypeSelected]: 'nhs-regions',
+            [SearchParams.GroupSelected]: ALL_AREAS_SELECTED,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
       );
 
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {

@@ -48,14 +48,12 @@ public class AreaService : IAreaService
     /// </summary>
     /// <param name="areaCode"></param>
     /// <param name="includeChildren"></param>
-    /// <param name="includeAncestors"></param>
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
     public async Task<AreaWithRelations?> GetAreaDetails(
         string areaCode,
         bool? includeChildren,
-        bool? includeAncestors,
         bool? includeSiblings,
         string? childAreaType
     )
@@ -63,7 +61,6 @@ public class AreaService : IAreaService
         var area = await _areaRepository.GetAreaAsync(
             areaCode,
             includeChildren ?? false,
-            includeAncestors ?? false,
             includeSiblings ?? false,
             childAreaType
         );
@@ -72,14 +69,14 @@ public class AreaService : IAreaService
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
     public async Task<List<Schemas.Area>> GetAreaDetailsForAreaType(string areaTypeKey)
     {
         var areas = await _areaRepository.GetAreasForAreaTypeAsync(areaTypeKey);
-        
+
         return _mapper.Map<List<Schemas.Area>>(areas);
     }
 
