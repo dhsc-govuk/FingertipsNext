@@ -84,7 +84,7 @@ export function OneIndicatorOneAreaViewPlots({
         englandBenchmarkData
       ) && (
         <>
-          <H3>See how the indicator has changed over time</H3>
+          <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
             items={[

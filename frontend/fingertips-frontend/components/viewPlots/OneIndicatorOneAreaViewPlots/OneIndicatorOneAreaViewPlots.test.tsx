@@ -71,7 +71,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -103,7 +103,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -149,7 +149,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'See how the indicator has changed over time',
+          name: 'Indicator data over time',
         })
       )
     ).not.toBeInTheDocument();

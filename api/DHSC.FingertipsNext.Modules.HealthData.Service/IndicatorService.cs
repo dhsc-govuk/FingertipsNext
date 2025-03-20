@@ -15,7 +15,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     public const string AreaCodeEngland = "E92000001";
 
     // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity = IndicatorPolarity.HighIsGood;
+    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
 
     /// <summary>
     ///     Obtain health point data for a single indicator.
@@ -48,7 +48,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         )
     {
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
-        var areaCodesForSearch =areaCodes.ToList();
+        var areaCodesForSearch = areaCodes.ToList();
         var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
         var hasBenchmarkDataBeenRequested = comparisonMethod == BenchmarkComparisonMethod.Rag;
@@ -83,7 +83,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
 
         // separate the data for results and data for performing benchmarks
         var benchmarkHealthData=healthDataForAreas.FirstOrDefault(data => data.AreaCode == benchmarkAreaCode);
-        if(benchmarkHealthData == null)
+        if(benchmarkHealthData == null && !inequalities.Any())
             return healthDataForAreas;
 
         //if the benchmark area was not in the original request then remove the benchmark data

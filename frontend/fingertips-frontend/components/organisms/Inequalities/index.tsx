@@ -5,14 +5,14 @@ import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineC
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import React from 'react';
 import {
+  getBenchmarkData,
+  getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
-  InequalitiesTypes,
   InequalitiesBarChartData,
   InequalitiesChartData,
+  InequalitiesTypes,
   mapToInequalitiesTableData,
-  getDynamicKeys,
-  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -60,7 +60,7 @@ export function Inequalities({
 
   return (
     <div data-testid="inequalities-component">
-      <H4>Inequalities data in a single time period</H4>
+      <H4>Inequalities data for a single time period</H4>
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[
@@ -84,7 +84,7 @@ export function Inequalities({
               <InequalitiesBarChartTable
                 tableData={barchartData}
                 measurementUnit={measurementUnit}
-                dynamicKeys={dynamicKeys}
+                type={type}
               />
             ),
           },

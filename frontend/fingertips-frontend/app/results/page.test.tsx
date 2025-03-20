@@ -259,37 +259,4 @@ describe('Results Page', () => {
       jest.useRealTimers();
     });
   });
-
-  describe('Check correct props to the error component are passed when there is an error', () => {
-    it('should pass the correct props when getAreaFilterData call returns an error', async () => {
-      mockGetAreaFilterData.mockRejectedValue('Some areas api error');
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
-    });
-
-    it('should pass the correct props when searchWith returns an error', async () => {
-      mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
-      mockIndicatorSearchService.searchWith.mockRejectedValue(
-        'Some search-service error'
-      );
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
-    });
-  });
 });

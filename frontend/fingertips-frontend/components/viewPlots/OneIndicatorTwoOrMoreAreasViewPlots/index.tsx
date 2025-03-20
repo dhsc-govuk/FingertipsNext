@@ -11,6 +11,8 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ThematicMap } from '@/components/organisms/ThematicMap';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -18,17 +20,22 @@ const StyledParagraphDataSource = styled(Paragraph)(
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
   areaCodes: string[];
+  mapData?: MapData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
+  mapData,
   areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    //  DHSCFT-483 to reinstate this
+    // [SearchParams.GroupAreaSelected]: selectedGroupArea,
+  } = stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -55,7 +62,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
-          <H3>See how the indicator has changed over time</H3>
+          <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -76,12 +83,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
               },
               {
                 id: 'lineChartTable',
-                title: 'Tabular data',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
               },
@@ -98,6 +106,17 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      {
+        // DHSCFT-483 to restore this to use only the selectedGroupArea flag
+        // selectedGroupArea === 'ALL'
+        selectedGroupCode && mapData && (
+          <ThematicMap
+            healthIndicatorData={healthIndicatorData}
+            mapData={mapData}
+          />
+        )
+      }
+      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}
