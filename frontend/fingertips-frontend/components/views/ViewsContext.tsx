@@ -50,7 +50,6 @@ function viewSelector(
     return (
       <TwoOrMoreIndicatorsAreasView
         searchState={searchState}
-        areaCodes={areaCodes}
       />
     );
   }
