@@ -220,9 +220,30 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       ).toBeInTheDocument();
     });
 
-    // DHSCFT-483 to add test
-    it.todo(
-      'should not render the ThematicMap when not all areas in a group are selected'
-    );
+    it('should not render the ThematicMap when not all areas in a group are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.GroupAreaSelected]: 'not ALL',
+        [SearchParams.AreaTypeSelected]: 'regions',
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={[
+            mockHealthData[108][1],
+            mockHealthData[108][2],
+            mockHealthData[108][3],
+          ]}
+          searchState={searchState}
+          mapData={mockMapData}
+          areaCodes={mockAreas}
+        />
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.queryByTestId('thematicMap-component')
+        ).not.toBeInTheDocument();
+      });
+    });
   });
 });
