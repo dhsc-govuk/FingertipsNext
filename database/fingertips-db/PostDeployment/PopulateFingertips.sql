@@ -350,8 +350,8 @@ CREATE TABLE #TempHealthData
     Denominator FLOAT,
     Sex NVARCHAR(255),
     Age NVARCHAR(255),
-    CategoryType NVARCHAR(MAX),
-    Category NVARCHAR(MAX),
+    CategoryType NVARCHAR(255),  -- ensuring a bounded length
+    Category NVARCHAR(255),      -- ensuring a bounded length so it can be indexed
     AgeID INT
 );
 
@@ -368,7 +368,7 @@ SELECT
     Denominator,
     LTRIM(RTRIM(Sex)) AS Sex,
     Age,
-    CategoryType,
+    LTRIM(RTRIM(CategoryType)) AS CategoryType,
     LTRIM(RTRIM(Category)) AS Category,
     AgeID
 FROM #RawHealthData;
@@ -432,6 +432,7 @@ WHERE temp.Value IS NOT NULL;
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL;
 
 DROP TABLE #TempHealthData;
+
 GO
 
 
