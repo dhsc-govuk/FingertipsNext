@@ -32,6 +32,5 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         )
       : undefined;
 
-
   return <H2>View data for selected indicators and areas</H2>;
 }

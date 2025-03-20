@@ -19,7 +19,8 @@ const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
-interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends OneIndicatorViewPlotProps {
+interface OneIndicatorTwoOrMoreAreasViewPlotsProps
+  extends OneIndicatorViewPlotProps {
   areaCodes: string[];
   mapData?: MapData;
 }

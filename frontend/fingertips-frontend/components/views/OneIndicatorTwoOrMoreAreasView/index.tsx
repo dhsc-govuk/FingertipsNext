@@ -94,7 +94,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
-      searchState={searchState}    
+      searchState={searchState}
       healthIndicatorData={healthIndicatorData}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
