@@ -45,6 +45,7 @@ const SuggestionButton = styled('button')({
   fontSize: '19px',
   fontWeight: '300',
   width: '100%',
+  padding: '1px 0px 1px 0px',
 });
 
 interface AreaAutoCompleteSuggestionPanelProps {

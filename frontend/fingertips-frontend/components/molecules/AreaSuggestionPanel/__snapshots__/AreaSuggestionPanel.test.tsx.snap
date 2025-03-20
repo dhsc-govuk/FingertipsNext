@@ -80,6 +80,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   font-size: 19px;
   font-weight: 300;
   width: 100%;
+  padding: 1px 0px 1px 0px;
 }
 
 .c6:focus {
