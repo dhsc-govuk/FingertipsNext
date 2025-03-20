@@ -6,20 +6,24 @@ const mockFilterRemoveFunction = jest.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
+const renderPill = () =>
+  render(
+    <Pill
+      ariaLabelPostfix={'Some Test Area'}
+      selectedFilterId={selectedFilterId}
+      removeFilter={mockFilterRemoveFunction}
+    >
+      {selectedFilterName}
+    </Pill>
+  );
+
 describe('Pill Suite', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should render expected elements', () => {
-    render(
-      <Pill
-        selectedFilterId={selectedFilterId}
-        removeFilter={mockFilterRemoveFunction}
-      >
-        {selectedFilterName}
-      </Pill>
-    );
+    renderPill();
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();
@@ -28,14 +32,7 @@ describe('Pill Suite', () => {
   });
 
   it('should render child text passed in as prop', () => {
-    render(
-      <Pill
-        selectedFilterId={selectedFilterId}
-        removeFilter={mockFilterRemoveFunction}
-      >
-        {selectedFilterName}
-      </Pill>
-    );
+    renderPill();
     expect(screen.getByText('Dementia')).toBeInTheDocument();
   });
 
@@ -64,14 +61,7 @@ describe('Pill Suite', () => {
   });
 
   it('snapshot test', () => {
-    const container = render(
-      <Pill
-        selectedFilterId={selectedFilterId}
-        removeFilter={mockFilterRemoveFunction}
-      >
-        {selectedFilterName}
-      </Pill>
-    );
+    const container = renderPill();
     expect(container.asFragment()).toMatchSnapshot();
   });
 });

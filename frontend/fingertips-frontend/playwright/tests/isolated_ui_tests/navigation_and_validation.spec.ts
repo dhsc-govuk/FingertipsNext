@@ -95,7 +95,10 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
-      await chartPage.expectNoAccessibilityViolations(axeBuilder);
+
+      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {

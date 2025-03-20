@@ -5,6 +5,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -219,10 +220,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   describe('ThematicMap', () => {
     it('should render the ThematicMap when all areas in a group are selected', async () => {
       const searchState: SearchStateParams = {
-        [SearchParams.GroupAreaSelected]: 'ALL',
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
         [SearchParams.AreaTypeSelected]: 'regions',
-        //  DHSCFT-483 to remove this when using GAS
-        [SearchParams.GroupSelected]: 'a group',
       };
 
       render(
@@ -242,9 +241,30 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       ).toBeInTheDocument();
     });
 
-    // DHSCFT-483 to add test
-    it.todo(
-      'should not render the ThematicMap when not all areas in a group are selected'
-    );
+    it('should not render the ThematicMap when not all areas in a group are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.GroupAreaSelected]: 'not ALL',
+        [SearchParams.AreaTypeSelected]: 'regions',
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={[
+            mockHealthData[108][1],
+            mockHealthData[108][2],
+            mockHealthData[108][3],
+          ]}
+          searchState={searchState}
+          mapData={mockMapData}
+          areaCodes={mockAreas}
+        />
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.queryByTestId('thematicMap-component')
+        ).not.toBeInTheDocument();
+      });
+    });
   });
 });
