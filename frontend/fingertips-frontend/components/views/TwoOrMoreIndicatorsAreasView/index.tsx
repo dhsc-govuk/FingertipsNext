@@ -28,5 +28,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   await connection();
 
+  console.log('TODO: fetch health data');
+  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
+
   return <TwoOrMoreIndicatorsAreasViewPlots />;
 }

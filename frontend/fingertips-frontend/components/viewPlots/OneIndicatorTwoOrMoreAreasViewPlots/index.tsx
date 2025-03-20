@@ -119,16 +119,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         groupIndicatorData={groupData}
         measurementUnit={indicatorMetadata?.unitLabel}
       ></BarChartEmbeddedTable>
-      {
-        // TODO: restore this
-        // selectedGroupArea === 'ALL'
-        selectedGroupCode && mapData && (
-          <ThematicMap
-            healthIndicatorData={healthIndicatorData}
-            mapData={mapData}
-          />
-        )
-      }
     </section>
   );
 }
