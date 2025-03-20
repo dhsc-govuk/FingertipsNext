@@ -9,6 +9,7 @@ import {
 } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import { HighlightText } from '@/components/atoms/HighlightText';
+import { FOCUSABLE } from '@govuk-react/constants';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -16,18 +17,35 @@ const StyleSearchSuggestionPanel = styled(UnorderedList)`
   padding: 0;
   margin-left: 0px;
   margin-right: 0px;
+  list-style-type: none;
 `;
 
-const AreaSuggestionPanelItem = styled(ListItem)`
-  border-bottom: 1px solid #75738c;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  padding: 10px 1px;
-  margin: 0;
-  font-size: 19px;
-  font-weight: 300;
-`;
+const AreaTypeTag = styled('div')({
+  backgroundColor: '#E1E2E3',
+  margin: 'auto',
+  padding: '5px 8px 4px 8px',
+  fontSize: '16px',
+  textAlign: 'right',
+  fontWeight: '300',
+});
+
+const AreaSuggestionPanelItem = styled(ListItem)({
+  borderBottom: '1px solid #75738c',
+  padding: '10px 1px',
+  margin: 0,
+});
+
+const SuggestionButton = styled('button')({
+  ...FOCUSABLE,
+  border: 0,
+  background: 'white',
+  cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'row',
+  fontSize: '19px',
+  fontWeight: '300',
+  width: '100%',
+});
 
 interface AreaAutoCompleteSuggestionPanelProps {
   suggestedAreas: AreaDocument[];
@@ -73,32 +91,30 @@ export const AreaAutoCompleteSuggestionPanel = ({
         <AreaSuggestionPanelItem
           data-testid={`area-suggestion-item-${area.areaCode}`}
           key={`${area.areaCode}-${area.areaType}`}
-          onClick={() => updateUrlWithSelectedArea(area.areaCode)}
         >
-          <SearchIcon
-            width="15px"
-            height="15px"
-            fill="#75738c"
-            style={{ padding: '0px', margin: 'auto 10px auto auto' }}
-          />
-          <div style={{ flexGrow: 3, padding: '5px' }}>
-            <HighlightText
-              text={formatAreaName(area.areaCode, area.areaName, area.areaType)}
-              searchHint={searchHint}
-            />
-          </div>
-          <div
-            style={{
-              backgroundColor: '#E1E2E3',
-              margin: 'auto',
-              padding: '5px 8px 4px 8px',
-              fontSize: '16px',
-              textAlign: 'right',
-              fontWeight: '300',
-            }}
+          <SuggestionButton
+            onClick={() => updateUrlWithSelectedArea(area.areaCode)}
           >
-            {area.areaType}
-          </div>
+            <SearchIcon
+              width="15px"
+              height="15px"
+              fill="#75738c"
+              style={{ padding: '0px', margin: 'auto 10px auto auto' }}
+            />
+            <div style={{ flexGrow: 3, padding: '5px', textAlign: 'left' }}>
+              <HighlightText
+                text={formatAreaName(
+                  area.areaCode,
+                  area.areaName,
+                  area.areaType
+                )}
+                searchHint={searchHint}
+              />
+            </div>
+            <AreaTypeTag>
+              {area.areaType}
+            </AreaTypeTag>
+          </SuggestionButton>
         </AreaSuggestionPanelItem>
       ))}
     </StyleSearchSuggestionPanel>
