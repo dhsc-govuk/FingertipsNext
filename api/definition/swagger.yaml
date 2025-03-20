@@ -463,10 +463,10 @@ components:
           type: number
           format: integer
           example: 2
-          description: A number which represents this deprivation value's inherent sequence. Can be used to show values ordered by their deprivation dimension.
+          description: A number which represents this deprivation value's inherent place in the sequence of all values for this deprivation type. Can be used to show values ordered by their deprivation dimension.
         value:
           type: string
-          example: Second most deprived decile (IMD2019)
+          example: Second most deprived decile
           description: The deprivation value for this data point.
         type:
           type: string
