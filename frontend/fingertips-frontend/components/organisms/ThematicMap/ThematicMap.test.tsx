@@ -12,12 +12,11 @@ it('should render the ThematicMap title', async () => {
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
-      mapTitle="valid title"
     />
   );
 
   const title = await screen.findByRole('heading', { level: 3 });
-  expect(title).toHaveTextContent('valid title');
+  expect(title).toHaveTextContent('Compare an indicator by areas');
 });
 
 it('should render the ThematicMap component', async () => {
@@ -25,7 +24,6 @@ it('should render the ThematicMap component', async () => {
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
-      mapTitle="valid title"
     />
   );
 

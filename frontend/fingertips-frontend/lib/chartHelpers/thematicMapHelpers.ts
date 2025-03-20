@@ -10,6 +10,8 @@ import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
 import { AreaTypeKeys } from '../areaFilterHelpers/areaType';
+import { GovukColours } from '../styleHelpers/colours';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export type MapData = {
   mapJoinKey: string;
@@ -27,6 +29,52 @@ export type AreaTypeKeysForMapMeta = Extract<
   | 'nhs-integrated-care-boards'
   | 'nhs-sub-integrated-care-boards'
 >;
+
+export const mapBenchmarkToColourRef: Record<string, number> = {
+  'Not compared': 5,
+  'Better': 15,
+  'Similar': 25,
+  'Worse': 35,
+  'Lower': 45,
+  'Higher': 55,
+};
+
+export const benchmarkColourScale = [
+  {
+    to: 10,
+    name: 'Not compared',
+    color: GovukColours.White,
+  },
+  {
+    from: 10,
+    to: 20,
+    name: 'Better',
+    color: GovukColours.Green,
+  },
+  {
+    from: 20,
+    to: 30,
+    name: 'Similar',
+    color: GovukColours.Yellow,
+  },
+  {
+    from: 30,
+    to: 40,
+    name: 'Worse',
+    color: GovukColours.Red,
+  },
+  {
+    from: 40,
+    to: 50,
+    name: 'Lower',
+    color: GovukColours.LightBlue,
+  },
+  {
+    from: 50,
+    name: 'Higher',
+    color: GovukColours.DarkBlue,
+  },
+];
 
 export function getMapData(
   areaType: AreaTypeKeysForMapMeta,
@@ -79,3 +127,30 @@ const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
     mapFile: NHSSubICBMap,
   },
 };
+
+export function prepareSeriesData(data: HealthDataForArea[]) {
+  const preparedData = data.map((areaData) => {
+    let benchmarkColourCode = 0;
+    if (areaData.healthData[0].benchmarkComparison) {
+      benchmarkColourCode =
+        mapBenchmarkToColourRef[
+          areaData.healthData[0].benchmarkComparison.outcome as string
+        ];
+      console.log(
+        areaData.areaName,
+        areaData.healthData[0].benchmarkComparison?.outcome,
+        benchmarkColourCode
+      );
+    }
+    const preparedDataPoint = {
+      areaName: areaData.areaName,
+      areaCode: areaData.areaCode,
+      value: areaData.healthData[0].value,
+      benchmarkComparison: areaData.healthData[0].benchmarkComparison?.outcome,
+      benchmarkColourCode: benchmarkColourCode,
+      // benchmarkColourCode: 25,
+    };
+    return preparedDataPoint;
+  });
+  return preparedData;
+}

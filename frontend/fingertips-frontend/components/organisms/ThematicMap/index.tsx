@@ -5,85 +5,16 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
-import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
-import { GovukColours } from '@/lib/styleHelpers/colours';
+import {
+  benchmarkColourScale,
+  mapBenchmarkToColourRef,
+  MapData,
+  prepareSeriesData,
+} from '@/lib/chartHelpers/thematicMapHelpers';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
-  mapTitle?: string;
-}
-
-const mapBenchmarkToColourRef: Record<string, number> = {
-  'Not compared': 5,
-  'Better': 15,
-  'Similar': 25,
-  'Worse': 35,
-  'Lower': 45,
-  'Higher': 55,
-};
-
-const colourScale = [
-  {
-    to: 10,
-    name: 'Not compared',
-    color: GovukColours.White,
-  },
-  {
-    from: 10,
-    to: 20,
-    name: 'Better',
-    color: GovukColours.Green,
-  },
-  {
-    from: 20,
-    to: 30,
-    name: 'Similar',
-    color: GovukColours.Yellow,
-  },
-  {
-    from: 30,
-    to: 40,
-    name: 'Worse',
-    color: GovukColours.Red,
-  },
-  {
-    from: 40,
-    to: 50,
-    name: 'Lower',
-    color: GovukColours.LightBlue,
-  },
-  {
-    from: 50,
-    name: 'Higher',
-    color: GovukColours.DarkBlue,
-  },
-];
-
-function prepareSeriesData(data: HealthDataForArea[]) {
-  const preparedData = data.map((areaData) => {
-    let benchmarkColourCode = 0;
-    if (areaData.healthData[0].benchmarkComparison) {
-      benchmarkColourCode =
-        mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome as string
-        ];
-      console.log(
-        areaData.areaName,
-        areaData.healthData[0].benchmarkComparison?.outcome,
-        benchmarkColourCode
-      );
-    }
-    const preparedDataPoint = {
-      areaName: areaData.areaName,
-      areaCode: areaData.areaCode,
-      value: areaData.healthData[0].value,
-      benchmarkComparison: areaData.healthData[0].benchmarkComparison?.outcome,
-      benchmarkColourCode: benchmarkColourCode,
-    };
-    return preparedDataPoint;
-  });
-  return preparedData;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -92,7 +23,6 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapData,
-  mapTitle,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const data = prepareSeriesData(healthIndicatorData);
@@ -118,7 +48,7 @@ export function ThematicMap({
     },
     mapNavigation: { enabled: true },
     colorAxis: {
-      dataClasses: colourScale,
+      dataClasses: benchmarkColourScale,
     },
     series: [
       {
@@ -184,7 +114,7 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      <H3>{mapTitle}</H3>
+      <H3>Compare an indicator by areas</H3>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',
