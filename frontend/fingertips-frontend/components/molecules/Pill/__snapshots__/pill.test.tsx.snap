@@ -60,6 +60,7 @@ exports[`Pill Suite snapshot test 1`] = `
     data-testid="pill-container"
   >
     <button
+      aria-label="Remove area Some Test Area"
       class="c1"
       data-testid="remove-icon-div"
     >
