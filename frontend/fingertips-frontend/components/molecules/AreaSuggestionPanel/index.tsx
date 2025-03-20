@@ -88,9 +88,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
   return (
     <StyleSearchSuggestionPanel data-testid="area-suggestion-panel">
       {suggestedAreas.map((area) => (
-        <AreaSuggestionPanelItem
-          key={`${area.areaCode}-${area.areaType}`}
-        >
+        <AreaSuggestionPanelItem key={`${area.areaCode}-${area.areaType}`}>
           <SuggestionButton
             data-testid={`area-suggestion-item-${area.areaCode}`}
             onClick={() => updateUrlWithSelectedArea(area.areaCode)}
