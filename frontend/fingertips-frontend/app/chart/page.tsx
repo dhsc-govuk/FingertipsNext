@@ -6,10 +6,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 
-import {
-  areaCodeForEngland,
-  indicatorIdForPopulation,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -17,7 +14,6 @@ import {
 import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
@@ -72,21 +68,6 @@ export default async function ChartPage(
         )
       )
     );
-
-    // const _: HealthDataForArea[] | undefined = await (async () => {
-    //   try {
-    //     return await indicatorApi.getHealthDataForAnIndicator(
-    //       {
-    //         indicatorId: indicatorIdForPopulation,
-    //         areaCodes: [...areasSelected, areaCodeForEngland],
-    //         inequalities: ['age', 'sex'],
-    //       },
-    //       API_CACHE_CONFIG
-    //     );
-    //   } catch (error) {
-    //     console.log('error getting population data ', error);
-    //   }
-    // })();
 
     let indicatorMetadata: IndicatorDocument | undefined;
     try {
