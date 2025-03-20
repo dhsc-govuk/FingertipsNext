@@ -1,4 +1,7 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPoint,
+  HealthDataPointBenchmarkComparison,
+} from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -24,6 +27,7 @@ export interface RowDataFields {
   value?: number;
   lower?: number;
   upper?: number;
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
 }
 
 export interface InequalitiesTableRowData {
@@ -113,6 +117,7 @@ export const mapToInequalitiesTableData = (
               value: currentTableKey[0].value,
               lower: currentTableKey[0].lowerCi,
               upper: currentTableKey[0].upperCi,
+              benchmarkComparison: currentTableKey[0].benchmarkComparison,
             }
           : undefined;
         return acc;

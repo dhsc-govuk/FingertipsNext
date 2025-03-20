@@ -41,21 +41,6 @@ const searchState: SearchStateParams = {
 const testHealthData: HealthDataForArea[] = [mockHealthData['108'][1]];
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render back link with correct search parameters', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-    const backLink = await screen.findByRole('link', { name: /back/i });
-    const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}`;
-
-    expect(backLink).toBeInTheDocument();
-    expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
-    expect(backLink).toHaveAttribute('href', expectedUrl);
-  });
-
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
@@ -86,7 +71,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -118,7 +103,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -164,7 +149,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'See how the indicator has changed over time',
+          name: 'Indicator data over time',
         })
       )
     ).not.toBeInTheDocument();

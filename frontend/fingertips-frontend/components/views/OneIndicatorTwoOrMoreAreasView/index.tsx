@@ -17,19 +17,25 @@ import {
   AreaTypeKeysForMapMeta,
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
+import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+
+interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
+  areaCodes: string[];
+}
 
 export default async function OneIndicatorTwoOrMoreAreasView({
   searchState,
-}: Readonly<ViewProps>) {
+  areaCodes,
+}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
+  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -51,14 +57,20 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-      },
-      API_CACHE_CONFIG
-    );
+    healthIndicatorData = (
+      await Promise.all(
+        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorSelected[0]),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
+        )
+      )
+    ).flat();
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
@@ -78,7 +90,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    // TODO: restore this
+    // DHSCFT-483 to restore to just using selectedGroupArea, as selectedGroupCode will not then be relevant for this condition
     selectedGroupArea === 'ALL' && selectedGroupCode
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
@@ -89,6 +101,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
+      areaCodes={areaCodes}
     />
   );
 }

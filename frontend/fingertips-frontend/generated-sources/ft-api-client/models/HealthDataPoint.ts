@@ -76,6 +76,12 @@ export interface HealthDataPoint {
      */
     trend: HealthDataPointTrendEnum;
     /**
+     * Indicates if the datapoint is an aggregate point.
+     * @type {boolean}
+     * @memberof HealthDataPoint
+     */
+    isAggregate?: boolean;
+    /**
      * 
      * @type {HealthDataPointBenchmarkComparison}
      * @memberof HealthDataPoint
@@ -130,6 +136,7 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'ageBand': json['ageBand'],
         'sex': json['sex'],
         'trend': json['trend'],
+        'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
     };
 }
@@ -153,6 +160,7 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'ageBand': value['ageBand'],
         'sex': value['sex'],
         'trend': value['trend'],
+        'isAggregate': value['isAggregate'],
         'benchmarkComparison': HealthDataPointBenchmarkComparisonToJSON(value['benchmarkComparison']),
     };
 }

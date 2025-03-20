@@ -33,16 +33,15 @@ export function getScenarioConfig(
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesComponent,
-    // Enable in DHSCFT-220
-    // ChartPage.inequalitiesBarChartComponent,
-    // Enable in DHSCFT-220
-    // ChartPage.inequalitiesLineChartComponent,
+    ChartPage.inequalitiesBarChartComponent,
+    ChartPage.inequalitiesLineChartComponent,
+    ChartPage.inequalitiesBarChartTableComponent,
+    ChartPage.inequalitiesLineChartTableComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
     // Enable in DHSCFT-483
-    // ChartPage.thematicMapComponent,
-    // Enable in DHSCFT-143
-    // ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.thematicMapComponent,
+    ChartPage.barChartEmbeddedTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
     // ChartPage.spineChartComponent,
@@ -60,9 +59,10 @@ export function getScenarioConfig(
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
       ChartPage.inequalitiesComponent,
-      // Enable in DHSCFT-220
-      // ChartPage.inequalitiesBarChartComponent,
-      // ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartComponent,
+      ChartPage.inequalitiesBarChartTableComponent,
+      ChartPage.inequalitiesLineChartTableComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
     ];
@@ -77,21 +77,21 @@ export function getScenarioConfig(
       // ChartPage.populationPyramidComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
-      // Enable in DHSCFT-143
-      // ChartPage.barChartEmbeddedTableComponent,
+      ChartPage.barChartEmbeddedTableComponent,
     ];
   }
-  // Enable in DHSCFT-483
   // 1 indicator, all areas in a group
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
     areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
   ) {
     visibleComponents = [
-      // Enable in DHSCFT-483
-      // ChartPage.thematicMapComponent,
-      // Enable in DHSCFT-143
-      // ChartPage.barChartEmbeddedTableComponent,
+      ChartPage.thematicMapComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+      // Remove in DHSCFT-465 when inequalities are moved from the Chart component into the correct Views
+      ChartPage.inequalitiesComponent,
+      ChartPage.inequalitiesBarChartComponent,
+      ChartPage.inequalitiesLineChartComponent,
     ];
   }
   // 2+ indicators, England area
@@ -147,11 +147,7 @@ function filterIndicatorsByName(
   return indicators.filter(
     (indicator) =>
       indicator.usedInPoc === true &&
-      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) &&
-      // the following filters are needed due to an API bug see DHSCFT-434
-      !indicator.indicatorName.includes('years') &&
-      !indicator.indicatorName.includes('females') &&
-      !indicator.indicatorName.includes('sex')
+      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
   );
 }
 

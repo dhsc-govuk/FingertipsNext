@@ -7,7 +7,7 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { BackLink, H2, H3, Paragraph } from 'govuk-react';
+import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -19,6 +19,7 @@ const StyledParagraphDataSource = styled(Paragraph)(
 );
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
+  areaCodes: string[];
   mapData?: MapData;
 }
 
@@ -27,15 +28,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   searchState,
   indicatorMetadata,
   mapData,
+  areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
-    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
-    //  TODO: reinstate this
+    //  DHSCFT-483 to reinstate this
     // [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
-  const backLinkPath = stateManager.generatePath('/results');
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -54,20 +54,15 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const shouldLineChartbeShown =
     dataWithoutEngland[0]?.healthData.length > 1 &&
-    areasSelected &&
-    areasSelected?.length <= 2;
+    areaCodes &&
+    areaCodes?.length <= 2;
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <BackLink
-        data-testid="chart-page-back-link"
-        href={backLinkPath}
-        aria-label="Go back to the previous page"
-      />
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
-          <H3>See how the indicator has changed over time</H3>
+          <H3>Indicator data over time</H3>
           <TabContainer
             id="lineChartAndTable"
             items={[
@@ -87,13 +82,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 ),
               },
               {
-                id: 'table',
-                title: 'Tabular data',
+                id: 'lineChartTable',
+                title: 'Table',
                 content: (
                   <LineChartTable
                     healthIndicatorData={dataWithoutEngland}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
+                    measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
               },
@@ -110,6 +106,17 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      {
+        // DHSCFT-483 to restore this to use only the selectedGroupArea flag
+        // selectedGroupArea === 'ALL'
+        selectedGroupCode && mapData && (
+          <ThematicMap
+            healthIndicatorData={healthIndicatorData}
+            mapData={mapData}
+          />
+        )
+      }
+      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}

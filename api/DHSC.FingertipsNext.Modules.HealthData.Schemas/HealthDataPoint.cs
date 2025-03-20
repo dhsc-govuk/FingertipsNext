@@ -42,13 +42,20 @@ public class HealthDataPoint
     ///     Age band which the data are for.
     /// </summary>
     [JsonPropertyName("ageBand")]
-    public string AgeBand { get; init; } = string.Empty;
+    public string? AgeBand { get; init; } = string.Empty;
+    
+    /// <summary>
+    ///     Age band which the data are for.
+    /// </summary>
+    [JsonPropertyName("deprivation")]
+    public string? Deprivation { get; init; } = string.Empty;
+    
 
     /// <summary>
     ///     Sex which the data are for.
     /// </summary>
     [JsonPropertyName("sex")]
-    public string Sex { get; init; } = string.Empty;
+    public string? Sex { get; init; } = string.Empty;
 
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.
@@ -64,4 +71,10 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("benchmarkComparison")]
     public BenchmarkComparison? BenchmarkComparison { get; set; }
+
+    /// <summary>
+    ///     Is the data an aggregated point
+    /// </summary>
+    [JsonPropertyName("isAggregate")]
+    public bool IsAggregate { get; set; }
 }
