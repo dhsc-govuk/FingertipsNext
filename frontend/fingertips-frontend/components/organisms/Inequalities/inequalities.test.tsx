@@ -50,7 +50,7 @@ describe('Inequalities suite', () => {
     );
 
     expect(screen.getAllByRole('heading', { level: 4 })[0]).toHaveTextContent(
-      'Inequalities data in a single time period'
+      'Inequalities data for a single time period'
     );
     expect(screen.getAllByRole('heading', { level: 4 })[1]).toHaveTextContent(
       'Inequalities data over time'
