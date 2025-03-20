@@ -6,7 +6,7 @@ exports[`IndicatorSelectedPill should match snapshot 1`] = `
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.5em 0.3125em;
+  padding: 0.5em 0.3125em 0.5em 0.3125em;
   max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
@@ -17,7 +17,7 @@ exports[`IndicatorSelectedPill should match snapshot 1`] = `
 
 .c1 {
   word-wrap: break-word;
-  padding: 0em 1em;
+  padding: 0em 1em 0em 0.75em;
   font-size: 16px;
   margin-bottom: 0;
   font-family: "nta",Arial,sans-serif;
