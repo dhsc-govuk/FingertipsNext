@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -105,7 +106,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {selectedGroupArea === 'ALL' && mapData && (
+      {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
         <ThematicMap
           healthIndicatorData={healthIndicatorData}
           mapData={mapData}

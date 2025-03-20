@@ -15,6 +15,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -186,7 +187,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
-      [SearchParams.GroupAreaSelected]: 'ALL',
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
       [SearchParams.AreaTypeSelected]: 'regions',
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([

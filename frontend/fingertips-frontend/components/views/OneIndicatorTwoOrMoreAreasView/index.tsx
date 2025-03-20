@@ -15,6 +15,7 @@ import {
   getMapData,
 } from '@/lib/chartHelpers/thematicMapHelpers';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
   areaCodes: string[];
@@ -87,7 +88,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    selectedGroupArea === 'ALL' && selectedAreaType
+    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 
