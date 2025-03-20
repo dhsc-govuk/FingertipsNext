@@ -87,14 +87,17 @@ export default async function OneIndicatorOneAreaView({
       })(areaCodesToRequest[0]);
 
       // Fetch the health data.
-      const data = await indicatorApi.getHealthDataForAnIndicator({
-        indicatorId: populationIndicatorID,
-        areaCodes: areaCodesToRequest,
-        inequalities: [
-          GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-        ],
-      });
+      const data = await indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: populationIndicatorID,
+          areaCodes: areaCodesToRequest,
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          ],
+        },
+        API_CACHE_CONFIG
+      );
       return data;
     } catch (error) {
       console.error('error getting health indicator data for area', error);
