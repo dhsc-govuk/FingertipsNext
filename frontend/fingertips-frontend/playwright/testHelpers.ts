@@ -107,7 +107,7 @@ export function getScenarioConfig(
     },
     // Pending
     // ChartPage.basicTableComponent,
-    // ChartPage.spineChartComponent,
+    ChartPage.spineChartTableComponent,
     // ChartPage.heatMapComponent,
   ];
 
@@ -178,15 +178,14 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
-    // visibleComponents = allComponents.filter((component) =>
-    //   [
-    //     // Pending
-    //     // ChartPage.spineChartComponent,
-    //     // ChartPage.heatMapComponent,
-    //     // Enable in DHSCFT-148
-    //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.componentLocator)
-    // );
+    visibleComponents = [
+      ChartPage.spineChartTableComponent,
+
+      // Pending
+      // ChartPage.heatMapComponent,
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+    ];
   } else {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
