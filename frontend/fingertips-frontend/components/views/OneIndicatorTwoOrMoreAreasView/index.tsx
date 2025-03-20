@@ -15,6 +15,7 @@ import {
   getMapData,
 } from '@/lib/thematicMapUtils/getMapData';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
   areaCodes: string[];
@@ -87,8 +88,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    // DHSCFT-483 to restore to just using selectedGroupArea, as selectedGroupCode will not then be relevant for this condition
-    selectedGroupArea === 'ALL' && selectedGroupCode
+    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 
