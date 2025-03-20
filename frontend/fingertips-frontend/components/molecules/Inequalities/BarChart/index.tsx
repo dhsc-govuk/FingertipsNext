@@ -74,11 +74,13 @@ export function InequalitiesBarChart({
           inequalities[field]?.benchmarkComparison
             ?.outcome as BenchmarkLabelType
         );
-
+        const backgroundColor = colours?.backgroundColor ?? undefined;
+        const color =
+          backgroundColor === 'transparent' ? undefined : backgroundColor;
         return {
           name: field,
           y: inequalities[field]?.value,
-          color: colours?.backgroundColor ?? undefined,
+          color,
         };
       }),
     },
