@@ -111,9 +111,7 @@ export const AreaAutoCompleteSuggestionPanel = ({
                 searchHint={searchHint}
               />
             </div>
-            <AreaTypeTag>
-              {area.areaType}
-            </AreaTypeTag>
+            <AreaTypeTag>{area.areaType}</AreaTypeTag>
           </SuggestionButton>
         </AreaSuggestionPanelItem>
       ))}
