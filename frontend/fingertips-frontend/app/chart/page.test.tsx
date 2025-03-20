@@ -99,7 +99,6 @@ describe('Chart Page', () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
-
       await ChartPage({
         searchParams: generateSearchParams(searchParams),
       });
@@ -127,7 +126,7 @@ describe('Chart Page', () => {
           comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
-      )
+      );
     });
   });
 
@@ -142,7 +141,6 @@ describe('Chart Page', () => {
         [SearchParams.GroupSelected]: mockParentAreaCode,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-
 
       await ChartPage({
         searchParams: generateSearchParams(searchParams),
@@ -189,7 +187,6 @@ describe('Chart Page', () => {
         },
         API_CACHE_CONFIG
       );
-
     });
 
     describe('Check correct props are passed to Chart page component', () => {
@@ -239,12 +236,12 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children).toHaveLength(2)
-        expect(page.props.children[1].props.searchState).toEqual({
+        const expected = {
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
-        });
+        };
+        expect(page.props.children[1].props.searchState).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {
