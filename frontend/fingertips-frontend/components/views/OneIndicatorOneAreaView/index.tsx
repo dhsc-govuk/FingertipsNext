@@ -11,10 +11,9 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function OneIndicatorOneAreaView({
+  selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -54,18 +53,7 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for area',
-      error
-    );
-  }
+  const indicatorMetadata = selectedIndicatorsData && selectedIndicatorsData[0];
 
   return (
     <OneIndicatorOneAreaViewPlots

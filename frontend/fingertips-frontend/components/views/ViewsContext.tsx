@@ -25,7 +25,8 @@ export type ViewProps = {
 function viewSelector(
   areaCodes: string[],
   indicators: string[],
-  searchState: SearchStateParams
+  searchState: SearchStateParams,
+  selectedIndicatorsData?: IndicatorDocument[]
 ): JSX.Element {
   const updatedSearchState = {
     ...searchState,
@@ -33,12 +34,18 @@ function viewSelector(
   };
 
   if (indicators.length === 1 && areaCodes.length === 1) {
-    return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
+    return (
+      <OneIndicatorOneAreaView
+        selectedIndicatorsData={selectedIndicatorsData}
+        searchState={updatedSearchState}
+      />
+    );
   }
 
   if (indicators.length === 1 && areaCodes.length >= 2) {
     return (
       <OneIndicatorTwoOrMoreAreasView
+        selectedIndicatorsData={selectedIndicatorsData}
         searchState={updatedSearchState}
         areaCodes={areaCodes}
       />
@@ -113,7 +120,7 @@ export function ViewsContext({
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
-      {viewSelector(areaCodes, indicators, searchState)}
+      {viewSelector(areaCodes, indicators, searchState, selectedIndicatorsData)}
     </ChartPageWrapper>
   );
 }

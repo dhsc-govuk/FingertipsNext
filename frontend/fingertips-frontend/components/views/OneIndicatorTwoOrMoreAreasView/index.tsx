@@ -8,8 +8,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -22,6 +20,7 @@ interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
 }
 
 export default async function OneIndicatorTwoOrMoreAreasView({
+  selectedIndicatorsData,
   searchState,
   areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
@@ -74,18 +73,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for areas',
-      error
-    );
-  }
+  const indicatorMetadata = selectedIndicatorsData && selectedIndicatorsData[0];
 
   const mapData =
     selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
