@@ -300,7 +300,7 @@ FROM
 
 
 -- Health Data
-CREATE TABLE #TempHealthData
+CREATE TABLE #RawHealthData
 (
     IndicatorId INT,
     Year INT,
@@ -320,19 +320,69 @@ CREATE TABLE #TempHealthData
     IsAgeAggregatedOrSingle NVARCHAR(255),
     IsDeprivationAggregatedOrSingle NVARCHAR(255)
 );
-DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
+
+DECLARE @sqlHealth NVARCHAR(4000),
+        @filePathHealth NVARCHAR(500);
+
 IF @UseAzureBlob = '1'
     SET @filePathHealth = 'healthdata.csv';
 ELSE
     SET @filePathHealth = '$(LocalFilePath)healthdata.csv';
-SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' WITH (' +
+
+SET @sqlHealth = 'BULK INSERT #RawHealthData FROM ''' + @filePathHealth + ''' WITH (' +
                  CASE WHEN @UseAzureBlob = '1'
                       THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                       ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                  END + ')';
+
 EXEC sp_executesql @sqlHealth;
 
-ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
+CREATE TABLE #TempHealthData
+(
+    IndicatorId INT,
+    Year INT,
+    SexID INT,
+    AreaCode NVARCHAR(255),
+    Count FLOAT,
+    Value FLOAT,
+    Lower95CI FLOAT,
+    Upper95CI FLOAT,
+    Denominator FLOAT,
+    Sex NVARCHAR(255),
+    Age NVARCHAR(255),
+    CategoryType NVARCHAR(MAX),
+    Category NVARCHAR(MAX),
+    AgeID INT
+);
+
+INSERT INTO #TempHealthData
+SELECT 
+    IndicatorId,
+    Year,
+    SexID,
+    LTRIM(RTRIM(AreaCode)) AS AreaCode,
+    Count,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Denominator,
+    LTRIM(RTRIM(Sex)) AS Sex,
+    Age,
+    CategoryType,
+    LTRIM(RTRIM(Category)) AS Category,
+    AgeID
+FROM #RawHealthData;
+
+DROP TABLE #RawHealthData;
+
+CREATE INDEX IX_TempHealthData_AreaCode ON #TempHealthData(AreaCode);
+CREATE INDEX IX_TempHealthData_IndicatorId ON #TempHealthData(IndicatorId);
+CREATE INDEX IX_TempHealthData_Sex ON #TempHealthData(Sex);
+CREATE INDEX IX_TempHealthData_AgeID ON #TempHealthData(AgeID);
+CREATE INDEX IX_TempHealthData_Category ON #TempHealthData(Category);
+
+ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL;
+
 INSERT INTO [dbo].[HealthMeasure]
 (
     AreaKey,
@@ -379,9 +429,10 @@ JOIN
 	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
 WHERE temp.Value IS NOT NULL;
 
-ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL;
 
 DROP TABLE #TempHealthData;
+GO
 
 
 INSERT INTO [Areas].[AreaTypes]
