@@ -4,16 +4,17 @@ import {
 } from '@/generated-sources/ft-api-client';
 import {
   generateInequalitiesLineChartSeriesData,
+  getAggregatePointInfo,
+  getBenchmarkData,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
-  InequalitiesTypes,
+  InequalitiesBarChartData,
   InequalitiesTableRowData,
+  InequalitiesTypes,
   mapToInequalitiesTableData,
   shouldDisplayInequalities,
-  InequalitiesBarChartData,
-  getBenchmarkData,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -104,18 +105,21 @@ const mockInequalitiesRowData = [
         count: 222,
         upper: 578.32766,
         lower: 441.69151,
+        isAggregate: true,
       },
       Male: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
+        isAggregate: false,
       },
       Female: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
+        isAggregate: false,
       },
     },
   },
@@ -338,5 +342,29 @@ describe('generateLineChartSeriesData', () => {
         areasSelected
       )
     ).toEqual([]);
+  });
+});
+
+describe('getAggregatePointInfo', () => {
+  const testData = mockInequalitiesRowData[1].inequalities;
+  it('should return the benchmark point and value', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('benchmarkPoint', testData.Persons);
+    expect(result).toHaveProperty('benchmarkValue', testData.Persons?.value);
+  });
+
+  it('should return the aggregate key', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('aggregateKey', 'Persons');
+  });
+
+  it('should return the inequalityDimensions', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('inequalityDimensions', ['Female', 'Male']);
+  });
+
+  it('should return all the keys sorted', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('sortedKeys', ['Female', 'Male', 'Persons']);
   });
 });

@@ -74,7 +74,7 @@ export function InequalitiesBarChart({
           inequalities[field]?.benchmarkComparison
             ?.outcome as BenchmarkLabelType
         );
-        const backgroundColor = colours?.backgroundColor ?? undefined;
+        const backgroundColor = colours?.backgroundColor;
         const color =
           backgroundColor === 'transparent' ? undefined : backgroundColor;
         return {
