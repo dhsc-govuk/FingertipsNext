@@ -1910,6 +1910,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2008,
@@ -1920,6 +1921,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2004,
@@ -1930,6 +1932,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2008,
@@ -1940,6 +1943,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2004,
@@ -2455,6 +2459,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2008,
@@ -2465,6 +2470,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2004,
@@ -2475,6 +2481,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2008,
@@ -2485,6 +2492,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
         },
         {
           year: 2004,
@@ -2495,6 +2503,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: true,
         },
         {
           year: 2008,
@@ -2505,6 +2514,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: true,
         },
       ],
     },
