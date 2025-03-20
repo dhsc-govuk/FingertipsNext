@@ -2098,7 +2098,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
         },
         {
           year: 2008,
@@ -2109,7 +2109,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
-          isAggregate: false,
+          isAggregate: true,
         },
       ],
     },
