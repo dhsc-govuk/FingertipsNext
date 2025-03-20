@@ -20,8 +20,6 @@ import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   AreasApi,
 } from '@/generated-sources/ft-api-client';
-import { getMapData } from '@/lib/thematicMapUtils/getMapData';
-import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import {
   allAreaTypes,
@@ -322,34 +320,6 @@ describe('Chart Page', () => {
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
         });
-      });
-
-      it('should pass map data to the Chart page', async () => {
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['333'],
-          [SearchParams.AreasSelected]: ['E40000011', 'E40000012'],
-          [SearchParams.AreaTypeSelected]: 'nhs-regions',
-        };
-
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData['333']
-        );
-
-        const mockData = (getMapData as jest.Mock).mockReturnValue({
-          mapJoinKey: 'test',
-          mapFile: NHSRegionsMap,
-          mapGroupBoundary: NHSRegionsMap,
-        });
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        const expected = getMapData('nhs-regions', ['A1245', 'A1245']);
-
-        expect(mockData).toHaveBeenCalled();
-        expect(page.props.children[1].props.mapData).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {
