@@ -73,7 +73,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
-  const indicatorMetadata = selectedIndicatorsData && selectedIndicatorsData[0];
+  const indicatorMetadata = selectedIndicatorsData?.[0];
 
   const mapData =
     selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType

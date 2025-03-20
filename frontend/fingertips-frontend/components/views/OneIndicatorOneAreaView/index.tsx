@@ -55,7 +55,7 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  const indicatorMetadata = selectedIndicatorsData && selectedIndicatorsData[0];
+  const indicatorMetadata = selectedIndicatorsData?.[0];
 
   return (
     <OneIndicatorOneAreaViewPlots
