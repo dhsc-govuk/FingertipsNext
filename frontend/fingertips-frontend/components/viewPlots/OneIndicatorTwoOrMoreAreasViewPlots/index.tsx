@@ -111,6 +111,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           mapData={mapData}
         />
       )}
+      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}
