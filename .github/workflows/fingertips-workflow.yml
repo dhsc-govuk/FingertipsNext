@@ -389,6 +389,8 @@ jobs:
     environment: development
     name: Run Trend Analysis App
     runs-on: self-hosted
+    env:
+      ACTIONS_RUNNER_DEBUG: true
     strategy:
       matrix:
         dotnet-version: ['9.0.x']
