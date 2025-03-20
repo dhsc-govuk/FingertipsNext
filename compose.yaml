@@ -19,8 +19,8 @@ services:
     depends_on:
       db-setup:
         condition: service_completed_successfully
-      db-apply-trends:
-        condition: service_completed_successfully
+      # db-apply-trends:
+      #   condition: service_completed_successfully
 
     build: api
     environment:
@@ -55,19 +55,19 @@ services:
       SA_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
 
-  db-apply-trends:
-    profiles:
-      - all
-      - db
-      - api
+  # db-apply-trends:
+  #   profiles:
+  #     - all
+  #     - db
+  #     - api
 
-    depends_on:
-      db-setup:
-        condition: service_completed_successfully
+  #   depends_on:
+  #     db-setup:
+  #       condition: service_completed_successfully
 
-    build: trend-analysis/TrendAnalysisApp
-    environment:
-      SQLCONNSTR_FINGERTIPS_DB: Server=db;Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=False;TrustServerCertificate=False;
+  #   build: trend-analysis/TrendAnalysisApp
+  #   environment:
+  #     SQLCONNSTR_FINGERTIPS_DB: Server=db;Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=False;TrustServerCertificate=False;
 
   db:
     profiles:
