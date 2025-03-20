@@ -1,4 +1,5 @@
 'use client';
+
 import {
   HealthDataForArea,
   HealthDataPoint,
@@ -75,13 +76,11 @@ const getLatestYear = (
   points: HealthDataPoint[] | undefined
 ): number | undefined => {
   if (!points) return undefined;
-  let currentYear = points[0].year;
-  points.find((point: HealthDataPoint) => {
-    if (point.year > currentYear) {
-      currentYear = point.year;
-    }
+
+  const healthData = points.reduce((previous, point) => {
+    return Math.max(previous.year, point.year), points[0];
   });
-  return currentYear;
+  return healthData?.year;
 };
 
 interface PyramidPopulationChartViewProps {

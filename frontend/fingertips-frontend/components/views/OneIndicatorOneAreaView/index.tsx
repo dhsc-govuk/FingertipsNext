@@ -75,7 +75,7 @@ export default async function OneIndicatorOneAreaView({
     );
   }
 
-  const healthPopulationData: HealthDataForArea[] = await (async () => {
+  const healthPopulationData = await (async () => {
     try {
       // determined which indicator to use for the selected area
       const populationIndicatorID: number = await (async (areaCode: string) => {
@@ -87,7 +87,7 @@ export default async function OneIndicatorOneAreaView({
       })(areaCodesToRequest[0]);
 
       // Fetch the health data.
-      const data = await indicatorApi.getHealthDataForAnIndicator(
+      return await indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: populationIndicatorID,
           areaCodes: areaCodesToRequest,
@@ -98,10 +98,8 @@ export default async function OneIndicatorOneAreaView({
         },
         API_CACHE_CONFIG
       );
-      return data;
     } catch (error) {
       console.error('error getting health indicator data for area', error);
-      throw new Error('error getting health indicator data for area');
     }
   })();
 

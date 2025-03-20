@@ -28,7 +28,7 @@ function shouldLineChartBeShown(
 }
 
 interface OneIndicatorOneAreaViewPlotsProps extends ViewPlotProps {
-  healthPopulationData: HealthDataForArea[];
+  healthPopulationData?: HealthDataForArea[];
 }
 
 export function OneIndicatorOneAreaViewPlots({
@@ -114,7 +114,7 @@ export function OneIndicatorOneAreaViewPlots({
       )}
 
       <PopulationPyramidWithTable
-        healthDataForAreas={healthPopulationData}
+        healthDataForAreas={healthPopulationData ?? []}
         selectedGroupAreaCode={selectedGroupCode}
         xAxisTitle="Age"
         yAxisTitle="Percentage"
