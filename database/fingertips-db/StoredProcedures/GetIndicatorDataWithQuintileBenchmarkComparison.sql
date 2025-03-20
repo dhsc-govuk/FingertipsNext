@@ -1,9 +1,4 @@
-﻿DROP PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison];
-DROP TYPE dbo.AreaCodeList;
-DROP TYPE dbo.YearList;
-CREATE TYPE dbo.AreaCodeList AS TABLE( AreaCode varchar(20) );
-CREATE TYPE dbo.YearList AS TABLE( YearNum varchar(20) );
---- This stored procedure Gets HealthData and performs Quintile calculations
+﻿--- This stored procedure Gets HealthData and performs Quintile calculations
 CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 @AreasOfInterest AreaCodeList READONLY, --- The Areas we want data for
 @AreaTypeOfInterest varchar(50),        --- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
@@ -49,7 +44,6 @@ BEGIN
 		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY Value) AS Quintile,
 		    area.Code as AreaDimensionCode,
 		    area.Name as AreaDimensionName,
-		    ind.Name as IndicatorDimensionName,
 		    sex.Name as SexDimensionName,
 		    sex.HasValue as SexDimensionHasValue,
 		    'trendName' as TrendDimensionName,
@@ -63,12 +57,11 @@ BEGIN
 		    Value,
 		    LowerCi,
 		    UpperCi,
-		    hm.Year,
-		    ind.Polarity as IndicatorPolarity
+		    hm.Year
 	    FROM
 		    dbo.HealthMeasure as hm
     	JOIN
-            IndicatorOfInterest ind
+            IndicatorOfInterest as ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	    JOIN
@@ -80,9 +73,9 @@ BEGIN
         ON
 		    aa.AreaKey = area.AreaKey
 	    JOIN
-            ChosenAreaType as at 
+            ChosenAreaType as at2 
         ON
-		    at.AreaTypeKey = aa.AreaTypeKey
+		    at2.AreaTypeKey = aa.AreaTypeKey
 		JOIN
             dbo.SexDimension as sex
         ON
@@ -127,39 +120,41 @@ BEGIN
 		'Quintile' as BenchmarkComparisonMethod,
 		'E92000001' as BenchmarkComparisonAreaCode,
 		'England' as BenchmarkComparisonAreaName,
-		hd.IndicatorPolarity as BenchmarkComparisonIndicatorPolarity,
+		ioi.Polarity as BenchmarkComparisonIndicatorPolarity,
+		ioi.Name as IndicatorDimensionName,
+
 	CASE
-		WHEN hd.IndicatorPolarity = 'High is good'
+		WHEN ioi.IndicatorPolarity = 'High is good'
 		AND hd.Quintile = 1 THEN 'WORST'
-		WHEN hd.IndicatorPolarity = 'High is good'
+		WHEN ioi.IndicatorPolarity = 'High is good'
 		AND hd.Quintile = 2 THEN 'WORSE'
-		WHEN hd.IndicatorPolarity = 'High is good'
+		WHEN ioi.IndicatorPolarity = 'High is good'
 		AND hd.Quintile = 3 THEN 'MIDDLE'
-		WHEN hd.IndicatorPolarity = 'High is good'
+		WHEN ioi.IndicatorPolarity = 'High is good'
 		AND hd.Quintile = 4 THEN 'BETTER'
-		WHEN hd.IndicatorPolarity = 'High is good'
+		WHEN ioi.IndicatorPolarity = 'High is good'
 		AND hd.Quintile = 5 THEN 'BEST'
 
-		WHEN hd.IndicatorPolarity = 'Low is good'
+		WHEN ioi.IndicatorPolarity = 'Low is good'
 		AND hd.Quintile = 1 THEN 'BEST'
-		WHEN hd.IndicatorPolarity = 'Low is good'
+		WHEN ioi.IndicatorPolarity = 'Low is good'
 		AND hd.Quintile = 2 THEN 'BETTER'
-		WHEN hd.IndicatorPolarity = 'Low is good'
+		WHEN ioi.IndicatorPolarity = 'Low is good'
 		AND hd.Quintile = 3 THEN 'MIDDLE'
-		WHEN hd.IndicatorPolarity = 'Low is good'
+		WHEN ioi.IndicatorPolarity = 'Low is good'
 		AND hd.Quintile = 4 THEN 'WORSE'
-		WHEN hd.IndicatorPolarity = 'Low is good'
+		WHEN ioi.IndicatorPolarity = 'Low is good'
 		AND hd.Quintile = 5 THEN 'WORST'
 
-		WHEN hd.IndicatorPolarity = 'No judgement'
+		WHEN ioi.IndicatorPolarity = 'No judgement'
 		AND hd.Quintile = 1 THEN 'LOWEST'
-		WHEN hd.IndicatorPolarity = 'No judgement'
+		WHEN ioi.IndicatorPolarity = 'No judgement'
 		AND hd.Quintile = 2 THEN 'LOWER'
-		WHEN hd.IndicatorPolarity = 'No judgement'
+		WHEN ioi.IndicatorPolarity = 'No judgement'
 		AND hd.Quintile = 3 THEN 'SIMILAR'
-		WHEN hd.IndicatorPolarity = 'No judgement'
+		WHEN ioi.IndicatorPolarity = 'No judgement'
 		AND hd.Quintile = 4 THEN 'HIGHER'
-		WHEN hd.IndicatorPolarity = 'No judgement'
+		WHEN ioi.IndicatorPolarity = 'No judgement'
 		AND hd.Quintile = 5 THEN 'HIGHEST'
 	END as BenchmarkComparisonOutcome
 	FROM
@@ -168,6 +163,9 @@ BEGIN
     	@AreasOfInterest as aoi
 	ON
 		hd.AreaDimensionCode = aoi.AreaCode
+	CROSS JOIN
+	    IndicatorOfInterest ioi
 	ORDER BY
-		AreaDimensionName, hd.Year DESC
+		AreaDimensionName, 
+		hd.Year DESC
 END
