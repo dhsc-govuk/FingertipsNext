@@ -8,6 +8,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyleAreaName = styled('span')({
   fontWeight: '500',
+  fontSize: '19px',
 });
 
 const StyleAreaType = styled('span')({

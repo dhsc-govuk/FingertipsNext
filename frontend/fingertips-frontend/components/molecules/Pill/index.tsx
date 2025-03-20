@@ -11,7 +11,7 @@ const PillContainer = styled('div')<{ isFullWidth: boolean }>(
     backgroundColor: 'white',
     border: '1px #D1D2D3 solid',
     borderRadius: '5px',
-    padding: '0.5em 0.3125em 0.5em 0em',
+    padding: '0.5em 0.3125em 0.5em 0.3125em',
     maxWidth: isFullWidth ? '100%' : 'max-content',
     margin: '0.3125em 0',
     display: 'flex',
@@ -31,9 +31,9 @@ const StyledFilterChildren = styled('div')(
 const RemoveAreaButton = styled('button')({
   ...FOCUSABLE,
   alignItems: 'center',
-  backgroundColor: 'transparent',
+  backgroundColor: 'white',
   border: '0',
-  borderRadius: '5px',
+  cursor: 'pointer',
   display: 'flex',
   padding: '5px',
 });
@@ -63,7 +63,7 @@ export function Pill({
           removeFilter(selectedFilterId ?? '');
         }}
       >
-        <RemoveIcon width="12" height="12" color="#000000" />
+        <RemoveIcon width="16" height="16" color="#000000" />
       </RemoveAreaButton>
       <StyledFilterChildren data-testid="filter-name">
         {children}
