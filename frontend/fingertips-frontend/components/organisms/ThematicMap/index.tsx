@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {

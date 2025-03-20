@@ -6,7 +6,7 @@ import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
 import { GeoJSON } from 'highcharts';
-import { AreaTypeKeysForMapMeta, getMapData } from './getMapData';
+import { AreaTypeKeysForMapMeta, getMapData } from './thematicMapHelpers';
 import {
   AreaTypeKeysGroupBoundaries,
   mockMapGroupBoundaries,

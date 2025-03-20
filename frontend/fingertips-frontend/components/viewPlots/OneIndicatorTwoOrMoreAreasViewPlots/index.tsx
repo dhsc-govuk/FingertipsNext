@@ -11,7 +11,7 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 
 const StyledParagraphDataSource = styled(Paragraph)(

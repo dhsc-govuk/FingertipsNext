@@ -13,7 +13,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
-} from '@/lib/thematicMapUtils/getMapData';
+} from '@/lib/chartHelpers/thematicMapHelpers';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
