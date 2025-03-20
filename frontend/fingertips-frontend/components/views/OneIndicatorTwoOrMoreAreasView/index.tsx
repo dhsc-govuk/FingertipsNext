@@ -90,8 +90,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   }
 
   const mapData =
-    // DHSCFT-483 to restore to just using selectedGroupArea, as selectedGroupCode will not then be relevant for this condition
-    selectedGroupArea === 'ALL' && selectedGroupCode
+    selectedGroupArea === 'ALL' && selectedAreaType
       ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
       : undefined;
 

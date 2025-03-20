@@ -47,9 +47,10 @@ export default class ChartPage extends BasePage {
   }
 
   /**
-   * This test function is currently capable of testing three of the fifteen indicator + area
-   * scenario combinations from https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
-   * These three scenario combinations are defined above in scenarioConfigs and were chosen as they are happy paths covering lots of chart components.
+   * This function tests a subset of indicator + area scenario combinations from
+   * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?pageId=419245267
+   * The selected scenario combinations are defined above in scenarioConfigs and were chosen
+   * as they are happy paths covering lots of chart components.
    * Note all 15 scenarios are covered in lower level unit testing.
    */
   async checkChartVisibility(

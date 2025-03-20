@@ -33,8 +33,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
-    //  DHSCFT-483 to reinstate this
-    // [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
@@ -106,16 +105,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {
-        // DHSCFT-483 to restore this to use only the selectedGroupArea flag
-        // selectedGroupArea === 'ALL'
-        selectedGroupCode && mapData && (
-          <ThematicMap
-            healthIndicatorData={healthIndicatorData}
-            mapData={mapData}
-          />
-        )
-      }
+      {selectedGroupArea === 'ALL' && mapData && (
+        <ThematicMap
+          healthIndicatorData={healthIndicatorData}
+          mapData={mapData}
+        />
+      )}
       <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
