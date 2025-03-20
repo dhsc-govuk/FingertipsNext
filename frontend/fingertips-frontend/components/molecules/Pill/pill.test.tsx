@@ -6,15 +6,16 @@ const mockFilterRemoveFunction = jest.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
-const renderPill = () => render(
+const renderPill = () =>
+  render(
     <Pill
-        ariaLabelPostfix={'Some Test Area'}
-        selectedFilterId={selectedFilterId}
-        removeFilter={mockFilterRemoveFunction}
+      ariaLabelPostfix={'Some Test Area'}
+      selectedFilterId={selectedFilterId}
+      removeFilter={mockFilterRemoveFunction}
     >
       {selectedFilterName}
     </Pill>
-);
+  );
 
 describe('Pill Suite', () => {
   afterEach(() => {
