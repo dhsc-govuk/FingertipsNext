@@ -27,6 +27,7 @@ export const GroupAreaSelectedPill = ({
       removeFilter={onRemoveFilter}
       selectedFilterId={groupSelected?.code}
       isFullWidth={inFilterPane}
+      ariaLabelPostfix={groupSelected?.name}
     >
       <p style={{ margin: 0 }}>
         All areas in {groupSelected?.name}{' '}
