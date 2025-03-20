@@ -26,6 +26,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 267,
@@ -36,6 +37,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 267,
@@ -46,6 +48,7 @@ const mockData = [
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
       },
     ],
   },
@@ -67,6 +70,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true
           },
           {
             count: 267,
@@ -77,6 +81,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Male',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: false
           },
           {
             count: 389,
@@ -87,6 +92,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
           },
         ],
       },
