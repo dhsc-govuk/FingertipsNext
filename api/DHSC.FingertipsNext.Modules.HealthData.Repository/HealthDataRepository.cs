@@ -70,11 +70,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int IndicatorId, string[] AreaCodes, int[] Years)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int IndicatorId, string[] AreaCodes, int[] Years, string AreaTypeKey)
     {
-        var AreaTypeKey = "counties-and-unitary-authorities";
-
-        // Convert the string arrays to table-valued parameters (TVPs) if needed
+        // Convert the array parameters into DataTables for presentation to the Stored Procedure.
         var AreaCodesTable = new DataTable();
         AreaCodesTable.Columns.Add("AreaCode", typeof(string));
         foreach (var area in AreaCodes)
@@ -113,18 +111,5 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         return [.. denormalisedHealthData
             .Select(a => a.Normalise())
             .OrderBy(a => a.Year)];
-    }
-
-    private DataTable CreateDataTable(string[] values)
-    {
-        var table = new DataTable();
-        table.Columns.Add("AreaCode", typeof(string));
-
-        foreach (var value in values)
-        {
-            table.Rows.Add(value);
-        }
-
-        return table;
     }
 }

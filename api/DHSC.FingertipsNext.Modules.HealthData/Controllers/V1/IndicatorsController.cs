@@ -18,6 +18,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="comparison_method">eg RAG, Quartiles</param>
@@ -31,6 +32,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
+        [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null,
         [FromQuery] string? comparison_method = "None")
@@ -42,6 +44,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService)
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
+            areaType,
             years ?? [],
             inequalities ?? [],
             benchmarkType

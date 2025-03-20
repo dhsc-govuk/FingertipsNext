@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Repository;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Service;
@@ -25,6 +26,10 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     An array of upto 10 area codes. If more than 10 elements exist,
     ///     only the first 10 are used. If the array is empty all area codes are retrieved.
     /// </param>
+    /// <param name="areaType">
+    ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
+    ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
+    /// </param>
     /// <param name="years">
     ///     An array of upto 10 years. If more than 10 elements exist,
     ///     only the first 10 are used. If the array is empty all years are retrieved.
@@ -42,11 +47,13 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         (
         int indicatorId,
         IEnumerable<string> areaCodes,
+        string areaType,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod
         )
     {
+        IEnumerable<HealthMeasureModel> healthMeasureData;
         var areaCodesForSearch = areaCodes.ToList();
 
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
@@ -57,12 +64,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         if (comparisonMethod == BenchmarkComparisonMethod.Quintile)
         {
             // get the data from the database
-            var healthMeasureData2 = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
+            healthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
                 indicatorId,
                 areaCodesForSearch.ToArray(),
-                years.Distinct().ToArray());
+                years.Distinct().ToArray(),
+                areaType
+                );
 
-            var retVal= healthMeasureData2
+            var retVal= healthMeasureData
                 .GroupBy(healthMeasure => new
                 {
                     code = healthMeasure.AreaDimension.Code,
@@ -85,7 +94,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             areaCodesForSearch.Add(benchmarkAreaCode);
 
         // get the data from the database
-        var healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
+        healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
             years.Distinct().ToArray(),

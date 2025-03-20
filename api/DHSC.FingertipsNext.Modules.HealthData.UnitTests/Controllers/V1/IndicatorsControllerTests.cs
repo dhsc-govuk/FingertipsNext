@@ -44,7 +44,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], [1999, 2024], ["age", "sex"]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", [1999, 2024], ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -52,6 +52,7 @@ public class IndicatorControllerTests
             .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
+                "someAreaType",
                 ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
                 ArgEx.IsEquivalentTo<string[]>(["age", "sex"]),
                 BenchmarkComparisonMethod.None
@@ -64,14 +65,14 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], [], BenchmarkComparisonMethod.None);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "",[], [], BenchmarkComparisonMethod.None);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
                 Arg.Any<BenchmarkComparisonMethod>())
             .Returns(SampleHealthData);
 
@@ -86,7 +87,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
                 Arg.Any<BenchmarkComparisonMethod>())
             .Returns([]);
 

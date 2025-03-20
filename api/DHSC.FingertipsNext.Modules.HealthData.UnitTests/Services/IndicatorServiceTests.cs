@@ -91,7 +91,7 @@ public class IndicatorServiceTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToRepository()
     {
-        await _indicatorService.GetIndicatorDataAsync(1, [], [], [], BenchmarkComparisonMethod.None);
+        await _indicatorService.GetIndicatorDataAsync(1, [], "", [], [], BenchmarkComparisonMethod.None);
 
         await _healthDataRepository.Received().GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []);
     }
@@ -116,7 +116,7 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], [], BenchmarkComparisonMethod.None);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], "", [], [], BenchmarkComparisonMethod.None);
 
         result.ShouldNotBeEmpty();
         result.Count().ShouldBe(1);
@@ -164,7 +164,7 @@ public class IndicatorServiceTests
             new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
-        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], [], BenchmarkComparisonMethod.None))
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], "", [], [], BenchmarkComparisonMethod.None))
             .ToList();
 
         result.ShouldNotBeEmpty();
@@ -201,7 +201,7 @@ public class IndicatorServiceTests
 
         _indicatorService.Polarity = polarity;
         var result =
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode1], [], [],
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode1], "", [], [],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 
@@ -242,7 +242,7 @@ public class IndicatorServiceTests
 
         _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
         var result =
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode1], [], [],
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode1], "", [], [],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 
