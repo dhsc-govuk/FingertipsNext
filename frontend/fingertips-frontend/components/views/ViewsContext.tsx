@@ -11,7 +11,7 @@ import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
@@ -27,46 +27,58 @@ function viewSelector(
   indicators: string[],
   searchState: SearchStateParams
 ): JSX.Element {
-  const determinedAreaCodes =
-    areaCodes.length > 0 ? areaCodes : [areaCodeForEngland];
-
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: determinedAreaCodes,
-  };
-
-  if (indicators.length === 1 && determinedAreaCodes.length === 1) {
-    return <OneIndicatorOneAreaView searchState={updatedSearchState} />;
+  if (indicators.length === 1 && areaCodes.length === 1) {
+    return <OneIndicatorOneAreaView searchState={searchState} />;
   }
 
-  if (indicators.length === 1 && determinedAreaCodes.length >= 2) {
+  if (indicators.length === 1 && areaCodes.length >= 2) {
     return (
       <OneIndicatorTwoOrMoreAreasView
-        searchState={updatedSearchState}
-        areaCodes={determinedAreaCodes}
+        searchState={searchState}
+        areaCodes={areaCodes}
       />
     );
   }
 
   if (
     indicators.length >= 2 &&
-    determinedAreaCodes.length === 1 &&
-    determinedAreaCodes[0] === areaCodeForEngland
+    areaCodes.length === 1 &&
+    areaCodes[0] === areaCodeForEngland
   ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
+    return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
   }
 
-  if (indicators.length >= 2 && determinedAreaCodes.length >= 1) {
+  if (indicators.length >= 2 && areaCodes.length >= 1) {
     return (
       <TwoOrMoreIndicatorsAreasView
-        searchState={updatedSearchState}
-        areaCodes={determinedAreaCodes}
+        searchState={searchState}
+        areaCodes={areaCodes}
       />
     );
   }
 
   throw new Error('Parameters do not match any known view');
 }
+
+const determineAreaCodes = (
+  groupAreaSelected?: string,
+  areaSelected?: string[],
+  availableAreas?: Area[]
+): string[] => {
+  if (groupAreaSelected === ALL_AREAS_SELECTED) {
+    return (
+      availableAreas?.map((area) => {
+        return area.code;
+      }) ?? []
+    );
+  }
+
+  if (!areaSelected || areaSelected.length === 0) {
+    return [areaCodeForEngland];
+  }
+
+  return areaSelected ?? [];
+};
 
 export function ViewsContext({
   searchState,
@@ -82,25 +94,26 @@ export function ViewsContext({
   } = stateManager.getSearchState();
   const indicators = indicatorsSelected ?? [];
 
-  let areaCodes;
-  if (groupAreaSelected === ALL_AREAS_SELECTED) {
-    areaCodes =
-      areaFilterData?.availableAreas?.map((area) => {
-        return area.code;
-      }) ?? [];
-  } else {
-    areaCodes = areasSelected ?? [];
-  }
+  const areaCodes = determineAreaCodes(
+    groupAreaSelected,
+    areasSelected,
+    areaFilterData?.availableAreas
+  );
+
+  const updatedSearchState = {
+    ...searchState,
+    [SearchParams.AreasSelected]: areaCodes,
+  };
 
   return (
     <ChartPageWrapper
-      key={JSON.stringify(searchState)}
-      searchState={searchState}
+      key={JSON.stringify(updatedSearchState)}
+      searchState={updatedSearchState}
       areaFilterData={areaFilterData}
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
-      {viewSelector(areaCodes, indicators, searchState)}
+      {viewSelector(areaCodes, indicators, updatedSearchState)}
     </ChartPageWrapper>
   );
 }
