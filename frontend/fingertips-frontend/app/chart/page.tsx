@@ -78,8 +78,8 @@ export default async function ChartPage(
       )
     );
     // Note: This function is having a side effect on the rendering and its causes multi-test to
-    // fail if removed, TODO- a ticket to make sure function called does not call a
-    // side effect within the rendering context.
+    // fail if removed. I think ticket to make sure function called does not call a
+    // rendering context  and testing should be unit, if you see this code is not used but removing it cause problem on the test.
     const _: HealthDataForArea[] | undefined = await (async () => {
       try {
         return await indicatorApi.getHealthDataForAnIndicator(

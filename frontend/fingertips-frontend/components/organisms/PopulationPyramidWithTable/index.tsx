@@ -104,7 +104,7 @@ export const PopulationPyramidWithTable = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const [selectedArea, setSelectedPopulationForArea] = useState(
+  const [selectedArea, setSelectedArea] = useState(
     convertedData.areas.length > 0 ? convertedData.areas[0] : undefined
   );
 
@@ -119,9 +119,7 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-        setSelectedPopulationForArea(
-          convertHealthDataForAreaForPyramidData(healthData)
-        );
+        setSelectedArea(convertHealthDataForAreaForPyramidData(healthData));
       }
     },
     [healthDataForAreas]
@@ -168,7 +166,7 @@ export const PopulationPyramidWithTable = ({
                 }
               )}
               onSelected={onAreaSelectedHandler}
-              visibility={convertedData?.areas.length === 1 ? false : true}
+              visibility={convertedData?.areas.length !== 1}
             />
           </div>
           {selectedArea != undefined ? (

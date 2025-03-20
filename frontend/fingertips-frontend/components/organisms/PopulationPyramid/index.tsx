@@ -46,7 +46,7 @@ export function PopulationPyramid({
       dataForEngland,
       dataForBaseline
     );
-    seriesOptions.map((series) => {
+    seriesOptions.forEach((series) => {
       populationPyramidOptions.series?.push(series);
     });
   }

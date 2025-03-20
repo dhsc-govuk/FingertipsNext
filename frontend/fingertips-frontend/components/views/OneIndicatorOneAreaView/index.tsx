@@ -1,6 +1,7 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -13,7 +14,6 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
 const enum IndicationPopulationTypes {
