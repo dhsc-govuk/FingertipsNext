@@ -227,8 +227,7 @@ public class HealthMeasureModelHelper(
             IndicatorDimension = indicatorDimension,
             SexDimension = sexDimension,
             TrendDimension = trendDimension,
-            DeprivationDimension = deprivationDimension,
-            IsAggregate = isAggregate
+            DeprivationDimension = deprivationDimension
         };
     }
 }
