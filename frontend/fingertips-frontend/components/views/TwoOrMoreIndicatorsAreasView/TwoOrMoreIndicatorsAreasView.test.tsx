@@ -29,7 +29,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
   it.each([
     [
       ['1', '2'],
-      ['A001', 'A002'],
+      ['A001', 'A002', 'A003'],
     ],
     [['1'], ['A001']],
   ])(
