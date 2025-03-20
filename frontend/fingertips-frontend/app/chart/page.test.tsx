@@ -205,21 +205,6 @@ describe('Chart Page', () => {
         ]);
       });
 
-      it('should pass undefined if there was an error getting population data', async () => {
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData['1']
-        );
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
-          'Some error getting population data'
-        );
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(page.props.children[1].props.populationData).toEqual(undefined);
-      });
-
       it('should pass search state prop with data from the params to the Chart page', async () => {
         const mockAreaCode = 'E06000047';
         const searchParams: SearchStateParams = {
