@@ -106,13 +106,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      <H3>Compare an indicator by areas</H3>
       {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
         <ThematicMap
           healthIndicatorData={healthIndicatorData}
           mapData={mapData}
         />
       )}
-      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}

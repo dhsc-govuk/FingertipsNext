@@ -7,18 +7,6 @@ const mockAreaType = 'regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
 const mockMapData = getMapData(mockAreaType, mockAreaCodes);
 
-it('should render the ThematicMap title', async () => {
-  render(
-    <ThematicMap
-      healthIndicatorData={mockHealthData['92420']}
-      mapData={mockMapData}
-    />
-  );
-
-  const title = await screen.findByRole('heading', { level: 3 });
-  expect(title).toHaveTextContent('Compare an indicator by areas');
-});
-
 it('should render the ThematicMap component', async () => {
   render(
     <ThematicMap

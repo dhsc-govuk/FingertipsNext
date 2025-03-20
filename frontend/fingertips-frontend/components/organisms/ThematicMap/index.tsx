@@ -115,7 +115,6 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      <H3>Compare an indicator by areas</H3>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',
