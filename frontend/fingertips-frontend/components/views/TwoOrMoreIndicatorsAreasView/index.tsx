@@ -17,13 +17,13 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.IndicatorsSelected]: indicatorSelected,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
   if (
-    !indicatorSelected || 
-    indicatorSelected?.length < 2 ||
+    !indicatorsSelected ||
+    indicatorsSelected?.length < 2 ||
     !areasSelected ||
     areasSelected?.length != 1
   ) {
@@ -41,38 +41,47 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthIndicatorData: HealthDataForArea[] | undefined;
+  let healthIndicatorData: HealthDataForArea[][];
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-      },
-      API_CACHE_CONFIG
-    );
+    const promises = indicatorsSelected.map((indicator) => {
+      return indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: Number(indicator),
+          areaCodes: areaCodesToRequest,
+        },
+        API_CACHE_CONFIG
+      );
+    });
+
+    const results = await Promise.all(promises);
+
+    healthIndicatorData = results;
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
+  let indicatorMetadata: (IndicatorDocument | undefined)[];
   try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
+    const promises = indicatorsSelected.map((indicator) => {
+      return SearchServiceFactory.getIndicatorSearchService().getIndicator(
+        indicator
       );
+    });
+
+    const results = await Promise.all(promises);
+
+    indicatorMetadata = results;
   } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for areas',
-      error
-    );
+    console.error('error getting health indicator data for areas', error);
+    throw new Error('error getting health indicator data for areas');
   }
 
   return (
     <TwoOrMoreIndicatorsAreasViewPlot
-      searchState={searchState}
       healthIndicatorData={healthIndicatorData}
+      searchState={searchState}
       indicatorMetadata={indicatorMetadata}
     />
-  )
+  );
 }

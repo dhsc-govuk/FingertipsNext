@@ -12,5 +12,5 @@ export type ViewPlotProps = {
 export type MultiIndicatorViewPlotProps = {
   searchState: SearchStateParams;
   healthIndicatorData: HealthDataForArea[][];
-  indicatorMetadata?: IndicatorDocument[];
+  indicatorMetadata?: (IndicatorDocument | undefined)[];
 };
