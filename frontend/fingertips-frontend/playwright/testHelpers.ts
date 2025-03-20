@@ -91,23 +91,11 @@ export function getScenarioConfig(
     },
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    {
-      componentLocator: ChartPage.thematicMapComponent,
-      componentProps: {
-        hasConfidenceIntervals: false,
-        isTabTable: false,
-      },
-    },
-    {
-      componentLocator: ChartPage.barChartEmbeddedTableComponent,
-      componentProps: {
-        hasConfidenceIntervals: true,
-        isTabTable: false,
-      },
-    },
+    ChartPage.thematicMapComponent,
+    ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.spineChartTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
-    ChartPage.spineChartTableComponent,
     // ChartPage.heatMapComponent,
   ];
 
@@ -180,7 +168,6 @@ export function getScenarioConfig(
   ) {
     visibleComponents = [
       ChartPage.spineChartTableComponent,
-
       // Pending
       // ChartPage.heatMapComponent,
       // Enable in DHSCFT-148
