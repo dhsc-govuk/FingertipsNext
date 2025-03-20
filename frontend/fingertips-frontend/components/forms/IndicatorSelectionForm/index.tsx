@@ -11,8 +11,10 @@ import {
   Paragraph,
   SectionBreak,
   UnorderedList,
+  Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useState, useEffect} from 'react';
 
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
@@ -51,7 +53,27 @@ export function IndicatorSelectionForm({
 
   const stateManager = SearchStateManager.initialise(searchState);
 
+  const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+
+  useEffect(() => {
+    const selectedFromState = searchState?.[SearchParams.IndicatorsSelected] || [];
+    setSelectedIndicators(selectedFromState);
+    setIsAllSelected(selectedFromState.length === searchResults.length);
+  }, [searchState, searchResults.length]);
+
   const handleClick = async (indicatorId: string, checked: boolean) => {
+    let updateIndicators = [...selectedIndicators];
+
+    if (checked) {
+      updateIndicators.push(indicatorId);
+    } else {
+      updateIndicators = updateIndicators.filter(id => id !== indicatorId);
+    }
+
+    setSelectedIndicators(updateIndicators);
+    setIsAllSelected(updateIndicators.length === searchResults.length);
+    
     if (checked) {
       stateManager.addParamValueToState(
         SearchParams.IndicatorsSelected,
@@ -62,6 +84,28 @@ export function IndicatorSelectionForm({
         SearchParams.IndicatorsSelected,
         indicatorId
       );
+    }
+
+    replace(stateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const allIndicatorIds = searchResults.map(result => result.indicatorID.toString());
+      setSelectedIndicators(allIndicatorIds);
+    } else {
+      setSelectedIndicators([]);
+    }
+    setIsAllSelected(checked);
+
+    if (checked) {
+      searchResults.forEach(result => {
+        stateManager.addParamValueToState(SearchParams.IndicatorsSelected, result.indicatorID.toString());
+      });
+    } else {
+      searchResults.forEach(result => {
+        stateManager.removeParamValueFromState(SearchParams.IndicatorsSelected, result.indicatorID.toString());
+      });
     }
 
     replace(stateManager.generatePath(pathname), { scroll: false });
@@ -82,6 +126,14 @@ export function IndicatorSelectionForm({
       />
       {searchResults.length ? (
         <>
+          <Checkbox
+            id="select-all-checkbox"
+            checked={isAllSelected}
+            onChange={(e) => handleSelectAll(e.target.checked)}
+          >
+            Select all
+          </Checkbox>
+
           <UnorderedList listStyleType="none">
             <ListItem>
               <SectionBreak visible={true} />
