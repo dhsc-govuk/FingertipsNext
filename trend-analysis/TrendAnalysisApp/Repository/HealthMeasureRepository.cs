@@ -7,12 +7,14 @@ public class HealthMeasureRepository
 {
     private readonly HealthMeasureDbContext _dbContext;
 
-    // Pre-compile the query (this gets compiled once per application lifetime)
     private static readonly Func<HealthMeasureDbContext, int, Task<List<HealthMeasureModel>>> _compiledGetByIndicatorQuery =
         EF.CompileAsyncQuery((HealthMeasureDbContext context, int indicatorKey) =>
             context.HealthMeasure
-                .AsNoTracking()  // if this query is read-only
+                .AsNoTracking()
                 .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
+                .Include(hm => hm.IndicatorDimension)
+                .Include(hm => hm.TrendDimension)
+                .AsEnumerable()
                 .Select(x => new HealthMeasureModel
                 {
                     Year = x.Year,
@@ -41,16 +43,17 @@ public class HealthMeasureRepository
 
     public Task<List<HealthMeasureModel>> GetByIndicator(int indicatorKey)
     {
-        // Use the compiled query here.
         return _compiledGetByIndicatorQuery(_dbContext, indicatorKey);
     }
 
-    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey) {
+    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey)
+    {
         healthMeasure.TrendKey = newTrendKey;
         _dbContext.Entry(healthMeasure).State = EntityState.Modified;
     }
 
-    public async Task SaveChanges() {
+    public async Task SaveChanges()
+    {
         _dbContext.ChangeTracker.DetectChanges();
         await _dbContext.SaveChangesAsync();
         _dbContext.ChangeTracker.Clear();
