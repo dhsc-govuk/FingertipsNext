@@ -10,7 +10,6 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
 import {
   BenchmarkLabelGroupType,
@@ -49,7 +48,6 @@ export function InequalitiesBarChart({
   yAxisLabel,
   measurementUnit,
   type = InequalitiesTypes.Sex,
-  areasSelected = [],
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
@@ -104,12 +102,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(
-            isEnglandSoleSelectedArea(areasSelected)
-              ? 'England'
-              : `${barChartData.areaName} persons`,
-            benchmarkValue
-          ),
+          ...getPlotline(`${barChartData.areaName} persons`, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,

@@ -1,6 +1,7 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -44,6 +45,7 @@ export default async function OneIndicatorOneAreaView({
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
+        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
         comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       },
       API_CACHE_CONFIG

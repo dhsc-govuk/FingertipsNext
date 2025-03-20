@@ -68,7 +68,6 @@ export function Inequalities({
               <InequalitiesBarChart
                 barChartData={barchartData}
                 measurementUnit={measurementUnit}
-                areasSelected={areasSelected}
                 yAxisLabel="Value"
               />
             ),

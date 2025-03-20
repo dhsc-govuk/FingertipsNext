@@ -18,12 +18,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import {
-  GetHealthDataForAnIndicatorComparisonMethodEnum,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
-} from '@/generated-sources/ft-api-client';
-import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -38,13 +33,11 @@ export default async function ChartPage(
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
     const {
-      [SearchParams.IndicatorsSelected]: indicators,
       [SearchParams.AreasSelected]: areaCodes,
-      [SearchParams.GroupSelected]: selectedGroupCode,
+      [SearchParams.IndicatorsSelected]: indicatorsSelected,
     } = stateManager.getSearchState();
 
     const areasSelected = areaCodes ?? [];
-    const indicatorsSelected = indicators ?? [];
 
     // We don't want to render this page statically
     await connection();
@@ -63,31 +56,6 @@ export default async function ChartPage(
         : [];
 
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-    const areaCodesToRequest =
-      selectedGroupCode && selectedGroupCode != areaCodeForEngland
-        ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-        : [...areasSelected, areaCodeForEngland];
-
-    const healthIndicatorData = await Promise.all(
-      indicatorsSelected.map((indicatorId) =>
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: areaCodesToRequest,
-            inequalities: shouldDisplayInequalities(
-              indicatorsSelected,
-              areasSelected
-            )
-              ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-              : [],
-            comparisonMethod:
-              GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-          },
-          API_CACHE_CONFIG
-        )
-      )
-    );
 
     let rawPopulationData: HealthDataForArea[] | undefined;
     try {
@@ -111,8 +79,6 @@ export default async function ChartPage(
           areasSelected[1]
         )
       : undefined;
-
-    const indicatorMetadata = selectedIndicatorsData[0];
 
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
@@ -154,12 +120,7 @@ export default async function ChartPage(
             availableAreas,
           }}
         />
-        <Chart
-          populationData={preparedPopulationData}
-          healthIndicatorData={healthIndicatorData}
-          searchState={stateManager.getSearchState()}
-          measurementUnit={indicatorMetadata?.unitLabel}
-        />
+        <Chart populationData={preparedPopulationData} />
       </>
     );
   } catch (error) {

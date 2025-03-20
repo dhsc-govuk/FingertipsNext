@@ -64,6 +64,7 @@ describe('OneIndicatorOneAreaView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
+          inequalities: ['sex'],
           comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
