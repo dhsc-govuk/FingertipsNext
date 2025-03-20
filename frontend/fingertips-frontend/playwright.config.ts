@@ -9,7 +9,7 @@ const runCommand =
 
 // Create the base config
 const config: PlaywrightTestConfig = {
-  testMatch: /.*\.tests\/spec.ts/,
+  testMatch: /.*\.spec\.ts$/,
   fullyParallel: true,
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,

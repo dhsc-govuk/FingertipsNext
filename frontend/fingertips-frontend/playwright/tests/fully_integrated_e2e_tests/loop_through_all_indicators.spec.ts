@@ -1,11 +1,11 @@
-import { test } from '../../../page-objects/pageFactory';
+import { test } from '../../page-objects/pageFactory';
 import {
   AreaMode,
   getAllPOCIndicatorNames,
   IndicatorMode,
   SearchMode,
-} from '../../../testHelpers';
-import indicators from '../../../../../../search-setup/assets/indicators.json';
+} from '../../testHelpers';
+import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as IndicatorDocument[];
