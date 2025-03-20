@@ -68,6 +68,7 @@ exports[`AreaSelectedPill should match snapshot 1`] = `
     data-testid="pill-container"
   >
     <button
+      aria-label="Remove area East of England NHS Region"
       class="c1"
       data-testid="remove-icon-div"
     >

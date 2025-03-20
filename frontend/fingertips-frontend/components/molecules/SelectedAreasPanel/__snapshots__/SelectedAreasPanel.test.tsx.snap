@@ -128,6 +128,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
         data-testid="pill-container"
       >
         <button
+          aria-label="Remove area East of England NHS Region"
           class="c4"
           data-testid="remove-icon-div"
         >
@@ -184,6 +185,7 @@ exports[`SelectedAreasPanel When there are areas selected snapshot test 1`] = `
         data-testid="pill-container"
       >
         <button
+          aria-label="Remove area North East and Yorkshire NHS Region"
           class="c4"
           data-testid="remove-icon-div"
         >
@@ -364,6 +366,7 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
         data-testid="pill-container"
       >
         <button
+          aria-label="Remove area "
           class="c4"
           data-testid="remove-icon-div"
         >
