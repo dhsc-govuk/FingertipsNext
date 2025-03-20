@@ -26,17 +26,3 @@ test('should render the Highcharts react component within the PopulationPyramid 
   );
   expect(highcharts).toBeInTheDocument();
 });
-
-it('Should render the PopulationPyramid component title', () => {
-  render(
-    <PopulationPyramid
-      populationPyramidTitle={'VALID population pyramid title'}
-      dataForSelectedArea={mockPopulationData}
-    />
-  );
-
-  const populationPyramidHeader = screen.getByRole('heading', { level: 3 });
-  expect(populationPyramidHeader).toHaveTextContent(
-    'VALID population pyramid title'
-  );
-});

@@ -21,9 +21,9 @@ export const generatePopPyramidTooltipStringList = (
   point: Highcharts.Point,
   symbol: string
 ) => [
-    `<span style="color:${point.series.color}">${symbol}</span>`,
-    `<span> Value ${Math.abs(Number(point.y))}%<br/>${point.series.name}</span>`,
-  ];
+  `<span style="color:${point.series.color}">${symbol}</span>`,
+  `<span> Value ${Math.abs(Number(point.y))}%<br/>${point.series.name}</span>`,
+];
 
 export function PopulationPyramid({
   dataForSelectedArea,
