@@ -18,13 +18,8 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import {
-  HealthDataForArea,
-  GetHealthDataForAnIndicatorComparisonMethodEnum,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
 
@@ -36,38 +31,15 @@ export default async function ChartPage(
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
-    const {
-      [SearchParams.IndicatorsSelected]: indicators,
-      [SearchParams.AreasSelected]: areaCodes,
-      [SearchParams.GroupSelected]: selectedGroupCode,
-    } = stateManager.getSearchState();
+    const { [SearchParams.AreasSelected]: areaCodes } =
+      stateManager.getSearchState();
 
     const areasSelected = areaCodes ?? [];
-    const indicatorsSelected = indicators ?? [];
 
     // We don't want to render this page statically
     await connection();
 
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-    const areaCodesToRequest =
-      selectedGroupCode && selectedGroupCode != areaCodeForEngland
-        ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-        : [...areasSelected, areaCodeForEngland];
-
-    const healthIndicatorData = await Promise.all(
-      indicatorsSelected.map((indicatorId) =>
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: areaCodesToRequest,
-            comparisonMethod:
-              GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-          },
-          API_CACHE_CONFIG
-        )
-      )
-    );
 
     let rawPopulationData: HealthDataForArea[] | undefined;
     try {
@@ -91,19 +63,6 @@ export default async function ChartPage(
           areasSelected[1]
         )
       : undefined;
-
-    let indicatorMetadata: IndicatorDocument | undefined;
-    try {
-      indicatorMetadata =
-        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-          indicatorsSelected[0]
-        );
-    } catch (error) {
-      console.error(
-        'error getting meta data for health indicator for area',
-        error
-      );
-    }
 
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
@@ -153,12 +112,7 @@ export default async function ChartPage(
             availableAreas,
           }}
         />
-        <Chart
-          populationData={preparedPopulationData}
-          healthIndicatorData={healthIndicatorData}
-          searchState={stateManager.getSearchState()}
-          measurementUnit={indicatorMetadata?.unitLabel}
-        />
+        <Chart populationData={preparedPopulationData} />
       </>
     );
   } catch (error) {

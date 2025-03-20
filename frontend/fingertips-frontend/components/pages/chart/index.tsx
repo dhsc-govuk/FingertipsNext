@@ -1,15 +1,10 @@
 'use client';
 
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { PopulationData } from '@/lib/chartHelpers/preparePopulationData';
 
 type ChartProps = {
-  healthIndicatorData: HealthDataForArea[][];
   populationData?: PopulationData;
-  searchState: SearchStateParams;
-  measurementUnit?: string;
 };
 
 export function Chart({ populationData }: Readonly<ChartProps>) {
