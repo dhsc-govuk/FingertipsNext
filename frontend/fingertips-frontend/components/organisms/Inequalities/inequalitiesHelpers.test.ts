@@ -14,6 +14,7 @@ import {
   InequalitiesTableRowData,
   InequalitiesTypes,
   mapToInequalitiesTableData,
+  RowDataFields,
   shouldDisplayInequalities,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
@@ -105,21 +106,18 @@ const mockInequalitiesRowData = [
         count: 222,
         upper: 578.32766,
         lower: 441.69151,
-        isAggregate: true,
       },
       Male: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
-        isAggregate: false,
       },
       Female: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
-        isAggregate: false,
       },
     },
   },
@@ -346,7 +344,12 @@ describe('generateLineChartSeriesData', () => {
 });
 
 describe('getAggregatePointInfo', () => {
-  const testData = mockInequalitiesRowData[1].inequalities;
+  const testData: Record<string, RowDataFields | undefined> = {
+    ...mockInequalitiesRowData[1].inequalities,
+  };
+  testData.Persons = { ...testData.Persons, isAggregate: true };
+  testData.Male = { ...testData.Male, isAggregate: false };
+  testData.Female = { ...testData.Female, isAggregate: false };
   it('should return the benchmark point and value', () => {
     const result = getAggregatePointInfo(testData);
     expect(result).toHaveProperty('benchmarkPoint', testData.Persons);
