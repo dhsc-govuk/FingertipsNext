@@ -10,7 +10,7 @@ exports[`Pill Suite snapshot test 1`] = `
   background-color: white;
   border: 1px #D1D2D3 solid;
   border-radius: 5px;
-  padding: 0.5em 0.3125em 0.5em 0em;
+  padding: 0.5em 0.3125em 0.5em 0.3125em;
   max-width: 100%;
   margin: 0.3125em 0;
   display: -webkit-box;
@@ -34,9 +34,9 @@ exports[`Pill Suite snapshot test 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: transparent;
+  background-color: white;
   border: 0;
-  border-radius: 5px;
+  cursor: pointer;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -68,13 +68,13 @@ exports[`Pill Suite snapshot test 1`] = `
         class="c2"
         data-testid="x-icon"
         fill="none"
-        height="12"
+        height="16"
         stroke="#000000"
         stroke-linecap="round"
         stroke-linejoin="round"
         stroke-width="3"
         viewBox="0 0 25 25"
-        width="12"
+        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <line
