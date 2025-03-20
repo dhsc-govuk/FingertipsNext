@@ -11,6 +11,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
 import React from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
+import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -27,6 +28,7 @@ interface BarChartEmbeddedTableProps {
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
+  showConfidenceIntervalsData?: string[];
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
@@ -38,11 +40,14 @@ const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
   ));
 };
 
+const chartName = 'barChartEmbeddedTable';
+
 export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
   groupIndicatorData,
   measurementUnit,
+                                        showConfidenceIntervalsData
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -83,9 +88,11 @@ export function BarChartEmbeddedTable({
   );
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
-
+const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
+  
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
+      <ConfidenceIntervalCheckbox chartName={chartName} showConfidenceIntervalsData={barChartEmbeddedTableCI} />
       <Table
         head={
           <React.Fragment>
@@ -137,8 +144,9 @@ export function BarChartEmbeddedTable({
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
-                value={mostRecentBenchmarkData.value}
+                value={[mostRecentBenchmarkData.value]}
                 maxValue={maxValue}
+                errorBarValues={[mostRecentBenchmarkData.lowerCi, mostRecentBenchmarkData.upperCi]}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -161,8 +169,9 @@ export function BarChartEmbeddedTable({
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart
-                value={mostRecentGroupData.value}
+                value={[mostRecentGroupData.value]}
                 maxValue={maxValue}
+                errorBarValues={[mostRecentGroupData.lowerCi, mostRecentGroupData.upperCi ]}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -180,7 +189,8 @@ export function BarChartEmbeddedTable({
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart value={item.value} maxValue={maxValue} />
+              <SparklineChart value={[item.value]} maxValue={maxValue}
+              errorBarValues={[item.lowerCi, item.upperCi]}/>
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
             <CheckValueInTableCell value={item.upperCi} />
