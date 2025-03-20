@@ -77,7 +77,6 @@ export default async function OneIndicatorOneAreaView({
 
   const healthPopulationData = await (async () => {
     try {
-      // determined which indicator to use for the selected area
       const populationIndicatorID: number = await (async (areaCode: string) => {
         const area = await areasApi.getArea({ areaCode: areaCode });
         if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
@@ -86,7 +85,6 @@ export default async function OneIndicatorOneAreaView({
         return IndicationPopulationTypes.ADMINISTRATIVE;
       })(areaCodesToRequest[0]);
 
-      // Fetch the health data.
       return await indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: populationIndicatorID,

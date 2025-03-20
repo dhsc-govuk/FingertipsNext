@@ -72,23 +72,21 @@ export default async function ChartPage(
         )
       )
     );
-    // Note: This function is having a side effect on the rendering and its causes multi-test to
-    // fail if removed. I think ticket to make sure function called does not call a
-    // rendering context  and testing should be unit, if you see this code is not used but removing it cause problem on the test.
-    const _: HealthDataForArea[] | undefined = await (async () => {
-      try {
-        return await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: indicatorIdForPopulation,
-            areaCodes: [...areasSelected, areaCodeForEngland],
-            inequalities: ['age', 'sex'],
-          },
-          API_CACHE_CONFIG
-        );
-      } catch (error) {
-        console.log('error getting population data ', error);
-      }
-    })();
+
+    // const _: HealthDataForArea[] | undefined = await (async () => {
+    //   try {
+    //     return await indicatorApi.getHealthDataForAnIndicator(
+    //       {
+    //         indicatorId: indicatorIdForPopulation,
+    //         areaCodes: [...areasSelected, areaCodeForEngland],
+    //         inequalities: ['age', 'sex'],
+    //       },
+    //       API_CACHE_CONFIG
+    //     );
+    //   } catch (error) {
+    //     console.log('error getting population data ', error);
+    //   }
+    // })();
 
     let indicatorMetadata: IndicatorDocument | undefined;
     try {
