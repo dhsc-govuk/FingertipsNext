@@ -9,7 +9,6 @@ import {
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { preparePopulationData } from '@/lib/chartHelpers/preparePopulationData';
 import { mockDeep } from 'jest-mock-extended';
 import {
   API_CACHE_CONFIG,
@@ -69,8 +68,7 @@ describe('Chart Page', () => {
   });
 
   describe('when no group area is available', () => {
-    it('should make 2 calls for get health data, when there is only one indicator selected - first one for the indicator the next one for the population data', async () => {
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    it('should make 1 calls for get health data, when there is only one indicator selected', async () => {
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
       await ChartPage({
@@ -89,27 +87,15 @@ describe('Chart Page', () => {
         },
         API_CACHE_CONFIG
       );
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        2,
-        {
-          areaCodes: ['A001', areaCodeForEngland],
-          indicatorId: indicatorIdForPopulation,
-          inequalities: ['age', 'sex'],
-        },
-        API_CACHE_CONFIG
-      );
     });
 
-    it('should make 3 calls for get health data, when there are 2 indicators selected - first two for the indicators the last one for the population data', async () => {
+    it('should make 2 calls for get health data, when there are 2 indicators selected - first two calls for the indicators', async () => {
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['1', '2'],
         [SearchParams.AreasSelected]: ['A001'],
       };
 
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
@@ -141,23 +127,12 @@ describe('Chart Page', () => {
         },
         API_CACHE_CONFIG
       );
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        3,
-        {
-          areaCodes: ['A001', areaCodeForEngland],
-          indicatorId: indicatorIdForPopulation,
-          inequalities: ['age', 'sex'],
-        },
-        API_CACHE_CONFIG
-      );
     });
   });
 
   describe('when a single group is selected', () => {
     const mockAreaCode = 'E06000047';
-    it('should make 2 calls for get health data, when there is only one indicator selected - first one for the indicator, including the group area the next one for the population data', async () => {
+    it('should make 2 calls for get health data, when there is only one indicator selected - first one for the indicator, including the group area', async () => {
       const mockParentAreaCode = 'E12000001';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -165,8 +140,6 @@ describe('Chart Page', () => {
         [SearchParams.AreasSelected]: [mockAreaCode],
         [SearchParams.GroupSelected]: mockParentAreaCode,
       };
-
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
       await ChartPage({
@@ -185,17 +158,6 @@ describe('Chart Page', () => {
         },
         API_CACHE_CONFIG
       );
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        2,
-        {
-          areaCodes: [mockAreaCode, areaCodeForEngland],
-          indicatorId: indicatorIdForPopulation,
-          inequalities: ['age', 'sex'],
-        },
-        API_CACHE_CONFIG
-      );
     });
 
     it('should not include groupSelected in the API call if England is the groupSelected', async () => {
@@ -207,7 +169,6 @@ describe('Chart Page', () => {
         [SearchParams.GroupSelected]: mockParentAreaCode,
       };
 
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
       await ChartPage({
@@ -223,17 +184,6 @@ describe('Chart Page', () => {
           indicatorId: 333,
           inequalities: ['sex'],
           comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-        },
-        API_CACHE_CONFIG
-      );
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        2,
-        {
-          areaCodes: [mockAreaCode, areaCodeForEngland],
-          indicatorId: indicatorIdForPopulation,
-          inequalities: ['age', 'sex'],
         },
         API_CACHE_CONFIG
       );
@@ -255,43 +205,6 @@ describe('Chart Page', () => {
         ]);
       });
 
-      it('should pass population data to the Chart page', async () => {
-        const expectedPopulationData = preparePopulationData(
-          mockHealthData[`${indicatorIdForPopulation}`],
-          'A001'
-        );
-
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData['1']
-        );
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData[`${indicatorIdForPopulation}`]
-        );
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(page.props.children[1].props.populationData).toEqual(
-          expectedPopulationData
-        );
-      });
-
-      it('should pass undefined if there was an error getting population data', async () => {
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData['1']
-        );
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
-          'Some error getting population data'
-        );
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(page.props.children[1].props.populationData).toEqual(undefined);
-      });
-
       it('should pass search state prop with data from the params to the Chart page', async () => {
         const mockAreaCode = 'E06000047';
         const searchParams: SearchStateParams = {
@@ -308,11 +221,12 @@ describe('Chart Page', () => {
           searchParams: generateSearchParams(searchParams),
         });
 
-        expect(page.props.children[1].props.searchState).toEqual({
+        const expected = {
           [SearchParams.SearchedIndicator]: 'testing',
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: ['E06000047'],
-        });
+        };
+        expect(page.props.children[1].props.searchState).toEqual(expected);
       });
 
       it('should pass undefined if there are not enough areas selected ', async () => {

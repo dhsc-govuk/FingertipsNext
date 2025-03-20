@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderChartTitle Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="margin: 0px; padding: 0px;"
+  >
+    <h3
+      style="margin: 0px; padding: 0px;"
+    >
+      Snapshot Title
+    </h3>
+  </div>
+</DocumentFragment>
+`;

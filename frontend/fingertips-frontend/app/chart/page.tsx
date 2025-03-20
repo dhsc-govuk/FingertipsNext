@@ -1,19 +1,12 @@
 import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
 import {
-  PopulationData,
-  preparePopulationData,
-} from '@/lib/chartHelpers/preparePopulationData';
-import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
 
-import {
-  areaCodeForEngland,
-  indicatorIdForPopulation,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -21,7 +14,6 @@ import {
 import {
   GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { ViewsContext } from '@/components/views/ViewsContext';
@@ -76,29 +68,6 @@ export default async function ChartPage(
         )
       )
     );
-
-    let rawPopulationData: HealthDataForArea[] | undefined;
-    try {
-      rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: indicatorIdForPopulation,
-          areaCodes: [...areasSelected, areaCodeForEngland],
-          inequalities: ['age', 'sex'],
-        },
-        API_CACHE_CONFIG
-      );
-    } catch (error) {
-      console.log('error getting population data ', error);
-    }
-
-    // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
-    const preparedPopulationData: PopulationData | undefined = rawPopulationData
-      ? preparePopulationData(
-          rawPopulationData,
-          areasSelected[0],
-          areasSelected[1]
-        )
-      : undefined;
 
     let indicatorMetadata: IndicatorDocument | undefined;
     try {
@@ -162,7 +131,6 @@ export default async function ChartPage(
           }}
         />
         <Chart
-          populationData={preparedPopulationData}
           healthIndicatorData={healthIndicatorData}
           searchState={stateManager.getSearchState()}
           measurementUnit={indicatorMetadata?.unitLabel}

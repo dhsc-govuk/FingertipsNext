@@ -3,13 +3,11 @@ import {
   HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import {
-  PopulationDataForArea,
-  preparePopulationData,
-  PopulationData,
-  preparePopulationDataForArea,
-} from './preparePopulationData';
 import { areaCodeForEngland } from './constants';
+import {
+  convertHealthDataForAreaForPyramidData,
+  PopulationDataForArea,
+} from './preparePopulationData';
 
 const mockData: HealthDataPoint[] = [
   {
@@ -187,109 +185,35 @@ const mockAgeCategories = [
 const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
 const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
 
-const mockHealthDataForSelectedArea: HealthDataForArea = {
-  areaCode: 'selected',
-  areaName: 'Selected Area',
-  healthData: mockData,
-};
-const mockHealthDataForEngland: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: mockData,
-};
-const mockHealthDataForBaseline: HealthDataForArea = {
-  areaCode: 'baseline',
-  areaName: 'Baseline Area',
-  healthData: mockData,
-};
+const mockHealthDataForAreas: HealthDataForArea[] = [
+  {
+    areaCode: 'selected',
+    areaName: 'Selected Area',
+    healthData: mockData,
+  },
+  {
+    areaCode: areaCodeForEngland,
+    areaName: 'England',
+    healthData: mockData,
+  },
+  {
+    areaCode: 'baseline',
+    areaName: 'Baseline Area',
+    healthData: mockData,
+  },
+];
 
-describe('preparePopulationData', () => {
-  describe('preparePopulationDataforArea', () => {
-    it('should return an object with age categories sorted oldest to youngest', () => {
-      const expected = mockAgeCategories;
-
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.ageCategories).toEqual(expected);
-    });
-
-    it('should return an object with female population data as a percentage sorted by age band old to youngest', () => {
-      const expected = mockFemaleSeries;
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.femaleSeries).toEqual(expected);
-    });
-
-    it('should return an object with male population data as a percentage sorted by age band sorted old to youngest', () => {
-      const expected = mockMaleSeries;
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.maleSeries).toEqual(expected);
-    });
+describe('convertHealthDataForAreaForPyramidData', () => {
+  it('should return the correct data points for female, male and categories', () => {
+    const actual: PopulationDataForArea | undefined =
+      convertHealthDataForAreaForPyramidData(mockHealthDataForAreas[0]);
+    expect(actual?.femaleSeries).toEqual(mockFemaleSeries);
+    expect(actual?.maleSeries).toEqual(mockMaleSeries);
+    expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 
-  it('should return an object with prepared population data for the selected area', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-    };
-    const actual: PopulationData = preparePopulationData(
-      [mockHealthDataForSelectedArea],
-      'selected'
-    );
-    expect(actual).toEqual(expected);
-  });
-
-  it('should return an object with prepared popultion data for the selected area and England', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-      dataForEngland: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-    };
-    const actual: PopulationData = preparePopulationData(
-      [mockHealthDataForSelectedArea, mockHealthDataForEngland],
-      'selected'
-    );
-    expect(actual).toEqual(expected);
-  });
-
-  it('should return an object with prepared popultion data for the selected area, England and baseline area', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-      dataForEngland: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-      dataForBaseline: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-    };
-    const actual: PopulationData = preparePopulationData(
-      [
-        mockHealthDataForSelectedArea,
-        mockHealthDataForEngland,
-        mockHealthDataForBaseline,
-      ],
-      'selected',
-      'baseline'
-    );
-    expect(actual).toEqual(expected);
+  it('should return undefined if the HealthDataForArea provided is undefined', () => {
+    const actual = convertHealthDataForAreaForPyramidData(undefined);
+    expect(actual).toBeUndefined();
   });
 });

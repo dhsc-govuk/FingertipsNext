@@ -4,6 +4,7 @@ import { PopulationPyramid } from '.';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 
 const mockPopulationData: PopulationDataForArea = {
+  areaName: 'mock Data',
   ageCategories: [
     '90+',
     '85-89',
@@ -19,27 +20,9 @@ const mockPopulationData: PopulationDataForArea = {
 };
 
 test('should render the Highcharts react component within the PopulationPyramid component', () => {
-  render(
-    <PopulationPyramid
-      healthIndicatorData={{ dataForSelectedArea: mockPopulationData }}
-    />
-  );
+  render(<PopulationPyramid dataForSelectedArea={mockPopulationData} />);
   const highcharts = screen.getByTestId(
     'highcharts-react-component-populationPyramid'
   );
   expect(highcharts).toBeInTheDocument();
-});
-
-it('Should render the PopulationPyramid component title', () => {
-  render(
-    <PopulationPyramid
-      populationPyramidTitle={'VALID population pyramid title'}
-      healthIndicatorData={{ dataForSelectedArea: mockPopulationData }}
-    />
-  );
-
-  const populationPyramidHeader = screen.getByRole('heading', { level: 3 });
-  expect(populationPyramidHeader).toHaveTextContent(
-    'VALID population pyramid title'
-  );
 });

@@ -2,14 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Chart } from '@/components/pages/chart/index';
 import { expect } from '@jest/globals';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-
-const mockPopulationData: PopulationDataForArea = {
-  ageCategories: [],
-  femaleSeries: [],
-  maleSeries: [],
-};
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
@@ -37,23 +30,6 @@ jest.mock('next/navigation', () => {
 });
 
 describe('Page structure', () => {
-  it('should render the PopulationPyramid component when Population data are provided', () => {
-    render(
-      <Chart
-        healthIndicatorData={[mockHealthData[1]]}
-        populationData={{
-          dataForSelectedArea: mockPopulationData,
-          dataForEngland: undefined,
-          dataForBaseline: undefined,
-        }}
-        searchState={state}
-      />
-    );
-
-    const populationPyramid = screen.getByTestId('populationPyramid-component');
-    expect(populationPyramid).toBeInTheDocument();
-  });
-
   it('should _not_ render the ThematicMap component when map props are _not_ provided', () => {
     render(
       <Chart
