@@ -242,7 +242,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
     with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
+      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -368,8 +368,19 @@ jobs:
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   run-trend-analysis-dev:
-    # Only run job if the DB has had a clean deploy
-    needs: deploy-db-dev
+    needs: [check-changes, deploy-db-dev]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      github.event_name != 'pull_request' &&
+      github.ref_name == 'main' &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.db_changed == 'true' ||
+        needs.check-changes.outputs.trend_analysis_changed == 'true'
+      )
     environment: development
     name: Run Trend Analysis App
     runs-on: ubuntu-latest
@@ -612,12 +623,13 @@ jobs:
               needs.check-changes.outputs.db_changed == 'true' ||
               needs.check-changes.outputs.api_changed == 'true' ||
               needs.check-changes.outputs.frontend_changed == 'true' ||
-              needs.check-changes.outputs.search_changed == 'true'
+              needs.check-changes.outputs.search_changed == 'true' ||
+              needs.check-changes.outputs.trend_analysis_changed == 'true'
             )
           )
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -295,7 +295,7 @@ exports[`FTFooter should match snapshot 1`] = `
             >
               <a
                 class="c6 c7"
-                href="#"
+                href="mailto:profilefeedback@dhsc.gov.uk?subject=Profile%20Feedback%20[General enquiry]"
               >
                 Contact
               </a>
@@ -325,7 +325,7 @@ exports[`FTFooter should match snapshot 1`] = `
             >
               <a
                 class="c6 c7"
-                href="#"
+                href="https://www.gov.uk/government/organisations/government-digital-service"
               >
                 Government Digital Service
               </a>

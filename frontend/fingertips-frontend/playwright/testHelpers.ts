@@ -15,6 +15,7 @@ export enum IndicatorMode {
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
   TWO_PLUS_AREAS = 'TWO_PLUS_AREAS',
+  ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
 }
 
@@ -38,8 +39,7 @@ export function getScenarioConfig(
     ChartPage.inequalitiesLineChartTableComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    // Enable in DHSCFT-317
-    // ChartPage.thematicMapComponent,
+    ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
@@ -74,10 +74,18 @@ export function getScenarioConfig(
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      // Enable in DHSCFT-317
-      // ChartPage.thematicMapComponent,
       ChartPage.lineChartComponent,
       ChartPage.lineChartTableComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+    ];
+  }
+  // 1 indicator, all areas in a group
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.ALL_AREAS_IN_A_GROUP
+  ) {
+    visibleComponents = [
+      ChartPage.thematicMapComponent,
       ChartPage.barChartEmbeddedTableComponent,
     ];
   }
@@ -134,11 +142,7 @@ function filterIndicatorsByName(
   return indicators.filter(
     (indicator) =>
       indicator.usedInPoc === true &&
-      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) &&
-      // the following filters are needed due to an API bug see DHSCFT-434
-      !indicator.indicatorName.includes('years') &&
-      !indicator.indicatorName.includes('females') &&
-      !indicator.indicatorName.includes('sex')
+      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
   );
 }
 

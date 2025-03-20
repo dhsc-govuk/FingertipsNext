@@ -71,7 +71,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -113,7 +113,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(highcharts).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
-        name: 'See how the indicator has changed over time',
+        name: 'Indicator data over time',
       })
     ).toBeInTheDocument();
     expect(
@@ -159,7 +159,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'See how the indicator has changed over time',
+          name: 'Indicator data over time',
         })
       )
     ).not.toBeInTheDocument();
@@ -170,5 +170,17 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       screen.queryByTestId('lineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+
+  it('should render the inequalities component', () => {
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={testHealthData}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+
+    expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
   });
 });

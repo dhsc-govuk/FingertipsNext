@@ -4,14 +4,13 @@ import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarCha
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import React, { useState } from 'react';
 import {
+  getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
-  InequalitiesTypes,
   InequalitiesBarChartData,
   InequalitiesChartData,
+  InequalitiesTypes,
   mapToInequalitiesTableData,
-  getDynamicKeys,
-  getBenchmarkData,
   generateInequalitiesLineChartOptions,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
@@ -71,8 +70,6 @@ export function Inequalities({
     data: lineChartData.rowData[latestDataIndex],
   };
 
-  const barChartBenchmarkValue = getBenchmarkData(type, barchartData);
-
   const inequalitiesLineChartOptions: Highcharts.Options =
     generateInequalitiesLineChartOptions(
       lineChartData,
@@ -90,7 +87,7 @@ export function Inequalities({
 
   return (
     <div data-testid="inequalities-component">
-      <H4>Inequalities data in a single time period</H4>
+      <H4>Inequalities data for a single time period</H4>
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[
@@ -100,10 +97,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChart
                 barChartData={barchartData}
-                dynamicKeys={dynamicKeys}
-                benchmarkValue={barChartBenchmarkValue}
                 measurementUnit={measurementUnit}
-                areasSelected={areasSelected}
                 yAxisLabel="Value"
               />
             ),
@@ -115,7 +109,7 @@ export function Inequalities({
               <InequalitiesBarChartTable
                 tableData={barchartData}
                 measurementUnit={measurementUnit}
-                dynamicKeys={dynamicKeys}
+                type={type}
               />
             ),
           },

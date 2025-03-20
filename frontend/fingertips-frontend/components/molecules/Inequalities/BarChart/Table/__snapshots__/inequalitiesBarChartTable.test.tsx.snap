@@ -64,7 +64,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
   padding-right: 0;
 }
 
-.c8 {
+.c9 {
   text-align: right;
   padding-right: 10px;
 }
@@ -77,6 +77,11 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
 .c3 {
   text-align: left;
   vertical-align: top;
+}
+
+.c8 {
+  padding: 0;
+  height: 2.8125em;
 }
 
 @media print {
@@ -170,7 +175,7 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             Inequality type
           </th>
           <th
-            class="c1 c2 c4"
+            class="c1 c2 c3"
             data-testid="heading-Compared to Persons"
             style="width: 16%;"
           >
@@ -224,25 +229,25 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             Persons
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c7 c8"
           />
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             222
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             135.149304
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             441.69151
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             578.32766
           </td>
@@ -256,25 +261,25 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             Male
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c7 c8"
           />
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             131
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             890.328253
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             441.69151
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             578.32766
           </td>
@@ -288,25 +293,25 @@ exports[`Inequalities bar chart table suite Sex inequality snapshot test - shoul
             Female
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c7 c8"
           />
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             131
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             890.328253
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             441.69151
           </td>
           <td
-            class="c5 c6 c8"
+            class="c5 c6 c9"
           >
             578.32766
           </td>
