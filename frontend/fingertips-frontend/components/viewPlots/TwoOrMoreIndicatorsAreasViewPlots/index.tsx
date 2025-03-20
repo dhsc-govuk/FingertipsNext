@@ -117,9 +117,9 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   healthIndicatorData,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
-  const _1 = searchState
-  const _2 = healthIndicatorData
-  const _3 = indicatorMetadata
+  const _1 = searchState;
+  const _2 = healthIndicatorData;
+  const _3 = indicatorMetadata;
 
   const spineTableData = mapToSpineChartTableProps();
 
