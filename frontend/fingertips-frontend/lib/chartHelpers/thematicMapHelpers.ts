@@ -129,18 +129,12 @@ export function getMapData(
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
   const preparedData = data.map((areaData) => {
-    console.log(areaData);
     let benchmarkColourCode = 0;
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
         mapBenchmarkToColourRef[
           areaData.healthData[0].benchmarkComparison.outcome as string
         ];
-      console.log(
-        areaData.areaName,
-        areaData.healthData[0].benchmarkComparison?.outcome,
-        benchmarkColourCode
-      );
     }
     const preparedDataPoint = {
       areaName: areaData.areaName,

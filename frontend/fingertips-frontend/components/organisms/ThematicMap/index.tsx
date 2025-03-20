@@ -7,10 +7,10 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/Heal
 import { useEffect, useState } from 'react';
 import {
   benchmarkColourScale,
-  mapBenchmarkToColourRef,
   MapData,
   prepareThematicMapSeriesData,
 } from '@/lib/chartHelpers/thematicMapHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -56,7 +56,7 @@ export function ThematicMap({
         name: 'basemap',
         showInLegend: false,
         mapData: mapData.mapFile,
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         borderWidth: 0.2,
       },
       {
@@ -64,25 +64,26 @@ export function ThematicMap({
         name: 'group border',
         showInLegend: false,
         mapData: mapData.mapGroupBoundary,
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         borderWidth: 6,
       },
       {
         type: 'map',
+        colorKey: 'benchmarkColourCode',
         name: 'data',
-        showInLegend: false,
         mapData: mapData.mapFile,
         data: data,
         joinBy: [mapData.mapJoinKey, 'areaCode'],
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         allAreas: false,
         borderWidth: 0.5,
         states: {
           hover: {
             borderWidth: 2,
-            borderColor: 'black',
+            borderColor: GovukColours.Black,
           },
         },
+        dataLabels: { format: 'T' },
         tooltip: {
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
@@ -90,7 +91,7 @@ export function ThematicMap({
             '<span style="font-size: large">Value: {point.value} units</span>' +
             '<br /><span>benchmark: {point.benchmarkComparison}</span>' +
             '<br /><span>benchmark colourCode: {point.benchmarkColourCode}</span>',
-          footerFormat: '',
+          // footerFormat: '<br />',
         },
       },
     ],
