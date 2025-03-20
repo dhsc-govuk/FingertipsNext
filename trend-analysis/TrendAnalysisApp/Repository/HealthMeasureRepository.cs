@@ -3,36 +3,46 @@ using TrendAnalysisApp.Repository.Models;
 
 namespace TrendAnalysisApp.Repository;
 
-public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
+public class HealthMeasureRepository
 {
-    private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
+    private readonly HealthMeasureDbContext _dbContext;
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
-        return await _dbContext.HealthMeasure
-            .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
-            .Include(hm => hm.IndicatorDimension)
-            .Include(hm => hm.TrendDimension)
-            .Select(x => new HealthMeasureModel()
-            {
-                Year = x.Year,
-                Value = x.Value,
-                Count = x.Count,
-                Denominator = x.Denominator,
-                LowerCI = x.LowerCI,
-                UpperCI = x.UpperCI,
-                HealthMeasureKey = x.HealthMeasureKey,
-                AgeKey = x.AgeKey,
-                AreaKey = x.AreaKey,
-                DeprivationKey = x.DeprivationKey,
-                IndicatorKey = x.IndicatorKey,
-                SexKey = x.SexKey,
-                TrendKey = x.TrendKey,
-                TrendDimension = new TrendDimensionModel()
+    // Pre-compile the query (this gets compiled once per application lifetime)
+    private static readonly Func<HealthMeasureDbContext, int, Task<List<HealthMeasureModel>>> _compiledGetByIndicatorQuery =
+        EF.CompileAsyncQuery((HealthMeasureDbContext context, int indicatorKey) =>
+            context.HealthMeasure
+                .AsNoTracking()  // if this query is read-only
+                .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
+                .Select(x => new HealthMeasureModel
                 {
-                    Name = x.TrendDimension.Name
-                }
-            })
-            .ToListAsync();
+                    Year = x.Year,
+                    Value = x.Value,
+                    Count = x.Count,
+                    Denominator = x.Denominator,
+                    LowerCI = x.LowerCI,
+                    UpperCI = x.UpperCI,
+                    HealthMeasureKey = x.HealthMeasureKey,
+                    AgeKey = x.AgeKey,
+                    AreaKey = x.AreaKey,
+                    DeprivationKey = x.DeprivationKey,
+                    IndicatorKey = x.IndicatorKey,
+                    SexKey = x.SexKey,
+                    TrendKey = x.TrendKey,
+                    TrendDimension = new TrendDimensionModel
+                    {
+                        Name = x.TrendDimension.Name
+                    }
+                }).ToList());
+
+    public HealthMeasureRepository(HealthMeasureDbContext dbCtx)
+    {
+        _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
+    }
+
+    public Task<List<HealthMeasureModel>> GetByIndicator(int indicatorKey)
+    {
+        // Use the compiled query here.
+        return _compiledGetByIndicatorQuery(_dbContext, indicatorKey);
     }
 
     public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey) {
