@@ -20,7 +20,8 @@ interface CellHeaderProps {
 }
 
 const CellHeader: FC<CellHeaderProps> = ({ header, measurementUnit = '' }) =>
-  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ? (
+  header === InequalitiesBarChartTableHeaders.INEQUALITY_TYPE ||
+  header === InequalitiesBarChartTableHeaders.COMPARED_TO ? (
     <StyledAlignLeftHeader
       key={`heading-${header}`}
       style={{ width: '16%' }}
