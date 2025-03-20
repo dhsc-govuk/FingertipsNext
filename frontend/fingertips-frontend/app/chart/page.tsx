@@ -77,9 +77,9 @@ export default async function ChartPage(
         )
       )
     );
-    // Note: This function is having a side effect on the rendering and its causes multi-test to 
-    // fail if removed, TODO- a ticket to make sure function called does not call a 
-    // side effect within the rendering context. 
+    // Note: This function is having a side effect on the rendering and its causes multi-test to
+    // fail if removed, TODO- a ticket to make sure function called does not call a
+    // side effect within the rendering context.
     const _: HealthDataForArea[] | undefined = await (async () => {
       try {
         return await indicatorApi.getHealthDataForAnIndicator(
@@ -93,7 +93,7 @@ export default async function ChartPage(
       } catch (error) {
         console.log('error getting population data ', error);
       }
-    })()
+    })();
 
     // only checking for selectedAreaType, single indicator and two or more areas until business logic to also confirm when an entire Group of areas has been selected is in place
     const mapDataIsRequired =
@@ -133,10 +133,10 @@ export default async function ChartPage(
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
         ? await Promise.all(
-          areasSelected.map((area) =>
-            areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+            areasSelected.map((area) =>
+              areasApi.getArea({ areaCode: area }, API_CACHE_CONFIG)
+            )
           )
-        )
         : [];
 
     const {
