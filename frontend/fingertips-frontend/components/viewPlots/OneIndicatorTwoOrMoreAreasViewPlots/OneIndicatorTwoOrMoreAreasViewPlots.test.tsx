@@ -4,8 +4,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
