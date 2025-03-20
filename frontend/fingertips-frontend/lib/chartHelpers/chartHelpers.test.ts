@@ -70,7 +70,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
-            isAggregate: true
+            isAggregate: true,
           },
           {
             count: 267,
@@ -81,7 +81,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Male',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
-            isAggregate: false
+            isAggregate: false,
           },
           {
             count: 389,
