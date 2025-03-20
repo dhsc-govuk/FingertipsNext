@@ -6,8 +6,20 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Mappings;
 
 public class AutoMapperProfiles : Profile
 {
+    private static IndicatorPolarity MapIndicatorPolarity(string DbIndicatorPolarity)
+    {
+        return DbIndicatorPolarity switch
+        {
+            "High is good" => IndicatorPolarity.HighIsGood,
+            "Low is good" => IndicatorPolarity.LowIsGood,
+            "No judgement" => IndicatorPolarity.NoJudgement,
+            _ => throw new ArgumentException(message: $"invalid IndicatorPolarity value {DbIndicatorPolarity}")
+        };
+    }
     public AutoMapperProfiles()
     {
+        CreateMap<string, IndicatorPolarity>().ConstructUsing((strValue) => AutoMapperProfiles.MapIndicatorPolarity(strValue));
+
         CreateMap<BenchmarkComparisonModel, BenchmarkComparison>()
             .ForMember(dest => dest.Outcome, options => options.MapFrom(src => src.Outcome))
             .ForMember(dest => dest.Method, options => options.MapFrom(src => src.Method))

@@ -1,80 +1,74 @@
-﻿CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
-@IndicatorId int,
-@AreaCode varchar(max)
+﻿DROP PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison];
+DROP TYPE dbo.AreaCodeList;
+DROP TYPE dbo.YearList;
+CREATE TYPE dbo.AreaCodeList AS TABLE( AreaCode varchar(20) );
+CREATE TYPE dbo.YearList AS TABLE( YearNum varchar(20) );
+--- This stored procedure Gets HealthData and performs Quintile calculations
+CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
+@AreasOfInterest AreaCodeList READONLY, --- The Areas we want data for
+@AreaTypeOfInterest varchar(50),        --- The AreaType we are comparing against - this needs to be passed in because the AreaCodes can be ambiguous for districts and counties
+@YearsOfInterest YearList READONLY,     --- The Years we are interested in - can be empty
+@IndicatorId int                        --- The specific indicatorId we are interested in
 AS
 BEGIN
-	-- This parses the areaCode comma separated list into a structured form
-    WITH AreasOfInterest AS (
-	    SELECT
-		    value as AreaCode
-	    FROM
-	        STRING_SPLIT(@AreaCode, ',')
-	),
+    WITH 	
+    --- Finds the indicator of interest from the passed in IndicatorId.
 	IndicatorOfInterest AS (
 	    SELECT
-		    y.IndicatorId
+		    *
 	    FROM
-		(
-	        VALUES (@IndicatorId)) AS y(IndicatorId)
-        ),
-	--- Need to find the associated AreaType so we can find the full set of areas we are comparing against
-	ChosenAreaType AS (
-	    SELECT TOP 1
-            areas.AreaTypeKey as AreaTypeKey
-	    FROM
-		    dbo.AreaDimension ad
-	    JOIN
-            Areas.Areas areas
-        ON
-		    ad.AreaKey = areas.AreaKey
-	    JOIN
-            AreasOfInterest aoi
-        ON
-		    ad.Code = aoi.AreaCode 
+            dbo.IndicatorDimension as ind
+ 	    WHERE 
+		    ind.IndicatorId = @IndicatorId
     ),
-	--- Need to find the latest year for which we have data.
-	IndicatorData AS (
-	    SELECT
-		    Max(Year) as LatestYear,
-		    'High is better' as Polarity
-	    FROM
-		    dbo.HealthMeasure as hm
+	--- Converts the scalar value AreaTypeKey into a table value form
+	ChosenAreaType AS (
+        SELECT AreaTypeKey  FROM (VALUES (@AreaTypeOfInterest) ) AS MyTable(AreaTypeKey)
+    ),
+    --- This is used to help identify data with inequality dimensions set but IS STILL an aggregate value. This is the case for indicators like People over 65 who are admitted to hospital. 
+    InequalityDimensionDistinctValueCount AS (
+        SELECT 
+            COUNT(DISTINCT hm.SexKey) AS SexKeyCount, 
+            COUNT(DISTINCT hm.AgeKey) AS AgeKeyCount, 
+            COUNT(DISTINCT hm.DeprivationKey) AS DeprivationKeyCount
+        FROM 
+            dbo.HealthMeasure hm
 	    JOIN
             dbo.IndicatorDimension as ind
         ON
-		    hm.IndicatorKey = ind.IndicatorKey
+		    hm.IndicatorKey = ind.IndicatorKey            
 	    JOIN 
             IndicatorOfInterest ioi
         ON
-		    ind.IndicatorId = ioi.IndicatorId
-        ),
-	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points. Also needs to be for the latest year
-	AreaTypeGroup AS (
+		    ind.IndicatorId = ioi.IndicatorId    
+    ),
+	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
+	HealthData AS (
 	    SELECT
 		    hm.HealthMeasureKey,
-		    NTILE(5) OVER(ORDER BY Value) AS Quintile,
+		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY Value) AS Quintile,
 		    area.Code as AreaDimensionCode,
 		    area.Name as AreaDimensionName,
 		    ind.Name as IndicatorDimensionName,
-		    sex.SexKey as SexDimensionName,
+		    sex.Name as SexDimensionName,
 		    sex.HasValue as SexDimensionHasValue,
 		    'trendName' as TrendDimensionName,
-		    age.Name as AgeDimensionName,
-		    age.HasValue as AgeDimensionHasValue,
+		    ageDim.Name as AgeDimensionName,
+		    ageDim.HasValue as AgeDimensionHasValue,
 		    imd.Name as DeprivationDimensionName,
 		    imd.[Type] as DeprivationDimensionType,
 		    imd.[Sequence] as DeprivationDimensionSequence,
-		    imd.HasValue as DeprivationDimentionHasValue,
+		    imd.HasValue as DeprivationDimensionHasValue,
 		    Count,
 		    Value,
 		    LowerCi,
 		    UpperCi,
 		    hm.Year,
-		    indData.Polarity as IndicatorPolarity
+		    ind.Polarity as IndicatorPolarity
 	    FROM
 		    dbo.HealthMeasure as hm
     	JOIN
-            dbo.IndicatorDimension ind
+            IndicatorOfInterest ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	    JOIN
@@ -86,63 +80,94 @@ BEGIN
         ON
 		    aa.AreaKey = area.AreaKey
 	    JOIN
+            ChosenAreaType as at 
+        ON
+		    at.AreaTypeKey = aa.AreaTypeKey
+		JOIN
             dbo.SexDimension as sex
         ON
 		    hm.SexKey = sex.SexKey
 	    JOIN
-            dbo.AgeDimension as age
+            dbo.AgeDimension as ageDim
         ON
-		    hm.AgeKey = age.AgeKey
+		    hm.AgeKey = ageDim.AgeKey
     	JOIN
             dbo.DeprivationDimension as imd
         ON
 		    hm.DeprivationKey = imd.DeprivationKey
-	    JOIN
-            ChosenAreaType as at 
-        ON
-		    at.AreaTypeKey = aa.AreaTypeKey
-	    JOIN
-            IndicatorData as indData
-        ON
-		    hm.Year = indData.LatestYear
-    	JOIN 
-            IndicatorOfInterest ioi
-        ON
-		    ind.IndicatorId = ioi.IndicatorId
+		CROSS JOIN
+		    InequalityDimensionDistinctValueCount iddvc
     	WHERE
-	    	age.hasValue = 0
-		--- todo this is an incomplete solution
+    	(
+	        ageDim.hasValue = 0
+	    OR
+	        iddvc.AgeKeyCount = 1
+	    )
 		AND
+		(
             sex.hasValue = 0
-		--- todo this is an incomplete solution
+        OR
+            iddvc.SexKeyCount = 1
+        )
 		AND
+		(
             imd.hasValue = 0
-		--- todo this is an incomplete solution
+        OR
+            iddvc.DeprivationKeyCount = 1
+        )
+        AND
+        (
+            hm.Year IN (SELECT * FROM @YearsOfInterest)
+		OR
+		    NOT EXISTS (SELECT 1 FROM @YearsOfInterest)
+        )
     )
     SELECT
 		*,
 		'Quintile' as BenchmarkComparisonMethod,
 		'E92000001' as BenchmarkComparisonAreaCode,
 		'England' as BenchmarkComparisonAreaName,
-		atg.IndicatorPolarity as BenchmarkComparisonIndicatorPolarity,
+		hd.IndicatorPolarity as BenchmarkComparisonIndicatorPolarity,
 	CASE
-		WHEN atg.IndicatorPolarity = 'High is better'
-		AND atg.Quintile = 1 THEN 'LOWEST'
-		WHEN atg.IndicatorPolarity = 'High is better'
-		AND atg.Quintile = 2 THEN 'LOWER'
-		WHEN atg.IndicatorPolarity = 'High is better'
-		AND atg.Quintile = 3 THEN 'SIMILAR'
-		WHEN atg.IndicatorPolarity = 'High is better'
-		AND atg.Quintile = 4 THEN 'HIGHER'
-		WHEN atg.IndicatorPolarity = 'High is better'
-		AND atg.Quintile = 5 THEN 'HIGHEST'
+		WHEN hd.IndicatorPolarity = 'High is good'
+		AND hd.Quintile = 1 THEN 'WORST'
+		WHEN hd.IndicatorPolarity = 'High is good'
+		AND hd.Quintile = 2 THEN 'WORSE'
+		WHEN hd.IndicatorPolarity = 'High is good'
+		AND hd.Quintile = 3 THEN 'MIDDLE'
+		WHEN hd.IndicatorPolarity = 'High is good'
+		AND hd.Quintile = 4 THEN 'BETTER'
+		WHEN hd.IndicatorPolarity = 'High is good'
+		AND hd.Quintile = 5 THEN 'BEST'
+
+		WHEN hd.IndicatorPolarity = 'Low is good'
+		AND hd.Quintile = 1 THEN 'BEST'
+		WHEN hd.IndicatorPolarity = 'Low is good'
+		AND hd.Quintile = 2 THEN 'BETTER'
+		WHEN hd.IndicatorPolarity = 'Low is good'
+		AND hd.Quintile = 3 THEN 'MIDDLE'
+		WHEN hd.IndicatorPolarity = 'Low is good'
+		AND hd.Quintile = 4 THEN 'WORSE'
+		WHEN hd.IndicatorPolarity = 'Low is good'
+		AND hd.Quintile = 5 THEN 'WORST'
+
+		WHEN hd.IndicatorPolarity = 'No judgement'
+		AND hd.Quintile = 1 THEN 'LOWEST'
+		WHEN hd.IndicatorPolarity = 'No judgement'
+		AND hd.Quintile = 2 THEN 'LOWER'
+		WHEN hd.IndicatorPolarity = 'No judgement'
+		AND hd.Quintile = 3 THEN 'SIMILAR'
+		WHEN hd.IndicatorPolarity = 'No judgement'
+		AND hd.Quintile = 4 THEN 'HIGHER'
+		WHEN hd.IndicatorPolarity = 'No judgement'
+		AND hd.Quintile = 5 THEN 'HIGHEST'
 	END as BenchmarkComparisonOutcome
 	FROM
-		AreaTypeGroup as atg
+		HealthData as hd
 	JOIN
-    	AreasOfInterest as aoi
+    	@AreasOfInterest as aoi
 	ON
-		atg.AreaDimensionCode = aoi.AreaCode
+		hd.AreaDimensionCode = aoi.AreaCode
 	ORDER BY
-		AreaDimensionName
+		AreaDimensionName, hd.Year DESC
 END

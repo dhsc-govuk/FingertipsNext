@@ -1,5 +1,9 @@
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Diagnostics.Metrics;
+using System.Reflection.Metadata;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -66,19 +70,61 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int indicatorId, string[] areaCodes, int[] years)
+    public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(int IndicatorId, string[] AreaCodes, int[] Years)
     {
-        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql(
-              "exec dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @IndicatorId=337, @AreaCode='A82003,A82008,A82009,A82010'"
-            ).ToListAsync();
+        var AreaTypeKey = "counties-and-unitary-authorities";
 
+        // Convert the string arrays to table-valued parameters (TVPs) if needed
+        var AreaCodesTable = new DataTable();
+        AreaCodesTable.Columns.Add("AreaCode", typeof(string));
+        foreach (var area in AreaCodes)
+        {
+            AreaCodesTable.Rows.Add(area);
+        }
+        var areasOfInterest = new SqlParameter("@AreasOfInterest", AreaCodesTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "AreaCodeList"
+        };
+
+        var YearsTable = new DataTable();
+        YearsTable.Columns.Add("YearNum", typeof(int));
+        foreach (var item in Years)
+        {
+            YearsTable.Rows.Add(item);
+        }
+        var yearsOfInterest = new SqlParameter("@YearsOfInterest", YearsTable)
+        {
+            SqlDbType = SqlDbType.Structured,
+            TypeName = "YearList"
+        };
+
+        var areaTypeOfInterest = new SqlParameter("@AreaTypeOfInterest", AreaTypeKey);
+        var indicatorId = new SqlParameter("@IndicatorId", IndicatorId);
+
+        var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
+            ($"""
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @AreasOfInterest={areasOfInterest}, @AreaTypeOfInterest={areaTypeOfInterest}, @YearsOfInterest={yearsOfInterest}, @IndicatorId={indicatorId}
+              """
+            ).ToListAsync();
 
         var healthData = denormalisedHealthData.Select(healthData => healthData.Normalise()).ToList();
 
         return [.. denormalisedHealthData
             .Select(a => a.Normalise())
-            .OrderBy(a => a.AreaType.Level)];
+            .OrderBy(a => a.Year)];
     }
 
+    private DataTable CreateDataTable(string[] values)
+    {
+        var table = new DataTable();
+        table.Columns.Add("AreaCode", typeof(string));
 
+        foreach (var value in values)
+        {
+            table.Rows.Add(value);
+        }
+
+        return table;
+    }
 }
