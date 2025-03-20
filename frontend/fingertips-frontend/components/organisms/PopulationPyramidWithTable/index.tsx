@@ -75,12 +75,12 @@ const createPopulationDataFrom = (
 const getLatestYear = (
   points: HealthDataPoint[] | undefined
 ): number | undefined => {
-  if (!points) return undefined;
+  if (!points || points.length < 1) return undefined;
 
-  const healthData = points.reduce((previous, point) => {
-    return Math.max(previous.year, point.year), points[0];
-  });
-  return healthData?.year;
+  const year = points.reduce((previous, point) => {
+    return Math.max(previous, point.year);
+  }, points[0].year);
+  return year;
 };
 
 interface PyramidPopulationChartViewProps {
