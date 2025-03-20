@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { SelectAreasFilterPanel } from '.';
 import { mockAvailableAreas } from '@/mock/data/areaData';
 import {
@@ -557,9 +557,10 @@ describe('SelectAreasFilterPanel', () => {
       await user.click(
         screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
       );
-
-      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-        scroll: false,
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+          scroll: false,
+        });
       });
     });
 
@@ -622,9 +623,10 @@ describe('SelectAreasFilterPanel', () => {
       await user.click(
         screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
       );
-
-      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-        scroll: false,
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+          scroll: false,
+        });
       });
     });
 
@@ -663,8 +665,10 @@ describe('SelectAreasFilterPanel', () => {
         screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
       );
 
-      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
-        scroll: false,
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+          scroll: false,
+        });
       });
     });
   });
