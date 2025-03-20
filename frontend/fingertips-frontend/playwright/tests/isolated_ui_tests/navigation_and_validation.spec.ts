@@ -10,7 +10,6 @@ import {
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
