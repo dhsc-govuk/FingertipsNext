@@ -96,6 +96,20 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
+  async selectIndicatorCheckboxByName(indicatorName: string) {
+    const checkbox = this.page.getByText(indicatorName);
+
+    await expect(checkbox).toBeAttached();
+    await expect(checkbox).toBeVisible();
+    await expect(checkbox).toBeEnabled();
+    await expect(checkbox).toBeEditable();
+    await expect(checkbox).toBeChecked({ checked: false });
+
+    await checkbox.check({ force: true, timeout: 2000 });
+
+    await expect(checkbox).toBeChecked();
+  }
+
   /**
    * Selects the required number of indicators based on the indicator mode and checks the URL has been updated after each selection.
    * Note that we trust, and therefore test, the fingertips UI to only show us valid indicators based on the areas selected by the

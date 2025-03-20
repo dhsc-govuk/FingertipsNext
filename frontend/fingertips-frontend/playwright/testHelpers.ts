@@ -160,6 +160,20 @@ export function getAllIndicatorIdsForSearchTerm(
   );
 }
 
+function filterIndicatorsOnlyPOC(
+  indicators: IndicatorDocument[]
+): IndicatorDocument[] {
+  return indicators.filter((indicator) => indicator.usedInPoc === true);
+}
+
+export function getAllPOCIndicatorNames(
+  indicators: IndicatorDocument[]
+): string[] {
+  return filterIndicatorsOnlyPOC(indicators).map(
+    (indicator) => indicator.indicatorName
+  );
+}
+
 export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {
   const nhsRegionAreas = areas.filter((area) =>
     area.areaType.includes('NHS Region')
