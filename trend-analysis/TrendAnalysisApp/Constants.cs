@@ -8,7 +8,7 @@ public static class Constants {
         // The name for the Fingertips DB: used in the environment variable for the connection string.
         public const string FingertipsDbName = "FINGERTIPS_DB";
         // With the current DB settings, when running load-heavy processes we may need longer than the default 30s.
-        public const int CommandTimeout = 90;
+        public const int CommandTimeout = 120;
     }
 
     public static class Polarity {

@@ -65,20 +65,17 @@ public class TrendDataProcessor(
     {
         var indicators = await _indicatorRepo.GetAll();
 
-        // Create a task for each indicator
-        var tasks = indicators.Select(async indicator =>
+        Parallel.ForEach(indicators, indicator =>
         {
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<HealthMeasureDbContext>();
             var healthMeasureRepository = new HealthMeasureRepository(dbContext);
+
             var legacyMapper = serviceProvider.GetRequiredService<LegacyMapper>();
             var scopedLegacyCalculator = scope.ServiceProvider.GetRequiredService<TrendMarkerCalculator>();
             var trendCalculator = new TrendCalculator(scopedLegacyCalculator, legacyMapper);
 
-            await ProcessOne(indicator, healthMeasureRepository, trendCalculator);
+            ProcessOne(indicator, healthMeasureRepository, trendCalculator).Wait();
         });
-
-        // Await all the tasks concurrently
-        await Task.WhenAll(tasks);
     }
 }

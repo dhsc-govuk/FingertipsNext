@@ -9,7 +9,6 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
 
     public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
         return await _dbContext.HealthMeasure
-            .AsNoTracking()
             .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
