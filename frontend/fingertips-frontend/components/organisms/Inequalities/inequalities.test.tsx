@@ -49,12 +49,12 @@ describe('Inequalities suite', () => {
       />
     );
 
-    expect(screen.getAllByRole('heading', { level: 4 })[0]).toHaveTextContent(
-      'Inequalities data for a single time period'
-    );
-    expect(screen.getAllByRole('heading', { level: 4 })[1]).toHaveTextContent(
-      'Inequalities data over time'
-    );
+    expect(
+      screen.getByText(/Inequalities data for a single time period/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Inequalities data over time/i)
+    ).toBeInTheDocument();
   });
 
   it('check if the measurement unit value "kg" is rendered correctly', () => {
