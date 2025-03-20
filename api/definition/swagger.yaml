@@ -368,6 +368,7 @@ components:
         - ageBand
         - sex
         - trend
+        - deprivation
       properties:
         year:
           type: integer

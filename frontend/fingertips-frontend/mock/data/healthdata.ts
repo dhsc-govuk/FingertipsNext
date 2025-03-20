@@ -1,7 +1,14 @@
 import {
+  DeprivationData,
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
+
+const noDeprivation: DeprivationData = {
+  sequence: 1,
+  type: 'All',
+  value: 'All',
+};
 
 export const mockHealthData: Record<string, HealthDataForArea[]> = {
   '337': [
@@ -18,6 +25,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -28,6 +36,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -38,6 +47,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -48,6 +58,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -58,6 +69,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -68,6 +80,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -78,6 +91,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -88,6 +102,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -98,6 +113,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -108,6 +124,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -118,6 +135,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -128,6 +146,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -138,6 +157,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -148,6 +168,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -158,6 +179,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -168,6 +190,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -178,6 +201,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -188,6 +212,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -198,6 +223,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -208,6 +234,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -218,6 +245,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -228,6 +256,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -238,6 +267,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -248,6 +278,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -258,6 +289,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -268,6 +300,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -278,6 +311,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -288,6 +322,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -298,6 +333,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -308,6 +344,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -318,6 +355,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -328,6 +366,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -338,6 +377,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -348,6 +388,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -358,6 +399,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -368,6 +410,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -378,6 +421,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -388,6 +432,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -404,6 +449,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -414,6 +460,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -424,6 +471,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -434,6 +482,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -444,6 +493,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -454,6 +504,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -464,6 +515,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -474,6 +526,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -484,6 +537,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -494,6 +548,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -504,6 +559,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -514,6 +570,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -524,6 +581,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -534,6 +592,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -544,6 +603,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -554,6 +614,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -564,6 +625,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -574,6 +636,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -584,6 +647,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -594,6 +658,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -604,6 +669,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -614,6 +680,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -624,6 +691,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -634,6 +702,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -644,6 +713,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -654,6 +724,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -664,6 +735,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -674,6 +746,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -684,6 +757,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -694,6 +768,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -704,6 +779,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -714,6 +790,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -724,6 +801,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -734,6 +812,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -744,6 +823,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -754,6 +834,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -764,6 +845,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -774,6 +856,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -790,6 +873,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -800,6 +884,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -810,6 +895,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -820,6 +906,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -830,6 +917,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -840,6 +928,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -850,6 +939,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -860,6 +950,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -870,6 +961,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -880,6 +972,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -890,6 +983,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -900,6 +994,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -910,6 +1005,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -920,6 +1016,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -930,6 +1027,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -940,6 +1038,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -950,6 +1049,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -960,6 +1060,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -970,6 +1071,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -980,6 +1082,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -990,6 +1093,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1000,6 +1104,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1010,6 +1115,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1020,6 +1126,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1030,6 +1137,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '25-29',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1040,6 +1148,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '30-34',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1050,6 +1159,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '35-39',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1060,6 +1170,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '40-44',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1070,6 +1181,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '45-49',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1080,6 +1192,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '50-54',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1090,6 +1203,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '55-59',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1100,6 +1214,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '60-64',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1110,6 +1225,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '65-69',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1120,6 +1236,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '70-74',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1130,6 +1247,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '75-79',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1140,6 +1258,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '80-84',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1150,6 +1269,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '85-89',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2023,
@@ -1160,6 +1280,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '90+',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1178,6 +1299,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1188,6 +1310,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1198,6 +1321,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1208,6 +1332,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -1218,6 +1343,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -1228,6 +1354,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1244,6 +1371,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -1254,6 +1382,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1264,6 +1393,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1274,6 +1404,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -1284,6 +1415,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1300,6 +1432,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -1310,6 +1443,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1320,6 +1454,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1330,6 +1465,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1340,6 +1476,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1356,6 +1493,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1366,6 +1504,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1376,6 +1515,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1386,6 +1526,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -1396,6 +1537,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1412,6 +1554,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1422,6 +1565,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -1432,6 +1576,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1442,6 +1587,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1452,6 +1598,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1468,6 +1615,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -1478,6 +1626,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1488,6 +1637,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -1498,6 +1648,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1508,6 +1659,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1526,6 +1678,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1542,6 +1695,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1558,6 +1712,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1574,6 +1729,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1590,6 +1746,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1606,6 +1763,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1622,6 +1780,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1638,6 +1797,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1654,6 +1814,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1672,6 +1833,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1688,6 +1850,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1704,6 +1867,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1720,6 +1884,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1736,6 +1901,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1752,6 +1918,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1768,6 +1935,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1786,6 +1954,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1802,6 +1971,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1818,6 +1988,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1834,6 +2005,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1850,6 +2022,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1866,6 +2039,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1882,6 +2056,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1900,6 +2075,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1910,6 +2086,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1920,6 +2097,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1930,6 +2108,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1940,6 +2119,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1950,6 +2130,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -1966,6 +2147,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1976,6 +2158,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -1986,6 +2169,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -1996,6 +2180,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2006,6 +2191,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2016,6 +2202,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2032,6 +2219,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2042,6 +2230,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2052,6 +2241,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2062,6 +2252,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2072,6 +2263,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2082,6 +2274,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2098,6 +2291,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2108,6 +2302,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2124,6 +2319,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2134,6 +2330,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2152,6 +2349,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2162,6 +2360,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -2172,6 +2371,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -2182,6 +2382,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -2192,6 +2393,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2208,6 +2410,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2218,6 +2421,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -2228,6 +2432,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -2238,6 +2443,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -2248,6 +2454,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2264,6 +2471,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '0-4',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -2274,6 +2482,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '5-9',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2284,6 +2493,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '10-14',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -2294,6 +2504,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '15-19',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -2304,6 +2515,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: '20-24',
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2320,6 +2532,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2020,
@@ -2330,6 +2543,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2340,6 +2554,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2350,6 +2565,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -2360,6 +2576,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -2377,6 +2594,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2387,6 +2605,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2012,
@@ -2397,6 +2616,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2407,6 +2627,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2006,
@@ -2417,6 +2638,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
