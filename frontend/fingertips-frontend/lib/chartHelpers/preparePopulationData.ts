@@ -1,5 +1,7 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPoint,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 
 export interface PopulationDataForArea {
   areaName?: string;
