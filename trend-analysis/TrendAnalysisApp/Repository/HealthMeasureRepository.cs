@@ -3,57 +3,45 @@ using TrendAnalysisApp.Repository.Models;
 
 namespace TrendAnalysisApp.Repository;
 
-public class HealthMeasureRepository
+public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
 {
-    private readonly HealthMeasureDbContext _dbContext;
+    private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
-    private static readonly Func<HealthMeasureDbContext, int, Task<List<HealthMeasureModel>>> _compiledGetByIndicatorQuery =
-        EF.CompileAsyncQuery((HealthMeasureDbContext context, int indicatorKey) =>
-            context.HealthMeasure
-                .AsNoTracking()
-                .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
-                .Include(hm => hm.IndicatorDimension)
-                .Include(hm => hm.TrendDimension)
-                .AsEnumerable()
-                .Select(x => new HealthMeasureModel
+    public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
+        return await _dbContext.HealthMeasure
+            .AsNoTracking()
+            .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
+            .Include(hm => hm.IndicatorDimension)
+            .Include(hm => hm.TrendDimension)
+            .Select(x => new HealthMeasureModel()
+            {
+                Year = x.Year,
+                Value = x.Value,
+                Count = x.Count,
+                Denominator = x.Denominator,
+                LowerCI = x.LowerCI,
+                UpperCI = x.UpperCI,
+                HealthMeasureKey = x.HealthMeasureKey,
+                AgeKey = x.AgeKey,
+                AreaKey = x.AreaKey,
+                DeprivationKey = x.DeprivationKey,
+                IndicatorKey = x.IndicatorKey,
+                SexKey = x.SexKey,
+                TrendKey = x.TrendKey,
+                TrendDimension = new TrendDimensionModel()
                 {
-                    Year = x.Year,
-                    Value = x.Value,
-                    Count = x.Count,
-                    Denominator = x.Denominator,
-                    LowerCI = x.LowerCI,
-                    UpperCI = x.UpperCI,
-                    HealthMeasureKey = x.HealthMeasureKey,
-                    AgeKey = x.AgeKey,
-                    AreaKey = x.AreaKey,
-                    DeprivationKey = x.DeprivationKey,
-                    IndicatorKey = x.IndicatorKey,
-                    SexKey = x.SexKey,
-                    TrendKey = x.TrendKey,
-                    TrendDimension = new TrendDimensionModel
-                    {
-                        Name = x.TrendDimension.Name
-                    }
-                }).ToList());
-
-    public HealthMeasureRepository(HealthMeasureDbContext dbCtx)
-    {
-        _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
+                    Name = x.TrendDimension.Name
+                }
+            })
+            .ToListAsync();
     }
 
-    public Task<List<HealthMeasureModel>> GetByIndicator(int indicatorKey)
-    {
-        return _compiledGetByIndicatorQuery(_dbContext, indicatorKey);
-    }
-
-    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey)
-    {
+    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey) {
         healthMeasure.TrendKey = newTrendKey;
         _dbContext.Entry(healthMeasure).State = EntityState.Modified;
     }
 
-    public async Task SaveChanges()
-    {
+    public async Task SaveChanges() {
         _dbContext.ChangeTracker.DetectChanges();
         await _dbContext.SaveChangesAsync();
         _dbContext.ChangeTracker.Clear();
