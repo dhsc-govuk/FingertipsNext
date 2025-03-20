@@ -41,9 +41,9 @@ export function getScenarioConfig(
     // ChartPage.populationPyramidComponent,
     ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
+    ChartPage.spineChartTableComponent,
     // Pending
     // ChartPage.basicTableComponent,
-    ChartPage.spineChartTableComponent,
     // ChartPage.heatMapComponent,
   ];
 
@@ -112,6 +112,7 @@ export function getScenarioConfig(
   ) {
     visibleComponents = [
       ChartPage.spineChartTableComponent,
+      // Pending
       // ChartPage.heatMapComponent,
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
