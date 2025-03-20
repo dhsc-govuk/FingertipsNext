@@ -150,7 +150,6 @@ export const PopulationPyramidWithTable = ({
       title = `Resident population profile for ${healthDataForArea.areaName} ${year}`;
     }
     setTitle(title);
-    console.log(healthDataForArea);
   }, [selectedArea, healthDataForAreas]);
 
   return (
