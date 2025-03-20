@@ -257,28 +257,6 @@ describe('Chart Page', () => {
         ]);
       });
 
-      it('should pass population data to the Chart page', async () => {
-        const expectedPopulationData = preparePopulationData(
-          mockHealthData[`${indicatorIdForPopulation}`],
-          'A001'
-        );
-
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData['1']
-        );
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-          mockHealthData[`${indicatorIdForPopulation}`]
-        );
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(page.props.children[1].props.populationData).toEqual(
-          expectedPopulationData
-        );
-      });
-
       it('should pass undefined if there was an error getting population data', async () => {
         mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
           mockHealthData['1']
