@@ -1,6 +1,5 @@
 'use client';
 
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { MultiIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
@@ -118,11 +117,9 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   healthIndicatorData,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
-  } = stateManager.getSearchState();
+  const _1 = searchState
+  const _2 = healthIndicatorData
+  const _3 = indicatorMetadata
 
   const spineTableData = mapToSpineChartTableProps();
 

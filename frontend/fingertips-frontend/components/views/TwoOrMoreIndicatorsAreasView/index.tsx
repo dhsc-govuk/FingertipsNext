@@ -25,7 +25,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
     !indicatorsSelected ||
     indicatorsSelected?.length < 2 ||
     !areasSelected ||
-    areasSelected?.length != 1
+    areasSelected?.length < 1 ||
+    areasSelected?.length > 2
   ) {
     throw new Error('Invalid parameters provided to view');
   }
