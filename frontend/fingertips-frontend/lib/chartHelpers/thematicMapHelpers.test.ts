@@ -91,3 +91,7 @@ describe('getMapData', () => {
     }
   );
 });
+
+describe('prepareThematicMapSeriesData', () => {
+  it.todo('should return the expected series data, including colour');
+});

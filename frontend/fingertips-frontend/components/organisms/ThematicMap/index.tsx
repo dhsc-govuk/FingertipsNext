@@ -9,7 +9,7 @@ import {
   benchmarkColourScale,
   mapBenchmarkToColourRef,
   MapData,
-  prepareSeriesData,
+  prepareThematicMapSeriesData,
 } from '@/lib/chartHelpers/thematicMapHelpers';
 
 interface ThematicMapProps {
@@ -25,7 +25,7 @@ export function ThematicMap({
   mapData,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const data = prepareSeriesData(healthIndicatorData);
+  const data = prepareThematicMapSeriesData(healthIndicatorData);
   const mapOptions: Highcharts.Options = {
     chart: {
       height: 800,

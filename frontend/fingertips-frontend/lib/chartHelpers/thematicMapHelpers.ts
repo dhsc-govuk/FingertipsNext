@@ -75,32 +75,6 @@ export const benchmarkColourScale = [
     color: GovukColours.DarkBlue,
   },
 ];
-
-export function getMapData(
-  areaType: AreaTypeKeysForMapMeta,
-  areaCodes: string[]
-): MapData {
-  const mapJoinKey = mapMetaDataEncoder[areaType]?.joinKey;
-  const mapFile = mapMetaDataEncoder[areaType]?.mapFile;
-
-  const groupAreas = mapFile.features.filter((feature) =>
-    areaCodes.includes(feature.properties[mapJoinKey])
-  );
-  const groupFeatureCollection = {
-    type: 'FeatureCollection',
-    features: groupAreas as Feature<Polygon | MultiPolygon>[],
-  } satisfies FeatureCollection<Polygon | MultiPolygon>;
-
-  return {
-    mapJoinKey: mapJoinKey,
-    mapFile: mapFile,
-    mapGroupBoundary: {
-      type: 'FeatureCollection',
-      features: [union(groupFeatureCollection)!], // TODO: business logic should prevent this from ever being 'null'
-    },
-  };
-}
-
 interface MapMetaData {
   joinKey: string;
   mapFile: GeoJSON;
@@ -128,8 +102,34 @@ const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
 };
 
-export function prepareSeriesData(data: HealthDataForArea[]) {
+export function getMapData(
+  areaType: AreaTypeKeysForMapMeta,
+  areaCodes: string[]
+): MapData {
+  const mapJoinKey = mapMetaDataEncoder[areaType]?.joinKey;
+  const mapFile = mapMetaDataEncoder[areaType]?.mapFile;
+
+  const groupAreas = mapFile.features.filter((feature) =>
+    areaCodes.includes(feature.properties[mapJoinKey])
+  );
+  const groupFeatureCollection = {
+    type: 'FeatureCollection',
+    features: groupAreas as Feature<Polygon | MultiPolygon>[],
+  } satisfies FeatureCollection<Polygon | MultiPolygon>;
+
+  return {
+    mapJoinKey: mapJoinKey,
+    mapFile: mapFile,
+    mapGroupBoundary: {
+      type: 'FeatureCollection',
+      features: [union(groupFeatureCollection)!], // TODO: business logic should prevent this from ever being 'null'
+    },
+  };
+}
+
+export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
   const preparedData = data.map((areaData) => {
+    console.log(areaData);
     let benchmarkColourCode = 0;
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
@@ -148,7 +148,6 @@ export function prepareSeriesData(data: HealthDataForArea[]) {
       value: areaData.healthData[0].value,
       benchmarkComparison: areaData.healthData[0].benchmarkComparison?.outcome,
       benchmarkColourCode: benchmarkColourCode,
-      // benchmarkColourCode: 25,
     };
     return preparedDataPoint;
   });
