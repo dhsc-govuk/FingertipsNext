@@ -31,3 +31,5 @@ GET http://localhost:5144/Indicators/355/data
 GET http://localhost:5144/indicators/247/data?area_codes=N81096&comparison_method=Rag
 ###
 
+### Example which requests data broken down by deprivation
+GET http://localhost:5144/indicators/91894/data?area_codes=E92000001&inequalities=deprivation

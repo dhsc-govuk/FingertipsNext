@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 

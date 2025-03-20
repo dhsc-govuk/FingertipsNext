@@ -171,7 +171,7 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithDeprivationDimension(
         string name = "All",
-        string type = "All",
+        string type = "Deprivation Deciles",
         byte sequence = 1,
         bool hasValue = false)
     {

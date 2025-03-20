@@ -423,7 +423,12 @@ public class IndicatorServiceTests
         result.Count().ShouldBe(1);
         var areasResults = result.First().HealthData;
         var aggregatePointResult = areasResults.ElementAt(0);
-        aggregatePointResult.Deprivation.ShouldBe("All");
+        aggregatePointResult.Deprivation.ShouldBeEquivalentTo(new Deprivation
+        {
+            Sequence = 1,
+            Value = "All",
+            Type = "Deprivation Deciles",
+        });
         aggregatePointResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
             Outcome = BenchmarkOutcome.Better,
@@ -435,7 +440,12 @@ public class IndicatorServiceTests
         });
         
         var disAggregatePointResult1 = areasResults.ElementAt(1);
-        disAggregatePointResult1.Deprivation.ShouldBe("one");
+        disAggregatePointResult1.Deprivation.ShouldBeEquivalentTo(new Deprivation
+        {
+            Sequence = 1,
+            Value = "one",
+            Type = "Deprivation Deciles",
+        });
         disAggregatePointResult1.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
             Outcome = BenchmarkOutcome.Better,
@@ -447,7 +457,12 @@ public class IndicatorServiceTests
         });
         
         var disAggregatePointResult2 = areasResults.ElementAt(2);
-        disAggregatePointResult2.Deprivation.ShouldBe("two");
+        disAggregatePointResult2.Deprivation.ShouldBeEquivalentTo(new Deprivation
+        {
+            Sequence = 1,
+            Value = "two",
+            Type = "Deprivation Deciles",
+        });
         disAggregatePointResult2.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
             Outcome = BenchmarkOutcome.Worse,
