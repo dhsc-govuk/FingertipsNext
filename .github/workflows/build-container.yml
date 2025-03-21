@@ -56,5 +56,4 @@ jobs:
           az acr build \
             --registry "${{ secrets.acr-server }}" \
             $TAGS \
-            --file "${{ github.workspace }}/github_runner/dockerfile" \
             "${{ inputs.context-location }}"
