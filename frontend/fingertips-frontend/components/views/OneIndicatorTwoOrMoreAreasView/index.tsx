@@ -77,8 +77,8 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
-      healthIndicatorData={healthIndicatorData}
       searchState={searchState}
+      healthIndicatorData={healthIndicatorData}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
     />

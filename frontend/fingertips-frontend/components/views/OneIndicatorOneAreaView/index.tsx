@@ -59,8 +59,8 @@ export default async function OneIndicatorOneAreaView({
 
   return (
     <OneIndicatorOneAreaViewPlots
-      healthIndicatorData={healthIndicatorData}
       searchState={searchState}
+      healthIndicatorData={healthIndicatorData}
       indicatorMetadata={indicatorMetadata}
     />
   );

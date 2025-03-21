@@ -31,6 +31,7 @@ export default class ChartPage extends BasePage {
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
+  static readonly spineChartTableComponent = 'spineChartTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -76,7 +77,8 @@ export default class ChartPage extends BasePage {
       // click tab to view the table view if checking a none embedded table component
       if (
         visibleComponent.toLowerCase().includes('table') &&
-        visibleComponent !== 'barChartEmbeddedTable-component'
+        visibleComponent !== 'barChartEmbeddedTable-component' &&
+        visibleComponent !== 'spineChartTable-component'
       ) {
         await this.page
           .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
