@@ -10,5 +10,4 @@ public class SexDimensionModel
     [MaxLength(50)]
     public string Name { get; set; }
     public bool HasValue { get; set; }
-    public byte SexId { get; set; }
 }

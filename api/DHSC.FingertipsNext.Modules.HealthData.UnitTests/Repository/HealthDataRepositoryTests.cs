@@ -679,13 +679,9 @@ public class HealthDataRepositoryTests
         healthMeasure.AgeKey = 0;
         healthMeasure.IndicatorKey = 0;
         healthMeasure.IndicatorDimension.IndicatorId = 0;
-        healthMeasure.IndicatorDimension.StartDate = new DateTime();
-        healthMeasure.IndicatorDimension.EndDate = new DateTime();
 
         healthMeasure.AreaKey = 0;
         healthMeasure.SexKey = 0;
-        healthMeasure.AreaDimension.StartDate = new DateTime();
-        healthMeasure.AreaDimension.EndDate = new DateTime();
 
         healthMeasure.TrendKey = 0;
         healthMeasure.TrendDimension.TrendKey = 0;

@@ -1,10 +1,5 @@
-﻿using System.Linq.Expressions;
-using System.Xml.XPath;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.IdentityModel.Tokens;
-using System.Net.Http.Headers;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -17,25 +12,19 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="dbContext"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public AreaRepository(AreaRepositoryDbContext dbContext)
-    {
+    public AreaRepository(AreaRepositoryDbContext dbContext) =>
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    }
 
     /// <summary>
     ///
     /// </summary>
     /// <returns></returns>
-    public async Task<List<string>> GetHierarchiesAsync()
-    {
-        var hierarchies = await _dbContext
+    public async Task<List<string>> GetHierarchiesAsync() =>
+        await _dbContext
             .AreaType.Select(a => a.HierarchyType)
             .Where(a => a != InternalHierarchyTypes.All)
             .Distinct()
             .ToListAsync();
-
-        return hierarchies;
-    }
 
     /// <summary>
     ///
@@ -60,13 +49,11 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey)
-    {
-        return await _dbContext
-            .Area.Include(a => a.AreaType)
-            .Where(a => a.AreaTypeKey == areaTypeKey)
-            .ToListAsync();
-    }
+    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey) =>
+        await _dbContext.Area
+        .Include(a => a.AreaType)
+        .Where(a => a.AreaTypeKey == areaTypeKey)
+        .ToListAsync();
 
     /// <summary>
     ///
@@ -135,10 +122,10 @@ public class AreaRepository : IAreaRepository
         var areaWithAreaTypeList = await _dbContext
             .DenormalisedAreaWithAreaType
             .FromSql(
-                $"""
+                @$"
                 WITH 
                 StartingArea as (
-                Select
+                SELECT
                 	*
                 FROM
                     Areas.Areas area
@@ -213,7 +200,7 @@ public class AreaRepository : IAreaRepository
                     TargetAreaType tat
                 ON
                     rc.AreaTypeKey = tat.AreaTypeKey
-                """
+                "
             )
             .ToListAsync();
 
