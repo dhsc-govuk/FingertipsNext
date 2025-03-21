@@ -1,4 +1,5 @@
 import { SearchResult } from '@/components/molecules/Result';
+import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -58,9 +59,9 @@ export function IndicatorSelectionForm({
   ): boolean => {
     const sortedResultIds = searchResults
       .map((result) => result.indicatorID.toString())
-      .toSorted();
+      .toSorted(localeSort);
 
-    const sortedSelectedIndicators = selectedIndicators.toSorted();
+    const sortedSelectedIndicators = selectedIndicators.toSorted(localeSort);
 
     return (
       JSON.stringify(sortedResultIds) ===
