@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Install playwright dependencies
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install chromium webkit
 
       - name: Run Playwright ui tests
         run: npm run test-ui-local-mocks

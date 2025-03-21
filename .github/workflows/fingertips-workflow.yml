@@ -282,7 +282,7 @@ jobs:
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
       azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+      acr-server: ${{ secrets.ACR_SERVER }}
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
@@ -302,7 +302,7 @@ jobs:
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
       azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+      acr-server: ${{ secrets.ACR_SERVER }}
 
   deploy-db-dev:
     needs:
