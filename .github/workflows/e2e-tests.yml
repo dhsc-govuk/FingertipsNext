@@ -98,7 +98,19 @@ jobs:
         working-directory: ${{ env.frontend-directory }}
 
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install playwright dependencies - for CD test execution
+        run: npx playwright install --with-deps chromium webkit
+        
       - name: Set Job URL for slack message - for CD test execution
         run: |
           echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV

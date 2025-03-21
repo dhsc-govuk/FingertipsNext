@@ -281,8 +281,7 @@ jobs:
       container-tag: dhsc.fingertipsnext.api
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
       acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   push-container-frontend:
@@ -302,8 +301,7 @@ jobs:
       container-tag: dhsc.fingertipsnext.frontend
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
       acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
 
   deploy-db-dev:

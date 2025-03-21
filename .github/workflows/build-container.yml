@@ -16,15 +16,13 @@ on:
         required: true
         type: string
     secrets:
-      arm-client-id:
-        description: 'Service Principal Client ID'
-        required: true
-      arm-client-secret:
-        description: 'Service Principal Client Secret'
+      azure-credentials:
+        description: 'Azure Login Credentials'
         required: true
       acr-server:
         description: 'Azure Container Registry server'
         required: true
+
 
 jobs:
   build-and-push:
@@ -36,7 +34,7 @@ jobs:
 
       - uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.azure-credentials }}
 
       - name: Generate container metadata
         id: meta
