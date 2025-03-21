@@ -170,7 +170,6 @@ describe('OneIndicatorOneAreaViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-
     expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
   });
 });

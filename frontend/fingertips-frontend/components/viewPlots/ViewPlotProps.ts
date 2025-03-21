@@ -6,4 +6,5 @@ export type ViewPlotProps = {
   healthIndicatorData: HealthDataForArea[];
   searchState: SearchStateParams;
   indicatorMetadata?: IndicatorDocument;
+  populationHealthDataForArea?: HealthDataForArea[];
 };

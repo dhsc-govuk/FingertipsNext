@@ -31,15 +31,13 @@ function shouldLineChartBeShown(
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
 }
-interface OneIndicatorOneAreaViewPlotsProps extends ViewPlotProps {
-  populationHealthDataForArea?: HealthDataForArea[];
-}
+
 export function OneIndicatorOneAreaViewPlots({
   populationHealthDataForArea,
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<OneIndicatorOneAreaViewPlotsProps>) {
+}: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,

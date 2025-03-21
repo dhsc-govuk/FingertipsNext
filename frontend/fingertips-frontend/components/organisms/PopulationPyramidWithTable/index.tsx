@@ -126,7 +126,6 @@ export const PopulationPyramidWithTable = ({
   );
 
   useEffect(() => {
-    console.log('Hello changes');
     const healthDataForArea = healthDataForAreas?.find((area, _) => {
       return (
         selectedArea?.areaCode == area.areaCode &&
