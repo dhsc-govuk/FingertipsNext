@@ -74,23 +74,24 @@ export default class ChartPage extends AreaFilter {
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       // click tab to view the table view if checking a none embedded table component
-      if (
-        visibleComponent.toLowerCase().includes('table') &&
-        visibleComponent !== 'barChartEmbeddedTable-component'
-      ) {
-        await this.page
-          .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
-          .click();
-      }
-      // if its one of the chart components that has a confidence interval checkbox then click it
-      if (visibleComponent === 'lineChart-component') {
+      if (visibleComponent.componentProps.hasTabTable) {
         await this.page
           .getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
+            `tabTitle-${visibleComponent.component.replace('-component', '')}`
           )
           .click();
       }
-      await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+      // if its one of the chart components that has a confidence interval checkbox then click it
+      if (visibleComponent.componentProps.hasConfidenceIntervals) {
+        await this.page
+          .getByTestId(
+            `confidence-interval-checkbox-${visibleComponent.component.replace('-component', '')}`
+          )
+          .click();
+      }
+      await expect(
+        this.page.getByTestId(visibleComponent.component)
+      ).toBeVisible({
         visible: true,
       });
 
@@ -102,20 +103,22 @@ export default class ChartPage extends AreaFilter {
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot(
-          `${testName}-${visibleComponent}.png`
-        );
+        await expect(
+          this.page.getByTestId(visibleComponent.component)
+        ).toHaveScreenshot(`${testName}-${visibleComponent.component}.png`);
       } catch (error) {
         const typedError = error as Error;
         console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent}: ${typedError.message}`
+          `⚠️ Screenshot comparison warning for ${visibleComponent.component}: ${typedError.message}`
         );
       }
     }
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
-      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
+      await expect(
+        this.page.getByTestId(hiddenComponent.component)
+      ).toBeVisible({
         visible: false,
       });
     }
