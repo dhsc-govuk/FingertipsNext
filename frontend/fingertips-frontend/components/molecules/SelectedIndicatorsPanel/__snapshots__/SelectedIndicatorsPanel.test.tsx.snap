@@ -170,7 +170,7 @@ exports[`SelectedIndicatorsPanel snapshot test 1`] = `
 }
 
 .c6 {
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .c0 {

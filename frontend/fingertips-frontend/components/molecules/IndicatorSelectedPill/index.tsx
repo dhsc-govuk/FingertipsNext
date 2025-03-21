@@ -10,7 +10,7 @@ import {
 } from '@/lib/searchStateManager';
 
 const StyleIndicatorLink = styled(Link)({
-  fontSize: 13,
+  fontSize: 16,
 });
 
 interface IndicatorSelectedPillProps {

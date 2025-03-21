@@ -58,7 +58,7 @@ exports[`IndicatorSelectedPill should match snapshot 1`] = `
 }
 
 .c3 {
-  font-size: 13px;
+  font-size: 16px;
 }
 
 @media print {
