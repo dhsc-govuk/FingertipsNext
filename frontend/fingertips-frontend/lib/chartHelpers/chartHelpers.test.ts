@@ -6,6 +6,7 @@ import {
   isEnglandSoleSelectedArea,
   sortHealthDataPointsByDescendingYear,
   getMostRecentData,
+  getHealthDataWithoutInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -29,6 +30,7 @@ const mockData: HealthDataForArea[] = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
         deprivation: noDeprivation,
       },
       {
@@ -40,6 +42,7 @@ const mockData: HealthDataForArea[] = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
         deprivation: noDeprivation,
       },
       {
@@ -51,6 +54,7 @@ const mockData: HealthDataForArea[] = [
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
         deprivation: noDeprivation,
       },
     ],
@@ -73,6 +77,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
             deprivation: noDeprivation,
           },
           {
@@ -84,6 +89,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Male',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: false,
             deprivation: noDeprivation,
           },
           {
@@ -95,6 +101,7 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
             deprivation: noDeprivation,
           },
         ],
@@ -473,5 +480,13 @@ describe('getMostRecentData', () => {
     const result = getMostRecentData([]);
 
     expect(result).toEqual(undefined);
+  });
+});
+
+describe('getHealthDataWithoutInequalities', () => {
+  it('should return health data without inequalities', () => {
+    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
+      mockData[0].healthData.slice(0, 2)
+    );
   });
 });
