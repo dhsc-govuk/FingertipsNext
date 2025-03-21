@@ -110,7 +110,7 @@ export const createChartSeriesOptions = (
         color: '#5352BE',
         pointWidth: 17,
         dataLabels: {
-          enabled: true,
+          enabled: false,
           inside: false,
           format: '{(abs point.y):.1f}%',
           color: '#000000',
@@ -127,7 +127,7 @@ export const createChartSeriesOptions = (
         color: '#57AEF8',
         pointWidth: 17,
         dataLabels: {
-          enabled: true,
+          enabled: false,
           inside: false,
           format: '{(abs point.y):.1f}%',
           color: '#000000',
