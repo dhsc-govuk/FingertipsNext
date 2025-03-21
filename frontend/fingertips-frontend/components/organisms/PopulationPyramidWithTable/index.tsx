@@ -148,7 +148,9 @@ export const PopulationPyramidWithTable = ({
     }
     setTitle(title);
   }, [selectedArea, healthDataForAreas]);
-
+  if (!convertedData?.areas.length) {
+    return <></>
+  }
   return (
     <div>
       <h1>Related Population Data</h1>
@@ -200,5 +202,5 @@ export const PopulationPyramidWithTable = ({
         </div>
       </ShowHideContainer>
     </div>
-  );
+  ));
 };
