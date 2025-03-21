@@ -7,9 +7,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -42,7 +40,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthIndicatorData: HealthDataForArea[][];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return indicatorApi.getHealthDataForAnIndicator(
@@ -54,15 +51,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
     });
 
-    const results = await Promise.all(promises);
-
-    healthIndicatorData = results;
+    const _ = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
-  let indicatorMetadata: (IndicatorDocument | undefined)[];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return SearchServiceFactory.getIndicatorSearchService().getIndicator(
@@ -70,19 +64,11 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
     });
 
-    const results = await Promise.all(promises);
-
-    indicatorMetadata = results;
+    const _ = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
-  return (
-    <TwoOrMoreIndicatorsAreasViewPlot
-      healthIndicatorData={healthIndicatorData}
-      searchState={searchState}
-      indicatorMetadata={indicatorMetadata}
-    />
-  );
+  return <TwoOrMoreIndicatorsAreasViewPlot />;
 }

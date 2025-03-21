@@ -1,6 +1,5 @@
 'use client';
 
-import { MultiIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
   SpineChartTable,
@@ -112,15 +111,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
   return data;
 };
 
-export function TwoOrMoreIndicatorsAreasViewPlot({
-  searchState,
-  healthIndicatorData,
-  indicatorMetadata,
-}: Readonly<MultiIndicatorViewPlotProps>) {
-  const _1 = searchState;
-  const _2 = healthIndicatorData;
-  const _3 = indicatorMetadata;
-
+export function TwoOrMoreIndicatorsAreasViewPlot() {
   const spineTableData = mapToSpineChartTableProps();
 
   return (

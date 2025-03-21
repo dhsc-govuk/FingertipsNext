@@ -8,9 +8,3 @@ export type ViewPlotProps = {
   indicatorMetadata?: IndicatorDocument;
   populationHealthDataForArea?: HealthDataForArea[];
 };
-
-export type MultiIndicatorViewPlotProps = {
-  searchState: SearchStateParams;
-  healthIndicatorData: HealthDataForArea[][];
-  indicatorMetadata?: (IndicatorDocument | undefined)[];
-};
