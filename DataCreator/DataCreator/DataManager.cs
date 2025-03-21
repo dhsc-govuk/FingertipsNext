@@ -6,7 +6,7 @@ namespace DataCreator
     public class DataManager(PholioDataFetcher pholioDataFetcher)
     {
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
-        private const int MAXNUMBERGPS = 4;
+        private const int MAXNUMBERGPS = 5;
         private const string PERSONS = "Persons";
 
         public async Task<List<string>> CreateAreaDataAsync()
@@ -135,7 +135,7 @@ namespace DataCreator
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
-            AddSexIds(healthMeasures);
+           
             CreateCategoryData(healthMeasures);
 
             var indicatorWithAreasAndLatestUpdates = healthMeasures.GroupBy(measure => measure.IndicatorId)
@@ -238,27 +238,6 @@ namespace DataCreator
             return allAges.Where(age => usedAgeIds.Contains(age.AgeID)).ToList();
         }
 
-        private static void AddSexIds(List<HealthMeasureEntity> healthMeasures)
-        {
-            foreach (var healthMeasure in healthMeasures)
-            {
-                switch (healthMeasure.Sex)
-                {
-                    case "Not applicable":
-                        healthMeasure.SexID = -1;
-                        break;
-                    case "Male":
-                        healthMeasure.SexID = 1;
-                        break;
-                    case "Female":
-                        healthMeasure.SexID = 2;
-                        break;
-                    case PERSONS:
-                        healthMeasure.SexID = 4;
-                        break;
-                }
-            }
-        }
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();
