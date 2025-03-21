@@ -20,7 +20,13 @@ const mockPopulationData: PopulationDataForArea = {
 };
 
 test('should render the Highcharts react component within the PopulationPyramid component', () => {
-  render(<PopulationPyramid dataForSelectedArea={mockPopulationData} />);
+  render(
+    <PopulationPyramid
+      dataForSelectedArea={mockPopulationData}
+      xAxisTitle="Age"
+      yAxisTitle="Population Percentage"
+    />
+  );
   const highcharts = screen.getByTestId(
     'highcharts-react-component-populationPyramid'
   );

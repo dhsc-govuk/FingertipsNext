@@ -49,11 +49,17 @@ jest.mock('@/components/molecules/SelectInputField', () => ({
     </button>
   ),
 }));
-jest.mock('@/lib/chartHelpers/preparePopulationData', () => ({
-  convertHealthDataForAreaForPyramidData: jest.fn((data) => data),
-}));
 
 describe('PopulationPyramidWithTable', () => {
+  const setupUI = (dataForArea: HealthDataForArea[]) => {
+    return render(
+      <PopulationPyramidWithTable
+        healthDataForAreas={dataForArea}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of population"
+      />
+    );
+  };
   const mockHealthDataForArea: HealthDataForArea[] = [
     {
       areaCode: '123',
@@ -63,18 +69,14 @@ describe('PopulationPyramidWithTable', () => {
   ];
 
   test('renders component with default title', () => {
-    render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
-    );
+    setupUI(mockHealthDataForArea);
 
     expect(screen.getByText('Related Population Data')).toBeInTheDocument();
     expect(screen.getByTestId('population-pyramid')).toBeInTheDocument();
   });
 
   test('updates title when area is selected', () => {
-    render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
-    );
+    setupUI(mockHealthDataForArea);
 
     fireEvent.click(screen.getByTestId('select-input'));
 
@@ -84,23 +86,22 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   test('renders tabs correctly', () => {
-    render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
-    );
+    setupUI(mockHealthDataForArea);
 
     expect(screen.getByText('Population pyramid')).toBeInTheDocument();
     expect(screen.getByText('Table')).toBeInTheDocument();
   });
 
   test('take a snapshot', () => {
-    const container = render(
+    const pyramid = (
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
         selectedGroupAreaCode={mockHealthData['337'][1].areaCode}
         xAxisTitle="Age"
-        yAxisTitle="Percentage"
+        yAxisTitle="Percentage of population"
       />
     );
+    const container = render(pyramid);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });

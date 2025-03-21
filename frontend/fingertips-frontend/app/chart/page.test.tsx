@@ -26,7 +26,6 @@ import {
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
 
-jest.mock('@/components/pages/chart');
 jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
   getMapData: jest.fn(),
 }));
@@ -61,8 +60,7 @@ describe('Chart Page', () => {
       const page = await ChartPage({
         searchParams: generateSearchParams(searchParams),
       });
-      console.log(page.props.children[0].props.searchState);
-      expect(page.props.children[0].props.searchState).toEqual({
+      expect(page.props.searchState).toEqual({
         [SearchParams.SearchedIndicator]: 'testing',
         [SearchParams.IndicatorsSelected]: ['333'],
         [SearchParams.AreasSelected]: ['E06000047'],
@@ -91,9 +89,7 @@ describe('Chart Page', () => {
       });
 
       expect(mockGetAreaFilterData).toHaveBeenCalledWith(searchState, []);
-      expect(page.props.children[0].props.areaFilterData).toEqual(
-        areaFilterData
-      );
+      expect(page.props.areaFilterData).toEqual(areaFilterData);
     });
 
     it('should pass the selectedAreasData prop with data from getArea for each areaSelected', async () => {
@@ -124,7 +120,7 @@ describe('Chart Page', () => {
         },
         API_CACHE_CONFIG
       );
-      expect(page.props.children[0].props.selectedAreasData).toEqual([
+      expect(page.props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,
       ]);

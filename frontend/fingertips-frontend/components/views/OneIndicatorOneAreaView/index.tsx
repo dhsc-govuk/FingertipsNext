@@ -16,7 +16,7 @@ import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-const enum IndicationPopulationTypes {
+const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
 }
@@ -81,9 +81,9 @@ export default async function OneIndicatorOneAreaView({
       const populationIndicatorID: number = await (async (areaCode: string) => {
         const area = await areasApi.getArea({ areaCode: areaCode });
         if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-          return IndicationPopulationTypes.NHS;
+          return PopulationIndicatorIdsTypes.NHS;
         }
-        return IndicationPopulationTypes.ADMINISTRATIVE;
+        return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
       })(areaCodesToRequest[0]);
 
       return await indicatorApi.getHealthDataForAnIndicator(
@@ -98,7 +98,10 @@ export default async function OneIndicatorOneAreaView({
         API_CACHE_CONFIG
       );
     } catch (error) {
-      console.error('error getting health indicator data for area', error);
+      console.error(
+        'error getting population health indicator data for area',
+        error
+      );
     }
   })();
 

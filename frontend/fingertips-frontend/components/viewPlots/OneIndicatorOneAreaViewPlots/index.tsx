@@ -31,15 +31,13 @@ function shouldLineChartBeShown(
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
 }
-interface OneIndicatorOneAreaViewPlotsProps extends ViewPlotProps {
-  populationHealthDataForArea?: HealthDataForArea[];
-}
+
 export function OneIndicatorOneAreaViewPlots({
   populationHealthDataForArea,
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<OneIndicatorOneAreaViewPlotsProps>) {
+}: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -151,7 +149,7 @@ export function OneIndicatorOneAreaViewPlots({
         healthDataForAreas={populationHealthDataForArea ?? []}
         selectedGroupAreaCode={selectedGroupCode}
         xAxisTitle="Age"
-        yAxisTitle="Percentage"
+        yAxisTitle="Percentage of total population"
       />
     </section>
   );

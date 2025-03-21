@@ -2,6 +2,8 @@ import {
   HealthDataPoint,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from './constants';
+import { getLatestYear } from './chartHelpers';
 
 export interface PopulationDataForArea {
   areaName?: string;
@@ -11,54 +13,90 @@ export interface PopulationDataForArea {
   maleSeries: Array<number>;
 }
 
-function sortByAgeBand(healthData: HealthDataPoint[]): HealthDataPoint[] {
-  return healthData.sort((a, b) => {
-    const youngestA = parseInt(a.ageBand.split(/[+-]/)[0]);
-    const youngestB = parseInt(b.ageBand.split(/[+-]/)[0]);
-    return youngestA > youngestB ? -1 : 1;
+const removeDuplicateDataPointByAgeBand = (dataPoints: HealthDataPoint[]) => {
+  const seenPoints = new Set<string>();
+  return dataPoints.filter((value) => {
+    if (!seenPoints.has(value.ageBand)) {
+      seenPoints.add(value.ageBand);
+      return true;
+    }
+    return false;
   });
-}
+};
+
+const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
+  return data.sort((a, b) => {
+    const getLowerBandValue = (range: string) => {
+      if (range.includes('+')) return parseInt(range.split('-')[0]);
+      return parseInt(range.split('-')[0]);
+    };
+    return getLowerBandValue(a.ageBand) > getLowerBandValue(b.ageBand) ? -1 : 1;
+  });
+};
 
 function generatePopulationSeries(
   healthData: HealthDataPoint[],
-  requestedKey: string
+  totalPopulation: number
 ): Array<number> {
-  const totalPopulation = healthData.reduce(
-    (runningTotal, { count }) => runningTotal + (count ?? 0),
-    0
-  );
-  const filteredHealthData = healthData.filter(
-    (healthDataPoint) => healthDataPoint.sex === requestedKey
-  );
-  return filteredHealthData.map((datapoint) => {
+  return healthData.map((datapoint) => {
     const percentage = ((datapoint.count ?? 0) / totalPopulation) * 100;
     return parseFloat(percentage.toFixed(2));
   });
 }
 
-/*
- The function will be use to convert population health data to data that can be use by the pyramid chart 
-*/
 export const convertHealthDataForAreaForPyramidData = (
-  healthDataForArea: HealthDataForArea | undefined
+  healthDataForArea: HealthDataForArea | undefined,
+  year: number | undefined
 ): PopulationDataForArea | undefined => {
   if (!healthDataForArea) {
     return undefined;
   }
-  const dataSortedByAgeBand = sortByAgeBand(healthDataForArea.healthData);
-  let ageCategories = dataSortedByAgeBand.map(
-    (healthDataPoint) => healthDataPoint.ageBand
-  );
-  ageCategories = [...new Set(ageCategories)];
+  let ageCategories: string[] = [];
+  let femaleSeries: number[] = [];
+  let maleSeries: number[] = [];
 
-  const femaleSeries = generatePopulationSeries(
-    healthDataForArea.healthData,
-    'Female'
-  );
-  const maleSeries = generatePopulationSeries(
-    healthDataForArea.healthData,
-    'Male'
-  );
+  if (healthDataForArea) {
+    const maleFemaleDataPoints = healthDataForArea.healthData.filter(
+      (value) => {
+        if (
+          !value.ageBand.includes('All') &&
+          (value.sex == 'Male' || value.sex == 'Female') &&
+          (year ? year == value.year : true)
+        ) {
+          return true;
+        }
+        return false;
+      }
+    );
+    const maleDataPoints = sortHealthDataByAgeBand(
+      removeDuplicateDataPointByAgeBand(
+        maleFemaleDataPoints.filter((value) => {
+          return value.sex == 'Male';
+        })
+      )
+    );
+    const femaleDataPoints = sortHealthDataByAgeBand(
+      removeDuplicateDataPointByAgeBand(
+        maleFemaleDataPoints.filter((value) => {
+          return value.sex == 'Female';
+        })
+      )
+    );
+
+    ageCategories = femaleDataPoints.map((point) =>
+      point.ageBand.replace('yrs', '').replace('-', ' to ')
+    );
+
+    let totalPopulation = femaleDataPoints.reduce((prev, { count }) => {
+      return prev + (count ?? 0);
+    }, 0);
+    totalPopulation = maleDataPoints.reduce((prev, { count }) => {
+      return prev + (count ?? 0);
+    }, totalPopulation);
+
+    femaleSeries = generatePopulationSeries(femaleDataPoints, totalPopulation);
+    maleSeries = generatePopulationSeries(maleDataPoints, totalPopulation);
+  }
 
   return {
     areaName: healthDataForArea.areaName,
@@ -66,5 +104,69 @@ export const convertHealthDataForAreaForPyramidData = (
     ageCategories: ageCategories,
     femaleSeries: femaleSeries,
     maleSeries: maleSeries,
+  };
+};
+
+const filterHealthDataForArea = (
+  dataForAreas: HealthDataForArea[],
+  selectedGroupAreaCode: string | undefined
+) => {
+  if (dataForAreas.length == 1) {
+    return { areas: dataForAreas, england: undefined, baseline: undefined };
+  }
+
+  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
+    return (
+      selectedGroupAreaCode != area.areaCode &&
+      area.areaCode != areaCodeForEngland
+    );
+  });
+
+  const benchmark = dataForAreas.find((area: HealthDataForArea, _: number) => {
+    const isEnglandAddedAlready =
+      areas.find((search_area) => {
+        return search_area.areaCode == area.areaCode;
+      }) != undefined;
+    return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
+  });
+
+  let group: HealthDataForArea | undefined = undefined;
+  if (benchmark && selectedGroupAreaCode) {
+    group = dataForAreas.find((area: HealthDataForArea, _: number) => {
+      return (
+        selectedGroupAreaCode == area.areaCode &&
+        benchmark.areaCode != area.areaCode
+      );
+    });
+  }
+  return { areas, benchmark, group };
+};
+
+export const createPyramidPopulationDataFrom = (
+  dataForAreas: HealthDataForArea[],
+  groupAreaCode: string
+) => {
+  const { areas, benchmark, group } = filterHealthDataForArea(
+    dataForAreas,
+    groupAreaCode
+  );
+
+  let year = undefined;
+  if (areas.length > 0) {
+    year = getLatestYear(areas[0].healthData);
+  }
+
+  const pyramidAreas = areas.map((area) =>
+    convertHealthDataForAreaForPyramidData(area, year)
+  );
+  const pyramidEngland = convertHealthDataForAreaForPyramidData(
+    benchmark,
+    year
+  );
+  const pyramidBaseline = convertHealthDataForAreaForPyramidData(group, year);
+  return {
+    areas: pyramidAreas,
+    benchmark: pyramidEngland,
+    group: pyramidBaseline,
   };
 };

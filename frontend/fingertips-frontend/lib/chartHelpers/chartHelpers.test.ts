@@ -7,10 +7,14 @@ import {
   sortHealthDataPointsByDescendingYear,
   getMostRecentData,
   getHealthDataWithoutInequalities,
+  getLatestYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPoint,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 
 const mockData = [
   {
@@ -458,5 +462,65 @@ describe('getHealthDataWithoutInequalities', () => {
     expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
       mockData[0].healthData.slice(0, 2)
     );
+  });
+});
+
+describe('getLatestYear', () => {
+  const pointsData: HealthDataPoint[] = [
+    {
+      count: 267,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      value: 703.420759,
+      year: 2004,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+    {
+      count: 267,
+      lowerCi: 341.69151,
+      upperCi: 578.32766,
+      value: 603.420759,
+      year: 2005,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+    {
+      count: 267,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      value: 703.420759,
+      year: 2024,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+  ];
+
+  it('should return undefined if points is undefined', () => {
+    const result = getLatestYear(undefined);
+    expect(result).toBeUndefined();
+  });
+
+  it('should return undefined if points is an empty array', () => {
+    const result = getLatestYear([]);
+    expect(result).toBeUndefined();
+  });
+
+  it('should return the correct latest year', () => {
+    const result = getLatestYear(pointsData);
+    expect(result).toBe(2024);
+  });
+
+  it('should return the year of the single point if only one point is provided', () => {
+    const points: HealthDataPoint[] = [pointsData[0]];
+
+    const result = getLatestYear(points);
+    expect(result).toBe(2004);
   });
 });

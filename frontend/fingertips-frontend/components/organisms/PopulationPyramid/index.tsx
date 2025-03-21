@@ -3,17 +3,14 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import {
-  createChartSeriesOptions,
-  createAdditionalChartSeries,
-} from './createChartOptions';
+import { createChartPyramidOptions } from './createChartOptions';
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
-  dataForEngland?: PopulationDataForArea;
-  dataForBaseline?: PopulationDataForArea;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  dataForBenchmark?: PopulationDataForArea;
+  dataForGroup?: PopulationDataForArea;
+  xAxisTitle: string;
+  yAxisTitle: string;
   accessibilityLabel?: string;
 }
 
@@ -27,29 +24,23 @@ export const generatePopPyramidTooltipStringList = (
 
 export function PopulationPyramid({
   dataForSelectedArea,
-  dataForEngland,
-  dataForBaseline,
+  dataForBenchmark,
+  dataForGroup,
   xAxisTitle,
   yAxisTitle,
   accessibilityLabel,
 }: Readonly<PyramidChartProps>) {
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
-  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
-    xAxisTitle ?? '',
-    yAxisTitle ?? '',
-    dataForSelectedArea,
-    accessibilityLabel ?? ''
-  );
-  if (populationPyramidOptions.series?.length) {
-    const seriesOptions = createAdditionalChartSeries(
-      dataForEngland,
-      dataForBaseline
+  const populationPyramidOptions: Highcharts.Options =
+    createChartPyramidOptions(
+      xAxisTitle,
+      yAxisTitle,
+      accessibilityLabel ?? '',
+      dataForSelectedArea,
+      dataForBenchmark,
+      dataForGroup
     );
-    seriesOptions.forEach((series) => {
-      populationPyramidOptions.series?.push(series);
-    });
-  }
   return (
     <div data-testid="populationPyramid-component">
       <HighchartsReact

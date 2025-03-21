@@ -6,7 +6,7 @@ describe('HeaderChartTitle Component', () => {
   test('renders correctly with a given title', () => {
     render(<HeaderChartTitle title="Test Chart Title" />);
 
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 5 })).toHaveTextContent(
       'Test Chart Title'
     );
   });
@@ -14,7 +14,7 @@ describe('HeaderChartTitle Component', () => {
   test('renders correctly with an empty title', () => {
     render(<HeaderChartTitle title="" />);
 
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('');
+    expect(screen.getByRole('heading', { level: 5 })).toHaveTextContent('');
   });
 
   test('matches snapshot', () => {

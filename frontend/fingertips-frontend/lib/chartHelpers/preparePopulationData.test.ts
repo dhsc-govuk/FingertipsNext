@@ -3,7 +3,6 @@ import {
   HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from './constants';
 import {
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
@@ -172,48 +171,82 @@ const mockData: HealthDataPoint[] = [
     trend: HealthDataPointTrendEnum.NotYetCalculated,
   },
 ];
-const mockAgeCategories = [
-  '90+',
-  '85-89',
-  '50-54',
-  '20-24',
-  '15-19',
-  '10-14',
-  '5-9',
-  '0-4',
-];
-const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
-const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
-
-const mockHealthDataForAreas: HealthDataForArea[] = [
-  {
-    areaCode: 'selected',
-    areaName: 'Selected Area',
-    healthData: mockData,
-  },
-  {
-    areaCode: areaCodeForEngland,
-    areaName: 'England',
-    healthData: mockData,
-  },
-  {
-    areaCode: 'baseline',
-    areaName: 'Baseline Area',
-    healthData: mockData,
-  },
-];
 
 describe('convertHealthDataForAreaForPyramidData', () => {
   it('should return the correct data points for female, male and categories', () => {
+    const mockHealthDataForArea: HealthDataForArea = {
+      areaCode: 'selected',
+      areaName: 'Selected Area',
+      healthData: mockData,
+    };
+
+    const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
+    const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
+    const mockAgeCategories = [
+      '90+',
+      '85-89',
+      '50-54',
+      '20-24',
+      '15-19',
+      '10-14',
+      '5-9',
+      '0-4',
+    ];
+
     const actual: PopulationDataForArea | undefined =
-      convertHealthDataForAreaForPyramidData(mockHealthDataForAreas[0]);
+      convertHealthDataForAreaForPyramidData(mockHealthDataForArea, 2023);
     expect(actual?.femaleSeries).toEqual(mockFemaleSeries);
     expect(actual?.maleSeries).toEqual(mockMaleSeries);
     expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 
   it('should return undefined if the HealthDataForArea provided is undefined', () => {
-    const actual = convertHealthDataForAreaForPyramidData(undefined);
+    const actual = convertHealthDataForAreaForPyramidData(undefined, undefined);
     expect(actual).toBeUndefined();
+  });
+
+  it('should remove duplicate age bands and data point', () => {
+    const mockDataPoint: HealthDataPoint[] = [
+      {
+        year: 2023,
+        count: 1496012,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2023,
+        count: 1635842,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+      {
+        year: 2023,
+        count: 1721746,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+      },
+    ];
+
+    const mockDuplicateData: HealthDataForArea = {
+      areaCode: 'selected',
+      areaName: 'Selected Area',
+      healthData: mockDataPoint,
+    };
+    const actual: PopulationDataForArea | undefined =
+      convertHealthDataForAreaForPyramidData(mockDuplicateData, 2023);
+    expect(actual?.femaleSeries).toHaveLength(1);
+    expect(actual?.maleSeries).toHaveLength(1);
   });
 });

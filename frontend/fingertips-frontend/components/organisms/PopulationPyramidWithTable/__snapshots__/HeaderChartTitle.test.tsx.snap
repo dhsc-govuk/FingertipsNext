@@ -2,14 +2,54 @@
 
 exports[`HeaderChartTitle Component matches snapshot 1`] = `
 <DocumentFragment>
-  <div
+  .c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+<div
     style="margin: 0px; padding: 0px;"
   >
-    <h3
+    <h5
+      class="c0"
       style="margin: 0px; padding: 0px;"
     >
       Snapshot Title
-    </h3>
+    </h5>
   </div>
 </DocumentFragment>
 `;

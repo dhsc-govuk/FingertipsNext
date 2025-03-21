@@ -1,92 +1,40 @@
 'use client';
 
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
+  createPyramidPopulationDataFrom,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { AreaSelectInputField } from '@/components/molecules/SelectInputField';
-import { AreaDocument } from '@/lib/search/searchTypes';
+import {
+  AreaSelectInputData,
+  AreaSelectInputField,
+} from '@/components/molecules/SelectInputField';
 import { HeaderChartTitle } from './HeaderChartTitle';
+import { H3 } from 'govuk-react';
+import { getLatestYear } from '@/lib/chartHelpers/chartHelpers';
 
-const filterHealthDataForArea = (
-  dataForAreas: HealthDataForArea[],
-  selectedGroupAreaCode: string | undefined
-) => {
-  if (dataForAreas.length == 1) {
-    return { areas: dataForAreas, england: undefined, baseline: undefined };
+const getHeaderTitle = (
+  healthData: HealthDataForArea | undefined,
+  year: number | undefined
+): string => {
+  let title = undefined;
+  if (!year) {
+    title = `Resident population profile for ${healthData?.areaName}`;
+  } else {
+    title = `Resident population profile for ${healthData?.areaName} ${year}`;
   }
-
-  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
-    return (
-      selectedGroupAreaCode != area.areaCode &&
-      area.areaCode != areaCodeForEngland
-    );
-  });
-
-  const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
-    return (
-      area.areaCode == areaCodeForEngland &&
-      selectedGroupAreaCode != area.areaCode
-    );
-  });
-
-  let baseline: HealthDataForArea | undefined = undefined;
-  if (england && selectedGroupAreaCode) {
-    baseline = dataForAreas.find((area: HealthDataForArea, _: number) => {
-      return (
-        selectedGroupAreaCode == area.areaCode &&
-        england.areaCode != area.areaCode
-      );
-    });
-  }
-
-  return { areas, england, baseline };
-};
-
-const createPopulationDataFrom = (
-  dataForAreas: HealthDataForArea[],
-  groupAreaCode: string
-) => {
-  const { areas, england, baseline } = filterHealthDataForArea(
-    dataForAreas,
-    groupAreaCode
-  );
-
-  const pyramidAreas = areas.map((area) =>
-    convertHealthDataForAreaForPyramidData(area)
-  );
-  const pyramidEngland = convertHealthDataForAreaForPyramidData(england);
-  const pyramidBaseline = convertHealthDataForAreaForPyramidData(baseline);
-  return {
-    areas: pyramidAreas,
-    england: pyramidEngland,
-    baseline: pyramidBaseline,
-  };
-};
-const getLatestYear = (
-  points: HealthDataPoint[] | undefined
-): number | undefined => {
-  if (!points || points.length < 1) return undefined;
-
-  const year = points.reduce((previous, point) => {
-    return Math.max(previous, point.year);
-  }, points[0].year);
-  return year;
+  return title;
 };
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  xAxisTitle: string;
+  yAxisTitle: string;
   selectedGroupAreaCode?: string;
 }
 export const PopulationPyramidWithTable = ({
@@ -95,21 +43,35 @@ export const PopulationPyramidWithTable = ({
   yAxisTitle,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-  const [title, setTitle] = useState<string>();
-
   const convertedData = useMemo(() => {
-    return createPopulationDataFrom(
+    return createPyramidPopulationDataFrom(
       healthDataForAreas,
       selectedGroupAreaCode ?? ''
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const [selectedArea, setSelectedArea] = useState(
-    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined
+  const defaultSelectedArea =
+    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined;
+
+  const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
+  const [title, setTitle] = useState<string>(
+    (() => {
+      if (!defaultSelectedArea) return '';
+      const healthData = healthDataForAreas.find(
+        (value: HealthDataForArea, _: number) => {
+          return (
+            value.areaCode == defaultSelectedArea.areaCode &&
+            value.areaName == defaultSelectedArea.areaName
+          );
+        }
+      );
+      const year = getLatestYear(healthData?.healthData);
+      return getHeaderTitle(healthData, year);
+    })()
   );
 
   const onAreaSelectedHandler = useCallback(
-    (area: Omit<AreaDocument, 'areaType'>) => {
+    (area: AreaSelectInputData) => {
       if (healthDataForAreas) {
         const healthData = healthDataForAreas.find(
           (healthArea: HealthDataForArea, _: number) => {
@@ -119,40 +81,24 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-        setSelectedArea(convertHealthDataForAreaForPyramidData(healthData));
+
+        const year = getLatestYear(healthData?.healthData);
+        setTitle(getHeaderTitle(healthData, year));
+        setSelectedArea(
+          convertHealthDataForAreaForPyramidData(healthData, year)
+        );
       }
     },
     [healthDataForAreas]
   );
 
-  // Use  this to update the header title when selection is made.
-  useEffect(() => {
-    console.log('Hello changes');
-    const healthDataForArea = healthDataForAreas?.find((area, _) => {
-      return (
-        selectedArea?.areaCode == area.areaCode &&
-        selectedArea?.areaName == area.areaName
-      );
-    });
-    if (!healthDataForArea) {
-      setTitle('');
-      return;
-    }
-
-    const year = getLatestYear(healthDataForArea.healthData);
-    let title = undefined;
-    if (!year) {
-      title = `Resident population profile for ${healthDataForArea.areaName}`;
-    } else {
-      title = `Resident population profile for ${healthDataForArea.areaName} ${year}`;
-    }
-    setTitle(title);
-  }, [selectedArea, healthDataForAreas]);
-
+  if (!convertedData?.areas.length) {
+    return <></>;
+  }
   return (
     <div>
-      <h1>Related Population Data</h1>
-      <ShowHideContainer summary="Open">
+      <H3>Related Population Data</H3>
+      <ShowHideContainer summary="Population data" open={false}>
         <div>
           <div>
             <AreaSelectInputField
@@ -162,7 +108,7 @@ export const PopulationPyramidWithTable = ({
                   return {
                     areaCode: healthData?.areaCode,
                     areaName: healthData?.areaName,
-                  } as Omit<AreaDocument, 'areaType'>;
+                  } as AreaSelectInputData;
                 }
               )}
               onSelected={onAreaSelectedHandler}
@@ -181,8 +127,8 @@ export const PopulationPyramidWithTable = ({
                       <HeaderChartTitle title={title ?? ''} />
                       <PopulationPyramid
                         dataForSelectedArea={selectedArea}
-                        dataForBaseline={convertedData.baseline}
-                        dataForEngland={convertedData.england}
+                        dataForGroup={convertedData.group}
+                        dataForBenchmark={convertedData.benchmark}
                         xAxisTitle={xAxisTitle}
                         yAxisTitle={yAxisTitle}
                       />
