@@ -103,9 +103,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       ]);
     });
 
-    await test.step('close England pill then select area filters on charts page', async () => {
-      await chartPage.closeAreaFilterPill(0);
-
+    await test.step('Select area filters on charts page', async () => {
       await chartPage.selectAreasFiltersIfRequired(
         searchMode,
         areaMode,
