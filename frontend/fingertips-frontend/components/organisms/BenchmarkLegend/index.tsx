@@ -2,7 +2,11 @@
 
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import styled from 'styled-components';
-import { Fragment } from 'react';
+import { FC, Fragment } from 'react';
+
+const LegendContainer = styled.div({
+  marginBottom: '2em',
+});
 
 const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
   alignItems: 'center',
@@ -28,9 +32,18 @@ export interface BenchmarkData {
   suffix?: string;
 }
 
-export const BenchmarkLegend = () => {
-  const model: BenchmarkData[] = [
-    {
+interface BenchmarkLegendProps {
+  rag?: boolean;
+  quintiles?: boolean;
+}
+
+export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
+  rag,
+  quintiles,
+}) => {
+  const model: BenchmarkData[] = [];
+  if (rag) {
+    model.push({
       key: 'rag',
       title: 'Compared to England',
       types: {
@@ -38,21 +51,24 @@ export const BenchmarkLegend = () => {
         bob: ['Lower', 'Higher'],
       },
       suffix: '(95% confidence)',
-    },
-    {
+    });
+    model.push({
       key: 'rag_99',
       types: {
         rag_99: ['Better', 'Similar', 'Worse', 'not_compared'],
         bob_99: ['Lower', 'Higher'],
       },
       suffix: '(99.8% confidence)',
-    },
-    {
+    });
+  }
+
+  if (quintiles) {
+    model.push({
       key: 'quintiles',
       title: ' Quintiles',
       types: { quintiles: ['Lowest', 'Low', 'Middle', 'High', 'Highest'] },
-    },
-    {
+    });
+    model.push({
       key: 'quintiles_with_judgement',
       types: {
         quintiles_with_judgement: [
@@ -63,11 +79,11 @@ export const BenchmarkLegend = () => {
           'Best',
         ],
       },
-    },
-  ];
+    });
+  }
 
   return (
-    <div>
+    <LegendContainer>
       {model?.map((item, index) => (
         <DefaultBenchmarkLegendGroupPanelStyle key={item.key}>
           {item.title ? (
@@ -93,6 +109,6 @@ export const BenchmarkLegend = () => {
           </div>
         </DefaultBenchmarkLegendGroupPanelStyle>
       ))}
-    </div>
+    </LegendContainer>
   );
 };

@@ -9,7 +9,7 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription (); 
+        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription { EnforceCsvColumnAttribute=true}; 
 
         public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
             new JsonSerializerOptions

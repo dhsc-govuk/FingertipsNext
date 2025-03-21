@@ -10,6 +10,12 @@ import {
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+} from '@/lib/thematicMapUtils/getMapData';
+import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
   areaCodes: string[];
@@ -23,6 +29,8 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   const {
     [SearchParams.IndicatorsSelected]: indicatorSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
   const areasSelected = areaCodes;
@@ -47,13 +55,20 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-      },
-      API_CACHE_CONFIG
-    );
+    healthIndicatorData = (
+      await Promise.all(
+        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorSelected[0]),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
+        )
+      )
+    ).flat();
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
@@ -72,11 +87,17 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     );
   }
 
+  const mapData =
+    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
+      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      : undefined;
+
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
+      mapData={mapData}
       areaCodes={areaCodes}
     />
   );

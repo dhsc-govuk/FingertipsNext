@@ -10,7 +10,6 @@ describe('Inequalities LineChart suite', () => {
     render(
       <InequalitiesBarChart
         barChartData={getTestData()}
-        dynamicKeys={['Persons', 'Male', 'Female']}
         yAxisLabel={yAxisLabel}
         type={InequalitiesTypes.Sex}
       />
