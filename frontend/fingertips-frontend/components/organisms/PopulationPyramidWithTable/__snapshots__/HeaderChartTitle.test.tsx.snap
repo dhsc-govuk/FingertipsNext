@@ -5,11 +5,11 @@ exports[`HeaderChartTitle Component matches snapshot 1`] = `
   <div
     style="margin: 0px; padding: 0px;"
   >
-    <h3
+    <h5
       style="margin: 0px; padding: 0px;"
     >
       Snapshot Title
-    </h3>
+    </h5>
   </div>
 </DocumentFragment>
 `;

@@ -528,11 +528,11 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
               <div
                 style="margin: 0px; padding: 0px;"
               >
-                <h3
+                <h5
                   style="margin: 0px; padding: 0px;"
                 >
                   Resident population profile for Area 2 2023
-                </h3>
+                </h5>
               </div>
               <div
                 data-testid="population-pyramid"
