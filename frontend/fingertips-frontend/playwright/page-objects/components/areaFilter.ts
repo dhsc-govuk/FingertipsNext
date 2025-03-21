@@ -36,6 +36,8 @@ export default class AreaFilter extends BasePage {
       .all();
 
     await pills[index].click();
+
+    await this.page.waitForLoadState();
   }
 
   areaFilterCombobox() {

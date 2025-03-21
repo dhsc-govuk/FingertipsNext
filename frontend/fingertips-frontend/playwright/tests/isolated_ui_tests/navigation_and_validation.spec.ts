@@ -6,6 +6,7 @@ import {
   getAllNHSRegionAreas,
   IndicatorMode,
   SearchMode,
+  AreaMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
@@ -20,6 +21,7 @@ import { englandArea } from '@/mock/data/areas/englandAreas';
 const indicatorData = mockIndicators as IndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
+const areaMode = AreaMode.ONE_AREA;
 const searchMode = SearchMode.ONLY_SUBJECT;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
@@ -96,6 +98,20 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
+
+      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
+    });
+
+    await test.step('close England pill then select area filters on charts page', async () => {
+      await chartPage.closeAreaFilterPill(0);
+
+      await chartPage.selectAreasFiltersIfRequired(
+        searchMode,
+        areaMode,
+        subjectSearchTerm
+      );
 
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
