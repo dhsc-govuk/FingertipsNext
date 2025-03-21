@@ -11,7 +11,6 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 
@@ -116,7 +115,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       .mockResolvedValueOnce(mockResponses[0])
       .mockResolvedValueOnce(mockResponses[1]);
 
-    const page = await TwoOrMoreIndicatorsAreasView({
+    const _ = await TwoOrMoreIndicatorsAreasView({
       searchState: searchParams,
     });
 
@@ -125,27 +124,5 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         indicator
       );
     });
-
-    expect(page.props.indicatorMetadata).toStrictEqual(mockResponses);
-  });
-
-  it('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['1', '2'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
-
-    const mockResponses = [mockHealthData['108'], mockHealthData['107']];
-
-    mockIndicatorsApi.getHealthDataForAnIndicator
-      .mockResolvedValueOnce(mockResponses[0])
-      .mockResolvedValueOnce(mockResponses[1]);
-
-    const page = await TwoOrMoreIndicatorsAreasView({
-      searchState: searchState,
-    });
-
-    expect(page.props.searchState).toEqual(searchState);
-    expect(page.props.healthIndicatorData).toEqual(mockResponses);
   });
 });
