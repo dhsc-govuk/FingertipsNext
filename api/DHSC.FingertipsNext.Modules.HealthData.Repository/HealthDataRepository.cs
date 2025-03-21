@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +23,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(hm => hm.IndicatorDimension.IndicatorId == indicatorId)
             .Where(hm => areaCodes.Length == 0 || EF.Constant(areaCodes).Contains(hm.AreaDimension.Code))
             .Where(hm => years.Length == 0 || years.Contains(hm.Year))
-            .Where(hm => excludeDisaggregatedSexValues ? hm.IsSexAggregatedOrSingle:true)
+            .Where(hm => excludeDisaggregatedSexValues ? hm.IsSexAggregatedOrSingle : true)
             .Where(hm => excludeDisaggregatedAgeValues ? hm.IsAgeAggregatedOrSingle : true)
             .Where(hm => excludeDisaggregatedDeprivationValues ? hm.IsDeprivationAggregatedOrSingle : true)
             .OrderBy(hm => hm.Year)
@@ -69,7 +70,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Sequence = hm.DeprivationDimension.Sequence,
                     HasValue = hm.DeprivationDimension.HasValue
                 },
-                IsAggregate =hm.IsAgeAggregatedOrSingle && hm.IsSexAggregatedOrSingle && hm.IsDeprivationAggregatedOrSingle
+                IsAggregate = hm.IsAgeAggregatedOrSingle && hm.IsSexAggregatedOrSingle && hm.IsDeprivationAggregatedOrSingle
             })
             .AsNoTracking()
             .ToListAsync();
