@@ -13,6 +13,7 @@ import {
   UnorderedList,
   BackLink,
 } from 'govuk-react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
@@ -76,6 +77,10 @@ const backLinkPath = '/';
 export function IndicatorDefinition({
   indicatorDefinitionProps,
 }: Readonly<IndicatorProps>) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
