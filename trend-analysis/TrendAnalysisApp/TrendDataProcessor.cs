@@ -70,9 +70,11 @@ public class TrendDataProcessor(
                 hmGroup.Key.SexKey == defaultDimsForSearch.SexDimensionKey &&
                 hmGroup.Key.DeprivationKey == Constants.Indicator.DefaultDeprivationDimensionKey
             ) {
-                trendDataForSearch.AreaToTrendMap.Add(
-                    mostRecentDataPoints.First().AreaDimension.Code,
-                    IndicatorTrendDataForSearch.MapTrendEnumToDescriptiveString(trend)
+                trendDataForSearch.AreaToTrendList.Add(
+                    new AreaWithTrendData(
+                        mostRecentDataPoints.First().AreaDimension.Code,
+                        IndicatorTrendDataForSearch.MapTrendEnumToDescriptiveString(trend)
+                    )
                 );
             }
         }
@@ -117,13 +119,14 @@ public class TrendDataProcessor(
                 var jsonIndicatorKey = jsonIndicator.Value<int>("indicatorID");
  
                 if (jsonIndicatorKey == trendData.IndicatorId) {
-                    jsonIndicator["trendsByArea"] = JObject.FromObject(trendData.AreaToTrendMap);
+                    jsonIndicator["trendsByArea"] = JArray.FromObject(trendData.AreaToTrendList);
                     break;
                 }
             }
         }
 
         _fileHelper.Write(_jsonIndicatorFilePath, jsonIndicatorList);
+        Console.WriteLine($"Updated trend data in indicators.json for {perIndicatorTrendData.Count()} indicators");
     }
 
     public static IndicatorSearchDimensions GetDefaultSearchDimsForIndicator(short indicatorId) {

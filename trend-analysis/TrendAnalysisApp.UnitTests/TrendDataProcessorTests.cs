@@ -42,7 +42,12 @@ public class TrendDataProcessorTests
         JArray expectedUpdatedFileContents = new()
         {   
             { new JObject { ["indicatorID"] = 1 } },
-            { new JObject { ["indicatorID"] = 2, ["trendsByArea"] = new JObject { ["ABCAreaCode"] = "Increasing and getting worse" } } }
+            { new JObject { ["indicatorID"] = 2, ["trendsByArea"] = new JArray {
+                new JObject {
+                    ["areaCode"] = "ABCAreaCode",
+                    ["trend"] = "Increasing and getting worse"
+                }}}
+            }
         };
 
         _mockFileHelper.Read(expectedFilePath).Returns(
@@ -52,7 +57,9 @@ public class TrendDataProcessorTests
         {
             IndicatorId = 2,
         };
-        mockIndicatorDataForSearch.AreaToTrendMap.Add("ABCAreaCode", "Increasing and getting worse");
+        mockIndicatorDataForSearch.AreaToTrendList.Add(
+            new AreaWithTrendData("ABCAreaCode", "Increasing and getting worse")
+        );
         var mockPerIndicatorData = new List<IndicatorTrendDataForSearch> {mockIndicatorDataForSearch};
 
         _trendDataProcessor.UpdateIndicatorSearchData(mockPerIndicatorData);

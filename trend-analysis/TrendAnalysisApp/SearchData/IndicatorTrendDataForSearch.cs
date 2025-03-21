@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using TrendAnalysisApp.Calculator;
 
 namespace TrendAnalysisApp.SearchData;
@@ -9,20 +10,22 @@ namespace TrendAnalysisApp.SearchData;
 public class IndicatorTrendDataForSearch
 {
     public int IndicatorId { get; set; }
-    public Dictionary<string, string> AreaToTrendMap = [];
+    public List<AreaWithTrendData> AreaToTrendList = [];
 
-    public static readonly Dictionary<Trend, string> TrendToFullTrendStringMap= new()
-    {
-        {Trend.NotYetCalculated, Constants.Trend.NotYetCalculated},
-        {Trend.CannotBeCalculated, Constants.Trend.CannotBeCalculated},
-        {Trend.Increasing, Constants.Trend.Increasing},
-        {Trend.Decreasing, Constants.Trend.Decreasing},
-        {Trend.NoChange, Constants.Trend.NoSignificantChange},
-        {Trend.IncreasingAndGettingBetter, Constants.Trend.IncreasingAndGettingBetter},
-        {Trend.IncreasingAndGettingWorse, Constants.Trend.IncreasingAndGettingWorse},
-        {Trend.DecreasingAndGettingBetter, Constants.Trend.DecreasingAndGettingBetter},
-        {Trend.DecreasingAndGettingWorse, Constants.Trend.DecreasingAndGettingWorse},
-    };
+    public static readonly ReadOnlyDictionary<Trend, string> TrendToFullTrendStringMap= new(
+        new Dictionary<Trend, string>
+        {
+            {Trend.NotYetCalculated, Constants.Trend.NotYetCalculated},
+            {Trend.CannotBeCalculated, Constants.Trend.CannotBeCalculated},
+            {Trend.Increasing, Constants.Trend.Increasing},
+            {Trend.Decreasing, Constants.Trend.Decreasing},
+            {Trend.NoChange, Constants.Trend.NoSignificantChange},
+            {Trend.IncreasingAndGettingBetter, Constants.Trend.IncreasingAndGettingBetter},
+            {Trend.IncreasingAndGettingWorse, Constants.Trend.IncreasingAndGettingWorse},
+            {Trend.DecreasingAndGettingBetter, Constants.Trend.DecreasingAndGettingBetter},
+            {Trend.DecreasingAndGettingWorse, Constants.Trend.DecreasingAndGettingWorse},
+        }
+    );
 
     public static string MapTrendEnumToDescriptiveString(Trend trend) {
         if (!TrendToFullTrendStringMap.TryGetValue(trend, out string? descriptiveTrendString)) {
