@@ -11,6 +11,7 @@ import {
   prepareThematicMapSeriesData,
 } from '@/lib/chartHelpers/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { BenchmarkLegend } from '../BenchmarkLegend';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
@@ -89,8 +90,7 @@ export function ThematicMap({
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
           pointFormat:
             '<span style="font-size: large">Value: {point.value} units</span>' +
-            '<br /><span>benchmark: {point.benchmarkComparison}</span>' +
-            '<br /><span>benchmark colourCode: {point.benchmarkColourCode}</span>',
+            '<br /><span>benchmark: {point.benchmarkComparison}</span>',
           // footerFormat: '<br />',
         },
       },
@@ -115,6 +115,7 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
+      <BenchmarkLegend rag={true} quintiles={true} />
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',

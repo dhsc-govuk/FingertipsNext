@@ -20,3 +20,17 @@ it('should render the ThematicMap component', async () => {
   );
   expect(highcharts).toBeInTheDocument();
 });
+
+it('should render the benchmark legend', async () => {
+  render(
+    <ThematicMap
+      healthIndicatorData={mockHealthData['92420']}
+      mapData={mockMapData}
+    />
+  );
+
+  const highcharts = await screen.findByTestId('benchmarkLegend-component');
+  expect(highcharts).toBeInTheDocument();
+});
+it.todo('may render the data source');
+it.todo('may render the map source');

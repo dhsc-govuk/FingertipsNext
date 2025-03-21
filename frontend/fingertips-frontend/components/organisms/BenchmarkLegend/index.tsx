@@ -83,7 +83,7 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   }
 
   return (
-    <LegendContainer>
+    <LegendContainer data-testid="benchmarkLegend-component">
       {model?.map((item, index) => (
         <DefaultBenchmarkLegendGroupPanelStyle key={item.key}>
           {item.title ? (
