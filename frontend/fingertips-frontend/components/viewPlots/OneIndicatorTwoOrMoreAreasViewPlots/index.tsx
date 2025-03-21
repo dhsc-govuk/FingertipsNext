@@ -37,7 +37,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
+  const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
   );
@@ -53,7 +53,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       : undefined;
 
   const shouldLineChartbeShown =
-    dataWithoutEngland[0]?.healthData.length > 1 &&
+    dataWithoutEnglandOrGroup[0]?.healthData.length > 1 &&
     areaCodes &&
     areaCodes?.length <= 2;
 
@@ -71,7 +71,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutEngland}
+                    healthIndicatorData={dataWithoutEnglandOrGroup}
                     benchmarkData={englandBenchmarkData}
                     searchState={searchState}
                     groupIndicatorData={groupData}
@@ -86,7 +86,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
+                    healthIndicatorData={dataWithoutEnglandOrGroup}
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
@@ -109,13 +109,14 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <H3>Compare an indicator by areas</H3>
       {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
         <ThematicMap
-          healthIndicatorData={healthIndicatorData}
+          healthIndicatorData={dataWithoutEnglandOrGroup}
           mapData={mapData}
+          groupAreaCodes={areaCodes}
         />
       )}
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
-        healthIndicatorData={dataWithoutEngland}
+        healthIndicatorData={dataWithoutEnglandOrGroup}
         benchmarkData={englandBenchmarkData}
         groupIndicatorData={groupData}
         measurementUnit={indicatorMetadata?.unitLabel}
