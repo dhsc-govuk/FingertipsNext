@@ -68,7 +68,7 @@ export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
 }
 
-export function getMostRecentData(data: HealthDataPoint[]) {
+export function getMostRecentDataFromSorted(data: HealthDataPoint[]) {
   return data.length > 0
     ? {
         count: data[0].count,

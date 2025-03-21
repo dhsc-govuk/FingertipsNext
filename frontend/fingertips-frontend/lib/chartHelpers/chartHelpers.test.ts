@@ -5,7 +5,7 @@ import {
   sortHealthDataByYearDescending,
   isEnglandSoleSelectedArea,
   sortHealthDataPointsByDescendingYear,
-  getMostRecentData,
+  getMostRecentDataFromSorted,
   getHealthDataWithoutInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -432,9 +432,9 @@ describe('isEnglandSoleSelectedArea', () => {
   });
 });
 
-describe('getMostRecentData', () => {
-  it('should return the most recent health data point', () => {
-    const result = getMostRecentData(mockData[0].healthData);
+describe('getMostRecentDataFromSorted', () => {
+  it('should return the most recent health data point from data sorted by year', () => {
+    const result = getMostRecentDataFromSorted(mockData[0].healthData);
     const expected = {
       count: 389,
       value: 278.29134,
@@ -447,7 +447,7 @@ describe('getMostRecentData', () => {
   });
 
   it('should return undefined when there is no data passed', () => {
-    const result = getMostRecentData([]);
+    const result = getMostRecentDataFromSorted([]);
 
     expect(result).toEqual(undefined);
   });
