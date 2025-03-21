@@ -96,9 +96,7 @@ public static class BenchmarkComparisonEngine
 
         healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
         {
-            Method = comparisonMethod,
             Outcome = GetOutcome(comparisonValue, polarity),
-            IndicatorPolarity = polarity,
             BenchmarkValue = benchmarkHealthDataPoint.Value,
             BenchmarkAreaCode = benchmarkAreaCode,
             BenchmarkAreaName = benchmarkAreaName

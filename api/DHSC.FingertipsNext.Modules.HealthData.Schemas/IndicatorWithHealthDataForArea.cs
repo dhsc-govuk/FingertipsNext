@@ -7,11 +7,23 @@ public class IndicatorWithHealthDataForArea
     [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
     
-    [JsonPropertyName("areaHealthData")]
-    public IEnumerable<HealthDataForArea> AreaHealthData { get; init; } = Array.Empty<HealthDataForArea>();
+    [JsonPropertyName("startDate")]
+    public DateTime StartDate { get; set; }
     
+    [JsonPropertyName("endDate")]
+    public DateTime EndDate { get; set; }
+   
     [JsonPropertyName("polarity")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public IndicatorPolarity Polarity { get; set; }
     
+    [JsonPropertyName("benchmarkMethod")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public BenchmarkComparisonMethod BenchmarkMethod { get; set; }
+    
+    [JsonPropertyName("benchmarkConfidenceLevel")]
+    public float BenchmarkConfidenceLevel { get; set; }
+    
+    [JsonPropertyName("areaHealthData")]
+    public IEnumerable<HealthDataForArea> AreaHealthData { get; init; } = Array.Empty<HealthDataForArea>();
 }

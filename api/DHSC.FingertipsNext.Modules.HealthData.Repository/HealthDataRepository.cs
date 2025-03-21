@@ -24,7 +24,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 Name = x.Name,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
-                Polarity = x.Polarity
+                Polarity = x.Polarity,
+                BenchmarkComparisonMethod = x.BenchmarkComparisonMethod,
             })
             .ToListAsync();
         return results.FirstOrDefault();
