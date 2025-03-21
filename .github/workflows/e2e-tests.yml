@@ -107,9 +107,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
-
-      - name: Install playwright dependencies - for CD test execution
-        run: npx playwright install --with-deps chromium webkit
         
       - name: Set Job URL for slack message - for CD test execution
         run: |

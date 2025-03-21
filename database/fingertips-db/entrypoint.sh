@@ -19,7 +19,7 @@ sqlpackage \
     /TargetDatabaseName:$DB_NAME \
     /TargetUser:$SA_USERNAME \
     /TargetPassword:$SA_PASSWORD \
-    /v:LocalFilePath="/var/opt/mssql/csv/" \
+    /v:LocalFilePath="/tmp/mssql_csv" \
     /v:UseAzureBlob=0 \
     /diagnostics:true \
     /diagnosticsLevel:"Verbose" \
