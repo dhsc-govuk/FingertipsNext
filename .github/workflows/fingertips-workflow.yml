@@ -241,8 +241,6 @@ jobs:
         )
       )
     uses: ./.github/workflows/ui-tests.yml
-    with:
-      playwright-mode: local
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -665,6 +663,6 @@ jobs:
         github.event_name == 'workflow_dispatch'
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
+      playwright-mode: local
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

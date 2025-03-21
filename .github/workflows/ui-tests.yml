@@ -7,18 +7,11 @@ env:
 
 on:
   workflow_call:
-    inputs:
-      ui-test-container-image:
-        description: 'container image to run the ui tests in'
-        required: true
-        type: string
 
 jobs:
   execute-ui-tests:
     name: Execute ui tests
-    runs-on: ubuntu-latest
-    container:
-      image: ${{ inputs.ui-test-container-image }}
+    runs-on: self-hosted
 
     defaults:
       run:

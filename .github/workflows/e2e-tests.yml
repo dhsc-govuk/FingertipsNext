@@ -81,7 +81,7 @@ jobs:
           retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure() && inputs.e2e-test-container-image != null
+        if: failure()
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
@@ -125,7 +125,7 @@ jobs:
           retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure() && inputs.e2e-test-container-image != null
+        if: failure()
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
