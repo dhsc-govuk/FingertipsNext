@@ -14,7 +14,6 @@ import {
   Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState, useEffect} from 'react';
 
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
@@ -53,27 +52,30 @@ export function IndicatorSelectionForm({
 
   const stateManager = SearchStateManager.initialise(searchState);
 
-  const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
-  const [isAllSelected, setIsAllSelected] = useState(false);
+  const checkAllIndicatorsSelected = (
+    searchResults: IndicatorDocument[],
+    selectedIndicators: string[]
+  ): boolean => {
+    const sortedResultIds = searchResults
+      .map((result) => result.indicatorID.toString())
+      .toSorted();
 
-  useEffect(() => {
-    const selectedFromState = searchState?.[SearchParams.IndicatorsSelected] || [];
-    setSelectedIndicators(selectedFromState);
-    setIsAllSelected(selectedFromState.length === searchResults.length);
-  }, [searchState, searchResults.length]);
+    const sortedSelectedIndicators = selectedIndicators.toSorted();
+
+    return (
+      JSON.stringify(sortedResultIds) ===
+      JSON.stringify(sortedSelectedIndicators)
+    );
+  };
+
+  const selectedIndicators =
+    searchState?.[SearchParams.IndicatorsSelected] || [];
+  const isAllIndicatorsSelected = checkAllIndicatorsSelected(
+    searchResults,
+    selectedIndicators
+  );
 
   const handleClick = async (indicatorId: string, checked: boolean) => {
-    let updateIndicators = [...selectedIndicators];
-
-    if (checked) {
-      updateIndicators.push(indicatorId);
-    } else {
-      updateIndicators = updateIndicators.filter(id => id !== indicatorId);
-    }
-
-    setSelectedIndicators(updateIndicators);
-    setIsAllSelected(updateIndicators.length === searchResults.length);
-    
     if (checked) {
       stateManager.addParamValueToState(
         SearchParams.IndicatorsSelected,
@@ -91,21 +93,15 @@ export function IndicatorSelectionForm({
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIndicatorIds = searchResults.map(result => result.indicatorID.toString());
-      setSelectedIndicators(allIndicatorIds);
-    } else {
-      setSelectedIndicators([]);
-    }
-    setIsAllSelected(checked);
-
-    if (checked) {
-      searchResults.forEach(result => {
-        stateManager.addParamValueToState(SearchParams.IndicatorsSelected, result.indicatorID.toString());
+      const allIndicatorIds = searchResults.map((result) =>
+        result.indicatorID.toString()
+      );
+      stateManager.setState({
+        ...searchState,
+        [SearchParams.IndicatorsSelected]: allIndicatorIds,
       });
     } else {
-      searchResults.forEach(result => {
-        stateManager.removeParamValueFromState(SearchParams.IndicatorsSelected, result.indicatorID.toString());
-      });
+      stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
     }
 
     replace(stateManager.generatePath(pathname), { scroll: false });
@@ -128,7 +124,7 @@ export function IndicatorSelectionForm({
         <>
           <Checkbox
             id="select-all-checkbox"
-            checked={isAllSelected}
+            defaultChecked={isAllIndicatorsSelected}
             onChange={(e) => handleSelectAll(e.target.checked)}
           >
             Select all
