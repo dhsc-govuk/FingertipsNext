@@ -4,8 +4,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -175,6 +175,26 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
   });
 
+  it('should render the title for BarChartEmbeddedTable/ThematicMap', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        healthIndicatorData={testHealthData}
+        searchState={searchState}
+        areaCodes={mockAreas}
+      />
+    );
+
+    expect(
+      await screen.findByText('Compare an indicator by areas')
+    ).toBeInTheDocument();
+  });
+
   describe('BarChartEmbeddedTable', () => {
     it('should render the BarChartEmbeddedTable component, when two or more areas are selected', async () => {
       const searchState: SearchStateParams = {
@@ -193,26 +213,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       expect(
         await screen.findByTestId(barChartEmbeddedTable)
-      ).toBeInTheDocument();
-    });
-
-    it('should render the title for BarChartEmbeddedTable', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-      };
-
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
-          searchState={searchState}
-          areaCodes={mockAreas}
-        />
-      );
-
-      expect(
-        screen.getByText('Compare an indicator by areas')
       ).toBeInTheDocument();
     });
   });

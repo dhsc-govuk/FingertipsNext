@@ -13,7 +13,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
-} from '@/lib/thematicMapUtils/getMapData';
+} from '@/lib/chartHelpers/thematicMapHelpers';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
@@ -63,6 +63,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
               {
                 indicatorId: Number(indicatorSelected[0]),
                 areaCodes: [...requestAreas],
+                comparisonMethod: 'Rag',
               },
               API_CACHE_CONFIG
             )

@@ -5,12 +5,16 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import {
+  benchmarkColourScale,
+  MapData,
+  prepareThematicMapSeriesData,
+} from '@/lib/chartHelpers/thematicMapHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
-  mapTitle?: string;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -19,9 +23,9 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapData,
-  mapTitle,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
+  const data = prepareThematicMapSeriesData(healthIndicatorData);
   const mapOptions: Highcharts.Options = {
     chart: {
       height: 800,
@@ -33,20 +37,26 @@ export function ThematicMap({
     caption: { text: 'map source: data source:' },
     accessibility: { enabled: false },
     credits: { enabled: false },
+    legend: {
+      enabled: true,
+      verticalAlign: 'top',
+    },
     mapView: {
       projection: { name: 'Miller' },
       fitToGeometry: mapData.mapGroupBoundary.features[0].geometry,
       padding: 20,
     },
     mapNavigation: { enabled: true },
-    colorAxis: { min: 0 },
+    colorAxis: {
+      dataClasses: benchmarkColourScale,
+    },
     series: [
       {
         type: 'map',
         name: 'basemap',
         showInLegend: false,
         mapData: mapData.mapFile,
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         borderWidth: 0.2,
       },
       {
@@ -54,37 +64,34 @@ export function ThematicMap({
         name: 'group border',
         showInLegend: false,
         mapData: mapData.mapGroupBoundary,
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         borderWidth: 6,
       },
       {
         type: 'map',
+        colorKey: 'benchmarkColourCode',
         name: 'data',
-        showInLegend: false,
         mapData: mapData.mapFile,
-        data: healthIndicatorData.map((areaData) => {
-          return {
-            areaName: areaData.areaName,
-            areaCode: areaData.areaCode,
-            value: areaData.healthData[0].value,
-          };
-        }),
+        data: data,
         joinBy: [mapData.mapJoinKey, 'areaCode'],
-        borderColor: 'black',
+        borderColor: GovukColours.Black,
         allAreas: false,
         borderWidth: 0.5,
         states: {
           hover: {
             borderWidth: 2,
-            borderColor: 'black',
+            borderColor: GovukColours.Black,
           },
         },
+        dataLabels: { format: 'T' },
         tooltip: {
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
           pointFormat:
-            '<span style="font-size: large">Value: {point.value} units</span>',
-          footerFormat: '',
+            '<span style="font-size: large">Value: {point.value} units</span>' +
+            '<br /><span>benchmark: {point.benchmarkComparison}</span>' +
+            '<br /><span>benchmark colourCode: {point.benchmarkColourCode}</span>',
+          // footerFormat: '<br />',
         },
       },
     ],
@@ -108,7 +115,6 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      <H3>{mapTitle}</H3>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',

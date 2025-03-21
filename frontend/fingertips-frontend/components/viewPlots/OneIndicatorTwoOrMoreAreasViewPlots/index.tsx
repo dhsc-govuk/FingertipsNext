@@ -11,7 +11,7 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
@@ -106,13 +106,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
+      <H3>Compare an indicator by areas</H3>
       {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
         <ThematicMap
           healthIndicatorData={healthIndicatorData}
           mapData={mapData}
         />
       )}
-      <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={dataWithoutEngland}
