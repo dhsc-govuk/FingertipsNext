@@ -8,7 +8,6 @@ const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['333'],
   [SearchParams.AreasSelected]: ['A1245'],
-  [SearchParams.ConfidenceIntervalSelected]: ['lineChart'],
 };
 
 describe('Inequalities suite', () => {
