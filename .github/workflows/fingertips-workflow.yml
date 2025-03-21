@@ -327,11 +327,12 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
+      github.ref_name == 'feature/DHSCFT-467_add-trends-to-search-data' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.trend_analysis_changed == 'true'
+        needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+        needs.check-changes.outputs.search_changed == 'true'
       )
     steps:
       - name: Set git core.longpaths flag
@@ -377,7 +378,7 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
+      github.ref_name == 'feature/DHSCFT-467_add-trends-to-search-data' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true' ||
@@ -421,7 +422,7 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
+      github.ref_name == 'feature/DHSCFT-467_add-trends-to-search-data' &&
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.search_changed == 'true' ||
