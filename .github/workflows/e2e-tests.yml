@@ -97,6 +97,9 @@ jobs:
       run:
         working-directory: ${{ env.frontend-directory }}
 
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /usr/local/ms-playwright
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
