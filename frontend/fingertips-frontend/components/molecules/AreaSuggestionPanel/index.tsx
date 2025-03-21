@@ -92,7 +92,10 @@ export const AreaAutoCompleteSuggestionPanel = ({
         <AreaSuggestionPanelItem key={`${area.areaCode}-${area.areaType}`}>
           <SuggestionButton
             data-testid={`area-suggestion-item-${area.areaCode}`}
-            onClick={() => updateUrlWithSelectedArea(area.areaCode)}
+            onClick={(e) => {
+              e.preventDefault();
+              updateUrlWithSelectedArea(area.areaCode);
+            }}
           >
             <SearchIcon
               width="15px"
