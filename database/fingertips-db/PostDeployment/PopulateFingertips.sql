@@ -341,37 +341,64 @@ CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
     Year INT,
-    SexID INT,
     AreaCode NVARCHAR(255),
     Count FLOAT,
     Value FLOAT,
     Lower95CI FLOAT,
     Upper95CI FLOAT,
+    Lower98CI FLOAT,
+    Upper98CI FLOAT,
     Denominator FLOAT,
     Sex NVARCHAR(255),
-    Age NVARCHAR(255),
-    CategoryType NVARCHAR(255),  -- ensuring a bounded length
-    Category NVARCHAR(255),      -- ensuring a bounded length so it can be indexed
-    AgeID INT
+    CategoryType NVARCHAR(MAX),
+    Category NVARCHAR(255),
+    AgeID INT,
+    IsSexAggregatedOrSingle NVARCHAR(255),
+    IsAgeAggregatedOrSingle NVARCHAR(255),
+    IsDeprivationAggregatedOrSingle NVARCHAR(255)
 );
 
+
 INSERT INTO #TempHealthData
+(
+    IndicatorId,
+    Year,
+    AreaCode,
+    Count,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Lower98CI,
+    Upper98CI,
+    Denominator,
+    Sex,
+    CategoryType,
+    Category,
+    AgeID,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
+)
 SELECT 
     IndicatorId,
     Year,
-    SexID,
     LTRIM(RTRIM(AreaCode)) AS AreaCode,
     Count,
     Value,
     Lower95CI,
     Upper95CI,
+    Lower98CI,
+    Upper98CI,
     Denominator,
     LTRIM(RTRIM(Sex)) AS Sex,
-    Age,
     LTRIM(RTRIM(CategoryType)) AS CategoryType,
     LTRIM(RTRIM(Category)) AS Category,
-    AgeID
+    AgeID,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
 FROM #RawHealthData;
+
 
 DROP TABLE #RawHealthData;
 
@@ -379,10 +406,8 @@ CREATE INDEX IX_TempHealthData_AreaCode ON #TempHealthData(AreaCode);
 CREATE INDEX IX_TempHealthData_IndicatorId ON #TempHealthData(IndicatorId);
 CREATE INDEX IX_TempHealthData_Sex ON #TempHealthData(Sex);
 CREATE INDEX IX_TempHealthData_AgeID ON #TempHealthData(AgeID);
-CREATE INDEX IX_TempHealthData_Category ON #TempHealthData(Category);
 
-ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL;
-
+ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
 INSERT INTO [dbo].[HealthMeasure]
 (
     AreaKey,
@@ -429,7 +454,7 @@ JOIN
 	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
 WHERE temp.Value IS NOT NULL;
 
-ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL;
+ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
 
 DROP TABLE #TempHealthData;
 
