@@ -69,13 +69,13 @@ export function OneIndicatorOneAreaViewPlots({
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
 
-  const englandBenchmarkWithoutInequalities: HealthDataForArea = {
-    areaCode: areaCodeForEngland,
-    areaName: 'England',
-    healthData: englandBenchmarkData
-      ? getHealthDataWithoutInequalities(englandBenchmarkData)
-      : [],
-  };
+  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+    englandBenchmarkData
+      ? {
+          ...englandBenchmarkData,
+          healthData: getHealthDataWithoutInequalities(englandBenchmarkData),
+        }
+      : undefined;
 
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
@@ -84,16 +84,23 @@ export function OneIndicatorOneAreaViewPlots({
         )
       : undefined;
 
+  const groupDataWithoutInequalities: HealthDataForArea | undefined = groupData
+    ? {
+        ...groupData,
+        healthData: getHealthDataWithoutInequalities(groupData),
+      }
+    : undefined;
+
   const yAxisTitle = indicatorMetadata?.unitLabel
     ? `Value: ${indicatorMetadata?.unitLabel}`
     : undefined;
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
-    dataWithoutEnglandOrGroup,
+    dataWithoutInequalities,
     confidenceIntervalSelected,
     {
-      benchmarkData: englandBenchmarkData,
-      groupIndicatorData: groupData,
+      benchmarkData: englandBenchmarkWithoutInequalities,
+      groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,

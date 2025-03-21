@@ -1,9 +1,13 @@
 import {
+  HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
 } from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
-import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getHealthDataWithoutInequalities,
+  isEnglandSoleSelectedArea,
+} from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   chartSymbols,
@@ -18,6 +22,12 @@ export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
 >;
+
+export interface DataWithoutInequalities {
+  areaDataWithoutInequalities: HealthDataForArea[];
+  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  groupDataWithoutInequalities: HealthDataForArea | undefined;
+}
 
 export interface InequalitiesChartData {
   areaName: string;
@@ -291,3 +301,43 @@ export function generateInequalitiesLineChartOptions(
     },
   };
 }
+
+export const getAllDataWithoutInequalities = (
+  dataWithoutEnglandOrGroup: HealthDataForArea[],
+  areasSelected: string[],
+  benchmark: {
+    englandBenchmarkData?: HealthDataForArea;
+    groupData?: HealthDataForArea;
+  }
+): DataWithoutInequalities => {
+  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
+    ? dataWithoutEnglandOrGroup.map((data) => ({
+        ...data,
+        healthData: getHealthDataWithoutInequalities(data),
+      }))
+    : [];
+
+  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.englandBenchmarkData
+      ? {
+          ...benchmark.englandBenchmarkData,
+          healthData: getHealthDataWithoutInequalities(
+            benchmark.englandBenchmarkData
+          ),
+        }
+      : undefined;
+
+  const groupDataWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.groupData
+      ? {
+          ...benchmark.groupData,
+          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
+        }
+      : undefined;
+
+  return {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
+  };
+};
