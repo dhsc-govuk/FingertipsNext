@@ -9,10 +9,8 @@ public class AutoMapperProfiles : Profile
     public AutoMapperProfiles()
     {
         CreateMap<DeprivationDimensionModel, Deprivation>()
-            .ForMember(dest => dest.Sequence, options => options.MapFrom(src => src.Sequence))
-            .ForMember(dest => dest.Type, options => options.MapFrom(src => src.Type))
             .ForMember(dest => dest.Value, options => options.MapFrom(src => src.Name));
-        
+
         CreateMap<HealthMeasureModel, HealthDataPoint>()
             .ForMember(dest => dest.LowerConfidenceInterval, options => options.MapFrom(src => src.LowerCi))
             .ForMember(dest => dest.UpperConfidenceInterval, options => options.MapFrom(src => src.UpperCi))

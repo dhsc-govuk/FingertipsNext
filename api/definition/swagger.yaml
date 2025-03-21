@@ -538,6 +538,7 @@ components:
           enum:
             - age
             - sex
+            - deprivation
       description: Determines the kind of inequality data that should be returned if an option is specified
     comparison_method:
       in: query
