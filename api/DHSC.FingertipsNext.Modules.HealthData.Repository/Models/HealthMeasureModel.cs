@@ -40,4 +40,6 @@ public class HealthMeasureModel
     public bool IsAgeAggregatedOrSingle { get; set; } = true;
 
     public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
+
+    public bool IsAggregate { get; set; }
 }

@@ -33,43 +33,44 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
             .Include(hm => hm.DeprivationDimension)
-            .Select(x => new HealthMeasureModel()
+            .Select(hm => new HealthMeasureModel()
             {
-                Year = x.Year,
-                Value = x.Value,
-                Count = x.Count,
-                LowerCi = x.LowerCi,
-                UpperCi = x.UpperCi,
+                Year = hm.Year,
+                Value = hm.Value,
+                Count = hm.Count,
+                LowerCi = hm.LowerCi,
+                UpperCi = hm.UpperCi,
                 AgeDimension = new AgeDimensionModel()
                 {
-                    Name = x.AgeDimension.Name,
-                    HasValue = x.AgeDimension.HasValue,
+                    Name = hm.AgeDimension.Name,
+                    HasValue = hm.AgeDimension.HasValue,
                 },
                 SexDimension = new SexDimensionModel()
                 {
-                    Name = x.SexDimension.Name,
-                    HasValue = x.SexDimension.HasValue
+                    Name = hm.SexDimension.Name,
+                    HasValue = hm.SexDimension.HasValue
                 },
                 IndicatorDimension = new IndicatorDimensionModel()
                 {
-                    Name = x.IndicatorDimension.Name,
+                    Name = hm.IndicatorDimension.Name,
                 },
                 AreaDimension = new AreaDimensionModel()
                 {
-                    Code = x.AreaDimension.Code,
-                    Name = x.AreaDimension.Name,
+                    Code = hm.AreaDimension.Code,
+                    Name = hm.AreaDimension.Name,
                 },
                 TrendDimension = new TrendDimensionModel()
                 {
-                    Name = x.TrendDimension.Name
+                    Name = hm.TrendDimension.Name
                 },
                 DeprivationDimension = new DeprivationDimensionModel()
                 {
-                    Name = x.DeprivationDimension.Name,
-                    Type = x.DeprivationDimension.Type,
-                    Sequence = x.DeprivationDimension.Sequence,
-                    HasValue = x.DeprivationDimension.HasValue
-                }
+                    Name = hm.DeprivationDimension.Name,
+                    Type = hm.DeprivationDimension.Type,
+                    Sequence = hm.DeprivationDimension.Sequence,
+                    HasValue = hm.DeprivationDimension.HasValue
+                },
+                IsAggregate =hm.IsAgeAggregatedOrSingle && hm.IsSexAggregatedOrSingle && hm.IsDeprivationAggregatedOrSingle
             })
             .AsNoTracking()
             .ToListAsync();
