@@ -3,6 +3,7 @@
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchStateManager,
   SearchStateParams,
@@ -14,6 +15,7 @@ interface ChartPageWrapperProps {
   searchState?: SearchStateParams;
   areaFilterData?: AreaFilterData;
   selectedAreasData?: AreaWithRelations[];
+  selectedIndicatorsData?: IndicatorDocument[];
 }
 
 export function ChartPageWrapper({
@@ -21,6 +23,7 @@ export function ChartPageWrapper({
   searchState,
   areaFilterData,
   selectedAreasData,
+  selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
 
@@ -39,6 +42,7 @@ export function ChartPageWrapper({
             key={JSON.stringify(searchState)}
             areaFilterData={areaFilterData}
             selectedAreasData={selectedAreasData}
+            selectedIndicatorsData={selectedIndicatorsData}
             searchState={searchState}
           />
         </GridCol>
