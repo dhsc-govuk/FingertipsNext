@@ -41,7 +41,7 @@ const RemoveAreaButton = styled('button')({
 interface PillProps {
   children: React.ReactNode;
   selectedFilterId?: string;
-  removeFilter: (filterId: string) => void;
+  removeFilter?: (filterId: string) => void;
   isFullWidth?: boolean;
   ariaLabelPostfix?: string;
 }
@@ -55,16 +55,18 @@ export function Pill({
 }: Readonly<PillProps>) {
   return (
     <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
-      <RemoveAreaButton
-        aria-label={`Remove area ${ariaLabelPostfix}`}
-        data-testid="remove-icon-div"
-        onClick={(e) => {
-          e.preventDefault();
-          removeFilter(selectedFilterId ?? '');
-        }}
-      >
-        <RemoveIcon width="16" height="16" color="#000000" />
-      </RemoveAreaButton>
+      {removeFilter ? (
+        <RemoveAreaButton
+          aria-label={`Remove area ${ariaLabelPostfix}`}
+          data-testid="remove-icon-div"
+          onClick={(e) => {
+            e.preventDefault();
+            removeFilter(selectedFilterId ?? '');
+          }}
+        >
+          <RemoveIcon width="16" height="16" color="#000000" />
+        </RemoveAreaButton>
+      ) : null}
       <StyledFilterChildren data-testid="filter-name">
         {children}
       </StyledFilterChildren>
