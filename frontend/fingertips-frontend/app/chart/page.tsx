@@ -29,6 +29,8 @@ export default async function ChartPage(
 
     // We don't want to render this page statically
     await connection();
+
+    // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
 
     // set England as areas if all other areas are removed
@@ -65,18 +67,16 @@ export default async function ChartPage(
     }
 
     return (
-      <>
-        <ViewsContext
-          searchState={stateManager.getSearchState()}
-          selectedAreasData={selectedAreasData}
-          areaFilterData={{
-            availableAreaTypes,
-            availableGroupTypes,
-            availableGroups,
-            availableAreas,
-          }}
-        />
-      </>
+      <ViewsContext
+        searchState={stateManager.getSearchState()}
+        selectedAreasData={selectedAreasData}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
+      />
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);
