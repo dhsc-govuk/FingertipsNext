@@ -79,7 +79,7 @@ export function SparklineChart({
 
   if (!options) {
     return null;
-  };
+  }
 
   return (
     <HighchartsReact

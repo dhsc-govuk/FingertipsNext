@@ -251,7 +251,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.AreaTypeSelected}=Some+area+type`,
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
-        `&${SearchParams.GroupAreaSelected}=ALL`
+        `&${SearchParams.GroupAreaSelected}=ALL`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
@@ -261,7 +261,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
-        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
       });
 
       const generatedPath = stateManager.generatePath('/some-path');

@@ -251,7 +251,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should render the SparklineChart bars for each area displayed in the table', () => {
+  it('should render the SparklineChart bars for each area displayed in the table', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -259,10 +259,21 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    const sparkline = screen.getAllByTestId(
+    const sparkline = await screen.findAllByTestId(
       'highcharts-react-component-barChartEmbeddedTable'
     );
 
     expect(sparkline).toHaveLength(4);
+  });
+
+  it('should render the checkbox', async () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+    const checkbox = await screen.findByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
   });
 });
