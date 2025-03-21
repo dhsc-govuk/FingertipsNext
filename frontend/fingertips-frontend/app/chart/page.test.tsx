@@ -2,10 +2,7 @@
  * @jest-environment node
  */
 
-import {
-  areaCodeForEngland,
-  indicatorIdForPopulation,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
