@@ -304,7 +304,6 @@ CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
     Year INT,
-    SexID INT,
     AreaCode NVARCHAR(255),
     Count FLOAT,
     Value FLOAT,
@@ -314,7 +313,6 @@ CREATE TABLE #TempHealthData
     Upper98CI FLOAT,
     Denominator FLOAT,
     Sex NVARCHAR(255),
-    Age NVARCHAR(255),
     CategoryType NVARCHAR(MAX),
     Category NVARCHAR(MAX),
     AgeID INT,

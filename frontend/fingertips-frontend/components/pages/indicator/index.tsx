@@ -17,6 +17,10 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
+import {
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 
 export type IndicatorDefinitionProps = {
   indicatorName: string;
@@ -60,6 +64,7 @@ export type IndicatorDefinitionProps = {
 
 type IndicatorProps = {
   indicatorDefinitionProps: IndicatorDefinitionProps;
+  searchState: SearchStateParams;
 };
 
 const ZeroMarginParagraph = styled(Paragraph)(
@@ -71,19 +76,22 @@ const StyledSectionBreak = styled(SectionBreak)(
   spacing.withWhiteSpace({ margin: 4 })
 );
 
-// should return to charts page once forward path into indicator page implemented
-const backLinkPath = '/';
-
 export function IndicatorDefinition({
   indicatorDefinitionProps,
+  searchState,
 }: Readonly<IndicatorProps>) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const stateManager = SearchStateManager.initialise(searchState);
+
   return (
     <>
-      <BackLink href={backLinkPath} data-testid="search-results-back-link" />
+      <BackLink
+        href={stateManager.generatePath('/chart')}
+        data-testid="search-results-back-link"
+      />
 
       <Caption>Background information and indicator definitions for</Caption>
       <TopHeading>{indicatorDefinitionProps.indicatorName}</TopHeading>
