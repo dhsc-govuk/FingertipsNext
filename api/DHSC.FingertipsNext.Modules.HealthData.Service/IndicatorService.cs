@@ -13,10 +13,7 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
-
-    // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
-
+    
     /// <summary>
     ///     Obtain health point data for a single indicator.
     /// </summary>
@@ -33,18 +30,51 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     An array of inequality dimensions to return. If the array is empty only data with no
     ///     inequality dimensions is retrieved.
     /// </param>
-    /// <param name="comparisonMethod">BenchmarkType to set comparison method e.g. None, RAG or Quartiles</param>
     /// <returns>
-    ///     An enumerable of <c>HealthDataForArea</c> matching the criteria,
-    ///     otherwise an empty enumerable.
+    ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync
+    public async Task<IndicatorWithHealthDataForArea?> GetIndicatorDataAsync(
+        int indicatorId,
+        IEnumerable<string> areaCodes,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities)
+    {
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
+        if (indicatorData == null) return null;
+        
+        var method = BenchmarkComparisonMethodConvertor.Convert(indicatorData.BenchmarkComparisonMethod);
+        var polarity = IndicatorPolarityConvertor.Convert(indicatorData.Polarity);
+        var confidenceLevel =
+            BenchmarkComparisonMethodConvertor.GetConfidenceLevel(indicatorData.BenchmarkComparisonMethod);
+        var indicator = new IndicatorWithHealthDataForArea()
+        {
+            Name = indicatorData.Name,
+            StartDate = indicatorData.StartDate,
+            EndDate = indicatorData.EndDate,
+            Polarity = IndicatorPolarityConvertor.Convert(indicatorData.Polarity),
+            BenchmarkMethod = method,
+            BenchmarkConfidenceLevel = confidenceLevel,
+            AreaHealthData = await GetIndicatorAreaDataAsync(
+                indicatorId, 
+                areaCodes, 
+                years,
+                inequalities, 
+                method,
+                polarity
+                )
+        };
+        return indicator;
+    } 
+    
+
+    private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataAsync
         (
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        BenchmarkComparisonMethod comparisonMethod
+        BenchmarkComparisonMethod comparisonMethod,
+        IndicatorPolarity polarity
         )
     {
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
@@ -96,7 +126,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             healthDataForAreas,
             benchmarkHealthData,
             comparisonMethod,
-            Polarity
+            polarity
         );
     }
 }

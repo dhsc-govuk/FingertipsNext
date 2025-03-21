@@ -215,9 +215,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/HealthDataForArea"
+                type: object
+                $ref: "#/components/schemas/IndicatorWithHealthDataForArea"
                 title: GetHealthDataForAnIndicatorOk
         "400":
           description: Bad request. The server could not process the request.
@@ -239,10 +238,15 @@ paths:
         - $ref: "#/components/parameters/area_codes"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
-        - $ref: "#/components/parameters/comparison_method"
       operationId: getHealthDataForAnIndicator
 components:
   schemas:
+    IndicatorPolarity: # Define enum globally
+      type: string
+      enum: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
+    BenchmarkComparisonMethod:
+      type: string
+      enum: [ Unknown, Rag, Quintiles ]
     AreaType:
       type: object
       description: An area type e.g. PCN or GP
@@ -471,6 +475,34 @@ components:
           items:
             $ref: "#/components/schemas/HealthDataPoint"
           description: The health data points for the area and indicator
+    IndicatorWithHealthDataForArea:
+      type: object
+      description: Indicator information with area health data
+      properties:
+        name:
+          type: string
+          example: Emergency readmissions within 30 days of discharge from hospital
+          description: Name of the indicator
+        startDate:
+          type: string
+          example: 2015-03-19T16:50:02.92
+          description: start date of the indicator
+        endDate:
+          type: string
+          example: 2035-03-19T16:50:02.92
+          description: end date of the indicator
+        polarity:
+          $ref: "#/components/schemas/IndicatorPolarity"
+        benchmarkMethod:
+          $ref: "#/components/schemas/BenchmarkComparisonMethod"
+        benchmarkConfidenceLevel:
+          type: number
+          example: 99.8
+          description: the confidence level eg 95% or 99.8%
+        areaHealthData:
+          type: array
+          items:
+            $ref: "#/components/schemas/HealthDataForArea"
     BadRequest:
       type: object
       required:
@@ -515,15 +547,6 @@ components:
             - age
             - sex
       description: Determines the kind of inequality data that should be returned if an option is specified
-    comparison_method:
-      in: query
-      name: comparison_method
-      schema:
-        type: string
-        example: Rag
-        enum: [ None, Rag ]
-      required: false
-      description: the comparison method to use eg RAG to compare to England
     area_type_key:
       in: path
       name: area_type_key

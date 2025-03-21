@@ -14,20 +14,6 @@ public class BenchmarkComparison
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public BenchmarkOutcome Outcome { get; init; } = BenchmarkOutcome.None;
 
-    /// <summary>
-    ///     The comparison method eg Rag, Quintiles
-    /// </summary>
-    [JsonPropertyName("method")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public BenchmarkComparisonMethod Method { get; init; } = BenchmarkComparisonMethod.None;
-
-    // <summary>
-    /// The indicator polarity eg HighIsGood
-    /// </summary>
-    [JsonPropertyName("indicatorPolarity")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public IndicatorPolarity IndicatorPolarity { get; init; } = IndicatorPolarity.NoJudgement;
-
     [JsonPropertyName("benchmarkAreaCode")]
     public string BenchmarkAreaCode { get; init; } = string.Empty;
 

@@ -22,7 +22,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
-    /// <param name="comparison_method">eg RAG, Quartiles</param>
     /// <returns></returns>
     /// <remarks>
     /// If more than 10 years are supplied the request will fail.
@@ -30,15 +29,14 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </remarks>
     [HttpGet]
     [Route("{indicatorId:int}/data")]
-    [ProducesResponseType(typeof(HealthDataForArea[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IndicatorWithHealthDataForArea), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
         [FromQuery] int[]? years = null,
-        [FromQuery] string[]? inequalities = null,
-        [FromQuery] string? comparison_method = "None")
+        [FromQuery] string[]? inequalities = null)
     {
         if (areaCodes is { Length: > MaxParamArrayLength })
         {
@@ -53,21 +51,15 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
                 new SimpleError { Message = string.Format(TooManyParametersMessage, "years", years.Length) }
             );
         }
-
-        var comparisonMethodParsed= Enum.TryParse(comparison_method, true, out BenchmarkComparisonMethod benchmarkType);
-        if (!comparisonMethodParsed)
-            benchmarkType = BenchmarkComparisonMethod.None;
+        
 
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? [],
-            inequalities ?? [],
-            benchmarkType
+            inequalities ?? []
         );
 
-        Console.WriteLine(indicatorData.Any() ? "FOUND" : "NOT FOUND");
-
-        return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
+        return indicatorData == null ? NotFound() : Ok(indicatorData);
     }
 }
