@@ -6,7 +6,8 @@ namespace DataCreator
     public class DataManager(PholioDataFetcher pholioDataFetcher)
     {
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
-        private const int MAXNUMBERGPS = 5;
+        private const int MAXNUMBERGPS = 4;
+        private const string PERSONS = "Persons";
 
         public async Task<List<string>> CreateAreaDataAsync()
         {
@@ -52,7 +53,7 @@ namespace DataCreator
                 cleanedAreas.Add(area);
             }
 
-
+            
             DataFileManager.WriteJsonData("areas", cleanedAreas);
 
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
@@ -72,7 +73,7 @@ namespace DataCreator
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
-
+       
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {
@@ -88,6 +89,9 @@ namespace DataCreator
                     indicator.LatestDataPeriod = match.LatestDataPeriod;
                     indicator.EarliestDataPeriod = match.EarliestDataPeriod;
                     indicator.HasInequalities = match.HasInequalities;
+                    indicator.HasMultipleAges = match.HasMultipleAges;
+                    indicator.HasMultipleSexes = match.HasMultipleSexes;
+                    indicator.HasMultipleDeprivation = match.HasMultipleDeprivation;
                 }
 
                 indicator.UsedInPoc = pocIndicators.Select(i => i.IndicatorID).Contains(indicator.IndicatorID);
@@ -100,7 +104,6 @@ namespace DataCreator
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
                 }
-
             }
             AddLastUpdatedDate(indicators);
             var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
@@ -135,22 +138,47 @@ namespace DataCreator
             AddSexIds(healthMeasures);
             CreateCategoryData(healthMeasures);
 
-            var indicatorWithAreasAndLatestUpdates = healthMeasures
-                .GroupBy(measure => measure.IndicatorId)
+            var indicatorWithAreasAndLatestUpdates = healthMeasures.GroupBy(measure => measure.IndicatorId)
                 .Select(group => new IndicatorWithAreasAndLatestUpdate
                 {
                     IndicatorID = group.Key,
-                    AssociatedAreaCodes = group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod = group.OrderByDescending(g => g.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
-                    HasInequalities = group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty(d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    AssociatedAreaCodes = group.Select(healthMeasureEntity => healthMeasureEntity.AreaCode).Distinct().ToList(),
+                    LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    HasInequalities = group.Any(healthMeasureEntity => healthMeasureEntity.Sex != PERSONS || !string.IsNullOrEmpty(healthMeasureEntity.CategoryType)), //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    HasMultipleSexes= group.Select(healthMeasureEntity=> healthMeasureEntity.Sex).Distinct().Count() > 1,
+                    HasMultipleAges= group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
+                    HasMultipleDeprivation= group.Select(healthMeasureEntity => healthMeasureEntity.CategoryType).Distinct().Count() > 1
                 })
                 .ToList();
-
+            SetAggregateFlags(indicatorWithAreasAndLatestUpdates, healthMeasures);
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
             return indicatorWithAreasAndLatestUpdates;
+        }
+
+        private static void SetAggregateFlags(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<HealthMeasureEntity> healthMeasures)
+        {
+            foreach (var healthMeasure in healthMeasures) 
+            {
+                var matchingIndicator = indicatorWithAreasAndLatestUpdates.First(x => x.IndicatorID == healthMeasure.IndicatorId);
+
+                if (!matchingIndicator.HasMultipleSexes) //the associated indicator only has 1 sex value
+                    healthMeasure.IsSexAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 sex, the health measure could be for 'Persons', 'Male' or 'Female'. If it is 'Persons' set the flag to true, otherwise false
+                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex== PERSONS;
+
+                if (!matchingIndicator.HasMultipleAges) //the associated indicator only has 1 age value
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 age, the health measure could be for 'All ages', or others. If it is 'All ages' set the flag to true, otherwise false
+                    healthMeasure.IsAgeAggregatedOrSingle = healthMeasure.Age == "All ages";
+
+                if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
+                    healthMeasure.IsDeprivationAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 deprivation, the health measure could be for 'All', or others. If it is 'All' set the flag to true, otherwise false
+                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "All";
+            }
         }
 
         private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
@@ -225,7 +253,7 @@ namespace DataCreator
                     case "Female":
                         healthMeasure.SexID = 2;
                         break;
-                    case "Persons":
+                    case PERSONS:
                         healthMeasure.SexID = 4;
                         break;
                 }
