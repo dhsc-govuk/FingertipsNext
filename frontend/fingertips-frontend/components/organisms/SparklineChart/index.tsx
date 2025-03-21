@@ -8,19 +8,30 @@ interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
   errorBarValues: (number | undefined)[];
-  showConfidenceIntervalsData?: string[];
+  showErrorBars?: boolean;
 }
 export function SparklineChart({
   value,
   maxValue,
   errorBarValues,
+  showErrorBars
 }: Readonly<SparklineChartProps>) {
-  console.log('SparklineChart', errorBarValues);
   
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
     await import('highcharts/highcharts-more').then(callback);
   };
+  console.log('showerrorbars', showErrorBars);
+  
+  const series: Highcharts.SeriesOptionsType[] = [
+    { type: 'bar', data: [value] }
+  ];
+  
+  if(showErrorBars) {
+    series.push({
+      type: 'errorbar', data: [errorBarValues]
+    })
+  }
 
   const sparklineOptions: Highcharts.Options = {
     credits: {
@@ -31,7 +42,6 @@ export function SparklineChart({
       height: 60,
       width: 200,
       backgroundColor: 'transparent',
-      // padding: '50',
     },
     title: {
       style: {
@@ -40,7 +50,7 @@ export function SparklineChart({
     },
     yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [value] }, {type: 'errorbar', data: [errorBarValues]}],
+    series: series,
     accessibility: {
       enabled: false,
     },

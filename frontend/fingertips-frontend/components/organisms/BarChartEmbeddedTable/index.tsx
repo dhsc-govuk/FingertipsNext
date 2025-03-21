@@ -9,9 +9,10 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
-import React from 'react';
+import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
+import { set } from 'zod';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -28,7 +29,7 @@ interface BarChartEmbeddedTableProps {
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
-  showConfidenceIntervalsData?: string[];
+ // showConfidenceIntervalsData?: string[];
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
@@ -46,8 +47,7 @@ export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
   groupIndicatorData,
-  measurementUnit,
-                                        showConfidenceIntervalsData
+  measurementUnit, 
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -88,11 +88,15 @@ export function BarChartEmbeddedTable({
   );
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
-const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
+
+ // const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
+  
+  const [showErrorBars, setShowErrorBars,] = useState(false)
+  // setShowErrorBars((prevState) => !prevState);
   
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
-      <ConfidenceIntervalCheckbox chartName={chartName} showConfidenceIntervalsData={barChartEmbeddedTableCI} />
+      <ConfidenceIntervalCheckbox chartName={chartName} showConfidenceIntervalsData={showErrorBars} setShowConfidenceInterval={setShowErrorBars} />
       <Table
         head={
           <React.Fragment>
@@ -147,6 +151,7 @@ const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci ===
                 value={[mostRecentBenchmarkData.value]}
                 maxValue={maxValue}
                 errorBarValues={[mostRecentBenchmarkData.lowerCi, mostRecentBenchmarkData.upperCi]}
+                showErrorBars={showErrorBars}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -172,6 +177,7 @@ const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci ===
                 value={[mostRecentGroupData.value]}
                 maxValue={maxValue}
                 errorBarValues={[mostRecentGroupData.lowerCi, mostRecentGroupData.upperCi ]}
+                showErrorBars={showErrorBars}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -190,7 +196,7 @@ const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci ===
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
               <SparklineChart value={[item.value]} maxValue={maxValue}
-              errorBarValues={[item.lowerCi, item.upperCi]}/>
+              errorBarValues={[item.lowerCi, item.upperCi]} showErrorBars={showErrorBars}/>
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
             <CheckValueInTableCell value={item.upperCi} />

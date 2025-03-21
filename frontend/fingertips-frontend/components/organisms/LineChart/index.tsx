@@ -41,6 +41,7 @@ export function LineChart({
   searchState,
   groupIndicatorData,
   measurementUnit,
+  
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -129,8 +130,9 @@ export function LineChart({
     <div data-testid="lineChart-component">
       <ConfidenceIntervalCheckbox
         chartName={chartName}
-        showConfidenceIntervalsData={lineChartCI}
-        searchState={searchState}
+        showConfidenceIntervalsData={lineChartCI} 
+        // searchState={searchState}
+        // setShowConfidenceInterval={}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{
