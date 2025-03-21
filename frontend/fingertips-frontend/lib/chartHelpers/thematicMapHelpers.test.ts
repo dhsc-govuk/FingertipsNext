@@ -94,5 +94,5 @@ describe('getMapData', () => {
 
 describe('prepareThematicMapSeriesData', () => {
   it.todo('should return the expected series data, including colour');
-  it.todo('should return the most reccent year');
+  it.todo('should return the most recent year');
 });
