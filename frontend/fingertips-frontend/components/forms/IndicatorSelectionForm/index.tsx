@@ -124,7 +124,7 @@ export function IndicatorSelectionForm({
       {searchResults.length ? (
         <>
           <Checkbox
-            id="select-all-checkbox"
+            data-testid="select-all-checkbox"
             defaultChecked={isAllIndicatorsSelected}
             onChange={(e) => handleSelectAll(e.target.checked)}
           >
