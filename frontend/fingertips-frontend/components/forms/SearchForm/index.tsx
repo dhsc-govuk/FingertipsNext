@@ -84,7 +84,7 @@ export const SearchForm = ({
           searchState={searchState}
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
-          inFilterPane={false}
+          isFullWidth={false}
         />
       ) : null}
 
