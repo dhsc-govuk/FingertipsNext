@@ -21,7 +21,7 @@ public class BenchmarkComparison
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public BenchmarkComparisonMethod Method { get; init; } = BenchmarkComparisonMethod.None;
 
-    // <summary>
+    /// <summary>
     /// The indicator polarity eg HighIsGood
     /// </summary>
     [JsonPropertyName("indicatorPolarity")]

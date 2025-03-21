@@ -26,7 +26,13 @@ public class IndicatorControllerTests
                     UpperConfidenceInterval = 2.2222f,
                     AgeBand = "Sample Age Band",
                     Sex = "Sample Sex",
-                    Trend = "Sample Trend"
+                    Trend = "Sample Trend",
+                    Deprivation = new Deprivation
+                    {
+                        Sequence = 1,
+                        Value = "Most deprived decile",
+                        Type = "County & UA deprivation deciles in England",
+                    }
                 }
             ]
         }

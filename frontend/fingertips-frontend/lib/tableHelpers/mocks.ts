@@ -1,6 +1,10 @@
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '../mocks';
 
-export const MOCK_ENGLAND_DATA = {
+export const MOCK_ENGLAND_DATA: HealthDataForArea = {
   areaCode: 'E92000001',
   areaName: 'England',
   healthData: [
@@ -13,6 +17,7 @@ export const MOCK_ENGLAND_DATA = {
       ageBand: '0-4',
       sex: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       year: 2008,
@@ -23,11 +28,12 @@ export const MOCK_ENGLAND_DATA = {
       ageBand: '10-14',
       sex: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
   ],
 };
 
-export const MOCK_HEALTH_DATA = [
+export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     areaName: 'Greater Manchester ICB - 00T',
@@ -41,6 +47,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2004,
@@ -51,6 +58,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2004,
@@ -61,6 +69,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'Male',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2004,
@@ -71,6 +80,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'Female',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -87,6 +97,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2008,
@@ -97,6 +108,7 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'Male',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2008,
@@ -107,12 +119,13 @@ export const MOCK_HEALTH_DATA = [
         ageBand: 'All',
         sex: 'Female',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
 ];
 
-export const MOCK_PARENT_DATA = {
+export const MOCK_PARENT_DATA: HealthDataForArea = {
   areaCode: 'E40000014',
   areaName: 'NHS North West Region',
   healthData: [
@@ -125,6 +138,7 @@ export const MOCK_PARENT_DATA = {
       ageBand: 'All',
       sex: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       year: 2004,
@@ -135,6 +149,7 @@ export const MOCK_PARENT_DATA = {
       ageBand: 'All',
       sex: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
   ],
 };
@@ -152,7 +167,7 @@ export const GROUPED_YEAR_DATA = {
   },
 };
 
-export const MOCK_HEALTH_DATA_WITH_TRENDS = [
+export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
   {
     areaCode: '1472',
     areaName: 'Manchester - Counties and Unitary Authorities',
@@ -166,6 +181,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2022,
@@ -176,6 +192,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2023,
@@ -186,6 +203,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2024,
@@ -196,6 +214,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NoSignificantChange,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -212,6 +231,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2022,
@@ -222,6 +242,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2023,
@@ -232,6 +253,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2024,
@@ -242,6 +264,7 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS = [
         ageBand: 'All',
         sex: 'Persons',
         trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
+        deprivation: noDeprivation,
       },
     ],
   },

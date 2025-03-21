@@ -1,9 +1,13 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import { generateSeriesData } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
 
-const mockData = [
+const mockData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     areaName: 'North FooBar',
@@ -17,6 +21,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         count: 267,
@@ -27,6 +32,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -43,6 +49,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         count: 567,
@@ -53,6 +60,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -69,6 +77,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         count: 567,
@@ -79,6 +88,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -182,7 +192,7 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with benchmark data', () => {
-    const mockBenchmarkData = {
+    const mockBenchmarkData: HealthDataForArea = {
       areaCode: 'E92000001',
       areaName: 'England',
       healthData: [
@@ -195,6 +205,7 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           count: 267,
@@ -205,6 +216,7 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     };
@@ -309,7 +321,7 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockBenchmarkData = {
+    const mockBenchmarkData: HealthDataForArea = {
       areaCode: 'E92000001',
       areaName: 'England',
       healthData: [
@@ -322,6 +334,7 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           count: 267,
@@ -332,11 +345,12 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     };
 
-    const mockParentData = {
+    const mockParentData: HealthDataForArea = {
       areaCode: 'P001',
       areaName: 'Parent',
       healthData: [
@@ -349,6 +363,7 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           count: 101,
@@ -359,6 +374,7 @@ describe('generateSeriesData', () => {
           sex: 'Persons',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     };
