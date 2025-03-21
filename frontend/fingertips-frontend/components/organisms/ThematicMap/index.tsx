@@ -48,7 +48,7 @@ export function ThematicMap({
       borderColor: 'black',
     },
     title: { text: undefined },
-    caption: { text: captionText },
+    // caption: { text: captionText },
     accessibility: { enabled: false },
     credits: { enabled: false },
     legend: {
