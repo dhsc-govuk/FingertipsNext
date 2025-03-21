@@ -33,13 +33,15 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    public async Task<IndicatorWithHealthDataForArea> GetIndicatorDataAsync(
+    public async Task<IndicatorWithHealthDataForArea?> GetIndicatorDataAsync(
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId );
+        if (indicatorData == null) return null;
+        
         var method = BenchmarkComparisonMethodConvertor.Convert(indicatorData.BenchmarkComparisonMethod);
         var polarity = IndicatorPolarityConvertor.Convert(indicatorData.Polarity);
         var confidenceLevel =
