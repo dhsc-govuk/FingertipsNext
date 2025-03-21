@@ -7,6 +7,7 @@ import {
   sortHealthDataForAreaByDate,
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 // TODO - export less
 
@@ -17,11 +18,22 @@ export interface IndicatorData {
   unitLabel: string;
 }
 
-type chartItem = {
+type tableRow = {
+  key: string;
+  cols: tableCol[];
+};
+
+type tableCol = {
+  key: string;
+  content: string;
+  backgroundColour?: string; // not yet implemented
+};
+
+type chartLabelItem = {
   x: number;
   y: number;
-
-  dataPoint?: DataPoint;
+  value?: undefined;
+  name: string | undefined;
 };
 
 export type area = {
@@ -35,6 +47,7 @@ export type indicator = {
   position?: number;
   name: string;
   unitLabel: string;
+  latestDataPeriod: number;
 };
 
 export interface DataPoint {
@@ -43,36 +56,73 @@ export interface DataPoint {
   indicatorId: string;
 }
 
-export const generateChartItems = (
+export const generateAreasIndicatorsAndTableRows = (
   indicatorDataForAllAreas: IndicatorData[],
   groupAreaCode?: string
-) => {
+): { areas: area[]; indicators: indicator[]; tableRows: tableRow[] } => {
   const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
     indicatorDataForAllAreas
   );
 
   // sort indicators by A-Z
-  const indicatorsWithPosition = orderIndicatorsByName(indicators);
+  const { indicatorIds, indicators: indicatorsWithPosition } =
+    orderIndicatorsByName(indicators);
 
   const precedingAreas = [areaCodeForEngland];
   if (groupAreaCode) {
     precedingAreas.push(groupAreaCode);
   }
-  const areasWithPosition = orderAreaByNameWithSomeCodesInFront(
-    areas,
-    precedingAreas
-  );
+  const { areaCodes, areas: areasWithPosition } =
+    orderAreaByNameWithSomeCodesInFront(areas, precedingAreas);
 
-  const chartItems: chartItem[] = [];
-  dataPoints.map((dataPoint) => {
-    chartItems.push({
-      x: areasWithPosition[dataPoint.areaCode].position!,
-      y: indicatorsWithPosition[dataPoint.indicatorId].position!,
-      dataPoint: dataPoint,
-    });
+  const sortedAreas: area[] = areaCodes.map((areaCode) => {
+    return areas[areaCode];
   });
 
-  return chartItems;
+  const sortedIndicators: indicator[] = indicatorIds.map((indicatorId) => {
+    return indicators[indicatorId];
+  });
+
+  const tableRows = new Array<tableRow>(sortedIndicators.length);
+  sortedIndicators.map((indicator, indicatorIndex) => {
+    const leadingCols: tableCol[] = [
+      {
+        key: 'col-' + indicator.id + 'name',
+        content: indicator.name,
+      },
+      {
+        key: 'col-' + indicator.id + 'unitLabel',
+        content: indicator.unitLabel,
+      },
+      {
+        key: 'col-' + indicator.id + 'period',
+        content: indicator.latestDataPeriod.toString(),
+      },
+    ];
+
+    const cols = new Array<tableCol>(sortedAreas.length + leadingCols.length);
+
+    leadingCols.map((col, index) => {
+      cols[index] = col;
+    });
+
+    sortedAreas.map((area, areaIndex) => {
+      cols[areaIndex + leadingCols.length] = {
+        key: 'col-' + indicator.id + '-' + area.code,
+        content: 'TODO',
+      };
+    });
+    tableRows[indicatorIndex] = { key: 'row-' + indicator.id, cols: cols };
+  });
+
+  // TODO DELETEME
+  console.log(tableRows);
+
+  return {
+    areas: sortedAreas,
+    indicators: sortedIndicators,
+    tableRows: tableRows,
+  };
 };
 
 export const extractAreasIndicatorsAndDataPoints = (
@@ -92,6 +142,7 @@ export const extractAreasIndicatorsAndDataPoints = (
         id: indicatorData.indicatorId,
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
+        latestDataPeriod: 0,
       };
     }
 
@@ -131,6 +182,8 @@ export const extractAreasIndicatorsAndDataPoints = (
         indicatorId: indicatorData.indicatorId,
       });
     });
+
+    indicators[indicatorData.indicatorId].latestDataPeriod = latestDataPeriod;
   });
 
   return { areas: areas, indicators: indicators, dataPoints: dataPoints };
@@ -138,7 +191,7 @@ export const extractAreasIndicatorsAndDataPoints = (
 
 export const orderIndicatorsByName = (
   indicators: Record<string, indicator>
-): Record<string, indicator> => {
+): { indicatorIds: string[]; indicators: Record<string, indicator> } => {
   const indicatorIds: string[] = [];
   for (let indicatorId in indicators) {
     indicatorIds.push(indicatorId);
@@ -155,14 +208,14 @@ export const orderIndicatorsByName = (
     };
   });
 
-  return indicators;
+  return { indicatorIds, indicators };
 };
 
 // TODO - give this a better name
 export const orderAreaByNameWithSomeCodesInFront = (
   areas: Record<string, area>,
   precedingCodes: string[]
-): Record<string, area> => {
+): { areaCodes: string[]; areas: Record<string, area> } => {
   const areaCodes: string[] = [];
   for (let areaCode in areas) {
     if (
@@ -186,5 +239,5 @@ export const orderAreaByNameWithSomeCodesInFront = (
     };
   });
 
-  return areas;
+  return { areaCodes, areas };
 };

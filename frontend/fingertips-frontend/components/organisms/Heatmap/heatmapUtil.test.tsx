@@ -28,8 +28,18 @@ describe('extract areas, indicators, and data points', () => {
 
   // one test to rule them all etc
   // this is a bit of a bodge
-  const indicator1: indicator = { id: 'indicator1', name: '', unitLabel: '' };
-  const indicator2: indicator = { id: 'indicator2', name: '', unitLabel: '' };
+  const indicator1: indicator = {
+    id: 'indicator1',
+    name: 'Rate of walkers tripping over sheep',
+    unitLabel: 'per 100',
+    latestDataPeriod: 1066,
+  };
+  const indicator2: indicator = {
+    id: 'indicator2',
+    name: 'Donkey / Goose ratio',
+    unitLabel: '%',
+    latestDataPeriod: 1812,
+  };
 
   const area1: area = { code: 'area1', name: '' };
   const area2: area = { code: 'area2', name: '' };
@@ -171,20 +181,25 @@ describe('order indicators by name', () => {
         id: '1',
         name: 'Maurice M. Mouse',
         unitLabel: '',
+        latestDataPeriod: 1,
       },
       '2': {
         id: '2',
         name: 'Aaron A. Aadvark',
         unitLabel: '',
+        latestDataPeriod: 1,
       },
       '3': {
         id: '3',
         name: 'Zara Z. Zebra',
         unitLabel: '',
+        latestDataPeriod: 1,
       },
     };
-    const indicatorsWithPositions = orderIndicatorsByName(initialIndicators);
+    const { indicatorIds, indicators: indicatorsWithPositions } =
+      orderIndicatorsByName(initialIndicators);
 
+    expect(indicatorIds).toEqual(['2', '1', '3']);
     expect(indicatorsWithPositions['1'].position).toEqual(1);
     expect(indicatorsWithPositions['2'].position).toEqual(0);
     expect(indicatorsWithPositions['3'].position).toEqual(2);
@@ -200,15 +215,14 @@ describe('order areas by name', () => {
       '4': { code: '4', name: 'West Foobar' },
     };
 
-    const areasWithPositions = orderAreaByNameWithSomeCodesInFront(
-      initialAreas,
-      []
-    );
+    const { areaCodes, areas: areasWithPosition } =
+      orderAreaByNameWithSomeCodesInFront(initialAreas, []);
 
-    expect(areasWithPositions['1'].position).toEqual(1);
-    expect(areasWithPositions['2'].position).toEqual(2);
-    expect(areasWithPositions['3'].position).toEqual(0);
-    expect(areasWithPositions['4'].position).toEqual(3);
+    expect(areaCodes).toEqual(['3', '1', '2', '4']);
+    expect(areasWithPosition['1'].position).toEqual(1);
+    expect(areasWithPosition['2'].position).toEqual(2);
+    expect(areasWithPosition['3'].position).toEqual(0);
+    expect(areasWithPosition['4'].position).toEqual(3);
   });
 
   it('should precede the main list with given areas', () => {
@@ -219,14 +233,13 @@ describe('order areas by name', () => {
       '4': { code: '4', name: 'West Foobar' },
     };
 
-    const areasWithPositions = orderAreaByNameWithSomeCodesInFront(
-      initialAreas,
-      ['4']
-    );
+    const { areaCodes, areas: areasWithPosition } =
+      orderAreaByNameWithSomeCodesInFront(initialAreas, ['4']);
 
-    expect(areasWithPositions['1'].position).toEqual(2);
-    expect(areasWithPositions['2'].position).toEqual(3);
-    expect(areasWithPositions['3'].position).toEqual(1);
-    expect(areasWithPositions['4'].position).toEqual(0);
+    expect(areaCodes).toEqual(['4', '3', '1', '2']);
+    expect(areasWithPosition['1'].position).toEqual(2);
+    expect(areasWithPosition['2'].position).toEqual(3);
+    expect(areasWithPosition['3'].position).toEqual(1);
+    expect(areasWithPosition['4'].position).toEqual(0);
   });
 });
