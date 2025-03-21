@@ -14,7 +14,7 @@ import {
   generateSeriesData,
   lineChartDefaultOptions,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -24,7 +24,6 @@ interface LineChartProps {
   yAxisTitle?: string;
   accessibilityLabel?: string;
   benchmarkData?: HealthDataForArea;
-  showConfidenceIntervalsData?: string[];
   searchState: SearchStateParams;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
@@ -38,7 +37,6 @@ export function LineChart({
   yAxisTitle,
   accessibilityLabel,
   benchmarkData,
-  searchState,
   groupIndicatorData,
   measurementUnit,
 }: Readonly<LineChartProps>) {
@@ -47,12 +45,8 @@ export function LineChart({
     await import('highcharts/highcharts-more').then(callback);
   };
 
-  const {
-    [SearchParams.ConfidenceIntervalSelected]: confidenceIntervalSelected,
-  } = searchState;
-
-  const lineChartCI =
-    confidenceIntervalSelected?.some((ci) => ci === chartName) ?? false;
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState(false);
 
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
@@ -71,7 +65,7 @@ export function LineChart({
     chartColours,
     sortedBenchMarkData,
     sortedGroupData,
-    lineChartCI
+    showConfidenceIntervalsData
   );
 
   if (sortedBenchMarkData && sortedHealthIndicatorData.length === 0) {
@@ -81,7 +75,7 @@ export function LineChart({
       [GovukColours.DarkGrey],
       undefined,
       undefined,
-      lineChartCI
+      showConfidenceIntervalsData
     );
   }
   const lineChartOptions: Highcharts.Options = {
@@ -119,7 +113,7 @@ export function LineChart({
       setOptions(lineChartOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [confidenceIntervalSelected]);
+  }, [showConfidenceIntervalsData]);
 
   if (!options) {
     return null;
@@ -129,9 +123,8 @@ export function LineChart({
     <div data-testid="lineChart-component">
       <ConfidenceIntervalCheckbox
         chartName={chartName}
-        showConfidenceIntervalsData={lineChartCI}
-        // searchState={searchState}
-        // setShowConfidenceInterval={}
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{

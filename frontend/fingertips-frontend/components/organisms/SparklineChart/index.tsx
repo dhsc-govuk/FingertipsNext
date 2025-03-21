@@ -77,6 +77,10 @@ export function SparklineChart({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showConfidenceIntervalsData]);
 
+  if (!options) {
+    return null;
+  };
+
   return (
     <HighchartsReact
       containerProps={{
