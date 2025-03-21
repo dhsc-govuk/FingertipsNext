@@ -8,13 +8,16 @@ public enum IndicatorPolarity
     HighIsGood
 }
 
-public class IndicatorPolarityConvertor
+public static class IndicatorPolarityConvertor
 {
     public static IndicatorPolarity Convert(string polarityFromDb)
     {
-        if(polarityFromDb.Contains("High", StringComparison.OrdinalIgnoreCase)) return IndicatorPolarity.HighIsGood;
-        if(polarityFromDb.Contains("Low", StringComparison.OrdinalIgnoreCase)) return IndicatorPolarity.LowIsGood;
-        if(polarityFromDb.Contains("Judgement", StringComparison.OrdinalIgnoreCase)) return IndicatorPolarity.NoJudgement;
-        return IndicatorPolarity.Unknown;
+        return polarityFromDb switch
+        {
+            "High is good" => IndicatorPolarity.HighIsGood,
+            "Low is good" => IndicatorPolarity.LowIsGood,
+            "No judgement" => IndicatorPolarity.NoJudgement,
+            _ => IndicatorPolarity.Unknown
+        };
     }
 }

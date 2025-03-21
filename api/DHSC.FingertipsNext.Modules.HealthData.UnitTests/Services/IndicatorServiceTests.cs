@@ -42,14 +42,14 @@ public class IndicatorServiceTests
         new List<object[]>
         {
             new object[] { 1, 2, 3, "High is good", BenchmarkOutcome.Worse },
-            new object[] { 4, 6, 5, "with high", BenchmarkOutcome.Similar },
-            new object[] { 9, 8, 7, "ci hIgH", BenchmarkOutcome.Better },
+            new object[] { 4, 6, 5, "High is good", BenchmarkOutcome.Similar },
+            new object[] { 9, 8, 7, "High is good", BenchmarkOutcome.Better },
             new object[] { 1, 2, 3, "Low is good", BenchmarkOutcome.Better },
-            new object[] { 4, 6, 5, "with low", BenchmarkOutcome.Similar },
-            new object[] { 9, 8, 7, "ci LoW", BenchmarkOutcome.Worse },
+            new object[] { 4, 6, 5, "Low is good", BenchmarkOutcome.Similar },
+            new object[] { 9, 8, 7, "Low is good", BenchmarkOutcome.Worse },
             new object[] { 1, 2, 3, "No Judgement", BenchmarkOutcome.Lower },
-            new object[] { 4, 6, 5, "withJudgementInIt", BenchmarkOutcome.Similar },
-            new object[] { 9, 8, 7, "ci JuDgEmEnT", BenchmarkOutcome.Higher }
+            new object[] { 4, 6, 5, "No Judgement", BenchmarkOutcome.Similar },
+            new object[] { 9, 8, 7, "No Judgement", BenchmarkOutcome.Higher }
         };
 
     public static IEnumerable<object[]> BenchmarkMissingValues => new List<object[]>
@@ -429,11 +429,11 @@ public class IndicatorServiceTests
     
     public static IEnumerable<object[]> IndicatorTestData => new List<object[]>
     {
-        new object[] { "Foo", "high", IndicatorPolarity.HighIsGood, "confidence intervals (95)", BenchmarkComparisonMethod.Rag, 95f  },
-        new object[] { "Bar", "low", IndicatorPolarity.LowIsGood, "confidence intervals (98.9)", BenchmarkComparisonMethod.Rag, 98.9f  },
-        new object[] { "Bar", "judgement", IndicatorPolarity.NoJudgement, "confidence intervals (98.9)", BenchmarkComparisonMethod.Rag, 98.9f  },
+        new object[] { "Foo", "High is good", IndicatorPolarity.HighIsGood, "confidence intervals (95)", BenchmarkComparisonMethod.Rag, 95f  },
+        new object[] { "Bar", "Low is good", IndicatorPolarity.LowIsGood, "confidence intervals (98.9)", BenchmarkComparisonMethod.Rag, 98.9f  },
+        new object[] { "Bar", "No judgement", IndicatorPolarity.NoJudgement, "confidence intervals (98.9)", BenchmarkComparisonMethod.Rag, 98.9f  },
         new object[] { "Bar", "", IndicatorPolarity.Unknown, "", BenchmarkComparisonMethod.Unknown, 0f  },
-        new object[] { "Foo", "high", IndicatorPolarity.HighIsGood, "confidence intervals (95)", BenchmarkComparisonMethod.Rag, 95f  },
+        new object[] { "Foo", "High is good", IndicatorPolarity.HighIsGood, "confidence intervals (95)", BenchmarkComparisonMethod.Rag, 95f  },
         new object[] { "Foo", "", IndicatorPolarity.Unknown, "quintiles", BenchmarkComparisonMethod.Quintiles, 0f  },
     };
     
