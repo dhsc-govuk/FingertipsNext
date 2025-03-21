@@ -117,7 +117,6 @@ BEGIN
     )
     SELECT
 		*,
-		'Quintile' as BenchmarkComparisonMethod,
 		'E92000001' as BenchmarkComparisonAreaCode,
 		'England' as BenchmarkComparisonAreaName,
 		ioi.Polarity as BenchmarkComparisonIndicatorPolarity,

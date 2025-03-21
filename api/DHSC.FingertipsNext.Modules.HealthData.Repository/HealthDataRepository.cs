@@ -76,6 +76,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 ? true 
                 : hm.DeprivationDimension.HasValue == false)
             .OrderBy(hm => hm.Year)
+            .ThenBy(hm => hm.SexDimension.Name)
             .Include(hm => hm.AreaDimension)
             .Include(hm => hm.AgeDimension)
             .Include(hm => hm.SexDimension)
@@ -162,8 +163,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
               EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @AreasOfInterest={areasOfInterest}, @AreaTypeOfInterest={areaTypeOfInterest}, @YearsOfInterest={yearsOfInterest}, @IndicatorId={indicatorId}
               """
             ).ToListAsync();
-
-        var healthData = denormalisedHealthData.Select(healthData => healthData.Normalise()).ToList();
 
         return [.. denormalisedHealthData
             .Select(a => a.Normalise())

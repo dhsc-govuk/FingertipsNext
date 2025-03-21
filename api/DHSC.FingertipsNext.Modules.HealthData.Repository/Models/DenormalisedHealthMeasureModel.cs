@@ -67,6 +67,7 @@ public class DenormalisedHealthMeasureModel
                 BenchmarkAreaCode = BenchmarkComparisonAreaCode,
                 BenchmarkAreaName = BenchmarkComparisonAreaName,    
             },
+            IsAggregate = true
         };
     }
 }

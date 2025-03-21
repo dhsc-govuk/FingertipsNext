@@ -16,9 +16,22 @@ public class AutoMapperProfiles : Profile
             _ => throw new ArgumentException(message: $"invalid IndicatorPolarity value {DbIndicatorPolarity}")
         };
     }
+    private static BenchmarkComparisonMethod MapBenchmarkMethod(string DbBenchmarkComparisonMethod)
+    {
+        return DbBenchmarkComparisonMethod switch
+        {
+            "Confidence intervals overlapping reference value (95.0)" => BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+            "Confidence intervals overlapping reference value (99.8)" => BenchmarkComparisonMethod.CIOverlappingReferenceValue99,
+            "Quintiles" => BenchmarkComparisonMethod.Quintiles,
+            "No comparison" => BenchmarkComparisonMethod.None,
+            _ => throw new ArgumentException(message: $"invalid BenchmarkComparisonMethod value {DbBenchmarkComparisonMethod}")
+        };
+    }
     public AutoMapperProfiles()
     {
         CreateMap<string, IndicatorPolarity>().ConstructUsing((strValue) => AutoMapperProfiles.MapIndicatorPolarity(strValue));
+
+        CreateMap<string, BenchmarkComparisonMethod>().ConstructUsing((strValue) => AutoMapperProfiles.MapBenchmarkMethod(strValue));
 
         CreateMap<BenchmarkComparisonModel, BenchmarkComparison>()
             .ForMember(dest => dest.Outcome, options => options.MapFrom(src => src.Outcome))

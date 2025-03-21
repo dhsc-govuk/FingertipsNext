@@ -4,5 +4,7 @@ public enum BenchmarkComparisonMethod
 {
     None,
     Rag,
-    Quintile
+    Quintiles,
+    CIOverlappingReferenceValue95,
+    CIOverlappingReferenceValue99
 }

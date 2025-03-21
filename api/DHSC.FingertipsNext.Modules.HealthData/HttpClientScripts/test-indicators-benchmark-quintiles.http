@@ -1,10 +1,10 @@
-﻿
-### check GET health data with rag comparison
 
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag
+### check GET health data with quintile comparison
+
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_method=Quintiles&area_type=gps
 
 > {%
-    const expected = require ('./test-indicators-benchmark-rag_expected-response.json');
+    const expected = require ('./test-indicators-benchmark-quintiles-response.json');
 
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
@@ -16,7 +16,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_
 ###
 
 ### GET health data with rag and sex inequalities
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag&inequalities=sex
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=quintile
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');

@@ -61,7 +61,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
         var hasBenchmarkDataBeenRequested = comparisonMethod == BenchmarkComparisonMethod.Rag;
 
-        if (comparisonMethod == BenchmarkComparisonMethod.Quintile)
+        if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
             // get the data from the database
             healthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
