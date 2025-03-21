@@ -16,6 +16,7 @@ import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -30,12 +31,15 @@ function shouldLineChartBeShown(
     (englandBenchmarkData && englandBenchmarkData.healthData.length > 1)
   );
 }
-
+interface OneIndicatorOneAreaViewPlotsProps extends ViewPlotProps {
+  populationHealthDataForArea?: HealthDataForArea[];
+}
 export function OneIndicatorOneAreaViewPlots({
+  populationHealthDataForArea,
   healthIndicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+}: Readonly<OneIndicatorOneAreaViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -141,6 +145,13 @@ export function OneIndicatorOneAreaViewPlots({
         }
         searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
+      />
+
+      <PopulationPyramidWithTable
+        healthDataForAreas={populationHealthDataForArea ?? []}
+        selectedGroupAreaCode={selectedGroupCode}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage"
       />
     </section>
   );

@@ -1,24 +1,15 @@
-import { Chart } from '@/components/pages/chart';
 import { connection } from 'next/server';
-import {
-  PopulationData,
-  preparePopulationData,
-} from '@/lib/chartHelpers/preparePopulationData';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
 
-import {
-  areaCodeForEngland,
-  indicatorIdForPopulation,
-} from '@/lib/chartHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
@@ -38,33 +29,6 @@ export default async function ChartPage(
 
     // We don't want to render this page statically
     await connection();
-
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-    let rawPopulationData: HealthDataForArea[] | undefined;
-    try {
-      rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: indicatorIdForPopulation,
-          areaCodes: [...areasSelected, areaCodeForEngland],
-          inequalities: ['age', 'sex'],
-        },
-        API_CACHE_CONFIG
-      );
-    } catch (error) {
-      console.log('error getting population data ', error);
-    }
-
-    // Passing the first two areas selected until business logic to select baseline comparator for pop pyramids is added
-    const preparedPopulationData: PopulationData | undefined = rawPopulationData
-      ? preparePopulationData(
-          rawPopulationData,
-          areasSelected[0],
-          areasSelected[1]
-        )
-      : undefined;
-
-    // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
 
     // set England as areas if all other areas are removed
@@ -112,7 +76,6 @@ export default async function ChartPage(
             availableAreas,
           }}
         />
-        <Chart populationData={preparedPopulationData} />
       </>
     );
   } catch (error) {
