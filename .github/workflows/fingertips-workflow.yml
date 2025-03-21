@@ -411,7 +411,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: indicators-for-search
-          path: SearchData/assets/indicators.json
+          path: ./SearchData/assets/indicators.json
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev, run-trend-analysis-dev]
