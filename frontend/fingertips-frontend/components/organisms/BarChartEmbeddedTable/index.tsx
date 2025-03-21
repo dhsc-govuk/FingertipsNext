@@ -12,7 +12,6 @@ import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableC
 import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
-import { set } from 'zod';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -29,7 +28,6 @@ interface BarChartEmbeddedTableProps {
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
- // showConfidenceIntervalsData?: string[];
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
@@ -47,7 +45,7 @@ export function BarChartEmbeddedTable({
   healthIndicatorData,
   benchmarkData,
   groupIndicatorData,
-  measurementUnit, 
+  measurementUnit,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -89,14 +87,16 @@ export function BarChartEmbeddedTable({
 
   const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
 
- // const barChartEmbeddedTableCI = showConfidenceIntervalsData?.some((ci) => ci === chartName) ?? false;
-  
-  const [showErrorBars, setShowErrorBars,] = useState(false)
-  // setShowErrorBars((prevState) => !prevState);
-  
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState(false);
+
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
-      <ConfidenceIntervalCheckbox chartName={chartName} showConfidenceIntervalsData={showErrorBars} setShowConfidenceInterval={setShowErrorBars} />
+      <ConfidenceIntervalCheckbox
+        chartName={chartName}
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+      />
       <Table
         head={
           <React.Fragment>
@@ -150,8 +150,11 @@ export function BarChartEmbeddedTable({
               <SparklineChart
                 value={[mostRecentBenchmarkData.value]}
                 maxValue={maxValue}
-                errorBarValues={[mostRecentBenchmarkData.lowerCi, mostRecentBenchmarkData.upperCi]}
-                showErrorBars={showErrorBars}
+                errorBarValues={[
+                  mostRecentBenchmarkData.lowerCi,
+                  mostRecentBenchmarkData.upperCi,
+                ]}
+                showConfidenceIntervalsData={showConfidenceIntervalsData}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -176,8 +179,11 @@ export function BarChartEmbeddedTable({
               <SparklineChart
                 value={[mostRecentGroupData.value]}
                 maxValue={maxValue}
-                errorBarValues={[mostRecentGroupData.lowerCi, mostRecentGroupData.upperCi ]}
-                showErrorBars={showErrorBars}
+                errorBarValues={[
+                  mostRecentGroupData.lowerCi,
+                  mostRecentGroupData.upperCi,
+                ]}
+                showConfidenceIntervalsData={showConfidenceIntervalsData}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -195,8 +201,12 @@ export function BarChartEmbeddedTable({
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
-              <SparklineChart value={[item.value]} maxValue={maxValue}
-              errorBarValues={[item.lowerCi, item.upperCi]} showErrorBars={showErrorBars}/>
+              <SparklineChart
+                value={[item.value]}
+                maxValue={maxValue}
+                errorBarValues={[item.lowerCi, item.upperCi]}
+                showConfidenceIntervalsData={showConfidenceIntervalsData}
+              />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
             <CheckValueInTableCell value={item.upperCi} />

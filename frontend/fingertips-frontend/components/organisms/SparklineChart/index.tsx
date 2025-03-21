@@ -8,29 +8,28 @@ interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
   errorBarValues: (number | undefined)[];
-  showErrorBars?: boolean;
+  showConfidenceIntervalsData: boolean;
 }
 export function SparklineChart({
   value,
   maxValue,
   errorBarValues,
-  showErrorBars
+  showConfidenceIntervalsData,
 }: Readonly<SparklineChartProps>) {
-  
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
     await import('highcharts/highcharts-more').then(callback);
   };
-  console.log('showerrorbars', showErrorBars);
-  
+
   const series: Highcharts.SeriesOptionsType[] = [
-    { type: 'bar', data: [value] }
+    { type: 'bar', data: [value] },
   ];
-  
-  if(showErrorBars) {
+
+  if (showConfidenceIntervalsData) {
     series.push({
-      type: 'errorbar', data: [errorBarValues]
-    })
+      type: 'errorbar',
+      data: [errorBarValues],
+    });
   }
 
   const sparklineOptions: Highcharts.Options = {
@@ -63,19 +62,20 @@ export function SparklineChart({
         borderWidth: 0,
       },
       column: {
-        pointPadding: 0.1
-      }
+        pointPadding: 0.1,
+      },
     },
     tooltip: {
       hideDelay: 0,
     },
   };
-  
+
   useEffect(() => {
     loadHighchartsModules(() => {
-    setOptions(sparklineOptions);
-    })
-  }, [])
+      setOptions(sparklineOptions);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showConfidenceIntervalsData]);
 
   return (
     <HighchartsReact

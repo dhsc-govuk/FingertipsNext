@@ -11,22 +11,21 @@ const StyledParagraph = styled(Paragraph)(
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
   showConfidenceIntervalsData: boolean;
-  setShowConfidenceInterval: (checked: boolean) => void
+  setShowConfidenceIntervalsData: (checked: boolean) => void;
 };
 
 export function ConfidenceIntervalCheckbox({
   chartName,
-  showConfidenceIntervalsData, setShowConfidenceInterval
+  showConfidenceIntervalsData,
+  setShowConfidenceIntervalsData,
 }: Readonly<ConfidenceIntervalCheckboxProps>) {
-  console.log('showConfidenceIntervalCheckbox', showConfidenceIntervalsData);
-
   return (
     <Checkbox
       id={`confidence-interval-checkbox-${chartName}`}
       data-testid={`confidence-interval-checkbox-${chartName}`}
       name="confidence-interval-checkbox"
       onChange={(e) => {
-        setShowConfidenceInterval(e.target.checked);
+        setShowConfidenceIntervalsData(e.target.checked);
       }}
       defaultChecked={showConfidenceIntervalsData}
       sizeVariant="SMALL"
