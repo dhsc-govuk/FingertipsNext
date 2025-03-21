@@ -11,8 +11,18 @@ export default class BasePage {
     await this.page.waitForURL(new RegExp(containsURL));
   }
 
-  async expectNoAccessibilityViolations(axeBuilder: AxeBuilder) {
-    expect((await axeBuilder.analyze()).violations).toEqual([]);
+  async expectNoAccessibilityViolations(
+    axeBuilder: AxeBuilder,
+    allowList: string[] = []
+  ): Promise<void> {
+    // Apply rule disabling if allowList is provided
+    if (allowList.length > 0) {
+      axeBuilder = axeBuilder.disableRules(allowList);
+    }
+
+    const results = await axeBuilder.analyze();
+
+    expect(results.violations).toEqual([]);
   }
 
   async navigateTo(page: string) {
