@@ -87,23 +87,23 @@ public class AutoMapperTests
         // Arrange
         var expectedDeprivation = new Deprivation
         {
-            Value = "Foo",
+            Value = "Most deprived decile",
             Sequence = 1,
-            Type = "Bar"
+            Type = "County & UA deprivation deciles in England"
         };
 
         var deprivationDimension = new DeprivationDimensionModel
         {
             DeprivationKey = 1,
-            Name = "Foo",
+            Name = "Most deprived decile",
             Sequence = 1,
-            Type = "Bar",
+            Type = "County & UA deprivation deciles in England",
             HasValue = true
         };
-        
+
         // Act
         var actual = _mapper.Map<Deprivation>(deprivationDimension);
-        
+
         // Assert
         actual.ShouldBeEquivalentTo(expectedDeprivation);
     }

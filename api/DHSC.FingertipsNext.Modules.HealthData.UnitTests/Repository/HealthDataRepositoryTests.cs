@@ -488,7 +488,7 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWithOnlySexDimensionData_IfSexInequalityIsSpecified()
     {
         // arrange
-       var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020, false)
+        var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020, false)
             .WithSexDimension(hasValue: true)
             .WithAgeDimension(hasValue: false)
             .WithIndicatorDimension(_indicatorDimension)
@@ -616,16 +616,16 @@ public class HealthDataRepositoryTests
     public async Task Repository_ShouldIncludeResultsWithAllInequalityData_IfAllAreSpecified()
     {
         // arrange
-        var personsSexDimension = new SexDimensionModel(){ SexKey = 0, Name = "Persons", HasValue = false};
-        var maleSexDimension = new SexDimensionModel(){ SexKey = 1, Name = "Male", HasValue = true};
-        
-        var allAgesDimension = new AgeDimensionModel(){ AgeKey = 0, Name = "All ages", HasValue = false};
-        var fourToFiveAgeDimension = new AgeDimensionModel(){ AgeKey = 1, Name = "4 - 5", HasValue = true};
-        
-        var allDeprivationDimension = new DeprivationDimensionModel(){ DeprivationKey = 0, Name = "All", HasValue = false};
-        var mostDeprivedDimension = new DeprivationDimensionModel(){ DeprivationKey = 1, Name = "Most deprived decile", HasValue = true};
-        
-        var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020, isAggregate:false)
+        var personsSexDimension = new SexDimensionModel() { SexKey = 0, Name = "Persons", HasValue = false };
+        var maleSexDimension = new SexDimensionModel() { SexKey = 1, Name = "Male", HasValue = true };
+
+        var allAgesDimension = new AgeDimensionModel() { AgeKey = 0, Name = "All ages", HasValue = false };
+        var fourToFiveAgeDimension = new AgeDimensionModel() { AgeKey = 1, Name = "4 - 5", HasValue = true };
+
+        var allDeprivationDimension = new DeprivationDimensionModel() { DeprivationKey = 0, Name = "All", HasValue = false };
+        var mostDeprivedDimension = new DeprivationDimensionModel() { DeprivationKey = 1, Name = "Most deprived decile", HasValue = true };
+
+        var allDimensionsDataPoint = new HealthMeasureModelHelper(1, 2020, isAggregate: false)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
             .WithDeprivationDimension(mostDeprivedDimension)
@@ -633,7 +633,7 @@ public class HealthDataRepositoryTests
             .Build();
         PopulateDatabase(allDimensionsDataPoint);
 
-        var sexOnlyDataPoint = new HealthMeasureModelHelper(2, 2020, isAggregate:false)
+        var sexOnlyDataPoint = new HealthMeasureModelHelper(2, 2020, isAggregate: false)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(allAgesDimension)
             .WithDeprivationDimension(allDeprivationDimension)
@@ -648,7 +648,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         PopulateDatabase(ageOnlyDataPoint);
-        
+
         var deprivationOnlyDataPoint = new HealthMeasureModelHelper(4, 2020, isAggregate: false)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(allAgesDimension)
@@ -656,7 +656,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         PopulateDatabase(deprivationOnlyDataPoint);
-        
+
         var sexAndAgeDataPoint = new HealthMeasureModelHelper(5, 2020, isAggregate: false)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
@@ -664,7 +664,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         PopulateDatabase(sexAndAgeDataPoint);
-        
+
         var sexAndDeprivationDataPoint = new HealthMeasureModelHelper(6, 2020, isAggregate: false)
             .WithSexDimension(maleSexDimension)
             .WithAgeDimension(allAgesDimension)
@@ -672,7 +672,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         PopulateDatabase(sexAndDeprivationDataPoint);
-        
+
         var ageAndDeprivationDataPoint = new HealthMeasureModelHelper(7, 2020, isAggregate: false)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(fourToFiveAgeDimension)
@@ -680,7 +680,7 @@ public class HealthDataRepositoryTests
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         PopulateDatabase(ageAndDeprivationDataPoint);
-        
+
         var aggregateDataPoint = new HealthMeasureModelHelper(8, 2020)
             .WithSexDimension(personsSexDimension)
             .WithAgeDimension(allAgesDimension)

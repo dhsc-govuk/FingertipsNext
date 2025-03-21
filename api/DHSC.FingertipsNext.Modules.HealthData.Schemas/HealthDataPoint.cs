@@ -43,9 +43,9 @@ public class HealthDataPoint
     /// </summary>
     [JsonPropertyName("ageBand")]
     public string? AgeBand { get; init; } = string.Empty;
-    
+
     /// <summary>
-    ///     Age band which the data are for.
+    ///     Deprivation category which the data are for.
     /// </summary>
     [JsonPropertyName("deprivation")]
     public required Deprivation Deprivation { get; init; }
