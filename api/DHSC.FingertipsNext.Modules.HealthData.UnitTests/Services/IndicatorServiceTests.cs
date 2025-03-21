@@ -79,7 +79,6 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
         var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
-        
         result.AreaHealthData.ShouldNotBeEmpty();
         result.AreaHealthData.Count().ShouldBe(1);
         result.AreaHealthData.ElementAt(0).ShouldBeEquivalentTo(expected);

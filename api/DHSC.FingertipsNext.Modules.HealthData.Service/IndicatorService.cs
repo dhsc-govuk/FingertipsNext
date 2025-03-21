@@ -39,7 +39,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         IEnumerable<int> years,
         IEnumerable<string> inequalities)
     {
-        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId );
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
         if (indicatorData == null) return null;
         
         var method = BenchmarkComparisonMethodConvertor.Convert(indicatorData.BenchmarkComparisonMethod);
