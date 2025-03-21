@@ -1,11 +1,20 @@
 import {
+  HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
 } from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
-import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getHealthDataWithoutInequalities,
+  isEnglandSoleSelectedArea,
+} from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { chartSymbols } from '../LineChart/lineChartHelpers';
+import {
+  chartSymbols,
+  generateConfidenceIntervalSeries,
+  lineChartDefaultOptions,
+} from '../LineChart/lineChartHelpers';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -13,6 +22,12 @@ export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
 >;
+
+export interface DataWithoutInequalities {
+  areaDataWithoutInequalities: HealthDataForArea[];
+  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  groupDataWithoutInequalities: HealthDataForArea | undefined;
+}
 
 export interface InequalitiesChartData {
   areaName: string;
@@ -159,26 +174,44 @@ export const getBenchmarkData = (
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
   type: InequalitiesTypes,
-  rowData: InequalitiesTableRowData[],
-  areasSelected: string[]
+  chartData: InequalitiesChartData,
+  areasSelected: string[],
+  showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
 
   if (isEnglandSoleSelectedArea(areasSelected))
     colorList[0] = GovukColours.Black;
 
-  const seriesData: Highcharts.SeriesOptionsType[] = keys.map((key, index) => ({
-    type: 'line',
-    name: key,
-    data: rowData.map((periodData) => [
-      periodData.period,
-      periodData.inequalities[key]?.value,
-    ]),
-    marker: {
-      symbol: chartSymbols[index % chartSymbols.length],
-    },
-    color: colorList[index % colorList.length],
-  }));
+  const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
+    (key, index) => {
+      const lineSeries: Highcharts.SeriesOptionsType = {
+        type: 'line',
+        name: key,
+        data: chartData.rowData.map((periodData) => [
+          periodData.period,
+          periodData.inequalities[key]?.value,
+        ]),
+        marker: {
+          symbol: chartSymbols[index % chartSymbols.length],
+        },
+        color: colorList[index % colorList.length],
+      };
+
+      const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
+        generateConfidenceIntervalSeries(
+          chartData.areaName,
+          chartData.rowData.map((data) => [
+            data.period,
+            data.inequalities[key]?.lower,
+            data.inequalities[key]?.upper,
+          ]),
+          showConfidenceIntervalsData
+        );
+
+      return [lineSeries, confidenceIntervalSeries];
+    }
+  );
 
   return seriesData;
 };
@@ -210,5 +243,101 @@ export const getAggregatePointInfo = (
     aggregateKey,
     sortedKeys,
     inequalityDimensions,
+  };
+};
+
+export function generateInequalitiesLineChartOptions(
+  inequalitiesLineChartData: InequalitiesChartData,
+  dynamicKeys: string[],
+  type: InequalitiesTypes,
+  lineChartCI: boolean,
+  generateInequalitiesLineChartTooltipStringList: (
+    point: Highcharts.Point,
+    symbol: string
+  ) => string[],
+  optionalParams?: {
+    areasSelected?: string[];
+    yAxisTitleText?: string;
+    xAxisTitleText?: string;
+    measurementUnit?: string;
+  }
+): Highcharts.Options {
+  const seriesData = generateInequalitiesLineChartSeriesData(
+    dynamicKeys,
+    type,
+    inequalitiesLineChartData,
+    optionalParams?.areasSelected ?? [],
+    lineChartCI
+  );
+
+  return {
+    ...lineChartDefaultOptions,
+    yAxis: {
+      ...lineChartDefaultOptions.yAxis,
+      title: {
+        text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
+        margin: 20,
+      },
+    },
+    xAxis: {
+      ...lineChartDefaultOptions.xAxis,
+      title: { text: optionalParams?.xAxisTitleText, margin: 20 },
+    },
+    series: seriesData,
+    tooltip: {
+      headerFormat:
+        `<span style="font-weight: bold">${inequalitiesLineChartData.areaName}</span><br/>` +
+        '<span>Year {point.x}</span><br/>',
+      pointFormatter: function (this: Highcharts.Point) {
+        return (
+          pointFormatterHelper(
+            this,
+            generateInequalitiesLineChartTooltipStringList
+          ) +
+          `${optionalParams?.measurementUnit ? ' ' + optionalParams?.measurementUnit : ''}</span></div></div>`
+        );
+      },
+      useHTML: true,
+    },
+  };
+}
+
+export const getAllDataWithoutInequalities = (
+  dataWithoutEnglandOrGroup: HealthDataForArea[],
+  areasSelected: string[],
+  benchmark: {
+    englandBenchmarkData?: HealthDataForArea;
+    groupData?: HealthDataForArea;
+  }
+): DataWithoutInequalities => {
+  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
+    ? dataWithoutEnglandOrGroup.map((data) => ({
+        ...data,
+        healthData: getHealthDataWithoutInequalities(data),
+      }))
+    : [];
+
+  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.englandBenchmarkData
+      ? {
+          ...benchmark.englandBenchmarkData,
+          healthData: getHealthDataWithoutInequalities(
+            benchmark.englandBenchmarkData
+          ),
+        }
+      : undefined;
+
+  const groupDataWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.groupData
+      ? {
+          ...benchmark.groupData,
+          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
+        }
+      : undefined;
+
+  return {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
   };
 };

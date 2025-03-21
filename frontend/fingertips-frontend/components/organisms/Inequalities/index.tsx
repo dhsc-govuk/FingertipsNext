@@ -1,9 +1,8 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
 import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
-import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineChart';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   getDynamicKeys,
   getYearDataGroupedByInequalities,
@@ -12,10 +11,12 @@ import {
   InequalitiesChartData,
   InequalitiesTypes,
   mapToInequalitiesTableData,
+  generateInequalitiesLineChartOptions,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { LineChart } from '../LineChart';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
@@ -23,6 +24,15 @@ interface InequalitiesProps {
   type?: InequalitiesTypes;
   measurementUnit?: string;
 }
+
+const generateInequalitiesLineChartTooltipStringList = (
+  point: Highcharts.Point,
+  symbol: string
+) => [
+  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
+  <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
+  `<div><span>${point.series.name}</br>Value: ${point.y}`,
+];
 
 export function Inequalities({
   healthIndicatorData,
@@ -35,6 +45,11 @@ export function Inequalities({
   );
 
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
+
+  const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
+    useState<boolean>(false);
+
+  const chartName = 'inequalitiesLineChart';
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
@@ -54,6 +69,21 @@ export function Inequalities({
     areaName: healthIndicatorData.areaName,
     data: lineChartData.rowData[latestDataIndex],
   };
+
+  const inequalitiesLineChartOptions: Highcharts.Options =
+    generateInequalitiesLineChartOptions(
+      lineChartData,
+      dynamicKeys,
+      type,
+      confidenceIntervalSelected,
+      generateInequalitiesLineChartTooltipStringList,
+      {
+        areasSelected,
+        yAxisTitleText: 'Value',
+        xAxisTitleText: 'Year',
+        measurementUnit,
+      }
+    );
 
   return (
     <div data-testid="inequalities-component">
@@ -94,12 +124,14 @@ export function Inequalities({
             id: 'inequalitiesLineChart',
             title: 'Line chart',
             content: (
-              <InequalitiesLineChart
-                lineChartData={lineChartData}
-                areasSelected={areasSelected}
-                dynamicKeys={dynamicKeys}
-                measurementUnit={measurementUnit}
-              />
+              <div data-testid="inequalitiesLineChart-component">
+                <LineChart
+                  lineChartOptions={inequalitiesLineChartOptions}
+                  confidenceIntervalSelected={confidenceIntervalSelected}
+                  setConfidenceIntervalSelected={setConfidenceIntervalSelected}
+                  chartName={chartName}
+                />
+              </div>
             ),
           },
           {
