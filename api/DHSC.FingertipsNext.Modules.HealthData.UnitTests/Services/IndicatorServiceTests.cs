@@ -155,7 +155,6 @@ public class IndicatorServiceTests
         _indicatorService.Polarity = polarity;
         var result =
             (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], [],
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], [],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 
@@ -247,7 +246,7 @@ public class IndicatorServiceTests
 
         _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
         var result =
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Sex"],
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Sex"],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 
@@ -364,7 +363,7 @@ public class IndicatorServiceTests
 
         _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
         var result =
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Sex"],
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Sex"],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 
@@ -417,7 +416,7 @@ public class IndicatorServiceTests
 
         _indicatorService.Polarity = IndicatorPolarity.HighIsGood;
         var result =
-            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Deprivation"],
+            (await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Deprivation"],
                 BenchmarkComparisonMethod.Rag))
             .ToList();
 

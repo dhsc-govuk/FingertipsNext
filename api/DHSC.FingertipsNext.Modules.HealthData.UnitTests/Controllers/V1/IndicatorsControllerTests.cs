@@ -100,7 +100,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10YearsSupplied()
     {
-        var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"],
+        var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"], "",
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
         
         response?.StatusCode.ShouldBe(400);
@@ -111,7 +111,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10CodesSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3,
-            ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"],
+            ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"], "",
             [1]) as BadRequestObjectResult;
         
         response?.StatusCode.ShouldBe(400);
