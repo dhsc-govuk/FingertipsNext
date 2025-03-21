@@ -44,7 +44,7 @@ export function SelectedIndicatorsPanel({
         <IndicatorSelectedPill
           key={indicator.indicatorID}
           indicator={indicator}
-          inFilterPane={true}
+          isFullWidth={true}
           searchState={searchState}
         />
       ))}

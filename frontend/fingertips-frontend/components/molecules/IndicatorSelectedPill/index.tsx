@@ -15,13 +15,13 @@ const StyleIndicatorLink = styled(Link)({
 
 interface IndicatorSelectedPillProps {
   indicator: IndicatorDocument;
-  inFilterPane?: boolean;
+  isFullWidth?: boolean;
   searchState?: SearchStateParams;
 }
 
 export const IndicatorSelectedPill = ({
   indicator,
-  inFilterPane,
+  isFullWidth,
   searchState,
 }: Readonly<IndicatorSelectedPillProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -31,7 +31,7 @@ export const IndicatorSelectedPill = ({
   );
 
   return (
-    <Pill selectedFilterId={indicator.indicatorID} isFullWidth={inFilterPane}>
+    <Pill selectedFilterId={indicator.indicatorID} isFullWidth={isFullWidth}>
       {indicator.indicatorName}
       <br />
       <StyleIndicatorLink href={indicatorInfoLink}>
