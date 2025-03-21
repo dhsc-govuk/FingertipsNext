@@ -14,12 +14,6 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-
-const enum IndicationPopulationTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
 export default async function OneIndicatorOneAreaView({
   searchState,
@@ -45,7 +39,6 @@ export default async function OneIndicatorOneAreaView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const areasApi = ApiClientFactory.getAreasApiClient();
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
@@ -53,6 +46,7 @@ export default async function OneIndicatorOneAreaView({
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
+        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
         comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       },
       API_CACHE_CONFIG
@@ -75,35 +69,8 @@ export default async function OneIndicatorOneAreaView({
     );
   }
 
-  const healthPopulationData = await (async () => {
-    try {
-      const populationIndicatorID: number = await (async (areaCode: string) => {
-        const area = await areasApi.getArea({ areaCode: areaCode });
-        if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-          return IndicationPopulationTypes.NHS;
-        }
-        return IndicationPopulationTypes.ADMINISTRATIVE;
-      })(areaCodesToRequest[0]);
-
-      return await indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: populationIndicatorID,
-          areaCodes: areaCodesToRequest,
-          inequalities: [
-            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          ],
-        },
-        API_CACHE_CONFIG
-      );
-    } catch (error) {
-      console.error('error getting health indicator data for area', error);
-    }
-  })();
-
   return (
     <OneIndicatorOneAreaViewPlots
-      healthPopulationData={healthPopulationData}
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
