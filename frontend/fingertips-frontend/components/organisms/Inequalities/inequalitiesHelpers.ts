@@ -304,11 +304,11 @@ export function generateInequalitiesLineChartOptions(
 
 export const getAllDataWithoutInequalities = (
   dataWithoutEnglandOrGroup: HealthDataForArea[],
-  areasSelected: string[],
   benchmark: {
     englandBenchmarkData?: HealthDataForArea;
     groupData?: HealthDataForArea;
-  }
+  },
+  areasSelected?: string[]
 ): DataWithoutInequalities => {
   const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
     ? dataWithoutEnglandOrGroup.map((data) => ({

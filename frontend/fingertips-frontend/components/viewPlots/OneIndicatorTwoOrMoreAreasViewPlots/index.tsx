@@ -19,6 +19,7 @@ import {
   generateStandardLineChartOptions,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
+import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -40,6 +41,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
   const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
     useState<boolean>(false);
@@ -59,8 +61,18 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         )
       : undefined;
 
+  const {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
+  } = getAllDataWithoutInequalities(
+    dataWithoutEngland,
+    { englandBenchmarkData, groupData },
+    areasSelected
+  );
+
   const shouldLineChartbeShown =
-    dataWithoutEngland[0]?.healthData.length > 1 &&
+    areaDataWithoutInequalities[0]?.healthData.length > 1 &&
     areaCodes &&
     areaCodes?.length <= 2;
 
@@ -69,11 +81,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     : undefined;
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
-    dataWithoutEngland,
+    areaDataWithoutInequalities,
     confidenceIntervalSelected,
     {
-      benchmarkData: englandBenchmarkData,
-      groupIndicatorData: groupData,
+      benchmarkData: englandBenchmarkWithoutInequalities,
+      groupIndicatorData: groupDataWithoutInequalities,
       yAxisTitle,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
@@ -109,9 +121,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutEngland}
-                    englandBenchmarkData={englandBenchmarkData}
-                    groupIndicatorData={groupData}
+                    healthIndicatorData={areaDataWithoutInequalities}
+                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
+                    groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
