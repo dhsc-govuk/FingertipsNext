@@ -1,6 +1,5 @@
 'use client';
 
-import { H3 } from 'govuk-react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
@@ -12,10 +11,11 @@ import {
 } from '@/lib/chartHelpers/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { BenchmarkLegend } from '../BenchmarkLegend';
-
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
+  groupAreaCodes: string[];
+  indicatorDataSource?: string;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -24,22 +24,35 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapData,
+  groupAreaCodes,
+  indicatorDataSource,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const data = prepareThematicMapSeriesData(healthIndicatorData);
+  const data = prepareThematicMapSeriesData(
+    healthIndicatorData,
+    groupAreaCodes,
+    mapData
+  );
+  let captionText = `<span>Map Source: ${mapData.mapSource}</span>`;
+  if (indicatorDataSource)
+    captionText += `<span> <br /><br />Data Source: ${indicatorDataSource}</span>`;
+
+  // '<br /><span>benchmark: {point.benchmarkComparison}</span>';
+
+  // TODO: refactor have default options in a helpers file
   const mapOptions: Highcharts.Options = {
     chart: {
-      height: 800,
+      height: 800, // TODO: agree height
       animation: false,
       borderWidth: 0.2,
       borderColor: 'black',
     },
     title: { text: undefined },
-    caption: { text: 'map source: data source:' },
+    caption: { text: captionText },
     accessibility: { enabled: false },
     credits: { enabled: false },
     legend: {
-      enabled: true,
+      enabled: false,
       verticalAlign: 'top',
     },
     mapView: {

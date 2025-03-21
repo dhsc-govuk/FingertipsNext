@@ -6,11 +6,20 @@ import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
 import { GeoJSON } from 'highcharts';
-import { AreaTypeKeysForMapMeta, getMapData } from './thematicMapHelpers';
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+  prepareThematicMapSeriesData,
+} from './thematicMapHelpers';
 import {
   AreaTypeKeysGroupBoundaries,
   mockMapGroupBoundaries,
 } from '@/mock/data/mapGroupBoundaries';
+import {
+  HealthDataForArea,
+  HealthDataPointBenchmarkComparisonOutcomeEnum,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 
 describe('getMapData', () => {
   it.each<[AreaTypeKeysForMapMeta, string[], string]>([
@@ -93,6 +102,97 @@ describe('getMapData', () => {
 });
 
 describe('prepareThematicMapSeriesData', () => {
-  it.todo('should return the expected series data, including colour');
-  it.todo('should return the most recent year');
+  const mockHealthData: HealthDataForArea[] = [
+    {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      healthData: [
+        {
+          year: 2004,
+          value: 978.34,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'Better' },
+        },
+        {
+          year: 2008,
+          value: 800.232,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'Higher' },
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000001',
+      areaName: 'North East region (statistical)',
+      healthData: [
+        {
+          year: 2004,
+          value: 856.344,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'Lower' },
+        },
+        {
+          year: 2008,
+          value: 767.343,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'None' },
+        },
+      ],
+    },
+    {
+      areaCode: 'E12000003',
+      areaName: 'Yorkshire and the Humber region (statistical)',
+      healthData: [
+        {
+          year: 2004,
+          value: 674.434,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'Similar' },
+        },
+        {
+          year: 2008,
+          value: 643.434,
+          ageBand: 'All',
+          sex: 'Persons',
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          benchmarkComparison: { outcome: 'Worse' },
+        },
+      ],
+    },
+  ];
+  const expected = [
+    {
+      areaCode: 'E92000001',
+      areaName: 'England',
+      benchmarkComparison: 'Higher',
+      benchmarkColourCode: 55,
+    },
+    {
+      areaCode: 'E12000001',
+      areaName: 'North East region (statistical)',
+      benchmarkComparison: 'None',
+      benchmarkColourCode: 5,
+    },
+    {
+      areaCode: 'E12000003',
+      areaName: 'Yorkshire and the Humber region (statistical)',
+      benchmarkComparison: 'Worse',
+      benchmarkColourCode: 35,
+    },
+  ];
+  it('should return the expected series data, for the most recent year, with undefined areas/years being ***NOT COMPARED***', () => {
+    const actual = prepareThematicMapSeriesData(mockHealthData);
+
+    expect(actual).toEqual(expected);
+  });
 });

@@ -112,6 +112,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapData={mapData}
           groupAreaCodes={areaCodes}
+          indicatorDataSource={indicatorMetadata?.dataSource}
         />
       )}
       <BarChartEmbeddedTable

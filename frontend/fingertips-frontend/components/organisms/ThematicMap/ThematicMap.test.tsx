@@ -26,6 +26,7 @@ it('should render the benchmark legend', async () => {
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
+      groupAreaCodes={['']}
     />
   );
 
