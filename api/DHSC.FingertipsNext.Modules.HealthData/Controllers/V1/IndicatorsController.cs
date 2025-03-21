@@ -2,8 +2,6 @@
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 

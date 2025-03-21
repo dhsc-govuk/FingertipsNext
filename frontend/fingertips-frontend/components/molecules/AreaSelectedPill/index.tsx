@@ -8,6 +8,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const StyleAreaName = styled('span')({
   fontWeight: '500',
+  fontSize: '19px',
 });
 
 const StyleAreaType = styled('span')({
@@ -17,19 +18,20 @@ const StyleAreaType = styled('span')({
 interface AreaSelectedPillProps {
   area: AreaWithRelations;
   onRemoveFilter: (filterID: string) => void;
-  inFilterPane?: boolean;
+  isFullWidth?: boolean;
 }
 
 export const AreaSelectedPill = ({
   area,
   onRemoveFilter,
-  inFilterPane,
+  isFullWidth,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
     <Pill
       removeFilter={onRemoveFilter}
       selectedFilterId={area.code}
-      isFullWidth={inFilterPane}
+      isFullWidth={isFullWidth}
+      ariaLabelPostfix={area.name}
     >
       <p style={{ margin: 0 }}>
         <StyleAreaName>

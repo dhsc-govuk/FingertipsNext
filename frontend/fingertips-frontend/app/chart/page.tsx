@@ -18,15 +18,9 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import {
-  GetHealthDataForAnIndicatorComparisonMethodEnum,
-  GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
-} from '@/generated-sources/ft-api-client';
-import { shouldDisplayInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
 
@@ -39,43 +33,29 @@ export default async function ChartPage(
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
     const {
-      [SearchParams.IndicatorsSelected]: indicators,
       [SearchParams.AreasSelected]: areaCodes,
-      [SearchParams.GroupSelected]: selectedGroupCode,
+      [SearchParams.IndicatorsSelected]: indicatorsSelected,
     } = stateManager.getSearchState();
 
     const areasSelected = areaCodes ?? [];
-    const indicatorsSelected = indicators ?? [];
 
     // We don't want to render this page statically
     await connection();
 
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-    const areaCodesToRequest =
-      selectedGroupCode && selectedGroupCode != areaCodeForEngland
-        ? [...areasSelected, areaCodeForEngland, selectedGroupCode]
-        : [...areasSelected, areaCodeForEngland];
-
-    const healthIndicatorData = await Promise.all(
-      indicatorsSelected.map((indicatorId) =>
-        indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: Number(indicatorId),
-            areaCodes: areaCodesToRequest,
-            inequalities: shouldDisplayInequalities(
-              indicatorsSelected,
-              areasSelected
+    const selectedIndicatorsData =
+      indicatorsSelected && indicatorsSelected.length > 0
+        ? (
+            await Promise.all(
+              indicatorsSelected.map((indicator) =>
+                SearchServiceFactory.getIndicatorSearchService().getIndicator(
+                  indicator
+                )
+              )
             )
-              ? [GetHealthDataForAnIndicatorInequalitiesEnum.Sex]
-              : [],
-            comparisonMethod:
-              GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
-          },
-          API_CACHE_CONFIG
-        )
-      )
-    );
+          ).filter((indicatorDocument) => indicatorDocument !== undefined)
+        : [];
+
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
     let rawPopulationData: HealthDataForArea[] | undefined;
     try {
@@ -100,30 +80,8 @@ export default async function ChartPage(
         )
       : undefined;
 
-    let indicatorMetadata: IndicatorDocument | undefined;
-    try {
-      indicatorMetadata =
-        await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-          indicatorsSelected[0]
-        );
-    } catch (error) {
-      console.error(
-        'error getting meta data for health indicator for area',
-        error
-      );
-    }
-
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
-
-    // set England as areas if all other areas are removed
-    // DHSCFT-481 to futher refine this behaviour
-    if (areasSelected.length === 0) {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        areaCodeForEngland
-      );
-    }
 
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
@@ -154,6 +112,7 @@ export default async function ChartPage(
         <ViewsContext
           searchState={stateManager.getSearchState()}
           selectedAreasData={selectedAreasData}
+          selectedIndicatorsData={selectedIndicatorsData}
           areaFilterData={{
             availableAreaTypes,
             availableGroupTypes,
@@ -161,12 +120,7 @@ export default async function ChartPage(
             availableAreas,
           }}
         />
-        <Chart
-          populationData={preparedPopulationData}
-          healthIndicatorData={healthIndicatorData}
-          searchState={stateManager.getSearchState()}
-          measurementUnit={indicatorMetadata?.unitLabel}
-        />
+        <Chart populationData={preparedPopulationData} />
       </>
     );
   } catch (error) {

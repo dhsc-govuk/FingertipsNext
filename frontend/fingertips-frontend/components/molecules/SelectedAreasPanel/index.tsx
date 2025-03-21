@@ -17,7 +17,7 @@ interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
-  inFilterPane?: boolean;
+  isFullWidth?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
@@ -32,7 +32,7 @@ export function SelectedAreasPanel({
   selectedAreasData,
   areaFilterData,
   searchState,
-  inFilterPane,
+  isFullWidth,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -74,7 +74,7 @@ export function SelectedAreasPanel({
             areaTypeName={areaType?.name}
             groupSelected={selectedGroupData}
             onRemoveFilter={removeSelectedGroup}
-            inFilterPane={inFilterPane}
+            isFullWidth={isFullWidth}
           />
         </div>
       ) : (
@@ -88,7 +88,7 @@ export function SelectedAreasPanel({
                   key={selectedArea.code}
                   area={selectedArea}
                   onRemoveFilter={removeSelectedArea}
-                  inFilterPane={inFilterPane}
+                  isFullWidth={isFullWidth}
                 />
               ))
             : null}

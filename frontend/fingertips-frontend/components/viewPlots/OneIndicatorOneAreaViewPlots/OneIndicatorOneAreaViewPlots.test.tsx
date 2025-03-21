@@ -161,4 +161,16 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       screen.queryByTestId('lineChartTable-component')
     ).not.toBeInTheDocument();
   });
+
+  it('should render the inequalities component', () => {
+    render(
+      <OneIndicatorOneAreaViewPlots
+        healthIndicatorData={testHealthData}
+        searchState={searchState}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+
+    expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
+  });
 });

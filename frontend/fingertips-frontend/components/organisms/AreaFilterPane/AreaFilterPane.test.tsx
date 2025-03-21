@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { AreaFilterPane } from '.';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
+import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -32,6 +33,24 @@ describe('Area Filter Pane', () => {
     render(<AreaFilterPane />);
 
     expect(screen.getByRole('heading')).toHaveTextContent('Filters');
+  });
+
+  it('should not render the SelectedIndicatorsPanel when no selectedIndicatorsData is provided', () => {
+    render(<AreaFilterPane />);
+
+    expect(
+      screen.queryByTestId('selected-indicators-panel')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should render the SelectedIndicatorsPanel when selectedIndicatorsData is provided', () => {
+    render(
+      <AreaFilterPane
+        selectedIndicatorsData={[generateIndicatorDocument('1')]}
+      />
+    );
+
+    expect(screen.getByTestId('selected-indicators-panel')).toBeInTheDocument();
   });
 
   it('should render the SelectedAreasPanel with the selected areas as pills', () => {

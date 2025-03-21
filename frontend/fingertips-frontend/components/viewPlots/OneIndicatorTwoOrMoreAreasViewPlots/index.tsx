@@ -21,7 +21,6 @@ const StyledParagraphDataSource = styled(Paragraph)(
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
-  areaCodes: string[];
   mapData?: MapData;
 }
 
@@ -30,12 +29,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   searchState,
   indicatorMetadata,
   mapData,
-  areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
@@ -55,8 +54,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const shouldLineChartbeShown =
     dataWithoutEngland[0]?.healthData.length > 1 &&
-    areaCodes &&
-    areaCodes?.length <= 2;
+    areasSelected &&
+    areasSelected?.length <= 2;
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
