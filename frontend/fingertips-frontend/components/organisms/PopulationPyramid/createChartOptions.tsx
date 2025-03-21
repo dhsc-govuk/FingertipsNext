@@ -12,7 +12,6 @@ export const createChartSeriesOptions = (
   return {
     chart: {
       type: 'bar',
-      height: 800,
     },
     plotOptions: {
       series: {

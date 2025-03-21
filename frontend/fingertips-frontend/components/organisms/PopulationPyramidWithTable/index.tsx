@@ -125,7 +125,6 @@ export const PopulationPyramidWithTable = ({
     [healthDataForAreas]
   );
 
-  // Use  this to update the header title when selection is made.
   useEffect(() => {
     console.log('Hello changes');
     const healthDataForArea = healthDataForAreas?.find((area, _) => {
@@ -149,7 +148,7 @@ export const PopulationPyramidWithTable = ({
     setTitle(title);
   }, [selectedArea, healthDataForAreas]);
   if (!convertedData?.areas.length) {
-    return <></>
+    return <></>;
   }
   return (
     <div>
@@ -202,5 +201,5 @@ export const PopulationPyramidWithTable = ({
         </div>
       </ShowHideContainer>
     </div>
-  ));
+  );
 };
