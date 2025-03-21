@@ -1,11 +1,4 @@
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
-import {
-  sortHealthDataByYearDescending,
-  sortHealthDataForAreaByDate,
-} from '@/lib/chartHelpers/chartHelpers';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -18,22 +11,15 @@ export interface IndicatorData {
   unitLabel: string;
 }
 
-type tableRow = {
+type row = {
   key: string;
-  cols: tableCol[];
+  cells: cell[];
 };
 
-type tableCol = {
+type cell = {
   key: string;
   content: string;
   backgroundColour?: string; // not yet implemented
-};
-
-type chartLabelItem = {
-  x: number;
-  y: number;
-  value?: undefined;
-  name: string | undefined;
 };
 
 export type area = {
@@ -56,10 +42,10 @@ export interface DataPoint {
   indicatorId: string;
 }
 
-export const generateAreasIndicatorsAndTableRows = (
+export const generateHeadersAndRows = (
   indicatorDataForAllAreas: IndicatorData[],
   groupAreaCode?: string
-): { areas: area[]; indicators: indicator[]; tableRows: tableRow[] } => {
+): { headers: cell[]; rows: row[] } => {
   const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
     indicatorDataForAllAreas
   );
@@ -72,6 +58,7 @@ export const generateAreasIndicatorsAndTableRows = (
   if (groupAreaCode) {
     precedingAreas.push(groupAreaCode);
   }
+
   const { areaCodes, areas: areasWithPosition } =
     orderAreaByNameWithSomeCodesInFront(areas, precedingAreas);
 
@@ -83,9 +70,9 @@ export const generateAreasIndicatorsAndTableRows = (
     return indicators[indicatorId];
   });
 
-  const tableRows = new Array<tableRow>(sortedIndicators.length);
+  const tableRows = new Array<row>(sortedIndicators.length);
   sortedIndicators.map((indicator, indicatorIndex) => {
-    const leadingCols: tableCol[] = [
+    const leadingCols: cell[] = [
       {
         key: 'col-' + indicator.id + 'name',
         content: indicator.name,
@@ -100,7 +87,7 @@ export const generateAreasIndicatorsAndTableRows = (
       },
     ];
 
-    const cols = new Array<tableCol>(sortedAreas.length + leadingCols.length);
+    const cols = new Array<cell>(sortedAreas.length + leadingCols.length);
 
     leadingCols.map((col, index) => {
       cols[index] = col;
@@ -109,32 +96,38 @@ export const generateAreasIndicatorsAndTableRows = (
     sortedAreas.map((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
         key: 'col-' + indicator.id + '-' + area.code,
-        content: 'TODO',
+        content: formatValue(dataPoints[indicator.id][area.code].value),
+        backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });
-    tableRows[indicatorIndex] = { key: 'row-' + indicator.id, cols: cols };
+    tableRows[indicatorIndex] = { key: 'row-' + indicator.id, cells: cols };
   });
 
-  // TODO DELETEME
-  console.log(tableRows);
-
   return {
-    areas: sortedAreas,
-    indicators: sortedIndicators,
-    tableRows: tableRows,
+    headers: generateHeaders(sortedAreas),
+    rows: tableRows,
   };
 };
 
+const formatValue = (value?: number): string => {
+  return value ? value.toString() : 'X';
+};
+
+const generateBackgroundColor = (x: number, y: number): string => {
+  return x % 2 == y % 2 ? GovukColours.Yellow : GovukColours.LightGrey;
+};
+
+// This has been very difficult to split up
 export const extractAreasIndicatorsAndDataPoints = (
   indicatorDataForAllAreas: IndicatorData[]
 ): {
   areas: Record<string, area>;
   indicators: Record<string, indicator>;
-  dataPoints: DataPoint[];
+  dataPoints: Record<string, Record<string, DataPoint>>;
 } => {
   const areas: Record<string, area> = {};
   const indicators: Record<string, indicator> = {};
-  const dataPoints: DataPoint[] = [];
+  const dataPoints: Record<string, Record<string, DataPoint>> = {};
 
   indicatorDataForAllAreas.map((indicatorData) => {
     if (!indicators[indicatorData.indicatorId]) {
@@ -144,6 +137,8 @@ export const extractAreasIndicatorsAndDataPoints = (
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
       };
+
+      dataPoints[indicatorData.indicatorId] = {};
     }
 
     if (
@@ -173,14 +168,14 @@ export const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
-      dataPoints.push({
+      dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
         value:
           healthData.healthData[0].year === latestDataPeriod
             ? healthData.healthData[0].value
             : undefined,
         areaCode: healthData.areaCode,
         indicatorId: indicatorData.indicatorId,
-      });
+      };
     });
 
     indicators[indicatorData.indicatorId].latestDataPeriod = latestDataPeriod;
@@ -240,4 +235,41 @@ export const orderAreaByNameWithSomeCodesInFront = (
   });
 
   return { areaCodes, areas };
+};
+
+const generateHeaders = (areas: area[]): cell[] => {
+  const generateHeaderKey = (pos: number, areaCode?: string) => {
+    const prefix = 'header-';
+    switch (pos) {
+      case 0: {
+        return prefix + 'indicator';
+      }
+      case 1: {
+        return prefix + 'value-type';
+      }
+      case 2: {
+        return prefix + 'period';
+      }
+      default: {
+        return prefix + areaCode;
+      }
+    }
+  };
+
+  const constantHeaderTitles = ['Indicators', 'Value unit', 'Period'];
+  return constantHeaderTitles
+    .map((title, index) => {
+      return { content: title, key: generateHeaderKey(index) };
+    })
+    .concat(
+      areas.map((area, index) => {
+        return {
+          content: area.name,
+          key: generateHeaderKey(
+            index + constantHeaderTitles.length,
+            area.code
+          ),
+        };
+      })
+    );
 };

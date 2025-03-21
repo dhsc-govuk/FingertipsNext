@@ -1,6 +1,11 @@
 import { Heatmap } from '@/components/organisms/Heatmap';
-import { area, indicator } from '@/components/organisms/Heatmap/heatmapUtil';
+import {
+  area,
+  extractAreasIndicatorsAndDataPoints,
+  indicator,
+} from '@/components/organisms/Heatmap/heatmapUtil';
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { map } from 'zod';
 
 const indicatorData = () => {
   const newHealthDataPoint = ({
@@ -30,6 +35,12 @@ const indicatorData = () => {
     name: 'Donkey / Goose ratio',
     unitLabel: '%',
     latestDataPeriod: 1812,
+  };
+  const indicator3: indicator = {
+    id: 'indicator3',
+    name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
+    unitLabel: 'per 1000',
+    latestDataPeriod: 1741,
   };
 
   const areaEngland: area = { code: 'E92000001', name: 'England' };
@@ -72,6 +83,24 @@ const indicatorData = () => {
       [
         newHealthDataPoint({ year: 1, value: 141 }),
         newHealthDataPoint({ year: 2, value: 142 }),
+      ],
+    ],
+    [
+      [
+        newHealthDataPoint({ year: 1, value: 1111 }),
+        newHealthDataPoint({ year: 2, value: 1112 }),
+      ],
+      [
+        newHealthDataPoint({ year: 1, value: 1121 }),
+        newHealthDataPoint({ year: 2, value: 1122 }),
+      ],
+      [
+        newHealthDataPoint({ year: 1, value: 1231 }),
+        newHealthDataPoint({ year: 2, value: 1132 }),
+      ],
+      [
+        newHealthDataPoint({ year: 1, value: 1141 }),
+        newHealthDataPoint({ year: 2, value: 1142 }),
       ],
     ],
   ];
@@ -131,10 +160,37 @@ const indicatorData = () => {
         },
       ],
     },
+    {
+      indicatorId: indicator3.id,
+      indicatorName: indicator3.name,
+      unitLabel: indicator3.unitLabel,
+      healthDataForAreas: [
+        {
+          areaCode: areaEngland.code,
+          areaName: areaEngland.name,
+          healthData: data[2][0],
+        },
+        {
+          areaCode: area2.code,
+          areaName: area2.name,
+          healthData: data[2][1],
+        },
+        {
+          areaCode: area3.code,
+          areaName: area3.name,
+          healthData: data[2][2],
+        },
+        {
+          areaCode: area4.code,
+          areaName: area4.name,
+          healthData: data[2][3],
+        },
+      ],
+    },
   ];
 };
 
 // TODO delete this, put in views
 export default function HeatmapPage() {
-  return <Heatmap indicatorData={indicatorData()} />;
+  return <Heatmap indicatorData={indicatorData()} groupAreaCode="area3" />;
 }
