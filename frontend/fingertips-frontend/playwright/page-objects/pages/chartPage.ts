@@ -3,7 +3,6 @@ import {
   getScenarioConfig,
   IndicatorMode,
 } from '@/playwright/testHelpers';
-import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import {
   PlaywrightTestArgs,
@@ -12,8 +11,9 @@ import {
   PlaywrightWorkerOptions,
   TestType,
 } from '@playwright/test';
+import AreaFilter from '../components/areaFilter';
 
-export default class ChartPage extends BasePage {
+export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'lineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
