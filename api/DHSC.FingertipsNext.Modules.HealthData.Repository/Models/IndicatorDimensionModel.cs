@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
@@ -12,4 +13,6 @@ public class IndicatorDimensionModel
     public int IndicatorId { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    
+    public string Polarity { get; set; }
 }

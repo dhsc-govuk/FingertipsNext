@@ -30,7 +30,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </remarks>
     [HttpGet]
     [Route("{indicatorId:int}/data")]
-    [ProducesResponseType(typeof(HealthDataForArea[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IndicatorWithHealthDataForArea), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetIndicatorDataAsync(
@@ -58,7 +58,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         if (!comparisonMethodParsed)
             benchmarkType = BenchmarkComparisonMethod.None;
 
-        var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
+        var indicatorData = await _indicatorsService.GetIndicatorWithHealthDataForAreaAsync(
             indicatorId,
             areaCodes ?? [],
             years ?? [],
@@ -66,8 +66,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             benchmarkType
         );
 
-        Console.WriteLine(indicatorData.Any() ? "FOUND" : "NOT FOUND");
-
-        return !indicatorData.Any() ? NotFound() : Ok(indicatorData);
+        return indicatorData == null ? NotFound() : Ok(indicatorData);
     }
 }

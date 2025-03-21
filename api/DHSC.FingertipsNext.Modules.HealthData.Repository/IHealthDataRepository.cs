@@ -1,4 +1,5 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
@@ -8,4 +9,6 @@ public interface IHealthDataRepository
                                                                  string[] areaCodes,
                                                                  int[] years,
                                                                  string[] inequalities);
+
+    Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId);
 }

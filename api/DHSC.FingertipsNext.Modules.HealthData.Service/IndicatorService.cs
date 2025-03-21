@@ -17,6 +17,29 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     // polarity will come from somewhere else (DB indicator?) at a later date
     public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
 
+    public async Task<IndicatorWithHealthDataForArea> GetIndicatorWithHealthDataForAreaAsync(
+        int indicatorId,
+        IEnumerable<string> areaCodes,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities,
+        BenchmarkComparisonMethod comparisonMethod)
+    {
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId );
+        var indicator = new IndicatorWithHealthDataForArea()
+        {
+            Name = indicatorData.Name,
+            Polarity = IndicatorPolarityConvertor.Convert(indicatorData.Polarity),
+            AreaHealthData = await GetIndicatorDataAsync(
+                indicatorId, 
+                areaCodes, 
+                years,
+                inequalities, 
+                BenchmarkComparisonMethod.Rag
+                )
+        };
+        return indicator;
+    } 
+    
     /// <summary>
     ///     Obtain health point data for a single indicator.
     /// </summary>
@@ -47,6 +70,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         BenchmarkComparisonMethod comparisonMethod
         )
     {
+        
+        
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
         var areaCodesForSearch = areaCodes.ToList();
         var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable

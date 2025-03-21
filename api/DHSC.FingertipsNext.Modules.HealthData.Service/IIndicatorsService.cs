@@ -24,4 +24,9 @@ public interface IIndicatorsService
     /// </remarks>
     Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, IEnumerable<string> areaCodes, IEnumerable<int> years,
         IEnumerable<string> inequalities, BenchmarkComparisonMethod comparisonMethod);
+
+    Task<IndicatorWithHealthDataForArea> GetIndicatorWithHealthDataForAreaAsync(int indicatorId,
+        IEnumerable<string> areaCodes, IEnumerable<int> years,
+        IEnumerable<string> inequalities, BenchmarkComparisonMethod comparisonMethod);
+
 }
