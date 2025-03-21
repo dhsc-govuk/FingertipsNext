@@ -15,24 +15,19 @@ import {
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
-  areaCodes: string[];
-}
-
 export default async function OneIndicatorTwoOrMoreAreasView({
   selectedIndicatorsData,
   searchState,
-  areaCodes,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorSelected,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -86,7 +81,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
-      areaCodes={areaCodes}
     />
   );
 }

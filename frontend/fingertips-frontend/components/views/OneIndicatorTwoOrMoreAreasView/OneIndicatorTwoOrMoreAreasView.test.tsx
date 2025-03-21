@@ -36,12 +36,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     async (testIndicators, testAreas) => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: testIndicators,
+        [SearchParams.AreasSelected]: testAreas,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       await expect(async () => {
         await OneIndicatorTwoOrMoreAreasView({
           searchState: searchState,
-          areaCodes: testAreas,
         });
       }).rejects.toThrow('Invalid parameters provided to view');
     }
@@ -66,12 +66,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: [testIndicators],
         [SearchParams.GroupSelected]: testGroup,
+        [SearchParams.AreasSelected]: testAreas,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
       await OneIndicatorTwoOrMoreAreasView({
         searchState: searchState,
-        areaCodes: testAreas,
       });
 
       expect(
@@ -95,12 +95,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: [testIndicators],
       [SearchParams.GroupSelected]: testGroup,
+      [SearchParams.AreasSelected]: testAreas,
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
     await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: testAreas,
     });
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
@@ -137,7 +137,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const page = await OneIndicatorTwoOrMoreAreasView({
       selectedIndicatorsData: [firstIndicatorDocument],
       searchState: searchParams,
-      areaCodes: ['E12000001', 'E12000003'],
     });
 
     expect(page.props.indicatorMetadata).toEqual(firstIndicatorDocument);
@@ -148,6 +147,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.GroupSelected]: 'G001',
       [SearchParams.AreaTypeSelected]: 'regions',
+      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
       mockHealthData['108'][1],
@@ -155,7 +155,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: ['E12000001', 'E12000003'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
@@ -175,7 +174,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: ['E12000004', 'E12000006'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
