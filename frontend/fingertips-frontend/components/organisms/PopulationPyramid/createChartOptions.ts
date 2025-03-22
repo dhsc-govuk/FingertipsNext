@@ -13,7 +13,7 @@ const createChartSeriesOptions = (
   return {
     chart: {
       type: 'bar',
-      height: '100%',
+      height: '80%',
     },
     plotOptions: {
       series: {
