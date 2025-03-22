@@ -2,8 +2,10 @@ import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData'
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipStringList } from '.';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
-export const createChartSeriesOptions = (
+const createChartSeriesOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   dataForArea: PopulationDataForArea,
@@ -31,11 +33,11 @@ export const createChartSeriesOptions = (
           offset: 2,
           rotation: 0,
         },
-        lineColor: '#D7D7D7',
+        lineColor: GovukColours.LightGreyTimberwolf,
         tickWidth: 1,
         tickLength: 10,
         tickmarkPlacement: 'on',
-        tickColor: '#D7D7D7',
+        tickColor: GovukColours.LightGreyTimberwolf,
       },
       {
         opposite: true,
@@ -48,11 +50,11 @@ export const createChartSeriesOptions = (
           offset: 4,
           rotation: 0,
         },
-        lineColor: '#D7D7D7',
+        lineColor: GovukColours.LightGreyTimberwolf,
         tickWidth: 1,
         tickLength: 10,
         tickmarkPlacement: 'on',
-        tickColor: '#D7D7D7',
+        tickColor: GovukColours.LightGreyTimberwolf,
         accessibility: {
           description: '{xAxisTitle} degrees {series.name}',
         },
@@ -63,10 +65,10 @@ export const createChartSeriesOptions = (
         text: yAxisTitle,
       },
       lineWidth: 1,
-      lineColor: '#D7D7D7',
+      lineColor: GovukColours.LightGreyTimberwolf,
       tickWidth: 1,
       tickLength: 5,
-      tickColor: '#D7D7D7',
+      tickColor: GovukColours.LightGreyTimberwolf,
       gridLineWidth: 0,
       labels: {
         format: '{abs value} %',
@@ -77,16 +79,6 @@ export const createChartSeriesOptions = (
         description: accessibilityLabel,
       },
       tickInterval: 1,
-      // tickPositioner: (axis: Axis) => {
-      //   if (!axis.isXAxis) {
-      //     return [
-      //       new Tick(axis, -100, "bar", false),
-      //       new Tick(axis, 0, "bar", false),
-      //       new Tick(axis, 100, "bar", false)
-      //     ]
-
-      //   }
-      // },
     },
     tooltip: {
       padding: 10,
@@ -106,13 +98,13 @@ export const createChartSeriesOptions = (
         type: 'bar',
         data: dataForArea.femaleSeries,
         xAxis: 0,
-        color: '#5352BE',
+        color: GovukColours.PurpleBlue,
         pointWidth: 17,
         dataLabels: {
           enabled: false,
           inside: false,
           format: '{(abs point.y):.1f}%',
-          color: '#000000',
+          color: GovukColours.Black,
           style: {
             fontWeight: 'light',
           },
@@ -123,13 +115,13 @@ export const createChartSeriesOptions = (
         type: 'bar',
         data: dataForArea.maleSeries.map((datapoint) => -datapoint),
         xAxis: 1,
-        color: '#57AEF8',
+        color: GovukColours.BrightSkyBlue,
         pointWidth: 17,
         dataLabels: {
           enabled: false,
           inside: false,
           format: '{(abs point.y):.1f}%',
-          color: '#000000',
+          color: GovukColours.Black,
           style: {
             fontWeight: 'light',
           },
@@ -143,49 +135,49 @@ export const createChartSeriesOptions = (
   };
 };
 
-export const createAdditionalChartSeries = (
-  dataForEngland: PopulationDataForArea | undefined,
-  dataForBaseline: PopulationDataForArea | undefined
+const createAdditionalChartSeries = (
+  dataForBenchmark: PopulationDataForArea | undefined,
+  dataForGroup: PopulationDataForArea | undefined
 ): Array<SeriesOptionsType> => {
   const series: Array<SeriesOptionsType> = [];
 
-  if (dataForEngland) {
+  if (dataForBenchmark) {
     series.push(
       {
-        name: 'England',
-        data: dataForEngland.femaleSeries,
+        name: `Benchmark: ${dataForBenchmark.areaName}`,
+        data: dataForBenchmark.femaleSeries,
         type: 'line',
-        color: '#3D3D3D',
+        color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
         marker: { symbol: 'circle' },
       },
       {
-        name: 'England',
-        data: dataForEngland.maleSeries.map((datapoint) => -datapoint),
+        name: `Benchmark: ${dataForBenchmark.areaName}`,
+        data: dataForBenchmark.maleSeries.map((datapoint) => -datapoint),
         type: 'line',
-        color: '#3D3D3D',
+        color: GovukColours.CharcoalGray,
         dashStyle: 'Solid',
         marker: { symbol: 'circle' },
         showInLegend: false,
       }
     );
   }
-  if (dataForBaseline) {
+  if (dataForGroup) {
     series.push(
       {
         name: 'Baseline',
         type: 'line',
-        data: dataForBaseline.femaleSeries,
-        color: '#28A197',
+        data: dataForGroup.femaleSeries,
+        color: GovukColours.Turquoise,
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
       },
       {
-        name: 'Baseline',
+        name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
-        data: dataForBaseline.maleSeries.map((datapoint) => -datapoint),
-        color: '#28A197',
+        data: dataForGroup.maleSeries.map((datapoint) => -datapoint),
+        color: GovukColours.Turquoise,
         dashStyle: 'Dash',
         marker: { symbol: 'diamond' },
         dataLabels: { enabled: false },
@@ -194,4 +186,30 @@ export const createAdditionalChartSeries = (
     );
   }
   return series;
+};
+
+export const createChartPyramidOptions = (
+  xAxisTitle: string,
+  yAxisTitle: string,
+  accessibilityLabel: string,
+  dataForSelectedArea: PopulationDataForArea,
+  dataForBenchmark?: PopulationDataForArea,
+  dataForSelectedGroup?: PopulationDataForArea
+): Highcharts.Options => {
+  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
+    xAxisTitle,
+    yAxisTitle,
+    dataForSelectedArea,
+    accessibilityLabel
+  );
+  if (populationPyramidOptions.series?.length) {
+    const seriesOptions = createAdditionalChartSeries(
+      dataForBenchmark,
+      dataForSelectedGroup
+    );
+    seriesOptions.forEach((series) => {
+      populationPyramidOptions.series?.push(series);
+    });
+  }
+  return populationPyramidOptions;
 };

@@ -2,6 +2,7 @@ import {
   HealthDataPoint,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from './constants';
 
 export interface PopulationDataForArea {
   areaName?: string;
@@ -66,5 +67,61 @@ export const convertHealthDataForAreaForPyramidData = (
     ageCategories: ageCategories,
     femaleSeries: femaleSeries,
     maleSeries: maleSeries,
+  };
+};
+
+export const filterHealthDataForArea = (
+  dataForAreas: HealthDataForArea[],
+  selectedGroupAreaCode: string | undefined
+) => {
+  if (dataForAreas.length == 1) {
+    return { areas: dataForAreas, england: undefined, baseline: undefined };
+  }
+
+  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
+    return (
+      selectedGroupAreaCode != area.areaCode &&
+      area.areaCode != areaCodeForEngland
+    );
+  });
+
+  const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
+    return (
+      area.areaCode == areaCodeForEngland &&
+      selectedGroupAreaCode != area.areaCode
+    );
+  });
+
+  let baseline: HealthDataForArea | undefined = undefined;
+  if (england && selectedGroupAreaCode) {
+    baseline = dataForAreas.find((area: HealthDataForArea, _: number) => {
+      return (
+        selectedGroupAreaCode == area.areaCode &&
+        england.areaCode != area.areaCode
+      );
+    });
+  }
+
+  return { areas, england, baseline };
+};
+
+export const createPopulationDataFrom = (
+  dataForAreas: HealthDataForArea[],
+  groupAreaCode: string
+) => {
+  const { areas, england, baseline } = filterHealthDataForArea(
+    dataForAreas,
+    groupAreaCode
+  );
+
+  const pyramidAreas = areas.map((area) =>
+    convertHealthDataForAreaForPyramidData(area)
+  );
+  const pyramidEngland = convertHealthDataForAreaForPyramidData(england);
+  const pyramidBaseline = convertHealthDataForAreaForPyramidData(baseline);
+  return {
+    areas: pyramidAreas,
+    england: pyramidEngland,
+    baseline: pyramidBaseline,
   };
 };

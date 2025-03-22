@@ -3,17 +3,14 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import {
-  createChartSeriesOptions,
-  createAdditionalChartSeries,
-} from './createChartOptions';
+import { createChartPyramidOptions } from './createChartOptions';
 
 interface PyramidChartProps {
   dataForSelectedArea: PopulationDataForArea;
   dataForEngland?: PopulationDataForArea;
   dataForBaseline?: PopulationDataForArea;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  xAxisTitle: string;
+  yAxisTitle: string;
   accessibilityLabel?: string;
 }
 
@@ -35,21 +32,15 @@ export function PopulationPyramid({
 }: Readonly<PyramidChartProps>) {
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
-  const populationPyramidOptions: Highcharts.Options = createChartSeriesOptions(
-    xAxisTitle ?? '',
-    yAxisTitle ?? '',
-    dataForSelectedArea,
-    accessibilityLabel ?? ''
-  );
-  if (populationPyramidOptions.series?.length) {
-    const seriesOptions = createAdditionalChartSeries(
+  const populationPyramidOptions: Highcharts.Options =
+    createChartPyramidOptions(
+      xAxisTitle,
+      yAxisTitle,
+      accessibilityLabel ?? '',
+      dataForSelectedArea,
       dataForEngland,
       dataForBaseline
     );
-    seriesOptions.forEach((series) => {
-      populationPyramidOptions.series?.push(series);
-    });
-  }
   return (
     <div data-testid="populationPyramid-component">
       <HighchartsReact

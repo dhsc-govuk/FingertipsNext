@@ -1,4 +1,3 @@
-import { AreaDocument } from '@/lib/search/searchTypes';
 import { Select } from 'govuk-react';
 import styled from 'styled-components';
 
@@ -12,10 +11,14 @@ const StyledAreaSelectInputField = styled(Select)({
   marginBottom: '25px',
 });
 
+export interface AreaSelectInputData {
+  areaCode: string;
+  areaName: string;
+}
 interface AreaSelectInputFieldProps {
   selectedAreaCode?: string;
-  onSelected?: (area: Omit<AreaDocument, 'areaType'>) => void;
-  areas: Omit<AreaDocument, 'areaType'>[];
+  onSelected?: (area: AreaSelectInputData) => void;
+  areas: AreaSelectInputData[];
   title: string;
   visibility?: boolean;
 }
@@ -37,7 +40,7 @@ export const AreaSelectInputField = ({
           e.preventDefault();
           if (onSelected) {
             const selectedArea = areas.find(
-              (area: Omit<AreaDocument, 'areaType'>, _: number) => {
+              (area: AreaSelectInputData, _: number) => {
                 return area.areaCode == e.target.value;
               }
             );
@@ -47,7 +50,7 @@ export const AreaSelectInputField = ({
         defaultValue: selectedAreaCode,
       }}
     >
-      {areas.map((area: Omit<AreaDocument, 'areaType'>) => {
+      {areas.map((area: AreaSelectInputData) => {
         return (
           <option
             value={area.areaCode}

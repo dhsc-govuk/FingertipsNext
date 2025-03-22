@@ -21,6 +21,11 @@ export enum GovukColours {
   Turquoise = '#28A197',
   DarkPink = '#801650',
   OtherLightPurple = '#6F72AF',
+  CharcoalGray = '#3D3D3D',
+  PurpleBlue = '#5352BE',
+  // Figma design have then, but not in the colour chart.
+  LightGreyTimberwolf = '#D7D7D7',
+  BrightSkyBlue = '#57AEF8',
 }
 
 export enum TagColours {

@@ -149,7 +149,7 @@ export function OneIndicatorOneAreaViewPlots({
         healthDataForAreas={populationHealthDataForArea ?? []}
         selectedGroupAreaCode={selectedGroupCode}
         xAxisTitle="Age"
-        yAxisTitle="Percentage"
+        yAxisTitle="Percentage of total population"
       />
     </section>
   );

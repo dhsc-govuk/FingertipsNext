@@ -1,3 +1,4 @@
+import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '../styleHelpers/colours';
 
 export type ChartColours = GovukColours | UniqueChartColours;
@@ -25,3 +26,14 @@ export const chartColours: ChartColours[] = [
   GovukColours.LightBlue,
   GovukColours.OtherLightPurple,
 ];
+
+export const getLatestYear = (
+  points: HealthDataPoint[] | undefined
+): number | undefined => {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce((previous, point) => {
+    return Math.max(previous, point.year);
+  }, points[0].year);
+  return year;
+};
