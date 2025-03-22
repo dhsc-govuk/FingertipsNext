@@ -3,7 +3,6 @@ import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { generatePopPyramidTooltipStringList } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const createChartSeriesOptions = (
   xAxisTitle: string,
@@ -14,6 +13,7 @@ const createChartSeriesOptions = (
   return {
     chart: {
       type: 'bar',
+      height: '100%',
     },
     plotOptions: {
       series: {

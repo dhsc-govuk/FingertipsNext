@@ -18,6 +18,17 @@ import { HeaderChartTitle } from './HeaderChartTitle';
 import { H3 } from 'govuk-react';
 import { getLatestYear } from '@/lib/chartHelpers/colours';
 
+const getHeaderTitle = (healthData: HealthDataForArea | undefined) => {
+  const year = getLatestYear(healthData?.healthData);
+  let title = undefined;
+  if (!year) {
+    title = `Resident population profile for ${healthData?.areaName}`;
+  } else {
+    title = `Resident population profile for ${healthData?.areaName} ${year}`;
+  }
+  return title;
+};
+
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
@@ -30,8 +41,6 @@ export const PopulationPyramidWithTable = ({
   yAxisTitle,
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
-  const [title, setTitle] = useState<string>();
-
   const convertedData = useMemo(() => {
     return createPopulationDataFrom(
       healthDataForAreas,
@@ -39,8 +48,22 @@ export const PopulationPyramidWithTable = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const [selectedArea, setSelectedArea] = useState(
-    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined
+  const defaultSelectedArea =
+    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined;
+  const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
+  const [title, setTitle] = useState<string>(
+    (() => {
+      if (!defaultSelectedArea) return '';
+      const healthData = healthDataForAreas.find(
+        (value: HealthDataForArea, _: number) => {
+          return (
+            value.areaCode == defaultSelectedArea.areaCode &&
+            value.areaName == defaultSelectedArea.areaName
+          );
+        }
+      );
+      return getHeaderTitle(healthData);
+    })()
   );
 
   const onAreaSelectedHandler = useCallback(
@@ -55,15 +78,7 @@ export const PopulationPyramidWithTable = ({
           }
         );
 
-        // change the title.
-        const year = getLatestYear(healthData?.healthData);
-        let title = undefined;
-        if (!year) {
-          title = `Resident population profile for ${healthData?.areaName}`;
-        } else {
-          title = `Resident population profile for ${healthData?.areaName} ${year}`;
-        }
-        setTitle(title);
+        setTitle(getHeaderTitle(healthData));
         setSelectedArea(convertHealthDataForAreaForPyramidData(healthData));
       }
     },

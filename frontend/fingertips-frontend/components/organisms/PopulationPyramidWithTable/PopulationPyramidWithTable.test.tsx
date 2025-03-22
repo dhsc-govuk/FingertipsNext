@@ -64,7 +64,12 @@ describe('PopulationPyramidWithTable', () => {
 
   test('renders component with default title', () => {
     render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
+      <PopulationPyramidWithTable
+        healthDataForAreas={mockHealthDataForArea}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of population"
+        selectedGroupAreaCode="0909"
+      />
     );
 
     expect(screen.getByText('Related Population Data')).toBeInTheDocument();
@@ -73,7 +78,11 @@ describe('PopulationPyramidWithTable', () => {
 
   test('updates title when area is selected', () => {
     render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
+      <PopulationPyramidWithTable
+        healthDataForAreas={mockHealthDataForArea}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of population"
+      />
     );
 
     fireEvent.click(screen.getByTestId('select-input'));
@@ -85,7 +94,11 @@ describe('PopulationPyramidWithTable', () => {
 
   test('renders tabs correctly', () => {
     render(
-      <PopulationPyramidWithTable healthDataForAreas={mockHealthDataForArea} />
+      <PopulationPyramidWithTable
+        healthDataForAreas={mockHealthDataForArea}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of population"
+      />
     );
 
     expect(screen.getByText('Population pyramid')).toBeInTheDocument();
