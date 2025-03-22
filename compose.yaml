@@ -6,7 +6,7 @@ services:
 
     build: frontend/fingertips-frontend
     environment:
-      FINGERTIPS_API_URL: "http://api:8080"
+      FINGERTIPS_API_URL: 'http://api:8080'
       DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
     ports:
       - 3000:3000
@@ -28,7 +28,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      TRUST_CERT: "True"
+      TRUST_CERT: 'True'
     ports:
       - 5144:8080
     healthcheck:
@@ -53,7 +53,7 @@ services:
       DB_NAME: ${DB_NAME}
       SA_USERNAME: ${DB_USER}
       SA_PASSWORD: ${DB_PASSWORD}
-      TRUST_CERT: "True"
+      TRUST_CERT: 'True'
 
   db-apply-trends:
     profiles:
@@ -74,12 +74,12 @@ services:
       - all
       - api
       - db
-
     image: mcr.microsoft.com/mssql/server
+    user: '0:0'
     environment:
-      ACCEPT_EULA: "Y"
+      ACCEPT_EULA: 'Y'
       MSSQL_SA_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 1433:1433
+      - '1433:1433'
     volumes:
       - ./DataCreator/DataCreator/data/out:/var/opt/mssql/csv/
