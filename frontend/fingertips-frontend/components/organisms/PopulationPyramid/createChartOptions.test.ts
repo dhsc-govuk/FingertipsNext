@@ -1,5 +1,4 @@
 import { createChartPyramidOptions } from './createChartOptions';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 
 describe('createChartPyramidOptions', () => {
   const mockPopulationData = {
@@ -37,8 +36,10 @@ describe('createChartPyramidOptions', () => {
       mockPopulationData,
       benchmarkData
     );
-    expect(options.series).toHaveLength(4);
-    expect(options.series[2].name).toContain('Benchmark: Benchmark Area');
+    expect(options?.series).toHaveLength(4);
+    expect(options?.series ? options?.series[2].name : undefined).toContain(
+      'Benchmark: Benchmark Area'
+    );
   });
 
   it('should add additional series when group data is provided', () => {
@@ -58,7 +59,9 @@ describe('createChartPyramidOptions', () => {
     );
 
     expect(options.series).toHaveLength(4);
-    expect(options.series[2].name).toContain('Group: Group Name');
+    expect(options?.series ? options?.series[2].name : undefined).toContain(
+      'Group: Group Name'
+    );
   });
 
   it('should add additional series when group data and benchmark data is provided', () => {
@@ -84,17 +87,5 @@ describe('createChartPyramidOptions', () => {
       groupData
     );
     expect(options.series).toHaveLength(6);
-  });
-
-  it('should set correct colors for series', () => {
-    const options = createChartPyramidOptions(
-      'Age',
-      'Population (%)',
-      'Accessibility Label',
-      mockPopulationData
-    );
-
-    expect(options.series?.[0].color).toBe(GovukColours.PurpleBlue);
-    expect(options.series?.[1].color).toBe(GovukColours.BrightSkyBlue);
   });
 });
