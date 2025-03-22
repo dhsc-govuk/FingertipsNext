@@ -70,7 +70,7 @@ export const convertHealthDataForAreaForPyramidData = (
   };
 };
 
-export const filterHealthDataForArea = (
+const filterHealthDataForArea = (
   dataForAreas: HealthDataForArea[],
   selectedGroupAreaCode: string | undefined
 ) => {
@@ -105,7 +105,7 @@ export const filterHealthDataForArea = (
   return { areas, england, baseline };
 };
 
-export const createPopulationDataFrom = (
+export const createPyramidPopulationDataFrom = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string
 ) => {

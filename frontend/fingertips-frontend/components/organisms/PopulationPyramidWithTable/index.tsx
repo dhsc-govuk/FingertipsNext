@@ -5,7 +5,7 @@ import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
 import { useCallback, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
-  createPopulationDataFrom,
+  createPyramidPopulationDataFrom,
   PopulationDataForArea,
 } from '@/lib/chartHelpers/preparePopulationData';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
@@ -42,7 +42,7 @@ export const PopulationPyramidWithTable = ({
   selectedGroupAreaCode,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const convertedData = useMemo(() => {
-    return createPopulationDataFrom(
+    return createPyramidPopulationDataFrom(
       healthDataForAreas,
       selectedGroupAreaCode ?? ''
     );
