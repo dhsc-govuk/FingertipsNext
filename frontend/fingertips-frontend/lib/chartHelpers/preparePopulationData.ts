@@ -86,10 +86,11 @@ const filterHealthDataForArea = (
   });
 
   const england = dataForAreas.find((area: HealthDataForArea, _: number) => {
-    return (
-      area.areaCode == areaCodeForEngland &&
-      selectedGroupAreaCode != area.areaCode
-    );
+    const isEnglandAddedAlready =
+      areas.find((search_area) => {
+        return search_area.areaCode == area.areaCode;
+      }) != undefined;
+    return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
   });
 
   let baseline: HealthDataForArea | undefined = undefined;

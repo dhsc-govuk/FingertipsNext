@@ -48,6 +48,10 @@ export const PopulationPyramidWithTable = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
+  console.log('Population data ');
+  console.log(convertedData.areas);
+  console.log(convertedData.england);
+
   const defaultSelectedArea =
     convertedData.areas.length > 0 ? convertedData.areas[0] : undefined;
   const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
