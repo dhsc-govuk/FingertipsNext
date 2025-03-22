@@ -165,7 +165,7 @@ const createAdditionalChartSeries = (
   if (dataForGroup) {
     series.push(
       {
-        name: 'Baseline',
+        name: `Group: ${dataForGroup.areaName}`,
         type: 'line',
         data: dataForGroup.femaleSeries,
         color: GovukColours.Turquoise,
