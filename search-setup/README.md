@@ -21,7 +21,7 @@ npm install
    
 Create a .env file from the existing .env.example template and populate it with values obtained from Azure.
 If running the app to test code changes please set the **index name overrides** in the `.env` file so that
-your changes will not affect anyone else. 
+your changes will not affect anyone else.
 
 3. **Run the app**
 

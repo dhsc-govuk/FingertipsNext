@@ -8,9 +8,12 @@ import {
   AreaFilterData,
   SelectAreasFilterPanel,
 } from '@/components/molecules/SelectAreasFilterPanel';
+import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
+  selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
 }
@@ -32,6 +35,7 @@ const StyledFilterDiv = styled('div')({
 
 export function AreaFilterPane({
   selectedAreasData,
+  selectedIndicatorsData,
   areaFilterData,
   searchState,
 }: Readonly<AreaFilterPaneProps>) {
@@ -42,6 +46,13 @@ export function AreaFilterPane({
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
+        {selectedIndicatorsData ? (
+          <SelectedIndicatorsPanel
+            selectedIndicatorsData={selectedIndicatorsData}
+            searchState={searchState}
+          />
+        ) : null}
+
         <SelectedAreasPanel
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}

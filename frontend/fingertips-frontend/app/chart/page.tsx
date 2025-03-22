@@ -20,6 +20,7 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
 
@@ -31,13 +32,28 @@ export default async function ChartPage(
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
-    const { [SearchParams.AreasSelected]: areaCodes } =
-      stateManager.getSearchState();
+    const {
+      [SearchParams.AreasSelected]: areaCodes,
+      [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    } = stateManager.getSearchState();
 
     const areasSelected = areaCodes ?? [];
 
     // We don't want to render this page statically
     await connection();
+
+    const selectedIndicatorsData =
+      indicatorsSelected && indicatorsSelected.length > 0
+        ? (
+            await Promise.all(
+              indicatorsSelected.map((indicator) =>
+                SearchServiceFactory.getIndicatorSearchService().getIndicator(
+                  indicator
+                )
+              )
+            )
+          ).filter((indicatorDocument) => indicatorDocument !== undefined)
+        : [];
 
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -66,15 +82,6 @@ export default async function ChartPage(
 
     // Area filtering data
     const areasApi = ApiClientFactory.getAreasApiClient();
-
-    // set England as areas if all other areas are removed
-    // DHSCFT-481 to futher refine this behaviour
-    if (areasSelected.length === 0) {
-      stateManager.addParamValueToState(
-        SearchParams.AreasSelected,
-        areaCodeForEngland
-      );
-    }
 
     const selectedAreasData =
       areasSelected && areasSelected.length > 0
@@ -105,6 +112,7 @@ export default async function ChartPage(
         <ViewsContext
           searchState={stateManager.getSearchState()}
           selectedAreasData={selectedAreasData}
+          selectedIndicatorsData={selectedIndicatorsData}
           areaFilterData={{
             availableAreaTypes,
             availableGroupTypes,

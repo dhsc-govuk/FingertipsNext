@@ -1,4 +1,6 @@
-﻿namespace DataCreator
+﻿using LINQtoCSV;
+
+namespace DataCreator
 {
     public record IndicatorEntity: SimpleIndicator
     {
@@ -62,16 +64,27 @@
 
     public record SimpleIndicator
     {
+        [CsvColumn(FieldIndex = 1)]
         public int IndicatorID { get; set; }
 
-       
+        [CsvColumn(FieldIndex = 2)]
         public string Polarity { get; set; }
 
+        [CsvColumn(FieldIndex = 3)]
         public string BenchmarkComparisonMethod { get; set; }
 
+        [CsvColumn(FieldIndex = 4)]
         public string ValueType { get; set; }
 
+        [CsvColumn(FieldIndex = 5)]
         public string IndicatorName { get; set; }
+
+        
+        public bool HasMultipleSexes { get; set; }
+
+        public bool HasMultipleAges { get; set; }
+
+        public bool HasMultipleDeprivation { get; set; }
     }
 
     public record IndicatorWithAreasAndLatestUpdate
@@ -85,6 +98,12 @@
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
         public bool HasInequalities { get; set; }
+
+        public bool HasMultipleSexes { get; set; }
+
+        public bool HasMultipleAges{ get; set; }
+
+        public bool HasMultipleDeprivation { get; set; }
     }
 }
 

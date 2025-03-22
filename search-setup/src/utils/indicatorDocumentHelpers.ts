@@ -14,6 +14,7 @@ export function parseIndicatorData(
       indicatorDefinition,
       dataSource,
       associatedAreaCodes,
+      trendsByArea,
       hasInequalities,
       unitLabel,
     }): IndicatorDocument => {
@@ -26,6 +27,7 @@ export function parseIndicatorData(
         latestDataPeriod: String(latestDataPeriod),
         lastUpdatedDate: new Date(lastUpdatedDate),
         associatedAreaCodes,
+        trendsByArea,
         hasInequalities,
         unitLabel,
       };

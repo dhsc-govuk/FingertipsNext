@@ -7,8 +7,8 @@ CREATE TABLE [dbo].[IndicatorDimension](
 	[ValueType] [nvarchar](255) NULL,                        --The type of value for the data collected for the indicator e.g. proportion, directly standardised rate
 	[BenchmarkComparisonMethod] [nvarchar](255) NULL,        --e.g. RAG or Quntiles
 	[StartDate] [datetime2](7) NOT NULL,					--The start data that this row was relevant for, to support slowly changing dimensions if an indicator changes over time
-	[EndDate] [datetime2](7) NOT NULL,						--The end data that this row was relevant for, to support slowly changing dimensions if an indicator changes over time
- CONSTRAINT [PK_IndicatorDimension] PRIMARY KEY CLUSTERED 
+	[EndDate] [datetime2](7) NOT NULL
+CONSTRAINT [PK_IndicatorDimension] PRIMARY KEY CLUSTERED 
 (
 	[IndicatorKey] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]

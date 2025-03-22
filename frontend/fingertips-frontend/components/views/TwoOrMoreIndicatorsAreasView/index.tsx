@@ -4,18 +4,14 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 
-interface TwoOrMoreIndicatorsAreasViewProps extends ViewProps {
-  areaCodes: string[];
-}
-
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
-  areaCodes,
-}: Readonly<TwoOrMoreIndicatorsAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
-  const areasSelected = areaCodes;
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreasSelected]: areasSelected,
+  } = stateManager.getSearchState();
 
   if (!areasSelected) {
     throw new Error('Invalid parameters provided to view');
