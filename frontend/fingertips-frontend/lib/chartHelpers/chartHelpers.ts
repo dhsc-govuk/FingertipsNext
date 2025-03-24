@@ -106,10 +106,14 @@ export function getHealthDataForAreasForMostRecentYearOnly(
           return healthDataPoint.year === mostRecentYear;
         }
       );
-      return {
-        ...healthDataForArea,
-        healthData: [{ ...dataPointForMostRecentYear }],
-      };
+      if (dataPointForMostRecentYear) {
+        return {
+          ...healthDataForArea,
+          healthData: [{ ...dataPointForMostRecentYear }],
+        };
+      } else {
+        return { ...healthDataForArea, healthData: [] };
+      }
     }
   );
 

@@ -172,7 +172,6 @@ export function createThematicMapChartOptions(
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
-      type: 'mapChart',
       height: 800, // TODO: agree height
       animation: false,
       borderWidth: 0.2,

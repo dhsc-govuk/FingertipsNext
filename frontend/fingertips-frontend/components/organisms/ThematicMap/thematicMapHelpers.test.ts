@@ -208,10 +208,10 @@ describe('prepareThematicMapSeriesData', () => {
 });
 
 describe('createThematicMapChartOptions', () => {
-  it('should return a valid Highcharts.Options object', () => {
+  it('should return an object with the correct map', () => {
     const options = createThematicMapChartOptions(mockMapData, mockHealthData);
 
     expect(options).toBeDefined();
-    expect(options.chart?.type).toBe('map');
+    expect(options.series?.[0].mapData).toEqual(mockMapData.mapFile);
   });
 });
