@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
-import { getMapData } from '@/lib/chartHelpers/thematicMapHelpers';
+import { getMapData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 const mockAreaType = 'regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
@@ -26,7 +26,6 @@ it('should render the benchmark legend', async () => {
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
       mapData={mockMapData}
-      groupAreaCodes={['']}
     />
   );
 

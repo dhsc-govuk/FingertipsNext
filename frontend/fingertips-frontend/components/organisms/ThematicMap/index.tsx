@@ -8,13 +8,12 @@ import {
   benchmarkColourScale,
   MapData,
   prepareThematicMapSeriesData,
-} from '@/lib/chartHelpers/thematicMapHelpers';
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
-  groupAreaCodes: string[];
   indicatorDataSource?: string;
 }
 
@@ -24,20 +23,13 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapData,
-  groupAreaCodes,
   indicatorDataSource,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const data = prepareThematicMapSeriesData(
-    healthIndicatorData,
-    groupAreaCodes,
-    mapData
-  );
+  const data = prepareThematicMapSeriesData(healthIndicatorData, mapData);
   let captionText = `<span>Map Source: ${mapData.mapSource}</span>`;
   if (indicatorDataSource)
     captionText += `<span> <br /><br />Data Source: ${indicatorDataSource}</span>`;
-
-  // '<br /><span>benchmark: {point.benchmarkComparison}</span>';
 
   // TODO: refactor have default options in a helpers file
   const mapOptions: Highcharts.Options = {

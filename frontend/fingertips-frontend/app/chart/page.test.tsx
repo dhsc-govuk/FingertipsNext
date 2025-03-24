@@ -32,7 +32,7 @@ const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 jest.mock('@/components/pages/chart');
-jest.mock('@/lib/chartHelpers/thematicMapHelpers', () => ({
+jest.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
   getMapData: jest.fn(),
 }));
 

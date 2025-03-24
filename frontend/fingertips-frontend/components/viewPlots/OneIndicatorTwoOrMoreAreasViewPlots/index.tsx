@@ -11,7 +11,7 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapData } from '@/lib/chartHelpers/thematicMapHelpers';
+import { MapData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
@@ -111,7 +111,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapData={mapData}
-          groupAreaCodes={areaCodes}
           indicatorDataSource={indicatorMetadata?.dataSource}
         />
       )}

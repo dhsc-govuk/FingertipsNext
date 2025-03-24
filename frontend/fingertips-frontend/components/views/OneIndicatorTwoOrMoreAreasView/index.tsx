@@ -13,7 +13,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
-} from '@/lib/chartHelpers/thematicMapHelpers';
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 

@@ -9,8 +9,8 @@ import combinedAuthoritiesMap from '@/assets/maps/Combined_Authorities_December_
 import NHSRegionsMap from '@/assets/maps/NHS_England_Regions_January_2024_EN_BSC_7500404208533377417.geo.json';
 import NHSICBMap from '@/assets/maps/Integrated_Care_Boards_April_2023_EN_BSC_-187828753279616787.geo.json';
 import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_8040841744469859785.geo.json';
-import { AreaTypeKeys } from '../areaFilterHelpers/areaType';
-import { GovukColours } from '../styleHelpers/colours';
+import { AreaTypeKeys } from '../../../lib/areaFilterHelpers/areaType';
+import { GovukColours } from '../../../lib/styleHelpers/colours';
 import {
   HealthDataForArea,
   HealthDataPointBenchmarkComparisonOutcomeEnum,
@@ -143,36 +143,36 @@ export const benchmarkColourScale = [
 ];
 export function prepareThematicMapSeriesData(
   data: HealthDataForArea[],
-  groupAreaCodes: string[],
+  // groupAreaCodes: string[],
   mapData: MapData
 ) {
-  const preparedDataForAllAreas = groupAreaCodes.map((groupAreaCode) => {
-    // cannot use data, as it doesn't have the names for missing areas - needs to come from mapData
-    // mapData.find() for fine-grained areas is better suited to server-side
-    // refactor to use prepareThematicMapSeriesData() in View
-    // pass dataForMap through on props
-    // OR
-    // get this from the filterdata...
-    const areaName = mapData.mapFile.features.find(
-      ({ properties }) => properties[mapData.mapJoinKey] === groupAreaCode
-    )?.properties.LAD24NM; // TODO replace MAGICKEY with nameKey like joinKey
+  // const preparedDataForAllAreas = groupAreaCodes.map((groupAreaCode) => {
+  //   // cannot use data, as it doesn't have the names for missing areas - needs to come from mapData
+  //   // mapData.find() for fine-grained areas is better suited to server-side
+  //   // refactor to use prepareThematicMapSeriesData() in View
+  //   // pass dataForMap through on props
+  //   // OR
+  //   // get this from the filterdata...
+  //   const areaName = mapData.mapFile.features.find(
+  //     ({ properties }) => properties[mapData.mapJoinKey] === groupAreaCode
+  //   )?.properties.LAD24NM; // TODO replace MAGICKEY with nameKey like joinKey
 
-    // value has to come from data
-    const value = data.find((areaData) => {
-      areaData.areaCode === groupAreaCode;
-    })?.healthData;
-    console.log({ value });
-    const preparedDataPoint = {
-      areaName: areaName,
-      areaCode: groupAreaCode,
-      // value: data.find(),
-      // value: areaData.healthData[0].value,
-      // benchmarkComparison:
-      //   areaData.healthData[0].benchmarkComparison?.outcome || 'None', // TODO: change fallback to 'Not Compared'
-      // benchmarkColourCode: benchmarkColourCode,
-    };
-    console.log(preparedDataPoint);
-  });
+  //   // value has to come from data
+  //   const value = data.find((areaData) => {
+  //     areaData.areaCode === groupAreaCode;
+  //   })?.healthData;
+  //   console.log({ value });
+  //   const preparedDataPoint = {
+  //     areaName: areaName,
+  //     areaCode: groupAreaCode,
+  //     // value: data.find(),
+  //     // value: areaData.healthData[0].value,
+  //     // benchmarkComparison:
+  //     //   areaData.healthData[0].benchmarkComparison?.outcome || 'None', // TODO: change fallback to 'Not Compared'
+  //     // benchmarkColourCode: benchmarkColourCode,
+  //   };
+  //   console.log(preparedDataPoint);
+  // });
   const preparedData = data.map((areaData) => {
     let benchmarkColourCode = 0;
     if (areaData.healthData[0].benchmarkComparison) {
