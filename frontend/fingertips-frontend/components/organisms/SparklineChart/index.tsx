@@ -1,7 +1,7 @@
 'use client';
 
-import { HighchartsReact } from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
