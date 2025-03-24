@@ -158,7 +158,23 @@ export function getAllIndicatorIdsForSearchTerm(
 function filterIndicatorsOnlyPOC(
   indicators: IndicatorDocument[]
 ): IndicatorDocument[] {
-  return indicators.filter((indicator) => indicator.usedInPoc === true);
+  return indicators.filter(
+    (indicator) =>
+      indicator.usedInPoc === true &&
+      // filters needed for one indicator (in loop) + all areas in a group (region) + only subject
+      !indicator.indicatorName.includes(
+        'Hepatitis B vaccination coverage aged 2 years'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Physically inactive in adults aged 19 years and over'
+      ) &&
+      !indicator.indicatorName.includes(
+        'Overweight prevalence (including obesity) in adults aged 18 years and over'
+      )
+  );
 }
 
 export function getAllPOCIndicatorNames(

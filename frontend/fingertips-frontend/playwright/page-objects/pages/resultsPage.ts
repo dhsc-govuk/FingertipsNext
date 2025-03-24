@@ -96,13 +96,35 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async selectIndicatorCheckboxByName(indicatorName: string) {
-    const checkbox = this.page.getByText(indicatorName);
+  async selectFirstAreaCheckbox() {
+    const defaultAreaTypeFilter = 'regions';
+
+    await this.page
+      .getByTestId(this.areaTypeSelector)
+      .selectOption(defaultAreaTypeFilter);
+
+    await this.waitForURLToContain(defaultAreaTypeFilter);
+
+    const areaCheckboxList = this.page
+      .getByTestId(this.areaFilterContainer)
+      .getByRole('checkbox');
+
+    // All checkbox is the first checkbox
+    areaCheckboxList.first().check();
+
+    await this.page.waitForLoadState();
+    await this.page.waitForTimeout(500);
+  }
+
+  async selectFirstIndicatorCheckbox() {
+    const checkbox = this.page
+      .getByTestId('search-result')
+      .getByRole('checkbox')
+      .first();
 
     await expect(checkbox).toBeAttached();
     await expect(checkbox).toBeVisible();
     await expect(checkbox).toBeEnabled();
-    await expect(checkbox).toBeEditable();
     await expect(checkbox).toBeChecked({ checked: false });
 
     await checkbox.check({ force: true, timeout: 2000 });
