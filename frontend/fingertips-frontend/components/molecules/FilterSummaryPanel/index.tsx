@@ -5,6 +5,8 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
+import { Button, SectionBreak } from 'govuk-react';
+import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export interface FilterSummaryPanelProps {
   selectedAreasData: AreaWithRelations[];
@@ -35,8 +37,15 @@ export const FilterSummaryPanel = ({
         />
 
       <div>
-        <button onClick={changeSelection}>Change selection</button>
+        <Button
+          buttonColour={GovukColours.LightGrey}
+          buttonTextColour={GovukColours.Black}
+          onClick={changeSelection}>
+          Change selection
+        </Button>
       </div>
+
+      <SectionBreak visible={true} />
     </div>
   );
 };
