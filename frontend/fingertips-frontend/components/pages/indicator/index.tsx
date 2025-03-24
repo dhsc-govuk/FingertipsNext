@@ -13,6 +13,7 @@ import {
   UnorderedList,
   BackLink,
 } from 'govuk-react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
@@ -79,6 +80,10 @@ export function IndicatorDefinition({
   indicatorDefinitionProps,
   searchState,
 }: Readonly<IndicatorProps>) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   return (
