@@ -3,7 +3,7 @@ using TrendAnalysisApp.Repository.Models;
 
 namespace TrendAnalysisApp.Repository;
 
-public class IndicatorRepository(HealthMeasureDbContext dbCtx)
+public class IndicatorRepository(HealthMeasureDbContext dbCtx) : IIndicatorRepository
 {
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 

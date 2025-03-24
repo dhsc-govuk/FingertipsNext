@@ -12,17 +12,12 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-
-const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
-SearchServiceFactory.getIndicatorSearchService = () =>
-  mockIndicatorSearchService;
 
 const mockMapData = { joinKey: 'RGN23CD', mapFile: regionsMap };
 
@@ -41,12 +36,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     async (testIndicators, testAreas) => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: testIndicators,
+        [SearchParams.AreasSelected]: testAreas,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
       await expect(async () => {
         await OneIndicatorTwoOrMoreAreasView({
           searchState: searchState,
-          areaCodes: testAreas,
         });
       }).rejects.toThrow('Invalid parameters provided to view');
     }
@@ -71,12 +66,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       const searchState: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: [testIndicators],
         [SearchParams.GroupSelected]: testGroup,
+        [SearchParams.AreasSelected]: testAreas,
       };
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
       await OneIndicatorTwoOrMoreAreasView({
         searchState: searchState,
-        areaCodes: testAreas,
       });
 
       expect(
@@ -100,12 +95,12 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: [testIndicators],
       [SearchParams.GroupSelected]: testGroup,
+      [SearchParams.AreasSelected]: testAreas,
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
 
     await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: testAreas,
     });
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
@@ -130,38 +125,21 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     ).toHaveBeenNthCalledWith(2, expected2, API_CACHE_CONFIG);
   });
 
-  it('should call get indicator endpoint and pass indicator metadata', async () => {
-    const indicatorId = '123';
+  it('should pass the first indicatorDocument from selectedIndicatorData as indicatorMetadata prop', async () => {
+    const firstIndicatorDocument = generateIndicatorDocument('1');
+
     const searchParams: SearchStateParams = {
       [SearchParams.SearchedIndicator]: 'testing',
-      [SearchParams.IndicatorsSelected]: [indicatorId],
+      [SearchParams.IndicatorsSelected]: ['1'],
+      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
-
-    const mockResponse = {
-      indicatorID: indicatorId,
-      indicatorName: 'pancakes eaten',
-      indicatorDefinition: 'number of pancakes consumed',
-      dataSource: 'BJSS Leeds',
-      earliestDataPeriod: '2025',
-      latestDataPeriod: '2025',
-      lastUpdatedDate: new Date('March 4, 2025'),
-      associatedAreaCodes: ['E06000047'],
-      unitLabel: 'pancakes',
-      hasInequalities: true,
-      usedInPoc: false,
-    };
-
-    mockIndicatorSearchService.getIndicator.mockResolvedValueOnce(mockResponse);
 
     const page = await OneIndicatorTwoOrMoreAreasView({
+      selectedIndicatorsData: [firstIndicatorDocument],
       searchState: searchParams,
-      areaCodes: ['E06000047', 'A002'],
     });
 
-    expect(mockIndicatorSearchService.getIndicator).toHaveBeenCalledWith(
-      indicatorId
-    );
-    expect(page.props.indicatorMetadata).toBe(mockResponse);
+    expect(page.props.indicatorMetadata).toEqual(firstIndicatorDocument);
   });
 
   it('should call OneIndicatorTwoOrMoreAreasViewPlot with the correct props', async () => {
@@ -169,6 +147,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.GroupSelected]: 'G001',
       [SearchParams.AreaTypeSelected]: 'regions',
+      [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
       mockHealthData['108'][1],
@@ -176,7 +155,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: ['E12000001', 'E12000003'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
@@ -196,7 +174,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
-      areaCodes: ['E12000004', 'E12000006'],
     });
 
     expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
