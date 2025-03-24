@@ -35,28 +35,26 @@ const StyledFilterDiv = styled('div')({
   padding: '1.5em 1em',
 });
 
-const HideFiltersSpan = styled('span')`
-  cursor: pointer;
-  text-decoration: underline;
-  &:focus-visible {
-    outline: 4px solid yellow;
-    outlineoffset: -1;
-    background: yellow;
+const FocusSpan = styled('span')`
+  {
+    cursor: pointer;
+    text-decoration: underline;
+    &:focus-visible {
+      outline: 4px solid yellow;
+      outlineoffset: -1;
+     background: yellow;
   }
 `;
 
-function HideFiltersButtonImpl({ hideFilters }: { hideFilters: () => void }) {
+function HideFiltersSpan({ hideFilters }: { hideFilters: () => void }) {
   return (
-    <HideFiltersSpan
-      tabIndex={0}
-      onClick={hideFilters}
-    >
+    <FocusSpan tabIndex={0} onClick={hideFilters}>
       Hide filter
-    </HideFiltersSpan>
+    </FocusSpan>
   );
 }
 
-const HideFiltersButton = styled(HideFiltersButtonImpl)`
+const HideFiltersButton = styled(HideFiltersSpan)`
   float: right;
 `;
 
