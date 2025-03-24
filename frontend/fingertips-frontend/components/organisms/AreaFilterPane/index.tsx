@@ -16,7 +16,7 @@ interface AreaFilterPaneProps {
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
-  hideFilters: () => void;
+  hideFilters?: () => void;
 }
 
 const StyledFilterPane = styled('div')({});
@@ -69,7 +69,7 @@ export function AreaFilterPane({
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
         <H3 style={{ marginBottom: 0 }}>Filters</H3>
-        <HideFiltersButton hideFilters={hideFilters} />
+        { hideFilters ? (<HideFiltersButton hideFilters={hideFilters} />) : null }
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
