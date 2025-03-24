@@ -4,39 +4,39 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 
 // TODO - export less
 
-export interface IndicatorData {
+interface IndicatorData {
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
 }
 
-type row = {
+interface row {
   key: string;
   cells: cell[];
-};
+}
 
-type cell = {
+interface cell {
   key: string;
   content: string;
   backgroundColour?: string; // not yet implemented
-};
+}
 
-export type area = {
+interface area {
   code: string;
   position?: number;
   name: string;
-};
+}
 
-export type indicator = {
+interface indicator {
   id: string;
   position?: number;
   name: string;
   unitLabel: string;
   latestDataPeriod: number;
-};
+}
 
-export interface DataPoint {
+interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
@@ -51,16 +51,17 @@ export const generateHeadersAndRows = (
   );
 
   // sort indicators by A-Z
-  const { indicatorIds, indicators: indicatorsWithPosition } =
-    orderIndicatorsByName(indicators);
+  const { indicatorIds } = orderIndicatorsByName(indicators);
 
   const precedingAreas = [areaCodeForEngland];
   if (groupAreaCode) {
     precedingAreas.push(groupAreaCode);
   }
 
-  const { areaCodes, areas: areasWithPosition } =
-    orderAreaByNameWithSomeCodesInFront(areas, precedingAreas);
+  const { areaCodes } = orderAreaByNameWithSomeCodesInFront(
+    areas,
+    precedingAreas
+  );
 
   const sortedAreas: area[] = areaCodes.map((areaCode) => {
     return areas[areaCode];
@@ -117,8 +118,10 @@ const generateBackgroundColor = (x: number, y: number): string => {
   return x % 2 == y % 2 ? GovukColours.Yellow : GovukColours.LightGrey;
 };
 
-// This has been very difficult to split up
-export const extractAreasIndicatorsAndDataPoints = (
+// This is a big lump of complexity, as the data is all rather entwined.
+// Naively splitting it up for the sake of it risks making things even less understandable.
+// Untangling would take too much time. Would have written a shorter letter, etc.
+const extractAreasIndicatorsAndDataPoints = (
   indicatorDataForAllAreas: IndicatorData[]
 ): {
   areas: Record<string, area>;
@@ -184,11 +187,11 @@ export const extractAreasIndicatorsAndDataPoints = (
   return { areas: areas, indicators: indicators, dataPoints: dataPoints };
 };
 
-export const orderIndicatorsByName = (
+const orderIndicatorsByName = (
   indicators: Record<string, indicator>
-): { indicatorIds: string[]; indicators: Record<string, indicator> } => {
+): { indicatorIds: string[] } => {
   const indicatorIds: string[] = [];
-  for (let indicatorId in indicators) {
+  for (const indicatorId in indicators) {
     indicatorIds.push(indicatorId);
   }
 
@@ -196,23 +199,16 @@ export const orderIndicatorsByName = (
     indicators[a].name.localeCompare(indicators[b].name)
   );
 
-  indicatorIds.map((indicatorId, index) => {
-    indicators[indicatorId] = {
-      ...indicators[indicatorId],
-      position: index,
-    };
-  });
-
-  return { indicatorIds, indicators };
+  return { indicatorIds };
 };
 
 // TODO - give this a better name
-export const orderAreaByNameWithSomeCodesInFront = (
+const orderAreaByNameWithSomeCodesInFront = (
   areas: Record<string, area>,
   precedingCodes: string[]
-): { areaCodes: string[]; areas: Record<string, area> } => {
+): { areaCodes: string[] } => {
   const areaCodes: string[] = [];
-  for (let areaCode in areas) {
+  for (const areaCode in areas) {
     if (
       !precedingCodes.find((precedingCode) => {
         return precedingCode === areaCode;
@@ -223,18 +219,12 @@ export const orderAreaByNameWithSomeCodesInFront = (
 
   areaCodes.sort((a, b) => areas[a].name.localeCompare(areas[b].name));
 
+  // TODO - concat rather than multiple unshifts?
   precedingCodes.reverse().map((precedingCode) => {
     areaCodes.unshift(precedingCode);
   });
 
-  areaCodes.map((areaCode, index) => {
-    areas[areaCode] = {
-      ...areas[areaCode],
-      position: index,
-    };
-  });
-
-  return { areaCodes, areas };
+  return { areaCodes };
 };
 
 const generateHeaders = (areas: area[]): cell[] => {

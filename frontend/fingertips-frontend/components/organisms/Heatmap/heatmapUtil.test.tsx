@@ -1,245 +1,306 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
-import {
-  area,
-  DataPoint,
-  extractAreasIndicatorsAndDataPoints,
-  indicator,
-  IndicatorData,
-  orderAreaByNameWithSomeCodesInFront,
-  orderIndicatorsByName,
-} from './heatmapUtil';
+import { generateHeadersAndRows } from './heatmapUtil';
 
-describe('extract areas, indicators, and data points', () => {
-  const newHealthDataPoint = ({
-    year,
-    value,
-  }: {
-    year: number;
-    value?: number;
-  }): HealthDataPoint => {
-    return {
-      year: year,
-      value: value,
-      ageBand: '',
-      sex: '',
-      trend: 'Not yet calculated',
-    };
+const groupAreaCode = 'area3';
+
+const newHealthDataPoint = ({
+  year,
+  value,
+}: {
+  year: number;
+  value?: number;
+}): HealthDataPoint => {
+  return {
+    year: year,
+    value: value,
+    ageBand: '',
+    sex: '',
+    trend: 'Not yet calculated',
   };
+};
 
-  // one test to rule them all etc
-  // this is a bit of a bodge
-  const indicator1: indicator = {
-    id: 'indicator1',
-    name: 'Rate of walkers tripping over sheep',
-    unitLabel: 'per 100',
-    latestDataPeriod: 1066,
-  };
-  const indicator2: indicator = {
-    id: 'indicator2',
-    name: 'Donkey / Goose ratio',
-    unitLabel: '%',
-    latestDataPeriod: 1812,
-  };
+interface row {
+  key: string;
+  cells: cell[];
+}
 
-  const area1: area = { code: 'area1', name: '' };
-  const area2: area = { code: 'area2', name: '' };
-  const area3: area = { code: 'area3', name: '' };
+interface cell {
+  key: string;
+  content: string;
+}
 
-  const data: HealthDataPoint[][][] = [
+const indicator1 = {
+  id: 'indicator1',
+  name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
+  unitLabel: 'per 1000',
+  latestDataPeriod: 2004,
+};
+
+const indicator2 = {
+  id: 'indicator2',
+  name: 'Rate of walkers tripping over sheep',
+  unitLabel: 'per 100',
+  latestDataPeriod: 2002,
+};
+const indicator3 = {
+  id: 'indicator3',
+  name: 'Donkey / Goose ratio',
+  unitLabel: '%',
+  latestDataPeriod: 2002,
+};
+
+const areaEngland = { code: 'E92000001', name: 'England' };
+const area2 = { code: 'area2', name: 'Garsdale' };
+const area3 = { code: groupAreaCode, name: 'Dentdale' };
+const area4 = {
+  code: 'area4',
+  name: 'Comedically Long Area Name with a Devilishly Difficult Distance to Display',
+};
+
+const data: HealthDataPoint[][][] = [
+  [
     [
-      [
-        newHealthDataPoint({ year: 1, value: 11 }),
-        newHealthDataPoint({ year: 2, value: 12 }),
-      ],
-      [
-        newHealthDataPoint({ year: 1, value: 21 }),
-        newHealthDataPoint({ year: 2, value: 22 }),
-      ],
-      [
-        newHealthDataPoint({ year: 1, value: 31 }),
-        newHealthDataPoint({ year: 2, value: 32 }),
-      ],
+      newHealthDataPoint({ year: 2001, value: 11 }),
+      newHealthDataPoint({ year: 2000, value: 12 }),
     ],
     [
-      [
-        newHealthDataPoint({ year: 1, value: 111 }),
-        newHealthDataPoint({ year: 2, value: 112 }),
-      ],
-      [newHealthDataPoint({ year: 1, value: 121 })],
-      [
-        newHealthDataPoint({ year: 1, value: 131 }),
-        newHealthDataPoint({ year: 2, value: 132 }),
-      ],
+      newHealthDataPoint({ year: 2002, value: 21 }),
+      newHealthDataPoint({ year: 2000, value: 22 }),
     ],
-  ];
+    [
+      newHealthDataPoint({ year: 2003, value: 31 }),
+      newHealthDataPoint({ year: 2000, value: 32 }),
+    ],
+    [
+      newHealthDataPoint({ year: 2004, value: 41 }),
+      newHealthDataPoint({ year: 2000, value: 42 }),
+    ],
+  ],
+  [
+    [
+      newHealthDataPoint({ year: 2001, value: 111 }),
+      newHealthDataPoint({ year: 2002, value: 112 }),
+    ],
+    [newHealthDataPoint({ year: 2001, value: 121 })],
+    [
+      newHealthDataPoint({ year: 2001, value: 131 }),
+      newHealthDataPoint({ year: 2002, value: 132 }),
+    ],
+    [
+      newHealthDataPoint({ year: 2001, value: 141 }),
+      newHealthDataPoint({ year: 2002, value: 142 }),
+    ],
+  ],
+  [
+    [
+      newHealthDataPoint({ year: 2001, value: 1111 }),
+      newHealthDataPoint({ year: 2002, value: 1112 }),
+    ],
+    [
+      newHealthDataPoint({ year: 2001, value: 1121 }),
+      newHealthDataPoint({ year: 2002, value: 1122 }),
+    ],
+    [
+      newHealthDataPoint({ year: 2001, value: 1231 }),
+      newHealthDataPoint({ year: 2002, value: 1132 }),
+    ],
+    [
+      newHealthDataPoint({ year: 2001, value: 1141 }),
+      newHealthDataPoint({ year: 2002, value: 1142 }),
+    ],
+  ],
+];
 
-  const initialData: IndicatorData[] = [
-    {
-      indicatorId: indicator1.id,
-      indicatorName: indicator1.name,
-      unitLabel: '',
-      healthDataForAreas: [
-        {
-          areaCode: area1.code,
-          areaName: area1.name,
-          healthData: data[0][0],
-        },
-        {
-          areaCode: area2.code,
-          areaName: area2.name,
-          healthData: data[0][1],
-        },
-        {
-          areaCode: area3.code,
-          areaName: area3.name,
-          healthData: data[0][2],
-        },
-      ],
-    },
-    {
-      indicatorId: indicator2.id,
-      indicatorName: indicator2.name,
-      unitLabel: '',
-      healthDataForAreas: [
-        {
-          areaCode: area1.code,
-          areaName: area1.name,
-          healthData: data[1][0],
-        },
-        {
-          areaCode: area2.code,
-          areaName: area2.name,
-          healthData: data[1][1],
-        },
-        {
-          areaCode: area3.code,
-          areaName: area3.name,
-          healthData: data[1][2],
-        },
-      ],
-    },
-  ];
+const initialData = [
+  {
+    indicatorId: indicator1.id,
+    indicatorName: indicator1.name,
+    unitLabel: indicator1.unitLabel,
+    healthDataForAreas: [
+      {
+        areaCode: areaEngland.code,
+        areaName: areaEngland.name,
+        healthData: data[0][0],
+      },
+      {
+        areaCode: area2.code,
+        areaName: area2.name,
+        healthData: data[0][1],
+      },
+      {
+        areaCode: area3.code,
+        areaName: area3.name,
+        healthData: data[0][2],
+      },
+      {
+        areaCode: area4.code,
+        areaName: area4.name,
+        healthData: data[0][3],
+      },
+    ],
+  },
+  {
+    indicatorId: indicator2.id,
+    indicatorName: indicator2.name,
+    unitLabel: indicator2.unitLabel,
+    healthDataForAreas: [
+      {
+        areaCode: areaEngland.code,
+        areaName: areaEngland.name,
+        healthData: data[1][0],
+      },
+      {
+        areaCode: area2.code,
+        areaName: area2.name,
+        healthData: data[1][1],
+      },
+      {
+        areaCode: area3.code,
+        areaName: area3.name,
+        healthData: data[1][2],
+      },
+      {
+        areaCode: area4.code,
+        areaName: area4.name,
+        healthData: data[1][3],
+      },
+    ],
+  },
+  {
+    indicatorId: indicator3.id,
+    indicatorName: indicator3.name,
+    unitLabel: indicator3.unitLabel,
+    healthDataForAreas: [
+      {
+        areaCode: areaEngland.code,
+        areaName: areaEngland.name,
+        healthData: data[2][0],
+      },
+      {
+        areaCode: area2.code,
+        areaName: area2.name,
+        healthData: data[2][1],
+      },
+      {
+        areaCode: area3.code,
+        areaName: area3.name,
+        healthData: data[2][2],
+      },
+      {
+        areaCode: area4.code,
+        areaName: area4.name,
+        healthData: data[2][3],
+      },
+    ],
+  },
+];
 
-  const expectedAreas: Record<string, area> = { area1, area2, area3 };
-  const expectedIndicators: Record<string, indicator> = {
-    indicator1,
-    indicator2,
-  };
-  const expectedDataPoints: DataPoint[] = [
-    {
-      areaCode: area1.code,
-      indicatorId: indicator1.id,
-      value: data[0][0][1].value,
-    },
-    {
-      areaCode: area2.code,
-      indicatorId: indicator1.id,
-      value: data[0][1][1].value,
-    },
-    {
-      areaCode: area3.code,
-      indicatorId: indicator1.id,
-      value: data[0][2][1].value,
-    },
-    {
-      areaCode: area1.code,
-      indicatorId: indicator2.id,
-      value: data[1][0][1].value,
-    },
-    {
-      areaCode: area2.code,
-      indicatorId: indicator2.id,
-      value: undefined,
-    },
-    {
-      areaCode: area3.code,
-      indicatorId: indicator2.id,
-      value: data[1][2][1].value,
-    },
-  ];
+const expectedHeaders: cell[] = [
+  { key: '', content: 'Indicators' },
+  { key: '', content: 'Value unit' },
+  { key: '', content: 'Period' },
+  { key: '', content: areaEngland.name },
+  { key: '', content: area3.name },
+  { key: '', content: area4.name },
+  { key: '', content: area2.name },
+];
 
-  const { areas, indicators, dataPoints } =
-    extractAreasIndicatorsAndDataPoints(initialData);
+const expectedRows: row[] = [
+  {
+    key: '',
+    cells: [
+      { key: '', content: indicator3.name },
+      { key: '', content: indicator3.unitLabel },
+      { key: '', content: indicator3.latestDataPeriod.toString() },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+    ],
+  },
+  {
+    key: '',
+    cells: [
+      { key: '', content: indicator2.name },
+      { key: '', content: indicator2.unitLabel },
+      { key: '', content: indicator2.latestDataPeriod.toString() },
+      { key: '', content: '' },
+      { key: '', content: '' },
+      { key: '', content: '' },
+      { key: '', content: 'X' },
+    ],
+  },
+  {
+    key: '',
+    cells: [
+      { key: '', content: indicator1.name },
+      { key: '', content: indicator1.unitLabel },
+      { key: '', content: indicator1.latestDataPeriod.toString() },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+      { key: '', content: 'X' },
+    ],
+  },
+];
 
-  it('should populate areas with the correct information', () => {
-    expect(areas).toEqual(expectedAreas);
+const { headers, rows } = generateHeadersAndRows(initialData, groupAreaCode);
+
+describe('extract headers and rows - logic', () => {
+  it('should prefix headers with "Indicator", "Value unit", and "Period"', () => {
+    expect(headers[0].content).toEqual('Indicators');
+    expect(headers[1].content).toEqual('Value unit');
+    expect(headers[2].content).toEqual('Period');
   });
 
-  it('should populate indicators with the correct information', () => {
-    expect(indicators).toEqual(expectedIndicators);
+  it('should contain areas in headers, with benchmark, group area, then sorted alphabetically', () => {
+    expect(headers[3].content).toEqual(areaEngland.name);
+    expect(headers[4].content).toEqual(area3.name);
+    expect(headers[5].content).toEqual(area4.name);
+    expect(headers[6].content).toEqual(area2.name);
   });
 
-  it('should populate data points with the correct information', () => {
-    expect(dataPoints).toEqual(expectedDataPoints);
+  it('should sort indicator titles alphabetically', () => {
+    const indicatorTitleCellIndex = 0;
+    rows.map((row, rowIndex) => {
+      expect(row.cells[indicatorTitleCellIndex].content).toEqual(
+        expectedRows[rowIndex].cells[indicatorTitleCellIndex].content
+      );
+    });
+  });
+
+  it('should contain correct unit label', () => {
+    const unitLabelCellIndex = 1;
+    rows.map((row, rowIndex) => {
+      expect(row.cells[unitLabelCellIndex].content).toEqual(
+        expectedRows[rowIndex].cells[unitLabelCellIndex].content
+      );
+    });
+  });
+
+  it('should contain correct data period', () => {
+    const dataPeriodCellIndex = 2;
+    rows.map((row, rowIndex) => {
+      expect(row.cells[dataPeriodCellIndex].content).toEqual(
+        expectedRows[rowIndex].cells[dataPeriodCellIndex].content
+      );
+    });
+  });
+
+  // TODO extend? look at this text?
+  it('should only display data from the latest period', () => {
+    expect(rows[2].cells[4].content).toEqual(expectedRows[2].cells[4].content);
+    expect(rows[2].cells[5].content).toEqual(expectedRows[2].cells[5].content);
+    expect(rows[2].cells[6].content).toEqual(expectedRows[2].cells[6].content);
+    expect(rows[2].cells[7].content).toEqual(expectedRows[2].cells[7].content);
   });
 });
 
-describe('order indicators by name', () => {
-  it('should attach position to indicators in alphabetical order', () => {
-    const initialIndicators: Record<string, indicator> = {
-      '1': {
-        id: '1',
-        name: 'Maurice M. Mouse',
-        unitLabel: '',
-        latestDataPeriod: 1,
-      },
-      '2': {
-        id: '2',
-        name: 'Aaron A. Aadvark',
-        unitLabel: '',
-        latestDataPeriod: 1,
-      },
-      '3': {
-        id: '3',
-        name: 'Zara Z. Zebra',
-        unitLabel: '',
-        latestDataPeriod: 1,
-      },
-    };
-    const { indicatorIds, indicators: indicatorsWithPositions } =
-      orderIndicatorsByName(initialIndicators);
-
-    expect(indicatorIds).toEqual(['2', '1', '3']);
-    expect(indicatorsWithPositions['1'].position).toEqual(1);
-    expect(indicatorsWithPositions['2'].position).toEqual(0);
-    expect(indicatorsWithPositions['3'].position).toEqual(2);
+describe('extract headers and rows - snapshot', () => {
+  it('should return expected headers', () => {
+    expect(headers).toEqual(expectedHeaders);
   });
-});
-
-describe('order areas by name', () => {
-  it('should attach position to areas in alphabetical order', () => {
-    const initialAreas: Record<string, area> = {
-      '1': { code: '1', name: 'North Foobar' },
-      '2': { code: '2', name: 'South Foobar' },
-      '3': { code: '3', name: 'East Foobar' },
-      '4': { code: '4', name: 'West Foobar' },
-    };
-
-    const { areaCodes, areas: areasWithPosition } =
-      orderAreaByNameWithSomeCodesInFront(initialAreas, []);
-
-    expect(areaCodes).toEqual(['3', '1', '2', '4']);
-    expect(areasWithPosition['1'].position).toEqual(1);
-    expect(areasWithPosition['2'].position).toEqual(2);
-    expect(areasWithPosition['3'].position).toEqual(0);
-    expect(areasWithPosition['4'].position).toEqual(3);
-  });
-
-  it('should precede the main list with given areas', () => {
-    const initialAreas: Record<string, area> = {
-      '1': { code: '1', name: 'North Foobar' },
-      '2': { code: '2', name: 'South Foobar' },
-      '3': { code: '3', name: 'East Foobar' },
-      '4': { code: '4', name: 'West Foobar' },
-    };
-
-    const { areaCodes, areas: areasWithPosition } =
-      orderAreaByNameWithSomeCodesInFront(initialAreas, ['4']);
-
-    expect(areaCodes).toEqual(['4', '3', '1', '2']);
-    expect(areasWithPosition['1'].position).toEqual(2);
-    expect(areasWithPosition['2'].position).toEqual(3);
-    expect(areasWithPosition['3'].position).toEqual(1);
-    expect(areasWithPosition['4'].position).toEqual(0);
+  it('should return expected rows', () => {
+    expect(rows).toEqual(expectedRows);
   });
 });

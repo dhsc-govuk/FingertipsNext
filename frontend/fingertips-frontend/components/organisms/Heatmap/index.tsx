@@ -2,9 +2,18 @@
 
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { JSX } from 'react';
-import { generateHeadersAndRows, IndicatorData } from './heatmapUtil';
-import { H3, H4, Table } from 'govuk-react';
+import { generateHeadersAndRows } from './heatmapUtil';
+import { H4, Table } from 'govuk-react';
 import styled from 'styled-components';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+
+interface IndicatorData {
+  indicatorId: string;
+  indicatorName: string;
+  healthDataForAreas: HealthDataForArea[];
+  unitLabel: string;
+}
+
 interface HeatmapProps {
   indicatorData: IndicatorData[];
   groupAreaCode?: string;
@@ -132,7 +141,7 @@ export function Heatmap({
         return (
           <StyledDivRotate>
             <StyledH4BenchmarkHeader>
-              Benchmark : {header}
+              Benchmark: {header}
             </StyledH4BenchmarkHeader>
           </StyledDivRotate>
         );
