@@ -2,7 +2,7 @@
 public class AreaWithRelationsModel
 {
     public required AreaModel Area { get; init; }
-    public List<AreaModel> ParentAreas { get; set; } = new ();
-    public List<AreaModel> Children { get; set; } = new ();
-    public List<AreaModel> Siblings  { get; set; } = new ();
+    public List<AreaModel> ParentAreas { get; set; } = [];
+    public List<AreaModel> Children { get; set; } = [];
+    public List<AreaModel> Siblings { get; set; } = [];
 }

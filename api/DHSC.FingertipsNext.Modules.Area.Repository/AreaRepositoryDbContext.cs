@@ -21,12 +21,12 @@ public class AreaRepositoryDbContext : DbContext
              .HasKey(arm => new {arm.ParentAreaKey, arm.ChildAreaKey});
 
          modelBuilder.Entity<AreaModel>()
-             .HasMany(x => x.Children)
-             .WithMany(x => x.Parents)
+             .HasMany(area => area.Children)
+             .WithMany(area => area.Parents)
              .UsingEntity<AreaRelationshipModel>
              (
-                l => l.HasOne(x=>x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
-                l => l.HasOne(x=>x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
+                areaRelationship => areaRelationship.HasOne(x=>x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
+                areaRelationship => areaRelationship.HasOne(x=>x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
              );
     }
     #endregion

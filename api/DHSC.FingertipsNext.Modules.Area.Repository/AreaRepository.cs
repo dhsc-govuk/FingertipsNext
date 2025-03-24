@@ -20,9 +20,9 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <returns></returns>
     public async Task<List<string>> GetHierarchiesAsync() =>
-        await _dbContext
-            .AreaType.Select(a => a.HierarchyType)
-            .Where(a => a != InternalHierarchyTypes.All)
+        await _dbContext.AreaType
+            .Select(areaType => areaType.HierarchyType)
+            .Where(areaType => areaType != InternalHierarchyTypes.All)
             .Distinct()
             .ToListAsync();
 
@@ -35,9 +35,8 @@ public class AreaRepository : IAreaRepository
     {
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
-            areaTypes = _dbContext.AreaType.Where(a =>
-                a.HierarchyType == hierarchyType || a.HierarchyType == InternalHierarchyTypes.All
-            );
+            areaTypes = _dbContext.AreaType
+                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.All);
         else
             areaTypes = _dbContext.AreaType;
 
@@ -51,8 +50,8 @@ public class AreaRepository : IAreaRepository
     /// <returns></returns>
     public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey) =>
         await _dbContext.Area
-        .Include(a => a.AreaType)
-        .Where(a => a.AreaTypeKey == areaTypeKey)
+        .Include(area => area.AreaType)
+        .Where(area => area.AreaTypeKey == areaTypeKey)
         .ToListAsync();
 
     /// <summary>
@@ -74,25 +73,25 @@ public class AreaRepository : IAreaRepository
 
        var area = await _dbContext
             .Area
-            .Include(a => a.AreaType)
+            .Include(area => area.AreaType)
             .Include(a => a.Children)
-                .ThenInclude(a => a.Children)
+                .ThenInclude(area => area.Children)
 
-                .Include(a => a.Children)
-                .ThenInclude(x => x.Parents)
+                .Include(area => area.Children)
+                .ThenInclude(area => area.Parents)
 
-                .Include(a => a.Children)
-                .ThenInclude(x => x.AreaType)
+                .Include(area => area.Children)
+                .ThenInclude(area => area.AreaType)
                 
-            .Include(a => a.Parents)
-                .ThenInclude(x => x.Parents)
+            .Include(area => area.Parents)
+                .ThenInclude(area => area.Parents)
 
-                .Include(a => a.Parents)
-                .ThenInclude(x => x.Children)
+                .Include(area => area.Parents)
+                .ThenInclude(area => area.Children)
 
-                .Include(a => a.Parents)
-                .ThenInclude(x => x.AreaType)
-            .Where(a => a.AreaCode == areaCode)
+                .Include(area => area.Parents)
+                .ThenInclude(area => area.AreaType)
+            .Where(area => area.AreaCode == areaCode)
             .AsSplitQuery()
             .FirstOrDefaultAsync();
 
@@ -206,7 +205,7 @@ public class AreaRepository : IAreaRepository
             .ToListAsync();
 
         return [.. areaWithAreaTypeList
-            .Select(a => a.Normalise())
-            .OrderBy(a => a.AreaType.Level)];
+            .Select(area => area.Normalise())
+            .OrderBy(area => area.AreaType.Level)];
     }
 }

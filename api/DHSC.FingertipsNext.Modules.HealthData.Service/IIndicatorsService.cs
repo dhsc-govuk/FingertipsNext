@@ -13,8 +13,8 @@ public interface IIndicatorsService
     ///     supplying one or more area codes and one or more years in the query string.
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
-    /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
-    /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
+    /// <param name="areaCodes">A list of area codes.</param>
+    /// <param name="years">A list of years.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="comparisonMethod">BenchmarkType eg Rag, Quartile</param>
     /// <returns></returns>

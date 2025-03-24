@@ -15,20 +15,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     public const string AreaCodeEngland = "E92000001";
 
     // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
+    public IndicatorPolarity Polarity { get; set; } = IndicatorPolarity.HighIsGood;
 
     /// <summary>
     ///     Obtain health point data for a single indicator.
     /// </summary>
     /// <param name="indicatorId"></param>
-    /// <param name="areaCodes">
-    ///     An array of upto 10 area codes. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all area codes are retrieved.
-    /// </param>
-    /// <param name="years">
-    ///     An array of upto 10 years. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all years are retrieved.
-    /// </param>
+    /// <param name="areaCodes"> The area codes to get data for</param>
+    /// <param name="years">The years to get data for</param>
     /// <param name="inequalities">
     ///     An array of inequality dimensions to return. If the array is empty only data with no
     ///     inequality dimensions is retrieved.
@@ -39,13 +33,13 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     ///     otherwise an empty enumerable.
     /// </returns>
     public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync
-        (
+    (
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod
-        )
+    )
     {
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
         var areaCodesForSearch = areaCodes.ToList();
