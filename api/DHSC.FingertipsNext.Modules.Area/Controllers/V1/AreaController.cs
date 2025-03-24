@@ -89,7 +89,7 @@ public class AreaController : ControllerBase
     {
         var areaDetails = await _areaService.GetAreaDetailsForAreaType(area_type_key);
 
-        return !areaDetails.Any() ? NotFound() : Ok(areaDetails);
+        return areaDetails.Count == 0 ? NotFound() : Ok(areaDetails);
     }
 
     /// <summary>

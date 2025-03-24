@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.SqlServer.Types;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -26,10 +23,11 @@ public class AreaRepositoryDbContext : DbContext
          modelBuilder.Entity<AreaModel>()
              .HasMany(x => x.Children)
              .WithMany(x => x.Parents)
-             .UsingEntity<AreaRelationshipModel>(
-         l => l.HasOne<AreaModel>(x=>x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
-         l => l.HasOne<AreaModel>(x=>x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
-         );
+             .UsingEntity<AreaRelationshipModel>
+             (
+                l => l.HasOne(x=>x.Parent).WithMany().HasForeignKey(x => x.ChildAreaKey),
+                l => l.HasOne(x=>x.Child).WithMany().HasForeignKey(x => x.ParentAreaKey)
+             );
     }
     #endregion
     

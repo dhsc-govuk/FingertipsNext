@@ -63,7 +63,8 @@ public class AreaRepository : IAreaRepository
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
-    public async Task<AreaWithRelationsModel> GetAreaAsync(
+    public async Task<AreaWithRelationsModel> GetAreaAsync
+    (
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
