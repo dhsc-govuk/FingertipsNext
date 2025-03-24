@@ -87,10 +87,10 @@ namespace DataCreator
                 if(year < yearFrom)
                     continue; //if the row is not for a year we care about ignore it
                 var categoryType = split[9].Trim().Trim('\"');
-                if (!(categoryType == string.Empty || categoryType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
-                    continue;  //we only care about data that has a category type of decile or no category type
 
                 var category = split[10].Trim().Trim('\"');
+                if (!(category == string.Empty || category.Contains("decile", StringComparison.CurrentCultureIgnoreCase)))
+                    continue;  //we only care about data that has a category type of decile or no category type
                 if (categoryType == string.Empty)
                 {
                     categoryType = ALL;

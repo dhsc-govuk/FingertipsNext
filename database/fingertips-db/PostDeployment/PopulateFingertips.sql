@@ -320,7 +320,8 @@ CREATE TABLE #TempHealthData
     AgeID INT,
     IsSexAggregatedOrSingle NVARCHAR(255),
     IsAgeAggregatedOrSingle NVARCHAR(255),
-    IsDeprivationAggregatedOrSingle NVARCHAR(255)
+    IsDeprivationAggregatedOrSingle NVARCHAR(255),
+    Avoid INT
 );
 DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -364,9 +365,9 @@ SELECT
     Lower95CI,
     Upper95CI,
     Year,
-    REPLACE(IsSexAggregatedOrSingle, char(13), ''),
-    REPLACE(IsAgeAggregatedOrSingle, char(13), ''),
-    REPLACE(IsDeprivationAggregatedOrSingle, char(13), '')
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
 FROM 
 	#TempHealthData temp
 JOIN
