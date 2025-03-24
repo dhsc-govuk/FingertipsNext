@@ -27,8 +27,7 @@ export function SparklineChart({
   const color = getBenchmarkColour(
     benchmarkComparison?.outcome as BenchmarkLabelType
   );
-
-  const [options, setOptions] = useState<Highcharts.Options>();
+const [options, setOptions] = useState<Highcharts.Options>();
 
   const series: Highcharts.SeriesOptionsType[] = [
     { type: 'bar', data: [value], color },
