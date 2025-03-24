@@ -9,6 +9,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { BackLink, GridCol, GridRow } from 'govuk-react';
+import { useEffect } from 'react';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -25,6 +26,10 @@ export function ChartPageWrapper({
   selectedAreasData,
   selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const backLinkPath = stateManager.generatePath('/results');

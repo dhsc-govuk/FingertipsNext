@@ -23,6 +23,10 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
                 HealthMeasureKey = x.HealthMeasureKey,
                 AgeKey = x.AgeKey,
                 AreaKey = x.AreaKey,
+                AreaDimension = new AreaDimensionModel()
+                {
+                    Code = x.AreaDimension.Code
+                },
                 DeprivationKey = x.DeprivationKey,
                 IndicatorKey = x.IndicatorKey,
                 SexKey = x.SexKey,
