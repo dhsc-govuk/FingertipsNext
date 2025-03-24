@@ -3,18 +3,30 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { JSX } from 'react';
 import { generateHeadersAndRows, IndicatorData } from './heatmapUtil';
-import { H3, Table } from 'govuk-react';
+import { H3, H4, Table } from 'govuk-react';
 import styled from 'styled-components';
 interface HeatmapProps {
   indicatorData: IndicatorData[];
   groupAreaCode?: string;
 }
 
-const indicatorColumnWidth = '200px';
+const StyledTable = styled(Table)({
+  overflowY: 'scroll',
+  tableLayout: 'fixed',
+  width: 'min-content',
+});
+
+const indicatorTitleColumnWidth = '240px';
+const titleColumnWidth = '60px';
 const dataColumnWidth = '60px';
 
-// VERY WIP
-const ScaledH3 = styled(H3)({
+// Area Headers
+const StyledDivRotate = styled.div({
+  transform: 'translate(-15px) rotate(30deg)',
+  transformOrigin: 'bottom right',
+});
+
+const StyledH4AreaScaled = styled(H4)({
   transform: 'scale(-1)',
   transformOrigin: 'center',
   textOverflow: 'ellipsis',
@@ -26,16 +38,7 @@ const ScaledH3 = styled(H3)({
   display: 'block',
 });
 
-const RotateDiv = styled.div({
-  transform: 'translate(-15px) rotate(30deg)',
-  transformOrigin: 'bottom right',
-});
-
-const IndicatorsH3 = styled(H3)({
-  width: indicatorColumnWidth,
-});
-
-const BenchmarkH3 = styled(ScaledH3)({
+const StyledH4BenchmarkHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.MidGrey,
   paddingTop: '8px',
   paddingBottom: '8px',
@@ -43,7 +46,7 @@ const BenchmarkH3 = styled(ScaledH3)({
   paddingRight: '4px',
 });
 
-const GroupAreaCodeH3 = styled(ScaledH3)({
+const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
   backgroundColor: GovukColours.LightGrey,
   paddingTop: '8px',
   paddingBottom: '8px',
@@ -51,37 +54,54 @@ const GroupAreaCodeH3 = styled(ScaledH3)({
   paddingRight: '4px',
 });
 
-const StyledTable = styled(Table)({
-  overflowY: 'scroll',
-  tableLayout: 'fixed',
-  width: 'min-content',
+// Indicator Headers
+const StyledH4IndicatorHeader = styled(H4)({
+  width: indicatorTitleColumnWidth,
 });
+
 const StyledTitleCellHeader = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
-  width: indicatorColumnWidth,
+  width: indicatorTitleColumnWidth,
 });
 const StyledCellHeader = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: dataColumnWidth,
+  paddingRight: '0px',
 });
 
-const StyledIndicatorTitle = styled.div({
+const StyledIndicatorCellContent = styled.div({
   textOverflow: 'ellipsis',
   overflow: 'hidden',
-  width: indicatorColumnWidth,
+  width: indicatorTitleColumnWidth,
   display: '-webkit-box',
   WebkitLineClamp: 4,
   WebkitBoxOrient: 'vertical',
 });
 
-const StyledCell = styled(Table.Cell)({
+// Cells
+const StyledCellValueUnit = styled(Table.Cell)({
+  width: titleColumnWidth,
+  minHeight: '70px',
+  padding: 0,
+});
+
+const StyledCellPeriod = styled(Table.Cell)({
   textAlign: 'center',
   width: dataColumnWidth,
   minHeight: '70px',
   padding: 0,
 });
 
-const StyledDataCell = styled(StyledCell)<{ $backgroundColor?: string }>`
+const StyledCellData = styled(Table.Cell)({
+  textAlign: 'center',
+  width: dataColumnWidth,
+  minHeight: '70px',
+  padding: 0,
+});
+
+const StyledCellDataWithBackground = styled(StyledCellData)<{
+  $backgroundColor?: string;
+}>`
   background-color: ${(props) =>
     props.$backgroundColor ? props.$backgroundColor : GovukColours.White};
 `;
@@ -97,41 +117,78 @@ export function Heatmap({
 
   const generateHeader = (
     header: string,
-    pos: number,
+    position: number,
     groupAreaCode: boolean
   ): JSX.Element => {
-    switch (pos) {
+    switch (position) {
       case 0:
-        return <IndicatorsH3>{header}</IndicatorsH3>;
+        return <StyledH4IndicatorHeader>{header}</StyledH4IndicatorHeader>;
       case 1:
       case 2: {
-        return <H3>{header}</H3>;
+        return <H4>{header}</H4>;
       }
 
       case 3: {
         return (
-          <RotateDiv>
-            <BenchmarkH3>Benchmark : {header}</BenchmarkH3>
-          </RotateDiv>
+          <StyledDivRotate>
+            <StyledH4BenchmarkHeader>
+              Benchmark : {header}
+            </StyledH4BenchmarkHeader>
+          </StyledDivRotate>
         );
       }
 
       case 4: {
         if (groupAreaCode) {
           return (
-            <RotateDiv>
-              <GroupAreaCodeH3>{header}</GroupAreaCodeH3>
-            </RotateDiv>
+            <StyledDivRotate>
+              <StyledH4GroupAreaCodeHeader>
+                {header}
+              </StyledH4GroupAreaCodeHeader>
+            </StyledDivRotate>
           );
         }
       }
     }
 
     return (
-      <RotateDiv>
-        <ScaledH3>{header}</ScaledH3>
-      </RotateDiv>
+      <StyledDivRotate>
+        <StyledH4AreaScaled>{header}</StyledH4AreaScaled>
+      </StyledDivRotate>
     );
+  };
+
+  const generateCell = (
+    cell: { key: string; content: string; backgroundColour?: string },
+    position: number
+  ): JSX.Element => {
+    switch (position) {
+      case 0:
+        return (
+          <Table.Cell key={cell.key}>
+            <StyledIndicatorCellContent>
+              {cell.content}
+            </StyledIndicatorCellContent>
+          </Table.Cell>
+        );
+      case 1:
+        return (
+          <StyledCellValueUnit key={cell.key}>
+            {cell.content}
+          </StyledCellValueUnit>
+        );
+      case 2:
+        <StyledCellPeriod key={cell.key}>{cell.content}</StyledCellPeriod>;
+      default:
+        return (
+          <StyledCellDataWithBackground
+            key={cell.key}
+            $backgroundColor={cell.backgroundColour}
+          >
+            {cell.content}
+          </StyledCellDataWithBackground>
+        );
+    }
   };
 
   return (
@@ -156,23 +213,8 @@ export function Heatmap({
       {rows.map((row) => {
         return (
           <Table.Row key={row.key}>
-            {row.cells.map((col, colIndex) => {
-              return colIndex < 2 ? (
-                colIndex === 0 ? (
-                  <Table.Cell key={col.key}>
-                    <StyledIndicatorTitle>{col.content}</StyledIndicatorTitle>
-                  </Table.Cell>
-                ) : (
-                  <StyledCell key={col.key}>{col.content}</StyledCell>
-                )
-              ) : (
-                <StyledDataCell
-                  key={col.key}
-                  $backgroundColor={col.backgroundColour}
-                >
-                  {col.content}
-                </StyledDataCell>
-              );
+            {row.cells.map((cell, cellIndex) => {
+              return generateCell(cell, cellIndex);
             })}
           </Table.Row>
         );
