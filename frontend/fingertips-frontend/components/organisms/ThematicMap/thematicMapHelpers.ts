@@ -141,38 +141,7 @@ export const benchmarkColourScale = [
     color: GovukColours.DarkBlue,
   },
 ];
-export function prepareThematicMapSeriesData(
-  data: HealthDataForArea[],
-  // groupAreaCodes: string[],
-  mapData: MapData
-) {
-  // const preparedDataForAllAreas = groupAreaCodes.map((groupAreaCode) => {
-  //   // cannot use data, as it doesn't have the names for missing areas - needs to come from mapData
-  //   // mapData.find() for fine-grained areas is better suited to server-side
-  //   // refactor to use prepareThematicMapSeriesData() in View
-  //   // pass dataForMap through on props
-  //   // OR
-  //   // get this from the filterdata...
-  //   const areaName = mapData.mapFile.features.find(
-  //     ({ properties }) => properties[mapData.mapJoinKey] === groupAreaCode
-  //   )?.properties.LAD24NM; // TODO replace MAGICKEY with nameKey like joinKey
-
-  //   // value has to come from data
-  //   const value = data.find((areaData) => {
-  //     areaData.areaCode === groupAreaCode;
-  //   })?.healthData;
-  //   console.log({ value });
-  //   const preparedDataPoint = {
-  //     areaName: areaName,
-  //     areaCode: groupAreaCode,
-  //     // value: data.find(),
-  //     // value: areaData.healthData[0].value,
-  //     // benchmarkComparison:
-  //     //   areaData.healthData[0].benchmarkComparison?.outcome || 'None', // TODO: change fallback to 'Not Compared'
-  //     // benchmarkColourCode: benchmarkColourCode,
-  //   };
-  //   console.log(preparedDataPoint);
-  // });
+export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
   const preparedData = data.map((areaData) => {
     let benchmarkColourCode = 0;
     if (areaData.healthData[0].benchmarkComparison) {
@@ -192,4 +161,83 @@ export function prepareThematicMapSeriesData(
     return preparedDataPoint;
   });
   return preparedData;
+}
+
+export function createThematicMapChartOptions(
+  mapData: MapData,
+  healthIndicatorData: HealthDataForArea[]
+): Highcharts.Options {
+  const data = prepareThematicMapSeriesData(healthIndicatorData);
+  const options: Highcharts.Options = {
+    chart: {
+      type: 'map',
+      height: 800, // TODO: agree height
+      animation: false,
+      borderWidth: 0.2,
+      borderColor: 'black',
+    },
+    title: { text: undefined },
+    // caption: { text: captionText },
+    accessibility: { enabled: false },
+    credits: { enabled: false },
+    legend: {
+      enabled: false,
+      verticalAlign: 'top',
+    },
+    mapView: {
+      projection: { name: 'Miller' },
+      fitToGeometry: mapData.mapGroupBoundary.features[0].geometry,
+      padding: 20,
+    },
+    mapNavigation: { enabled: true },
+    colorAxis: {
+      dataClasses: benchmarkColourScale,
+    },
+    series: [
+      {
+        type: 'map',
+        name: 'basemap',
+        showInLegend: false,
+        mapData: mapData.mapFile,
+        borderColor: GovukColours.Black,
+        borderWidth: 0.2,
+      },
+      {
+        type: 'map',
+        name: 'group border',
+        showInLegend: false,
+        mapData: mapData.mapGroupBoundary,
+        borderColor: GovukColours.Black,
+        borderWidth: 6,
+      },
+      {
+        type: 'map',
+        colorKey: 'benchmarkColourCode',
+        name: 'data',
+        mapData: mapData.mapFile,
+        data: data,
+        joinBy: [mapData.mapJoinKey, 'areaCode'],
+        borderColor: GovukColours.Black,
+        allAreas: false,
+        borderWidth: 0.5,
+        states: {
+          hover: {
+            borderWidth: 2,
+            borderColor: GovukColours.Black,
+          },
+        },
+        dataLabels: { format: 'T' },
+        tooltip: {
+          headerFormat:
+            '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
+          pointFormat:
+            '<span style="font-size: large">Value: {point.value} units</span>' +
+            '<br /><span>benchmark: {point.benchmarkComparison}</span>',
+          // footerFormat: '<br />',
+        },
+      },
+    ],
+  };
+
+  return options;
 }
