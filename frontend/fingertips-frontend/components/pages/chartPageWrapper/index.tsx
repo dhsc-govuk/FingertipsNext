@@ -8,8 +8,9 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { BackLink, GridCol, GridRow } from 'govuk-react';
-import { useEffect } from 'react';
+import { BackLink, GridCol, GridRow, H2 } from 'govuk-react';
+import { useEffect, useState } from 'react';
+import { FilterSummaryPanel } from '@/components/molecules/FilterSummaryPanel';
 
 interface ChartPageWrapperProps {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ export function ChartPageWrapper({
   }, []);
 
   const stateManager = SearchStateManager.initialise(searchState);
-
+  const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
   return (
@@ -42,16 +43,28 @@ export function ChartPageWrapper({
         aria-label="Go back to the previous page"
       />
       <GridRow>
-        <GridCol setWidth="one-third">
-          <AreaFilterPane
-            key={JSON.stringify(searchState)}
-            areaFilterData={areaFilterData}
-            selectedAreasData={selectedAreasData}
-            selectedIndicatorsData={selectedIndicatorsData}
-            searchState={searchState}
-          />
+        {isHideFilters ? null : (
+          <GridCol setWidth="one-third">
+            <AreaFilterPane
+              key={JSON.stringify(searchState)}
+              areaFilterData={areaFilterData}
+              selectedAreasData={selectedAreasData}
+              selectedIndicatorsData={selectedIndicatorsData}
+              searchState={searchState}
+              hideFilters={() => setIsHideFilters(true)}
+            />
+          </GridCol>
+        )}
+        <GridCol>
+          <H2>View data for selected indicators and areas</H2>
+
+          {isHideFilters ? (
+            <FilterSummaryPanel
+              changeSelection={() => setIsHideFilters(false)}
+            />
+          ) : null}
+          {children}
         </GridCol>
-        <GridCol>{children}</GridCol>
       </GridRow>
     </>
   );

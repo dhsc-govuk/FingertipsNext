@@ -78,7 +78,6 @@ export function OneIndicatorOneAreaViewPlots({
       : undefined;
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
         dataWithoutEnglandOrGroup,
         englandBenchmarkData

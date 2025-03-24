@@ -58,7 +58,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
           <H3>Indicator data over time</H3>

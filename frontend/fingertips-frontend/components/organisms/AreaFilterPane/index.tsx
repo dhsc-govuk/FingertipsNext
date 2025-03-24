@@ -16,6 +16,7 @@ interface AreaFilterPaneProps {
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
+  hideFilters: () => void;
 }
 
 const StyledFilterPane = styled('div')({});
@@ -23,8 +24,9 @@ const StyledFilterPane = styled('div')({});
 const StyledFilterPaneHeader = styled('div')({
   backgroundColor: '#D1D2D3',
   display: 'flex',
-  marginBottom: '-1.3em',
   padding: '0.5em 1em',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 });
 
 const StyledFilterDiv = styled('div')({
@@ -33,16 +35,43 @@ const StyledFilterDiv = styled('div')({
   padding: '1.5em 1em',
 });
 
+const HideFiltersSpan = styled('span')`
+  cursor: pointer;
+  text-decoration: underline;
+  &:focus-visible {
+    outline: 4px solid yellow;
+    outlineoffset: -1;
+    background: yellow;
+  }
+`;
+
+function HideFiltersButtonImpl({ hideFilters }: { hideFilters: () => void }) {
+  return (
+    <HideFiltersSpan
+      tabIndex={0}
+      onClick={hideFilters}
+    >
+      Hide filter
+    </HideFiltersSpan>
+  );
+}
+
+const HideFiltersButton = styled(HideFiltersButtonImpl)`
+  float: right;
+`;
+
 export function AreaFilterPane({
   selectedAreasData,
   selectedIndicatorsData,
   areaFilterData,
   searchState,
+  hideFilters,
 }: Readonly<AreaFilterPaneProps>) {
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
-        <H3>Filters</H3>
+        <H3 style={{ marginBottom: 0 }}>Filters</H3>
+        <HideFiltersButton hideFilters={hideFilters} />
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
