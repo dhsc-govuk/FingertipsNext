@@ -20,18 +20,14 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",
-        string name = "area name",
-        DateTime? startDate = null,
-        DateTime? endDate = null
+        string name = "area name"
     )
     {
         _areaDimension = new AreaDimensionModel
         {
             AreaKey = key,
             Code = code,
-            Name = name,
-            StartDate = startDate ?? DateTime.Today,
-            EndDate = endDate ?? DateTime.Today.AddDays(1),
+            Name = name
         };
         return this;
     }
@@ -42,9 +38,7 @@ public class HealthMeasureModelHelper(
         {
             AreaKey = key,
             Code = "AreaCode",
-            Name = "area name",
-            StartDate = DateTime.Today,
-            EndDate = DateTime.Today.AddDays(1),
+            Name = "area name"
         };
     }
 
@@ -92,18 +86,14 @@ public class HealthMeasureModelHelper(
     
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
-        short indicatorId = 1,
-        DateTime? startDate = null,
-        DateTime? endDate = null
+        short indicatorId = 1
     )
     {
         return WithIndicatorDimension(new IndicatorDimensionModel
         {
             IndicatorKey = (short)key,
             Name = name,
-            IndicatorId = indicatorId,
-            StartDate = startDate ?? DateTime.Today,
-            EndDate = endDate ?? DateTime.Today.AddDays(1),
+            IndicatorId = indicatorId
         });
     }
 
@@ -113,9 +103,7 @@ public class HealthMeasureModelHelper(
         {
             IndicatorKey = (short)key,
             Name = "indicator name",
-            IndicatorId = 1,
-            StartDate = DateTime.Today,
-            EndDate = DateTime.Today.AddDays(1),
+            IndicatorId = 1
         };
     }
 
@@ -129,15 +117,13 @@ public class HealthMeasureModelHelper(
     public HealthMeasureModelHelper WithSexDimension(
         byte? sexKey = null,
         string name = "sex name",
-        bool hasValue = false,
-        byte sexId = 0)
+        bool hasValue = false)
     {
         return WithSexDimension(new SexDimensionModel
         {
             SexKey = sexKey ?? (byte) key,
             Name = name,
-            HasValue = hasValue,
-            SexId = sexId
+            HasValue = hasValue
         });
     }
 
@@ -147,8 +133,7 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = "Persons",
-            HasValue = false,
-            SexId = 0
+            HasValue = false
         };
     }
 

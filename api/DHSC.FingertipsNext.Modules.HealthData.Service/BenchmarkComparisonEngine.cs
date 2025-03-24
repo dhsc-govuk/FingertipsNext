@@ -54,23 +54,23 @@ public static class BenchmarkComparisonEngine
             benchmarkHealthData,
             comparisonMethod,
             polarity);
-        
     }
 
-    private static void ProcessBenchmarkComparisonsForAreaPoint(
+    private static void ProcessBenchmarkComparisonsForAreaPoint
+    (
         HealthDataPoint healthDataPointOfInterest,
         HealthDataForArea areaHealthData,
         HealthDataForArea benchmarkHealthData,
         BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity
-        )
+    )
     {
         var areaHealthDataPoints = areaHealthData.HealthData;
         var areaCode = areaHealthData.AreaCode;
         var areaName = areaHealthData.AreaName;
         
-        if (healthDataPointOfInterest.LowerConfidenceInterval == null ||
-            healthDataPointOfInterest.UpperConfidenceInterval == null) return;
+        if (healthDataPointOfInterest.LowerConfidenceInterval == null || healthDataPointOfInterest.UpperConfidenceInterval == null) 
+            return;
 
         var benchmarkHealthDataPoints = healthDataPointOfInterest.IsAggregate
             ? benchmarkHealthData.HealthData
@@ -79,7 +79,8 @@ public static class BenchmarkComparisonEngine
             item.Year == healthDataPointOfInterest.Year &&
             item.IsAggregate && item.Value != null);
 
-        if (benchmarkHealthDataPoint == null) return;
+        if (benchmarkHealthDataPoint == null) 
+            return;
 
         var comparisonValue = 0;
         if (healthDataPointOfInterest.UpperConfidenceInterval < benchmarkHealthDataPoint.Value)
