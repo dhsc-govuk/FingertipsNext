@@ -79,3 +79,39 @@ export function getMostRecentDataFromSorted(data: HealthDataPoint[]) {
       }
     : undefined;
 }
+
+export const getLatestYear = (
+  points: HealthDataPoint[] | undefined
+): number | undefined => {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce((previous, point) => {
+    return Math.max(previous, point.year);
+  }, points[0].year);
+  return year;
+};
+
+export function getHealthDataForAreasForMostRecentYearOnly(
+  healthDataForAreas: HealthDataForArea[]
+) {
+  const mostRecentYear = healthDataForAreas.reduce((previous, area) => {
+    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
+  }, healthDataForAreas[0].healthData[0].year);
+
+  const healthDataForAreasForMostRecentYear = healthDataForAreas.map(
+    (healthDataForArea) => {
+      const dataPointForMostRecentYear = healthDataForArea.healthData.find(
+        (healthDataPoint) => {
+          // TODO: or [] if there is not data for that year
+          return healthDataPoint.year === mostRecentYear;
+        }
+      );
+      return {
+        ...healthDataForArea,
+        healthData: [{ ...dataPointForMostRecentYear }],
+      };
+    }
+  );
+
+  return healthDataForAreasForMostRecentYear;
+}

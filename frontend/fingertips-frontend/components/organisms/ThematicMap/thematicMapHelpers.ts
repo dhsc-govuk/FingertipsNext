@@ -15,6 +15,7 @@ import {
   HealthDataForArea,
   HealthDataPointBenchmarkComparisonOutcomeEnum,
 } from '@/generated-sources/ft-api-client';
+import { getHealthDataForAreasForMostRecentYearOnly } from '@/lib/chartHelpers/chartHelpers';
 
 export type MapData = {
   mapJoinKey: string;
@@ -142,7 +143,9 @@ export const benchmarkColourScale = [
   },
 ];
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  const preparedData = data.map((areaData) => {
+  const dataForMostRecentYear =
+    getHealthDataForAreasForMostRecentYearOnly(data);
+  const preparedData = dataForMostRecentYear.map((areaData) => {
     let benchmarkColourCode = 0;
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =

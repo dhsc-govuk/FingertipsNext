@@ -7,10 +7,14 @@ import {
   sortHealthDataPointsByDescendingYear,
   getMostRecentDataFromSorted,
   getHealthDataWithoutInequalities,
+  getHealthDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 
 const mockData = [
   {
@@ -459,4 +463,114 @@ describe('getHealthDataWithoutInequalities', () => {
       mockData[0].healthData.slice(0, 2)
     );
   });
+});
+
+describe('getGetDataForAreasForMostRecentYearOnly', () => {
+  it.only('should return healthdata for all areas, only for the most reccent year', () => {
+    const actual = getHealthDataForAreasForMostRecentYearOnly(
+      mockHealthData[1]
+    );
+    const expected: HealthDataForArea[] = [
+      {
+        areaCode: 'A1425',
+        areaName: 'Greater Manchester ICB - 00T',
+        healthData: [
+          {
+            year: 2020,
+            count: 200,
+            value: 971.435418,
+            lowerCi: 903.117343,
+            upperCi: 1039.753493,
+            ageBand: 'All',
+            sex: 'Persons',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+      {
+        areaCode: 'E92000001',
+        areaName: 'England',
+        healthData: [
+          {
+            year: 2020,
+            count: 100,
+            value: 734.8973,
+            lowerCi: 0,
+            upperCi: 0,
+            ageBand: '20-24',
+            sex: 'Female',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+      {
+        areaCode: 'A1426',
+        areaName: 'South FooBar',
+        healthData: [
+          {
+            year: 2020,
+            count: 256,
+            value: 905.145997,
+            lowerCi: 833.327922,
+            upperCi: 976.964072,
+            ageBand: 'All',
+            sex: 'Persons',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+      {
+        areaCode: 'A1427',
+        areaName: 'Area 1427',
+        healthData: [
+          {
+            year: 2020,
+            count: 411,
+            value: 579.848756,
+            lowerCi: 515.030681,
+            upperCi: 644.666831,
+            ageBand: 'All',
+            sex: 'Persons',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+      {
+        areaCode: 'A1428',
+        areaName: 'Area 1428',
+        healthData: [
+          {
+            year: 2020,
+            count: 311,
+            value: 400.848756,
+            lowerCi: 312.030681,
+            upperCi: 489.666831,
+            ageBand: 'All',
+            sex: 'Persons',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+      {
+        areaCode: 'A1429',
+        areaName: 'Area 1429',
+        healthData: [
+          {
+            year: 2020,
+            count: 435,
+            value: 563.4002,
+            lowerCi: 495.082125,
+            upperCi: 631.718275,
+            ageBand: 'All',
+            sex: 'Persons',
+            trend: HealthDataPointTrendEnum.NotYetCalculated,
+          },
+        ],
+      },
+    ];
+    expect(actual).toEqual(expected);
+  });
+  it.todo(
+    'should return APPROPRIATELY for areas which dont have data for the most recent year'
+  );
 });

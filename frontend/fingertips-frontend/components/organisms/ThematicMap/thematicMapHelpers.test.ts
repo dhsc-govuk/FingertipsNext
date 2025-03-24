@@ -183,21 +183,24 @@ describe('prepareThematicMapSeriesData', () => {
       areaName: 'England',
       benchmarkComparison: 'Higher',
       benchmarkColourCode: 55,
+      value: 800.232,
     },
     {
       areaCode: 'E12000001',
       areaName: 'North East region (statistical)',
       benchmarkComparison: 'None',
       benchmarkColourCode: 5,
+      value: 767.343,
     },
     {
       areaCode: 'E12000003',
       areaName: 'Yorkshire and the Humber region (statistical)',
       benchmarkComparison: 'Worse',
       benchmarkColourCode: 35,
+      value: 643.434,
     },
   ];
-  it.skip('should return the expected series data, for the most recent year', () => {
+  it('should return the expected series data, for the most recent year', () => {
     const actual = prepareThematicMapSeriesData(mockHealthData);
 
     expect(actual).toEqual(expected);
