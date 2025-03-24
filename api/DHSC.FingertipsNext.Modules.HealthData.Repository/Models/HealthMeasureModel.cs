@@ -34,6 +34,13 @@ public class HealthMeasureModel
     public double? LowerCi { get; set; }
     public double? UpperCi { get; set; }
     public short Year { get; set; }
+
+    public bool IsSexAggregatedOrSingle { get; set; } = true;
+
+    public bool IsAgeAggregatedOrSingle { get; set; } = true;
+
+    public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
+
     public bool IsAggregate { get; set; }
     [NotMapped] 
     public BenchmarkComparisonModel? BenchmarkComparison { get; set; }

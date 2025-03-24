@@ -1,7 +1,7 @@
 'use client';
 
 import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import {
   IndicatorSelectionState,
   submitIndicatorSelection,
@@ -44,6 +44,10 @@ export function SearchResults({
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
 

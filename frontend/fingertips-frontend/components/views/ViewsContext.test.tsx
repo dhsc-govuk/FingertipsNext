@@ -121,9 +121,18 @@ describe('ViewsContext', () => {
     }
   );
 
-  it('should error if an invalid state is provided', () => {
+  it('should default to england area code when no areas have been selected', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
+    };
+    render(<ViewsContext searchState={searchState} />);
+
+    expect(mockOneIndicatorOneAreaView).toHaveBeenCalled();
+  });
+
+  it('should error if an invalid state is provided', () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: [],
       [SearchParams.AreasSelected]: undefined,
     };
 

@@ -18,19 +18,19 @@ const StyleAreaType = styled('span')({
 interface AreaSelectedPillProps {
   area: AreaWithRelations;
   onRemoveFilter: (filterID: string) => void;
-  inFilterPane?: boolean;
+  isFullWidth?: boolean;
 }
 
 export const AreaSelectedPill = ({
   area,
   onRemoveFilter,
-  inFilterPane,
+  isFullWidth,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
     <Pill
       removeFilter={onRemoveFilter}
       selectedFilterId={area.code}
-      isFullWidth={inFilterPane}
+      isFullWidth={isFullWidth}
       ariaLabelPostfix={area.name}
     >
       <p style={{ margin: 0 }}>
