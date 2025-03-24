@@ -150,7 +150,7 @@ export function BarChartEmbeddedTable({
               <SparklineChart
                 value={[mostRecentBenchmarkData.value]}
                 maxValue={maxValue}
-                errorBarValues={[
+                confidenceIntervalValues={[
                   mostRecentBenchmarkData.lowerCi,
                   mostRecentBenchmarkData.upperCi,
                 ]}
@@ -179,7 +179,7 @@ export function BarChartEmbeddedTable({
               <SparklineChart
                 value={[mostRecentGroupData.value]}
                 maxValue={maxValue}
-                errorBarValues={[
+                confidenceIntervalValues={[
                   mostRecentGroupData.lowerCi,
                   mostRecentGroupData.upperCi,
                 ]}
@@ -204,7 +204,7 @@ export function BarChartEmbeddedTable({
               <SparklineChart
                 value={[item.value]}
                 maxValue={maxValue}
-                errorBarValues={[item.lowerCi, item.upperCi]}
+                confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
               />
             </Table.Cell>

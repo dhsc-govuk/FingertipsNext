@@ -16,4 +16,19 @@ describe('ConfidenceIntervalCheckbox', () => {
 
     expect(screen.getByRole('checkbox')).toBeChecked();
   });
+
+  it('should call setShowConfidenceIntervalsData when the checkbox is clicked', async () => {
+    const setShowConfidenceIntervalsDataMock = jest.fn();
+
+    render(
+      <ConfidenceIntervalCheckbox
+        chartName="example chart"
+        showConfidenceIntervalsData={false}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsDataMock}
+      />
+    );
+
+    await userEvent.click(screen.getByRole('checkbox'));
+    expect(setShowConfidenceIntervalsDataMock).toBeCalled();
+  });
 });

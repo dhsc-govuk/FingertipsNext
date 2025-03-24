@@ -79,3 +79,7 @@ export function getMostRecentData(data: HealthDataPoint[]) {
       }
     : undefined;
 }
+
+export async function loadHighchartsModules(callback: () => void) {
+  await import('highcharts/highcharts-more').then(callback);
+}

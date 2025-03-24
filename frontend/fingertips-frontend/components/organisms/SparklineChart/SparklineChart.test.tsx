@@ -10,8 +10,8 @@ describe('SparklineChart', () => {
       <SparklineChart
         value={mockValue}
         maxValue={maxValue}
-        errorBarValues={[5, 10]}
-        showConfidenceIntervalsData={false}
+        confidenceIntervalValues={[5, 10]}
+        showConfidenceIntervalsData={true}
       />
     );
 

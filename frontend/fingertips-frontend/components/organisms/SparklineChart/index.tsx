@@ -3,23 +3,22 @@
 import { HighchartsReact } from 'highcharts-react-official';
 import Highcharts from 'highcharts';
 import { useEffect, useState } from 'react';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
-  errorBarValues: (number | undefined)[];
+  confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
 }
 export function SparklineChart({
   value,
   maxValue,
-  errorBarValues,
+  confidenceIntervalValues,
   showConfidenceIntervalsData,
 }: Readonly<SparklineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const loadHighchartsModules = async (callback: () => void) => {
-    await import('highcharts/highcharts-more').then(callback);
-  };
 
   const series: Highcharts.SeriesOptionsType[] = [
     { type: 'bar', data: [value] },
@@ -28,7 +27,10 @@ export function SparklineChart({
   if (showConfidenceIntervalsData) {
     series.push({
       type: 'errorbar',
-      data: [errorBarValues],
+      data: [confidenceIntervalValues],
+      color: GovukColours.MidGrey,
+      whiskerLength: '20%',
+      lineWidth: 2,
     });
   }
 

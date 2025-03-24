@@ -3,6 +3,7 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
+  loadHighchartsModules,
   sortHealthDataForAreaByDate,
   sortHealthDataForAreasByDate,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -41,9 +42,6 @@ export function LineChart({
   measurementUnit,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const loadHighchartsModules = async (callback: () => void) => {
-    await import('highcharts/highcharts-more').then(callback);
-  };
 
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState(false);
