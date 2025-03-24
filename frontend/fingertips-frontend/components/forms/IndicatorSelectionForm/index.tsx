@@ -71,7 +71,7 @@ export function IndicatorSelectionForm({
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
-  const isAllIndicatorsSelected = checkAllIndicatorsSelected(
+  const areAllIndicatorsSelected = checkAllIndicatorsSelected(
     searchResults,
     selectedIndicators
   );
@@ -125,7 +125,7 @@ export function IndicatorSelectionForm({
         <>
           <Checkbox
             data-testid="select-all-checkbox"
-            defaultChecked={isAllIndicatorsSelected}
+            defaultChecked={areAllIndicatorsSelected}
             onChange={(e) => handleSelectAll(e.target.checked)}
           >
             Select all

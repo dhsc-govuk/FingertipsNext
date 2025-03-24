@@ -299,6 +299,20 @@ export default class ResultsPage extends BasePage {
     await expect(selectAllCheckbox).not.toBeChecked();
   }
 
+  async selectEveryIndicator(allIndicatorIDs : string[]){
+    await this.page.waitForLoadState();
+
+    for (const indicatorId of allIndicatorIDs) {
+      const checkbox = this.page.getByTestId(`${this.indicatorCheckboxPrefix}-${indicatorId}`);
+      const indicatorChecked = await checkbox.isChecked();
+      if(!indicatorChecked){
+      await this.selectIndicator(indicatorId);
+    }
+    const rogueIndicator = this.page.getByTestId(`${this.indicatorCheckboxPrefix}-93085`);
+    rogueIndicator.check();
+  }
+}
+
   async verifyAllIndicatorsSelected() {
     const indicatorCheckboxes = await this.page
       .getByTestId(this.indicatorCheckboxContainer)
@@ -306,7 +320,7 @@ export default class ResultsPage extends BasePage {
       .all();
     await this.page.waitForLoadState();
     for (const checkbox of indicatorCheckboxes) {
-      expect(await checkbox.isChecked());
+      await expect(checkbox).toBeChecked();
     }
   }
 
@@ -326,7 +340,7 @@ export default class ResultsPage extends BasePage {
       this.selectAllIndicatorsCheckbox
     );
     await this.page.waitForLoadState();
-    expect(await selectAllCheckbox.isChecked());
+    await expect(selectAllCheckbox).toBeChecked();
   }
 
   async verifySelectAllCheckboxUnticked() {

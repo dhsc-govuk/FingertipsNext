@@ -245,9 +245,7 @@ test('check "select all" checkbox updates selected indicators and URL', async ({
   });
 
   await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
-    for (const indicator of allIndicatorIDs) {
-      await resultsPage.selectIndicator(indicator);
-    }
+    await resultsPage.selectEveryIndicator(allIndicatorIDs);
     await resultsPage.verifySelectAllCheckboxTicked();
     await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
   });
