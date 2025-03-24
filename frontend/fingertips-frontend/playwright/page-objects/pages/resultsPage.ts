@@ -304,8 +304,9 @@ export default class ResultsPage extends BasePage {
       .getByTestId(this.indicatorCheckboxContainer)
       .getByRole('checkbox')
       .all();
+    await this.page.waitForLoadState();
     for (const checkbox of indicatorCheckboxes) {
-      await expect(await checkbox.isChecked());
+      expect(await checkbox.isChecked());
     }
   }
 
@@ -314,8 +315,9 @@ export default class ResultsPage extends BasePage {
       .getByTestId(this.indicatorCheckboxContainer)
       .getByRole('checkbox')
       .all();
+    await this.page.waitForLoadState();
     for (const checkbox of indicatorCheckboxes) {
-      await expect(await checkbox.isChecked()).toBeFalsy();
+      await expect(checkbox).not.toBeChecked();
     }
   }
 
@@ -323,14 +325,16 @@ export default class ResultsPage extends BasePage {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await expect(await selectAllCheckbox.isChecked()).toBeTruthy();
+    await this.page.waitForLoadState();
+    expect(await selectAllCheckbox.isChecked());
   }
 
   async verifySelectAllCheckboxUnticked() {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await expect(await selectAllCheckbox.isChecked()).toBeFalsy();
+    await this.page.waitForLoadState();
+    await expect(selectAllCheckbox).not.toBeChecked();
   }
 
   async selectIndicator(indicatorId: string) {
@@ -338,6 +342,7 @@ export default class ResultsPage extends BasePage {
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
     await indicatorCheckbox.check();
+    await this.page.waitForLoadState();
     await expect(indicatorCheckbox).toBeChecked();
   }
 
@@ -346,11 +351,14 @@ export default class ResultsPage extends BasePage {
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
     await indicatorCheckbox.uncheck();
+    await this.page.waitForLoadState();
     await expect(indicatorCheckbox).not.toBeChecked();
   }
 
   async verifyUrlContainsAllIndicators(indicatorIds: string[]) {
-    await expect(this.page).toHaveURL(new RegExp(indicatorIds.map((id) => `&is=${id}`).join('')));
+    for (const indicatorId of indicatorIds) {
+      await expect(this.page).toHaveURL(new RegExp(`&is=${indicatorId}`));
+    }
   }
 
   async verifyUrlExcludesAllIndicators() {
@@ -358,7 +366,8 @@ export default class ResultsPage extends BasePage {
   }
 
   async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
-    await expect(this.page).not.toHaveURL(new RegExp(`&is=${deselectedIndicator}`));
+    await expect(this.page).not.toHaveURL(
+      new RegExp(`&is=${deselectedIndicator}`)
+    );
   }
 }
-

@@ -234,11 +234,7 @@ test('check "select all" checkbox updates selected indicators and URL', async ({
   resultsPage,
 }) => {
   await test.step('Navigate directly to the results page', async () => {
-    await resultsPage.navigateToResults(subjectSearchTerm, [
-      // allNHSRegionAreas[0].areaCode,
-      // allNHSRegionAreas[1].areaCode,
-      // allNHSRegionAreas[2].areaCode,
-    ]);
+    await resultsPage.navigateToResults(subjectSearchTerm, []);
   });
 
   await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
