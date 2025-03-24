@@ -13,13 +13,13 @@ import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
-  areaCodes: string[];
   mapData?: MapData;
 }
 
@@ -28,13 +28,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   searchState,
   indicatorMetadata,
   mapData,
-  areaCodes,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
-    //  DHSCFT-483 to reinstate this
-    // [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
+    [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
@@ -54,8 +53,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const shouldLineChartbeShown =
     dataWithoutEngland[0]?.healthData.length > 1 &&
-    areaCodes &&
-    areaCodes?.length <= 2;
+    areasSelected &&
+    areasSelected?.length <= 2;
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
@@ -106,16 +105,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           />
         </>
       )}
-      {
-        // DHSCFT-483 to restore this to use only the selectedGroupArea flag
-        // selectedGroupArea === 'ALL'
-        selectedGroupCode && mapData && (
-          <ThematicMap
-            healthIndicatorData={healthIndicatorData}
-            mapData={mapData}
-          />
-        )
-      }
+      {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
+        <ThematicMap
+          healthIndicatorData={healthIndicatorData}
+          mapData={mapData}
+        />
+      )}
       <H3>Compare an indicator by areas</H3>
       <BarChartEmbeddedTable
         data-testid="barChartEmbeddedTable-component"

@@ -49,7 +49,7 @@ const coreTestJourneys: TestParams[] = [
 ];
 
 /**
- * This test currently tests, in parallel, three out of four of the indicator + area scenario combinations from
+ * This tests, in parallel, the indicator + area scenario combinations from
  * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
  * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.

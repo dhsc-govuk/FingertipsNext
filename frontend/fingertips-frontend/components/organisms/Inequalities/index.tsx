@@ -5,7 +5,6 @@ import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineC
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import React from 'react';
 import {
-  getBenchmarkData,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByYear,
@@ -56,8 +55,6 @@ export function Inequalities({
     data: lineChartData.rowData[latestDataIndex],
   };
 
-  const barChartBenchmarkValue = getBenchmarkData(type, barchartData);
-
   return (
     <div data-testid="inequalities-component">
       <H4>Inequalities data for a single time period</H4>
@@ -70,10 +67,7 @@ export function Inequalities({
             content: (
               <InequalitiesBarChart
                 barChartData={barchartData}
-                dynamicKeys={dynamicKeys}
-                benchmarkValue={barChartBenchmarkValue}
                 measurementUnit={measurementUnit}
-                areasSelected={areasSelected}
                 yAxisLabel="Value"
               />
             ),

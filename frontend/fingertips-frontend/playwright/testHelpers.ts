@@ -39,7 +39,6 @@ export function getScenarioConfig(
     ChartPage.inequalitiesLineChartTableComponent,
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    // Enable in DHSCFT-483
     ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
     // Pending
@@ -88,10 +87,6 @@ export function getScenarioConfig(
     visibleComponents = [
       ChartPage.thematicMapComponent,
       ChartPage.barChartEmbeddedTableComponent,
-      // Remove in DHSCFT-465 when inequalities are moved from the Chart component into the correct Views
-      ChartPage.inequalitiesComponent,
-      ChartPage.inequalitiesBarChartComponent,
-      ChartPage.inequalitiesLineChartComponent,
     ];
   }
   // 2+ indicators, England area

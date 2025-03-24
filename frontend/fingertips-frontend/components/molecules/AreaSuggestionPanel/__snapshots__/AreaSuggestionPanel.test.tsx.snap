@@ -33,7 +33,7 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   margin-bottom: 5px;
 }
 
-.c6 {
+.c7 {
   display: block;
 }
 
@@ -48,10 +48,27 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   padding: 0;
   margin-left: 0px;
   margin-right: 0px;
+  list-style-type: none;
+}
+
+.c8 {
+  background-color: #E1E2E3;
+  margin: auto;
+  padding: 5px 8px 4px 8px;
+  font-size: 16px;
+  text-align: right;
+  font-weight: 300;
 }
 
 .c5 {
   border-bottom: 1px solid #75738c;
+  padding: 10px 1px;
+  margin: 0;
+}
+
+.c6 {
+  border: 0;
+  background: white;
   cursor: pointer;
   display: -webkit-box;
   display: -webkit-flex;
@@ -60,10 +77,15 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  padding: 10px 1px;
-  margin: 0;
   font-size: 19px;
   font-weight: 300;
+  width: 100%;
+  padding: 1px 0px 1px 0px;
+}
+
+.c6:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
 }
 
 @media print {
@@ -112,231 +134,243 @@ exports[`AreaSuggestionPanel should render correctly and match snapshot 1`] = `
   >
     <li
       class="c3 c4 c5"
-      data-testid="area-suggestion-item-GP01"
     >
-      <svg
+      <button
         class="c6"
-        fill="#75738c"
-        height="15px"
-        style="padding: 0px; margin: auto 10px auto auto;"
-        version="1.1"
-        viewBox="0 0 57 57"
-        width="15px"
+        data-testid="area-suggestion-item-GP01"
       >
-        <title>
-          Search
-        </title>
-        <path
-          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
-        />
-      </svg>
-      <div
-        style="flex-grow: 3; padding: 5px;"
-      >
-        <span>
-          G
-        </span>
-        <span>
-          P
-        </span>
-        <span>
-          0
-        </span>
-        <span>
-          1
-        </span>
-        <span>
-           
-        </span>
-        <span>
-          -
-        </span>
-        <span>
-           
-        </span>
-        <span>
-          G
-        </span>
-        <span>
-          r
-        </span>
-        <span>
-          e
-        </span>
-        <span>
-          e
-        </span>
-        <span>
-          n
-        </span>
-        <span>
-          w
-        </span>
-        <span>
-          i
-        </span>
-        <span>
-          c
-        </span>
-        <span>
-          h
-        </span>
-      </div>
-      <div
-        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
-      >
-        GPs
-      </div>
+        <svg
+          class="c7"
+          fill="#75738c"
+          height="15px"
+          style="padding: 0px; margin: auto 10px auto auto;"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="15px"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+        <div
+          style="flex-grow: 3; padding: 5px; text-align: left;"
+        >
+          <span>
+            G
+          </span>
+          <span>
+            P
+          </span>
+          <span>
+            0
+          </span>
+          <span>
+            1
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            -
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            G
+          </span>
+          <span>
+            r
+          </span>
+          <span>
+            e
+          </span>
+          <span>
+            e
+          </span>
+          <span>
+            n
+          </span>
+          <span>
+            w
+          </span>
+          <span>
+            i
+          </span>
+          <span>
+            c
+          </span>
+          <span>
+            h
+          </span>
+        </div>
+        <div
+          class="c8"
+        >
+          GPs
+        </div>
+      </button>
     </li>
     <li
       class="c3 c4 c5"
-      data-testid="area-suggestion-item-GP02"
     >
-      <svg
+      <button
         class="c6"
-        fill="#75738c"
-        height="15px"
-        style="padding: 0px; margin: auto 10px auto auto;"
-        version="1.1"
-        viewBox="0 0 57 57"
-        width="15px"
+        data-testid="area-suggestion-item-GP02"
       >
-        <title>
-          Search
-        </title>
-        <path
-          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
-        />
-      </svg>
-      <div
-        style="flex-grow: 3; padding: 5px;"
-      >
-        <span>
-          G
-        </span>
-        <span>
-          P
-        </span>
-        <span>
-          0
-        </span>
-        <span>
-          2
-        </span>
-        <span>
-           
-        </span>
-        <span>
-          -
-        </span>
-        <span>
-           
-        </span>
-        <span>
-          C
-        </span>
-        <span>
-          a
-        </span>
-        <span>
-          m
-        </span>
-        <span>
-          b
-        </span>
-        <span>
-          r
-        </span>
-        <span>
-          i
-        </span>
-        <span>
-          d
-        </span>
-        <span>
-          g
-        </span>
-        <span>
-          e
-        </span>
-      </div>
-      <div
-        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
-      >
-        GPs
-      </div>
+        <svg
+          class="c7"
+          fill="#75738c"
+          height="15px"
+          style="padding: 0px; margin: auto 10px auto auto;"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="15px"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+        <div
+          style="flex-grow: 3; padding: 5px; text-align: left;"
+        >
+          <span>
+            G
+          </span>
+          <span>
+            P
+          </span>
+          <span>
+            0
+          </span>
+          <span>
+            2
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            -
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            C
+          </span>
+          <span>
+            a
+          </span>
+          <span>
+            m
+          </span>
+          <span>
+            b
+          </span>
+          <span>
+            r
+          </span>
+          <span>
+            i
+          </span>
+          <span>
+            d
+          </span>
+          <span>
+            g
+          </span>
+          <span>
+            e
+          </span>
+        </div>
+        <div
+          class="c8"
+        >
+          GPs
+        </div>
+      </button>
     </li>
     <li
       class="c3 c4 c5"
-      data-testid="area-suggestion-item-CT01"
     >
-      <svg
+      <button
         class="c6"
-        fill="#75738c"
-        height="15px"
-        style="padding: 0px; margin: auto 10px auto auto;"
-        version="1.1"
-        viewBox="0 0 57 57"
-        width="15px"
+        data-testid="area-suggestion-item-CT01"
       >
-        <title>
-          Search
-        </title>
-        <path
-          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
-        />
-      </svg>
-      <div
-        style="flex-grow: 3; padding: 5px;"
-      >
-        <span>
-          C
-        </span>
-        <span>
-          e
-        </span>
-        <span>
-          n
-        </span>
-        <span>
-          t
-        </span>
-        <span>
-          r
-        </span>
-        <span>
-          a
-        </span>
-        <span>
-          l
-        </span>
-        <span>
-           
-        </span>
-        <span>
-          L
-        </span>
-        <span>
-          o
-        </span>
-        <span>
-          n
-        </span>
-        <span>
-          d
-        </span>
-        <span>
-          o
-        </span>
-        <span>
-          n
-        </span>
-      </div>
-      <div
-        style="background-color: rgb(225, 226, 227); margin: auto; padding: 5px 8px 4px 8px; font-size: 16px; text-align: right; font-weight: 300;"
-      >
-        CT
-      </div>
+        <svg
+          class="c7"
+          fill="#75738c"
+          height="15px"
+          style="padding: 0px; margin: auto 10px auto auto;"
+          version="1.1"
+          viewBox="0 0 57 57"
+          width="15px"
+        >
+          <title>
+            Search
+          </title>
+          <path
+            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23 s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,6,23.984,6z"
+          />
+        </svg>
+        <div
+          style="flex-grow: 3; padding: 5px; text-align: left;"
+        >
+          <span>
+            C
+          </span>
+          <span>
+            e
+          </span>
+          <span>
+            n
+          </span>
+          <span>
+            t
+          </span>
+          <span>
+            r
+          </span>
+          <span>
+            a
+          </span>
+          <span>
+            l
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            L
+          </span>
+          <span>
+            o
+          </span>
+          <span>
+            n
+          </span>
+          <span>
+            d
+          </span>
+          <span>
+            o
+          </span>
+          <span>
+            n
+          </span>
+        </div>
+        <div
+          class="c8"
+        >
+          CT
+        </div>
+      </button>
     </li>
   </ul>
 </DocumentFragment>

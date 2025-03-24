@@ -223,7 +223,7 @@ CREATE TABLE #TempIndicatorData
     Polarity NVARCHAR(255),
     BenchmarkComparisonMethod [nvarchar](255),
     ValueType NVARCHAR(255),
-    IndicatorName NVARCHAR(255),
+    IndicatorName NVARCHAR(255)
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -304,7 +304,6 @@ CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
     Year INT,
-    SexID INT,
     AreaCode NVARCHAR(255),
     Count FLOAT,
     Value FLOAT,
@@ -314,10 +313,12 @@ CREATE TABLE #TempHealthData
     Upper98CI FLOAT,
     Denominator FLOAT,
     Sex NVARCHAR(255),
-    Age NVARCHAR(255),
     CategoryType NVARCHAR(MAX),
     Category NVARCHAR(MAX),
-    AgeID INT
+    AgeID INT,
+    IsSexAggregatedOrSingle NVARCHAR(255),
+    IsAgeAggregatedOrSingle NVARCHAR(255),
+    IsDeprivationAggregatedOrSingle NVARCHAR(255)
 );
 DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -344,7 +345,10 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year
+    Year,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
 )
 SELECT
     areadim.AreaKey,
@@ -357,7 +361,10 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    Year
+    Year,
+    REPLACE(IsSexAggregatedOrSingle, char(13), ''),
+    REPLACE(IsAgeAggregatedOrSingle, char(13), ''),
+    REPLACE(IsDeprivationAggregatedOrSingle, char(13), '')
 FROM 
 	#TempHealthData temp
 JOIN

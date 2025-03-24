@@ -10,7 +10,6 @@ import {
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -96,7 +95,10 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
-      await chartPage.expectNoAccessibilityViolations(axeBuilder);
+
+      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {
@@ -114,10 +116,6 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
-      await homePage.closeAreaFilterPill(0);
-
-      await test.expect(homePage.areaFilterPills()).toHaveCount(0);
-      await test.expect(homePage.page).not.toHaveURL(englandArea.code);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field

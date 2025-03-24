@@ -40,10 +40,10 @@ public class LegacyMapper {
         var legacyTrendRequest = new TrendRequest
         {
             YearRange = DefaultYearRange,
-            ValueTypeId = valueTypeId
+            ValueTypeId = valueTypeId,
+            Data = HealthMeasuresToLegacyDatasetList(healthMeasures)
         };
 
-        legacyTrendRequest.Data = HealthMeasuresToLegacyDatasetList(healthMeasures);
         return legacyTrendRequest;
     }
 
