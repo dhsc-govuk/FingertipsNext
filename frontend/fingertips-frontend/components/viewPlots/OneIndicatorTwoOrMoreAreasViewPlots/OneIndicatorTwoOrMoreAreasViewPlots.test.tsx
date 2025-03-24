@@ -87,7 +87,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
-        areaCodes={mockAreas}
       />
     );
 
@@ -107,9 +106,11 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
-          searchState={searchState}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
           indicatorMetadata={mockMetaData}
-          areaCodes={mockAreas}
         />
       );
       await assertLineChartAndTableInDocument();
@@ -119,9 +120,11 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
-          searchState={searchState}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
           indicatorMetadata={mockMetaData}
-          areaCodes={mockAreas}
         />
       );
       const actual = await screen.findAllByText('Data source:', {
@@ -148,7 +151,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={MOCK_DATA}
           searchState={state}
-          areaCodes={mockAreas}
         />
       );
 
@@ -167,7 +169,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
           healthIndicatorData={testHealthData}
           searchState={searchState}
           indicatorMetadata={mockMetaData}
-          areaCodes={[...mockAreas, 'third area']}
         />
       );
 
@@ -187,7 +188,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
           searchState={searchState}
-          areaCodes={mockAreas}
         />
       );
 
@@ -207,7 +207,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
           searchState={searchState}
-          areaCodes={mockAreas}
         />
       );
 
@@ -233,7 +232,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
           ]}
           searchState={searchState}
           mapData={mockMapData}
-          areaCodes={mockAreas}
         />
       );
       expect(
@@ -256,7 +254,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
           ]}
           searchState={searchState}
           mapData={mockMapData}
-          areaCodes={mockAreas}
         />
       );
 

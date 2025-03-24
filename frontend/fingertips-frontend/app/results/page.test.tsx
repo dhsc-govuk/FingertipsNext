@@ -30,6 +30,7 @@ import {
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
 
@@ -37,22 +38,9 @@ const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
   typeof getAreaFilterData
 >;
 
-const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
-  indicatorID: id,
-  indicatorName: `indicator name for id ${id}`,
-  indicatorDefinition: `Some definition for id ${id}`,
-  dataSource: `Some data source for id ${id}`,
-  earliestDataPeriod: '2022',
-  latestDataPeriod: '2023',
-  lastUpdatedDate: new Date(),
-  associatedAreaCodes: [],
-  unitLabel: 'some unit label',
-  hasInequalities: true,
-  usedInPoc: true,
-});
 const mockIndicatorSearchResults: IndicatorDocument[] = [
-  generateIndicatorSearchResults('1'),
-  generateIndicatorSearchResults('2'),
+  generateIndicatorDocument('1'),
+  generateIndicatorDocument('2'),
 ];
 
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
