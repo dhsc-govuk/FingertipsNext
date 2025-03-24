@@ -17,6 +17,7 @@ import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LineChart } from '../LineChart';
+import { LineChartVariant } from '../LineChart/lineChartHelpers';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
@@ -48,8 +49,6 @@ export function Inequalities({
 
   const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
     useState<boolean>(false);
-
-  const chartName = 'inequalitiesLineChart';
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
@@ -124,14 +123,12 @@ export function Inequalities({
             id: 'inequalitiesLineChart',
             title: 'Line chart',
             content: (
-              <div data-testid="inequalitiesLineChart-component">
-                <LineChart
-                  lineChartOptions={inequalitiesLineChartOptions}
-                  confidenceIntervalSelected={confidenceIntervalSelected}
-                  setConfidenceIntervalSelected={setConfidenceIntervalSelected}
-                  chartName={chartName}
-                />
-              </div>
+              <LineChart
+                lineChartOptions={inequalitiesLineChartOptions}
+                showConfidenceIntervalsData={confidenceIntervalSelected}
+                setShowConfidenceIntervalsData={setConfidenceIntervalSelected}
+                variant={LineChartVariant.Inequalities}
+              />
             ),
           },
           {

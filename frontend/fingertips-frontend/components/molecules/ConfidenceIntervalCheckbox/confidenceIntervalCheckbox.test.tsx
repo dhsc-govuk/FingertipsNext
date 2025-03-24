@@ -8,8 +8,8 @@ describe('ConfidenceIntervalCheckbox', () => {
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
-        confidenceIntervalSelected={false}
-        handleSetConfidenceIntervalSelected={jest.fn()}
+        showConfidenceIntervalsData={false}
+        setShowConfidenceIntervalsData={jest.fn()}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
@@ -23,8 +23,8 @@ describe('ConfidenceIntervalCheckbox', () => {
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
-        confidenceIntervalSelected={confidenceIntervalSelected}
-        handleSetConfidenceIntervalSelected={setConfidenceIntervalSelected}
+        showConfidenceIntervalsData={confidenceIntervalSelected}
+        setShowConfidenceIntervalsData={setConfidenceIntervalSelected}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));
@@ -40,8 +40,8 @@ describe('ConfidenceIntervalCheckbox', () => {
     render(
       <ConfidenceIntervalCheckbox
         chartName="example chart"
-        confidenceIntervalSelected={confidenceIntervalSelected}
-        handleSetConfidenceIntervalSelected={setConfidenceIntervalSelected}
+        showConfidenceIntervalsData={confidenceIntervalSelected}
+        setShowConfidenceIntervalsData={setConfidenceIntervalSelected}
       />
     );
     await userEvent.click(screen.getByRole('checkbox'));

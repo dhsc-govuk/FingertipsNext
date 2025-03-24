@@ -5,7 +5,7 @@ import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities LineChart suite', () => {
-  it('should render the expected elements', () => {
+  it('should render the expected elements', async () => {
     const yAxisLabel = 'YAxis';
     render(
       <InequalitiesBarChart
@@ -15,7 +15,7 @@ describe('Inequalities LineChart suite', () => {
       />
     );
 
-    const barChart = screen.getByTestId(
+    const barChart = await screen.findByTestId(
       'highcharts-react-component-inequalitiesBarChart'
     );
 

@@ -5,7 +5,15 @@ import { chartColours, ChartColours } from '@/lib/chartHelpers/colours';
 import {
   sortHealthDataForAreasByDate,
   sortHealthDataForAreaByDate,
+  getHealthDataWithoutInequalities,
+  isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
+import { DataWithoutInequalities } from '../Inequalities/inequalitiesHelpers';
+
+export enum LineChartVariant {
+  Standard = 'standard',
+  Inequalities = 'inequalities',
+}
 
 export const lineChartDefaultOptions: Highcharts.Options = {
   credits: {
@@ -42,8 +50,6 @@ export const chartSymbols: SymbolKeyValue[] = [
   'circle',
   'diamond',
 ];
-
-export const lineChartName = 'lineChart';
 
 export function generateConfidenceIntervalSeries(
   areaName: string,
@@ -202,3 +208,43 @@ export function generateStandardLineChartOptions(
     },
   };
 }
+
+export const getAllDataWithoutInequalities = (
+  dataWithoutEnglandOrGroup: HealthDataForArea[],
+  benchmark: {
+    englandBenchmarkData?: HealthDataForArea;
+    groupData?: HealthDataForArea;
+  },
+  areasSelected?: string[]
+): DataWithoutInequalities => {
+  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
+    ? dataWithoutEnglandOrGroup.map((data) => ({
+        ...data,
+        healthData: getHealthDataWithoutInequalities(data),
+      }))
+    : [];
+
+  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.englandBenchmarkData
+      ? {
+          ...benchmark.englandBenchmarkData,
+          healthData: getHealthDataWithoutInequalities(
+            benchmark.englandBenchmarkData
+          ),
+        }
+      : undefined;
+
+  const groupDataWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.groupData
+      ? {
+          ...benchmark.groupData,
+          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
+        }
+      : undefined;
+
+  return {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
+  };
+};

@@ -3,20 +3,21 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { LineChartVariant } from './lineChartHelpers';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
-  chartName?: string;
-  confidenceIntervalSelected: boolean;
-  setConfidenceIntervalSelected: Dispatch<SetStateAction<boolean>>;
+  showConfidenceIntervalsData: boolean;
+  setShowConfidenceIntervalsData: (checked: boolean) => void;
+  variant: LineChartVariant;
 }
 
 export function LineChart({
   lineChartOptions,
-  confidenceIntervalSelected,
-  setConfidenceIntervalSelected,
-  chartName = '',
+  showConfidenceIntervalsData,
+  setShowConfidenceIntervalsData,
+  variant,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -28,18 +29,18 @@ export function LineChart({
       setOptions(lineChartOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [confidenceIntervalSelected]);
+  }, [showConfidenceIntervalsData]);
 
   if (!options) {
     return null;
   }
 
   return (
-    <div data-testid="lineChart-component">
+    <div data-testid={`${variant}LineChart-component`}>
       <ConfidenceIntervalCheckbox
-        chartName={chartName}
-        confidenceIntervalSelected={confidenceIntervalSelected}
-        handleSetConfidenceIntervalSelected={setConfidenceIntervalSelected}
+        chartName={`${variant}LineChart`}
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{

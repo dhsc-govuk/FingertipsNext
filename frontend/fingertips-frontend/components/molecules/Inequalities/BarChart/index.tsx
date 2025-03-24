@@ -54,7 +54,7 @@ export function InequalitiesBarChart({
   const { inequalities } = barChartData.data;
   const { benchmarkValue, inequalityDimensions: barChartFields } =
     getAggregatePointInfo(inequalities);
-  const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
   const [options, setOptions] = useState<Highcharts.Options>();
   const loadHighchartsModules = async (callback: () => void) => {
@@ -95,7 +95,7 @@ export function InequalitiesBarChart({
         inequalities[field]?.lower,
         inequalities[field]?.upper,
       ]),
-      confidenceIntervalSelected
+      showConfidenceIntervalsData
     ),
   ];
 
@@ -183,7 +183,7 @@ export function InequalitiesBarChart({
       setOptions(barChartOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [confidenceIntervalSelected]);
+  }, [showConfidenceIntervalsData]);
 
   if (!options) {
     return null;
@@ -193,9 +193,9 @@ export function InequalitiesBarChart({
     <div data-testid="inequalitiesBarChart-component">
       <BenchmarkLegend rag />
       <ConfidenceIntervalCheckbox
-        chartName="inequalities-barChart"
-        confidenceIntervalSelected={confidenceIntervalSelected}
-        handleSetConfidenceIntervalSelected={setConfidenceIntervalSelected}
+        chartName="inequalitiesBarChart"
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{

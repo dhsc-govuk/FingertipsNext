@@ -15,7 +15,7 @@ import {
 
 export default class ChartPage extends BasePage {
   readonly backLink = 'chart-page-back-link';
-  static readonly lineChartComponent = 'lineChart-component';
+  static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
   static readonly populationPyramidComponent = 'populationPyramid-component';
   static readonly inequalitiesComponent = 'inequalities-component';
@@ -83,13 +83,17 @@ export default class ChartPage extends BasePage {
           .click();
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
-      if (visibleComponent === 'lineChart-component') {
+      if (
+        visibleComponent.includes('LineChart-component') ||
+        visibleComponent === 'inequalitiesBarChart-component'
+      ) {
         await this.page
           .getByTestId(
             `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
           )
           .click();
       }
+
       await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
         visible: true,
       });

@@ -1,7 +1,6 @@
 import { Checkbox, Paragraph } from 'govuk-react';
 import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
 
 const StyledParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({
@@ -11,14 +10,14 @@ const StyledParagraph = styled(Paragraph)(
 
 type ConfidenceIntervalCheckboxProps = {
   chartName: string;
-  confidenceIntervalSelected: boolean;
-  handleSetConfidenceIntervalSelected: Dispatch<SetStateAction<boolean>>;
+  showConfidenceIntervalsData: boolean;
+  setShowConfidenceIntervalsData: (checked: boolean) => void;
 };
 
 export function ConfidenceIntervalCheckbox({
   chartName,
-  confidenceIntervalSelected,
-  handleSetConfidenceIntervalSelected,
+  showConfidenceIntervalsData,
+  setShowConfidenceIntervalsData,
 }: Readonly<ConfidenceIntervalCheckboxProps>) {
   return (
     <Checkbox
@@ -26,9 +25,9 @@ export function ConfidenceIntervalCheckbox({
       data-testid={`confidence-interval-checkbox-${chartName}`}
       name="confidence-interval-checkbox"
       onChange={(e) => {
-        handleSetConfidenceIntervalSelected(e.target.checked);
+        setShowConfidenceIntervalsData(e.target.checked);
       }}
-      defaultChecked={confidenceIntervalSelected}
+      defaultChecked={showConfidenceIntervalsData}
       sizeVariant="SMALL"
     >
       <StyledParagraph>Show confidence intervals</StyledParagraph>

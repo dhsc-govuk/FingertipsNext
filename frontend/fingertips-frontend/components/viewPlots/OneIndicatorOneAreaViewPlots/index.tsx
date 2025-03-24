@@ -16,11 +16,11 @@ import { ViewPlotProps } from '../ViewPlotProps';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
 import {
-  lineChartName,
   generateStandardLineChartOptions,
+  getAllDataWithoutInequalities,
+  LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -46,7 +46,7 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
-  const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -81,7 +81,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
-    confidenceIntervalSelected,
+    showConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
@@ -109,11 +109,11 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    confidenceIntervalSelected={confidenceIntervalSelected}
-                    setConfidenceIntervalSelected={
-                      setConfidenceIntervalSelected
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    setShowConfidenceIntervalsData={
+                      setShowConfidenceIntervalsData
                     }
-                    chartName={lineChartName}
+                    variant={LineChartVariant.Standard}
                   />
                 ),
               },
@@ -124,7 +124,7 @@ export function OneIndicatorOneAreaViewPlots({
                   <LineChartTable
                     healthIndicatorData={areaDataWithoutInequalities}
                     englandBenchmarkData={englandBenchmarkWithoutInequalities}
-                    groupIndicatorData={groupData}
+                    groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),

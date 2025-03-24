@@ -49,7 +49,7 @@ const searchState: SearchStateParams = {
   [SearchParams.IndicatorsSelected]: mockIndicator,
 };
 
-const lineChartTestId = 'lineChart-component';
+const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'Indicator data over time';

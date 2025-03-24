@@ -15,11 +15,11 @@ import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
-  lineChartName,
   generateStandardLineChartOptions,
+  getAllDataWithoutInequalities,
+  LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -43,7 +43,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
-  const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
@@ -82,7 +82,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
-    confidenceIntervalSelected,
+    showConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
@@ -108,11 +108,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    confidenceIntervalSelected={confidenceIntervalSelected}
-                    setConfidenceIntervalSelected={
-                      setConfidenceIntervalSelected
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    setShowConfidenceIntervalsData={
+                      setShowConfidenceIntervalsData
                     }
-                    chartName={lineChartName}
+                    variant={LineChartVariant.Standard}
                   />
                 ),
               },

@@ -2,10 +2,12 @@ import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
   generateSeriesData,
   generateStandardLineChartOptions,
+  getAllDataWithoutInequalities,
   lineChartDefaultOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 const mockData = [
   {
@@ -21,6 +23,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 267,
@@ -31,6 +34,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
     ],
   },
@@ -47,6 +51,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 567,
@@ -57,6 +62,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
     ],
   },
@@ -73,6 +79,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
       {
         count: 567,
@@ -83,10 +90,69 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
       },
     ],
   },
 ];
+
+const mockBenchmarkData = {
+  areaCode: 'E92000001',
+  areaName: 'England',
+  healthData: [
+    {
+      count: 389,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      value: 278.29134,
+      year: 2006,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+    {
+      count: 267,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      value: 703.420759,
+      year: 2004,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+  ],
+};
+
+const mockParentData = {
+  areaCode: 'P001',
+  areaName: 'Parent',
+  healthData: [
+    {
+      count: 100,
+      lowerCi: 200,
+      upperCi: 400,
+      value: 300,
+      year: 2006,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+    {
+      count: 101,
+      lowerCi: 201,
+      upperCi: 401,
+      value: 301,
+      year: 2004,
+      sex: 'Persons',
+      ageBand: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      isAggregate: true,
+    },
+  ],
+};
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -186,33 +252,6 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with benchmark data', () => {
-    const mockBenchmarkData = {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      healthData: [
-        {
-          count: 389,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 278.29134,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-      ],
-    };
-
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
@@ -313,60 +352,6 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockBenchmarkData = {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      healthData: [
-        {
-          count: 389,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 278.29134,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-      ],
-    };
-
-    const mockParentData = {
-      areaCode: 'P001',
-      areaName: 'Parent',
-      healthData: [
-        {
-          count: 100,
-          lowerCi: 200,
-          upperCi: 400,
-          value: 300,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-        {
-          count: 101,
-          lowerCi: 201,
-          upperCi: 401,
-          value: 301,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-        },
-      ],
-    };
-
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
@@ -666,6 +651,150 @@ describe('generateStandardLineChartOptions', () => {
         colours: chartColours,
         symbols,
       })
+    ).toEqual(expected);
+  });
+});
+
+describe('getAllDataWithoutInequalities', () => {
+  const mockHealthIndicatorData = [
+    {
+      ...mockData[0],
+      healthData: [
+        ...mockData[0].healthData,
+        {
+          count: 389,
+          lowerCi: 440,
+          upperCi: 580,
+          value: 530,
+          year: 2006,
+          sex: 'Male',
+          ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
+        },
+        {
+          count: 267,
+          lowerCi: 441.69151,
+          upperCi: 578.32766,
+          value: 703.420759,
+          year: 2004,
+          sex: 'Female',
+          ageBand: 'All',
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          isAggregate: false,
+        },
+      ],
+    },
+  ];
+
+  const benchmarkData = {
+    ...mockBenchmarkData,
+    healthData: [
+      ...mockBenchmarkData.healthData,
+      {
+        count: 389,
+        lowerCi: 441.69151,
+        upperCi: 578.32766,
+        value: 278.29134,
+        year: 2006,
+        sex: 'Male',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
+      },
+      {
+        count: 267,
+        lowerCi: 410,
+        upperCi: 450,
+        value: 420,
+        year: 2004,
+        sex: 'Female',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
+      },
+    ],
+  };
+
+  const groupData = {
+    ...mockParentData,
+    healthData: [
+      ...mockParentData.healthData,
+      {
+        count: 100,
+        lowerCi: 300,
+        upperCi: 400,
+        value: 350,
+        year: 2006,
+        sex: 'Male',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
+      },
+      {
+        count: 101,
+        lowerCi: 400,
+        upperCi: 500,
+        value: 450,
+        year: 2004,
+        sex: 'Female',
+        ageBand: 'All',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
+      },
+    ],
+  };
+
+  it('should get required data without inequalities', () => {
+    const expectedHealthDataWithoutInequalities = [{ ...mockData[0] }];
+    const expectedBenchmarkDataWithoutInequalities = { ...mockBenchmarkData };
+    const expectedGroupDataWithoutInequalities = { ...mockParentData };
+
+    const expected = {
+      areaDataWithoutInequalities: expectedHealthDataWithoutInequalities,
+      englandBenchmarkWithoutInequalities:
+        expectedBenchmarkDataWithoutInequalities,
+      groupDataWithoutInequalities: expectedGroupDataWithoutInequalities,
+    };
+
+    expect(
+      getAllDataWithoutInequalities(
+        mockHealthIndicatorData,
+        { englandBenchmarkData: benchmarkData, groupData },
+        ['A1425']
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return undefined benchmark data and group data when both are not provided', () => {
+    const expected = {
+      areaDataWithoutInequalities: [{ ...mockData[0] }],
+      englandBenchmarkWithoutInequalities: undefined,
+      groupDataWithoutInequalities: undefined,
+    };
+
+    expect(
+      getAllDataWithoutInequalities(
+        mockHealthIndicatorData,
+        { englandBenchmarkData: undefined, groupData: undefined },
+        []
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
+    const expected = {
+      areaDataWithoutInequalities: [],
+      englandBenchmarkWithoutInequalities: mockBenchmarkData,
+      groupDataWithoutInequalities: undefined,
+    };
+
+    expect(
+      getAllDataWithoutInequalities(
+        mockHealthIndicatorData,
+        { englandBenchmarkData: benchmarkData },
+        [areaCodeForEngland]
+      )
     ).toEqual(expected);
   });
 });
