@@ -467,6 +467,7 @@ describe('getMostRecentData', () => {
     const result = getMostRecentData(mockData[0].healthData);
     const expected = {
       count: 389,
+      recentTrend: 'Not yet calculated',
       value: 278.29134,
       lowerCi: 441.69151,
       upperCi: 578.32766,

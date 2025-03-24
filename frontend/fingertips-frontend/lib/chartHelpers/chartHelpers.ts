@@ -72,6 +72,7 @@ export function getMostRecentData(data: HealthDataPoint[]) {
   return data.length > 0
     ? {
         count: data[0].count,
+        recentTrend: data[0].trend,
         value: data[0].value,
         lowerCi: data[0].lowerCi,
         upperCi: data[0].upperCi,
