@@ -10,6 +10,8 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { typography } from '@govuk-react/lib';
+import { GovukColours, TagColours } from '@/lib/styleHelpers/colours';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
@@ -30,27 +32,37 @@ const StyledFilterPaneHeader = styled('div')({
 });
 
 const StyledFilterDiv = styled('div')({
-  backgroundColor: '#E1E2E3',
+  backgroundColor: TagColours.GreyBackground,
   minHeight: '100%',
   padding: '1.5em 1em',
 });
 
-const FocusSpan = styled('span')`
+const FocusAnchor = styled('button')(
+  typography.font({ size: 16, lineHeight: '1' }),
   {
-    cursor: pointer;
-    text-decoration: underline;
-    &:focus-visible {
-      outline: 4px solid yellow;
-      outlineoffset: -1;
-      background: yellow;
+    cursor: 'pointer',
+    textDecoration: 'underline',
+    border: 'none',
+    backgroundColor: 'transparent',
+    '&:focus-visible': {
+      outline: `3px solid ${GovukColours.Yellow}`,
+      outlineOffset: -1,
+      background: `${GovukColours.Yellow}`,
+    },
   }
-`;
+);
 
 function HideFiltersSpan({ hideFilters }: { hideFilters: () => void }) {
   return (
-    <FocusSpan tabIndex={0} onClick={hideFilters}>
+    <FocusAnchor
+      tabIndex={0}
+      onClick={(event) => {
+        event.preventDefault();
+        hideFilters();
+      }}
+    >
       Hide filter
-    </FocusSpan>
+    </FocusAnchor>
   );
 }
 
@@ -69,7 +81,7 @@ export function AreaFilterPane({
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
         <H3 style={{ marginBottom: 0 }}>Filters</H3>
-        { hideFilters ? (<HideFiltersButton hideFilters={hideFilters} />) : null }
+        {hideFilters ? <HideFiltersButton hideFilters={hideFilters} /> : null}
       </StyledFilterPaneHeader>
       <SectionBreak visible={true} />
       <StyledFilterDiv>
