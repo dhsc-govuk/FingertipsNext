@@ -37,7 +37,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K8403
 %}
 
 ### check quintile comparison for counties
-GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=E06000005&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2023
+GET http://localhost:5144/indicators/93763/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2023
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -48,7 +48,7 @@ GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=
 %}
 
 ### check quintile comparison for districts
-GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=E06000005&comparison_method=Quintiles&area_type=districts-and-unitary-authorities&years=2023
+GET http://localhost:5144/indicators/93763/data?area_codes=E07000124&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&comparison_method=Quintiles&area_type=districts-and-unitary-authorities&years=2023
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -58,3 +58,8 @@ GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=
     });
 %}
 
+
+### check High is good TODO - POC data doesn't offer data to validate this
+
+### check Low is good 
+GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019

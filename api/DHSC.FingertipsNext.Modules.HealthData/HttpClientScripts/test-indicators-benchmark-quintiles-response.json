@@ -12,7 +12,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Lowest",
           "method": "Quintiles",
@@ -32,7 +32,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Lower",
           "method": "Quintiles",
@@ -52,7 +52,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -72,7 +72,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -92,7 +92,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -112,7 +112,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Higher",
           "method": "Quintiles",
@@ -132,7 +132,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -152,7 +152,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Higher",
           "method": "Quintiles",
@@ -172,7 +172,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -192,7 +192,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Similar",
           "method": "Quintiles",
@@ -212,7 +212,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Highest",
           "method": "Quintiles",
@@ -232,7 +232,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "Not yet calculated",
         "benchmarkComparison": {
           "outcome": "Highest",
           "method": "Quintiles",
@@ -252,7 +252,7 @@
         "ageBand": "16+ yrs",
         "deprivation": "All",
         "sex": "Persons",
-        "trend": null,
+        "trend": "No significant change",
         "benchmarkComparison": {
           "outcome": "Higher",
           "method": "Quintiles",

@@ -59,6 +59,10 @@ public class DenormalisedHealthMeasureModel
                 Sequence = DeprivationDimensionSequence,
                 HasValue = DeprivationDimensionHasValue,
             },
+            TrendDimension = new TrendDimensionModel()
+            {
+                Name = TrendDimensionName,
+            },
             BenchmarkComparison = new BenchmarkComparisonModel()
             {
                 Outcome = BenchmarkComparisonOutcome,

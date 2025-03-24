@@ -1,0 +1,54 @@
+[
+  {
+    "areaCode": "E06000047",
+    "areaName": "County Durham",
+    "healthData": [
+      {
+        "year": 2023,
+        "count": 305.48,
+        "value": 55.461426,
+        "lowerCi": 49.353336,
+        "upperCi": 62.11055,
+        "ageBand": "All ages",
+        "deprivation": "All",
+        "sex": "Persons",
+        "trend": "No significant change",
+        "benchmarkComparison": {
+          "outcome": "Worst",
+          "method": "CIOverlappingReferenceValue95",
+          "indicatorPolarity": "LowIsGood",
+          "benchmarkAreaCode": "E92000001",
+          "benchmarkAreaName": "England",
+          "benchmarkValue": null
+        },
+        "isAggregate": true
+      }
+    ]
+  },
+  {
+    "areaCode": "E06000005",
+    "areaName": "Darlington",
+    "healthData": [
+      {
+        "year": 2023,
+        "count": 54.65,
+        "value": 48.803726,
+        "lowerCi": 36.663296,
+        "upperCi": 63.65781,
+        "ageBand": "All ages",
+        "deprivation": "All",
+        "sex": "Persons",
+        "trend": "No significant change",
+        "benchmarkComparison": {
+          "outcome": "Worse",
+          "method": "CIOverlappingReferenceValue95",
+          "indicatorPolarity": "LowIsGood",
+          "benchmarkAreaCode": "E92000001",
+          "benchmarkAreaName": "England",
+          "benchmarkValue": null
+        },
+        "isAggregate": true
+      }
+    ]
+  }
+]
