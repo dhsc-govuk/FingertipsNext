@@ -12,17 +12,17 @@ public class Deprivation
     ///     this deprivation type.
     /// </summary>
     [JsonPropertyName("sequence")]
-    public required int Sequence { get; init; }
+    public int Sequence { get; init; }
 
     /// <summary>
     ///     The deprivation value for this data point
     /// </summary>
     [JsonPropertyName("value")]
-    public required string Value { get; init; }
+    public string Value { get; init; }
 
     /// <summary>
     ///     The deprivation category that this data point's deprivation value belongs to.
     /// </summary>
     [JsonPropertyName("type")]
-    public required string Type { get; init; }
+    public string Type { get; init; }
 }
