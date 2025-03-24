@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
   searchState?: SearchStateParams;
+  isViewOnly?: boolean;
 }
 
 const StyledFilterSelectedIndicatorDiv = styled('div')({
@@ -29,6 +30,7 @@ const StyledButtonLink = styled(Button)({
 export function SelectedIndicatorsPanel({
   selectedIndicatorsData,
   searchState,
+  isViewOnly,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
   const stateManager = SearchStateManager.initialise(searchState);
@@ -39,7 +41,10 @@ export function SelectedIndicatorsPanel({
 
   return (
     <StyledFilterSelectedIndicatorDiv data-testid="selected-indicators-panel">
-      <StyledFilterLabel>Selected indicators</StyledFilterLabel>
+      <StyledFilterLabel>
+        {`Selected indicators (${selectedIndicatorsData?.length})`}
+      </StyledFilterLabel>
+
       {selectedIndicatorsData.map((indicator) => (
         <IndicatorSelectedPill
           key={indicator.indicatorID}
@@ -48,10 +53,17 @@ export function SelectedIndicatorsPanel({
           searchState={searchState}
         />
       ))}
-      <StyledButtonLink onClick={addOrChangeIndicatorClick}>
-        Add or change indicators
-      </StyledButtonLink>
-      <SectionBreak visible={true} />
+
+      {isViewOnly ? null : (
+        <>
+          <StyledButtonLink onClick={addOrChangeIndicatorClick}>
+            Add or change indicators
+          </StyledButtonLink>
+
+          <SectionBreak visible={true} />
+        </>
+      )}
+
     </StyledFilterSelectedIndicatorDiv>
   );
 }

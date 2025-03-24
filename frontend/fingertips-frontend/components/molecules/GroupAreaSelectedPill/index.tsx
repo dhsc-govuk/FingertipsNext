@@ -10,6 +10,7 @@ interface GroupAreaSelectedPillProps {
   groupSelected?: AreaWithRelations;
   onRemoveFilter: () => void;
   isFullWidth?: boolean;
+  isViewOnly?: boolean;
 }
 
 const StyleAreaType = styled('span')({
@@ -21,6 +22,7 @@ export const GroupAreaSelectedPill = ({
   groupSelected,
   onRemoveFilter,
   isFullWidth,
+  isViewOnly,
 }: Readonly<GroupAreaSelectedPillProps>) => {
   return (
     <Pill
@@ -28,6 +30,7 @@ export const GroupAreaSelectedPill = ({
       selectedFilterId={groupSelected?.code}
       isFullWidth={isFullWidth}
       ariaLabelPostfix={groupSelected?.name}
+      isViewOnly={isViewOnly}
     >
       <p style={{ margin: 0 }}>
         All areas in {groupSelected?.name}{' '}

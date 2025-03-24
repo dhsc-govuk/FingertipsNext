@@ -32,6 +32,7 @@ export function ChartPageWrapper({
   }, []);
 
   const stateManager = SearchStateManager.initialise(searchState);
+  // TODO: will need to persist this hide filters state when the chart page has dropdowns that can trigger a page refresh
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
@@ -58,8 +59,12 @@ export function ChartPageWrapper({
         <GridCol>
           <H2>View data for selected indicators and areas</H2>
 
+          {/* TODO: use of ! */}
           {isHideFilters ? (
             <FilterSummaryPanel
+              selectedAreasData={selectedAreasData!}
+              selectedIndicatorsData={selectedIndicatorsData!}
+              searchState={searchState}
               changeSelection={() => setIsHideFilters(false)}
             />
           ) : null}

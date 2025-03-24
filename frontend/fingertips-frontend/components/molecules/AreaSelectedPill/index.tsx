@@ -19,12 +19,14 @@ interface AreaSelectedPillProps {
   area: AreaWithRelations;
   onRemoveFilter: (filterID: string) => void;
   isFullWidth?: boolean;
+  isViewOnly?: boolean;
 }
 
 export const AreaSelectedPill = ({
   area,
   onRemoveFilter,
   isFullWidth,
+  isViewOnly,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
     <Pill
@@ -32,6 +34,7 @@ export const AreaSelectedPill = ({
       selectedFilterId={area.code}
       isFullWidth={isFullWidth}
       ariaLabelPostfix={area.name}
+      isViewOnly={isViewOnly}
     >
       <p style={{ margin: 0 }}>
         <StyleAreaName>

@@ -42,7 +42,7 @@ const FocusSpan = styled('span')`
     &:focus-visible {
       outline: 4px solid yellow;
       outlineoffset: -1;
-     background: yellow;
+      background: yellow;
   }
 `;
 

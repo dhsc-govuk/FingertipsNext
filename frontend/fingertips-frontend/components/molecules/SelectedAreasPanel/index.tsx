@@ -18,6 +18,7 @@ interface SelectedAreasPanelProps {
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
   isFullWidth?: boolean;
+  isViewOnly?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
@@ -33,6 +34,7 @@ export function SelectedAreasPanel({
   areaFilterData,
   searchState,
   isFullWidth,
+  isViewOnly,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -75,6 +77,7 @@ export function SelectedAreasPanel({
             groupSelected={selectedGroupData}
             onRemoveFilter={removeSelectedGroup}
             isFullWidth={isFullWidth}
+            isViewOnly={isViewOnly}
           />
         </div>
       ) : (
@@ -89,6 +92,7 @@ export function SelectedAreasPanel({
                   area={selectedArea}
                   onRemoveFilter={removeSelectedArea}
                   isFullWidth={isFullWidth}
+                  isViewOnly={isViewOnly}
                 />
               ))
             : null}
