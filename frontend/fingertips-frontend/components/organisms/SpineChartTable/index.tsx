@@ -25,60 +25,46 @@ export interface SpineChartTableProps {
   worst: number[];
 }
 
+export interface SpineChartTableRowProps {
+  indicator: Indicator;
+  measurementUnit: string;
+  indicatorHealthData: HealthDataForArea;
+  groupIndicatorData: HealthDataForArea;
+  englandBenchmarkData: HealthDataForArea;
+  best: number;
+  worst: number;
+}
+
 export const mapToSpineChartTableData = (
-  indicators: Indicator[],
-  measurementUnits: string[],
-  indicatorHealthData: HealthDataForArea[],
-  groupIndicatorData: HealthDataForArea[],
-  englandBenchmarkData: HealthDataForArea[],
-  best: number[],
-  worst: number[]
+  tableData: SpineChartTableRowProps[]
 ): SpineChartTableRowData[] =>
-  indicators.map((item, index) => ({
-    indicatorId: item.indicatorId,
-    indicator: item.title,
-    unit: measurementUnits[index],
-    period: indicatorHealthData[index].healthData[0].year,
-    count: indicatorHealthData[index].healthData[0].count,
-    value: indicatorHealthData[index].healthData[0].value,
-    groupValue: groupIndicatorData[index].healthData[0].value,
-    benchmarkValue: englandBenchmarkData[index].healthData[0].value,
-    benchmarkBest: best[index],
-    benchmarkWorst: worst[index],
+  tableData.map((item) => ({
+    indicatorId: item.indicator.indicatorId,
+    indicator: item.indicator.title,
+    unit: item.measurementUnit,
+    period: item.indicatorHealthData.healthData[0].year,
+    count: item.indicatorHealthData.healthData[0].count,
+    value: item.indicatorHealthData.healthData[0].value,
+    groupValue: item.groupIndicatorData.healthData[0].value,
+    benchmarkValue: item.englandBenchmarkData.healthData[0].value,
+    benchmarkBest: item.best,
+    benchmarkWorst: item.worst,
   }));
 
-const sortByIndicator = (
-  tableRowData: SpineChartTableRowData[]
-): SpineChartTableRowData[] =>
+const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
   tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
 
-export function SpineChartTable({
-  indicators,
-  measurementUnits,
-  indicatorHealthData,
-  groupIndicatorData,
-  englandBenchmarkData,
-  worst,
-  best,
-}: Readonly<SpineChartTableProps>) {
-  const tableData = mapToSpineChartTableData(
-    indicators,
-    measurementUnits,
-    indicatorHealthData,
-    groupIndicatorData,
-    englandBenchmarkData,
-    best,
-    worst
-  );
+export function SpineChartTable(dataTable: SpineChartTableProps) {
+  const areaName = dataTable.rowData[0].indicatorHealthData.areaName;
+  const groupName = dataTable.rowData[0].groupIndicatorData.areaName;
+
+  const tableData = mapToSpineChartTableData(dataTable.rowData);
   const sortedData = sortByIndicator(tableData);
 
   return (
     <StyledDiv data-testid="spineChartTable-component">
       <Table>
-        <SpineChartTableHeader
-          areaName={indicatorHealthData[0].areaName}
-          groupName={groupIndicatorData[0].areaName}
-        />
+        <SpineChartTableHeader areaName={areaName} groupName={groupName} />
         {sortedData.map((row) => (
           <React.Fragment key={row.indicatorId}>
             <SpineChartTableRow
