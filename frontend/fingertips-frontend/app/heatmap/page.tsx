@@ -54,53 +54,53 @@ const indicatorData = () => {
   const data: HealthDataPoint[][][] = [
     [
       [
-        newHealthDataPoint({ year: 1, value: 11 }),
-        newHealthDataPoint({ year: 2, value: 12 }),
+        newHealthDataPoint({ year: 2001, value: 11 }),
+        newHealthDataPoint({ year: 2002, value: 12 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 21 }),
-        newHealthDataPoint({ year: 2, value: 22 }),
+        newHealthDataPoint({ year: 2001, value: 21 }),
+        newHealthDataPoint({ year: 2002, value: 22 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 31 }),
-        newHealthDataPoint({ year: 2, value: 32 }),
+        newHealthDataPoint({ year: 2001, value: 31 }),
+        newHealthDataPoint({ year: 2002, value: 32 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 41 }),
-        newHealthDataPoint({ year: 2, value: 42 }),
-      ],
-    ],
-    [
-      [
-        newHealthDataPoint({ year: 1, value: 111 }),
-        newHealthDataPoint({ year: 2, value: 112 }),
-      ],
-      [newHealthDataPoint({ year: 1, value: 121 })],
-      [
-        newHealthDataPoint({ year: 1, value: 131 }),
-        newHealthDataPoint({ year: 2, value: 132 }),
-      ],
-      [
-        newHealthDataPoint({ year: 1, value: 141 }),
-        newHealthDataPoint({ year: 2, value: 142 }),
+        newHealthDataPoint({ year: 2001, value: 41 }),
+        newHealthDataPoint({ year: 2002, value: 42 }),
       ],
     ],
     [
       [
-        newHealthDataPoint({ year: 1, value: 1111 }),
-        newHealthDataPoint({ year: 2, value: 1112 }),
+        newHealthDataPoint({ year: 2001, value: 111 }),
+        newHealthDataPoint({ year: 2002, value: 112 }),
+      ],
+      [newHealthDataPoint({ year: 2001, value: 121 })],
+      [
+        newHealthDataPoint({ year: 2001, value: 131 }),
+        newHealthDataPoint({ year: 2002, value: 132 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 1121 }),
-        newHealthDataPoint({ year: 2, value: 1122 }),
+        newHealthDataPoint({ year: 2001, value: 141 }),
+        newHealthDataPoint({ year: 2002, value: 142 }),
+      ],
+    ],
+    [
+      [
+        newHealthDataPoint({ year: 2001, value: 1111 }),
+        newHealthDataPoint({ year: 2002, value: 1112 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 1231 }),
-        newHealthDataPoint({ year: 2, value: 1132 }),
+        newHealthDataPoint({ year: 2001, value: 1121 }),
+        newHealthDataPoint({ year: 2002, value: 1122 }),
       ],
       [
-        newHealthDataPoint({ year: 1, value: 1141 }),
-        newHealthDataPoint({ year: 2, value: 1142 }),
+        newHealthDataPoint({ year: 2001, value: 1231 }),
+        newHealthDataPoint({ year: 2002, value: 1132 }),
+      ],
+      [
+        newHealthDataPoint({ year: 2001, value: 1141 }),
+        newHealthDataPoint({ year: 2002, value: 1142 }),
       ],
     ],
   ];
