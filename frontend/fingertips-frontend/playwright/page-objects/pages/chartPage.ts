@@ -82,7 +82,10 @@ export default class ChartPage extends BasePage {
           .click();
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
-      if (visibleComponent === 'lineChart-component') {
+      if (
+        visibleComponent === 'lineChart-component' ||
+        visibleComponent === 'barChartEmbeddedTable-component'
+      ) {
         await this.page
           .getByTestId(
             `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
