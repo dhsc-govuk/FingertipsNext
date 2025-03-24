@@ -74,15 +74,6 @@ export const inequalityKeyMapping: Record<
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
-const mapToGetBenchmarkFunction: Record<
-  InequalitiesTypes,
-  (barChartData: InequalitiesBarChartData) => number | undefined
-> = {
-  [InequalitiesTypes.Sex]: (barChartData: InequalitiesBarChartData) =>
-    barChartData.data.inequalities[Sex.PERSONS]?.value,
-  [InequalitiesTypes.Deprivation]: (_: InequalitiesBarChartData) => 5, // random value to be changed when function for deprivation is added
-};
-
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
@@ -152,13 +143,6 @@ export const getDynamicKeys = (
   const uniqueKeys = [...new Set(existingKeys)];
 
   return inequalityKeyMapping[type](uniqueKeys);
-};
-
-export const getBenchmarkData = (
-  type: InequalitiesTypes,
-  barChartData: InequalitiesBarChartData
-): number | undefined => {
-  return mapToGetBenchmarkFunction[type](barChartData);
 };
 
 export const generateInequalitiesLineChartSeriesData = (
