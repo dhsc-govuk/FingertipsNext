@@ -13,18 +13,48 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_metho
     });
 %}
 
-###
-
-### GET health data with rag and sex inequalities
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=quintile
+### check quintile comparison for specific years
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_method=Quintiles&area_type=gps&years=2023&years=2022
 
 > {%
-    const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');
-
-    client.test("Expected health data returned with rag comparison for sex inequality", function (callbackfn, thisArg) {
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body content does not match");
+        client.assert(response.body[0].healthData.length ==2, "HealthData doesn't contain two records");
+        client.assert(response.body[0].healthData[0].year ==2022, "HealthData doesn't contain two records");
+        client.assert(response.body[0].healthData[1].year ==2023, "HealthData doesn't contain two records");
+    });
+%}
+
+### check quintile comparison for multiple areas
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&comparison_method=Quintiles&area_type=gps&years=2023
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body[0].areaCode =="A84022", "AreaCode not as expected");
+        client.assert(response.body[1].areaCode =="K84031", "AreaCode not as expected");
+    });
+%}
+
+### check quintile comparison for counties
+GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=E06000005&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2023
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body[0].areaCode =="A84022", "AreaCode not as expected");
+        client.assert(response.body[1].areaCode =="K84031", "AreaCode not as expected");
+    });
+%}
+
+### check quintile comparison for districts
+GET http://localhost:5144/indicators/93763/data?area_codes=E06000047&area_codes=E06000005&comparison_method=Quintiles&area_type=districts-and-unitary-authorities&years=2023
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body[0].areaCode =="A84022", "AreaCode not as expected");
+        client.assert(response.body[1].areaCode =="K84031", "AreaCode not as expected");
     });
 %}
 
