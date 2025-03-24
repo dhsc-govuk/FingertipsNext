@@ -5,23 +5,33 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
+import { HealthDataPointBenchmarkComparison } from '@/generated-sources/ft-api-client';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
 }
+
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
+  benchmarkComparison,
 }: Readonly<SparklineChartProps>) {
+  const color = getBenchmarkColour(
+    benchmarkComparison?.outcome as BenchmarkLabelType
+  );
+
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const series: Highcharts.SeriesOptionsType[] = [
-    { type: 'bar', data: [value] },
+    { type: 'bar', data: [value], color },
   ];
 
   if (showConfidenceIntervalsData) {

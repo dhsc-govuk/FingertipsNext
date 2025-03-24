@@ -67,6 +67,7 @@ export function BarChartEmbeddedTable({
     value: item.healthData[0].value,
     lowerCi: item.healthData[0].lowerCi,
     upperCi: item.healthData[0].upperCi,
+    benchmarkComparison: item.healthData[0].benchmarkComparison,
   }));
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
@@ -164,6 +165,9 @@ export function BarChartEmbeddedTable({
                   mostRecentBenchmarkData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
+                benchmarkComparison={
+                  mostRecentBenchmarkData.benchmarkComparison
+                }
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -196,6 +200,7 @@ export function BarChartEmbeddedTable({
                   mostRecentGroupData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
+                benchmarkComparison={mostRecentGroupData.benchmarkComparison}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -221,6 +226,7 @@ export function BarChartEmbeddedTable({
                 maxValue={maxValue}
                 confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
+                benchmarkComparison={item.benchmarkComparison}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />

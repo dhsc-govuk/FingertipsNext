@@ -85,6 +85,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: Number(testIndicators),
+          comparisonMethod: 'Rag',
         },
         API_CACHE_CONFIG
       );
@@ -116,11 +117,13 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const expected1 = {
       areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
       indicatorId: Number(testIndicators),
+      comparisonMethod: 'Rag',
     };
 
     const expected2 = {
       areaCodes: ['a', 'a', 'a', 'a', 'a', 'E92000001', 'G001'],
       indicatorId: Number(testIndicators),
+      comparisonMethod: 'Rag',
     };
 
     expect(
