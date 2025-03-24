@@ -149,7 +149,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
         mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome || 'None' // TODO: change fallback to 'Not Compared'
+          areaData.healthData[0].benchmarkComparison.outcome ?? 'None' // TODO: change fallback to 'Not Compared'
         ];
     }
     const preparedDataPoint = {
@@ -157,7 +157,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
       areaCode: areaData.areaCode,
       value: areaData.healthData[0].value,
       benchmarkComparison:
-        areaData.healthData[0].benchmarkComparison?.outcome || 'None', // TODO: change fallback to 'Not Compared'
+        areaData.healthData[0].benchmarkComparison?.outcome ?? 'None', // TODO: change fallback to 'Not Compared'
       benchmarkColourCode: benchmarkColourCode,
     };
     return preparedDataPoint;
