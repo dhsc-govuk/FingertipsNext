@@ -9,10 +9,8 @@ import {
 } from '@/components/organisms/SpineChartTable';
 import {
   HealthDataForArea,
-  HealthDataPointTrendEnum,
   Indicator,
 } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { H2 } from 'govuk-react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
@@ -21,7 +19,7 @@ export function mapToSpineChartTableProps(
   indicatorMetadata?: (IndicatorDocument | undefined)[]
 ):SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length
-  let tableData: SpineChartTableRowProps[]= new Array(numberOfIndicators);
+  const tableData: SpineChartTableRowProps[]= new Array(numberOfIndicators);
   
   healthIndicatorData.map((indicatorData, index) => {
     const validMetaData = indicatorMetadata !== undefined && indicatorMetadata[index] !== undefined 
