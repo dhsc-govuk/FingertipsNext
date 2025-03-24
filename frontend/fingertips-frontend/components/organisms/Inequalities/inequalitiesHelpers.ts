@@ -1,5 +1,4 @@
 import {
-  HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
 } from '@/generated-sources/ft-api-client';
@@ -19,12 +18,6 @@ export type YearlyHealthDataGroupedByInequalities = Record<
   string,
   Record<string, HealthDataPoint[] | undefined>
 >;
-
-export interface DataWithoutInequalities {
-  areaDataWithoutInequalities: HealthDataForArea[];
-  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
-  groupDataWithoutInequalities: HealthDataForArea | undefined;
-}
 
 export interface InequalitiesChartData {
   areaName: string;

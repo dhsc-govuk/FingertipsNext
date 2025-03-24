@@ -8,11 +8,16 @@ import {
   getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
 } from '@/lib/chartHelpers/chartHelpers';
-import { DataWithoutInequalities } from '../Inequalities/inequalitiesHelpers';
 
 export enum LineChartVariant {
   Standard = 'standard',
   Inequalities = 'inequalities',
+}
+
+interface DataWithoutInequalities {
+  areaDataWithoutInequalities: HealthDataForArea[];
+  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  groupDataWithoutInequalities: HealthDataForArea | undefined;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
