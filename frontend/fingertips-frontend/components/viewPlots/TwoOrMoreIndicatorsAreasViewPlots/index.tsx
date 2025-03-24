@@ -1,7 +1,10 @@
 'use client';
 
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { MultiIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
+  SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
 import {
@@ -115,23 +118,25 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
     best: mockBest,
   };
 
-  return data;
+  return {rowData:tableData}
 };
 
-export function TwoOrMoreIndicatorsAreasViewPlot() {
-  const spineTableData = mapToSpineChartTableProps();
+export function TwoOrMoreIndicatorsAreasViewPlot({
+  healthIndicatorData,
+  searchState,
+  indicatorMetadata,
+}: Readonly<MultiIndicatorViewPlotProps>) {
+  const _1 = searchState;
+
+  const spineTableData = mapToSpineChartTableProps(
+    healthIndicatorData,
+    indicatorMetadata
+  );
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <SpineChartTable
-        indicators={spineTableData.indicators}
-        measurementUnits={spineTableData.measurementUnits}
-        indicatorHealthData={spineTableData.indicatorHealthData}
-        groupIndicatorData={spineTableData.groupIndicatorData}
-        englandBenchmarkData={spineTableData.englandBenchmarkData}
-        best={spineTableData.best}
-        worst={spineTableData.worst}
-      />
+      <H2>View data for selected indicators and areas</H2>
+      <SpineChartTable rowData={spineTableData.rowData} />
     </section>
   );
 }
