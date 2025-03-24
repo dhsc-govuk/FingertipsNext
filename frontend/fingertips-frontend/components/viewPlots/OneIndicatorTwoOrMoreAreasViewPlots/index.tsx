@@ -16,7 +16,6 @@ import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   generateStandardLineChartOptions,
-  getAllDataWithoutInequalities,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
@@ -59,18 +58,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         )
       : undefined;
 
-  const {
-    areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
-    groupDataWithoutInequalities,
-  } = getAllDataWithoutInequalities(
-    dataWithoutEngland,
-    { englandBenchmarkData, groupData },
-    areasSelected
-  );
-
   const shouldLineChartbeShown =
-    areaDataWithoutInequalities[0]?.healthData.length > 1 &&
+    dataWithoutEngland[0]?.healthData.length > 1 &&
     areasSelected &&
     areasSelected?.length <= 2;
 
@@ -79,11 +68,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     : undefined;
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
-    areaDataWithoutInequalities,
+    dataWithoutEngland,
     showConfidenceIntervalsData,
     {
-      benchmarkData: englandBenchmarkWithoutInequalities,
-      groupIndicatorData: groupDataWithoutInequalities,
+      benchmarkData: englandBenchmarkData,
+      groupIndicatorData: groupData,
       yAxisTitle,
       xAxisTitle: 'Year',
       measurementUnit: indicatorMetadata?.unitLabel,
@@ -119,9 +108,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
-                    groupIndicatorData={groupDataWithoutInequalities}
+                    healthIndicatorData={dataWithoutEngland}
+                    englandBenchmarkData={englandBenchmarkData}
+                    groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
