@@ -9,6 +9,7 @@ import {
   MapData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { BenchmarkLegend } from '../BenchmarkLegend';
+
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
@@ -28,11 +29,6 @@ export function ThematicMap({
   if (indicatorDataSource)
     captionText += `<span> <br /><br />Data Source: ${indicatorDataSource}</span>`;
 
-  const mapOptions = createThematicMapChartOptions(
-    mapData,
-    healthIndicatorData
-  );
-
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
   //
@@ -41,7 +37,7 @@ export function ThematicMap({
   // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
     loadHighchartsModules(async () => {
-      setOptions(mapOptions);
+      setOptions(createThematicMapChartOptions(mapData, healthIndicatorData));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

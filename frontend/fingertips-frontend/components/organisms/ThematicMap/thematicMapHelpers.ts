@@ -1,7 +1,6 @@
 import union from '@turf/union';
 import { GeoJSON } from 'highcharts';
 import { Feature, Polygon, MultiPolygon, FeatureCollection } from 'geojson';
-
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import countiesAndUAsMap from '@/assets/maps/Counties_and_Unitary_Authorities_December_2023_Boundaries_UK_BSC_4952317392296043005.geo.json';
 import districtsAndUAsMap from '@/assets/maps/Local_Authority_Districts_May_2024_Boundaries__UK_BSC_-5684348521832897108.geo.json';
@@ -150,7 +149,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
         mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome || 'None'
+          areaData.healthData[0].benchmarkComparison.outcome || 'None' // TODO: change fallback to 'Not Compared'
         ];
     }
     const preparedDataPoint = {
@@ -173,7 +172,7 @@ export function createThematicMapChartOptions(
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
-      type: 'map',
+      type: 'mapChart',
       height: 800, // TODO: agree height
       animation: false,
       borderWidth: 0.2,
@@ -229,7 +228,6 @@ export function createThematicMapChartOptions(
             borderColor: GovukColours.Black,
           },
         },
-        dataLabels: { format: 'T' },
         tooltip: {
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
