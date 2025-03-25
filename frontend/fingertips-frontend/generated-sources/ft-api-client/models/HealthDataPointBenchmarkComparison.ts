@@ -13,6 +13,21 @@
  */
 
 import { mapValues } from '../runtime';
+import type { BenchmarkOutcome } from './BenchmarkOutcome';
+import {
+    BenchmarkOutcomeFromJSON,
+    BenchmarkOutcomeFromJSONTyped,
+    BenchmarkOutcomeToJSON,
+    BenchmarkOutcomeToJSONTyped,
+} from './BenchmarkOutcome';
+import type { BenchmarkComparisonMethod } from './BenchmarkComparisonMethod';
+import {
+    BenchmarkComparisonMethodFromJSON,
+    BenchmarkComparisonMethodFromJSONTyped,
+    BenchmarkComparisonMethodToJSON,
+    BenchmarkComparisonMethodToJSONTyped,
+} from './BenchmarkComparisonMethod';
+
 /**
  * 
  * @export
@@ -20,17 +35,17 @@ import { mapValues } from '../runtime';
  */
 export interface HealthDataPointBenchmarkComparison {
     /**
-     * benchmark outcome
-     * @type {string}
+     * 
+     * @type {BenchmarkOutcome}
      * @memberof HealthDataPointBenchmarkComparison
      */
-    outcome?: HealthDataPointBenchmarkComparisonOutcomeEnum;
+    outcome?: BenchmarkOutcome;
     /**
-     * the benchmark comparison method used
-     * @type {string}
+     * 
+     * @type {BenchmarkComparisonMethod}
      * @memberof HealthDataPointBenchmarkComparison
      */
-    method?: HealthDataPointBenchmarkComparisonMethodEnum;
+    method?: BenchmarkComparisonMethod;
     /**
      * the type of polarity applied to the outcome
      * @type {string}
@@ -61,28 +76,6 @@ export interface HealthDataPointBenchmarkComparison {
 /**
  * @export
  */
-export const HealthDataPointBenchmarkComparisonOutcomeEnum = {
-    None: 'None',
-    Lower: 'Lower',
-    Higher: 'Higher',
-    Better: 'Better',
-    Worse: 'Worse',
-    Similar: 'Similar'
-} as const;
-export type HealthDataPointBenchmarkComparisonOutcomeEnum = typeof HealthDataPointBenchmarkComparisonOutcomeEnum[keyof typeof HealthDataPointBenchmarkComparisonOutcomeEnum];
-
-/**
- * @export
- */
-export const HealthDataPointBenchmarkComparisonMethodEnum = {
-    None: 'None',
-    Rag: 'Rag'
-} as const;
-export type HealthDataPointBenchmarkComparisonMethodEnum = typeof HealthDataPointBenchmarkComparisonMethodEnum[keyof typeof HealthDataPointBenchmarkComparisonMethodEnum];
-
-/**
- * @export
- */
 export const HealthDataPointBenchmarkComparisonIndicatorPolarityEnum = {
     NoJudgement: 'NoJudgement',
     LowIsGood: 'LowIsGood',
@@ -108,8 +101,8 @@ export function HealthDataPointBenchmarkComparisonFromJSONTyped(json: any, ignor
     }
     return {
         
-        'outcome': json['outcome'] == null ? undefined : json['outcome'],
-        'method': json['method'] == null ? undefined : json['method'],
+        'outcome': json['outcome'] == null ? undefined : BenchmarkOutcomeFromJSON(json['outcome']),
+        'method': json['method'] == null ? undefined : BenchmarkComparisonMethodFromJSON(json['method']),
         'indicatorPolarity': json['indicatorPolarity'] == null ? undefined : json['indicatorPolarity'],
         'benchmarkAreaCode': json['benchmarkAreaCode'] == null ? undefined : json['benchmarkAreaCode'],
         'benchmarkAreaName': json['benchmarkAreaName'] == null ? undefined : json['benchmarkAreaName'],
@@ -128,8 +121,8 @@ export function HealthDataPointBenchmarkComparisonToJSONTyped(value?: HealthData
 
     return {
         
-        'outcome': value['outcome'],
-        'method': value['method'],
+        'outcome': BenchmarkOutcomeToJSON(value['outcome']),
+        'method': BenchmarkComparisonMethodToJSON(value['method']),
         'indicatorPolarity': value['indicatorPolarity'],
         'benchmarkAreaCode': value['benchmarkAreaCode'],
         'benchmarkAreaName': value['benchmarkAreaName'],

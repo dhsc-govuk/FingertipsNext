@@ -38,7 +38,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+        areaHealthData: [],
+      });
       await expect(async () => {
         await OneIndicatorTwoOrMoreAreasView({
           searchState: searchState,
@@ -68,7 +70,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         [SearchParams.GroupSelected]: testGroup,
         [SearchParams.AreasSelected]: testAreas,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+        areaHealthData: [],
+      });
 
       await OneIndicatorTwoOrMoreAreasView({
         searchState: searchState,
@@ -98,7 +102,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.GroupSelected]: testGroup,
       [SearchParams.AreasSelected]: testAreas,
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [],
+    });
 
     await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
@@ -152,9 +158,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreaTypeSelected]: 'regions',
       [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-      mockHealthData['108'][1],
-    ]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [mockHealthData['108'][1]],
+    });
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
@@ -171,9 +177,9 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
       [SearchParams.AreaTypeSelected]: 'regions',
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-      mockHealthData['108'][1],
-    ]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [mockHealthData['108'][1]],
+    });
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,

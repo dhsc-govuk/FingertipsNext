@@ -80,6 +80,10 @@ export function getMostRecentData(data: HealthDataPoint[]) {
     : undefined;
 }
 
+export async function loadHighchartsModules(callback: () => void) {
+  await import('highcharts/highcharts-more').then(callback);
+}
+
 export const getLatestYear = (
   points: HealthDataPoint[] | undefined
 ): number | undefined => {

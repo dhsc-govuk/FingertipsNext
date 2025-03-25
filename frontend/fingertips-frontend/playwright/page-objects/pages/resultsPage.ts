@@ -20,6 +20,7 @@ export default class ResultsPage extends BasePage {
   readonly indicatorSearchError = `indicator-search-form-error`;
   readonly indicatorSearchButton = `indicator-search-form-submit`;
   readonly indicatorCheckboxContainer = 'indicator-selection-form';
+  readonly selectAllIndicatorsCheckbox = 'select-all-checkbox';
   readonly areaFilterContainer = 'area-filter-container';
   readonly areaTypeSelector = 'area-type-selector-container';
   readonly groupTypeSelector = 'group-type-selector-container';
@@ -280,5 +281,106 @@ export default class ResultsPage extends BasePage {
 
   async fillIndicatorSearch(text: string) {
     await this.page.getByTestId(this.indicatorSearchBox).fill(text);
+  }
+
+  async selectSelectAllCheckbox() {
+    const selectAllCheckbox = this.page.getByTestId(
+      this.selectAllIndicatorsCheckbox
+    );
+    await selectAllCheckbox.check();
+    await expect(selectAllCheckbox).toBeChecked();
+  }
+
+  async deselectSelectAllCheckbox() {
+    const selectAllCheckbox = this.page.getByTestId(
+      this.selectAllIndicatorsCheckbox
+    );
+    await selectAllCheckbox.uncheck();
+    await expect(selectAllCheckbox).not.toBeChecked();
+  }
+
+  async selectEveryIndicator(allIndicatorIDs: string[]) {
+    await this.page.waitForLoadState();
+    for (const indicatorId of allIndicatorIDs) {
+      const checkbox = this.page.getByTestId(
+        `${this.indicatorCheckboxPrefix}-${indicatorId}`
+      );
+      const indicatorChecked = await checkbox.isChecked();
+      if (!indicatorChecked) {
+        await this.selectIndicator(indicatorId);
+      }
+    }
+  }
+
+  async verifyAllIndicatorsSelected() {
+    const indicatorCheckboxes = await this.page
+      .getByTestId(this.indicatorCheckboxContainer)
+      .getByRole('checkbox')
+      .all();
+    await this.page.waitForLoadState();
+    for (const checkbox of indicatorCheckboxes) {
+      await expect(checkbox).toBeChecked();
+    }
+  }
+
+  async verifyNoIndicatorsSelected() {
+    const indicatorCheckboxes = await this.page
+      .getByTestId(this.indicatorCheckboxContainer)
+      .getByRole('checkbox')
+      .all();
+    await this.page.waitForLoadState();
+    for (const checkbox of indicatorCheckboxes) {
+      await expect(checkbox).not.toBeChecked();
+    }
+  }
+
+  async verifySelectAllCheckboxTicked() {
+    const selectAllCheckbox = this.page.getByTestId(
+      this.selectAllIndicatorsCheckbox
+    );
+    await this.page.waitForLoadState();
+    await expect(selectAllCheckbox).toBeChecked();
+  }
+
+  async verifySelectAllCheckboxUnticked() {
+    const selectAllCheckbox = this.page.getByTestId(
+      this.selectAllIndicatorsCheckbox
+    );
+    await this.page.waitForLoadState();
+    await expect(selectAllCheckbox).not.toBeChecked();
+  }
+
+  async selectIndicator(indicatorId: string) {
+    const indicatorCheckbox = this.page.getByTestId(
+      `${this.indicatorCheckboxPrefix}-${indicatorId}`
+    );
+    await indicatorCheckbox.check();
+    await this.page.waitForLoadState();
+    await expect(indicatorCheckbox).toBeChecked();
+  }
+
+  async deselectIndicator(indicatorId: string) {
+    const indicatorCheckbox = this.page.getByTestId(
+      `${this.indicatorCheckboxPrefix}-${indicatorId}`
+    );
+    await indicatorCheckbox.uncheck();
+    await this.page.waitForLoadState();
+    await expect(indicatorCheckbox).not.toBeChecked();
+  }
+
+  async verifyUrlContainsAllIndicators(indicatorIds: string[]) {
+    for (const indicatorId of indicatorIds) {
+      await expect(this.page).toHaveURL(new RegExp(`&is=${indicatorId}`));
+    }
+  }
+
+  async verifyUrlExcludesAllIndicators() {
+    await expect(this.page).not.toHaveURL(/&is=/);
+  }
+
+  async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
+    await expect(this.page).not.toHaveURL(
+      new RegExp(`&is=${deselectedIndicator}`)
+    );
   }
 }
