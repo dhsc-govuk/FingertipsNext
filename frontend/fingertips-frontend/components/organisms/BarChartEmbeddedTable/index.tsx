@@ -3,7 +3,7 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
-  getMostRecentDataFromSorted,
+  getMostRecentData,
   sortHealthDataByYearDescending,
   sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -74,7 +74,7 @@ export function BarChartEmbeddedTable({
     benchmarkData?.healthData
   );
 
-  const mostRecentBenchmarkData = getMostRecentDataFromSorted(
+  const mostRecentBenchmarkData = getMostRecentData(
     sortedHealthDataForBenchmark
   );
 
@@ -82,9 +82,7 @@ export function BarChartEmbeddedTable({
     groupIndicatorData?.healthData
   );
 
-  const mostRecentGroupData = getMostRecentDataFromSorted(
-    sortedGroupHealthData
-  );
+  const mostRecentGroupData = getMostRecentData(sortedGroupHealthData);
 
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>

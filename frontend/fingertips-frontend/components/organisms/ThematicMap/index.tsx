@@ -22,13 +22,8 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapData,
-  // indicatorDataSource,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  // TODO: validate approach to caption
-  // let captionText = `<span>Map Source: ${mapData.mapSource}</span>`;
-  // if (indicatorDataSource)
-  //   captionText += `<span> <br /><br />Data Source: ${indicatorDataSource}</span>`;
 
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
@@ -45,8 +40,7 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      {/* TODO: update to match benchmark type */}
-      <BenchmarkLegend rag={true} quintiles={true} />
+      <BenchmarkLegend rag={true} />
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',
