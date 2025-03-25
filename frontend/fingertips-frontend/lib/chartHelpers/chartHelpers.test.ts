@@ -5,7 +5,6 @@ import {
   sortHealthDataByYearDescending,
   isEnglandSoleSelectedArea,
   sortHealthDataPointsByDescendingYear,
-  getMostRecentData,
   getHealthDataWithoutInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
@@ -459,28 +458,6 @@ describe('isEnglandSoleSelectedArea', () => {
 
   it('should return true when England duplicated', () => {
     expect(isEnglandSoleSelectedArea(['E92000001', 'E92000001'])).toBe(true);
-  });
-});
-
-describe('getMostRecentData', () => {
-  it('should return the most recent health data point', () => {
-    const result = getMostRecentData(mockData[0].healthData);
-    const expected = {
-      count: 389,
-      recentTrend: 'Not yet calculated',
-      value: 278.29134,
-      lowerCi: 441.69151,
-      upperCi: 578.32766,
-      year: 2006,
-    };
-
-    expect(result).toEqual(expected);
-  });
-
-  it('should return undefined when there is no data passed', () => {
-    const result = getMostRecentData([]);
-
-    expect(result).toEqual(undefined);
   });
 });
 

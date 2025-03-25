@@ -62,7 +62,7 @@ export function BarChartEmbeddedTable({
   const tableRows = mostRecentYearData.map((item) => ({
     area: item.areaName,
     period: item.healthData[0].year,
-    recentTrend: item.healthData[0].trend,
+    trend: item.healthData[0].trend,
     count: item.healthData[0].count,
     value: item.healthData[0].value,
     lowerCi: item.healthData[0].lowerCi,
@@ -115,10 +115,10 @@ export function BarChartEmbeddedTable({
                 {BarChartEmbeddedTableHeadingEnum.AreaName}
               </Table.CellHeader>
               <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.RecentTrend}
+                {BarChartEmbeddedTableHeadingEnum.Period}
               </Table.CellHeader>
               <Table.CellHeader>
-                {BarChartEmbeddedTableHeadingEnum.Period}
+                {BarChartEmbeddedTableHeadingEnum.RecentTrend}
               </Table.CellHeader>
               <Table.CellHeader>
                 {BarChartEmbeddedTableHeadingEnum.Count}
@@ -146,12 +146,10 @@ export function BarChartEmbeddedTable({
             data-testid="table-row-benchmark"
           >
             <CheckValueInTableCell value={benchmarkData?.areaName} />
-            <Table.Cell>
-              <TrendTag
-                trendFromResponse={mostRecentBenchmarkData.recentTrend}
-              />
-            </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
             <CheckValueInTableCell
               value={mostRecentBenchmarkData.value}
@@ -180,10 +178,10 @@ export function BarChartEmbeddedTable({
             data-testid="table-row-group"
           >
             <CheckValueInTableCell value={groupIndicatorData?.areaName} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={mostRecentGroupData.recentTrend} />
-            </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.year} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={mostRecentGroupData.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.count} />
             <CheckValueInTableCell
               value={mostRecentGroupData.value}
@@ -208,10 +206,10 @@ export function BarChartEmbeddedTable({
         {sortedTableRows.map((item) => (
           <Table.Row key={`${item.area}`}>
             <CheckValueInTableCell value={item.area} />
-            <Table.Cell>
-              <TrendTag trendFromResponse={item.recentTrend} />
-            </Table.Cell>
             <CheckValueInTableCell value={item.period} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={item.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={item.count} />
             <CheckValueInTableCell
               value={item.value}
