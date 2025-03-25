@@ -6,7 +6,6 @@ import {
   HeaderType,
 } from './heatmapUtil';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { sortHealthDataForAreasByDate } from '@/lib/chartHelpers/chartHelpers';
 
 describe('generate headers and rows', () => {
   const groupAreaCode = 'groupAreaCode';
