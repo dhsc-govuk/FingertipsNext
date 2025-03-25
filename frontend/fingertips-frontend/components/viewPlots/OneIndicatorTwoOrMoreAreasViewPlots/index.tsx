@@ -110,7 +110,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapData={mapData}
-          indicatorDataSource={indicatorMetadata?.dataSource}
         />
       )}
       <BarChartEmbeddedTable

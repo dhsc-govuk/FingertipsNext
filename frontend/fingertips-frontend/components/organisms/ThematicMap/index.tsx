@@ -13,7 +13,6 @@ import { BenchmarkLegend } from '../BenchmarkLegend';
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapData: MapData;
-  indicatorDataSource?: string;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {

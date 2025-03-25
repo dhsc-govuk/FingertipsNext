@@ -87,7 +87,7 @@ export function getMapData(
     mapFile: mapFile,
     mapGroupBoundary: {
       type: 'FeatureCollection',
-      features: [union(groupFeatureCollection)!], // TODO: business logic should prevent this from ever being 'null'
+      features: [union(groupFeatureCollection)!], // business logic should prevent this from ever being 'null'
     },
     mapSource: mapSource,
   };
@@ -149,7 +149,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
         mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome ?? 'None' // TODO: change fallback to 'Not Compared'
+          areaData.healthData[0].benchmarkComparison.outcome ?? 'None' // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
         ];
     }
     const preparedDataPoint = {
@@ -157,7 +157,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
       areaCode: areaData.areaCode,
       value: areaData.healthData[0].value,
       benchmarkComparison:
-        areaData.healthData[0].benchmarkComparison?.outcome ?? 'None', // TODO: change fallback to 'Not Compared'
+        areaData.healthData[0].benchmarkComparison?.outcome ?? 'None', // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
       benchmarkColourCode: benchmarkColourCode,
     };
     return preparedDataPoint;
@@ -172,13 +172,12 @@ export function createThematicMapChartOptions(
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
-      height: 800, // TODO: agree height
+      height: 800,
       animation: false,
       borderWidth: 0.2,
       borderColor: 'black',
     },
     title: { text: undefined },
-    // caption: { text: captionText },
     accessibility: { enabled: false },
     credits: { enabled: false },
     legend: {
@@ -233,7 +232,6 @@ export function createThematicMapChartOptions(
           pointFormat:
             '<span style="font-size: large">Value: {point.value} units</span>' +
             '<br /><span>benchmark: {point.benchmarkComparison}</span>',
-          // footerFormat: '<br />',
         },
       },
     ],

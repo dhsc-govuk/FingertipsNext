@@ -32,5 +32,3 @@ it('should render the benchmark legend', async () => {
   const highcharts = await screen.findByTestId('benchmarkLegend-component');
   expect(highcharts).toBeInTheDocument();
 });
-it.todo('may render the data source');
-it.todo('may render the map source');
