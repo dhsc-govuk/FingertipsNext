@@ -16,25 +16,23 @@ export class AppStorage {
       localStorage.getItem('store') ?? '{}'
     ) as AppStorageState;
 
-    console.log(`oldStore ${JSON.stringify(oldStore)}`);
-
     const updatedStore = {
       ...oldStore,
       [storageKey]: storageValue,
     };
 
-    console.log(`updatedStore ${JSON.stringify(updatedStore)}`);
-
     localStorage.setItem('store', JSON.stringify(updatedStore));
   }
 
   public static getState<T>(storageKey: StorageKeys): T | undefined {
-    const item = localStorage.getItem('store');
+    if (typeof window !== 'undefined') {
+      const item = localStorage.getItem('store');
 
-    if (item) {
-      const store = JSON.parse(item) as AppStorageState;
+      if (item) {
+        const store = JSON.parse(item) as AppStorageState;
 
-      return store[storageKey] as T;
+        return store[storageKey] as T;
+      }
     }
 
     return undefined;
