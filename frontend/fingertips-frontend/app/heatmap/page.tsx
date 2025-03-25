@@ -16,18 +16,13 @@ const newHealthDataPoint = ({
     ageBand: '',
     sex: '',
     trend: 'Not yet calculated',
+    deprivation: {
+      sequence: 0,
+      value: '',
+      type: '',
+    },
   };
 };
-
-interface row {
-  key: string;
-  cells: cell[];
-}
-
-interface cell {
-  key: string;
-  content: string;
-}
 
 const indicator1 = {
   id: 'indicator1',

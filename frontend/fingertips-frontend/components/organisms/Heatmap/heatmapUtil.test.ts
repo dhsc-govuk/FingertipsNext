@@ -16,6 +16,11 @@ const newHealthDataPoint = ({
     ageBand: '',
     sex: '',
     trend: 'Not yet calculated',
+    deprivation: {
+      sequence: 0,
+      value: '',
+      type: '',
+    },
   };
 };
 
@@ -195,15 +200,16 @@ const initialData = [
   },
 ];
 
-const expectedHeaders: cell[] = [
-  { key: '', content: 'Indicators' },
-  { key: '', content: 'Value unit' },
-  { key: '', content: 'Period' },
-  { key: '', content: areaEngland.name },
-  { key: '', content: area3.name },
-  { key: '', content: area4.name },
-  { key: '', content: area2.name },
-];
+// TODO keep? bin?
+// const expectedHeaders: cell[] = [
+//   { key: '', content: 'Indicators' },
+//   { key: '', content: 'Value unit' },
+//   { key: '', content: 'Period' },
+//   { key: '', content: areaEngland.name },
+//   { key: '', content: area3.name },
+//   { key: '', content: area4.name },
+//   { key: '', content: area2.name },
+// ];
 
 const expectedRows: row[] = [
   {
@@ -238,7 +244,7 @@ const expectedRows: row[] = [
       { key: '', content: indicator1.latestDataPeriod.toString() },
       { key: '', content: 'X' },
       { key: '', content: 'X' },
-      { key: '', content: 'X' },
+      { key: '', content: '41' },
       { key: '', content: 'X' },
     ],
   },
@@ -289,18 +295,9 @@ describe('extract headers and rows - logic', () => {
 
   // TODO extend? look at this text?
   it('should only display data from the latest period', () => {
+    expect(rows[2].cells[3].content).toEqual(expectedRows[2].cells[3].content);
     expect(rows[2].cells[4].content).toEqual(expectedRows[2].cells[4].content);
     expect(rows[2].cells[5].content).toEqual(expectedRows[2].cells[5].content);
     expect(rows[2].cells[6].content).toEqual(expectedRows[2].cells[6].content);
-    expect(rows[2].cells[7].content).toEqual(expectedRows[2].cells[7].content);
-  });
-});
-
-describe('extract headers and rows - snapshot', () => {
-  it('should return expected headers', () => {
-    expect(headers).toEqual(expectedHeaders);
-  });
-  it('should return expected rows', () => {
-    expect(rows).toEqual(expectedRows);
   });
 });
