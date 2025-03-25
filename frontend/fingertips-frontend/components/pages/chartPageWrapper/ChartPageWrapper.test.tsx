@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ChartPageWrapper } from '.';
 import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
+import { userEvent, UserEvent } from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -26,6 +27,8 @@ const searchState: SearchStateParams = {
 };
 
 describe('ChartPageWrapper', () => {
+  let user: UserEvent;
+
   const renderWrapper = () => {
     return render(
       <ChartPageWrapper searchState={searchState}>
@@ -33,6 +36,10 @@ describe('ChartPageWrapper', () => {
       </ChartPageWrapper>
     );
   };
+
+  beforeEach(() => {
+    user = userEvent.setup();
+  })
 
   it('should render the back link path back to the results page', () => {
     renderWrapper();
@@ -55,5 +62,21 @@ describe('ChartPageWrapper', () => {
     renderWrapper();
 
     expect(screen.getByTestId('some-child-component')).toBeInTheDocument();
+  });
+
+  it('area filters and filter summary can be toggled using the hide-filters and change-selection buttons', async () => {
+    renderWrapper();
+    expect(screen.getByTestId('area-filter-pane-hidefilters'));
+    expect(screen.queryByTestId('filter-summary-panel')).not.toBeInTheDocument();
+
+    await user.click(screen.getByTestId('area-filter-pane-hidefilters'));
+
+    expect(screen.queryByTestId('area-filter-pane-hidefilters')).not.toBeInTheDocument();
+    expect(screen.getByTestId('filter-summary-panel')).toBeInTheDocument();
+
+    await user.click(screen.getByTestId('filter-summary-panel-change-selection'));
+
+    expect(screen.getByTestId('area-filter-pane-hidefilters'));
+    expect(screen.queryByTestId('filter-summary-panel')).not.toBeInTheDocument();
   });
 });

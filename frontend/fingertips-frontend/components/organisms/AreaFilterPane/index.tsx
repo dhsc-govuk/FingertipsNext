@@ -55,6 +55,7 @@ const FocusAnchor = styled('button')(
 function HideFiltersSpan({ hideFilters }: { hideFilters: () => void }) {
   return (
     <FocusAnchor
+      data-testid='area-filter-pane-hidefilters'
       tabIndex={0}
       onClick={(event) => {
         event.preventDefault();
