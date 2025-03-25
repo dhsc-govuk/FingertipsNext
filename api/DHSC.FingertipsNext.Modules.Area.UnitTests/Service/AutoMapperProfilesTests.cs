@@ -10,16 +10,12 @@ namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Service;
 public class AutoMapperProfilesTests
 {
     private readonly IMapper _mapper;
-    
-    public AutoMapperProfilesTests()
-    {
-        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
+
+    public AutoMapperProfilesTests() =>
+        _mapper = new Mapper(new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new AutoMapperProfiles());
-        });
-
-        _mapper = new Mapper(mapperConfig);
-    }
+        }));
 
     [Fact]
     public void Mapping_AreaModel_To_SchemaRootArea()
