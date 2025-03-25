@@ -25,12 +25,10 @@ public static class Program
             .AddLogging();
 
         if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable(ApplicationInsightsConnectionString)))
-        {
             builder.Services.AddOpenTelemetry().UseAzureMonitor();
-        }
 
-        var serviceName = "DHSC.FingertipsNext.Api";
-        var serviceVersion = "1.0.0";
+        const string serviceName = "DHSC.FingertipsNext.Api";
+        const string serviceVersion = "1.0.0";
 
         builder.Services.AddOpenTelemetry().WithTracing(tcb =>
         {
@@ -42,7 +40,7 @@ public static class Program
                 .AddEntityFrameworkCoreInstrumentation();
 
             #if DEBUG
-            tcb.AddConsoleExporter();
+                tcb.AddConsoleExporter();
             #endif
         });
 

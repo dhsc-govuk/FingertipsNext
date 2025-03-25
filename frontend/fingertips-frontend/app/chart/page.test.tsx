@@ -12,7 +12,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorsApi, AreasApi } from '@/generated-sources/ft-api-client';
+import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import {
   allAreaTypes,
@@ -20,8 +20,8 @@ import {
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import {
-  mockAvailableAreas,
   mockAreaDataForNHSRegion,
+  mockAvailableAreas,
 } from '@/mock/data/areaData';
 import {
   eastEnglandNHSRegion,
@@ -76,9 +76,9 @@ describe('Chart Page', () => {
           'A001'
         );
 
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-          mockHealthData[`${indicatorIdForPopulation}`]
-        );
+        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({
+          areaHealthData: mockHealthData[`${indicatorIdForPopulation}`],
+        });
 
         const page = await ChartPage({
           searchParams: generateSearchParams(searchParams),
@@ -110,9 +110,9 @@ describe('Chart Page', () => {
           [SearchParams.AreaTypeSelected]: 'nhs-regions',
         };
 
-        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-          mockHealthData['333']
-        );
+        mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({
+          areaHealthData: mockHealthData['333'],
+        });
 
         const page = await ChartPage({
           searchParams: generateSearchParams(searchParams),
@@ -132,9 +132,9 @@ describe('Chart Page', () => {
         [SearchParams.AreasSelected]: [mockAreaCode],
       };
 
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-        mockHealthData['333']
-      );
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+        areaHealthData: mockHealthData['333'],
+      });
 
       const page = await ChartPage({
         searchParams: generateSearchParams(searchParams),

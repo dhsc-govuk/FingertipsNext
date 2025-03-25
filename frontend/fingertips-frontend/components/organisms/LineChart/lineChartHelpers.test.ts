@@ -6,10 +6,14 @@ import {
   lineChartDefaultOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-const mockData = [
+const mockData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     areaName: 'North FooBar',
@@ -23,6 +27,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
       {
@@ -34,6 +39,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
     ],
@@ -51,6 +57,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
       {
@@ -62,6 +69,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
     ],
@@ -79,6 +87,7 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
       {
@@ -90,13 +99,14 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: true,
       },
     ],
   },
 ];
 
-const mockBenchmarkData = {
+const mockBenchmarkData: HealthDataForArea = {
   areaCode: 'E92000001',
   areaName: 'England',
   healthData: [
@@ -109,6 +119,7 @@ const mockBenchmarkData = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
       isAggregate: true,
     },
     {
@@ -120,12 +131,13 @@ const mockBenchmarkData = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
       isAggregate: true,
     },
   ],
 };
 
-const mockParentData = {
+const mockParentData: HealthDataForArea = {
   areaCode: 'P001',
   areaName: 'Parent',
   healthData: [
@@ -138,6 +150,7 @@ const mockParentData = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
       isAggregate: true,
     },
     {
@@ -149,6 +162,7 @@ const mockParentData = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
       isAggregate: true,
     },
   ],
@@ -670,6 +684,7 @@ describe('getAllDataWithoutInequalities', () => {
           sex: 'Male',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
           isAggregate: false,
         },
         {
@@ -681,6 +696,7 @@ describe('getAllDataWithoutInequalities', () => {
           sex: 'Female',
           ageBand: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
           isAggregate: false,
         },
       ],
@@ -700,6 +716,7 @@ describe('getAllDataWithoutInequalities', () => {
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: false,
       },
       {
@@ -711,6 +728,7 @@ describe('getAllDataWithoutInequalities', () => {
         sex: 'Female',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: false,
       },
     ],
@@ -729,6 +747,7 @@ describe('getAllDataWithoutInequalities', () => {
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: false,
       },
       {
@@ -740,6 +759,7 @@ describe('getAllDataWithoutInequalities', () => {
         sex: 'Female',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
         isAggregate: false,
       },
     ],

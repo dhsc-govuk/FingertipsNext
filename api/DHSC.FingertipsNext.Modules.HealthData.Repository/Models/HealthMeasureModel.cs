@@ -16,23 +16,35 @@ public class HealthMeasureModel
 
     [ForeignKey("IndicatorDimension")]
     public short IndicatorKey { get; set; }
+
     public SexDimensionModel SexDimension { get; set; }
 
     [ForeignKey("SexDimension")]
     public byte SexKey { get; set; }
+
     public TrendDimensionModel TrendDimension { get; set; }
+
     [ForeignKey("TrendDimension")]
     public byte TrendKey { get; set; }
+
     public AgeDimensionModel AgeDimension { get; set; }
+
     [ForeignKey("AgeDimension")]
     public short AgeKey { get; set; }
+
     public DeprivationDimensionModel DeprivationDimension { get; set; }
+
     [ForeignKey("DeprivationDimension")]
     public short DeprivationKey { get; set; }
+
     public double? Count { get; set; }
+
     public double? Value { get; set; }
+
     public double? LowerCi { get; set; }
+
     public double? UpperCi { get; set; }
+
     public short Year { get; set; }
 
     public bool IsSexAggregatedOrSingle { get; set; } = true;

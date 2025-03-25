@@ -85,7 +85,8 @@ export default class ChartPage extends BasePage {
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (
         visibleComponent.includes('LineChart-component') ||
-        visibleComponent === 'inequalitiesBarChart-component'
+        visibleComponent === 'inequalitiesBarChart-component' ||
+        visibleComponent === 'barChartEmbeddedTable-component'
       ) {
         await this.page
           .getByTestId(
