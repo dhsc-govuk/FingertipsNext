@@ -102,7 +102,6 @@ export function getHealthDataForAreasForMostRecentYearOnly(
     (healthDataForArea) => {
       const dataPointForMostRecentYear = healthDataForArea.healthData.find(
         (healthDataPoint) => {
-          // TODO: or [] if there is not data for that year
           return healthDataPoint.year === mostRecentYear;
         }
       );
