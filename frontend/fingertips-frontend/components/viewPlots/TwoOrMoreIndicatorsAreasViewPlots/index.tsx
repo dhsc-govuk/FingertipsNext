@@ -118,19 +118,22 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
     best: mockBest,
   };
 
-  return {rowData:tableData}
-};
+  return { rowData: tableData };
+}
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
-  const _1 = searchState;
+  const stateManager = SearchStateManager.initialise(searchState);
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
 
   const spineTableData = mapToSpineChartTableProps(
     healthIndicatorData,
-    indicatorMetadata
+    indicatorMetadata,
+    selectedGroupCode
   );
 
   return (
