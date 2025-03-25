@@ -39,7 +39,7 @@ describe('ChartPageWrapper', () => {
 
   beforeEach(() => {
     user = userEvent.setup();
-  })
+  });
 
   it('should render the back link path back to the results page', () => {
     renderWrapper();
@@ -67,16 +67,24 @@ describe('ChartPageWrapper', () => {
   it('area filters and filter summary can be toggled using the hide-filters and change-selection buttons', async () => {
     renderWrapper();
     expect(screen.getByTestId('area-filter-pane-hidefilters'));
-    expect(screen.queryByTestId('filter-summary-panel')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('filter-summary-panel')
+    ).not.toBeInTheDocument();
 
     await user.click(screen.getByTestId('area-filter-pane-hidefilters'));
 
-    expect(screen.queryByTestId('area-filter-pane-hidefilters')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('area-filter-pane-hidefilters')
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId('filter-summary-panel')).toBeInTheDocument();
 
-    await user.click(screen.getByTestId('filter-summary-panel-change-selection'));
+    await user.click(
+      screen.getByTestId('filter-summary-panel-change-selection')
+    );
 
     expect(screen.getByTestId('area-filter-pane-hidefilters'));
-    expect(screen.queryByTestId('filter-summary-panel')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('filter-summary-panel')
+    ).not.toBeInTheDocument();
   });
 });

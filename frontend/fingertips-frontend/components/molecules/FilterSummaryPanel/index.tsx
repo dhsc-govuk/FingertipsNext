@@ -30,8 +30,7 @@ export const FilterSummaryPanel = ({
   changeSelection,
 }: FilterSummaryPanelProps) => {
   return (
-    <div
-    data-testid='filter-summary-panel'>
+    <div data-testid="filter-summary-panel">
       {selectedIndicatorsData ? (
         <SelectedIndicatorsPanel
           selectedIndicatorsData={selectedIndicatorsData}
@@ -50,7 +49,7 @@ export const FilterSummaryPanel = ({
       ) : null}
 
       <Button
-        data-testid='filter-summary-panel-change-selection'
+        data-testid="filter-summary-panel-change-selection"
         buttonColour={GovukColours.LightGrey}
         buttonTextColour={GovukColours.Black}
         onClick={changeSelection}
