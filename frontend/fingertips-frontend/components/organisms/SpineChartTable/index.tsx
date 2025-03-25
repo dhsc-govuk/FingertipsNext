@@ -29,8 +29,8 @@ export interface SpineChartTableRowProps {
   indicator: Indicator;
   measurementUnit: string;
   indicatorHealthData: HealthDataForArea;
-  groupIndicatorData?: HealthDataForArea;
-  englandBenchmarkData?: HealthDataForArea;
+  groupIndicatorData: HealthDataForArea;
+  englandBenchmarkData: HealthDataForArea;
   best: number;
   worst: number;
 }

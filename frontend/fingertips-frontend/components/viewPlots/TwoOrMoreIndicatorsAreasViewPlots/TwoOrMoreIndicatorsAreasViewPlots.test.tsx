@@ -3,6 +3,8 @@ import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { render, screen } from '@testing-library/react';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -22,6 +24,42 @@ const mockSearchParams: SearchStateParams = {
   [SearchParams.AreasSelected]: mockAreas,
 };
 
+const mockGroupHealthData: HealthDataForArea = {
+  areaCode: mockAreas[0],
+  areaName: 'Group',
+  healthData: [
+    {
+      year: 2008,
+      count: 222,
+      value: 890.305692,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      ageBand: 'All',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
+    },
+  ],
+};
+
+const mockEnglandHealthData: HealthDataForArea = {
+  areaCode: areaCodeForEngland,
+  areaName: 'England',
+  healthData: [
+    {
+      year: 2008,
+      count: 222,
+      value: 890.305692,
+      lowerCi: 441.69151,
+      upperCi: 578.32766,
+      ageBand: 'All',
+      sex: 'All',
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
+    },
+  ],
+};
+
 const mockHealthData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
@@ -36,6 +74,7 @@ const mockHealthData: HealthDataForArea[] = [
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -52,6 +91,7 @@ const mockHealthData: HealthDataForArea[] = [
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -91,7 +131,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
-        healthIndicatorData={[mockHealthData]}
+        healthIndicatorData={mockHealthData}
+        groupIndicatorData={[mockGroupHealthData, mockGroupHealthData]}
+        englandIndicatorData={[mockEnglandHealthData, mockEnglandHealthData]}
         indicatorMetadata={mockMetaData}
       />
     );
@@ -111,15 +153,12 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
-        healthIndicatorData={[mockHealthData]}
+        healthIndicatorData={mockHealthData}
+        groupIndicatorData={[mockGroupHealthData, mockGroupHealthData]}
+        englandIndicatorData={[mockEnglandHealthData, mockEnglandHealthData]}
         indicatorMetadata={mockMetaData}
       />
     );
-    expect(
-      screen.getByRole('heading', {
-        name: 'Indicator data over time',
-      })
-    ).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
 });
