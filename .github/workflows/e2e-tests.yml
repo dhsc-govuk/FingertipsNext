@@ -10,7 +10,7 @@ on:
   workflow_call:
     inputs:
       playwright-mode:
-        description: 'Mode from which tests are run - either local or docker'
+        description: 'Mode from which tests are run - either run inside docker or against the azure stack'
         required: true
         type: string
     secrets:
@@ -88,10 +88,10 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
 
 
-  execute-e2e-tests-local:
-    name: Execute e2e tests - local
+  execute-e2e-tests-azure:
+    name: Execute e2e tests - Azure
     runs-on: self-hosted
-    if: inputs.playwright-mode == 'local'
+    if: inputs.playwright-mode == 'azure'
 
     defaults:
       run:
