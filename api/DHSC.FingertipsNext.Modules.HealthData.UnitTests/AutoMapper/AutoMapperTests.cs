@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DHSC.FingertipsNext.Modules.HealthData.Mappings;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
@@ -22,11 +23,11 @@ public class AutoMapperTests
         string ageBand,
         string sex,
         string trend,
+        Deprivation deprivation,
         float count = 1,
         float value = 1,
         float lowerConfidenceInterval = 1,
-        float upperConfidenceInterval = 1,
-        string deprivation = "All"
+        float upperConfidenceInterval = 1
     )
     {
         return new HealthDataPoint
@@ -51,17 +52,59 @@ public class AutoMapperTests
         const string expectedAgeBand = "25-31";
         const string expectedSex = "Female";
         const string expectedTrend = "Not yet calculated";
+        var expectedDeprivation = new Deprivation
+        {
+            Value = "Most deprived decile",
+            Sequence = 1,
+            Type = "County & UA deprivation deciles in England"
+        };
 
         var healthMeasure = new HealthMeasureModelHelper(year: 2007, isAggregate: false)
-            .WithAgeDimension(name: expectedAgeBand).WithSexDimension(name: expectedSex).Build();
+            .WithAgeDimension(name: expectedAgeBand)
+            .WithSexDimension(name: expectedSex)
+            .WithDeprivationDimension(new DeprivationDimensionModel
+            {
+                DeprivationKey = 1,
+                Name = "Most deprived decile",
+                Sequence = 1,
+                Type = "County & UA deprivation deciles in England",
+                HasValue = true
+            }).Build();
 
         var expectedHealthData = BuildHealthDataPoint(
-            2007, expectedAgeBand, expectedSex, expectedTrend);
+            2007, expectedAgeBand, expectedSex, expectedTrend, expectedDeprivation);
 
         // act
         var actual = _mapper.Map<HealthDataPoint>(healthMeasure);
 
         // assert
         actual.ShouldBeEquivalentTo(expectedHealthData);
+    }
+
+    [Fact]
+    public void Mapper_ShouldMapADeprivationDimensionModel_ToADeprivation()
+    {
+        // Arrange
+        var expectedDeprivation = new Deprivation
+        {
+            Value = "Most deprived decile",
+            Sequence = 1,
+            Type = "County & UA deprivation deciles in England"
+        };
+
+        var deprivationDimension = new DeprivationDimensionModel
+        {
+            DeprivationKey = 1,
+            Name = "Most deprived decile",
+            Sequence = 1,
+            Type = "County & UA deprivation deciles in England",
+            HasValue = true
+        };
+
+        // Act
+        var actual = _mapper.Map<Deprivation>(deprivationDimension);
+
+        // Assert
+        actual.ShouldBeEquivalentTo(expectedDeprivation);
     }
 }
