@@ -90,7 +90,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         {
             AreaCodesTable.Rows.Add(area);
         }
-        var areasOfInterest = new SqlParameter("@AreasOfInterest", AreaCodesTable)
+        var areasOfInterest = new SqlParameter("@RequestedAreas", AreaCodesTable)
         {
             SqlDbType = SqlDbType.Structured,
             TypeName = "AreaCodeList"
@@ -102,18 +102,18 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         {
             YearsTable.Rows.Add(item);
         }
-        var yearsOfInterest = new SqlParameter("@YearsOfInterest", YearsTable)
+        var yearsOfInterest = new SqlParameter("@RequestedYears", YearsTable)
         {
             SqlDbType = SqlDbType.Structured,
             TypeName = "YearList"
         };
 
-        var areaTypeOfInterest = new SqlParameter("@AreaTypeOfInterest", AreaTypeKey);
-        var indicatorId = new SqlParameter("@IndicatorId", IndicatorId);
+        var areaTypeOfInterest = new SqlParameter("@RequestedAreaType", AreaTypeKey);
+        var indicatorId = new SqlParameter("@RequestedIndicatorId", IndicatorId);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
             ($"""
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @AreasOfInterest={areasOfInterest}, @AreaTypeOfInterest={areaTypeOfInterest}, @YearsOfInterest={yearsOfInterest}, @IndicatorId={indicatorId}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={indicatorId}
               """
             ).ToListAsync();
 
