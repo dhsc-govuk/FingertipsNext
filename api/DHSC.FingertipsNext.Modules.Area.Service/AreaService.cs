@@ -28,20 +28,16 @@ public class AreaService : IAreaService
     ///
     /// </summary>
     /// <returns></returns>
-    public Task<List<string>> GetHierarchies()
-    {
-        return _areaRepository.GetHierarchiesAsync();
-    }
+    public Task<List<string>> GetHierarchies() =>
+        _areaRepository.GetHierarchiesAsync();
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="hierarchyType"></param>
     /// <returns></returns>
-    public async Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null)
-    {
-        return _mapper.Map<List<AreaType>>(await _areaRepository.GetAreaTypesAsync(hierarchyType));
-    }
+    public async Task<List<AreaType>> GetAreaTypes(string? hierarchyType = null) =>
+        _mapper.Map<List<AreaType>>(await _areaRepository.GetAreaTypesAsync(hierarchyType));
 
     /// <summary>
     ///
@@ -84,17 +80,13 @@ public class AreaService : IAreaService
     ///
     /// </summary>
     /// <returns></returns>
-    public RootArea? GetRootArea()
-    {
-        return new RootArea { Name="England", Code= "E92000001" };
-    }
+    public RootArea? GetRootArea() =>
+        new() { Name = "England", Code = "E92000001" };
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="services"></param>
-    public static void RegisterMappings(IServiceCollection services)
-    {
+    public static void RegisterMappings(IServiceCollection services) => 
         services.AddAutoMapper(typeof(AutoMapperProfiles));
-    }
 }

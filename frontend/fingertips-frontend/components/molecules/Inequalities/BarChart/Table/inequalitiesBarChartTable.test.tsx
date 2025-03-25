@@ -5,8 +5,8 @@ import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalit
 import { getTestData } from '../mocks';
 import { InequalitiesBarChartTableHeaders } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
 import {
-  HealthDataPointBenchmarkComparisonMethodEnum,
-  HealthDataPointBenchmarkComparisonOutcomeEnum,
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 
 describe('Inequalities bar chart table suite', () => {
@@ -108,22 +108,22 @@ describe('Inequalities bar chart table suite', () => {
         mockData.data.inequalities.Persons = {
           ...mockData.data.inequalities.Persons,
           benchmarkComparison: {
-            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Better,
-            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+            outcome: BenchmarkOutcome.Better,
+            method: BenchmarkComparisonMethod.Rag,
           },
         };
         mockData.data.inequalities.Male = {
           ...mockData.data.inequalities.Male,
           benchmarkComparison: {
-            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Worse,
-            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+            outcome: BenchmarkOutcome.Worse,
+            method: BenchmarkComparisonMethod.Rag,
           },
         };
         mockData.data.inequalities.Female = {
           ...mockData.data.inequalities.Female,
           benchmarkComparison: {
-            outcome: HealthDataPointBenchmarkComparisonOutcomeEnum.Similar,
-            method: HealthDataPointBenchmarkComparisonMethodEnum.Rag,
+            outcome: BenchmarkOutcome.Similar,
+            method: BenchmarkComparisonMethod.Rag,
           },
         };
         render(

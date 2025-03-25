@@ -1,6 +1,5 @@
 ﻿using Bogus;
 using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area.UnitTests.Fakers;
 

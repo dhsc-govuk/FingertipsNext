@@ -107,7 +107,7 @@ export const TrendTag = ({ trendFromResponse }: Readonly<TagProps>) => {
   return (
     <div data-testid="trendTag-container">
       <StyledDefaultTag trend={trend} trendCondition={trendCondition}>
-        <StyledDivContainer data-testid="tag-component">
+        <StyledDivContainer data-testid="trend-tag-component">
           {arrowDirection ? (
             <div>
               <Arrow direction={arrowDirection} />

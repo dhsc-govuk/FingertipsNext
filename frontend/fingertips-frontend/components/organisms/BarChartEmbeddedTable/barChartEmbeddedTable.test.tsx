@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
 
 describe('BarChartEmbeddedTable', () => {
-  const mockHealthIndicatorData = [
+  const mockHealthIndicatorData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
@@ -16,7 +20,8 @@ describe('BarChartEmbeddedTable', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -26,7 +31,8 @@ describe('BarChartEmbeddedTable', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.NotYetCalculated, // Only the latest data point will have a trend calculated
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -42,7 +48,8 @@ describe('BarChartEmbeddedTable', () => {
           upperCi: 1500,
           ageBand: 'All',
           sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.CannotBeCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -53,6 +60,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -69,6 +77,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -78,13 +87,14 @@ describe('BarChartEmbeddedTable', () => {
           upperCi: 578.32766,
           ageBand: 'All',
           sex: 'Persons',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
+          deprivation: noDeprivation,
         },
       ],
     },
   ];
 
-  const mockBenchmarkData = {
+  const mockBenchmarkData: HealthDataForArea = {
     areaCode: 'E92000001',
     areaName: 'England',
     healthData: [
@@ -97,6 +107,7 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: '0-4',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2008,
@@ -106,12 +117,13 @@ describe('BarChartEmbeddedTable', () => {
         upperCi: undefined,
         ageBand: '10-14',
         sex: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
+        deprivation: noDeprivation,
       },
     ],
   };
 
-  const mockGroupData = {
+  const mockGroupData: HealthDataForArea = {
     areaCode: 'E40000014',
     areaName: 'NHS North West Region',
     healthData: [
@@ -123,7 +135,8 @@ describe('BarChartEmbeddedTable', () => {
         upperCi: 1500,
         ageBand: 'All',
         sex: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        trend: HealthDataPointTrendEnum.NoSignificantChange,
+        deprivation: noDeprivation,
       },
       {
         year: 2004,
@@ -134,6 +147,7 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   };
@@ -173,7 +187,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(screen.getByTestId('table-row-group')).toBeInTheDocument();
   });
 
-  it('should not display group row or benchmark row in the table, when no data is passed', async () => {
+  it('should not display group row or benchmark row in the table, when no data is passed', () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -182,12 +196,8 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    expect(
-      await screen.queryByTestId('table-row-group')
-    ).not.toBeInTheDocument();
-    expect(
-      await screen.queryByTestId('table-row-benchmark')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('table-row-group')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('table-row-benchmark')).not.toBeInTheDocument();
   });
 
   it('should display data table row colours for benchmark and group', () => {
@@ -251,7 +261,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should render the SparklineChart bars for each area displayed in the table', () => {
+  it('should render the SparklineChart bars for each area displayed in the table', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -259,10 +269,39 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    const sparkline = screen.getAllByTestId(
+    const sparkline = await screen.findAllByTestId(
       'highcharts-react-component-barChartEmbeddedTable'
     );
 
     expect(sparkline).toHaveLength(4);
+  });
+
+  it('should render the checkbox', async () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+    const checkbox = await screen.findByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
+  });
+
+  // DHSCFT-372 - Add trends to the compare areas bar charts
+  it('should render the correct trend for all data provided', () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+
+    const trendTags = screen.getAllByTestId('trend-tag-component');
+
+    expect(trendTags).toHaveLength(4);
+    expect(trendTags[0].textContent).toEqual('Decreasing and getting better'); // England benchmark trend
+    expect(trendTags[1].textContent).toEqual('No trend data available'); // E40000014 trend
+    expect(trendTags[2].textContent).toEqual('Decreasing and getting better'); // A1426 trend
+    expect(trendTags[3].textContent).toEqual('No trend data available'); // A1425 trend
   });
 });

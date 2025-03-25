@@ -10,28 +10,38 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Controllers.V1;
 
 public class IndicatorControllerTests
 {
-    private static readonly List<HealthDataForArea> SampleHealthData =
-    [
-        new()
-        {
-            AreaCode = "AreaCode1",
-            HealthData =
-            [
-                new HealthDataPoint
-                {
-                    Year = 2023,
-                    Count = 1,
-                    Value = 1,
-                    LowerConfidenceInterval = 1.1111f,
-                    UpperConfidenceInterval = 2.2222f,
-                    AgeBand = "Sample Age Band",
-                    Sex = "Sample Sex",
-                    Trend = "Sample Trend"
-                }
-            ]
-        }
-    ];
-
+    private static readonly IndicatorWithHealthDataForAreas SampleHealthData = new IndicatorWithHealthDataForAreas
+    {
+        Name = "A nice indicator",
+        AreaHealthData =
+        [
+            new()
+            {
+                AreaCode = "AreaCode1",
+                HealthData =
+                [
+                    new HealthDataPoint
+                    {
+                        Year = 2023,
+                        Count = 1,
+                        Value = 1,
+                        LowerConfidenceInterval = 1.1111f,
+                        UpperConfidenceInterval = 2.2222f,
+                        AgeBand = "Sample Age Band",
+                        Sex = "Sample Sex",
+                        Trend = "Sample Trend",
+                        Deprivation = new Deprivation
+                        {
+                            Sequence = 1,
+                            Value = "Most deprived decile",
+                            Type = "County & UA deprivation deciles in England",
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+    
     private readonly IndicatorsController _controller;
     private readonly IIndicatorsService _indicatorService;
 
@@ -53,8 +63,7 @@ public class IndicatorControllerTests
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
                 ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
-                ArgEx.IsEquivalentTo<string[]>(["age", "sex"]),
-                BenchmarkComparisonMethod.None
+                ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
 
@@ -64,15 +73,14 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], [], BenchmarkComparisonMethod.None);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], []);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
-                Arg.Any<BenchmarkComparisonMethod>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(SampleHealthData);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -86,9 +94,8 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>(),
-                Arg.Any<BenchmarkComparisonMethod>())
-            .Returns([]);
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .Returns(null as IndicatorWithHealthDataForAreas);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 

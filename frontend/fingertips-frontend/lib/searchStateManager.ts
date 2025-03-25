@@ -8,7 +8,6 @@ export enum SearchParams {
   GroupTypeSelected = 'gts',
   GroupSelected = 'gs',
   GroupAreaSelected = 'gas',
-  ConfidenceIntervalSelected = 'cis',
 }
 
 export type SearchParamKeys = `${SearchParams}`;
@@ -16,7 +15,6 @@ export type SearchParamKeys = `${SearchParams}`;
 const multiValueParams = [
   SearchParams.IndicatorsSelected as string,
   SearchParams.AreasSelected as string,
-  SearchParams.ConfidenceIntervalSelected as string,
 ];
 
 export type SearchStateParams = {
@@ -27,7 +25,6 @@ export type SearchStateParams = {
   [SearchParams.GroupTypeSelected]?: string;
   [SearchParams.GroupSelected]?: string;
   [SearchParams.GroupAreaSelected]?: string;
-  [SearchParams.ConfidenceIntervalSelected]?: string[];
 };
 
 const isMultiValueTypeParam = (searchParamKey: SearchParamKeys) =>

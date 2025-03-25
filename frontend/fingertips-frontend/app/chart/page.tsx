@@ -18,7 +18,10 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
@@ -57,9 +60,10 @@ export default async function ChartPage(
 
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+    let indicatorData: IndicatorWithHealthDataForArea | undefined;
     let rawPopulationData: HealthDataForArea[] | undefined;
     try {
-      rawPopulationData = await indicatorApi.getHealthDataForAnIndicator(
+      indicatorData = await indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: indicatorIdForPopulation,
           areaCodes: [...areasSelected, areaCodeForEngland],
@@ -67,6 +71,7 @@ export default async function ChartPage(
         },
         API_CACHE_CONFIG
       );
+      rawPopulationData = indicatorData?.areaHealthData;
     } catch (error) {
       console.log('error getting population data ', error);
     }

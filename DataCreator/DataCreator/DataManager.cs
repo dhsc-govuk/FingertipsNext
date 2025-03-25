@@ -174,6 +174,13 @@ namespace DataCreator
                 else //the associated indicator has more than 1 age, the health measure could be for 'All ages', or others. If it is 'All ages' set the flag to true, otherwise false
                     healthMeasure.IsAgeAggregatedOrSingle = healthMeasure.Age == "All ages";
 
+                //there are 2 indicators that have multiple ages but no aggregate age
+                //using the same behaviour as current Fingertips set the default age specifically
+                if (healthMeasure.IndicatorId == 93015 && healthMeasure.Age == "19+ yrs")
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                if (healthMeasure.IndicatorId == 93088 && healthMeasure.Age == "18+ yrs")
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+
                 if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
                     healthMeasure.IsDeprivationAggregatedOrSingle = true;
                 else //the associated indicator has more than 1 deprivation, the health measure could be for 'All', or others. If it is 'All' set the flag to true, otherwise false

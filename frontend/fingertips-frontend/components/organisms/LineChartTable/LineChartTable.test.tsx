@@ -13,10 +13,14 @@ import {
   MOCK_PARENT_DATA,
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
 
 describe('Line chart table suite', () => {
-  const mockHealthData = [
+  const mockHealthData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
@@ -30,6 +34,7 @@ describe('Line chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -40,6 +45,7 @@ describe('Line chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -56,6 +62,7 @@ describe('Line chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },

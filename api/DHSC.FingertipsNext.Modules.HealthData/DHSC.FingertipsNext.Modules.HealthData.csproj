@@ -9,6 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Services\**" />
+      <EmbeddedResource Remove="Services\**" />
+      <None Remove="Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Repository\DHSC.FingertipsNext.Modules.HealthData.Repository.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Schemas\DHSC.FingertipsNext.Modules.HealthData.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.HealthData.Service\DHSC.FingertipsNext.Modules.HealthData.Service.csproj" />
@@ -25,10 +31,6 @@
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>

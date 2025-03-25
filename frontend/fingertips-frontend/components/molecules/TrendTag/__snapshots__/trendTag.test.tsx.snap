@@ -158,7 +158,7 @@ exports[`Trend Tag Suite snapshot test 1`] = `
     >
       <div
         class="c2"
-        data-testid="tag-component"
+        data-testid="trend-tag-component"
       >
         <div>
           <svg

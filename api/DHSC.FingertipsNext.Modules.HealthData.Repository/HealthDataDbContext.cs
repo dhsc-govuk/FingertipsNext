@@ -5,7 +5,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 
 public class HealthDataDbContext : DbContext
 {
-
     public HealthDataDbContext()
     {
     }

@@ -20,7 +20,7 @@ public class AreaServiceTests
 
     public AreaServiceTests()
     {
-        MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
+        MapperConfiguration mapperConfig = new(cfg =>
         {
             cfg.AddProfile(new AutoMapperProfiles());
         });

@@ -17,21 +17,21 @@ import * as runtime from '../runtime';
 import type {
   BadRequest,
   GetAreaHierarchies500Response,
-  HealthDataForArea,
   Indicator,
   IndicatorSummary,
+  IndicatorWithHealthDataForArea,
 } from '../models/index';
 import {
     BadRequestFromJSON,
     BadRequestToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
-    HealthDataForAreaFromJSON,
-    HealthDataForAreaToJSON,
     IndicatorFromJSON,
     IndicatorToJSON,
     IndicatorSummaryFromJSON,
     IndicatorSummaryToJSON,
+    IndicatorWithHealthDataForAreaFromJSON,
+    IndicatorWithHealthDataForAreaToJSON,
 } from '../models/index';
 
 export interface FilterIndicatorsRequest {
@@ -43,7 +43,6 @@ export interface GetHealthDataForAnIndicatorRequest {
     areaCodes?: Array<string>;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
-    comparisonMethod?: GetHealthDataForAnIndicatorComparisonMethodEnum;
 }
 
 export interface GetIndicatorRequest {
@@ -79,19 +78,18 @@ export interface IndicatorsApiInterface {
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
-     * @param {Array<'age' | 'sex'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
-     * @param {'None' | 'Rag'} [comparisonMethod] the comparison method to use eg RAG to compare to England
+     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IndicatorsApiInterface
      */
-    getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<HealthDataForArea>>>;
+    getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>>;
 
     /**
      * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
      * Get health data for an indicator
      */
-    getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<HealthDataForArea>>;
+    getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
 
     /**
      * Fetches details of a specific indicator by its unique identifier. The response includes the indicator\'s metadata 
@@ -152,7 +150,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
      * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
      * Get health data for an indicator
      */
-    async getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<HealthDataForArea>>> {
+    async getHealthDataForAnIndicatorRaw(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>> {
         if (requestParameters['indicatorId'] == null) {
             throw new runtime.RequiredError(
                 'indicatorId',
@@ -174,10 +172,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             queryParameters['inequalities'] = requestParameters['inequalities'];
         }
 
-        if (requestParameters['comparisonMethod'] != null) {
-            queryParameters['comparison_method'] = requestParameters['comparisonMethod'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -187,14 +181,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(HealthDataForAreaFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => IndicatorWithHealthDataForAreaFromJSON(jsonValue));
     }
 
     /**
      * Get data for a public health indicator. This will return all data for all areas and all years for the indicators. Optionally filter the results by supplying one or more area codes and one or more years in the query string.
      * Get health data for an indicator
      */
-    async getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<HealthDataForArea>> {
+    async getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea> {
         const response = await this.getHealthDataForAnIndicatorRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -241,14 +235,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
  */
 export const GetHealthDataForAnIndicatorInequalitiesEnum = {
     Age: 'age',
-    Sex: 'sex'
+    Sex: 'sex',
+    Deprivation: 'deprivation'
 } as const;
 export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataForAnIndicatorInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorInequalitiesEnum];
-/**
- * @export
- */
-export const GetHealthDataForAnIndicatorComparisonMethodEnum = {
-    None: 'None',
-    Rag: 'Rag'
-} as const;
-export type GetHealthDataForAnIndicatorComparisonMethodEnum = typeof GetHealthDataForAnIndicatorComparisonMethodEnum[keyof typeof GetHealthDataForAnIndicatorComparisonMethodEnum];

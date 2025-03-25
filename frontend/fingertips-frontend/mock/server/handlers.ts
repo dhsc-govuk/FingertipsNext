@@ -1,4 +1,4 @@
-import { HttpResponse, http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { mockAreaData, mockAvailableAreas } from '../data/areaData';
@@ -6,7 +6,11 @@ import {
   allAreaTypes,
   AreaTypeKeys,
 } from '../../lib/areaFilterHelpers/areaType';
-import { AreaWithRelations } from '@/generated-sources/ft-api-client';
+import {
+  AreaWithRelations,
+  BenchmarkComparisonMethod,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 
 faker.seed(1);
@@ -215,7 +219,7 @@ export function getGetHealthDataForAnIndicator400Response() {
 export function getGetHealthDataForAnIndicator200Response(
   indicatorId: string,
   areaCodes: string[]
-) {
+): IndicatorWithHealthDataForArea {
   let healthDataForIndicator = mockHealthData[1];
 
   if (indicatorId in mockHealthData) {
@@ -225,9 +229,13 @@ export function getGetHealthDataForAnIndicator200Response(
   const healthDataForArea = healthDataForIndicator.filter((healthData) =>
     areaCodes.includes(healthData.areaCode)
   );
-  return !isAreaCodesEmpty(areaCodes)
-    ? healthDataForArea
-    : healthDataForIndicator;
+  return {
+    name: 'Indicator Name',
+    benchmarkMethod: BenchmarkComparisonMethod.CiOverlappingReferenceValue95,
+    areaHealthData: !isAreaCodesEmpty(areaCodes)
+      ? healthDataForArea
+      : healthDataForIndicator,
+  };
 }
 
 function isAreaCodesEmpty(areaCodes: string[]) {

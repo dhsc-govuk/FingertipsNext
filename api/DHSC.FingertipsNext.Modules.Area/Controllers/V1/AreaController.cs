@@ -19,10 +19,7 @@ public class AreaController : ControllerBase
     ///
     /// </summary>
     /// <param name="areaService"></param>
-    public AreaController(IAreaService areaService)
-    {
-        _areaService = areaService;
-    }
+    public AreaController(IAreaService areaService) => _areaService = areaService;
 
     /// <summary>
     /// Get all available hierarchy types
@@ -31,10 +28,8 @@ public class AreaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
     [Route("hierarchies")]
-    public async Task<IActionResult> GetHierarchiesAsync()
-    {
-        return Ok(await _areaService.GetHierarchies());
-    }
+    public async Task<IActionResult> GetHierarchiesAsync() =>
+        Ok(await _areaService.GetHierarchies());
 
     /// <summary>
     /// Get area types, optionally filtering by hierarchy type
@@ -44,10 +39,8 @@ public class AreaController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<AreaType>), StatusCodes.Status200OK)]
     [Route("areatypes")]
-    public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null)
-    {
-        return Ok(await _areaService.GetAreaTypes(hierarchy_type));
-    }
+    public async Task<IActionResult> GetAreatypesAsync([FromQuery] string? hierarchy_type = null) =>
+        Ok(await _areaService.GetAreaTypes(hierarchy_type));
 
     /// <summary>
     /// Get the full details of a given area, including its parent, optionally including its children.
@@ -107,9 +100,5 @@ public class AreaController : ControllerBase
     [ProducesResponseType(typeof(RootArea), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("root")]
-    public IActionResult GetRootAreaAsync()
-    {
-        var rootArea = _areaService.GetRootArea();
-        return Ok(rootArea);
-    }
+    public IActionResult GetRootAreaAsync() => Ok(_areaService.GetRootArea());
 }

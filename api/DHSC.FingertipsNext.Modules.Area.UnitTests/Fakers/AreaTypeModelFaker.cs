@@ -13,5 +13,4 @@ public class AreaTypeModelFaker: Faker<AreaTypeModel>
         RuleFor(a => a.HierarchyType, f => f.Lorem.Word());
         RuleFor(a => a.Level, f => f.Random.Int(0, 10));
     }
-
 }
