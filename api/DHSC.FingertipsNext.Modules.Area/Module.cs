@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using DHSC.FingertipsNext.Modules.Area.Controllers;
+﻿using DHSC.FingertipsNext.Modules.Area.Controllers;
 using DHSC.FingertipsNext.Modules.Area.Repository;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
-using DHSC.FingertipsNext.Modules.Area.Schemas;
 using DHSC.FingertipsNext.Modules.Area.Service;
 using DHSC.FingertipsNext.Monolith;
 using Microsoft.Data.SqlClient;
@@ -44,8 +41,9 @@ public class Module : AbstractMonolithModule, IMonolithModule
             TrustServerCertificate = configuration.TrustServerCertificate,
         };
 
-        services.AddDbContext<AreaRepositoryDbContext>(options =>
-            options.UseSqlServer(builder.ConnectionString, x => x.UseHierarchyId())
+        services.AddDbContext<AreaRepositoryDbContext>
+        (
+            options => options.UseSqlServer(builder.ConnectionString)
         );
     }
 }

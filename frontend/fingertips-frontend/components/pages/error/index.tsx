@@ -1,25 +1,22 @@
 'use client';
 
-import { H1, Link, Paragraph } from 'govuk-react';
+import { H1, Paragraph } from 'govuk-react';
+import { useEffect } from 'react';
 
-type ErrorPageProps = {
-  errorText: string;
-  errorLink: string;
-  errorLinkText: string;
-};
+export function ErrorPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-export function ErrorPage({
-  errorText,
-  errorLink,
-  errorLinkText,
-}: Readonly<ErrorPageProps>) {
   return (
     <>
-      <H1>An error has occurred.</H1>
-      <Paragraph data-testid="error-page-text">{`${errorText}`}</Paragraph>
-      <Link data-testid="error-page-link" href={`${errorLink}`}>
-        {`${errorLinkText}`}
-      </Link>
+      <H1 data-testid="error-page-title">
+        Sorry, there is a problem with the service
+      </H1>
+      <Paragraph>Try again later.</Paragraph>
+      <Paragraph>
+        You can [go back to the homepage](/) and start your search again.
+      </Paragraph>
     </>
   );
 }

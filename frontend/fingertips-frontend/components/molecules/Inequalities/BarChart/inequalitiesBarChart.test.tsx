@@ -1,7 +1,7 @@
 import { InequalitiesBarChart } from '.';
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { tableData } from './mocks';
+import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities LineChart suite', () => {
@@ -9,8 +9,7 @@ describe('Inequalities LineChart suite', () => {
     const yAxisLabel = 'YAxis';
     render(
       <InequalitiesBarChart
-        barChartData={tableData}
-        dynamicKeys={['Persons', 'Male', 'Female']}
+        barChartData={getTestData()}
         yAxisLabel={yAxisLabel}
         type={InequalitiesTypes.Sex}
       />

@@ -30,6 +30,7 @@ import {
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
+import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');
 
@@ -37,22 +38,9 @@ const mockGetAreaFilterData = getAreaFilterData as jest.MockedFunction<
   typeof getAreaFilterData
 >;
 
-const generateIndicatorSearchResults = (id: string): IndicatorDocument => ({
-  indicatorID: id,
-  indicatorName: `indicator name for id ${id}`,
-  indicatorDefinition: `Some definition for id ${id}`,
-  dataSource: `Some data source for id ${id}`,
-  earliestDataPeriod: '2022',
-  latestDataPeriod: '2023',
-  lastUpdatedDate: new Date(),
-  associatedAreaCodes: [],
-  unitLabel: 'some unit label',
-  hasInequalities: true,
-  usedInPoc: true,
-});
 const mockIndicatorSearchResults: IndicatorDocument[] = [
-  generateIndicatorSearchResults('1'),
-  generateIndicatorSearchResults('2'),
+  generateIndicatorDocument('1'),
+  generateIndicatorDocument('2'),
 ];
 
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
@@ -257,39 +245,6 @@ describe('Results Page', () => {
       expect(page.props.currentDate).toEqual(date);
 
       jest.useRealTimers();
-    });
-  });
-
-  describe('Check correct props to the error component are passed when there is an error', () => {
-    it('should pass the correct props when getAreaFilterData call returns an error', async () => {
-      mockGetAreaFilterData.mockRejectedValue('Some areas api error');
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
-    });
-
-    it('should pass the correct props when searchWith returns an error', async () => {
-      mockAreasApi.getAreaTypes.mockResolvedValue(allAreaTypes);
-      mockIndicatorSearchService.searchWith.mockRejectedValue(
-        'Some search-service error'
-      );
-
-      const page = await ResultsPage({
-        searchParams: generateSearchParams(searchParams),
-      });
-
-      expect(page.props.errorText).toEqual(
-        'An error has been returned by the service. Please try again.'
-      );
-      expect(page.props.errorLink).toEqual('/');
-      expect(page.props.errorLinkText).toEqual('Return to Search');
     });
   });
 });

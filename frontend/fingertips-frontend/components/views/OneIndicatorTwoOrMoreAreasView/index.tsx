@@ -8,24 +8,26 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
-
-interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
-  areaCodes: string[];
-}
+import {
+  AreaTypeKeysForMapMeta,
+  getMapData,
+} from '@/lib/thematicMapUtils/getMapData';
+import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
+  selectedIndicatorsData,
   searchState,
-  areaCodes,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorSelected,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.AreaTypeSelected]: selectedAreaType,
+    [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -47,37 +49,38 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   let healthIndicatorData: HealthDataForArea[] | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      {
-        indicatorId: Number(indicatorSelected[0]),
-        areaCodes: areaCodesToRequest,
-      },
-      API_CACHE_CONFIG
-    );
+    healthIndicatorData = (
+      await Promise.all(
+        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorSelected[0]),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
+        )
+      )
+    ).flat();
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for areas',
-      error
-    );
-  }
+  const indicatorMetadata = selectedIndicatorsData?.[0];
+
+  const mapData =
+    selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
+      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      : undefined;
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
       healthIndicatorData={healthIndicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
-      areaCodes={areaCodes}
+      mapData={mapData}
     />
   );
 }

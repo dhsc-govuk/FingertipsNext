@@ -95,7 +95,8 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' || 
       needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true'
+      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+      needs.check-changes.outputs.search_changed == 'true'
     name: Build Database
     runs-on: ubuntu-latest
     env:
@@ -161,7 +162,8 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true'
+      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+      needs.check-changes.outputs.search_changed == 'true'
     name: Test Trend Analysis App
     runs-on: ubuntu-latest
     strategy:
@@ -242,7 +244,7 @@ jobs:
       )
     uses: ./.github/workflows/ui-tests.yml
     with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
+      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -329,7 +331,8 @@ jobs:
       (
         github.event_name == 'workflow_dispatch' ||
         needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.trend_analysis_changed == 'true'
+        needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+        needs.check-changes.outputs.search_changed == 'true'
       )
     steps:
       - name: Set git core.longpaths flag
@@ -368,8 +371,20 @@ jobs:
           arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
 
   run-trend-analysis-dev:
-    # Only run job if the DB has had a clean deploy
-    needs: deploy-db-dev
+    needs: [check-changes, deploy-db-dev]
+    if: >
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      github.event_name != 'pull_request' &&
+      github.ref_name == 'main' &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        needs.check-changes.outputs.db_changed == 'true' ||
+        needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+        needs.check-changes.outputs.search_changed == 'true'
+      )
     environment: development
     name: Run Trend Analysis App
     runs-on: ubuntu-latest
@@ -393,8 +408,14 @@ jobs:
           SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         run: dotnet run
 
+      - name: Upload updated indicators file
+        uses: actions/upload-artifact@v4
+        with:
+          name: indicators-for-search
+          path: ./trend-analysis/TrendAnalysisApp/SearchData/assets/indicators.json
+
   search-setup-dev:
-    needs: [check-changes, deploy-db-dev]
+    needs: [check-changes, deploy-db-dev, run-trend-analysis-dev]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
@@ -404,7 +425,9 @@ jobs:
       github.ref_name == 'main' &&
       (
         github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        needs.check-changes.outputs.search_changed == 'true' ||
+        needs.check-changes.outputs.db_changed == 'true' ||
+        needs.check-changes.outputs.trend_analysis_changed == 'true'
       )
     runs-on: ubuntu-latest
     defaults:
@@ -446,12 +469,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Download updated indicators.json file
+      - name: Download updated indicators data
+        uses: actions/download-artifact@v4
+        with:
+          name: indicators-for-search
+          path: /tmp/workflow/assets
+
       # Create index
       - name: Create index
         run: npm run create-index
         env:
           AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
           AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
+
       # Run tests
       - name: Run tests
         run: npm run test
@@ -612,12 +643,13 @@ jobs:
               needs.check-changes.outputs.db_changed == 'true' ||
               needs.check-changes.outputs.api_changed == 'true' ||
               needs.check-changes.outputs.frontend_changed == 'true' ||
-              needs.check-changes.outputs.search_changed == 'true'
+              needs.check-changes.outputs.search_changed == 'true' ||
+              needs.check-changes.outputs.trend_analysis_changed == 'true'
             )
           )
         )
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.0-noble
+      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

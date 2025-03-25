@@ -9,7 +9,7 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription (); 
+        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription { EnforceCsvColumnAttribute=true}; 
 
         public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
             new JsonSerializerOptions
@@ -59,7 +59,7 @@ namespace DataCreator
         /// <param name="yearFrom"></param>
         /// <param name="areasWeWant"></param>
         /// <returns></returns>
-        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, List<string> areasWeWant)
+        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, Dictionary<string,string> areasDict)
         {
             const string ALL = "All";
             //this is a csv file that was downloaded from the Fingertips API
@@ -67,7 +67,7 @@ namespace DataCreator
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>().ToList();
 
-            var areasDict = areasWeWant.ToDictionary(a => a);
+    
             var lines = File.ReadAllLines(filePath);
             var allData= new List<HealthMeasureEntity>();
             for(var count=1; count<lines.Length; count++) //start at 1 to avoid first line which is column names
@@ -76,7 +76,11 @@ namespace DataCreator
                 var split=Regex.Split(lines[count], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 if (split.Length != 27)
                     continue; //avoid bad data
+              
+                if (split[6].Equals("CCG", StringComparison.CurrentCultureIgnoreCase)) //CCGs and ICBs share the same area code so do this to avoid doubling up data
+                    continue;
                 var areaCode = split[4].Trim().CleanAreaCode();
+                
                 if(!areasDict.TryGetValue(areaCode, out var area)) 
                     continue; //if the row is not for an area we are interested in then ignore it
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));

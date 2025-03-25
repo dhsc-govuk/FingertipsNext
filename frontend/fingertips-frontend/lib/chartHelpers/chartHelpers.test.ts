@@ -6,12 +6,17 @@ import {
   isEnglandSoleSelectedArea,
   sortHealthDataPointsByDescendingYear,
   getMostRecentData,
+  getHealthDataWithoutInequalities,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '../mocks';
 
-const mockData = [
+const mockData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     areaName: 'North FooBar',
@@ -25,6 +30,8 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
+        deprivation: noDeprivation,
       },
       {
         count: 267,
@@ -35,6 +42,8 @@ const mockData = [
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: true,
+        deprivation: noDeprivation,
       },
       {
         count: 267,
@@ -45,6 +54,8 @@ const mockData = [
         sex: 'Male',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        isAggregate: false,
+        deprivation: noDeprivation,
       },
     ],
   },
@@ -52,7 +63,7 @@ const mockData = [
 
 describe('sortHealthDataByDate', () => {
   it('should sort the healthcare data values in ascending year', () => {
-    const mockSortedData = [
+    const mockSortedData: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'North FooBar',
@@ -66,6 +77,8 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -76,6 +89,8 @@ describe('sortHealthDataByDate', () => {
             sex: 'Male',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: false,
+            deprivation: noDeprivation,
           },
           {
             count: 389,
@@ -86,6 +101,8 @@ describe('sortHealthDataByDate', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            isAggregate: true,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -98,7 +115,7 @@ describe('sortHealthDataByDate', () => {
 
 describe('sortHealthDataByYearDescending', () => {
   it('should sort the healthcare data  in descending years', () => {
-    const mockData = [
+    const mockData: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -112,6 +129,7 @@ describe('sortHealthDataByYearDescending', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 389,
@@ -122,11 +140,12 @@ describe('sortHealthDataByYearDescending', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
     ];
-    const mockSortedData = [
+    const mockSortedData: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -140,6 +159,7 @@ describe('sortHealthDataByYearDescending', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -150,6 +170,7 @@ describe('sortHealthDataByYearDescending', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -172,6 +193,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         count: 389,
@@ -182,6 +204,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ];
 
@@ -195,6 +218,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         count: 267,
@@ -205,6 +229,7 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         sex: 'Persons',
         ageBand: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ];
 
@@ -233,7 +258,7 @@ describe('seriesDataForIndicatorIndexAndArea', () => {
 
 describe('seriesDataWithoutEnglandOrParent', () => {
   it('should return data that doesnt have the england area code', () => {
-    const data = [
+    const data: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -247,6 +272,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -257,6 +283,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -273,6 +300,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -283,12 +311,13 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
     ];
 
-    const dataWithoutEngland = [
+    const dataWithoutEngland: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -302,6 +331,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -312,6 +342,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -322,7 +353,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
   });
 
   it('should return data that doesnt have the parent area code when passed a parent area code', () => {
-    const data = [
+    const data: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -336,6 +367,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -346,6 +378,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -362,6 +395,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -372,12 +406,13 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
     ];
 
-    const dataWithoutParent = [
+    const dataWithoutParent: HealthDataForArea[] = [
       {
         areaCode: 'A1425',
         areaName: 'area A1425',
@@ -391,6 +426,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             count: 267,
@@ -401,6 +437,7 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             sex: 'Persons',
             ageBand: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -443,5 +480,13 @@ describe('getMostRecentData', () => {
     const result = getMostRecentData([]);
 
     expect(result).toEqual(undefined);
+  });
+});
+
+describe('getHealthDataWithoutInequalities', () => {
+  it('should return health data without inequalities', () => {
+    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
+      mockData[0].healthData.slice(0, 2)
+    );
   });
 });

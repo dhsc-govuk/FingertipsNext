@@ -45,6 +45,12 @@ public class HealthDataPoint
     public string AgeBand { get; init; } = string.Empty;
 
     /// <summary>
+    ///     Deprivation category which the data are for.
+    /// </summary>
+    [JsonPropertyName("deprivation")]
+    public Deprivation Deprivation { get; init; }
+
+    /// <summary>
     ///     Sex which the data are for.
     /// </summary>
     [JsonPropertyName("sex")]
@@ -57,11 +63,17 @@ public class HealthDataPoint
     ///     No change, Cannot be calculated and Not yet calculated.
     /// </summary>
     [JsonPropertyName("trend")]
-    public string? Trend { get; init; } = string.Empty;
+    public string Trend { get; init; } = string.Empty;
 
     /// <summary>
     ///     Benchmark which the data are for.
     /// </summary>
     [JsonPropertyName("benchmarkComparison")]
-    public BenchmarkComparison? BenchmarkComparison { get; set; }
+    public BenchmarkComparison BenchmarkComparison { get; set; }
+
+    /// <summary>
+    ///     Is the data an aggregated point
+    /// </summary>
+    [JsonPropertyName("isAggregate")]
+    public bool IsAggregate { get; set; }
 }

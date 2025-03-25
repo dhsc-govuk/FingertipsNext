@@ -5,6 +5,7 @@ using TrendAnalysisApp.Calculator;
 using TrendAnalysisApp.Calculator.Legacy;
 using TrendAnalysisApp.Mapper;
 using TrendAnalysisApp.Repository;
+using TrendAnalysisApp.SearchData;
 namespace TrendAnalysisApp;
 
 internal static class Program
@@ -30,11 +31,15 @@ internal static class Program
         return new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<HealthMeasureDbContext>(
-                options => options.UseSqlServer(connString),
+                options => options.UseSqlServer(
+                    connString,
+                    sqlServerOptions => sqlServerOptions.CommandTimeout(Constants.Database.CommandTimeout)
+                ),
                 ServiceLifetime.Transient
             )
             .AddSingleton<TrendDataProcessor>()
-            .AddSingleton<IndicatorRepository>()
+            .AddSingleton<IIndicatorRepository, IndicatorRepository>()
+            .AddSingleton<IIndicatorJsonFileHelper, IndicatorJsonFileHelper>()
             .AddSingleton<TrendCalculator>()
             // The legacy calculator is not threadsafe so is instantiated per thread
             .AddTransient<TrendMarkerCalculator>()

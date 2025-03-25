@@ -15,12 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  BadRequest,
   GetAreaHierarchies500Response,
   HealthDataForArea,
   Indicator,
   IndicatorSummary,
 } from '../models/index';
 import {
+    BadRequestFromJSON,
+    BadRequestToJSON,
     GetAreaHierarchies500ResponseFromJSON,
     GetAreaHierarchies500ResponseToJSON,
     HealthDataForAreaFromJSON,
@@ -76,7 +79,7 @@ export interface IndicatorsApiInterface {
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
-     * @param {Array<'age' | 'sex'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
+     * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {'None' | 'Rag'} [comparisonMethod] the comparison method to use eg RAG to compare to England
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -238,7 +241,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
  */
 export const GetHealthDataForAnIndicatorInequalitiesEnum = {
     Age: 'age',
-    Sex: 'sex'
+    Sex: 'sex',
+    Deprivation: 'deprivation'
 } as const;
 export type GetHealthDataForAnIndicatorInequalitiesEnum = typeof GetHealthDataForAnIndicatorInequalitiesEnum[keyof typeof GetHealthDataForAnIndicatorInequalitiesEnum];
 /**

@@ -20,6 +20,13 @@ import {
     HealthDataPointBenchmarkComparisonToJSON,
     HealthDataPointBenchmarkComparisonToJSONTyped,
 } from './HealthDataPointBenchmarkComparison';
+import type { DeprivationData } from './DeprivationData';
+import {
+    DeprivationDataFromJSON,
+    DeprivationDataFromJSONTyped,
+    DeprivationDataToJSON,
+    DeprivationDataToJSONTyped,
+} from './DeprivationData';
 
 /**
  * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
@@ -76,11 +83,23 @@ export interface HealthDataPoint {
      */
     trend: HealthDataPointTrendEnum;
     /**
+     * Indicates if the datapoint is an aggregate point.
+     * @type {boolean}
+     * @memberof HealthDataPoint
+     */
+    isAggregate?: boolean;
+    /**
      * 
      * @type {HealthDataPointBenchmarkComparison}
      * @memberof HealthDataPoint
      */
     benchmarkComparison?: HealthDataPointBenchmarkComparison;
+    /**
+     * 
+     * @type {DeprivationData}
+     * @memberof HealthDataPoint
+     */
+    deprivation: DeprivationData;
 }
 
 
@@ -109,6 +128,7 @@ export function instanceOfHealthDataPoint(value: object): value is HealthDataPoi
     if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
     if (!('sex' in value) || value['sex'] === undefined) return false;
     if (!('trend' in value) || value['trend'] === undefined) return false;
+    if (!('deprivation' in value) || value['deprivation'] === undefined) return false;
     return true;
 }
 
@@ -130,7 +150,9 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'ageBand': json['ageBand'],
         'sex': json['sex'],
         'trend': json['trend'],
+        'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
+        'deprivation': DeprivationDataFromJSON(json['deprivation']),
     };
 }
 
@@ -153,7 +175,9 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'ageBand': value['ageBand'],
         'sex': value['sex'],
         'trend': value['trend'],
+        'isAggregate': value['isAggregate'],
         'benchmarkComparison': HealthDataPointBenchmarkComparisonToJSON(value['benchmarkComparison']),
+        'deprivation': DeprivationDataToJSON(value['deprivation']),
     };
 }
 

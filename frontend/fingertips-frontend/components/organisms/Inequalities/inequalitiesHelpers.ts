@@ -1,8 +1,13 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataPoint,
+  HealthDataPointBenchmarkComparison,
+} from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { chartSymbols } from '../LineChart/lineChartHelpers';
+
+export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
 export type YearlyHealthDataGroupedByInequalities = Record<
   string,
@@ -24,6 +29,8 @@ export interface RowDataFields {
   value?: number;
   lower?: number;
   upper?: number;
+  isAggregate?: boolean;
+  benchmarkComparison?: HealthDataPointBenchmarkComparison;
 }
 
 export interface InequalitiesTableRowData {
@@ -113,6 +120,8 @@ export const mapToInequalitiesTableData = (
               value: currentTableKey[0].value,
               lower: currentTableKey[0].lowerCi,
               upper: currentTableKey[0].upperCi,
+              isAggregate: currentTableKey[0].isAggregate,
+              benchmarkComparison: currentTableKey[0].benchmarkComparison,
             }
           : undefined;
         return acc;
@@ -178,3 +187,28 @@ export const shouldDisplayInequalities = (
   indicatorsSelected: string[] = [],
   areasSelected: string[] = []
 ) => indicatorsSelected.length === 1 && areasSelected.length === 1;
+
+export const getAggregatePointInfo = (
+  inequalities: Record<string, RowDataFields | undefined>
+) => {
+  const benchmarkPoint = Object.values(inequalities).find(
+    (entry) => entry?.isAggregate
+  );
+  const benchmarkValue = benchmarkPoint?.value;
+  const aggregateKey = Object.keys(inequalities).find(
+    (key) => inequalities[key]?.isAggregate
+  );
+
+  const sortedKeys = Object.keys(inequalities).sort(localeSort);
+  const inequalityDimensions = Object.keys(inequalities)
+    .filter((key) => !inequalities[key]?.isAggregate)
+    .sort(localeSort);
+
+  return {
+    benchmarkPoint,
+    benchmarkValue,
+    aggregateKey,
+    sortedKeys,
+    inequalityDimensions,
+  };
+};

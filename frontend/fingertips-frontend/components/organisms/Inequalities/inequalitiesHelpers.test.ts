@@ -4,21 +4,24 @@ import {
 } from '@/generated-sources/ft-api-client';
 import {
   generateInequalitiesLineChartSeriesData,
+  getAggregatePointInfo,
+  getBenchmarkData,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
   groupHealthDataByInequalities,
   groupHealthDataByYear,
-  InequalitiesTypes,
-  InequalitiesTableRowData,
-  mapToInequalitiesTableData,
-  shouldDisplayInequalities,
   InequalitiesBarChartData,
-  getBenchmarkData,
+  InequalitiesTableRowData,
+  InequalitiesTypes,
+  mapToInequalitiesTableData,
+  RowDataFields,
+  shouldDisplayInequalities,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { noDeprivation } from '@/lib/mocks';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -33,6 +36,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 400,
@@ -43,6 +47,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Male',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 267,
@@ -53,6 +58,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 300,
@@ -63,6 +69,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Female',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
   ],
 };
@@ -338,5 +345,34 @@ describe('generateLineChartSeriesData', () => {
         areasSelected
       )
     ).toEqual([]);
+  });
+});
+
+describe('getAggregatePointInfo', () => {
+  const testData: Record<string, RowDataFields | undefined> = {
+    ...mockInequalitiesRowData[1].inequalities,
+  };
+  testData.Persons = { ...testData.Persons, isAggregate: true };
+  testData.Male = { ...testData.Male, isAggregate: false };
+  testData.Female = { ...testData.Female, isAggregate: false };
+  it('should return the benchmark point and value', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('benchmarkPoint', testData.Persons);
+    expect(result).toHaveProperty('benchmarkValue', testData.Persons?.value);
+  });
+
+  it('should return the aggregate key', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('aggregateKey', 'Persons');
+  });
+
+  it('should return the inequalityDimensions', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('inequalityDimensions', ['Female', 'Male']);
+  });
+
+  it('should return all the keys sorted', () => {
+    const result = getAggregatePointInfo(testData);
+    expect(result).toHaveProperty('sortedKeys', ['Female', 'Male', 'Persons']);
   });
 });

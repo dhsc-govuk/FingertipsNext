@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 
@@ -11,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.Area.Repository.Models;
 [Table("Areas", Schema = "Areas")]
 public class AreaModel
 {
-
 
     /// <summary>
     /// The unique area key of the area - this is a surrogate key

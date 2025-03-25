@@ -6,6 +6,8 @@ index.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
+models/BadRequest.ts
+models/DeprivationData.ts
 models/GetAreaHierarchies500Response.ts
 models/GetHealthcheck200Response.ts
 models/GetHealthcheck500Response.ts

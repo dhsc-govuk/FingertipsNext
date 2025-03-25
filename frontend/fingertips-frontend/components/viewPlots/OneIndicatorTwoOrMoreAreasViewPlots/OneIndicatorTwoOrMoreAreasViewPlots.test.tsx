@@ -3,6 +3,9 @@ import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
+import { MapData } from '@/lib/thematicMapUtils/getMapData';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -12,6 +15,12 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({})),
   };
 });
+
+const mockMapData: MapData = {
+  mapJoinKey: 'RGN23CD',
+  mapFile: regionsMap,
+  mapGroupBoundary: regionsMap,
+};
 
 const mockMetaData = {
   indicatorID: '108',
@@ -43,7 +52,7 @@ const searchState: SearchStateParams = {
 const lineChartTestId = 'lineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'See how the indicator has changed over time';
+const lineChartContainerTitle = 'Indicator data over time';
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 
 const assertLineChartAndTableInDocument = async () => {
@@ -78,7 +87,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
-        areaCodes={mockAreas}
       />
     );
 
@@ -93,73 +101,79 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     );
   });
 
-  it('should render the LineChart components when there are 2 areas', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-        areaCodes={mockAreas}
-      />
-    );
-    await assertLineChartAndTableInDocument();
-  });
+  describe('LineChart components', () => {
+    it('should render the LineChart components when there are 2 areas', async () => {
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
+          indicatorMetadata={mockMetaData}
+        />
+      );
+      await assertLineChartAndTableInDocument();
+    });
 
-  it('should display data source when metadata exists', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-        areaCodes={mockAreas}
-      />
-    );
-    const actual = await screen.findAllByText('Data source:', { exact: false });
-    expect(actual[0]).toBeVisible();
-  });
+    it('should display data source in the LineChart when metadata exists', async () => {
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
+          indicatorMetadata={mockMetaData}
+        />
+      );
+      const actual = await screen.findAllByText('Data source:', {
+        exact: false,
+      });
+      expect(actual[0]).toBeVisible();
+    });
 
-  it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
-    const MOCK_DATA = [
-      {
-        areaCode: 'A1',
-        areaName: 'Area 1',
-        healthData: [mockHealthData['1'][0].healthData[0]],
-      },
-    ];
+    it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
+      const MOCK_DATA = [
+        {
+          areaCode: 'A1',
+          areaName: 'Area 1',
+          healthData: [mockHealthData['1'][0].healthData[0]],
+        },
+      ];
 
-    const state: SearchStateParams = {
-      [SearchParams.IndicatorsSelected]: ['0'],
-      [SearchParams.AreasSelected]: ['A001'],
-    };
+      const state: SearchStateParams = {
+        [SearchParams.IndicatorsSelected]: ['0'],
+        [SearchParams.AreasSelected]: ['A001'],
+      };
 
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={MOCK_DATA}
-        searchState={state}
-        areaCodes={mockAreas}
-      />
-    );
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={MOCK_DATA}
+          searchState={state}
+        />
+      );
 
-    await waitFor(() => assertLineChartAndTableNotInDocument());
-  });
+      await waitFor(() => assertLineChartAndTableNotInDocument());
+    });
 
-  it('should not render the LineChart components when there are more than 2 areas', async () => {
-    const searchState: SearchStateParams = {
-      [SearchParams.SearchedIndicator]: mockSearch,
-      [SearchParams.IndicatorsSelected]: mockIndicator,
-      [SearchParams.AreasSelected]: [...mockAreas, 'A003'],
-    };
+    it('should not render the LineChart components when there are more than 2 areas', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: mockSearch,
+        [SearchParams.IndicatorsSelected]: mockIndicator,
+        [SearchParams.AreasSelected]: [...mockAreas, 'A003'],
+      };
 
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-        areaCodes={[...mockAreas, 'third area']}
-      />
-    );
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={searchState}
+          indicatorMetadata={mockMetaData}
+        />
+      );
 
-    await assertLineChartAndTableNotInDocument();
+      await assertLineChartAndTableNotInDocument();
+    });
   });
 
   describe('BarChartEmbeddedTable', () => {
@@ -174,13 +188,80 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         <OneIndicatorTwoOrMoreAreasViewPlots
           healthIndicatorData={testHealthData}
           searchState={searchState}
-          areaCodes={mockAreas}
         />
       );
 
       expect(
         await screen.findByTestId(barChartEmbeddedTable)
       ).toBeInTheDocument();
+    });
+
+    it('should render the title for BarChartEmbeddedTable', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: mockSearch,
+        [SearchParams.IndicatorsSelected]: mockIndicator,
+        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={testHealthData}
+          searchState={searchState}
+        />
+      );
+
+      expect(
+        screen.getByText('Compare an indicator by areas')
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe('ThematicMap', () => {
+    it('should render the ThematicMap when all areas in a group are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.AreaTypeSelected]: 'regions',
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={[
+            mockHealthData[108][1],
+            mockHealthData[108][2],
+            mockHealthData[108][3],
+          ]}
+          searchState={searchState}
+          mapData={mockMapData}
+        />
+      );
+      expect(
+        await screen.findByTestId('thematicMap-component')
+      ).toBeInTheDocument();
+    });
+
+    it('should not render the ThematicMap when not all areas in a group are selected', async () => {
+      const searchState: SearchStateParams = {
+        [SearchParams.GroupAreaSelected]: 'not ALL',
+        [SearchParams.AreaTypeSelected]: 'regions',
+      };
+
+      render(
+        <OneIndicatorTwoOrMoreAreasViewPlots
+          healthIndicatorData={[
+            mockHealthData[108][1],
+            mockHealthData[108][2],
+            mockHealthData[108][3],
+          ]}
+          searchState={searchState}
+          mapData={mockMapData}
+        />
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.queryByTestId('thematicMap-component')
+        ).not.toBeInTheDocument();
+      });
     });
   });
 });

@@ -368,6 +368,7 @@ components:
         - ageBand
         - sex
         - trend
+        - deprivation
       properties:
         year:
           type: integer
@@ -416,6 +417,9 @@ components:
             'Decreasing and getting better',
             'Decreasing and getting worse'
           ]
+        isAggregate:
+          type: boolean
+          description: Indicates if the datapoint is an aggregate point.
         benchmarkComparison:
           type: object
           properties:
@@ -423,17 +427,17 @@ components:
               type: string
               example: Lower
               description: benchmark outcome
-              enum: [None, Lower, Higher, Better, Worse, Similar]
+              enum: [ None, Lower, Higher, Better, Worse, Similar ]
             method:
               type: string
               example: rag
               description: the benchmark comparison method used
-              enum: [None, Rag]
+              enum: [ None, Rag ]
             indicatorPolarity:
               type: string
               example: HighIsGood
               description: the type of polarity applied to the outcome
-              enum: [NoJudgement, LowIsGood, HighIsGood]
+              enum: [ NoJudgement, LowIsGood, HighIsGood ]
             benchmarkAreaCode:
               type: string
               example: E92000001
@@ -442,6 +446,33 @@ components:
               type: string
               example: England
               description: The name of the benchmark area
+            benchmarkValue:
+              type: number
+              example: 123
+              description: The value used in the comparison
+        deprivation:
+          $ref: "#/components/schemas/DeprivationData"
+    DeprivationData:
+      type: object
+      description: Details of the deprivation category that this data point belongs to.
+      required:
+        - sequence
+        - value
+        - type
+      properties:
+        sequence:
+          type: number
+          format: integer
+          example: 2
+          description: A number which represents this deprivation value's inherent place in the sequence of all values for this deprivation type. Can be used to show values ordered by their deprivation dimension.
+        value:
+          type: string
+          example: Second most deprived decile
+          description: The deprivation value for this data point.
+        type:
+          type: string
+          example: District & UA deprivation deciles in England (IMD2019, 4/21 geography)
+          description: The deprivation category that this data point's deprivation value belongs to.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
@@ -507,6 +538,7 @@ components:
           enum:
             - age
             - sex
+            - deprivation
       description: Determines the kind of inequality data that should be returned if an option is specified
     comparison_method:
       in: query
@@ -514,7 +546,7 @@ components:
       schema:
         type: string
         example: Rag
-        enum: [None, Rag]
+        enum: [ None, Rag ]
       required: false
       description: the comparison method to use eg RAG to compare to England
     area_type_key:
