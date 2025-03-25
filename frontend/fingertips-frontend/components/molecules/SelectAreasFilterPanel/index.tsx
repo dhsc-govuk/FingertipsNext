@@ -259,8 +259,6 @@ export function SelectAreasFilterPanel({
               name="area"
               defaultChecked={isAreaSelectedValue}
               onChange={(e) => {
-                // e.target.type;
-                // localStorage.setItem('propagate', 'false');
                 handleAreaSelected(area.code, e.target.checked);
               }}
             >
