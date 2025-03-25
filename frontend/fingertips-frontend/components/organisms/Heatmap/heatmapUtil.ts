@@ -1,5 +1,4 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
