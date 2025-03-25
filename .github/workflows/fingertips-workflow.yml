@@ -359,7 +359,7 @@ jobs:
             --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
             --auth-mode "login" \
             --overwrite true
-      
+
       - name: Deploy Database
         run: |
           sqlpackage \
