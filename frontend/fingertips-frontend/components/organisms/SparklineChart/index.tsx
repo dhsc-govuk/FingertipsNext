@@ -11,6 +11,7 @@ import {
 import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -38,7 +39,7 @@ export function SparklineChart({
   const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
   const [options, setOptions] = useState<Highcharts.Options>();
   
-  function formatSparklineTooltips() {
+  const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
     let category = '';
     if (label === SparklineLabelEnum.Benchmark) {
       category = 'Benchmark: ';
@@ -46,7 +47,7 @@ export function SparklineChart({
     if (label === SparklineLabelEnum.Group) {
       category = 'Group: ';
     }
-    return `<b>${category} ${area}</b><br/>${year}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${measurementUnit}`;
+    return [`<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`];
   }
 
   const confidenceIntervalColor = GovukColours.Black;
@@ -81,7 +82,7 @@ export function SparklineChart({
     },
     chart: {
       type: 'bar',
-      height: 80,
+      height: 90,
       width: 200,
       backgroundColor: 'transparent',
     },
@@ -110,7 +111,14 @@ export function SparklineChart({
     },
     tooltip: {
       hideDelay: 0,
-      formatter: formatSparklineTooltips,
+      style: {
+        width: 200,
+        overflow: 'visible',
+      },
+      outside: true,
+      pointFormatter: function (this: Highcharts.Point) {
+        return pointFormatterHelper(this, formatSparklineTooltips)
+      },
     },
   };
 
