@@ -9,13 +9,19 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription { EnforceCsvColumnAttribute=true}; 
 
-        public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data, 
-            new JsonSerializerOptions
+        private static readonly CsvFileDescription csvFileDescription=new() {EnforceCsvColumnAttribute=true};
+
+        public static void WriteJsonData(string dataType, object data)
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        }));
+            var contents = JsonSerializer.Serialize(data,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            File.WriteAllText(@$"..\..\..\..\..\search-setup\assets\{dataType}.json", contents);
+            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\{dataType}.json", contents);
+        }
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
@@ -112,7 +118,7 @@ namespace DataCreator
                     Denominator = GetDoubleValue(split[18]),
                     Year = year,
                     Category = category.Trim(),
-                    CategoryType = categoryType.Replace(',','-').Trim()
+                    CategoryType = categoryType.Trim()
                 };
                 allData.Add(indicatorData);
             }
@@ -143,14 +149,6 @@ namespace DataCreator
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
 
         public static void DeleteTempFiles() => Directory.Delete(@$"{InFilePath}\temp", true);
-
-        public static void CopyFilesToTargetLocations()
-        {
-            foreach (var file in Directory.GetFiles(OutFilePath))
-            {
-                File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
-            }
-        }
 
         private static double? GetDoubleValue(string raw) => double.TryParse(raw.Trim(), out var value) ? value : null;
     }
