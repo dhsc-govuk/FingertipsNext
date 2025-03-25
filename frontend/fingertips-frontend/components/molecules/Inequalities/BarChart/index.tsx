@@ -12,12 +12,12 @@ import {
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
-import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
   loadHighchartsModules,
+  getBenchmarkColour,
 } from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesBarChartProps {
