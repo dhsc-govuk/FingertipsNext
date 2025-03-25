@@ -57,7 +57,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
               {
                 indicatorId: Number(indicatorSelected[0]),
                 areaCodes: [...requestAreas],
-                comparisonMethod: 'Rag',
               },
               API_CACHE_CONFIG
             )

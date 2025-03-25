@@ -165,8 +165,8 @@ export function BarChartEmbeddedTable({
                   mostRecentBenchmarkData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkComparison={
-                  mostRecentBenchmarkData.benchmarkComparison
+                benchmarkOutcome={
+                  mostRecentBenchmarkData.benchmarkComparison?.outcome
                 }
               ></SparklineChart>
             </Table.Cell>
@@ -200,7 +200,9 @@ export function BarChartEmbeddedTable({
                   mostRecentGroupData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkComparison={mostRecentGroupData.benchmarkComparison}
+                benchmarkOutcome={
+                  mostRecentGroupData.benchmarkComparison?.outcome
+                }
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -226,7 +228,7 @@ export function BarChartEmbeddedTable({
                 maxValue={maxValue}
                 confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                benchmarkComparison={item.benchmarkComparison}
+                benchmarkOutcome={item.benchmarkComparison?.outcome}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />

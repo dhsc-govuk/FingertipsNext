@@ -4,9 +4,11 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
-import { HealthDataPointBenchmarkComparison } from '@/generated-sources/ft-api-client';
-import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getBenchmarkColour,
+  loadHighchartsModules,
+} from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 interface SparklineChartProps {
@@ -14,7 +16,7 @@ interface SparklineChartProps {
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
-  benchmarkComparison?: HealthDataPointBenchmarkComparison;
+  benchmarkOutcome?: BenchmarkOutcome;
 }
 
 export function SparklineChart({
@@ -22,12 +24,10 @@ export function SparklineChart({
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  benchmarkComparison,
+  benchmarkOutcome,
 }: Readonly<SparklineChartProps>) {
-  const color = getBenchmarkColour(
-    benchmarkComparison?.outcome as BenchmarkLabelType
-  );
-const [options, setOptions] = useState<Highcharts.Options>();
+  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
+  const [options, setOptions] = useState<Highcharts.Options>();
 
   const series: Highcharts.SeriesOptionsType[] = [
     { type: 'bar', data: [value], color },
