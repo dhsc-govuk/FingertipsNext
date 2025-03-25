@@ -11,15 +11,21 @@ interface SparklineChartProps {
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
+  tooltipData: (string | number | undefined)[];
 }
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
+  tooltipData,
 }: Readonly<SparklineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-
+  
+  if(!tooltipData) {
+    return null;
+  }
+  
   const series: Highcharts.SeriesOptionsType[] = [
     { type: 'bar', data: [value] },
   ];
@@ -40,7 +46,7 @@ export function SparklineChart({
     },
     chart: {
       type: 'bar',
-      height: 60,
+      height: 80,
       width: 200,
       backgroundColor: 'transparent',
     },
@@ -69,6 +75,8 @@ export function SparklineChart({
     },
     tooltip: {
       hideDelay: 0,
+      format:
+        `<b>${tooltipData[0]}</b><br/>${tooltipData[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipData[2]}`
     },
   };
 
