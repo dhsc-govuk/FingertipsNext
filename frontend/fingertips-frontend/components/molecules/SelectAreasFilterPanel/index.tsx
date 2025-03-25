@@ -1,3 +1,4 @@
+import { useLoader } from '@/context/LoaderContext';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -68,6 +69,7 @@ export function SelectAreasFilterPanel({
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { setIsLoading } = useLoader();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -77,6 +79,8 @@ export function SelectAreasFilterPanel({
     searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
 
   const areaTypeSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.AreaTypeSelected,
       valueSelected
@@ -89,6 +93,8 @@ export function SelectAreasFilterPanel({
   };
 
   const groupTypeSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.GroupTypeSelected,
       valueSelected
@@ -98,6 +104,8 @@ export function SelectAreasFilterPanel({
   };
 
   const groupSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.GroupSelected,
       valueSelected
@@ -106,6 +114,8 @@ export function SelectAreasFilterPanel({
   };
 
   const handleAreaSelected = (areaCode: string, checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       searchStateManager.addParamValueToState(
         SearchParams.AreasSelected,
@@ -155,6 +165,8 @@ export function SelectAreasFilterPanel({
   };
 
   const handleSelectAllAreasSelected = (checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
@@ -246,7 +258,11 @@ export function SelectAreasFilterPanel({
               sizeVariant="SMALL"
               name="area"
               defaultChecked={isAreaSelectedValue}
-              onChange={(e) => handleAreaSelected(area.code, e.target.checked)}
+              onChange={(e) => {
+                // e.target.type;
+                // localStorage.setItem('propagate', 'false');
+                handleAreaSelected(area.code, e.target.checked);
+              }}
             >
               {area.name}
             </Checkbox>

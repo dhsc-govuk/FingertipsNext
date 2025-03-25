@@ -5,6 +5,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -20,6 +21,18 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 
@@ -238,5 +251,20 @@ describe('IndicatorSelectionForm', () => {
     await user.click(screen.getByRole('button', { name: /View data/i }));
 
     expect(mockFormAction).toHaveBeenCalled();
+  });
+
+  it('should call setIsLoading to true when the search button is clicked', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 });

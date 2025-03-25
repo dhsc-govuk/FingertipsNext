@@ -1,7 +1,15 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ShowHideContainer } from '.';
+import userEvent from '@testing-library/user-event';
+import { Button } from 'govuk-react';
+
+const mockOnClickFunction = jest.fn();
 
 describe('ShowHideContainer', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should not show the side bar when showSideBarWhenOpen is false', () => {
     /**
      * In the snapshot you will still the following style
@@ -12,7 +20,11 @@ describe('ShowHideContainer', () => {
      */
 
     const container = render(
-      <ShowHideContainer summary="Some summary" showSideBarWhenOpen={false}>
+      <ShowHideContainer
+        summary="Some summary"
+        showSideBarWhenOpen={false}
+        onClickFunction={mockOnClickFunction}
+      >
         <div data-testid="inner-component">Some child element</div>
       </ShowHideContainer>
     );
@@ -31,11 +43,51 @@ describe('ShowHideContainer', () => {
      */
 
     const container = render(
-      <ShowHideContainer summary="Some summary" showSideBarWhenOpen={true}>
+      <ShowHideContainer
+        summary="Some summary"
+        showSideBarWhenOpen={true}
+        onClickFunction={mockOnClickFunction}
+      >
         <div data-testid="inner-component">Some child element</div>
       </ShowHideContainer>
     );
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('should call the provided onClickFunction when the label is clicked', async () => {
+    render(
+      <ShowHideContainer
+        summary="Some summary"
+        showSideBarWhenOpen={true}
+        onClickFunction={mockOnClickFunction}
+      >
+        <div data-testid="inner-component">Some child element</div>
+      </ShowHideContainer>
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText('Some summary'));
+
+    expect(mockOnClickFunction).toHaveBeenCalled();
+  });
+
+  it('should not call the provided onClickFunction when the label is clicked but the child component is a known event type', async () => {
+    render(
+      <ShowHideContainer
+        summary="Some summary"
+        showSideBarWhenOpen={true}
+        onClickFunction={mockOnClickFunction}
+      >
+        <div data-testid="inner-component">
+          <Button>Some button</Button>
+        </div>
+      </ShowHideContainer>
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText('Some button'));
+
+    expect(mockOnClickFunction).not.toHaveBeenCalled();
   });
 });

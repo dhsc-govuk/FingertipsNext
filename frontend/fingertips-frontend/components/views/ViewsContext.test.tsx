@@ -3,6 +3,7 @@ import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -10,6 +11,17 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: jest.fn(),
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 

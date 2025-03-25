@@ -1,6 +1,7 @@
 'use client';
 
 import { Details } from 'govuk-react';
+import { SyntheticEvent } from 'react';
 import styled from 'styled-components';
 
 interface ShowHideContainerProps {
@@ -8,6 +9,7 @@ interface ShowHideContainerProps {
   showSideBarWhenOpen?: boolean;
   open?: boolean;
   children: React.ReactNode;
+  onClickFunction: () => void;
 }
 
 const StyledFilterDetails = styled(Details)<{ showSideBar: boolean }>(
@@ -44,12 +46,23 @@ export function ShowHideContainer({
   showSideBarWhenOpen = false,
   open = true,
   children,
+  onClickFunction,
 }: Readonly<ShowHideContainerProps>) {
   return (
     <StyledFilterDetails
+      data-testid="select-areas-filter-panel-label"
       summary={summary}
       showSideBar={showSideBarWhenOpen}
       open={open}
+      onClick={(e: SyntheticEvent) => {
+        // The following is to prevent the onClickFunction being called when a child event in triggered
+        // @ts-expect-error for child event there will be a target type of checkbox or select-one
+        const targetType = e.target.type ?? 'unknown';
+
+        if (targetType === 'unknown') {
+          onClickFunction();
+        }
+      }}
     >
       {children}
     </StyledFilterDetails>

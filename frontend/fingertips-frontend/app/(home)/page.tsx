@@ -64,6 +64,7 @@ export default async function Page(
 
     return (
       <Home
+        key={JSON.stringify(stateManager.getSearchState())}
         initialFormState={initialState}
         areaFilterData={{
           availableAreaTypes,

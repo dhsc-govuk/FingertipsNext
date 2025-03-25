@@ -12,6 +12,7 @@ import { GroupAreaSelectedPill } from '../GroupAreaSelectedPill';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
 import { AreaFilterData } from '../SelectAreasFilterPanel';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useLoader } from '@/context/LoaderContext';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
@@ -36,10 +37,13 @@ export function SelectedAreasPanel({
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { setIsLoading } = useLoader();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const removeSelectedArea = (areaCode: string) => {
+    setIsLoading(true);
+
     searchStateManager.removeParamValueFromState(
       SearchParams.AreasSelected,
       areaCode
@@ -49,6 +53,8 @@ export function SelectedAreasPanel({
   };
 
   const removeSelectedGroup = () => {
+    setIsLoading(true);
+
     searchStateManager.removeParamValueFromState(
       SearchParams.GroupAreaSelected
     );

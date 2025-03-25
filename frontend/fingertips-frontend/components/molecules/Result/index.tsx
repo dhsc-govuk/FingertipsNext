@@ -20,6 +20,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { useLoader } from '@/context/LoaderContext';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -78,6 +79,8 @@ export function SearchResult({
   handleClick,
   currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
+  const { setIsLoading } = useLoader();
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const generateIndicatorChartPath = (indicatorId: string): string => {
@@ -121,6 +124,7 @@ export function SearchResult({
           >
             <H5>
               <Link
+                onClick={() => setIsLoading(true)}
                 href={generateIndicatorChartPath(result.indicatorID.toString())}
               >
                 {result.indicatorName}

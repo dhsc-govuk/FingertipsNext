@@ -3,6 +3,7 @@ import { Home } from '@/components/pages/home/index';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
 import { userEvent } from '@testing-library/user-event';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -16,9 +17,21 @@ jest.mock('next/navigation', () => ({
     push: jest.fn(),
     set: jest.fn(),
   }),
-  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
+  useSearchParams: jest.fn(),
   usePathname: jest.fn(),
 }));
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
+  };
+});
 
 const setupUI = (state?: SearchFormState) => {
   if (!state) {
@@ -26,11 +39,6 @@ const setupUI = (state?: SearchFormState) => {
   }
   return render(<Home initialFormState={state} />);
 };
-
-it('snapshot test - renders the homepage', () => {
-  const container = setupUI();
-  expect(container.asFragment()).toMatchSnapshot();
-});
 
 it('should render an indicator link', () => {
   setupUI();

@@ -15,6 +15,8 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useLoader } from '@/context/LoaderContext';
+import { AppStorage, StorageKeys } from '@/storage/storage';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -33,6 +35,15 @@ export const SearchForm = ({
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
+  const { setIsLoading } = useLoader();
+
+  const isAreaFilterOpen =
+    AppStorage.getState<boolean>(StorageKeys.AreaFilterHomePage) ?? false;
+
+  const updateIsAreaFilterOpen = () => {
+    AppStorage.updateState(StorageKeys.AreaFilterHomePage, !isAreaFilterOpen);
+  };
+
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   const inputSuggestionDefaultValue =
@@ -88,7 +99,12 @@ export const SearchForm = ({
         />
       ) : null}
 
-      <ShowHideContainer summary="Filter by area" open={false}>
+      <ShowHideContainer
+        key={`show-hide-${isAreaFilterOpen}`}
+        summary="Filter by area"
+        open={isAreaFilterOpen}
+        onClickFunction={updateIsAreaFilterOpen}
+      >
         <SelectAreasFilterPanel
           key={`area-filter-panel-${JSON.stringify(searchState)}`}
           areaFilterData={areaFilterData}
@@ -100,6 +116,7 @@ export const SearchForm = ({
         type="submit"
         data-testid="search-form-button-submit"
         style={{ marginTop: '25px' }}
+        onClick={() => setIsLoading(true)}
       >
         Search
       </Button>

@@ -9,6 +9,9 @@ import {
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
+import { AppStorage, StorageKeys } from '@/storage/storage';
 
 const mockPath = 'some path';
 jest.mock('next/navigation', () => {
@@ -23,6 +26,24 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
+  };
+});
+
+const mockGetState = jest.fn();
+const mockUpdateState = jest.fn();
+
+AppStorage.getState = mockGetState;
+AppStorage.updateState = mockUpdateState;
+
 const mockSearchState: SearchStateParams = {};
 
 const initialDataState: SearchFormState = {
@@ -31,15 +52,6 @@ const initialDataState: SearchFormState = {
   message: null,
   errors: {},
 };
-
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-    set: jest.fn(),
-  }),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
-}));
 
 describe('SearchForm', () => {
   it('snapshot test - renders the form', () => {
@@ -156,5 +168,46 @@ describe('SearchForm', () => {
     render(<SearchForm formState={initialDataState} />);
 
     expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
+  });
+
+  it('should render the select area filter panel as visible when state from storage to display panel is true', () => {
+    mockGetState.mockReturnValue(true);
+
+    render(<SearchForm formState={initialDataState} />);
+
+    expect(
+      screen.getByTestId('select-areas-filter-panel-label')
+    ).toHaveAttribute('open');
+  });
+
+  it('should not render the select area filter panel as visible when state from storage to display panel is false', () => {
+    mockGetState.mockReturnValue(false);
+
+    render(<SearchForm formState={initialDataState} />);
+
+    expect(
+      screen.getByTestId('select-areas-filter-panel-label')
+    ).not.toHaveAttribute('open');
+  });
+
+  it('should update the value in storage when the select areas filter panel label is clicked', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText('Filter by area'));
+
+    expect(mockUpdateState).toHaveBeenCalledWith(
+      StorageKeys.AreaFilterHomePage,
+      true
+    );
+  });
+
+  it('should call setIsLoading to true when the search button is clicked', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 });

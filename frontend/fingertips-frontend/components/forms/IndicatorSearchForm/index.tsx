@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { SearchStateParams } from '@/lib/searchStateManager';
+import { useLoader } from '@/context/LoaderContext';
 
 const govukErrorBorderWidth = '2px';
 
@@ -26,6 +27,8 @@ export const IndicatorSearchForm = ({
   indicatorSearchFormState: IndicatorSearchFormState;
   searchState?: SearchStateParams;
 }) => {
+  const { setIsLoading } = useLoader();
+
   return (
     <FormGroup
       error={indicatorSearchFormState.message !== undefined}
@@ -68,6 +71,7 @@ export const IndicatorSearchForm = ({
         )}
         {SearchBox.Button && (
           <SearchBox.Button
+            onClick={() => setIsLoading(true)}
             type="submit"
             data-testid="indicator-search-form-submit"
           />

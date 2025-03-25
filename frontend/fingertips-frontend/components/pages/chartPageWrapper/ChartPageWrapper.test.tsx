@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { ChartPageWrapper } from '.';
 import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -8,6 +10,18 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 
@@ -26,6 +40,10 @@ const searchState: SearchStateParams = {
 };
 
 describe('ChartPageWrapper', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render the back link path back to the results page', () => {
     render(
       <ChartPageWrapper searchState={searchState}>
@@ -39,6 +57,19 @@ describe('ChartPageWrapper', () => {
     expect(backLink).toBeInTheDocument();
     expect(backLink).toHaveAttribute('data-testid', 'chart-page-back-link');
     expect(backLink).toHaveAttribute('href', expectedUrl);
+  });
+
+  it('should call setIsLoading when the back link is clicked', async () => {
+    render(
+      <ChartPageWrapper searchState={searchState}>
+        <ChildComponent />
+      </ChartPageWrapper>
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: /back/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should render the area filter pane', () => {

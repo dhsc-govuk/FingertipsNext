@@ -5,6 +5,7 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
 
 let user: UserEvent;
 
@@ -54,6 +55,18 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
 };
 
 const mockHandleClick = jest.fn();
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
+  };
+});
 
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
@@ -291,6 +304,21 @@ describe('Indicator Checkbox', () => {
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
+  });
+
+  it('should call setIsLoading to true when clicking on the direct link to the indicator chart', async () => {
+    render(
+      <SearchResult
+        result={MOCK_DATA[0]}
+        searchState={initialSearchState}
+        handleClick={mockHandleClick}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should populate the area selected parameter with the code for england if no area is selected', () => {

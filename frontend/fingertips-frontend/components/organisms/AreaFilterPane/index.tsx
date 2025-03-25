@@ -10,12 +10,14 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { AppStorage, StorageKeys } from '@/storage/storage';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
   searchState?: SearchStateParams;
+  pageType?: 'results' | 'chart';
 }
 
 const StyledFilterPane = styled('div')({});
@@ -38,7 +40,19 @@ export function AreaFilterPane({
   selectedIndicatorsData,
   areaFilterData,
   searchState,
+  pageType,
 }: Readonly<AreaFilterPaneProps>) {
+  const storeKey =
+    pageType === 'results'
+      ? StorageKeys.AreaFilterResultsPage
+      : StorageKeys.AreaFilterChartPage;
+
+  const isAreaFilterOpen = AppStorage.getState<boolean>(storeKey) ?? true;
+
+  const updateIsAreaFilterOpen = () => {
+    AppStorage.updateState(storeKey, !isAreaFilterOpen);
+  };
+
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -59,7 +73,12 @@ export function AreaFilterPane({
           searchState={searchState}
         />
 
-        <ShowHideContainer summary="Add or change areas">
+        <ShowHideContainer
+          key={`show-hide-${isAreaFilterOpen}`}
+          summary="Add or change areas"
+          open={isAreaFilterOpen}
+          onClickFunction={updateIsAreaFilterOpen}
+        >
           <SelectAreasFilterPanel
             areaFilterData={areaFilterData}
             searchState={searchState}

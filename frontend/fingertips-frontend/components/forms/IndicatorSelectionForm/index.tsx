@@ -1,4 +1,5 @@
 import { SearchResult } from '@/components/molecules/Result';
+import { useLoader } from '@/context/LoaderContext';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -48,10 +49,13 @@ export function IndicatorSelectionForm({
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { setIsLoading } = useLoader();
 
   const stateManager = SearchStateManager.initialise(searchState);
 
   const handleClick = async (indicatorId: string, checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       stateManager.addParamValueToState(
         SearchParams.IndicatorsSelected,
@@ -105,6 +109,7 @@ export function IndicatorSelectionForm({
             type="submit"
             data-testid="search-results-button-submit"
             disabled={shouldDisableViewDataButton(searchState)}
+            onClick={() => setIsLoading(true)}
           >
             View data
           </Button>

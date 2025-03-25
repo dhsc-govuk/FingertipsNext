@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -20,6 +22,18 @@ jest.mock('react', () => {
           initialState: IndicatorSearchFormState
         ) => [initialState, '/action']
       ),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 
@@ -62,6 +76,15 @@ it('should set the input field with indicator value from the form state', () => 
   render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   expect(screen.getByRole('searchbox')).toHaveValue(mockIndicatorValue);
+});
+
+it('should call setIsLoading to true when the search button is clicked', async () => {
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
+
+  const user = userEvent.setup();
+  await user.click(screen.getByRole('button'));
+
+  expect(mockSetIsLoading).toHaveBeenCalledWith(true);
 });
 
 it('should display no message when there is no error', () => {

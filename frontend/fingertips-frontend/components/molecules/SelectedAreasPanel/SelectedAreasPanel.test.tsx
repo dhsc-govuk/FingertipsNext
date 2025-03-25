@@ -5,6 +5,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -24,6 +25,18 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  isLoading: false,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 
@@ -111,6 +124,28 @@ describe('SelectedAreasPanel', () => {
         scroll: false,
       });
     });
+
+    it('should call setIsLoading to true when an area type is selected', async () => {
+      const user = userEvent.setup();
+      render(
+        <SelectedAreasPanel
+          areaFilterData={{
+            availableAreas: mockSelectedAreasData,
+          }}
+          searchState={{
+            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+            [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
+          }}
+        />
+      );
+
+      const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+      await user.click(
+        within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+      );
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+    });
   });
 
   describe('When there are areas selected', () => {
@@ -173,6 +208,26 @@ describe('SelectedAreasPanel', () => {
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
         scroll: false,
       });
+    });
+
+    it('should call setIsLoading to true when an area type is selected', async () => {
+      const user = userEvent.setup();
+      render(
+        <SelectedAreasPanel
+          selectedAreasData={mockSelectedAreasData}
+          searchState={{
+            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+            [SearchParams.AreaTypeSelected]: 'NHS Regions',
+          }}
+        />
+      );
+
+      const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+      await user.click(
+        within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+      );
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
     });
   });
 });
