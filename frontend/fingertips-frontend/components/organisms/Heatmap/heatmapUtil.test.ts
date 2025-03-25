@@ -155,8 +155,6 @@ const indicator3 = {
   latestDataPeriod: 2002,
 };
 
-const expectedSortedIndicators = [indicator3, indicator2, indicator1];
-
 const areaEngland = { code: 'E92000001', name: 'England' };
 const area2 = { code: 'area2', name: 'Garsdale' };
 const area3 = { code: placeholderGroupAreaCode, name: 'Dentdale' };
@@ -164,8 +162,6 @@ const area4 = {
   code: 'area4',
   name: 'Comedically Long Area Name with a Devilishly Difficult Distance to Display',
 };
-
-const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
 const data: HealthDataPoint[][][] = [
   [
@@ -305,6 +301,9 @@ export const placeholderHeatmapIndicatorData = [
   },
 ];
 
+const expectedSortedIndicators = [indicator3, indicator2, indicator1];
+const expectedSortedAreas = [areaEngland, area3, area4, area2];
+
 describe('extract sorted areas, indicators, and data points', () => {
   const { areas, indicators, dataPoints } =
     extractSortedAreasIndicatorsAndDataPoints(
@@ -318,5 +317,20 @@ describe('extract sorted areas, indicators, and data points', () => {
 
   it('should order indicators correctly', () => {
     expect(indicators).toEqual(expectedSortedIndicators);
+  });
+
+  it('should only extract data from the most recent period', () => {
+    expect(
+      dataPoints[indicator1.id][expectedSortedAreas[0].code].value
+    ).toBeUndefined();
+    expect(
+      dataPoints[indicator1.id][expectedSortedAreas[1].code].value
+    ).toBeUndefined();
+    expect(
+      dataPoints[indicator1.id][expectedSortedAreas[2].code].value
+    ).toEqual(41);
+    expect(
+      dataPoints[indicator1.id][expectedSortedAreas[3].code].value
+    ).toBeUndefined();
   });
 });
