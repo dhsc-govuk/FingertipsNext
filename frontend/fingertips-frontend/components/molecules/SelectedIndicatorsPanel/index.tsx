@@ -11,6 +11,9 @@ import { useRouter } from 'next/navigation';
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
   searchState?: SearchStateParams;
+
+  // If true the pill should only allow the data to be viewed, and have no
+  // behaviour that can cause the UI to be changed.
   isViewOnly?: boolean;
 }
 

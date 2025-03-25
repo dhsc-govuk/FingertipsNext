@@ -10,6 +10,9 @@ interface GroupAreaSelectedPillProps {
   groupSelected?: AreaWithRelations;
   onRemoveFilter: () => void;
   isFullWidth?: boolean;
+
+  // If true the pill should only allow the data to be viewed, and have no
+  // behaviour that can cause the UI to be changed.
   isViewOnly?: boolean;
 }
 

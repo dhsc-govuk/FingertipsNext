@@ -59,11 +59,10 @@ export function ChartPageWrapper({
         <GridCol>
           <H2>View data for selected indicators and areas</H2>
 
-          {/* TODO: use of ! */}
           {isHideFilters ? (
             <FilterSummaryPanel
-              selectedAreasData={selectedAreasData!}
-              selectedIndicatorsData={selectedIndicatorsData!}
+              selectedAreasData={selectedAreasData}
+              selectedIndicatorsData={selectedIndicatorsData}
               searchState={searchState}
               changeSelection={() => setIsHideFilters(false)}
             />

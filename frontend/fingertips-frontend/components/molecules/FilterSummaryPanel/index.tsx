@@ -7,14 +7,22 @@ import { SearchStateParams } from '@/lib/searchStateManager';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { Button, SectionBreak } from 'govuk-react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import styled from 'styled-components';
 
 export interface FilterSummaryPanelProps {
-  selectedAreasData: AreaWithRelations[];
-  selectedIndicatorsData: IndicatorDocument[];
+  selectedAreasData: AreaWithRelations[] | undefined;
+  selectedIndicatorsData: IndicatorDocument[] | undefined;
   searchState?: SearchStateParams;
   changeSelection?: () => void;
 }
 
+const StyledSectionBreak = styled(SectionBreak)({
+  marginBottom: '1em',
+});
+
+/*
+Provides a view-only summary of the area filters and selected indicators
+ */
 export const FilterSummaryPanel = ({
   selectedAreasData,
   selectedIndicatorsData,
@@ -23,29 +31,32 @@ export const FilterSummaryPanel = ({
 }: FilterSummaryPanelProps) => {
   return (
     <div>
-      <SelectedIndicatorsPanel
-        selectedIndicatorsData={selectedIndicatorsData}
-        searchState={searchState}
-        isViewOnly={true}
-      />
-
-      <SelectedAreasPanel
-        selectedAreasData={selectedAreasData}
-        searchState={searchState}
-        isFullWidth={true}
-        isViewOnly={true}
+      {selectedIndicatorsData ? (
+        <SelectedIndicatorsPanel
+          selectedIndicatorsData={selectedIndicatorsData}
+          searchState={searchState}
+          isViewOnly={true}
         />
+      ) : null}
 
-      <div>
-        <Button
-          buttonColour={GovukColours.LightGrey}
-          buttonTextColour={GovukColours.Black}
-          onClick={changeSelection}>
-          Change selection
-        </Button>
-      </div>
+      {selectedAreasData ? (
+        <SelectedAreasPanel
+          selectedAreasData={selectedAreasData}
+          searchState={searchState}
+          isFullWidth={true}
+          isViewOnly={true}
+        />
+      ) : null}
 
-      <SectionBreak visible={true} />
+      <Button
+        buttonColour={GovukColours.LightGrey}
+        buttonTextColour={GovukColours.Black}
+        onClick={changeSelection}
+      >
+        Change selection
+      </Button>
+
+      <StyledSectionBreak visible={true} />
     </div>
   );
 };
