@@ -26,6 +26,7 @@ const testBase = baseTest.extend<{
       }
     });
 
+    // See DHSCFT-536 - for more details on exception
     const knownHighchartsExc =
       "Cannot read properties of undefined (reading 'stacks')";
     // Uncaught exceptions
