@@ -3,7 +3,7 @@ import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/
 import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
 import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineChart';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   getDynamicKeys,
   getYearDataGroupedByInequalities,
@@ -13,9 +13,10 @@ import {
   InequalitiesTypes,
   mapToInequalitiesTableData,
 } from './inequalitiesHelpers';
-import { H4 } from 'govuk-react';
+import { H4, H5, Select } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import styled from 'styled-components';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
@@ -23,6 +24,11 @@ interface InequalitiesProps {
   type?: InequalitiesTypes;
   measurementUnit?: string;
 }
+
+const StyledSelect = styled(Select)({
+  width: '25em',
+  marginBottom: '3em',
+});
 
 export function Inequalities({
   healthIndicatorData,
@@ -49,15 +55,35 @@ export function Inequalities({
     rowData: mapToInequalitiesTableData(yearlyHealthDataGroupedByInequalities),
   };
 
-  const latestDataIndex = lineChartData.rowData.length - 1;
+  const yearsDesc = Object.keys(yearlyHealthdata).reverse();
+  const [selectedYear, setSelectedYear] = useState<string>(yearsDesc[0]);
+
+  const selectedYearData = lineChartData.rowData.find(
+    (data) => data.period === Number(selectedYear)
+  );
+
   const barchartData: InequalitiesBarChartData = {
     areaName: healthIndicatorData.areaName,
-    data: lineChartData.rowData[latestDataIndex],
+    data: selectedYearData!,
   };
 
   return (
     <div data-testid="inequalities-component">
       <H4>Inequalities data for a single time period</H4>
+      <H5>Select a time period</H5>
+      <StyledSelect
+        label=""
+        input={{
+          defaultValue: selectedYear,
+          onChange: (e) => {
+            setSelectedYear(e.target.value);
+          },
+        }}
+      >
+        {yearsDesc.map((key) => (
+          <option key={key}>{key}</option>
+        ))}
+      </StyledSelect>
       <TabContainer
         id="inequalitiesBarChartAndTable"
         items={[
