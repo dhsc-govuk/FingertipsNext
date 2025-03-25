@@ -37,6 +37,11 @@ export function ThematicMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // This prevents errors from trying to render before the module is loaded in the useEffect callback
+  if (!options) {
+    return null;
+  }
+
   return (
     <div data-testid="thematicMap-component">
       <BenchmarkLegend rag={true} />
