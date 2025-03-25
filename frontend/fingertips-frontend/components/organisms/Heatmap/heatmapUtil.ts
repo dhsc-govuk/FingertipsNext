@@ -2,8 +2,6 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-// TODO - export less
-
 interface IndicatorData {
   indicatorId: string;
   indicatorName: string;
@@ -58,10 +56,7 @@ export const generateHeadersAndRows = (
     precedingAreas.push(groupAreaCode);
   }
 
-  const { areaCodes } = orderAreaByNameWithSomeCodesInFront(
-    areas,
-    precedingAreas
-  );
+  const { areaCodes } = orderAreaByPrecedingThenByName(areas, precedingAreas);
 
   const sortedAreas: area[] = areaCodes.map((areaCode) => {
     return areas[areaCode];
@@ -97,7 +92,7 @@ export const generateHeadersAndRows = (
     sortedAreas.map((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
         key: 'col-' + indicator.id + '-' + area.code,
-        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers properly
+        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
         backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });
@@ -202,8 +197,7 @@ const orderIndicatorsByName = (
   return { indicatorIds };
 };
 
-// TODO - give this a better name
-const orderAreaByNameWithSomeCodesInFront = (
+const orderAreaByPrecedingThenByName = (
   areas: Record<string, area>,
   precedingCodes: string[]
 ): { areaCodes: string[] } => {
@@ -219,12 +213,7 @@ const orderAreaByNameWithSomeCodesInFront = (
 
   areaCodes.sort((a, b) => areas[a].name.localeCompare(areas[b].name));
 
-  // TODO - concat rather than multiple unshifts?
-  precedingCodes.reverse().map((precedingCode) => {
-    areaCodes.unshift(precedingCode);
-  });
-
-  return { areaCodes };
+  return { areaCodes: precedingCodes.concat(areaCodes) };
 };
 
 const generateHeaders = (areas: area[]): cell[] => {

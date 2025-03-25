@@ -200,17 +200,6 @@ const initialData = [
   },
 ];
 
-// TODO keep? bin?
-// const expectedHeaders: cell[] = [
-//   { key: '', content: 'Indicators' },
-//   { key: '', content: 'Value unit' },
-//   { key: '', content: 'Period' },
-//   { key: '', content: areaEngland.name },
-//   { key: '', content: area3.name },
-//   { key: '', content: area4.name },
-//   { key: '', content: area2.name },
-// ];
-
 const expectedRows: row[] = [
   {
     key: '',
@@ -293,7 +282,6 @@ describe('extract headers and rows - logic', () => {
     });
   });
 
-  // TODO extend? look at this text?
   it('should only display data from the latest period', () => {
     expect(rows[2].cells[3].content).toEqual(expectedRows[2].cells[3].content);
     expect(rows[2].cells[4].content).toEqual(expectedRows[2].cells[4].content);
