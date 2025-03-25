@@ -38,7 +38,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
-  console.log(areaCodesToRequest)
+  console.log(areaCodesToRequest);
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -60,7 +60,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
-  console.log(`combinedIndicatorData ${JSON.stringify(combinedIndicatorData, null, 2)}`)
+  console.log(
+    `combinedIndicatorData ${JSON.stringify(combinedIndicatorData, null, 2)}`
+  );
   /*
   const healthIndicatorData: HealthDataForArea[] = new Array(combinedIndicatorData.length);
   const groupIndicatorData: HealthDataForArea[] = new Array(combinedIndicatorData.length);
