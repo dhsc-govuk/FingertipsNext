@@ -13,13 +13,12 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { H2 } from 'govuk-react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export function mapToSpineChartTableProps(
-  healthIndicatorData: HealthDataForArea[][],
-  indicatorMetadata: (IndicatorDocument | undefined)[],
-  selectedGroupCode: string | undefined
+  healthIndicatorData: HealthDataForArea[],
+  groupIndicatorData: HealthDataForArea[],
+  englandIndicatorData: HealthDataForArea[],
+  indicatorMetadata: (IndicatorDocument | undefined)[]
 ): SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
@@ -49,17 +48,6 @@ export function mapToSpineChartTableProps(
         ? indicatorMetadata[index]?.unitLabel
         : '';
 
-    const groupData =
-      selectedGroupCode && selectedGroupCode != areaCodeForEngland
-        ? indicatorData.find(
-            (areaData) => areaData.areaCode === selectedGroupCode
-          )
-        : undefined;
-
-    const englandBenchmarkData = indicatorData.find(
-      (areaData) => areaData.areaCode === areaCodeForEngland
-    );
-
     const rowIndicator: Indicator = {
       indicatorId: rowIndicatorId,
       title: rowTitle,
@@ -69,9 +57,9 @@ export function mapToSpineChartTableProps(
     const row: SpineChartTableRowProps = {
       indicator: rowIndicator,
       measurementUnit: rowMeasurementUnit,
-      indicatorHealthData: indicatorData[0],
-      groupIndicatorData: groupData,
-      englandBenchmarkData: englandBenchmarkData,
+      indicatorHealthData: indicatorData,
+      groupIndicatorData: groupIndicatorData[index],
+      englandBenchmarkData: englandIndicatorData[index],
       best: 100,
       worst: 0,
     };
@@ -83,18 +71,17 @@ export function mapToSpineChartTableProps(
 }
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
+  groupIndicatorData,
+  englandIndicatorData,
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
-  const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.GroupSelected]: selectedGroupCode } =
-    stateManager.getSearchState();
-
   const spineTableData = mapToSpineChartTableProps(
     healthIndicatorData,
-    indicatorMetadata,
-    selectedGroupCode
+    groupIndicatorData,
+    englandIndicatorData,
+    indicatorMetadata
   );
 
   return (
