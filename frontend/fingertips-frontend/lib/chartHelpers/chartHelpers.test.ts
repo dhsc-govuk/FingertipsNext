@@ -468,6 +468,11 @@ describe('getMostRecentData', () => {
     const expected = {
       ageBand: 'All',
       count: 389,
+      deprivation: {
+        sequence: 1,
+        type: 'All',
+        value: 'All',
+      },
       isAggregate: true,
       sex: 'Persons',
       trend: 'Not yet calculated',
