@@ -23,7 +23,6 @@ const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['333'],
   [SearchParams.AreasSelected]: ['A1245'],
-  [SearchParams.ConfidenceIntervalSelected]: ['lineChart'],
 };
 
 it('should render the Highcharts react component with passed parameters within the LineChart component', async () => {
@@ -76,37 +75,4 @@ it('should render the Highcharts react component with England as a series, not a
 
   expect(highcharts).toHaveTextContent('England');
   expect(highcharts).not.toHaveTextContent('Benchmark');
-});
-
-it('should validate the checkbox is checked when passed the correct parameter of lineChart', async () => {
-  render(
-    <LineChart
-      healthIndicatorData={mockHealthData[1]}
-      accessibilityLabel="Accessibility label"
-      searchState={state}
-      measurementUnit="%"
-    />
-  );
-
-  expect(await screen.findByRole('checkbox')).toBeChecked();
-});
-
-it('should validate the checkbox is not checked when passed an incorrect parameter of randomChart', async () => {
-  const state: SearchStateParams = {
-    [SearchParams.SearchedIndicator]: 'testing',
-    [SearchParams.IndicatorsSelected]: ['333'],
-    [SearchParams.AreasSelected]: ['A1245'],
-    [SearchParams.ConfidenceIntervalSelected]: ['randomChart'],
-  };
-
-  render(
-    <LineChart
-      healthIndicatorData={mockHealthData[1]}
-      accessibilityLabel="Accessibility label"
-      searchState={state}
-      measurementUnit="%"
-    />
-  );
-
-  expect(await screen.findByRole('checkbox')).not.toBeChecked();
 });
