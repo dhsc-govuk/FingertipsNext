@@ -76,6 +76,14 @@ export function OneIndicatorOneAreaViewPlots({
           (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
+
+  const groupDataWithoutInequalities: HealthDataForArea | undefined = groupData
+    ? {
+        ...groupData,
+        healthData: getHealthDataWithoutInequalities(groupData),
+      }
+    : undefined;
+
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <H2>View data for selected indicators and areas</H2>
@@ -96,7 +104,7 @@ export function OneIndicatorOneAreaViewPlots({
                     healthIndicatorData={dataWithoutInequalities}
                     benchmarkData={englandBenchmarkWithoutInequalities}
                     searchState={searchState}
-                    groupIndicatorData={groupData}
+                    groupIndicatorData={groupDataWithoutInequalities}
                     xAxisTitle="Year"
                     yAxisTitle={
                       indicatorMetadata?.unitLabel
@@ -115,7 +123,7 @@ export function OneIndicatorOneAreaViewPlots({
                   <LineChartTable
                     healthIndicatorData={dataWithoutInequalities}
                     englandBenchmarkData={englandBenchmarkWithoutInequalities}
-                    groupIndicatorData={groupData}
+                    groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
                   />
                 ),
