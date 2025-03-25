@@ -1,7 +1,7 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
 import { generateHeadersAndRows } from './heatmapUtil';
 
-const groupAreaCode = 'area3';
+export const placeholderGroupAreaCode = 'area3';
 
 const newHealthDataPoint = ({
   year,
@@ -56,7 +56,7 @@ const indicator3 = {
 
 const areaEngland = { code: 'E92000001', name: 'England' };
 const area2 = { code: 'area2', name: 'Garsdale' };
-const area3 = { code: groupAreaCode, name: 'Dentdale' };
+const area3 = { code: placeholderGroupAreaCode, name: 'Dentdale' };
 const area4 = {
   code: 'area4',
   name: 'Comedically Long Area Name with a Devilishly Difficult Distance to Display',
@@ -116,7 +116,7 @@ const data: HealthDataPoint[][][] = [
   ],
 ];
 
-const initialData = [
+export const placeholderHeatmapData = [
   {
     indicatorId: indicator1.id,
     indicatorName: indicator1.name,
@@ -239,7 +239,10 @@ const expectedRows: row[] = [
   },
 ];
 
-const { headers, rows } = generateHeadersAndRows(initialData, groupAreaCode);
+const { headers, rows } = generateHeadersAndRows(
+  placeholderHeatmapData,
+  placeholderGroupAreaCode
+);
 
 describe('extract headers and rows - logic', () => {
   it('should prefix headers with "Indicator", "Value unit", and "Period"', () => {

@@ -1,0 +1,427 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test 1`] = `
+<DocumentFragment>
+  .c4 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c2 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+  font-weight: 700;
+}
+
+.c2:last-child {
+  padding-right: 0;
+}
+
+.c12 {
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #bfc1c3;
+  text-align: left;
+}
+
+.c12:last-child {
+  padding-right: 0;
+}
+
+.c0 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.c1 {
+  overflow-y: scroll;
+  table-layout: fixed;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+}
+
+.c8 {
+  -webkit-transform: translate(-15px) rotate(30deg);
+  -ms-transform: translate(-15px) rotate(30deg);
+  transform: translate(-15px) rotate(30deg);
+  -webkit-transform-origin: bottom right;
+  -ms-transform-origin: bottom right;
+  transform-origin: bottom right;
+}
+
+.c9 {
+  -webkit-transform: scale(-1);
+  -ms-transform: scale(-1);
+  transform: scale(-1);
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 40px;
+  -webkit-writing-mode: vertical-lr;
+  -ms-writing-mode: tb;
+  writing-mode: vertical-lr;
+  max-height: 300px;
+  display: block;
+}
+
+.c10 {
+  background-color: #B1B4B6;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.c11 {
+  background-color: #F3F2F1;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.c5 {
+  height: 30px;
+}
+
+.c6 {
+  width: 240px;
+}
+
+.c3 {
+  vertical-align: bottom;
+  width: 240px;
+}
+
+.c7 {
+  vertical-align: bottom;
+  width: 60px;
+  padding-right: 0px;
+}
+
+.c13 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.c14 {
+  width: 60px;
+  min-height: 70px;
+  padding: 0;
+}
+
+.c15 {
+  text-align: center;
+  width: 60px;
+  min-height: 70px;
+  padding: 0;
+}
+
+.c16 {
+  background-color: #FFDD00;
+}
+
+.c17 {
+  background-color: #F3F2F1;
+}
+
+@media print {
+  .c4 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 30px;
+  }
+}
+
+<table
+    class="c0 c1"
+    data-testid="heatmap-component"
+  >
+    <tbody
+      class=""
+    >
+      <tr
+        class=""
+      >
+        <th
+          class="c2 c3"
+        >
+          <h4
+            class="c4 c5 c6"
+          >
+            Indicators
+          </h4>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <h4
+            class="c4 c5"
+          >
+            Value unit
+          </h4>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <h4
+            class="c4 c5"
+          >
+            Period
+          </h4>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <div
+            class="c8"
+          >
+            <h4
+              class="c4 c9 c10"
+            >
+              Benchmark: England
+            </h4>
+          </div>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <div
+            class="c8"
+          >
+            <h4
+              class="c4 c9 c11"
+            >
+              Dentdale
+            </h4>
+          </div>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <div
+            class="c8"
+          >
+            <h4
+              class="c4 c9"
+            >
+              Comedically Long Area Name with a Devilishly Difficult Distance to Display
+            </h4>
+          </div>
+        </th>
+        <th
+          class="c2 c7"
+        >
+          <div
+            class="c8"
+          >
+            <h4
+              class="c4 c9"
+            >
+              Garsdale
+            </h4>
+          </div>
+        </th>
+      </tr>
+      <tr
+        class=""
+      >
+        <td
+          class="c12"
+        >
+          <div
+            class="c13"
+          >
+            Donkey / Goose ratio
+          </div>
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          %
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          2002
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          1112
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          1132
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          1142
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          1122
+        </td>
+      </tr>
+      <tr
+        class=""
+      >
+        <td
+          class="c12"
+        >
+          <div
+            class="c13"
+          >
+            Rate of walkers tripping over sheep
+          </div>
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          per 100
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          2002
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          112
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          132
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          142
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          X
+        </td>
+      </tr>
+      <tr
+        class=""
+      >
+        <td
+          class="c12"
+        >
+          <div
+            class="c13"
+          >
+            Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.
+          </div>
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          per 1000
+        </td>
+        <td
+          class="0 c12 c14"
+        >
+          2004
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          X
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          X
+        </td>
+        <td
+          class="1 c12 c15 c16"
+        >
+          41
+        </td>
+        <td
+          class="1 c12 c15 c17"
+        >
+          X
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;

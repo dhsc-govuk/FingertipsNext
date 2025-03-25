@@ -41,12 +41,11 @@ interface DataPoint {
 }
 
 export const generateHeadersAndRows = (
-  indicatorDataForAllAreas: IndicatorData[],
+  indicatorData: IndicatorData[],
   groupAreaCode?: string
 ): { headers: cell[]; rows: row[] } => {
-  const { areas, indicators, dataPoints } = extractAreasIndicatorsAndDataPoints(
-    indicatorDataForAllAreas
-  );
+  const { areas, indicators, dataPoints } =
+    extractAreasIndicatorsAndDataPoints(indicatorData);
 
   // sort indicators by A-Z
   const { indicatorIds } = orderIndicatorsByName(indicators);
