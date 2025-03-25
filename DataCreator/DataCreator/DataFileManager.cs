@@ -12,7 +12,17 @@ namespace DataCreator
 
         private static readonly CsvFileDescription csvFileDescription=new() {EnforceCsvColumnAttribute=true};
 
-        public static void WriteJsonData(string dataType, object data)
+        public static void WriteIndicatorJsonData(string dataType, object data)
+        {
+            var contents = JsonSerializer.Serialize(data,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\{dataType}.json", contents);
+        }
+
+        public static void WriteAreaJsonData(string dataType, object data)
         {
             var contents = JsonSerializer.Serialize(data,
                 new JsonSerializerOptions
@@ -20,7 +30,6 @@ namespace DataCreator
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
             File.WriteAllText(@$"..\..\..\..\..\search-setup\assets\{dataType}.json", contents);
-            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\{dataType}.json", contents);
         }
 
         public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
