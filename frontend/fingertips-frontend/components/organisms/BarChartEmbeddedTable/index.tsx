@@ -155,8 +155,11 @@ export function BarChartEmbeddedTable({
                   mostRecentBenchmarkData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipData={[benchmarkData?.areaName, mostRecentBenchmarkData.year, measurementUnit]}
-                
+                tooltipForBenchmark={[
+                  benchmarkData?.areaName,
+                  mostRecentBenchmarkData.year,
+                  measurementUnit,
+                ]}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -186,7 +189,11 @@ export function BarChartEmbeddedTable({
                   mostRecentGroupData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipData={[groupIndicatorData?.areaName, mostRecentGroupData.year, measurementUnit]}
+                tooltipForGroup={[
+                  groupIndicatorData?.areaName,
+                  mostRecentGroupData.year,
+                  measurementUnit,
+                ]}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -209,7 +216,7 @@ export function BarChartEmbeddedTable({
                 maxValue={maxValue}
                 confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipData={[item.area, item.period, measurementUnit]}
+                tooltipForArea={[item.area, item.period, measurementUnit]}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />

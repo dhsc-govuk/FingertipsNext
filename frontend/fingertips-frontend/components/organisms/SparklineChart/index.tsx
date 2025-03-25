@@ -11,21 +11,33 @@ interface SparklineChartProps {
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
-  tooltipData: (string | number | undefined)[];
+  tooltipForBenchmark?: (string | number | undefined)[];
+  tooltipForGroup?: (string | number | undefined)[];
+  tooltipForArea?: (string | number | undefined)[];
 }
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  tooltipData,
+  tooltipForBenchmark,
+  tooltipForGroup,
+  tooltipForArea,
 }: Readonly<SparklineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  
-  if(!tooltipData) {
-    return null;
+
+  function formatSparklineTooltips() {
+    if (tooltipForBenchmark) {
+      return `<b>Benchmark: ${tooltipForBenchmark[0]}</b><br/>${tooltipForBenchmark[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForBenchmark[2]}`;
+    }
+    if (tooltipForGroup) {
+      return `<b>Group: ${tooltipForGroup[0]}</b><br/>${tooltipForGroup[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForGroup[2]}`;
+    }
+    if (tooltipForArea) {
+      return `<b>${tooltipForArea[0]}</b><br/>${tooltipForArea[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForArea[2]}`;
+    }
   }
-  
+
   const series: Highcharts.SeriesOptionsType[] = [
     { type: 'bar', data: [value] },
   ];
@@ -75,8 +87,7 @@ export function SparklineChart({
     },
     tooltip: {
       hideDelay: 0,
-      format:
-        `<b>${tooltipData[0]}</b><br/>${tooltipData[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipData[2]}`
+      formatter: formatSparklineTooltips,
     },
   };
 
