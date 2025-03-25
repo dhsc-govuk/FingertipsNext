@@ -65,10 +65,14 @@ interface DataPoint {
   indicatorId: string;
 }
 
-export const generateHeadersAndRows = (
+export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: IndicatorData[],
   groupAreaCode?: string
-): { headers: Header[]; rows: Row[] } => {
+): {
+  areas: Area[];
+  indicators: Indicator[];
+  dataPoints: Record<string, Record<string, DataPoint>>;
+} => {
   const { areas, indicators, dataPoints } =
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
@@ -90,8 +94,16 @@ export const generateHeadersAndRows = (
     return indicators[indicatorId];
   });
 
-  const tableRows = new Array<Row>(sortedIndicators.length);
-  sortedIndicators.forEach((indicator, indicatorIndex) => {
+  return { areas: sortedAreas, indicators: sortedIndicators, dataPoints };
+};
+
+export const generateRows = (
+  areas: Area[],
+  indicators: Indicator[],
+  dataPoints: Record<string, Record<string, DataPoint>>
+): Row[] => {
+  const rows = new Array<Row>(indicators.length);
+  indicators.forEach((indicator, indicatorIndex) => {
     const leadingCols: Cell[] = [
       {
         key: `col-${indicator.id}-title`,
@@ -110,13 +122,13 @@ export const generateHeadersAndRows = (
       },
     ];
 
-    const cols = new Array<Cell>(sortedAreas.length + leadingCols.length);
+    const cols = new Array<Cell>(areas.length + leadingCols.length);
 
     leadingCols.forEach((col, index) => {
       cols[index] = col;
     });
 
-    sortedAreas.forEach((area, areaIndex) => {
+    areas.forEach((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
@@ -124,17 +136,14 @@ export const generateHeadersAndRows = (
         backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });
-    tableRows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
+    rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
   });
 
-  return {
-    headers: generateHeaders(sortedAreas, groupAreaCode),
-    rows: tableRows,
-  };
+  return rows;
 };
 
 const formatValue = (value?: number): string => {
-  return value ? value.toString() : 'X';
+  return value !== undefined ? value.toString() : 'X';
 };
 
 const generateBackgroundColor = (x: number, y: number): string => {
@@ -241,7 +250,10 @@ const orderAreaByPrecedingThenByName = (
   return { areaCodes: precedingCodes.concat(areaCodes) };
 };
 
-const generateHeaders = (areas: Area[], groupAreaCode?: string): Header[] => {
+export const generateHeaders = (
+  areas: Area[],
+  groupAreaCode?: string
+): Header[] => {
   const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
     if (pos === 0) {
       return HeaderType.IndicatorTitle;

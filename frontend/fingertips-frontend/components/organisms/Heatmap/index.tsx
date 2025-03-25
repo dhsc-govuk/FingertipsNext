@@ -1,9 +1,13 @@
 'use client';
 
-import { generateHeadersAndRows } from './heatmapUtil';
+import {
+  extractSortedAreasIndicatorsAndDataPoints,
+  generateHeaders,
+  generateRows,
+} from './heatmapUtil';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { AreasApi, HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 
@@ -29,10 +33,11 @@ export function Heatmap({
   indicatorData,
   groupAreaCode,
 }: Readonly<HeatmapProps>) {
-  const { headers, rows } = generateHeadersAndRows(
-    indicatorData,
-    groupAreaCode
-  );
+  const { areas, indicators, dataPoints } =
+    extractSortedAreasIndicatorsAndDataPoints(indicatorData, groupAreaCode);
+
+  const headers = generateHeaders(areas, groupAreaCode);
+  const rows = generateRows(areas, indicators, dataPoints);
 
   return (
     <StyledTable data-testid="heatmap-component">

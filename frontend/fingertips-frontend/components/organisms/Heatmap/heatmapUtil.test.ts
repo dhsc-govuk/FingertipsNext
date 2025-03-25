@@ -1,5 +1,116 @@
 import { HealthDataPoint } from '@/generated-sources/ft-api-client';
-import { generateHeadersAndRows } from './heatmapUtil';
+import {
+  extractSortedAreasIndicatorsAndDataPoints,
+  generateHeaders,
+  generateRows,
+  HeaderType,
+} from './heatmapUtil';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { sortHealthDataForAreasByDate } from '@/lib/chartHelpers/chartHelpers';
+
+describe('generate headers and rows', () => {
+  const groupAreaCode = 'groupAreaCode';
+  const sortedAreas = [
+    { code: areaCodeForEngland, name: 'England' },
+    { code: groupAreaCode, name: 'Group Area' },
+    { code: 'generic code', name: 'Generic Area' },
+  ];
+
+  const sortedIndicators = [
+    {
+      id: '1',
+      name: 'Indicator 1',
+      unitLabel: 'per 100',
+      latestDataPeriod: 1234,
+    },
+    {
+      id: '2',
+      name: 'Indicator 2',
+      unitLabel: 'per 1000',
+      latestDataPeriod: 5678,
+    },
+  ];
+
+  interface DataPoint {
+    value?: number;
+    areaCode: string;
+    indicatorId: string;
+  }
+
+  const dataPoints: Record<string, Record<string, DataPoint>> = {};
+  sortedIndicators.forEach((indicator, indicatorIndex) => {
+    dataPoints[indicator.id] = {};
+    sortedAreas.forEach((area, areaIndex) => {
+      dataPoints[indicator.id][area.code] = {
+        value: areaIndex + indicatorIndex * 10,
+        indicatorId: indicator.id,
+        areaCode: area.code,
+      };
+    });
+  });
+
+  const headers = generateHeaders(sortedAreas, groupAreaCode);
+  const rows = generateRows(sortedAreas, sortedIndicators, dataPoints);
+
+  it('should set the first header to indicator title header', () => {
+    expect(headers[0].type).toEqual(HeaderType.IndicatorTitle);
+    expect(headers[0].content).toEqual('Indicators');
+  });
+
+  it('should set the second header to value unit header', () => {
+    expect(headers[1].type).toEqual(HeaderType.IndicatorInformation);
+    expect(headers[1].content).toEqual('Value unit');
+  });
+
+  it('should set the third header to period header', () => {
+    expect(headers[2].type).toEqual(HeaderType.IndicatorInformation);
+    expect(headers[2].content).toEqual('Period');
+  });
+
+  it('should set the header corresponding to the benchmark area (england) to benchmark header type', () => {
+    expect(headers[3].type).toEqual(HeaderType.BenchmarkArea);
+    expect(headers[3].content).toEqual('England');
+  });
+
+  it('should set the header corresponding to the group area to group area header type', () => {
+    expect(headers[4].type).toEqual(HeaderType.GroupArea);
+    expect(headers[4].content).toEqual('Group Area');
+  });
+
+  it('should set the header corresponding to an area) to area header type', () => {
+    expect(headers[5].type).toEqual(HeaderType.Area);
+    expect(headers[5].content).toEqual('Generic Area');
+  });
+
+  it('should prefix each row with the correct indicator title', () => {
+    expect(rows[0].cells[0].content).toEqual(sortedIndicators[0].name);
+    expect(rows[1].cells[0].content).toEqual(sortedIndicators[1].name);
+  });
+
+  it('should prefix each row with the correct unit label', () => {
+    expect(rows[0].cells[1].content).toEqual(sortedIndicators[0].unitLabel);
+    expect(rows[1].cells[1].content).toEqual(sortedIndicators[1].unitLabel);
+  });
+
+  it('should prefix each row with the correct data period', () => {
+    expect(rows[0].cells[2].content).toEqual(
+      sortedIndicators[0].latestDataPeriod.toString()
+    );
+    expect(rows[1].cells[2].content).toEqual(
+      sortedIndicators[1].latestDataPeriod.toString()
+    );
+  });
+
+  it('should lay out data points in the correct order', () => {
+    expect(rows[0].cells[3].content).toEqual('0');
+    expect(rows[0].cells[4].content).toEqual('1');
+    expect(rows[0].cells[5].content).toEqual('2');
+
+    expect(rows[1].cells[3].content).toEqual('10');
+    expect(rows[1].cells[4].content).toEqual('11');
+    expect(rows[1].cells[5].content).toEqual('12');
+  });
+});
 
 export const placeholderGroupAreaCode = 'area3';
 
@@ -24,16 +135,6 @@ const newHealthDataPoint = ({
   };
 };
 
-interface row {
-  key: string;
-  cells: cell[];
-}
-
-interface cell {
-  key: string;
-  content: string;
-}
-
 const indicator1 = {
   id: 'indicator1',
   name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
@@ -54,6 +155,8 @@ const indicator3 = {
   latestDataPeriod: 2002,
 };
 
+const expectedSortedIndicators = [indicator3, indicator2, indicator1];
+
 const areaEngland = { code: 'E92000001', name: 'England' };
 const area2 = { code: 'area2', name: 'Garsdale' };
 const area3 = { code: placeholderGroupAreaCode, name: 'Dentdale' };
@@ -61,6 +164,8 @@ const area4 = {
   code: 'area4',
   name: 'Comedically Long Area Name with a Devilishly Difficult Distance to Display',
 };
+
+const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
 const data: HealthDataPoint[][][] = [
   [
@@ -116,7 +221,7 @@ const data: HealthDataPoint[][][] = [
   ],
 ];
 
-export const placeholderHeatmapData = [
+export const placeholderHeatmapIndicatorData = [
   {
     indicatorId: indicator1.id,
     indicatorName: indicator1.name,
@@ -200,95 +305,18 @@ export const placeholderHeatmapData = [
   },
 ];
 
-const expectedRows: row[] = [
-  {
-    key: '',
-    cells: [
-      { key: '', content: indicator3.name },
-      { key: '', content: indicator3.unitLabel },
-      { key: '', content: indicator3.latestDataPeriod.toString() },
-      { key: '', content: 'X' },
-      { key: '', content: 'X' },
-      { key: '', content: 'X' },
-      { key: '', content: 'X' },
-    ],
-  },
-  {
-    key: '',
-    cells: [
-      { key: '', content: indicator2.name },
-      { key: '', content: indicator2.unitLabel },
-      { key: '', content: indicator2.latestDataPeriod.toString() },
-      { key: '', content: '' },
-      { key: '', content: '' },
-      { key: '', content: '' },
-      { key: '', content: 'X' },
-    ],
-  },
-  {
-    key: '',
-    cells: [
-      { key: '', content: indicator1.name },
-      { key: '', content: indicator1.unitLabel },
-      { key: '', content: indicator1.latestDataPeriod.toString() },
-      { key: '', content: 'X' },
-      { key: '', content: 'X' },
-      { key: '', content: '41' },
-      { key: '', content: 'X' },
-    ],
-  },
-];
+describe('extract sorted areas, indicators, and data points', () => {
+  const { areas, indicators, dataPoints } =
+    extractSortedAreasIndicatorsAndDataPoints(
+      placeholderHeatmapIndicatorData,
+      placeholderGroupAreaCode
+    );
 
-const { headers, rows } = generateHeadersAndRows(
-  placeholderHeatmapData,
-  placeholderGroupAreaCode
-);
-
-describe('extract headers and rows - logic', () => {
-  it('should prefix headers with "Indicator", "Value unit", and "Period"', () => {
-    expect(headers[0].content).toEqual('Indicators');
-    expect(headers[1].content).toEqual('Value unit');
-    expect(headers[2].content).toEqual('Period');
+  it('should order areas correctly', () => {
+    expect(areas).toEqual(expectedSortedAreas);
   });
 
-  it('should contain areas in headers, with benchmark, group area, then sorted alphabetically', () => {
-    expect(headers[3].content).toEqual(areaEngland.name);
-    expect(headers[4].content).toEqual(area3.name);
-    expect(headers[5].content).toEqual(area4.name);
-    expect(headers[6].content).toEqual(area2.name);
-  });
-
-  it('should sort indicator titles alphabetically', () => {
-    const indicatorTitleCellIndex = 0;
-    rows.map((row, rowIndex) => {
-      expect(row.cells[indicatorTitleCellIndex].content).toEqual(
-        expectedRows[rowIndex].cells[indicatorTitleCellIndex].content
-      );
-    });
-  });
-
-  it('should contain correct unit label', () => {
-    const unitLabelCellIndex = 1;
-    rows.map((row, rowIndex) => {
-      expect(row.cells[unitLabelCellIndex].content).toEqual(
-        expectedRows[rowIndex].cells[unitLabelCellIndex].content
-      );
-    });
-  });
-
-  it('should contain correct data period', () => {
-    const dataPeriodCellIndex = 2;
-    rows.map((row, rowIndex) => {
-      expect(row.cells[dataPeriodCellIndex].content).toEqual(
-        expectedRows[rowIndex].cells[dataPeriodCellIndex].content
-      );
-    });
-  });
-
-  it('should only display data from the latest period', () => {
-    expect(rows[2].cells[3].content).toEqual(expectedRows[2].cells[3].content);
-    expect(rows[2].cells[4].content).toEqual(expectedRows[2].cells[4].content);
-    expect(rows[2].cells[5].content).toEqual(expectedRows[2].cells[5].content);
-    expect(rows[2].cells[6].content).toEqual(expectedRows[2].cells[6].content);
+  it('should order indicators correctly', () => {
+    expect(indicators).toEqual(expectedSortedIndicators);
   });
 });

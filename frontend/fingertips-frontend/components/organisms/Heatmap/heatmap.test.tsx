@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { Heatmap } from '.';
 import {
   placeholderGroupAreaCode,
-  placeholderHeatmapData as placeholderIndicatorData,
+  placeholderHeatmapIndicatorData as placeholderIndicatorData,
 } from './heatmapUtil.test';
 
 it('snapshot test', () => {
