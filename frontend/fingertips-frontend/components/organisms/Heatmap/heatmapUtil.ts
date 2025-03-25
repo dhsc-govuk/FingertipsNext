@@ -1,4 +1,5 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { sortHealthDataByYearDescending } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -9,24 +10,24 @@ interface IndicatorData {
   unitLabel: string;
 }
 
-interface row {
+interface Row {
   key: string;
-  cells: cell[];
+  cells: Cell[];
 }
 
-interface cell {
+interface Cell {
   key: string;
   content: string;
   backgroundColour?: string; // not yet implemented
 }
 
-interface area {
+interface Area {
   code: string;
   position?: number;
   name: string;
 }
 
-interface indicator {
+interface Indicator {
   id: string;
   position?: number;
   name: string;
@@ -43,7 +44,7 @@ interface DataPoint {
 export const generateHeadersAndRows = (
   indicatorData: IndicatorData[],
   groupAreaCode?: string
-): { headers: cell[]; rows: row[] } => {
+): { headers: Cell[]; rows: Row[] } => {
   const { areas, indicators, dataPoints } =
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
@@ -57,17 +58,17 @@ export const generateHeadersAndRows = (
 
   const { areaCodes } = orderAreaByPrecedingThenByName(areas, precedingAreas);
 
-  const sortedAreas: area[] = areaCodes.map((areaCode) => {
+  const sortedAreas: Area[] = areaCodes.map((areaCode) => {
     return areas[areaCode];
   });
 
-  const sortedIndicators: indicator[] = indicatorIds.map((indicatorId) => {
+  const sortedIndicators: Indicator[] = indicatorIds.map((indicatorId) => {
     return indicators[indicatorId];
   });
 
-  const tableRows = new Array<row>(sortedIndicators.length);
-  sortedIndicators.map((indicator, indicatorIndex) => {
-    const leadingCols: cell[] = [
+  const tableRows = new Array<Row>(sortedIndicators.length);
+  sortedIndicators.forEach((indicator, indicatorIndex) => {
+    const leadingCols: Cell[] = [
       {
         key: 'col-' + indicator.id + 'name',
         content: indicator.name,
@@ -82,13 +83,13 @@ export const generateHeadersAndRows = (
       },
     ];
 
-    const cols = new Array<cell>(sortedAreas.length + leadingCols.length);
+    const cols = new Array<Cell>(sortedAreas.length + leadingCols.length);
 
-    leadingCols.map((col, index) => {
+    leadingCols.forEach((col, index) => {
       cols[index] = col;
     });
 
-    sortedAreas.map((area, areaIndex) => {
+    sortedAreas.forEach((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
         key: 'col-' + indicator.id + '-' + area.code,
         content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
@@ -118,15 +119,15 @@ const generateBackgroundColor = (x: number, y: number): string => {
 const extractAreasIndicatorsAndDataPoints = (
   indicatorDataForAllAreas: IndicatorData[]
 ): {
-  areas: Record<string, area>;
-  indicators: Record<string, indicator>;
+  areas: Record<string, Area>;
+  indicators: Record<string, Indicator>;
   dataPoints: Record<string, Record<string, DataPoint>>;
 } => {
-  const areas: Record<string, area> = {};
-  const indicators: Record<string, indicator> = {};
+  const areas: Record<string, Area> = {};
+  const indicators: Record<string, Indicator> = {};
   const dataPoints: Record<string, Record<string, DataPoint>> = {};
 
-  indicatorDataForAllAreas.map((indicatorData) => {
+  indicatorDataForAllAreas.forEach((indicatorData) => {
     if (!indicators[indicatorData.indicatorId]) {
       indicators[indicatorData.indicatorId] = {
         id: indicatorData.indicatorId,
@@ -148,7 +149,7 @@ const extractAreasIndicatorsAndDataPoints = (
     let latestDataPeriod =
       indicatorData.healthDataForAreas[0].healthData[0].year;
 
-    indicatorData.healthDataForAreas.map((healthData) => {
+    indicatorData.healthDataForAreas.forEach((healthData) => {
       healthData.healthData.sort((a, b) => {
         return b.year - a.year;
       });
@@ -157,7 +158,7 @@ const extractAreasIndicatorsAndDataPoints = (
       }
     });
 
-    indicatorData.healthDataForAreas.map((healthData) => {
+    indicatorData.healthDataForAreas.forEach((healthData) => {
       if (!areas[healthData.areaCode]) {
         areas[healthData.areaCode] = {
           code: healthData.areaCode,
@@ -182,7 +183,7 @@ const extractAreasIndicatorsAndDataPoints = (
 };
 
 const orderIndicatorsByName = (
-  indicators: Record<string, indicator>
+  indicators: Record<string, Indicator>
 ): { indicatorIds: string[] } => {
   const indicatorIds: string[] = [];
   for (const indicatorId in indicators) {
@@ -197,7 +198,7 @@ const orderIndicatorsByName = (
 };
 
 const orderAreaByPrecedingThenByName = (
-  areas: Record<string, area>,
+  areas: Record<string, Area>,
   precedingCodes: string[]
 ): { areaCodes: string[] } => {
   const areaCodes: string[] = [];
@@ -215,7 +216,7 @@ const orderAreaByPrecedingThenByName = (
   return { areaCodes: precedingCodes.concat(areaCodes) };
 };
 
-const generateHeaders = (areas: area[]): cell[] => {
+const generateHeaders = (areas: Area[]): Cell[] => {
   const generateHeaderKey = (pos: number, areaCode?: string) => {
     const prefix = 'header-';
     switch (pos) {
