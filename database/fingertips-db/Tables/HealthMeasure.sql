@@ -13,6 +13,9 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[LowerCI] [float] NULL,                           --The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
 	[UpperCI] [float] NULL,                           --The upper confidence interval value - a statistically calculated value using methodology described in the indicator metadata
 	[Year] [smallint] NOT NULL,                       --A junk dimension of the year that this row is for e.g. 2022
+	[IsSexAggregatedOrSingle] bit NULL,
+	[IsAgeAggregatedOrSingle] bit NULL,
+	[IsDeprivationAggregatedOrSingle] bit NULL
  CONSTRAINT [PK_HealthMeasure] PRIMARY KEY CLUSTERED
 (
 	[HealthMeasureKey] ASC
@@ -97,4 +100,14 @@ CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
 (
 	[Year] ASC
 )
+GO
+
+CREATE NONCLUSTERED INDEX InequalitiesAggregatedIndex
+ON [dbo].[HealthMeasure] ([IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
+INCLUDE ([AgeKey],[AreaKey],[IndicatorKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
+
+GO
+CREATE NONCLUSTERED INDEX InequalitiesAndIndicatorAggregatedIndex
+ON [dbo].[HealthMeasure] ([IndicatorKey],[IsSexAggregatedOrSingle],[IsAgeAggregatedOrSingle],[IsDeprivationAggregatedOrSingle])
+INCLUDE ([AgeKey],[AreaKey],[SexKey],[TrendKey],[DeprivationKey],[Count],[Value],[LowerCI],[UpperCI],[Year])
 GO

@@ -5,6 +5,7 @@ using TrendAnalysisApp.Calculator;
 using TrendAnalysisApp.Calculator.Legacy;
 using TrendAnalysisApp.Mapper;
 using TrendAnalysisApp.Repository;
+using TrendAnalysisApp.SearchData;
 namespace TrendAnalysisApp;
 
 internal static class Program
@@ -37,7 +38,8 @@ internal static class Program
                 ServiceLifetime.Transient
             )
             .AddSingleton<TrendDataProcessor>()
-            .AddSingleton<IndicatorRepository>()
+            .AddSingleton<IIndicatorRepository, IndicatorRepository>()
+            .AddSingleton<IIndicatorJsonFileHelper, IndicatorJsonFileHelper>()
             .AddSingleton<TrendCalculator>()
             // The legacy calculator is not threadsafe so is instantiated per thread
             .AddTransient<TrendMarkerCalculator>()

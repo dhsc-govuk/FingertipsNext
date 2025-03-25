@@ -1,8 +1,13 @@
 'use client';
 
 import { H1, Paragraph } from 'govuk-react';
+import { useEffect } from 'react';
 
 export function ErrorPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <H1 data-testid="error-page-title">

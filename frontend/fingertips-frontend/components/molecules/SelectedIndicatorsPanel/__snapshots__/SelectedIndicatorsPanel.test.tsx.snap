@@ -1,0 +1,324 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectedIndicatorsPanel snapshot test 1`] = `
+<DocumentFragment>
+  .c3 {
+  background-color: white;
+  border: 1px #D1D2D3 solid;
+  border-radius: 5px;
+  padding: 0.5em 0.3125em 0.5em 0.3125em;
+  max-width: 100%;
+  margin: 0.3125em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  word-wrap: break-word;
+  padding: 0em 1em 0em 0.75em;
+  font-size: 16px;
+  margin-bottom: 0;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c7 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+  padding: 7px 10px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  color: #ffffff;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #002413;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 22px;
+}
+
+.c7:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.c7:link,
+.c7:visited,
+.c7:active,
+.c7:hover {
+  color: #ffffff;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c7::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.c7:hover,
+.c7:focus {
+  background-color: #00572e;
+}
+
+.c7:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.c7::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -4px;
+  left: -2px;
+  background: transparent;
+}
+
+.c7:active::before {
+  top: -4px;
+}
+
+.c7:disabled {
+  opacity: 0.5;
+  background: #00703c;
+}
+
+.c7:disabled:hover {
+  background-color: #00703c;
+  cursor: default;
+}
+
+.c7:disabled:focus {
+  outline: none;
+}
+
+.c7:disabled:active {
+  top: 0;
+  box-shadow: 0 2px 0 #002413;
+}
+
+.c7 svg {
+  max-width: 15px;
+}
+
+.c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  clear: none;
+  padding-bottom: 2px;
+  margin-bottom: 0;
+}
+
+.c5 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.c5:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c5:link {
+  color: #1d70b8;
+}
+
+.c5:visited {
+  color: #4c2c92;
+}
+
+.c5:hover {
+  color: #2b8cc4;
+}
+
+.c5:active {
+  color: #2b8cc4;
+}
+
+.c5:focus {
+  color: #0b0c0c;
+}
+
+.c9 {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.c6 {
+  font-size: 16px;
+}
+
+.c0 {
+  padding-bottom: 1.5em;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
+.c8 {
+  font-size: 16px;
+  margin: 1em 0;
+}
+
+@media print {
+  .c4 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    width: auto;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 svg {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 32px;
+  }
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 0;
+  }
+}
+
+@media print {
+  .c5 {
+    font-family: sans-serif;
+  }
+}
+
+@media print {
+  .c5[href^="/"]::after,
+  .c5[href^="http://"]::after,
+  .c5[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    word-wrap: break-word;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="selected-indicators-panel"
+  >
+    <span
+      class="c1 c2"
+    >
+      Selected indicators
+    </span>
+    <div
+      class="c3"
+      data-testid="pill-container"
+    >
+      <div
+        class="c4"
+        data-testid="filter-name"
+      >
+        indicator name for id 1
+        <br />
+        <a
+          class="c5 c6"
+          href="/indicator/1"
+        >
+          View background information
+        </a>
+      </div>
+    </div>
+    <div
+      class="c3"
+      data-testid="pill-container"
+    >
+      <div
+        class="c4"
+        data-testid="filter-name"
+      >
+        indicator name for id 2
+        <br />
+        <a
+          class="c5 c6"
+          href="/indicator/2"
+        >
+          View background information
+        </a>
+      </div>
+    </div>
+    <button
+      class="c7 c8"
+    >
+      Add or change indicators
+    </button>
+    <hr
+      class="c9"
+    />
+  </div>
+</DocumentFragment>
+`;

@@ -27,6 +27,9 @@ import {
   eastEnglandNHSRegion,
   londonNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
+import { IIndicatorSearchService } from '@/lib/search/searchTypes';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -45,6 +48,10 @@ mockGetAreaFilterData.mockResolvedValue({});
 
 const mockAreasApi = mockDeep<AreasApi>();
 ApiClientFactory.getAreasApiClient = () => mockAreasApi;
+
+const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
+SearchServiceFactory.getIndicatorSearchService = () =>
+  mockIndicatorSearchService;
 
 const searchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -198,6 +205,50 @@ describe('Chart Page', () => {
       expect(page.props.children[0].props.selectedAreasData).toEqual([
         eastEnglandNHSRegion,
         londonNHSRegion,
+      ]);
+    });
+
+    it('should pass the selectedIndicatorsData prop with data from the getIndicator for each indicatorsSelected', async () => {
+      const firstSelectedIndicatorId = '1';
+      const secondSelectedIndicatorId = '2';
+
+      const mockIndicatorDocument1 = generateIndicatorDocument(
+        firstSelectedIndicatorId
+      );
+      const mockIndicatorDocument2 = generateIndicatorDocument(
+        secondSelectedIndicatorId
+      );
+
+      mockIndicatorSearchService.getIndicator.mockResolvedValueOnce(
+        mockIndicatorDocument1
+      );
+      mockIndicatorSearchService.getIndicator.mockResolvedValueOnce(
+        mockIndicatorDocument2
+      );
+
+      const searchState: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: [
+          firstSelectedIndicatorId,
+          secondSelectedIndicatorId,
+        ],
+      };
+
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.getIndicator).toHaveBeenNthCalledWith(
+        1,
+        firstSelectedIndicatorId
+      );
+      expect(mockIndicatorSearchService.getIndicator).toHaveBeenNthCalledWith(
+        2,
+        secondSelectedIndicatorId
+      );
+      expect(page.props.children[0].props.selectedIndicatorsData).toEqual([
+        mockIndicatorDocument1,
+        mockIndicatorDocument2,
       ]);
     });
   });

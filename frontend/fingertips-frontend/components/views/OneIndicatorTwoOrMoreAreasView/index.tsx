@@ -8,8 +8,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -17,23 +15,19 @@ import {
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-interface OneIndicatorTwoOrMoreAreasViewProps extends ViewProps {
-  areaCodes: string[];
-}
-
 export default async function OneIndicatorTwoOrMoreAreasView({
+  selectedIndicatorsData,
   searchState,
-  areaCodes,
-}: Readonly<OneIndicatorTwoOrMoreAreasViewProps>) {
+}: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorSelected,
+    [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
   } = stateManager.getSearchState();
 
-  const areasSelected = areaCodes;
   if (
     indicatorSelected?.length !== 1 ||
     !areasSelected ||
@@ -75,18 +69,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for areas',
-      error
-    );
-  }
+  const indicatorMetadata = selectedIndicatorsData?.[0];
 
   const mapData =
     selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
@@ -99,7 +82,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}
-      areaCodes={areaCodes}
     />
   );
 }
