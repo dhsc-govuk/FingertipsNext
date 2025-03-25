@@ -92,5 +92,27 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         indicator
       );
     });
+
+    expect(page.props.indicatorMetadata).toStrictEqual(mockResponses);
+  });
+
+  it.only('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.IndicatorsSelected]: ['1', '2'],
+      [SearchParams.AreasSelected]: ['A001'],
+    };
+
+    const mockResponses = [mockHealthData['108'], mockHealthData['107']];
+
+    mockIndicatorsApi.getHealthDataForAnIndicator
+      .mockResolvedValueOnce(mockResponses[0])
+      .mockResolvedValueOnce(mockResponses[1]);
+
+    const page = await TwoOrMoreIndicatorsAreasView({
+      searchState: searchState,
+    });
+
+    expect(page.props.searchState).toEqual(searchState);
+    expect(page.props.healthIndicatorData).toEqual(mockResponses);
   });
 });
