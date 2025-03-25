@@ -76,20 +76,17 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
   const { areas, indicators, dataPoints } =
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
-  // sort indicators by A-Z
-  const { indicatorIds } = orderIndicatorsByName(indicators);
-
   const precedingAreas = [areaCodeForEngland];
   if (groupAreaCode) {
     precedingAreas.push(groupAreaCode);
   }
 
   const { areaCodes } = orderAreaByPrecedingThenByName(areas, precedingAreas);
-
   const sortedAreas: Area[] = areaCodes.map((areaCode) => {
     return areas[areaCode];
   });
 
+  const { indicatorIds } = orderIndicatorsByName(indicators);
   const sortedIndicators: Indicator[] = indicatorIds.map((indicatorId) => {
     return indicators[indicatorId];
   });

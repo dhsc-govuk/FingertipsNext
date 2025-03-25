@@ -7,7 +7,7 @@ import {
 } from './heatmapUtil';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { AreasApi, HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 
