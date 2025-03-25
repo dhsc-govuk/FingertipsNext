@@ -13,73 +13,88 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { H2 } from 'govuk-react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[][],
-  indicatorMetadata?: (IndicatorDocument | undefined)[]
-):SpineChartTableProps {
-  const numberOfIndicators = healthIndicatorData.length
-  const tableData: SpineChartTableRowProps[]= new Array(numberOfIndicators);
-  
+  indicatorMetadata: (IndicatorDocument | undefined)[],
+  selectedGroupCode: string | undefined
+): SpineChartTableProps {
+  const numberOfIndicators = healthIndicatorData.length;
+  const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
+
   healthIndicatorData.map((indicatorData, index) => {
-    const validMetaData = indicatorMetadata !== undefined && indicatorMetadata[index] !== undefined 
+    const validMetaData =
+      indicatorMetadata !== undefined && indicatorMetadata[index] !== undefined;
 
     const rowIndicatorId: number =
-    validMetaData && 
-    indicatorMetadata[index]?.indicatorID !== undefined
-    ? Number(indicatorMetadata[index]?.indicatorID)
-    : 0;
+      validMetaData && indicatorMetadata[index]?.indicatorID !== undefined
+        ? Number(indicatorMetadata[index]?.indicatorID)
+        : 0;
 
-    const rowTitle: string =  
-    validMetaData && 
-    indicatorMetadata[index]?.unitLabel !== undefined?
-     indicatorMetadata[index]?.unitLabel
-    : '';
+    const rowTitle: string =
+      validMetaData && indicatorMetadata[index]?.unitLabel !== undefined
+        ? indicatorMetadata[index]?.unitLabel
+        : '';
 
     const rowIndicatorDefinition: string =
-    validMetaData && 
-    indicatorMetadata[index]?.indicatorDefinition !== undefined?
-      indicatorMetadata[index]?.indicatorDefinition
-      : '';
+      validMetaData &&
+      indicatorMetadata[index]?.indicatorDefinition !== undefined
+        ? indicatorMetadata[index]?.indicatorDefinition
+        : '';
 
     const rowMeasurementUnit: string =
-    validMetaData  &&
-    indicatorMetadata[index] !== undefined
-    ? indicatorMetadata[index]?.unitLabel
-    : '';
+      validMetaData && indicatorMetadata[index] !== undefined
+        ? indicatorMetadata[index]?.unitLabel
+        : '';
+
+    const groupData =
+      selectedGroupCode && selectedGroupCode != areaCodeForEngland
+        ? indicatorData.find(
+            (areaData) => areaData.areaCode === selectedGroupCode
+          )
+        : undefined;
+
+    const englandBenchmarkData = indicatorData.find(
+      (areaData) => areaData.areaCode === areaCodeForEngland
+    );
 
     const rowIndicator: Indicator = {
       indicatorId: rowIndicatorId,
       title: rowTitle,
-      definition: rowIndicatorDefinition,   
+      definition: rowIndicatorDefinition,
     };
 
     const row: SpineChartTableRowProps = {
       indicator: rowIndicator,
       measurementUnit: rowMeasurementUnit,
-      indicatorHealthData: indicatorData[0], 
-      groupIndicatorData: indicatorData[1],
-      englandBenchmarkData: indicatorData[2],
+      indicatorHealthData: indicatorData[0],
+      groupIndicatorData: groupData,
+      englandBenchmarkData: englandBenchmarkData,
       best: 100,
-      worst: 0
+      worst: 0,
     };
 
-    tableData[index]=(row)
-  })
+    tableData[index] = row;
+  });
 
-  return {rowData:tableData}
-};
+  return { rowData: tableData };
+}
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   healthIndicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
-  const _1 = searchState;
+  const stateManager = SearchStateManager.initialise(searchState);
+  const { [SearchParams.GroupSelected]: selectedGroupCode } =
+    stateManager.getSearchState();
 
   const spineTableData = mapToSpineChartTableProps(
     healthIndicatorData,
-    indicatorMetadata
+    indicatorMetadata,
+    selectedGroupCode
   );
 
   return (
