@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -65,7 +68,10 @@ describe('OneIndicatorOneAreaView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
-          inequalities: ['sex'],
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+          ],
         },
         API_CACHE_CONFIG
       );

@@ -46,7 +46,10 @@ export default async function OneIndicatorOneAreaView({
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
-        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+        ],
       },
       API_CACHE_CONFIG
     );
