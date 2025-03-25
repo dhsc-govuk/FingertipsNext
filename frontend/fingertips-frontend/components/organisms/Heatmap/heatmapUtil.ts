@@ -2,6 +2,24 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
+export const heatmapIndicatorTitleColumnWidth = '240px';
+export const heatmapTitleColumnWidth = '60px';
+export const heatmapDataColumnWidth = '60px';
+
+export enum HeaderType {
+  IndicatorTitle,
+  IndicatorInformation,
+  BenchmarkArea,
+  GroupArea,
+  Area,
+}
+
+export enum CellType {
+  IndicatorTitle,
+  IndicatorInformation,
+  Data,
+}
+
 interface IndicatorData {
   indicatorId: string;
   indicatorName: string;
@@ -16,8 +34,15 @@ interface Row {
 
 interface Cell {
   key: string;
+  type: CellType;
   content: string;
   backgroundColour?: string; // not yet implemented
+}
+
+interface Header {
+  key: string;
+  type: HeaderType;
+  content: string;
 }
 
 interface Area {
@@ -43,7 +68,7 @@ interface DataPoint {
 export const generateHeadersAndRows = (
   indicatorData: IndicatorData[],
   groupAreaCode?: string
-): { headers: Cell[]; rows: Row[] } => {
+): { headers: Header[]; rows: Row[] } => {
   const { areas, indicators, dataPoints } =
     extractAreasIndicatorsAndDataPoints(indicatorData);
 
@@ -69,15 +94,18 @@ export const generateHeadersAndRows = (
   sortedIndicators.forEach((indicator, indicatorIndex) => {
     const leadingCols: Cell[] = [
       {
-        key: 'col-' + indicator.id + 'name',
+        key: `col-${indicator.id}-title`,
+        type: CellType.IndicatorTitle,
         content: indicator.name,
       },
       {
-        key: 'col-' + indicator.id + 'unitLabel',
+        key: `col-${indicator.id}-unitlabel`,
+        type: CellType.IndicatorInformation,
         content: indicator.unitLabel,
       },
       {
-        key: 'col-' + indicator.id + 'period',
+        key: `col-${indicator.id}-period`,
+        type: CellType.IndicatorInformation,
         content: indicator.latestDataPeriod.toString(),
       },
     ];
@@ -90,16 +118,17 @@ export const generateHeadersAndRows = (
 
     sortedAreas.forEach((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
-        key: 'col-' + indicator.id + '-' + area.code,
+        key: `col-${indicator.id}-${area.code}`,
+        type: CellType.Data,
         content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
         backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });
-    tableRows[indicatorIndex] = { key: 'row-' + indicator.id, cells: cols };
+    tableRows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
   });
 
   return {
-    headers: generateHeaders(sortedAreas),
+    headers: generateHeaders(sortedAreas, groupAreaCode),
     rows: tableRows,
   };
 };
@@ -112,9 +141,6 @@ const generateBackgroundColor = (x: number, y: number): string => {
   return x % 2 == y % 2 ? GovukColours.Yellow : GovukColours.LightGrey;
 };
 
-// This is a big lump of complexity, as the data is all rather entwined.
-// Naively splitting it up for the sake of it risks making things even less understandable.
-// Untangling would take too much time. Would have written a shorter letter, etc.
 const extractAreasIndicatorsAndDataPoints = (
   indicatorDataForAllAreas: IndicatorData[]
 ): {
@@ -215,21 +241,41 @@ const orderAreaByPrecedingThenByName = (
   return { areaCodes: precedingCodes.concat(areaCodes) };
 };
 
-const generateHeaders = (areas: Area[]): Cell[] => {
+const generateHeaders = (areas: Area[], groupAreaCode?: string): Header[] => {
+  const getHeaderType = (pos: number, areaCode?: string): HeaderType => {
+    if (pos === 0) {
+      return HeaderType.IndicatorTitle;
+    }
+
+    if (pos === 1 || pos === 2) {
+      return HeaderType.IndicatorInformation;
+    }
+
+    if (areaCode === areaCodeForEngland) {
+      return HeaderType.BenchmarkArea;
+    }
+
+    if (groupAreaCode && areaCode === groupAreaCode) {
+      return HeaderType.GroupArea;
+    }
+
+    return HeaderType.Area;
+  };
+
   const generateHeaderKey = (pos: number, areaCode?: string) => {
-    const prefix = 'header-';
+    const prefix = 'header';
     switch (pos) {
       case 0: {
-        return prefix + 'indicator';
+        return `${prefix}-indicator`;
       }
       case 1: {
-        return prefix + 'value-type';
+        return `${prefix}-unitlabel`;
       }
       case 2: {
-        return prefix + 'period';
+        return `${prefix}-period`;
       }
       default: {
-        return prefix + areaCode;
+        return `${prefix}-${areaCode}`;
       }
     }
   };
@@ -237,16 +283,21 @@ const generateHeaders = (areas: Area[]): Cell[] => {
   const constantHeaderTitles = ['Indicators', 'Value unit', 'Period'];
   return constantHeaderTitles
     .map((title, index) => {
-      return { content: title, key: generateHeaderKey(index) };
+      return {
+        key: generateHeaderKey(index),
+        type: getHeaderType(index),
+        content: title,
+      };
     })
     .concat(
       areas.map((area, index) => {
         return {
-          content: area.name,
           key: generateHeaderKey(
             index + constantHeaderTitles.length,
             area.code
           ),
+          content: area.name,
+          type: getHeaderType(index + constantHeaderTitles.length, area.code),
         };
       })
     );

@@ -50,14 +50,6 @@ exports[`snapshot test 1`] = `
   margin-bottom: 20px;
 }
 
-.c1 {
-  overflow-y: scroll;
-  table-layout: fixed;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-}
-
 .c8 {
   -webkit-transform: translate(-15px) rotate(30deg);
   -ms-transform: translate(-15px) rotate(30deg);
@@ -120,15 +112,6 @@ exports[`snapshot test 1`] = `
   padding-right: 0px;
 }
 
-.c13 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 240px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
-
 .c14 {
   width: 60px;
   min-height: 70px;
@@ -148,6 +131,23 @@ exports[`snapshot test 1`] = `
 
 .c17 {
   background-color: #F3F2F1;
+}
+
+.c13 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 240px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.c1 {
+  overflow-y: scroll;
+  table-layout: fixed;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
 }
 
 @media print {
@@ -305,32 +305,32 @@ exports[`snapshot test 1`] = `
           </div>
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           %
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           2002
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           1112
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           1132
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           1142
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           1122
         </td>
@@ -348,32 +348,32 @@ exports[`snapshot test 1`] = `
           </div>
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           per 100
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           2002
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           112
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           132
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           142
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           X
         </td>
@@ -391,32 +391,32 @@ exports[`snapshot test 1`] = `
           </div>
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           per 1000
         </td>
         <td
-          class="0 c12 c14"
+          class="c12 c14"
         >
           2004
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           X
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           X
         </td>
         <td
-          class="1 c12 c15 c16"
+          class="c12 c15 c16"
         >
           41
         </td>
         <td
-          class="1 c12 c15 c17"
+          class="c12 c15 c17"
         >
           X
         </td>
