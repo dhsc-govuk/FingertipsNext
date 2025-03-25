@@ -4,24 +4,33 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getBenchmarkColour,
+  loadHighchartsModules,
+} from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
+import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
+  benchmarkOutcome?: BenchmarkOutcome;
 }
+
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
+  benchmarkOutcome,
 }: Readonly<SparklineChartProps>) {
+  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const series: Highcharts.SeriesOptionsType[] = [
-    { type: 'bar', data: [value] },
+    { type: 'bar', data: [value], color },
   ];
 
   if (showConfidenceIntervalsData) {

@@ -3,6 +3,11 @@ import {
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import {
+  BenchmarkLabelGroupType,
+  BenchmarkLabelType,
+} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
@@ -78,6 +83,15 @@ export function getMostRecentData(
 export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/highcharts-more').then(callback);
 }
+
+export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
+  const colours = getBenchmarkTagStyle(
+    BenchmarkLabelGroupType.RAG,
+    benchmarkComparison
+  );
+  const backgroundColor = colours?.backgroundColor;
+  return backgroundColor === 'transparent' ? undefined : backgroundColor;
+};
 
 export function generateConfidenceIntervalSeries(
   areaName: string,

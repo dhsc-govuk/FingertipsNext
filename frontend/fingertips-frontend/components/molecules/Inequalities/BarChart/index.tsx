@@ -10,12 +10,9 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
@@ -74,14 +71,10 @@ export function InequalitiesBarChart({
     {
       type: 'bar',
       data: barChartFields.map((field) => {
-        const colours = getBenchmarkTagStyle(
-          BenchmarkLabelGroupType.RAG,
+        const color = getBenchmarkColour(
           inequalities[field]?.benchmarkComparison
             ?.outcome as BenchmarkLabelType
         );
-        const backgroundColor = colours?.backgroundColor;
-        const color =
-          backgroundColor === 'transparent' ? undefined : backgroundColor;
         return {
           name: field,
           y: inequalities[field]?.value,
