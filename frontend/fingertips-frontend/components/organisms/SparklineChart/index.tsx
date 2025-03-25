@@ -5,52 +5,66 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
+import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
-  tooltipForBenchmark?: (string | number | undefined)[];
-  tooltipForGroup?: (string | number | undefined)[];
-  tooltipForArea?: (string | number | undefined)[];
+  label: string;
+  area: string | undefined;
+  year: number | undefined;
+  measurementUnit: string | undefined;
 }
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  tooltipForBenchmark,
-  tooltipForGroup,
-  tooltipForArea,
+  label,
+  area,
+  year,
+  measurementUnit,
 }: Readonly<SparklineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
 
   function formatSparklineTooltips() {
-    if (tooltipForBenchmark) {
-      return `<b>Benchmark: ${tooltipForBenchmark[0]}</b><br/>${tooltipForBenchmark[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForBenchmark[2]}`;
+    let category = '';
+    if (label === SparklineLabelEnum.Benchmark) {
+      category = 'Benchmark: ';
     }
-    if (tooltipForGroup) {
-      return `<b>Group: ${tooltipForGroup[0]}</b><br/>${tooltipForGroup[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForGroup[2]}`;
+    if (label === SparklineLabelEnum.Group) {
+      category = 'Group: ';
     }
-    if (tooltipForArea) {
-      return `<b>${tooltipForArea[0]}</b><br/>${tooltipForArea[1]}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${tooltipForArea[2]}`;
-    }
+    return `<b>${category} ${area}</b><br/>${year}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${measurementUnit}`;
   }
 
-  const series: Highcharts.SeriesOptionsType[] = [
-    { type: 'bar', data: [value] },
-  ];
+  const color = GovukColours.Black;
+  const whiskerLength = '50%';
+  const lineWidth = 3;
 
-  if (showConfidenceIntervalsData) {
-    series.push({
+  function generateConfidenceIntervalSeries(
+    areaName: string | undefined,
+    data: (number | undefined)[][],
+    showConfidenceIntervalsData?: boolean
+  ): Highcharts.SeriesOptionsType {
+    return {
       type: 'errorbar',
-      data: [confidenceIntervalValues],
-      color: GovukColours.Black,
-      whiskerLength: '50%',
-      lineWidth: 3,
-    });
+      name: areaName,
+      data: data,
+      visible: showConfidenceIntervalsData,
+      color: `${color}`,
+      whiskerLength: `${whiskerLength}`,
+      lineWidth: Number(`${lineWidth}`),
+    };
   }
+
+  const confidenceIntervalSeries = generateConfidenceIntervalSeries(
+    area,
+    [confidenceIntervalValues],
+    showConfidenceIntervalsData
+  );
 
   const sparklineOptions: Highcharts.Options = {
     credits: {
@@ -69,7 +83,7 @@ export function SparklineChart({
     },
     yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
-    series: series,
+    series: [{ type: 'bar', data: [value] }, confidenceIntervalSeries],
     accessibility: {
       enabled: false,
     },
@@ -88,6 +102,7 @@ export function SparklineChart({
     tooltip: {
       hideDelay: 0,
       formatter: formatSparklineTooltips,
+      borderWidth: 0,
     },
   };
 

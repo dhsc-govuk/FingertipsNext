@@ -12,6 +12,10 @@ describe('SparklineChart', () => {
         maxValue={maxValue}
         confidenceIntervalValues={[5, 10]}
         showConfidenceIntervalsData={true}
+        label={'mock'}
+        area={'mockArea'}
+        year={2000}
+        measurementUnit={''}
       />
     );
 

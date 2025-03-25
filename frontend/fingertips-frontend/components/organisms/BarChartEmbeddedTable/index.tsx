@@ -23,6 +23,12 @@ export enum BarChartEmbeddedTableHeadingEnum {
   ConfidenceLimit = '95% confidence limits',
 }
 
+export enum SparklineLabelEnum {
+  Benchmark = 'Benchmark',
+  Group = 'Group',
+  Area = 'Area',
+}
+
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
   benchmarkData?: HealthDataForArea;
@@ -155,11 +161,10 @@ export function BarChartEmbeddedTable({
                   mostRecentBenchmarkData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipForBenchmark={[
-                  benchmarkData?.areaName,
-                  mostRecentBenchmarkData.year,
-                  measurementUnit,
-                ]}
+                label={SparklineLabelEnum.Benchmark}
+                area={benchmarkData?.areaName}
+                year={mostRecentBenchmarkData.year}
+                measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -189,11 +194,10 @@ export function BarChartEmbeddedTable({
                   mostRecentGroupData.upperCi,
                 ]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipForGroup={[
-                  groupIndicatorData?.areaName,
-                  mostRecentGroupData.year,
-                  measurementUnit,
-                ]}
+                label={SparklineLabelEnum.Group}
+                area={groupIndicatorData?.areaName}
+                year={mostRecentGroupData.year}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -216,7 +220,10 @@ export function BarChartEmbeddedTable({
                 maxValue={maxValue}
                 confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
-                tooltipForArea={[item.area, item.period, measurementUnit]}
+                label={SparklineLabelEnum.Area}
+                area={item.area}
+                year={item.period}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
