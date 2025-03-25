@@ -9,9 +9,9 @@ env:
 on:
   workflow_call:
     inputs:
-      e2e-test-container-image:
-        description: 'container image to run the e2e tests in - for CD test executions'
-        required: false
+      playwright-mode:
+        description: 'Mode from which tests are run - either run inside docker or against the azure stack'
+        required: true
         type: string
     secrets:
       slack-webhook-url:
@@ -21,11 +21,10 @@ on:
         description: 'Password for the database'
         required: false
 jobs:
-  execute-e2e-tests:
-    name: Execute e2e tests
+  execute-e2e-tests-docker:
+    name: Execute e2e tests - Docker
     runs-on: ubuntu-latest
-    container:
-      image: ${{ inputs.e2e-test-container-image }}
+    if: inputs.playwright-mode == 'docker'
 
     defaults:
       run:
@@ -43,7 +42,6 @@ jobs:
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Cache playwright dependencies - for CI test execution
-        if: inputs.e2e-test-container-image == null
         uses: actions/cache@v3
         id: cache
         with:
@@ -55,40 +53,22 @@ jobs:
         run: npm ci
 
       - name: Create .env file for db-setup - for CI test execution
-        if: inputs.e2e-test-container-image == null
         run: |
           echo "DB_PASSWORD=${{ secrets.fingertips_e2e_db_password }}" > .env
           echo "DB_NAME=fingertips" >> .env
           echo "DB_USER=sa" >> .env
 
       - name: Install playwright dependencies - for CI test execution
-        if: inputs.e2e-test-container-image == null
         run: npx playwright install --with-deps chromium webkit
 
       - name: Run Playwright tests in CI
-        if: inputs.e2e-test-container-image == null
         run: npm run test-e2e-ci-docker
-
-      - name: Set Job URL for slack message - for CD test execution
-        if: inputs.e2e-test-container-image != null
-        run: |
-          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
-
-      - name: Run Playwright tests in CD - skip screenshots
-        if: inputs.e2e-test-container-image != null
-        run: npm run test-e2e-ci-azure
-        env:
-          FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
 
       - name: Set dynamic artifact name
         if: always()
         id: set-artifact-name
         run: |
-          if [ "${{ inputs.e2e-test-container-image == null }}" = "true" ]; then
-            echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
-          else
-            echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
-          fi
+          echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload playwright artefacts
         if: always()
@@ -101,7 +81,69 @@ jobs:
           retention-days: 5
 
       - name: Send slack message if e2e tests fail - for CD test execution
-        if: failure() && inputs.e2e-test-container-image != null
+        if: failure()
+        run: |
+          npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+
+
+  execute-e2e-tests-azure:
+    name: Execute e2e tests - Azure
+    runs-on: self-hosted
+    if: inputs.playwright-mode == 'azure'
+
+    defaults:
+      run:
+        working-directory: ${{ env.frontend-directory }}
+
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /usr/local/ms-playwright
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install playwright dependencies
+        run: npx playwright install chromium webkit
+
+      - name: Set Job URL for slack message - for CD test execution
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+
+      - name: Run Playwright tests in CD - skip screenshots
+        run: npm run test-e2e-ci-azure
+        env:
+          FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
+
+      - name: Set dynamic artifact name
+        if: always()
+        id: set-artifact-name
+        run: |
+          echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
+
+      - name: Upload playwright artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: |
+            ${{ env.frontend-directory }}/playwright-report/
+            ${{ env.frontend-directory }}/test-results/*/*.png
+          retention-days: 5
+
+      - name: Send slack message if e2e tests fail - for CD test execution
+        if: failure()
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:

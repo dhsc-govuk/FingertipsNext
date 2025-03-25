@@ -39,10 +39,6 @@
             //clean up the unzipped files
             DataFileManager.DeleteTempFiles();
             Console.WriteLine($"Deleted temp files");
-            //put the files where people need them
-            DataFileManager.CopyFilesToTargetLocations();
-            Console.WriteLine($"Files copied to target");
-
         }
     }
 }

@@ -59,7 +59,7 @@ on:
 
 jobs:
   terraform-pr-validation:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: ${{ inputs.source_trigger == 'pull_request' }}
     name: Validate Container Deployment - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}
@@ -98,7 +98,7 @@ jobs:
           TF_INPUT: false
 
   terraform-apply:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: ${{ inputs.source_trigger == 'push' || inputs.source_trigger == 'workflow_dispatch'}}
     name: Container Deploy - ${{ inputs.container_name }}
     environment: ${{ inputs.environment }}

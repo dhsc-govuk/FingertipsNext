@@ -57,5 +57,9 @@ namespace DataCreator
 
         [CsvColumn(FieldIndex = 17)]
         public bool IsDeprivationAggregatedOrSingle { get; set; }
+
+        //avoid line ending nonsense in csv
+        [CsvColumn(FieldIndex = 18)]
+        public int Avoid { get; set; }
     }
 }

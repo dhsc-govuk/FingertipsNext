@@ -105,8 +105,6 @@ WHERE
     indicator.IndicatorID IN @IndicatorIds
 ";
         
-        
-
         private readonly string AgeSql = @"
 SELECT
 	AgeID,
@@ -304,7 +302,6 @@ FROM
                     area.AreaName=$"{area.AreaName.Replace(CA, string.Empty).Trim()} Combined Authority";
             }
         }
-
 
         private static List<AreaRelation> CreateChildAreas(AreaEntity area, IEnumerable<IGrouping<string,ParentChildAreaCode>> parentGroup, Dictionary<string, AreaEntity> areas)
         {
