@@ -23,6 +23,8 @@ import { spacing } from '@govuk-react/lib';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoader } from '@/context/LoaderContext';
+import { AppStorage, StorageKeys } from '@/storage/storage';
+import { usePathname } from 'next/navigation';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -40,20 +42,25 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
+  const { isLoading, setIsLoading } = useLoader();
+  const pathname = usePathname();
+  const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (pathname !== previousPath) {
+      window.scrollTo(0, 0);
+    }
+    AppStorage.updateState(StorageKeys.previousPath, pathname);
+  }, [previousPath, pathname]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading]);
 
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState
   );
-
-  const { isLoading, setIsLoading } = useLoader();
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [setIsLoading]);
 
   return (
     <LoadingBox loading={isLoading} timeIn={200} timeOut={200}>

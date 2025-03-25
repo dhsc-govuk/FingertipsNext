@@ -2,12 +2,14 @@ export enum StorageKeys {
   AreaFilterHomePage = 'area-filter-home-page',
   AreaFilterResultsPage = 'area-filter-results-page',
   AreaFilterChartPage = 'area-filter-chart-page',
+  previousPath = 'previous-path',
 }
 
 export type AppStorageState = {
   [StorageKeys.AreaFilterHomePage]?: boolean;
   [StorageKeys.AreaFilterResultsPage]?: boolean;
   [StorageKeys.AreaFilterChartPage]?: boolean;
+  [StorageKeys.previousPath]?: string;
 };
 
 export class AppStorage {
