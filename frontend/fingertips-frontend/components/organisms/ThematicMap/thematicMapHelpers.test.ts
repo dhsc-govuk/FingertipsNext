@@ -153,7 +153,7 @@ describe('prepareThematicMapSeriesData', () => {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.CannotBeCalculated,
-          benchmarkComparison: { outcome: 'None' },
+          benchmarkComparison: { outcome: 'NotCompared' },
           deprivation: { sequence: 1, type: 'All', value: 'All' },
         },
       ],
@@ -195,7 +195,7 @@ describe('prepareThematicMapSeriesData', () => {
     {
       areaCode: 'E12000001',
       areaName: 'North East region (statistical)',
-      benchmarkComparison: 'None',
+      benchmarkComparison: 'NotCompared',
       benchmarkColourCode: 5,
       value: 767.343,
     },

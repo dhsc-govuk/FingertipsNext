@@ -11,8 +11,8 @@ import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_80408417444
 import { AreaTypeKeys } from '../../../lib/areaFilterHelpers/areaType';
 import { GovukColours } from '../../../lib/styleHelpers/colours';
 import {
+  BenchmarkOutcome,
   HealthDataForArea,
-  HealthDataPointBenchmarkComparisonOutcomeEnum,
 } from '@/generated-sources/ft-api-client';
 import { getHealthDataForAreasForMostRecentYearOnly } from '@/lib/chartHelpers/chartHelpers';
 
@@ -93,22 +93,26 @@ export function getMapData(
   };
 }
 
-export const mapBenchmarkToColourRef: Record<
-  HealthDataPointBenchmarkComparisonOutcomeEnum,
-  number
-> = {
-  None: 5,
+export const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
+  NotCompared: 5,
   Better: 15,
   Similar: 25,
   Worse: 35,
   Lower: 45,
   Higher: 55,
+  Lowest: 0,
+  Low: 0,
+  Middle: 0,
+  High: 0,
+  Highest: 0,
+  Best: 0,
+  Worst: 0,
 };
 
 export const benchmarkColourScale = [
   {
     to: 10,
-    name: 'None',
+    name: 'No Compared',
     color: GovukColours.White,
   },
   {
@@ -149,15 +153,15 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
     if (areaData.healthData[0].benchmarkComparison) {
       benchmarkColourCode =
         mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome ?? 'None' // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
+          areaData.healthData[0].benchmarkComparison.outcome ??
+            BenchmarkOutcome.NotCompared // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
         ];
     }
     const preparedDataPoint = {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
       value: areaData.healthData[0].value,
-      benchmarkComparison:
-        areaData.healthData[0].benchmarkComparison?.outcome ?? 'None', // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
+      benchmarkComparison: areaData.healthData[0].benchmarkComparison?.outcome, // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
       benchmarkColourCode: benchmarkColourCode,
     };
     return preparedDataPoint;
