@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable/index';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
+import { noDeprivation } from '@/lib/mocks';
 
 describe('BarChartEmbeddedTable', () => {
-  const mockHealthIndicatorData = [
+  const mockHealthIndicatorData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
@@ -17,6 +21,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -27,6 +32,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -43,6 +49,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -53,6 +60,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -69,6 +77,7 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -79,12 +88,13 @@ describe('BarChartEmbeddedTable', () => {
           ageBand: 'All',
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
   ];
 
-  const mockBenchmarkData = {
+  const mockBenchmarkData: HealthDataForArea = {
     areaCode: 'E92000001',
     areaName: 'England',
     healthData: [
@@ -97,6 +107,7 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: '0-4',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2008,
@@ -107,11 +118,12 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: '10-14',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   };
 
-  const mockGroupData = {
+  const mockGroupData: HealthDataForArea = {
     areaCode: 'E40000014',
     areaName: 'NHS North West Region',
     healthData: [
@@ -124,6 +136,7 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
       {
         year: 2004,
@@ -134,6 +147,7 @@ describe('BarChartEmbeddedTable', () => {
         ageBand: 'All',
         sex: 'All',
         trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: noDeprivation,
       },
     ],
   };
@@ -251,7 +265,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should render the SparklineChart bars for each area displayed in the table', () => {
+  it('should render the SparklineChart bars for each area displayed in the table', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -259,10 +273,21 @@ describe('BarChartEmbeddedTable', () => {
       />
     );
 
-    const sparkline = screen.getAllByTestId(
+    const sparkline = await screen.findAllByTestId(
       'highcharts-react-component-barChartEmbeddedTable'
     );
 
     expect(sparkline).toHaveLength(4);
+  });
+
+  it('should render the checkbox', async () => {
+    render(
+      <BarChartEmbeddedTable
+        healthIndicatorData={mockHealthIndicatorData}
+        benchmarkData={mockBenchmarkData}
+      />
+    );
+    const checkbox = await screen.findByRole('checkbox');
+    expect(checkbox).toBeInTheDocument();
   });
 });

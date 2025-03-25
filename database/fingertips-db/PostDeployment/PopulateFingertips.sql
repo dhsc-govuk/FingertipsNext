@@ -288,13 +288,15 @@ INSERT INTO dbo.AreaDimension
     Code,
     Name,
     StartDate,
-    EndDate
+    EndDate,
+    AreaType
 )
 SELECT
     RTRIM(AreaCode),
     RTRIM(AreaName),
     DATEADD(YEAR, -10, GETDATE()),
-    DATEADD(YEAR, 10, GETDATE())
+    DATEADD(YEAR, 10, GETDATE()),
+    replace(replace(AreaTypeCode, char(10),''), char(13),'')
 FROM
      #TempAreaData;
 
@@ -462,7 +464,7 @@ GO
 
 
 INSERT INTO [Areas].[AreaTypes]
-SELECT distinct
+SELECT DISTINCT
     replace(replace(AreaTypeCode, char(10),''), char(13),''),
     AreaType,
     HierarchyType,

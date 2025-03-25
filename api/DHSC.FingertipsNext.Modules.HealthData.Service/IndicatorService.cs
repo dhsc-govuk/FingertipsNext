@@ -13,45 +13,67 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
-
-    // polarity will come from somewhere else (DB indicator?) at a later date
-    public IndicatorPolarity Polarity { get; set; }= IndicatorPolarity.HighIsGood;
-
+    
     /// <summary>
     ///     Obtain health point data for a single indicator.
     /// </summary>
     /// <param name="indicatorId"></param>
-    /// <param name="areaCodes">
-    ///     An array of upto 10 area codes. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all area codes are retrieved.
-    /// </param>
-    /// <param name="years">
-    ///     An array of upto 10 years. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all years are retrieved.
-    /// </param>
+    /// <param name="areaCodes"> The area codes to get data for</param>
+    /// <param name="years">The years to get data for</param>
     /// <param name="inequalities">
     ///     An array of inequality dimensions to return. If the array is empty only data with no
     ///     inequality dimensions is retrieved.
     /// </param>
-    /// <param name="comparisonMethod">BenchmarkType to set comparison method e.g. None, RAG or Quartiles</param>
     /// <returns>
-    ///     An enumerable of <c>HealthDataForArea</c> matching the criteria,
-    ///     otherwise an empty enumerable.
+    ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    public async Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync
-        (
+    public async Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(
+        int indicatorId,
+        IEnumerable<string> areaCodes,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities)
+    {
+        var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
+        if (indicatorData == null) return null;
+        var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
+        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity); 
+        
+        return new IndicatorWithHealthDataForAreas()
+        {
+            Name = indicatorData.Name,
+            StartDate = indicatorData.StartDate,
+            EndDate = indicatorData.EndDate,
+            Polarity = polarity,
+            BenchmarkMethod = method,
+            AreaHealthData = await GetIndicatorAreaDataAsync(
+                indicatorId, 
+                areaCodes, 
+                years,
+                inequalities, 
+                method,
+                polarity
+                )
+        };
+    } 
+    
+
+    private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataAsync
+    (
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities,
-        BenchmarkComparisonMethod comparisonMethod
+        BenchmarkComparisonMethod comparisonMethod,
+    IndicatorPolarity polarity
         )
     {
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
         var areaCodesForSearch = areaCodes.ToList();
         var benchmarkAreaCode = AreaCodeEngland; //for PoC all benchmarking is against England, post PoC this will be passed in as a variable
         var wasBenchmarkAreaCodeRequested = areaCodesForSearch.Contains(benchmarkAreaCode);
-        var hasBenchmarkDataBeenRequested = comparisonMethod == BenchmarkComparisonMethod.Rag;
+        var hasBenchmarkDataBeenRequested = comparisonMethod is 
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95 or 
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8;
         
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
         if (hasBenchmarkDataBeenRequested && !wasBenchmarkAreaCodeRequested)
@@ -95,8 +117,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         (
             healthDataForAreas,
             benchmarkHealthData,
-            comparisonMethod,
-            Polarity
+            polarity
         );
     }
 }

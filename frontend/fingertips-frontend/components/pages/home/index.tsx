@@ -16,7 +16,7 @@ import {
   SearchFormState,
   searchIndicator,
 } from '@/components/forms/SearchForm/searchActions';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -38,6 +38,10 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState

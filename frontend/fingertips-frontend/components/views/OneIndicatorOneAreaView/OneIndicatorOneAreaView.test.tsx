@@ -2,10 +2,7 @@
  * @jest-environment node
  */
 
-import {
-  GetHealthDataForAnIndicatorComparisonMethodEnum,
-  IndicatorsApi,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorOneAreaView from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -34,7 +31,9 @@ describe('OneIndicatorOneAreaView', () => {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+        areaHealthData: [],
+      });
       await expect(async () => {
         await OneIndicatorOneAreaView({ searchState: searchState });
       }).rejects.toThrow('Invalid parameters provided to view');
@@ -53,7 +52,9 @@ describe('OneIndicatorOneAreaView', () => {
         [SearchParams.AreasSelected]: testAreas,
         [SearchParams.GroupSelected]: testGroup,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+        areaHealthData: [],
+      });
 
       await OneIndicatorOneAreaView({ searchState: searchState });
 
@@ -65,7 +66,6 @@ describe('OneIndicatorOneAreaView', () => {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
           inequalities: ['sex'],
-          comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
         },
         API_CACHE_CONFIG
       );
@@ -94,9 +94,9 @@ describe('OneIndicatorOneAreaView', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
       [SearchParams.AreasSelected]: ['A001'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([
-      mockHealthData['108'][1],
-    ]);
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [mockHealthData['108'][1]],
+    });
 
     const page = await OneIndicatorOneAreaView({ searchState: searchState });
 
