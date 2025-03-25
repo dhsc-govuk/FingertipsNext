@@ -17,10 +17,10 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
 import {
   generateStandardLineChartOptions,
-  getAllDataWithoutInequalities,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
+import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -46,8 +46,10 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
-  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
-    useState<boolean>(false);
+  const [
+    showStandardLineChartConfidenceIntervalsData,
+    setShowStandardLineChartConfidenceIntervalsData,
+  ] = useState<boolean>(false);
 
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -81,7 +83,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
     areaDataWithoutInequalities,
-    showConfidenceIntervalsData,
+    showStandardLineChartConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkWithoutInequalities,
       groupIndicatorData: groupDataWithoutInequalities,
@@ -109,9 +111,11 @@ export function OneIndicatorOneAreaViewPlots({
                 content: (
                   <LineChart
                     lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    showConfidenceIntervalsData={
+                      showStandardLineChartConfidenceIntervalsData
+                    }
                     setShowConfidenceIntervalsData={
-                      setShowConfidenceIntervalsData
+                      setShowStandardLineChartConfidenceIntervalsData
                     }
                     variant={LineChartVariant.Standard}
                   />

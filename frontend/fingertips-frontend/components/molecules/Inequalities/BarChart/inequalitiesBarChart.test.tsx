@@ -22,6 +22,8 @@ describe('Inequalities LineChart suite', () => {
     expect(
       screen.getByTestId('inequalitiesBarChart-component')
     ).toBeInTheDocument();
+    expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    expect(screen.getByText(/Show confidence intervals/i)).toBeInTheDocument();
     expect(barChart).toBeInTheDocument();
     expect(barChart).toHaveTextContent(`Inequality type: Sex`);
     expect(barChart).toHaveTextContent(yAxisLabel);

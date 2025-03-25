@@ -2,7 +2,6 @@ import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
   generateSeriesData,
   generateStandardLineChartOptions,
-  getAllDataWithoutInequalities,
   lineChartDefaultOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -11,9 +10,8 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { noDeprivation } from '@/lib/mocks';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
-const mockData: HealthDataForArea[] = [
+export const mockIndicatorData: HealthDataForArea[] = [
   {
     areaCode: 'A1425',
     areaName: 'North FooBar',
@@ -106,7 +104,7 @@ const mockData: HealthDataForArea[] = [
   },
 ];
 
-const mockBenchmarkData: HealthDataForArea = {
+export const mockBenchmarkData: HealthDataForArea = {
   areaCode: 'E92000001',
   areaName: 'England',
   healthData: [
@@ -137,7 +135,7 @@ const mockBenchmarkData: HealthDataForArea = {
   ],
 };
 
-const mockParentData: HealthDataForArea = {
+export const mockParentData: HealthDataForArea = {
   areaCode: 'P001',
   areaName: 'Parent',
   healthData: [
@@ -254,7 +252,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -354,7 +352,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
@@ -466,7 +464,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
@@ -481,7 +479,7 @@ describe('generateSeriesData', () => {
     const symbols: SymbolKeyValue[] = ['arc', 'circle'];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -499,7 +497,7 @@ describe('generateSeriesData', () => {
 
   it('should show confidence intervals bars', () => {
     const generatedSeriesData = generateSeriesData(
-      [mockData[0]],
+      [mockIndicatorData[0]],
       symbols,
       chartColours,
       undefined,
@@ -539,7 +537,7 @@ describe('generateSeriesData', () => {
 
   it('should not show confidence intervals bars', () => {
     const generatedSeriesData = generateSeriesData(
-      [mockData[0]],
+      [mockIndicatorData[0]],
       symbols,
       chartColours,
       undefined,
@@ -585,7 +583,7 @@ describe('generateSeriesData', () => {
     const errorBarColour = '#B1B4B6';
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -655,7 +653,7 @@ describe('generateStandardLineChartOptions', () => {
     };
 
     expect(
-      generateStandardLineChartOptions([mockData[0]], false, {
+      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
         benchmarkData: undefined,
         groupIndicatorData: undefined,
         yAxisTitle: 'yAxis',
@@ -667,154 +665,19 @@ describe('generateStandardLineChartOptions', () => {
       })
     ).toEqual(expected);
   });
-});
 
-describe('getAllDataWithoutInequalities', () => {
-  const mockHealthIndicatorData = [
-    {
-      ...mockData[0],
-      healthData: [
-        ...mockData[0].healthData,
-        {
-          count: 389,
-          lowerCi: 440,
-          upperCi: 580,
-          value: 530,
-          year: 2006,
-          sex: 'Male',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-          isAggregate: false,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          sex: 'Female',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-          isAggregate: false,
-        },
-      ],
-    },
-  ];
-
-  const benchmarkData = {
-    ...mockBenchmarkData,
-    healthData: [
-      ...mockBenchmarkData.healthData,
-      {
-        count: 389,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        value: 278.29134,
-        year: 2006,
-        sex: 'Male',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-      {
-        count: 267,
-        lowerCi: 410,
-        upperCi: 450,
-        value: 420,
-        year: 2004,
-        sex: 'Female',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-    ],
-  };
-
-  const groupData = {
-    ...mockParentData,
-    healthData: [
-      ...mockParentData.healthData,
-      {
-        count: 100,
-        lowerCi: 300,
-        upperCi: 400,
-        value: 350,
-        year: 2006,
-        sex: 'Male',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-      {
-        count: 101,
-        lowerCi: 400,
-        upperCi: 500,
-        value: 450,
-        year: 2004,
-        sex: 'Female',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-    ],
-  };
-
-  it('should get required data without inequalities', () => {
-    const expectedHealthDataWithoutInequalities = [{ ...mockData[0] }];
-    const expectedBenchmarkDataWithoutInequalities = { ...mockBenchmarkData };
-    const expectedGroupDataWithoutInequalities = { ...mockParentData };
-
-    const expected = {
-      areaDataWithoutInequalities: expectedHealthDataWithoutInequalities,
-      englandBenchmarkWithoutInequalities:
-        expectedBenchmarkDataWithoutInequalities,
-      groupDataWithoutInequalities: expectedGroupDataWithoutInequalities,
-    };
-
+  it('should generate standard line chart options with benchmark data', () => {
     expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData, groupData },
-        ['A1425']
-      )
-    ).toEqual(expected);
-  });
-
-  it('should return undefined benchmark data and group data when both are not provided', () => {
-    const expected = {
-      areaDataWithoutInequalities: [{ ...mockData[0] }],
-      englandBenchmarkWithoutInequalities: undefined,
-      groupDataWithoutInequalities: undefined,
-    };
-
-    expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandBenchmarkData: undefined, groupData: undefined },
-        []
-      )
-    ).toEqual(expected);
-  });
-
-  it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
-    const expected = {
-      areaDataWithoutInequalities: [],
-      englandBenchmarkWithoutInequalities: mockBenchmarkData,
-      groupDataWithoutInequalities: undefined,
-    };
-
-    expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandBenchmarkData: benchmarkData },
-        [areaCodeForEngland]
-      )
-    ).toEqual(expected);
+      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
+        benchmarkData: mockBenchmarkData,
+        groupIndicatorData: mockParentData,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      })
+    ).toMatchSnapshot();
   });
 });

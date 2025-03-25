@@ -47,8 +47,10 @@ export function Inequalities({
 
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
 
-  const [confidenceIntervalSelected, setConfidenceIntervalSelected] =
-    useState<boolean>(false);
+  const [
+    showInequalitiesLineChartConfidenceIntervals,
+    setShowInequalitiesLineChartConfidenceIntervals,
+  ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
@@ -74,7 +76,7 @@ export function Inequalities({
       lineChartData,
       dynamicKeys,
       type,
-      confidenceIntervalSelected,
+      showInequalitiesLineChartConfidenceIntervals,
       generateInequalitiesLineChartTooltipStringList,
       {
         areasSelected,
@@ -125,8 +127,12 @@ export function Inequalities({
             content: (
               <LineChart
                 lineChartOptions={inequalitiesLineChartOptions}
-                showConfidenceIntervalsData={confidenceIntervalSelected}
-                setShowConfidenceIntervalsData={setConfidenceIntervalSelected}
+                showConfidenceIntervalsData={
+                  showInequalitiesLineChartConfidenceIntervals
+                }
+                setShowConfidenceIntervalsData={
+                  setShowInequalitiesLineChartConfidenceIntervals
+                }
                 variant={LineChartVariant.Inequalities}
               />
             ),

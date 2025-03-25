@@ -18,7 +18,10 @@ import {
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
-import { generateConfidenceIntervalSeries } from '@/components/organisms/LineChart/lineChartHelpers';
+import {
+  generateConfidenceIntervalSeries,
+  loadHighchartsModules,
+} from '@/lib/chartHelpers/chartHelpers';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
@@ -57,9 +60,6 @@ export function InequalitiesBarChart({
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
   const [options, setOptions] = useState<Highcharts.Options>();
-  const loadHighchartsModules = async (callback: () => void) => {
-    await import('highcharts/highcharts-more').then(callback);
-  };
 
   // for sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API

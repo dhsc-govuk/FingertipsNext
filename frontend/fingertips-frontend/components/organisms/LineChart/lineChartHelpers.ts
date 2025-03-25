@@ -5,19 +5,12 @@ import { chartColours, ChartColours } from '@/lib/chartHelpers/colours';
 import {
   sortHealthDataForAreasByDate,
   sortHealthDataForAreaByDate,
-  getHealthDataWithoutInequalities,
-  isEnglandSoleSelectedArea,
+  generateConfidenceIntervalSeries,
 } from '@/lib/chartHelpers/chartHelpers';
 
 export enum LineChartVariant {
   Standard = 'standard',
   Inequalities = 'inequalities',
-}
-
-interface DataWithoutInequalities {
-  areaDataWithoutInequalities: HealthDataForArea[];
-  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
-  groupDataWithoutInequalities: HealthDataForArea | undefined;
 }
 
 export const lineChartDefaultOptions: Highcharts.Options = {
@@ -55,22 +48,6 @@ export const chartSymbols: SymbolKeyValue[] = [
   'circle',
   'diamond',
 ];
-
-export function generateConfidenceIntervalSeries(
-  areaName: string,
-  data: (number | undefined)[][],
-  showConfidenceIntervalsData?: boolean
-): Highcharts.SeriesOptionsType {
-  return {
-    type: 'errorbar',
-    name: areaName,
-    data: data,
-    visible: showConfidenceIntervalsData,
-    color: GovukColours.MidGrey,
-    whiskerLength: '20%',
-    lineWidth: 2,
-  };
-}
 
 export function generateSeriesData(
   data: HealthDataForArea[],
@@ -213,43 +190,3 @@ export function generateStandardLineChartOptions(
     },
   };
 }
-
-export const getAllDataWithoutInequalities = (
-  dataWithoutEnglandOrGroup: HealthDataForArea[],
-  benchmark: {
-    englandBenchmarkData?: HealthDataForArea;
-    groupData?: HealthDataForArea;
-  },
-  areasSelected?: string[]
-): DataWithoutInequalities => {
-  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
-    ? dataWithoutEnglandOrGroup.map((data) => ({
-        ...data,
-        healthData: getHealthDataWithoutInequalities(data),
-      }))
-    : [];
-
-  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.englandBenchmarkData
-      ? {
-          ...benchmark.englandBenchmarkData,
-          healthData: getHealthDataWithoutInequalities(
-            benchmark.englandBenchmarkData
-          ),
-        }
-      : undefined;
-
-  const groupDataWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.groupData
-      ? {
-          ...benchmark.groupData,
-          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
-        }
-      : undefined;
-
-  return {
-    areaDataWithoutInequalities,
-    englandBenchmarkWithoutInequalities,
-    groupDataWithoutInequalities,
-  };
-};

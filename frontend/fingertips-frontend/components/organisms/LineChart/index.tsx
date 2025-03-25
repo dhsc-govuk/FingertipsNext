@@ -5,6 +5,7 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import { LineChartVariant } from './lineChartHelpers';
+import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
 
 interface LineChartProps {
   lineChartOptions: Highcharts.Options;
@@ -20,9 +21,6 @@ export function LineChart({
   variant,
 }: Readonly<LineChartProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-  const loadHighchartsModules = async (callback: () => void) => {
-    await import('highcharts/highcharts-more').then(callback);
-  };
 
   useEffect(() => {
     loadHighchartsModules(() => {
