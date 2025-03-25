@@ -187,7 +187,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
       <OneIndicatorTwoOrMoreAreasViewPlots
         healthIndicatorData={testHealthData}
         searchState={searchState}
-        areaCodes={mockAreas}
       />
     );
 
