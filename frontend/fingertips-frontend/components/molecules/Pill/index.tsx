@@ -62,7 +62,7 @@ export function Pill({
 }: Readonly<PillProps>) {
   return (
     <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
-      {(removeFilter && !isViewOnly) ? (
+      {removeFilter && !isViewOnly ? (
         <RemoveAreaButton
           aria-label={`Remove area ${ariaLabelPostfix}`}
           data-testid="remove-icon-div"

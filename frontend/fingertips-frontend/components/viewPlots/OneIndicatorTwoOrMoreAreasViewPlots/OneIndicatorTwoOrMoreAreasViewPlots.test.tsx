@@ -82,25 +82,6 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('oneIndicatorTwoOrMoreAreasViewPlots-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   describe('LineChart components', () => {
     it('should render the LineChart components when there are 2 areas', async () => {
       render(

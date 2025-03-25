@@ -40,10 +40,10 @@ const StyledFilterDiv = styled('div')({
 const FocusAnchor = styled('button')(
   typography.font({ size: 16, lineHeight: '1' }),
   {
-    cursor: 'pointer',
-    textDecoration: 'underline',
-    border: 'none',
-    backgroundColor: 'transparent',
+    'cursor': 'pointer',
+    'textDecoration': 'underline',
+    'border': 'none',
+    'backgroundColor': 'transparent',
     '&:focus-visible': {
       outline: `3px solid ${GovukColours.Yellow}`,
       outlineOffset: -1,

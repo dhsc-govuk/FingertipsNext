@@ -33,7 +33,7 @@ describe('Pill Suite', () => {
   });
 
   it('should not render close icon if view only', () => {
-    renderPill({isViewOnly: true});
+    renderPill({ isViewOnly: true });
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();

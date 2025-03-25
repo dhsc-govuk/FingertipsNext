@@ -66,7 +66,6 @@ export function SelectedIndicatorsPanel({
           <SectionBreak visible={true} />
         </>
       )}
-
     </StyledFilterSelectedIndicatorDiv>
   );
 }
