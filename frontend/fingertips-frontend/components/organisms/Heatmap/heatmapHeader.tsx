@@ -75,6 +75,7 @@ export const HeatmapHeader = ({
           <StyledH4IndicatorHeader>{content}</StyledH4IndicatorHeader>
         </StyledCellHeaderIndicatorTitle>
       );
+
     case HeaderType.IndicatorInformation: {
       return (
         <StyledCellHeader>
