@@ -193,6 +193,7 @@ namespace DataCreator
             var categoryData = new List<CategoryEntity>();
             foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
             {
+                healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
                 if (categoryData.FirstOrDefault(cd =>
                     cd.CategoryName.Equals(healthMeasure.Category, StringComparison.CurrentCultureIgnoreCase) &&
                     cd.CategoryTypeName.Equals(healthMeasure.CategoryType, StringComparison.CurrentCultureIgnoreCase)) == null)
@@ -204,8 +205,59 @@ namespace DataCreator
                         Sequence = CreateSequenceForCategory(healthMeasure.Category)
                     });
                 }
+                
             }
+            //clean up the names and make GDS compliant - ticket 412
             DataFileManager.WriteCategoryCsvData("categories", categoryData);
+        }
+
+        private static string CleanCategoryTypeName(string originalName)
+        {
+            const string CountiesAndUa = "Counties and Unitary Authorities";
+            const string DistrictAndUa = "Districts and Unitary Authorities";
+            const string DeprivationDeciles = "deprivation deciles";
+            const string Geography = "geography";
+            const string IMD = "Index of Multiple Deprivation";
+            const string Year2019 = "2019";
+            const string April = "Apr";
+
+            if (originalName.Equals("CCG deprivation deciles in England (IMD2019, 2021 CCGs)", StringComparison.CurrentCultureIgnoreCase))
+                return $"Clinical Commissioning Groups {DeprivationDeciles}: 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: before {April} {Year2019} {Geography} ({IMD} 2015)";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} {Year2019} and {April} 2020 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/21 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/23 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} 2023 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: before {April} {Year2019} {Geography} ({IMD} 2015)";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} {Year2019} {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/20 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2020 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/21 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/23 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2023 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("General Practice deprivation deciles in England (IMD2010)", StringComparison.CurrentCultureIgnoreCase))
+                return $"General Practice {DeprivationDeciles}: ({IMD} 2010)";
+
+            if (originalName.Equals("LSOA11 deprivation deciles within area (IMD  trend)", StringComparison.CurrentCultureIgnoreCase))
+                return $"LSOA11 {DeprivationDeciles}: ({IMD} trend)";
+
+            return originalName;
         }
 
         private static int CreateSequenceForCategory(string categoryName)
