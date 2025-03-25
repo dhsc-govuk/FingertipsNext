@@ -511,6 +511,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -527,6 +528,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: '20-24',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -543,6 +545,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -559,6 +562,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -575,6 +579,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -591,6 +596,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -598,7 +604,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
     expect(actual).toEqual(expected);
   });
   it('should return APPROPRIATELY for areas which dont have data for the most recent year', () => {
-    const mockHealthDataWithMissingMostReccentYearForOneArea = [
+    const mockHealthDataWithMissingMostRecentYearForOneArea = [
       {
         areaCode: 'A1425',
         areaName: 'Greater Manchester ICB - 00T',
@@ -612,6 +618,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -622,6 +629,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'All',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -632,6 +640,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -642,6 +651,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2006,
@@ -652,6 +662,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2020,
@@ -662,6 +673,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -678,6 +690,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: '0-4',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2006,
@@ -688,6 +701,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: '5-9',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2008,
@@ -698,6 +712,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: '10-14',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -708,6 +723,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: '15-19',
             sex: 'Female',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -724,6 +740,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2020,
@@ -734,6 +751,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -744,6 +762,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2008,
@@ -754,6 +773,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -764,6 +784,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -780,6 +801,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2008,
@@ -790,6 +812,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -800,6 +823,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -810,6 +834,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2006,
@@ -820,6 +845,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -836,6 +862,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -846,6 +873,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2006,
@@ -856,6 +884,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -866,6 +895,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2008,
@@ -876,6 +906,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -892,6 +923,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2012,
@@ -902,6 +934,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2008,
@@ -912,6 +945,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2020,
@@ -922,6 +956,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
           {
             year: 2004,
@@ -932,12 +967,13 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
     ];
     const actual = getHealthDataForAreasForMostRecentYearOnly(
-      mockHealthDataWithMissingMostReccentYearForOneArea
+      mockHealthDataWithMissingMostRecentYearForOneArea
     );
     const expected: HealthDataForArea[] = [
       {
@@ -953,6 +989,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -974,6 +1011,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -990,6 +1028,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -1006,6 +1045,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
@@ -1022,6 +1062,7 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
             ageBand: 'All',
             sex: 'Persons',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: { sequence: 1, value: 'All', type: 'All' },
           },
         ],
       },
