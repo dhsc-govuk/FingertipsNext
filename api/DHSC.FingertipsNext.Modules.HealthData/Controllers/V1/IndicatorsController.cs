@@ -9,7 +9,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
-    private const int MaxParamArrayLength = 10;
+    private const int MaxNumberAreas = 10;
+    private const int MaxNumberYears = 10;
     private const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
@@ -40,25 +41,18 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery] string[]? inequalities = null,
         [FromQuery] string? comparison_method = "None")
     {
-        if (areaCodes is { Length: > MaxParamArrayLength })
-        {
-            return new BadRequestObjectResult(
-                new SimpleError { Message = string.Format(TooManyParametersMessage, "area_codes", areaCodes.Length) }
-            );
-        }
+        if(areaCodes is { Length: > MaxNumberAreas })
+            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied." });
 
-        if (years is { Length: > MaxParamArrayLength })
-        {
-            return new BadRequestObjectResult(
-                new SimpleError { Message = string.Format(TooManyParametersMessage, "years", years.Length) }
-            );
-        }
+        if (years is { Length: > MaxNumberYears })
+            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied." });
 
         var comparisonMethodParsed= Enum.TryParse(comparison_method, true, out BenchmarkComparisonMethod benchmarkType);
         if (!comparisonMethodParsed)
             benchmarkType = BenchmarkComparisonMethod.None;
 
-        var indicatorData = await _indicatorsService.GetIndicatorDataAsync(
+        var indicatorData = await _indicatorsService.GetIndicatorDataAsync
+        (
             indicatorId,
             areaCodes ?? [],
             years ?? [],

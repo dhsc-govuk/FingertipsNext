@@ -21,6 +21,7 @@ import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { noDeprivation } from '@/lib/mocks';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -35,6 +36,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 400,
@@ -45,6 +47,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Male',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 267,
@@ -55,6 +58,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Persons',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
     {
       count: 300,
@@ -65,6 +69,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       sex: 'Female',
       ageBand: 'All',
       trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
     },
   ],
 };
