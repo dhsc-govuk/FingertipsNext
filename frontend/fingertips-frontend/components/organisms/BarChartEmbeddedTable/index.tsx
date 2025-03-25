@@ -12,9 +12,11 @@ import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableC
 import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
+import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
+  RecentTrend = 'Recent trend',
   Period = 'Period',
   Count = 'Count',
   Value = 'Value',
@@ -60,6 +62,7 @@ export function BarChartEmbeddedTable({
   const tableRows = mostRecentYearData.map((item) => ({
     area: item.areaName,
     period: item.healthData[0].year,
+    trend: item.healthData[0].trend,
     count: item.healthData[0].count,
     value: item.healthData[0].value,
     lowerCi: item.healthData[0].lowerCi,
@@ -101,7 +104,7 @@ export function BarChartEmbeddedTable({
         head={
           <React.Fragment>
             <Table.Row>
-              <Table.CellHeader colSpan={5}></Table.CellHeader>
+              <Table.CellHeader colSpan={6}></Table.CellHeader>
               <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
                 {formatHeader(BarChartEmbeddedTableHeadingEnum.ConfidenceLimit)}
               </Table.CellHeader>
@@ -113,6 +116,9 @@ export function BarChartEmbeddedTable({
               </Table.CellHeader>
               <Table.CellHeader>
                 {BarChartEmbeddedTableHeadingEnum.Period}
+              </Table.CellHeader>
+              <Table.CellHeader>
+                {BarChartEmbeddedTableHeadingEnum.RecentTrend}
               </Table.CellHeader>
               <Table.CellHeader>
                 {BarChartEmbeddedTableHeadingEnum.Count}
@@ -141,6 +147,9 @@ export function BarChartEmbeddedTable({
           >
             <CheckValueInTableCell value={benchmarkData?.areaName} />
             <CheckValueInTableCell value={mostRecentBenchmarkData.year} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
             <CheckValueInTableCell
               value={mostRecentBenchmarkData.value}
@@ -170,6 +179,9 @@ export function BarChartEmbeddedTable({
           >
             <CheckValueInTableCell value={groupIndicatorData?.areaName} />
             <CheckValueInTableCell value={mostRecentGroupData.year} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={mostRecentGroupData.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.count} />
             <CheckValueInTableCell
               value={mostRecentGroupData.value}
@@ -195,6 +207,9 @@ export function BarChartEmbeddedTable({
           <Table.Row key={`${item.area}`}>
             <CheckValueInTableCell value={item.area} />
             <CheckValueInTableCell value={item.period} />
+            <Table.Cell>
+              <TrendTag trendFromResponse={item.trend} />
+            </Table.Cell>
             <CheckValueInTableCell value={item.count} />
             <CheckValueInTableCell
               value={item.value}
