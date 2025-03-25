@@ -97,7 +97,7 @@ export const generateHeadersAndRows = (
     sortedAreas.map((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
         key: 'col-' + indicator.id + '-' + area.code,
-        content: formatValue(dataPoints[indicator.id][area.code].value),
+        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers properly
         backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
       };
     });

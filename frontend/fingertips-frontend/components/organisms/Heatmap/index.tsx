@@ -63,12 +63,16 @@ const StyledH4GroupAreaCodeHeader = styled(StyledH4AreaScaled)({
   paddingRight: '4px',
 });
 
-// Indicator Headers
-const StyledH4IndicatorHeader = styled(H4)({
+// Headers
+const StyledH4Header = styled(H4)({
+  height: '30px',
+});
+
+const StyledH4IndicatorHeader = styled(StyledH4Header)({
   width: indicatorTitleColumnWidth,
 });
 
-const StyledTitleCellHeader = styled(Table.CellHeader)({
+const StyledCellHeaderIndicatorTitle = styled(Table.CellHeader)({
   verticalAlign: 'bottom',
   width: indicatorTitleColumnWidth,
 });
@@ -78,7 +82,7 @@ const StyledCellHeader = styled(Table.CellHeader)({
   paddingRight: '0px',
 });
 
-const StyledIndicatorCellContent = styled.div({
+const StyledDivIndicatorCellContent = styled.div({
   textOverflow: 'ellipsis',
   overflow: 'hidden',
   width: indicatorTitleColumnWidth,
@@ -88,27 +92,20 @@ const StyledIndicatorCellContent = styled.div({
 });
 
 // Cells
-const StyledCellValueUnit = styled(Table.Cell)({
+const StyledCellText = styled(Table.Cell)({
   width: titleColumnWidth,
   minHeight: '70px',
   padding: 0,
 });
 
-const StyledCellPeriod = styled(Table.Cell)({
+const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
   width: dataColumnWidth,
   minHeight: '70px',
   padding: 0,
 });
 
-const StyledCellData = styled(Table.Cell)({
-  textAlign: 'center',
-  width: dataColumnWidth,
-  minHeight: '70px',
-  padding: 0,
-});
-
-const StyledCellDataWithBackground = styled(StyledCellData)<{
+const StyledCellDataWithBackground = styled(StyledCellNumeric)<{
   $backgroundColor?: string;
 }>`
   background-color: ${(props) =>
@@ -134,7 +131,7 @@ export function Heatmap({
         return <StyledH4IndicatorHeader>{header}</StyledH4IndicatorHeader>;
       case 1:
       case 2: {
-        return <H4>{header}</H4>;
+        return <StyledH4Header>{header}</StyledH4Header>;
       }
 
       case 3: {
@@ -175,19 +172,14 @@ export function Heatmap({
       case 0:
         return (
           <Table.Cell key={cell.key}>
-            <StyledIndicatorCellContent>
+            <StyledDivIndicatorCellContent>
               {cell.content}
-            </StyledIndicatorCellContent>
+            </StyledDivIndicatorCellContent>
           </Table.Cell>
         );
       case 1:
-        return (
-          <StyledCellValueUnit key={cell.key}>
-            {cell.content}
-          </StyledCellValueUnit>
-        );
       case 2:
-        <StyledCellPeriod key={cell.key}>{cell.content}</StyledCellPeriod>;
+        return <StyledCellText key={cell.key}>{cell.content}</StyledCellText>;
       default:
         return (
           <StyledCellDataWithBackground
@@ -205,9 +197,9 @@ export function Heatmap({
       <Table.Row>
         {headers.map((header, index) => {
           return index < 1 ? (
-            <StyledTitleCellHeader key={header.key}>
+            <StyledCellHeaderIndicatorTitle key={header.key}>
               {generateHeader(header.content, index, false)}
-            </StyledTitleCellHeader>
+            </StyledCellHeaderIndicatorTitle>
           ) : (
             <StyledCellHeader key={header.key}>
               {generateHeader(
