@@ -28,9 +28,9 @@ export function SparklineChart({
     series.push({
       type: 'errorbar',
       data: [confidenceIntervalValues],
-      color: GovukColours.MidGrey,
-      whiskerLength: '20%',
-      lineWidth: 2,
+      color: GovukColours.Black,
+      whiskerLength: '50%',
+      lineWidth: 3,
     });
   }
 
