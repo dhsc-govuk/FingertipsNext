@@ -144,7 +144,7 @@ ELSE
     SET @filePathDeprivation = '$(LocalFilePath)categories.csv';
 SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDeprivation + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlDeprivation;
@@ -196,7 +196,7 @@ ELSE
     SET @filePathAge = '$(LocalFilePath)agedata.csv';
 SET @sqlAge = 'BULK INSERT #TempAgeData FROM ''' + @filePathAge + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlAge;
@@ -232,7 +232,7 @@ ELSE
     SET @filePathInd = '$(LocalFilePath)indicators.csv';
 SET @sqlInd = 'BULK INSERT #TempIndicatorData FROM ''' + @filePathInd + ''' WITH (' +
               CASE WHEN @UseAzureBlob = '1'
-                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
+                   THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                    ELSE 'DATAFILETYPE = ''char'', FIELDTERMINATOR = '','', ROWTERMINATOR = ''\n'', FIRSTROW = 2'
               END + ')';
 EXEC sp_executesql @sqlInd;
@@ -278,7 +278,7 @@ ELSE
     SET @filePathArea = '$(LocalFilePath)areas.csv';
 SET @sqlArea = 'BULK INSERT #TempAreaData FROM ''' + @filePathArea + ''' WITH (' +
                CASE WHEN @UseAzureBlob = '1'
-                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
+                    THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                     ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                END + ')';
 EXEC sp_executesql @sqlArea;
@@ -288,19 +288,21 @@ INSERT INTO dbo.AreaDimension
     Code,
     Name,
     StartDate,
-    EndDate
+    EndDate,
+    AreaType
 )
 SELECT
     RTRIM(AreaCode),
     RTRIM(AreaName),
     DATEADD(YEAR, -10, GETDATE()),
-    DATEADD(YEAR, 10, GETDATE())
+    DATEADD(YEAR, 10, GETDATE()),
+    replace(replace(AreaTypeCode, char(10),''), char(13),'')
 FROM
      #TempAreaData;
 
 
 -- Health Data
-CREATE TABLE #TempHealthData
+CREATE TABLE #RawHealthData
 (
     IndicatorId INT,
     Year INT,
@@ -318,19 +320,95 @@ CREATE TABLE #TempHealthData
     AgeID INT,
     IsSexAggregatedOrSingle NVARCHAR(255),
     IsAgeAggregatedOrSingle NVARCHAR(255),
-    IsDeprivationAggregatedOrSingle NVARCHAR(255)
+    IsDeprivationAggregatedOrSingle NVARCHAR(255),
+    Avoid INT
 );
-DECLARE @sqlHealth NVARCHAR(4000), @filePathHealth NVARCHAR(500);
+
+DECLARE @sqlHealth NVARCHAR(4000),
+        @filePathHealth NVARCHAR(500);
+
 IF @UseAzureBlob = '1'
     SET @filePathHealth = 'healthdata.csv';
 ELSE
     SET @filePathHealth = '$(LocalFilePath)healthdata.csv';
-SET @sqlHealth = 'BULK INSERT #TempHealthData FROM ''' + @filePathHealth + ''' WITH (' +
+
+SET @sqlHealth = 'BULK INSERT #RawHealthData FROM ''' + @filePathHealth + ''' WITH (' +
                  CASE WHEN @UseAzureBlob = '1'
-                      THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2'
+                      THEN 'DATA_SOURCE = ''MyAzureBlobStorage'', FORMAT = ''CSV'', FIRSTROW = 2, ROWTERMINATOR = ''0x0A'''
                       ELSE 'FORMAT = ''CSV'', FIRSTROW = 2'
                  END + ')';
+
 EXEC sp_executesql @sqlHealth;
+
+CREATE TABLE #TempHealthData
+(
+    IndicatorId INT,
+    Year INT,
+    AreaCode NVARCHAR(255),
+    Count FLOAT,
+    Value FLOAT,
+    Lower95CI FLOAT,
+    Upper95CI FLOAT,
+    Lower98CI FLOAT,
+    Upper98CI FLOAT,
+    Denominator FLOAT,
+    Sex NVARCHAR(255),
+    CategoryType NVARCHAR(MAX),
+    Category NVARCHAR(255),
+    AgeID INT,
+    IsSexAggregatedOrSingle NVARCHAR(255),
+    IsAgeAggregatedOrSingle NVARCHAR(255),
+    IsDeprivationAggregatedOrSingle NVARCHAR(255)
+);
+
+
+INSERT INTO #TempHealthData
+(
+    IndicatorId,
+    Year,
+    AreaCode,
+    Count,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Lower98CI,
+    Upper98CI,
+    Denominator,
+    Sex,
+    CategoryType,
+    Category,
+    AgeID,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
+)
+SELECT 
+    IndicatorId,
+    Year,
+    LTRIM(RTRIM(AreaCode)) AS AreaCode,
+    Count,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    Lower98CI,
+    Upper98CI,
+    Denominator,
+    LTRIM(RTRIM(Sex)) AS Sex,
+    LTRIM(RTRIM(CategoryType)) AS CategoryType,
+    LTRIM(RTRIM(Category)) AS Category,
+    AgeID,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
+FROM #RawHealthData;
+
+
+DROP TABLE #RawHealthData;
+
+CREATE INDEX IX_TempHealthData_AreaCode ON #TempHealthData(AreaCode);
+CREATE INDEX IX_TempHealthData_IndicatorId ON #TempHealthData(IndicatorId);
+CREATE INDEX IX_TempHealthData_Sex ON #TempHealthData(Sex);
+CREATE INDEX IX_TempHealthData_AgeID ON #TempHealthData(AgeID);
 
 ALTER TABLE [dbo].[HealthMeasure] NOCHECK CONSTRAINT ALL
 INSERT INTO [dbo].[HealthMeasure]
@@ -362,9 +440,9 @@ SELECT
     Lower95CI,
     Upper95CI,
     Year,
-    REPLACE(IsSexAggregatedOrSingle, char(13), ''),
-    REPLACE(IsAgeAggregatedOrSingle, char(13), ''),
-    REPLACE(IsDeprivationAggregatedOrSingle, char(13), '')
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle
 FROM 
 	#TempHealthData temp
 JOIN
@@ -383,9 +461,11 @@ ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL
 
 DROP TABLE #TempHealthData;
 
+GO
+
 
 INSERT INTO [Areas].[AreaTypes]
-SELECT distinct
+SELECT DISTINCT
     replace(replace(AreaTypeCode, char(10),''), char(13),''),
     AreaType,
     HierarchyType,

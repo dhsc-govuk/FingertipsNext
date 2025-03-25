@@ -3,6 +3,7 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
+  DeprivationData,
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
@@ -22,6 +23,11 @@ interface HeatmapChartProps {
 
 // Temporary test data for Heatmap
 const areaCodes: Array<string> = ['a1', 'a2', 'a3'];
+const noDeprivation: DeprivationData = {
+  sequence: 1,
+  type: 'All',
+  value: 'All',
+};
 const heatmapData: Array<IndicatorRowData> = [
   {
     indicator: 'Indicator1',
@@ -40,6 +46,7 @@ const heatmapData: Array<IndicatorRowData> = [
             ageBand: 'ageBand',
             sex: 'M',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -62,6 +69,7 @@ const heatmapData: Array<IndicatorRowData> = [
             ageBand: 'ageBand',
             sex: 'M',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             year: 2024,
@@ -72,6 +80,7 @@ const heatmapData: Array<IndicatorRowData> = [
             ageBand: 'ageBand',
             sex: 'M',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },
@@ -88,6 +97,7 @@ const heatmapData: Array<IndicatorRowData> = [
             ageBand: 'ageBand',
             sex: 'M',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
           {
             year: 2024,
@@ -98,6 +108,7 @@ const heatmapData: Array<IndicatorRowData> = [
             ageBand: 'ageBand',
             sex: 'M',
             trend: HealthDataPointTrendEnum.NotYetCalculated,
+            deprivation: noDeprivation,
           },
         ],
       },

@@ -95,6 +95,26 @@ export function buildIndicatorSearchIndex(name: string): SearchIndex {
         filterable: true,
       },
       {
+        name: IndicatorSearchIndexColumnNames.INDICATOR_AREAS_WITH_TRENDS,
+        type: 'Collection(Edm.ComplexType)',
+        fields: [
+          {
+            name: IndicatorSearchIndexColumnNames.INDICATOR_AREAS_WITH_TRENDS_TREND,
+            type: 'Edm.String',
+            searchable: false,
+            sortable: false,
+            filterable: false,
+          },
+          {
+            name: IndicatorSearchIndexColumnNames.INDICATOR_AREAS_WITH_TRENDS_AREA_CODE,
+            type: 'Edm.String',
+            searchable: false,
+            sortable: false,
+            filterable: false,
+          },
+        ]
+      },
+      {
         name: IndicatorSearchIndexColumnNames.INDICATOR_HAS_INEQUALITIES,
         type: 'Edm.Boolean',
         searchable: false,

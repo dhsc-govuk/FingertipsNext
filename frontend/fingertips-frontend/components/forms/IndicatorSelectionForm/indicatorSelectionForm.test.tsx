@@ -267,4 +267,77 @@ describe('IndicatorSelectionForm', () => {
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
+
+  it('should render the "Select all" checkbox', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(
+      screen.getByRole('checkbox', { name: /Select all/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('checkbox', { name: /Select all/i })
+    ).not.toBeChecked();
+  });
+
+  it('should select all indicators when "Select all" is checked', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+    expect(mockReplace).toHaveBeenCalledWith(
+      `${mockPath}?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
+      { scroll: false }
+    );
+  });
+
+  it('should deselect all indicators when "Select all" is unchecked', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
+            (item) => item.indicatorID
+          ),
+        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+    expect(mockReplace).toHaveBeenCalledWith(
+      `${mockPath}?${SearchParams.SearchedIndicator}=test`,
+      { scroll: false }
+    );
+  });
+
+  it('should check "Select all" checkbox if all indicators are selected', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
+            (item) => item.indicatorID
+          ),
+        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(screen.getByRole('checkbox', { name: /Select all/i })).toBeChecked();
+  });
 });

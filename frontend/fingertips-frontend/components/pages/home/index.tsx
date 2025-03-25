@@ -40,6 +40,10 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState

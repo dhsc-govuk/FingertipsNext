@@ -8,7 +8,7 @@ import {
   H1,
   LoadingBox,
 } from 'govuk-react';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import {
   IndicatorSelectionState,
   submitIndicatorSelection,
@@ -28,8 +28,9 @@ import {
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
-import { useEffect } from 'react';
 import { useLoader } from '@/context/LoaderContext';
+import { AppStorage, StorageKeys } from '@/storage/storage';
+import { usePathname } from 'next/navigation';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -54,6 +55,15 @@ export function SearchResults({
   currentDate,
 }: Readonly<SearchResultsProps>) {
   const { isLoading, setIsLoading } = useLoader();
+  const pathname = usePathname();
+  const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
+
+  useEffect(() => {
+    if (pathname !== previousPath) {
+      window.scrollTo(0, 0);
+    }
+    AppStorage.updateState(StorageKeys.previousPath, pathname);
+  }, [previousPath, pathname]);
 
   useEffect(() => {
     setIsLoading(false);

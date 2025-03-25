@@ -15,9 +15,6 @@ public class AreaModuleConfig(IConfiguration configuration) : IAreaModuleConfig
     public string InitialCatalog => GetRequired("DB_NAME");
     public bool TrustServerCertificate => configuration.GetValue("TRUST_CERT", false);
 
-    string GetRequired(string key)
-    {
-        return configuration.GetValue<string>(key)
+    string GetRequired(string key) => configuration.GetValue<string>(key)
             ?? throw new InvalidOperationException($"Module:Area: Invalid config - {key}");
-    }
 }
