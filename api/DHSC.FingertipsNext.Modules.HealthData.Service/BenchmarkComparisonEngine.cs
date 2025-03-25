@@ -28,7 +28,6 @@ public static class BenchmarkComparisonEngine
     public static IEnumerable<HealthDataForArea> ProcessBenchmarkComparisons(
         IEnumerable<HealthDataForArea> healthDataForAreasOfInterest,
         HealthDataForArea benchmarkHealthData,
-        BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity
     )
     {
@@ -36,7 +35,7 @@ public static class BenchmarkComparisonEngine
             .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
 
         foreach (var healthAreaData in allHealthAreasOfInterest)
-            ProcessBenchmarkComparisonsForArea(healthAreaData, benchmarkHealthData, comparisonMethod,
+            ProcessBenchmarkComparisonsForArea(healthAreaData, benchmarkHealthData,
                 polarity);
 
         return healthDataForAreasOfInterest;
@@ -44,7 +43,6 @@ public static class BenchmarkComparisonEngine
 
     private static void ProcessBenchmarkComparisonsForArea(HealthDataForArea areaHealthData,
         HealthDataForArea benchmarkHealthData,
-        BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity)
     {
         var areaHealthDataPoints = areaHealthData.HealthData;
@@ -52,7 +50,6 @@ public static class BenchmarkComparisonEngine
             healthDataPointOfInterest,
             areaHealthData,
             benchmarkHealthData,
-            comparisonMethod,
             polarity);
     }
 
@@ -61,7 +58,6 @@ public static class BenchmarkComparisonEngine
         HealthDataPoint healthDataPointOfInterest,
         HealthDataForArea areaHealthData,
         HealthDataForArea benchmarkHealthData,
-        BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity
     )
     {
@@ -97,9 +93,7 @@ public static class BenchmarkComparisonEngine
 
         healthDataPointOfInterest.BenchmarkComparison = new BenchmarkComparison
         {
-            Method = comparisonMethod,
             Outcome = GetOutcome(comparisonValue, polarity),
-            IndicatorPolarity = polarity,
             BenchmarkValue = benchmarkHealthDataPoint.Value,
             BenchmarkAreaCode = benchmarkAreaCode,
             BenchmarkAreaName = benchmarkAreaName
