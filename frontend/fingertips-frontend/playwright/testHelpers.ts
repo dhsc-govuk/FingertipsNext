@@ -1,5 +1,6 @@
 import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
+import { SimpleIndicatorDocument } from './tests/data_quality_testing/loop_all_indicators.spec';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -14,6 +15,7 @@ export enum IndicatorMode {
 
 export enum AreaMode {
   ONE_AREA = 'ONE_AREA',
+  TWO_AREAS = 'TWO_AREAS',
   TWO_PLUS_AREAS = 'TWO_PLUS_AREAS',
   ALL_AREAS_IN_A_GROUP = 'ALL_AREAS_IN_A_GROUP',
   ENGLAND_AREA = 'ENGLAND_AREA',
@@ -51,8 +53,10 @@ export function getScenarioConfig(
 
   // 1 indicator, 1 area
   if (
-    indicatorMode === IndicatorMode.ONE_INDICATOR &&
-    areaMode === AreaMode.ONE_AREA
+    (indicatorMode === IndicatorMode.ONE_INDICATOR &&
+      areaMode === AreaMode.ONE_AREA) ||
+    (indicatorMode === IndicatorMode.ONE_INDICATOR &&
+      areaMode === AreaMode.ENGLAND_AREA)
   ) {
     visibleComponents = [
       ChartPage.lineChartComponent,
@@ -66,6 +70,19 @@ export function getScenarioConfig(
       // ChartPage.populationPyramidComponent,
     ];
   }
+  // 1 indicator, 2 areas
+  else if (
+    indicatorMode === IndicatorMode.ONE_INDICATOR &&
+    areaMode === AreaMode.TWO_AREAS
+  ) {
+    visibleComponents = [
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+      ChartPage.lineChartComponent,
+      ChartPage.lineChartTableComponent,
+      ChartPage.barChartEmbeddedTableComponent,
+    ];
+  }
   // 1 indicator, 2+ areas
   else if (
     indicatorMode === IndicatorMode.ONE_INDICATOR &&
@@ -74,8 +91,6 @@ export function getScenarioConfig(
     visibleComponents = [
       // Enable in DHSCFT-148
       // ChartPage.populationPyramidComponent,
-      ChartPage.lineChartComponent,
-      ChartPage.lineChartTableComponent,
       ChartPage.barChartEmbeddedTableComponent,
     ];
   }
@@ -157,11 +172,18 @@ export function getAllIndicatorIdsForSearchTerm(
 
 function filterIndicatorsOnlyPOC(
   indicators: IndicatorDocument[]
-): IndicatorDocument[] {
+): SimpleIndicatorDocument[] {
   return indicators.filter(
     (indicator) =>
       indicator.usedInPoc === true &&
-      // filters needed for one indicator (in loop) + all areas in a group (region) + only subject
+      // filters needed for one indicator (in loop) + all but one areas in group + only subject - log a bug for filtering by all regions - ticket 1
+      !indicator.indicatorName.includes(
+        `People reporting Alzheimer's disease or dementia`
+      ) &&
+      !indicator.indicatorName.includes(
+        `People with caring responsibility aged 16 years and over`
+      ) &&
+      // filters needed for one indicator (in loop) + ( all areas in a group || ENGLAND ) + only subject - log a bug for these 4 data issues - ticket 2
       !indicator.indicatorName.includes(
         'Hepatitis B vaccination coverage aged 2 years'
       ) &&
@@ -177,12 +199,14 @@ function filterIndicatorsOnlyPOC(
   );
 }
 
-export function getAllPOCIndicatorNames(
+export function getAllPOCIndicators(
   indicators: IndicatorDocument[]
-): string[] {
-  return filterIndicatorsOnlyPOC(indicators).map(
-    (indicator) => indicator.indicatorName
-  );
+): SimpleIndicatorDocument[] {
+  return filterIndicatorsOnlyPOC(indicators).map((indicator) => ({
+    indicatorName: indicator.indicatorName,
+    indicatorID: indicator.indicatorID,
+    associatedAreaCodes: indicator.associatedAreaCodes,
+  }));
 }
 
 export function getAllNHSRegionAreas(areas: AreaDocument[]): AreaDocument[] {

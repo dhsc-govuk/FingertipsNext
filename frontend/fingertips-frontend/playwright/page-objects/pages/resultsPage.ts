@@ -96,21 +96,46 @@ export default class ResultsPage extends BasePage {
     await this.page.getByTestId(this.backLink).click();
   }
 
-  async selectFirstAreaCheckbox() {
+  async selectAreaCheckboxes(areaMode: AreaMode) {
     const defaultAreaTypeFilter = 'regions';
 
-    await this.page
-      .getByTestId(this.areaTypeSelector)
-      .selectOption(defaultAreaTypeFilter);
+    // England area mode
+    if (AreaMode.ENGLAND_AREA === areaMode) {
+      await this.page
+        .getByTestId(this.areaTypeSelector)
+        .selectOption('England');
+      await this.page
+        .getByTestId(this.groupTypeSelector)
+        .selectOption('England');
+    } else {
+      await this.page
+        .getByTestId(this.areaTypeSelector)
+        .selectOption(defaultAreaTypeFilter);
 
-    await this.waitForURLToContain(defaultAreaTypeFilter);
-
+      await this.waitForURLToContain(defaultAreaTypeFilter);
+    }
     const areaCheckboxList = this.page
       .getByTestId(this.areaFilterContainer)
       .getByRole('checkbox');
 
-    // All checkbox is the first checkbox
-    areaCheckboxList.first().check();
+    const checkboxCountMap = {
+      [AreaMode.ONE_AREA]: 1,
+      [AreaMode.TWO_AREAS]: 2,
+      [AreaMode.TWO_PLUS_AREAS]: (await areaCheckboxList.count()) - 2,
+      [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 1, // as first checkbox is 'All'
+      [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
+    };
+    const checkboxCount = checkboxCountMap[areaMode];
+    for (let i = 0; i < checkboxCount; i++) {
+      await areaCheckboxList.nth(i + 1).check(); // as first checkbox is 'All'
+      await this.page.waitForLoadState();
+      if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
+        await this.waitForURLToContain(defaultAreaTypeFilter);
+      }
+    }
+    await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
+      `Selected areas (${String(checkboxCount)})`
+    );
 
     await this.page.waitForLoadState();
     await this.page.waitForTimeout(500);
@@ -219,7 +244,8 @@ export default class ResultsPage extends BasePage {
         .getByRole('checkbox');
       const checkboxCountMap = {
         [AreaMode.ONE_AREA]: 1,
-        [AreaMode.TWO_PLUS_AREAS]: 2,
+        [AreaMode.TWO_AREAS]: 2,
+        [AreaMode.TWO_PLUS_AREAS]: 3,
         [AreaMode.ALL_AREAS_IN_A_GROUP]: (await areaCheckboxList.count()) - 1, // as first checkbox is 'All'
         [AreaMode.ENGLAND_AREA]: 0, // for england we do not want to select any checkboxes
       };

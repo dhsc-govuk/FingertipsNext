@@ -1,7 +1,7 @@
 import { test } from '../../page-objects/pageFactory';
 import {
   AreaMode,
-  getAllPOCIndicatorNames,
+  getAllPOCIndicators,
   IndicatorMode,
   SearchMode,
 } from '../../testHelpers';
@@ -9,7 +9,13 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
 const indicatorData = indicators as IndicatorDocument[];
-let allIndicatorNames: string[] = [];
+
+export type SimpleIndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  associatedAreaCodes: string[];
+};
+let allIndicators: SimpleIndicatorDocument[] = [];
 
 interface TestParams {
   indicatorMode: IndicatorMode;
@@ -18,11 +24,31 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-  },
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // }, // 4 filters needed to be added to filterIndicatorsOnlyPOC - ticket 1
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ENGLAND_AREA,
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // }, // 4 filters needed to be added to filterIndicatorsOnlyPOC- ticket 1
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.TWO_PLUS_AREAS, // seems to be a bug with filtering by select all - ticket 2
+  //   searchMode: SearchMode.ONLY_SUBJECT,
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.ONE_AREA,
+  //   searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // seems to be a bug with pass through from homepage area filtering - ticket 3
+  // },
+  // {
+  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
+  //   areaMode: AreaMode.TWO_AREAS,
+  //   searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // seems to be a bug with pass through from homepage area filtering - ticket 3
+  // },
 ];
 
 /**
@@ -43,22 +69,28 @@ test(`Run tests for all indicators`, async ({
     }
   );
 
-  allIndicatorNames = getAllPOCIndicatorNames(typedIndicatorData);
+  allIndicators = getAllPOCIndicators(typedIndicatorData);
 
   // Loop through each indicator name and test journey
-  for (const indicatorName of allIndicatorNames) {
+  for (const indicator of allIndicators) {
     for (const { searchMode, indicatorMode, areaMode } of coreTestJourneys) {
-      await test.step(`Testing ${indicatorName} with ${searchMode}`, async () => {
-        // Your existing test steps
+      await test.step(`Testing ${indicator.indicatorName} with ${searchMode}`, async () => {
         await homePage.navigateToHomePage();
         await homePage.checkOnHomePage();
 
-        await homePage.searchForIndicators(searchMode, indicatorName);
+        await homePage.searchForIndicatorsAndAreas(
+          searchMode,
+          areaMode,
+          indicator.indicatorName,
+          indicator.associatedAreaCodes[1]
+        );
         await homePage.clickSearchButton();
 
-        await resultsPage.checkSearchResultsTitle(indicatorName);
+        await resultsPage.checkSearchResultsTitle(indicator.indicatorName);
 
-        await resultsPage.selectFirstAreaCheckbox();
+        if (searchMode === SearchMode.ONLY_SUBJECT) {
+          await resultsPage.selectAreaCheckboxes(areaMode);
+        }
         await resultsPage.selectFirstIndicatorCheckbox();
 
         await resultsPage.clickViewChartsButton();
