@@ -4,7 +4,12 @@ import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { loadHighchartsModules } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getBenchmarkColour,
+  loadHighchartsModules,
+} from '@/lib/chartHelpers/chartHelpers';
+import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
+import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 
 interface SparklineChartProps {
@@ -12,23 +17,27 @@ interface SparklineChartProps {
   maxValue: number;
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
+  benchmarkOutcome?: BenchmarkOutcome;
   label: string;
   area: string | undefined;
   year: number | undefined;
   measurementUnit: string | undefined;
 }
+
 export function SparklineChart({
   value,
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
+  benchmarkOutcome,
   label,
   area,
   year,
   measurementUnit,
 }: Readonly<SparklineChartProps>) {
+  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
   const [options, setOptions] = useState<Highcharts.Options>();
-
+  
   function formatSparklineTooltips() {
     let category = '';
     if (label === SparklineLabelEnum.Benchmark) {
@@ -40,7 +49,7 @@ export function SparklineChart({
     return `<b>${category} ${area}</b><br/>${year}<br/><br/><span style="color:{color}">\u25CF</span> ${value} ${measurementUnit}`;
   }
 
-  const color = GovukColours.Black;
+  const confidenceIntervalColor = GovukColours.Black;
   const whiskerLength = '50%';
   const lineWidth = 3;
 
@@ -54,7 +63,7 @@ export function SparklineChart({
       name: areaName,
       data: data,
       visible: showConfidenceIntervalsData,
-      color: `${color}`,
+      color: `${confidenceIntervalColor}`,
       whiskerLength: `${whiskerLength}`,
       lineWidth: Number(`${lineWidth}`),
     };
@@ -83,7 +92,7 @@ export function SparklineChart({
     },
     yAxis: { visible: false, min: 0, max: maxValue },
     xAxis: { visible: false },
-    series: [{ type: 'bar', data: [value] }, confidenceIntervalSeries],
+    series: [{ type: 'bar', data: [value], color }, confidenceIntervalSeries],
     accessibility: {
       enabled: false,
     },
@@ -102,7 +111,6 @@ export function SparklineChart({
     tooltip: {
       hideDelay: 0,
       formatter: formatSparklineTooltips,
-      borderWidth: 0,
     },
   };
 

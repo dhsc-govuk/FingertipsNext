@@ -3,6 +3,11 @@ import {
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import {
+  BenchmarkLabelGroupType,
+  BenchmarkLabelType,
+} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -68,18 +73,21 @@ export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
 }
 
-export function getMostRecentData(data: HealthDataPoint[]) {
-  return data.length > 0
-    ? {
-        count: data[0].count,
-        value: data[0].value,
-        lowerCi: data[0].lowerCi,
-        upperCi: data[0].upperCi,
-        year: data[0].year,
-      }
-    : undefined;
+export function getMostRecentData(
+  data: HealthDataPoint[]
+): HealthDataPoint | undefined {
+  return data.length > 0 ? data[0] : undefined;
 }
 
 export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/highcharts-more').then(callback);
 }
+
+export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
+  const colours = getBenchmarkTagStyle(
+    BenchmarkLabelGroupType.RAG,
+    benchmarkComparison
+  );
+  const backgroundColor = colours?.backgroundColor;
+  return backgroundColor === 'transparent' ? undefined : backgroundColor;
+};
