@@ -11,7 +11,7 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 
-interface IndicatorData {
+export interface HeatmapIndicatorData {
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
@@ -19,7 +19,7 @@ interface IndicatorData {
 }
 
 interface HeatmapProps {
-  indicatorData: IndicatorData[];
+  indicatorData: HeatmapIndicatorData[];
   groupAreaCode?: string;
 }
 

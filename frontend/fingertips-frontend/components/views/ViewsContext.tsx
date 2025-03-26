@@ -60,7 +60,12 @@ function viewSelector(
   }
 
   if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={updatedSearchState} />;
+    return (
+      <TwoOrMoreIndicatorsAreasView
+        searchState={updatedSearchState}
+        selectedIndicatorsData={selectedIndicatorsData}
+      />
+    );
   }
 
   throw new Error('Parameters do not match any known view');

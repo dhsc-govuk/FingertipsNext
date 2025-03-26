@@ -3,18 +3,30 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
+  selectedIndicatorsData,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
 
-  if (!areasSelected) {
+  if (!indicatorsSelected || indicatorsSelected.length < 2 || !areasSelected) {
     throw new Error('Invalid parameters provided to view');
+  }
+
+  if (!selectedIndicatorsData) {
+    throw new Error('Unable to retrieve indicator metadata');
   }
 
   const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
@@ -24,8 +36,46 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   await connection();
 
-  console.log('TODO: fetch health data');
+  const getHealthDataForIndicator = async (indicatorId: string) => {
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+    let healthIndicatorData: HealthDataForArea[] | undefined;
+    try {
+      healthIndicatorData = (
+        await Promise.all(
+          chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+            (requestAreas) =>
+              indicatorApi.getHealthDataForAnIndicator(
+                {
+                  indicatorId: Number(indicatorId),
+                  areaCodes: [...requestAreas],
+                },
+                API_CACHE_CONFIG
+              )
+          )
+        )
+      )
+        .map((indicatorData) => indicatorData?.areaHealthData ?? [])
+        .flat();
+    } catch (error) {
+      console.error('error getting health indicator data for areas', error);
+      throw new Error('error getting health indicator data for areas');
+    }
+
+    return healthIndicatorData;
+  };
+
+  const healthDataForAllIndicators = await Promise.all(
+    indicatorsSelected.map((indicator) => {
+      return getHealthDataForIndicator(indicator);
+    })
+  );
+
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
-  return <TwoOrMoreIndicatorsAreasViewPlots />;
+  return (
+    <TwoOrMoreIndicatorsAreasViewPlots
+      indicatorMetadata={selectedIndicatorsData}
+      healthData={healthDataForAllIndicators}
+    />
+  );
 }
