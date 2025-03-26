@@ -41,12 +41,14 @@ export function SparklineChart({
   
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
     let category = '';
+    
     if (label === SparklineLabelEnum.Benchmark) {
       category = 'Benchmark: ';
     }
     if (label === SparklineLabelEnum.Group) {
       category = 'Group: ';
     }
+   
     return [`<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`];
   }
 
@@ -116,6 +118,7 @@ export function SparklineChart({
         overflow: 'visible',
       },
       outside: true,
+      headerFormat: '',
       pointFormatter: function (this: Highcharts.Point) {
         return pointFormatterHelper(this, formatSparklineTooltips)
       },
