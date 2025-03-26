@@ -54,7 +54,7 @@ export const mapToSpineChartTableData = (
 const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>
   tableRowData.toSorted((a, b) => a.indicatorId - b.indicatorId);
 
-export function SpineChartTable(dataTable: SpineChartTableProps) {
+export function SpineChartTable(dataTable: Readonly<SpineChartTableProps>) {
   const areaName = dataTable.rowData[0].indicatorHealthData.areaName;
   const groupName = dataTable.rowData[0].groupIndicatorData.areaName;
 
