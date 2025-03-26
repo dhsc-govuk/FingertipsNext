@@ -1,5 +1,5 @@
-### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_method=Quintiles&area_type=gps
+### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against -- this test fails intermitently becasue lots of data has 'zero count' making it indeterminate if a value is Lowest or Lower
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps
 
 > {%
     const expected = require ('./test-indicators-benchmark-quintiles-response.json');
@@ -12,45 +12,45 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_metho
 %}
 
 ### check quintile comparison for specific years -- existing site doesn't expose this data to allow us to validate against
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&comparison_method=Quintiles&area_type=gps&years=2023&years=2022
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&years=2023&years=2022
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body[0].healthData.length ==2, "HealthData doesn't contain two records");
-        client.assert(response.body[0].healthData[0].year ==2022, "HealthData doesn't contain two records");
-        client.assert(response.body[0].healthData[1].year ==2023, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData.length ==2, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[0].year ==2022, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[1].year ==2023, "HealthData doesn't contain two records");
     });
 %}
 
 ### check quintile comparison for multiple areas
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&comparison_method=Quintiles&area_type=gps&years=2023
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K84031&area_type=gps&years=2023
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body[0].areaCode =="A84022", "AreaCode not as expected");
-        client.assert(response.body[1].areaCode =="K84031", "AreaCode not as expected");
+        client.assert(response.body.areaHealthData[0].areaCode =="A84022", "AreaCode not as expected");
+        client.assert(response.body.areaHealthData[1].areaCode =="K84031", "AreaCode not as expected");
     });
 %}
 
 ### check quintile comparison for counties - this makes sure get data for 4 areas - Quintile values have been validated against current site
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E06000009&comparison_method=Quintiles&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == 10, "Have not received data for all areas");
+        client.assert(response.body.areaHealthData.length == 10, "Have not received data for all areas");
     });
 %}
 
 ### check quintile comparison for districts - this makes sure get data for 3 areas - current site does not return data for this indicator for Districts!
-GET http://localhost:5144/indicators/94103/data?&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&comparison_method=Quintiles&area_type=districts-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&years=2019
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == 3, "Have not received data for all areas");
+        client.assert(response.body.areaHealthData.length == 3, "Have not received data for all areas");
     });
 %}
 
@@ -72,7 +72,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.find(area => area.areaName === expected.areaName)
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .healthData.find(dataPoint => dataPoint.year === expected.year)
                 .benchmarkComparison.outcome === expected.outcome
             );
@@ -94,7 +94,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.find(area => area.areaName === expected.areaName)
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .healthData.find(dataPoint => dataPoint.year === expected.year)
                 .benchmarkComparison.outcome === expected.outcome
             );
@@ -108,7 +108,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == 6, "Have not received data for all areas");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
 
         const expectedResults = [ 
             {areaName:"Cheshire West and Chester", year:2019, outcome:"Middle"},
@@ -121,9 +121,10 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.find(area => area.areaName === expected.areaName)
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .healthData.find(dataPoint => dataPoint.year === expected.year)
-                .benchmarkComparison.outcome === expected.outcome
+                .benchmarkComparison.outcome === expected.outcome,
+                `failed for ${expected.areaName}`
             );
         });
     });
@@ -134,7 +135,7 @@ GET http://localhost:5144/indicators/94103/data?&area_codes=E06000052&area_codes
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == 6, "Have not received data for all areas");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
 
         const expectedResults = [ 
             {areaName:"Blackpool", year:2019, outcome:"Worst"},
@@ -147,7 +148,7 @@ GET http://localhost:5144/indicators/94103/data?&area_codes=E06000052&area_codes
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.find(area => area.areaName === expected.areaName)
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .healthData.find(dataPoint => dataPoint.year === expected.year)
                 .benchmarkComparison.outcome === expected.outcome
             );
@@ -160,7 +161,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length == 6, "Have not received data for all areas");
+        client.assert(response.body.areaHealthData.length == 6, "Have not received data for all areas");
 
         const expectedResults = [ 
             {areaName:"Cheshire West and Chester", year:2019, outcome:"Middle"},
@@ -173,7 +174,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.find(area => area.areaName === expected.areaName)
+                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .healthData.find(dataPoint => dataPoint.year === expected.year)
                 .benchmarkComparison.outcome === expected.outcome
             );
