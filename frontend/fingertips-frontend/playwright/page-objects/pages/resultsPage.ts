@@ -64,7 +64,7 @@ export default class ResultsPage extends BasePage {
       .getByTestId(this.removeIcon)
       .all();
 
-    await pills[index].click();
+    await this.clickAndWait(pills[index]);
   }
 
   areaFilterCombobox() {
@@ -94,7 +94,7 @@ export default class ResultsPage extends BasePage {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndWait(this.page.getByTestId(this.backLink));
   }
 
   /**
@@ -145,7 +145,7 @@ export default class ResultsPage extends BasePage {
       await expect(checkbox).toBeEditable();
       await expect(checkbox).toBeChecked({ checked: false });
 
-      await checkbox.check({ force: true, timeout: 2000 });
+      await this.checkAndWait(checkbox);
 
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
@@ -190,8 +190,7 @@ export default class ResultsPage extends BasePage {
       };
       const checkboxCount = checkboxCountMap[areaMode];
       for (let i = 0; i < checkboxCount; i++) {
-        await areaCheckboxList.nth(i + 1).check(); // as first checkbox is 'All'
-        await this.page.waitForLoadState();
+        await this.checkAndWait(areaCheckboxList.nth(i + 1)); // as first checkbox is 'All'
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
           await this.waitForURLToContain(defaultAreaTypeFilter);
         }
@@ -222,15 +221,15 @@ export default class ResultsPage extends BasePage {
   }
 
   async clickViewChartsButton() {
-    await this.page.getByTestId(this.viewChartsButton).click();
+    await this.clickAndWait(this.page.getByTestId(this.viewChartsButton));
   }
 
   async clearIndicatorSearchBox() {
-    await this.page.getByTestId(this.indicatorSearchBox).clear();
+    await this.clearAndWait(this.page.getByTestId(this.indicatorSearchBox));
   }
 
   async clickIndicatorSearchButton() {
-    await this.page.getByTestId(this.indicatorSearchButton).click();
+    await this.clickAndWait(this.page.getByTestId(this.indicatorSearchButton));
   }
 
   async clickIndicatorSearchButtonAndWait(searchTerm: string) {
@@ -280,14 +279,17 @@ export default class ResultsPage extends BasePage {
   }
 
   async fillIndicatorSearch(text: string) {
-    await this.page.getByTestId(this.indicatorSearchBox).fill(text);
+    await this.fillAndWait(
+      this.page.getByTestId(this.indicatorSearchBox),
+      text
+    );
   }
 
   async selectSelectAllCheckbox() {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await selectAllCheckbox.check();
+    await this.checkAndWait(selectAllCheckbox);
     await expect(selectAllCheckbox).toBeChecked();
   }
 
@@ -295,7 +297,7 @@ export default class ResultsPage extends BasePage {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await selectAllCheckbox.uncheck();
+    await this.uncheckAndWait(selectAllCheckbox);
     await expect(selectAllCheckbox).not.toBeChecked();
   }
 
@@ -354,8 +356,7 @@ export default class ResultsPage extends BasePage {
     const indicatorCheckbox = this.page.getByTestId(
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
-    await indicatorCheckbox.check();
-    await this.page.waitForLoadState();
+    await this.checkAndWait(indicatorCheckbox);
     await expect(indicatorCheckbox).toBeChecked();
   }
 
@@ -363,8 +364,7 @@ export default class ResultsPage extends BasePage {
     const indicatorCheckbox = this.page.getByTestId(
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
-    await indicatorCheckbox.uncheck();
-    await this.page.waitForLoadState();
+    await this.uncheckAndWait(indicatorCheckbox);
     await expect(indicatorCheckbox).not.toBeChecked();
   }
 

@@ -18,29 +18,31 @@ export default class HomePage extends BasePage {
     areaSearchTerm?: string
   ) {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.page
-        .getByTestId(this.subjectSearchField)
-        .fill(subjectSearchTerm!);
+      await this.fillAndWait(
+        this.page.getByTestId(this.subjectSearchField),
+        subjectSearchTerm!
+      );
     }
     //   cannot enable only area until DHSCFT-458 is actioned
     // if (searchMode === SearchMode.ONLY_AREA) {
     //   await this.page.getByTestId(this.areaSearchField).fill(areaSearchTerm!);
     // }
     if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.page
-        .getByTestId(this.subjectSearchField)
-        .fill(subjectSearchTerm!);
+      await this.fillAndWait(
+        this.page.getByTestId(this.subjectSearchField),
+        subjectSearchTerm!
+      );
 
-      await this.page
-        .getByTestId(this.areaSearchField)
-        .getByRole('textbox')
-        .fill(areaSearchTerm!);
+      await this.fillAndWait(
+        this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
+        areaSearchTerm!
+      );
 
       await expect(
         this.page.getByTestId(this.suggestedAreasPanel)
       ).toContainText(areaSearchTerm!, { ignoreCase: true });
 
-      await this.page.getByText(areaSearchTerm!).click();
+      await this.clickAndWait(this.page.getByText(areaSearchTerm!));
 
       await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
         ignoreCase: true,
@@ -49,7 +51,7 @@ export default class HomePage extends BasePage {
   }
 
   async clickSearchButton() {
-    await this.page.getByTestId(this.searchButton).click();
+    await this.clickAndWait(this.page.getByTestId(this.searchButton));
   }
 
   async navigateToHomePage(queryString?: string) {
@@ -79,7 +81,7 @@ export default class HomePage extends BasePage {
       .getByTestId(this.removeIcon)
       .all();
 
-    await pills[index].click();
+    await this.clickAndWait(pills[index]);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
@@ -92,7 +94,7 @@ export default class HomePage extends BasePage {
   }
 
   async clearSearchIndicatorField() {
-    await this.page.getByTestId(this.subjectSearchField).clear();
+    await this.clearAndWait(this.page.getByTestId(this.subjectSearchField));
   }
 
   async checkSummaryValidation(expectedValidationMessage: string) {

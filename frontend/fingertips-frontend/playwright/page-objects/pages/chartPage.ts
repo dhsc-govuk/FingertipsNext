@@ -43,7 +43,7 @@ export default class ChartPage extends BasePage {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndWait(this.page.getByTestId(this.backLink));
   }
 
   /**
@@ -78,9 +78,11 @@ export default class ChartPage extends BasePage {
         visibleComponent.toLowerCase().includes('table') &&
         visibleComponent !== 'barChartEmbeddedTable-component'
       ) {
-        await this.page
-          .getByTestId(`tabTitle-${visibleComponent.replace('-component', '')}`)
-          .click();
+        await this.clickAndWait(
+          this.page.getByTestId(
+            `tabTitle-${visibleComponent.replace('-component', '')}`
+          )
+        );
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (
@@ -88,11 +90,11 @@ export default class ChartPage extends BasePage {
         visibleComponent === 'inequalitiesBarChart-component' ||
         visibleComponent === 'barChartEmbeddedTable-component'
       ) {
-        await this.page
-          .getByTestId(
+        await this.clickAndWait(
+          this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
           )
-          .click();
+        );
       }
 
       await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
