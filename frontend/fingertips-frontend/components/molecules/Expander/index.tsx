@@ -25,7 +25,9 @@ export const Expander = ({ children }: ExpanderProps) => {
             return isOpen;
           }}
         />
-        <span style={{ fontWeight: 300 }}>{isOpen ? 'Show' : 'Hide'}</span>
+        <span style={{ fontWeight: 300, fontSize: '13px' }}>
+          {isOpen ? 'Show' : 'Hide'}
+        </span>
       </div>
       {isOpen ? children : null}
     </div>
