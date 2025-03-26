@@ -21,9 +21,10 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
+const mockGetIsLoading = jest.fn();
 const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  isLoading: false,
+  getIsLoading: mockGetIsLoading,
   setIsLoading: mockSetIsLoading,
 };
 

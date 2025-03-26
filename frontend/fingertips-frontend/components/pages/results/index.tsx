@@ -54,7 +54,7 @@ export function SearchResults({
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
-  const { isLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoader();
   const pathname = usePathname();
   const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
 
@@ -84,7 +84,7 @@ export function SearchResults({
   );
 
   return (
-    <LoadingBox loading={isLoading} timeIn={200} timeOut={200}>
+    <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>
       <>
         <BackLink
           onClick={() => setIsLoading(true)}

@@ -22,12 +22,10 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  isLoading: false,
-  setIsLoading: mockSetIsLoading,
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoader: () => mockLoaderContext,
@@ -36,7 +34,6 @@ jest.mock('@/context/LoaderContext', () => {
 
 const mockGetState = jest.fn();
 const mockUpdateState = jest.fn();
-
 AppStorage.getState = mockGetState;
 AppStorage.updateState = mockUpdateState;
 

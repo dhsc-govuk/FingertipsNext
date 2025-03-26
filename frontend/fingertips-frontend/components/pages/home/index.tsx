@@ -42,7 +42,7 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  const { isLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoader();
   const pathname = usePathname();
   const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
 
@@ -63,7 +63,7 @@ export const Home = ({
   );
 
   return (
-    <LoadingBox loading={isLoading} timeIn={200} timeOut={200}>
+    <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>
       <form action={setFormState}>
         {formState.message && (
           <ErrorSummary

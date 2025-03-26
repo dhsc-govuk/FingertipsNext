@@ -27,7 +27,7 @@ jest.mock('react', () => {
 
 const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  isLoading: false,
+  getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
 

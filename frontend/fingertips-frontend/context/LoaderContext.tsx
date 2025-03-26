@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 export type LoaderContext = {
-  isLoading: boolean;
+  getIsLoading: () => boolean;
   setIsLoading: (loading: boolean) => void;
 };
 
@@ -24,7 +24,7 @@ export const LoaderProvider: React.FC<LoaderContextProvider> = ({
 
   const contextValue: LoaderContext = useMemo(
     () => ({
-      isLoading,
+      getIsLoading: () => isLoading,
       setIsLoading,
     }),
     [isLoading, setIsLoading]

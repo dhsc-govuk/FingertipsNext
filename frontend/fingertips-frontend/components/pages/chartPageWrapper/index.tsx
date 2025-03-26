@@ -29,7 +29,7 @@ export function ChartPageWrapper({
   selectedAreasData,
   selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
-  const { isLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoader();
   const pathname = usePathname();
   const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
 
@@ -49,7 +49,7 @@ export function ChartPageWrapper({
   const backLinkPath = stateManager.generatePath('/results');
 
   return (
-    <LoadingBox loading={isLoading} timeIn={200} timeOut={200}>
+    <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>
       <>
         <BackLink
           data-testid="chart-page-back-link"
