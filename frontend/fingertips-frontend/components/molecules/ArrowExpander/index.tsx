@@ -4,8 +4,12 @@ import { ArrowToggleButton } from '@/components/molecules/ArrowToggleButton';
 
 interface ExpanderProps {
   children: React.ReactNode;
+  fill?: string;
 }
-export const ArrowExpander = ({ children }: ExpanderProps) => {
+export const ArrowExpander = ({
+  children,
+  fill = '#1D70B8',
+}: ExpanderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
     <div style={{ margin: '0px', padding: '0px' }}>
@@ -18,13 +22,13 @@ export const ArrowExpander = ({ children }: ExpanderProps) => {
         }}
       >
         <ArrowToggleButton
-          fill="#1D70B8"
+          fill={fill}
           onToggle={(isOpen: boolean) => {
             setIsOpen(isOpen);
             return isOpen;
           }}
         />
-        <span style={{ fontWeight: 300, fontSize: '13px' }}>
+        <span style={{ fontWeight: 300, fontSize: '13px', color: fill }}>
           {isOpen ? 'Show' : 'Hide'}
         </span>
       </div>
