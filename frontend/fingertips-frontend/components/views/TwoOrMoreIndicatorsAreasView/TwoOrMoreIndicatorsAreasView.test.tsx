@@ -68,6 +68,5 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     });
 
     expect(page.props.searchState).toEqual(searchState);
-    //expect(page.props.healthIndicatorData).toEqual(mockResponses);
   });
 });
