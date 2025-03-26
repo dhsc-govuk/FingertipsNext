@@ -1,11 +1,20 @@
 import {
+  HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
 } from '@/generated-sources/ft-api-client';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
-import { isEnglandSoleSelectedArea } from '@/lib/chartHelpers/chartHelpers';
+import {
+  generateConfidenceIntervalSeries,
+  getHealthDataWithoutInequalities,
+  isEnglandSoleSelectedArea,
+} from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { chartSymbols } from '../LineChart/lineChartHelpers';
+import {
+  chartSymbols,
+  lineChartDefaultOptions,
+} from '../LineChart/lineChartHelpers';
+import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export const localeSort = (a: string, b: string) => a.localeCompare(b);
 
@@ -40,6 +49,12 @@ export interface InequalitiesTableRowData {
   };
 }
 
+interface DataWithoutInequalities {
+  areaDataWithoutInequalities: HealthDataForArea[];
+  englandBenchmarkWithoutInequalities: HealthDataForArea | undefined;
+  groupDataWithoutInequalities: HealthDataForArea | undefined;
+}
+
 export enum Sex {
   MALE = 'Male',
   FEMALE = 'Female',
@@ -67,15 +82,6 @@ export const inequalityKeyMapping: Record<
   [InequalitiesTypes.Sex]: (sexKeys: string[]) =>
     sexKeys.toSorted((a, b) => b.localeCompare(a)),
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
-};
-
-const mapToGetBenchmarkFunction: Record<
-  InequalitiesTypes,
-  (barChartData: InequalitiesBarChartData) => number | undefined
-> = {
-  [InequalitiesTypes.Sex]: (barChartData: InequalitiesBarChartData) =>
-    barChartData.data.inequalities[Sex.PERSONS]?.value,
-  [InequalitiesTypes.Deprivation]: (_: InequalitiesBarChartData) => 5, // random value to be changed when function for deprivation is added
 };
 
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
@@ -149,36 +155,47 @@ export const getDynamicKeys = (
   return inequalityKeyMapping[type](uniqueKeys);
 };
 
-export const getBenchmarkData = (
-  type: InequalitiesTypes,
-  barChartData: InequalitiesBarChartData
-): number | undefined => {
-  return mapToGetBenchmarkFunction[type](barChartData);
-};
-
 export const generateInequalitiesLineChartSeriesData = (
   keys: string[],
   type: InequalitiesTypes,
-  rowData: InequalitiesTableRowData[],
-  areasSelected: string[]
+  chartData: InequalitiesChartData,
+  areasSelected: string[],
+  showConfidenceIntervalsData?: boolean
 ): Highcharts.SeriesOptionsType[] => {
   const colorList = mapToChartColorsForInequality[type];
 
   if (isEnglandSoleSelectedArea(areasSelected))
     colorList[0] = GovukColours.Black;
 
-  const seriesData: Highcharts.SeriesOptionsType[] = keys.map((key, index) => ({
-    type: 'line',
-    name: key,
-    data: rowData.map((periodData) => [
-      periodData.period,
-      periodData.inequalities[key]?.value,
-    ]),
-    marker: {
-      symbol: chartSymbols[index % chartSymbols.length],
-    },
-    color: colorList[index % colorList.length],
-  }));
+  const seriesData: Highcharts.SeriesOptionsType[] = keys.flatMap(
+    (key, index) => {
+      const lineSeries: Highcharts.SeriesOptionsType = {
+        type: 'line',
+        name: key,
+        data: chartData.rowData.map((periodData) => [
+          periodData.period,
+          periodData.inequalities[key]?.value,
+        ]),
+        marker: {
+          symbol: chartSymbols[index % chartSymbols.length],
+        },
+        color: colorList[index % colorList.length],
+      };
+
+      const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
+        generateConfidenceIntervalSeries(
+          chartData.areaName,
+          chartData.rowData.map((data) => [
+            data.period,
+            data.inequalities[key]?.lower,
+            data.inequalities[key]?.upper,
+          ]),
+          showConfidenceIntervalsData
+        );
+
+      return [lineSeries, confidenceIntervalSeries];
+    }
+  );
 
   return seriesData;
 };
@@ -210,5 +227,101 @@ export const getAggregatePointInfo = (
     aggregateKey,
     sortedKeys,
     inequalityDimensions,
+  };
+};
+
+export function generateInequalitiesLineChartOptions(
+  inequalitiesLineChartData: InequalitiesChartData,
+  dynamicKeys: string[],
+  type: InequalitiesTypes,
+  lineChartCI: boolean,
+  generateInequalitiesLineChartTooltipStringList: (
+    point: Highcharts.Point,
+    symbol: string
+  ) => string[],
+  optionalParams?: {
+    areasSelected?: string[];
+    yAxisTitleText?: string;
+    xAxisTitleText?: string;
+    measurementUnit?: string;
+  }
+): Highcharts.Options {
+  const seriesData = generateInequalitiesLineChartSeriesData(
+    dynamicKeys,
+    type,
+    inequalitiesLineChartData,
+    optionalParams?.areasSelected ?? [],
+    lineChartCI
+  );
+
+  return {
+    ...lineChartDefaultOptions,
+    yAxis: {
+      ...lineChartDefaultOptions.yAxis,
+      title: {
+        text: `${optionalParams?.yAxisTitleText}${optionalParams?.measurementUnit ? ': ' + optionalParams?.measurementUnit : ''}`,
+        margin: 20,
+      },
+    },
+    xAxis: {
+      ...lineChartDefaultOptions.xAxis,
+      title: { text: optionalParams?.xAxisTitleText, margin: 20 },
+    },
+    series: seriesData,
+    tooltip: {
+      headerFormat:
+        `<span style="font-weight: bold">${inequalitiesLineChartData.areaName}</span><br/>` +
+        '<span>Year {point.x}</span><br/>',
+      pointFormatter: function (this: Highcharts.Point) {
+        return (
+          pointFormatterHelper(
+            this,
+            generateInequalitiesLineChartTooltipStringList
+          ) +
+          `${optionalParams?.measurementUnit ? ' ' + optionalParams?.measurementUnit : ''}</span></div></div>`
+        );
+      },
+      useHTML: true,
+    },
+  };
+}
+
+export const getAllDataWithoutInequalities = (
+  dataWithoutEnglandOrGroup: HealthDataForArea[],
+  benchmark: {
+    englandBenchmarkData?: HealthDataForArea;
+    groupData?: HealthDataForArea;
+  },
+  areasSelected?: string[]
+): DataWithoutInequalities => {
+  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
+    ? dataWithoutEnglandOrGroup.map((data) => ({
+        ...data,
+        healthData: getHealthDataWithoutInequalities(data),
+      }))
+    : [];
+
+  const englandBenchmarkWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.englandBenchmarkData
+      ? {
+          ...benchmark.englandBenchmarkData,
+          healthData: getHealthDataWithoutInequalities(
+            benchmark.englandBenchmarkData
+          ),
+        }
+      : undefined;
+
+  const groupDataWithoutInequalities: HealthDataForArea | undefined =
+    benchmark.groupData
+      ? {
+          ...benchmark.groupData,
+          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
+        }
+      : undefined;
+
+  return {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
   };
 };
