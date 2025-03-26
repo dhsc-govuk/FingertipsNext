@@ -6,9 +6,7 @@ import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 import TwoOrMoreIndicatorsAreasView from '.';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
-  API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
