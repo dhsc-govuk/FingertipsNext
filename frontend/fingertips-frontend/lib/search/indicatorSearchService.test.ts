@@ -2,6 +2,7 @@ import { IndicatorSearchService } from './indicatorSearchService';
 import { SearchClient, AzureKeyCredential } from '@azure/search-documents';
 import { SearchServiceFactory } from './searchServiceFactory';
 import { INDICATOR_SEARCH_INDEX_NAME } from './searchTypes';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 
 jest.mock('@azure/search-documents', () => ({
   SearchClient: jest.fn(),
@@ -18,7 +19,29 @@ describe('IndicatorSearchService', () => {
   }));
 
   mockSearch.mockResolvedValue({ results: [] });
-  mockGetDocument.mockResolvedValue(undefined);
+  mockGetDocument.mockResolvedValue({
+    indicatorID: '123',
+    indicatorName: 'Test Indicator',
+    indicatorDefinition: 'Test definition',
+    latestDataPeriod: undefined,
+    earliestDataPeriod: '1938',
+    dataSource: 'Test Source',
+    lastUpdatedDate: new Date('November 5, 2023'),
+    associatedAreaCodes: ['Area1', 'Area2'],
+    trendsByArea: [
+      {
+        areaCode: 'Area1',
+        trend: HealthDataPointTrendEnum.Decreasing,
+      },
+      {
+        areaCode: 'Area2',
+        trend: HealthDataPointTrendEnum.NoSignificantChange,
+      },
+    ],
+    unitLabel: '',
+    hasInequalities: true,
+    usedInPoc: true,
+  });
 
   describe('if the environment is configured it', () => {
     beforeEach(() => {
@@ -130,11 +153,27 @@ describe('IndicatorSearchService', () => {
         results: [
           {
             document: {
-              indicatorId: '123',
-              name: 'Test Indicator',
+              indicatorID: '123',
+              indicatorName: 'Test Indicator',
+              indicatorDefinition: 'Test definition',
               latestDataPeriod: undefined,
+              earliestDataPeriod: '1938',
               dataSource: 'Test Source',
-              lastUpdated: '2024-01-01',
+              lastUpdatedDate: new Date('November 5, 2023'),
+              associatedAreaCodes: ['Area1', 'Area2'],
+              trendsByArea: [
+                {
+                  areaCode: 'Area1',
+                  trend: HealthDataPointTrendEnum.Decreasing,
+                },
+                {
+                  areaCode: 'Area2',
+                  trend: HealthDataPointTrendEnum.NoSignificantChange,
+                },
+              ],
+              unitLabel: '',
+              hasInequalities: true,
+              usedInPoc: true,
             },
           },
         ],
@@ -147,11 +186,16 @@ describe('IndicatorSearchService', () => {
 
       expect(results).toEqual([
         {
-          indicatorId: '123',
-          name: 'Test Indicator',
+          indicatorID: '123',
+          indicatorName: 'Test Indicator',
+          indicatorDefinition: 'Test definition',
           latestDataPeriod: undefined,
+          earliestDataPeriod: '1938',
           dataSource: 'Test Source',
-          lastUpdated: '2024-01-01',
+          lastUpdatedDate: new Date('November 5, 2023'),
+          trend: undefined,
+          unitLabel: '',
+          hasInequalities: true,
         },
       ]);
     });
@@ -159,11 +203,27 @@ describe('IndicatorSearchService', () => {
     it('should only return the first 20 results', async () => {
       const fiftyResults = Array(50).fill({
         document: {
-          indicatorId: '123',
-          name: 'Test Indicator',
+          indicatorID: '123',
+          indicatorName: 'Test Indicator',
+          indicatorDefinition: 'Test definition',
           latestDataPeriod: undefined,
+          earliestDataPeriod: '1938',
           dataSource: 'Test Source',
-          lastUpdated: '2024-01-01',
+          lastUpdatedDate: new Date('November 5, 2023'),
+          associatedAreaCodes: ['Area1', 'Area2'],
+          trendsByArea: [
+            {
+              areaCode: 'Area1',
+              trend: HealthDataPointTrendEnum.Decreasing,
+            },
+            {
+              areaCode: 'Area2',
+              trend: HealthDataPointTrendEnum.NoSignificantChange,
+            },
+          ],
+          unitLabel: '',
+          hasInequalities: true,
+          usedInPoc: true,
         },
       });
 
@@ -181,11 +241,11 @@ describe('IndicatorSearchService', () => {
     });
   });
 
-  it('should call search client with correct parameter', async () => {
+  it('should get a single indicator document', async () => {
     const indicatorId = '123';
 
     const searchService = SearchServiceFactory.getIndicatorSearchService();
-    await searchService.getIndicator(indicatorId);
+    const result = await searchService.getIndicator(indicatorId);
 
     expect(SearchClient).toHaveBeenCalledWith(
       'test-url',
@@ -193,29 +253,17 @@ describe('IndicatorSearchService', () => {
       expect.any(Object)
     );
 
-    expect(mockGetDocument).toHaveBeenCalledWith(indicatorId);
-  });
-
-  it('should get a single indicator document', async () => {
-    const mockResult = {
-      indicatorId: '123',
-      name: 'Test Indicator',
-      latestDataPeriod: undefined,
-      dataSource: 'Test Source',
-      lastUpdated: '2024-01-01',
-    };
-
-    mockGetDocument.mockResolvedValue(mockResult);
-
-    const searchService = SearchServiceFactory.getIndicatorSearchService();
-    const result = await searchService.getIndicator('123');
-
     expect(result).toEqual({
-      indicatorId: '123',
-      name: 'Test Indicator',
+      indicatorID: '123',
+      indicatorName: 'Test Indicator',
+      indicatorDefinition: 'Test definition',
       latestDataPeriod: undefined,
+      earliestDataPeriod: '1938',
       dataSource: 'Test Source',
-      lastUpdated: '2024-01-01',
+      lastUpdatedDate: new Date('November 5, 2023'),
+      trend: undefined,
+      unitLabel: '',
+      hasInequalities: true,
     });
   });
 

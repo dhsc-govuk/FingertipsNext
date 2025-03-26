@@ -3,13 +3,21 @@
  * These should be updated to take definitions from there rather than duplicating them
  */
 
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';
 export const AREA_SEARCH_INDEX_NAME = 'area-search-index';
 export const AREA_SEARCH_SUGGESTER_NAME = 'areaSuggester';
 export const AREA_TYPE_GP = 'GPs';
 
-export type IndicatorDocument = {
+export interface AreaCodeWithTrend {
+  areaCode: string;
+  trend: HealthDataPointTrendEnum;
+}
+
+// Indicator data as returned by the search backend
+export type RawIndicatorDocument = {
   indicatorID: string;
   indicatorName: string;
   indicatorDefinition: string;
@@ -18,9 +26,23 @@ export type IndicatorDocument = {
   latestDataPeriod: string; // Newest value held in database column 'Year'.
   lastUpdatedDate: Date;
   associatedAreaCodes: string[];
+  trendsByArea: AreaCodeWithTrend[];
   hasInequalities: boolean;
   unitLabel: string;
   usedInPoc: boolean; // data maps to search-setup/assets/indicators.csv
+};
+
+export type IndicatorDocument = {
+  indicatorID: string;
+  indicatorName: string;
+  indicatorDefinition: string;
+  trend?: HealthDataPointTrendEnum;
+  dataSource: string;
+  earliestDataPeriod: string; // Oldest value held in database column 'Year'.
+  latestDataPeriod: string; // Newest value held in database column 'Year'.
+  lastUpdatedDate: Date;
+  hasInequalities: boolean;
+  unitLabel: string;
 };
 
 export type AreaDocument = {
