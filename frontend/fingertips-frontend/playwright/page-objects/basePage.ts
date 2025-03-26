@@ -13,52 +13,52 @@ export default class BasePage {
 
   async clickAndWait(locator: Locator) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.click();
 
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async checkAndWait(locator: Locator) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.check();
 
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async uncheckAndWait(locator: Locator) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.uncheck();
 
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async fillAndWait(locator: Locator, value: string) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.fill(value);
 
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async clearAndWait(locator: Locator) {
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
 
     await locator.clear();
 
     await this.page.waitForLoadState();
-    await expect(this.page.getByText('Loading')).not.toBeAttached();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async expectNoAccessibilityViolations(

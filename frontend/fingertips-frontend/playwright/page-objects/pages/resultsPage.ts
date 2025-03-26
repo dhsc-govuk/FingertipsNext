@@ -232,46 +232,6 @@ export default class ResultsPage extends BasePage {
     await this.clickAndWait(this.page.getByTestId(this.indicatorSearchButton));
   }
 
-  async clickIndicatorSearchButtonAndWait(searchTerm: string) {
-    await this.clickIndicatorSearchButton();
-
-    await this.waitForSearchRequestAndResponse(searchTerm);
-  }
-
-  async waitForSearchRequestAndResponse(searchTerm: string) {
-    const requestPromise = this.page.waitForRequest(
-      (request) =>
-        request
-          .url()
-          .includes(
-            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
-          ) && request.method() === 'GET'
-    );
-    const request = await requestPromise;
-    expect(
-      request
-        .url()
-        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
-    );
-
-    const responsePromise = this.page.waitForResponse(
-      (response) =>
-        response
-          .url()
-          .includes(
-            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
-          ) &&
-        response.status() === 200 &&
-        response.request().method() === 'GET'
-    );
-    const response = await responsePromise;
-    expect(
-      response
-        .url()
-        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
-    );
-  }
-
   async checkForIndicatorSearchError() {
     await expect(
       this.page.getByText(this.indicatorSearchErrorText)

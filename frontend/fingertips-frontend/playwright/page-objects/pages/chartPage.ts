@@ -105,7 +105,9 @@ export default class ChartPage extends BasePage {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
+      await this.page.waitForLoadState();
+      await expect(this.page.getByText('Loading')).toHaveCount(0);
+      await this.page.waitForTimeout(500); // delete this line in DHSCFT-510 once animations are disabled
 
       // for now just warn if visual comparisons do not match
       try {
