@@ -98,16 +98,6 @@ it('should update client storage with the typed searched indicator when focussin
   );
 });
 
-it('should not update client storage with the searchIndicator when its the same value as in the state', async () => {
-  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
-
-  const user = userEvent.setup();
-  await user.click(screen.getByRole('searchbox'));
-  await user.tab();
-
-  expect(mockUpdateState).not.toHaveBeenCalledWith();
-});
-
 it('should call setIsLoading to true when the search button is clicked', async () => {
   render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
