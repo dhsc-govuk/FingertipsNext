@@ -48,10 +48,6 @@ const mockIndicator: IndicatorWithHealthDataForArea = {
 };
 
 describe('TwoOrMoreIndicatorsAreasView', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1', '2'],
