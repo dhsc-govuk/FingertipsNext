@@ -11,18 +11,26 @@ import {
   mapToInequalitiesTableData,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface InequalitiesForSingleTimePeriodProps {
   healthIndicatorData: HealthDataForArea;
   searchState: SearchStateParams;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export function InequalitiesForSingleTimePeriod({
   healthIndicatorData,
   searchState,
   measurementUnit,
+  benchmarkComparisonMethod,
+  polarity,
 }: Readonly<InequalitiesForSingleTimePeriodProps>) {
   const { [SearchParams.YearSelected]: selectedYear } = searchState;
   const type = InequalitiesTypes.Sex;
@@ -57,6 +65,8 @@ export function InequalitiesForSingleTimePeriod({
                 barChartData={barChartData}
                 measurementUnit={measurementUnit}
                 yAxisLabel="Value"
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },
@@ -68,6 +78,8 @@ export function InequalitiesForSingleTimePeriod({
                 tableData={barChartData}
                 measurementUnit={measurementUnit}
                 type={type}
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },

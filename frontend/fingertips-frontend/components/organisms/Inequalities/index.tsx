@@ -28,6 +28,8 @@ export function Inequalities({
         healthIndicatorData={healthIndicatorData}
         searchState={searchState}
         measurementUnit={measurementUnit}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
       />
       <br />
       <InequalitiesTrend
