@@ -12,7 +12,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { OneIndicatorViewPlotProps} from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
