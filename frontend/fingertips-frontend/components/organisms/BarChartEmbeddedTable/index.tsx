@@ -1,6 +1,10 @@
 'use client';
 
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
   getMostRecentData,
@@ -30,6 +34,8 @@ interface BarChartEmbeddedTableProps {
   benchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
@@ -48,6 +54,8 @@ export function BarChartEmbeddedTable({
   benchmarkData,
   groupIndicatorData,
   measurementUnit,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const mostRecentYearData =
     sortHealthDataByYearDescending(healthIndicatorData);
@@ -168,6 +176,8 @@ export function BarChartEmbeddedTable({
                 benchmarkOutcome={
                   mostRecentBenchmarkData.benchmarkComparison?.outcome
                 }
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -203,6 +213,8 @@ export function BarChartEmbeddedTable({
                 benchmarkOutcome={
                   mostRecentGroupData.benchmarkComparison?.outcome
                 }
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -229,6 +241,8 @@ export function BarChartEmbeddedTable({
                 confidenceIntervalValues={[item.lowerCi, item.upperCi]}
                 showConfidenceIntervalsData={showConfidenceIntervalsData}
                 benchmarkOutcome={item.benchmarkComparison?.outcome}
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />

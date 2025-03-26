@@ -10,7 +10,6 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
@@ -19,12 +18,19 @@ import {
   loadHighchartsModules,
   getBenchmarkColour,
 } from '@/lib/chartHelpers/chartHelpers';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
   yAxisLabel: string;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
@@ -49,6 +55,8 @@ export function InequalitiesBarChart({
   yAxisLabel,
   measurementUnit,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
@@ -72,8 +80,9 @@ export function InequalitiesBarChart({
       type: 'bar',
       data: barChartFields.map((field) => {
         const color = getBenchmarkColour(
-          inequalities[field]?.benchmarkComparison
-            ?.outcome as BenchmarkLabelType
+          benchmarkComparisonMethod,
+          inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
+          polarity
         );
         return {
           name: field,
