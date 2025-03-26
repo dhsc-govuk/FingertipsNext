@@ -24,10 +24,10 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { noDeprivation } from '@/lib/mocks';
 import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
 import {
-  mockBenchmarkData,
   mockIndicatorData,
+  mockBenchmarkData,
   mockParentData,
-} from '../LineChart/lineChartHelpers.test';
+} from '../LineChart/mocks';
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
