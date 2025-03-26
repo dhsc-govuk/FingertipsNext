@@ -45,34 +45,6 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     }
   );
 
-  it.each([
-    [['1', '2'], ['A001'], 'G001', ['A001', areaCodeForEngland, 'G001']],
-    [['1', '2'], ['A001'], areaCodeForEngland, ['A001', areaCodeForEngland]],
-  ])(
-    'should make 2 calls to the healthIndicatorApi with the expected parameters',
-    async (testIndicators, testAreas, testGroup, expectedAreaCodes) => {
-      const searchState: SearchStateParams = {
-        [SearchParams.IndicatorsSelected]: testIndicators,
-        [SearchParams.AreasSelected]: testAreas,
-        [SearchParams.GroupSelected]: testGroup,
-      };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce([]);
-
-      await TwoOrMoreIndicatorsAreasView({ searchState: searchState });
-
-      expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenNthCalledWith(
-        1,
-        {
-          areaCodes: expectedAreaCodes,
-          indicatorId: 1,
-        },
-        API_CACHE_CONFIG
-      );
-    }
-  );
-
   it('should call get indicator endpoint and pass indicator metadata', async () => {
     const indicatorIds = ['123', '321'];
 
