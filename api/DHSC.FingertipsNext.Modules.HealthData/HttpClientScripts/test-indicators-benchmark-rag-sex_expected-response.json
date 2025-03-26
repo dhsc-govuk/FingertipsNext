@@ -15,9 +15,20 @@
           "value": 12.9,
           "lowerCi": 12.8,
           "upperCi": 13,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -33,9 +44,20 @@
           "value": 12.5,
           "lowerCi": 12.3,
           "upperCi": 12.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -51,9 +73,20 @@
           "value": 13.4,
           "lowerCi": 13.3,
           "upperCi": 13.5,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -69,9 +102,20 @@
           "value": 12.8,
           "lowerCi": 12.7,
           "upperCi": 12.9,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -87,9 +131,20 @@
           "value": 13.5,
           "lowerCi": 13.4,
           "upperCi": 13.7,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -105,9 +160,20 @@
           "value": 13.1,
           "lowerCi": 13,
           "upperCi": 13.2,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -123,9 +189,20 @@
           "value": 13.9,
           "lowerCi": 13.8,
           "upperCi": 14.1,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -141,9 +218,20 @@
           "value": 13.5,
           "lowerCi": 13.4,
           "upperCi": 13.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -159,9 +247,20 @@
           "value": 13.1,
           "lowerCi": 13,
           "upperCi": 13.2,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -177,9 +276,20 @@
           "value": 13.8,
           "lowerCi": 13.7,
           "upperCi": 14,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -195,9 +305,20 @@
           "value": 13.4,
           "lowerCi": 13.3,
           "upperCi": 13.5,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -213,9 +334,20 @@
           "value": 13.1,
           "lowerCi": 13,
           "upperCi": 13.2,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -231,9 +363,20 @@
           "value": 14.3,
           "lowerCi": 14.2,
           "upperCi": 14.4,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -249,9 +392,20 @@
           "value": 14,
           "lowerCi": 13.9,
           "upperCi": 14,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -267,9 +421,20 @@
           "value": 13.7,
           "lowerCi": 13.6,
           "upperCi": 13.8,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -285,9 +450,20 @@
           "value": 14.6,
           "lowerCi": 14.5,
           "upperCi": 14.7,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -303,9 +479,20 @@
           "value": 14.3,
           "lowerCi": 14.1,
           "upperCi": 14.4,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -321,9 +508,20 @@
           "value": 14.9,
           "lowerCi": 14.8,
           "upperCi": 15.1,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -339,9 +537,20 @@
           "value": 14.5,
           "lowerCi": 14.4,
           "upperCi": 14.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -357,9 +566,20 @@
           "value": 14.9,
           "lowerCi": 14.8,
           "upperCi": 15.1,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -375,9 +595,20 @@
           "value": 14.7,
           "lowerCi": 14.6,
           "upperCi": 14.8,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -393,9 +624,20 @@
           "value": 16.1,
           "lowerCi": 16,
           "upperCi": 16.2,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -411,9 +653,20 @@
           "value": 16.6,
           "lowerCi": 16.5,
           "upperCi": 16.8,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -429,9 +682,20 @@
           "value": 15.7,
           "lowerCi": 15.6,
           "upperCi": 15.9,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -447,9 +711,20 @@
           "value": 14.9,
           "lowerCi": 14.8,
           "upperCi": 15,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -465,9 +740,20 @@
           "value": 15.5,
           "lowerCi": 15.3,
           "upperCi": 15.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -483,9 +769,20 @@
           "value": 14.4,
           "lowerCi": 14.3,
           "upperCi": 14.5,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -501,9 +798,20 @@
           "value": 14.9,
           "lowerCi": 14.8,
           "upperCi": 15,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -519,9 +827,20 @@
           "value": 14.1,
           "lowerCi": 14,
           "upperCi": 14.2,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -537,9 +856,20 @@
           "value": 14.5,
           "lowerCi": 14.4,
           "upperCi": 14.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -555,9 +885,20 @@
           "value": 15.3,
           "lowerCi": 15.2,
           "upperCi": 15.5,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Male",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -573,9 +914,20 @@
           "value": 14.4,
           "lowerCi": 14.3,
           "upperCi": 14.6,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Female",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -591,9 +943,20 @@
           "value": 14.8,
           "lowerCi": 14.8,
           "upperCi": 14.9,
-          "ageBand": "All ages",
-          "deprivation": "All",
-          "sex": "Persons",
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Similar",
