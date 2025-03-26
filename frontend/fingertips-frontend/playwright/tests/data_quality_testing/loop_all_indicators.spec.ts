@@ -24,11 +24,11 @@ interface TestParams {
 }
 
 const coreTestJourneys: TestParams[] = [
-  // {
-  //   indicatorMode: IndicatorMode.ONE_INDICATOR,
-  //   areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-  //   searchMode: SearchMode.ONLY_SUBJECT,
-  // }, // 4 filters needed to be added to filterIndicatorsOnlyPOC - ticket 1
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+  }, // 4 filters needed to be added to filterIndicatorsOnlyPOC - ticket 1
   // {
   //   indicatorMode: IndicatorMode.ONE_INDICATOR,
   //   areaMode: AreaMode.ENGLAND_AREA,

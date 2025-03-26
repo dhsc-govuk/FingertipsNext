@@ -178,28 +178,27 @@ function filterIndicatorsOnlyPOC(
   indicators: IndicatorDocument[]
 ): SimpleIndicatorDocument[] {
   return indicators.filter(
-    (indicator) =>
-      indicator.usedInPoc === true &&
-      // filters needed for one indicator (in loop) + all but one areas in group + only subject - log a bug for filtering by all regions - ticket 1
-      !indicator.indicatorName.includes(
-        `People reporting Alzheimer's disease or dementia`
-      ) &&
-      !indicator.indicatorName.includes(
-        `People with caring responsibility aged 16 years and over`
-      ) &&
-      // filters needed for one indicator (in loop) + ( all areas in a group || ENGLAND ) + only subject - log a bug for these 4 data issues - ticket 2
-      !indicator.indicatorName.includes(
-        'Hepatitis B vaccination coverage aged 2 years'
-      ) &&
-      !indicator.indicatorName.includes(
-        'Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years'
-      ) &&
-      !indicator.indicatorName.includes(
-        'Physically inactive in adults aged 19 years and over'
-      ) &&
-      !indicator.indicatorName.includes(
-        'Overweight prevalence (including obesity) in adults aged 18 years and over'
-      )
+    (indicator) => indicator.usedInPoc === true
+    // filters needed for one indicator (in loop) + all but one areas in group + only subject - log a bug for filtering by all regions - ticket 1
+    // !indicator.indicatorName.includes(
+    //   `People reporting Alzheimer's disease or dementia`
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   `People with caring responsibility aged 16 years and over`
+    // )
+    // filters needed for one indicator (in loop) + ( all areas in a group || ENGLAND ) + only subject - log a bug for these 4 data issues - ticket 2
+    // !indicator.indicatorName.includes(
+    //   'Hepatitis B vaccination coverage aged 2 years'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Obesity prevalence (including severe obesity) in Year 6 children aged 10 to 11 years'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Physically inactive in adults aged 19 years and over'
+    // ) &&
+    // !indicator.indicatorName.includes(
+    //   'Overweight prevalence (including obesity) in adults aged 18 years and over'
+    // )
   );
 }
 
