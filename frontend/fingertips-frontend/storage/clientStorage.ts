@@ -3,6 +3,7 @@ export enum ClientStorageKeys {
   AreaFilterResultsPage = 'area-filter-results-page',
   AreaFilterChartPage = 'area-filter-chart-page',
   previousPath = 'previous-path',
+  searchedIndicator = 'searched-indicator',
 }
 
 export type ClientStorageState = {
@@ -10,6 +11,7 @@ export type ClientStorageState = {
   [ClientStorageKeys.AreaFilterResultsPage]?: boolean;
   [ClientStorageKeys.AreaFilterChartPage]?: boolean;
   [ClientStorageKeys.previousPath]?: string;
+  [ClientStorageKeys.searchedIndicator]?: string;
 };
 
 export class ClientStorage {

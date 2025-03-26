@@ -5,11 +5,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -21,7 +17,6 @@ import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoader } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
-import { usePathname, useRouter } from 'next/navigation';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -40,15 +35,16 @@ export const SearchForm = ({
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
-  const pathname = usePathname();
   const { setIsLoading } = useLoader();
-  const { replace } = useRouter();
-
-  const stateManager = SearchStateManager.initialise(searchState);
 
   const isAreaFilterOpen =
     ClientStorage.getState<boolean>(ClientStorageKeys.AreaFilterHomePage) ??
     false;
+
+  const searchedIndicator =
+    ClientStorage.getState<string>(ClientStorageKeys.searchedIndicator) ??
+    searchState?.[SearchParams.SearchedIndicator] ??
+    formState.indicator;
 
   const updateIsAreaFilterOpen = () => {
     ClientStorage.updateState(
@@ -68,14 +64,12 @@ export const SearchForm = ({
 
   const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
     if (searchedIndicator !== searchState?.[SearchParams.SearchedIndicator]) {
-      setIsLoading(true);
-
-      stateManager.addParamValueToState(
-        SearchParams.SearchedIndicator,
+      ClientStorage.updateState<string>(
+        ClientStorageKeys.searchedIndicator,
         searchedIndicator
       );
 
-      replace(stateManager.generatePath(pathname), { scroll: false });
+      formState.indicator = searchedIndicator;
     }
   };
 
@@ -91,7 +85,7 @@ export const SearchForm = ({
         input={{
           id: 'indicator',
           name: 'indicator',
-          defaultValue: formState.indicator ?? '',
+          defaultValue: searchedIndicator ?? formState.indicator ?? '',
           onBlur: (e) => handleOnSearchSubjectBlur(e.target.value),
         }}
         hint={

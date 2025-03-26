@@ -99,7 +99,7 @@ export function IndicatorDefinition({
 
   useEffect(() => {
     setIsLoading(false);
-  }, [setIsLoading, getIsLoading]);
+  }, [setIsLoading]);
 
   const stateManager = SearchStateManager.initialise(searchState);
 

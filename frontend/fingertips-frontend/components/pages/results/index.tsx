@@ -69,7 +69,7 @@ export function SearchResults({
 
   useEffect(() => {
     setIsLoading(false);
-  }, [setIsLoading, getIsLoading]);
+  }, [setIsLoading]);
 
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);

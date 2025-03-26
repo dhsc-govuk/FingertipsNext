@@ -77,7 +77,24 @@ describe('SearchForm', () => {
     ).toBeInTheDocument();
   });
 
-  it('should pre-populate the indicator input field with value from the form state', () => {
+  it('should pre-populate the indicator input field with value from client storage if available', () => {
+    mockGetState.mockReturnValue('value from client storage');
+
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+    };
+    render(
+      <SearchForm formState={searchFormState} searchState={mockSearchState} />
+    );
+
+    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
+      'value from client storage'
+    );
+  });
+
+  it('should pre-populate the indicator input field with value from the form state if client storage has no value for searched indicator', () => {
+    mockGetState.mockReturnValue(undefined);
+
     const searchFormState: SearchFormState = {
       ...initialDataState,
       indicator: 'test value',
@@ -91,12 +108,7 @@ describe('SearchForm', () => {
     );
   });
 
-  it('should update the url with the typed searched indicator when focussing away from input field', async () => {
-    const expectedPath = [
-      `${mockPath}`,
-      `?${SearchParams.SearchedIndicator}=hospital`,
-    ].join('');
-
+  it('should update client storage with the typed searched indicator when focussing away from input field', async () => {
     const searchFormState: SearchFormState = {
       ...initialDataState,
       indicator: '',
@@ -112,10 +124,13 @@ describe('SearchForm', () => {
     );
     await user.click(screen.getByRole('textbox', { name: /area/i }));
 
-    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+    expect(mockUpdateState).toHaveBeenCalledWith(
+      ClientStorageKeys.searchedIndicator,
+      'hospital'
+    );
   });
 
-  it('should not update the url with the searchIndicator when its the same value as in the state', async () => {
+  it('should not update client storage with the searchIndicator when its the same value as in the state', async () => {
     const searchFormState: SearchFormState = {
       ...initialDataState,
       indicator: 'hospital',
@@ -133,26 +148,7 @@ describe('SearchForm', () => {
     await user.click(screen.getByRole('textbox', { name: /indicator/i }));
     await user.click(screen.getByRole('textbox', { name: /area/i }));
 
-    expect(mockReplace).not.toHaveBeenCalled();
-  });
-
-  it('should call setIsLoading to true when the searchedIndicator is changed and navigated away from the input field', async () => {
-    const searchFormState: SearchFormState = {
-      ...initialDataState,
-      indicator: '',
-    };
-    render(
-      <SearchForm formState={searchFormState} searchState={mockSearchState} />
-    );
-
-    const user = userEvent.setup();
-    await user.type(
-      screen.getByRole('textbox', { name: /indicator/i }),
-      'hospital'
-    );
-    await user.click(screen.getByRole('textbox', { name: /area/i }));
-
-    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+    expect(mockUpdateState).not.toHaveBeenCalledWith();
   });
 
   it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {
