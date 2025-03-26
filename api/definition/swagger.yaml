@@ -403,13 +403,9 @@ components:
           example: 578.32766
           description: The upper confidence interval
         ageBand:
-          type: string
-          example: 0-4
-          description: Age band which the data are for.
+          $ref: "#/components/schemas/AgeData"
         sex:
-          type: string
-          example: Female
-          description: Sex which the data are for.
+          $ref: "#/components/schemas/SexData"
         trend:
           type: string
           example: Increasing
@@ -463,6 +459,7 @@ components:
         - sequence
         - value
         - type
+        - isAggregate
       properties:
         sequence:
           type: number
@@ -477,6 +474,40 @@ components:
           type: string
           example: District & UA deprivation deciles in England (IMD2019, 4/21 geography)
           description: The deprivation category that this data point's deprivation value belongs to.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the deprivation dimension.
+    SexData:
+      type: object
+      description: Details of the sex category that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: Female
+          description: Sex which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the sex dimension.
+    AgeData:
+      type: object
+      description: Details of the age band that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the age dimension.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
