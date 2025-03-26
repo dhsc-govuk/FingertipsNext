@@ -1,98 +1,11 @@
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
-import { generateSeriesData } from './lineChartHelpers';
-import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
-  HealthDataForArea,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { noDeprivation } from '@/lib/mocks';
-
-const mockData: HealthDataForArea[] = [
-  {
-    areaCode: 'A1425',
-    areaName: 'North FooBar',
-    healthData: [
-      {
-        count: 389,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        value: 278.29134,
-        year: 2006,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-      {
-        count: 267,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        value: 703.420759,
-        year: 2004,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-  {
-    areaCode: 'A1426',
-    areaName: 'South FooBar',
-    healthData: [
-      {
-        count: 654,
-        lowerCi: 750.69151,
-        upperCi: 800.32766,
-        value: 786.27434,
-        year: 2010,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-      {
-        count: 567,
-        lowerCi: 440.69151,
-        upperCi: 420.32766,
-        value: 435.420759,
-        year: 2007,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-  {
-    areaCode: 'A1427',
-    areaName: 'East FooBar',
-    healthData: [
-      {
-        count: 953,
-        lowerCi: 460.69151,
-        upperCi: 500.32766,
-        value: 478.27434,
-        year: 2020,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-      {
-        count: 567,
-        lowerCi: 220.69151,
-        upperCi: 250.32766,
-        value: 234.420759,
-        year: 2012,
-        sex: 'Persons',
-        ageBand: 'All',
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  },
-];
+  generateSeriesData,
+  generateStandardLineChartOptions,
+  lineChartDefaultOptions,
+} from './lineChartHelpers';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';
 
 const symbols: SymbolKeyValue[] = ['arc', 'circle', 'diamond'];
 
@@ -180,7 +93,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -192,35 +105,6 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with benchmark data', () => {
-    const mockBenchmarkData: HealthDataForArea = {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      healthData: [
-        {
-          count: 389,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 278.29134,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    };
-
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
@@ -309,7 +193,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
@@ -321,64 +205,6 @@ describe('generateSeriesData', () => {
   });
 
   it('should generate series data with parent data', () => {
-    const mockBenchmarkData: HealthDataForArea = {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      healthData: [
-        {
-          count: 389,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 278.29134,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    };
-
-    const mockParentData: HealthDataForArea = {
-      areaCode: 'P001',
-      areaName: 'Parent',
-      healthData: [
-        {
-          count: 100,
-          lowerCi: 200,
-          upperCi: 400,
-          value: 300,
-          year: 2006,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-        {
-          count: 101,
-          lowerCi: 201,
-          upperCi: 401,
-          value: 301,
-          year: 2004,
-          sex: 'Persons',
-          ageBand: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    };
-
     const expectedSeriesData = [
       {
         color: GovukColours.DarkGrey,
@@ -479,7 +305,7 @@ describe('generateSeriesData', () => {
     ];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       mockBenchmarkData,
@@ -494,7 +320,7 @@ describe('generateSeriesData', () => {
     const symbols: SymbolKeyValue[] = ['arc', 'circle'];
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -512,7 +338,7 @@ describe('generateSeriesData', () => {
 
   it('should show confidence intervals bars', () => {
     const generatedSeriesData = generateSeriesData(
-      [mockData[0]],
+      [mockIndicatorData[0]],
       symbols,
       chartColours,
       undefined,
@@ -552,7 +378,7 @@ describe('generateSeriesData', () => {
 
   it('should not show confidence intervals bars', () => {
     const generatedSeriesData = generateSeriesData(
-      [mockData[0]],
+      [mockIndicatorData[0]],
       symbols,
       chartColours,
       undefined,
@@ -598,7 +424,7 @@ describe('generateSeriesData', () => {
     const errorBarColour = '#B1B4B6';
 
     const generatedSeriesData = generateSeriesData(
-      mockData,
+      mockIndicatorData,
       symbols,
       chartColours,
       undefined,
@@ -611,5 +437,88 @@ describe('generateSeriesData', () => {
     expect(generatedSeriesData[2].color).toBe(chartColours[1]);
     expect(generatedSeriesData[3].color).toBe(errorBarColour);
     expect(generatedSeriesData[4].color).toBe(chartColours[0]);
+  });
+});
+
+describe('generateStandardLineChartOptions', () => {
+  it('should generate standard line chart options', () => {
+    const expectedSeriesData = [
+      {
+        color: '#F46A25',
+        data: [
+          [2004, 703.420759],
+          [2006, 278.29134],
+        ],
+        name: 'North FooBar',
+        type: 'line',
+        marker: {
+          symbol: 'arc',
+        },
+      },
+      {
+        color: '#B1B4B6',
+        data: [
+          [2004, 441.69151, 578.32766],
+          [2006, 441.69151, 578.32766],
+        ],
+        name: 'North FooBar',
+        type: 'errorbar',
+        visible: false,
+        lineWidth: 2,
+        whiskerLength: '20%',
+      },
+    ];
+
+    const expected = {
+      ...lineChartDefaultOptions,
+      yAxis: {
+        ...lineChartDefaultOptions.yAxis,
+        title: { text: 'yAxis', margin: 20 },
+      },
+      xAxis: {
+        ...lineChartDefaultOptions.xAxis,
+        title: { text: 'xAxis', margin: 20 },
+      },
+      legend: {
+        ...lineChartDefaultOptions.legend,
+        title: { text: 'Areas' },
+      },
+      accessibility: {
+        ...lineChartDefaultOptions.accessibility,
+        description: 'accessibility',
+      },
+      series: expectedSeriesData,
+      tooltip: {
+        format: lineChartDefaultOptions.tooltip?.format + '%',
+      },
+    };
+
+    expect(
+      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
+        benchmarkData: undefined,
+        groupIndicatorData: undefined,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      })
+    ).toEqual(expected);
+  });
+
+  it('should generate standard line chart options with benchmark data', () => {
+    expect(
+      generateStandardLineChartOptions([mockIndicatorData[0]], false, {
+        benchmarkData: mockBenchmarkData,
+        groupIndicatorData: mockParentData,
+        yAxisTitle: 'yAxis',
+        xAxisTitle: 'xAxis',
+        measurementUnit: '%',
+        accessibilityLabel: 'accessibility',
+        colours: chartColours,
+        symbols,
+      })
+    ).toMatchSnapshot();
   });
 });

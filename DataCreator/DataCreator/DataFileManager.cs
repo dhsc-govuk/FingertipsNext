@@ -102,11 +102,16 @@ namespace DataCreator
                     category = ALL;
                 }
 
+                var age = split[8].Trim();
+
+                //there is bad data for indicator 92033, we don't want 4-5 yrs
+                if (indicatorId == 92033 && age == "4-5 yrs")
+                    continue;
                 var indicatorData = new HealthMeasureEntity
                 {
                     IndicatorId = indicatorId,
                     AreaCode = areaCode,
-                    Age = split[8].Trim(),
+                    Age = age,
                     Sex = split[7].Trim(),
                     Count = GetDoubleValue(split[17]),
                     Value = GetDoubleValue(split[12]),
