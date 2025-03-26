@@ -62,6 +62,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       }
     });
   } catch (error) {
+    console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
@@ -82,6 +83,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
     const _ = await Promise.all(promises);
   } catch (error) {
+    console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
