@@ -1,6 +1,5 @@
 'use client';
 
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { MultiIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
@@ -70,7 +69,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   groupIndicatorData,
   englandIndicatorData,
   healthIndicatorData,
-  searchState,
   indicatorMetadata,
 }: Readonly<MultiIndicatorViewPlotProps>) {
   const spineTableData = mapToSpineChartTableProps(
