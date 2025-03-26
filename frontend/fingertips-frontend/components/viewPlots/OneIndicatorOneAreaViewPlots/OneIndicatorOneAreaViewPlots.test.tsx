@@ -58,7 +58,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       screen.getByTestId('tabContainer-lineChartAndTable')
     ).toBeInTheDocument();
     expect(
-      await screen.findByTestId('lineChart-component')
+      await screen.findByTestId('standardLineChart-component')
     ).toBeInTheDocument();
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
@@ -81,6 +81,16 @@ describe('OneIndicatorOneAreaViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
+
+    const highcharts = await screen.findAllByTestId(
+      'highcharts-react-component-lineChart'
+    );
+    await waitFor(() => {
+      expect(highcharts).toHaveLength(2);
+    });
+
+    expect(highcharts[0]).toHaveTextContent('England');
+    expect(highcharts[0]).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
         name: 'Indicator data over time',
@@ -90,7 +100,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       screen.getByTestId('tabContainer-lineChartAndTable')
     ).toBeInTheDocument();
     expect(
-      await screen.findByTestId('lineChart-component')
+      await screen.findByTestId('standardLineChart-component')
     ).toBeInTheDocument();
     expect(screen.getByTestId('lineChartTable-component')).toBeInTheDocument();
   });
@@ -136,7 +146,9 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       screen.queryByTestId('tabContainer-lineChartAndTable')
     ).not.toBeInTheDocument();
-    expect(screen.queryByTestId('lineChart-component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('standardLineChart-component')
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByTestId('lineChartTable-component')
     ).not.toBeInTheDocument();

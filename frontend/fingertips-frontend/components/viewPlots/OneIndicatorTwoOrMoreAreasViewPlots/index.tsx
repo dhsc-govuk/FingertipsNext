@@ -14,6 +14,11 @@ import { typography } from '@govuk-react/lib';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/lineChartHelpers';
+import { useState } from 'react';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -35,6 +40,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState<boolean>(false);
 
   const dataWithoutEngland = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
@@ -56,6 +63,23 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     areasSelected &&
     areasSelected?.length <= 2;
 
+  const yAxisTitle = indicatorMetadata?.unitLabel
+    ? `Value: ${indicatorMetadata?.unitLabel}`
+    : undefined;
+
+  const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
+    dataWithoutEngland,
+    showConfidenceIntervalsData,
+    {
+      benchmarkData: englandBenchmarkData,
+      groupIndicatorData: groupData,
+      yAxisTitle,
+      xAxisTitle: 'Year',
+      measurementUnit: indicatorMetadata?.unitLabel,
+      accessibilityLabel: 'A line chart showing healthcare data',
+    }
+  );
+
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       {shouldLineChartbeShown && (
@@ -69,13 +93,12 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutEngland}
-                    benchmarkData={englandBenchmarkData}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                    accessibilityLabel="A line chart showing healthcare data"
+                    lineChartOptions={lineChartOptions}
+                    showConfidenceIntervalsData={showConfidenceIntervalsData}
+                    setShowConfidenceIntervalsData={
+                      setShowConfidenceIntervalsData
+                    }
+                    variant={LineChartVariant.Standard}
                   />
                 ),
               },

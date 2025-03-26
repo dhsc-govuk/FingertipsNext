@@ -13,6 +13,24 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
     private readonly HealthDataDbContext _dbContext = healthDataDbContext ?? throw new ArgumentNullException(nameof(healthDataDbContext));
 
+    public async Task<IndicatorDimensionModel> GetIndicatorDimensionAsync(int indicatorId)
+    {
+        var results = await _dbContext.IndicatorDimension
+            .Where(i => i.IndicatorId == indicatorId)
+            .Select(x => new IndicatorDimensionModel()
+            {
+                IndicatorId = x.IndicatorId,
+                IndicatorKey = x.IndicatorKey,
+                Name = x.Name,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                Polarity = x.Polarity,
+                BenchmarkComparisonMethod = x.BenchmarkComparisonMethod,
+            })
+            .ToListAsync();
+        return results.FirstOrDefault();
+    }
+    
     public async Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId, string[] areaCodes, int[] years, string[] inequalities)
     {
         var excludeDisaggregatedSexValues = !inequalities.Contains(SEX);

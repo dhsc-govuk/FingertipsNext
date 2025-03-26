@@ -5,7 +5,7 @@ import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 describe('Inequalities LineChart suite', () => {
-  it('should render the expected elements', () => {
+  it('should render the expected elements', async () => {
     const yAxisLabel = 'YAxis';
     render(
       <InequalitiesBarChart
@@ -15,13 +15,15 @@ describe('Inequalities LineChart suite', () => {
       />
     );
 
-    const barChart = screen.getByTestId(
+    const barChart = await screen.findByTestId(
       'highcharts-react-component-inequalitiesBarChart'
     );
 
     expect(
       screen.getByTestId('inequalitiesBarChart-component')
     ).toBeInTheDocument();
+    expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    expect(screen.getByText(/Show confidence intervals/i)).toBeInTheDocument();
     expect(barChart).toBeInTheDocument();
     expect(barChart).toHaveTextContent(`Inequality type: Sex`);
     expect(barChart).toHaveTextContent(yAxisLabel);
