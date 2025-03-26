@@ -128,7 +128,7 @@ public class HealthMeasureModelHelper(
 
     public HealthMeasureModelHelper WithSexDimension(
         byte? sexKey = null,
-        string name = "sex name",
+        string name = "Persons",
         bool hasValue = false,
         byte sexId = 0)
     {

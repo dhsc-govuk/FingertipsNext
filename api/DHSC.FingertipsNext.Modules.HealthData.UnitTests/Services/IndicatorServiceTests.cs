@@ -257,7 +257,7 @@ public class IndicatorServiceTests
         result[0].HealthData.Count().ShouldBe(6);
 
         var personsResult2022 = result[0].HealthData.ElementAt(0);
-        personsResult2022.Sex.ShouldBe("sex name");
+        personsResult2022.Sex.ShouldBe("Persons");
         personsResult2022.Year.ShouldBe(2022);
         personsResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -296,7 +296,7 @@ public class IndicatorServiceTests
         });
         
         var personsResult2023 = result[0].HealthData.ElementAt(3);
-        personsResult2023.Sex.ShouldBe("sex name");
+        personsResult2023.Sex.ShouldBe("Persons");
         personsResult2023.Year.ShouldBe(2023);
         personsResult2023.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
