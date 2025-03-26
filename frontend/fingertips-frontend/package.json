@@ -10,6 +10,7 @@
     "generate:ft-mocks": "npx msw-auto-mock ./../../api/definition/swagger.yaml -o ./mock/server",
     "build": "next build",
     "start": "next start",
+    "start-local-mocks": "cross-env MOCK_SERVER=true next start",
     "api:start": "docker compose --profile api up --build",
     "api:stop": "docker compose --profile api down",
     "start:all": "docker compose --profile all up --build --remove-orphans --wait -d",
