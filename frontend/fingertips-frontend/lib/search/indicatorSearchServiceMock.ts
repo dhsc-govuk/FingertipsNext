@@ -1,17 +1,24 @@
-import { IIndicatorSearchService, IndicatorDocument } from './searchTypes';
+import { IndicatorMapper } from './indicatorMapper';
+import {
+  IIndicatorSearchService,
+  IndicatorDocument,
+  RawIndicatorDocument,
+} from './searchTypes';
 
 export class IndicatorSearchServiceMock implements IIndicatorSearchService {
-  mockIndicatorData: IndicatorDocument[];
+  private readonly mockIndicatorData: RawIndicatorDocument[];
+  private readonly mapper: IndicatorMapper;
 
-  constructor(indicatorData: IndicatorDocument[]) {
+  constructor(indicatorData: RawIndicatorDocument[]) {
     this.mockIndicatorData = indicatorData;
+    this.mapper = new IndicatorMapper();
   }
 
   public async searchWith(
     searchText: string,
     areaCodes: string[]
   ): Promise<IndicatorDocument[]> {
-    return this.mockIndicatorData
+    const searchResults = this.mockIndicatorData
       .filter((indicator) => {
         return (
           indicator.indicatorID
@@ -38,6 +45,8 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
         );
       })
       .slice(0, 20);
+
+    return this.mapper.toEntities(searchResults, areaCodes ?? []);
   }
 
   public async getIndicator(
@@ -62,10 +71,9 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       latestDataPeriod: rawDocument.latestDataPeriod,
       lastUpdatedDate: rawDocument.lastUpdatedDate,
       dataSource: rawDocument.dataSource,
-      associatedAreaCodes: rawDocument.associatedAreaCodes,
       hasInequalities: rawDocument.hasInequalities,
+      trend: undefined,
       unitLabel: rawDocument.unitLabel,
-      usedInPoc: rawDocument.usedInPoc,
     };
   }
 }
