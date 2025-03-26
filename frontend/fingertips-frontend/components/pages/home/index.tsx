@@ -55,14 +55,14 @@ export const Home = ({
     ClientStorage.updateState(ClientStorageKeys.previousPath, pathname);
   }, [previousPath, pathname]);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [setIsLoading]);
-
   const [formState, setFormState] = useActionState(
     searchIndicator,
     initialFormState
   );
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading, formState]);
 
   return (
     <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>

@@ -67,10 +67,6 @@ export function SearchResults({
     ClientStorage.updateState(ClientStorageKeys.previousPath, pathname);
   }, [previousPath, pathname]);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [setIsLoading]);
-
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
 
@@ -84,6 +80,10 @@ export function SearchResults({
     searchIndicator,
     initialIndicatorSearchFormState
   );
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading, indicatorSearchState]);
 
   return (
     <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>
