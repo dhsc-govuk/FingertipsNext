@@ -63,14 +63,12 @@ export const SearchForm = ({
       : selectedAreasData?.[0]?.name;
 
   const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
-    if (searchedIndicator !== searchState?.[SearchParams.SearchedIndicator]) {
-      ClientStorage.updateState<string>(
-        ClientStorageKeys.searchedIndicator,
-        searchedIndicator
-      );
+    ClientStorage.updateState<string>(
+      ClientStorageKeys.searchedIndicator,
+      searchedIndicator
+    );
 
-      formState.indicator = searchedIndicator;
-    }
+    formState.indicator = searchedIndicator;
   };
 
   return (

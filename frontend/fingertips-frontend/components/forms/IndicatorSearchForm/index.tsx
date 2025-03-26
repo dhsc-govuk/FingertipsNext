@@ -3,7 +3,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateParams } from '@/lib/searchStateManager';
 import { useLoader } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
@@ -31,14 +31,12 @@ export const IndicatorSearchForm = ({
   const { setIsLoading } = useLoader();
 
   const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
-    if (searchedIndicator !== searchState?.[SearchParams.SearchedIndicator]) {
-      ClientStorage.updateState<string>(
-        ClientStorageKeys.searchedIndicator,
-        searchedIndicator
-      );
+    ClientStorage.updateState<string>(
+      ClientStorageKeys.searchedIndicator,
+      searchedIndicator
+    );
 
-      indicatorSearchFormState.indicator = searchedIndicator;
-    }
+    indicatorSearchFormState.indicator = searchedIndicator;
   };
 
   return (

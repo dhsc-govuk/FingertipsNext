@@ -130,27 +130,6 @@ describe('SearchForm', () => {
     );
   });
 
-  it('should not update client storage with the searchIndicator when its the same value as in the state', async () => {
-    const searchFormState: SearchFormState = {
-      ...initialDataState,
-      indicator: 'hospital',
-    };
-    render(
-      <SearchForm
-        formState={searchFormState}
-        searchState={{
-          [SearchParams.SearchedIndicator]: 'hospital',
-        }}
-      />
-    );
-
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('textbox', { name: /indicator/i }));
-    await user.click(screen.getByRole('textbox', { name: /area/i }));
-
-    expect(mockUpdateState).not.toHaveBeenCalledWith();
-  });
-
   it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {
     const searchState = {
       [SearchParams.GroupSelected]: eastEnglandNHSRegion.code,
