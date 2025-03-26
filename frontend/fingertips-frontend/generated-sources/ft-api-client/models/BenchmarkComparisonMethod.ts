@@ -19,7 +19,6 @@
  */
 export const BenchmarkComparisonMethod = {
     Unknown: 'Unknown',
-    Rag: 'Rag',
     Quintiles: 'Quintiles',
     CIOverlappingReferenceValue95: 'CIOverlappingReferenceValue95',
     CIOverlappingReferenceValue99_8: 'CIOverlappingReferenceValue99_8'

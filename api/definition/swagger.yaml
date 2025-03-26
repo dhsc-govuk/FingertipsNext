@@ -248,8 +248,8 @@ components:
       type: string
       example: CIOverlappingReferenceValue95
       description: the benchmark comparison method used
-      enum: [ Unknown, Rag, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
-      x-enum-varnames: [ Unknown, Rag, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      enum: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      x-enum-varnames: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
     BenchmarkOutcome:
       type: string
       example: Lower
