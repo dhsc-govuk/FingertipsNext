@@ -5,6 +5,7 @@ import { getSearchSuggestions } from '@/components/forms/SearchForm/searchAction
 import userEvent from '@testing-library/user-event';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
+import { LoaderContext } from '@/context/LoaderContext';
 
 jest.mock('@/components/forms/SearchForm/searchActions');
 
@@ -25,6 +26,18 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 

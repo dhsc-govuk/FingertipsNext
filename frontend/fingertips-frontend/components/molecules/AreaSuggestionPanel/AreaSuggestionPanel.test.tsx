@@ -8,6 +8,7 @@ import {
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import { englandArea } from '@/mock/data/areas/englandAreas';
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -28,6 +29,18 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
   };
 });
 
@@ -80,7 +93,7 @@ describe('AreaSuggestionPanel', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should update the url with the areaCode when an suggested area is clicked', async () => {
+  it('should update the url with the areaCode when a suggested area is clicked', async () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=GP01`,
@@ -99,6 +112,22 @@ describe('AreaSuggestionPanel', () => {
     );
 
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should call setIsLoading to true when a suggested area is clicked', async () => {
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={mockAreas}
+        searchHint=""
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(
+      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+    );
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should remove any previous area filter selection from the state', async () => {

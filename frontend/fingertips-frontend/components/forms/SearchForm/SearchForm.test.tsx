@@ -14,6 +14,8 @@ import userEvent from '@testing-library/user-event';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const mockPath = 'some path';
+const mockReplace = jest.fn();
+
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
   return {
@@ -21,7 +23,7 @@ jest.mock('next/navigation', () => {
     usePathname: () => mockPath,
     useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
-      replace: jest.fn(),
+      replace: mockReplace,
     })),
   };
 });
@@ -54,6 +56,10 @@ const initialDataState: SearchFormState = {
 };
 
 describe('SearchForm', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('snapshot test - renders the form', () => {
     const container = render(
       <SearchForm formState={initialDataState} searchState={mockSearchState} />
@@ -83,6 +89,70 @@ describe('SearchForm', () => {
     expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
       'test value'
     );
+  });
+
+  it('should update the url with the typed searched indicator when focussing away from input field', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.SearchedIndicator}=hospital`,
+    ].join('');
+
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+      indicator: '',
+    };
+    render(
+      <SearchForm formState={searchFormState} searchState={mockSearchState} />
+    );
+
+    const user = userEvent.setup();
+    await user.type(
+      screen.getByRole('textbox', { name: /indicator/i }),
+      'hospital'
+    );
+    await user.click(screen.getByRole('textbox', { name: /area/i }));
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
+  });
+
+  it('should not update the url with the searchIndicator when its the same value as in the state', async () => {
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+      indicator: 'hospital',
+    };
+    render(
+      <SearchForm
+        formState={searchFormState}
+        searchState={{
+          [SearchParams.SearchedIndicator]: 'hospital',
+        }}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('textbox', { name: /indicator/i }));
+    await user.click(screen.getByRole('textbox', { name: /area/i }));
+
+    expect(mockReplace).not.toHaveBeenCalled();
+  });
+
+  it('should call setIsLoading to true when the searchedIndicator is changed and navigated away from the input field', async () => {
+    const searchFormState: SearchFormState = {
+      ...initialDataState,
+      indicator: '',
+    };
+    render(
+      <SearchForm formState={searchFormState} searchState={mockSearchState} />
+    );
+
+    const user = userEvent.setup();
+    await user.type(
+      screen.getByRole('textbox', { name: /indicator/i }),
+      'hospital'
+    );
+    await user.click(screen.getByRole('textbox', { name: /area/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {
