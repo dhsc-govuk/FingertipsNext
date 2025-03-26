@@ -361,7 +361,6 @@ CREATE TABLE #TempHealthData
     IsDeprivationAggregatedOrSingle NVARCHAR(255)
 );
 
-
 INSERT INTO #TempHealthData
 (
     IndicatorId,
