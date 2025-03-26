@@ -42,7 +42,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let combinedIndicatorData: HealthDataForArea[][];
+  let combinedIndicatorData: HealthDataForArea[][] = new Array();
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return indicatorApi.getHealthDataForAnIndicator(
@@ -54,7 +54,13 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
     });
 
-    combinedIndicatorData = await Promise.all(promises);
+    const results = await Promise.all(promises);
+
+    results.forEach((row) => {
+      if (row.areaHealthData) {
+        combinedIndicatorData.push(row.areaHealthData);
+      }
+    });
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
