@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 import TwoOrMoreIndicatorsAreasView from '.';
@@ -10,7 +13,7 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IIndicatorSearchService } from '@/lib/search/searchTypes';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -40,6 +43,10 @@ const mockEnglandData: HealthDataForArea = {
   healthData: [],
 };
 
+const mockIndicator: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
+};
+
 describe('TwoOrMoreIndicatorsAreasView', () => {
   afterEach(() => {
     jest.resetAllMocks();
@@ -53,8 +60,8 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     };
 
     mockIndicatorsApi.getHealthDataForAnIndicator
-      .mockResolvedValueOnce([mockAreaData, mockGroupData, mockEnglandData])
-      .mockResolvedValueOnce([mockAreaData, mockGroupData, mockEnglandData]);
+      .mockResolvedValueOnce(mockIndicator)
+      .mockResolvedValueOnce(mockIndicator);
 
     const page = await TwoOrMoreIndicatorsAreasView({
       searchState: searchState,
