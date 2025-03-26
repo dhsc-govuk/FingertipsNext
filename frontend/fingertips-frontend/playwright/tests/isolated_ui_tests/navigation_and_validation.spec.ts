@@ -56,10 +56,9 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     chartPage,
     axeBuilder,
   }) => {
-    await test.step('Search page validation', async () => {
+    await test.step('Navigate to search page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
-
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
