@@ -5,6 +5,7 @@ import { HighchartsReact } from 'highcharts-react-official';
 import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  generateConfidenceIntervalSeries,
   getBenchmarkColour,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -52,30 +53,11 @@ export function SparklineChart({
     return [`<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`];
   }
 
-  const confidenceIntervalColor = GovukColours.Black;
-  const whiskerLength = '50%';
-  const lineWidth = 3;
-
-  function generateConfidenceIntervalSeries(
-    areaName: string | undefined,
-    data: (number | undefined)[][],
-    showConfidenceIntervalsData?: boolean
-  ): Highcharts.SeriesOptionsType {
-    return {
-      type: 'errorbar',
-      name: areaName,
-      data: data,
-      visible: showConfidenceIntervalsData,
-      color: `${confidenceIntervalColor}`,
-      whiskerLength: `${whiskerLength}`,
-      lineWidth: Number(`${lineWidth}`),
-    };
-  }
-
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
     area,
     [confidenceIntervalValues],
-    showConfidenceIntervalsData
+    showConfidenceIntervalsData,
+    {color: GovukColours.Black, whiskerLength: '50%', lineWidth: 3 },
   );
 
   const sparklineOptions: Highcharts.Options = {

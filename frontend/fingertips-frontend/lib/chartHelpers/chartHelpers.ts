@@ -94,7 +94,7 @@ export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
 };
 
 export function generateConfidenceIntervalSeries(
-  areaName: string,
+  areaName: string | undefined,
   data: (number | undefined)[][],
   showConfidenceIntervalsData?: boolean,
   optionalParams?: {
