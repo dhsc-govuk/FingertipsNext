@@ -66,8 +66,6 @@ public class DenormalisedHealthMeasureModel
             BenchmarkComparison = new BenchmarkComparisonModel()
             {
                 Outcome = BenchmarkComparisonOutcome,
-                Method = BenchmarkComparisonMethod,
-                IndicatorPolarity = BenchmarkComparisonIndicatorPolarity,
                 BenchmarkAreaCode = BenchmarkComparisonAreaCode,
                 BenchmarkAreaName = BenchmarkComparisonAreaName,    
             },

@@ -1,9 +1,5 @@
-﻿using System.Linq.Expressions;
-using System.Xml.XPath;
-using DHSC.FingertipsNext.Modules.Area.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.Area.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DHSC.FingertipsNext.Modules.Area.Repository;
 
@@ -16,25 +12,19 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="dbContext"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public AreaRepository(AreaRepositoryDbContext dbContext)
-    {
+    public AreaRepository(AreaRepositoryDbContext dbContext) =>
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    }
 
     /// <summary>
     ///
     /// </summary>
     /// <returns></returns>
-    public async Task<List<string>> GetHierarchiesAsync()
-    {
-        var hierarchies = await _dbContext
-            .AreaType.Select(a => a.HierarchyType)
-            .Where(a => a != InternalHierarchyTypes.Both)
+    public async Task<List<string>> GetHierarchiesAsync() =>
+        await _dbContext.AreaType
+            .Select(areaType => areaType.HierarchyType)
+            .Where(areaType => areaType != InternalHierarchyTypes.Both)
             .Distinct()
             .ToListAsync();
-
-        return hierarchies;
-    }
 
     /// <summary>
     ///
@@ -45,9 +35,8 @@ public class AreaRepository : IAreaRepository
     {
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
-            areaTypes = _dbContext.AreaType.Where(a =>
-                a.HierarchyType == hierarchyType || a.HierarchyType == InternalHierarchyTypes.Both
-            );
+            areaTypes = _dbContext.AreaType
+                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both);
         else
             areaTypes = _dbContext.AreaType;
 
@@ -59,13 +48,11 @@ public class AreaRepository : IAreaRepository
     /// </summary>
     /// <param name="areaTypeKey"></param>
     /// <returns></returns>
-    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey)
-    {
-        return await _dbContext
-            .Area.Include(a => a.AreaType)
-            .Where(a => a.AreaTypeKey == areaTypeKey)
-            .ToListAsync();
-    }
+    public async Task<List<AreaModel>> GetAreasForAreaTypeAsync(string areaTypeKey) =>
+        await _dbContext.Area
+        .Include(area => area.AreaType)
+        .Where(area => area.AreaTypeKey == areaTypeKey)
+        .ToListAsync();
 
     /// <summary>
     ///
@@ -75,7 +62,8 @@ public class AreaRepository : IAreaRepository
     /// <param name="includeSiblings"></param>
     /// <param name="childAreaType"></param>
     /// <returns></returns>
-    public async Task<AreaWithRelationsModel> GetAreaAsync(
+    public async Task<AreaWithRelationsModel> GetAreaAsync
+    (
         string areaCode,
         bool includeChildren,
         bool includeSiblings,
@@ -85,25 +73,25 @@ public class AreaRepository : IAreaRepository
 
        var area = await _dbContext
             .Area
-            .Include(a => a.AreaType)
+            .Include(area => area.AreaType)
             .Include(a => a.Children)
-                .ThenInclude(a => a.Children)
+                .ThenInclude(area => area.Children)
 
-                .Include(a => a.Children)
-                .ThenInclude(x => x.Parents)
+                .Include(area => area.Children)
+                .ThenInclude(area => area.Parents)
 
-                .Include(a => a.Children)
-                .ThenInclude(x => x.AreaType)
+                .Include(area => area.Children)
+                .ThenInclude(area => area.AreaType)
                 
-            .Include(a => a.Parents)
-                .ThenInclude(x => x.Parents)
+            .Include(area => area.Parents)
+                .ThenInclude(area => area.Parents)
 
-                .Include(a => a.Parents)
-                .ThenInclude(x => x.Children)
+                .Include(area => area.Parents)
+                .ThenInclude(area => area.Children)
 
-                .Include(a => a.Parents)
-                .ThenInclude(x => x.AreaType)
-            .Where(a => a.AreaCode == areaCode)
+                .Include(area => area.Parents)
+                .ThenInclude(area => area.AreaType)
+            .Where(area => area.AreaCode == areaCode)
             .AsSplitQuery()
             .FirstOrDefaultAsync();
 
@@ -134,10 +122,10 @@ public class AreaRepository : IAreaRepository
         var areaWithAreaTypeList = await _dbContext
             .DenormalisedAreaWithAreaType
             .FromSql(
-                $"""
+                @$"
                 WITH 
                 StartingArea as (
-                Select
+                SELECT
                 	*
                 FROM
                     Areas.Areas area
@@ -212,12 +200,12 @@ public class AreaRepository : IAreaRepository
                     TargetAreaType tat
                 ON
                     rc.AreaTypeKey = tat.AreaTypeKey
-                """
+                "
             )
             .ToListAsync();
 
         return [.. areaWithAreaTypeList
-            .Select(a => a.Normalise())
-            .OrderBy(a => a.AreaType.Level)];
+            .Select(area => area.Normalise())
+            .OrderBy(area => area.AreaType.Level)];
     }
 }

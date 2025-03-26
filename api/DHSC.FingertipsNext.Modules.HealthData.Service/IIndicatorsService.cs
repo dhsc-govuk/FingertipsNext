@@ -17,12 +17,16 @@ public interface IIndicatorsService
     /// <param name="areaType">The area type which the codes are taken from.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
-    /// <param name="comparisonMethod">BenchmarkType eg Rag, Quartile</param>
-    /// <returns></returns>
+    /// <returns>
+    ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
+    /// </returns>
     /// <remarks>
     ///     If more than 10 years are supplied only data for the first 10 distinct years will be returned.
     ///     If more than 10 area codes are supplied only data for the first 10 distinct area codes will be returned.
     /// </remarks>
-    Task<IEnumerable<HealthDataForArea>> GetIndicatorDataAsync(int indicatorId, IEnumerable<string> areaCodes, string areaType, IEnumerable<int> years,
-        IEnumerable<string> inequalities, BenchmarkComparisonMethod comparisonMethod);
+    Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(int indicatorId,
+        IEnumerable<string> areaCodes, 
+        string areaType,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities);
 }

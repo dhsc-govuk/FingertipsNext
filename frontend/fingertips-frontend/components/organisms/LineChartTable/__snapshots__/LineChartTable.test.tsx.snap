@@ -411,7 +411,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
                 >
                   <div
                     class="c9"
-                    data-testid="tag-component"
+                    data-testid="trend-tag-component"
                   >
                     <div>
                       <div
@@ -1044,7 +1044,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
                 >
                   <div
                     class="c9"
-                    data-testid="tag-component"
+                    data-testid="trend-tag-component"
                   >
                     <div>
                       <div
@@ -1076,7 +1076,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
                 >
                   <div
                     class="c9"
-                    data-testid="tag-component"
+                    data-testid="trend-tag-component"
                   >
                     <div>
                       <div

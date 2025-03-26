@@ -2,17 +2,17 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 public enum BenchmarkOutcome
 {
-    None,
-    Best,
-    Better,
-    Highest,
-    Higher,
-    High,
-    Similar,
-    Middle,
-    Low,
-    Lower,
+    NotCompared,
     Lowest,
+    Lower,
+    Low,
+    Middle,
+    High,
+    Higher,
+    Highest,
+    Better,
+    Best,
     Worse,
-    Worst
+    Worst,
+    Similar
 }

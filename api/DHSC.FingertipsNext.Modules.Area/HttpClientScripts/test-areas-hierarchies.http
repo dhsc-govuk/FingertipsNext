@@ -2,7 +2,7 @@
 GET http://localhost:5144/areas/hierarchies
 
 > {%
-    client.test("Three area hierarchies expected", function() {
+    client.test("Two area hierarchies expected", function() {
         client.assert(response.status === 200, "Response status is not 200");
         
         client.assert(response.body.length === 2, "two hierarchies expected")

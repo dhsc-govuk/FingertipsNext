@@ -13,7 +13,7 @@ public class AutoMapperProfiles : Profile
             "High is good" => IndicatorPolarity.HighIsGood,
             "Low is good" => IndicatorPolarity.LowIsGood,
             "No judgement" => IndicatorPolarity.NoJudgement,
-            _ => throw new ArgumentException(message: $"invalid IndicatorPolarity value {DbIndicatorPolarity}")
+            _ => IndicatorPolarity.Unknown
         };
     }
     private static BenchmarkComparisonMethod MapBenchmarkMethod(string DbBenchmarkComparisonMethod)
@@ -21,10 +21,9 @@ public class AutoMapperProfiles : Profile
         return DbBenchmarkComparisonMethod switch
         {
             "Confidence intervals overlapping reference value (95.0)" => BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-            "Confidence intervals overlapping reference value (99.8)" => BenchmarkComparisonMethod.CIOverlappingReferenceValue99,
+            "Confidence intervals overlapping reference value (99.8)" => BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
             "Quintiles" => BenchmarkComparisonMethod.Quintiles,
-            "No comparison" => BenchmarkComparisonMethod.None,
-            _ => throw new ArgumentException(message: $"invalid BenchmarkComparisonMethod value {DbBenchmarkComparisonMethod}")
+            _ => BenchmarkComparisonMethod.Unknown
         };
     }
     public AutoMapperProfiles()
@@ -35,10 +34,11 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<BenchmarkComparisonModel, BenchmarkComparison>()
             .ForMember(dest => dest.Outcome, options => options.MapFrom(src => src.Outcome))
-            .ForMember(dest => dest.Method, options => options.MapFrom(src => src.Method))
-            .ForMember(dest => dest.IndicatorPolarity, options => options.MapFrom(src => src.IndicatorPolarity))
             .ForMember(dest => dest.BenchmarkAreaCode, options => options.MapFrom(src => src.BenchmarkAreaCode))
             .ForMember(dest => dest.BenchmarkAreaName, options => options.MapFrom(src => src.BenchmarkAreaName));
+
+        CreateMap<DeprivationDimensionModel, Deprivation>()
+            .ForMember(dest => dest.Value, options => options.MapFrom(src => src.Name));
 
         CreateMap<HealthMeasureModel, HealthDataPoint>()
             .ForMember(dest => dest.LowerConfidenceInterval, options => options.MapFrom(src => src.LowerCi))
@@ -46,7 +46,6 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.AgeBand, options => options.MapFrom(src => src.AgeDimension.Name))
             .ForMember(dest => dest.Sex, options => options.MapFrom(src => src.SexDimension.Name))
             .ForMember(dest => dest.Trend, options => options.MapFrom(src => src.TrendDimension.Name))
-            .ForMember(dest => dest.BenchmarkComparison, options => options.MapFrom(src => src.BenchmarkComparison))
-            .ForMember(dest => dest.Deprivation, options => options.MapFrom(src => src.DeprivationDimension.Name));
+            .ForMember(dest => dest.Deprivation, options => options.MapFrom(src => src.DeprivationDimension));
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 ### check GET health data with rag comparison
 
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag_expected-response.json');
@@ -16,7 +16,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_
 ###
 
 ### GET health data with rag and sex inequalities
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&comparison_method=rag&inequalities=sex
+GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalities=sex
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');
