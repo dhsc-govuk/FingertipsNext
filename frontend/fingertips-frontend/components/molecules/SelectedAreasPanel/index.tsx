@@ -78,9 +78,8 @@ export function SelectedAreasPanel({
           <GroupAreaSelectedPill
             areaTypeName={areaType?.name}
             groupSelected={selectedGroupData}
-            onRemoveFilter={removeSelectedGroup}
+            onRemoveFilter={isViewOnly ? undefined : removeSelectedGroup}
             isFullWidth={isFullWidth}
-            isViewOnly={isViewOnly}
           />
         </div>
       ) : (
@@ -93,9 +92,8 @@ export function SelectedAreasPanel({
                 <AreaSelectedPill
                   key={selectedArea.code}
                   area={selectedArea}
-                  onRemoveFilter={removeSelectedArea}
+                  onRemoveFilter={isViewOnly ? undefined : removeSelectedArea}
                   isFullWidth={isFullWidth}
-                  isViewOnly={isViewOnly}
                 />
               ))
             : null}

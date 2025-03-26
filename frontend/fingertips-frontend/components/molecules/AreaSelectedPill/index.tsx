@@ -19,17 +19,12 @@ export interface AreaSelectedPillProps {
   area: AreaWithRelations;
   onRemoveFilter?: (filterID: string) => void;
   isFullWidth?: boolean;
-
-  // If true the pill should only allow the data to be viewed, and have no
-  // behaviour that can cause the UI to be changed.
-  isViewOnly?: boolean;
 }
 
 export const AreaSelectedPill = ({
   area,
   onRemoveFilter,
   isFullWidth,
-  isViewOnly,
 }: Readonly<AreaSelectedPillProps>) => {
   return (
     <Pill
@@ -37,7 +32,6 @@ export const AreaSelectedPill = ({
       selectedFilterId={area.code}
       isFullWidth={isFullWidth}
       ariaLabelPostfix={area.name}
-      isViewOnly={isViewOnly}
     >
       <p style={{ margin: 0 }}>
         <StyleAreaName>

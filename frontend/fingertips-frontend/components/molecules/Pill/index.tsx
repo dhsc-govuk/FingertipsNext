@@ -46,10 +46,6 @@ export interface PillProps {
 
   // used to generate an aria-label
   ariaLabelPostfix?: string;
-
-  // If true the pill should only allow the data to be viewed, and have no
-  // behaviour that can cause the UI to be changed.
-  isViewOnly?: boolean;
 }
 
 export function Pill({
@@ -57,12 +53,11 @@ export function Pill({
   selectedFilterId,
   removeFilter,
   isFullWidth = true,
-  ariaLabelPostfix = '',
-  isViewOnly = false,
+  ariaLabelPostfix = ''
 }: Readonly<PillProps>) {
   return (
     <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
-      {removeFilter && !isViewOnly ? (
+      {removeFilter ? (
         <RemoveAreaButton
           aria-label={`Remove area ${ariaLabelPostfix}`}
           data-testid="remove-icon-div"

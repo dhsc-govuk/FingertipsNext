@@ -1,18 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { Pill, PillProps } from '.';
+import { Pill } from '.';
 import { userEvent } from '@testing-library/user-event';
 
 const mockFilterRemoveFunction = jest.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
-const renderPill = (props?: Partial<PillProps>) =>
+const renderPill = (flags: { asViewOnly: boolean } = { asViewOnly: false }) =>
   render(
     <Pill
       ariaLabelPostfix={'Some Test Area'}
       selectedFilterId={selectedFilterId}
-      removeFilter={mockFilterRemoveFunction}
-      isViewOnly={props?.isViewOnly}
+      removeFilter={flags.asViewOnly ? undefined : mockFilterRemoveFunction}
     >
       {selectedFilterName}
     </Pill>
@@ -33,7 +32,7 @@ describe('Pill Suite', () => {
   });
 
   it('should not render close icon if view only', () => {
-    renderPill({ isViewOnly: true });
+    renderPill({ asViewOnly: true });
 
     expect(screen.getByTestId('pill-container')).toBeInTheDocument();
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();
