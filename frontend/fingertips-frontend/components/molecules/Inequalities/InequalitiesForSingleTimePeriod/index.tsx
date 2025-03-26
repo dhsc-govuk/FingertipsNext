@@ -51,7 +51,7 @@ export function InequalitiesForSingleTimePeriod({
     ).find((data) => data.period === Number(selectedYear ?? yearsDesc[0]))!,
   };
   return (
-    <>
+    <div data-testid="inequalitiesForSingleTimePeriod-component">
       <H4>Inequalities data for a single time period</H4>
       <TimePeriodDropDown years={yearsDesc} searchState={searchState} />
       <TabContainer
@@ -85,6 +85,6 @@ export function InequalitiesForSingleTimePeriod({
           },
         ]}
       />
-    </>
+    </div>
   );
 }

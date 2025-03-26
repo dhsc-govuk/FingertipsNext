@@ -75,7 +75,7 @@ export function InequalitiesTrend({
     );
 
   return (
-    <>
+    <div data-testid="inequalitiesTrend-component">
       <H4>Inequalities data over time</H4>
       <TabContainer
         id="inequalitiesLineChartAndTable"
@@ -109,6 +109,6 @@ export function InequalitiesTrend({
           },
         ]}
       />
-    </>
+    </div>
   );
 }

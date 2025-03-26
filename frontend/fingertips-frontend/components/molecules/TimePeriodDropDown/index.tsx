@@ -35,7 +35,7 @@ export function TimePeriodDropDown({
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
   return (
-    <div>
+    <div data-testid="timePeriod-dropDown-component">
       <H5>Select a time period</H5>
       <StyledSelect
         label=""
