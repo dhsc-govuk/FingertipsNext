@@ -1,6 +1,6 @@
 import BasePage from '../basePage';
 import { getIndicatorNameById } from '../../testHelpers';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { expect } from '../pageFactory';
 
 export default class IndicatorPage extends BasePage {
@@ -13,7 +13,7 @@ export default class IndicatorPage extends BasePage {
 
   async checkIndicatorNameTitle(
     indicatorId: string,
-    typedIndicatorData: IndicatorDocument[]
+    typedIndicatorData: RawIndicatorDocument[]
   ) {
     const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
 

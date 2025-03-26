@@ -8,8 +8,6 @@ export const generateIndicatorDocument = (id: string): IndicatorDocument => ({
   earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
   lastUpdatedDate: new Date(),
-  associatedAreaCodes: [],
   unitLabel: 'some unit label',
   hasInequalities: true,
-  usedInPoc: true,
 });

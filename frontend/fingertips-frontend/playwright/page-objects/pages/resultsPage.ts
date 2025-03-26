@@ -7,7 +7,7 @@ import {
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
 import { getIndicatorNameById } from '../../testHelpers';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class ResultsPage extends AreaFilter {
   readonly resultsText = 'Search results';
@@ -272,7 +272,7 @@ export default class ResultsPage extends AreaFilter {
 
   async clickViewBackgroundInformationLinkForIndicator(
     indicatorId: string,
-    typedIndicatorData: IndicatorDocument[]
+    typedIndicatorData: RawIndicatorDocument[]
   ) {
     const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
     if (!indicatorName) {

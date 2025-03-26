@@ -20,10 +20,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreaCodes: [],
     hasInequalities: false,
     unitLabel: '',
-    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -34,10 +32,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '1999',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreaCodes: [],
     hasInequalities: true,
     unitLabel: '',
-    usedInPoc: true,
   },
 ];
 
@@ -49,10 +45,8 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
   latestDataPeriod: '2023',
   dataSource: 'NHS website',
   lastUpdatedDate: new Date('December 6, 2024'),
-  associatedAreaCodes: [],
   hasInequalities: true,
   unitLabel: '',
-  usedInPoc: true,
 };
 
 const mockHandleClick = jest.fn();
