@@ -45,6 +45,30 @@ describe('ChartPageWrapper', () => {
     jest.clearAllMocks();
   });
 
+  it('should render the loading box when getIsLoading is true', () => {
+    mockGetIsLoading.mockReturnValue(true);
+
+    render(
+      <ChartPageWrapper searchState={searchState}>
+        <ChildComponent />
+      </ChartPageWrapper>
+    );
+
+    expect(screen.getByText('Loading')).toBeInTheDocument();
+  });
+
+  it('should not render the loading box when getIsLoading is false', () => {
+    mockGetIsLoading.mockReturnValue(false);
+
+    render(
+      <ChartPageWrapper searchState={searchState}>
+        <ChildComponent />
+      </ChartPageWrapper>
+    );
+
+    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
+  });
+
   it('should render the back link path back to the results page', () => {
     render(
       <ChartPageWrapper searchState={searchState}>

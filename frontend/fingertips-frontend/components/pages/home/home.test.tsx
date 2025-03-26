@@ -41,6 +41,26 @@ const setupUI = (state?: SearchFormState) => {
   return render(<Home initialFormState={state} />);
 };
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+it('should render the loading box when getIsLoading is true', () => {
+  mockGetIsLoading.mockReturnValue(true);
+
+  setupUI();
+
+  expect(screen.getByText('Loading')).toBeInTheDocument();
+});
+
+it('should not render the loading box when getIsLoading is false', () => {
+  mockGetIsLoading.mockReturnValue(false);
+
+  setupUI();
+
+  expect(screen.queryByText('Loading')).not.toBeInTheDocument();
+});
+
 it('should render an indicator link', () => {
   setupUI();
   const link = screen.getByRole('link', { name: /indicators/ });
