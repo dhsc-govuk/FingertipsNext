@@ -30,8 +30,8 @@ export function mapToSpineChartTableProps(
         : 0;
 
     const rowTitle: string =
-      indicatorMetadata[index]?.unitLabel !== undefined
-        ? indicatorMetadata[index]?.unitLabel
+      indicatorMetadata[index]?.indicatorName !== undefined
+        ? indicatorMetadata[index]?.indicatorName
         : '';
 
     const rowIndicatorDefinition: string =
