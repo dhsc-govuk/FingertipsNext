@@ -24,27 +24,23 @@ export function mapToSpineChartTableProps(
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
   healthIndicatorData.forEach((indicatorData, index) => {
-    const validMetaData =
-      indicatorMetadata !== undefined && indicatorMetadata[index] !== undefined;
-
     const rowIndicatorId: number =
-      validMetaData && indicatorMetadata[index]?.indicatorID !== undefined
+      indicatorMetadata[index]?.indicatorID !== undefined
         ? Number(indicatorMetadata[index]?.indicatorID)
         : 0;
 
     const rowTitle: string =
-      validMetaData && indicatorMetadata[index]?.unitLabel !== undefined
+      indicatorMetadata[index]?.unitLabel !== undefined
         ? indicatorMetadata[index]?.unitLabel
         : '';
 
     const rowIndicatorDefinition: string =
-      validMetaData &&
       indicatorMetadata[index]?.indicatorDefinition !== undefined
         ? indicatorMetadata[index]?.indicatorDefinition
         : '';
 
     const rowMeasurementUnit: string =
-      validMetaData && indicatorMetadata[index] !== undefined
+      indicatorMetadata[index] !== undefined
         ? indicatorMetadata[index]?.unitLabel
         : '';
 
