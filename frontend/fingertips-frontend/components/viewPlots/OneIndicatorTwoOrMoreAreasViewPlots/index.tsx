@@ -29,7 +29,7 @@ interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
-  healthIndicatorData,
+  indicatorData,
   searchState,
   indicatorMetadata,
   mapData,
@@ -40,6 +40,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
+  const healthIndicatorData = indicatorData?.areaHealthData ?? [];
+  const { benchmarkMethod, polarity } = indicatorData;
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState<boolean>(false);
 
@@ -112,6 +114,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
                     englandBenchmarkData={englandBenchmarkData}
                     groupIndicatorData={groupData}
                     measurementUnit={indicatorMetadata?.unitLabel}
+                    benchmarkComparisonMethod={benchmarkMethod}
+                    polarity={polarity}
                   />
                 ),
               },
@@ -141,6 +145,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         benchmarkData={englandBenchmarkData}
         groupIndicatorData={groupData}
         measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkMethod}
+        polarity={polarity}
       ></BarChartEmbeddedTable>
     </section>
   );
