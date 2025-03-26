@@ -22,10 +22,10 @@ public class TrendDataProcessorTests
     }
 
     [Theory]
-    [InlineData(1, 29, 2)]
-    [InlineData(2, 1, 2)] // Indicator 2 uses the default dimensions
-    [InlineData(5, 33, 1)]
-    [InlineData(19, 1, 1)]
+    [InlineData(2, 30, 3)]
+    [InlineData(3, 2, 3)] // Indicator 3 uses the default dimensions
+    [InlineData(5, 24, 3)]
+    [InlineData(20, 2, 2)] // Indicator 20 is female-only
     public void TestGetDefaultSearchDimsForIndicatorReturnsCorrectDimensions(
         short indicatorId,
         short expectedAgeDim,
