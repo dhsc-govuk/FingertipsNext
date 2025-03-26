@@ -84,24 +84,38 @@ export const inequalityKeyMapping: Record<
   [InequalitiesTypes.Deprivation]: (keys: string[]) => keys,
 };
 
+const groupHealthDataByInequalitiesMapping: Record<
+  InequalitiesTypes,
+  (point: HealthDataPoint) => string
+> = {
+  [InequalitiesTypes.Sex]: (point: HealthDataPoint) => point.sex,
+  [InequalitiesTypes.Deprivation]: (point: HealthDataPoint) =>
+    point.deprivation.value, // to be changed
+};
+
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
 export const groupHealthDataByInequalities = (
-  healthData: HealthDataPoint[]
+  healthData: HealthDataPoint[],
+  type: InequalitiesTypes
 ) => {
-  return Object.groupBy(healthData, (data) => data.sex);
+  return Object.groupBy(healthData, (point) =>
+    groupHealthDataByInequalitiesMapping[type](point)
+  );
 };
 
 export const getYearDataGroupedByInequalities = (
-  yearlyHealthData: Record<string, HealthDataPoint[] | undefined>
+  yearlyHealthData: Record<string, HealthDataPoint[] | undefined>,
+  type: InequalitiesTypes
 ) => {
   const yearlyDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities =
     {};
 
   for (const year in yearlyHealthData) {
     yearlyDataGroupedByInequalities[year] = groupHealthDataByInequalities(
-      yearlyHealthData[year] ?? []
+      yearlyHealthData[year] ?? [],
+      type
     );
   }
 
@@ -114,12 +128,12 @@ export const mapToInequalitiesTableData = (
     Record<string, HealthDataPoint[] | undefined>
   >
 ): InequalitiesTableRowData[] => {
-  return Object.keys(yearDataGroupedByInequalities).map((key) => {
+  return Object.keys(yearDataGroupedByInequalities).map((year) => {
     const dynamicFields = Object.keys(
-      yearDataGroupedByInequalities[key]
+      yearDataGroupedByInequalities[year]
     ).reduce(
       (acc: Record<string, RowDataFields | undefined>, current: string) => {
-        const currentTableKey = yearDataGroupedByInequalities[key][current];
+        const currentTableKey = yearDataGroupedByInequalities[year][current];
         acc[current] = currentTableKey?.at(0)
           ? {
               count: currentTableKey[0].count,
@@ -135,7 +149,7 @@ export const mapToInequalitiesTableData = (
       {}
     );
 
-    return { period: Number(key), inequalities: { ...dynamicFields } };
+    return { period: Number(year), inequalities: { ...dynamicFields } };
   });
 };
 
