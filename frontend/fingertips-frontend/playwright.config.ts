@@ -48,7 +48,7 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         channel: 'chromium',
         launchOptions: {
