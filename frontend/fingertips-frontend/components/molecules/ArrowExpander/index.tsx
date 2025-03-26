@@ -5,7 +5,7 @@ import { ArrowToggleButton } from '@/components/molecules/ArrowToggleButton';
 interface ExpanderProps {
   children: React.ReactNode;
 }
-export const Expander = ({ children }: ExpanderProps) => {
+export const ArrowExpander = ({ children }: ExpanderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
     <div style={{ margin: '0px', padding: '0px' }}>
@@ -20,7 +20,6 @@ export const Expander = ({ children }: ExpanderProps) => {
         <ArrowToggleButton
           fill="#1D70B8"
           onToggle={(isOpen: boolean) => {
-            console.log('Is open = ' + isOpen);
             setIsOpen(isOpen);
             return isOpen;
           }}
