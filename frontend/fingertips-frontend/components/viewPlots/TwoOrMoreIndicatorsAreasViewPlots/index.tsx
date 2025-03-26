@@ -14,109 +14,54 @@ import {
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
-export const mapToSpineChartTableProps = (): SpineChartTableProps => {
-  const mockIndicatorData = [
-    {
-      indicatorId: 2,
-      title: 'Test indicator 1',
-      definition: '',
-    },
-    {
-      indicatorId: 1,
-      title: 'Test indicator 2',
-      definition: '',
-    },
-  ];
+export function mapToSpineChartTableProps(
+  healthIndicatorData: HealthDataForArea[],
+  groupIndicatorData: HealthDataForArea[],
+  englandIndicatorData: HealthDataForArea[],
+  indicatorMetadata: (IndicatorDocument | undefined)[]
+): SpineChartTableProps {
+  const numberOfIndicators = healthIndicatorData.length;
+  const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  const mockUnits = ['kg', 'per 1000'];
+  healthIndicatorData.forEach((indicatorData, index) => {
+    const rowIndicatorId: number =
+      indicatorMetadata[index]?.indicatorID !== undefined
+        ? Number(indicatorMetadata[index]?.indicatorID)
+        : 0;
 
-  const mockHealthData: HealthDataForArea[] = [
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2008,
-          count: 222,
-          value: 890.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2024,
-          count: 111,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowTitle: string =
+      indicatorMetadata[index]?.unitLabel !== undefined
+        ? indicatorMetadata[index]?.unitLabel
+        : '';
 
-  const mockGroup: HealthDataForArea[] = [
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2008,
-          count: 111,
-          value: 980.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2024,
-          count: 3333,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowIndicatorDefinition: string =
+      indicatorMetadata[index]?.indicatorDefinition !== undefined
+        ? indicatorMetadata[index]?.indicatorDefinition
+        : '';
 
-  const mockBest = [1666, 22];
+    const rowMeasurementUnit: string =
+      indicatorMetadata[index] !== undefined
+        ? indicatorMetadata[index]?.unitLabel
+        : '';
 
-  const mockWorst = [959, 100];
+    const rowIndicator: Indicator = {
+      indicatorId: rowIndicatorId,
+      title: rowTitle,
+      definition: rowIndicatorDefinition,
+    };
 
-  const data: SpineChartTableProps = {
-    indicators: mockIndicatorData,
-    measurementUnits: mockUnits,
-    indicatorHealthData: mockHealthData,
-    groupIndicatorData: mockGroup,
-    englandBenchmarkData: MOCK_HEALTH_DATA,
-    worst: mockWorst,
-    best: mockBest,
-  };
+    const row: SpineChartTableRowProps = {
+      indicator: rowIndicator,
+      measurementUnit: rowMeasurementUnit,
+      indicatorHealthData: indicatorData,
+      groupIndicatorData: groupIndicatorData[index],
+      englandBenchmarkData: englandIndicatorData[index],
+      best: 100,
+      worst: 0,
+    };
+
+    tableData[index] = row;
+  });
 
   return { rowData: tableData };
 }
