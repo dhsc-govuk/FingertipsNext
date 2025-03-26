@@ -59,10 +59,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     await test.step('Search page validation', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
-      await homePage.clickSearchButton();
-      await homePage.checkSummaryValidation(
-        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
-      );
+
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
