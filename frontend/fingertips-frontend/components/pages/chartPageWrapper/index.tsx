@@ -44,7 +44,7 @@ export function ChartPageWrapper({
 
   useEffect(() => {
     setIsLoading(false);
-  }, [setIsLoading]);
+  }, [setIsLoading, getIsLoading]);
 
   const stateManager = SearchStateManager.initialise(searchState);
 

@@ -57,7 +57,7 @@ export const Home = ({
 
   useEffect(() => {
     setIsLoading(false);
-  }, [setIsLoading]);
+  }, [setIsLoading, getIsLoading]);
 
   const [formState, setFormState] = useActionState(
     searchIndicator,
