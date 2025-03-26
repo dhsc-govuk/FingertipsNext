@@ -24,7 +24,7 @@ describe('LoaderContext', () => {
     expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: true');
   });
 
-  it('should call setIsLoading when button is clicked and updated the getIsLoaded value', async () => {
+  it('should call setIsLoading when button is clicked and update the getIsLoaded value', async () => {
     render(
       <LoaderProvider>
         <TestComponent />

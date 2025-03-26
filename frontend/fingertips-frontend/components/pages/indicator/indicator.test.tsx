@@ -3,6 +3,8 @@ import { IndicatorDefinition, IndicatorDefinitionProps } from '.';
 import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMetadata.json';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
 
 const indicatorDefinition: IndicatorDefinitionProps = {
   ...placeholderIndicatorMetadata,
@@ -15,16 +17,38 @@ const searchState = {
   [SearchParams.AreasSelected]: ['A001'],
 };
 
-beforeEach(() => {
-  render(
-    <IndicatorDefinition
-      indicatorDefinitionProps={indicatorDefinition}
-      searchState={searchState}
-    />
-  );
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: jest.fn(),
+  };
+});
+
+const mockGetIsLoading = jest.fn();
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: mockGetIsLoading,
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoader: () => mockLoaderContext,
+  };
 });
 
 describe('contents items should link to appropriate headings', () => {
+  beforeEach(() => {
+    render(
+      <IndicatorDefinition
+        indicatorDefinitionProps={indicatorDefinition}
+        searchState={searchState}
+      />
+    );
+  });
+
   interface TestData {
     linkText: string;
     titleText: string;
@@ -67,6 +91,15 @@ describe('contents items should link to appropriate headings', () => {
 });
 
 describe('indicator description page', () => {
+  beforeEach(() => {
+    render(
+      <IndicatorDefinition
+        indicatorDefinitionProps={indicatorDefinition}
+        searchState={searchState}
+      />
+    );
+  });
+
   it('should match snapshot', () => {
     const page = render(
       <IndicatorDefinition
@@ -90,6 +123,13 @@ describe('indicator description page', () => {
     expect(backLink).toBeInTheDocument();
 
     expect(backLink.getAttribute('href')).toBe(expectedPath);
+  });
+
+  it('should call setIsLoading when the back link is clicked', async () => {
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: /back/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should lead with a title containing the indicator name', () => {
@@ -124,5 +164,37 @@ describe('indicator description page', () => {
         exact: false,
       })
     ).toBeInTheDocument();
+  });
+});
+
+describe('Loading box', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should render the loading box when getIsLoading is true', () => {
+    mockGetIsLoading.mockReturnValue(true);
+
+    render(
+      <IndicatorDefinition
+        indicatorDefinitionProps={indicatorDefinition}
+        searchState={searchState}
+      />
+    );
+
+    expect(screen.getByText('Loading')).toBeInTheDocument();
+  });
+
+  it('should not render the loading box when getIsLoading is false', () => {
+    mockGetIsLoading.mockReturnValue(false);
+
+    render(
+      <IndicatorDefinition
+        indicatorDefinitionProps={indicatorDefinition}
+        searchState={searchState}
+      />
+    );
+
+    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 });

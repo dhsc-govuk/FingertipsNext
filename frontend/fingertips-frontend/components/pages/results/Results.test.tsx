@@ -19,6 +19,7 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
+
 function setupMockUseActionState<T>() {
   return jest
     .fn()
