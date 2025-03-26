@@ -58,6 +58,7 @@ export default async function OneIndicatorOneAreaView({
       API_CACHE_CONFIG
     );
   } catch (error) {
+    console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');
   }
 
