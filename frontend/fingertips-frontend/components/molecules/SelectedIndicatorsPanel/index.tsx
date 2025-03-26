@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
   searchState?: SearchStateParams;
+  isFullWidth?: boolean;
 
   // If true the pill should only allow the data to be viewed, and have no
   // behaviour that can cause the UI to be changed.
@@ -34,6 +35,7 @@ export function SelectedIndicatorsPanel({
   selectedIndicatorsData,
   searchState,
   isViewOnly,
+  isFullWidth = true,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
   const stateManager = SearchStateManager.initialise(searchState);
@@ -52,7 +54,7 @@ export function SelectedIndicatorsPanel({
         <IndicatorSelectedPill
           key={indicator.indicatorID}
           indicator={indicator}
-          isFullWidth={true}
+          isFullWidth={isFullWidth}
           searchState={searchState}
         />
       ))}

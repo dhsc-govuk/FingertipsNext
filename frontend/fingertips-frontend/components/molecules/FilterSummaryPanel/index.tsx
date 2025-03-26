@@ -35,6 +35,7 @@ export const FilterSummaryPanel = ({
         <SelectedIndicatorsPanel
           selectedIndicatorsData={selectedIndicatorsData}
           searchState={searchState}
+          isFullWidth={false}
           isViewOnly={true}
         />
       ) : null}
@@ -43,7 +44,7 @@ export const FilterSummaryPanel = ({
         <SelectedAreasPanel
           selectedAreasData={selectedAreasData}
           searchState={searchState}
-          isFullWidth={true}
+          isFullWidth={false}
           isViewOnly={true}
         />
       ) : null}
