@@ -15,8 +15,8 @@ import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
-  loadHighchartsModules,
   getBenchmarkColour,
+  loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
   BenchmarkComparisonMethod,
@@ -193,7 +193,10 @@ export function InequalitiesBarChart({
 
   return (
     <div data-testid="inequalitiesBarChart-component">
-      <BenchmarkLegend rag />
+      <BenchmarkLegend
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
       <ConfidenceIntervalCheckbox
         chartName="inequalitiesBarChart"
         showConfidenceIntervalsData={showConfidenceIntervalsData}
