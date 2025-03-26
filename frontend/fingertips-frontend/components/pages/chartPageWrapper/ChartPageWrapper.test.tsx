@@ -66,7 +66,9 @@ describe('ChartPageWrapper', () => {
 
   it('area filters and filter summary can be toggled using the hide-filters and change-selection buttons', async () => {
     renderWrapper();
-    expect(screen.getByTestId('area-filter-pane-hidefilters'));
+    expect(
+      screen.getByTestId('area-filter-pane-hidefilters')
+    ).toBeInTheDocument();
     expect(
       screen.queryByTestId('filter-summary-panel')
     ).not.toBeInTheDocument();
@@ -82,7 +84,9 @@ describe('ChartPageWrapper', () => {
       screen.getByTestId('filter-summary-panel-change-selection')
     );
 
-    expect(screen.getByTestId('area-filter-pane-hidefilters'));
+    expect(
+      screen.getByTestId('area-filter-pane-hidefilters')
+    ).toBeInTheDocument();
     expect(
       screen.queryByTestId('filter-summary-panel')
     ).not.toBeInTheDocument();
