@@ -64,7 +64,7 @@ export function getScenarioConfig(
     {
       component: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
+        hasConfidenceIntervals: true,
         hasTabTable: true,
       },
     },
@@ -101,7 +101,7 @@ export function getScenarioConfig(
     {
       component: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
+        hasConfidenceIntervals: true,
         hasTabTable: false,
       },
     },
