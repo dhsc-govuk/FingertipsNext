@@ -27,32 +27,39 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    public async Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(
+    public async Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(
         int indicatorId,
         IEnumerable<string> areaCodes,
         IEnumerable<int> years,
         IEnumerable<string> inequalities)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
-        if (indicatorData == null) return null;
-        var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
-        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity); 
+        if (indicatorData == null) return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
         
-        return new IndicatorWithHealthDataForAreas()
+        var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
+        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+
+        var areaHealthData = (await GetIndicatorAreaDataAsync(
+            indicatorId,
+            areaCodes,
+            years,
+            inequalities,
+            method,
+            polarity
+        )).ToList();
+        
+        return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
-            Name = indicatorData.Name,
-            StartDate = indicatorData.StartDate,
-            EndDate = indicatorData.EndDate,
-            Polarity = polarity,
-            BenchmarkMethod = method,
-            AreaHealthData = await GetIndicatorAreaDataAsync(
-                indicatorId, 
-                areaCodes, 
-                years,
-                inequalities, 
-                method,
-                polarity
-                )
+            Status = areaHealthData.Any() ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
+            Content = new IndicatorWithHealthDataForAreas(){
+            
+                Name = indicatorData.Name,
+                StartDate = indicatorData.StartDate,
+                EndDate = indicatorData.EndDate,
+                Polarity = polarity,
+                BenchmarkMethod = method,
+                AreaHealthData = areaHealthData
+            }
         };
     } 
     

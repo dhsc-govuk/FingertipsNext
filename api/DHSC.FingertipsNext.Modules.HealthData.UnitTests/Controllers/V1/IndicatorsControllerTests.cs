@@ -81,7 +81,10 @@ public class IndicatorControllerTests
     {
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
-            .Returns(SampleHealthData);
+            .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.Success)
+            {
+                Content = SampleHealthData
+            });
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
@@ -91,11 +94,24 @@ public class IndicatorControllerTests
     }
 
     [Fact]
-    public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
+    public async Task GetIndicatorData_ReturnsSuccessResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
-            .Returns(null as IndicatorWithHealthDataForAreas);
+            .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.NoDataForIndicator));
+
+        var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
+
+        // expect
+        response?.StatusCode.ShouldBe(200);
+    }
+    
+    [Fact]
+    public async Task GetIndicatorData_ReturnsNotFoundResponse_IfIndicatorDoesNotExist()
+    {
+        _indicatorService
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist));
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
 
