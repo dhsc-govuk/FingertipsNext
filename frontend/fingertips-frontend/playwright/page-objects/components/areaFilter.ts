@@ -69,10 +69,10 @@ export default class AreaFilter extends BasePage {
   async selectAreasFiltersIfRequired(
     searchMode: SearchMode,
     areaMode: AreaMode,
-    searchTerm: string
+    searchTerm: string,
+    areaTypeFilter: string = 'regions'
   ) {
     // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
-    const defaultAreaTypeFilter = 'regions';
 
     await this.waitForURLToContain(searchTerm);
 
@@ -80,9 +80,9 @@ export default class AreaFilter extends BasePage {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.page
         .getByTestId(this.areaTypeSelector)
-        .selectOption(defaultAreaTypeFilter);
+        .selectOption(areaTypeFilter);
 
-      await this.waitForURLToContain(defaultAreaTypeFilter);
+      await this.waitForURLToContain(areaTypeFilter);
 
       // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
 
@@ -101,7 +101,7 @@ export default class AreaFilter extends BasePage {
         await areaCheckboxList.nth(i + 1).check(); // as first checkbox is 'All'
         await this.page.waitForLoadState();
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
-          await this.waitForURLToContain(defaultAreaTypeFilter);
+          await this.waitForURLToContain(areaTypeFilter);
         }
       }
       await expect(

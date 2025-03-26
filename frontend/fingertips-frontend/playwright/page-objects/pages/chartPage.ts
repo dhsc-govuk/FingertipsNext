@@ -42,6 +42,10 @@ export default class ChartPage extends AreaFilter {
     ).toBeVisible();
   }
 
+  async checkSpecificChartComponent(chartComponent: string) {
+    await this.page.getByTestId(chartComponent).isVisible();
+  }
+
   async clickBackLink() {
     await this.page.getByTestId(this.backLink).click();
   }
