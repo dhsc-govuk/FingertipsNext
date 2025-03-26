@@ -1,22 +1,22 @@
-export enum StorageKeys {
+export enum ClientStorageKeys {
   AreaFilterHomePage = 'area-filter-home-page',
   AreaFilterResultsPage = 'area-filter-results-page',
   AreaFilterChartPage = 'area-filter-chart-page',
   previousPath = 'previous-path',
 }
 
-export type AppStorageState = {
-  [StorageKeys.AreaFilterHomePage]?: boolean;
-  [StorageKeys.AreaFilterResultsPage]?: boolean;
-  [StorageKeys.AreaFilterChartPage]?: boolean;
-  [StorageKeys.previousPath]?: string;
+export type ClientStorageState = {
+  [ClientStorageKeys.AreaFilterHomePage]?: boolean;
+  [ClientStorageKeys.AreaFilterResultsPage]?: boolean;
+  [ClientStorageKeys.AreaFilterChartPage]?: boolean;
+  [ClientStorageKeys.previousPath]?: string;
 };
 
-export class AppStorage {
-  public static updateState<T>(storageKey: StorageKeys, storageValue: T) {
+export class ClientStorage {
+  public static updateState<T>(storageKey: ClientStorageKeys, storageValue: T) {
     const oldStore = JSON.parse(
       localStorage.getItem('store') ?? '{}'
-    ) as AppStorageState;
+    ) as ClientStorageState;
 
     const updatedStore = {
       ...oldStore,
@@ -26,12 +26,12 @@ export class AppStorage {
     localStorage.setItem('store', JSON.stringify(updatedStore));
   }
 
-  public static getState<T>(storageKey: StorageKeys): T | undefined {
+  public static getState<T>(storageKey: ClientStorageKeys): T | undefined {
     if (typeof window !== 'undefined') {
       const item = localStorage.getItem('store');
 
       if (item) {
-        const store = JSON.parse(item) as AppStorageState;
+        const store = JSON.parse(item) as ClientStorageState;
 
         return store[storageKey] as T;
       }

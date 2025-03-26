@@ -11,7 +11,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const mockPath = 'some path';
 jest.mock('next/navigation', () => {
@@ -41,8 +41,8 @@ jest.mock('@/context/LoaderContext', () => {
 const mockGetState = jest.fn();
 const mockUpdateState = jest.fn();
 
-AppStorage.getState = mockGetState;
-AppStorage.updateState = mockUpdateState;
+ClientStorage.getState = mockGetState;
+ClientStorage.updateState = mockUpdateState;
 
 const mockSearchState: SearchStateParams = {};
 
@@ -197,7 +197,7 @@ describe('SearchForm', () => {
     await user.click(screen.getByText('Filter by area'));
 
     expect(mockUpdateState).toHaveBeenCalledWith(
-      StorageKeys.AreaFilterHomePage,
+      ClientStorageKeys.AreaFilterHomePage,
       true
     );
   });

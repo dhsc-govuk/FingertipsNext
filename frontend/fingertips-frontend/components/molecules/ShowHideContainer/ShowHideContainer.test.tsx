@@ -72,7 +72,7 @@ describe('ShowHideContainer', () => {
     expect(mockOnClickFunction).toHaveBeenCalled();
   });
 
-  it('should not call the provided onClickFunction when the label is clicked but the child component is a known event type', async () => {
+  it('should not call the provided onClickFunction when an element on the child component is clicked in order to prevent event propagation', async () => {
     render(
       <ShowHideContainer
         summary="Some summary"

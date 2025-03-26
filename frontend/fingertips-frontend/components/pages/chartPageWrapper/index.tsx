@@ -9,7 +9,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 import { BackLink, GridCol, GridRow, LoadingBox } from 'govuk-react';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -31,13 +31,15 @@ export function ChartPageWrapper({
 }: Readonly<ChartPageWrapperProps>) {
   const { getIsLoading, setIsLoading } = useLoader();
   const pathname = usePathname();
-  const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
+  const previousPath = ClientStorage.getState<string>(
+    ClientStorageKeys.previousPath
+  );
 
   useEffect(() => {
     if (pathname !== previousPath) {
       window.scrollTo(0, 0);
     }
-    AppStorage.updateState(StorageKeys.previousPath, pathname);
+    ClientStorage.updateState(ClientStorageKeys.previousPath, pathname);
   }, [previousPath, pathname]);
 
   useEffect(() => {

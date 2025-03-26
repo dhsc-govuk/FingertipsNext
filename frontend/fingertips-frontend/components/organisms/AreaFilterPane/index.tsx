@@ -10,7 +10,7 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
@@ -44,13 +44,13 @@ export function AreaFilterPane({
 }: Readonly<AreaFilterPaneProps>) {
   const storeKey =
     pageType === 'results'
-      ? StorageKeys.AreaFilterResultsPage
-      : StorageKeys.AreaFilterChartPage;
+      ? ClientStorageKeys.AreaFilterResultsPage
+      : ClientStorageKeys.AreaFilterChartPage;
 
-  const isAreaFilterOpen = AppStorage.getState<boolean>(storeKey) ?? true;
+  const isAreaFilterOpen = ClientStorage.getState<boolean>(storeKey) ?? true;
 
   const updateIsAreaFilterOpen = () => {
-    AppStorage.updateState(storeKey, !isAreaFilterOpen);
+    ClientStorage.updateState(storeKey, !isAreaFilterOpen);
   };
 
   return (

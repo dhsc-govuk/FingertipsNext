@@ -16,7 +16,7 @@ import {
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoader } from '@/context/LoaderContext';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -38,10 +38,14 @@ export const SearchForm = ({
   const { setIsLoading } = useLoader();
 
   const isAreaFilterOpen =
-    AppStorage.getState<boolean>(StorageKeys.AreaFilterHomePage) ?? false;
+    ClientStorage.getState<boolean>(ClientStorageKeys.AreaFilterHomePage) ??
+    false;
 
   const updateIsAreaFilterOpen = () => {
-    AppStorage.updateState(StorageKeys.AreaFilterHomePage, !isAreaFilterOpen);
+    ClientStorage.updateState(
+      ClientStorageKeys.AreaFilterHomePage,
+      !isAreaFilterOpen
+    );
   };
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];

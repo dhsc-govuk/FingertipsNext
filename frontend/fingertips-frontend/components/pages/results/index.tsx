@@ -29,7 +29,7 @@ import {
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoader } from '@/context/LoaderContext';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 import { usePathname } from 'next/navigation';
 
 type SearchResultsProps = {
@@ -56,13 +56,15 @@ export function SearchResults({
 }: Readonly<SearchResultsProps>) {
   const { getIsLoading, setIsLoading } = useLoader();
   const pathname = usePathname();
-  const previousPath = AppStorage.getState<string>(StorageKeys.previousPath);
+  const previousPath = ClientStorage.getState<string>(
+    ClientStorageKeys.previousPath
+  );
 
   useEffect(() => {
     if (pathname !== previousPath) {
       window.scrollTo(0, 0);
     }
-    AppStorage.updateState(StorageKeys.previousPath, pathname);
+    ClientStorage.updateState(ClientStorageKeys.previousPath, pathname);
   }, [previousPath, pathname]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
-import { AppStorage, StorageKeys } from '@/storage/storage';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -34,8 +34,8 @@ jest.mock('@/context/LoaderContext', () => {
 
 const mockGetState = jest.fn();
 const mockUpdateState = jest.fn();
-AppStorage.getState = mockGetState;
-AppStorage.updateState = mockUpdateState;
+ClientStorage.getState = mockGetState;
+ClientStorage.updateState = mockUpdateState;
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -95,7 +95,7 @@ describe('Area Filter Pane', () => {
     );
 
     expect(mockGetState).toHaveBeenCalledWith(
-      StorageKeys.AreaFilterResultsPage
+      ClientStorageKeys.AreaFilterResultsPage
     );
     expect(
       screen.getByTestId('select-areas-filter-panel-label')
@@ -112,7 +112,9 @@ describe('Area Filter Pane', () => {
       />
     );
 
-    expect(mockGetState).toHaveBeenCalledWith(StorageKeys.AreaFilterChartPage);
+    expect(mockGetState).toHaveBeenCalledWith(
+      ClientStorageKeys.AreaFilterChartPage
+    );
     expect(
       screen.getByTestId('select-areas-filter-panel-label')
     ).not.toHaveAttribute('open');
@@ -130,7 +132,7 @@ describe('Area Filter Pane', () => {
     await user.click(screen.getByText('Add or change areas'));
 
     expect(mockUpdateState).toHaveBeenCalledWith(
-      StorageKeys.AreaFilterChartPage,
+      ClientStorageKeys.AreaFilterChartPage,
       true
     );
   });
