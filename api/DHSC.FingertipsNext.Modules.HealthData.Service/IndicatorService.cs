@@ -39,14 +39,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
         var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
 
-        var areaHealthData = (await GetIndicatorAreaDataAsync(
+        var areaHealthData = ((await GetIndicatorAreaDataAsync(
             indicatorId,
             areaCodes,
             years,
             inequalities,
             method,
             polarity
-        )).ToList();
+        )) ?? []).ToList();
         
         return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {

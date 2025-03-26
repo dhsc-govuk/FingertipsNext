@@ -470,7 +470,15 @@ public class IndicatorServiceTests
             BenchmarkComparisonMethod = testMethod
         };
         var mockHealthData = new List<HealthMeasureModel>
-            {  };
+            { new HealthMeasureModel()
+            {
+                AreaDimension = new AreaDimensionModel()
+                {
+                    Name = "Name",
+                    Code = "SomeCode",
+                    AreaKey = 4,
+                }
+            } };
 
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(theIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
