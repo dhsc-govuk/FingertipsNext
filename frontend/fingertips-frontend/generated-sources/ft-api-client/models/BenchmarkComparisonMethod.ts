@@ -21,8 +21,8 @@ export const BenchmarkComparisonMethod = {
     Unknown: 'Unknown',
     Rag: 'Rag',
     Quintiles: 'Quintiles',
-    CiOverlappingReferenceValue95: 'CIOverlappingReferenceValue95',
-    CiOverlappingReferenceValue998: 'CIOverlappingReferenceValue99_8'
+    CIOverlappingReferenceValue95: 'CIOverlappingReferenceValue95',
+    CIOverlappingReferenceValue99_8: 'CIOverlappingReferenceValue99_8'
 } as const;
 export type BenchmarkComparisonMethod = typeof BenchmarkComparisonMethod[keyof typeof BenchmarkComparisonMethod];
 

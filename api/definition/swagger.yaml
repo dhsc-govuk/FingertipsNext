@@ -243,16 +243,19 @@ components:
     IndicatorPolarity: # Define enum globally
       type: string
       enum: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
+      x-enum-varnames: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
     BenchmarkComparisonMethod:
       type: string
       example: CIOverlappingReferenceValue95
       description: the benchmark comparison method used
       enum: [ Unknown, Rag, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      x-enum-varnames: [ Unknown, Rag, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
     BenchmarkOutcome:
       type: string
       example: Lower
       description: benchmark outcome
       enum: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
+      x-enum-varnames: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
     AreaType:
       type: object
       description: An area type e.g. PCN or GP
