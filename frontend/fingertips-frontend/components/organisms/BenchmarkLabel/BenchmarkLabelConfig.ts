@@ -26,8 +26,7 @@ export const getBenchmarkTagStyle = (
     return groupConfig['middleWithJudgement'];
   }
 
-  const typeConf = groupConfig[type];
-  return typeConf ?? groupConfig.default;
+  return groupConfig[type] ?? groupConfig.default;
 };
 
 const similar = {
