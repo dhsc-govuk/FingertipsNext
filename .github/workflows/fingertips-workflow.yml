@@ -422,7 +422,7 @@ jobs:
       - name: Process trends
         env:
           SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        run: dotnet run -v d
+        run: dotnet run
 
       - name: Upload updated indicators file
         uses: actions/upload-artifact@v4
