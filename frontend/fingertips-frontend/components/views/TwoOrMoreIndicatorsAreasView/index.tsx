@@ -42,7 +42,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const combinedIndicatorData: HealthDataForArea[][] = new Array();
+  const combinedIndicatorData: HealthDataForArea[][] = [];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return indicatorApi.getHealthDataForAnIndicator(
