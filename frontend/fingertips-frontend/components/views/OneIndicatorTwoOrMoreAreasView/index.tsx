@@ -66,7 +66,6 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
       .flat();
   } catch (error) {
-    console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
