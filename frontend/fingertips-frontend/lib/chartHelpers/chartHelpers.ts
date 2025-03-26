@@ -1,13 +1,13 @@
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPoint,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -83,11 +83,33 @@ export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/highcharts-more').then(callback);
 }
 
-export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
-  const colours = getBenchmarkTagStyle(
-    BenchmarkLabelGroupType.RAG,
-    benchmarkComparison
-  );
+export const getBenchmarkColour = (
+  method: BenchmarkComparisonMethod,
+  outcome: BenchmarkOutcome,
+  polarity: IndicatorPolarity
+) => {
+  const colours = getBenchmarkTagStyle(method, outcome, polarity);
   const backgroundColor = colours?.backgroundColor;
   return backgroundColor === 'transparent' ? undefined : backgroundColor;
 };
+
+export function generateConfidenceIntervalSeries(
+  areaName: string,
+  data: (number | undefined)[][],
+  showConfidenceIntervalsData?: boolean,
+  optionalParams?: {
+    color?: GovukColours;
+    whiskerLength?: string;
+    lineWidth?: number;
+  }
+): Highcharts.SeriesOptionsType {
+  return {
+    type: 'errorbar',
+    name: areaName,
+    data: data,
+    visible: showConfidenceIntervalsData,
+    color: optionalParams?.color ?? GovukColours.MidGrey,
+    whiskerLength: optionalParams?.whiskerLength ?? '20%',
+    lineWidth: optionalParams?.lineWidth ?? 2,
+  };
+}

@@ -1,9 +1,12 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
 import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
-import { InequalitiesLineChart } from '@/components/molecules/Inequalities/LineChart';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import React from 'react';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
+import React, { useState } from 'react';
 import {
   getDynamicKeys,
   getYearDataGroupedByInequalities,
@@ -12,29 +15,50 @@ import {
   InequalitiesChartData,
   InequalitiesTypes,
   mapToInequalitiesTableData,
+  generateInequalitiesLineChartOptions,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { LineChart } from '../LineChart';
+import { LineChartVariant } from '../LineChart/lineChartHelpers';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
   searchState: SearchStateParams;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
+
+const generateInequalitiesLineChartTooltipStringList = (
+  point: Highcharts.Point,
+  symbol: string
+) => [
+  `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
+  <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
+  `<div><span>${point.series.name}</br>Value: ${point.y}`,
+];
 
 export function Inequalities({
   healthIndicatorData,
   measurementUnit,
   searchState,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesProps>) {
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
   );
 
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
+
+  const [
+    showInequalitiesLineChartConfidenceIntervals,
+    setShowInequalitiesLineChartConfidenceIntervals,
+  ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(yearlyHealthdata);
@@ -55,6 +79,21 @@ export function Inequalities({
     data: lineChartData.rowData[latestDataIndex],
   };
 
+  const inequalitiesLineChartOptions: Highcharts.Options =
+    generateInequalitiesLineChartOptions(
+      lineChartData,
+      dynamicKeys,
+      type,
+      showInequalitiesLineChartConfidenceIntervals,
+      generateInequalitiesLineChartTooltipStringList,
+      {
+        areasSelected,
+        yAxisTitleText: 'Value',
+        xAxisTitleText: 'Year',
+        measurementUnit,
+      }
+    );
+
   return (
     <div data-testid="inequalities-component">
       <H4>Inequalities data for a single time period</H4>
@@ -69,6 +108,8 @@ export function Inequalities({
                 barChartData={barchartData}
                 measurementUnit={measurementUnit}
                 yAxisLabel="Value"
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },
@@ -80,6 +121,8 @@ export function Inequalities({
                 tableData={barchartData}
                 measurementUnit={measurementUnit}
                 type={type}
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },
@@ -94,11 +137,15 @@ export function Inequalities({
             id: 'inequalitiesLineChart',
             title: 'Line chart',
             content: (
-              <InequalitiesLineChart
-                lineChartData={lineChartData}
-                areasSelected={areasSelected}
-                dynamicKeys={dynamicKeys}
-                measurementUnit={measurementUnit}
+              <LineChart
+                lineChartOptions={inequalitiesLineChartOptions}
+                showConfidenceIntervalsData={
+                  showInequalitiesLineChartConfidenceIntervals
+                }
+                setShowConfidenceIntervalsData={
+                  setShowInequalitiesLineChartConfidenceIntervals
+                }
+                variant={LineChartVariant.Inequalities}
               />
             ),
           },

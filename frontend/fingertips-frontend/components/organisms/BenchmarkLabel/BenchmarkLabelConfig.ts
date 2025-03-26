@@ -3,21 +3,30 @@ import {
   QuintileColours,
   TagColours,
 } from '@/lib/styleHelpers/colours';
+import { BenchmarkLabelGroupConfig } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import {
-  BenchmarkLabelGroupConfig,
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 export const getBenchmarkTagStyle = (
-  group: BenchmarkLabelGroupType,
-  type: BenchmarkLabelType
+  group: BenchmarkComparisonMethod,
+  type: BenchmarkOutcome,
+  polarity: IndicatorPolarity
 ) => {
   const groupConfig = benchmarkLabelGroupConfig[group];
   if (!groupConfig) return null;
 
-  const typeConf = groupConfig[type];
-  return typeConf ?? groupConfig.default;
+  // special case Middle is used by Quintiles with and without judgement but has different colours
+  if (
+    polarity !== IndicatorPolarity.NoJudgement &&
+    type === BenchmarkOutcome.Middle
+  ) {
+    return groupConfig['middleWithJudgement'];
+  }
+
+  return groupConfig[type] ?? groupConfig.default;
 };
 
 const similar = {
@@ -32,88 +41,90 @@ const notCompared = {
 };
 
 export const benchmarkLabelGroupConfig: BenchmarkLabelGroupConfig = {
-  [BenchmarkLabelGroupType.RAG]: {
+  [BenchmarkComparisonMethod.CIOverlappingReferenceValue95]: {
     default: notCompared,
-    [BenchmarkLabelType.BETTER]: {
+    [BenchmarkOutcome.Similar]: similar,
+    // RAG
+    [BenchmarkOutcome.Better]: {
       backgroundColor: GovukColours.Green,
       tint: 'SOLID',
     },
-    [BenchmarkLabelType.SIMILAR]: similar,
-    [BenchmarkLabelType.WORSE]: {
+    [BenchmarkOutcome.Worse]: {
       backgroundColor: GovukColours.Red,
       tint: 'SOLID',
     },
-  },
-  [BenchmarkLabelGroupType.BOB]: {
-    default: notCompared,
-    [BenchmarkLabelType.LOWER]: {
+    // BOB
+    [BenchmarkOutcome.Lower]: {
       backgroundColor: GovukColours.LightBlue,
     },
-    [BenchmarkLabelType.HIGHER]: {
+    [BenchmarkOutcome.Higher]: {
       backgroundColor: GovukColours.DarkBlue,
       tint: 'SOLID',
     },
-    [BenchmarkLabelType.SIMILAR]: similar,
   },
-  [BenchmarkLabelGroupType.RAG_99]: {
+
+  [BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8]: {
     default: notCompared,
-    [BenchmarkLabelType.BETTER]: {
+    [BenchmarkOutcome.Similar]: similar,
+    // RAG
+    [BenchmarkOutcome.Better]: {
       backgroundColor: GovukColours.LightGreen,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.SIMILAR]: similar,
-    [BenchmarkLabelType.WORSE]: {
+
+    [BenchmarkOutcome.Worse]: {
       backgroundColor: TagColours.DarkRed,
       tint: 'SOLID',
     },
-  },
-  [BenchmarkLabelGroupType.BOB_99]: {
-    default: notCompared,
-    [BenchmarkLabelType.LOWER]: {
+    // BOB
+    [BenchmarkOutcome.Lower]: {
       backgroundColor: TagColours.LightBlue,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.SIMILAR]: similar,
-    [BenchmarkLabelType.HIGHER]: {
+    [BenchmarkOutcome.Higher]: {
       backgroundColor: GovukColours.Blue,
       tint: 'SOLID',
     },
   },
-  [BenchmarkLabelGroupType.QUINTILES]: {
+
+  [BenchmarkComparisonMethod.Quintiles]: {
     default: { backgroundColor: QuintileColours.Highest, tint: 'SOLID' },
-    [BenchmarkLabelType.LOWEST]: {
+    // no Judgement
+    [BenchmarkOutcome.Lowest]: {
       backgroundColor: QuintileColours.Lowest,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.LOW]: {
+    [BenchmarkOutcome.Low]: {
       backgroundColor: QuintileColours.Low,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.MIDDLE]: {
+    [BenchmarkOutcome.Middle]: {
       backgroundColor: QuintileColours.Middle,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.HIGH]: {
+    [BenchmarkOutcome.High]: {
       backgroundColor: QuintileColours.High,
       tint: 'SOLID',
     },
-  },
-  [BenchmarkLabelGroupType.QUINTILES_WITH_JUDGEMENT]: {
-    default: { backgroundColor: QuintileColours.Best, tint: 'SOLID' },
-    [BenchmarkLabelType.WORST]: {
+    // judgement
+    [BenchmarkOutcome.Worst]: {
       backgroundColor: QuintileColours.Worst,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.WORSE]: {
+    [BenchmarkOutcome.Worse]: {
       backgroundColor: QuintileColours.Worse,
       color: GovukColours.Black,
     },
-    [BenchmarkLabelType.MIDDLE]: {
+    middleWithJudgement: {
       backgroundColor: QuintileColours.MiddleWithValue,
       tint: 'SOLID',
     },
-    [BenchmarkLabelType.BETTER]: {
+    [BenchmarkOutcome.Better]: {
       backgroundColor: QuintileColours.Better,
+      tint: 'SOLID',
+    },
+    [BenchmarkOutcome.Best]: {
+      backgroundColor: QuintileColours.Best,
       tint: 'SOLID',
     },
   },

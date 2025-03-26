@@ -4,7 +4,6 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { LineChart } from '@/components/organisms/LineChart';
 import { LineChartTable } from '@/components/organisms/LineChartTable';
 import {
-  getHealthDataWithoutInequalities,
   isEnglandSoleSelectedArea,
   seriesDataWithoutEnglandOrGroup,
 } from '@/lib/chartHelpers/chartHelpers';
@@ -14,8 +13,18 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
+import {
+  generateStandardLineChartOptions,
+  LineChartVariant,
+} from '@/components/organisms/LineChart/lineChartHelpers';
+import { useState } from 'react';
+import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -32,7 +41,7 @@ function shouldLineChartBeShown(
 }
 
 export function OneIndicatorOneAreaViewPlots({
-  healthIndicatorData,
+  indicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
@@ -41,34 +50,23 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
+  const polarity = indicatorData.polarity as IndicatorPolarity;
+  const benchmarkComparisonMethod =
+    indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
+  const [
+    showStandardLineChartConfidenceIntervalsData,
+    setShowStandardLineChartConfidenceIntervalsData,
+  ] = useState<boolean>(false);
 
+  const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
   );
 
-  const dataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
-    ? [
-        {
-          ...dataWithoutEnglandOrGroup[0],
-          healthData: getHealthDataWithoutInequalities(
-            dataWithoutEnglandOrGroup[0]
-          ),
-        },
-      ]
-    : [];
-
   const englandBenchmarkData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
-
-  const englandBenchmarkWithoutInequalities: HealthDataForArea = {
-    areaCode: areaCodeForEngland,
-    areaName: 'England',
-    healthData: englandBenchmarkData
-      ? getHealthDataWithoutInequalities(englandBenchmarkData)
-      : [],
-  };
 
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
@@ -76,12 +74,39 @@ export function OneIndicatorOneAreaViewPlots({
           (areaData) => areaData.areaCode === selectedGroupCode
         )
       : undefined;
+
+  const {
+    areaDataWithoutInequalities,
+    englandBenchmarkWithoutInequalities,
+    groupDataWithoutInequalities,
+  } = getAllDataWithoutInequalities(
+    dataWithoutEnglandOrGroup,
+    { englandBenchmarkData, groupData },
+    areasSelected
+  );
+
+  const yAxisTitle = indicatorMetadata?.unitLabel
+    ? `Value: ${indicatorMetadata?.unitLabel}`
+    : undefined;
+
+  const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
+    areaDataWithoutInequalities,
+    showStandardLineChartConfidenceIntervalsData,
+    {
+      benchmarkData: englandBenchmarkWithoutInequalities,
+      groupIndicatorData: groupDataWithoutInequalities,
+      yAxisTitle,
+      xAxisTitle: 'Year',
+      measurementUnit: indicatorMetadata?.unitLabel,
+      accessibilityLabel: 'A line chart showing healthcare data',
+    }
+  );
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
-        dataWithoutEnglandOrGroup,
-        englandBenchmarkData
+        areaDataWithoutInequalities,
+        englandBenchmarkWithoutInequalities
       ) && (
         <>
           <H3>Indicator data over time</H3>
@@ -93,18 +118,14 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Line chart',
                 content: (
                   <LineChart
-                    healthIndicatorData={dataWithoutInequalities}
-                    benchmarkData={englandBenchmarkWithoutInequalities}
-                    searchState={searchState}
-                    groupIndicatorData={groupData}
-                    xAxisTitle="Year"
-                    yAxisTitle={
-                      indicatorMetadata?.unitLabel
-                        ? `Value: ${indicatorMetadata?.unitLabel}`
-                        : undefined
+                    lineChartOptions={lineChartOptions}
+                    showConfidenceIntervalsData={
+                      showStandardLineChartConfidenceIntervalsData
                     }
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                    accessibilityLabel="A line chart showing healthcare data"
+                    setShowConfidenceIntervalsData={
+                      setShowStandardLineChartConfidenceIntervalsData
+                    }
+                    variant={LineChartVariant.Standard}
                   />
                 ),
               },
@@ -113,10 +134,12 @@ export function OneIndicatorOneAreaViewPlots({
                 title: 'Table',
                 content: (
                   <LineChartTable
-                    healthIndicatorData={dataWithoutInequalities}
+                    healthIndicatorData={areaDataWithoutInequalities}
                     englandBenchmarkData={englandBenchmarkWithoutInequalities}
-                    groupIndicatorData={groupData}
+                    groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
                   />
                 ),
               },
@@ -141,6 +164,8 @@ export function OneIndicatorOneAreaViewPlots({
         }
         searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
       />
     </section>
   );

@@ -231,7 +231,7 @@ export function getGetHealthDataForAnIndicator200Response(
   );
   return {
     name: 'Indicator Name',
-    benchmarkMethod: BenchmarkComparisonMethod.CiOverlappingReferenceValue95,
+    benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     areaHealthData: !isAreaCodesEmpty(areaCodes)
       ? healthDataForArea
       : healthDataForIndicator,
