@@ -7,6 +7,7 @@ import {
   SearchStateParams,
 } from '@/lib/searchStateManager';
 import { useRouter } from 'next/navigation';
+import { useLoader } from '@/context/LoaderContext';
 
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
@@ -31,9 +32,13 @@ export function SelectedIndicatorsPanel({
   searchState,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
+  const { setIsLoading } = useLoader();
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const addOrChangeIndicatorClick = () => {
+    setIsLoading(true);
+
     replace(stateManager.generatePath('/results'));
   };
 
