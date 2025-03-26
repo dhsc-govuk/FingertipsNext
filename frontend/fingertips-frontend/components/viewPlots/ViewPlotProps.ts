@@ -2,7 +2,7 @@ import { HealthDataForArea, IndicatorWithHealthDataForArea } from '@/generated-s
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
-export type ViewPlotProps = {
+export type OneIndicatorViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea;
   searchState: SearchStateParams;
   indicatorMetadata?: IndicatorDocument;
