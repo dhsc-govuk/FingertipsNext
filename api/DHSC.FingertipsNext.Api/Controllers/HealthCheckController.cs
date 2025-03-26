@@ -7,8 +7,5 @@ namespace DHSC.FingertipsNext.Api.Controllers;
 public class HealthCheckController : ControllerBase
 {
     [HttpGet(Name = "GetHealthCheck")]
-    public IActionResult Get()
-    {
-        return Ok(new { status = "Healthy" });
-    }
+    public IActionResult Get() => Ok(new { status = "Healthy" });
 }

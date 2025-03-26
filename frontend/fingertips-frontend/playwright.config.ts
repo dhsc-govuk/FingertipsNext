@@ -41,14 +41,20 @@ const config: PlaywrightTestConfig = {
   use: {
     viewport: { width: 1280, height: 720 },
     baseURL: url,
-    trace: 'on-first-retry',
+    trace: isCI ? 'off' : 'on-first-retry',
     screenshot: 'on-first-failure',
   },
 
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
+        launchOptions: {
+          args: ['--disable-dev-shm-usage', '--no-sandbox'],
+        },
+      },
     },
     {
       name: 'webkit',

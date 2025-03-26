@@ -213,11 +213,15 @@ function filterIndicatorsByName(
   if (!searchTerm) return [];
 
   const normalizedSearchTerm = searchTerm.toLowerCase();
-  return indicators.filter(
-    (indicator) =>
+  return indicators.filter((indicator) => {
+    return (
       indicator.usedInPoc === true &&
-      indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm)
-  );
+      (indicator.indicatorName.toLowerCase().includes(normalizedSearchTerm) ||
+        indicator.indicatorDefinition
+          .toLowerCase()
+          .includes(normalizedSearchTerm))
+    );
+  });
 }
 
 export function getAllIndicatorIdsForSearchTerm(

@@ -26,10 +26,15 @@ const testBase = baseTest.extend<{
       }
     });
 
+    // See DHSCFT-536 - for more details on exception
+    const knownHighchartsExc =
+      "Cannot read properties of undefined (reading 'stacks')";
     // Uncaught exceptions
     page.on('pageerror', (error) => {
-      if (failOnUnhandledError) {
-        throw new Error(`Page error: ${error.message}`);
+      if (failOnUnhandledError && error.message != knownHighchartsExc) {
+        throw new Error(
+          `Page error: ${error.message}. Stack trace: ${error.stack}`
+        );
       }
     });
 

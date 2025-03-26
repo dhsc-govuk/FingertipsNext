@@ -1,4 +1,5 @@
 import { SearchResult } from '@/components/molecules/Result';
+import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SearchParams,
@@ -11,6 +12,7 @@ import {
   Paragraph,
   SectionBreak,
   UnorderedList,
+  Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -51,6 +53,29 @@ export function IndicatorSelectionForm({
 
   const stateManager = SearchStateManager.initialise(searchState);
 
+  const checkAllIndicatorsSelected = (
+    searchResults: IndicatorDocument[],
+    selectedIndicators: string[]
+  ): boolean => {
+    const sortedResultIds = searchResults
+      .map((result) => result.indicatorID.toString())
+      .toSorted(localeSort);
+
+    const sortedSelectedIndicators = selectedIndicators.toSorted(localeSort);
+
+    return (
+      JSON.stringify(sortedResultIds) ===
+      JSON.stringify(sortedSelectedIndicators)
+    );
+  };
+
+  const selectedIndicators =
+    searchState?.[SearchParams.IndicatorsSelected] || [];
+  const areAllIndicatorsSelected = checkAllIndicatorsSelected(
+    searchResults,
+    selectedIndicators
+  );
+
   const handleClick = async (indicatorId: string, checked: boolean) => {
     if (checked) {
       stateManager.addParamValueToState(
@@ -62,6 +87,22 @@ export function IndicatorSelectionForm({
         SearchParams.IndicatorsSelected,
         indicatorId
       );
+    }
+
+    replace(stateManager.generatePath(pathname), { scroll: false });
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const allIndicatorIds = searchResults.map((result) =>
+        result.indicatorID.toString()
+      );
+      stateManager.setState({
+        ...searchState,
+        [SearchParams.IndicatorsSelected]: allIndicatorIds,
+      });
+    } else {
+      stateManager.removeAllParamFromState(SearchParams.IndicatorsSelected);
     }
 
     replace(stateManager.generatePath(pathname), { scroll: false });
@@ -82,6 +123,14 @@ export function IndicatorSelectionForm({
       />
       {searchResults.length ? (
         <>
+          <Checkbox
+            data-testid="select-all-checkbox"
+            defaultChecked={areAllIndicatorsSelected}
+            onChange={(e) => handleSelectAll(e.target.checked)}
+          >
+            Select all
+          </Checkbox>
+
           <UnorderedList listStyleType="none">
             <ListItem>
               <SectionBreak visible={true} />
