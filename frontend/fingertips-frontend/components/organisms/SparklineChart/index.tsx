@@ -39,25 +39,27 @@ export function SparklineChart({
 }: Readonly<SparklineChartProps>) {
   const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
   const [options, setOptions] = useState<Highcharts.Options>();
-  
+
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
     let category = '';
-    
+
     if (label === SparklineLabelEnum.Benchmark) {
       category = 'Benchmark: ';
     }
     if (label === SparklineLabelEnum.Group) {
       category = 'Group: ';
     }
-   
-    return [`<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`];
-  }
+
+    return [
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`,
+    ];
+  };
 
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
     area,
     [confidenceIntervalValues],
     showConfidenceIntervalsData,
-    {color: GovukColours.Black, whiskerLength: '50%', lineWidth: 3 },
+    { color: GovukColours.Black, whiskerLength: '50%', lineWidth: 3 }
   );
 
   const sparklineOptions: Highcharts.Options = {
@@ -102,7 +104,7 @@ export function SparklineChart({
       outside: true,
       headerFormat: '',
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, formatSparklineTooltips)
+        return pointFormatterHelper(this, formatSparklineTooltips);
       },
     },
   };
