@@ -38,7 +38,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
-  console.log(areaCodesToRequest);
+
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
@@ -60,42 +60,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('error getting health indicator data for areas');
   }
 
-  console.log(
-    `combinedIndicatorData ${JSON.stringify(combinedIndicatorData, null, 2)}`
-  );
-  /*
-  const healthIndicatorData: HealthDataForArea[] = new Array(combinedIndicatorData.length);
-  const groupIndicatorData: HealthDataForArea[] = new Array(combinedIndicatorData.length);
-  const englandIndicatorData: HealthDataForArea[] = new Array(combinedIndicatorData.length);
-  combinedIndicatorData.map((indicator,index) => {
-    const healthData = indicator.find(
-      (areaData) => areaData.areaCode === indicatorsSelected[index]
-    );
-
-    if (!healthData){
-      throw new Error('Missing health data for indicator')
-    }
-    healthIndicatorData[index] = healthData
-
-    const groupData = indicator.find(
-      (areaData) => areaData.areaCode === selectedGroupCode
-    );
-
-    if (!groupData){
-      throw new Error('Missing group health data for indicator')
-    }
-    groupIndicatorData[index] = groupData
-
-    const englandData = indicator.find(
-      (areaData) => areaData.areaCode === areaCodeForEngland
-    );
-
-    if (!englandData){
-      throw new Error('Missing England health data for indicator')
-    }
-    englandIndicatorData[index] = englandData
-  })
-  */
   const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
     extractingCombinedHealthData(
       combinedIndicatorData,
