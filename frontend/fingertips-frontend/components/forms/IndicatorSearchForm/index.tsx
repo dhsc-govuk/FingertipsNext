@@ -3,8 +3,9 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { useLoader } from '@/context/LoaderContext';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const govukErrorBorderWidth = '2px';
 
@@ -28,6 +29,17 @@ export const IndicatorSearchForm = ({
   searchState?: SearchStateParams;
 }) => {
   const { setIsLoading } = useLoader();
+
+  const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
+    if (searchedIndicator !== searchState?.[SearchParams.SearchedIndicator]) {
+      ClientStorage.updateState<string>(
+        ClientStorageKeys.searchedIndicator,
+        searchedIndicator
+      );
+
+      indicatorSearchFormState.indicator = searchedIndicator;
+    }
+  };
 
   return (
     <FormGroup
@@ -58,6 +70,9 @@ export const IndicatorSearchForm = ({
             name="indicator"
             data-testid="indicator-search-form-input"
             defaultValue={indicatorSearchFormState.indicator}
+            onBlur={(e: { target: { value: string } }) =>
+              handleOnSearchSubjectBlur(e.target.value)
+            }
             style={
               indicatorSearchFormState.errors
                 ? {

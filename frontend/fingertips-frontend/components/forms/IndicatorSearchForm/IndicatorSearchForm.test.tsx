@@ -5,6 +5,7 @@ import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
+import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -36,6 +37,11 @@ jest.mock('@/context/LoaderContext', () => {
     useLoader: () => mockLoaderContext,
   };
 });
+
+const mockGetState = jest.fn();
+const mockUpdateState = jest.fn();
+ClientStorage.getState = mockGetState;
+ClientStorage.updateState = mockUpdateState;
 
 const mockIndicatorValue = 'test value';
 
@@ -76,6 +82,30 @@ it('should set the input field with indicator value from the form state', () => 
   render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   expect(screen.getByRole('searchbox')).toHaveValue(mockIndicatorValue);
+});
+
+it('should update client storage with the typed searched indicator when focussing away from input field', async () => {
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
+
+  const user = userEvent.setup();
+  await user.clear(screen.getByRole('searchbox'));
+  await user.type(screen.getByRole('searchbox'), 'hospital');
+  await user.tab();
+
+  expect(mockUpdateState).toHaveBeenCalledWith(
+    ClientStorageKeys.searchedIndicator,
+    'hospital'
+  );
+});
+
+it('should not update client storage with the searchIndicator when its the same value as in the state', async () => {
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
+
+  const user = userEvent.setup();
+  await user.click(screen.getByRole('searchbox'));
+  await user.tab();
+
+  expect(mockUpdateState).not.toHaveBeenCalledWith();
 });
 
 it('should call setIsLoading to true when the search button is clicked', async () => {
