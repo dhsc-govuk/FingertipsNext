@@ -52,7 +52,7 @@ const FocusAnchor = styled('button')(
   }
 );
 
-function HideFiltersSpan({ hideFilters }: { hideFilters: () => void }) {
+function HideFiltersSpan({ hideFilters }: Readonly<{ hideFilters: () => void }>) {
   return (
     <FocusAnchor
       data-testid="area-filter-pane-hidefilters"
