@@ -324,6 +324,21 @@ describe('IndicatorSelectionForm', () => {
     );
   });
 
+  it('should call setIsLoading to true when the selectAll indicators is clicked', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={state}
+        formAction={mockFormAction}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
   it('should check "Select all" checkbox if all indicators are selected', () => {
     render(
       <IndicatorSelectionForm

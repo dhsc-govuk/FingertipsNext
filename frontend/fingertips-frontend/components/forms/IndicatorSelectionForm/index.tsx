@@ -97,6 +97,8 @@ export function IndicatorSelectionForm({
   };
 
   const handleSelectAll = (checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       const allIndicatorIds = searchResults.map((result) =>
         result.indicatorID.toString()
