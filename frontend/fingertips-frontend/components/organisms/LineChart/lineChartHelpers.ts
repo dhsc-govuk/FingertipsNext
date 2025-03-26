@@ -1,7 +1,17 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import Highcharts, { SymbolKeyValue } from 'highcharts';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { ChartColours } from '@/lib/chartHelpers/colours';
+import { chartColours, ChartColours } from '@/lib/chartHelpers/colours';
+import {
+  sortHealthDataForAreasByDate,
+  sortHealthDataForAreaByDate,
+  generateConfidenceIntervalSeries,
+} from '@/lib/chartHelpers/chartHelpers';
+
+export enum LineChartVariant {
+  Standard = 'standard',
+  Inequalities = 'inequalities',
+}
 
 export const lineChartDefaultOptions: Highcharts.Options = {
   credits: {
@@ -12,6 +22,18 @@ export const lineChartDefaultOptions: Highcharts.Options = {
     style: {
       display: 'none',
     },
+  },
+  yAxis: {
+    minorTickInterval: 'auto',
+    minorTicksPerMajor: 2,
+  },
+  xAxis: { tickLength: 0, allowDecimals: false },
+  legend: {
+    verticalAlign: 'top',
+    align: 'left',
+  },
+  accessibility: {
+    enabled: false,
   },
   tooltip: {
     format:
@@ -39,7 +61,7 @@ export function generateSeriesData(
     (item, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = {
         type: 'line',
-        name: `${item.areaName}`,
+        name: item.areaName,
         data: item.healthData.map((point) => [point.year, point.value]),
         marker: {
           symbol: symbols[index % symbols.length],
@@ -47,19 +69,16 @@ export function generateSeriesData(
         color: chartColours[index % chartColours.length],
       };
 
-      const confidenceIntervalSeries: Highcharts.SeriesOptionsType = {
-        type: 'errorbar',
-        name: `${item.areaName}`,
-        data: item.healthData.map((point) => [
-          point.year,
-          point.lowerCi,
-          point.upperCi,
-        ]),
-        visible: showConfidenceIntervalsData,
-        color: GovukColours.MidGrey,
-        whiskerLength: '20%',
-        lineWidth: 2,
-      };
+      const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
+        generateConfidenceIntervalSeries(
+          item.areaName,
+          item.healthData.map((point) => [
+            point.year,
+            point.lowerCi,
+            point.upperCi,
+          ]),
+          showConfidenceIntervalsData
+        );
 
       return [lineSeries, confidenceIntervalSeries];
     }
@@ -95,4 +114,79 @@ export function generateSeriesData(
   }
 
   return seriesData;
+}
+
+export function generateStandardLineChartOptions(
+  healthIndicatorData: HealthDataForArea[],
+  lineChartCI: boolean,
+  optionalParams?: {
+    benchmarkData?: HealthDataForArea;
+    groupIndicatorData?: HealthDataForArea;
+    yAxisTitle?: string;
+    xAxisTitle?: string;
+    measurementUnit?: string;
+    accessibilityLabel?: string;
+    colours?: ChartColours[];
+    symbols?: SymbolKeyValue[];
+  }
+): Highcharts.Options {
+  const sortedHealthIndicatorData =
+    sortHealthDataForAreasByDate(healthIndicatorData);
+
+  const sortedBenchMarkData = optionalParams?.benchmarkData
+    ? sortHealthDataForAreaByDate(optionalParams?.benchmarkData)
+    : undefined;
+
+  const sortedGroupData = optionalParams?.groupIndicatorData
+    ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
+    : undefined;
+
+  let seriesData = generateSeriesData(
+    sortedHealthIndicatorData,
+    optionalParams?.symbols ?? chartSymbols,
+    optionalParams?.colours ?? chartColours,
+    sortedBenchMarkData,
+    sortedGroupData,
+    lineChartCI
+  );
+
+  if (sortedBenchMarkData && sortedHealthIndicatorData.length === 0) {
+    seriesData = generateSeriesData(
+      [sortedBenchMarkData],
+      ['circle'],
+      [GovukColours.DarkGrey],
+      undefined,
+      undefined,
+      lineChartCI
+    );
+  }
+  return {
+    ...lineChartDefaultOptions,
+    yAxis: {
+      ...lineChartDefaultOptions.yAxis,
+      title: optionalParams?.yAxisTitle
+        ? { text: optionalParams?.yAxisTitle, margin: 20 }
+        : undefined,
+    },
+    xAxis: {
+      ...lineChartDefaultOptions.xAxis,
+      title: { text: optionalParams?.xAxisTitle, margin: 20 },
+    },
+    legend: {
+      ...lineChartDefaultOptions.legend,
+      title: {
+        text: 'Areas',
+      },
+    },
+    series: seriesData,
+    tooltip: {
+      format:
+        lineChartDefaultOptions.tooltip?.format +
+        `${optionalParams?.measurementUnit}`,
+    },
+    accessibility: {
+      ...lineChartDefaultOptions.accessibility,
+      description: optionalParams?.accessibilityLabel,
+    },
+  };
 }
