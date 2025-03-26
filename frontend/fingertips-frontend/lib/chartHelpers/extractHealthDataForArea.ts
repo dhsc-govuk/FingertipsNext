@@ -21,7 +21,7 @@ export const extractingCombinedHealthData = (
   const englandIndicatorData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
-  combinedIndicatorData.map((indicator, index) => {
+  combinedIndicatorData.forEach((indicator, index) => {
     const healthData = indicator.find(
       (areaData) => areaData.areaCode === areasSelected[0]
     );

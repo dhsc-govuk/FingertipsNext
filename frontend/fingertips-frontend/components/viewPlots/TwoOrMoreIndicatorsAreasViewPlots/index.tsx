@@ -23,7 +23,7 @@ export function mapToSpineChartTableProps(
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  healthIndicatorData.map((indicatorData, index) => {
+  healthIndicatorData.forEach((indicatorData, index) => {
     const validMetaData =
       indicatorMetadata !== undefined && indicatorMetadata[index] !== undefined;
 
