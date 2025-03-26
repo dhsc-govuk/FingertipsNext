@@ -22,7 +22,6 @@ export const extractingCombinedHealthData = (
     combinedIndicatorData.length
   );
   combinedIndicatorData.map((indicator, index) => {
-    //console.log(`indicator ${JSON.stringify(indicator)}`);
     const healthData = indicator.find(
       (areaData) => areaData.areaCode === areasSelected[0]
     );
