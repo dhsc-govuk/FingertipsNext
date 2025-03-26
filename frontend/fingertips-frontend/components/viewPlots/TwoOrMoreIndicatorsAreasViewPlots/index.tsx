@@ -7,6 +7,7 @@ import {
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { H2 } from 'govuk-react';
+import { noDeprivation } from '@/lib/mocks';
 
 export const mapToSpineChartTableProps = (): SpineChartTableProps => {
   const mockIndicatorData = [
@@ -38,6 +39,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -54,6 +56,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -73,6 +76,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -89,6 +93,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
