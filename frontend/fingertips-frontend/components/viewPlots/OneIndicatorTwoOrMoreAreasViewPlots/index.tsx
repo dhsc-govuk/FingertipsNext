@@ -68,7 +68,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     : undefined;
 
   const lineChartOptions: Highcharts.Options = generateStandardLineChartOptions(
-    dataWithoutEngland,
+    dataWithoutEnglandOrGroup,
     showConfidenceIntervalsData,
     {
       benchmarkData: englandBenchmarkData,
