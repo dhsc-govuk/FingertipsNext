@@ -8,6 +8,7 @@ import {
   BenchmarkLabelGroupType,
   BenchmarkLabelType,
 } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -91,6 +92,27 @@ export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
   const backgroundColor = colours?.backgroundColor;
   return backgroundColor === 'transparent' ? undefined : backgroundColor;
 };
+
+export function generateConfidenceIntervalSeries(
+  areaName: string,
+  data: (number | undefined)[][],
+  showConfidenceIntervalsData?: boolean,
+  optionalParams?: {
+    color?: GovukColours;
+    whiskerLength?: string;
+    lineWidth?: number;
+  }
+): Highcharts.SeriesOptionsType {
+  return {
+    type: 'errorbar',
+    name: areaName,
+    data: data,
+    visible: showConfidenceIntervalsData,
+    color: optionalParams?.color ?? GovukColours.MidGrey,
+    whiskerLength: optionalParams?.whiskerLength ?? '20%',
+    lineWidth: optionalParams?.lineWidth ?? 2,
+  };
+}
 
 export const getLatestYear = (
   points: HealthDataPoint[] | undefined
