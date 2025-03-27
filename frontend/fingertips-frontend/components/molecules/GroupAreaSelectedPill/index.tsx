@@ -35,9 +35,7 @@ export const GroupAreaSelectedPill = ({
       ariaLabelPostfix={groupSelected?.name}
     >
       <p style={{ margin: 0 }}>
-        <StyleGroupName>
-          All areas in {groupSelected?.name}
-        </StyleGroupName>{' '}
+        <StyleGroupName>All areas in {groupSelected?.name}</StyleGroupName>{' '}
         <StyleAreaType>{areaTypeName}</StyleAreaType>
       </p>
     </Pill>

@@ -53,7 +53,7 @@ export function Pill({
   selectedFilterId,
   removeFilter,
   isFullWidth = true,
-  ariaLabelPostfix = ''
+  ariaLabelPostfix = '',
 }: Readonly<PillProps>) {
   return (
     <PillContainer data-testid="pill-container" isFullWidth={isFullWidth}>
