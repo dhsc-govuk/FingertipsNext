@@ -13,7 +13,11 @@ import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { ViewPlotProps } from '../ViewPlotProps';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
 import {
   generateStandardLineChartOptions,
@@ -37,7 +41,7 @@ function shouldLineChartBeShown(
 }
 
 export function OneIndicatorOneAreaViewPlots({
-  healthIndicatorData,
+  indicatorData,
   searchState,
   indicatorMetadata,
 }: Readonly<ViewPlotProps>) {
@@ -46,11 +50,15 @@ export function OneIndicatorOneAreaViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
+  const polarity = indicatorData.polarity as IndicatorPolarity;
+  const benchmarkComparisonMethod =
+    indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
   const [
     showStandardLineChartConfidenceIntervalsData,
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
 
+  const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
@@ -129,6 +137,8 @@ export function OneIndicatorOneAreaViewPlots({
                     englandBenchmarkData={englandBenchmarkWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
                   />
                 ),
               },
@@ -153,6 +163,8 @@ export function OneIndicatorOneAreaViewPlots({
         }
         searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
       />
     </section>
   );

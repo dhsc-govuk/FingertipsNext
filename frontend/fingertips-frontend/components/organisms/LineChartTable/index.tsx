@@ -2,8 +2,10 @@
 
 import { Table } from 'govuk-react';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   HealthDataPointBenchmarkComparison,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { ReactNode } from 'react';
@@ -18,7 +20,6 @@ import {
   StyledGreyTableCellValue,
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
-import { BenchmarkLabelGroupType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { TrendTag } from '@/components/molecules/TrendTag';
 
 export enum LineChartTableHeadingEnum {
@@ -36,6 +37,8 @@ export interface LineChartTableProps {
   englandBenchmarkData: HealthDataForArea | undefined;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export interface LineChartTableRowData {
@@ -160,12 +163,15 @@ const getCellHeader = (
 
 const getBenchmarkCell = (
   areaCount: number,
-  benchmarkComparison?: HealthDataPointBenchmarkComparison
+  benchmarkComparison?: HealthDataPointBenchmarkComparison,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity: IndicatorPolarity = IndicatorPolarity.Unknown
 ) => {
   const benchmarkLabel = (
     <BenchmarkLabel
-      type={benchmarkComparison?.outcome}
-      group={BenchmarkLabelGroupType.RAG}
+      outcome={benchmarkComparison?.outcome}
+      method={benchmarkComparisonMethod}
+      polarity={polarity}
     />
   );
   return areaCount < 2 ? (
@@ -201,6 +207,8 @@ export function LineChartTable({
   englandBenchmarkData,
   groupIndicatorData,
   measurementUnit,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<LineChartTableProps>) {
   if (englandBenchmarkData && healthIndicatorData.length === 0) {
     healthIndicatorData = [englandBenchmarkData];
@@ -328,7 +336,9 @@ export function LineChartTable({
               >
                 {getBenchmarkCell(
                   healthIndicatorData.length,
-                  sortedAreaData[index].benchmarkComparison
+                  sortedAreaData[index].benchmarkComparison,
+                  benchmarkComparisonMethod,
+                  polarity
                 )}
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].count}
