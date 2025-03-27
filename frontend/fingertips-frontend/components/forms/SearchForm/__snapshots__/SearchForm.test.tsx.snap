@@ -702,7 +702,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
         class="c5"
         id="indicator"
         name="indicator"
-        value="indicator"
+        value=""
       />
     </label>
     <div

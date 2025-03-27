@@ -5,7 +5,6 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
-import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const govukErrorBorderWidth = '2px';
 
@@ -29,15 +28,6 @@ export const IndicatorSearchForm = ({
   searchState?: SearchStateParams;
 }) => {
   const { setIsLoading } = useLoadingState();
-
-  const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
-    ClientStorage.updateState<string>(
-      ClientStorageKeys.searchedIndicator,
-      searchedIndicator
-    );
-
-    indicatorSearchFormState.indicator = searchedIndicator;
-  };
 
   return (
     <FormGroup
@@ -68,9 +58,6 @@ export const IndicatorSearchForm = ({
             name="indicator"
             data-testid="indicator-search-form-input"
             defaultValue={indicatorSearchFormState.indicator}
-            onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleOnSearchSubjectBlur(e.target.value)
-            }
             style={
               indicatorSearchFormState.errors
                 ? {

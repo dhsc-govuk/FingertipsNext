@@ -5,7 +5,11 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -17,6 +21,7 @@ import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
+import { useState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -37,14 +42,15 @@ export const SearchForm = ({
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
 
+  const [searchedIndicator, setSearchedIndicator] = useState<string>(
+    searchState?.[SearchParams.SearchedIndicator] ?? ''
+  );
+  const [updatedSearchState, setUpdatedSearchState] =
+    useState<SearchStateParams>(searchState!);
+
   const isAreaFilterOpen =
     ClientStorage.getState<boolean>(ClientStorageKeys.AreaFilterHomePage) ??
     false;
-
-  const searchedIndicator =
-    ClientStorage.getState<string>(ClientStorageKeys.searchedIndicator) ??
-    searchState?.[SearchParams.SearchedIndicator] ??
-    formState.indicator;
 
   const updateIsAreaFilterOpen = () => {
     ClientStorage.updateState(
@@ -62,13 +68,15 @@ export const SearchForm = ({
         )?.name
       : selectedAreasData?.[0]?.name;
 
-  const handleOnSearchSubjectBlur = (searchedIndicator: string) => {
-    ClientStorage.updateState<string>(
-      ClientStorageKeys.searchedIndicator,
+  const handleOnChange = (searchedIndicator: string) => {
+    setSearchedIndicator(searchedIndicator);
+
+    const stateManager = SearchStateManager.initialise(searchState);
+    stateManager.addParamValueToState(
+      SearchParams.SearchedIndicator,
       searchedIndicator
     );
-
-    formState.indicator = searchedIndicator;
+    setUpdatedSearchState(stateManager.getSearchState());
   };
 
   return (
@@ -76,7 +84,7 @@ export const SearchForm = ({
       <H3>Find public health data</H3>
       <input
         name="searchState"
-        defaultValue={JSON.stringify(searchState)}
+        defaultValue={JSON.stringify(updatedSearchState)}
         hidden
       />
       <StyledInputField
@@ -84,7 +92,7 @@ export const SearchForm = ({
           id: 'indicator',
           name: 'indicator',
           defaultValue: searchedIndicator ?? formState.indicator ?? '',
-          onBlur: (e) => handleOnSearchSubjectBlur(e.target.value),
+          onChange: (e) => handleOnChange(e.target.value),
         }}
         hint={
           <div style={{ color: GovukColours.DarkGrey }}>
@@ -101,17 +109,18 @@ export const SearchForm = ({
         Search by subject
       </StyledInputField>
       <AreaAutoCompleteInputField
-        key={`area-auto-complete-${JSON.stringify(searchState)}`}
+        key={`area-auto-complete-${JSON.stringify(updatedSearchState)}`}
         inputFieldErrorStatus={!!formState.message}
-        searchState={searchState}
+        searchState={updatedSearchState}
         selectedAreaName={inputSuggestionDefaultValue}
       />
 
       {(selectedAreas && selectedAreas.length > 0) ||
-      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
+      updatedSearchState?.[SearchParams.GroupAreaSelected] ===
+        ALL_AREAS_SELECTED ? (
         <SelectedAreasPanel
-          key={`selected-area-panel-${JSON.stringify(searchState)}`}
-          searchState={searchState}
+          key={`selected-area-panel-${JSON.stringify(updatedSearchState)}`}
+          searchState={updatedSearchState}
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           isFullWidth={false}
@@ -125,9 +134,9 @@ export const SearchForm = ({
         onToggleContainer={updateIsAreaFilterOpen}
       >
         <SelectAreasFilterPanel
-          key={`area-filter-panel-${JSON.stringify(searchState)}`}
+          key={`area-filter-panel-${JSON.stringify(updatedSearchState)}`}
           areaFilterData={areaFilterData}
-          searchState={searchState}
+          searchState={updatedSearchState}
         />
       </ShowHideContainer>
 

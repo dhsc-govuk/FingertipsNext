@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { SearchForm } from '@/components/forms/SearchForm';
 import { SearchFormState } from './searchActions';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -77,57 +77,42 @@ describe('SearchForm', () => {
     ).toBeInTheDocument();
   });
 
-  it('should pre-populate the indicator input field with value from client storage if available', () => {
-    mockGetState.mockReturnValue('value from client storage');
+  it('should also update the url with the typed searched indicator when updating area state', async () => {
+    const expectedPath = [
+      `${mockPath}`,
+      `?${SearchParams.SearchedIndicator}=hospital`,
+      `&${SearchParams.AreasSelected}=E40000003`,
+    ].join('');
+
+    const searchState = {
+      [SearchParams.AreasSelected]: ['E40000007', 'E40000003'],
+    };
 
     const searchFormState: SearchFormState = {
       ...initialDataState,
+      searchState: JSON.stringify(searchState),
     };
+
     render(
-      <SearchForm formState={searchFormState} searchState={mockSearchState} />
+      <SearchForm
+        formState={searchFormState}
+        searchState={searchState}
+        selectedAreasData={[eastEnglandNHSRegion, londonNHSRegion]}
+      />
     );
 
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      'value from client storage'
-    );
-  });
-
-  it('should pre-populate the indicator input field with value from the form state if client storage has no value for searched indicator', () => {
-    mockGetState.mockReturnValue(undefined);
-
-    const searchFormState: SearchFormState = {
-      ...initialDataState,
-      indicator: 'test value',
-    };
-    render(
-      <SearchForm formState={searchFormState} searchState={mockSearchState} />
-    );
-
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      'test value'
-    );
-  });
-
-  it('should update client storage with the typed searched indicator when focussing away from input field', async () => {
-    const searchFormState: SearchFormState = {
-      ...initialDataState,
-      indicator: '',
-    };
-    render(
-      <SearchForm formState={searchFormState} searchState={mockSearchState} />
-    );
-
-    const user = userEvent.setup();
+    const user = await userEvent.setup();
     await user.type(
-      screen.getByRole('textbox', { name: /indicator/i }),
+      screen.getByTestId('indicator-search-form-input'),
       'hospital'
     );
-    await user.click(screen.getByRole('textbox', { name: /area/i }));
 
-    expect(mockUpdateState).toHaveBeenCalledWith(
-      ClientStorageKeys.searchedIndicator,
-      'hospital'
+    const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+    await user.click(
+      within(firstSelectedAreaPill).getByTestId('remove-icon-div')
     );
+
+    expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
 
   it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {

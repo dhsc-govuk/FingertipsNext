@@ -64,6 +64,7 @@ export default async function Page(
 
     return (
       <Home
+        // We need this in order to render the home page component and detect that the state has changed.
         key={JSON.stringify(stateManager.getSearchState())}
         initialFormState={initialState}
         areaFilterData={{

@@ -61,6 +61,8 @@ export const Home = ({
   );
 
   useEffect(() => {
+    // This is not trigged when we don't have key prop set.
+    // console.log(`pathName ${pathname}`);
     setIsLoading(false);
   }, [setIsLoading, formState]);
 
