@@ -8,7 +8,7 @@ import {
   RawIndicatorDocument,
 } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
-import mockIndicatorData from '../../assets/mockIndicatorsData.json';
+import mockIndicatorData from '../../assets/mockIndicatorData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 import { logUsingMockAiSearchService } from '@/lib/logging';

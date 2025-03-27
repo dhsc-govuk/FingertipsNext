@@ -8,7 +8,7 @@ import {
   SearchMode,
   AreaMode,
 } from '../../testHelpers';
-import mockIndicators from '../../../assets/mockIndicatorsData.json';
+import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from '@/playwright/page-objects/pages/chartPage';

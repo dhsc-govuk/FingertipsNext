@@ -95,6 +95,7 @@ test.describe(`Search via`, () => {
       await test.step(`check results page and select ${areaMode} then ${indicatorMode}`, async () => {
         await resultsPage.waitForURLToContain(subjectSearchTerm);
         await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+        await resultsPage.checkRecentTrends(areaMode);
 
         await resultsPage.selectAreasFiltersIfRequired(
           searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
