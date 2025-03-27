@@ -21,11 +21,11 @@ export enum AreaMode {
 
 type componentProps = {
   hasConfidenceIntervals: boolean;
-  hasTabTable: boolean;
+  isTabTable: boolean;
 };
 
 type component = {
-  component: string;
+  componentLocator: string;
   componentProps: componentProps;
 };
 
@@ -41,68 +41,68 @@ export function getScenarioConfig(
   // Define all available components and their properties
   const allComponents: component[] = [
     {
-      component: ChartPage.lineChartComponent,
+      componentLocator: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTabTable: false,
+        isTabTable: false,
       },
     },
     {
-      component: ChartPage.lineChartTableComponent,
+      componentLocator: ChartPage.lineChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: true,
+        isTabTable: true,
       },
     },
     {
-      component: ChartPage.inequalitiesComponent,
+      componentLocator: ChartPage.inequalitiesComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: false,
+        isTabTable: false,
       },
     },
     {
-      component: ChartPage.inequalitiesBarChartComponent,
+      componentLocator: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTabTable: false,
+        isTabTable: false,
       },
     },
     {
-      component: ChartPage.inequalitiesLineChartComponent,
+      componentLocator: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
-        hasTabTable: false,
+        hasConfidenceIntervals: true,
+        isTabTable: false,
       },
     },
     {
-      component: ChartPage.inequalitiesBarChartTableComponent,
+      componentLocator: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: true,
+        isTabTable: true,
       },
     },
     {
-      component: ChartPage.inequalitiesLineChartTableComponent,
+      componentLocator: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: true,
+        isTabTable: true,
       },
     },
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
     {
-      component: ChartPage.thematicMapComponent,
+      componentLocator: ChartPage.thematicMapComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: false,
+        isTabTable: false,
       },
     },
     {
-      component: ChartPage.barChartEmbeddedTableComponent,
+      componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTabTable: false,
+        isTabTable: false,
       },
     },
     // Pending
@@ -129,7 +129,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesLineChartTableComponent,
         // Enable in DHSCFT-148
         // ChartPage.populationPyramidComponent,
-      ].includes(component.component)
+      ].includes(component.componentLocator)
     );
   }
   // 1 indicator, 2+ areas
@@ -144,7 +144,7 @@ export function getScenarioConfig(
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
-      ].includes(component.component)
+      ].includes(component.componentLocator)
     );
   }
   // 1 indicator, all areas in a group
@@ -156,7 +156,7 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
-      ].includes(component.component)
+      ].includes(component.componentLocator)
     );
   }
   // 2+ indicators, England area
@@ -170,7 +170,7 @@ export function getScenarioConfig(
     //     // ChartPage.basicTableComponent,
     //     // Enable in DHSCFT-148
     //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.component)
+    //   ].includes(component.componentLocator)
     // );
   }
   // 2+ indicators, 2+ areas (not England)
@@ -185,7 +185,7 @@ export function getScenarioConfig(
     //     // ChartPage.heatMapComponent,
     //     // Enable in DHSCFT-148
     //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.component)
+    //   ].includes(component.componentLocator)
     // );
   } else {
     throw new Error(

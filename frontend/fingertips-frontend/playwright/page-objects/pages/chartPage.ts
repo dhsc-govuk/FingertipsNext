@@ -78,10 +78,10 @@ export default class ChartPage extends AreaFilter {
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       // click tab to view the table view if checking a none embedded table component
-      if (visibleComponent.componentProps.hasTabTable) {
+      if (visibleComponent.componentProps.isTabTable) {
         await this.page
           .getByTestId(
-            `tabTitle-${visibleComponent.component.replace('-component', '')}`
+            `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
           .click();
       }
@@ -89,12 +89,12 @@ export default class ChartPage extends AreaFilter {
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
         await this.page
           .getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.component.replace('-component', '')}`
+            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
           .click();
       }
       await expect(
-        this.page.getByTestId(visibleComponent.component)
+        this.page.getByTestId(visibleComponent.componentLocator)
       ).toBeVisible({
         visible: true,
       });
@@ -108,12 +108,14 @@ export default class ChartPage extends AreaFilter {
       // for now just warn if visual comparisons do not match
       try {
         await expect(
-          this.page.getByTestId(visibleComponent.component)
-        ).toHaveScreenshot(`${testName}-${visibleComponent.component}.png`);
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toHaveScreenshot(
+          `${testName}-${visibleComponent.componentLocator}.png`
+        );
       } catch (error) {
         const typedError = error as Error;
         console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent.component}: ${typedError.message}`
+          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
         );
       }
     }
@@ -121,7 +123,7 @@ export default class ChartPage extends AreaFilter {
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
       await expect(
-        this.page.getByTestId(hiddenComponent.component)
+        this.page.getByTestId(hiddenComponent.componentLocator)
       ).toBeVisible({
         visible: false,
       });
