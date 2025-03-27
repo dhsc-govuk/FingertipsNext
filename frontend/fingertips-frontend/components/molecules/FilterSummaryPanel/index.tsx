@@ -31,7 +31,7 @@ export const FilterSummaryPanel = ({
 }: FilterSummaryPanelProps) => {
   return (
     <div data-testid="filter-summary-panel">
-      {selectedIndicatorsData ? (
+      {selectedIndicatorsData?.length ? (
         <SelectedIndicatorsPanel
           selectedIndicatorsData={selectedIndicatorsData}
           searchState={searchState}
@@ -40,7 +40,7 @@ export const FilterSummaryPanel = ({
         />
       ) : null}
 
-      {selectedAreasData ? (
+      {selectedAreasData?.length ? (
         <SelectedAreasPanel
           selectedAreasData={selectedAreasData}
           searchState={searchState}
