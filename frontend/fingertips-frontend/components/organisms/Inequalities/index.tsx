@@ -59,6 +59,16 @@ export function Inequalities({
       ),
     };
   } else if (type == InequalitiesTypes.Deprivation) {
+    const deprivationTypes = Object.keys(
+      Object.groupBy(
+        healthIndicatorData.healthData.filter(
+          (data) => !data.deprivation.isAggregate
+        ),
+        (data) => data.deprivation.type
+      )
+    );
+    const selectedDeprivationType = deprivationTypes[0];
+
     filteredHealthIndicatorData = {
       ...healthIndicatorData,
       healthData: healthIndicatorData.healthData.filter(
@@ -66,9 +76,7 @@ export function Inequalities({
           hd.sex.isAggregate &&
           hd.ageBand.isAggregate &&
           (hd.deprivation.isAggregate ||
-            hd.deprivation.type ==
-              // TODO: Pick a default deprivation type to use.
-              'Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)')
+            hd.deprivation.type == selectedDeprivationType)
       ),
     };
   }
@@ -85,16 +93,16 @@ export function Inequalities({
   ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
-    getYearDataGroupedByInequalities(yearlyHealthdata);
+    getYearDataGroupedByInequalities(type, yearlyHealthdata);
 
-  const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
-    type
-  );
+  const dynamicKeys = getDynamicKeys(yearlyHealthDataGroupedByInequalities);
 
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
-    rowData: mapToInequalitiesTableData(yearlyHealthDataGroupedByInequalities),
+    rowData: mapToInequalitiesTableData(
+      type,
+      yearlyHealthDataGroupedByInequalities
+    ),
   };
 
   const latestDataIndex = lineChartData.rowData.length - 1;

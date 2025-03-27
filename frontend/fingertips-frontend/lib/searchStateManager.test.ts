@@ -16,6 +16,7 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
       };
 
       const stateManager = SearchStateManager.initialise(params);
@@ -29,6 +30,7 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
       });
     });
 
@@ -227,6 +229,7 @@ describe('SearchStateManager', () => {
         [SearchParams.AreaTypeSelected]: 'Some area type',
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
+        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
       };
 
       const stateManager = SearchStateManager.initialise(state);
@@ -252,6 +255,7 @@ describe('SearchStateManager', () => {
         `&${SearchParams.GroupTypeSelected}=Some+group+type`,
         `&${SearchParams.GroupSelected}=A003`,
         `&${SearchParams.GroupAreaSelected}=ALL`,
+        `&${SearchParams.InequalityTypeSelected}=Some+inequality+type`,
       ].join('');
 
       const stateManager = SearchStateManager.initialise({
@@ -262,6 +266,7 @@ describe('SearchStateManager', () => {
         [SearchParams.GroupTypeSelected]: 'Some group type',
         [SearchParams.GroupSelected]: 'A003',
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.InequalityTypeSelected]: 'Some inequality type',
       });
 
       const generatedPath = stateManager.generatePath('/some-path');

@@ -7,7 +7,7 @@ import {
   getAggregatePointInfo,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
-  groupHealthDataByInequalities,
+  groupHealthDataBySex,
   groupHealthDataByYear,
   InequalitiesTableRowData,
   InequalitiesTypes,
@@ -195,9 +195,9 @@ describe('groupHealthDataByInequalities', () => {
       Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
     };
 
-    expect(
-      groupHealthDataByInequalities(MOCK_INEQUALITIES_DATA.healthData)
-    ).toEqual(healthDataGroupedBySex);
+    expect(groupHealthDataBySex(MOCK_INEQUALITIES_DATA.healthData)).toEqual(
+      healthDataGroupedBySex
+    );
   });
 });
 
