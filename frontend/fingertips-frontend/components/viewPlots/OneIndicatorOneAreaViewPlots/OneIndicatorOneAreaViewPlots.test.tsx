@@ -178,7 +178,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render the inequalities component', () => {
+  it('should render the inequalities component', async () => {
     render(
       <OneIndicatorOneAreaViewPlots
         indicatorData={testHealthData}
@@ -187,6 +187,8 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       />
     );
 
-    expect(screen.queryByTestId('inequalities-component')).toBeInTheDocument();
+    expect(
+      await screen.findByTestId('inequalities-component')
+    ).toBeInTheDocument();
   });
 });

@@ -21,6 +21,10 @@ export enum GovukColours {
   Turquoise = '#28A197',
   DarkPink = '#801650',
   OtherLightPurple = '#6F72AF',
+  CharcoalGray = '#3D3D3D',
+  Female = '#5352BE',
+  Male = '#57AEF8',
+  DarkSlateGray = '#D7D7D7',
 }
 
 export enum TagColours {
