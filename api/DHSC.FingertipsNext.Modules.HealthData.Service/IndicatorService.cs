@@ -53,8 +53,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         return new IndicatorWithHealthDataForAreas()
         {
             Name = indicatorData.Name,
-            StartDate = indicatorData.StartDate,
-            EndDate = indicatorData.EndDate,
             Polarity = polarity,
             BenchmarkMethod = method,
             AreaHealthData = await GetIndicatorAreaDataAsync(
@@ -94,7 +92,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                 areaType
                 );
 
-            var retVal= healthMeasureData
+            return healthMeasureData
                 .GroupBy(healthMeasure => new
                 {
                     code = healthMeasure.AreaDimension.Code,
@@ -107,8 +105,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
                     HealthData = _mapper.Map<IEnumerable<HealthDataPoint>>(group.ToList())
                 })
                 .ToList();
-
-            return retVal;
         }
 
         //if RAG is the benchmark method use England as the comparison area and add England to the areas we want data for
