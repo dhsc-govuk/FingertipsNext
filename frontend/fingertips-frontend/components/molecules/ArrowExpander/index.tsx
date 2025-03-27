@@ -1,6 +1,23 @@
 'use client';
 import React, { useState } from 'react';
 import { ArrowToggleButton } from '@/components/molecules/ArrowToggleButton';
+import styled from 'styled-components';
+
+const StyleButtonExpander = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'left',
+  alignItems: 'center',
+});
+
+const StyleTextSpanExpander = styled('div')<{ fill?: string }>(({ fill }) => ({
+  fontWeight: '300',
+  display: 'inline-block',
+  fontSize: '19px',
+  color: fill,
+  textAlign: 'center',
+  padding: '2px 1px 1px 1px',
+}));
 
 interface ExpanderProps {
   children: React.ReactNode;
@@ -12,27 +29,22 @@ export const ArrowExpander = ({
 }: ExpanderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
-    <div style={{ margin: '0px', padding: '0px' }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'left',
-          alignItems: 'center',
-        }}
-      >
+    <>
+      <StyleButtonExpander>
         <ArrowToggleButton
           fill={fill}
+          width={30}
+          height={30}
           onToggle={(isOpen: boolean) => {
             setIsOpen(isOpen);
             return isOpen;
           }}
         />
-        <span style={{ fontWeight: 300, fontSize: '13px', color: fill }}>
+        <StyleTextSpanExpander fill={fill}>
           {isOpen ? 'Show' : 'Hide'}
-        </span>
-      </div>
+        </StyleTextSpanExpander>
+      </StyleButtonExpander>
       {isOpen ? children : null}
-    </div>
+    </>
   );
 };
