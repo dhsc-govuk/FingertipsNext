@@ -1,6 +1,9 @@
 import { extractingCombinedHealthData } from './extractHealthDataForArea';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 
 const mockAreaCode = 'A001';
 const mockGroupCode = 'G001';
@@ -31,7 +34,7 @@ const mockOtherData: HealthDataForArea = {
 
 describe('extractingCombinedHealthData', () => {
   it('empty data should raise an error', () => {
-    const indicatorData: HealthDataForArea[] = [];
+    const indicatorData: IndicatorWithHealthDataForArea = {};
 
     expect(() => {
       extractingCombinedHealthData(
@@ -43,7 +46,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('wrong area id should raise an error', () => {
-    const indicatorData = [mockOtherData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockOtherData],
+    };
 
     expect(() => {
       extractingCombinedHealthData(
@@ -55,7 +60,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('missing group data should raise an error', () => {
-    const indicatorData = [mockAreaData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockAreaData],
+    };
 
     expect(() => {
       extractingCombinedHealthData(
@@ -67,7 +74,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('wrong group id should raise an error', () => {
-    const indicatorData = [mockAreaData, mockOtherData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockAreaData, mockOtherData],
+    };
 
     expect(() => {
       extractingCombinedHealthData(
@@ -79,7 +88,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('missing England data should raise an error', () => {
-    const indicatorData = [mockAreaData, mockGroupData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockAreaData, mockGroupData],
+    };
 
     expect(() => {
       extractingCombinedHealthData(
@@ -91,7 +102,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('wrong England id should raise an error', () => {
-    const indicatorData = [mockAreaData, mockGroupData, mockOtherData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockAreaData, mockGroupData, mockOtherData],
+    };
 
     expect(() => {
       extractingCombinedHealthData(
@@ -103,7 +116,9 @@ describe('extractingCombinedHealthData', () => {
   });
 
   it('valid data return separated data', () => {
-    const indicatorData = [mockAreaData, mockGroupData, mockEnglandData];
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
+    };
 
     const expectedResult = {
       englandIndicatorData: [
