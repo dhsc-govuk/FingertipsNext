@@ -31,6 +31,9 @@ export default class ChartPage extends AreaFilter {
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
+  static readonly inequalitiesForSingleTimePeriodComponent =
+    'inequalitiesForSingleTimePeriod-component';
+  static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
@@ -77,13 +80,32 @@ export default class ChartPage extends AreaFilter {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
-      // click tab to view the table view if checking a none embedded table component
+      // if its one of the chart components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
         await this.page
           .getByTestId(
             `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
           .click();
+      }
+      // if its one of the chart components that has a single time period dropdown then select the last in the list
+      if (visibleComponent.componentProps.hasTimePeriodDropDown) {
+        const combobox = this.page
+          .getByTestId(ChartPage.timePeriodDropDownComponent)
+          .getByRole('combobox');
+        // get the options from the combobox
+        const dropdownOptions = await combobox.evaluate(
+          (select: HTMLSelectElement) => {
+            return Array.from(select.options).map((option) => ({
+              value: option.value,
+              text: option.text,
+            }));
+          }
+        );
+
+        await combobox.selectOption({
+          value: dropdownOptions[dropdownOptions.length - 1].value,
+        });
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
@@ -93,6 +115,8 @@ export default class ChartPage extends AreaFilter {
           )
           .click();
       }
+
+      // check chart component is now visible
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toBeVisible({
@@ -103,7 +127,7 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
+      await this.page.waitForTimeout(750); // change this to wait for loading spinner to no longer appear in DHSCFT-490
 
       // for now just warn if visual comparisons do not match
       try {

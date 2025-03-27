@@ -22,6 +22,7 @@ export enum AreaMode {
 type componentProps = {
   hasConfidenceIntervals: boolean;
   isTabTable: boolean;
+  hasTimePeriodDropDown: boolean;
 };
 
 type component = {
@@ -45,6 +46,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -52,6 +54,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -59,6 +62,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -66,6 +70,15 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasTimePeriodDropDown: true,
       },
     },
     {
@@ -73,6 +86,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -80,6 +94,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -87,6 +102,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasTimePeriodDropDown: false,
       },
     },
     // Enable in DHSCFT-148
@@ -96,6 +112,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     {
@@ -103,6 +120,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     // Pending
@@ -127,6 +145,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesLineChartComponent,
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
+        ChartPage.inequalitiesForSingleTimePeriodComponent,
         // Enable in DHSCFT-148
         // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
