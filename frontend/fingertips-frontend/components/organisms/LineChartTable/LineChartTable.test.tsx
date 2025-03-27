@@ -129,7 +129,7 @@ describe('Line chart table suite', () => {
       );
     });
 
-    it('should render the expected elements when England is the only area and 99%', () => {
+    it('should render the expected elements when England is the only area and 99.8%', () => {
       render(
         <LineChartTable
           healthIndicatorData={[]}
