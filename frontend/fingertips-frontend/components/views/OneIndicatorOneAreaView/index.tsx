@@ -1,7 +1,6 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -40,7 +39,6 @@ export default async function OneIndicatorOneAreaView({
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
-  let healthIndicatorData: HealthDataForArea[] | [];
   try {
     indicatorData = await indicatorApi.getHealthDataForAnIndicator(
       {
@@ -53,7 +51,6 @@ export default async function OneIndicatorOneAreaView({
       },
       API_CACHE_CONFIG
     );
-    healthIndicatorData = indicatorData?.areaHealthData ?? [];
   } catch (error) {
     console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');
@@ -63,7 +60,7 @@ export default async function OneIndicatorOneAreaView({
 
   return (
     <OneIndicatorOneAreaViewPlots
-      healthIndicatorData={healthIndicatorData}
+      indicatorData={indicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
     />

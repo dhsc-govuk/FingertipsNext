@@ -1,7 +1,11 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
 import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import React, { useState } from 'react';
 import {
   getDynamicKeys,
@@ -24,6 +28,8 @@ interface InequalitiesProps {
   searchState: SearchStateParams;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
@@ -40,6 +46,8 @@ export function Inequalities({
   measurementUnit,
   searchState,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesProps>) {
   // TODO: This can be a function
   let filteredHealthIndicatorData: HealthDataForArea = healthIndicatorData;
@@ -124,6 +132,8 @@ export function Inequalities({
                 barChartData={barchartData}
                 measurementUnit={measurementUnit}
                 yAxisLabel="Value"
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
                 type={type}
               />
             ),
@@ -136,6 +146,8 @@ export function Inequalities({
                 tableData={barchartData}
                 measurementUnit={measurementUnit}
                 type={type}
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },
