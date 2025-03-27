@@ -9,8 +9,11 @@ import {
   getBenchmarkColour,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
-import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 
@@ -20,6 +23,8 @@ interface SparklineChartProps {
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
   benchmarkOutcome?: BenchmarkOutcome;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
   label: string;
   area: string | undefined;
   year: number | undefined;
@@ -31,13 +36,19 @@ export function SparklineChart({
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  benchmarkOutcome,
+  benchmarkOutcome = BenchmarkOutcome.NotCompared,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
   label,
   area,
   year,
   measurementUnit,
 }: Readonly<SparklineChartProps>) {
-  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
+  const color = getBenchmarkColour(
+    benchmarkComparisonMethod,
+    benchmarkOutcome,
+    polarity
+  );
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
@@ -54,7 +65,6 @@ export function SparklineChart({
       `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`,
     ];
   };
-
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
     area,
     [confidenceIntervalValues],

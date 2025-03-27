@@ -1,13 +1,12 @@
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPoint,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
@@ -84,11 +83,12 @@ export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/highcharts-more').then(callback);
 }
 
-export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
-  const colours = getBenchmarkTagStyle(
-    BenchmarkLabelGroupType.RAG,
-    benchmarkComparison
-  );
+export const getBenchmarkColour = (
+  method: BenchmarkComparisonMethod,
+  outcome: BenchmarkOutcome,
+  polarity: IndicatorPolarity
+) => {
+  const colours = getBenchmarkTagStyle(method, outcome, polarity);
   const backgroundColor = colours?.backgroundColor;
   return backgroundColor === 'transparent' ? undefined : backgroundColor;
 };

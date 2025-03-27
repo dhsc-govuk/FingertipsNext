@@ -5,7 +5,9 @@ const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 console.log(`The target URL for this test execution is ${url}`); // allows to see where tests are executed
 const jobUrl = process.env.JOB_URL;
 const runCommand =
-  process.env.MOCK_SERVER === 'false' ? 'npm run dev-no-mocks' : 'npm run dev';
+  process.env.MOCK_SERVER === 'false'
+    ? 'npm run build && npm run start'
+    : 'npm run build && npm run start-local-mocks';
 
 // Create the base config
 const config: PlaywrightTestConfig = {
@@ -41,14 +43,20 @@ const config: PlaywrightTestConfig = {
   use: {
     viewport: { width: 1280, height: 720 },
     baseURL: url,
-    trace: 'on-first-retry',
+    trace: isCI ? 'off' : 'on-first-retry',
     screenshot: 'on-first-failure',
   },
 
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
+        launchOptions: {
+          args: ['--disable-dev-shm-usage', '--no-sandbox'],
+        },
+      },
     },
     {
       name: 'webkit',
@@ -63,6 +71,7 @@ if (!process.env.FINGERTIPS_FRONTEND_URL) {
     command: runCommand,
     url: url,
     reuseExistingServer: true,
+    timeout: 120000,
   };
 }
 

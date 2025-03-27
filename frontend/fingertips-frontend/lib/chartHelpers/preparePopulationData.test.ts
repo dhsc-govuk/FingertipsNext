@@ -4,9 +4,9 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
+  PopulationData,
   PopulationDataForArea,
   preparePopulationData,
-  PopulationData,
   preparePopulationDataForArea,
 } from './preparePopulationData';
 import { areaCodeForEngland } from './constants';
