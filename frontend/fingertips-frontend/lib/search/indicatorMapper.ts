@@ -26,7 +26,7 @@ export class IndicatorMapper {
    * (in which case it would make no sense to return a value) or if there is no match for the requested area.
    *
    * There is an additional case where no specific area is selected but England has been chosen as the group. In this case
-   * we return the trend for England
+   * we return the trend for England.
    *
    * @param requestedAreaCodes - list of area codes requested by the user for the given indicator
    * @param trendsWithAreas - the list of area to trend mappings for the given indicator
