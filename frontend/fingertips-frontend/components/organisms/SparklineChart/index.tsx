@@ -16,6 +16,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -50,32 +51,31 @@ export function SparklineChart({
     polarity
   );
   const [options, setOptions] = useState<Highcharts.Options>();
-  console.log(benchmarkComparisonMethod)
-  console.log(benchmarkOutcome)
-  console.log(polarity)
 
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
     let category = '';
-    let benchmarkLabel = ''
-    
-    
-    if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-      benchmarkLabel = 'to England'
-    } else if (benchmarkOutcome === BenchmarkOutcome.NotCompared) {
-      benchmarkLabel = 'Not Compared'
-    } else {
-      benchmarkLabel = 'than England'
-    }
+    let benchmarkLabel = '';
+    const outcome = getBenchmarkLabelText(benchmarkOutcome);
 
-    if (label === SparklineLabelEnum.Benchmark) {
+    if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
       category = 'Benchmark: ';
+      benchmarkLabel = '';
     }
     if (label === SparklineLabelEnum.Group) {
       category = 'Group: ';
     }
 
+    if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+      benchmarkLabel = `${outcome} to England`;
+    } else if (
+      benchmarkOutcome &&
+      benchmarkOutcome !== BenchmarkOutcome.NotCompared
+    ) {
+      benchmarkLabel = `${outcome} than England`;
+    }
+
     return [
-      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value}${measurementUnit}<br/><span>${benchmarkOutcome} ${benchmarkLabel}`,
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value}${measurementUnit}<br/><span>${benchmarkLabel}</span>`,
     ];
   };
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
