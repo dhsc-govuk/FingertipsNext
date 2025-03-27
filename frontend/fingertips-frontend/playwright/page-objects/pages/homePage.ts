@@ -1,16 +1,11 @@
 import { SearchMode } from '@/playwright/testHelpers';
-import BasePage from '../basePage';
+import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 
-export default class HomePage extends BasePage {
+export default class HomePage extends AreaFilter {
   readonly subjectSearchField = 'indicator-search-form-input';
-  readonly areaSearchField = 'area-search-input-field';
-  readonly suggestedAreasPanel = 'area-suggestion-panel';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
-  readonly areaFilterContainer = 'selected-areas-panel';
-  readonly pillContainer = 'pill-container';
-  readonly removeIcon = 'x-icon';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -46,9 +41,12 @@ export default class HomePage extends BasePage {
         this.page.getByText(areaSearchTerm!)
       );
 
-      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
-        ignoreCase: true,
-      });
+      await expect(this.page.getByTestId('pill-container')).toContainText(
+        areaSearchTerm!,
+        {
+          ignoreCase: true,
+        }
+      );
     }
   }
 
@@ -72,18 +70,10 @@ export default class HomePage extends BasePage {
     ).toBeVisible();
   }
 
-  areaFilterPills() {
-    return this.page
-      .getByTestId(this.areaFilterContainer)
-      .getByTestId(this.pillContainer);
-  }
-
   async closeAreaFilterPill(index: number) {
     await this.page.waitForLoadState();
 
-    const pills = await this.areaFilterPills()
-      .getByTestId(this.removeIcon)
-      .all();
+    const pills = await this.page.getByTestId(this.removeIcon).all();
 
     await this.clickAndAwaitLoadingComplete(pills[index]);
   }
