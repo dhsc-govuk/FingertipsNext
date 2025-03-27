@@ -106,6 +106,7 @@ test.describe(`Search via`, () => {
           searchMode,
           subjectSearchTerm
         );
+        await resultsPage.checkRecentTrends(areaMode);
 
         await resultsPage.selectAreasFiltersIfRequired(
           searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
