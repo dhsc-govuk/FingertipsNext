@@ -19,7 +19,7 @@ export const CLIENT_STORE_KEY = 'fs-clientstorage-state';
 export class ClientStorage {
   public static updateState<T>(storageKey: ClientStorageKeys, storageValue: T) {
     const oldStore = JSON.parse(
-      localStorage.getItem('store') ?? '{}'
+      localStorage.getItem(CLIENT_STORE_KEY) ?? '{}'
     ) as ClientStorageState;
 
     const updatedStore = {
