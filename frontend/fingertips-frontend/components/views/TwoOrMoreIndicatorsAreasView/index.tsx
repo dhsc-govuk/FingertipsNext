@@ -70,12 +70,18 @@ export default async function TwoOrMoreIndicatorsAreasView({
     })
   );
 
+  const groupAreaCode =
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
+      ? selectedGroupCode
+      : undefined;
+
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
     <TwoOrMoreIndicatorsAreasViewPlots
       indicatorMetadata={selectedIndicatorsData}
       healthData={healthDataForAllIndicators}
+      groupAreaCode={groupAreaCode}
     />
   );
 }

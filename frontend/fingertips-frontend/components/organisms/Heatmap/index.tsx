@@ -18,15 +18,20 @@ export interface HeatmapIndicatorData {
   unitLabel: string;
 }
 
-interface HeatmapProps {
+export interface HeatmapProps {
   indicatorData: HeatmapIndicatorData[];
   groupAreaCode?: string;
 }
 
 const StyledTable = styled(Table)({
-  overflowY: 'scroll',
-  tableLayout: 'fixed',
-  width: 'min-content',
+  overflowX: 'scroll',
+  display: 'block',
+  paddingBottom: '12px',
+});
+
+const BlockDiv = styled.div({
+  width: '630px', // TODO - not sure this should be hardcoded, is it'll break on smaller screens.
+  display: 'block',
 });
 
 export function Heatmap({
@@ -40,34 +45,36 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <StyledTable data-testid="heatmap-component">
-      <Table.Row>
-        {headers.map((header) => {
+    <BlockDiv>
+      <StyledTable data-testid="heatmap-component">
+        <Table.Row>
+          {headers.map((header) => {
+            return (
+              <HeatmapHeader
+                key={header.key}
+                headerType={header.type}
+                content={header.content}
+              />
+            );
+          })}
+        </Table.Row>
+        {rows.map((row) => {
           return (
-            <HeatmapHeader
-              key={header.key}
-              headerType={header.type}
-              content={header.content}
-            />
+            <Table.Row key={row.key}>
+              {row.cells.map((cell) => {
+                return (
+                  <HeatmapCell
+                    key={cell.key}
+                    cellType={cell.type}
+                    content={cell.content}
+                    backgroundColour={cell.backgroundColour}
+                  />
+                );
+              })}
+            </Table.Row>
           );
         })}
-      </Table.Row>
-      {rows.map((row) => {
-        return (
-          <Table.Row key={row.key}>
-            {row.cells.map((cell) => {
-              return (
-                <HeatmapCell
-                  key={cell.key}
-                  cellType={cell.type}
-                  content={cell.content}
-                  backgroundColour={cell.backgroundColour}
-                />
-              );
-            })}
-          </Table.Row>
-        );
-      })}
-    </StyledTable>
+      </StyledTable>
+    </BlockDiv>
   );
 }

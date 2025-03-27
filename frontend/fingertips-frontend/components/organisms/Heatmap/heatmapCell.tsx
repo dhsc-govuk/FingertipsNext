@@ -5,14 +5,12 @@ import {
   CellType,
   heatmapDataColumnWidth,
   heatmapIndicatorTitleColumnWidth,
-  heatmapTitleColumnWidth,
 } from './heatmapUtil';
 import { JSX } from 'react';
 
 const StyledCellText = styled(Table.Cell)({
-  width: heatmapTitleColumnWidth,
   minHeight: '70px',
-  padding: 0,
+  paddingRight: 0,
 });
 
 const StyledCellNumeric = styled(Table.Cell)({
@@ -29,13 +27,22 @@ const StyledCellDataWithBackground = styled(StyledCellNumeric)<{
     props.$backgroundColor ? props.$backgroundColor : GovukColours.White};
 `;
 
-const StyledDivIndicatorCellContent = styled.div({
+const StyledDivDataCellContent = styled.div({
+  minWidth: '60px',
+});
+
+const StyledDivIndicatorTitleCellContent = styled.div({
   textOverflow: 'ellipsis',
   overflow: 'hidden',
   width: heatmapIndicatorTitleColumnWidth,
   display: '-webkit-box',
   WebkitLineClamp: 4,
   WebkitBoxOrient: 'vertical',
+});
+
+const StyledDivIndicatorInformationCellContent = styled.div({
+  minWidth: '40px',
+  paddingRight: '20px',
 });
 
 interface HeatmapCellProps {
@@ -53,17 +60,23 @@ export const HeatmapCell = ({
     case CellType.IndicatorTitle:
       return (
         <Table.Cell>
-          <StyledDivIndicatorCellContent>
+          <StyledDivIndicatorTitleCellContent>
             {content}
-          </StyledDivIndicatorCellContent>
+          </StyledDivIndicatorTitleCellContent>
         </Table.Cell>
       );
     case CellType.IndicatorInformation:
-      return <StyledCellText>{content}</StyledCellText>;
+      return (
+        <StyledCellText>
+          <StyledDivIndicatorInformationCellContent>
+            {content}
+          </StyledDivIndicatorInformationCellContent>
+        </StyledCellText>
+      );
     case CellType.Data:
       return (
         <StyledCellDataWithBackground $backgroundColor={backgroundColour}>
-          {content}
+          <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
         </StyledCellDataWithBackground>
       );
   }

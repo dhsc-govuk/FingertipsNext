@@ -3,7 +3,6 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 export const heatmapIndicatorTitleColumnWidth = '240px';
-export const heatmapTitleColumnWidth = '60px';
 export const heatmapDataColumnWidth = '60px';
 
 export enum HeaderType {
@@ -140,7 +139,8 @@ export const generateRows = (
 };
 
 const formatValue = (value?: number): string => {
-  return value !== undefined ? value.toString() : 'X';
+  return value !== undefined ? value.toFixed(1) : 'X';
+  //return value !== undefined ? value.toString() : 'X';
 };
 
 const generateBackgroundColor = (x: number, y: number): string => {
