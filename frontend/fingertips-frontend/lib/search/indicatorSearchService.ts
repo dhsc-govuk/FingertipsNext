@@ -30,6 +30,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
 
   async searchWith(
     searchTerm: string,
+    isEnglandSelectedAsGroup: boolean,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]> {
     // Search with both full search term and wildcard for now to allow for
@@ -59,7 +60,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       results.push(result.document as RawIndicatorDocument);
     }
 
-    return this.mapper.toEntities(results.slice(0, 20), areaCodes ?? []);
+    return this.mapper.toEntities(results.slice(0, 20), areaCodes ?? [], isEnglandSelectedAsGroup);
   }
 
   async getIndicator(
@@ -77,6 +78,6 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       return undefined;
     }
 
-    return this.mapper.toEntity(rawIndicatorDocument, []);
+    return this.mapper.toEntity(rawIndicatorDocument, [], false);
   }
 }

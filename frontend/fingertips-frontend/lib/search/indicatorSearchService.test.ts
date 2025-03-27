@@ -63,7 +63,7 @@ describe('IndicatorSearchService', () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      await searchService.searchWith(searchTerm);
+      await searchService.searchWith(searchTerm, false);
 
       expect(SearchClient).toHaveBeenCalledWith(
         'test-url',
@@ -84,7 +84,7 @@ describe('IndicatorSearchService', () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      await searchService.searchWith(searchTerm, ['Area1']);
+      await searchService.searchWith(searchTerm, false, ['Area1']);
 
       expect(SearchClient).toHaveBeenCalledWith(
         'test-url',
@@ -106,7 +106,7 @@ describe('IndicatorSearchService', () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      await searchService.searchWith(searchTerm, ['Area1', 'Area2', 'Area3']);
+      await searchService.searchWith(searchTerm, false, ['Area1', 'Area2', 'Area3']);
 
       expect(SearchClient).toHaveBeenCalledWith(
         'test-url',
@@ -129,7 +129,7 @@ describe('IndicatorSearchService', () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      await searchService.searchWith(searchTerm, []);
+      await searchService.searchWith(searchTerm, false, []);
 
       expect(SearchClient).toHaveBeenCalledWith(
         'test-url',
@@ -182,7 +182,7 @@ describe('IndicatorSearchService', () => {
       mockSearch.mockResolvedValue(mockSearchResults);
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      const results = await searchService.searchWith('Test Indicator');
+      const results = await searchService.searchWith('Test Indicator', false);
 
       expect(results).toEqual([
         {
@@ -235,7 +235,7 @@ describe('IndicatorSearchService', () => {
       mockSearch.mockResolvedValue(mockSearchResults);
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      const results = await searchService.searchWith('Test Indicator');
+      const results = await searchService.searchWith('Test Indicator', false);
 
       expect(results).toHaveLength(20);
     });

@@ -8,12 +8,12 @@ import {
   RawIndicatorDocument,
 } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
-import mockIndicatorData from '../../assets/mockIndicatorData.json';
+import mockIndicatorData from '../../assets/mockIndicatorsData.json';
 import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 import { logUsingMockAiSearchService } from '@/lib/logging';
 
-if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE')) {
+if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') == 'true') {
   logUsingMockAiSearchService('SearchServiceFactory');
 }
 

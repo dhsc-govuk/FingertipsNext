@@ -99,7 +99,7 @@ describe('IndicatorSearchServiceMock', () => {
       const mockResult = mockMappedData[0];
       mockResult.trend = undefined;
 
-      expect(await indicatorSearchMock.searchWith('faced')).toEqual([
+      expect(await indicatorSearchMock.searchWith('faced', false)).toEqual([
         mockResult,
       ]);
     });
@@ -108,13 +108,13 @@ describe('IndicatorSearchServiceMock', () => {
       const mockResult = mockMappedData[1];
       mockResult.trend = undefined;
 
-      expect(await indicatorSearchMock.searchWith('justice')).toEqual([
+      expect(await indicatorSearchMock.searchWith('justice', false)).toEqual([
         mockResult,
       ]);
     });
 
     it('should filter out any not in Area1', async () => {
-      expect(await indicatorSearchMock.searchWith('Red', ['Area1'])).toEqual(
+      expect(await indicatorSearchMock.searchWith('Red', false, ['Area1'])).toEqual(
         mockMappedData
       );
     });
@@ -124,14 +124,14 @@ describe('IndicatorSearchServiceMock', () => {
       // This is the trend for this indicator in Area2
       mockResult.trend = 'No significant change';
 
-      expect(await indicatorSearchMock.searchWith('Red', ['Area2'])).toEqual([
+      expect(await indicatorSearchMock.searchWith('Red', false, ['Area2'])).toEqual([
         mockResult,
       ]);
     });
 
     it('should filter all out if unknown area', async () => {
       expect(
-        await indicatorSearchMock.searchWith('justice', ['Leamington Spa'])
+        await indicatorSearchMock.searchWith('justice', false, ['Leamington Spa'])
       ).toHaveLength(0);
     });
 
@@ -139,7 +139,7 @@ describe('IndicatorSearchServiceMock', () => {
       const mockResult = mockMappedData[1];
       mockResult.trend = undefined;
 
-      expect(await indicatorSearchMock.searchWith('Justice')).toEqual([
+      expect(await indicatorSearchMock.searchWith('Justice', false)).toEqual([
         mockResult,
       ]);
     });
@@ -149,7 +149,7 @@ describe('IndicatorSearchServiceMock', () => {
       mockResult.trend = undefined;
 
       expect(
-        await indicatorSearchMock.searchWith('justice', ['area2'])
+        await indicatorSearchMock.searchWith('justice', false, ['area2'])
       ).toEqual([mockResult]);
     });
   });

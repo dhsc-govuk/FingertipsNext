@@ -18,9 +18,12 @@ import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { TrendTag } from '../TrendTag';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 type SearchResultProps = {
   result: IndicatorDocument;
+  showTrends: boolean;
   indicatorSelected?: boolean;
   handleClick: (indicatorId: string, checked: boolean) => void;
   currentDate?: Date;
@@ -46,7 +49,7 @@ const PrimaryRow = styled(GridRow)(
       { size: 3, direction: 'top' },
       { size: 0, direction: 'bottom' },
     ],
-  })
+  }),
 );
 
 const TagRow = styled(GridRow)(
@@ -68,8 +71,16 @@ const GreyTag = styled(Tag)({
   backgroundColor: TagColours.GreyBackground,
 });
 
+const IndicatorAndTrendContainer = styled.span({
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  display: 'flex',
+  justifyContent: 'space-between'
+});
+
 export function SearchResult({
   result,
+  showTrends,
   indicatorSelected,
   handleClick,
   currentDate = new Date(),
@@ -119,14 +130,22 @@ export function SearchResult({
               handleClick(result.indicatorID.toString(), e.target.checked);
             }}
           >
-            <H5>
-              <Link
-                onClick={() => setIsLoading(true)}
-                href={generateIndicatorChartPath(result.indicatorID.toString())}
-              >
-                {result.indicatorName}
-              </Link>
-            </H5>
+            <IndicatorAndTrendContainer>
+              <H5>
+                <Link
+                  onClick={() => setIsLoading(true)}
+                  href={generateIndicatorChartPath(result.indicatorID.toString())}
+                >
+                  {result.indicatorName}
+                </Link>
+              </H5>
+              { showTrends ? 
+                <TrendTag 
+                  trendFromResponse={result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated}
+                />
+                : null 
+              }
+            </IndicatorAndTrendContainer>
             <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
             <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
             <TagRow>
