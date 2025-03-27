@@ -7,7 +7,7 @@ import {
   sortHealthDataByYearDescending,
   sortHealthDataForAreasByDate,
   sortHealthDataPointsByDescendingYear,
-  getHealthDataForAreasForMostRecentYearOnly,
+  getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -918,13 +918,13 @@ describe('getGetDataForAreasForMostRecentYearOnly', () => {
     },
   ];
   it('should return healthdata for all areas, only for the most reccent year', () => {
-    const actual = getHealthDataForAreasForMostRecentYearOnly(
+    const actual = getIndicatorDataForAreasForMostRecentYearOnly(
       mockHealthDataWithMissingMostRecentYearForOneArea
     );
     expect(actual).toEqual(expected);
   });
   it('should return APPROPRIATELY for areas which dont have data for the most recent year', () => {
-    const actual = getHealthDataForAreasForMostRecentYearOnly(
+    const actual = getIndicatorDataForAreasForMostRecentYearOnly(
       mockHealthDataWithMissingMostRecentYearForOneArea
     );
     expect(actual).toEqual(expected);

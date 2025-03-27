@@ -114,41 +114,45 @@ export function generateConfidenceIntervalSeries(
   };
 }
 
-export const getLatestYear = (
+export function getMostRecentYearForArea(
   points: HealthDataPoint[] | undefined
-): number | undefined => {
+): number | undefined {
   if (!points || points.length < 1) return undefined;
 
   const year = points.reduce((previous, point) => {
     return Math.max(previous, point.year);
   }, points[0].year);
   return year;
-};
+}
 
-export function getHealthDataForAreasForMostRecentYearOnly(
+function getMostRecentYearForAreas(
   healthDataForAreas: HealthDataForArea[]
-) {
-  const mostRecentYear = healthDataForAreas.reduce((previous, area) => {
-    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
+): number {
+  return healthDataForAreas.reduce((previous, area) => {
+    return Math.max(previous, getMostRecentYearForArea(area?.healthData) ?? 0);
   }, healthDataForAreas[0].healthData[0].year);
+}
 
-  const healthDataForAreasForMostRecentYear = healthDataForAreas.map(
-    (healthDataForArea) => {
-      const dataPointForMostRecentYear = healthDataForArea.healthData.find(
-        (healthDataPoint) => {
-          return healthDataPoint.year === mostRecentYear;
-        }
-      );
-      if (dataPointForMostRecentYear) {
-        return {
+function getIndicatorDataForYear(
+  healthDataForAreas: HealthDataForArea[],
+  year: number
+): HealthDataForArea[] {
+  return healthDataForAreas.map((healthDataForArea) => {
+    const dataPointForMostRecentYear = healthDataForArea.healthData.find(
+      (healthDataPoint) => healthDataPoint.year === year
+    );
+    return dataPointForMostRecentYear
+      ? {
           ...healthDataForArea,
           healthData: [{ ...dataPointForMostRecentYear }],
-        };
-      } else {
-        return { ...healthDataForArea, healthData: [] };
-      }
-    }
-  );
+        }
+      : { ...healthDataForArea, healthData: [] };
+  });
+}
 
-  return healthDataForAreasForMostRecentYear;
+export function getIndicatorDataForAreasForMostRecentYearOnly(
+  healthDataForAreas: HealthDataForArea[]
+): HealthDataForArea[] {
+  const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  return getIndicatorDataForYear(healthDataForAreas, mostRecentYearForAreas);
 }
