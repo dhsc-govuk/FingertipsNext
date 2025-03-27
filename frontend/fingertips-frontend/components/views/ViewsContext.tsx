@@ -1,14 +1,11 @@
-import OneIndicatorOneAreaView from './OneIndicatorOneAreaView';
 import {
   SearchParams,
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
-import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
+
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
-import { JSX } from 'react';
+
 import { AreaFilterData } from '../molecules/SelectAreasFilterPanel';
 import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -22,50 +19,6 @@ export type ViewProps = {
   selectedAreasData?: AreaWithRelations[];
   selectedIndicatorsData?: IndicatorDocument[];
 };
-
-function viewSelector(
-  areaCodes: string[],
-  indicators: string[],
-  searchState: SearchStateParams,
-  selectedIndicatorsData?: IndicatorDocument[]
-): JSX.Element {
-  const updatedSearchState = {
-    ...searchState,
-    [SearchParams.AreasSelected]: areaCodes,
-  };
-
-  if (indicators.length === 1 && areaCodes.length === 1) {
-    return (
-      <OneIndicatorOneAreaView
-        selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
-      />
-    );
-  }
-
-  if (indicators.length === 1 && areaCodes.length >= 2) {
-    return (
-      <OneIndicatorTwoOrMoreAreasView
-        selectedIndicatorsData={selectedIndicatorsData}
-        searchState={updatedSearchState}
-      />
-    );
-  }
-
-  if (
-    indicators.length >= 2 &&
-    areaCodes.length === 1 &&
-    areaCodes[0] === areaCodeForEngland
-  ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
-  }
-
-  if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return <TwoOrMoreIndicatorsAreasView searchState={updatedSearchState} />;
-  }
-
-  throw new Error('Parameters do not match any known view');
-}
 
 const determineAreaCodes = (
   groupAreaSelected?: string,
