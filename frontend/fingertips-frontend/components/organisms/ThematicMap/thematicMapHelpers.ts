@@ -188,7 +188,6 @@ export function createThematicMapChartOptions(
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity
 ): Highcharts.Options {
-  console.log(mapMetaDataEncoder[groupType]?.joinKey);
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
