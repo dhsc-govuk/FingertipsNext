@@ -173,7 +173,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         />
       );
 
-      await assertLineChartAndTableNotInDocument();
+      await waitFor(() => assertLineChartAndTableNotInDocument());
     });
   });
 
