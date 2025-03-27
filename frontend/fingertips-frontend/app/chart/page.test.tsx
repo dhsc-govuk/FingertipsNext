@@ -2,10 +2,8 @@
  * @jest-environment node
  */
 
-import { indicatorIdForPopulation } from '@/lib/chartHelpers/constants';
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { mockDeep } from 'jest-mock-extended';
 import {
   API_CACHE_CONFIG,
@@ -33,7 +31,6 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-jest.mock('@/components/pages/chart');
 jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
   getMapData: jest.fn(),
 }));
@@ -51,12 +48,6 @@ ApiClientFactory.getAreasApiClient = () => mockAreasApi;
 const mockIndicatorSearchService = mockDeep<IIndicatorSearchService>();
 SearchServiceFactory.getIndicatorSearchService = () =>
   mockIndicatorSearchService;
-
-const searchParams: SearchStateParams = {
-  [SearchParams.SearchedIndicator]: 'testing',
-  [SearchParams.IndicatorsSelected]: ['1'],
-  [SearchParams.AreasSelected]: ['A001'],
-};
 
 async function generateSearchParams(value: SearchStateParams) {
   return value;
