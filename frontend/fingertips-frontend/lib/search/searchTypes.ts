@@ -55,7 +55,7 @@ export interface IIndicatorSearchService {
   searchWith(
     searchTerm: string,
     isEnglandSelectedAsGroup: boolean,
-    areaCodes?: string[],
+    areaCodes?: string[]
   ): Promise<IndicatorDocument[]>;
   getIndicator(indicatorId: string): Promise<IndicatorDocument | undefined>;
 }
