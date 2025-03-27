@@ -11,7 +11,7 @@ interface ViewsSelectorProps {
   areaCodes: string[];
   indicators: string[];
   searchState: SearchStateParams;
-  selectedIndicatorsData: IndicatorDocument[];
+  selectedIndicatorsData?: IndicatorDocument[];
 }
 
 export const ViewsSelector = ({

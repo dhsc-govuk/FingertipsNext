@@ -18,6 +18,11 @@ const mockHealthDataPoint = [
     ageBand: '0-4',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
+    deprivation: {
+      sequence: 1,
+      value: 'string;',
+      type: '',
+    },
   },
   {
     year: 2023,
@@ -28,6 +33,11 @@ const mockHealthDataPoint = [
     ageBand: '5-9',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
+    deprivation: {
+      sequence: 1,
+      value: 'string;',
+      type: '',
+    },
   },
 ];
 
