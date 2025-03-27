@@ -50,9 +50,22 @@ export function SparklineChart({
     polarity
   );
   const [options, setOptions] = useState<Highcharts.Options>();
+  console.log(benchmarkComparisonMethod)
+  console.log(benchmarkOutcome)
+  console.log(polarity)
 
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
     let category = '';
+    let benchmarkLabel = ''
+    
+    
+    if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+      benchmarkLabel = 'to England'
+    } else if (benchmarkOutcome === BenchmarkOutcome.NotCompared) {
+      benchmarkLabel = 'Not Compared'
+    } else {
+      benchmarkLabel = 'than England'
+    }
 
     if (label === SparklineLabelEnum.Benchmark) {
       category = 'Benchmark: ';
@@ -62,7 +75,7 @@ export function SparklineChart({
     }
 
     return [
-      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value} ${measurementUnit}`,
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value}${measurementUnit}<br/><span>${benchmarkOutcome} ${benchmarkLabel}`,
     ];
   };
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
