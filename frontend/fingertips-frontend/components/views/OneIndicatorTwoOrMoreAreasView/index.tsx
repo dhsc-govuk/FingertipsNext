@@ -7,7 +7,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeKeysForMapMeta,
   getMapData,
@@ -47,22 +47,22 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  let healthIndicatorData: HealthDataForArea[] | undefined;
+  let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
-    healthIndicatorData = (
-      await Promise.all(
-        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
-          (requestAreas) =>
-            indicatorApi.getHealthDataForAnIndicator(
-              {
-                indicatorId: Number(indicatorSelected[0]),
-                areaCodes: [...requestAreas],
-              },
-              API_CACHE_CONFIG
-            )
-        )
+    const healthIndicatorDataChunks = await Promise.all(
+      chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+        (requestAreas) =>
+          indicatorApi.getHealthDataForAnIndicator(
+            {
+              indicatorId: Number(indicatorSelected[0]),
+              areaCodes: [...requestAreas],
+            },
+            API_CACHE_CONFIG
+          )
       )
-    )
+    );
+    indicatorData = healthIndicatorDataChunks[0];
+    indicatorData.areaHealthData = healthIndicatorDataChunks
       .map((indicatorData) => indicatorData?.areaHealthData ?? [])
       .flat();
   } catch (error) {
@@ -79,7 +79,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   return (
     <OneIndicatorTwoOrMoreAreasViewPlots
-      healthIndicatorData={healthIndicatorData}
+      indicatorData={indicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
       mapData={mapData}

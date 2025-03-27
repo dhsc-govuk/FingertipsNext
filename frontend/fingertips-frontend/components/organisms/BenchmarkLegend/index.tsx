@@ -2,7 +2,12 @@
 
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import styled from 'styled-components';
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 const LegendContainer = styled.div({
   marginBottom: '2em',
@@ -28,14 +33,38 @@ const StyledLegendLabel = styled('span')({
 export interface BenchmarkData {
   key: string;
   title?: string;
-  types: Record<string, string[]>;
+  method: BenchmarkComparisonMethod;
+  outcomes: BenchmarkOutcome[];
   suffix?: string;
+  polarity?: IndicatorPolarity;
 }
 
 interface BenchmarkLegendProps {
   rag?: boolean;
   quintiles?: boolean;
 }
+
+const ragOutcomes = [
+  BenchmarkOutcome.Better,
+  BenchmarkOutcome.Similar,
+  BenchmarkOutcome.Worse,
+  BenchmarkOutcome.NotCompared,
+];
+const bobOutcomes = [BenchmarkOutcome.Lower, BenchmarkOutcome.Higher];
+const quintilesOutcomes = [
+  BenchmarkOutcome.Lowest,
+  BenchmarkOutcome.Low,
+  BenchmarkOutcome.Middle,
+  BenchmarkOutcome.High,
+  BenchmarkOutcome.Highest,
+];
+const quintilesOutcomesWithJudgement = [
+  BenchmarkOutcome.Worst,
+  BenchmarkOutcome.Worse,
+  BenchmarkOutcome.Middle,
+  BenchmarkOutcome.Better,
+  BenchmarkOutcome.Best,
+];
 
 export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   rag,
@@ -46,18 +75,14 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
     model.push({
       key: 'rag',
       title: 'Compared to England',
-      types: {
-        rag: ['Better', 'Similar', 'Worse', 'not_compared'],
-        bob: ['Lower', 'Higher'],
-      },
+      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      outcomes: [...ragOutcomes, ...bobOutcomes],
       suffix: '(95% confidence)',
     });
     model.push({
       key: 'rag_99',
-      types: {
-        rag_99: ['Better', 'Similar', 'Worse', 'not_compared'],
-        bob_99: ['Lower', 'Higher'],
-      },
+      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+      outcomes: [...ragOutcomes, ...bobOutcomes],
       suffix: '(99.8% confidence)',
     });
   }
@@ -65,20 +90,15 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   if (quintiles) {
     model.push({
       key: 'quintiles',
+      method: BenchmarkComparisonMethod.Quintiles,
       title: ' Quintiles',
-      types: { quintiles: ['Lowest', 'Low', 'Middle', 'High', 'Highest'] },
+      outcomes: quintilesOutcomes,
+      polarity: IndicatorPolarity.NoJudgement,
     });
     model.push({
       key: 'quintiles_with_judgement',
-      types: {
-        quintiles_with_judgement: [
-          'Worst',
-          'Worse',
-          'Middle',
-          'Better',
-          'Best',
-        ],
-      },
+      method: BenchmarkComparisonMethod.Quintiles,
+      outcomes: quintilesOutcomesWithJudgement,
     });
   }
 
@@ -92,17 +112,15 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
             </DefaultBenchmarkLegendHeaderStyle>
           ) : null}
           <div>
-            {Object.keys(item.types).map((group) => (
-              <Fragment key={group}>
-                {Object.values(item.types[group]).map((type) => (
-                  <BenchmarkLabel
-                    group={group}
-                    type={type}
-                    key={group + '_' + type + '_' + index}
-                  />
-                ))}
-              </Fragment>
+            {item.outcomes.map((outcome) => (
+              <BenchmarkLabel
+                key={item.method + '_' + outcome + '_' + index}
+                method={item.method}
+                outcome={outcome}
+                polarity={item.polarity}
+              />
             ))}
+
             {item.suffix ? (
               <StyledLegendLabel>{item.suffix}</StyledLegendLabel>
             ) : null}

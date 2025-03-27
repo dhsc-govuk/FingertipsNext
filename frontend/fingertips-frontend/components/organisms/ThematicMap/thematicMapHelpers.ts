@@ -107,13 +107,13 @@ export const benchmarkColourScale = [
   {
     to: 10,
     name: 'No Compared',
-    color: GovukColours.White,
+    color: GovukColours.White, // function won't return white
   },
   {
     from: 10,
     to: 20,
     name: 'Better',
-    color: GovukColours.Green,
+    color: GovukColours.Green, //getBenchmarkColour()
   },
   {
     from: 20,
