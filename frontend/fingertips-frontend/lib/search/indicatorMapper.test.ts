@@ -53,7 +53,7 @@ describe('indicatorMapper tests', () => {
         },
       ];
 
-      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area1']);
+      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area1'], true);
 
       expect(result).toEqual([
         {
@@ -115,7 +115,7 @@ describe('indicatorMapper tests', () => {
       const result = indicatorMapper.toEntities(mockRawIndicators, [
         'Area1',
         'Area2',
-      ]);
+      ], true);
 
       expect(result).toEqual([
         {
@@ -160,7 +160,7 @@ describe('indicatorMapper tests', () => {
         },
       ];
 
-      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area2']);
+      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area2'], false);
 
       expect(result).toEqual([
         {
@@ -173,6 +173,58 @@ describe('indicatorMapper tests', () => {
           dataSource: 'The Beano',
           lastUpdatedDate: new Date('December 6, 2024'),
           trend: undefined,
+          unitLabel: '',
+          hasInequalities: false,
+        },
+      ]);
+    });
+
+    // DHSCFT-198 - AC1 - if no area specified but England chosen as group, then return the trend for England
+    it('retrieves the trend for England when no area has been specificed but England chosen as group', () => {
+      const mockRawIndicators = [
+        {
+          indicatorID: '1',
+          indicatorName: 'Red faced',
+          indicatorDefinition:
+            'Count of people who did something they are embarrassed by',
+          earliestDataPeriod: '1938',
+          latestDataPeriod: '2023',
+          dataSource: 'The Beano',
+          lastUpdatedDate: new Date('December 6, 2024'),
+          associatedAreaCodes: ['Area1', 'Area2', 'E92000001'],
+          trendsByArea: [
+            {
+              areaCode: 'Area1',
+              trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
+            },
+            {
+              areaCode: 'Area2',
+              trend: HealthDataPointTrendEnum.NoSignificantChange,
+            },
+            {
+              areaCode: 'E92000001',
+              trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
+            },
+          ],
+          unitLabel: '',
+          hasInequalities: false,
+          usedInPoc: true,
+        },
+      ];
+
+      const result = indicatorMapper.toEntities(mockRawIndicators, [], true);
+
+      expect(result).toEqual([
+        {
+          indicatorID: '1',
+          indicatorName: 'Red faced',
+          indicatorDefinition:
+            'Count of people who did something they are embarrassed by',
+          earliestDataPeriod: '1938',
+          latestDataPeriod: '2023',
+          dataSource: 'The Beano',
+          lastUpdatedDate: new Date('December 6, 2024'),
+          trend: 'Decreasing and getting better',
           unitLabel: '',
           hasInequalities: false,
         },

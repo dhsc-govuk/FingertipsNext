@@ -13,6 +13,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export default async function Page(
   props: Readonly<{
@@ -27,6 +28,7 @@ export default async function Page(
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
+    [SearchParams.GroupSelected]: groupSelected
   } = stateManager.getSearchState();
   try {
     await connection();
@@ -52,6 +54,7 @@ export default async function Page(
       stateManager.getSearchState(),
       selectedAreasData
     );
+    const isEnglandSelectedAsGroup = groupSelected === areaCodeForEngland;
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
@@ -60,6 +63,7 @@ export default async function Page(
     const searchResults =
       await SearchServiceFactory.getIndicatorSearchService().searchWith(
         searchedIndicator ?? '',
+        isEnglandSelectedAsGroup,
         areasSelected
       );
 
@@ -80,6 +84,7 @@ export default async function Page(
           availableGroups,
           availableAreas,
         }}
+        isEnglandSelectedAsGroup={isEnglandSelectedAsGroup}
         selectedAreasData={selectedAreasData}
         searchState={stateManager.getSearchState()}
         currentDate={new Date()}

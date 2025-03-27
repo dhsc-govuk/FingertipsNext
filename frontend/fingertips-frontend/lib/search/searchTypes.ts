@@ -54,7 +54,8 @@ export type AreaDocument = {
 export interface IIndicatorSearchService {
   searchWith(
     searchTerm: string,
-    areaCodes?: string[]
+    isEnglandSelectedAsGroup: boolean,
+    areaCodes?: string[],
   ): Promise<IndicatorDocument[]>;
   getIndicator(indicatorId: string): Promise<IndicatorDocument | undefined>;
 }

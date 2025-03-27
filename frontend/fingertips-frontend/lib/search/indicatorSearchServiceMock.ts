@@ -16,6 +16,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
 
   public async searchWith(
     searchText: string,
+    isEnglandSelectedAsGroup: boolean,
     areaCodes: string[]
   ): Promise<IndicatorDocument[]> {
     const searchResults = this.mockIndicatorData
@@ -46,7 +47,7 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       })
       .slice(0, 20);
 
-    return this.mapper.toEntities(searchResults, areaCodes ?? []);
+    return this.mapper.toEntities(searchResults, areaCodes ?? [], isEnglandSelectedAsGroup);
   }
 
   public async getIndicator(
