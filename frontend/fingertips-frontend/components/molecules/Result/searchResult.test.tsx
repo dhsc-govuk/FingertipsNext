@@ -18,6 +18,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
+    trend: 'Increasing and getting worse',
     hasInequalities: false,
     unitLabel: '',
   },
@@ -65,6 +66,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -77,6 +79,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -90,6 +93,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -109,6 +113,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -125,11 +130,40 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
 
     expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+  });
+
+  describe('trend tag tests', () => {
+    it('should display trend tags if showTrends is passed in as props', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[0]}
+          searchState={initialSearchState}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(
+        screen.queryByText('Increasing and getting worse')
+      ).toBeInTheDocument();
+    });
+
+    it('should display No trend data available when trend is undefined for a given indicator', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[1]}
+          searchState={initialSearchState}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(screen.queryByText('No trend data available')).toBeInTheDocument();
+    });
   });
 
   it('should display tag if inequalities data present for indicator', () => {
@@ -139,6 +173,7 @@ describe('content', () => {
         result={MOCK_DATA[1]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -152,6 +187,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -169,6 +205,7 @@ describe('content', () => {
         result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -192,6 +229,7 @@ describe('content', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -208,6 +246,7 @@ describe('content', () => {
         result={MOCK_DATA[1]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -225,6 +264,7 @@ describe('Indicator Checkbox', () => {
         indicatorSelected={true}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -238,6 +278,7 @@ describe('Indicator Checkbox', () => {
         indicatorSelected={false}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -251,6 +292,7 @@ describe('Indicator Checkbox', () => {
         indicatorSelected={false}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -266,6 +308,7 @@ describe('Indicator Checkbox', () => {
         indicatorSelected={true}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -281,6 +324,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -299,6 +343,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         searchState={searchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -311,6 +356,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         searchState={initialSearchState}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 

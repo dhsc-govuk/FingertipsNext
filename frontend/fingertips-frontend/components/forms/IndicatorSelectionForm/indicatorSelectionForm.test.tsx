@@ -67,6 +67,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -89,6 +90,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={[]}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -103,6 +105,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={[]}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -115,6 +118,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -130,11 +134,30 @@ describe('IndicatorSelectionForm', () => {
           ...state,
           [SearchParams.IndicatorsSelected]: ['1'],
         }}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
 
     expect(screen.getByRole('button', { name: /View data/i })).toBeEnabled();
+  });
+
+  it('should render the recent trend text if the showTrends prop is passed', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        searchState={{
+          ...state,
+          [SearchParams.IndicatorsSelected]: ['1'],
+        }}
+        showTrends={true}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(
+      screen.getByText('Recent trend for selected area')
+    ).toBeInTheDocument();
   });
 
   it('should mark indicators selected as checked', () => {
@@ -147,6 +170,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={stateWithIndicatorSelected}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -164,6 +188,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -181,6 +206,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -205,6 +231,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={stateWithIndicatorSelected}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -227,6 +254,7 @@ describe('IndicatorSelectionForm', () => {
           ...state,
           [SearchParams.IndicatorsSelected]: ['1'],
         }}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -241,6 +269,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -258,6 +287,7 @@ describe('IndicatorSelectionForm', () => {
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
         searchState={state}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -280,6 +310,7 @@ describe('IndicatorSelectionForm', () => {
             (item) => item.indicatorID
           ),
         }}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -302,6 +333,7 @@ describe('IndicatorSelectionForm', () => {
             (item) => item.indicatorID
           ),
         }}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );

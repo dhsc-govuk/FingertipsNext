@@ -53,7 +53,11 @@ describe('indicatorMapper tests', () => {
         },
       ];
 
-      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area1'], true);
+      const result = indicatorMapper.toEntities(
+        mockRawIndicators,
+        ['Area1'],
+        true
+      );
 
       expect(result).toEqual([
         {
@@ -112,10 +116,11 @@ describe('indicatorMapper tests', () => {
         },
       ];
 
-      const result = indicatorMapper.toEntities(mockRawIndicators, [
-        'Area1',
-        'Area2',
-      ], true);
+      const result = indicatorMapper.toEntities(
+        mockRawIndicators,
+        ['Area1', 'Area2'],
+        true
+      );
 
       expect(result).toEqual([
         {
@@ -160,7 +165,11 @@ describe('indicatorMapper tests', () => {
         },
       ];
 
-      const result = indicatorMapper.toEntities(mockRawIndicators, ['Area2'], false);
+      const result = indicatorMapper.toEntities(
+        mockRawIndicators,
+        ['Area2'],
+        false
+      );
 
       expect(result).toEqual([
         {

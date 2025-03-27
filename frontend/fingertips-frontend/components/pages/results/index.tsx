@@ -108,7 +108,10 @@ export function SearchResults({
               key={JSON.stringify(searchState)}
               searchResults={searchResults}
               searchState={searchState}
-              showTrends={selectedAreasData?.length === 1 || (selectedAreasData?.length === 0 && isEnglandSelectedAsGroup)}
+              showTrends={
+                selectedAreasData?.length === 1 ||
+                (selectedAreasData?.length === 0 && isEnglandSelectedAsGroup)
+              }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
             />
