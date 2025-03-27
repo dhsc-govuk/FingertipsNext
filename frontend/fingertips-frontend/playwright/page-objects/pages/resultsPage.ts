@@ -1,6 +1,7 @@
 import { SearchParams } from '@/lib/searchStateManager';
 import { expect } from '../pageFactory';
 import {
+  AreaMode,
   IndicatorMode,
   returnIndicatorIDsByIndicatorMode,
 } from '@/playwright/testHelpers';
