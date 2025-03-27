@@ -202,17 +202,4 @@ describe('Search Results Suite', () => {
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
   });
-
-  it('should it do this', () => {
-    render(
-      <SearchResults
-        isEnglandSelectedAsGroup={true}
-        initialIndicatorSelectionState={initialState}
-        searchResults={[]}
-        searchState={state}
-      />
-    );
-
-    screen.debug();
-  });
 });
