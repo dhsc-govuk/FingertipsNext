@@ -171,6 +171,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
       value: firstDataPoint.value,
+      year: firstDataPoint.year,
       benchmarkComparisonOutcome: firstDataPoint.benchmarkComparison?.outcome,
       benchmarkColourCode:
         mapBenchmarkToColourRef[
@@ -189,6 +190,7 @@ export function createThematicMapChartOptions(
   polarity: IndicatorPolarity
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
+  const benchmarkArea = 'England'; // TODO: do we have this const elsewhere?
   const options: Highcharts.Options = {
     chart: {
       height: 800,
@@ -246,10 +248,19 @@ export function createThematicMapChartOptions(
         },
         tooltip: {
           headerFormat:
-            '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
-          pointFormat:
-            `<br /><span>benchmark method: ${benchmarkComparisonMethod}</span>` +
-            '<br /><span>benchmark outcome: {point.benchmarkComparisonOutcome}</span>',
+            '<span style="font-size: large; font-weight: bold">{point.areaName}</span>' +
+            ' <span style="font-size: large; font-weight: bold">{point.year}</span><br />',
+          pointFormatter: function (this: Highcharts.Point) {
+            return (
+              `<br /><span>benchmark method: ${benchmarkComparisonMethod}</span>` +
+              `<br /><span>${this.value} units</span>` +
+              `<br /><span style="color: ${getBenchmarkColour(
+                benchmarkComparisonMethod,
+                this.benchmarkComparisonOutcome,
+                polarity
+              )}; font-size: large;">\u25CF</span> <span>${this.benchmarkComparisonOutcome} than ${benchmarkArea}</span>`
+            );
+          },
         },
       },
     ],
