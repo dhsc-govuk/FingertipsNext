@@ -11,7 +11,7 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -25,7 +25,7 @@ const StyledParagraphDataSource = styled(Paragraph)(
 );
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
-  mapData?: MapData;
+  mapData?: MapGeographyData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({

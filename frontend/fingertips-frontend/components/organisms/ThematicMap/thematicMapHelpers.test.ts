@@ -10,7 +10,7 @@ import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
   getMapData,
-  MapData,
+  MapGeographyData,
   prepareThematicMapSeriesData,
 } from './thematicMapHelpers';
 import {
@@ -23,7 +23,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
 
-const mockMapData: MapData = {
+const mockMapData: MapGeographyData = {
   mapJoinKey: 'RGN23CD',
   mapFile: regionsMap,
   mapGroupBoundary: mockMapGroupBoundaries.regions,
@@ -188,21 +188,21 @@ describe('prepareThematicMapSeriesData', () => {
     {
       areaCode: 'E92000001',
       areaName: 'England',
-      benchmarkComparison: 'Higher',
+      benchmarkComparisonOutcome: 'Higher',
       benchmarkColourCode: 55,
       value: 800.232,
     },
     {
       areaCode: 'E12000001',
       areaName: 'North East region (statistical)',
-      benchmarkComparison: 'NotCompared',
+      benchmarkComparisonOutcome: 'NotCompared',
       benchmarkColourCode: 5,
       value: 767.343,
     },
     {
       areaCode: 'E12000003',
       areaName: 'Yorkshire and the Humber region (statistical)',
-      benchmarkComparison: 'Worse',
+      benchmarkComparisonOutcome: 'Worse',
       benchmarkColourCode: 35,
       value: 643.434,
     },

@@ -6,13 +6,13 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/Heal
 import { useEffect, useState } from 'react';
 import {
   createThematicMapChartOptions,
-  MapData,
+  MapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { BenchmarkLegend } from '../BenchmarkLegend';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
-  mapData: MapData;
+  mapData: MapGeographyData;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -44,7 +44,7 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      <BenchmarkLegend rag={true} />
+      <BenchmarkLegend rag />
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',

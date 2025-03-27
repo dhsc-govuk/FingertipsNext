@@ -14,13 +14,15 @@ import {
   BenchmarkOutcome,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { getHealthDataForAreasForMostRecentYearOnly } from '@/lib/chartHelpers/chartHelpers';
+import {
+  getBenchmarkColour,
+  getHealthDataForAreasForMostRecentYearOnly,
+} from '@/lib/chartHelpers/chartHelpers';
 
-export type MapData = {
+export type MapGeographyData = {
   mapJoinKey: string;
   mapFile: GeoJSON;
   mapGroupBoundary: GeoJSON;
-  mapSource?: string;
 };
 
 export type AreaTypeKeysForMapMeta = Extract<
@@ -36,15 +38,13 @@ export type AreaTypeKeysForMapMeta = Extract<
 interface MapMetaData {
   joinKey: string;
   mapFile: GeoJSON;
-  mapSource?: string;
 }
 
 const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
-  'regions': { joinKey: 'RGN23CD', mapFile: regionsMap, mapSource: 'ONS' },
+  'regions': { joinKey: 'RGN23CD', mapFile: regionsMap },
   'combined-authorities': {
     joinKey: 'CAUTH23CD',
     mapFile: combinedAuthoritiesMap,
-    mapSource: '<a href=#>ONS<a />',
   },
   'counties-and-unitary-authorities': {
     joinKey: 'CTYUA23CD',
@@ -53,10 +53,6 @@ const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   'districts-and-unitary-authorities': {
     joinKey: 'LAD24CD',
     mapFile: districtsAndUAsMap,
-    mapSource:
-      '<span><a href="https://geoportal.statistics.gov.uk/maps/b67464d872004bfd91dc1b6211efefd1" target="_blank">ONS: Local Authority Districts May 2024 Boundaries UK BSC</a></span>' +
-      '<br /><span>Office for National Statistics licensed under the Open Government Licence v.3.0</span>' +
-      '<br /><span>Contains OS data © Crown copyright and database right 2025</span>',
   },
   'nhs-regions': { joinKey: 'NHSER24CD', mapFile: NHSRegionsMap },
   'nhs-integrated-care-boards': { joinKey: 'ICB23CD', mapFile: NHSICBMap },
@@ -69,10 +65,9 @@ const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
 export function getMapData(
   areaType: AreaTypeKeysForMapMeta,
   areaCodes: string[]
-): MapData {
+): MapGeographyData {
   const mapJoinKey = mapMetaDataEncoder[areaType]?.joinKey;
   const mapFile = mapMetaDataEncoder[areaType]?.mapFile;
-  const mapSource = mapMetaDataEncoder[areaType]?.mapSource;
 
   const groupAreas = mapFile.features.filter((feature) =>
     areaCodes.includes(feature.properties[mapJoinKey])
@@ -89,7 +84,6 @@ export function getMapData(
       type: 'FeatureCollection',
       features: [union(groupFeatureCollection)!], // business logic should prevent this from ever being 'null'
     },
-    mapSource: mapSource,
   };
 }
 
@@ -100,7 +94,7 @@ export const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
   Worse: 35,
   Lower: 45,
   Higher: 55,
-  Lowest: 0,
+  Lowest: 0, // DHSCFT-528 will define mapping for Quintiles
   Low: 0,
   Middle: 0,
   High: 0,
@@ -145,32 +139,26 @@ export const benchmarkColourScale = [
     color: GovukColours.DarkBlue,
   },
 ];
+
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  const dataForMostRecentYear =
-    getHealthDataForAreasForMostRecentYearOnly(data);
-  const preparedData = dataForMostRecentYear.map((areaData) => {
-    let benchmarkColourCode = 0;
-    if (areaData.healthData[0].benchmarkComparison) {
-      benchmarkColourCode =
-        mapBenchmarkToColourRef[
-          areaData.healthData[0].benchmarkComparison.outcome ??
-            BenchmarkOutcome.NotCompared // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
-        ];
-    }
-    const preparedDataPoint = {
+  return getHealthDataForAreasForMostRecentYearOnly(data).map((areaData) => {
+    const [firstDataPoint] = areaData.healthData;
+    return {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
-      value: areaData.healthData[0].value,
-      benchmarkComparison: areaData.healthData[0].benchmarkComparison?.outcome, // DHSCFT-518/522 may need to change how fallback is managed for different benchmarks
-      benchmarkColourCode: benchmarkColourCode,
+      value: firstDataPoint.value,
+      benchmarkComparisonOutcome: firstDataPoint.benchmarkComparison?.outcome,
+      benchmarkColourCode:
+        mapBenchmarkToColourRef[
+          firstDataPoint?.benchmarkComparison?.outcome ??
+            BenchmarkOutcome.NotCompared
+        ],
     };
-    return preparedDataPoint;
   });
-  return preparedData;
 }
 
 export function createThematicMapChartOptions(
-  mapData: MapData,
+  mapData: MapGeographyData,
   healthIndicatorData: HealthDataForArea[]
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
