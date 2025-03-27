@@ -26,6 +26,7 @@ type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
   searchResults: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
+  isEnglandSelectedAsGroup: boolean;
   selectedAreasData?: AreaWithRelations[];
   searchState?: SearchStateParams;
   currentDate?: Date;
@@ -41,6 +42,7 @@ export function SearchResults({
   searchResults,
   areaFilterData,
   selectedAreasData,
+  isEnglandSelectedAsGroup,
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
@@ -106,6 +108,7 @@ export function SearchResults({
               key={JSON.stringify(searchState)}
               searchResults={searchResults}
               searchState={searchState}
+              showTrends={selectedAreasData?.length === 1 || (selectedAreasData?.length === 0 && isEnglandSelectedAsGroup)}
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
             />
