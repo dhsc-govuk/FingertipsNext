@@ -113,3 +113,14 @@ export function generateConfidenceIntervalSeries(
     lineWidth: optionalParams?.lineWidth ?? 2,
   };
 }
+
+export const getLatestYear = (
+  points: HealthDataPoint[] | undefined
+): number | undefined => {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce((previous, point) => {
+    return Math.max(previous, point.year);
+  }, points[0].year);
+  return year;
+};
