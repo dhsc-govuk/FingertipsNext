@@ -18,8 +18,10 @@ import {
   mockMapGroupBoundaries,
 } from '@/mock/data/mapGroupBoundaries';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
 
@@ -218,7 +220,9 @@ describe('createThematicMapChartOptions', () => {
   it('should return an object with the correct map', () => {
     const options = createThematicMapChartOptions(
       mockMapData,
-      mockHealthData[108]
+      mockHealthData[108],
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.NoJudgement
     );
 
     expect(options).toBeDefined();

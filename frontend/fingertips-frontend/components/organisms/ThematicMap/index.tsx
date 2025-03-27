@@ -9,10 +9,14 @@ import {
   MapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { BenchmarkLegend } from '../BenchmarkLegend';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
-  mapData: MapGeographyData;
+  MapGeographyData: MapGeographyData;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -20,7 +24,9 @@ const loadHighchartsModules = async (callback: () => void) => {
 };
 export function ThematicMap({
   healthIndicatorData,
-  mapData,
+  MapGeographyData,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
 
@@ -32,7 +38,14 @@ export function ThematicMap({
   // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
     loadHighchartsModules(async () => {
-      setOptions(createThematicMapChartOptions(mapData, healthIndicatorData));
+      setOptions(
+        createThematicMapChartOptions(
+          MapGeographyData,
+          healthIndicatorData,
+          benchmarkComparisonMethod,
+          polarity
+        )
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

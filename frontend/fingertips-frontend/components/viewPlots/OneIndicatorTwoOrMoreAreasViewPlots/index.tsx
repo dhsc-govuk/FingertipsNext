@@ -136,7 +136,9 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
-          mapData={mapData}
+          MapGeographyData={mapData}
+          benchmarkComparisonMethod={benchmarkMethod}
+          polarity={polarity}
         />
       )}
       <BarChartEmbeddedTable

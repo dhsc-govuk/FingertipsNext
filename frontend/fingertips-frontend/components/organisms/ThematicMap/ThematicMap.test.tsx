@@ -11,7 +11,7 @@ it('should render the ThematicMap component', async () => {
   render(
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
-      mapData={mockMapData}
+      MapGeographyData={mockMapData}
     />
   );
 
@@ -25,7 +25,7 @@ it('should render the benchmark legend', async () => {
   render(
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
-      mapData={mockMapData}
+      MapGeographyData={mockMapData}
     />
   );
 

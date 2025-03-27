@@ -11,12 +11,14 @@ import NHSSubICBMap from '@/assets/maps/NHS_SubICB_April_2023_EN_BSC_80408417444
 import { AreaTypeKeys } from '../../../lib/areaFilterHelpers/areaType';
 import { GovukColours } from '../../../lib/styleHelpers/colours';
 import {
+  BenchmarkComparisonMethod,
   BenchmarkOutcome,
   HealthDataForArea,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import {
   getBenchmarkColour,
-  getHealthDataForAreasForMostRecentYearOnly,
+  getIndicatorDataForAreasForMostRecentYearOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 
 export type MapGeographyData = {
@@ -87,7 +89,7 @@ export function getMapData(
   };
 }
 
-export const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
+const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
   NotCompared: 5,
   Better: 15,
   Similar: 25,
@@ -103,45 +105,68 @@ export const mapBenchmarkToColourRef: Record<BenchmarkOutcome, number> = {
   Worst: 0,
 };
 
-export const benchmarkColourScale = [
-  {
-    to: 10,
-    name: 'No Compared',
-    color: GovukColours.White, // function won't return white
-  },
-  {
-    from: 10,
-    to: 20,
-    name: 'Better',
-    color: GovukColours.Green, //getBenchmarkColour()
-  },
-  {
-    from: 20,
-    to: 30,
-    name: 'Similar',
-    color: GovukColours.Yellow,
-  },
-  {
-    from: 30,
-    to: 40,
-    name: 'Worse',
-    color: GovukColours.Red,
-  },
-  {
-    from: 40,
-    to: 50,
-    name: 'Lower',
-    color: GovukColours.LightBlue,
-  },
-  {
-    from: 50,
-    name: 'Higher',
-    color: GovukColours.DarkBlue,
-  },
-];
+function getBenchmarkColourScale(
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  polarity: IndicatorPolarity
+) {
+  return [
+    {
+      to: 10,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.NotCompared,
+        polarity
+      ),
+    },
+    {
+      from: 10,
+      to: 20,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Better,
+        polarity
+      ),
+    },
+    {
+      from: 20,
+      to: 30,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Similar,
+        polarity
+      ),
+    },
+    {
+      from: 30,
+      to: 40,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Worse,
+        polarity
+      ),
+    },
+    {
+      from: 40,
+      to: 50,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Lower,
+        polarity
+      ),
+    },
+    {
+      from: 50,
+      color: getBenchmarkColour(
+        benchmarkComparisonMethod,
+        BenchmarkOutcome.Higher,
+        polarity
+      ),
+    },
+  ];
+}
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  return getHealthDataForAreasForMostRecentYearOnly(data).map((areaData) => {
+  return getIndicatorDataForAreasForMostRecentYearOnly(data).map((areaData) => {
     const [firstDataPoint] = areaData.healthData;
     return {
       areaName: areaData.areaName,
@@ -159,7 +184,9 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
 
 export function createThematicMapChartOptions(
   mapData: MapGeographyData,
-  healthIndicatorData: HealthDataForArea[]
+  healthIndicatorData: HealthDataForArea[],
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  polarity: IndicatorPolarity
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
@@ -167,14 +194,13 @@ export function createThematicMapChartOptions(
       height: 800,
       animation: false,
       borderWidth: 0.2,
-      borderColor: 'black',
+      borderColor: GovukColours.Black,
     },
     title: { text: undefined },
     accessibility: { enabled: false },
     credits: { enabled: false },
     legend: {
       enabled: false,
-      verticalAlign: 'top',
     },
     mapView: {
       projection: { name: 'Miller' },
@@ -183,7 +209,7 @@ export function createThematicMapChartOptions(
     },
     mapNavigation: { enabled: true },
     colorAxis: {
-      dataClasses: benchmarkColourScale,
+      dataClasses: getBenchmarkColourScale(benchmarkComparisonMethod, polarity),
     },
     series: [
       {
@@ -222,8 +248,8 @@ export function createThematicMapChartOptions(
           headerFormat:
             '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
           pointFormat:
-            '<span style="font-size: large">Value: {point.value} units</span>' +
-            '<br /><span>benchmark: {point.benchmarkComparison}</span>',
+            `<br /><span>benchmark method: ${benchmarkComparisonMethod}</span>` +
+            '<br /><span>benchmark outcome: {point.benchmarkComparisonOutcome}</span>',
         },
       },
     ],
