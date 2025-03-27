@@ -44,14 +44,14 @@ export function getScenarioConfig(
       component: ChartPage.lineChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTabTable: true,
+        hasTabTable: false,
       },
     },
     {
       component: ChartPage.lineChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: false,
+        hasTabTable: true,
       },
     },
     {
@@ -65,28 +65,28 @@ export function getScenarioConfig(
       component: ChartPage.inequalitiesBarChartComponent,
       componentProps: {
         hasConfidenceIntervals: true,
-        hasTabTable: true,
+        hasTabTable: false,
       },
     },
     {
       component: ChartPage.inequalitiesLineChartComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: true,
+        hasTabTable: false,
       },
     },
     {
       component: ChartPage.inequalitiesBarChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: false,
+        hasTabTable: true,
       },
     },
     {
       component: ChartPage.inequalitiesLineChartTableComponent,
       componentProps: {
         hasConfidenceIntervals: false,
-        hasTabTable: false,
+        hasTabTable: true,
       },
     },
     // Enable in DHSCFT-148

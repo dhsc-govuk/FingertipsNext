@@ -37,9 +37,12 @@ export default class HomePage extends AreaFilter {
 
       await this.page.getByText(areaSearchTerm!).click();
 
-      await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
-        ignoreCase: true,
-      });
+      await expect(this.page.getByTestId('pill-container')).toContainText(
+        areaSearchTerm!,
+        {
+          ignoreCase: true,
+        }
+      );
     }
   }
 
