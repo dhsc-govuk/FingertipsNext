@@ -11,7 +11,10 @@ import { H2, H3, Paragraph } from 'govuk-react';
 import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import {
+  AreaTypeKeysForMapMeta,
+  MapGeographyData,
+} from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -25,20 +28,21 @@ const StyledParagraphDataSource = styled(Paragraph)(
 );
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
-  mapData?: MapGeographyData;
+  mapGeographyData?: MapGeographyData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
-  mapData,
+  mapGeographyData,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.AreaTypeSelected]: areasTypeSelected,
   } = stateManager.getSearchState();
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const { benchmarkMethod, polarity } = indicatorData;
@@ -133,10 +137,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         </>
       )}
       <H3>Compare an indicator by areas</H3>
-      {selectedGroupArea === ALL_AREAS_SELECTED && mapData && (
+      {selectedGroupArea === ALL_AREAS_SELECTED && mapGeographyData && (
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
-          MapGeographyData={mapData}
+          mapGeographyData={mapGeographyData}
+          areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
           benchmarkComparisonMethod={benchmarkMethod}
           polarity={polarity}
         />

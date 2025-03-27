@@ -1,17 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from '.';
-import { getMapData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { getMapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 const mockAreaType = 'regions';
 const mockAreaCodes = ['E12000001', 'E12000002'];
-const mockMapData = getMapData(mockAreaType, mockAreaCodes);
+const mockMapGeographyData = getMapGeographyData(mockAreaType, mockAreaCodes);
 
 it('should render the ThematicMap component', async () => {
   render(
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
-      MapGeographyData={mockMapData}
+      mapGeographyData={mockMapGeographyData}
+      areaType="regions"
     />
   );
 
@@ -25,7 +26,8 @@ it('should render the benchmark legend', async () => {
   render(
     <ThematicMap
       healthIndicatorData={mockHealthData['92420']}
-      MapGeographyData={mockMapData}
+      mapGeographyData={mockMapGeographyData}
+      areaType="regions"
     />
   );
 

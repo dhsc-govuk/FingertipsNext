@@ -9,7 +9,7 @@ import { GeoJSON } from 'highcharts';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
-  getMapData,
+  getMapGeographyData,
   MapGeographyData,
   prepareThematicMapSeriesData,
 } from './thematicMapHelpers';
@@ -26,35 +26,10 @@ import {
 import { mockHealthData } from '@/mock/data/healthdata';
 
 const mockMapData: MapGeographyData = {
-  mapJoinKey: 'RGN23CD',
   mapFile: regionsMap,
   mapGroupBoundary: mockMapGroupBoundaries.regions,
 };
 describe('getMapData', () => {
-  it.each<[AreaTypeKeysForMapMeta, string[], string]>([
-    ['regions', ['E12000008', 'E12000009'], 'RGN23CD'],
-    [
-      'counties-and-unitary-authorities',
-      ['E08000025', 'E08000029'],
-      'CTYUA23CD',
-    ],
-    [
-      'districts-and-unitary-authorities',
-      ['E07000136', 'E07000137'],
-      'LAD24CD',
-    ],
-    ['combined-authorities', ['E47000002', 'E47000003'], 'CAUTH23CD'],
-    ['nhs-regions', ['E40000011', 'E40000012'], 'NHSER24CD'],
-    ['nhs-integrated-care-boards', ['E54000010', 'E54000011'], 'ICB23CD'],
-    ['nhs-sub-integrated-care-boards', ['E38000236', 'E38000062'], 'SICBL23CD'],
-  ])(
-    'should return an object with the expected mapJoinKey for the given areaType',
-    (areaType, areaCodes, expectedMapJoinKey) => {
-      const actual = getMapData(areaType, areaCodes);
-      expect(actual.mapJoinKey).toEqual(expectedMapJoinKey);
-    }
-  );
-
   it.each<[AreaTypeKeysForMapMeta, string[], GeoJSON]>([
     ['regions', ['E12000008', 'E12000009'], regionsMap],
     [
@@ -82,7 +57,7 @@ describe('getMapData', () => {
   ])(
     'should return an object with the correct mapFile for the given areaType',
     (areaType, areaCodes, expectedMapData) => {
-      const actual = getMapData(areaType, areaCodes);
+      const actual = getMapGeographyData(areaType, areaCodes);
       expect(actual.mapFile).toEqual(expectedMapData);
     }
   );
@@ -104,7 +79,7 @@ describe('getMapData', () => {
   ])(
     'should return an object with the expected mapGroupBoundary',
     (areaType, areaCodes) => {
-      const actual = getMapData(areaType, areaCodes);
+      const actual = getMapGeographyData(areaType, areaCodes);
       expect(actual.mapGroupBoundary).toEqual(mockMapGroupBoundaries[areaType]);
     }
   );
@@ -221,6 +196,7 @@ describe('createThematicMapChartOptions', () => {
     const options = createThematicMapChartOptions(
       mockMapData,
       mockHealthData[108],
+      'regions',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       IndicatorPolarity.NoJudgement
     );

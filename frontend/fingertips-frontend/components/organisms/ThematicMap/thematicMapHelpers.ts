@@ -22,7 +22,6 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 
 export type MapGeographyData = {
-  mapJoinKey: string;
   mapFile: GeoJSON;
   mapGroupBoundary: GeoJSON;
 };
@@ -64,15 +63,16 @@ const mapMetaDataEncoder: Record<AreaTypeKeysForMapMeta, MapMetaData> = {
   },
 };
 
-export function getMapData(
+export function getMapGeographyData(
   areaType: AreaTypeKeysForMapMeta,
   areaCodes: string[]
 ): MapGeographyData {
-  const mapJoinKey = mapMetaDataEncoder[areaType]?.joinKey;
   const mapFile = mapMetaDataEncoder[areaType]?.mapFile;
 
   const groupAreas = mapFile.features.filter((feature) =>
-    areaCodes.includes(feature.properties[mapJoinKey])
+    areaCodes.includes(
+      feature.properties[mapMetaDataEncoder[areaType]?.joinKey]
+    )
   );
   const groupFeatureCollection = {
     type: 'FeatureCollection',
@@ -80,7 +80,6 @@ export function getMapData(
   } satisfies FeatureCollection<Polygon | MultiPolygon>;
 
   return {
-    mapJoinKey: mapJoinKey,
     mapFile: mapFile,
     mapGroupBoundary: {
       type: 'FeatureCollection',
@@ -185,9 +184,11 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
 export function createThematicMapChartOptions(
   mapData: MapGeographyData,
   healthIndicatorData: HealthDataForArea[],
+  groupType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity
 ): Highcharts.Options {
+  console.log(mapMetaDataEncoder[groupType]?.joinKey);
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
     chart: {
@@ -234,7 +235,7 @@ export function createThematicMapChartOptions(
         name: 'data',
         mapData: mapData.mapFile,
         data: data,
-        joinBy: [mapData.mapJoinKey, 'areaCode'],
+        joinBy: [mapMetaDataEncoder[groupType].joinKey, 'areaCode'],
         borderColor: GovukColours.Black,
         allAreas: false,
         borderWidth: 0.5,

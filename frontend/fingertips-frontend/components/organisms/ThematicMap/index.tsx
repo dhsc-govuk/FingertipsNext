@@ -5,6 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
 import { useEffect, useState } from 'react';
 import {
+  AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
   MapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
@@ -14,7 +15,8 @@ import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/Indi
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
-  MapGeographyData: MapGeographyData;
+  mapGeographyData: MapGeographyData;
+  areaType: AreaTypeKeysForMapMeta;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
@@ -24,12 +26,12 @@ const loadHighchartsModules = async (callback: () => void) => {
 };
 export function ThematicMap({
   healthIndicatorData,
-  MapGeographyData,
+  mapGeographyData,
+  areaType,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
-
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
   //
@@ -37,16 +39,17 @@ export function ThematicMap({
   // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
   // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
-    loadHighchartsModules(async () => {
+    loadHighchartsModules(async () =>
       setOptions(
         createThematicMapChartOptions(
-          MapGeographyData,
+          mapGeographyData,
           healthIndicatorData,
+          areaType,
           benchmarkComparisonMethod,
           polarity
         )
-      );
-    });
+      )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

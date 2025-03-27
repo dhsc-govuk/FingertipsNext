@@ -10,7 +10,7 @@ import {
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeKeysForMapMeta,
-  getMapData,
+  getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -72,9 +72,12 @@ export default async function OneIndicatorTwoOrMoreAreasView({
 
   const indicatorMetadata = selectedIndicatorsData?.[0];
 
-  const mapData =
+  const mapGeographyData =
     selectedGroupArea === ALL_AREAS_SELECTED && selectedAreaType
-      ? getMapData(selectedAreaType as AreaTypeKeysForMapMeta, areasSelected)
+      ? getMapGeographyData(
+          selectedAreaType as AreaTypeKeysForMapMeta,
+          areasSelected
+        )
       : undefined;
 
   return (
@@ -82,7 +85,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
       indicatorData={indicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
-      mapData={mapData}
+      mapGeographyData={mapGeographyData}
     />
   );
 }

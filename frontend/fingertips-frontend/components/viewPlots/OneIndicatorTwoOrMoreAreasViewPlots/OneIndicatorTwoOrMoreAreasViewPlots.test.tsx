@@ -16,8 +16,7 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockMapData: MapGeographyData = {
-  mapJoinKey: 'RGN23CD',
+const mockMapGeographyData: MapGeographyData = {
   mapFile: regionsMap,
   mapGroupBoundary: regionsMap,
 };
@@ -234,7 +233,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             ],
           }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
       expect(
@@ -258,7 +257,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             ],
           }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
 
