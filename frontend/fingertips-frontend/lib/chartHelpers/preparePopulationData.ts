@@ -50,7 +50,7 @@ export function preparePopulationDataForArea(
   }
   const dataSortedByAgeBand = sortByAgeBand(healthData);
   let ageCategories = dataSortedByAgeBand.map(
-    (healthDataPoint) => healthDataPoint.ageBand
+    (healthDataPoint) => healthDataPoint.ageBand.value
   );
   ageCategories = [...new Set(ageCategories)];
 
@@ -66,8 +66,8 @@ export function preparePopulationDataForArea(
 
 function sortByAgeBand(healthData: HealthDataPoint[]): HealthDataPoint[] {
   return healthData.sort((a, b) => {
-    const youngestA = parseInt(a.ageBand.split(/[+-]/)[0]);
-    const youngestB = parseInt(b.ageBand.split(/[+-]/)[0]);
+    const youngestA = parseInt(a.ageBand.value.split(/[+-]/)[0]);
+    const youngestB = parseInt(b.ageBand.value.split(/[+-]/)[0]);
     return youngestA > youngestB ? -1 : 1;
   });
 }
@@ -81,7 +81,7 @@ function generatePopulationSeries(
     0
   );
   const filteredHealthData = healthData.filter(
-    (healthDataPoint) => healthDataPoint.sex === requestedKey
+    (healthDataPoint) => healthDataPoint.sex.value === requestedKey
   );
   return filteredHealthData.map((datapoint) => {
     const percentage = ((datapoint.count ?? 0) / totalPopulation) * 100;

@@ -41,8 +41,32 @@ export function Inequalities({
   searchState,
   type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesProps>) {
+  // TODO: This can be a function
+  let filteredHealthIndicatorData: HealthDataForArea = healthIndicatorData;
+  if (type == InequalitiesTypes.Sex) {
+    filteredHealthIndicatorData = {
+      ...healthIndicatorData,
+      healthData: healthIndicatorData.healthData.filter(
+        (hd) => hd.deprivation.isAggregate && hd.ageBand.isAggregate
+      ),
+    };
+  } else if (type == InequalitiesTypes.Deprivation) {
+    filteredHealthIndicatorData = {
+      ...healthIndicatorData,
+      healthData: healthIndicatorData.healthData.filter(
+        (hd) =>
+          hd.sex.isAggregate &&
+          hd.ageBand.isAggregate &&
+          (hd.deprivation.isAggregate ||
+            hd.deprivation.type ==
+              // TODO: Pick a default deprivation type to use.
+              'Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)')
+      ),
+    };
+  }
+
   const yearlyHealthdata = groupHealthDataByYear(
-    healthIndicatorData.healthData
+    filteredHealthIndicatorData.healthData
   );
 
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
@@ -100,6 +124,7 @@ export function Inequalities({
                 barChartData={barchartData}
                 measurementUnit={measurementUnit}
                 yAxisLabel="Value"
+                type={type}
               />
             ),
           },

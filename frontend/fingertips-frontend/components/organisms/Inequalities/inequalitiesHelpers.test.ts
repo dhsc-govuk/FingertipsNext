@@ -21,7 +21,13 @@ import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { noDeprivation } from '@/lib/mocks';
+import {
+  allAgesAge,
+  femaleSex,
+  maleSex,
+  noDeprivation,
+  personsSex,
+} from '@/lib/mocks';
 import { lineChartDefaultOptions } from '../LineChart/lineChartHelpers';
 import {
   mockIndicatorData,
@@ -39,8 +45,8 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 578.32766,
       value: 278.29134,
       year: 2006,
-      sex: 'Persons',
-      ageBand: 'All',
+      sex: personsSex,
+      ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -50,8 +56,8 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 470.45543,
       value: 450.5343,
       year: 2006,
-      sex: 'Male',
-      ageBand: 'All',
+      sex: maleSex,
+      ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -61,8 +67,8 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 578.32766,
       value: 703.420759,
       year: 2004,
-      sex: 'Persons',
-      ageBand: 'All',
+      sex: personsSex,
+      ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -72,8 +78,8 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       upperCi: 400.34234,
       value: 370.34334,
       year: 2004,
-      sex: 'Female',
-      ageBand: 'All',
+      sex: femaleSex,
+      ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -449,7 +455,7 @@ describe('generateInequalitiesLineChartOptions', () => {
 });
 
 describe('getAllDataWithoutInequalities', () => {
-  const mockHealthIndicatorData = [
+  const mockHealthIndicatorData: HealthDataForArea[] = [
     {
       ...mockIndicatorData[0],
       healthData: [
@@ -460,8 +466,8 @@ describe('getAllDataWithoutInequalities', () => {
           upperCi: 580,
           value: 530,
           year: 2006,
-          sex: 'Male',
-          ageBand: 'All',
+          sex: maleSex,
+          ageBand: allAgesAge,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
           isAggregate: false,
@@ -472,8 +478,8 @@ describe('getAllDataWithoutInequalities', () => {
           upperCi: 578.32766,
           value: 703.420759,
           year: 2004,
-          sex: 'Female',
-          ageBand: 'All',
+          sex: femaleSex,
+          ageBand: allAgesAge,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
           isAggregate: false,
@@ -482,7 +488,7 @@ describe('getAllDataWithoutInequalities', () => {
     },
   ];
 
-  const benchmarkData = {
+  const benchmarkData: HealthDataForArea = {
     ...mockBenchmarkData,
     healthData: [
       ...mockBenchmarkData.healthData,
@@ -492,8 +498,8 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
-        sex: 'Male',
-        ageBand: 'All',
+        sex: maleSex,
+        ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
         isAggregate: false,
@@ -504,8 +510,8 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 450,
         value: 420,
         year: 2004,
-        sex: 'Female',
-        ageBand: 'All',
+        sex: femaleSex,
+        ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
         isAggregate: false,
@@ -513,7 +519,7 @@ describe('getAllDataWithoutInequalities', () => {
     ],
   };
 
-  const groupData = {
+  const groupData: HealthDataForArea = {
     ...mockParentData,
     healthData: [
       ...mockParentData.healthData,
@@ -523,8 +529,8 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 400,
         value: 350,
         year: 2006,
-        sex: 'Male',
-        ageBand: 'All',
+        sex: maleSex,
+        ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
         isAggregate: false,
@@ -535,8 +541,8 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 500,
         value: 450,
         year: 2004,
-        sex: 'Female',
-        ageBand: 'All',
+        sex: femaleSex,
+        ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
         isAggregate: false,

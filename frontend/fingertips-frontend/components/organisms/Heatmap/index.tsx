@@ -3,9 +3,11 @@
 import Highcharts from 'highcharts';
 import { HighchartsReact } from 'highcharts-react-official';
 import {
+  AgeData,
   DeprivationData,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  SexData,
 } from '@/generated-sources/ft-api-client';
 import { generateHeatmapData } from './heatmapUtil';
 import { H3 } from 'govuk-react';
@@ -27,6 +29,15 @@ const noDeprivation: DeprivationData = {
   sequence: 1,
   type: 'All',
   value: 'All',
+  isAggregate: true,
+};
+const personsSex: SexData = {
+  value: 'Persons',
+  isAggregate: true,
+};
+const allAgesAge: AgeData = {
+  value: 'All ages',
+  isAggregate: true,
 };
 const heatmapData: Array<IndicatorRowData> = [
   {
@@ -43,8 +54,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 27,
             upperCi: 8,
             lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
+            ageBand: allAgesAge,
+            sex: personsSex,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
             deprivation: noDeprivation,
           },
@@ -66,8 +77,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 33,
             upperCi: 18,
             lowerCi: 9,
-            ageBand: 'ageBand',
-            sex: 'M',
+            ageBand: allAgesAge,
+            sex: personsSex,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
             deprivation: noDeprivation,
           },
@@ -77,8 +88,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 11,
             upperCi: 23,
             lowerCi: 3,
-            ageBand: 'ageBand',
-            sex: 'M',
+            ageBand: allAgesAge,
+            sex: personsSex,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
             deprivation: noDeprivation,
           },
@@ -94,8 +105,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 27,
             upperCi: 8,
             lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
+            ageBand: allAgesAge,
+            sex: personsSex,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
             deprivation: noDeprivation,
           },
@@ -105,8 +116,8 @@ const heatmapData: Array<IndicatorRowData> = [
             value: 82,
             upperCi: 99,
             lowerCi: 2,
-            ageBand: 'ageBand',
-            sex: 'M',
+            ageBand: allAgesAge,
+            sex: personsSex,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
             deprivation: noDeprivation,
           },

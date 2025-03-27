@@ -90,7 +90,7 @@ export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
 export const groupHealthDataByInequalities = (
   healthData: HealthDataPoint[]
 ) => {
-  return Object.groupBy(healthData, (data) => data.sex);
+  return Object.groupBy(healthData, (data) => data.sex.value);
 };
 
 export const getYearDataGroupedByInequalities = (
