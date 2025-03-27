@@ -18,7 +18,7 @@ export default class HomePage extends BasePage {
     areaSearchTerm?: string
   ) {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
-      await this.fillAndWait(
+      await this.fillAndAwaitLoadingComplete(
         this.page.getByTestId(this.subjectSearchField),
         subjectSearchTerm!
       );
@@ -28,12 +28,12 @@ export default class HomePage extends BasePage {
     //   await this.page.getByTestId(this.areaSearchField).fill(areaSearchTerm!);
     // }
     if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
-      await this.fillAndWait(
+      await this.fillAndAwaitLoadingComplete(
         this.page.getByTestId(this.subjectSearchField),
         subjectSearchTerm!
       );
 
-      await this.fillAndWait(
+      await this.fillAndAwaitLoadingComplete(
         this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
         areaSearchTerm!
       );
@@ -42,7 +42,9 @@ export default class HomePage extends BasePage {
         this.page.getByTestId(this.suggestedAreasPanel)
       ).toContainText(areaSearchTerm!, { ignoreCase: true });
 
-      await this.clickAndWait(this.page.getByText(areaSearchTerm!));
+      await this.clickAndAwaitLoadingComplete(
+        this.page.getByText(areaSearchTerm!)
+      );
 
       await expect(this.areaFilterPills()).toContainText(areaSearchTerm!, {
         ignoreCase: true,
@@ -51,7 +53,9 @@ export default class HomePage extends BasePage {
   }
 
   async clickSearchButton() {
-    await this.clickAndWait(this.page.getByTestId(this.searchButton));
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.searchButton)
+    );
   }
 
   async navigateToHomePage(queryString?: string) {
@@ -81,7 +85,7 @@ export default class HomePage extends BasePage {
       .getByTestId(this.removeIcon)
       .all();
 
-    await this.clickAndWait(pills[index]);
+    await this.clickAndAwaitLoadingComplete(pills[index]);
   }
 
   async checkSearchFieldIsPrePopulatedWith(indicator: string = '') {
@@ -94,7 +98,9 @@ export default class HomePage extends BasePage {
   }
 
   async clearSearchIndicatorField() {
-    await this.clearAndWait(this.page.getByTestId(this.subjectSearchField));
+    await this.clearAndAwaitLoadingComplete(
+      this.page.getByTestId(this.subjectSearchField)
+    );
   }
 
   async checkSummaryValidation(expectedValidationMessage: string) {

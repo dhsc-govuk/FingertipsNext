@@ -11,7 +11,7 @@ export default class BasePage {
     await this.page.waitForURL(new RegExp(containsURL));
   }
 
-  async clickAndWait(locator: Locator) {
+  async clickAndAwaitLoadingComplete(locator: Locator) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 
@@ -21,7 +21,7 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
-  async checkAndWait(locator: Locator) {
+  async checkAndAwaitLoadingComplete(locator: Locator) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 
@@ -31,7 +31,7 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
-  async uncheckAndWait(locator: Locator) {
+  async uncheckAndAwaitLoadingComplete(locator: Locator) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 
@@ -41,7 +41,7 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
-  async fillAndWait(locator: Locator, value: string) {
+  async fillAndAwaitLoadingComplete(locator: Locator, value: string) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 
@@ -51,7 +51,7 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
-  async clearAndWait(locator: Locator) {
+  async clearAndAwaitLoadingComplete(locator: Locator) {
     await this.page.waitForLoadState();
     await expect(this.page.getByText('Loading')).toHaveCount(0);
 

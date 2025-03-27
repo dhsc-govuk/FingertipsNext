@@ -43,7 +43,9 @@ export default class ChartPage extends BasePage {
   }
 
   async clickBackLink() {
-    await this.clickAndWait(this.page.getByTestId(this.backLink));
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 
   /**
@@ -78,7 +80,7 @@ export default class ChartPage extends BasePage {
         visibleComponent.toLowerCase().includes('table') &&
         visibleComponent !== 'barChartEmbeddedTable-component'
       ) {
-        await this.clickAndWait(
+        await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
             `tabTitle-${visibleComponent.replace('-component', '')}`
           )
@@ -90,7 +92,7 @@ export default class ChartPage extends BasePage {
         visibleComponent === 'inequalitiesBarChart-component' ||
         visibleComponent === 'barChartEmbeddedTable-component'
       ) {
-        await this.clickAndWait(
+        await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
           )
