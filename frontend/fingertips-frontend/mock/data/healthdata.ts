@@ -2769,6 +2769,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: false,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2780,6 +2781,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Female',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: false,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2791,6 +2793,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: false,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2802,6 +2805,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Male',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: false,
+          deprivation: noDeprivation,
         },
         {
           year: 2004,
@@ -2813,6 +2817,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: true,
+          deprivation: noDeprivation,
         },
         {
           year: 2008,
@@ -2824,6 +2829,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           sex: 'Persons',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           isAggregate: true,
+          deprivation: noDeprivation,
         },
       ],
     },
