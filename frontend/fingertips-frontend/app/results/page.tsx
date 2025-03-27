@@ -28,7 +28,7 @@ export default async function Page(
     [SearchParams.SearchedIndicator]: searchedIndicator,
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.GroupSelected]: groupSelected
+    [SearchParams.GroupSelected]: groupSelected,
   } = stateManager.getSearchState();
   try {
     await connection();

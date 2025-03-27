@@ -60,7 +60,11 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       results.push(result.document as RawIndicatorDocument);
     }
 
-    return this.mapper.toEntities(results.slice(0, 20), areaCodes ?? [], isEnglandSelectedAsGroup);
+    return this.mapper.toEntities(
+      results.slice(0, 20),
+      areaCodes ?? [],
+      isEnglandSelectedAsGroup
+    );
   }
 
   async getIndicator(

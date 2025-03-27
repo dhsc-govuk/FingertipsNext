@@ -106,7 +106,11 @@ describe('IndicatorSearchService', () => {
       const searchTerm = 'test-search';
 
       const searchService = SearchServiceFactory.getIndicatorSearchService();
-      await searchService.searchWith(searchTerm, false, ['Area1', 'Area2', 'Area3']);
+      await searchService.searchWith(searchTerm, false, [
+        'Area1',
+        'Area2',
+        'Area3',
+      ]);
 
       expect(SearchClient).toHaveBeenCalledWith(
         'test-url',

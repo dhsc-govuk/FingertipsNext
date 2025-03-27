@@ -20,6 +20,7 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
+    trend: 'Increasing and getting worse',
     hasInequalities: false,
     unitLabel: '',
   },
@@ -86,7 +87,11 @@ beforeEach(() => {
 describe('content', () => {
   it('should have search result list item', () => {
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
@@ -94,7 +99,11 @@ describe('content', () => {
 
   it('should contain 2 paragraphs and a heading', () => {
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(screen.getAllByRole('paragraph')).toHaveLength(2);
@@ -103,7 +112,11 @@ describe('content', () => {
 
   it('should contain expected text', () => {
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(screen.getByRole('heading').textContent).toContain('NHS');
@@ -121,6 +134,7 @@ describe('content', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -136,11 +150,38 @@ describe('content', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
 
     expect(screen.queryByText('Updated in last month')).not.toBeInTheDocument();
+  });
+
+  describe('trend tag tests', () => {
+    it('should display trend tags if showTrends is passed in as props', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[0]}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(
+        screen.queryByText('Increasing and getting worse')
+      ).toBeInTheDocument();
+    });
+
+    it('should display No trend data available when trend is undefined for a given indicator', () => {
+      render(
+        <SearchResult
+          result={MOCK_DATA[1]}
+          handleClick={mockHandleClick}
+          showTrends={true}
+        />
+      );
+      expect(screen.queryByText('No trend data available')).toBeInTheDocument();
+    });
   });
 
   it('should display tag if inequalities data present for indicator', () => {
@@ -149,6 +190,7 @@ describe('content', () => {
       <SearchResult
         result={MOCK_DATA[1]}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -161,6 +203,7 @@ describe('content', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -177,6 +220,7 @@ describe('content', () => {
       <SearchResult
         result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
         handleClick={mockHandleClick}
+        showTrends={false}
         currentDate={currentDate}
       />
     );
@@ -196,7 +240,11 @@ describe('content', () => {
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(
@@ -208,7 +256,11 @@ describe('content', () => {
 
   it('should display a single date if earliest data period and latest data period match', () => {
     render(
-      <SearchResult result={MOCK_DATA[1]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[1]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(
@@ -224,6 +276,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={true}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -236,6 +289,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={false}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -248,6 +302,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={false}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -262,6 +317,7 @@ describe('Indicator Checkbox', () => {
         result={MOCK_DATA[0]}
         indicatorSelected={true}
         handleClick={mockHandleClick}
+        showTrends={false}
       />
     );
 
@@ -273,7 +329,11 @@ describe('Indicator Checkbox', () => {
   it('should have a direct link to the indicator chart', () => {
     const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${initialSearchState[SearchParams.AreasSelected]}`;
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
@@ -281,7 +341,11 @@ describe('Indicator Checkbox', () => {
 
   it('should call setIsLoading with true when clicking on the direct link to the indicator chart', async () => {
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        showTrends={false}
+        handleClick={mockHandleClick}
+      />
     );
 
     const user = userEvent.setup();
@@ -300,7 +364,11 @@ describe('Indicator Checkbox', () => {
     mockGetSearchState.mockReturnValue(searchState);
 
     render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
@@ -308,7 +376,11 @@ describe('Indicator Checkbox', () => {
 
   it('snapshot test', () => {
     const container = render(
-      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+      <SearchResult
+        result={MOCK_DATA[0]}
+        handleClick={mockHandleClick}
+        showTrends={false}
+      />
     );
 
     expect(container.asFragment()).toMatchSnapshot();

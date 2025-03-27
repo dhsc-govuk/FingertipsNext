@@ -24,7 +24,7 @@ export class IndicatorMapper {
   /**
    * Finds the trend for an indicator in a given area. Will return undefined if user has requested more than one area
    * (in which case it would make no sense to return a value) or if there is no match for the requested area.
-   * 
+   *
    * There is an additional case where no specific area is selected but England has been chosen as the group. In this case
    * we return the trend for England
    *
@@ -42,8 +42,10 @@ export class IndicatorMapper {
       return undefined;
     }
 
-    const areaCodeToMatch = (isEnglandSelectedAsGroup && requestedAreaCodes.length === 0) ? areaCodeForEngland :
-      requestedAreaCodes[0];
+    const areaCodeToMatch =
+      isEnglandSelectedAsGroup && requestedAreaCodes.length === 0
+        ? areaCodeForEngland
+        : requestedAreaCodes[0];
 
     const matchedElement = trendsWithAreas.find(
       (trendWithArea) => trendWithArea.areaCode === areaCodeToMatch

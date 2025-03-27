@@ -114,9 +114,9 @@ describe('IndicatorSearchServiceMock', () => {
     });
 
     it('should filter out any not in Area1', async () => {
-      expect(await indicatorSearchMock.searchWith('Red', false, ['Area1'])).toEqual(
-        mockMappedData
-      );
+      expect(
+        await indicatorSearchMock.searchWith('Red', false, ['Area1'])
+      ).toEqual(mockMappedData);
     });
 
     it('should filter out any not in Area2', async () => {
@@ -124,14 +124,16 @@ describe('IndicatorSearchServiceMock', () => {
       // This is the trend for this indicator in Area2
       mockResult.trend = 'No significant change';
 
-      expect(await indicatorSearchMock.searchWith('Red', false, ['Area2'])).toEqual([
-        mockResult,
-      ]);
+      expect(
+        await indicatorSearchMock.searchWith('Red', false, ['Area2'])
+      ).toEqual([mockResult]);
     });
 
     it('should filter all out if unknown area', async () => {
       expect(
-        await indicatorSearchMock.searchWith('justice', false, ['Leamington Spa'])
+        await indicatorSearchMock.searchWith('justice', false, [
+          'Leamington Spa',
+        ])
       ).toHaveLength(0);
     });
 

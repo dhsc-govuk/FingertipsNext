@@ -21,12 +21,13 @@ import styled from 'styled-components';
 
 const ResultLabelsContainer = styled.span({
   alignItems: 'center',
-  alignSelf: 'stretch',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '20px 0px',
+  fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 700,
-  fontSize: '19px'
+  fontSize: '19px',
+  fontStyle: 'normal',
 });
 
 type IndicatorSelectionProps = {
@@ -161,7 +162,7 @@ export function IndicatorSelectionForm({
               Select all
             </Checkbox>
 
-            { showTrends ? <b>Recent trend for selected area</b> : null }
+            {showTrends ? 'Recent trend for selected area' : null}
           </ResultLabelsContainer>
 
           <UnorderedList listStyleType="none">

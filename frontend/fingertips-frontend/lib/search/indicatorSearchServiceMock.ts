@@ -47,7 +47,11 @@ export class IndicatorSearchServiceMock implements IIndicatorSearchService {
       })
       .slice(0, 20);
 
-    return this.mapper.toEntities(searchResults, areaCodes ?? [], isEnglandSelectedAsGroup);
+    return this.mapper.toEntities(
+      searchResults,
+      areaCodes ?? [],
+      isEnglandSelectedAsGroup
+    );
   }
 
   public async getIndicator(

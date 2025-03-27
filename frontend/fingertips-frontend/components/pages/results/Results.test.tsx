@@ -102,6 +102,7 @@ describe('Search Results Suite', () => {
   it('should render elements', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -118,6 +119,7 @@ describe('Search Results Suite', () => {
   it('should render the backLink', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -151,6 +153,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSearchForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -163,6 +166,7 @@ describe('Search Results Suite', () => {
   it('should render the AreaFilter', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -175,6 +179,7 @@ describe('Search Results Suite', () => {
   it('should render the IndicatorSelectionForm', () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}
@@ -194,6 +199,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
@@ -219,6 +225,7 @@ describe('Search Results Suite', () => {
 
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={errorState}
         searchResults={MOCK_DATA}
         searchState={state}
@@ -233,5 +240,18 @@ describe('Search Results Suite', () => {
 
     expect(screen.getByRole('checkbox', { name: /NHS/i })).toHaveFocus();
     expect(scrollMock).toBeCalledTimes(1);
+  });
+
+  it('should it do this', () => {
+    render(
+      <SearchResults
+        isEnglandSelectedAsGroup={true}
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
+    );
+
+    screen.debug();
   });
 });

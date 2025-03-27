@@ -115,7 +115,10 @@ export function SearchResults({
           <GridCol>
             <IndicatorSelectionForm
               searchResults={searchResults}
-              showTrends={selectedAreasData?.length === 1 || (selectedAreasData?.length === 0 && isEnglandSelectedAsGroup)}
+              showTrends={
+                selectedAreasData?.length === 1 ||
+                (selectedAreasData?.length === 0 && isEnglandSelectedAsGroup)
+              }
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
             />
