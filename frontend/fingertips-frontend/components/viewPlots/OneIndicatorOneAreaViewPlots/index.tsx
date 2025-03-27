@@ -25,7 +25,6 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -45,7 +44,6 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
-  populationHealthDataForArea,
 }: Readonly<ViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -168,13 +166,6 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-      />
-
-      <PopulationPyramidWithTable
-        healthDataForAreas={populationHealthDataForArea ?? []}
-        selectedGroupAreaCode={selectedGroupCode}
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of total population"
       />
     </section>
   );

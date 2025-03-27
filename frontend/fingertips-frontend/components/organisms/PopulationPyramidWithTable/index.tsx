@@ -35,13 +35,17 @@ interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
+  selectedAreaCode?: string;
   selectedGroupAreaCode?: string;
+  onAreaSelected?: (area: string | undefined) => void;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
   selectedGroupAreaCode,
+  selectedAreaCode,
+  onAreaSelected,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const convertedData = useMemo(() => {
     return createPyramidPopulationDataFrom(
@@ -50,8 +54,20 @@ export const PopulationPyramidWithTable = ({
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
 
-  const defaultSelectedArea =
-    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined;
+  // determine the default selected area.
+  const defaultSelectedArea = ((areaCode: string) => {
+    let populationArea: PopulationDataForArea | undefined = undefined;
+    if (areaCode) {
+      populationArea = convertedData.areas.find(
+        (area: PopulationDataForArea | undefined) => area?.areaCode === areaCode
+      );
+    }
+    if (!populationArea)
+      return convertedData.areas.length > 0
+        ? convertedData.areas[0]
+        : undefined;
+    return populationArea;
+  })(selectedAreaCode ?? '');
 
   const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
   const [title, setTitle] = useState<string>(
@@ -87,9 +103,12 @@ export const PopulationPyramidWithTable = ({
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
+        if (onAreaSelected) {
+          onAreaSelected(healthData?.areaCode);
+        }
       }
     },
-    [healthDataForAreas]
+    [healthDataForAreas, onAreaSelected]
   );
 
   if (!convertedData?.areas.length) {
