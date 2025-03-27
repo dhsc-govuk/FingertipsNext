@@ -84,6 +84,15 @@ export default class BasePage {
     while (retryAttempt < maxRetries) {
       try {
         pageNavigation = await this.page.goto(page);
+        // await this.page.evaluate(
+        //   (val) => localStorage.setItem('item1', val),
+        //   'some val'
+        // );
+        // const value1 = await this.page.evaluate(() =>
+        //   localStorage.getItem('item1')
+        // );
+
+        // await expect(value1).toBe('some val');
         break;
       } catch (error) {
         retryAttempt++;

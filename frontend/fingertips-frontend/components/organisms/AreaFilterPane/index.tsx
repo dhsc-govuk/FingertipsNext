@@ -11,6 +11,7 @@ import {
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
+import { useState } from 'react';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
@@ -47,10 +48,23 @@ export function AreaFilterPane({
       ? ClientStorageKeys.AreaFilterResultsPage
       : ClientStorageKeys.AreaFilterChartPage;
 
-  const isAreaFilterOpen = ClientStorage.getState<boolean>(storeKey) ?? true;
+  const [isAreaFilterOpen, setIsAreaFilterOpen] = useState<boolean>();
+
+  // useEffect(() => {
+  //   setIsAreaFilterOpen(isAreaFilterOpen);
+  // }, [isAreaFilterOpen]);
+
+  console.log(`storeKey ${storeKey}`);
+
+  // const isAreaFilterOpen = ClientStorage.getState<boolean>(storeKey) ?? true;
+
+  console.log(`isAreaFilterOpen ${isAreaFilterOpen}`);
 
   const updateIsAreaFilterOpen = () => {
+    console.log(`isAreaFilterOpen will change to ${!isAreaFilterOpen}`);
+
     ClientStorage.updateState(storeKey, !isAreaFilterOpen);
+    setIsAreaFilterOpen(!isAreaFilterOpen);
   };
 
   return (

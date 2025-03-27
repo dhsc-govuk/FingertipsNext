@@ -21,7 +21,7 @@ import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -46,17 +46,36 @@ export const SearchForm = ({
     searchState?.[SearchParams.SearchedIndicator] ?? ''
   );
   const [updatedSearchState, setUpdatedSearchState] =
-    useState<SearchStateParams>(searchState!);
+    useState<SearchStateParams>(searchState ?? {});
 
-  const isAreaFilterOpen =
-    ClientStorage.getState<boolean>(ClientStorageKeys.AreaFilterHomePage) ??
-    false;
+  const initialValue = ClientStorage.getState<boolean>(
+    ClientStorageKeys.AreaFilterHomePage
+  );
+
+  const [isAreaFilterOpen, setIsAreaFilterOpen] = useState<boolean>(
+    initialValue ?? false
+  );
+
+  useEffect(() => {
+    const initialValue = ClientStorage.getState<boolean>(
+      ClientStorageKeys.AreaFilterHomePage
+    );
+    setIsAreaFilterOpen(initialValue ?? false);
+  }, []);
+
+  useEffect(() => {
+    ClientStorage.updateState<boolean>(
+      ClientStorageKeys.AreaFilterHomePage,
+      isAreaFilterOpen
+    );
+  }, [isAreaFilterOpen]);
 
   const updateIsAreaFilterOpen = () => {
     ClientStorage.updateState(
       ClientStorageKeys.AreaFilterHomePage,
       !isAreaFilterOpen
     );
+    setIsAreaFilterOpen(!isAreaFilterOpen);
   };
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
