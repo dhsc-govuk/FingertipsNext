@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { SpineChartTableRowData } from './SpineChartTableRow';
-import { SpineChartTable, mapToSpineChartTableData } from '.';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import { mapToSpineChartTableData, SpineChartTable } from '.';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import { noDeprivation } from '@/lib/mocks';
 
 describe('Spine chart table suite', () => {
   const mockIndicatorData = [
@@ -21,7 +25,7 @@ describe('Spine chart table suite', () => {
 
   const mockUnits = ['kg', 'per 1000'];
 
-  const mockHealthData = [
+  const mockHealthData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
@@ -35,6 +39,7 @@ describe('Spine chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -51,12 +56,13 @@ describe('Spine chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
   ];
 
-  const mockGroup = [
+  const mockGroup: HealthDataForArea[] = [
     {
       areaCode: '90210',
       areaName: 'Manchester',
@@ -70,6 +76,7 @@ describe('Spine chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },
@@ -86,6 +93,7 @@ describe('Spine chart table suite', () => {
           ageBand: 'All',
           sex: 'All',
           trend: HealthDataPointTrendEnum.NotYetCalculated,
+          deprivation: noDeprivation,
         },
       ],
     },

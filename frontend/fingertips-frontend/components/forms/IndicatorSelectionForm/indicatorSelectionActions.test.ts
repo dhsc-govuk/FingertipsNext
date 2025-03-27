@@ -4,7 +4,6 @@ import {
   submitIndicatorSelection,
 } from './indicatorSelectionActions';
 import { redirect, RedirectType } from 'next/navigation';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation');
 const redirectMock = jest.mocked(redirect);
@@ -39,36 +38,6 @@ describe('Indicator Selection Actions', () => {
       formData.append('indicator', '2');
 
       await submitIndicatorSelection(initialState, formData);
-
-      expect(redirectMock).toHaveBeenCalledWith(
-        expectedPath,
-        RedirectType.push
-      );
-    });
-
-    it('should redirect to the charts page with the areasSelected defaulted to areaCodeForEngland when no areasSelected are present in searchState', async () => {
-      const expectedPath = [
-        `/chart?${SearchParams.SearchedIndicator}=boom`,
-        `&${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
-        `&${SearchParams.AreasSelected}=${areaCodeForEngland}`,
-      ].join('');
-
-      const stateWithNoAreasSelected = {
-        ...state,
-        [SearchParams.AreasSelected]: undefined,
-      };
-
-      const initialStateWithNoAreasSelected = {
-        searchState: JSON.stringify(stateWithNoAreasSelected),
-        indicatorsSelected: [],
-      };
-
-      formData = new FormData();
-      formData.append('searchState', JSON.stringify(stateWithNoAreasSelected));
-      formData.append('indicator', '1');
-      formData.append('indicator', '2');
-
-      await submitIndicatorSelection(initialStateWithNoAreasSelected, formData);
 
       expect(redirectMock).toHaveBeenCalledWith(
         expectedPath,

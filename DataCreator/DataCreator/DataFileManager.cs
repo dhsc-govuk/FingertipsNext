@@ -9,15 +9,20 @@ namespace DataCreator
     {
         private const string OutFilePath = @"..\..\..\data\out\";
         private const string InFilePath = @"..\..\..\data\in\";
-        private static readonly CsvFileDescription csvFileDescription=new CsvFileDescription ();
 
-        public static void WriteJsonData(string dataType, object data) => File.WriteAllText($"{OutFilePath}{dataType}.json", JsonSerializer.Serialize(data,
-            new JsonSerializerOptions
+        private static readonly CsvFileDescription csvFileDescription=new() {EnforceCsvColumnAttribute=true};
+
+        public static void WriteJsonData(string dataType, object data)
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        }));
+            var contents = JsonSerializer.Serialize(data,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            File.WriteAllText($@"..\..\..\..\..\trend-analysis\TrendAnalysisApp\SearchData\assets\{dataType}.json", contents);
+        }
 
-        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) =>
+        public static void WriteHealthCsvData(string fileName, IEnumerable<HealthMeasureEntity> data) => 
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
 
         public static void WriteSimpleIndicatorCsvData(string fileName, IEnumerable<SimpleIndicator> data) =>
@@ -32,7 +37,7 @@ namespace DataCreator
         public static List<SimpleIndicator> GetPocIndicators()
         {
             var lines=File.ReadAllLines(@$"{InFilePath}\temp\pocindicators.csv");
-            var indicators=new List<SimpleIndicator>();
+            var indicators=new List<SimpleIndicator>();   
             foreach (var line in lines)
             {
                 var split=line.Split(',');
@@ -47,7 +52,7 @@ namespace DataCreator
 
             return indicators;
         }
-
+            
 
         public static void WriteCategoryCsvData(string fileName, IEnumerable<CategoryEntity> data) =>
             new CsvContext().Write(data, $"{OutFilePath}{fileName}.csv", csvFileDescription);
@@ -67,7 +72,7 @@ namespace DataCreator
             if (!File.Exists(filePath))
                 return Enumerable.Empty<HealthMeasureEntity>().ToList();
 
-
+    
             var lines = File.ReadAllLines(filePath);
             var allData= new List<HealthMeasureEntity>();
             for(var count=1; count<lines.Length; count++) //start at 1 to avoid first line which is column names
@@ -76,32 +81,37 @@ namespace DataCreator
                 var split=Regex.Split(lines[count], "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
                 if (split.Length != 27)
                     continue; //avoid bad data
-
+              
                 if (split[6].Equals("CCG", StringComparison.CurrentCultureIgnoreCase)) //CCGs and ICBs share the same area code so do this to avoid doubling up data
                     continue;
                 var areaCode = split[4].Trim().CleanAreaCode();
-
-                if(!areasDict.ContainsKey(areaCode))
+                
+                if(!areasDict.TryGetValue(areaCode, out var area)) 
                     continue; //if the row is not for an area we are interested in then ignore it
                 var year  = int.Parse(split[23].Trim().Substring(0, 4));
                 if(year < yearFrom)
                     continue; //if the row is not for a year we care about ignore it
                 var categoryType = split[9].Trim().Trim('\"');
-                if (!(categoryType == string.Empty || categoryType.Contains("deciles", StringComparison.CurrentCultureIgnoreCase)))
-                    continue;  //we only care about data that has a category type of decile or no category type
 
                 var category = split[10].Trim().Trim('\"');
+                if (!(category == string.Empty || category.Contains("decile", StringComparison.CurrentCultureIgnoreCase)))
+                    continue;  //we only care about data that has a category type of decile or no category type
                 if (categoryType == string.Empty)
                 {
                     categoryType = ALL;
                     category = ALL;
                 }
 
+                var age = split[8].Trim();
+
+                //there is bad data for indicator 92033, we don't want 4-5 yrs
+                if (indicatorId == 92033 && age == "4-5 yrs")
+                    continue;
                 var indicatorData = new HealthMeasureEntity
                 {
                     IndicatorId = indicatorId,
                     AreaCode = areaCode,
-                    Age = split[8].Trim(),
+                    Age = age,
                     Sex = split[7].Trim(),
                     Count = GetDoubleValue(split[17]),
                     Value = GetDoubleValue(split[12]),
@@ -112,7 +122,7 @@ namespace DataCreator
                     Denominator = GetDoubleValue(split[18]),
                     Year = year,
                     Category = category.Trim(),
-                    CategoryType = categoryType.Replace(',','-').Trim()
+                    CategoryType = categoryType.Trim()
                 };
                 allData.Add(indicatorData);
             }
@@ -124,13 +134,13 @@ namespace DataCreator
         {
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\lastupdated.csv";
-
+            
             var lines = File.ReadAllLines(filePath);
             var allData = new List<IndicatorLastUpdatedEntity>();
             for (var count = 1; count < lines.Length; count++)
             {
                 var split = lines[count].Split(',');
-                allData.Add(new IndicatorLastUpdatedEntity
+                allData.Add(new IndicatorLastUpdatedEntity 
                 {
                     IndicatorId = int.Parse(split[0].Trim('\"')),
                     LastUpdatedDate= split[1].Trim('\"')
@@ -143,14 +153,6 @@ namespace DataCreator
         public static void UnzipSourceFiles() => ZipFile.ExtractToDirectory(@$"{InFilePath}\in.zip", @$"{InFilePath}\temp");
 
         public static void DeleteTempFiles() => Directory.Delete(@$"{InFilePath}\temp", true);
-
-        public static void CopyFilesToTargetLocations()
-        {
-            foreach (var file in Directory.GetFiles(OutFilePath))
-            {
-                File.Copy(file, Path.Combine(@"..\..\..\..\..\search-setup\assets", Path.GetFileName(file)), true);
-            }
-        }
 
         private static double? GetDoubleValue(string raw) => double.TryParse(raw.Trim(), out var value) ? value : null;
     }

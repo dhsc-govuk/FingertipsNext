@@ -7,22 +7,18 @@ env:
 
 on:
   workflow_call:
-    inputs:
-      ui-test-container-image:
-        description: 'container image to run the ui tests in'
-        required: true
-        type: string
 
 jobs:
   execute-ui-tests:
     name: Execute ui tests
-    runs-on: ubuntu-latest
-    container:
-      image: ${{ inputs.ui-test-container-image }}
+    runs-on: self-hosted
 
     defaults:
       run:
         working-directory: ${{ env.frontend-directory }}
+
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /usr/local/ms-playwright
 
     steps:
       - name: Checkout source
@@ -32,14 +28,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Install playwright dependencies
+        run: npx playwright install chromium webkit
+
       - name: Run Playwright ui tests
         run: npm run test-ui-local-mocks
+        env:
+          FINGERTIPS_API_URL: http://localhost:5144
+          DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
 
       - name: Upload playwright report and screenshot if ui tests fail - always on failure
         uses: actions/upload-artifact@v4

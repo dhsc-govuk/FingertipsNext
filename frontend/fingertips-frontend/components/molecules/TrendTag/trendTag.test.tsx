@@ -12,7 +12,7 @@ describe('Trend Tag Suite', () => {
     );
 
     expect(screen.getByTestId('trendTag-container')).toBeInTheDocument();
-    expect(screen.getByTestId('tag-component')).toBeInTheDocument();
+    expect(screen.getByTestId('trend-tag-component')).toBeInTheDocument();
     expect(screen.getByTestId('arrow-icon')).toBeInTheDocument();
     expect(screen.getByRole('paragraph')).toBeInTheDocument();
   });

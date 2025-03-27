@@ -8,11 +8,10 @@ const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['333'],
   [SearchParams.AreasSelected]: ['A1245'],
-  [SearchParams.ConfidenceIntervalSelected]: ['lineChart'],
 };
 
 describe('Inequalities suite', () => {
-  it('should render inequalities component', () => {
+  it('should render inequalities component', async () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
@@ -25,13 +24,13 @@ describe('Inequalities suite', () => {
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesLineChart-component')
+      await screen.findByTestId('inequalitiesLineChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('inequalitiesBarChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesBarChart-component')
+      await screen.findByTestId('inequalitiesBarChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')

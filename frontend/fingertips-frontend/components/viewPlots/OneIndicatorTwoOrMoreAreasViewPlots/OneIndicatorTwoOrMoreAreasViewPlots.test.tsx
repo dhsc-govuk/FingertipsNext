@@ -2,7 +2,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
 import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
@@ -39,17 +39,16 @@ const mockMetaData = {
 const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['E12000001', 'E12000003'];
-const testHealthData: HealthDataForArea[] = [
-  mockHealthData['108'][1],
-  mockHealthData['108'][2],
-];
+const testHealthData: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
+};
 
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: mockIndicator,
 };
 
-const lineChartTestId = 'lineChart-component';
+const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'Indicator data over time';
@@ -85,9 +84,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   it('should render the view with correct title', async () => {
     render(
       <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
+        indicatorData={testHealthData}
         searchState={searchState}
-        areaCodes={mockAreas}
       />
     );
 
@@ -106,10 +104,12 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the LineChart components when there are 2 areas', async () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
-          searchState={searchState}
+          indicatorData={testHealthData}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
           indicatorMetadata={mockMetaData}
-          areaCodes={mockAreas}
         />
       );
       await assertLineChartAndTableInDocument();
@@ -118,10 +118,12 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should display data source in the LineChart when metadata exists', async () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
-          searchState={searchState}
+          indicatorData={testHealthData}
+          searchState={{
+            ...searchState,
+            [SearchParams.AreasSelected]: mockAreas,
+          }}
           indicatorMetadata={mockMetaData}
-          areaCodes={mockAreas}
         />
       );
       const actual = await screen.findAllByText('Data source:', {
@@ -131,13 +133,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
-      const MOCK_DATA = [
-        {
-          areaCode: 'A1',
-          areaName: 'Area 1',
-          healthData: [mockHealthData['1'][0].healthData[0]],
-        },
-      ];
+      const MOCK_DATA = {
+        areaHealthData: [
+          {
+            areaCode: 'A1',
+            areaName: 'Area 1',
+            healthData: [mockHealthData['1'][0].healthData[0]],
+          },
+        ],
+      };
 
       const state: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: ['0'],
@@ -146,9 +150,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={MOCK_DATA}
+          indicatorData={MOCK_DATA}
           searchState={state}
-          areaCodes={mockAreas}
         />
       );
 
@@ -164,10 +167,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={searchState}
           indicatorMetadata={mockMetaData}
-          areaCodes={[...mockAreas, 'third area']}
         />
       );
 
@@ -185,9 +187,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={searchState}
-          areaCodes={mockAreas}
         />
       );
 
@@ -205,9 +206,8 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={searchState}
-          areaCodes={mockAreas}
         />
       );
 
@@ -226,14 +226,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={[
-            mockHealthData[108][1],
-            mockHealthData[108][2],
-            mockHealthData[108][3],
-          ]}
+          indicatorData={{
+            areaHealthData: [
+              mockHealthData[108][1],
+              mockHealthData[108][2],
+              mockHealthData[108][3],
+            ],
+          }}
           searchState={searchState}
           mapData={mockMapData}
-          areaCodes={mockAreas}
         />
       );
       expect(
@@ -249,14 +250,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={[
-            mockHealthData[108][1],
-            mockHealthData[108][2],
-            mockHealthData[108][3],
-          ]}
+          indicatorData={{
+            areaHealthData: [
+              mockHealthData[108][1],
+              mockHealthData[108][2],
+              mockHealthData[108][3],
+            ],
+          }}
           searchState={searchState}
           mapData={mockMapData}
-          areaCodes={mockAreas}
         />
       );
 

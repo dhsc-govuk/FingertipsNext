@@ -7,6 +7,7 @@ namespace DataCreator
     {
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
         private const int MAXNUMBERGPS = 5;
+        private const string PERSONS = "Persons";
 
         public async Task<List<string>> CreateAreaDataAsync()
         {
@@ -52,7 +53,7 @@ namespace DataCreator
                 cleanedAreas.Add(area);
             }
 
-
+            
             DataFileManager.WriteJsonData("areas", cleanedAreas);
 
             var simpleAreasWeWant = cleanedAreas.Select(area => new SimpleAreaWithChildren
@@ -72,7 +73,7 @@ namespace DataCreator
             DataFileManager.WriteSimpleAreaCsvData("areas", simpleAreasWeWant);
             return areasWeWant;
         }
-
+       
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators, bool addAreasToIndicator)
         {
@@ -88,6 +89,9 @@ namespace DataCreator
                     indicator.LatestDataPeriod = match.LatestDataPeriod;
                     indicator.EarliestDataPeriod = match.EarliestDataPeriod;
                     indicator.HasInequalities = match.HasInequalities;
+                    indicator.HasMultipleAges = match.HasMultipleAges;
+                    indicator.HasMultipleSexes = match.HasMultipleSexes;
+                    indicator.HasMultipleDeprivation = match.HasMultipleDeprivation;
                 }
 
                 indicator.UsedInPoc = pocIndicators.Select(i => i.IndicatorID).Contains(indicator.IndicatorID);
@@ -100,7 +104,6 @@ namespace DataCreator
                     indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                     indicator.Polarity = indicatorUsedInPoc.Polarity;
                 }
-
             }
             AddLastUpdatedDate(indicators);
             var simpleIndicators = indicators.Where(i => i.UsedInPoc).Cast<SimpleIndicator>().ToList();
@@ -132,25 +135,57 @@ namespace DataCreator
                 healthMeasures.AddRange(data);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
-            AddSexIds(healthMeasures);
+           
             CreateCategoryData(healthMeasures);
 
-            var indicatorWithAreasAndLatestUpdates = healthMeasures
-                .GroupBy(measure => measure.IndicatorId)
+            var indicatorWithAreasAndLatestUpdates = healthMeasures.GroupBy(measure => measure.IndicatorId)
                 .Select(group => new IndicatorWithAreasAndLatestUpdate
                 {
                     IndicatorID = group.Key,
-                    AssociatedAreaCodes = group.Select(x => x.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod = group.OrderByDescending(g => g.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(g => g.Year).First().Year,
-                    HasInequalities = group.Any(d => d.Sex != "Persons" || !string.IsNullOrEmpty(d.CategoryType)) //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    AssociatedAreaCodes = group.Select(healthMeasureEntity => healthMeasureEntity.AreaCode).Distinct().ToList(),
+                    LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    HasInequalities = group.Any(healthMeasureEntity => healthMeasureEntity.Sex != PERSONS || !string.IsNullOrEmpty(healthMeasureEntity.CategoryType)), //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
+                    HasMultipleSexes= group.Select(healthMeasureEntity=> healthMeasureEntity.Sex).Distinct().Count() > 1,
+                    HasMultipleAges= group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
+                    HasMultipleDeprivation= group.Select(healthMeasureEntity => healthMeasureEntity.CategoryType).Distinct().Count() > 1
                 })
                 .ToList();
-
+            SetAggregateFlags(indicatorWithAreasAndLatestUpdates, healthMeasures);
             DataFileManager.WriteAgeCsvData("agedata", usedAges);
             DataFileManager.WriteHealthCsvData("healthdata", healthMeasures);
 
             return indicatorWithAreasAndLatestUpdates;
+        }
+
+        private static void SetAggregateFlags(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<HealthMeasureEntity> healthMeasures)
+        {
+            foreach (var healthMeasure in healthMeasures) 
+            {
+                var matchingIndicator = indicatorWithAreasAndLatestUpdates.First(x => x.IndicatorID == healthMeasure.IndicatorId);
+
+                if (!matchingIndicator.HasMultipleSexes) //the associated indicator only has 1 sex value
+                    healthMeasure.IsSexAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 sex, the health measure could be for 'Persons', 'Male' or 'Female'. If it is 'Persons' set the flag to true, otherwise false
+                    healthMeasure.IsSexAggregatedOrSingle=healthMeasure.Sex== PERSONS;
+
+                if (!matchingIndicator.HasMultipleAges) //the associated indicator only has 1 age value
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 age, the health measure could be for 'All ages', or others. If it is 'All ages' set the flag to true, otherwise false
+                    healthMeasure.IsAgeAggregatedOrSingle = healthMeasure.Age == "All ages";
+
+                //there are 2 indicators that have multiple ages but no aggregate age
+                //using the same behaviour as current Fingertips set the default age specifically
+                if (healthMeasure.IndicatorId == 93015 && healthMeasure.Age == "19+ yrs")
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+                if (healthMeasure.IndicatorId == 93088 && healthMeasure.Age == "18+ yrs")
+                    healthMeasure.IsAgeAggregatedOrSingle = true;
+
+                if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
+                    healthMeasure.IsDeprivationAggregatedOrSingle = true;
+                else //the associated indicator has more than 1 deprivation, the health measure could be for 'All', or others. If it is 'All' set the flag to true, otherwise false
+                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "All";
+            }
         }
 
         private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
@@ -158,6 +193,7 @@ namespace DataCreator
             var categoryData = new List<CategoryEntity>();
             foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
             {
+                healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
                 if (categoryData.FirstOrDefault(cd =>
                     cd.CategoryName.Equals(healthMeasure.Category, StringComparison.CurrentCultureIgnoreCase) &&
                     cd.CategoryTypeName.Equals(healthMeasure.CategoryType, StringComparison.CurrentCultureIgnoreCase)) == null)
@@ -169,8 +205,59 @@ namespace DataCreator
                         Sequence = CreateSequenceForCategory(healthMeasure.Category)
                     });
                 }
+                
             }
+            //clean up the names and make GDS compliant - ticket 412
             DataFileManager.WriteCategoryCsvData("categories", categoryData);
+        }
+
+        private static string CleanCategoryTypeName(string originalName)
+        {
+            const string CountiesAndUa = "Counties and Unitary Authorities";
+            const string DistrictAndUa = "Districts and Unitary Authorities";
+            const string DeprivationDeciles = "deprivation deciles";
+            const string Geography = "geography";
+            const string IMD = "Index of Multiple Deprivation";
+            const string Year2019 = "2019";
+            const string April = "Apr";
+
+            if (originalName.Equals("CCG deprivation deciles in England (IMD2019, 2021 CCGs)", StringComparison.CurrentCultureIgnoreCase))
+                return $"Clinical Commissioning Groups {DeprivationDeciles}: 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: before {April} {Year2019} {Geography} ({IMD} 2015)";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/19 and 4/20 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} {Year2019} and {April} 2020 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/21 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("County & UA deprivation deciles in England (IMD2019, 4/23 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{CountiesAndUa} {DeprivationDeciles}: {April} 2023 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2015, pre 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: before {April} {Year2019} {Geography} ({IMD} 2015)";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/19 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} {Year2019} {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/20 geog.)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2020 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/21 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2021 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("District & UA deprivation deciles in England (IMD2019, 4/23 geography)", StringComparison.CurrentCultureIgnoreCase))
+                return $"{DistrictAndUa} {DeprivationDeciles}: {April} 2023 {Geography} ({IMD} {Year2019})";
+
+            if (originalName.Equals("General Practice deprivation deciles in England (IMD2010)", StringComparison.CurrentCultureIgnoreCase))
+                return $"General Practice {DeprivationDeciles}: ({IMD} 2010)";
+
+            if (originalName.Equals("LSOA11 deprivation deciles within area (IMD  trend)", StringComparison.CurrentCultureIgnoreCase))
+                return $"LSOA11 {DeprivationDeciles}: ({IMD} trend)";
+
+            return originalName;
         }
 
         private static int CreateSequenceForCategory(string categoryName)
@@ -210,27 +297,6 @@ namespace DataCreator
             return allAges.Where(age => usedAgeIds.Contains(age.AgeID)).ToList();
         }
 
-        private static void AddSexIds(List<HealthMeasureEntity> healthMeasures)
-        {
-            foreach (var healthMeasure in healthMeasures)
-            {
-                switch (healthMeasure.Sex)
-                {
-                    case "Not applicable":
-                        healthMeasure.SexID = -1;
-                        break;
-                    case "Male":
-                        healthMeasure.SexID = 1;
-                        break;
-                    case "Female":
-                        healthMeasure.SexID = 2;
-                        break;
-                    case "Persons":
-                        healthMeasure.SexID = 4;
-                        break;
-                }
-            }
-        }
 
         public async Task<IEnumerable<AgeEntity>> GetAgeDataAsync() =>
             await _pholioDataFetcher.FetchAgeDataAsync();

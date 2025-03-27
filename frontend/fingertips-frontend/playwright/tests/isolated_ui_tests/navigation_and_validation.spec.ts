@@ -10,7 +10,6 @@ import {
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
-import { englandArea } from '@/mock/data/areas/englandAreas';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -57,13 +56,9 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     chartPage,
     axeBuilder,
   }) => {
-    await test.step('Search page validation', async () => {
+    await test.step('Navigate to search page', async () => {
       await homePage.navigateToHomePage();
       await homePage.checkOnHomePage();
-      await homePage.clickSearchButton();
-      await homePage.checkSummaryValidation(
-        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
-      );
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
     });
 
@@ -117,10 +112,6 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
-      await homePage.closeAreaFilterPill(0);
-
-      await test.expect(homePage.areaFilterPills()).toHaveCount(0);
-      await test.expect(homePage.page).not.toHaveURL(englandArea.code);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field
@@ -227,6 +218,38 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickIndicatorSearchButton();
       await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
     });
+  });
+});
+
+test('check "select all" checkbox updates selected indicators and URL', async ({
+  resultsPage,
+}) => {
+  await test.step('Navigate directly to the results page', async () => {
+    await resultsPage.navigateToResults(subjectSearchTerm, []);
+  });
+
+  await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
+    await resultsPage.selectSelectAllCheckbox();
+    await resultsPage.verifyAllIndicatorsSelected();
+    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+  });
+
+  await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
+    await resultsPage.deselectSelectAllCheckbox();
+    await resultsPage.verifyNoIndicatorsSelected();
+    await resultsPage.verifyUrlExcludesAllIndicators();
+  });
+
+  await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
+    await resultsPage.selectEveryIndicator(allIndicatorIDs);
+    await resultsPage.verifySelectAllCheckboxTicked();
+    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+  });
+
+  await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
+    await resultsPage.deselectIndicator(allIndicatorIDs[0]);
+    await resultsPage.verifySelectAllCheckboxUnticked();
+    await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
   });
 });
 

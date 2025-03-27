@@ -1,8 +1,13 @@
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPoint,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
+import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
+import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
   data: HealthDataForArea[]
@@ -68,16 +73,45 @@ export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
 }
 
-export function getMostRecentData(data: HealthDataPoint[]) {
-  return data.length > 0
-    ? {
-        count: data[0].count,
-        value: data[0].value,
-        lowerCi: data[0].lowerCi,
-        upperCi: data[0].upperCi,
-        year: data[0].year,
-      }
-    : undefined;
+export function getMostRecentData(
+  data: HealthDataPoint[]
+): HealthDataPoint | undefined {
+  return data.length > 0 ? data[0] : undefined;
+}
+
+export async function loadHighchartsModules(callback: () => void) {
+  await import('highcharts/highcharts-more').then(callback);
+}
+
+export const getBenchmarkColour = (
+  method: BenchmarkComparisonMethod,
+  outcome: BenchmarkOutcome,
+  polarity: IndicatorPolarity
+) => {
+  const colours = getBenchmarkTagStyle(method, outcome, polarity);
+  const backgroundColor = colours?.backgroundColor;
+  return backgroundColor === 'transparent' ? undefined : backgroundColor;
+};
+
+export function generateConfidenceIntervalSeries(
+  areaName: string,
+  data: (number | undefined)[][],
+  showConfidenceIntervalsData?: boolean,
+  optionalParams?: {
+    color?: GovukColours;
+    whiskerLength?: string;
+    lineWidth?: number;
+  }
+): Highcharts.SeriesOptionsType {
+  return {
+    type: 'errorbar',
+    name: areaName,
+    data: data,
+    visible: showConfidenceIntervalsData,
+    color: optionalParams?.color ?? GovukColours.MidGrey,
+    whiskerLength: optionalParams?.whiskerLength ?? '20%',
+    lineWidth: optionalParams?.lineWidth ?? 2,
+  };
 }
 
 export const getLatestYear = (

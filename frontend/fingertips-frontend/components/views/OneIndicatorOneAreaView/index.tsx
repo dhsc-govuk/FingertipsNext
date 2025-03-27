@@ -1,8 +1,7 @@
 import { OneIndicatorOneAreaViewPlots } from '@/components/viewPlots/OneIndicatorOneAreaViewPlots';
 import {
-  GetHealthDataForAnIndicatorComparisonMethodEnum,
   GetHealthDataForAnIndicatorInequalitiesEnum,
-  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
   API_CACHE_CONFIG,
@@ -12,16 +11,9 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-
-const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
 export default async function OneIndicatorOneAreaView({
+  selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -45,16 +37,14 @@ export default async function OneIndicatorOneAreaView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const areasApi = ApiClientFactory.getAreasApiClient();
 
-  let healthIndicatorData: HealthDataForArea[] | undefined;
+  let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
-    healthIndicatorData = await indicatorApi.getHealthDataForAnIndicator(
+    indicatorData = await indicatorApi.getHealthDataForAnIndicator(
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
         inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
-        comparisonMethod: GetHealthDataForAnIndicatorComparisonMethodEnum.Rag,
       },
       API_CACHE_CONFIG
     );
@@ -63,52 +53,11 @@ export default async function OneIndicatorOneAreaView({
     throw new Error('error getting health indicator data for area');
   }
 
-  let indicatorMetadata: IndicatorDocument | undefined;
-  try {
-    indicatorMetadata =
-      await SearchServiceFactory.getIndicatorSearchService().getIndicator(
-        indicatorSelected[0]
-      );
-  } catch (error) {
-    console.error(
-      'error getting meta data for health indicator for area',
-      error
-    );
-  }
-
-  const healthPopulationData = await (async () => {
-    try {
-      const populationIndicatorID: number = await (async (areaCode: string) => {
-        const area = await areasApi.getArea({ areaCode: areaCode });
-        if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-          return PopulationIndicatorIdsTypes.NHS;
-        }
-        return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-      })(areaCodesToRequest[0]);
-
-      return await indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: populationIndicatorID,
-          areaCodes: areaCodesToRequest,
-          inequalities: [
-            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-          ],
-        },
-        API_CACHE_CONFIG
-      );
-    } catch (error) {
-      console.error(
-        'error getting population health indicator data for area',
-        error
-      );
-    }
-  })();
+  const indicatorMetadata = selectedIndicatorsData?.[0];
 
   return (
     <OneIndicatorOneAreaViewPlots
-      populationHealthDataForArea={healthPopulationData}
-      healthIndicatorData={healthIndicatorData}
+      indicatorData={indicatorData}
       searchState={searchState}
       indicatorMetadata={indicatorMetadata}
     />

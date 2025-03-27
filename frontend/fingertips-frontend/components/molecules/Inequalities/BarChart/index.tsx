@@ -10,20 +10,27 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
+import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
+import { useEffect, useState } from 'react';
+import {
+  generateConfidenceIntervalSeries,
+  loadHighchartsModules,
+  getBenchmarkColour,
+} from '@/lib/chartHelpers/chartHelpers';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
   yAxisLabel: string;
-  benchmarkValue?: number;
   type?: InequalitiesTypes;
   measurementUnit?: string;
-  areasSelected?: string[];
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
@@ -48,11 +55,16 @@ export function InequalitiesBarChart({
   yAxisLabel,
   measurementUnit,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
   const { benchmarkValue, inequalityDimensions: barChartFields } =
     getAggregatePointInfo(inequalities);
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState<boolean>(false);
+  const [options, setOptions] = useState<Highcharts.Options>();
 
   // for sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API
@@ -67,14 +79,11 @@ export function InequalitiesBarChart({
     {
       type: 'bar',
       data: barChartFields.map((field) => {
-        const colours = getBenchmarkTagStyle(
-          BenchmarkLabelGroupType.RAG,
-          inequalities[field]?.benchmarkComparison
-            ?.outcome as BenchmarkLabelType
+        const color = getBenchmarkColour(
+          benchmarkComparisonMethod,
+          inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
+          polarity
         );
-        const backgroundColor = colours?.backgroundColor;
-        const color =
-          backgroundColor === 'transparent' ? undefined : backgroundColor;
         return {
           name: field,
           y: inequalities[field]?.value,
@@ -82,6 +91,14 @@ export function InequalitiesBarChart({
         };
       }),
     },
+    generateConfidenceIntervalSeries(
+      barChartData.areaName,
+      barChartFields.map((field) => [
+        inequalities[field]?.lower,
+        inequalities[field]?.upper,
+      ]),
+      showConfidenceIntervalsData
+    ),
   ];
 
   const barChartOptions: Highcharts.Options = {
@@ -163,15 +180,31 @@ export function InequalitiesBarChart({
     },
   };
 
+  useEffect(() => {
+    loadHighchartsModules(() => {
+      setOptions(barChartOptions);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showConfidenceIntervalsData]);
+
+  if (!options) {
+    return null;
+  }
+
   return (
     <div data-testid="inequalitiesBarChart-component">
       <BenchmarkLegend rag />
+      <ConfidenceIntervalCheckbox
+        chartName="inequalitiesBarChart"
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+      ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-inequalitiesBarChart',
         }}
         highcharts={Highcharts}
-        options={barChartOptions}
+        options={options}
       />
     </div>
   );

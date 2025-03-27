@@ -95,7 +95,8 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' || 
       needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true'
+      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+      needs.check-changes.outputs.search_changed == 'true'
     name: Build Database
     runs-on: ubuntu-latest
     env:
@@ -161,7 +162,8 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true'
+      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+      needs.check-changes.outputs.search_changed == 'true'
     name: Test Trend Analysis App
     runs-on: ubuntu-latest
     strategy:
@@ -241,8 +243,6 @@ jobs:
         )
       )
     uses: ./.github/workflows/ui-tests.yml
-    with:
-      ui-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
 
   e2e-tests-local-docker:
     needs: [check-changes]
@@ -261,6 +261,8 @@ jobs:
         )
       )
     uses: ./.github/workflows/e2e-tests.yml
+    with:
+      playwright-mode: docker
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
 
@@ -281,9 +283,8 @@ jobs:
       container-tag: dhsc.fingertipsnext.api
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+      acr-server: ${{ secrets.ACR_SERVER }}
 
   push-container-frontend:
     uses: ./.github/workflows/build-container.yml
@@ -302,40 +303,40 @@ jobs:
       container-tag: dhsc.fingertipsnext.frontend
       git-semver: ${{ needs.determine-version.outputs.sem-ver }}
     secrets:
-      arm-client-id: ${{ secrets.ARM_CLIENT_ID }}
-      arm-client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
-      acr-server: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}
+      azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+      acr-server: ${{ secrets.ACR_SERVER }}
 
   deploy-db-dev:
     needs:
       [
         determine-version,
         check-changes,
+        database-build,
+        e2e-tests-local-docker,
         push-container-api,
-        push-container-frontend,
-        frontend-build-and-test,
-        api-build-and-test,
-        e2e-tests-local-docker       
+        push-container-frontend
       ]
     environment: development
-    runs-on: windows-latest
+    runs-on: self-hosted
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
       (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.trend_analysis_changed == 'true'
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          (
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+            needs.check-changes.outputs.search_changed == 'true'
+          )
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
     steps:
-      - name: Set git core.longpaths flag
-        run: |
-          git config --system core.longpaths true
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -349,23 +350,31 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Upload files to Azure Blob Storage
-        shell: pwsh
+        shell: bash
         working-directory: ${{ github.workspace }}
         run: |
-          az storage blob upload-batch `
-            --destination '${{ vars.SQL_DATA_BLOB_CONTAINER }}' `
-            --source 'DataCreator\DataCreator\data\out' `
-            --account-name '${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}' `
-            --auth-mode 'login' `
+          az storage blob upload-batch \
+            --destination "${{ vars.SQL_DATA_BLOB_CONTAINER }}" \
+            --source "DataCreator/DataCreator/data/out" \
+            --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
+            --auth-mode "login" \
             --overwrite true
 
       - name: Deploy Database
-        uses: azure/sql-action@v2.3
-        with:
-          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          path: 'fingertips-db.dacpac'
-          action: 'publish'
-          arguments: '/p:DropObjectsNotInSource=true /p:BlockOnPossibleDataLoss=false /p:GenerateSmartDefaults=true /v:UseAzureBlob=1 /v:BlobStorageLocation=${{ vars.BLOB_STORAGE_LOCATION }} /v:MasterKeyPassword=${{ secrets.SQL_MASTER_KEY_PASSWORD }}'
+        run: |
+          sqlpackage \
+            /Action:Publish \
+            /SourceFile:"${{ github.workspace }}/fingertips-db.dacpac" \
+            /TargetServerName:"${{ secrets.AZURE_SQL_SERVER }}" \
+            /TargetDatabaseName:"${{ secrets.AZURE_SQL_DATABASE }}" \
+            /TargetUser:"${{ secrets.AZURE_SQL_USER }}" \
+            /TargetPassword:"${{ secrets.AZURE_SQL_PASSWORD }}" \
+            /p:DropObjectsNotInSource=true \
+            /p:BlockOnPossibleDataLoss=false \
+            /p:GenerateSmartDefaults=true \
+            /v:UseAzureBlob=1 \
+            /v:BlobStorageLocation="${{ vars.BLOB_STORAGE_LOCATION }}" \
+            /v:MasterKeyPassword="${{ secrets.SQL_MASTER_KEY_PASSWORD }}"
 
   run-trend-analysis-dev:
     needs: [check-changes, deploy-db-dev]
@@ -375,15 +384,23 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
       (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.db_changed == 'true' ||
-        needs.check-changes.outputs.trend_analysis_changed == 'true'
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          (
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+            needs.check-changes.outputs.search_changed == 'true'
+          )
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
     environment: development
     name: Run Trend Analysis App
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    env:
+      ACTIONS_RUNNER_DEBUG: true
     strategy:
       matrix:
         dotnet-version: ['9.0.x']
@@ -394,30 +411,50 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Process trends
         env:
           SQLCONNSTR_FINGERTIPS_DB: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         run: dotnet run
 
+      - name: Upload updated indicators file
+        uses: actions/upload-artifact@v4
+        with:
+          name: indicators-for-search
+          path: ./trend-analysis/TrendAnalysisApp/SearchData/assets/indicators.json
+
   search-setup-dev:
-    needs: [check-changes, deploy-db-dev]
+    needs: [
+      check-changes,
+      deploy-db-dev,
+      run-trend-analysis-dev
+    ]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       github.event_name != 'pull_request' &&
-      github.ref_name == 'main' &&
       (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.search_changed == 'true'
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          (
+            needs.check-changes.outputs.search_changed == 'true' ||
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true'
+          )
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         working-directory: ./search-setup
@@ -457,12 +494,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Download updated indicators.json file
+      - name: Download updated indicators data
+        uses: actions/download-artifact@v4
+        with:
+          name: indicators-for-search
+          path: /tmp/workflow/assets
+
       # Create index
       - name: Create index
         run: npm run create-index
         env:
           AI_SEARCH_SERVICE_ENDPOINT: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-url }}
           AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
+
       # Run tests
       - name: Run tests
         run: npm run test
@@ -471,19 +516,29 @@ jobs:
           AI_SEARCH_API_KEY: ${{ steps.azure-keyvault-secrets.outputs.fingertips-ai-search-api-key }}
 
   deploy-api-dev:
-    needs: [determine-version, check-changes, search-setup-dev]
+    needs: [
+      determine-version,
+      check-changes,
+      push-container-api,
+      search-setup-dev
+    ]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.head_ref == 'main' ||
-        github.ref_name == 'main'
-      ) &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.api_changed == 'true'
+        (
+          github.event_name == 'pull_request' &&
+          github.head_ref == 'main' &&
+          needs.check-changes.outputs.api_changed == 'true'
+        ) ||
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          needs.check-changes.outputs.api_changed == 'true'
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
     uses: ./.github/workflows/deploy-container.yml
     with:
@@ -531,19 +586,29 @@ jobs:
       arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
   deploy-frontend-dev:
-    needs: [determine-version, check-changes, deploy-api-dev]
+    needs: [
+      determine-version,
+      check-changes,
+      push-container-frontend,
+      deploy-api-dev
+    ]
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.head_ref == 'main' ||
-        github.ref_name == 'main'
-      ) &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.frontend_changed == 'true'
+        (
+          github.event_name == 'pull_request' &&
+          github.head_ref == 'main' &&
+          needs.check-changes.outputs.frontend_changed == 'true'
+        ) ||
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          needs.check-changes.outputs.frontend_changed == 'true'
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
     uses: ./.github/workflows/deploy-container.yml
     with:
@@ -610,26 +675,22 @@ jobs:
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
+      github.event_name != 'pull_request' &&
       (
-        github.event_name != 'pull_request' &&
         (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
           (
-            github.ref_name == 'main' &&
-            github.event_name == 'workflow_dispatch'
-          ) ||
-          (
-            github.ref_name == 'main' &&
-            (
-              needs.check-changes.outputs.db_changed == 'true' ||
-              needs.check-changes.outputs.api_changed == 'true' ||
-              needs.check-changes.outputs.frontend_changed == 'true' ||
-              needs.check-changes.outputs.search_changed == 'true' ||
-              needs.check-changes.outputs.trend_analysis_changed == 'true'
-            )
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.api_changed == 'true' ||
+            needs.check-changes.outputs.frontend_changed == 'true' ||
+            needs.check-changes.outputs.search_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true'
           )
-        )
+        ) ||
+        github.event_name == 'workflow_dispatch'
       )
     with:
-      e2e-test-container-image: mcr.microsoft.com/playwright:v1.51.1-noble
+      playwright-mode: azure
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
