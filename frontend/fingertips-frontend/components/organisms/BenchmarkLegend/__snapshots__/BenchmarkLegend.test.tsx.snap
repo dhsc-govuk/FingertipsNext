@@ -331,6 +331,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
 
 <div
     class="c0"
+    data-testid="benchmarkLegend-component"
   >
     <div
       class="c1"
