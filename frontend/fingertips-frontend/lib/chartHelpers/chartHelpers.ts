@@ -114,7 +114,7 @@ export function generateConfidenceIntervalSeries(
   };
 }
 
-export function getMostRecentYearForArea(
+export function getLatestYear(
   points: HealthDataPoint[] | undefined
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
@@ -129,7 +129,7 @@ function getMostRecentYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number {
   return healthDataForAreas.reduce((previous, area) => {
-    return Math.max(previous, getMostRecentYearForArea(area?.healthData) ?? 0);
+    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
   }, healthDataForAreas[0].healthData[0].year);
 }
 
