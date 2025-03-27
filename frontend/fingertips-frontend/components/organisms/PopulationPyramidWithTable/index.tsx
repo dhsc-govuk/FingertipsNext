@@ -2,7 +2,7 @@
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   convertHealthDataForAreaForPyramidData,
   createPyramidPopulationDataFrom,
@@ -17,6 +17,9 @@ import {
 import { HeaderChartTitle } from './HeaderChartTitle';
 import { H3 } from 'govuk-react';
 import { getLatestYear } from '@/lib/chartHelpers/chartHelpers';
+import { SearchParams, SearchStateManager, SearchStateParams } from '@/lib/searchStateManager';
+import { usePathname, useRouter } from 'next/navigation';
+
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -35,41 +38,45 @@ interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
-  selectedAreaCode?: string;
-  selectedGroupAreaCode?: string;
-  onAreaSelected?: (area: string | undefined) => void;
+  searchState: SearchStateParams
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  selectedGroupAreaCode,
-  selectedAreaCode,
-  onAreaSelected,
+  searchState
 }: Readonly<PyramidPopulationChartViewProps>) => {
+
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.GroupAreaSelected]: selectedGroupAreaCode,
+    [SearchParams.PopulationAreaSelected]: selectedAreaCode,
+  } = stateManager.getSearchState();
+
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const convertedData = useMemo(() => {
     return createPyramidPopulationDataFrom(
       healthDataForAreas,
       selectedGroupAreaCode ?? ''
     );
   }, [healthDataForAreas, selectedGroupAreaCode]);
-
   // determine the default selected area.
-  const defaultSelectedArea = ((areaCode: string) => {
+  const getSelectedArea = ((areaCode: string) => {
     let populationArea: PopulationDataForArea | undefined = undefined;
-    if (areaCode) {
+    if (areaCode && convertedData?.areas.length > 0) {
       populationArea = convertedData.areas.find(
         (area: PopulationDataForArea | undefined) => area?.areaCode === areaCode
       );
     }
     if (!populationArea)
-      return convertedData.areas.length > 0
+      return convertedData?.areas.length > 0
         ? convertedData.areas[0]
         : undefined;
     return populationArea;
-  })(selectedAreaCode ?? '');
-
-  const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
+  });
+  const defaultSelectedArea = getSelectedArea(selectedAreaCode ?? '')
+  const [selectedArea, setSelectedArea] = useState(getSelectedArea(selectedAreaCode ?? ''));
   const [title, setTitle] = useState<string>(
     (() => {
       if (!defaultSelectedArea) return '';
@@ -85,6 +92,13 @@ export const PopulationPyramidWithTable = ({
       return getHeaderTitle(healthData, year);
     })()
   );
+
+  //handle the parameter changes and setting the area for now
+  useEffect(() => {
+    const selectedArea = getSelectedArea(selectedAreaCode ?? '')
+    setSelectedArea(selectedArea);
+    console.log("Effect on code")
+  }, [selectedAreaCode, getSelectedArea])
 
   const onAreaSelectedHandler = useCallback(
     (area: AreaSelectInputData) => {
@@ -103,12 +117,15 @@ export const PopulationPyramidWithTable = ({
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
-        if (onAreaSelected) {
-          onAreaSelected(healthData?.areaCode);
-        }
+
+        stateManager.removeParamValueFromState(SearchParams.PopulationAreaSelected)
+        stateManager.addParamValueToState(SearchParams.PopulationAreaSelected, area.areaCode)
+        replace(stateManager.generatePath(pathname));
+
+        console.log("Selected area  = " + healthData?.areaCode)
       }
     },
-    [healthDataForAreas, onAreaSelected]
+    [healthDataForAreas, stateManager, replace, pathname]
   );
 
   if (!convertedData?.areas.length) {
@@ -117,7 +134,7 @@ export const PopulationPyramidWithTable = ({
   return (
     <div>
       <H3>Related Population Data</H3>
-      <ShowHideContainer summary="Population data" open={false}>
+      <ShowHideContainer summary="Population data" open={selectedAreaCode ? true : false}>
         <div>
           <div>
             <AreaSelectInputField

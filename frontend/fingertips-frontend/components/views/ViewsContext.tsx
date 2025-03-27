@@ -64,8 +64,7 @@ export async function ViewsContext({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupAreaSelected]: groupAreaSelected,
-    [SearchParams.PopulationAreaSelected]: populationAreaSelected,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected
   } = stateManager.getSearchState();
   const indicators = indicatorsSelected ?? [];
 
@@ -117,13 +116,6 @@ export async function ViewsContext({
     }
   })();
 
-  const onAreaSelectedHandler = (areaCode: string | undefined) => {
-    console.log('Hello world' + areaCode);
-    // stateManager.updateSearchState({
-    //   [SearchParams.PopulationAreaSelected]: areaCode,
-    // });
-  };
-
   return (
     <ChartPageWrapper
       key={JSON.stringify(searchState)}
@@ -142,11 +134,9 @@ export async function ViewsContext({
 
         <PopulationPyramidWithTable
           healthDataForAreas={indicatorPopulationData?.areaHealthData ?? []}
-          selectedGroupAreaCode={groupAreaSelected}
           xAxisTitle="Age"
           yAxisTitle="Percentage of total population"
-          selectedAreaCode={populationAreaSelected}
-          onAreaSelected={onAreaSelectedHandler}
+          searchState={searchState}
         />
       </>
     </ChartPageWrapper>
