@@ -2,7 +2,10 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { render, screen } from '@testing-library/react';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { noDeprivation } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -17,15 +20,17 @@ jest.mock('next/navigation', () => {
 
 const indicatorIds = ['123', '321'];
 const mockAreas = ['A001'];
+const mockGroupArea = 'G001';
 
 const mockSearchParams: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: indicatorIds,
   [SearchParams.AreasSelected]: mockAreas,
+  [SearchParams.GroupSelected]: mockGroupArea,
 };
 
 const mockGroupHealthData: HealthDataForArea = {
-  areaCode: mockAreas[0],
+  areaCode: mockGroupArea,
   areaName: 'Group',
   healthData: [
     {
@@ -60,9 +65,9 @@ const mockEnglandHealthData: HealthDataForArea = {
   ],
 };
 
-const mockHealthData: HealthDataForArea[] = [
+const mockAreaHealthData: HealthDataForArea[] = [
   {
-    areaCode: 'A1425',
+    areaCode: mockAreas[0],
     areaName: 'Greater Manchester ICB - 00T',
     healthData: [
       {
@@ -79,7 +84,7 @@ const mockHealthData: HealthDataForArea[] = [
     ],
   },
   {
-    areaCode: 'A1425',
+    areaCode: mockAreas[0],
     areaName: 'Greater Manchester ICB - 00T',
     healthData: [
       {
@@ -97,6 +102,23 @@ const mockHealthData: HealthDataForArea[] = [
   },
 ];
 
+const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
+  {
+    areaHealthData: [
+      mockAreaHealthData[0],
+      mockGroupHealthData,
+      mockEnglandHealthData,
+    ],
+  },
+  {
+    areaHealthData: [
+      mockAreaHealthData[1],
+      mockGroupHealthData,
+      mockEnglandHealthData,
+    ],
+  },
+];
+
 const mockMetaData = [
   {
     indicatorID: indicatorIds[0],
@@ -106,7 +128,7 @@ const mockMetaData = [
     earliestDataPeriod: '2025',
     latestDataPeriod: '2025',
     lastUpdatedDate: new Date('March 4, 2025'),
-    associatedAreaCodes: ['E06000047'],
+    associatedAreaCodes: [mockAreas[0]],
     unitLabel: 'pancakes',
     hasInequalities: true,
     usedInPoc: false,
@@ -119,7 +141,7 @@ const mockMetaData = [
     earliestDataPeriod: '2023',
     latestDataPeriod: '2023',
     lastUpdatedDate: new Date('March 4, 2023'),
-    associatedAreaCodes: ['E06000047'],
+    associatedAreaCodes: [mockAreas[0]],
     unitLabel: 'pizzas',
     hasInequalities: true,
     usedInPoc: false,
@@ -131,9 +153,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
-        healthIndicatorData={mockHealthData}
-        groupIndicatorData={[mockGroupHealthData, mockGroupHealthData]}
-        englandIndicatorData={[mockEnglandHealthData, mockEnglandHealthData]}
+        indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
       />
     );
@@ -153,9 +173,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
-        healthIndicatorData={mockHealthData}
-        groupIndicatorData={[mockGroupHealthData, mockGroupHealthData]}
-        englandIndicatorData={[mockEnglandHealthData, mockEnglandHealthData]}
+        indicatorData={mockIndicatorData}
         indicatorMetadata={mockMetaData}
       />
     );

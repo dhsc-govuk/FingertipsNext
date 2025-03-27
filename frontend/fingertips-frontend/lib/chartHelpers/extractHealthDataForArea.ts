@@ -1,4 +1,7 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 type ExtractedHealthData = {
@@ -8,7 +11,7 @@ type ExtractedHealthData = {
 };
 
 export const extractingCombinedHealthData = (
-  combinedIndicatorData: HealthDataForArea[][],
+  combinedIndicatorData: IndicatorWithHealthDataForArea[],
   areasSelected: string[],
   selectedGroupCode?: string
 ): ExtractedHealthData => {
@@ -21,17 +24,23 @@ export const extractingCombinedHealthData = (
   const englandIndicatorData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
+
   combinedIndicatorData.forEach((indicator, index) => {
-    const healthData = indicator.find(
+    if (!indicator.areaHealthData) {
+      throw new Error('Missing health data for indicator');
+    }
+
+    const healthData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === areasSelected[0]
     );
 
     if (!healthData) {
       throw new Error('Missing health data for indicator');
     }
+
     healthIndicatorData[index] = healthData;
 
-    const groupData = indicator.find(
+    const groupData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === selectedGroupCode
     );
 
@@ -40,7 +49,7 @@ export const extractingCombinedHealthData = (
     }
     groupIndicatorData[index] = groupData;
 
-    const englandData = indicator.find(
+    const englandData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === areaCodeForEngland
     );
 

@@ -7,9 +7,9 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -42,7 +42,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const combinedIndicatorData: HealthDataForArea[][] = [];
+  let combinedIndicatorData: IndicatorWithHealthDataForArea[];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return indicatorApi.getHealthDataForAnIndicator(
@@ -54,24 +54,11 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
     });
 
-    const results = await Promise.all(promises);
-
-    results.forEach((row) => {
-      if (row.areaHealthData) {
-        combinedIndicatorData.push(row.areaHealthData);
-      }
-    });
+    combinedIndicatorData = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-
-  const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
-    extractingCombinedHealthData(
-      combinedIndicatorData,
-      areasSelected,
-      selectedGroupCode
-    );
 
   let indicatorMetadata: (IndicatorDocument | undefined)[];
   try {
@@ -81,7 +68,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
       );
     });
 
-    const _ = await Promise.all(promises);
+    indicatorMetadata = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
@@ -89,10 +76,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   return (
     <TwoOrMoreIndicatorsAreasViewPlot
+      indicatorData={combinedIndicatorData}
       searchState={searchState}
-      healthIndicatorData={healthIndicatorData}
-      groupIndicatorData={groupIndicatorData}
-      englandIndicatorData={englandIndicatorData}
       indicatorMetadata={indicatorMetadata}
     />
   );

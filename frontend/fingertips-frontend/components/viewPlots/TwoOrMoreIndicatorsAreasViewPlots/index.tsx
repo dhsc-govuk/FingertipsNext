@@ -1,6 +1,6 @@
 'use client';
 
-import { MultiIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
   SpineChartTableRowProps,
@@ -10,8 +10,10 @@ import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { H2 } from 'govuk-react';
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
@@ -66,11 +68,27 @@ export function mapToSpineChartTableProps(
 }
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
-  groupIndicatorData,
-  englandIndicatorData,
-  healthIndicatorData,
+  searchState,
+  indicatorData,
   indicatorMetadata,
-}: Readonly<MultiIndicatorViewPlotProps>) {
+}: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  if (!areasSelected) {
+    throw new Error('Invalid parameters provided to view plot');
+  }
+
+  const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
+    extractingCombinedHealthData(
+      indicatorData,
+      areasSelected,
+      selectedGroupCode
+    );
+
   const spineTableData = mapToSpineChartTableProps(
     healthIndicatorData,
     groupIndicatorData,
