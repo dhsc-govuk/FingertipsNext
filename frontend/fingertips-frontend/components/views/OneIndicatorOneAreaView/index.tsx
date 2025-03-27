@@ -13,12 +13,10 @@ import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
 
-
 const enum PopulationIndicatorIdsTypes {
   ADMINISTRATIVE = 92708,
   NHS = 337,
 }
-
 
 export default async function OneIndicatorOneAreaView({
   selectedIndicatorsData,
@@ -45,7 +43,6 @@ export default async function OneIndicatorOneAreaView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const areasApi = ApiClientFactory.getAreasApiClient();
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
@@ -57,43 +54,47 @@ export default async function OneIndicatorOneAreaView({
       },
       API_CACHE_CONFIG
     );
+  } catch (error) {
+    console.error('error getting health indicator data for area', error);
+    throw new Error('error getting health indicator data for area');
+  }
 
+  const areasApi = ApiClientFactory.getAreasApiClient();
+  const indicatorPopulationData = await (async () => {
+    try {
+      const populationIndicatorID: number = await (async (areaCode: string) => {
+        const area = await areasApi.getArea({ areaCode: areaCode });
+        if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
+          return PopulationIndicatorIdsTypes.NHS;
+        }
+        return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
+      })(areaCodesToRequest[0]);
 
-    const healthPopulationData = await (async () => {
-      try {
-        const populationIndicatorID: number = await (async (areaCode: string) => {
-          const area = await areasApi.getArea({ areaCode: areaCode });
-          if (area.areaType.hierarchyName == HierarchyNameTypes.NHS) {
-            return PopulationIndicatorIdsTypes.NHS;
-          }
-          return PopulationIndicatorIdsTypes.ADMINISTRATIVE;
-        })(areaCodesToRequest[0]);
-
-        return await indicatorApi.getHealthDataForAnIndicator(
-          {
-            indicatorId: populationIndicatorID,
-            areaCodes: areaCodesToRequest,
-            inequalities: [
-              GetHealthDataForAnIndicatorInequalitiesEnum.Age,
-              GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-            ],
-          },
-          API_CACHE_CONFIG
-        );
-
-      } catch (error) {
-        console.error('error getting health indicator data for area', error);
-        throw new Error('error getting health indicator data for area');
-      }
-
-      const indicatorMetadata = selectedIndicatorsData?.[0];
-
-      return (
-        <OneIndicatorOneAreaViewPlots
-          populationHealthDataForArea={healthPopulationData}
-          indicatorData={indicatorData}
-          searchState={searchState}
-          indicatorMetadata={indicatorMetadata}
-        />
+      return await indicatorApi.getHealthDataForAnIndicator(
+        {
+          indicatorId: populationIndicatorID,
+          areaCodes: areaCodesToRequest,
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Age,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          ],
+        },
+        API_CACHE_CONFIG
+      );
+    } catch (error) {
+      console.error(
+        'error getting population health indicator data for area',
+        error
       );
     }
+  })();
+
+  return (
+    <OneIndicatorOneAreaViewPlots
+      populationHealthDataForArea={indicatorPopulationData?.areaHealthData}
+      indicatorData={indicatorData}
+      searchState={searchState}
+      indicatorMetadata={selectedIndicatorsData?.[0]}
+    />
+  );
+}

@@ -14,6 +14,7 @@ import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ViewsSelector } from './ViewsSelector';
 
 export type ViewProps = {
   searchState: SearchStateParams;
@@ -114,7 +115,12 @@ export function ViewsContext({
       selectedAreasData={selectedAreasData}
       selectedIndicatorsData={selectedIndicatorsData}
     >
-      {viewSelector(areaCodes, indicators, searchState, selectedIndicatorsData)}
+      <ViewsSelector
+        areaCodes={areaCodes}
+        indicators={indicators}
+        searchState={searchState}
+        selectedIndicatorsData={selectedIndicatorsData}
+      />
     </ChartPageWrapper>
   );
 }
