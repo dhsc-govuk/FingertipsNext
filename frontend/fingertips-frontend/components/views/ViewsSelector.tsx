@@ -1,31 +1,44 @@
 import OneIndicatorOneAreaView from './OneIndicatorOneAreaView';
-import { SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
 import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
 import { JSX } from 'react';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 interface ViewsSelectorProps {
   areaCodes: string[];
   indicators: string[];
   searchState: SearchStateParams;
+  selectedIndicatorsData: IndicatorDocument[];
 }
 
 export const ViewsSelector = ({
   areaCodes,
   indicators,
   searchState,
+  selectedIndicatorsData,
 }: ViewsSelectorProps): JSX.Element => {
+  const updatedSearchState = {
+    ...searchState,
+    [SearchParams.AreasSelected]: areaCodes,
+  };
+
   if (indicators.length === 1 && areaCodes.length === 1) {
-    return <OneIndicatorOneAreaView searchState={searchState} />;
+    return (
+      <OneIndicatorOneAreaView
+        selectedIndicatorsData={selectedIndicatorsData}
+        searchState={updatedSearchState}
+      />
+    );
   }
 
   if (indicators.length === 1 && areaCodes.length >= 2) {
     return (
       <OneIndicatorTwoOrMoreAreasView
-        searchState={searchState}
-        areaCodes={areaCodes}
+        selectedIndicatorsData={selectedIndicatorsData}
+        searchState={updatedSearchState}
       />
     );
   }
@@ -35,16 +48,12 @@ export const ViewsSelector = ({
     areaCodes.length === 1 &&
     areaCodes[0] === areaCodeForEngland
   ) {
-    return <TwoOrMoreIndicatorsEnglandView searchState={searchState} />;
+    return <TwoOrMoreIndicatorsEnglandView searchState={updatedSearchState} />;
   }
 
   if (indicators.length >= 2 && areaCodes.length >= 1) {
-    return (
-      <TwoOrMoreIndicatorsAreasView
-        searchState={searchState}
-        areaCodes={areaCodes}
-      />
-    );
+    return <TwoOrMoreIndicatorsAreasView searchState={updatedSearchState} />;
   }
+
   throw new Error('Parameters do not match any known view');
 };
