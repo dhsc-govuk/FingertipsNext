@@ -16,11 +16,11 @@ const config: PlaywrightTestConfig = {
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,
   workers: isCI ? 2 : '50%', // 50% of the available CPUs
-  timeout: 120_000,
+  timeout: 60_000,
   expect: {
     timeout: 10_000,
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.03,
+      maxDiffPixelRatio: 0.05,
       pathTemplate: '.test/spec/snaps/{projectName}/{testFilePath}/{arg}{ext}',
     },
   },

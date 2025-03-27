@@ -3,7 +3,6 @@ import {
   getScenarioConfig,
   IndicatorMode,
 } from '@/playwright/testHelpers';
-import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 import {
   PlaywrightTestArgs,
@@ -12,8 +11,9 @@ import {
   PlaywrightWorkerOptions,
   TestType,
 } from '@playwright/test';
+import AreaFilter from '../components/areaFilter';
 
-export default class ChartPage extends BasePage {
+export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
   static readonly lineChartComponent = 'standardLineChart-component';
   static readonly lineChartTableComponent = 'lineChartTable-component';
@@ -40,6 +40,10 @@ export default class ChartPage extends BasePage {
     await expect(
       this.page.getByText('View data for selected indicators and areas')
     ).toBeVisible();
+  }
+
+  async checkSpecificChartComponent(chartComponent: string) {
+    await this.page.getByTestId(chartComponent).isVisible();
   }
 
   async clickBackLink() {
@@ -76,30 +80,24 @@ export default class ChartPage extends BasePage {
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       // click tab to view the table view if checking a none embedded table component
-      if (
-        visibleComponent.toLowerCase().includes('table') &&
-        visibleComponent !== 'barChartEmbeddedTable-component'
-      ) {
+      if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
-            `tabTitle-${visibleComponent.replace('-component', '')}`
+            `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
         );
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
-      if (
-        visibleComponent.includes('LineChart-component') ||
-        visibleComponent === 'inequalitiesBarChart-component' ||
-        visibleComponent === 'barChartEmbeddedTable-component'
-      ) {
+      if (visibleComponent.componentProps.hasConfidenceIntervals) {
         await this.clickAndAwaitLoadingComplete(
           this.page.getByTestId(
-            `confidence-interval-checkbox-${visibleComponent.replace('-component', '')}`
+            `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
         );
       }
-
-      await expect(this.page.getByTestId(visibleComponent)).toBeVisible({
+      await expect(
+        this.page.getByTestId(visibleComponent.componentLocator)
+      ).toBeVisible({
         visible: true,
       });
 
@@ -113,20 +111,24 @@ export default class ChartPage extends BasePage {
 
       // for now just warn if visual comparisons do not match
       try {
-        await expect(this.page.getByTestId(visibleComponent)).toHaveScreenshot(
-          `${testName}-${visibleComponent}.png`
+        await expect(
+          this.page.getByTestId(visibleComponent.componentLocator)
+        ).toHaveScreenshot(
+          `${testName}-${visibleComponent.componentLocator}.png`
         );
       } catch (error) {
         const typedError = error as Error;
         console.warn(
-          `⚠️ Screenshot comparison warning for ${visibleComponent}: ${typedError.message}`
+          `⚠️ Screenshot comparison warning for ${visibleComponent.componentLocator}: ${typedError.message}`
         );
       }
     }
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
-      await expect(this.page.getByTestId(hiddenComponent)).toBeVisible({
+      await expect(
+        this.page.getByTestId(hiddenComponent.componentLocator)
+      ).toBeVisible({
         visible: false,
       });
     }
