@@ -82,7 +82,6 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }) => {
-  // const model: BenchmarkData[] = [];
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   const suffix = confidenceLimit ? `(${confidenceLimit}% confidence)` : null;
   const outcomes = getOutcomes(benchmarkComparisonMethod, polarity);
