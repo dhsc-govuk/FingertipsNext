@@ -75,6 +75,8 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
+  const comparedTo = `${barChartData.areaName} persons`;
+
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
@@ -119,7 +121,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(`${barChartData.areaName} persons`, benchmarkValue),
+          ...getPlotline(comparedTo, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,
@@ -194,6 +196,7 @@ export function InequalitiesBarChart({
   return (
     <div data-testid="inequalitiesBarChart-component">
       <BenchmarkLegend
+        title={`Compared to ${comparedTo}`}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />

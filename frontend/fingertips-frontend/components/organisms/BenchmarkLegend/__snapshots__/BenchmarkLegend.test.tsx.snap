@@ -490,3 +490,964 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #5694CA;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #003078;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+.c8 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      no judgement
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Higher
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Not compared
+      </strong>
+      <span
+        class="c8"
+      >
+        (95% confidence)
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AFCFE5;
+  color: #0B0C0C;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #1D70B8;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+.c8 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      NoJudgement
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Higher
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Not compared
+      </strong>
+      <span
+        class="c8"
+      >
+        (99.8% confidence)
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI BOB quintiles 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #E4DDFF;
+  color: #0B0C0C;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #CBBEF4;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AA90EC;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #8B60E2;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #6B33C3;
+  tint: SOLID;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      NoJudgement
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Low
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        High
+      </strong>
+      <strong
+        class="c3 c8"
+      >
+        Highest
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #00703C;
+  tint: SOLID;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D4351C;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+.c8 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      high is good
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Better
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Not compared
+      </strong>
+      <span
+        class="c8"
+      >
+        (95% confidence)
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #85994B;
+  color: #0B0C0C;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #831504;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+.c8 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      low is good
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Better
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Not compared
+      </strong>
+      <span
+        class="c8"
+      >
+        (99.8% confidence)
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG quintiles 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D494C1;
+  color: #0B0C0C;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #BC6AAA;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #A44596;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #812972;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #561950;
+  tint: SOLID;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+  >
+    <h4
+      class="c1"
+    >
+      low is good
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Worst
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Better
+      </strong>
+      <strong
+        class="c3 c8"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
