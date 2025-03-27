@@ -29,7 +29,7 @@ const mockMapData: MapGeographyData = {
   mapFile: regionsMap,
   mapGroupBoundary: mockMapGroupBoundaries.regions,
 };
-describe('getMapData', () => {
+describe('getMapGeographyData', () => {
   it.each<[AreaTypeKeysForMapMeta, string[], GeoJSON]>([
     ['regions', ['E12000008', 'E12000009'], regionsMap],
     [
@@ -203,5 +203,16 @@ describe('createThematicMapChartOptions', () => {
 
     expect(options).toBeDefined();
     expect(options.series?.[0].mapData).toEqual(mockMapData.mapFile);
+  });
+  it('should return the correct hover text', () => {
+    const options = createThematicMapChartOptions(
+      mockMapData,
+      mockHealthData[108],
+      'regions',
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.NoJudgement
+    );
+
+    console.log(options?.series?.[2].tooltip);
   });
 });
