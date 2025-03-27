@@ -2,7 +2,7 @@
 
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -29,7 +29,7 @@ export function ChartPageWrapper({
   selectedAreasData,
   selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
-  const { getIsLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoadingState();
   const pathname = usePathname();
   const previousPath = ClientStorage.getState<string>(
     ClientStorageKeys.previousPath

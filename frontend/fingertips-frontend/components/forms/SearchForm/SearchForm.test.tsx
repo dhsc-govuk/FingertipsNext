@@ -36,7 +36,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -247,7 +247,7 @@ describe('SearchForm', () => {
     );
   });
 
-  it('should call setIsLoading to true when the search button is clicked', async () => {
+  it('should call setIsLoading with true when the search button is clicked', async () => {
     render(<SearchForm formState={initialDataState} />);
 
     const user = userEvent.setup();

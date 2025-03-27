@@ -15,7 +15,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -46,7 +46,7 @@ describe('IndicatorSelectedPill', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
-  it('should call setIsLoading to true when the Add or change indicators button is clicked', async () => {
+  it('should call setIsLoading with true when the Add or change indicators button is clicked', async () => {
     const user = userEvent.setup();
     render(<IndicatorSelectedPill indicator={mockIndicator} />);
 

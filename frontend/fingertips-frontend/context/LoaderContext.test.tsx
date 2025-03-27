@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { LoaderProvider, useLoader } from './LoaderContext';
+import { LoaderProvider, useLoadingState } from './LoaderContext';
 import userEvent from '@testing-library/user-event';
 
 const TestComponent = () => {
-  const { getIsLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoadingState();
 
   return (
     <>

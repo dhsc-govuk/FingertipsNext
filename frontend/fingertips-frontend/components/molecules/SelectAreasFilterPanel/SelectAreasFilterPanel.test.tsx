@@ -41,7 +41,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -169,7 +169,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an area type is selected', async () => {
+    it('should call setIsLoading with true when an area type is selected', async () => {
       render(
         <SelectAreasFilterPanel
           areaFilterData={{ availableAreaTypes: allAreaTypes }}
@@ -344,7 +344,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an group type is selected', async () => {
+    it('should call setIsLoading with true when an group type is selected', async () => {
       render(
         <SelectAreasFilterPanel
           areaFilterData={{
@@ -527,7 +527,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an group is selected', async () => {
+    it('should call setIsLoading with true when an group is selected', async () => {
       render(
         <SelectAreasFilterPanel
           areaFilterData={{
@@ -636,7 +636,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an area is selected', async () => {
+    it('should call setIsLoading with true when an area is selected', async () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(
@@ -843,7 +843,7 @@ describe('SelectAreasFilterPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when select all areas checkbox is checked', async () => {
+    it('should call setIsLoading with true when select all areas checkbox is checked', async () => {
       const availableAreas = mockAvailableAreas['nhs-regions'];
 
       render(

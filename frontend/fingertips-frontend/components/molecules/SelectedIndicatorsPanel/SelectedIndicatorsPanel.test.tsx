@@ -29,7 +29,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -105,7 +105,7 @@ describe('SelectedIndicatorsPanel', () => {
     expect(mockReplace).toHaveBeenCalledWith(expectedPath);
   });
 
-  it('should call setIsLoading to true when the Add or change indicators button is clicked', async () => {
+  it('should call setIsLoading with true when the Add or change indicators button is clicked', async () => {
     const user = userEvent.setup();
     render(
       <SelectedIndicatorsPanel

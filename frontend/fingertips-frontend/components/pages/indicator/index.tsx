@@ -22,7 +22,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { usePathname } from 'next/navigation';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
@@ -84,7 +84,7 @@ export function IndicatorDefinition({
   indicatorDefinitionProps,
   searchState,
 }: Readonly<IndicatorProps>) {
-  const { getIsLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoadingState();
   const pathname = usePathname();
   const previousPath = ClientStorage.getState<string>(
     ClientStorageKeys.previousPath

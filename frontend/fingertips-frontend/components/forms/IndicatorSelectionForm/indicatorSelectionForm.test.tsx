@@ -32,7 +32,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -253,7 +253,7 @@ describe('IndicatorSelectionForm', () => {
     expect(mockFormAction).toHaveBeenCalled();
   });
 
-  it('should call setIsLoading to true when the search button is clicked', async () => {
+  it('should call setIsLoading with true when the search button is clicked', async () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
@@ -324,7 +324,7 @@ describe('IndicatorSelectionForm', () => {
     );
   });
 
-  it('should call setIsLoading to true when the selectAll indicators is clicked', async () => {
+  it('should call setIsLoading with true when the selectAll indicators is clicked', async () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}

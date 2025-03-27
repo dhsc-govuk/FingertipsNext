@@ -3,7 +3,7 @@ import { ShowHideContainer } from '.';
 import userEvent from '@testing-library/user-event';
 import { Button } from 'govuk-react';
 
-const mockOnClickFunction = jest.fn();
+const mockOnToggleContainer = jest.fn();
 
 describe('ShowHideContainer', () => {
   afterEach(() => {
@@ -23,7 +23,7 @@ describe('ShowHideContainer', () => {
       <ShowHideContainer
         summary="Some summary"
         showSideBarWhenOpen={false}
-        onClickFunction={mockOnClickFunction}
+        onToggleContainer={mockOnToggleContainer}
       >
         <div data-testid="inner-component">Some child element</div>
       </ShowHideContainer>
@@ -46,7 +46,7 @@ describe('ShowHideContainer', () => {
       <ShowHideContainer
         summary="Some summary"
         showSideBarWhenOpen={true}
-        onClickFunction={mockOnClickFunction}
+        onToggleContainer={mockOnToggleContainer}
       >
         <div data-testid="inner-component">Some child element</div>
       </ShowHideContainer>
@@ -55,12 +55,12 @@ describe('ShowHideContainer', () => {
     expect(container.asFragment()).toMatchSnapshot();
   });
 
-  it('should call the provided onClickFunction when the label is clicked', async () => {
+  it('should call the provided onToggleContainer function when the label is clicked', async () => {
     render(
       <ShowHideContainer
         summary="Some summary"
         showSideBarWhenOpen={true}
-        onClickFunction={mockOnClickFunction}
+        onToggleContainer={mockOnToggleContainer}
       >
         <div data-testid="inner-component">Some child element</div>
       </ShowHideContainer>
@@ -69,15 +69,15 @@ describe('ShowHideContainer', () => {
     const user = userEvent.setup();
     await user.click(screen.getByText('Some summary'));
 
-    expect(mockOnClickFunction).toHaveBeenCalled();
+    expect(mockOnToggleContainer).toHaveBeenCalled();
   });
 
-  it('should not call the provided onClickFunction when an element on the child component is clicked in order to prevent event propagation', async () => {
+  it('should not call the provided onToggleContainer function when an element on the child component is clicked in order to prevent event propagation', async () => {
     render(
       <ShowHideContainer
         summary="Some summary"
         showSideBarWhenOpen={true}
-        onClickFunction={mockOnClickFunction}
+        onToggleContainer={mockOnToggleContainer}
       >
         <div data-testid="inner-component">
           <Button>Some button</Button>
@@ -88,6 +88,6 @@ describe('ShowHideContainer', () => {
     const user = userEvent.setup();
     await user.click(screen.getByText('Some button'));
 
-    expect(mockOnClickFunction).not.toHaveBeenCalled();
+    expect(mockOnToggleContainer).not.toHaveBeenCalled();
   });
 });

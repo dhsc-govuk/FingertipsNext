@@ -36,7 +36,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -125,7 +125,7 @@ describe('SelectedAreasPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an area type is selected', async () => {
+    it('should call setIsLoading with true when an area type is selected', async () => {
       const user = userEvent.setup();
       render(
         <SelectedAreasPanel
@@ -210,7 +210,7 @@ describe('SelectedAreasPanel', () => {
       });
     });
 
-    it('should call setIsLoading to true when an area type is selected', async () => {
+    it('should call setIsLoading with true when an area type is selected', async () => {
       const user = userEvent.setup();
       render(
         <SelectedAreasPanel

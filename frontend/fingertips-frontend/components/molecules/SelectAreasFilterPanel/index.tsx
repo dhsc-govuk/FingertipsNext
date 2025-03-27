@@ -1,4 +1,4 @@
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -69,7 +69,7 @@ export function SelectAreasFilterPanel({
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-  const { setIsLoading } = useLoader();
+  const { setIsLoading } = useLoadingState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 

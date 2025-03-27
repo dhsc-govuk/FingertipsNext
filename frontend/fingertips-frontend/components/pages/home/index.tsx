@@ -22,7 +22,7 @@ import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 import { usePathname } from 'next/navigation';
 
@@ -42,7 +42,7 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
-  const { getIsLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoadingState();
   const pathname = usePathname();
   const previousPath = ClientStorage.getState<string>(
     ClientStorageKeys.previousPath

@@ -28,7 +28,7 @@ import {
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 import { usePathname } from 'next/navigation';
 
@@ -54,7 +54,7 @@ export function SearchResults({
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
-  const { getIsLoading, setIsLoading } = useLoader();
+  const { getIsLoading, setIsLoading } = useLoadingState();
   const pathname = usePathname();
   const previousPath = ClientStorage.getState<string>(
     ClientStorageKeys.previousPath

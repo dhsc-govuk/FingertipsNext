@@ -40,7 +40,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -114,7 +114,7 @@ describe('AreaSuggestionPanel', () => {
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
 
-  it('should call setIsLoading to true when a suggested area is clicked', async () => {
+  it('should call setIsLoading with true when a suggested area is clicked', async () => {
     render(
       <AreaAutoCompleteSuggestionPanel
         suggestedAreas={mockAreas}

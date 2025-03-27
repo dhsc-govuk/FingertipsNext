@@ -1,4 +1,8 @@
-import { ClientStorage, ClientStorageKeys } from './clientStorage';
+import {
+  CLIENT_STORE_KEY,
+  ClientStorage,
+  ClientStorageKeys,
+} from './clientStorage';
 
 describe('ClientStorage', () => {
   it('should update the state with the value provided', () => {
@@ -17,7 +21,7 @@ describe('ClientStorage', () => {
     );
 
     expect(mockSetItem).toHaveBeenCalledWith(
-      'store',
+      CLIENT_STORE_KEY,
       JSON.stringify({
         [ClientStorageKeys.AreaFilterHomePage]: true,
         [ClientStorageKeys.previousPath]: '/some-new-path',

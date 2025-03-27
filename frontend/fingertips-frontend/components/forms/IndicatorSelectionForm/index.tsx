@@ -1,5 +1,5 @@
 import { SearchResult } from '@/components/molecules/Result';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -51,7 +51,7 @@ export function IndicatorSelectionForm({
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
-  const { setIsLoading } = useLoader();
+  const { setIsLoading } = useLoadingState();
 
   const stateManager = SearchStateManager.initialise(searchState);
 

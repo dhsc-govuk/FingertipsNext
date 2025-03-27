@@ -15,7 +15,7 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
 
 const StyledInputField = styled(InputField)(
@@ -35,7 +35,7 @@ export const SearchForm = ({
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
-  const { setIsLoading } = useLoader();
+  const { setIsLoading } = useLoadingState();
 
   const isAreaFilterOpen =
     ClientStorage.getState<boolean>(ClientStorageKeys.AreaFilterHomePage) ??
@@ -122,7 +122,7 @@ export const SearchForm = ({
         key={`show-hide-${isAreaFilterOpen}`}
         summary="Filter by area"
         open={isAreaFilterOpen}
-        onClickFunction={updateIsAreaFilterOpen}
+        onToggleContainer={updateIsAreaFilterOpen}
       >
         <SelectAreasFilterPanel
           key={`area-filter-panel-${JSON.stringify(searchState)}`}

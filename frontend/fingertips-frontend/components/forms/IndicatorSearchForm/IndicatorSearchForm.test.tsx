@@ -34,7 +34,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -98,7 +98,7 @@ it('should update client storage with the typed searched indicator when focussin
   );
 });
 
-it('should call setIsLoading to true when the search button is clicked', async () => {
+it('should call setIsLoading with true when the search button is clicked', async () => {
   render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   const user = userEvent.setup();

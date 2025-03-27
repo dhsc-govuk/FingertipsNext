@@ -20,7 +20,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 
 type SearchResultProps = {
   result: IndicatorDocument;
@@ -79,7 +79,7 @@ export function SearchResult({
   handleClick,
   currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
-  const { setIsLoading } = useLoader();
+  const { setIsLoading } = useLoadingState();
 
   const stateManager = SearchStateManager.initialise(searchState);
 

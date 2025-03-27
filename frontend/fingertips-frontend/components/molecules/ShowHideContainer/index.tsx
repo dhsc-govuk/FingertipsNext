@@ -9,7 +9,7 @@ interface ShowHideContainerProps {
   showSideBarWhenOpen?: boolean;
   open?: boolean;
   children: React.ReactNode;
-  onClickFunction: () => void;
+  onToggleContainer: () => void;
 }
 
 const StyledFilterDetails = styled(Details)<{ showSideBar: boolean }>(
@@ -46,7 +46,7 @@ export function ShowHideContainer({
   showSideBarWhenOpen = false,
   open = true,
   children,
-  onClickFunction,
+  onToggleContainer,
 }: Readonly<ShowHideContainerProps>) {
   return (
     <StyledFilterDetails
@@ -60,7 +60,7 @@ export function ShowHideContainer({
         const targetType = e.target.type ?? 'unknown';
 
         if (targetType === 'unknown') {
-          onClickFunction();
+          onToggleContainer();
         }
       }}
     >

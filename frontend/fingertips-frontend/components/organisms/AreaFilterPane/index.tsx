@@ -77,7 +77,7 @@ export function AreaFilterPane({
           key={`show-hide-${isAreaFilterOpen}`}
           summary="Add or change areas"
           open={isAreaFilterOpen}
-          onClickFunction={updateIsAreaFilterOpen}
+          onToggleContainer={updateIsAreaFilterOpen}
         >
           <SelectAreasFilterPanel
             areaFilterData={areaFilterData}

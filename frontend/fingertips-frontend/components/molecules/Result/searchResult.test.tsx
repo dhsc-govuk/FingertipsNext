@@ -64,7 +64,7 @@ const mockLoaderContext: LoaderContext = {
 
 jest.mock('@/context/LoaderContext', () => {
   return {
-    useLoader: () => mockLoaderContext,
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
@@ -306,7 +306,7 @@ describe('Indicator Checkbox', () => {
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });
 
-  it('should call setIsLoading to true when clicking on the direct link to the indicator chart', async () => {
+  it('should call setIsLoading with true when clicking on the direct link to the indicator chart', async () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}

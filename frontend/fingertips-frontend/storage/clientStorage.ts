@@ -14,6 +14,8 @@ export type ClientStorageState = {
   [ClientStorageKeys.searchedIndicator]?: string;
 };
 
+export const CLIENT_STORE_KEY = 'fs-clientstorage-state';
+
 export class ClientStorage {
   public static updateState<T>(storageKey: ClientStorageKeys, storageValue: T) {
     const oldStore = JSON.parse(
@@ -25,12 +27,12 @@ export class ClientStorage {
       [storageKey]: storageValue,
     };
 
-    localStorage.setItem('store', JSON.stringify(updatedStore));
+    localStorage.setItem(CLIENT_STORE_KEY, JSON.stringify(updatedStore));
   }
 
   public static getState<T>(storageKey: ClientStorageKeys): T | undefined {
     if (typeof window !== 'undefined') {
-      const item = localStorage.getItem('store');
+      const item = localStorage.getItem(CLIENT_STORE_KEY);
 
       if (item) {
         const store = JSON.parse(item) as ClientStorageState;

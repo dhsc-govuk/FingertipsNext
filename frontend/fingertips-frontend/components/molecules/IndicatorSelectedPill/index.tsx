@@ -8,7 +8,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
-import { useLoader } from '@/context/LoaderContext';
+import { useLoadingState } from '@/context/LoaderContext';
 
 const StyleIndicatorLink = styled(Link)({
   fontSize: 16,
@@ -26,7 +26,7 @@ export const IndicatorSelectedPill = ({
   searchState,
 }: Readonly<IndicatorSelectedPillProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { setIsLoading } = useLoader();
+  const { setIsLoading } = useLoadingState();
 
   const indicatorInfoLink = stateManager.generatePath(
     `/indicator/${indicator.indicatorID}`
