@@ -213,6 +213,6 @@ describe('createThematicMapChartOptions', () => {
       IndicatorPolarity.NoJudgement
     );
 
-    console.log(options?.series?.[2].tooltip);
+    // console.log(options?.series?.[2].tooltip);
   });
 });
