@@ -1,12 +1,12 @@
 import {
-  seriesDataForIndicatorIndexAndArea,
-  seriesDataWithoutEnglandOrGroup,
-  sortHealthDataForAreasByDate,
-  sortHealthDataByYearDescending,
-  isEnglandSoleSelectedArea,
-  sortHealthDataPointsByDescendingYear,
   getHealthDataWithoutInequalities,
   getMostRecentData,
+  isEnglandSoleSelectedArea,
+  seriesDataForIndicatorIndexAndArea,
+  seriesDataWithoutEnglandOrGroup,
+  sortHealthDataByYearDescending,
+  sortHealthDataForAreasByDate,
+  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';

@@ -8,8 +8,11 @@ import {
   getBenchmarkColour,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
-import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -17,6 +20,8 @@ interface SparklineChartProps {
   confidenceIntervalValues: (number | undefined)[];
   showConfidenceIntervalsData: boolean;
   benchmarkOutcome?: BenchmarkOutcome;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export function SparklineChart({
@@ -24,9 +29,15 @@ export function SparklineChart({
   maxValue,
   confidenceIntervalValues,
   showConfidenceIntervalsData,
-  benchmarkOutcome,
+  benchmarkOutcome = BenchmarkOutcome.NotCompared,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<SparklineChartProps>) {
-  const color = getBenchmarkColour(benchmarkOutcome as BenchmarkLabelType);
+  const color = getBenchmarkColour(
+    benchmarkComparisonMethod,
+    benchmarkOutcome,
+    polarity
+  );
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const series: Highcharts.SeriesOptionsType[] = [
