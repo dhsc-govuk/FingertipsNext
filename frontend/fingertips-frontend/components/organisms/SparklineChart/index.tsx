@@ -7,6 +7,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   generateConfidenceIntervalSeries,
   getBenchmarkColour,
+  getConfidenceLimitNumber,
   loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -34,15 +35,19 @@ interface SparklineChartProps {
 
 export const sparklineTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
-  label: string
+  label: string,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  measurementUnit: string | undefined
 ) => {
   let category = '';
   let benchmarkLabel = '';
+  let comparisonLabel = '';
   const outcome = getBenchmarkLabelText(benchmarkOutcome);
+  const comparison = getConfidenceLimitNumber(benchmarkComparisonMethod);
 
   if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
     category = 'Benchmark: ';
-    return { benchmarkLabel, category };
+    return { benchmarkLabel, category, comparisonLabel };
   }
   if (label === SparklineLabelEnum.Group) {
     category = 'Group: ';
@@ -50,14 +55,16 @@ export const sparklineTooltipContent = (
 
   if (benchmarkOutcome === BenchmarkOutcome.Similar) {
     benchmarkLabel = `${outcome} to England`;
+    comparisonLabel = `(${comparison}${measurementUnit})`;
   } else if (
     benchmarkOutcome &&
     benchmarkOutcome !== BenchmarkOutcome.NotCompared
   ) {
     benchmarkLabel = `${outcome} than England`;
+    comparisonLabel = `(${comparison}${measurementUnit})`;
   }
 
-  return { benchmarkLabel, category };
+  return { benchmarkLabel, category, comparisonLabel, measurementUnit };
 };
 
 export function SparklineChart({
@@ -81,13 +88,16 @@ export function SparklineChart({
   const [options, setOptions] = useState<Highcharts.Options>();
 
   const sparklineTooltips = (point: Highcharts.Point, symbol: string) => {
-    const { benchmarkLabel, category } = sparklineTooltipContent(
-      benchmarkOutcome,
-      label
-    );
+    const { benchmarkLabel, category, comparisonLabel } =
+      sparklineTooltipContent(
+        benchmarkOutcome,
+        label,
+        benchmarkComparisonMethod,
+        measurementUnit
+      );
 
     return [
-      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value}${measurementUnit}<br/><span>${benchmarkLabel}</span>`,
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span><span> ${value}${measurementUnit}</span><br/><span>${benchmarkLabel}</span><br/><span>${comparisonLabel}</span>`,
     ];
   };
 
