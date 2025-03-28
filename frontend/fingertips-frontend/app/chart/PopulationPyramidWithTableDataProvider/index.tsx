@@ -25,16 +25,19 @@ interface PyramidContextProviderProps {
   searchState: SearchStateParams;
 }
 
-export const PyramidContextProvider = async ({
+export const PopulationPyramidWithTableDataProvider = async ({
   areaCodes,
   searchState,
 }: PyramidContextProviderProps) => {
   const stateManager = SearchStateManager.initialise(searchState);
 
-  const { [SearchParams.GroupAreaSelected]: groupAreaSelected } =
+  const { [SearchParams.GroupSelected]: groupAreaSelected } =
     stateManager.getSearchState();
 
   const areaCodesToRequest = (() => {
+    if (areaCodes.length == 0) {
+      return [];
+    }
     const areaCodesToRequest = [...areaCodes];
     if (!areaCodesToRequest.includes(areaCodeForEngland)) {
       areaCodesToRequest.push(areaCodeForEngland);
@@ -50,6 +53,10 @@ export const PyramidContextProvider = async ({
   const populationDataForArea: IndicatorWithHealthDataForArea | undefined =
     await (async () => {
       try {
+        if (areaCodesToRequest.length == 0) {
+          return undefined;
+        }
+
         const populationIndicatorID: number = await (async (
           areaCode: string
         ) => {
@@ -82,6 +89,7 @@ export const PyramidContextProvider = async ({
   return (
     <PopulationPyramidWithTable
       healthDataForAreas={populationDataForArea?.areaHealthData ?? []}
+      groupAreaSelected={groupAreaSelected}
       searchState={searchState}
       xAxisTitle="Age"
       yAxisTitle="Population"

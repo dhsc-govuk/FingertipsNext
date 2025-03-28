@@ -56,19 +56,19 @@ interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
+  groupAreaSelected: string | undefined;
   searchState: SearchStateParams;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
+  groupAreaSelected,
   xAxisTitle,
   yAxisTitle,
   searchState,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
-  const {
-    [SearchParams.GroupAreaSelected]: selectedGroupAreaCode,
-    [SearchParams.PopulationAreaSelected]: areaCode,
-  } = stateManager.getSearchState();
+  const { [SearchParams.PopulationAreaSelected]: areaCode } =
+    stateManager.getSearchState();
 
   const [selectedAreaCode, setSelectedAreaCode] = useState<string | undefined>(
     areaCode
@@ -78,9 +78,9 @@ export const PopulationPyramidWithTable = ({
   const convertedData = useMemo(() => {
     return createPyramidPopulationDataFrom(
       healthDataForAreas,
-      selectedGroupAreaCode ?? ''
+      groupAreaSelected ?? ''
     );
-  }, [healthDataForAreas, selectedGroupAreaCode]);
+  }, [healthDataForAreas, groupAreaSelected]);
 
   const [selectedArea, setSelectedArea] = useState(
     getSelectedAreaFrom(selectedAreaCode, convertedData.areas)
