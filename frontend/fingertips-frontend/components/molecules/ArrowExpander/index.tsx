@@ -22,14 +22,14 @@ const StyleTextSpanExpander = styled('div')<{ fill?: string }>(({ fill }) => ({
 interface ExpanderProps {
   children: React.ReactNode;
   fill?: string;
-  openTitle?: string
-  closeTitle?: string
+  openTitle?: string;
+  closeTitle?: string;
 }
 export const ArrowExpander = ({
   children,
   fill = '#1D70B8',
-  openTitle = "Show",
-  closeTitle = "Hide"
+  openTitle = 'Show',
+  closeTitle = 'Hide',
 }: ExpanderProps) => {
   const [isOpen, setIsOpen] = useState<boolean>();
   return (
