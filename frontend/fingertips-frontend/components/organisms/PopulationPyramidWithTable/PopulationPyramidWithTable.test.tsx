@@ -8,6 +8,22 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 const mockHealthDataPoint = [
   {
     year: 2025,
@@ -65,6 +81,8 @@ describe('PopulationPyramidWithTable', () => {
     return render(
       <PopulationPyramidWithTable
         healthDataForAreas={dataForArea}
+        groupAreaSelected="123"
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
@@ -103,15 +121,15 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   test('take a snapshot', () => {
-    const pyramid = (
+    const container = render(
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
-        selectedGroupAreaCode={mockHealthData['337'][1].areaCode}
+        groupAreaSelected={mockHealthData['337'][2].areaCode}
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
     );
-    const container = render(pyramid);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });

@@ -217,14 +217,18 @@ export const createChartPyramidOptions = (
     dataForSelectedArea,
     accessibilityLabel
   );
-  if (populationPyramidOptions.series?.length) {
+  if (!populationPyramidOptions.series) {
+    return populationPyramidOptions;
+  }
+  if (populationPyramidOptions.series.length > 0) {
     const seriesOptions = createAdditionalChartSeries(
       dataForBenchmark,
       dataForSelectedGroup
     );
-    seriesOptions.forEach((series) => {
-      populationPyramidOptions.series?.push(series);
-    });
+    if (seriesOptions)
+      seriesOptions.forEach((series) => {
+        populationPyramidOptions.series?.push(series);
+      });
   }
   return populationPyramidOptions;
 };

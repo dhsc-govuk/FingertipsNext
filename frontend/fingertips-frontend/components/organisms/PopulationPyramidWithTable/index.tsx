@@ -17,6 +17,12 @@ import {
 import { HeaderChartTitle } from './HeaderChartTitle';
 import { H3 } from 'govuk-react';
 import { getLatestYear } from '@/lib/chartHelpers/chartHelpers';
+import {
+  SearchParams,
+  SearchStateManager,
+  SearchStateParams,
+} from '@/lib/searchStateManager';
+import { usePathname, useRouter } from 'next/navigation';
 
 const getHeaderTitle = (
   healthData: HealthDataForArea | undefined,
@@ -31,37 +37,63 @@ const getHeaderTitle = (
   return title;
 };
 
+const getSelectedAreaFrom = (
+  areaCode: string | undefined,
+  convertedData: (PopulationDataForArea | undefined)[]
+) => {
+  let populationArea: PopulationDataForArea | undefined = undefined;
+  if (areaCode && convertedData.length > 0) {
+    populationArea = convertedData.find(
+      (area: PopulationDataForArea | undefined) => area?.areaCode === areaCode
+    );
+  }
+  if (!populationArea)
+    return convertedData.length > 0 ? convertedData[0] : undefined;
+  return populationArea;
+};
+
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
-  selectedGroupAreaCode?: string;
+  groupAreaSelected: string | undefined;
+  searchState: SearchStateParams;
 }
 export const PopulationPyramidWithTable = ({
   healthDataForAreas,
+  groupAreaSelected,
   xAxisTitle,
   yAxisTitle,
-  selectedGroupAreaCode,
+  searchState,
 }: Readonly<PyramidPopulationChartViewProps>) => {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const { [SearchParams.PopulationAreaSelected]: areaCode } =
+    stateManager.getSearchState();
+
+  const [selectedAreaCode, setSelectedAreaCode] = useState<string | undefined>(
+    areaCode
+  );
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const convertedData = useMemo(() => {
     return createPyramidPopulationDataFrom(
       healthDataForAreas,
-      selectedGroupAreaCode ?? ''
+      groupAreaSelected ?? ''
     );
-  }, [healthDataForAreas, selectedGroupAreaCode]);
+  }, [healthDataForAreas, groupAreaSelected]);
 
-  const defaultSelectedArea =
-    convertedData.areas.length > 0 ? convertedData.areas[0] : undefined;
+  const [selectedArea, setSelectedArea] = useState(
+    getSelectedAreaFrom(selectedAreaCode, convertedData.areas)
+  );
 
-  const [selectedArea, setSelectedArea] = useState(defaultSelectedArea);
   const [title, setTitle] = useState<string>(
     (() => {
-      if (!defaultSelectedArea) return '';
+      if (!selectedArea) return '';
       const healthData = healthDataForAreas.find(
         (value: HealthDataForArea, _: number) => {
           return (
-            value.areaCode == defaultSelectedArea.areaCode &&
-            value.areaName == defaultSelectedArea.areaName
+            value.areaCode == selectedArea.areaCode &&
+            value.areaName == selectedArea.areaName
           );
         }
       );
@@ -81,24 +113,40 @@ export const PopulationPyramidWithTable = ({
             );
           }
         );
-
         const year = getLatestYear(healthData?.healthData);
+        stateManager.removeParamValueFromState(
+          SearchParams.PopulationAreaSelected
+        );
+        stateManager.addParamValueToState(
+          SearchParams.PopulationAreaSelected,
+          area.areaCode
+        );
+
         setTitle(getHeaderTitle(healthData, year));
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
+        setSelectedAreaCode(area.areaCode);
+        replace(stateManager.generatePath(pathname));
       }
     },
-    [healthDataForAreas]
+    [healthDataForAreas, stateManager, replace, pathname]
   );
 
   if (!convertedData?.areas.length) {
     return <></>;
   }
+
   return (
     <div>
       <H3>Related Population Data</H3>
-      <ShowHideContainer summary="Population data" open={false}>
+      <ShowHideContainer
+        summary="Population data"
+        open={
+          selectedAreaCode != undefined &&
+          selectedAreaCode === selectedArea?.areaCode
+        }
+      >
         <div>
           <div>
             <AreaSelectInputField
