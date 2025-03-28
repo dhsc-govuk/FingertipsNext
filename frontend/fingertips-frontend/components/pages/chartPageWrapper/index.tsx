@@ -44,6 +44,8 @@ export function ChartPageWrapper({
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
+  const width = !isHideFilters ? 'two-thirds' : undefined;
+
   return (
     <>
       <BackLink
@@ -63,7 +65,7 @@ export function ChartPageWrapper({
             />
           </GridCol>
         )}
-        <GridCol>
+        <GridCol setWidth={width}>
           <H2>View data for selected indicators and areas</H2>
 
           {isHideFilters ? (
