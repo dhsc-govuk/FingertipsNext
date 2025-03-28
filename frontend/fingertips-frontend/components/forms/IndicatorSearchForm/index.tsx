@@ -34,7 +34,7 @@ export const IndicatorSearchForm = ({
     if (indicatorSearchFormState.message) {
       setIsLoading(false);
     }
-  }, [indicatorSearchFormState.message, setIsLoading]);
+  });
 
   return (
     <FormGroup
@@ -42,6 +42,7 @@ export const IndicatorSearchForm = ({
       data-testid="indicator-search-form"
     >
       <input
+        key={`indicator-search-form-state-${JSON.stringify(searchState)}`}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden

@@ -42,7 +42,7 @@ export const SearchForm = ({
     if (formState.message) {
       setIsLoading(false);
     }
-  }, [formState.message, setIsLoading]);
+  });
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
