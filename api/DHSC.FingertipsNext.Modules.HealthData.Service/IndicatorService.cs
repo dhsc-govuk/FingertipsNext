@@ -40,6 +40,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         
         return new IndicatorWithHealthDataForAreas()
         {
+            IndicatorId = indicatorData.IndicatorId,
             Name = indicatorData.Name,
             StartDate = indicatorData.StartDate,
             EndDate = indicatorData.EndDate,

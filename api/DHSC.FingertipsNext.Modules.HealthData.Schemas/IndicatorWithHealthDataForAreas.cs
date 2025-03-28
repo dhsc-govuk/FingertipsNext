@@ -4,6 +4,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 public class IndicatorWithHealthDataForAreas
 {
+    [JsonPropertyName("indicatorId")]
+    public int IndicatorId { get; init; }
+    
     [JsonPropertyName("name")]
     public string Name { get; init; } = string.Empty;
     

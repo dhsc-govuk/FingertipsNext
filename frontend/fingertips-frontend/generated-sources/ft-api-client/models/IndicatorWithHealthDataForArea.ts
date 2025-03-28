@@ -42,6 +42,12 @@ import {
  */
 export interface IndicatorWithHealthDataForArea {
     /**
+     * Unique ID of the indicator
+     * @type {number}
+     * @memberof IndicatorWithHealthDataForArea
+     */
+    indicatorId?: number;
+    /**
      * Name of the indicator
      * @type {string}
      * @memberof IndicatorWithHealthDataForArea
@@ -98,6 +104,7 @@ export function IndicatorWithHealthDataForAreaFromJSONTyped(json: any, ignoreDis
     }
     return {
         
+        'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
         'name': json['name'] == null ? undefined : json['name'],
         'startDate': json['startDate'] == null ? undefined : json['startDate'],
         'endDate': json['endDate'] == null ? undefined : json['endDate'],
@@ -118,6 +125,7 @@ export function IndicatorWithHealthDataForAreaToJSONTyped(value?: IndicatorWithH
 
     return {
         
+        'indicatorId': value['indicatorId'],
         'name': value['name'],
         'startDate': value['startDate'],
         'endDate': value['endDate'],
