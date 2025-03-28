@@ -245,7 +245,7 @@ exports[`indicator description page should match snapshot 1`] = `
 
 <a
     class="c0"
-    data-testid="search-results-back-link"
+    data-testid="indicator-info-back-link"
     href="/chart?is=1&is=2&as=A001"
   >
     Back
@@ -648,6 +648,7 @@ exports[`indicator description page should match snapshot 1`] = `
 
 <h1
     class="c0 c1"
+    data-testid="indicator-name"
   >
     placeholder indicator name
   </h1>

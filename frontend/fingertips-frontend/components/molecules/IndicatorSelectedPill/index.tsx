@@ -37,6 +37,7 @@ export const IndicatorSelectedPill = ({
       {indicator.indicatorName}
       <br />
       <StyleIndicatorLink
+        data-testid="view-background-info-link"
         href={indicatorInfoLink}
         onClick={() => setIsLoading(true)}
       >

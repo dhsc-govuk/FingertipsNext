@@ -96,11 +96,13 @@ export function IndicatorDefinition({
       <BackLink
         onClick={() => setIsLoading(true)}
         href={stateManager.generatePath('/chart')}
-        data-testid="search-results-back-link"
+        data-testid="indicator-info-back-link"
       />
 
       <Caption>Background information and indicator definitions for</Caption>
-      <TopHeading>{indicatorDefinitionProps.indicatorName}</TopHeading>
+      <TopHeading data-testid="indicator-name">
+        {indicatorDefinitionProps.indicatorName}
+      </TopHeading>
 
       <ZeroMarginParagraph
         supportingText={true}
