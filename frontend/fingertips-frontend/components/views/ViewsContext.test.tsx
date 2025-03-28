@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ALL_AREAS_SELECTED } from '../../lib/areaFilterHelpers/constants';
 import { act } from 'react';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');

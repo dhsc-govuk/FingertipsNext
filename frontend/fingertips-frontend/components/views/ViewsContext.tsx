@@ -12,13 +12,6 @@ import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsSelector } from './ViewsSelector';
-import { connection } from 'next/server';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-
-const enum PopulationIndicatorIdsTypes {
-  ADMINISTRATIVE = 92708,
-  NHS = 337,
-}
 
 const determineAreaCodes = (
   groupAreaSelected?: string,
@@ -66,20 +59,6 @@ export function ViewsContext({
     areasSelected,
     areaFilterData?.availableAreas
   );
-
-  const areaCodesToRequest = (() => {
-    const areaCodesToRequest = [...areaCodes];
-    if (!areaCodesToRequest.includes(areaCodeForEngland)) {
-      areaCodesToRequest.push(areaCodeForEngland);
-    }
-    if (groupAreaSelected && groupAreaSelected != areaCodeForEngland) {
-      areaCodesToRequest.push(groupAreaSelected);
-    }
-    return areaCodesToRequest;
-  })();
-
-  const areasApi = ApiClientFactory.getAreasApiClient();
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   return (
     <ChartPageWrapper

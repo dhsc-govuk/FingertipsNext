@@ -14,7 +14,6 @@ import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { PyramidContextProvider } from './PyramidContextProvider';
 
 export default async function ChartPage(
