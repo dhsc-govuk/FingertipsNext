@@ -25,7 +25,6 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState, useEffect } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
@@ -46,7 +45,6 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
-  populationHealthDataForArea,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const { setSearchState } = useSearchState();
 
@@ -80,8 +78,8 @@ export function OneIndicatorOneAreaViewPlots({
   const groupData =
     selectedGroupCode && selectedGroupCode != areaCodeForEngland
       ? healthIndicatorData.find(
-          (areaData) => areaData.areaCode === selectedGroupCode
-        )
+        (areaData) => areaData.areaCode === selectedGroupCode
+      )
       : undefined;
 
   const {
@@ -116,54 +114,54 @@ export function OneIndicatorOneAreaViewPlots({
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities
       ) && (
-        <>
-          <H3>Indicator data over time</H3>
-          <TabContainer
-            id="lineChartAndTable"
-            items={[
-              {
-                id: 'lineChart',
-                title: 'Line chart',
-                content: (
-                  <LineChart
-                    lineChartOptions={lineChartOptions}
-                    showConfidenceIntervalsData={
-                      showStandardLineChartConfidenceIntervalsData
-                    }
-                    setShowConfidenceIntervalsData={
-                      setShowStandardLineChartConfidenceIntervalsData
-                    }
-                    variant={LineChartVariant.Standard}
-                  />
-                ),
-              },
-              {
-                id: 'lineChartTable',
-                title: 'Table',
-                content: (
-                  <LineChartTable
-                    healthIndicatorData={areaDataWithoutInequalities}
-                    englandBenchmarkData={englandBenchmarkWithoutInequalities}
-                    groupIndicatorData={groupDataWithoutInequalities}
-                    measurementUnit={indicatorMetadata?.unitLabel}
-                    benchmarkComparisonMethod={benchmarkComparisonMethod}
-                    polarity={polarity}
-                  />
-                ),
-              },
-            ]}
-            footer={
-              <>
-                {indicatorMetadata ? (
-                  <StyledParagraphDataSource>
-                    {`Data source: ${indicatorMetadata.dataSource}`}
-                  </StyledParagraphDataSource>
-                ) : null}
-              </>
-            }
-          />
-        </>
-      )}
+          <>
+            <H3>Indicator data over time</H3>
+            <TabContainer
+              id="lineChartAndTable"
+              items={[
+                {
+                  id: 'lineChart',
+                  title: 'Line chart',
+                  content: (
+                    <LineChart
+                      lineChartOptions={lineChartOptions}
+                      showConfidenceIntervalsData={
+                        showStandardLineChartConfidenceIntervalsData
+                      }
+                      setShowConfidenceIntervalsData={
+                        setShowStandardLineChartConfidenceIntervalsData
+                      }
+                      variant={LineChartVariant.Standard}
+                    />
+                  ),
+                },
+                {
+                  id: 'lineChartTable',
+                  title: 'Table',
+                  content: (
+                    <LineChartTable
+                      healthIndicatorData={areaDataWithoutInequalities}
+                      englandBenchmarkData={englandBenchmarkWithoutInequalities}
+                      groupIndicatorData={groupDataWithoutInequalities}
+                      measurementUnit={indicatorMetadata?.unitLabel}
+                      benchmarkComparisonMethod={benchmarkComparisonMethod}
+                      polarity={polarity}
+                    />
+                  ),
+                },
+              ]}
+              footer={
+                <>
+                  {indicatorMetadata ? (
+                    <StyledParagraphDataSource>
+                      {`Data source: ${indicatorMetadata.dataSource}`}
+                    </StyledParagraphDataSource>
+                  ) : null}
+                </>
+              }
+            />
+          </>
+        )}
       <Inequalities
         healthIndicatorData={
           !isEnglandSoleSelectedArea(searchState[SearchParams.AreasSelected])
@@ -173,13 +171,6 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-      />
-
-      <PopulationPyramidWithTable
-        healthDataForAreas={populationHealthDataForArea ?? []}
-        selectedGroupAreaCode={selectedGroupCode}
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of total population"
       />
     </section>
   );
