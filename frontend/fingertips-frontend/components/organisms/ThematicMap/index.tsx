@@ -19,6 +19,8 @@ interface ThematicMapProps {
   areaType: AreaTypeKeysForMapMeta;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
+  benchmarkIndicatorData?: HealthDataForArea;
+  groupIndicatorData?: HealthDataForArea;
 }
 
 const loadHighchartsModules = async (callback: () => void) => {
@@ -30,6 +32,8 @@ export function ThematicMap({
   areaType,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
+  benchmarkIndicatorData,
+  groupIndicatorData,
 }: Readonly<ThematicMapProps>) {
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
@@ -42,11 +46,13 @@ export function ThematicMap({
     loadHighchartsModules(async () =>
       setOptions(
         createThematicMapChartOptions(
-          mapGeographyData,
           healthIndicatorData,
+          mapGeographyData,
           areaType,
           benchmarkComparisonMethod,
-          polarity
+          polarity,
+          benchmarkIndicatorData,
+          groupIndicatorData
         )
       )
     );

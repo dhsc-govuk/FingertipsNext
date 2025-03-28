@@ -144,6 +144,8 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
           benchmarkComparisonMethod={benchmarkMethod}
           polarity={polarity}
+          benchmarkIndicatorData={englandBenchmarkData}
+          groupIndicatorData={groupData}
         />
       )}
       <BarChartEmbeddedTable
