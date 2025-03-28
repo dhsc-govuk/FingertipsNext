@@ -60,12 +60,6 @@ interface DataWithoutInequalities {
   groupDataWithoutInequalities: HealthDataForArea | undefined;
 }
 
-export enum Sex {
-  MALE = 'Male',
-  FEMALE = 'Female',
-  PERSONS = 'Persons',
-}
-
 export enum InequalitiesTypes {
   Sex = 'sex',
   Deprivation = 'deprivation',
