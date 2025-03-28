@@ -1,5 +1,7 @@
 {
   "name": "Emergency readmissions within 30 days of discharge from hospital",
+  "startDate": "2015-03-27T12:07:40.9533333",
+  "endDate": "2035-03-27T12:07:40.9533333",
   "polarity": "LowIsGood",
   "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
