@@ -5,6 +5,8 @@ import {
   Indicator,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
+import { BarChartEmbeddedTableHeadingEnum } from '@/components/organisms/BarChartEmbeddedTable';
+import React from 'react';
 
 export enum EnglandAreaTypeTableEnum {
   Indicator = 'Indicator',
@@ -17,19 +19,26 @@ export enum EnglandAreaTypeTableEnum {
 
 interface EnglandAreaTypeTableProps {
   indicators: Indicator[];
-  measurementUnits: string[];
-  healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData: HealthDataForArea[];
+  measurementUnit: string | undefined;
+  englandBenchmarkData: HealthDataForArea | undefined;
 }
 export function EnglandAreaTypeTable({
-  indicators,
+ indicators,
   englandBenchmarkData,
+  measurementUnit,
 }: Readonly<EnglandAreaTypeTableProps>) {
   return (
     <div data-testid={'EnglandAreaTypeTable-component'}>
-      <Table>
-        head=
+      <Table
+        head =
         {
+          <React.Fragment>
+            <Table.Row>
+              <Table.CellHeader colSpan={5}>
+                {BarChartEmbeddedTableHeadingEnum.AreaName}
+              </Table.CellHeader>
+            </Table.Row>
+            
           <Table.Row>
             <Table.CellHeader>
               {EnglandAreaTypeTableEnum.Indicator}
@@ -47,7 +56,8 @@ export function EnglandAreaTypeTable({
               {EnglandAreaTypeTableEnum.RecentTrend}
             </Table.CellHeader>
           </Table.Row>
-        }
+            </React.Fragment>
+        }>
       </Table>
     </div>
   );
