@@ -23,6 +23,10 @@ export type YearlyHealthDataGroupedByInequalities = Record<
   Record<string, HealthDataPoint[] | undefined>
 >;
 
+type InequalityValueSelector = (dataPoint: HealthDataPoint) => string;
+type InequalitySequenceSelector = (dataPoint?: HealthDataPoint) => number;
+type HealthDataFilterFunction = (dataPoint: HealthDataPoint) => boolean;
+
 export interface InequalitiesChartData {
   areaName: string;
   rowData: InequalitiesTableRowData[];
@@ -76,58 +80,73 @@ const mapToChartColorsForInequality: Record<InequalitiesTypes, string[]> = {
   [InequalitiesTypes.Deprivation]: chartColours,
 };
 
+export const valueSelectorForInequality: Record<
+  InequalitiesTypes,
+  InequalityValueSelector
+> = {
+  [InequalitiesTypes.Sex]: (dataPoint) => dataPoint.sex.value,
+  [InequalitiesTypes.Deprivation]: (dataPoint) => dataPoint.deprivation.value,
+};
+
+export const sequenceSelectorForInequality: Record<
+  InequalitiesTypes,
+  InequalitySequenceSelector
+> = {
+  [InequalitiesTypes.Sex]: () => 0,
+  [InequalitiesTypes.Deprivation]: (dataPoint) =>
+    dataPoint?.deprivation.sequence ?? 0,
+};
+
+export const healthDataFilterFunctionGeneratorForInequality: Record<
+  InequalitiesTypes,
+  (category: string) => HealthDataFilterFunction
+> = {
+  [InequalitiesTypes.Sex]: () => (data: HealthDataPoint) =>
+    data.deprivation.isAggregate && data.ageBand.isAggregate,
+  [InequalitiesTypes.Deprivation]: (category) => (data: HealthDataPoint) =>
+    data.sex.isAggregate &&
+    data.ageBand.isAggregate &&
+    (data.deprivation.isAggregate || data.deprivation.type == category),
+};
+
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
-export const groupHealthDataBySex = (healthData: HealthDataPoint[]) => {
-  return Object.groupBy(healthData, (data) => data.sex.value);
-};
-
-export const groupHealthDataByDeprivation = (healthData: HealthDataPoint[]) => {
-  return Object.groupBy(healthData, (data) => data.deprivation.value);
+export const groupHealthDataByInequality = (
+  healthData: HealthDataPoint[],
+  valueSelector: InequalityValueSelector
+) => {
+  return Object.groupBy(healthData, (data) => valueSelector(data));
 };
 
 export const getYearDataGroupedByInequalities = (
-  type: InequalitiesTypes,
-  yearlyHealthData: Record<string, HealthDataPoint[] | undefined>
+  yearlyHealthData: Record<string, HealthDataPoint[] | undefined>,
+  valueSelector: InequalityValueSelector
 ) => {
   const yearlyDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities =
     {};
 
   for (const year in yearlyHealthData) {
-    if (type === InequalitiesTypes.Deprivation) {
-      yearlyDataGroupedByInequalities[year] = groupHealthDataByDeprivation(
-        yearlyHealthData[year] ?? []
-      );
-    } else {
-      yearlyDataGroupedByInequalities[year] = groupHealthDataBySex(
-        yearlyHealthData[year] ?? []
-      );
-    }
+    yearlyDataGroupedByInequalities[year] = groupHealthDataByInequality(
+      yearlyHealthData[year] ?? [],
+      valueSelector
+    );
   }
 
   return yearlyDataGroupedByInequalities;
 };
 
 export const mapToInequalitiesTableData = (
-  type: InequalitiesTypes,
   yearDataGroupedByInequalities: Record<
     string,
     Record<string, HealthDataPoint[] | undefined>
-  >
+  >,
+  sequenceSelector: InequalitySequenceSelector
 ): InequalitiesTableRowData[] => {
   return Object.keys(yearDataGroupedByInequalities).map((year) => {
-    // TODO: Do you need this sorting?
-    const sortedInequalitiesForYear = Object.entries(
+    const dynamicFields = Object.keys(
       yearDataGroupedByInequalities[year]
-    )
-      .toSorted(
-        ([, aValue], [, bValue]) =>
-          aValue?.[0].deprivation.sequence ??
-          0 - (bValue?.[0].deprivation.sequence ?? 0)
-      )
-      .map((x) => x[0]);
-    const dynamicFields = sortedInequalitiesForYear.reduce(
+    ).reduce(
       (acc: Record<string, RowDataFields | undefined>, inequality: string) => {
         const currentTableKey = yearDataGroupedByInequalities[year][inequality];
         acc[inequality] = currentTableKey?.at(0)
@@ -138,10 +157,7 @@ export const mapToInequalitiesTableData = (
               upper: currentTableKey[0].upperCi,
               isAggregate: currentTableKey[0].isAggregate,
               benchmarkComparison: currentTableKey[0].benchmarkComparison,
-              sequence:
-                type === InequalitiesTypes.Deprivation
-                  ? currentTableKey[0].deprivation.sequence
-                  : undefined,
+              sequence: sequenceSelector(currentTableKey[0]),
             }
           : undefined;
         return acc;
@@ -154,18 +170,17 @@ export const mapToInequalitiesTableData = (
 };
 
 export const getDynamicKeys = (
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities
+  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities,
+  sequenceSelector: InequalitySequenceSelector
 ): string[] => {
   const existingKeys = Object.values(
     yearlyHealthDataGroupedByInequalities
   ).reduce((allKeys: string[], currentYear) => {
     const sortedCurrentYearInequalityNames = Object.entries(currentYear)
-      .sort(([aKey,], [bKey,]) => localeSort(bKey, aKey))
-      // TODO: Pass a function in to select this value to sort by?
+      .sort(([aKey], [bKey]) => localeSort(bKey, aKey))
       .sort(
         ([, aValue], [, bValue]) =>
-          (bValue?.[0].deprivation.sequence ??
-          0) - (aValue?.[0].deprivation.sequence ?? 0)
+          sequenceSelector(bValue?.[0]) - sequenceSelector(aValue?.[0])
       )
       .map((x) => x[0]);
     allKeys = [...allKeys, ...sortedCurrentYearInequalityNames];
@@ -237,22 +252,15 @@ export const getAggregatePointInfo = (
     (key) => inequalities[key]?.isAggregate
   );
 
-  const sortedKeys = Object.entries(inequalities)
-    .sort(([nameA, _dataA], [nameB, _dataB]) => localeSort(nameA, nameB))
+  const sortedInequalities = Object.entries(inequalities)
+    .sort(([nameA], [nameB]) => localeSort(nameA, nameB))
     .sort(
-      ([_nameA, dataA], [_keyB, dataB]) =>
-        (dataB?.sequence ?? 0) - (dataA?.sequence ?? 0)
-    )
-    .map(([key, _inequality]) => key);
-  const inequalityDimensions = Object.entries(inequalities)
-    .filter(([_key, inequality]) => !inequality?.isAggregate)
-    .sort(([keyA, _inequalityA], [keyB, _inequalityB]) =>
-      localeSort(keyA, keyB)
-    )
-    .sort(
-      ([_keyA, inequalityA], [_keyB, inequalityB]) =>
+      ([, inequalityA], [, inequalityB]) =>
         (inequalityB?.sequence ?? 0) - (inequalityA?.sequence ?? 0)
-    )
+    );
+  const sortedKeys = sortedInequalities.map(([key, _inequality]) => key);
+  const inequalityDimensions = sortedInequalities
+    .filter(([, inequality]) => !inequality?.isAggregate)
     .map(([key, _inequality]) => key);
 
   return {
@@ -358,4 +366,11 @@ export const getAllDataWithoutInequalities = (
     englandBenchmarkWithoutInequalities,
     groupDataWithoutInequalities,
   };
+};
+
+export const filterHealthData = (
+  healthData: HealthDataPoint[],
+  filterFn: HealthDataFilterFunction
+): HealthDataPoint[] => {
+  return healthData.filter(filterFn);
 };

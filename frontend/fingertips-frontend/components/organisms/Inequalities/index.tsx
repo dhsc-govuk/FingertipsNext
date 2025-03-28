@@ -16,6 +16,10 @@ import {
   InequalitiesTypes,
   mapToInequalitiesTableData,
   generateInequalitiesLineChartOptions,
+  valueSelectorForInequality,
+  sequenceSelectorForInequality,
+  filterHealthData,
+  healthDataFilterFunctionGeneratorForInequality,
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -49,37 +53,32 @@ export function Inequalities({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesProps>) {
-  // TODO: This can be a function
-  let filteredHealthIndicatorData: HealthDataForArea = healthIndicatorData;
-  if (type == InequalitiesTypes.Sex) {
-    filteredHealthIndicatorData = {
-      ...healthIndicatorData,
-      healthData: healthIndicatorData.healthData.filter(
-        (hd) => hd.deprivation.isAggregate && hd.ageBand.isAggregate
-      ),
-    };
-  } else if (type == InequalitiesTypes.Deprivation) {
+  let inequalityCategory = '';
+  if (type == InequalitiesTypes.Deprivation) {
+    // This value will ultimately come from the inequality type dropdown
+    // For now, we just use the first deprivation type available
+    const disaggregatedDeprivationData = filterHealthData(
+      healthIndicatorData.healthData,
+      (data) => !data.deprivation.isAggregate
+    );
     const deprivationTypes = Object.keys(
       Object.groupBy(
-        healthIndicatorData.healthData.filter(
-          (data) => !data.deprivation.isAggregate
-        ),
+        disaggregatedDeprivationData,
         (data) => data.deprivation.type
       )
     );
-    const selectedDeprivationType = deprivationTypes[0];
-
-    filteredHealthIndicatorData = {
-      ...healthIndicatorData,
-      healthData: healthIndicatorData.healthData.filter(
-        (hd) =>
-          hd.sex.isAggregate &&
-          hd.ageBand.isAggregate &&
-          (hd.deprivation.isAggregate ||
-            hd.deprivation.type == selectedDeprivationType)
-      ),
-    };
+    inequalityCategory = deprivationTypes[0];
   }
+
+  const filterFunctionGenerator =
+    healthDataFilterFunctionGeneratorForInequality[type];
+  const filteredHealthIndicatorData = {
+    ...healthIndicatorData,
+    healthData: filterHealthData(
+      healthIndicatorData.healthData,
+      filterFunctionGenerator(inequalityCategory)
+    ),
+  };
 
   const yearlyHealthdata = groupHealthDataByYear(
     filteredHealthIndicatorData.healthData
@@ -93,15 +92,22 @@ export function Inequalities({
   ] = useState<boolean>(false);
 
   const yearlyHealthDataGroupedByInequalities =
-    getYearDataGroupedByInequalities(type, yearlyHealthdata);
+    getYearDataGroupedByInequalities(
+      yearlyHealthdata,
+      valueSelectorForInequality[type]
+    );
 
-  const dynamicKeys = getDynamicKeys(yearlyHealthDataGroupedByInequalities);
+  const sequenceSelector = sequenceSelectorForInequality[type];
+  const dynamicKeys = getDynamicKeys(
+    yearlyHealthDataGroupedByInequalities,
+    sequenceSelector
+  );
 
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
     rowData: mapToInequalitiesTableData(
-      type,
-      yearlyHealthDataGroupedByInequalities
+      yearlyHealthDataGroupedByInequalities,
+      sequenceSelector
     ),
   };
 
