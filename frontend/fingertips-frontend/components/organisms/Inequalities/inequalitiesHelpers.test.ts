@@ -1,5 +1,6 @@
 import {
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -16,6 +17,11 @@ import {
   generateInequalitiesLineChartOptions,
   getAllDataWithoutInequalities,
   groupHealthDataByInequality,
+  filterHealthData,
+  YearlyHealthDataGroupedByInequalities,
+  valueSelectorForInequality,
+  sequenceSelectorForInequality,
+  healthDataFilterFunctionGeneratorForInequality,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -24,6 +30,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   allAgesAge,
   femaleSex,
+  healthDataPoint,
   maleSex,
   noDeprivation,
   personsSex,
@@ -86,7 +93,7 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   ],
 };
 
-const yearlyHealthDataGroupedBySex = {
+const yearlyHealthDataGroupedBySex: YearlyHealthDataGroupedByInequalities = {
   2004: {
     Persons: [MOCK_INEQUALITIES_DATA.healthData[2]],
     Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
@@ -151,6 +158,141 @@ const mockChartData = {
 };
 
 const sexKeys = ['Persons', 'Male', 'Female'];
+
+describe('valueSelectorForInequality', () => {
+  it('should select the sex value for the Sex inequality type', () => {
+    const valueSelector = valueSelectorForInequality[InequalitiesTypes.Sex];
+
+    expect(valueSelector(healthDataPoint)).toBe(healthDataPoint.sex.value);
+  });
+
+  it('should select the deprivation value for the Deprivation inequality type', () => {
+    const valueSelector =
+      valueSelectorForInequality[InequalitiesTypes.Deprivation];
+
+    expect(valueSelector(healthDataPoint)).toBe(
+      healthDataPoint.deprivation.value
+    );
+  });
+});
+
+describe('sequenceSelectorForInequality', () => {
+  it('should return 0 for the Sex inequality type', () => {
+    const sequenceSelector =
+      sequenceSelectorForInequality[InequalitiesTypes.Sex];
+
+    expect(sequenceSelector(healthDataPoint)).toBe(0);
+  });
+
+  it('should select the deprivation sequence value for the Deprivation inequality type', () => {
+    const sequenceSelector =
+      sequenceSelectorForInequality[InequalitiesTypes.Deprivation];
+
+    expect(sequenceSelector(healthDataPoint)).toBe(
+      healthDataPoint.deprivation.sequence
+    );
+  });
+});
+
+describe('healthDataFilterFunctionGeneratorForInequality', () => {
+  it('should return a filter function that results in the correct data for the Sex inequality type', () => {
+    const healthDataFilterFunctionGenerator =
+      healthDataFilterFunctionGeneratorForInequality[InequalitiesTypes.Sex];
+    const healthDataFilterFunction = healthDataFilterFunctionGenerator('');
+
+    const healthData: HealthDataPoint[] = [
+      {
+        ...healthDataPoint,
+        isAggregate: true,
+      },
+      {
+        ...healthDataPoint,
+        sex: { ...healthDataPoint.sex, isAggregate: false },
+      },
+      {
+        ...healthDataPoint,
+        ageBand: { ...healthDataPoint.ageBand, isAggregate: false },
+      },
+      {
+        ...healthDataPoint,
+        deprivation: { ...healthDataPoint.deprivation, isAggregate: false },
+      },
+    ];
+
+    const filteredHealthData = healthData.filter(healthDataFilterFunction);
+
+    expect(filteredHealthData).toEqual([
+      {
+        ...healthDataPoint,
+        isAggregate: true,
+      },
+      {
+        ...healthDataPoint,
+        sex: { ...healthDataPoint.sex, isAggregate: false },
+      },
+    ]);
+  });
+
+  it('should return a filter function that results in the correct data for the Deprivation inequality type', () => {
+    const deprivationType =
+      'Districts and Unitary Authorities deprivation deciles';
+
+    const healthDataFilterFunctionGenerator =
+      healthDataFilterFunctionGeneratorForInequality[
+        InequalitiesTypes.Deprivation
+      ];
+    const healthDataFilterFunction =
+      healthDataFilterFunctionGenerator(deprivationType);
+
+    const healthData: HealthDataPoint[] = [
+      {
+        ...healthDataPoint,
+        isAggregate: true,
+      },
+      {
+        ...healthDataPoint,
+        sex: { ...healthDataPoint.sex, isAggregate: false },
+      },
+      {
+        ...healthDataPoint,
+        ageBand: { ...healthDataPoint.ageBand, isAggregate: false },
+      },
+      {
+        ...healthDataPoint,
+        deprivation: {
+          ...healthDataPoint.deprivation,
+          isAggregate: false,
+          type: deprivationType,
+        },
+      },
+      {
+        ...healthDataPoint,
+        deprivation: {
+          ...healthDataPoint.deprivation,
+          isAggregate: false,
+          type: 'Some other deprivation type',
+        },
+      },
+    ];
+
+    const filteredHealthData = healthData.filter(healthDataFilterFunction);
+
+    expect(filteredHealthData).toEqual([
+      {
+        ...healthDataPoint,
+        isAggregate: true,
+      },
+      {
+        ...healthDataPoint,
+        deprivation: {
+          ...healthDataPoint.deprivation,
+          isAggregate: false,
+          type: deprivationType,
+        },
+      },
+    ]);
+  });
+});
 
 describe('should display inequalities', () => {
   describe('should return false', () => {
@@ -221,23 +363,89 @@ describe('getYearDataGroupedByInequalities', () => {
 });
 
 describe('getDynamicKeys', () => {
-  // TODO: Make sure this covers the necessary sorting scenarios
-  // Sorting something with a sequence
-  // Sorting something without a sequence
-  // it.skip('should get unique keys for sex inequality sorted', () => {
-  //   const expectedKeys = ['Persons', 'Male', 'Female'];
+  const yearlyHealthDataGroupedBySexWithSequences: YearlyHealthDataGroupedByInequalities =
+    {
+      2004: {
+        Persons: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[2],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[2].deprivation,
+              sequence: 1,
+            },
+          },
+        ],
+        Female: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[3],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[3].deprivation,
+              sequence: 3,
+            },
+          },
+        ],
+        Male: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[1],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[1].deprivation,
+              sequence: 2,
+            },
+          },
+        ],
+      },
+      2006: {
+        Persons: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[0],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[0].deprivation,
+              sequence: 1,
+            },
+          },
+        ],
+        Male: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[1],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[1].deprivation,
+              sequence: 2,
+            },
+          },
+        ],
+        Female: [
+          {
+            ...MOCK_INEQUALITIES_DATA.healthData[3],
+            deprivation: {
+              ...MOCK_INEQUALITIES_DATA.healthData[3].deprivation,
+              sequence: 3,
+            },
+          },
+        ],
+      },
+    };
 
-  //   expect(getDynamicKeys(yearlyHealthDataGroupedBySex, () => 0)).toEqual(
-  //     expectedKeys
-  //   );
-  // });
+  it('should get unique keys for inequality sorted in descending alphabetical order when a constant sequence value is used', () => {
+    const sequenceSelector = () => 0;
 
-  it('should get unique keys for inequality unsorted', () => {
-    expect(getDynamicKeys(yearlyHealthDataGroupedBySex, () => 0)).toEqual([
-      'Persons',
-      'Female',
-      'Male',
-    ]);
+    expect(
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySexWithSequences,
+        sequenceSelector
+      )
+    ).toEqual(['Persons', 'Male', 'Female']);
+  });
+
+  it('should get unique keys for inequality sorted in descending sequence order when a sequence selector is used', () => {
+    const sequenceSelector = (data?: HealthDataPoint) =>
+      data?.deprivation.sequence ?? 0;
+
+    expect(
+      getDynamicKeys(
+        yearlyHealthDataGroupedBySexWithSequences,
+        sequenceSelector
+      )
+    ).toEqual(['Female', 'Male', 'Persons']);
   });
 });
 
@@ -398,6 +606,14 @@ describe('getAggregatePointInfo', () => {
   testData.Persons = { ...testData.Persons, isAggregate: true };
   testData.Male = { ...testData.Male, isAggregate: false };
   testData.Female = { ...testData.Female, isAggregate: false };
+
+  const sequenceTestData: Record<string, RowDataFields | undefined> = {
+    ...testData,
+  };
+  sequenceTestData.Persons = { ...sequenceTestData.Persons, sequence: 3 };
+  sequenceTestData.Male = { ...sequenceTestData.Male, sequence: 2 };
+  sequenceTestData.Female = { ...sequenceTestData.Female, sequence: 1 };
+
   it('should return the benchmark point and value', () => {
     const result = getAggregatePointInfo(testData);
     expect(result).toHaveProperty('benchmarkPoint', testData.Persons);
@@ -409,14 +625,28 @@ describe('getAggregatePointInfo', () => {
     expect(result).toHaveProperty('aggregateKey', 'Persons');
   });
 
-  it('should return the inequalityDimensions', () => {
+  it('should return the inequalityDimensions sorted alphabetically is sequence is not present', () => {
     const result = getAggregatePointInfo(testData);
+
     expect(result).toHaveProperty('inequalityDimensions', ['Female', 'Male']);
   });
 
-  it('should return all the keys sorted', () => {
+  it('should return the inequalityDimensions sorted by descending order of sequence if present', () => {
+    const result = getAggregatePointInfo(sequenceTestData);
+
+    expect(result).toHaveProperty('inequalityDimensions', ['Male', 'Female']);
+  });
+
+  it('should return all the keys sorted alphabetically if sequence is not present', () => {
     const result = getAggregatePointInfo(testData);
+
     expect(result).toHaveProperty('sortedKeys', ['Female', 'Male', 'Persons']);
+  });
+
+  it('should return all the keys sorted by descending order of sequence if present', () => {
+    const result = getAggregatePointInfo(sequenceTestData);
+
+    expect(result).toHaveProperty('sortedKeys', ['Persons', 'Male', 'Female']);
   });
 });
 
@@ -613,5 +843,17 @@ describe('getAllDataWithoutInequalities', () => {
         [areaCodeForEngland]
       )
     ).toEqual(expected);
+  });
+});
+
+describe('filterHealthData', () => {
+  it('should filter health data using the provided filter function', () => {
+    const healthData = MOCK_INEQUALITIES_DATA.healthData;
+    const filteredHealthData = filterHealthData(
+      healthData,
+      (data) => data.year === 2006
+    );
+
+    expect(filteredHealthData).toEqual([healthData[0], healthData[1]]);
   });
 });

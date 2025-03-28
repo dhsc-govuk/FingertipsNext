@@ -1,6 +1,8 @@
 import {
   AgeData,
   DeprivationData,
+  HealthDataPoint,
+  HealthDataPointTrendEnum,
   SexData,
 } from '@/generated-sources/ft-api-client';
 
@@ -36,4 +38,16 @@ export const disaggregatedAge = (age: string) => {
     value: age,
     isAggregate: false,
   };
+};
+
+export const healthDataPoint: HealthDataPoint = {
+  count: 389,
+  lowerCi: 441.69151,
+  upperCi: 578.32766,
+  value: 278.29134,
+  year: 2006,
+  sex: personsSex,
+  ageBand: allAgesAge,
+  trend: HealthDataPointTrendEnum.NotYetCalculated,
+  deprivation: noDeprivation,
 };
