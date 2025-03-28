@@ -21,6 +21,8 @@ import {
 } from '@/components/forms/IndicatorSearchForm/indicatorSearchActions';
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -44,6 +46,13 @@ export function SearchResults({
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
+  const { setIsLoading } = useLoadingState();
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -62,9 +71,15 @@ export function SearchResults({
     initialIndicatorSearchFormState
   );
 
+  const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
+
   return (
     <>
-      <BackLink href={backLinkPath} data-testid="search-results-back-link" />
+      <BackLink
+        onClick={() => setIsLoading(true)}
+        href={backLinkPath}
+        data-testid="search-results-back-link"
+      />
       <>
         {indicatorSelectionState.message && (
           <ErrorSummary
@@ -82,30 +97,22 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>
-          Search results for {searchState?.[SearchParams.SearchedIndicator]}
-        </H1>
+        <H1>Search results{searchTerm ? ` for ${searchTerm}` : null}</H1>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
-            key={JSON.stringify(searchState)}
             indicatorSearchFormState={indicatorSearchState}
-            searchState={searchState}
           />
         </form>
         <GridRow>
           <GridCol setWidth="one-third">
             <AreaFilterPane
-              key={JSON.stringify(searchState)}
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
-              searchState={searchState}
             />
           </GridCol>
           <GridCol>
             <IndicatorSelectionForm
-              key={JSON.stringify(searchState)}
               searchResults={searchResults}
-              searchState={searchState}
               formAction={indicatorSelectionFormAction}
               currentDate={currentDate}
             />

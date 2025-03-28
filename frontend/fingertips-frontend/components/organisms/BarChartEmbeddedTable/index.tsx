@@ -7,6 +7,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
+  getConfidenceLimitNumber,
   getMostRecentData,
   sortHealthDataByYearDescending,
   sortHealthDataPointsByDescendingYear,
@@ -26,7 +27,6 @@ export enum BarChartEmbeddedTableHeadingEnum {
   Value = 'Value',
   Lower = 'Lower',
   Upper = 'Upper',
-  ConfidenceLimit = '95% confidence limits',
 }
 
 interface BarChartEmbeddedTableProps {
@@ -38,7 +38,7 @@ interface BarChartEmbeddedTableProps {
   polarity?: IndicatorPolarity;
 }
 
-const formatHeader = (title: BarChartEmbeddedTableHeadingEnum) => {
+const formatHeader = (title: string) => {
   return title.split(' ').map((word, index) => (
     <React.Fragment key={`${word}-${index}`}>
       {word}
@@ -102,6 +102,7 @@ export function BarChartEmbeddedTable({
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
     useState(false);
 
+  const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
       <ConfidenceIntervalCheckbox
@@ -115,7 +116,9 @@ export function BarChartEmbeddedTable({
             <Table.Row>
               <Table.CellHeader colSpan={6}></Table.CellHeader>
               <Table.CellHeader colSpan={2} style={{ textAlign: 'center' }}>
-                {formatHeader(BarChartEmbeddedTableHeadingEnum.ConfidenceLimit)}
+                {confidenceLimit
+                  ? formatHeader(`${confidenceLimit}% confidence limits`)
+                  : null}
               </Table.CellHeader>
             </Table.Row>
 

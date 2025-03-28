@@ -5,12 +5,17 @@ import { Pill } from '../Pill';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
-interface GroupAreaSelectedPillProps {
+export interface GroupAreaSelectedPillProps {
   areaTypeName?: string;
   groupSelected?: AreaWithRelations;
-  onRemoveFilter: () => void;
+  onRemoveFilter?: () => void;
   isFullWidth?: boolean;
 }
+
+const StyleGroupName = styled('span')({
+  fontWeight: '500',
+  fontSize: '19px',
+});
 
 const StyleAreaType = styled('span')({
   color: GovukColours.DarkGrey,
@@ -30,7 +35,7 @@ export const GroupAreaSelectedPill = ({
       ariaLabelPostfix={groupSelected?.name}
     >
       <p style={{ margin: 0 }}>
-        All areas in {groupSelected?.name}{' '}
+        <StyleGroupName>All areas in {groupSelected?.name}</StyleGroupName>{' '}
         <StyleAreaType>{areaTypeName}</StyleAreaType>
       </p>
     </Pill>

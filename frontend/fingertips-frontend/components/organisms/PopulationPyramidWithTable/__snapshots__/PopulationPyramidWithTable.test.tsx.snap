@@ -549,6 +549,7 @@ exports[`PopulationPyramidWithTable take a snapshot 1`] = `
     </h3>
     <details
       class="c1 c2"
+      data-testid="select-areas-filter-panel-label"
     >
       <summary
         class="c3 c4"

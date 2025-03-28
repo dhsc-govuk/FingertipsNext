@@ -114,13 +114,58 @@ export function generateConfidenceIntervalSeries(
   };
 }
 
-export const getLatestYear = (
+export function getLatestYear(
   points: HealthDataPoint[] | undefined
-): number | undefined => {
+): number | undefined {
   if (!points || points.length < 1) return undefined;
 
   const year = points.reduce((previous, point) => {
     return Math.max(previous, point.year);
   }, points[0].year);
   return year;
+}
+
+function getMostRecentYearForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number {
+  return healthDataForAreas.reduce((previous, area) => {
+    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
+  }, healthDataForAreas[0].healthData[0].year);
+}
+
+function getIndicatorDataForYear(
+  healthDataForAreas: HealthDataForArea[],
+  year: number
+): HealthDataForArea[] {
+  return healthDataForAreas.map((healthDataForArea) => {
+    const dataPointForMostRecentYear = healthDataForArea.healthData.find(
+      (healthDataPoint) => healthDataPoint.year === year
+    );
+    return dataPointForMostRecentYear
+      ? {
+          ...healthDataForArea,
+          healthData: [{ ...dataPointForMostRecentYear }],
+        }
+      : { ...healthDataForArea, healthData: [] };
+  });
+}
+
+export function getIndicatorDataForAreasForMostRecentYearOnly(
+  healthDataForAreas: HealthDataForArea[]
+): HealthDataForArea[] {
+  const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  return getIndicatorDataForYear(healthDataForAreas, mostRecentYearForAreas);
+}
+
+export const getConfidenceLimitNumber = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): number => {
+  switch (benchmarkComparisonMethod) {
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
+      return 99.8;
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
+      return 95;
+    default:
+      return 0;
+  }
 };

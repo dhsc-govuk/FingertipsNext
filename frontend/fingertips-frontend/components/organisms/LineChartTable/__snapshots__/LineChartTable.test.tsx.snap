@@ -195,6 +195,9 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
 }
 
 .c9 {
@@ -812,6 +815,9 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
 }
 
 .c9 {

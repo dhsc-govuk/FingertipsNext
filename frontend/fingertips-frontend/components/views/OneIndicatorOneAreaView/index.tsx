@@ -31,7 +31,7 @@ export default async function OneIndicatorOneAreaView({
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
 

@@ -41,6 +41,7 @@ export interface FilterIndicatorsRequest {
 export interface GetHealthDataForAnIndicatorRequest {
     indicatorId: number;
     areaCodes?: Array<string>;
+    areaType?: string;
     years?: Array<number>;
     inequalities?: Array<GetHealthDataForAnIndicatorInequalitiesEnum>;
 }
@@ -77,6 +78,7 @@ export interface IndicatorsApiInterface {
      * @summary Get health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 10 area codes can be requested
+     * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [years] A list of years, up to 10 years can be requested
      * @param {Array<'age' | 'sex' | 'deprivation'>} [inequalities] Determines the kind of inequality data that should be returned if an option is specified
      * @param {*} [options] Override http request option.
@@ -162,6 +164,10 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         if (requestParameters['areaCodes'] != null) {
             queryParameters['area_codes'] = requestParameters['areaCodes'];
+        }
+
+        if (requestParameters['areaType'] != null) {
+            queryParameters['area_type'] = requestParameters['areaType'];
         }
 
         if (requestParameters['years'] != null) {

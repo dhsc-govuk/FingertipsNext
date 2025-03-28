@@ -2,8 +2,9 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { ALL_AREAS_SELECTED } from '../../lib/areaFilterHelpers/constants';
-import { act } from 'react';
+import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -13,16 +14,26 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({})),
   };
 });
-jest.mock('@/lib/apiClient/apiClientFactory', () => ({
-  ApiClientFactory: {
-    getAreasApiClient: jest.fn().mockImplementation(() => ({
-      getArea: jest.fn().mockResolvedValue({}),
-    })),
-    getIndicatorsApiClient: jest.fn().mockImplementation(() => ({
-      getIndicatorDocument: jest.fn().mockResolvedValue({}),
-    })),
-  },
-}));
+
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const mockOneIndicatorOneAreaView = jest.fn();
 jest.mock(
@@ -97,9 +108,7 @@ describe('ViewsContext', () => {
         [SearchParams.AreasSelected]: areaCodes,
         [SearchParams.IndicatorsSelected]: indicators,
       };
-      act(() => {
-        render(<ViewsContext searchState={searchState} />);
-      });
+      render(<ViewsContext searchState={searchState} />);
 
       expect(correctView).toHaveBeenCalled();
     }
