@@ -16,13 +16,7 @@ import {
 } from './SpineChartTableRow';
 
 export interface SpineChartTableProps {
-  indicators: Indicator[];
-  measurementUnits: string[];
-  indicatorHealthData: HealthDataForArea[];
-  groupIndicatorData: HealthDataForArea[];
-  englandBenchmarkData: HealthDataForArea[];
-  best: number[];
-  worst: number[];
+  rowData: SpineChartTableRowProps[];
 }
 
 export interface SpineChartTableRowProps {

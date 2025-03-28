@@ -32,8 +32,8 @@ describe('Spine chart table suite', () => {
           value={mockRowData.value}
           groupValue={mockRowData.groupValue}
           benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkWorst={mockRowData.benchmarkWorst}
           benchmarkBest={mockRowData.benchmarkBest}
+          benchmarkWorst={mockRowData.benchmarkWorst}
         />
       );
 
@@ -59,8 +59,8 @@ describe('Spine chart table suite', () => {
           value={mockRowData.value}
           groupValue={mockRowData.groupValue}
           benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkWorst={mockRowData.benchmarkWorst}
           benchmarkBest={mockRowData.benchmarkBest}
+          benchmarkWorst={mockRowData.benchmarkWorst}
         />
       );
 
@@ -80,8 +80,8 @@ describe('Spine chart table suite', () => {
           value={undefined}
           groupValue={undefined}
           benchmarkValue={undefined}
-          benchmarkWorst={mockRowData.benchmarkWorst}
           benchmarkBest={mockRowData.benchmarkBest}
+          benchmarkWorst={mockRowData.benchmarkWorst}
         />
       );
 
