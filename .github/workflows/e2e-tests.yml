@@ -70,8 +70,7 @@ jobs:
 
       - name: Set dynamic HTTP results artifact name
         if: always()
-        run: |
-          echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
+        run: echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload .http test results
         if: always()
