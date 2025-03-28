@@ -138,6 +138,7 @@ describe('Search Results Suite', () => {
   it('should call setIsLoading when the back link is clicked', async () => {
     render(
       <SearchResults
+        isEnglandSelectedAsGroup={false}
         initialIndicatorSelectionState={initialState}
         searchResults={[]}
         searchState={state}

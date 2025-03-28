@@ -133,7 +133,9 @@ export function SearchResult({
               <H5>
                 <Link
                   onClick={() => setIsLoading(true)}
-                  href={generateIndicatorChartPath(result.indicatorID.toString())}
+                  href={generateIndicatorChartPath(
+                    result.indicatorID.toString()
+                  )}
                 >
                   {result.indicatorName}
                 </Link>
