@@ -131,6 +131,7 @@ export function IndicatorSelectionForm({
       }}
     >
       <input
+        key={`indicators-selection-form-state-${JSON.stringify(searchState)}`}
         name="searchState"
         defaultValue={JSON.stringify(searchState)}
         hidden
