@@ -5,6 +5,8 @@ import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -27,17 +29,42 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 describe('SelectedAreasPanel', () => {
   describe('When there is a group area selected', () => {
+    beforeEach(() => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+        [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
+      });
+    });
+
     it('snapshot test', () => {
       const container = render(
         <SelectedAreasPanel
           areaFilterData={{
             availableAreas: mockSelectedAreasData,
-          }}
-          searchState={{
-            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-            [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
       );
@@ -50,10 +77,6 @@ describe('SelectedAreasPanel', () => {
         <SelectedAreasPanel
           areaFilterData={{
             availableAreas: mockSelectedAreasData,
-          }}
-          searchState={{
-            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-            [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
       );
@@ -71,10 +94,6 @@ describe('SelectedAreasPanel', () => {
         <SelectedAreasPanel
           areaFilterData={{
             availableAreas: mockSelectedAreasData,
-          }}
-          searchState={{
-            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-            [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
           }}
         />
       );
@@ -95,10 +114,6 @@ describe('SelectedAreasPanel', () => {
           areaFilterData={{
             availableAreas: mockSelectedAreasData,
           }}
-          searchState={{
-            [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
-            [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
-          }}
         />
       );
 
@@ -111,9 +126,31 @@ describe('SelectedAreasPanel', () => {
         scroll: false,
       });
     });
+
+    it('should call setIsLoading with true when an area type is selected', async () => {
+      const user = userEvent.setup();
+      render(
+        <SelectedAreasPanel
+          areaFilterData={{
+            availableAreas: mockSelectedAreasData,
+          }}
+        />
+      );
+
+      const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+      await user.click(
+        within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+      );
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+    });
   });
 
   describe('When there are areas selected', () => {
+    beforeEach(() => {
+      mockGetSearchState.mockReturnValue({});
+    });
+
     it('snapshot test', () => {
       const container = render(
         <SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />
@@ -148,6 +185,11 @@ describe('SelectedAreasPanel', () => {
     });
 
     it('should remove the area selected from the url when the remove icon is clicked for the area selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+        [SearchParams.AreaTypeSelected]: 'NHS Regions',
+      });
+
       const expectedPath = [
         `${mockPath}`,
         `?${SearchParams.AreasSelected}=E40000012`,
@@ -155,15 +197,7 @@ describe('SelectedAreasPanel', () => {
       ].join('');
 
       const user = userEvent.setup();
-      render(
-        <SelectedAreasPanel
-          selectedAreasData={mockSelectedAreasData}
-          searchState={{
-            [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
-            [SearchParams.AreaTypeSelected]: 'NHS Regions',
-          }}
-        />
-      );
+      render(<SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />);
 
       const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
       await user.click(
@@ -173,6 +207,23 @@ describe('SelectedAreasPanel', () => {
       expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
         scroll: false,
       });
+    });
+
+    it('should call setIsLoading with true when an area type is selected', async () => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreasSelected]: ['E40000012', 'E40000007'],
+        [SearchParams.AreaTypeSelected]: 'NHS Regions',
+      });
+
+      const user = userEvent.setup();
+      render(<SelectedAreasPanel selectedAreasData={mockSelectedAreasData} />);
+
+      const firstSelectedAreaPill = screen.getAllByTestId('pill-container')[0];
+      await user.click(
+        within(firstSelectedAreaPill).getByTestId('remove-icon-div')
+      );
+
+      expect(mockSetIsLoading).toHaveBeenCalledWith(true);
     });
   });
 });

@@ -2,14 +2,12 @@ import { ListItem, UnorderedList, SearchIcon } from 'govuk-react';
 import styled from 'styled-components';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { formatAreaName } from '@/lib/areaFilterHelpers/formatAreaName';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import { HighlightText } from '@/components/atoms/HighlightText';
 import { FOCUSABLE } from '@govuk-react/constants';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyleSearchSuggestionPanel = styled(UnorderedList)`
   display: flex;
@@ -51,19 +49,23 @@ const SuggestionButton = styled('button')({
 interface AreaAutoCompleteSuggestionPanelProps {
   suggestedAreas: AreaDocument[];
   searchHint: string;
-  searchState?: SearchStateParams;
 }
 
 export const AreaAutoCompleteSuggestionPanel = ({
   suggestedAreas,
   searchHint,
-  searchState,
 }: AreaAutoCompleteSuggestionPanelProps) => {
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const stateManager = SearchStateManager.initialise(searchState);
   const pathname = usePathname();
   const router = useRouter();
 
   const updateUrlWithSelectedArea = (selectedAreaCode: string | undefined) => {
+    setIsLoading(true);
+
     if (!selectedAreaCode) {
       stateManager.removeAllParamFromState(SearchParams.AreasSelected);
     } else {
