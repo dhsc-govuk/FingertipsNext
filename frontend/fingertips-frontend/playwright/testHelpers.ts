@@ -101,7 +101,7 @@ export function getScenarioConfig(
     {
       componentLocator: ChartPage.barChartEmbeddedTableComponent,
       componentProps: {
-        hasConfidenceIntervals: false,
+        hasConfidenceIntervals: true,
         isTabTable: false,
       },
     },
@@ -170,12 +170,14 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.ENGLAND_AREA
   ) {
-    visibleComponents = [
-      // Pending
-      // ChartPage.basicTableComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-    ];
+    // visibleComponents = allComponents.filter((component) =>
+    //   [
+    //     // Pending
+    //     // ChartPage.basicTableComponent,
+    //     // Enable in DHSCFT-148
+    //     // ChartPage.populationPyramidComponent,
+    //   ].includes(component.componentLocator)
+    // );
   }
   // 2+ indicators, 2+ areas (not England)
   else if (
