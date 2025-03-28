@@ -48,7 +48,9 @@ export default class ChartPage extends AreaFilter {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 
   /**
@@ -80,19 +82,19 @@ export default class ChartPage extends AreaFilter {
     for (const visibleComponent of visibleComponents) {
       // click tab to view the table view if checking a none embedded table component
       if (visibleComponent.componentProps.isTabTable) {
-        await this.page
-          .getByTestId(
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
             `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
-          .click();
+        );
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        await this.page
-          .getByTestId(
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
-          .click();
+        );
       }
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
@@ -104,7 +106,9 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(500); // change this to wait for loading spinner to no longer appear in DHSCFT-490
+      await this.page.waitForLoadState();
+      await expect(this.page.getByText('Loading')).toHaveCount(0);
+      await this.page.waitForTimeout(500); // delete this line in DHSCFT-510 once animations are disabled
 
       // for now just warn if visual comparisons do not match
       try {
