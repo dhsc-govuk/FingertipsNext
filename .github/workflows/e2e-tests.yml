@@ -64,6 +64,9 @@ jobs:
       - name: Start Docker services
         run: MOCK_SERVER=false npm run start:all
 
+      - name: Install httpyac
+        run: npm install -g httpyac@latest
+
       - name: Run .http API tests
         working-directory: ./api
         run: |
