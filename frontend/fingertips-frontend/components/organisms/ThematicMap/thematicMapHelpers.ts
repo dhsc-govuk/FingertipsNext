@@ -272,7 +272,7 @@ export function createThematicMapChartOptions(
   return options;
 }
 
-function generateThematicMapTooltipString(
+export function generateThematicMapTooltipString(
   // any required to allow customisation of Highcharts tooltips
   /* eslint-disable @typescript-eslint/no-explicit-any */
   point: any,
@@ -290,19 +290,22 @@ function generateThematicMapTooltipString(
     ? `${benchmarkConfidenceLimit}%`
     : null;
 
+  // TODO: refactor to function which can also be used for group
   const areaMarkerSymbol =
     (point.benchmarkComparisonOutcome as BenchmarkOutcome) === 'NotCompared'
-      ? symbolEncoder.MultiplicationX
+      ? symbolEncoder.multiplicationX
       : symbolEncoder.circle;
 
   const tooltipString = [
     `<br /><span style="font-weight: bold">${point.areaName}</span>` +
       `<br /><span>${point.year}</span>` +
-      `<br /><span style="color: ${getBenchmarkColour(
-        benchmarkComparisonMethod,
-        point.benchmarkComparisonOutcome,
-        polarity
-      )}; font-size: large;">${areaMarkerSymbol}</span>` +
+      `<br /><span style="color: ${
+        getBenchmarkColour(
+          benchmarkComparisonMethod,
+          point.benchmarkComparisonOutcome,
+          polarity
+        ) ?? GovukColours.Black
+      }; font-size: large;">${areaMarkerSymbol}</span>` +
       `<span>${point.value} ${measurementUnit}</span>` +
       `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
       `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
