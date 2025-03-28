@@ -1,136 +1,105 @@
 'use client';
 
+import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import {
   SpineChartTableProps,
+  SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
+import {
+  HealthDataForArea,
+  Indicator,
+} from '@/generated-sources/ft-api-client';
+import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2 } from 'govuk-react';
-import { noDeprivation } from '@/lib/mocks';
 
-export const mapToSpineChartTableProps = (): SpineChartTableProps => {
-  const mockIndicatorData = [
-    {
-      indicatorId: 2,
-      title: 'Test indicator 1',
-      definition: '',
-    },
-    {
-      indicatorId: 1,
-      title: 'Test indicator 2',
-      definition: '',
-    },
-  ];
+export function mapToSpineChartTableProps(
+  healthIndicatorData: HealthDataForArea[],
+  groupIndicatorData: HealthDataForArea[],
+  englandIndicatorData: HealthDataForArea[],
+  indicatorMetadata: (IndicatorDocument | undefined)[]
+): SpineChartTableProps {
+  const numberOfIndicators = healthIndicatorData.length;
+  const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  const mockUnits = ['kg', 'per 1000'];
+  healthIndicatorData.forEach((indicatorData, index) => {
+    const rowIndicatorId: number =
+      indicatorMetadata[index]?.indicatorID !== undefined
+        ? Number(indicatorMetadata[index]?.indicatorID)
+        : 0;
 
-  const mockHealthData = [
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2008,
-          count: 222,
-          value: 890.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2024,
-          count: 111,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowTitle: string =
+      indicatorMetadata[index]?.indicatorName !== undefined
+        ? indicatorMetadata[index]?.indicatorName
+        : '';
 
-  const mockGroup = [
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2008,
-          count: 111,
-          value: 980.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2024,
-          count: 3333,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowIndicatorDefinition: string =
+      indicatorMetadata[index]?.indicatorDefinition !== undefined
+        ? indicatorMetadata[index]?.indicatorDefinition
+        : '';
 
-  const mockBest = [1666, 22];
+    const rowMeasurementUnit: string =
+      indicatorMetadata[index] !== undefined
+        ? indicatorMetadata[index]?.unitLabel
+        : '';
 
-  const mockWorst = [959, 100];
+    const rowIndicator: Indicator = {
+      indicatorId: rowIndicatorId,
+      title: rowTitle,
+      definition: rowIndicatorDefinition,
+    };
 
-  const data: SpineChartTableProps = {
-    indicators: mockIndicatorData,
-    measurementUnits: mockUnits,
-    indicatorHealthData: mockHealthData,
-    groupIndicatorData: mockGroup,
-    englandBenchmarkData: MOCK_HEALTH_DATA,
-    worst: mockWorst,
-    best: mockBest,
-  };
+    const row: SpineChartTableRowProps = {
+      indicator: rowIndicator,
+      measurementUnit: rowMeasurementUnit,
+      indicatorHealthData: indicatorData,
+      groupIndicatorData: groupIndicatorData[index],
+      englandBenchmarkData: englandIndicatorData[index],
+      best: 100,
+      worst: 0,
+    };
 
-  return data;
-};
+    tableData[index] = row;
+  });
 
-export function TwoOrMoreIndicatorsAreasViewPlot() {
-  const spineTableData = mapToSpineChartTableProps();
+  return { rowData: tableData };
+}
+
+export function TwoOrMoreIndicatorsAreasViewPlot({
+  searchState,
+  indicatorData,
+  indicatorMetadata,
+}: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  if (!areasSelected) {
+    throw new Error('Invalid parameters provided to view plot');
+  }
+
+  const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
+    extractingCombinedHealthData(
+      indicatorData,
+      areasSelected,
+      selectedGroupCode
+    );
+
+  const spineTableData = mapToSpineChartTableProps(
+    healthIndicatorData,
+    groupIndicatorData,
+    englandIndicatorData,
+    indicatorMetadata
+  );
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <H2>View data for selected indicators and areas</H2>
-      <SpineChartTable
-        indicators={spineTableData.indicators}
-        measurementUnits={spineTableData.measurementUnits}
-        indicatorHealthData={spineTableData.indicatorHealthData}
-        groupIndicatorData={spineTableData.groupIndicatorData}
-        englandBenchmarkData={spineTableData.englandBenchmarkData}
-        best={spineTableData.best}
-        worst={spineTableData.worst}
-      />
+      <SpineChartTable rowData={spineTableData.rowData} />
     </section>
   );
 }

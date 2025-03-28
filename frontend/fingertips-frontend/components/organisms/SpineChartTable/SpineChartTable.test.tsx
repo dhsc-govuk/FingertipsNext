@@ -103,50 +103,41 @@ describe('Spine chart table suite', () => {
 
   const mockWorst = [959, 100];
 
+  const mockTableData = [
+    {
+      indicator: mockIndicatorData[0],
+      measurementUnit: mockUnits[0],
+      indicatorHealthData: mockHealthData[0],
+      groupIndicatorData: mockGroup[0],
+      englandBenchmarkData: MOCK_HEALTH_DATA[0],
+      best: mockBest[0],
+      worst: mockWorst[0],
+    },
+    {
+      indicator: mockIndicatorData[1],
+      measurementUnit: mockUnits[1],
+      indicatorHealthData: mockHealthData[1],
+      groupIndicatorData: mockGroup[1],
+      englandBenchmarkData: MOCK_HEALTH_DATA[1],
+      best: mockBest[1],
+      worst: mockWorst[1],
+    },
+  ];
+
   describe('Spine chart table', () => {
     it('snapshot test - should match snapshot', () => {
-      const container = render(
-        <SpineChartTable
-          indicators={mockIndicatorData}
-          measurementUnits={mockUnits}
-          indicatorHealthData={mockHealthData}
-          groupIndicatorData={mockGroup}
-          englandBenchmarkData={MOCK_HEALTH_DATA}
-          worst={mockWorst}
-          best={mockBest}
-        />
-      );
+      const container = render(<SpineChartTable rowData={mockTableData} />);
       expect(container.asFragment()).toMatchSnapshot();
     });
 
     it('should render the SpineChartTable component', () => {
-      render(
-        <SpineChartTable
-          indicators={mockIndicatorData}
-          measurementUnits={mockUnits}
-          indicatorHealthData={mockHealthData}
-          groupIndicatorData={mockGroup}
-          englandBenchmarkData={MOCK_HEALTH_DATA}
-          worst={mockWorst}
-          best={mockBest}
-        />
-      );
+      render(<SpineChartTable rowData={mockTableData} />);
       const spineChart = screen.getByTestId('spineChartTable-component');
       expect(spineChart).toBeInTheDocument();
     });
 
     it('should render the SpineChartTable in ascending indicator order', () => {
-      render(
-        <SpineChartTable
-          indicators={mockIndicatorData}
-          measurementUnits={mockUnits}
-          indicatorHealthData={mockHealthData}
-          groupIndicatorData={mockGroup}
-          englandBenchmarkData={MOCK_HEALTH_DATA}
-          worst={mockWorst}
-          best={mockBest}
-        />
-      );
+      render(<SpineChartTable rowData={mockTableData} />);
 
       const expectedIndicators = ['Test indicator 2', 'Test indicator 1'];
       const indictors = screen.getAllByTestId(`indicator-cell`);
@@ -159,9 +150,9 @@ describe('Spine chart table suite', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
         {
-          benchmarkBest: 959,
+          benchmarkBest: 1666,
           benchmarkValue: 890.305692,
-          benchmarkWorst: 1666,
+          benchmarkWorst: 959,
           count: 222,
           groupValue: 980.305692,
           indicator: 'Test indicator 1',
@@ -171,9 +162,9 @@ describe('Spine chart table suite', () => {
           value: 890.305692,
         },
         {
-          benchmarkBest: 100,
+          benchmarkBest: 22,
           benchmarkValue: 135.149304,
-          benchmarkWorst: 22,
+          benchmarkWorst: 100,
           count: 111,
           groupValue: 690.305692,
           indicator: 'Test indicator 2',
@@ -184,17 +175,7 @@ describe('Spine chart table suite', () => {
         },
       ];
 
-      expect(
-        mapToSpineChartTableData(
-          mockIndicatorData,
-          mockUnits,
-          mockHealthData,
-          mockGroup,
-          MOCK_HEALTH_DATA,
-          mockWorst,
-          mockBest
-        )
-      ).toEqual(expectedRowData);
+      expect(mapToSpineChartTableData(mockTableData)).toEqual(expectedRowData);
     });
   });
 });
