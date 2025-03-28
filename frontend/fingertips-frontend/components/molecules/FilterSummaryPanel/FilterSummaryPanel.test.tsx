@@ -7,7 +7,7 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { userEvent, UserEvent } from '@testing-library/user-event';
-import {LoaderContext} from "@/context/LoaderContext";
+import { LoaderContext } from '@/context/LoaderContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
