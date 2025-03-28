@@ -2,7 +2,11 @@
  * @jest-environment node
  */
 
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  IndicatorPolarity,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'jest-mock-extended';
 import OneIndicatorTwoOrMoreAreasView from '.';
@@ -19,7 +23,7 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-const mockMapData = { joinKey: 'RGN23CD', mapFile: regionsMap };
+const mockMapGeographyData = { mapFile: regionsMap };
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
@@ -38,6 +42,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
       };
+
       mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
         areaHealthData: [],
       });
@@ -140,6 +145,10 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
 
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+      areaHealthData: [mockHealthData['108'][1]],
+    });
+
     const page = await OneIndicatorTwoOrMoreAreasView({
       selectedIndicatorsData: [firstIndicatorDocument],
       searchState: searchParams,
@@ -155,15 +164,18 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreaTypeSelected]: 'regions',
       [SearchParams.AreasSelected]: ['E12000001', 'E12000003'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+    const mockIndicatorData = {
       areaHealthData: [mockHealthData['108'][1]],
-    });
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicatorData
+    );
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
     });
 
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.indicatorData).toEqual(mockIndicatorData);
     expect(page.props.searchState).toEqual(searchState);
   });
 
@@ -174,17 +186,24 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
       [SearchParams.AreaTypeSelected]: 'regions',
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
+    const mockIndicatorData = {
+      polarity: IndicatorPolarity.LowIsGood,
+      benchmarkComparisonMethod:
+        BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       areaHealthData: [mockHealthData['108'][1]],
-    });
+    };
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+      mockIndicatorData
+    );
 
     const page = await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
     });
 
-    expect(page.props.healthIndicatorData).toEqual([mockHealthData['108'][1]]);
+    expect(page.props.indicatorData).toEqual(mockIndicatorData);
     expect(page.props.searchState).toEqual(searchState);
-    expect(page.props.mapData.mapJoinKey).toEqual(mockMapData.joinKey);
-    expect(page.props.mapData.mapFile).toEqual(mockMapData.mapFile);
+    expect(page.props.mapGeographyData.mapFile).toEqual(
+      mockMapGeographyData.mapFile
+    );
   });
 });

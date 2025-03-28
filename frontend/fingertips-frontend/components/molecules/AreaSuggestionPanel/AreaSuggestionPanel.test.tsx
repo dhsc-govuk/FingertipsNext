@@ -8,6 +8,8 @@ import {
   nhsRegionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import { englandArea } from '@/mock/data/areas/englandAreas';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockAreas: AreaDocument[] = [
   { areaCode: 'GP01', areaName: 'Greenwich', areaType: 'GPs' },
@@ -31,7 +33,33 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 describe('AreaSuggestionPanel', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue({});
+  });
+
   it('should render correctly and match snapshot', () => {
     const { asFragment } = render(
       <AreaAutoCompleteSuggestionPanel
@@ -43,14 +71,12 @@ describe('AreaSuggestionPanel', () => {
   });
 
   it('should not render the area suggestion panel when the searchState contains areasSelected', () => {
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.AreasSelected]: ['A001'],
+    });
+
     render(
-      <AreaAutoCompleteSuggestionPanel
-        suggestedAreas={[]}
-        searchHint=""
-        searchState={{
-          [SearchParams.AreasSelected]: ['A001'],
-        }}
-      />
+      <AreaAutoCompleteSuggestionPanel suggestedAreas={[]} searchHint="" />
     );
 
     expect(
@@ -80,7 +106,7 @@ describe('AreaSuggestionPanel', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should update the url with the areaCode when an suggested area is clicked', async () => {
+  it('should update the url with the areaCode when a suggested area is clicked', async () => {
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=GP01`,
@@ -101,7 +127,29 @@ describe('AreaSuggestionPanel', () => {
     expect(mockReplace).toHaveBeenCalledWith(expectedPath, { scroll: false });
   });
 
+  it('should call setIsLoading with true when a suggested area is clicked', async () => {
+    render(
+      <AreaAutoCompleteSuggestionPanel
+        suggestedAreas={mockAreas}
+        searchHint=""
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(
+      screen.getByTestId(`area-suggestion-item-${mockAreas[0].areaCode}`)
+    );
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
   it('should remove any previous area filter selection from the state', async () => {
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
+      [SearchParams.GroupTypeSelected]: englandAreaType.key,
+      [SearchParams.GroupSelected]: englandArea.code,
+    });
+
     const expectedPath = [
       `${mockPath}`,
       `?${SearchParams.AreasSelected}=GP01`,
@@ -111,11 +159,6 @@ describe('AreaSuggestionPanel', () => {
     render(
       <AreaAutoCompleteSuggestionPanel
         suggestedAreas={mockAreas}
-        searchState={{
-          [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
-          [SearchParams.GroupTypeSelected]: englandAreaType.key,
-          [SearchParams.GroupSelected]: englandArea.code,
-        }}
         searchHint=""
       />
     );

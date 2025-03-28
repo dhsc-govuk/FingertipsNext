@@ -6,10 +6,12 @@ import {
   getAllNHSRegionAreas,
   IndicatorMode,
   SearchMode,
+  AreaMode,
 } from '../../testHelpers';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { AreaDocument, IndicatorDocument } from '@/lib/search/searchTypes';
+import ChartPage from '@/playwright/page-objects/pages/chartPage';
 
 // tests in this file use mock service worker to mock the API response
 // so that the tests can be run without the need for a backend
@@ -78,11 +80,11 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
 
       await resultsPage.fillIndicatorSearch(subjectSearchTerm);
-      await resultsPage.clickIndicatorSearchButtonAndWait(subjectSearchTerm);
+      await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
     });
 
-    await test.step('Select single indicator, let area default to England and check on charts page', async () => {
+    await test.step('Select single indicator and let default to England, and check on charts page', async () => {
       await resultsPage.selectIndicatorCheckboxes(
         filteredIndicatorIds,
         indicatorMode
@@ -91,6 +93,23 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await resultsPage.clickViewChartsButton();
 
       await chartPage.waitForURLToContain('chart');
+
+      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
+        'color-contrast',
+      ]);
+    });
+
+    await test.step('Select area filters on charts page', async () => {
+      await chartPage.selectAreasFiltersIfRequired(
+        searchMode,
+        AreaMode.TWO_PLUS_AREAS, // change to 2 areas to see different view with barChartEmbeddedTable-component
+        subjectSearchTerm,
+        'gps'
+      );
+
+      await chartPage.checkSpecificChartComponent(
+        ChartPage.barChartEmbeddedTableComponent
+      );
 
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
@@ -112,6 +131,8 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
 
     await test.step('Verify after clearing search field that search page validation prevents forward navigation', async () => {
       await homePage.clearSearchIndicatorField();
+      await homePage.closeAreaFilterPill(0);
+      await homePage.closeAreaFilterPill(0);
 
       await homePage.clickSearchButton();
       await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing should be prepopulated after clearing search field

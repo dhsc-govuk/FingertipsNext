@@ -4,13 +4,9 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
+  convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
-  preparePopulationData,
-  PopulationData,
-  preparePopulationDataForArea,
 } from './preparePopulationData';
-import { areaCodeForEngland } from './constants';
-import { noDeprivation } from '../mocks';
 
 const mockData: HealthDataPoint[] = [
   {
@@ -22,7 +18,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '0-4',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -33,7 +33,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '5-9',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -44,7 +48,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '10-14',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -55,7 +63,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '15-19',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -66,7 +78,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '20-24',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -77,7 +93,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '50-54',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -88,7 +108,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '85-89',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -99,7 +123,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '90+',
     sex: 'Female',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -110,7 +138,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '0-4',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -121,7 +153,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '5-9',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -132,7 +168,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '10-14',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -143,7 +183,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '15-19',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -154,7 +198,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '20-24',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -165,7 +213,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '50-54',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
 
   {
@@ -177,7 +229,11 @@ const mockData: HealthDataPoint[] = [
     ageBand: '90+',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
   {
     year: 2023,
@@ -188,125 +244,104 @@ const mockData: HealthDataPoint[] = [
     ageBand: '85-89',
     sex: 'Male',
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    deprivation: {
+      sequence: 0,
+      value: 'string',
+      type: 'string',
+    },
   },
 ];
-const mockAgeCategories = [
-  '90+',
-  '85-89',
-  '50-54',
-  '20-24',
-  '15-19',
-  '10-14',
-  '5-9',
-  '0-4',
-];
-const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
-const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
 
-const mockHealthDataForSelectedArea: HealthDataForArea = {
-  areaCode: 'selected',
-  areaName: 'Selected Area',
-  healthData: mockData,
-};
-const mockHealthDataForEngland: HealthDataForArea = {
-  areaCode: areaCodeForEngland,
-  areaName: 'England',
-  healthData: mockData,
-};
-const mockHealthDataForBaseline: HealthDataForArea = {
-  areaCode: 'baseline',
-  areaName: 'Baseline Area',
-  healthData: mockData,
-};
+describe('convertHealthDataForAreaForPyramidData', () => {
+  it('should return the correct data points for female, male and categories', () => {
+    const mockHealthDataForArea: HealthDataForArea = {
+      areaCode: 'selected',
+      areaName: 'Selected Area',
+      healthData: mockData,
+    };
 
-describe('preparePopulationData', () => {
-  describe('preparePopulationDataforArea', () => {
-    it('should return an object with age categories sorted oldest to youngest', () => {
-      const expected = mockAgeCategories;
+    const mockFemaleSeries = [1.58, 2.48, 8.78, 7.67, 7.49, 7.81, 7.42, 6.78];
+    const mockMaleSeries = [0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11];
+    const mockAgeCategories = [
+      '90+',
+      '85-89',
+      '50-54',
+      '20-24',
+      '15-19',
+      '10-14',
+      '5-9',
+      '0-4',
+    ].map((value) => value.replace('-', ' to '));
 
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.ageCategories).toEqual(expected);
-    });
-
-    it('should return an object with female population data as a percentage sorted by age band old to youngest', () => {
-      const expected = mockFemaleSeries;
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.femaleSeries).toEqual(expected);
-    });
-
-    it('should return an object with male population data as a percentage sorted by age band sorted old to youngest', () => {
-      const expected = mockMaleSeries;
-      const actual: PopulationDataForArea | undefined =
-        preparePopulationDataForArea(mockData);
-      expect(actual?.maleSeries).toEqual(expected);
-    });
+    const actual: PopulationDataForArea | undefined =
+      convertHealthDataForAreaForPyramidData(mockHealthDataForArea, 2023);
+    expect(actual?.femaleSeries).toEqual(mockFemaleSeries);
+    expect(actual?.maleSeries).toEqual(mockMaleSeries);
+    expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 
-  it('should return an object with prepared population data for the selected area', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-    };
-    const actual: PopulationData = preparePopulationData(
-      [mockHealthDataForSelectedArea],
-      'selected'
-    );
-    expect(actual).toEqual(expected);
+  it('should return undefined if the HealthDataForArea provided is undefined', () => {
+    const actual = convertHealthDataForAreaForPyramidData(undefined, undefined);
+    expect(actual).toBeUndefined();
   });
 
-  it('should return an object with prepared popultion data for the selected area and England', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
+  it('should remove duplicate age bands and data point', () => {
+    const mockDataPoint: HealthDataPoint[] = [
+      {
+        year: 2023,
+        count: 1496012,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: {
+          sequence: 0,
+          value: 'string',
+          type: 'string',
+        },
       },
-      dataForEngland: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
+      {
+        year: 2023,
+        count: 1635842,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Female',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: {
+          sequence: 0,
+          value: 'string',
+          type: 'string',
+        },
       },
-    };
-    const actual: PopulationData = preparePopulationData(
-      [mockHealthDataForSelectedArea, mockHealthDataForEngland],
-      'selected'
-    );
-    expect(actual).toEqual(expected);
-  });
+      {
+        year: 2023,
+        count: 1721746,
+        value: 0,
+        lowerCi: 0,
+        upperCi: 0,
+        ageBand: '10-14',
+        sex: 'Male',
+        trend: HealthDataPointTrendEnum.NotYetCalculated,
+        deprivation: {
+          sequence: 0,
+          value: 'string',
+          type: 'string',
+        },
+      },
+    ];
 
-  it('should return an object with prepared popultion data for the selected area, England and baseline area', () => {
-    const expected: PopulationData = {
-      dataForSelectedArea: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-      dataForEngland: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
-      dataForBaseline: {
-        ageCategories: mockAgeCategories,
-        femaleSeries: mockFemaleSeries,
-        maleSeries: mockMaleSeries,
-      },
+    const mockDuplicateData: HealthDataForArea = {
+      areaCode: 'selected',
+      areaName: 'Selected Area',
+      healthData: mockDataPoint,
     };
-    const actual: PopulationData = preparePopulationData(
-      [
-        mockHealthDataForSelectedArea,
-        mockHealthDataForEngland,
-        mockHealthDataForBaseline,
-      ],
-      'selected',
-      'baseline'
-    );
-    expect(actual).toEqual(expected);
+    const actual: PopulationDataForArea | undefined =
+      convertHealthDataForAreaForPyramidData(mockDuplicateData, 2023);
+    expect(actual?.femaleSeries).toHaveLength(1);
+    expect(actual?.maleSeries).toHaveLength(1);
   });
 });
