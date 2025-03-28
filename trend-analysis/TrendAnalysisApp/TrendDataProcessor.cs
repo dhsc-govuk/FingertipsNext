@@ -46,7 +46,6 @@ public class TrendDataProcessor(
                 hm.DeprivationKey,
                 hm.SexKey
             });
-        var defaultDimsForSearch = GetDefaultSearchDimsForIndicator(indicator.IndicatorKey);
         var trendDataForSearch = new IndicatorTrendDataForSearch
         {
             IndicatorId = indicator.IndicatorId
@@ -65,14 +64,15 @@ public class TrendDataProcessor(
             var trend = trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
             healthMeasureRepository.UpdateTrendKey(mostRecentDataPoints.First(), (byte) trend);
 
+            var latestDataPoint = mostRecentDataPoints.First();
             if (
-                hmGroup.Key.AgeKey == defaultDimsForSearch.AgeDimensionKey &&
-                hmGroup.Key.SexKey == defaultDimsForSearch.SexDimensionKey &&
-                hmGroup.Key.DeprivationKey == Constants.Indicator.DefaultDeprivationDimensionKey
+                latestDataPoint.IsAgeAggregatedOrSingle &&
+                latestDataPoint.IsDeprivationAggregatedOrSingle &&
+                latestDataPoint.IsSexAggregatedOrSingle
             ) {
                 trendDataForSearch.AreaToTrendList.Add(
                     new AreaWithTrendData(
-                        mostRecentDataPoints.First().AreaDimension.Code,
+                        latestDataPoint.AreaDimension.Code,
                         IndicatorTrendDataForSearch.MapTrendEnumToDescriptiveString(trend)
                     )
                 );
@@ -127,13 +127,5 @@ public class TrendDataProcessor(
 
         _fileHelper.Write(_jsonIndicatorFilePath, jsonIndicatorList);
         Console.WriteLine($"Updated trend data in indicators.json for {perIndicatorTrendData.Count()} indicators");
-    }
-
-    public static IndicatorSearchDimensions GetDefaultSearchDimsForIndicator(short indicatorId) {
-        if (!Constants.Indicator.NonStandardDimensionMap.TryGetValue(indicatorId, out IndicatorSearchDimensions? defaultSearchDimensions)) {
-            return new IndicatorSearchDimensions(Constants.Indicator.DefaultAgeDimensionKey, Constants.Indicator.DefaultSexDimensionKey);
-        }
-
-        return defaultSearchDimensions;
     }
 }

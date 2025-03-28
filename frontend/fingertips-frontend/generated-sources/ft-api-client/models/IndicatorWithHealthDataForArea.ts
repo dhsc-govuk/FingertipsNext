@@ -42,6 +42,12 @@ import {
  */
 export interface IndicatorWithHealthDataForArea {
     /**
+     * Unique ID of the indicator
+     * @type {number}
+     * @memberof IndicatorWithHealthDataForArea
+     */
+    indicatorId?: number;
+    /**
      * Name of the indicator
      * @type {string}
      * @memberof IndicatorWithHealthDataForArea
@@ -86,6 +92,7 @@ export function IndicatorWithHealthDataForAreaFromJSONTyped(json: any, ignoreDis
     }
     return {
         
+        'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
         'name': json['name'] == null ? undefined : json['name'],
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
         'benchmarkMethod': json['benchmarkMethod'] == null ? undefined : BenchmarkComparisonMethodFromJSON(json['benchmarkMethod']),
@@ -104,6 +111,7 @@ export function IndicatorWithHealthDataForAreaToJSONTyped(value?: IndicatorWithH
 
     return {
         
+        'indicatorId': value['indicatorId'],
         'name': value['name'],
         'polarity': IndicatorPolarityToJSON(value['polarity']),
         'benchmarkMethod': BenchmarkComparisonMethodToJSON(value['benchmarkMethod']),
