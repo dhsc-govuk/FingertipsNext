@@ -19,7 +19,7 @@ interface ThematicMapProps {
   areaType: AreaTypeKeysForMapMeta;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  measurementUnit: string;
+  measurementUnit?: string;
   benchmarkIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
 }

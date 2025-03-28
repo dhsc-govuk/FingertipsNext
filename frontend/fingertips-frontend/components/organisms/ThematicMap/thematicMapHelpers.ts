@@ -191,7 +191,7 @@ export function createThematicMapChartOptions(
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity,
-  measurementUnit: string,
+  measurementUnit?: string,
   benchmarkIndicatorData?: HealthDataForArea,
   groupIndicatorData?: HealthDataForArea
 ): Highcharts.Options {
@@ -280,7 +280,7 @@ function generateThematicMapTooltipString(
   groupIndicatorData: HealthDataForArea | undefined,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity,
-  measurementUnit: string
+  measurementUnit?: string
 ): string {
   const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
   const benchmarkConfidenceLimit = getConfidenceLimitNumber(
