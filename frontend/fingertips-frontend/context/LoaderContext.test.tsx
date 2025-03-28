@@ -60,6 +60,4 @@ describe('LoaderContext', () => {
 
     expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: true');
   });
-
-  // add test to prove when pathname is changed and searchSttate is changed
 });
