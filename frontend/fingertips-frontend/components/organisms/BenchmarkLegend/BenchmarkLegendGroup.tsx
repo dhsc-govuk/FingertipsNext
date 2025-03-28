@@ -16,6 +16,7 @@ const LegendGroup = styled('div')({
 const StyledLegendLabel = styled('span')({
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
+  fontSize: '0.842em', //16px
 });
 
 interface BenchmarkLegendProps {
@@ -30,20 +31,21 @@ const BenchmarkLegendGroup: FC<BenchmarkLegendProps> = ({
   polarity,
 }) => {
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
-  const suffix = confidenceLimit ? `(${confidenceLimit}% confidence)` : null;
+  const prefix = confidenceLimit ? `${confidenceLimit}% confidence` : null;
   return (
-    <LegendGroup>
-      {outcomes.map((outcome) => (
-        <BenchmarkLabel
-          key={benchmarkComparisonMethod + '_' + outcome}
-          method={benchmarkComparisonMethod}
-          outcome={outcome}
-          polarity={polarity}
-        />
-      ))}
-
-      {suffix ? <StyledLegendLabel>{suffix}</StyledLegendLabel> : null}
-    </LegendGroup>
+    <>
+      {prefix ? <StyledLegendLabel>{prefix}</StyledLegendLabel> : null}
+      <LegendGroup>
+        {outcomes.map((outcome) => (
+          <BenchmarkLabel
+            key={benchmarkComparisonMethod + '_' + outcome}
+            method={benchmarkComparisonMethod}
+            outcome={outcome}
+            polarity={polarity}
+          />
+        ))}
+      </LegendGroup>
+    </>
   );
 };
 
