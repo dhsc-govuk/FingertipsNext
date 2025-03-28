@@ -65,6 +65,7 @@ describe('PopulationPyramidWithTable', () => {
     return render(
       <PopulationPyramidWithTable
         healthDataForAreas={dataForArea}
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
@@ -103,15 +104,14 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   test('take a snapshot', () => {
-    const pyramid = (
+    const container = render(
       <PopulationPyramidWithTable
         healthDataForAreas={mockHealthData['337']}
-        selectedGroupAreaCode={mockHealthData['337'][1].areaCode}
+        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
       />
     );
-    const container = render(pyramid);
     expect(container.asFragment()).toMatchSnapshot();
   });
 });

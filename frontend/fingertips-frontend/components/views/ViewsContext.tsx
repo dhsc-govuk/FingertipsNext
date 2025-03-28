@@ -64,7 +64,7 @@ export async function ViewsContext({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.GroupAreaSelected]: groupAreaSelected
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
   } = stateManager.getSearchState();
   const indicators = indicatorsSelected ?? [];
 
