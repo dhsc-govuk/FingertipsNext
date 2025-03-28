@@ -38,10 +38,7 @@ export const FilterSummaryPanel = ({
 }: FilterSummaryPanelProps) => {
   return (
     <div data-testid="filter-summary-panel">
-      <FocusAnchor
-        data-testid="show-filter-cta"
-        onClick={changeSelection}
-      >
+      <FocusAnchor data-testid="show-filter-cta" onClick={changeSelection}>
         Show filter
       </FocusAnchor>
 

@@ -36,9 +36,7 @@ describe('FilterSummaryPanel', () => {
   });
 
   const defaultProps: FilterSummaryPanelProps = {
-    selectedIndicatorsData: [
-      generateIndicatorDocument('1'),
-    ],
+    selectedIndicatorsData: [generateIndicatorDocument('1')],
     searchState: {
       [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
     },
@@ -52,35 +50,30 @@ describe('FilterSummaryPanel', () => {
   it('should render selected indicator when one indicator selected', () => {
     renderPanel();
 
-    expect(
-      screen.queryByTestId('pill-container')
-    ).toBeInTheDocument();
+    expect(screen.queryByTestId('pill-container')).toBeInTheDocument();
   });
 
   it('should not render selected indicators when more than one indicator selected', () => {
-    renderPanel({ ...defaultProps,  selectedIndicatorsData: [
+    renderPanel({
+      ...defaultProps,
+      selectedIndicatorsData: [
         generateIndicatorDocument('2'),
         generateIndicatorDocument('3'),
-      ] });
+      ],
+    });
 
-    expect(
-        screen.queryByTestId('pill-container')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pill-container')).not.toBeInTheDocument();
   });
 
   it('should render a show filters cta', () => {
     renderPanel();
 
-    expect(
-      screen.queryByTestId('show-filter-cta')
-    ).toBeInTheDocument();
+    expect(screen.queryByTestId('show-filter-cta')).toBeInTheDocument();
   });
 
   it('should call changeSelection prop when show filter cta is clicked', async () => {
     renderPanel();
-    await user.click(
-      screen.getByTestId('show-filter-cta')
-    );
+    await user.click(screen.getByTestId('show-filter-cta'));
 
     expect(mockChangeSelection).toBeCalled();
   });
