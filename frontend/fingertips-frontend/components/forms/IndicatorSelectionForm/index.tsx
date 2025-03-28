@@ -1,5 +1,6 @@
 import { SearchResult } from '@/components/molecules/Result';
 import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 import { localeSort } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -19,7 +20,6 @@ import { usePathname, useRouter } from 'next/navigation';
 
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
-  searchState?: SearchStateParams;
   formAction: (payload: FormData) => void;
   currentDate?: Date;
 };
@@ -31,6 +31,13 @@ const isIndicatorSelected = (
   return state?.[SearchParams.IndicatorsSelected]
     ? state[SearchParams.IndicatorsSelected]?.some((ind) => ind === indicatorId)
     : false;
+};
+
+const generateKey = (
+  indicatorId: string,
+  state?: SearchStateParams
+): string => {
+  return `${indicatorId}-${isIndicatorSelected(indicatorId, state)}`;
 };
 
 const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
@@ -45,14 +52,14 @@ const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
 
 export function IndicatorSelectionForm({
   searchResults,
-  searchState,
   formAction,
   currentDate,
 }: Readonly<IndicatorSelectionProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const { setIsLoading } = useLoadingState();
-
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
   const stateManager = SearchStateManager.initialise(searchState);
 
   const checkAllIndicatorsSelected = (
@@ -73,6 +80,7 @@ export function IndicatorSelectionForm({
 
   const selectedIndicators =
     searchState?.[SearchParams.IndicatorsSelected] || [];
+
   const areAllIndicatorsSelected = checkAllIndicatorsSelected(
     searchResults,
     selectedIndicators
@@ -130,6 +138,7 @@ export function IndicatorSelectionForm({
       {searchResults.length ? (
         <>
           <Checkbox
+            key={`select-all-indicator-${areAllIndicatorsSelected}`}
             data-testid="select-all-checkbox"
             defaultChecked={areAllIndicatorsSelected}
             onChange={(e) => handleSelectAll(e.target.checked)}
@@ -143,13 +152,12 @@ export function IndicatorSelectionForm({
             </ListItem>
             {searchResults.map((result) => (
               <SearchResult
-                key={result.indicatorID}
+                key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}
                 indicatorSelected={isIndicatorSelected(
                   result.indicatorID.toString(),
                   searchState
                 )}
-                searchState={searchState}
                 handleClick={handleClick}
                 currentDate={currentDate}
               />

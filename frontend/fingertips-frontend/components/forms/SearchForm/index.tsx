@@ -5,11 +5,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -20,63 +16,26 @@ import {
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
-import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
-import { useEffect, useState } from 'react';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
 interface SearchFormProps {
-  searchState?: SearchStateParams;
   formState: SearchFormState;
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
 }
 
 export const SearchForm = ({
-  searchState,
   formState,
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
   const { setIsLoading } = useLoadingState();
-
-  const [searchedIndicator, setSearchedIndicator] = useState<string>(
-    searchState?.[SearchParams.SearchedIndicator] ?? ''
-  );
-  const [updatedSearchState, setUpdatedSearchState] =
-    useState<SearchStateParams>(searchState ?? {});
-
-  const initialValue = ClientStorage.getState<boolean>(
-    ClientStorageKeys.AreaFilterHomePage
-  );
-
-  const [isAreaFilterOpen, setIsAreaFilterOpen] = useState<boolean>(
-    initialValue ?? false
-  );
-
-  useEffect(() => {
-    const initialValue = ClientStorage.getState<boolean>(
-      ClientStorageKeys.AreaFilterHomePage
-    );
-    setIsAreaFilterOpen(initialValue ?? false);
-  }, []);
-
-  useEffect(() => {
-    ClientStorage.updateState<boolean>(
-      ClientStorageKeys.AreaFilterHomePage,
-      isAreaFilterOpen
-    );
-  }, [isAreaFilterOpen]);
-
-  const updateIsAreaFilterOpen = () => {
-    ClientStorage.updateState(
-      ClientStorageKeys.AreaFilterHomePage,
-      !isAreaFilterOpen
-    );
-    setIsAreaFilterOpen(!isAreaFilterOpen);
-  };
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
@@ -87,31 +46,19 @@ export const SearchForm = ({
         )?.name
       : selectedAreasData?.[0]?.name;
 
-  const handleOnChange = (searchedIndicator: string) => {
-    setSearchedIndicator(searchedIndicator);
-
-    const stateManager = SearchStateManager.initialise(searchState);
-    stateManager.addParamValueToState(
-      SearchParams.SearchedIndicator,
-      searchedIndicator
-    );
-    setUpdatedSearchState(stateManager.getSearchState());
-  };
-
   return (
     <div data-testid="search-form">
       <H3>Find public health data</H3>
       <input
         name="searchState"
-        defaultValue={JSON.stringify(updatedSearchState)}
+        defaultValue={JSON.stringify(searchState)}
         hidden
       />
       <StyledInputField
         input={{
           id: 'indicator',
           name: 'indicator',
-          defaultValue: searchedIndicator ?? formState.indicator ?? '',
-          onChange: (e) => handleOnChange(e.target.value),
+          defaultValue: formState.indicator ?? '',
         }}
         hint={
           <div style={{ color: GovukColours.DarkGrey }}>
@@ -128,34 +75,25 @@ export const SearchForm = ({
         Search by subject
       </StyledInputField>
       <AreaAutoCompleteInputField
-        key={`area-auto-complete-${JSON.stringify(updatedSearchState)}`}
+        key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
-        searchState={updatedSearchState}
         selectedAreaName={inputSuggestionDefaultValue}
       />
 
       {(selectedAreas && selectedAreas.length > 0) ||
-      updatedSearchState?.[SearchParams.GroupAreaSelected] ===
-        ALL_AREAS_SELECTED ? (
+      searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <SelectedAreasPanel
-          key={`selected-area-panel-${JSON.stringify(updatedSearchState)}`}
-          searchState={updatedSearchState}
+          key={`selected-area-panel-${JSON.stringify(searchState)}`}
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           isFullWidth={false}
         />
       ) : null}
 
-      <ShowHideContainer
-        key={`show-hide-${isAreaFilterOpen}`}
-        summary="Filter by area"
-        open={isAreaFilterOpen}
-        onToggleContainer={updateIsAreaFilterOpen}
-      >
+      <ShowHideContainer summary="Filter by area" open={false}>
         <SelectAreasFilterPanel
-          key={`area-filter-panel-${JSON.stringify(updatedSearchState)}`}
+          key={`area-filter-panel-${JSON.stringify(searchState)}`}
           areaFilterData={areaFilterData}
-          searchState={updatedSearchState}
         />
       </ShowHideContainer>
 

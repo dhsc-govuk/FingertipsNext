@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { eastEnglandNHSRegion } from '@/mock/data/areas/nhsRegionsAreas';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('@/components/forms/SearchForm/searchActions');
 
@@ -34,10 +35,19 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 

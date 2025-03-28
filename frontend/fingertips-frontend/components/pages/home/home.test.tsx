@@ -4,6 +4,7 @@ import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { expect } from '@jest/globals';
 import { userEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const initialState: SearchFormState = {
   indicator: '',
@@ -21,16 +22,23 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
-const mockGetIsLoading = jest.fn();
-const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: mockGetIsLoading,
-  setIsLoading: mockSetIsLoading,
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -43,22 +51,6 @@ const setupUI = (state?: SearchFormState) => {
 
 afterEach(() => {
   jest.clearAllMocks();
-});
-
-it('should render the loading box when getIsLoading is true', () => {
-  mockGetIsLoading.mockReturnValue(true);
-
-  setupUI();
-
-  expect(screen.getByText('Loading')).toBeInTheDocument();
-});
-
-it('should not render the loading box when getIsLoading is false', () => {
-  mockGetIsLoading.mockReturnValue(false);
-
-  setupUI();
-
-  expect(screen.queryByText('Loading')).not.toBeInTheDocument();
 });
 
 it('should render an indicator link', () => {

@@ -1,5 +1,4 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { H3, SectionBreak } from 'govuk-react';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
@@ -10,15 +9,12 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
-import { useState } from 'react';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
-  searchState?: SearchStateParams;
-  pageType?: 'results' | 'chart';
 }
 
 const StyledFilterPane = styled('div')({});
@@ -40,32 +36,9 @@ export function AreaFilterPane({
   selectedAreasData,
   selectedIndicatorsData,
   areaFilterData,
-  searchState,
-  pageType,
 }: Readonly<AreaFilterPaneProps>) {
-  const storeKey =
-    pageType === 'results'
-      ? ClientStorageKeys.AreaFilterResultsPage
-      : ClientStorageKeys.AreaFilterChartPage;
-
-  const [isAreaFilterOpen, setIsAreaFilterOpen] = useState<boolean>();
-
-  // useEffect(() => {
-  //   setIsAreaFilterOpen(isAreaFilterOpen);
-  // }, [isAreaFilterOpen]);
-
-  console.log(`storeKey ${storeKey}`);
-
-  // const isAreaFilterOpen = ClientStorage.getState<boolean>(storeKey) ?? true;
-
-  console.log(`isAreaFilterOpen ${isAreaFilterOpen}`);
-
-  const updateIsAreaFilterOpen = () => {
-    console.log(`isAreaFilterOpen will change to ${!isAreaFilterOpen}`);
-
-    ClientStorage.updateState(storeKey, !isAreaFilterOpen);
-    setIsAreaFilterOpen(!isAreaFilterOpen);
-  };
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   return (
     <StyledFilterPane data-testid="area-filter-container">
@@ -77,25 +50,19 @@ export function AreaFilterPane({
         {selectedIndicatorsData ? (
           <SelectedIndicatorsPanel
             selectedIndicatorsData={selectedIndicatorsData}
-            searchState={searchState}
           />
         ) : null}
 
         <SelectedAreasPanel
+          key={`selected-area-panel-${JSON.stringify(searchState)}`}
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}
-          searchState={searchState}
         />
 
-        <ShowHideContainer
-          key={`show-hide-${isAreaFilterOpen}`}
-          summary="Add or change areas"
-          open={isAreaFilterOpen}
-          onToggleContainer={updateIsAreaFilterOpen}
-        >
+        <ShowHideContainer summary="Add or change areas" open={true}>
           <SelectAreasFilterPanel
+            key={`area-filter-panel-${JSON.stringify(searchState)}`}
             areaFilterData={areaFilterData}
-            searchState={searchState}
           />
         </ShowHideContainer>
       </StyledFilterDiv>

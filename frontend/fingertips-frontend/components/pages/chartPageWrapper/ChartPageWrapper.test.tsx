@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { ChartPageWrapper } from '.';
 import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => {
@@ -19,10 +20,19 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: mockGetIsLoading,
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -43,30 +53,6 @@ const searchState: SearchStateParams = {
 describe('ChartPageWrapper', () => {
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('should render the loading box when getIsLoading is true', () => {
-    mockGetIsLoading.mockReturnValue(true);
-
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
-
-    expect(screen.getByText('Loading')).toBeInTheDocument();
-  });
-
-  it('should not render the loading box when getIsLoading is false', () => {
-    mockGetIsLoading.mockReturnValue(false);
-
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
-
-    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 
   it('should render the back link path back to the results page', () => {

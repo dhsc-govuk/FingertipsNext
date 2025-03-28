@@ -1,10 +1,16 @@
+'use client';
+
 import React, {
   ReactNode,
   createContext,
   useContext,
   useMemo,
   useState,
+  useEffect,
 } from 'react';
+import { usePathname } from 'next/navigation';
+import { LoadingBox } from 'govuk-react';
+import { useSearchState } from './SearchStateContext';
 
 export type LoaderContext = {
   getIsLoading: () => boolean;
@@ -20,6 +26,10 @@ const LoaderContext = createContext<LoaderContext | undefined>(undefined);
 export const LoaderProvider: React.FC<LoaderContextProvider> = ({
   children,
 }) => {
+  const pathname = usePathname();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const contextValue: LoaderContext = useMemo(
@@ -30,9 +40,15 @@ export const LoaderProvider: React.FC<LoaderContextProvider> = ({
     [isLoading, setIsLoading]
   );
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, [setIsLoading, pathname, searchState]);
+
   return (
     <LoaderContext.Provider value={contextValue}>
-      {children}
+      <LoadingBox loading={isLoading} timeIn={200} timeOut={200}>
+        {children}
+      </LoadingBox>
     </LoaderContext.Provider>
   );
 };

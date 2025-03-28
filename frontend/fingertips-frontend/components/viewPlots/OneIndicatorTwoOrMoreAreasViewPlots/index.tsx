@@ -18,7 +18,8 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -30,11 +31,18 @@ interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
-  searchState,
   indicatorMetadata,
+  searchState,
   mapData,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const stateManager = SearchStateManager.initialise(searchState);
+
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,

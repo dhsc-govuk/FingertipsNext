@@ -4,6 +4,7 @@ import placeholderIndicatorMetadata from '../../../assets/placeholderIndicatorMe
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
 
 const indicatorDefinition: IndicatorDefinitionProps = {
@@ -26,16 +27,24 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockGetIsLoading = jest.fn();
 const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: mockGetIsLoading,
+  getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -164,37 +173,5 @@ describe('indicator description page', () => {
         exact: false,
       })
     ).toBeInTheDocument();
-  });
-});
-
-describe('Loading box', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should render the loading box when getIsLoading is true', () => {
-    mockGetIsLoading.mockReturnValue(true);
-
-    render(
-      <IndicatorDefinition
-        indicatorDefinitionProps={indicatorDefinition}
-        searchState={searchState}
-      />
-    );
-
-    expect(screen.getByText('Loading')).toBeInTheDocument();
-  });
-
-  it('should not render the loading box when getIsLoading is false', () => {
-    mockGetIsLoading.mockReturnValue(false);
-
-    render(
-      <IndicatorDefinition
-        indicatorDefinitionProps={indicatorDefinition}
-        searchState={searchState}
-      />
-    );
-
-    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 });

@@ -3,8 +3,8 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const govukErrorBorderWidth = '2px';
 
@@ -22,12 +22,12 @@ const StyledHintParagraph = styled(styled(Paragraph)`
 
 export const IndicatorSearchForm = ({
   indicatorSearchFormState,
-  searchState,
 }: {
   indicatorSearchFormState: IndicatorSearchFormState;
-  searchState?: SearchStateParams;
 }) => {
   const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   return (
     <FormGroup

@@ -1,6 +1,28 @@
 import { render, screen } from '@testing-library/react';
 import { LoaderProvider, useLoadingState } from './LoaderContext';
 import userEvent from '@testing-library/user-event';
+import { SearchStateContext } from './SearchStateContext';
+
+const mockPath = 'some-mock-path';
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const TestComponent = () => {
   const { getIsLoading, setIsLoading } = useLoadingState();
@@ -15,13 +37,15 @@ const TestComponent = () => {
 
 describe('LoaderContext', () => {
   it('should have access to getIsLoading prop in the TestComponent', () => {
+    mockGetSearchState.mockReturnValue({});
+
     render(
       <LoaderProvider>
         <TestComponent />
       </LoaderProvider>
     );
 
-    expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: true');
+    expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: false');
   });
 
   it('should call setIsLoading when button is clicked and update the getIsLoaded value', async () => {
@@ -36,4 +60,6 @@ describe('LoaderContext', () => {
 
     expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: false');
   });
+
+  // add test to prove when pathname is changed and searchSttate is changed
 });

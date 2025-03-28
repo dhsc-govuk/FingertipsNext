@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  BackLink,
-  ErrorSummary,
-  GridCol,
-  GridRow,
-  H1,
-  LoadingBox,
-} from 'govuk-react';
+import { BackLink, ErrorSummary, GridCol, GridRow, H1 } from 'govuk-react';
 import { useActionState, useEffect } from 'react';
 import {
   IndicatorSelectionState,
@@ -29,8 +22,7 @@ import {
 import { IndicatorSelectionForm } from '@/components/forms/IndicatorSelectionForm';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { useLoadingState } from '@/context/LoaderContext';
-import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
-import { usePathname } from 'next/navigation';
+import { useSearchState } from '@/context/SearchStateContext';
 
 type SearchResultsProps = {
   initialIndicatorSelectionState: IndicatorSelectionState;
@@ -54,18 +46,16 @@ export function SearchResults({
   searchState,
   currentDate,
 }: Readonly<SearchResultsProps>) {
-  const { getIsLoading, setIsLoading } = useLoadingState();
-  const pathname = usePathname();
-  const previousPath = ClientStorage.getState<string>(
-    ClientStorageKeys.previousPath
-  );
+  const { setIsLoading } = useLoadingState();
+  const { setSearchState } = useSearchState();
 
   useEffect(() => {
-    if (pathname !== previousPath) {
-      window.scrollTo(0, 0);
-    }
-    ClientStorage.updateState(ClientStorageKeys.previousPath, pathname);
-  }, [previousPath, pathname]);
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [indicatorSelectionState, indicatorSelectionFormAction] =
     useActionState(submitIndicatorSelection, initialIndicatorSelectionState);
@@ -81,67 +71,54 @@ export function SearchResults({
     initialIndicatorSearchFormState
   );
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [setIsLoading, indicatorSearchState]);
-
   return (
-    <LoadingBox loading={getIsLoading()} timeIn={200} timeOut={200}>
+    <>
+      <BackLink
+        onClick={() => setIsLoading(true)}
+        href={backLinkPath}
+        data-testid="search-results-back-link"
+      />
       <>
-        <BackLink
-          onClick={() => setIsLoading(true)}
-          href={backLinkPath}
-          data-testid="search-results-back-link"
-        />
-        <>
-          {indicatorSelectionState.message && (
-            <ErrorSummary
-              errors={[
-                {
-                  targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
-                  text: 'Select any indicators you want to view',
-                },
-              ]}
-              data-testid="search-result-form-error-summary"
-              onHandleErrorClick={(targetName: string) => {
-                const indicator = document.getElementById(targetName);
-                indicator?.scrollIntoView(true);
-                indicator?.focus();
-              }}
+        {indicatorSelectionState.message && (
+          <ErrorSummary
+            errors={[
+              {
+                targetName: `search-results-indicator-${searchResults[0].indicatorID.toString()}`,
+                text: 'Select any indicators you want to view',
+              },
+            ]}
+            data-testid="search-result-form-error-summary"
+            onHandleErrorClick={(targetName: string) => {
+              const indicator = document.getElementById(targetName);
+              indicator?.scrollIntoView(true);
+              indicator?.focus();
+            }}
+          />
+        )}
+        <H1>
+          Search results for {searchState?.[SearchParams.SearchedIndicator]}
+        </H1>
+        <form action={indicatorSearchFormAction}>
+          <IndicatorSearchForm
+            indicatorSearchFormState={indicatorSearchState}
+          />
+        </form>
+        <GridRow>
+          <GridCol setWidth="one-third">
+            <AreaFilterPane
+              areaFilterData={areaFilterData}
+              selectedAreasData={selectedAreasData}
             />
-          )}
-          <H1>
-            Search results for {searchState?.[SearchParams.SearchedIndicator]}
-          </H1>
-          <form action={indicatorSearchFormAction}>
-            <IndicatorSearchForm
-              key={JSON.stringify(searchState)}
-              indicatorSearchFormState={indicatorSearchState}
-              searchState={searchState}
+          </GridCol>
+          <GridCol>
+            <IndicatorSelectionForm
+              searchResults={searchResults}
+              formAction={indicatorSelectionFormAction}
+              currentDate={currentDate}
             />
-          </form>
-          <GridRow>
-            <GridCol setWidth="one-third">
-              <AreaFilterPane
-                key={JSON.stringify(searchState)}
-                areaFilterData={areaFilterData}
-                selectedAreasData={selectedAreasData}
-                searchState={searchState}
-                pageType={'results'}
-              />
-            </GridCol>
-            <GridCol>
-              <IndicatorSelectionForm
-                key={JSON.stringify(searchState)}
-                searchResults={searchResults}
-                searchState={searchState}
-                formAction={indicatorSelectionFormAction}
-                currentDate={currentDate}
-              />
-            </GridCol>
-          </GridRow>
-        </>
+          </GridCol>
+        </GridRow>
       </>
-    </LoadingBox>
+    </>
   );
 }

@@ -3,8 +3,7 @@ import { AreaFilterPane } from '.';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
-import userEvent from '@testing-library/user-event';
-import { ClientStorage, ClientStorageKeys } from '@/storage/clientStorage';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -32,10 +31,15 @@ jest.mock('@/context/LoaderContext', () => {
   };
 });
 
-const mockGetState = jest.fn();
-const mockUpdateState = jest.fn();
-ClientStorage.getState = mockGetState;
-ClientStorage.updateState = mockUpdateState;
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const mockSelectedAreasData = [
   mockAreaDataForNHSRegion['E40000007'],
@@ -82,58 +86,5 @@ describe('Area Filter Pane', () => {
     render(<AreaFilterPane selectedAreasData={mockSelectedAreasData} />);
 
     expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
-  });
-
-  it('should render the select area filter panel as visible when state from storage to display panel is true', () => {
-    mockGetState.mockReturnValue(true);
-
-    render(
-      <AreaFilterPane
-        selectedAreasData={mockSelectedAreasData}
-        pageType={'results'}
-      />
-    );
-
-    expect(mockGetState).toHaveBeenCalledWith(
-      ClientStorageKeys.AreaFilterResultsPage
-    );
-    expect(
-      screen.getByTestId('select-areas-filter-panel-label')
-    ).toHaveAttribute('open');
-  });
-
-  it('should not render the select area filter panel as visible when state from storage to display panel is false', () => {
-    mockGetState.mockReturnValue(false);
-
-    render(
-      <AreaFilterPane
-        selectedAreasData={mockSelectedAreasData}
-        pageType={'chart'}
-      />
-    );
-
-    expect(mockGetState).toHaveBeenCalledWith(
-      ClientStorageKeys.AreaFilterChartPage
-    );
-    expect(
-      screen.getByTestId('select-areas-filter-panel-label')
-    ).not.toHaveAttribute('open');
-  });
-
-  it('should update the value in storage when the select areas filter panel label is clicked', async () => {
-    render(
-      <AreaFilterPane
-        selectedAreasData={mockSelectedAreasData}
-        pageType={'chart'}
-      />
-    );
-
-    const user = userEvent.setup();
-    await user.click(screen.getByText('Add or change areas'));
-
-    expect(mockUpdateState).toHaveBeenCalledWith(
-      ClientStorageKeys.AreaFilterChartPage,
-      true
-    );
   });
 });

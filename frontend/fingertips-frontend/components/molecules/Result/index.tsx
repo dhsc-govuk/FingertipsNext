@@ -11,21 +11,17 @@ import {
 } from 'govuk-react';
 import { spacing, typography } from '@govuk-react/lib';
 import styled from 'styled-components';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { TagColours } from '@/lib/styleHelpers/colours';
 import { formatDate, isWithinOneMonth } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 type SearchResultProps = {
   result: IndicatorDocument;
   indicatorSelected?: boolean;
-  searchState?: SearchStateParams;
   handleClick: (indicatorId: string, checked: boolean) => void;
   currentDate?: Date;
 };
@@ -75,11 +71,12 @@ const GreyTag = styled(Tag)({
 export function SearchResult({
   result,
   indicatorSelected,
-  searchState,
   handleClick,
   currentDate = new Date(),
 }: Readonly<SearchResultProps>) {
   const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const stateManager = SearchStateManager.initialise(searchState);
 

@@ -73,7 +73,6 @@ export default async function Page(
 
     return (
       <SearchResults
-        key={JSON.stringify(stateManager.getSearchState())}
         initialIndicatorSelectionState={initialState}
         searchResults={searchResults}
         areaFilterData={{

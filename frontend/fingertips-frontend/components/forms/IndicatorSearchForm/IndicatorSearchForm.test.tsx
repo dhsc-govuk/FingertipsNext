@@ -4,8 +4,8 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { IndicatorSearchForm } from '.';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 import userEvent from '@testing-library/user-event';
-import { ClientStorage } from '@/storage/clientStorage';
 
 jest.mock('react', () => {
   const originalModule = jest.requireActual('react');
@@ -31,17 +31,22 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
   };
 });
 
-const mockGetState = jest.fn();
-const mockUpdateState = jest.fn();
-ClientStorage.getState = mockGetState;
-ClientStorage.updateState = mockUpdateState;
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const mockIndicatorValue = 'test value';
 
@@ -56,24 +61,20 @@ const initialState: IndicatorSearchFormState = {
   errors: {},
 };
 
+beforeEach(() => {
+  mockGetSearchState.mockReturnValue(state);
+});
+
 it('snapshot test - renders the form', () => {
   const container = render(
-    <IndicatorSearchForm
-      indicatorSearchFormState={initialState}
-      searchState={state}
-    />
+    <IndicatorSearchForm indicatorSearchFormState={initialState} />
   );
 
   expect(container.asFragment()).toMatchSnapshot();
 });
 
 it('should have an input field to input the indicatorId', () => {
-  render(
-    <IndicatorSearchForm
-      indicatorSearchFormState={initialState}
-      searchState={state}
-    />
-  );
+  render(<IndicatorSearchForm indicatorSearchFormState={initialState} />);
 
   expect(screen.getByRole('searchbox')).toBeInTheDocument();
 });

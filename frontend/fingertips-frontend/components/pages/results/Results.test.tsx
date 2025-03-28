@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -40,16 +41,24 @@ jest.mock('react', () => {
   };
 });
 
-const mockGetIsLoading = jest.fn();
 const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: mockGetIsLoading,
+  getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -94,34 +103,6 @@ const initialState: IndicatorSelectionState = {
 };
 
 describe('Search Results Suite', () => {
-  it('should render the loading box when getIsLoading is true', () => {
-    mockGetIsLoading.mockReturnValue(true);
-
-    render(
-      <SearchResults
-        initialIndicatorSelectionState={initialState}
-        searchResults={[]}
-        searchState={state}
-      />
-    );
-
-    expect(screen.getByText('Loading')).toBeInTheDocument();
-  });
-
-  it('should not render the loading box when getIsLoading is false', () => {
-    mockGetIsLoading.mockReturnValue(false);
-
-    render(
-      <SearchResults
-        initialIndicatorSelectionState={initialState}
-        searchResults={[]}
-        searchState={state}
-      />
-    );
-
-    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
-  });
-
   it('should render elements', () => {
     render(
       <SearchResults

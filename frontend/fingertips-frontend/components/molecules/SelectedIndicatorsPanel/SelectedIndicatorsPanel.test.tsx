@@ -4,6 +4,7 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import userEvent from '@testing-library/user-event';
 import { SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -26,10 +27,20 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: jest.fn(),
   setIsLoading: mockSetIsLoading,
 };
-
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -82,6 +93,11 @@ describe('SelectedIndicatorsPanel', () => {
   });
 
   it('should return to the results page with the provided search state when the Add or change indicators button is clicked', async () => {
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.IndicatorsSelected]: ['1', '2'],
+      [SearchParams.AreasSelected]: ['E40000012'],
+    });
+
     const expectedPath = [
       `/results`,
       `?${SearchParams.IndicatorsSelected}=1&${SearchParams.IndicatorsSelected}=2`,
@@ -93,10 +109,6 @@ describe('SelectedIndicatorsPanel', () => {
     render(
       <SelectedIndicatorsPanel
         selectedIndicatorsData={mockSelectedIndicatorsData}
-        searchState={{
-          [SearchParams.IndicatorsSelected]: ['1', '2'],
-          [SearchParams.AreasSelected]: ['E40000012'],
-        }}
       />
     );
 
