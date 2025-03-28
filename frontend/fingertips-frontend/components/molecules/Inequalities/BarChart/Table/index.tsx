@@ -17,6 +17,7 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 
 export const StyledAlignLeftTableCellNoPadding = styled(
   StyledAlignLeftTableCell
@@ -56,6 +57,9 @@ export function InequalitiesBarChartTable({
           <InequalitiesBarChartTableHead
             areaName={areaName}
             measurementUnit={measurementUnit}
+            confidenceLimit={getConfidenceLimitNumber(
+              benchmarkComparisonMethod
+            )}
           />
         }
       >
