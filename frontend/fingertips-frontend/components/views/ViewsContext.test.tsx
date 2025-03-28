@@ -2,7 +2,9 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ViewsContext } from './ViewsContext';
 import { render } from '@testing-library/react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { ALL_AREAS_SELECTED } from '../../lib/areaFilterHelpers/constants';
+import { act } from 'react';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -12,6 +14,16 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({})),
   };
 });
+jest.mock('@/lib/apiClient/apiClientFactory', () => ({
+  ApiClientFactory: {
+    getAreasApiClient: jest.fn().mockImplementation(() => ({
+      getArea: jest.fn().mockResolvedValue({}),
+    })),
+    getIndicatorsApiClient: jest.fn().mockImplementation(() => ({
+      getIndicatorDocument: jest.fn().mockResolvedValue({}),
+    })),
+  },
+}));
 
 const mockOneIndicatorOneAreaView = jest.fn();
 jest.mock(
@@ -86,7 +98,9 @@ describe('ViewsContext', () => {
         [SearchParams.AreasSelected]: areaCodes,
         [SearchParams.IndicatorsSelected]: indicators,
       };
-      render(<ViewsContext searchState={searchState} />);
+      act(() => {
+        render(<ViewsContext searchState={searchState} />);
+      });
 
       expect(correctView).toHaveBeenCalled();
     }

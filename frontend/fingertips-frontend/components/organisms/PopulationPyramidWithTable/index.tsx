@@ -121,12 +121,13 @@ export const PopulationPyramidWithTable = ({
           SearchParams.PopulationAreaSelected,
           area.areaCode
         );
-        replace(stateManager.generatePath(pathname));
+
         setTitle(getHeaderTitle(healthData, year));
         setSelectedArea(
           convertHealthDataForAreaForPyramidData(healthData, year)
         );
         setSelectedAreaCode(area.areaCode);
+        replace(stateManager.generatePath(pathname));
       }
     },
     [healthDataForAreas, stateManager, replace, pathname]

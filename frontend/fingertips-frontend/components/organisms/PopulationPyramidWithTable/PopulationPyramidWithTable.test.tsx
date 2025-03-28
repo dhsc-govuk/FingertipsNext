@@ -8,6 +8,22 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 const mockHealthDataPoint = [
   {
     year: 2025,
