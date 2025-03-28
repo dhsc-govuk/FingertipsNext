@@ -50,14 +50,18 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
+  
+  // for each indicator -heres the health data
+  // second call indicator meta data
+  // object structure 
+// 
+//   const { healthIndicatorData, englandIndicatorData } =
+//     extractingCombinedHealthData(
+//       combinedIndicatorData,
+//       areasSelected,
+//       selectedGroupCode
+//     );
 
-  // const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
-  //   extractingCombinedHealthData(
-  //     combinedIndicatorData,
-  //     areasSelected,
-  //     selectedGroupCode
-  //   );
-  //
   // let indicatorMetadata: (IndicatorDocument | undefined)[];
   // try {
   //   const promises = indicatorsSelected.map((indicator) => {
