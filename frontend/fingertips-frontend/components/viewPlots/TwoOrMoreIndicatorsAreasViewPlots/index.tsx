@@ -124,7 +124,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot() {
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       <SpineChartTable
         indicators={spineTableData.indicators}
         measurementUnits={spineTableData.measurementUnits}
