@@ -3,9 +3,9 @@ import { AreaSearchServiceMock } from './areaSearchServiceMock';
 import { IndicatorSearchService } from './indicatorSearchService';
 import {
   AreaDocument,
-  IndicatorDocument,
   IAreaSearchService,
   IIndicatorSearchService,
+  RawIndicatorDocument,
 } from './searchTypes';
 import mockAreaData from '../../assets/mockAreaData.json';
 import mockIndicatorData from '../../assets/mockIndicatorData.json';
@@ -13,7 +13,7 @@ import { IndicatorSearchServiceMock } from './indicatorSearchServiceMock';
 import { readEnvVar, tryReadEnvVar } from '../envUtils';
 import { logUsingMockAiSearchService } from '@/lib/logging';
 
-if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE')) {
+if (tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE') == 'true') {
   logUsingMockAiSearchService('SearchServiceFactory');
 }
 
@@ -85,9 +85,9 @@ export class SearchServiceFactory {
     const useMockServer = tryReadEnvVar('DHSC_AI_SEARCH_USE_MOCK_SERVICE');
     if (useMockServer === 'true') {
       //@ts-expect-error don't care about type checking this json file
-      const unparsedIndicatorData = mockIndicatorData as IndicatorDocument[];
+      const unparsedIndicatorData = mockIndicatorData as RawIndicatorDocument[];
       const typedIndicatorData = unparsedIndicatorData.map(
-        (ind): IndicatorDocument => {
+        (ind): RawIndicatorDocument => {
           return {
             ...ind,
             indicatorID: String(ind.indicatorID),

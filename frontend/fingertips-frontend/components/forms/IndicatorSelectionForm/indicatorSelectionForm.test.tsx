@@ -57,10 +57,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2023',
     dataSource: 'NHS website',
     lastUpdatedDate: new Date('December 6, 2024'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: false,
-    usedInPoc: true,
   },
   {
     indicatorID: '2',
@@ -71,10 +69,8 @@ const MOCK_DATA: IndicatorDocument[] = [
     latestDataPeriod: '2022',
     dataSource: 'Student article',
     lastUpdatedDate: new Date('November 5, 2023'),
-    associatedAreaCodes: [],
     unitLabel: '',
     hasInequalities: true,
-    usedInPoc: true,
   },
 ];
 
@@ -95,6 +91,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -114,7 +111,11 @@ describe('IndicatorSelectionForm', () => {
 
   it('should render no results found', () => {
     render(
-      <IndicatorSelectionForm searchResults={[]} formAction={mockFormAction} />
+      <IndicatorSelectionForm
+        searchResults={[]}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
     );
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
@@ -124,7 +125,11 @@ describe('IndicatorSelectionForm', () => {
 
   it('should NOT render the "View data" button if no indicators found for search', async () => {
     render(
-      <IndicatorSelectionForm searchResults={[]} formAction={mockFormAction} />
+      <IndicatorSelectionForm
+        searchResults={[]}
+        showTrends={false}
+        formAction={mockFormAction}
+      />
     );
 
     expect(screen.queryByRole('button', { name: /View data/i })).toBeNull();
@@ -134,6 +139,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -150,11 +156,26 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
 
     expect(screen.getByRole('button', { name: /View data/i })).toBeEnabled();
+  });
+
+  it('should render the recent trend text if the showTrends prop is passed', () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        showTrends={true}
+        formAction={mockFormAction}
+      />
+    );
+
+    expect(
+      screen.getByText('Recent trend for selected area')
+    ).toBeInTheDocument();
   });
 
   it('should mark indicators selected as checked', () => {
@@ -168,6 +189,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -184,6 +206,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -200,6 +223,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -225,6 +249,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -248,6 +273,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -261,6 +287,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -275,6 +302,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -291,6 +319,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -314,6 +343,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -330,6 +360,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );
@@ -351,6 +382,7 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
+        showTrends={false}
         formAction={mockFormAction}
       />
     );

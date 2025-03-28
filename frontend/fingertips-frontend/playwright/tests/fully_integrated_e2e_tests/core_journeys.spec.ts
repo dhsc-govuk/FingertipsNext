@@ -6,9 +6,9 @@ import {
   SearchMode,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
-const indicatorData = indicators as IndicatorDocument[];
+const indicatorData = indicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
 const areaSearchTerm = 'north west region';
 let allIndicatorIDs: string[];
@@ -59,7 +59,7 @@ test.beforeAll(
   `return all matching indicatorIDs from the real data source based on the subjectSearchTerm: ${subjectSearchTerm}`,
   () => {
     const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
+      (indicator: RawIndicatorDocument) => {
         return {
           ...indicator,
           lastUpdated: new Date(indicator.lastUpdatedDate),
@@ -95,6 +95,7 @@ test.describe(`Search via`, () => {
       await test.step(`check results page and select ${areaMode} then ${indicatorMode}`, async () => {
         await resultsPage.waitForURLToContain(subjectSearchTerm);
         await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+        await resultsPage.checkRecentTrends(areaMode);
 
         await resultsPage.selectAreasFiltersIfRequired(
           searchMode, // Only selects area filters if search mode is ONLY_SUBJECT

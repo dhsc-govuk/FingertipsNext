@@ -17,9 +17,22 @@ import {
   Checkbox,
 } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
+import styled from 'styled-components';
+
+const ResultLabelsContainer = styled.span({
+  alignItems: 'center',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '20px 0px',
+  fontFamily: 'nta,Arial,sans-serif',
+  fontWeight: 700,
+  fontSize: '19px',
+  fontStyle: 'normal',
+});
 
 type IndicatorSelectionProps = {
   searchResults: IndicatorDocument[];
+  showTrends: boolean;
   formAction: (payload: FormData) => void;
   currentDate?: Date;
 };
@@ -52,6 +65,7 @@ const shouldDisableViewDataButton = (state?: SearchStateParams): boolean => {
 
 export function IndicatorSelectionForm({
   searchResults,
+  showTrends,
   formAction,
   currentDate,
 }: Readonly<IndicatorSelectionProps>) {
@@ -138,14 +152,18 @@ export function IndicatorSelectionForm({
       />
       {searchResults.length ? (
         <>
-          <Checkbox
-            key={`select-all-indicator-${areAllIndicatorsSelected}`}
-            data-testid="select-all-checkbox"
-            defaultChecked={areAllIndicatorsSelected}
-            onChange={(e) => handleSelectAll(e.target.checked)}
-          >
-            Select all
-          </Checkbox>
+          <ResultLabelsContainer>
+            <Checkbox
+              key={`select-all-indicator-${areAllIndicatorsSelected}`}
+              data-testid="select-all-checkbox"
+              defaultChecked={areAllIndicatorsSelected}
+              onChange={(e) => handleSelectAll(e.target.checked)}
+            >
+              Select all
+            </Checkbox>
+
+            {showTrends ? 'Recent trend for selected area' : null}
+          </ResultLabelsContainer>
 
           <UnorderedList listStyleType="none">
             <ListItem>
@@ -155,6 +173,7 @@ export function IndicatorSelectionForm({
               <SearchResult
                 key={generateKey(result.indicatorID.toString(), searchState)}
                 result={result}
+                showTrends={showTrends}
                 indicatorSelected={isIndicatorSelected(
                   result.indicatorID.toString(),
                   searchState
