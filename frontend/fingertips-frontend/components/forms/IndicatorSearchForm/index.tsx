@@ -5,6 +5,7 @@ import { IndicatorSearchFormState } from './indicatorSearchActions';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { useEffect } from 'react';
 
 const govukErrorBorderWidth = '2px';
 
@@ -28,6 +29,12 @@ export const IndicatorSearchForm = ({
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
+
+  useEffect(() => {
+    if (indicatorSearchFormState.message) {
+      setIsLoading(false);
+    }
+  }, [indicatorSearchFormState.message, setIsLoading]);
 
   return (
     <FormGroup

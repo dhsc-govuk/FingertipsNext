@@ -17,6 +17,7 @@ import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useSearchState } from '@/context/SearchStateContext';
+import { useEffect } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
@@ -36,6 +37,12 @@ export const SearchForm = ({
   const { setIsLoading } = useLoadingState();
   const { getSearchState } = useSearchState();
   const searchState = getSearchState();
+
+  useEffect(() => {
+    if (formState.message) {
+      setIsLoading(false);
+    }
+  }, [formState.message, setIsLoading]);
 
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
