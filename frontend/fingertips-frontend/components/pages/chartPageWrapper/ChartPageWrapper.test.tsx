@@ -81,11 +81,7 @@ describe('ChartPageWrapper', () => {
   });
 
   it('should call setIsLoading when the back link is clicked', async () => {
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
+    renderWrapper();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('link', { name: /back/i }));

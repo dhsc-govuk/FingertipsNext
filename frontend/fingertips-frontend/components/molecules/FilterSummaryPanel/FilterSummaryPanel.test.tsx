@@ -7,9 +7,22 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { userEvent, UserEvent } from '@testing-library/user-event';
+import {LoaderContext} from "@/context/LoaderContext";
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
+
+const mockGetIsLoading = jest.fn();
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: mockGetIsLoading,
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
