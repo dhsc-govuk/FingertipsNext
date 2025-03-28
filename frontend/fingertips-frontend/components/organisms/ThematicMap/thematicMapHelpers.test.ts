@@ -163,25 +163,31 @@ describe('prepareThematicMapSeriesData', () => {
 
   const expected = [
     {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      benchmarkComparisonOutcome: 'Higher',
+      areaName: mockHealthData[0].areaName,
+      areaCode: mockHealthData[0].areaCode,
+      value: mockHealthData[0].healthData[1].value,
+      year: mockHealthData[0].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[0].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 55,
-      value: 800.232,
     },
     {
-      areaCode: 'E12000001',
-      areaName: 'North East region (statistical)',
-      benchmarkComparisonOutcome: 'NotCompared',
+      areaName: mockHealthData[1].areaName,
+      areaCode: mockHealthData[1].areaCode,
+      value: mockHealthData[1].healthData[1].value,
+      year: mockHealthData[1].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[1].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 5,
-      value: 767.343,
     },
     {
-      areaCode: 'E12000003',
-      areaName: 'Yorkshire and the Humber region (statistical)',
-      benchmarkComparisonOutcome: 'Worse',
+      areaName: mockHealthData[2].areaName,
+      areaCode: mockHealthData[2].areaCode,
+      value: mockHealthData[2].healthData[1].value,
+      year: mockHealthData[2].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[2].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 35,
-      value: 643.434,
     },
   ];
   it('should return the expected series data, for the most recent year', () => {
@@ -194,25 +200,15 @@ describe('prepareThematicMapSeriesData', () => {
 describe('createThematicMapChartOptions', () => {
   it('should return an object with the correct map', () => {
     const options = createThematicMapChartOptions(
-      mockMapData,
       mockHealthData[108],
+      mockMapData,
       'regions',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      IndicatorPolarity.NoJudgement
+      IndicatorPolarity.NoJudgement,
+      'units'
     );
 
     expect(options).toBeDefined();
     expect(options.series?.[0].mapData).toEqual(mockMapData.mapFile);
-  });
-  it('should return the correct hover text', () => {
-    const options = createThematicMapChartOptions(
-      mockMapData,
-      mockHealthData[108],
-      'regions',
-      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      IndicatorPolarity.NoJudgement
-    );
-
-    // console.log(options?.series?.[2].tooltip);
   });
 });
