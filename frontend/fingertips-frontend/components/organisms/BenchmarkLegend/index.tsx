@@ -95,7 +95,7 @@ interface BenchmarkLegendAllProps {
 const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
   const allRag = [...new Set([...ragOutcomes, ...bobOutcomes])];
   return (
-    <LegendContainer>
+    <LegendContainer data-testid="benchmarkLegend-component">
       <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
       <BenchmarkLegendGroup
         polarity={IndicatorPolarity.HighIsGood}
