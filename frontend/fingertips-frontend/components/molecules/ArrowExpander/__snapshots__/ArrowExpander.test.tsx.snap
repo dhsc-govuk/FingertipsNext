@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ArrowExpander take a snapshot 1`] = `
+<DocumentFragment>
+  .c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.c1 circle {
+  outline: none;
+  fill: none;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.c2:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: left;
+  -webkit-justify-content: left;
+  -ms-flex-pack: left;
+  justify-content: left;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  cursor: pointer;
+  padding: 5px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c0:hover svg circle {
+  fill: #0B0C0C;
+  stroke: #0B0C0C;
+}
+
+.c0:hover svg path {
+  stroke: #FFFFFF;
+}
+
+.c3 {
+  font-weight: 300;
+  font-size: 19px;
+  color: #ff0000;
+  padding: 2px 1px 1px 1px;
+  cursor: pointer;
+}
+
+@media only screen and (min-width:641px) {
+  .c2 {
+    margin-bottom: 0;
+  }
+}
+
+<span
+    class="c0"
+  >
+    <svg
+      class="c1"
+      data-testid="arrow-toggle-button"
+      height="30"
+      viewBox="0 0 25 25"
+      width="30"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="#ff0000"
+        stroke-width="0.5"
+      />
+      <path
+        d="M8 10l4 4 4-4"
+        fill="none"
+        stroke="#ff0000"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+    </svg>
+    <label
+      class="c2 c3"
+      fill="#ff0000"
+    />
+  </span>
+</DocumentFragment>
+`;
