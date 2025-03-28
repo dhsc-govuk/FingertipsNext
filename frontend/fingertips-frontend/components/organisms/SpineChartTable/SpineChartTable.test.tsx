@@ -150,9 +150,9 @@ describe('Spine chart table suite', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
         {
-          benchmarkBest: 959,
+          benchmarkBest: 1666,
           benchmarkValue: 890.305692,
-          benchmarkWorst: 1666,
+          benchmarkWorst: 959,
           count: 222,
           groupValue: 980.305692,
           indicator: 'Test indicator 1',
@@ -162,9 +162,9 @@ describe('Spine chart table suite', () => {
           value: 890.305692,
         },
         {
-          benchmarkBest: 100,
+          benchmarkBest: 22,
           benchmarkValue: 135.149304,
-          benchmarkWorst: 22,
+          benchmarkWorst: 100,
           count: 111,
           groupValue: 690.305692,
           indicator: 'Test indicator 2',
