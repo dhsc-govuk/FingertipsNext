@@ -66,8 +66,7 @@ jobs:
 
       - name: Run .http API tests
         working-directory: ./api
-        run: |
-          npx httpyac send ./**/*.http --all --json --output-failed short --output short | tee httpyacresults.json
+        run: npx httpyac send ./**/*.http --all --json --output-failed short --output short | tee httpyacresults.json
 
       - name: Set dynamic HTTP results artifact name
         if: always()
