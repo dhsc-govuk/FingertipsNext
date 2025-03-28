@@ -25,25 +25,21 @@ export function mapToSpineChartTableProps(
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
   healthIndicatorData.forEach((indicatorData, index) => {
+    const metadata = indicatorMetadata[index];
+
     const rowIndicatorId: number =
-      indicatorMetadata[index]?.indicatorID !== undefined
-        ? Number(indicatorMetadata[index]?.indicatorID)
-        : 0;
+      metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
 
     const rowTitle: string =
-      indicatorMetadata[index]?.indicatorName !== undefined
-        ? indicatorMetadata[index]?.indicatorName
-        : '';
+      metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
 
     const rowIndicatorDefinition: string =
-      indicatorMetadata[index]?.indicatorDefinition !== undefined
-        ? indicatorMetadata[index]?.indicatorDefinition
+      metadata?.indicatorDefinition !== undefined
+        ? metadata?.indicatorDefinition
         : '';
 
     const rowMeasurementUnit: string =
-      indicatorMetadata[index] !== undefined
-        ? indicatorMetadata[index]?.unitLabel
-        : '';
+      metadata !== undefined ? metadata?.unitLabel : '';
 
     const rowIndicator: Indicator = {
       indicatorId: rowIndicatorId,
@@ -82,18 +78,23 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     throw new Error('Invalid parameters provided to view plot');
   }
 
-  const { healthIndicatorData, groupIndicatorData, englandIndicatorData } =
-    extractingCombinedHealthData(
-      indicatorData,
-      areasSelected,
-      selectedGroupCode
-    );
+  const {
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata,
+  } = extractingCombinedHealthData(
+    indicatorData,
+    indicatorMetadata,
+    areasSelected,
+    selectedGroupCode
+  );
 
   const spineTableData = mapToSpineChartTableProps(
-    healthIndicatorData,
-    groupIndicatorData,
-    englandIndicatorData,
-    indicatorMetadata
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata
   );
 
   return (

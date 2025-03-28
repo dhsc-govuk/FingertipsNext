@@ -3,25 +3,31 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 type ExtractedHealthData = {
-  healthIndicatorData: HealthDataForArea[];
-  groupIndicatorData: HealthDataForArea[];
-  englandIndicatorData: HealthDataForArea[];
+  orderedHealthData: HealthDataForArea[];
+  orderedGroupData: HealthDataForArea[];
+  orderedEnglandData: HealthDataForArea[];
+  orderedMetadata: (IndicatorDocument | undefined)[];
 };
 
 export const extractingCombinedHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
+  unsortedMetaData: (IndicatorDocument | undefined)[],
   areasSelected: string[],
   selectedGroupCode?: string
 ): ExtractedHealthData => {
-  const healthIndicatorData: HealthDataForArea[] = new Array(
+  const orderedHealthData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
-  const groupIndicatorData: HealthDataForArea[] = new Array(
+  const orderedGroupData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
-  const englandIndicatorData: HealthDataForArea[] = new Array(
+  const orderedEnglandData: HealthDataForArea[] = new Array(
+    combinedIndicatorData.length
+  );
+  const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
     combinedIndicatorData.length
   );
 
@@ -35,10 +41,9 @@ export const extractingCombinedHealthData = (
     );
 
     if (!healthData) {
-      throw new Error('Missing health data for indicator');
+      throw new Error('Missing area health data for indicator');
     }
-
-    healthIndicatorData[index] = healthData;
+    orderedHealthData[index] = healthData;
 
     const groupData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === selectedGroupCode
@@ -47,7 +52,7 @@ export const extractingCombinedHealthData = (
     if (!groupData) {
       throw new Error('Missing group health data for indicator');
     }
-    groupIndicatorData[index] = groupData;
+    orderedGroupData[index] = groupData;
 
     const englandData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === areaCodeForEngland
@@ -56,8 +61,18 @@ export const extractingCombinedHealthData = (
     if (!englandData) {
       throw new Error('Missing England health data for indicator');
     }
-    englandIndicatorData[index] = englandData;
+    orderedEnglandData[index] = englandData;
+
+    orderedMetadata[index] = unsortedMetaData.find(
+      (indicatorMetaData) =>
+        indicatorMetaData?.indicatorID === indicator.indicatorId
+    );
   });
 
-  return { healthIndicatorData, groupIndicatorData, englandIndicatorData };
+  return {
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata,
+  };
 };
