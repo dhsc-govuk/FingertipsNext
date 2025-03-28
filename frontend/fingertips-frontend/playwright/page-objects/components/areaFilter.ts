@@ -35,7 +35,7 @@ export default class AreaFilter extends BasePage {
       .getByTestId(this.removeIcon)
       .all();
 
-    await pills[index].click();
+    await this.clickAndAwaitLoadingComplete(pills[index]);
 
     await this.page.waitForLoadState();
   }
@@ -98,7 +98,7 @@ export default class AreaFilter extends BasePage {
       };
       const checkboxCount = checkboxCountMap[areaMode];
       for (let i = 0; i < checkboxCount; i++) {
-        await areaCheckboxList.nth(i + 1).check(); // as first checkbox is 'All'
+        await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i + 1)); // as first checkbox is 'All'
         await this.page.waitForLoadState();
         if (i === 0 && areaMode !== AreaMode.ENGLAND_AREA) {
           await this.waitForURLToContain(areaTypeFilter);
