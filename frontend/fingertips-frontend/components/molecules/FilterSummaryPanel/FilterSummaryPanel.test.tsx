@@ -5,8 +5,6 @@ import {
 } from '@/components/molecules/FilterSummaryPanel/index';
 import { SearchParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
-import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { userEvent, UserEvent } from '@testing-library/user-event';
 
@@ -38,16 +36,10 @@ describe('FilterSummaryPanel', () => {
   });
 
   const defaultProps: FilterSummaryPanelProps = {
-    selectedAreasData: [
-      mockAreaDataForNHSRegion['E40000007'],
-      mockAreaDataForNHSRegion['E40000012'],
-    ],
     selectedIndicatorsData: [
       generateIndicatorDocument('1'),
-      generateIndicatorDocument('2'),
     ],
     searchState: {
-      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
       [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
     },
     changeSelection: mockChangeSelection,
@@ -57,67 +49,37 @@ describe('FilterSummaryPanel', () => {
     render(<FilterSummaryPanel {...props} />);
   }
 
-  it('should render selected indicator panel and selected area panel when data provided', () => {
+  it('should render selected indicator when one indicator selected', () => {
     renderPanel();
 
     expect(
-      screen.queryByTestId('selected-indicators-panel')
+      screen.queryByTestId('pill-container')
     ).toBeInTheDocument();
-    expect(screen.queryByTestId('selected-areas-panel')).toBeInTheDocument();
   });
 
-  it('should render selected indicator panel but not selected area panel when no indicator data provided 1', () => {
-    renderPanel({ ...defaultProps, selectedIndicatorsData: [] });
+  it('should not render selected indicators when more than one indicator selected', () => {
+    renderPanel({ ...defaultProps,  selectedIndicatorsData: [
+        generateIndicatorDocument('2'),
+        generateIndicatorDocument('3'),
+      ] });
 
     expect(
-      screen.queryByTestId('selected-indicators-panel')
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId('selected-areas-panel')).toBeInTheDocument();
-  });
-
-  it('should render selected indicator panel but not selected area panel when no indicator data provided 2', () => {
-    renderPanel({ ...defaultProps, selectedIndicatorsData: undefined });
-
-    expect(
-      screen.queryByTestId('selected-indicators-panel')
-    ).not.toBeInTheDocument();
-    expect(screen.queryByTestId('selected-areas-panel')).toBeInTheDocument();
-  });
-
-  it('should render selected area panel but not selected indicator panel when no areas data provided 1', () => {
-    renderPanel({ ...defaultProps, selectedAreasData: [] });
-
-    expect(
-      screen.queryByTestId('selected-indicators-panel')
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId('selected-areas-panel')
+        screen.queryByTestId('pill-container')
     ).not.toBeInTheDocument();
   });
 
-  it('should render selected area panel but not selected indicator panel when no areas data provided 2', () => {
-    renderPanel({ ...defaultProps, selectedAreasData: undefined });
-
-    expect(
-      screen.queryByTestId('selected-indicators-panel')
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByTestId('selected-areas-panel')
-    ).not.toBeInTheDocument();
-  });
-
-  it('should render a change button', () => {
+  it('should render a show filters cta', () => {
     renderPanel();
 
     expect(
-      screen.queryByTestId('filter-summary-panel-change-selection')
+      screen.queryByTestId('show-filter-cta')
     ).toBeInTheDocument();
   });
 
-  it('should call changeSelection prop when button is clicked', async () => {
+  it('should call changeSelection prop when show filter cta is clicked', async () => {
     renderPanel();
     await user.click(
-      screen.getByTestId('filter-summary-panel-change-selection')
+      screen.getByTestId('show-filter-cta')
     );
 
     expect(mockChangeSelection).toBeCalled();

@@ -39,7 +39,7 @@ export const FilterSummaryPanel = ({
   return (
     <div data-testid="filter-summary-panel">
       <FocusAnchor
-        data-testid="filter-summary-panel-change-selection"
+        data-testid="show-filter-cta"
         onClick={changeSelection}
       >
         Show filter
