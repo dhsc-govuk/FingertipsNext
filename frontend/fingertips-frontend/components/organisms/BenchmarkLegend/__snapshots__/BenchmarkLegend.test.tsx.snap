@@ -2,7 +2,7 @@
 
 exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +27,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   color: #ffffff;
 }
 
-.c4 {
+.c5 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -39,7 +39,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   background-color: #5694CA;
 }
 
-.c5 {
+.c6 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -52,7 +52,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   color: #0B0C0C;
 }
 
-.c6 {
+.c7 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -65,7 +65,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -79,14 +79,15 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   border: 1px solid #0B0C0C;
 }
 
-.c2 {
+.c3 {
   position: relative;
   left: -5px;
 }
 
-.c8 {
+.c2 {
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 0.842em;
 }
 
 .c0 {
@@ -103,14 +104,14 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -125,34 +126,34 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
     >
       no judgement
     </h4>
-    <div
+    <span
       class="c2"
     >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c4"
+        class="c4 c5"
       >
         Lower
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c6"
+        class="c4 c7"
       >
         Higher
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
-      <span
-        class="c8"
-      >
-        (95% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -160,7 +161,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
 
 exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -185,7 +186,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   color: #ffffff;
 }
 
-.c4 {
+.c5 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -198,7 +199,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   color: #0B0C0C;
 }
 
-.c5 {
+.c6 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -211,7 +212,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   color: #0B0C0C;
 }
 
-.c6 {
+.c7 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -224,7 +225,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -238,14 +239,15 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   border: 1px solid #0B0C0C;
 }
 
-.c2 {
+.c3 {
   position: relative;
   left: -5px;
 }
 
-.c8 {
+.c2 {
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 0.842em;
 }
 
 .c0 {
@@ -262,14 +264,14 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -284,34 +286,34 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
     >
       NoJudgement
     </h4>
-    <div
+    <span
       class="c2"
     >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c4"
+        class="c4 c5"
       >
         Lower
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c6"
+        class="c4 c7"
       >
         Higher
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
-      <span
-        class="c8"
-      >
-        (99.8% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -414,11 +416,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
   left: -5px;
 }
 
-.c9 {
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -483,11 +480,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
       >
         Highest
       </strong>
-      <span
-        class="c9"
-      >
-        (95% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -495,7 +487,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
 
 exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -520,7 +512,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   color: #ffffff;
 }
 
-.c4 {
+.c5 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -533,7 +525,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   tint: SOLID;
 }
 
-.c5 {
+.c6 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -546,7 +538,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   color: #0B0C0C;
 }
 
-.c6 {
+.c7 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -559,7 +551,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -573,14 +565,15 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   border: 1px solid #0B0C0C;
 }
 
-.c2 {
+.c3 {
   position: relative;
   left: -5px;
 }
 
-.c8 {
+.c2 {
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 0.842em;
 }
 
 .c0 {
@@ -597,14 +590,14 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -619,34 +612,34 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
     >
       high is good
     </h4>
-    <div
+    <span
       class="c2"
     >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c4"
+        class="c4 c5"
       >
         Better
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c6"
+        class="c4 c7"
       >
         Worse
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
-      <span
-        class="c8"
-      >
-        (95% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -654,7 +647,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
 
 exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -679,7 +672,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   color: #ffffff;
 }
 
-.c4 {
+.c5 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -692,7 +685,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   color: #0B0C0C;
 }
 
-.c5 {
+.c6 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -705,7 +698,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   color: #0B0C0C;
 }
 
-.c6 {
+.c7 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -718,7 +711,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -732,14 +725,15 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   border: 1px solid #0B0C0C;
 }
 
-.c2 {
+.c3 {
   position: relative;
   left: -5px;
 }
 
-.c8 {
+.c2 {
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 0.842em;
 }
 
 .c0 {
@@ -756,14 +750,14 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -778,34 +772,34 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
     >
       low is good
     </h4>
-    <div
+    <span
       class="c2"
     >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c4"
+        class="c4 c5"
       >
         Better
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c6"
+        class="c4 c7"
       >
         Worse
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
-      <span
-        class="c8"
-      >
-        (99.8% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -908,11 +902,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
   left: -5px;
 }
 
-.c9 {
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-}
-
 .c0 {
   margin-bottom: 2em;
 }
@@ -977,11 +966,6 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
       >
         Best
       </strong>
-      <span
-        class="c9"
-      >
-        (95% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -989,7 +973,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
 
 exports[`Testing the benchmark component Snapshot testing of the legend with all items shown 1`] = `
 <DocumentFragment>
-  .c3 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1014,7 +998,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   color: #ffffff;
 }
 
-.c4 {
+.c5 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1027,7 +1011,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   tint: SOLID;
 }
 
-.c5 {
+.c6 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1040,7 +1024,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   color: #0B0C0C;
 }
 
-.c6 {
+.c7 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1053,7 +1037,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1067,7 +1051,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   border: 1px solid #0B0C0C;
 }
 
-.c8 {
+.c9 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1079,7 +1063,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   background-color: #5694CA;
 }
 
-.c9 {
+.c10 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1274,14 +1258,15 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   tint: SOLID;
 }
 
-.c2 {
+.c3 {
   position: relative;
   left: -5px;
 }
 
-.c10 {
+.c2 {
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
+  font-size: 0.842em;
 }
 
 .c0 {
@@ -1298,14 +1283,14 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
 }
 
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -1320,83 +1305,83 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
     >
       All
     </h4>
-    <div
+    <span
       class="c2"
     >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c4"
+        class="c4 c5"
       >
         Better
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c6"
+        class="c4 c7"
       >
         Worse
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
       <strong
-        class="c3 c8"
+        class="c4 c9"
       >
         Lower
       </strong>
       <strong
-        class="c3 c9"
+        class="c4 c10"
       >
         Higher
       </strong>
-      <span
-        class="c10"
-      >
-        (95% confidence)
-      </span>
     </div>
-    <div
+    <span
       class="c2"
     >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
       <strong
-        class="c3 c11"
+        class="c4 c11"
       >
         Better
       </strong>
       <strong
-        class="c3 c5"
+        class="c4 c6"
       >
         Similar
       </strong>
       <strong
-        class="c3 c12"
+        class="c4 c12"
       >
         Worse
       </strong>
       <strong
-        class="c3 c7"
+        class="c4 c8"
       >
         Not compared
       </strong>
       <strong
-        class="c3 c13"
+        class="c4 c13"
       >
         Lower
       </strong>
       <strong
-        class="c3 c14"
+        class="c4 c14"
       >
         Higher
       </strong>
-      <span
-        class="c10"
-      >
-        (99.8% confidence)
-      </span>
     </div>
     <h4
       class="c1"
@@ -1404,72 +1389,62 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
       Quintiles
     </h4>
     <div
-      class="c2"
+      class="c3"
     >
       <strong
-        class="c3 c15"
+        class="c4 c15"
       >
         Lowest
       </strong>
       <strong
-        class="c3 c16"
+        class="c4 c16"
       >
         Low
       </strong>
       <strong
-        class="c3 c17"
+        class="c4 c17"
       >
         Middle
       </strong>
       <strong
-        class="c3 c18"
+        class="c4 c18"
       >
         High
       </strong>
       <strong
-        class="c3 c19"
+        class="c4 c19"
       >
         Highest
       </strong>
-      <span
-        class="c10"
-      >
-        (95% confidence)
-      </span>
     </div>
     <div
-      class="c2"
+      class="c3"
     >
       <strong
-        class="c3 c20"
+        class="c4 c20"
       >
         Worst
       </strong>
       <strong
-        class="c3 c21"
+        class="c4 c21"
       >
         Worse
       </strong>
       <strong
-        class="c3 c22"
+        class="c4 c22"
       >
         Middle
       </strong>
       <strong
-        class="c3 c23"
+        class="c4 c23"
       >
         Better
       </strong>
       <strong
-        class="c3 c24"
+        class="c4 c24"
       >
         Best
       </strong>
-      <span
-        class="c10"
-      >
-        (95% confidence)
-      </span>
     </div>
   </div>
 </DocumentFragment>
