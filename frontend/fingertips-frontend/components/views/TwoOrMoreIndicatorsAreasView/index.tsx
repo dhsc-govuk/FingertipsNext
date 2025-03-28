@@ -18,7 +18,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   }
 
   const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
 
