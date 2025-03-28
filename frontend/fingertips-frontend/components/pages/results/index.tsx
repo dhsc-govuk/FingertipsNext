@@ -62,6 +62,8 @@ export function SearchResults({
     initialIndicatorSearchFormState
   );
 
+  const searchTerm = searchState?.[SearchParams.SearchedIndicator] ?? '';
+
   return (
     <>
       <BackLink href={backLinkPath} data-testid="search-results-back-link" />
@@ -82,9 +84,7 @@ export function SearchResults({
             }}
           />
         )}
-        <H1>
-          Search results for {searchState?.[SearchParams.SearchedIndicator]}
-        </H1>
+        <H1>Search results{searchTerm ? ` for ${searchTerm}` : null}</H1>
         <form action={indicatorSearchFormAction}>
           <IndicatorSearchForm
             key={JSON.stringify(searchState)}
