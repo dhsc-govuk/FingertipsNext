@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { ReactNode, createContext, useContext, useState } from 'react';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export type SearchStateContext = {
@@ -27,13 +21,10 @@ export const SearchStateProvider: React.FC<SearchStateContextProvider> = ({
 }) => {
   const [searchState, setSearchState] = useState<SearchStateParams>({});
 
-  const contextValue: SearchStateContext = useMemo(
-    () => ({
-      getSearchState: () => searchState,
-      setSearchState,
-    }),
-    [searchState, setSearchState]
-  );
+  const contextValue: SearchStateContext = {
+    getSearchState: () => searchState,
+    setSearchState,
+  };
 
   return (
     <SearchStateContext.Provider value={contextValue}>
