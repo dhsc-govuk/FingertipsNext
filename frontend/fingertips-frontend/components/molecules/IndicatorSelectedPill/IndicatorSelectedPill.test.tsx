@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { IndicatorSelectedPill } from './index';
-import {SearchParams, SearchStateParams} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
-import {SearchStateContext} from "@/context/SearchStateContext";
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockIndicator = generateIndicatorDocument('1');
 
