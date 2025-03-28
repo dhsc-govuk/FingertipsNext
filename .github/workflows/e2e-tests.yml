@@ -61,8 +61,29 @@ jobs:
       - name: Install playwright dependencies - for CI test execution
         run: npx playwright install --with-deps chromium webkit
 
+      - name: Start Docker services
+        run: MOCK_SERVER=false npm run start:all
+
+      - name: Run .http API tests
+        working-directory: ./api
+        run: |
+          npx httpyac send ./**/*.http --all --json --output-failed short --output short > httpyacresults.json
+
+      - name: Set dynamic HTTP results artifact name
+        if: always()
+        run: |
+          echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
+
+      - name: Upload .http test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.HTTP_ARTIFACT_NAME }}
+          path: ./api/httpyacresults.json
+          retention-days: 5
+
       - name: Run Playwright tests in CI
-        run: npm run test-e2e-ci-docker
+        run: npm run test-e2e-ci
 
       - name: Set dynamic artifact name
         if: always()
@@ -86,7 +107,6 @@ jobs:
           npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
-
 
   execute-e2e-tests-azure:
     name: Execute e2e tests - Azure
