@@ -1,5 +1,5 @@
 ﻿--- This stored procedure Gets HealthData and performs Quintile calculations
-CREATE PROCEDURE [dbo].[ggit status]
+CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
 @RequestedAreas AreaCodeList READONLY,
 --- The Areas we want data for
 @RequestedAreaType varchar(50),
@@ -14,9 +14,11 @@ BEGIN
 	--- Finds the indicator of interest from the passed in IndicatorId.
 	RequestedIndicator AS (
 	SELECT
-		*
+		IndicatorKey,
+		Name,
+		Polarity
 	FROM
-		dbo.IndicatorDimension as ind
+		dbo.IndicatorDimension AS ind
 	WHERE 
 		ind.IndicatorId = @RequestedIndicatorId
     ),
@@ -24,49 +26,47 @@ BEGIN
 	HealthData AS (
 	SELECT
 		    hm.HealthMeasureKey,
-		    NTILE(5) OVER(PARTITION BY hm.Year
-	ORDER BY
-		Value) AS Quintile,
-		    areaDim.Code as AreaDimensionCode,
-		    areaDim.Name as AreaDimensionName,
-		    sex.Name as SexDimensionName,
-		    sex.HasValue as SexDimensionHasValue,
-		    trendDim.Name as TrendDimensionName,
-		    ageDim.Name as AgeDimensionName,
-		    ageDim.HasValue as AgeDimensionHasValue,
-		    imd.Name as DeprivationDimensionName,
-		    imd.[Type] as DeprivationDimensionType,
-		    imd.[Sequence] as DeprivationDimensionSequence,
-		    imd.HasValue as DeprivationDimensionHasValue,
+		    NTILE(5) OVER(PARTITION BY hm.Year ORDER BY	Value) AS Quintile,
+		    areaDim.Code AS AreaDimensionCode,
+		    areaDim.Name AS AreaDimensionName,
+		    sex.Name AS SexDimensionName,
+		    sex.HasValue AS SexDimensionHasValue,
+		    trendDim.Name AS TrendDimensionName,
+		    ageDim.Name AS AgeDimensionName,
+		    ageDim.HasValue AS AgeDimensionHasValue,
+		    imd.Name AS DeprivationDimensionName,
+		    imd.[Type] AS DeprivationDimensionType,
+		    imd.[Sequence] AS DeprivationDimensionSequence,
+		    imd.HasValue AS DeprivationDimensionHasValue,
 		    Count,
 		    Value,
 		    LowerCi,
 		    UpperCi,
 		    hm.Year
 	FROM
-		    dbo.HealthMeasure as hm
+		    dbo.HealthMeasure AS hm
 	JOIN
-            RequestedIndicator as ind
+            RequestedIndicator AS ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	JOIN
-            dbo.AreaDimension as areaDim
+            dbo.AreaDimension AS areaDim
         ON
 		    hm.AreaKey = areaDim.AreaKey
 	JOIN
-            dbo.SexDimension as sex
+            dbo.SexDimension AS sex
         ON
 		    hm.SexKey = sex.SexKey
 	JOIN
-            dbo.AgeDimension as ageDim
+            dbo.AgeDimension AS ageDim
         ON
 		    hm.AgeKey = ageDim.AgeKey
 	JOIN
-            dbo.DeprivationDimension as imd
+            dbo.DeprivationDimension AS imd
         ON
 		    hm.DeprivationKey = imd.DeprivationKey
     JOIN
-            dbo.TrendDimension as trendDim
+            dbo.TrendDimension AS trendDim
         ON
             hm.TrendKey = trendDim.TrendKey
 	WHERE
@@ -77,7 +77,7 @@ BEGIN
         AND
         (
             areaDim.AreaType = @RequestedAreaType
-        --- This is special case handling for data which has a dual identify as both district and county.
+        --- This is special case handling for data which has a dual identity as both district and county.
             OR 
 			(
                @RequestedAreaType = 'districts-and-unitary-authorities'
@@ -89,7 +89,7 @@ BEGIN
         (
             hm.Year IN (
 		        SELECT
-			        *
+			        YearNum
 		        FROM
 			        @RequestedYears
 			)
@@ -104,11 +104,28 @@ BEGIN
     )
     --- The final select now filters based on the requested areas and calculates the Benchmark outcome
     SELECT
-		*,
-		'E92000001' as BenchmarkComparisonAreaCode,
-		'England' as BenchmarkComparisonAreaName,
-		ind.Polarity as BenchmarkComparisonIndicatorPolarity,
-		ind.Name as IndicatorDimensionName,
+		hd.HealthMeasureKey,
+		hd.Quintile,
+		hd.AreaDimensionCode,
+		hd.AreaDimensionName,
+		hd.SexDimensionName,
+		hd.SexDimensionHasValue,
+		hd.TrendDimensionName,
+		hd.AgeDimensionName,
+		hd.AgeDimensionHasValue,
+		hd.DeprivationDimensionName,
+		hd.DeprivationDimensionType,
+		hd.DeprivationDimensionSequence,
+		hd.DeprivationDimensionHasValue,
+		hd.Count,
+		hd.Value,
+		hd.LowerCi,
+		hd.UpperCi,
+		hd.Year,
+		'E92000001' AS BenchmarkComparisonAreaCode,
+		'England' AS BenchmarkComparisonAreaName,
+		ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
+		ind.Name AS IndicatorDimensionName,
 
 	CASE
 		WHEN ind.Polarity = 'High is good'
@@ -143,11 +160,11 @@ BEGIN
 		AND hd.Quintile = 4 THEN 'HIGHER'
 		WHEN ind.Polarity = 'No judgement'
 		AND hd.Quintile = 5 THEN 'HIGHEST'
-	END as BenchmarkComparisonOutcome
+	END AS BenchmarkComparisonOutcome
 FROM
-		HealthData as hd
+		HealthData AS hd
 JOIN
-    	@RequestedAreas as areas
+    	@RequestedAreas AS areas
 	ON
 		hd.AreaDimensionCode = areas.AreaCode
 CROSS JOIN

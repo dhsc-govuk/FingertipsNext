@@ -128,9 +128,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSql
-            ($"""
+            (@$"
               EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}
-              """
+              "
             ).ToListAsync();
 
         return [.. denormalisedHealthData
