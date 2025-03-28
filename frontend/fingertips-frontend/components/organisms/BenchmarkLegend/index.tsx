@@ -1,6 +1,5 @@
 'use client';
 
-import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import styled from 'styled-components';
 import { FC } from 'react';
 import {
@@ -8,40 +7,23 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
+import BenchmarkLegendGroup from '@/components/organisms/BenchmarkLegend/BenchmarkLegendGroup';
 
 const LegendContainer = styled.div({
   marginBottom: '2em',
 });
 
-const DefaultBenchmarkLegendGroupPanelStyle = styled('div')({
-  alignItems: 'center',
-  alignContent: 'center',
-});
-
-const DefaultBenchmarkLegendHeaderStyle = styled('h4')({
+const BenchmarkLegendHeader = styled('h4')({
   alignSelf: 'stretch',
   margin: '1em 0.1em 0.1em 0.1em',
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
 });
 
-const StyledLegendLabel = styled('span')({
-  fontFamily: 'nta,Arial,sans-serif',
-  fontWeight: 300,
-});
-
-export interface BenchmarkData {
-  key: string;
-  title?: string;
-  method: BenchmarkComparisonMethod;
-  outcomes: BenchmarkOutcome[];
-  suffix?: string;
-  polarity?: IndicatorPolarity;
-}
-
 interface BenchmarkLegendProps {
-  rag?: boolean;
-  quintiles?: boolean;
+  title?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const ragOutcomes = [
@@ -50,7 +32,12 @@ const ragOutcomes = [
   BenchmarkOutcome.Worse,
   BenchmarkOutcome.NotCompared,
 ];
-const bobOutcomes = [BenchmarkOutcome.Lower, BenchmarkOutcome.Higher];
+const bobOutcomes = [
+  BenchmarkOutcome.Lower,
+  BenchmarkOutcome.Similar,
+  BenchmarkOutcome.Higher,
+  BenchmarkOutcome.NotCompared,
+];
 const quintilesOutcomes = [
   BenchmarkOutcome.Lowest,
   BenchmarkOutcome.Low,
@@ -66,67 +53,76 @@ const quintilesOutcomesWithJudgement = [
   BenchmarkOutcome.Best,
 ];
 
-export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
-  rag,
-  quintiles,
-}) => {
-  const model: BenchmarkData[] = [];
-  if (rag) {
-    model.push({
-      key: 'rag',
-      title: 'Compared to England',
-      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      outcomes: [...ragOutcomes, ...bobOutcomes],
-      suffix: '(95% confidence)',
-    });
-    model.push({
-      key: 'rag_99',
-      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
-      outcomes: [...ragOutcomes, ...bobOutcomes],
-      suffix: '(99.8% confidence)',
-    });
-  }
+export const getOutcomes = (
+  method: BenchmarkComparisonMethod,
+  polarity: IndicatorPolarity
+): BenchmarkOutcome[] => {
+  const withJudement =
+    polarity === IndicatorPolarity.HighIsGood ||
+    polarity === IndicatorPolarity.LowIsGood;
+  if (method === BenchmarkComparisonMethod.Quintiles)
+    return withJudement ? quintilesOutcomesWithJudgement : quintilesOutcomes;
 
-  if (quintiles) {
-    model.push({
-      key: 'quintiles',
-      method: BenchmarkComparisonMethod.Quintiles,
-      title: ' Quintiles',
-      outcomes: quintilesOutcomes,
-      polarity: IndicatorPolarity.NoJudgement,
-    });
-    model.push({
-      key: 'quintiles_with_judgement',
-      method: BenchmarkComparisonMethod.Quintiles,
-      outcomes: quintilesOutcomesWithJudgement,
-    });
-  }
+  return withJudement ? ragOutcomes : bobOutcomes;
+};
+
+export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
+  title = 'Compared to England',
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
+}) => {
+  const outcomes = getOutcomes(benchmarkComparisonMethod, polarity);
+
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown)
+    return <BenchmarkLegendAll title={title} />;
 
   return (
     <LegendContainer data-testid="benchmarkLegend-component">
-      {model?.map((item, index) => (
-        <DefaultBenchmarkLegendGroupPanelStyle key={item.key}>
-          {item.title ? (
-            <DefaultBenchmarkLegendHeaderStyle>
-              {item.title}
-            </DefaultBenchmarkLegendHeaderStyle>
-          ) : null}
-          <div>
-            {item.outcomes.map((outcome) => (
-              <BenchmarkLabel
-                key={item.method + '_' + outcome + '_' + index}
-                method={item.method}
-                outcome={outcome}
-                polarity={item.polarity}
-              />
-            ))}
+      <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={polarity}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        outcomes={outcomes}
+      />
+    </LegendContainer>
+  );
+};
 
-            {item.suffix ? (
-              <StyledLegendLabel>{item.suffix}</StyledLegendLabel>
-            ) : null}
-          </div>
-        </DefaultBenchmarkLegendGroupPanelStyle>
-      ))}
+interface BenchmarkLegendAllProps {
+  title: string;
+}
+
+const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
+  const allRag = [...new Set([...ragOutcomes, ...bobOutcomes])];
+  return (
+    <LegendContainer data-testid="benchmarkLegend-component">
+      <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.HighIsGood}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        outcomes={allRag}
+      />
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.HighIsGood}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+        }
+        outcomes={allRag}
+      />
+
+      <BenchmarkLegendHeader>Quintiles</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.NoJudgement}
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        outcomes={quintilesOutcomes}
+      />
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.LowIsGood}
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        outcomes={quintilesOutcomesWithJudgement}
+      />
     </LegendContainer>
   );
 };

@@ -31,6 +31,7 @@ export default class ChartPage extends AreaFilter {
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
+  static readonly spineChartTableComponent = 'spineChartTable-component';
 
   async navigateToChart() {
     await this.navigateTo('chart');
