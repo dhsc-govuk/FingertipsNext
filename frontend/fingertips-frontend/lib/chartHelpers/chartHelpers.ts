@@ -165,6 +165,9 @@ export const getConfidenceLimitNumber = (
       return 99.8;
     case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
       return 95;
+    case BenchmarkComparisonMethod.Quintiles:
+      // assuming for POC that all quintiles are 95%
+      return 95;
     default:
       return 0;
   }

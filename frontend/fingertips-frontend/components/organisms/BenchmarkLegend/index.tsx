@@ -1,6 +1,5 @@
 'use client';
 
-import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import styled from 'styled-components';
 import { FC } from 'react';
 import {
@@ -8,25 +7,15 @@ import {
   BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import BenchmarkLegendGroup from '@/components/organisms/BenchmarkLegend/BenchmarkLegendGroup';
 
 const LegendContainer = styled.div({
   marginBottom: '2em',
 });
 
-const LegendGroup = styled('div')({
-  position: 'relative',
-  left: '-5px',
-});
-
-const DefaultBenchmarkLegendHeaderStyle = styled('h4')({
+const BenchmarkLegendHeader = styled('h4')({
   alignSelf: 'stretch',
   margin: '1em 0.1em 0.1em 0.1em',
-  fontFamily: 'nta,Arial,sans-serif',
-  fontWeight: 300,
-});
-
-const StyledLegendLabel = styled('span')({
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
 });
@@ -82,27 +71,58 @@ export const BenchmarkLegend: FC<BenchmarkLegendProps> = ({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }) => {
-  const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
-  const suffix = confidenceLimit ? `(${confidenceLimit}% confidence)` : null;
   const outcomes = getOutcomes(benchmarkComparisonMethod, polarity);
+
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Unknown)
+    return <BenchmarkLegendAll title={title} />;
 
   return (
     <LegendContainer data-testid="benchmarkLegend-component">
-      <DefaultBenchmarkLegendHeaderStyle>
-        {title}
-      </DefaultBenchmarkLegendHeaderStyle>
-      <LegendGroup>
-        {outcomes.map((outcome) => (
-          <BenchmarkLabel
-            key={benchmarkComparisonMethod + '_' + outcome}
-            method={benchmarkComparisonMethod}
-            outcome={outcome}
-            polarity={polarity}
-          />
-        ))}
+      <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={polarity}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        outcomes={outcomes}
+      />
+    </LegendContainer>
+  );
+};
 
-        {suffix ? <StyledLegendLabel>{suffix}</StyledLegendLabel> : null}
-      </LegendGroup>
+interface BenchmarkLegendAllProps {
+  title: string;
+}
+
+const BenchmarkLegendAll: FC<BenchmarkLegendAllProps> = ({ title }) => {
+  const allRag = [...new Set([...ragOutcomes, ...bobOutcomes])];
+  return (
+    <LegendContainer>
+      <BenchmarkLegendHeader>{title}</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.HighIsGood}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        outcomes={allRag}
+      />
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.HighIsGood}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+        }
+        outcomes={allRag}
+      />
+
+      <BenchmarkLegendHeader>Quintiles</BenchmarkLegendHeader>
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.NoJudgement}
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        outcomes={quintilesOutcomes}
+      />
+      <BenchmarkLegendGroup
+        polarity={IndicatorPolarity.LowIsGood}
+        benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        outcomes={quintilesOutcomesWithJudgement}
+      />
     </LegendContainer>
   );
 };

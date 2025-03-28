@@ -80,4 +80,9 @@ describe('Testing the benchmark component', () => {
     );
     expect(container.asFragment()).toMatchSnapshot();
   });
+
+  it('Snapshot testing of the legend with all items shown', () => {
+    const container = render(<BenchmarkLegend title={'All'} />);
+    expect(container.asFragment()).toMatchSnapshot();
+  });
 });
