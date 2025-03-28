@@ -14,7 +14,6 @@ import { ViewsContext } from '@/components/views/ViewsContext';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { getAreaFilterData } from '@/lib/areaFilterHelpers/getAreaFilterData';
 import { ErrorPage } from '@/components/pages/error';
-import { PyramidContextProvider } from './PyramidContextProvider';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -73,24 +72,17 @@ export default async function ChartPage(
     }
 
     return (
-      <>
-        <ViewsContext
-          searchState={stateManager.getSearchState()}
-          selectedAreasData={selectedAreasData}
-          selectedIndicatorsData={selectedIndicatorsData}
-          areaFilterData={{
-            availableAreaTypes,
-            availableGroupTypes,
-            availableGroups,
-            availableAreas,
-          }}
-        />
-
-        <PyramidContextProvider
-          areaCodes={areasSelected}
-          searchState={stateManager.getSearchState()}
-        />
-      </>
+      <ViewsContext
+        searchState={stateManager.getSearchState()}
+        selectedAreasData={selectedAreasData}
+        selectedIndicatorsData={selectedIndicatorsData}
+        areaFilterData={{
+          availableAreaTypes,
+          availableGroupTypes,
+          availableGroups,
+          availableAreas,
+        }}
+      />
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);

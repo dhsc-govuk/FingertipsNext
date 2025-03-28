@@ -12,6 +12,7 @@ import { Area, AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { ViewsSelector } from './ViewsSelector';
+import { PyramidContextProvider } from '@/app/chart/PyramidContextProvider';
 
 const determineAreaCodes = (
   groupAreaSelected?: string,
@@ -73,6 +74,11 @@ export function ViewsContext({
         indicators={indicators}
         searchState={searchState}
         selectedIndicatorsData={selectedIndicatorsData}
+      />
+
+      <PyramidContextProvider
+        areaCodes={areaCodes}
+        searchState={searchState}
       />
     </ChartPageWrapper>
   );
