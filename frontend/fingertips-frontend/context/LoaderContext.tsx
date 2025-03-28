@@ -4,6 +4,7 @@ import React, {
   ReactNode,
   createContext,
   useContext,
+  useMemo,
   useState,
   useEffect,
 } from 'react';
@@ -31,10 +32,13 @@ export const LoaderProvider: React.FC<LoaderContextProvider> = ({
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const contextValue: LoaderContext = {
-    getIsLoading: () => isLoading,
-    setIsLoading,
-  };
+  const contextValue: LoaderContext = useMemo(
+    () => ({
+      getIsLoading: () => isLoading,
+      setIsLoading,
+    }),
+    [isLoading, setIsLoading]
+  );
 
   useEffect(() => {
     setIsLoading(false);
