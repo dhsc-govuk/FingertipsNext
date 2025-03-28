@@ -32,6 +32,32 @@ interface SparklineChartProps {
   measurementUnit: string | undefined;
 }
 
+export const format = ( benchmarkOutcome: BenchmarkOutcome, label: string) => {
+  let category = '';
+  let benchmarkLabel = '';
+  const outcome = getBenchmarkLabelText(benchmarkOutcome);
+
+  if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
+    category = 'Benchmark: ';
+    benchmarkLabel = '';
+  }
+  if (label === SparklineLabelEnum.Group) {
+    category = 'Group: ';
+  }
+
+  if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+    benchmarkLabel = `${outcome} to England`;
+  } else if (
+    benchmarkOutcome &&
+    benchmarkOutcome !== BenchmarkOutcome.NotCompared
+  ) {
+    benchmarkLabel = `${outcome} than England`;
+  }
+  
+  return {benchmarkLabel, category}
+}
+
+
 export function SparklineChart({
   value,
   maxValue,
@@ -51,33 +77,36 @@ export function SparklineChart({
     polarity
   );
   const [options, setOptions] = useState<Highcharts.Options>();
+  
 
   const formatSparklineTooltips = (point: Highcharts.Point, symbol: string) => {
-    let category = '';
-    let benchmarkLabel = '';
-    const outcome = getBenchmarkLabelText(benchmarkOutcome);
-
-    if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
-      category = 'Benchmark: ';
-      benchmarkLabel = '';
-    }
-    if (label === SparklineLabelEnum.Group) {
-      category = 'Group: ';
-    }
-
-    if (benchmarkOutcome === BenchmarkOutcome.Similar) {
-      benchmarkLabel = `${outcome} to England`;
-    } else if (
-      benchmarkOutcome &&
-      benchmarkOutcome !== BenchmarkOutcome.NotCompared
-    ) {
-      benchmarkLabel = `${outcome} than England`;
-    }
-
+    // let category = '';
+    // let benchmarkLabel = '';
+    // const outcome = getBenchmarkLabelText(benchmarkOutcome);
+    //
+    // if (label === SparklineLabelEnum.Benchmark && benchmarkOutcome) {
+    //   category = 'Benchmark: ';
+    //   benchmarkLabel = '';
+    // }
+    // if (label === SparklineLabelEnum.Group) {
+    //   category = 'Group: ';
+    // }
+    //
+    // if (benchmarkOutcome === BenchmarkOutcome.Similar) {
+    //   benchmarkLabel = `${outcome} to England`;
+    // } else if (
+    //   benchmarkOutcome &&
+    //   benchmarkOutcome !== BenchmarkOutcome.NotCompared
+    // ) {
+    //   benchmarkLabel = `${outcome} than England`;
+    // }
+    const { benchmarkLabel, category } = format(benchmarkOutcome, label)
+    
     return [
       `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span> ${value}${measurementUnit}<br/><span>${benchmarkLabel}</span>`,
     ];
   };
+  
   const confidenceIntervalSeries = generateConfidenceIntervalSeries(
     area,
     [confidenceIntervalValues],
