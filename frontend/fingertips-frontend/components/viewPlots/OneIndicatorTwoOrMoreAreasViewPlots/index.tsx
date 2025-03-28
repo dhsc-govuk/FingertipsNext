@@ -29,7 +29,7 @@ const StyledParagraphDataSource = styled(Paragraph)(
 
 interface OneIndicatorTwoOrMoreAreasViewPlotsProps
   extends OneIndicatorViewPlotProps {
-    mapGeographyData?: MapGeographyData;
+  mapGeographyData?: MapGeographyData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
