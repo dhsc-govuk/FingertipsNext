@@ -8,17 +8,17 @@ describe('ArrowExpander', () => {
   it('should show "Hide" initially and then toggle to "Show" with content when clicked', () => {
     const contentText = 'Expandable content';
     render(
-      <ArrowExpander fill="#ff0000">
+      <ArrowExpander fill="#ff0000" openTitle="Show" closeTitle="Hide">
         <div>{contentText}</div>
       </ArrowExpander>
     );
 
-    expect(screen.getByText('Hide')).toBeInTheDocument();
+    expect(screen.getByText('Show')).toBeInTheDocument();
     expect(screen.queryByText(contentText)).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId('arrow-toggle-button'));
 
-    expect(screen.getByText('Show')).toBeInTheDocument();
+    expect(screen.getByText('Hide')).toBeInTheDocument();
     expect(screen.getByText(contentText)).toBeInTheDocument();
   });
 
