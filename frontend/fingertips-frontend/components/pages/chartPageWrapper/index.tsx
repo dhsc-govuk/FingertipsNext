@@ -41,7 +41,6 @@ export function ChartPageWrapper({
   }, []);
 
   const stateManager = SearchStateManager.initialise(searchState);
-  // TODO: will need to persist this hide filters state when the chart page has dropdowns that can trigger a page refresh
   const [isHideFilters, setIsHideFilters] = useState(false);
   const backLinkPath = stateManager.generatePath('/results');
 
