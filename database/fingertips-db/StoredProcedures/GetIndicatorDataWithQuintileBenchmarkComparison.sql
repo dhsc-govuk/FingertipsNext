@@ -78,9 +78,11 @@ BEGIN
         (
             areaDim.AreaType = @RequestedAreaType
         --- This is special case handling for data which has a dual identify as both district and county.
-            OR (
+            OR 
+			(
                @RequestedAreaType = 'districts-and-unitary-authorities'
-               AND areaDim.Code LIKE 'E09%' OR areaDim.Code LIKE 'E08%' OR areaDim.Code LIKE 'E06%'
+               AND 
+			   IsDistrictAndCounty = 1
             )
         )
 		AND
