@@ -31,7 +31,7 @@ export const BenchmarkTagStyle = styled(Tag)<{
   };
 });
 
-const getBenchmarkLabelText = (type: BenchmarkOutcome) => {
+export const getBenchmarkLabelText = (type: BenchmarkOutcome) => {
   const validTypes = Object.values(BenchmarkOutcome);
   return validTypes.includes(type) && type !== BenchmarkOutcome.NotCompared
     ? type
