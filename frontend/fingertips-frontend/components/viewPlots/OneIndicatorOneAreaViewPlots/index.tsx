@@ -12,7 +12,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -25,6 +25,7 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -44,7 +45,8 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+  populationHealthDataForArea,
+}: Readonly<OneIndicatorViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -165,6 +167,13 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+      />
+
+      <PopulationPyramidWithTable
+        healthDataForAreas={populationHealthDataForArea ?? []}
+        selectedGroupAreaCode={selectedGroupCode}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of total population"
       />
     </section>
   );

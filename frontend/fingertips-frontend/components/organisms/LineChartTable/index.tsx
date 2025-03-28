@@ -21,6 +21,7 @@ import {
 } from '@/lib/tableHelpers';
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -227,6 +228,8 @@ export function LineChartTable({
   const sortedEnglandData = sortPeriod(englandData);
   const sortedGroupData = sortPeriod(groupData);
 
+  const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+
   return (
     <StyledDiv data-testid="lineChartTable-component">
       <Table
@@ -276,7 +279,9 @@ export function LineChartTable({
                     colSpan={getConfidenceLimitCellSpan(index)}
                   ></Table.CellHeader>
                   <StyledConfidenceLimitsHeader colSpan={2}>
-                    95% confidence limits
+                    {confidenceLimit
+                      ? `${confidenceLimit}% confidence limits`
+                      : null}
                   </StyledConfidenceLimitsHeader>
                 </React.Fragment>
               ))}
