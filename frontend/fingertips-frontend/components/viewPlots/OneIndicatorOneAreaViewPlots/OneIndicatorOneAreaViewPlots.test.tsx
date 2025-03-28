@@ -54,26 +54,6 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={{ areaHealthData: [mockHealthData['108'][1]] }}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('oneIndicatorOneAreaViewPlot-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   it('should render the LineChart components', async () => {
     render(
       <OneIndicatorOneAreaViewPlots

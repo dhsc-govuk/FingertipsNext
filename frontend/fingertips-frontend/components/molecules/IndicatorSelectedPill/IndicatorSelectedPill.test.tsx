@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { IndicatorSelectedPill } from './index';
-import { SearchParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { LoaderContext } from '@/context/LoaderContext';
 import userEvent from '@testing-library/user-event';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockIndicator = generateIndicatorDocument('1');
 
@@ -16,6 +17,20 @@ const mockLoaderContext: LoaderContext = {
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn().mockReturnValue({
+  [SearchParams.AreasSelected]: ['A001', 'A002'],
+  [SearchParams.IndicatorsSelected]: ['1'],
+} satisfies SearchStateParams);
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -33,15 +48,7 @@ describe('IndicatorSelectedPill', () => {
       `&${SearchParams.AreasSelected}=A001&${SearchParams.AreasSelected}=A002`,
     ].join('');
 
-    render(
-      <IndicatorSelectedPill
-        indicator={mockIndicator}
-        searchState={{
-          [SearchParams.IndicatorsSelected]: [mockIndicator.indicatorID],
-          [SearchParams.AreasSelected]: ['A001', 'A002'],
-        }}
-      />
-    );
+    render(<IndicatorSelectedPill indicator={mockIndicator} />);
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
   });

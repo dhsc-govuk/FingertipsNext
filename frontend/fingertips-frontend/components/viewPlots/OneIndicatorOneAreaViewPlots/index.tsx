@@ -9,7 +9,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
@@ -112,7 +112,6 @@ export function OneIndicatorOneAreaViewPlots({
   );
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities

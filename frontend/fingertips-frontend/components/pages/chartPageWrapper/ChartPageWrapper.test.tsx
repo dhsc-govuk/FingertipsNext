@@ -3,7 +3,7 @@ import { ChartPageWrapper } from '.';
 import { SearchStateParams, SearchParams } from '@/lib/searchStateManager';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateContext } from '@/context/SearchStateContext';
-import userEvent from '@testing-library/user-event';
+import { userEvent, UserEvent } from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -55,12 +55,22 @@ describe('ChartPageWrapper', () => {
     jest.clearAllMocks();
   });
 
-  it('should render the back link path back to the results page', () => {
-    render(
+  let user: UserEvent;
+
+  const renderWrapper = () => {
+    return render(
       <ChartPageWrapper searchState={searchState}>
         <ChildComponent />
       </ChartPageWrapper>
     );
+  };
+
+  beforeEach(() => {
+    user = userEvent.setup();
+  });
+
+  it('should render the back link path back to the results page', () => {
+    renderWrapper();
 
     const backLink = screen.getByRole('link', { name: /back/i });
     const expectedUrl = `/results?${SearchParams.SearchedIndicator}=${mockSearch}&${SearchParams.IndicatorsSelected}=${mockIndicator}&${SearchParams.AreasSelected}=${mockAreas[0]}&${SearchParams.AreasSelected}=${mockAreas[1]}`;
@@ -71,11 +81,7 @@ describe('ChartPageWrapper', () => {
   });
 
   it('should call setIsLoading when the back link is clicked', async () => {
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
+    renderWrapper();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('link', { name: /back/i }));
@@ -84,22 +90,40 @@ describe('ChartPageWrapper', () => {
   });
 
   it('should render the area filter pane', () => {
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
+    renderWrapper();
 
     expect(screen.getByTestId('area-filter-container')).toBeInTheDocument();
   });
 
   it('should render the child component', () => {
-    render(
-      <ChartPageWrapper searchState={searchState}>
-        <ChildComponent />
-      </ChartPageWrapper>
-    );
+    renderWrapper();
 
     expect(screen.getByTestId('some-child-component')).toBeInTheDocument();
+  });
+
+  it('area filters and filter summary can be toggled using the hide-filters and change-selection buttons', async () => {
+    renderWrapper();
+    expect(
+      screen.getByTestId('area-filter-pane-hidefilters')
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('filter-summary-panel')
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByTestId('area-filter-pane-hidefilters'));
+
+    expect(
+      screen.queryByTestId('area-filter-pane-hidefilters')
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId('filter-summary-panel')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Show filter/i }));
+
+    expect(
+      screen.getByTestId('area-filter-pane-hidefilters')
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('filter-summary-panel')
+    ).not.toBeInTheDocument();
   });
 });
