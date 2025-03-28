@@ -14,6 +14,7 @@ import {
 } from '@/lib/tableHelpers/mocks';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
+  BenchmarkComparisonMethod,
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
@@ -77,6 +78,9 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -100,6 +104,9 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
         />
       );
 
@@ -122,19 +129,22 @@ describe('Line chart table suite', () => {
       );
     });
 
-    it('should render the expected elements when England is the only area', () => {
+    it('should render the expected elements when England is the only area and 99.8%', () => {
       render(
         <LineChartTable
           healthIndicatorData={[]}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+          }
         />
       );
 
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
         'England'
       );
-      expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
+      expect(screen.getByText(/99.8% confidence limits/i)).toBeInTheDocument();
     });
 
     it('should have grey cell color for benchmark column', () => {
@@ -225,6 +235,9 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -236,6 +249,9 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandBenchmarkData={MOCK_ENGLAND_DATA}
           measurementUnit="%"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
         />
       );
 
