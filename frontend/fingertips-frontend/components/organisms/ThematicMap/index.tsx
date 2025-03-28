@@ -24,6 +24,7 @@ interface ThematicMapProps {
 const loadHighchartsModules = async (callback: () => void) => {
   import('highcharts/modules/map').then(callback);
 };
+
 export function ThematicMap({
   healthIndicatorData,
   mapGeographyData,
@@ -60,7 +61,10 @@ export function ThematicMap({
 
   return (
     <div data-testid="thematicMap-component">
-      <BenchmarkLegend rag />
+      <BenchmarkLegend
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-thematicMap-component',
