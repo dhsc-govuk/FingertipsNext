@@ -8,7 +8,7 @@ import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2, H3, Paragraph } from 'govuk-react';
-import { ViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
 import {
@@ -21,23 +21,32 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
 );
 
-interface OneIndicatorTwoOrMoreAreasViewPlotsProps extends ViewPlotProps {
+interface OneIndicatorTwoOrMoreAreasViewPlotsProps
+  extends OneIndicatorViewPlotProps {
   mapGeographyData?: MapGeographyData;
 }
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
-  searchState,
   indicatorMetadata,
+  searchState,
   mapGeographyData,
 }: Readonly<OneIndicatorTwoOrMoreAreasViewPlotsProps>) {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const stateManager = SearchStateManager.initialise(searchState);
+
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,

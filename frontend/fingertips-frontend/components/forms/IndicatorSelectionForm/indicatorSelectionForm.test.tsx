@@ -5,6 +5,8 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { UserEvent, userEvent } from '@testing-library/user-event';
 import { formatDate } from '@/lib/dateHelpers/dateHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -20,6 +22,28 @@ jest.mock('next/navigation', () => {
     useRouter: jest.fn().mockImplementation(() => ({
       replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -64,13 +88,13 @@ describe('IndicatorSelectionForm', () => {
   beforeEach(() => {
     mockReplace.mockClear();
     user = userEvent.setup();
+    mockGetSearchState.mockReturnValue(state);
   });
 
   it('should render search results', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -90,11 +114,7 @@ describe('IndicatorSelectionForm', () => {
 
   it('should render no results found', () => {
     render(
-      <IndicatorSelectionForm
-        searchResults={[]}
-        searchState={state}
-        formAction={mockFormAction}
-      />
+      <IndicatorSelectionForm searchResults={[]} formAction={mockFormAction} />
     );
 
     expect(screen.queryByText(/no results found/i)).toBeInTheDocument();
@@ -104,11 +124,7 @@ describe('IndicatorSelectionForm', () => {
 
   it('should NOT render the "View data" button if no indicators found for search', async () => {
     render(
-      <IndicatorSelectionForm
-        searchResults={[]}
-        searchState={state}
-        formAction={mockFormAction}
-      />
+      <IndicatorSelectionForm searchResults={[]} formAction={mockFormAction} />
     );
 
     expect(screen.queryByRole('button', { name: /View data/i })).toBeNull();
@@ -118,7 +134,6 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -127,13 +142,14 @@ describe('IndicatorSelectionForm', () => {
   });
 
   it('should render the "View data" button as enabled when there are indicators selected in state', () => {
+    mockGetSearchState.mockReturnValue({
+      ...state,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    });
+
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={{
-          ...state,
-          [SearchParams.IndicatorsSelected]: ['1'],
-        }}
         formAction={mockFormAction}
       />
     );
@@ -147,10 +163,11 @@ describe('IndicatorSelectionForm', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
     };
 
+    mockGetSearchState.mockReturnValue(stateWithIndicatorSelected);
+
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={stateWithIndicatorSelected}
         formAction={mockFormAction}
       />
     );
@@ -167,7 +184,6 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -184,7 +200,6 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -205,10 +220,11 @@ describe('IndicatorSelectionForm', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
     };
 
+    mockGetSearchState.mockReturnValue(stateWithIndicatorSelected);
+
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={stateWithIndicatorSelected}
         formAction={mockFormAction}
       />
     );
@@ -224,13 +240,14 @@ describe('IndicatorSelectionForm', () => {
   });
 
   it('should call the formAction when the submit button is clicked', async () => {
+    mockGetSearchState.mockReturnValue({
+      ...state,
+      [SearchParams.IndicatorsSelected]: ['1'],
+    });
+
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={{
-          ...state,
-          [SearchParams.IndicatorsSelected]: ['1'],
-        }}
         formAction={mockFormAction}
       />
     );
@@ -240,11 +257,24 @@ describe('IndicatorSelectionForm', () => {
     expect(mockFormAction).toHaveBeenCalled();
   });
 
+  it('should call setIsLoading with true when the search button is clicked', async () => {
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
+        formAction={mockFormAction}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
   it('should render the "Select all" checkbox', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -261,7 +291,6 @@ describe('IndicatorSelectionForm', () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={state}
         formAction={mockFormAction}
       />
     );
@@ -275,15 +304,16 @@ describe('IndicatorSelectionForm', () => {
   });
 
   it('should deselect all indicators when "Select all" is unchecked', async () => {
+    mockGetSearchState.mockReturnValue({
+      ...state,
+      [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
+        (item) => item.indicatorID
+      ),
+    });
+
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={{
-          ...state,
-          [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
-            (item) => item.indicatorID
-          ),
-        }}
         formAction={mockFormAction}
       />
     );
@@ -296,16 +326,31 @@ describe('IndicatorSelectionForm', () => {
     );
   });
 
-  it('should check "Select all" checkbox if all indicators are selected', () => {
+  it('should call setIsLoading with true when the selectAll indicators is clicked', async () => {
     render(
       <IndicatorSelectionForm
         searchResults={MOCK_DATA}
-        searchState={{
-          ...state,
-          [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
-            (item) => item.indicatorID
-          ),
-        }}
+        formAction={mockFormAction}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('checkbox', { name: /Select all/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+  });
+
+  it('should check "Select all" checkbox if all indicators are selected', () => {
+    mockGetSearchState.mockReturnValue({
+      ...state,
+      [SearchParams.IndicatorsSelected]: MOCK_DATA.map(
+        (item) => item.indicatorID
+      ),
+    });
+
+    render(
+      <IndicatorSelectionForm
+        searchResults={MOCK_DATA}
         formAction={mockFormAction}
       />
     );

@@ -12,7 +12,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H2, H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -23,12 +23,13 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   getAllDataWithoutInequalities,
   InequalitiesTypes,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -49,7 +50,13 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
   populationHealthDataForArea,
-}: Readonly<ViewPlotProps>) {
+}: Readonly<OneIndicatorViewPlotProps>) {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -174,7 +181,6 @@ export function OneIndicatorOneAreaViewPlots({
             ? dataWithoutEnglandOrGroup[0]
             : healthIndicatorData[0]
         }
-        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}

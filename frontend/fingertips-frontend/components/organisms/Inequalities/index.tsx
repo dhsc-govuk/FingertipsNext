@@ -23,13 +23,13 @@ import {
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { LineChart } from '../LineChart';
 import { LineChartVariant } from '../LineChart/lineChartHelpers';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
-  searchState: SearchStateParams;
   type?: InequalitiesTypes;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
@@ -48,11 +48,15 @@ const generateInequalitiesLineChartTooltipStringList = (
 export function Inequalities({
   healthIndicatorData,
   measurementUnit,
-  searchState,
   type = InequalitiesTypes.Sex,
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesProps>) {
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
+  const stateManager = SearchStateManager.initialise(searchState);
+
   let inequalityCategory = '';
   if (type == InequalitiesTypes.Deprivation) {
     // This value will ultimately come from the inequality type dropdown
@@ -84,7 +88,8 @@ export function Inequalities({
     healthIndicatorDataWithoutOtherInequalities.healthData
   );
 
-  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
+  const { [SearchParams.AreasSelected]: areasSelected } =
+    stateManager.getSearchState();
 
   const [
     showInequalitiesLineChartConfidenceIntervals,
