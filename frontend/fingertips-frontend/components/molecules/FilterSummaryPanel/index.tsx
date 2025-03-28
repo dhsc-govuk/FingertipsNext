@@ -1,7 +1,6 @@
 'use client';
 
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import styled from 'styled-components';
 import { IndicatorSelectedPill } from '@/components/molecules/IndicatorSelectedPill';
@@ -9,7 +8,6 @@ import { typography } from '@govuk-react/lib';
 
 export interface FilterSummaryPanelProps {
   selectedIndicatorsData: IndicatorDocument[] | undefined;
-  searchState?: SearchStateParams;
   changeSelection?: () => void;
 }
 
@@ -33,7 +31,6 @@ Provides a view-only summary of the area filters and selected indicators
  */
 export const FilterSummaryPanel = ({
   selectedIndicatorsData,
-  searchState,
   changeSelection,
 }: FilterSummaryPanelProps) => {
   return (
@@ -47,7 +44,6 @@ export const FilterSummaryPanel = ({
           key={selectedIndicatorsData[0].indicatorID}
           indicator={selectedIndicatorsData[0]}
           isFullWidth={false}
-          searchState={searchState}
         />
       ) : null}
 

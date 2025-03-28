@@ -3,24 +3,32 @@ import {
   FilterSummaryPanel,
   FilterSummaryPanelProps,
 } from '@/components/molecules/FilterSummaryPanel/index';
-import { SearchParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
-import { nhsPrimaryCareNetworksAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { userEvent, UserEvent } from '@testing-library/user-event';
 import { LoaderContext } from '@/context/LoaderContext';
+import {SearchStateContext} from "@/context/SearchStateContext";
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
 
-const mockGetIsLoading = jest.fn();
-const mockSetIsLoading = jest.fn();
 const mockLoaderContext: LoaderContext = {
-  getIsLoading: mockGetIsLoading,
-  setIsLoading: mockSetIsLoading,
+  getIsLoading: jest.fn(),
+  setIsLoading: jest.fn(),
 };
 jest.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -50,9 +58,6 @@ describe('FilterSummaryPanel', () => {
 
   const defaultProps: FilterSummaryPanelProps = {
     selectedIndicatorsData: [generateIndicatorDocument('1')],
-    searchState: {
-      [SearchParams.AreaTypeSelected]: nhsPrimaryCareNetworksAreaType.key,
-    },
     changeSelection: mockChangeSelection,
   };
 

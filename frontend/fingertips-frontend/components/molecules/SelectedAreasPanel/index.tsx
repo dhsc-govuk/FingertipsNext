@@ -15,10 +15,6 @@ interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
   isFullWidth?: boolean;
-
-  // If true the pill should only allow the data to be viewed, and have no
-  // behaviour that can cause the UI to be changed.
-  isViewOnly?: boolean;
 }
 
 const StyledFilterSelectedAreaDiv = styled('div')({
@@ -33,7 +29,6 @@ export function SelectedAreasPanel({
   selectedAreasData,
   areaFilterData,
   isFullWidth,
-  isViewOnly,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -83,7 +78,7 @@ export function SelectedAreasPanel({
           <GroupAreaSelectedPill
             areaTypeName={areaType?.name}
             groupSelected={selectedGroupData}
-            onRemoveFilter={isViewOnly ? undefined : removeSelectedGroup}
+            onRemoveFilter={removeSelectedGroup}
             isFullWidth={isFullWidth}
           />
         </div>
@@ -97,7 +92,7 @@ export function SelectedAreasPanel({
                 <AreaSelectedPill
                   key={selectedArea.code}
                   area={selectedArea}
-                  onRemoveFilter={isViewOnly ? undefined : removeSelectedArea}
+                  onRemoveFilter={removeSelectedArea}
                   isFullWidth={isFullWidth}
                 />
               ))

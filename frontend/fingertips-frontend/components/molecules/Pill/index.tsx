@@ -43,8 +43,6 @@ export interface PillProps {
   selectedFilterId?: string;
   removeFilter?: (filterId: string) => void;
   isFullWidth?: boolean;
-
-  // used to generate an aria-label
   ariaLabelPostfix?: string;
 }
 

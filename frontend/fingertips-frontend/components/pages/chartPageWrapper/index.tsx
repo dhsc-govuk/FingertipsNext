@@ -69,7 +69,6 @@ export function ChartPageWrapper({
           {isHideFilters ? (
             <FilterSummaryPanel
               selectedIndicatorsData={selectedIndicatorsData}
-              searchState={searchState}
               changeSelection={() => setIsHideFilters(false)}
             />
           ) : null}

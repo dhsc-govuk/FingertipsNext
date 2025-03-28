@@ -10,9 +10,6 @@ import { useSearchState } from '@/context/SearchStateContext';
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
   isFullWidth?: boolean;
-
-  // If true the pill should only allow the data to be viewed, and have no
-  // behaviour that can cause the UI to be changed.
   isViewOnly?: boolean;
 }
 
@@ -58,7 +55,6 @@ export function SelectedIndicatorsPanel({
           key={indicator.indicatorID}
           indicator={indicator}
           isFullWidth={isFullWidth}
-          searchState={searchState}
         />
       ))}
 
