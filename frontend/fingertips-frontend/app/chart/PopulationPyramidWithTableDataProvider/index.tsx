@@ -92,7 +92,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
       groupAreaSelected={groupAreaSelected}
       searchState={searchState}
       xAxisTitle="Age"
-      yAxisTitle="Population"
+      yAxisTitle="Percentage of total population"
     />
   );
 };
