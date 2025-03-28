@@ -80,9 +80,7 @@ describe('ChartPageWrapper', () => {
     ).not.toBeInTheDocument();
     expect(screen.getByTestId('filter-summary-panel')).toBeInTheDocument();
 
-    await user.click(
-      screen.getByTestId('filter-summary-panel-change-selection')
-    );
+    await user.click(screen.getByRole('button', { name: /Show filter/i }));
 
     expect(
       screen.getByTestId('area-filter-pane-hidefilters')
