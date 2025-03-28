@@ -31,10 +31,7 @@ public static class BenchmarkComparisonEngine
         IndicatorPolarity polarity
     )
     {
-        var allHealthAreasOfInterest = healthDataForAreasOfInterest
-            .Where(healthDataForArea => healthDataForArea.AreaCode != benchmarkHealthData.AreaCode);
-
-        foreach (var healthAreaData in allHealthAreasOfInterest)
+        foreach (var healthAreaData in healthDataForAreasOfInterest)
             ProcessBenchmarkComparisonsForArea(healthAreaData, benchmarkHealthData,
                 polarity);
 
@@ -72,8 +69,11 @@ public static class BenchmarkComparisonEngine
             ? benchmarkHealthData.HealthData
             : areaHealthDataPoints;
         var benchmarkHealthDataPoint = benchmarkHealthDataPoints.FirstOrDefault(item =>
-            item.Year == healthDataPointOfInterest.Year &&
-            item.IsAggregate && item.Value != null);
+            item != healthDataPointOfInterest && // cannot be compared to itself
+            item.Year == healthDataPointOfInterest.Year && // must be the same year
+            item.IsAggregate && // must be an aggregate point
+            item.Value != null // must have a value
+            ); 
 
         if (benchmarkHealthDataPoint == null) 
             return;

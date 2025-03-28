@@ -10,21 +10,27 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
 import { useEffect, useState } from 'react';
 import {
   generateConfidenceIntervalSeries,
-  loadHighchartsModules,
   getBenchmarkColour,
+  loadHighchartsModules,
 } from '@/lib/chartHelpers/chartHelpers';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
   yAxisLabel: string;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
@@ -49,6 +55,8 @@ export function InequalitiesBarChart({
   yAxisLabel,
   measurementUnit,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
@@ -67,13 +75,16 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
+  const comparedTo = `${barChartData.areaName} persons`;
+
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
       data: barChartFields.map((field) => {
         const color = getBenchmarkColour(
-          inequalities[field]?.benchmarkComparison
-            ?.outcome as BenchmarkLabelType
+          benchmarkComparisonMethod,
+          inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
+          polarity
         );
         return {
           name: field,
@@ -110,7 +121,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(`${barChartData.areaName} persons`, benchmarkValue),
+          ...getPlotline(comparedTo, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,
@@ -184,7 +195,11 @@ export function InequalitiesBarChart({
 
   return (
     <div data-testid="inequalitiesBarChart-component">
-      <BenchmarkLegend rag />
+      <BenchmarkLegend
+        title={`Compared to ${comparedTo}`}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
       <ConfidenceIntervalCheckbox
         chartName="inequalitiesBarChart"
         showConfidenceIntervalsData={showConfidenceIntervalsData}

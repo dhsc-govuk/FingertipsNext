@@ -1,8 +1,11 @@
 import { InequalitiesBarChart } from '.';
 import { render, screen } from '@testing-library/react';
-import { expect } from '@jest/globals';
 import { getTestData } from './mocks';
 import { InequalitiesTypes } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import {
+  BenchmarkComparisonMethod,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 describe('Inequalities LineChart suite', () => {
   it('should render the expected elements', async () => {
@@ -12,6 +15,11 @@ describe('Inequalities LineChart suite', () => {
         barChartData={getTestData()}
         yAxisLabel={yAxisLabel}
         type={InequalitiesTypes.Sex}
+        measurementUnit={'$'}
+        benchmarkComparisonMethod={
+          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+        }
+        polarity={IndicatorPolarity.NoJudgement}
       />
     );
 
@@ -27,5 +35,12 @@ describe('Inequalities LineChart suite', () => {
     expect(barChart).toBeInTheDocument();
     expect(barChart).toHaveTextContent(`Inequality type: Sex`);
     expect(barChart).toHaveTextContent(yAxisLabel);
+    expect(barChart).toHaveTextContent('$');
+    expect(
+      screen.getByText('Compared to South FooBar persons')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Lower')).toBeInTheDocument();
+    expect(screen.getByText('Higher')).toBeInTheDocument();
+    expect(screen.getByText('Similar')).toBeInTheDocument();
   });
 });

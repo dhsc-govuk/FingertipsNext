@@ -1,13 +1,12 @@
 import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPoint,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from './constants';
 import { getBenchmarkTagStyle } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelConfig';
-import {
-  BenchmarkLabelGroupType,
-  BenchmarkLabelType,
-} from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { GovukColours } from '../styleHelpers/colours';
 
 export function sortHealthDataForAreasByDate(
@@ -84,11 +83,12 @@ export async function loadHighchartsModules(callback: () => void) {
   await import('highcharts/highcharts-more').then(callback);
 }
 
-export const getBenchmarkColour = (benchmarkComparison: BenchmarkLabelType) => {
-  const colours = getBenchmarkTagStyle(
-    BenchmarkLabelGroupType.RAG,
-    benchmarkComparison
-  );
+export const getBenchmarkColour = (
+  method: BenchmarkComparisonMethod,
+  outcome: BenchmarkOutcome,
+  polarity: IndicatorPolarity
+) => {
+  const colours = getBenchmarkTagStyle(method, outcome, polarity);
   const backgroundColor = colours?.backgroundColor;
   return backgroundColor === 'transparent' ? undefined : backgroundColor;
 };
@@ -113,3 +113,59 @@ export function generateConfidenceIntervalSeries(
     lineWidth: optionalParams?.lineWidth ?? 2,
   };
 }
+
+export function getLatestYear(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const year = points.reduce((previous, point) => {
+    return Math.max(previous, point.year);
+  }, points[0].year);
+  return year;
+}
+
+function getMostRecentYearForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number {
+  return healthDataForAreas.reduce((previous, area) => {
+    return Math.max(previous, getLatestYear(area?.healthData) ?? 0);
+  }, healthDataForAreas[0].healthData[0].year);
+}
+
+function getIndicatorDataForYear(
+  healthDataForAreas: HealthDataForArea[],
+  year: number
+): HealthDataForArea[] {
+  return healthDataForAreas.map((healthDataForArea) => {
+    const dataPointForMostRecentYear = healthDataForArea.healthData.find(
+      (healthDataPoint) => healthDataPoint.year === year
+    );
+    return dataPointForMostRecentYear
+      ? {
+          ...healthDataForArea,
+          healthData: [{ ...dataPointForMostRecentYear }],
+        }
+      : { ...healthDataForArea, healthData: [] };
+  });
+}
+
+export function getIndicatorDataForAreasForMostRecentYearOnly(
+  healthDataForAreas: HealthDataForArea[]
+): HealthDataForArea[] {
+  const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
+  return getIndicatorDataForYear(healthDataForAreas, mostRecentYearForAreas);
+}
+
+export const getConfidenceLimitNumber = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): number => {
+  switch (benchmarkComparisonMethod) {
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
+      return 99.8;
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
+      return 95;
+    default:
+      return 0;
+  }
+};

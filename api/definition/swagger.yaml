@@ -235,6 +235,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
+        - $ref: "#/components/parameters/area_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
       operationId: getHealthDataForAnIndicator
@@ -243,16 +244,19 @@ components:
     IndicatorPolarity: # Define enum globally
       type: string
       enum: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
+      x-enum-varnames: [ Unknown, NoJudgement, LowIsGood, HighIsGood ]
     BenchmarkComparisonMethod:
       type: string
       example: CIOverlappingReferenceValue95
       description: the benchmark comparison method used
-      enum: [ Unknown, Rag, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      enum: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
+      x-enum-varnames: [ Unknown, Quintiles, CIOverlappingReferenceValue95, CIOverlappingReferenceValue99_8 ]
     BenchmarkOutcome:
       type: string
       example: Lower
       description: benchmark outcome
       enum: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
+      x-enum-varnames: [ NotCompared, Lowest, Lower, Low, Middle, High, Higher, Highest, Better, Best, Worse, Worst, Similar ]
     AreaType:
       type: object
       description: An area type e.g. PCN or GP
@@ -503,18 +507,14 @@ components:
       type: object
       description: Indicator information with area health data
       properties:
+        indicatorId:
+          type: integer
+          example: 21404
+          description: Unique ID of the indicator
         name:
           type: string
           example: Emergency readmissions within 30 days of discharge from hospital
           description: Name of the indicator
-        startDate:
-          type: string
-          example: 2015-03-19T16:50:02.92
-          description: start date of the indicator
-        endDate:
-          type: string
-          example: 2035-03-19T16:50:02.92
-          description: end date of the indicator
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         benchmarkMethod:
@@ -607,6 +607,12 @@ components:
           type: string
           example: G82109
         maxItems: 10
+    area_type:
+      in: query
+      name: area_type
+      description: The area type which the areas belong to
+      schema:
+        type: string
     indicator_id:
       in: path
       name: indicator_id

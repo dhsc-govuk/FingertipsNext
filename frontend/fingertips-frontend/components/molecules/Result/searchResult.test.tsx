@@ -5,6 +5,8 @@ import { UserEvent, userEvent } from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 let user: UserEvent;
 
@@ -55,6 +57,28 @@ const MOCK_DATA_LASTUPDATED_INEQUALITIES: IndicatorDocument = {
 
 const mockHandleClick = jest.fn();
 
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 const initialSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'test',
   [SearchParams.AreasSelected]: ['Area1'],
@@ -62,16 +86,13 @@ const initialSearchState: SearchStateParams = {
 
 beforeEach(() => {
   user = userEvent.setup();
+  mockGetSearchState.mockReturnValue(initialSearchState);
 });
 
 describe('content', () => {
   it('should have search result list item', () => {
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(screen.getByRole('listitem')).toBeInTheDocument();
@@ -79,11 +100,7 @@ describe('content', () => {
 
   it('should contain 2 paragraphs and a heading', () => {
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(screen.getAllByRole('paragraph')).toHaveLength(2);
@@ -92,11 +109,7 @@ describe('content', () => {
 
   it('should contain expected text', () => {
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(screen.getByRole('heading').textContent).toContain('NHS');
@@ -113,7 +126,6 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
         currentDate={currentDate}
       />
@@ -129,7 +141,6 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
         currentDate={currentDate}
       />
@@ -143,7 +154,6 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[1]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
         currentDate={currentDate}
       />
@@ -156,7 +166,6 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA[0]}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
         currentDate={currentDate}
       />
@@ -173,7 +182,6 @@ describe('content', () => {
     render(
       <SearchResult
         result={MOCK_DATA_LASTUPDATED_INEQUALITIES}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
         currentDate={currentDate}
       />
@@ -194,11 +202,7 @@ describe('content', () => {
 
   it('should display a range of dates if earliest data period and latest data period are different', () => {
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(
@@ -210,11 +214,7 @@ describe('content', () => {
 
   it('should display a single date if earliest data period and latest data period match', () => {
     render(
-      <SearchResult
-        result={MOCK_DATA[1]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[1]} handleClick={mockHandleClick} />
     );
 
     expect(
@@ -229,7 +229,6 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={true}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
       />
     );
@@ -242,7 +241,6 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={false}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
       />
     );
@@ -255,7 +253,6 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={false}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
       />
     );
@@ -270,7 +267,6 @@ describe('Indicator Checkbox', () => {
       <SearchResult
         result={MOCK_DATA[0]}
         indicatorSelected={true}
-        searchState={initialSearchState}
         handleClick={mockHandleClick}
       />
     );
@@ -283,14 +279,21 @@ describe('Indicator Checkbox', () => {
   it('should have a direct link to the indicator chart', () => {
     const expectedPath = `/chart?${SearchParams.SearchedIndicator}=test&${SearchParams.IndicatorsSelected}=${MOCK_DATA[0].indicatorID.toString()}&${SearchParams.AreasSelected}=${initialSearchState[SearchParams.AreasSelected]}`;
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
+  });
+
+  it('should call setIsLoading with true when clicking on the direct link to the indicator chart', async () => {
+    render(
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should populate the area selected parameter with the code for england if no area is selected', () => {
@@ -300,12 +303,10 @@ describe('Indicator Checkbox', () => {
     };
     searchState[SearchParams.AreasSelected] = undefined;
 
+    mockGetSearchState.mockReturnValue(searchState);
+
     render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={searchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
@@ -313,11 +314,7 @@ describe('Indicator Checkbox', () => {
 
   it('snapshot test', () => {
     const container = render(
-      <SearchResult
-        result={MOCK_DATA[0]}
-        searchState={initialSearchState}
-        handleClick={mockHandleClick}
-      />
+      <SearchResult result={MOCK_DATA[0]} handleClick={mockHandleClick} />
     );
 
     expect(container.asFragment()).toMatchSnapshot();

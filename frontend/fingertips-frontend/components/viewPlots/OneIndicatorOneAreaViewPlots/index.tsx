@@ -9,18 +9,24 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ViewPlotProps } from '../ViewPlotProps';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { Inequalities } from '@/components/organisms/Inequalities';
 import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -37,20 +43,31 @@ function shouldLineChartBeShown(
 }
 
 export function OneIndicatorOneAreaViewPlots({
-  healthIndicatorData,
+  indicatorData,
   searchState,
   indicatorMetadata,
-}: Readonly<ViewPlotProps>) {
+  populationHealthDataForArea,
+}: Readonly<OneIndicatorViewPlotProps>) {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
   } = stateManager.getSearchState();
+  const polarity = indicatorData.polarity as IndicatorPolarity;
+  const benchmarkComparisonMethod =
+    indicatorData.benchmarkMethod as BenchmarkComparisonMethod;
   const [
     showStandardLineChartConfidenceIntervalsData,
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
 
+  const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
     healthIndicatorData,
     selectedGroupCode
@@ -95,7 +112,6 @@ export function OneIndicatorOneAreaViewPlots({
   );
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities
@@ -130,6 +146,8 @@ export function OneIndicatorOneAreaViewPlots({
                     englandBenchmarkData={englandBenchmarkWithoutInequalities}
                     groupIndicatorData={groupDataWithoutInequalities}
                     measurementUnit={indicatorMetadata?.unitLabel}
+                    benchmarkComparisonMethod={benchmarkComparisonMethod}
+                    polarity={polarity}
                   />
                 ),
               },
@@ -152,8 +170,16 @@ export function OneIndicatorOneAreaViewPlots({
             ? dataWithoutEnglandOrGroup[0]
             : healthIndicatorData[0]
         }
-        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
+
+      <PopulationPyramidWithTable
+        healthDataForAreas={populationHealthDataForArea ?? []}
+        selectedGroupAreaCode={selectedGroupCode}
+        xAxisTitle="Age"
+        yAxisTitle="Percentage of total population"
       />
     </section>
   );
