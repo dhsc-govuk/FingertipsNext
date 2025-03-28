@@ -160,13 +160,12 @@ export const getDynamicKeys = (
     yearlyHealthDataGroupedByInequalities
   ).reduce((allKeys: string[], currentYear) => {
     const sortedCurrentYearInequalityNames = Object.entries(currentYear)
-      // TODO: Need to make this work for sex as well
-      // .toSorted(([aKey], [bKey]) => localeSort(bKey, aKey))
+      .sort(([aKey,], [bKey,]) => localeSort(bKey, aKey))
       // TODO: Pass a function in to select this value to sort by?
-      .toSorted(
+      .sort(
         ([, aValue], [, bValue]) =>
-          aValue?.[0].deprivation.sequence ??
-          0 - (bValue?.[0].deprivation.sequence ?? 0)
+          (bValue?.[0].deprivation.sequence ??
+          0) - (aValue?.[0].deprivation.sequence ?? 0)
       )
       .map((x) => x[0]);
     allKeys = [...allKeys, ...sortedCurrentYearInequalityNames];
