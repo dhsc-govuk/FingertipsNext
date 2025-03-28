@@ -1,6 +1,325 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
+exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #5694CA;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #003078;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      no judgement
+    </h4>
+    <span
+      class="c2"
+    >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Higher
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #AFCFE5;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #1D70B8;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      NoJudgement
+    </h4>
+    <span
+      class="c2"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Higher
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI BOB quintiles 1`] = `
 <DocumentFragment>
   .c3 {
   font-family: "nta",Arial,sans-serif;
@@ -36,8 +355,8 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: #00703C;
-  tint: SOLID;
+  background-color: #E4DDFF;
+  color: #0B0C0C;
 }
 
 .c5 {
@@ -49,7 +368,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
-  background-color: #FFDD00;
+  background-color: #CBBEF4;
   color: #0B0C0C;
 }
 
@@ -62,11 +381,177 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   margin: 0.3125em;
   font-weight: 300;
   text-transform: unset;
+  background-color: #AA90EC;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #8B60E2;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #6B33C3;
+  tint: SOLID;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      NoJudgement
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Low
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        High
+      </strong>
+      <strong
+        class="c3 c8"
+      >
+        Highest
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #00703C;
+  tint: SOLID;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
   background-color: #D4351C;
   tint: SOLID;
 }
 
-.c7 {
+.c8 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -80,7 +565,493 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   border: 1px solid #0B0C0C;
 }
 
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      high is good
+    </h4>
+    <span
+      class="c2"
+    >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #85994B;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #831504;
+  tint: SOLID;
+}
+
 .c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c4 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c4 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      low is good
+    </h4>
+    <span
+      class="c2"
+    >
+      99.8% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the UI RAG quintiles 1`] = `
+<DocumentFragment>
+  .c3 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c4 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D494C1;
+  color: #0B0C0C;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #BC6AAA;
+  color: #0B0C0C;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #A44596;
+  tint: SOLID;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #812972;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #561950;
+  tint: SOLID;
+}
+
+.c2 {
+  position: relative;
+  left: -5px;
+}
+
+.c0 {
+  margin-bottom: 2em;
+}
+
+.c1 {
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  margin: 1em 0.1em 0.1em 0.1em;
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+}
+
+@media print {
+  .c3 {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c3 {
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+<div
+    class="c0"
+    data-testid="benchmarkLegend-component"
+  >
+    <h4
+      class="c1"
+    >
+      low is good
+    </h4>
+    <div
+      class="c2"
+    >
+      <strong
+        class="c3 c4"
+      >
+        Worst
+      </strong>
+      <strong
+        class="c3 c5"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c3 c6"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c3 c7"
+      >
+        Better
+      </strong>
+      <strong
+        class="c3 c8"
+      >
+        Best
+      </strong>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Testing the benchmark component Snapshot testing of the legend with all items shown 1`] = `
+<DocumentFragment>
+  .c4 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1d70b8;
+  color: #ffffff;
+}
+
+.c5 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #00703C;
+  tint: SOLID;
+}
+
+.c6 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #FFDD00;
+  color: #0B0C0C;
+}
+
+.c7 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: #D4351C;
+  tint: SOLID;
+}
+
+.c8 {
+  padding: 5px 8px 4px 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0.3125em;
+  font-weight: 300;
+  text-transform: unset;
+  background-color: transparent;
+  color: #0B0C0C;
+  border: 1px solid #0B0C0C;
+}
+
+.c9 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -92,7 +1063,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   background-color: #5694CA;
 }
 
-.c9 {
+.c10 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -287,21 +1258,22 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   tint: SOLID;
 }
 
+.c3 {
+  position: relative;
+  left: -5px;
+}
+
+.c2 {
+  font-family: nta,Arial,sans-serif;
+  font-weight: 300;
+  font-size: 0.842em;
+}
+
 .c0 {
   margin-bottom: 2em;
 }
 
 .c1 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-}
-
-.c2 {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
@@ -310,20 +1282,15 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
   font-weight: 300;
 }
 
-.c10 {
-  font-family: nta,Arial,sans-serif;
-  font-weight: 300;
-}
-
 @media print {
-  .c3 {
+  .c4 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c3 {
+  .c4 {
     font-size: 16px;
     line-height: 1;
   }
@@ -333,159 +1300,151 @@ exports[`Testing the benchmark component Snapshot testing of the UI 1`] = `
     class="c0"
     data-testid="benchmarkLegend-component"
   >
-    <div
+    <h4
       class="c1"
     >
-      <h4
-        class="c2"
+      All
+    </h4>
+    <span
+      class="c2"
+    >
+      95% confidence
+    </span>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c5"
       >
-        Compared to England
-      </h4>
-      <div>
-        <strong
-          class="c3 c4"
-        >
-          Better
-        </strong>
-        <strong
-          class="c3 c5"
-        >
-          Similar
-        </strong>
-        <strong
-          class="c3 c6"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c3 c7"
-        >
-          Not compared
-        </strong>
-        <strong
-          class="c3 c8"
-        >
-          Lower
-        </strong>
-        <strong
-          class="c3 c9"
-        >
-          Higher
-        </strong>
-        <span
-          class="c10"
-        >
-          (95% confidence)
-        </span>
-      </div>
-    </div>
-    <div
-      class="c1"
-    >
-      <div>
-        <strong
-          class="c3 c11"
-        >
-          Better
-        </strong>
-        <strong
-          class="c3 c5"
-        >
-          Similar
-        </strong>
-        <strong
-          class="c3 c12"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c3 c7"
-        >
-          Not compared
-        </strong>
-        <strong
-          class="c3 c13"
-        >
-          Lower
-        </strong>
-        <strong
-          class="c3 c14"
-        >
-          Higher
-        </strong>
-        <span
-          class="c10"
-        >
-          (99.8% confidence)
-        </span>
-      </div>
-    </div>
-    <div
-      class="c1"
-    >
-      <h4
-        class="c2"
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
       >
-         Quintiles
-      </h4>
-      <div>
-        <strong
-          class="c3 c15"
-        >
-          Lowest
-        </strong>
-        <strong
-          class="c3 c16"
-        >
-          Low
-        </strong>
-        <strong
-          class="c3 c17"
-        >
-          Middle
-        </strong>
-        <strong
-          class="c3 c18"
-        >
-          High
-        </strong>
-        <strong
-          class="c3 c19"
-        >
-          Highest
-        </strong>
-      </div>
+        Similar
+      </strong>
+      <strong
+        class="c4 c7"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="c4 c9"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c10"
+      >
+        Higher
+      </strong>
     </div>
+    <span
+      class="c2"
+    >
+      99.8% confidence
+    </span>
     <div
+      class="c3"
+    >
+      <strong
+        class="c4 c11"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c6"
+      >
+        Similar
+      </strong>
+      <strong
+        class="c4 c12"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c8"
+      >
+        Not compared
+      </strong>
+      <strong
+        class="c4 c13"
+      >
+        Lower
+      </strong>
+      <strong
+        class="c4 c14"
+      >
+        Higher
+      </strong>
+    </div>
+    <h4
       class="c1"
     >
-      <div>
-        <strong
-          class="c3 c20"
-        >
-          Worst
-        </strong>
-        <strong
-          class="c3 c21"
-        >
-          Worse
-        </strong>
-        <strong
-          class="c3 c22"
-        >
-          Middle
-        </strong>
-        <strong
-          class="c3 c23"
-        >
-          Better
-        </strong>
-        <strong
-          class="c3 c24"
-        >
-          Best
-        </strong>
-      </div>
+      Quintiles
+    </h4>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c15"
+      >
+        Lowest
+      </strong>
+      <strong
+        class="c4 c16"
+      >
+        Low
+      </strong>
+      <strong
+        class="c4 c17"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c4 c18"
+      >
+        High
+      </strong>
+      <strong
+        class="c4 c19"
+      >
+        Highest
+      </strong>
+    </div>
+    <div
+      class="c3"
+    >
+      <strong
+        class="c4 c20"
+      >
+        Worst
+      </strong>
+      <strong
+        class="c4 c21"
+      >
+        Worse
+      </strong>
+      <strong
+        class="c4 c22"
+      >
+        Middle
+      </strong>
+      <strong
+        class="c4 c23"
+      >
+        Better
+      </strong>
+      <strong
+        class="c4 c24"
+      >
+        Best
+      </strong>
     </div>
   </div>
 </DocumentFragment>

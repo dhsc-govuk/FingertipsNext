@@ -167,3 +167,16 @@ export function getIndicatorDataForAreasForMostRecentYearOnly(
     mostRecentYearForAreas
   );
 }
+
+export const getConfidenceLimitNumber = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): number => {
+  switch (benchmarkComparisonMethod) {
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
+      return 99.8;
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
+      return 95;
+    default:
+      return 0;
+  }
+};
