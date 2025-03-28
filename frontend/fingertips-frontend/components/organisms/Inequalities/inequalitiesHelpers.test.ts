@@ -190,7 +190,10 @@ describe('groupHealthDataByInequalities', () => {
     };
 
     expect(
-      groupHealthDataByInequalities(MOCK_INEQUALITIES_DATA.healthData)
+      groupHealthDataByInequalities(
+        MOCK_INEQUALITIES_DATA.healthData,
+        InequalitiesTypes.Sex
+      )
     ).toEqual(healthDataGroupedBySex);
   });
 });
@@ -199,7 +202,8 @@ describe('getYearDataGroupedByInequalities', () => {
   it('should group year data by sex', () => {
     expect(
       getYearDataGroupedByInequalities(
-        groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData)
+        groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData),
+        InequalitiesTypes.Sex
       )
     ).toEqual(yearlyHealthDataGroupedBySex);
   });

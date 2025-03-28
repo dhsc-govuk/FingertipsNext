@@ -10,6 +10,22 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A1245'],
 };
 
+const mockPath = 'some-mock-path';
+const mockReplace = jest.fn();
+
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+
+  return {
+    ...originalModule,
+    usePathname: () => mockPath,
+    useSearchParams: () => {},
+    useRouter: jest.fn().mockImplementation(() => ({
+      replace: mockReplace,
+    })),
+  };
+});
+
 describe('Inequalities suite', () => {
   it('should render inequalities component', async () => {
     render(
