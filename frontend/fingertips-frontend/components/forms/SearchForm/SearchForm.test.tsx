@@ -9,8 +9,13 @@ import {
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockAreaDataForNHSRegion } from '@/mock/data/areaData';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some path';
+const mockReplace = jest.fn();
+
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
   return {
@@ -18,8 +23,30 @@ jest.mock('next/navigation', () => {
     usePathname: () => mockPath,
     useSearchParams: () => {},
     useRouter: jest.fn().mockImplementation(() => ({
-      replace: jest.fn(),
+      replace: mockReplace,
     })),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -32,45 +59,26 @@ const initialDataState: SearchFormState = {
   errors: {},
 };
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-    set: jest.fn(),
-  }),
-  useSearchParams: jest.fn(),
-  usePathname: jest.fn(),
-}));
-
 describe('SearchForm', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(mockSearchState);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('snapshot test - renders the form', () => {
-    const container = render(
-      <SearchForm formState={initialDataState} searchState={mockSearchState} />
-    );
+    const container = render(<SearchForm formState={initialDataState} />);
     expect(container.asFragment()).toMatchSnapshot();
   });
 
   it('should have an input field to input the indicatorId', () => {
-    render(
-      <SearchForm formState={initialDataState} searchState={mockSearchState} />
-    );
+    render(<SearchForm formState={initialDataState} />);
 
     expect(
       screen.getByTestId('indicator-search-form-input')
     ).toBeInTheDocument();
-  });
-
-  it('should pre-populate the indicator input field with value from the form state', () => {
-    const searchFormState: SearchFormState = {
-      ...initialDataState,
-      indicator: 'test value',
-    };
-    render(
-      <SearchForm formState={searchFormState} searchState={mockSearchState} />
-    );
-
-    expect(screen.getByRole('textbox', { name: /indicator/i })).toHaveValue(
-      'test value'
-    );
   });
 
   it('should pre-populate the area search field with the selected group area name when group area selected is ALL', () => {
@@ -78,6 +86,8 @@ describe('SearchForm', () => {
       [SearchParams.GroupSelected]: eastEnglandNHSRegion.code,
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
     };
+
+    mockGetSearchState.mockReturnValue(searchState);
 
     const searchFormState: SearchFormState = {
       ...initialDataState,
@@ -88,7 +98,6 @@ describe('SearchForm', () => {
     render(
       <SearchForm
         formState={searchFormState}
-        searchState={searchState}
         areaFilterData={{
           availableGroups: Object.values(mockAreaDataForNHSRegion),
         }}
@@ -114,7 +123,6 @@ describe('SearchForm', () => {
     render(
       <SearchForm
         formState={searchFormState}
-        searchState={searchState}
         selectedAreasData={[eastEnglandNHSRegion, londonNHSRegion]}
       />
     );
@@ -125,14 +133,11 @@ describe('SearchForm', () => {
   });
 
   it('should not render the selected areas panel when there are no areasSelected', () => {
-    render(
-      <SearchForm
-        formState={initialDataState}
-        searchState={{
-          [SearchParams.AreasSelected]: undefined,
-        }}
-      />
-    );
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.AreasSelected]: undefined,
+    });
+
+    render(<SearchForm formState={initialDataState} />);
 
     expect(
       screen.queryByTestId('selected-areas-panel')
@@ -140,14 +145,11 @@ describe('SearchForm', () => {
   });
 
   it('should render the selected areas panel when there are areasSelected', () => {
-    render(
-      <SearchForm
-        formState={initialDataState}
-        searchState={{
-          [SearchParams.AreasSelected]: ['E40000007'],
-        }}
-      />
-    );
+    mockGetSearchState.mockReturnValue({
+      [SearchParams.AreasSelected]: ['E40000007'],
+    });
+
+    render(<SearchForm formState={initialDataState} />);
 
     expect(screen.getByTestId('selected-areas-panel')).toBeInTheDocument();
   });
@@ -156,5 +158,14 @@ describe('SearchForm', () => {
     render(<SearchForm formState={initialDataState} />);
 
     expect(screen.getByTestId('select-areas-filter-panel')).toBeInTheDocument();
+  });
+
+  it('should call setIsLoading with true when the search button is clicked', async () => {
+    render(<SearchForm formState={initialDataState} />);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 });

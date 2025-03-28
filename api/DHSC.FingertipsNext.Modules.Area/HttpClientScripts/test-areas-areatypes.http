@@ -9,25 +9,25 @@ GET http://localhost:5144/areas/areatypes
             {
                 "key": "combined-authorities",
                 "name": "Combined Authorities",
-                "hierarchyName": "Admin",
-                "level": 3
+                "hierarchyName": "Administrative",
+                "level": 2
             },
             {
                 "key": "counties-and-unitary-authorities",
                 "name": "Counties and Unitary Authorities",
-                "hierarchyName": "Admin",
-                "level": 4
+                "hierarchyName": "Administrative",
+                "level": 3
             },
             {
                 "key": "districts-and-unitary-authorities",
                 "name": "Districts and Unitary Authorities",
-                "hierarchyName": "Admin",
-                "level": 5
+                "hierarchyName": "Administrative",
+                "level": 4
             },
             {
                 "key": "england",
                 "name": "England",
-                "hierarchyName": "All",
+                "hierarchyName": "Both",
                 "level": 1
             },
             {
@@ -63,7 +63,7 @@ GET http://localhost:5144/areas/areatypes
             {
                 "key": "regions",
                 "name": "Regions",
-                "hierarchyName": "Admin",
+                "hierarchyName": "Administrative",
                 "level": 2
             }
         ].sort((at1, at2) => {

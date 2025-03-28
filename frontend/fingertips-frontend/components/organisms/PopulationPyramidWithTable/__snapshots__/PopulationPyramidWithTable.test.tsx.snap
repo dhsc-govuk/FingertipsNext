@@ -1,0 +1,642 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PopulationPyramidWithTable take a snapshot 1`] = `
+<DocumentFragment>
+  .c1 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.c4 {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  padding-left: 25px;
+  color: #1d70b8;
+  cursor: pointer;
+}
+
+.c4:hover {
+  color: #2b8cc4;
+}
+
+.c4:focus {
+  outline: 4px solid #ffdd00;
+  outline-offset: -1px;
+  color: #0b0c0c;
+  background: #ffdd00;
+}
+
+.c4::-webkit-details-marker {
+  display: none;
+}
+
+.c4:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  clip-path: polygon(0% 0%,100% 50%,0% 100%);
+  border-width: 7px 0 7px 12.124px;
+  border-left-color: inherit;
+}
+
+[open] > .c3:before {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent;
+  -webkit-clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  clip-path: polygon(0% 0%,50% 100%,100% 0%);
+  border-width: 12.124px 7px 0 7px;
+  border-top-color: inherit;
+}
+
+.c5 {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c6 {
+  padding: 15px;
+  padding-left: 20px;
+  border-left: 5px solid #bfc1c3;
+}
+
+.c6 p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.c6 > :last-child,
+.c6 p:last-child {
+  margin-bottom: 0;
+}
+
+.c0 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1111111111111112;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c13 {
+  color: #0b0c0c;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.25;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.c8 {
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.c12 {
+  margin-bottom: 30px;
+  display: block;
+}
+
+.c14 {
+  margin-bottom: 30px;
+  display: block;
+}
+
+.c9 {
+  margin-left: 25px;
+}
+
+.c9:before {
+  content: '\\2014  ';
+  margin-left: -25px;
+  padding-right: 5px;
+}
+
+.c10 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #0b0c0c;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c10:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c10:link {
+  color: #1d70b8;
+}
+
+.c10:visited {
+  color: #4c2c92;
+}
+
+.c10:hover {
+  color: #2b8cc4;
+}
+
+.c10:active {
+  color: #2b8cc4;
+}
+
+.c10:focus {
+  color: #0b0c0c;
+}
+
+.c11 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.c11:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+}
+
+.c11:link {
+  color: #1d70b8;
+}
+
+.c11:visited {
+  color: #4c2c92;
+}
+
+.c11:hover {
+  color: #2b8cc4;
+}
+
+.c11:active {
+  color: #2b8cc4;
+}
+
+.c11:focus {
+  color: #0b0c0c;
+}
+
+.c7 {
+  font-family: "nta",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.c2 div {
+  padding: 0.5em 0em;
+}
+
+.c2 summary {
+  color: #000000;
+}
+
+.c2 summary:hover {
+  color: #000000;
+}
+
+.c2 div {
+  border-left: none;
+}
+
+@media print {
+  .c1 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c1 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c1 {
+    margin-bottom: 30px;
+  }
+}
+
+@media print {
+  .c0 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c0 {
+    font-size: 18px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c0 {
+    margin-bottom: 20px;
+  }
+}
+
+@media print {
+  .c13 {
+    color: #000;
+  }
+}
+
+@media print {
+  .c13 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c13 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c13 {
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    margin-bottom: 30px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c8 {
+    border-bottom: 1px solid #bfc1c3;
+    margin-bottom: 0;
+  }
+
+  .c8::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    margin-bottom: 50px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c12 {
+    margin-bottom: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    border: 1px solid #bfc1c3;
+    border-top: 0;
+  }
+
+  .c12 > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    margin-bottom: 50px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    margin-bottom: 0;
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    border: 1px solid #bfc1c3;
+    border-top: 0;
+  }
+
+  .c14 > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c14 {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c9 {
+    margin-left: 0;
+  }
+
+  .c9:before {
+    content: none;
+  }
+}
+
+@media print {
+  .c10 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c10 {
+    font-family: sans-serif;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c10 {
+    margin-right: 5px;
+    float: left;
+    text-align: center;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: #0b0c0c;
+    margin-top: -5px;
+    margin-bottom: -1px;
+    padding-top: 14px;
+    padding-right: 19px;
+    padding-bottom: 16px;
+    padding-left: 19px;
+    border: 1px solid #bfc1c3;
+    border-bottom: 0;
+    background-color: #ffffff;
+  }
+
+  .c10:link,
+  .c10:visited {
+    color: #0b0c0c;
+  }
+
+  .c10:focus {
+    background-color: transparent;
+  }
+}
+
+@media print {
+  .c11 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c11 {
+    font-family: sans-serif;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c11 {
+    margin-right: 5px;
+    float: left;
+    text-align: center;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: #0b0c0c;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-bottom: 1px;
+    background-color: #f8f8f8;
+  }
+
+  .c11:link,
+  .c11:visited {
+    color: #0b0c0c;
+  }
+
+  .c11:focus {
+    background-color: #f8f8f8;
+  }
+}
+
+@media print {
+  .c7 {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    font-size: 19px;
+    line-height: 1.3157894736842106;
+  }
+}
+
+@media print {
+  .c7 {
+    color: #000;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-top: 5px;
+  }
+}
+
+@media only screen and (min-width:641px) {
+  .c7 {
+    margin-bottom: 30px;
+  }
+}
+
+<div>
+    <h3
+      class="c0"
+    >
+      Related Population Data
+    </h3>
+    <details
+      class="c1 c2"
+      data-testid="select-areas-filter-panel-label"
+    >
+      <summary
+        class="c3 c4"
+      >
+        <span
+          class="c5"
+        >
+          Population data
+        </span>
+      </summary>
+      <div
+        class="c6"
+      >
+        <div>
+          <div>
+            <button
+              data-testid="select-input"
+            >
+              Select Area
+            </button>
+          </div>
+          <div
+            class="c7"
+            data-testid="tabContainer-pyramidChartAndTableView"
+          >
+            <ul
+              class="c8"
+            >
+              <li
+                class="c9"
+              >
+                <a
+                  class="c10"
+                  data-testid="tabTitle-populationPyramidChart"
+                  href="#"
+                >
+                  Population pyramid
+                </a>
+              </li>
+              <li
+                class="c9"
+              >
+                <a
+                  class="c11"
+                  data-testid="tabTitle-populationPyramidTable"
+                  href="#"
+                >
+                  Table
+                </a>
+              </li>
+            </ul>
+            <section
+              class="c12"
+              data-testid="tabContent-populationPyramidChart"
+            >
+              <div
+                style="margin: 0px; padding: 0px;"
+              >
+                <h5
+                  class="c13"
+                  style="margin: 0px; padding: 0px;"
+                >
+                  Resident population profile for Area 2 2023
+                </h5>
+              </div>
+              <div
+                data-testid="population-pyramid"
+              />
+              <div
+                data-testid="tabFooter-populationPyramidChart"
+              />
+            </section>
+            <section
+              class="c14"
+              data-testid="tabContent-populationPyramidTable"
+            >
+              <div>
+                The table here
+              </div>
+              <div
+                data-testid="tabFooter-populationPyramidTable"
+              />
+            </section>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+</DocumentFragment>
+`;

@@ -5,6 +5,8 @@ import { IndicatorSelectionState } from '../../forms/IndicatorSelectionForm/indi
 import userEvent from '@testing-library/user-event';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { LoaderContext } from '@/context/LoaderContext';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -18,6 +20,7 @@ jest.mock('next/navigation', () => {
     })),
   };
 });
+
 function setupMockUseActionState<T>() {
   return jest
     .fn()
@@ -35,6 +38,27 @@ jest.mock('react', () => {
   return {
     ...originalModule,
     useActionState: setupMockUseActionState<IndicatorSelectionState>(),
+  };
+});
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -111,6 +135,21 @@ describe('Search Results Suite', () => {
     expect(backLink.getAttribute('href')).toBe(
       `/?${SearchParams.SearchedIndicator}=${searchedIndicator}`
     );
+  });
+
+  it('should call setIsLoading when the back link is clicked', async () => {
+    render(
+      <SearchResults
+        initialIndicatorSelectionState={initialState}
+        searchResults={[]}
+        searchState={state}
+      />
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('link', { name: /back/i }));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should render the IndicatorSearchForm', () => {

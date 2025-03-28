@@ -1,7 +1,5 @@
 {
   "name": "Emergency readmissions within 30 days of discharge from hospital",
-  "startDate": "2015-03-21T14:33:21.9266667",
-  "endDate": "2035-03-21T14:33:21.9266667",
   "polarity": "LowIsGood",
   "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
@@ -16,7 +14,11 @@
           "lowerCi": 12.8,
           "upperCi": 13,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -34,7 +36,11 @@
           "lowerCi": 13,
           "upperCi": 13.2,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -52,7 +58,11 @@
           "lowerCi": 13.4,
           "upperCi": 13.6,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -70,7 +80,11 @@
           "lowerCi": 13.3,
           "upperCi": 13.5,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -88,7 +102,11 @@
           "lowerCi": 13.9,
           "upperCi": 14,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -106,7 +124,11 @@
           "lowerCi": 14.5,
           "upperCi": 14.7,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -124,7 +146,11 @@
           "lowerCi": 14.6,
           "upperCi": 14.8,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -142,7 +168,11 @@
           "lowerCi": 16,
           "upperCi": 16.2,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -160,7 +190,11 @@
           "lowerCi": 14.8,
           "upperCi": 15,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -178,7 +212,11 @@
           "lowerCi": 14.4,
           "upperCi": 14.6,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
@@ -196,7 +234,11 @@
           "lowerCi": 14.8,
           "upperCi": 14.9,
           "ageBand": "All ages",
-          "deprivation": "All",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
           "sex": "Persons",
           "trend": "Cannot be calculated",
           "benchmarkComparison": {

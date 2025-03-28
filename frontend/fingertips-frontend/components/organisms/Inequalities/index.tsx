@@ -1,7 +1,11 @@
 import { InequalitiesBarChartTable } from '@/components/molecules/Inequalities/BarChart/Table';
 import { InequalitiesLineChartTable } from '@/components/molecules/Inequalities/LineChart/Table';
 import { InequalitiesBarChart } from '@/components/molecules/Inequalities/BarChart';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import React, { useState } from 'react';
 import {
   getDynamicKeys,
@@ -15,15 +19,17 @@ import {
 } from './inequalitiesHelpers';
 import { H4 } from 'govuk-react';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { LineChart } from '../LineChart';
 import { LineChartVariant } from '../LineChart/lineChartHelpers';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
-  searchState: SearchStateParams;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
@@ -38,14 +44,21 @@ const generateInequalitiesLineChartTooltipStringList = (
 export function Inequalities({
   healthIndicatorData,
   measurementUnit,
-  searchState,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesProps>) {
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
+  const stateManager = SearchStateManager.initialise(searchState);
+
   const yearlyHealthdata = groupHealthDataByYear(
     healthIndicatorData.healthData
   );
 
-  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
+  const { [SearchParams.AreasSelected]: areasSelected } =
+    stateManager.getSearchState();
 
   const [
     showInequalitiesLineChartConfidenceIntervals,
@@ -100,6 +113,8 @@ export function Inequalities({
                 barChartData={barchartData}
                 measurementUnit={measurementUnit}
                 yAxisLabel="Value"
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },
@@ -111,6 +126,8 @@ export function Inequalities({
                 tableData={barchartData}
                 measurementUnit={measurementUnit}
                 type={type}
+                benchmarkComparisonMethod={benchmarkComparisonMethod}
+                polarity={polarity}
               />
             ),
           },

@@ -57,12 +57,11 @@ export default async function Page(
       stateManager.setState(updatedSearchState);
     }
 
-    const searchResults = searchedIndicator
-      ? await SearchServiceFactory.getIndicatorSearchService().searchWith(
-          searchedIndicator,
-          areasSelected
-        )
-      : [];
+    const searchResults =
+      await SearchServiceFactory.getIndicatorSearchService().searchWith(
+        searchedIndicator ?? '',
+        areasSelected
+      );
 
     const initialState: IndicatorSelectionState = {
       searchState: JSON.stringify(stateManager.getSearchState()),

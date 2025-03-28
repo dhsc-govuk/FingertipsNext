@@ -8,6 +8,7 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
+import { useLoadingState } from '@/context/LoaderContext';
 
 const StyleIndicatorLink = styled(Link)({
   fontSize: 16,
@@ -25,6 +26,7 @@ export const IndicatorSelectedPill = ({
   searchState,
 }: Readonly<IndicatorSelectedPillProps>) => {
   const stateManager = SearchStateManager.initialise(searchState);
+  const { setIsLoading } = useLoadingState();
 
   const indicatorInfoLink = stateManager.generatePath(
     `/indicator/${indicator.indicatorID}`
@@ -37,6 +39,7 @@ export const IndicatorSelectedPill = ({
       <StyleIndicatorLink
         data-testid="view-background-info-link"
         href={indicatorInfoLink}
+        onClick={() => setIsLoading(true)}
       >
         View background information
       </StyleIndicatorLink>

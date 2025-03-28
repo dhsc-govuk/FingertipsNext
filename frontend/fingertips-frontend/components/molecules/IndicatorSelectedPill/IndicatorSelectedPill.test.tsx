@@ -2,8 +2,22 @@ import { render, screen } from '@testing-library/react';
 import { IndicatorSelectedPill } from './index';
 import { SearchParams } from '@/lib/searchStateManager';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
+import { LoaderContext } from '@/context/LoaderContext';
+import userEvent from '@testing-library/user-event';
 
 const mockIndicator = generateIndicatorDocument('1');
+
+const mockSetIsLoading = jest.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: jest.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+
+jest.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
+  };
+});
 
 describe('IndicatorSelectedPill', () => {
   it('should render the IndicatorSelectedPill correctly', () => {
@@ -30,6 +44,15 @@ describe('IndicatorSelectedPill', () => {
     );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', expectedPath);
+  });
+
+  it('should call setIsLoading with true when the Add or change indicators button is clicked', async () => {
+    const user = userEvent.setup();
+    render(<IndicatorSelectedPill indicator={mockIndicator} />);
+
+    await user.click(screen.getByRole('link'));
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
 
   it('should match snapshot', () => {
