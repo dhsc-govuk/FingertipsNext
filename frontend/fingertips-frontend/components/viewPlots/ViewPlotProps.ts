@@ -5,9 +5,15 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
-export type ViewPlotProps = {
+export type OneIndicatorViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea;
   searchState: SearchStateParams;
   indicatorMetadata?: IndicatorDocument;
   populationHealthDataForArea?: HealthDataForArea[];
+};
+
+export type TwoOrMoreIndicatorsAreasViewPlot = {
+  indicatorData: IndicatorWithHealthDataForArea[];
+  searchState: SearchStateParams;
+  indicatorMetadata?: IndicatorDocument[];
 };
