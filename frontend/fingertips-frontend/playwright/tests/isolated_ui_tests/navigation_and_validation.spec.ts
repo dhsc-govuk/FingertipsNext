@@ -23,18 +23,17 @@ const searchMode = SearchMode.ONLY_SUBJECT;
 let allIndicatorIDs: string[];
 let filteredIndicatorIds: string[];
 let allNHSRegionAreas: AreaDocument[];
+let typedIndicatorData: IndicatorDocument[];
 
 test.beforeAll(
   `get indicatorIDs from the mock data source for searchTerm: ${subjectSearchTerm} and get mock area data`,
   () => {
-    const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
-        return {
-          ...indicator,
-          lastUpdated: new Date(indicator.lastUpdatedDate),
-        };
-      }
-    );
+    typedIndicatorData = indicatorData.map((indicator: IndicatorDocument) => {
+      return {
+        ...indicator,
+        lastUpdated: new Date(indicator.lastUpdatedDate),
+      };
+    });
 
     allIndicatorIDs = getAllIndicatorIdsForSearchTerm(
       typedIndicatorData,
@@ -54,6 +53,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     homePage,
     resultsPage,
     chartPage,
+    indicatorPage,
     axeBuilder,
   }) => {
     await test.step('Navigate to search page', async () => {
@@ -95,6 +95,22 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.expectNoAccessibilityViolations(axeBuilder, [
         'color-contrast',
       ]);
+    });
+
+    await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
+      await resultsPage.clickViewBackgroundInformationLinkForIndicator(
+        filteredIndicatorIds[0],
+        typedIndicatorData
+      );
+
+      await indicatorPage.waitForURLToContain('indicator');
+
+      await indicatorPage.checkIndicatorNameTitle(
+        filteredIndicatorIds[0],
+        typedIndicatorData
+      );
+
+      await indicatorPage.clickBackLink();
     });
 
     await test.step('Return to results page and verify selections are preselected', async () => {

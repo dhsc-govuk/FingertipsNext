@@ -34,7 +34,10 @@ export const IndicatorSelectedPill = ({
     <Pill selectedFilterId={indicator.indicatorID} isFullWidth={isFullWidth}>
       {indicator.indicatorName}
       <br />
-      <StyleIndicatorLink href={indicatorInfoLink}>
+      <StyleIndicatorLink
+        data-testid="view-background-info-link"
+        href={indicatorInfoLink}
+      >
         View background information
       </StyleIndicatorLink>
     </Pill>
