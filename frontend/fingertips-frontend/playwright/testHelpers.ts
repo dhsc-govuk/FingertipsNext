@@ -91,9 +91,27 @@ export function getScenarioConfig(
     },
     // Enable in DHSCFT-148
     // ChartPage.populationPyramidComponent,
-    ChartPage.thematicMapComponent,
-    ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.spineChartTableComponent,
+    {
+      componentLocator: ChartPage.thematicMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.barChartEmbeddedTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+      },
+    },
+    {
+      componentLocator: ChartPage.spineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+      },
+    },
     // Pending
     // ChartPage.basicTableComponent,
     // ChartPage.heatMapComponent,
@@ -152,27 +170,27 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.ENGLAND_AREA
   ) {
-    // visibleComponents = allComponents.filter((component) =>
-    //   [
-    //     // Pending
-    //     // ChartPage.basicTableComponent,
-    //     // Enable in DHSCFT-148
-    //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.componentLocator)
-    // );
+    visibleComponents = [
+      // Pending
+      // ChartPage.basicTableComponent,
+      // Enable in DHSCFT-148
+      // ChartPage.populationPyramidComponent,
+    ];
   }
   // 2+ indicators, 2+ areas (not England)
   else if (
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
-    visibleComponents = [
-      ChartPage.spineChartTableComponent,
-      // Pending
-      // ChartPage.heatMapComponent,
-      // Enable in DHSCFT-148
-      // ChartPage.populationPyramidComponent,
-    ];
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.spineChartTableComponent,
+        // Pending
+        // ChartPage.heatMapComponent,
+        // Enable in DHSCFT-148
+        // ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   } else {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`

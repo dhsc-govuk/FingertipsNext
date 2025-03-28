@@ -45,6 +45,7 @@ export function OneIndicatorOneAreaViewPlots({
   indicatorData,
   searchState,
   indicatorMetadata,
+  populationHealthDataForArea,
 }: Readonly<OneIndicatorViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
