@@ -2,15 +2,13 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { IndicatorSelectedPill } from '../IndicatorSelectedPill';
 import styled from 'styled-components';
 import { Button, LabelText, SectionBreak } from 'govuk-react';
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { useRouter } from 'next/navigation';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface SelectedIndicatorsPanelProps {
   selectedIndicatorsData: IndicatorDocument[];
-  searchState?: SearchStateParams;
   isFullWidth?: boolean;
 
   // If true the pill should only allow the data to be viewed, and have no
@@ -33,14 +31,19 @@ const StyledButtonLink = styled(Button)({
 
 export function SelectedIndicatorsPanel({
   selectedIndicatorsData,
-  searchState,
   isViewOnly,
   isFullWidth = true,
 }: Readonly<SelectedIndicatorsPanelProps>) {
   const { replace } = useRouter();
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   const stateManager = SearchStateManager.initialise(searchState);
 
   const addOrChangeIndicatorClick = () => {
+    setIsLoading(true);
+
     replace(stateManager.generatePath('/results'));
   };
 

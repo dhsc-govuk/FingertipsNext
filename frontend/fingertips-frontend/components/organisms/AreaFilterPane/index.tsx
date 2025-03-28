@@ -1,5 +1,4 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import { SearchStateParams } from '@/lib/searchStateManager';
 import { H3, SectionBreak } from 'govuk-react';
 import styled from 'styled-components';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
@@ -10,6 +9,7 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { SelectedIndicatorsPanel } from '@/components/molecules/SelectedIndicatorsPanel';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { useSearchState } from '@/context/SearchStateContext';
 import { typography } from '@govuk-react/lib';
 import { GovukColours, TagColours } from '@/lib/styleHelpers/colours';
 
@@ -17,7 +17,6 @@ interface AreaFilterPaneProps {
   selectedAreasData?: AreaWithRelations[];
   selectedIndicatorsData?: IndicatorDocument[];
   areaFilterData?: AreaFilterData;
-  searchState?: SearchStateParams;
   hideFilters?: () => void;
 }
 
@@ -77,9 +76,11 @@ export function AreaFilterPane({
   selectedAreasData,
   selectedIndicatorsData,
   areaFilterData,
-  searchState,
   hideFilters,
 }: Readonly<AreaFilterPaneProps>) {
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
   return (
     <StyledFilterPane data-testid="area-filter-container">
       <StyledFilterPaneHeader>
@@ -91,20 +92,19 @@ export function AreaFilterPane({
         {selectedIndicatorsData ? (
           <SelectedIndicatorsPanel
             selectedIndicatorsData={selectedIndicatorsData}
-            searchState={searchState}
           />
         ) : null}
 
         <SelectedAreasPanel
+          key={`selected-area-panel-${JSON.stringify(searchState)}`}
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}
-          searchState={searchState}
         />
 
-        <ShowHideContainer summary="Add or change areas">
+        <ShowHideContainer summary="Add or change areas" open={true}>
           <SelectAreasFilterPanel
+            key={`area-filter-panel-${JSON.stringify(searchState)}`}
             areaFilterData={areaFilterData}
-            searchState={searchState}
           />
         </ShowHideContainer>
       </StyledFilterDiv>

@@ -21,6 +21,7 @@ import styled from 'styled-components';
 import { spacing } from '@govuk-react/lib';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
@@ -38,6 +39,12 @@ export const Home = ({
   initialFormState,
   selectedAreasData,
 }: HomeProps) => {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -94,7 +101,6 @@ export const Home = ({
       <br />
       <div id="search">
         <SearchForm
-          searchState={searchState}
           formState={formState}
           selectedAreasData={selectedAreasData}
           areaFilterData={areaFilterData}

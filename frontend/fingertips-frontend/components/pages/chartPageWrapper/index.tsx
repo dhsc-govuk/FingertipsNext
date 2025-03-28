@@ -2,6 +2,8 @@
 
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { AreaFilterPane } from '@/components/organisms/AreaFilterPane';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
@@ -27,6 +29,13 @@ export function ChartPageWrapper({
   selectedAreasData,
   selectedIndicatorsData,
 }: Readonly<ChartPageWrapperProps>) {
+  const { setIsLoading } = useLoadingState();
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -40,6 +49,7 @@ export function ChartPageWrapper({
     <>
       <BackLink
         data-testid="chart-page-back-link"
+        onClick={() => setIsLoading(true)}
         href={backLinkPath}
         aria-label="Go back to the previous page"
       />
@@ -47,11 +57,9 @@ export function ChartPageWrapper({
         {isHideFilters ? null : (
           <GridCol setWidth="one-third">
             <AreaFilterPane
-              key={JSON.stringify(searchState)}
               areaFilterData={areaFilterData}
               selectedAreasData={selectedAreasData}
               selectedIndicatorsData={selectedIndicatorsData}
-              searchState={searchState}
               hideFilters={() => setIsHideFilters(true)}
             />
           </GridCol>

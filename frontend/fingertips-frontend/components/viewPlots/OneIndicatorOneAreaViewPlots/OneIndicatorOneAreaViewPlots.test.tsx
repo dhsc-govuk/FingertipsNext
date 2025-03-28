@@ -4,6 +4,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen, waitFor } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -11,6 +12,16 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 

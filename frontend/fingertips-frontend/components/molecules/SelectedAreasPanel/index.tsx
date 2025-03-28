@@ -1,9 +1,5 @@
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { LabelText } from 'govuk-react';
@@ -12,11 +8,12 @@ import { GroupAreaSelectedPill } from '../GroupAreaSelectedPill';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
 import { AreaFilterData } from '../SelectAreasFilterPanel';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface SelectedAreasPanelProps {
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
-  searchState?: SearchStateParams;
   isFullWidth?: boolean;
 
   // If true the pill should only allow the data to be viewed, and have no
@@ -35,16 +32,20 @@ const StyledFilterLabel = styled(LabelText)({
 export function SelectedAreasPanel({
   selectedAreasData,
   areaFilterData,
-  searchState,
   isFullWidth,
   isViewOnly,
 }: Readonly<SelectedAreasPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
   const removeSelectedArea = (areaCode: string) => {
+    setIsLoading(true);
+
     searchStateManager.removeParamValueFromState(
       SearchParams.AreasSelected,
       areaCode
@@ -54,9 +55,13 @@ export function SelectedAreasPanel({
   };
 
   const removeSelectedGroup = () => {
+    setIsLoading(true);
+
     searchStateManager.removeParamValueFromState(
       SearchParams.GroupAreaSelected
     );
+    searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
 
