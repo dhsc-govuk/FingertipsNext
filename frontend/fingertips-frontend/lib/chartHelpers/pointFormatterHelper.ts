@@ -8,9 +8,10 @@ enum SymbolsEnum {
   Triangle = '\u25b2',
   TriangleDown = '\u25bC',
   PlotLine = '\ufe31',
+  MultiplicationX = '\u27bf',
 }
 
-const symbolEncoder: Record<string, string> = {
+export const symbolEncoder: Record<string, string> = {
   'circle': SymbolsEnum.Circle,
   'square': SymbolsEnum.Square,
   'diamond': SymbolsEnum.Diamond,
