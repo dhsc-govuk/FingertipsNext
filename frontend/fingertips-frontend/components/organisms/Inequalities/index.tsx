@@ -72,7 +72,7 @@ export function Inequalities({
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
-  const filteredHealthIndicatorData = {
+  const healthIndicatorDataWithoutOtherInequalities = {
     ...healthIndicatorData,
     healthData: filterHealthData(
       healthIndicatorData.healthData,
@@ -81,7 +81,7 @@ export function Inequalities({
   };
 
   const yearlyHealthdata = groupHealthDataByYear(
-    filteredHealthIndicatorData.healthData
+    healthIndicatorDataWithoutOtherInequalities.healthData
   );
 
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
