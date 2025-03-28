@@ -30,7 +30,7 @@ const TestComponent = () => {
   return (
     <>
       <p data-testid="is-loaded">{`Loading: ${getIsLoading()}`}</p>
-      <button onClick={() => setIsLoading(false)}>Set loading</button>
+      <button onClick={() => setIsLoading(true)}>Set loading</button>
     </>
   );
 };
@@ -58,7 +58,7 @@ describe('LoaderContext', () => {
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
 
-    expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: false');
+    expect(screen.getByTestId('is-loaded')).toHaveTextContent('Loading: true');
   });
 
   // add test to prove when pathname is changed and searchSttate is changed
