@@ -20,11 +20,21 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');
-
     client.test("Expected health data returned with rag comparison for sex inequality", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body content does not match");
+        client.assert(response.body.areaHealthData.length === expected.areaHealthData.length, "Response length does not match");
+
+        // The ordering keeps changing so making it more stable by iterating through expected results
+        expected.areaHealthData.forEach((area) => {
+            const responseArea = response.body.areaHealthData.find((rspArea) => rspArea.areaCode === area.areaCode);
+            client.assert(area.healthData.length === responseArea.healthData.length, `Area ${area.areaCode} expected to have ${area.healthData.length} but has ${responseArea.healthData.length}`);
+            client.assert(responseArea, `Could not find matching response Area ${area.areaCode}`);
+            area.healthData.forEach((dataPoint)=> {
+                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.year === dataPoint.year) && (rspData.sex === dataPoint.sex)));
+                client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.year} : ${dataPoint.sex}`);
+                client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
+            })
+        })
     });
 %}
 

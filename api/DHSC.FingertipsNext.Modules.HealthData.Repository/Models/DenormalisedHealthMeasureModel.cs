@@ -24,7 +24,6 @@ public class DenormalisedHealthMeasureModel
     public required double? UpperCi { get; set; }
     public required short Year { get; set; }
     public required string BenchmarkComparisonOutcome { get; set; }
-    public required string BenchmarkComparisonMethod { get; set; }
     public required string BenchmarkComparisonIndicatorPolarity { get; set; }
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
