@@ -1,5 +1,5 @@
 ﻿--- This stored procedure Gets HealthData and performs Quintile calculations
-CREATE PROCEDURE [dbo].[GetIndicatorDetailsWithQuintileBenchmarkComparison]
+CREATE PROCEDURE [dbo].[ggit status]
 @RequestedAreas AreaCodeList READONLY,
 --- The Areas we want data for
 @RequestedAreaType varchar(50),
