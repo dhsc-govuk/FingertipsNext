@@ -95,6 +95,7 @@ exports[`IndicatorSelectedPill should match snapshot 1`] = `
       <br />
       <a
         class="c2 c3"
+        data-testid="view-background-info-link"
         href="/indicator/1"
       >
         View background information
