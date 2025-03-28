@@ -2,7 +2,6 @@ import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
-import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
 
 const mockGetHealthDataForAnIndicator = jest.fn();
 
