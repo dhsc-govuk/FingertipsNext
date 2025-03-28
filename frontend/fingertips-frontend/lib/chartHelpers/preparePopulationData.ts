@@ -30,7 +30,10 @@ const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
       if (range.includes('+')) return parseInt(range.split('-')[0]);
       return parseInt(range.split('-')[0]);
     };
-    return getLowerBandValue(a.ageBand.value) > getLowerBandValue(b.ageBand.value) ? -1 : 1;
+    return getLowerBandValue(a.ageBand.value) >
+      getLowerBandValue(b.ageBand.value)
+      ? -1
+      : 1;
   });
 };
 

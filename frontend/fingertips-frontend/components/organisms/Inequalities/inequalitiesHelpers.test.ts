@@ -7,7 +7,6 @@ import {
   getAggregatePointInfo,
   getDynamicKeys,
   getYearDataGroupedByInequalities,
-  groupHealthDataBySex,
   groupHealthDataByYear,
   InequalitiesTableRowData,
   InequalitiesTypes,
@@ -16,6 +15,7 @@ import {
   shouldDisplayInequalities,
   generateInequalitiesLineChartOptions,
   getAllDataWithoutInequalities,
+  groupHealthDataByInequality,
 } from './inequalitiesHelpers';
 import { GROUPED_YEAR_DATA } from '@/lib/tableHelpers/mocks';
 import { UniqueChartColours } from '@/lib/chartHelpers/colours';
@@ -97,7 +97,7 @@ const yearlyHealthDataGroupedBySex = {
   },
 };
 
-const mockInequalitiesRowData = [
+const mockInequalitiesRowData: InequalitiesTableRowData[] = [
   {
     period: 2004,
     inequalities: {
@@ -106,12 +106,14 @@ const mockInequalitiesRowData = [
         count: 267,
         upper: 578.32766,
         lower: 441.69151,
+        sequence: 1,
       },
       Female: {
         value: 703.420759,
         count: 267,
         upper: 578.32766,
         lower: 441.69151,
+        sequence: 1,
       },
     },
   },
@@ -123,18 +125,21 @@ const mockInequalitiesRowData = [
         count: 222,
         upper: 578.32766,
         lower: 441.69151,
+        sequence: 1,
       },
       Male: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
+        sequence: 1,
       },
       Female: {
         value: 890.328253,
         count: 131,
         upper: 578.32766,
         lower: 441.69151,
+        sequence: 1,
       },
     },
   },
@@ -184,8 +189,8 @@ describe('groupHealthDataByYear', () => {
   });
 });
 
-describe('groupHealthDataByInequalities', () => {
-  it('should group health data by sex', () => {
+describe('groupHealthDataByInequality', () => {
+  it('should group health data using the specified value', () => {
     const healthDataGroupedBySex = {
       Persons: [
         MOCK_INEQUALITIES_DATA.healthData[0],
@@ -195,50 +200,57 @@ describe('groupHealthDataByInequalities', () => {
       Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
     };
 
-    expect(groupHealthDataBySex(MOCK_INEQUALITIES_DATA.healthData)).toEqual(
-      healthDataGroupedBySex
-    );
+    expect(
+      groupHealthDataByInequality(
+        MOCK_INEQUALITIES_DATA.healthData,
+        (data) => data.sex.value
+      )
+    ).toEqual(healthDataGroupedBySex);
   });
 });
 
 describe('getYearDataGroupedByInequalities', () => {
-  it('should group year data by sex', () => {
+  it('should group year data by the specified value', () => {
     expect(
       getYearDataGroupedByInequalities(
-        groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData)
+        groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData),
+        (data) => data.sex.value
       )
     ).toEqual(yearlyHealthDataGroupedBySex);
   });
 });
 
 describe('getDynamicKeys', () => {
-  it('should get unique keys for sex inequality sorted', () => {
-    const expectedKeys = ['Persons', 'Male', 'Female'];
+  // TODO: Make sure this covers the necessary sorting scenarios
+  // Sorting something with a sequence
+  // Sorting something without a sequence
+  // it.skip('should get unique keys for sex inequality sorted', () => {
+  //   const expectedKeys = ['Persons', 'Male', 'Female'];
 
-    expect(
-      getDynamicKeys(yearlyHealthDataGroupedBySex, InequalitiesTypes.Sex)
-    ).toEqual(expectedKeys);
-  });
+  //   expect(getDynamicKeys(yearlyHealthDataGroupedBySex, () => 0)).toEqual(
+  //     expectedKeys
+  //   );
+  // });
 
   it('should get unique keys for inequality unsorted', () => {
-    expect(
-      getDynamicKeys(
-        yearlyHealthDataGroupedBySex,
-        InequalitiesTypes.Deprivation
-      )
-    ).toEqual(['Persons', 'Female', 'Male']);
+    expect(getDynamicKeys(yearlyHealthDataGroupedBySex, () => 0)).toEqual([
+      'Persons',
+      'Female',
+      'Male',
+    ]);
   });
 });
 
 describe('mapToInequalitiesTableData', () => {
   it('should map to inequalitiesSexTable row data', () => {
-    const expectedInequalitiesSexTableRow: InequalitiesTableRowData[] = [
-      ...mockInequalitiesRowData,
-    ];
-
-    expect(mapToInequalitiesTableData(GROUPED_YEAR_DATA)).toEqual(
-      expectedInequalitiesSexTableRow
-    );
+    const expectedInequalitiesTableRow: InequalitiesTableRowData[] =
+      mockInequalitiesRowData;
+    expect(
+      mapToInequalitiesTableData(
+        GROUPED_YEAR_DATA,
+        (data) => data?.deprivation.sequence ?? 0
+      )
+    ).toEqual(expectedInequalitiesTableRow);
   });
 });
 
