@@ -31,8 +31,8 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-jest.mock('@/lib/thematicMapUtils/getMapData', () => ({
-  getMapData: jest.fn(),
+jest.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
+  getMapGeographyData: jest.fn(),
 }));
 
 jest.mock('@/lib/areaFilterHelpers/getAreaFilterData');

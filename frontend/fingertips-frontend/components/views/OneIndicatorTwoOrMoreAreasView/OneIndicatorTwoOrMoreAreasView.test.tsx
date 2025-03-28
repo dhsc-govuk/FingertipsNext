@@ -23,7 +23,7 @@ import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-const mockMapData = { joinKey: 'RGN23CD', mapFile: regionsMap };
+const mockMapGeographyData = { mapFile: regionsMap };
 
 describe('OneIndicatorTwoOrMoreAreasView', () => {
   afterEach(() => {
@@ -202,7 +202,8 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
     expect(page.props.indicatorData).toEqual(mockIndicatorData);
     expect(page.props.searchState).toEqual(searchState);
-    expect(page.props.mapData.mapJoinKey).toEqual(mockMapData.joinKey);
-    expect(page.props.mapData.mapFile).toEqual(mockMapData.mapFile);
+    expect(page.props.mapGeographyData.mapFile).toEqual(
+      mockMapGeographyData.mapFile
+    );
   });
 });

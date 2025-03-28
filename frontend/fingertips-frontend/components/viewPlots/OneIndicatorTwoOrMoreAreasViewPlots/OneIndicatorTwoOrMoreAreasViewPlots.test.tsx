@@ -4,9 +4,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { SearchStateContext } from '@/context/SearchStateContext';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -27,8 +27,7 @@ jest.mock('@/context/SearchStateContext', () => {
   };
 });
 
-const mockMapData: MapData = {
-  mapJoinKey: 'RGN23CD',
+const mockMapGeographyData: MapGeographyData = {
   mapFile: regionsMap,
   mapGroupBoundary: regionsMap,
 };
@@ -184,8 +183,27 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         />
       );
 
-      await assertLineChartAndTableNotInDocument();
+      await waitFor(() => assertLineChartAndTableNotInDocument());
     });
+  });
+
+  it('should render the title for BarChartEmbeddedTable/ThematicMap', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={testHealthData}
+        searchState={searchState}
+      />
+    );
+
+    expect(
+      await screen.findByText('Compare an indicator by areas')
+    ).toBeInTheDocument();
   });
 
   describe('BarChartEmbeddedTable', () => {
@@ -207,25 +225,6 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         await screen.findByTestId(barChartEmbeddedTable)
       ).toBeInTheDocument();
     });
-
-    it('should render the title for BarChartEmbeddedTable', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-      };
-
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          indicatorData={testHealthData}
-          searchState={searchState}
-        />
-      );
-
-      expect(
-        screen.getByText('Compare an indicator by areas')
-      ).toBeInTheDocument();
-    });
   });
 
   describe('ThematicMap', () => {
@@ -245,7 +244,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             ],
           }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
       expect(
@@ -269,7 +268,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
             ],
           }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
 
