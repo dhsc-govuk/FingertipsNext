@@ -17,8 +17,9 @@ interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapGeographyData: MapGeographyData;
   areaType: AreaTypeKeysForMapMeta;
-  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
-  polarity?: IndicatorPolarity;
+  benchmarkComparisonMethod: BenchmarkComparisonMethod;
+  polarity: IndicatorPolarity;
+  measurementUnit: string;
   benchmarkIndicatorData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
 }
@@ -31,8 +32,9 @@ export function ThematicMap({
   healthIndicatorData,
   mapGeographyData,
   areaType,
-  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
-  polarity = IndicatorPolarity.Unknown,
+  benchmarkComparisonMethod,
+  polarity,
+  measurementUnit,
   benchmarkIndicatorData,
   groupIndicatorData,
 }: Readonly<ThematicMapProps>) {
@@ -52,6 +54,7 @@ export function ThematicMap({
           areaType,
           benchmarkComparisonMethod,
           polarity,
+          measurementUnit,
           benchmarkIndicatorData,
           groupIndicatorData
         )

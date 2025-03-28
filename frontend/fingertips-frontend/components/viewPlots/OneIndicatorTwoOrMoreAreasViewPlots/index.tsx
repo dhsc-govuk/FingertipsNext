@@ -22,6 +22,8 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState } from 'react';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -142,8 +144,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
           areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
-          benchmarkComparisonMethod={benchmarkMethod}
-          polarity={polarity}
+          benchmarkComparisonMethod={
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+          }
+          polarity={polarity ?? IndicatorPolarity.Unknown}
+          measurementUnit={indicatorMetadata?.unitLabel}
           benchmarkIndicatorData={englandBenchmarkData}
           groupIndicatorData={groupData}
         />

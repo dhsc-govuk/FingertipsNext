@@ -20,6 +20,7 @@ import {
   getBenchmarkColour,
   getIndicatorDataForAreasForMostRecentYearOnly,
   getAreaIndicatorDataForYear,
+  getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
 
 export type MapGeographyData = {
@@ -189,6 +190,7 @@ export function createThematicMapChartOptions(
   areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
   polarity: IndicatorPolarity,
+  measurementUnit: string,
   benchmarkIndicatorData?: HealthDataForArea,
   groupIndicatorData?: HealthDataForArea
 ): Highcharts.Options {
@@ -248,65 +250,71 @@ export function createThematicMapChartOptions(
             borderColor: GovukColours.Black,
           },
         },
-        tooltip: {
-          headerFormat: '',
-          pointFormatter: function (this: Highcharts.Point) {
-            const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
-
-            let tooltipString = // area
-              `<br /><span style="font-weight: bold">${this.areaName}</span>` +
-              `<br /><span>${this.year}</span>` +
-              `<br /><span style="color: ${getBenchmarkColour(
-                benchmarkComparisonMethod,
-                this.benchmarkComparisonOutcome,
-                polarity
-              )}; font-size: large;">\u25CF</span>` +
-              `<span>${this.value} units</span>` +
-              `<br /><span>${this.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
-              `<br /><span>(${benchmarkComparisonMethod})</span>`;
-
-            if (groupIndicatorData != undefined) {
-              const groupIndicatorDataForYear = getAreaIndicatorDataForYear(
-                groupIndicatorData,
-                this.year
-              );
-              tooltipString =
-                `<br /><span style="font-weight: bold">Group: ${groupIndicatorDataForYear.areaName}</span>` +
-                `<br /><span>${groupIndicatorDataForYear.healthData[0].year}</span>` +
-                `<br /><span style="color: ${getBenchmarkColour(
-                  benchmarkComparisonMethod,
-                  groupIndicatorDataForYear.healthData[0].benchmarkComparison
-                    ?.outcome ?? 'NotCompared',
-                  polarity
-                )}; font-size: large;">\u25c6</span>` +
-                `<span>${groupIndicatorDataForYear.healthData[0].value} units</span>` +
-                `<br /><span>${
-                  groupIndicatorDataForYear.healthData[0].benchmarkComparison
-                    ?.outcome
-                } than ${benchmarkArea}</span>` +
-                `<br /><span>(${benchmarkComparisonMethod})</span>` +
-                tooltipString;
-            }
-
-            // benchmark
-            if (benchmarkIndicatorData != undefined) {
-              const benchmarkIndicatorDataForYear = getAreaIndicatorDataForYear(
-                benchmarkIndicatorData,
-                this.year
-              );
-              tooltipString =
-                `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
-                `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
-                `<br /><span style="color: ${GovukColours.Black}">\u25CF</span>` +
-                `<span>${benchmarkIndicatorDataForYear.healthData[0].value} units</span>` +
-                tooltipString;
-            }
-
-            return tooltipString;
-          },
-        },
       },
     ],
+    tooltip: {
+      headerFormat: '',
+      useHTML: true,
+      pointFormatter: function (this: Highcharts.Point) {
+        const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
+        const benchmarkConfidenceLimit = getConfidenceLimitNumber(
+          benchmarkComparisonMethod
+        );
+        const benchmarkConfidenceLimitLabel = benchmarkConfidenceLimit
+          ? `${benchmarkConfidenceLimit}%`
+          : null;
+
+        let tooltipString = // area
+          `<br /><span style="font-weight: bold">${this.areaName}</span>` +
+          `<br /><span>${this.year}</span>` +
+          `<br /><span style="color: ${getBenchmarkColour(
+            benchmarkComparisonMethod,
+            this.benchmarkComparisonOutcome,
+            polarity
+          )}; font-size: large;">\u25CF</span>` +
+          `<span>${this.value} ${measurementUnit}</span>` +
+          `<br /><span>${this.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
+          `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`;
+
+        if (groupIndicatorData != undefined) {
+          const groupIndicatorDataForYear = getAreaIndicatorDataForYear(
+            groupIndicatorData,
+            this.year
+          );
+          tooltipString =
+            `<br /><span style="font-weight: bold">Group: ${groupIndicatorDataForYear.areaName}</span>` +
+            `<br /><span>${groupIndicatorDataForYear.healthData[0].year}</span>` +
+            `<br /><span style="color: ${getBenchmarkColour(
+              benchmarkComparisonMethod,
+              groupIndicatorDataForYear.healthData[0].benchmarkComparison
+                ?.outcome ?? 'NotCompared',
+              polarity
+            )}; font-size: large;">\u25c6</span>` +
+            `<span>${groupIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
+            `<br /><span>${
+              groupIndicatorDataForYear.healthData[0].benchmarkComparison
+                ?.outcome
+            } than ${benchmarkArea}</span>` +
+            `<br /><span>(${benchmarkConfidenceLimitLabel})</span>` +
+            tooltipString;
+        }
+
+        if (benchmarkIndicatorData != undefined) {
+          const benchmarkIndicatorDataForYear = getAreaIndicatorDataForYear(
+            benchmarkIndicatorData,
+            this.year
+          );
+          tooltipString =
+            `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
+            `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
+            `<br /><span style="color: ${GovukColours.Black}">\u25CF</span>` +
+            `<span>${benchmarkIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
+            tooltipString;
+        }
+
+        return tooltipString;
+      },
+    },
   };
 
   return options;
