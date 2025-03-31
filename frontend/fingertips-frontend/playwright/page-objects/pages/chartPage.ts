@@ -104,7 +104,7 @@ export default class ChartPage extends AreaFilter {
 
       // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
-        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
+        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
