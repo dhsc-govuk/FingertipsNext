@@ -1,10 +1,9 @@
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import {
   Checkbox,
   FormGroup,
@@ -24,7 +23,6 @@ export type AreaFilterData = {
 
 interface SelectAreasFilterPanelProps {
   areaFilterData?: AreaFilterData;
-  searchState?: SearchStateParams;
 }
 
 const StyledFilterSelect = styled(Select)({
@@ -64,10 +62,12 @@ const isAreaSelected = (
 
 export function SelectAreasFilterPanel({
   areaFilterData,
-  searchState,
 }: Readonly<SelectAreasFilterPanelProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
 
@@ -77,6 +77,8 @@ export function SelectAreasFilterPanel({
     searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED;
 
   const areaTypeSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.AreaTypeSelected,
       valueSelected
@@ -89,6 +91,8 @@ export function SelectAreasFilterPanel({
   };
 
   const groupTypeSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.GroupTypeSelected,
       valueSelected
@@ -98,6 +102,8 @@ export function SelectAreasFilterPanel({
   };
 
   const groupSelected = (valueSelected: string) => {
+    setIsLoading(true);
+
     searchStateManager.addParamValueToState(
       SearchParams.GroupSelected,
       valueSelected
@@ -106,6 +112,15 @@ export function SelectAreasFilterPanel({
   };
 
   const handleAreaSelected = (areaCode: string, checked: boolean) => {
+    setIsLoading(true);
+
+    if (
+      searchState?.[SearchParams.AreasSelected]?.length === 1 &&
+      searchState?.[SearchParams.AreasSelected][0] === areaCodeForEngland
+    ) {
+      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
+    }
+
     if (checked) {
       searchStateManager.addParamValueToState(
         SearchParams.AreasSelected,
@@ -155,6 +170,8 @@ export function SelectAreasFilterPanel({
   };
 
   const handleSelectAllAreasSelected = (checked: boolean) => {
+    setIsLoading(true);
+
     if (checked) {
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
@@ -165,6 +182,7 @@ export function SelectAreasFilterPanel({
       searchStateManager.removeParamValueFromState(
         SearchParams.GroupAreaSelected
       );
+      searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
     }
 
     replace(searchStateManager.generatePath(pathname), { scroll: false });
@@ -246,7 +264,9 @@ export function SelectAreasFilterPanel({
               sizeVariant="SMALL"
               name="area"
               defaultChecked={isAreaSelectedValue}
-              onChange={(e) => handleAreaSelected(area.code, e.target.checked)}
+              onChange={(e) => {
+                handleAreaSelected(area.code, e.target.checked);
+              }}
             >
               {area.name}
             </Checkbox>

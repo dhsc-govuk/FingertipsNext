@@ -1,4 +1,4 @@
-import { TwoOrMoreIndicatorsAreasViewPlots } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
+import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -17,8 +17,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
-    [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2 || !areasSelected) {
@@ -29,7 +29,11 @@ export default async function TwoOrMoreIndicatorsAreasView({
     throw new Error('Unable to retrieve indicator metadata');
   }
 
-  const areaCodesToRequest = [...areasSelected, areaCodeForEngland];
+  const areaCodesToRequest = [...areasSelected];
+  if (!areaCodesToRequest.includes(areaCodeForEngland)) {
+    areaCodesToRequest.push(areaCodeForEngland);
+  }
+
   if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }

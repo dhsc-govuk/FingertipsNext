@@ -1,4 +1,4 @@
-import type { Page as PlaywrightPage } from 'playwright-core';
+import type { Locator, Page as PlaywrightPage } from 'playwright-core';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
 
@@ -9,6 +9,56 @@ export default class BasePage {
 
   async waitForURLToContain(containsURL: string) {
     await this.page.waitForURL(new RegExp(containsURL));
+  }
+
+  async clickAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.click();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async checkAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.check();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async uncheckAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.uncheck();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async fillAndAwaitLoadingComplete(locator: Locator, value: string) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.fill(value);
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
+  async clearAndAwaitLoadingComplete(locator: Locator) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.clear();
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
   async expectNoAccessibilityViolations(
