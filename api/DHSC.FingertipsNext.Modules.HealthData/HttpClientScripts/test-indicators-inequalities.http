@@ -12,3 +12,17 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
+
+### GET health data with sex inequality
+
+GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=sex&years=2016
+
+> {%
+    const expected = require ('./test-indicators-inequalities-sex_expected-response.json');
+
+    client.test("Expected health data returned with inequalities breakdown", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.length === expected.length, "Response length does not match");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
