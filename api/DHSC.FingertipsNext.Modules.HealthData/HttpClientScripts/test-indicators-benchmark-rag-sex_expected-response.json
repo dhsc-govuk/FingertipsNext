@@ -1,5 +1,7 @@
 {
   "name": "Emergency readmissions within 30 days of discharge from hospital",
+  "startDate": "2015-03-27T12:07:40.9533333",
+  "endDate": "2035-03-27T12:07:40.9533333",
   "polarity": "LowIsGood",
   "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
@@ -7,28 +9,6 @@
       "areaCode": "E12000007",
       "areaName": "London Region",
       "healthData": [
-        {
-          "year": 2013,
-          "count": 48590,
-          "value": 13.4,
-          "lowerCi": 13.3,
-          "upperCi": 13.5,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Male",
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 12.9
-          },
-          "isAggregate": false
-        },
         {
           "year": 2013,
           "count": 52910,
@@ -45,6 +25,28 @@
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 12.9
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2013,
+          "count": 48590,
+          "value": 13.4,
+          "lowerCi": 13.3,
+          "upperCi": 13.5,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Male",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 12.9
@@ -72,6 +74,28 @@
             "benchmarkValue": 12.4
           },
           "isAggregate": true
+        },
+        {
+          "year": 2014,
+          "count": 54155,
+          "value": 12.8,
+          "lowerCi": 12.7,
+          "upperCi": 12.9,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Female",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 13.1
+          },
+          "isAggregate": false
         },
         {
           "year": 2014,
@@ -118,24 +142,24 @@
           "isAggregate": true
         },
         {
-          "year": 2014,
-          "count": 54155,
-          "value": 12.8,
-          "lowerCi": 12.7,
-          "upperCi": 12.9,
+          "year": 2015,
+          "count": 51695,
+          "value": 13.9,
+          "lowerCi": 13.8,
+          "upperCi": 14.1,
           "ageBand": "All ages",
           "deprivation": {
             "sequence": 1,
             "value": "All",
             "type": "All"
           },
-          "sex": "Female",
+          "sex": "Male",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
-            "outcome": "Better",
+            "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
-            "benchmarkValue": 13.1
+            "benchmarkValue": 13.5
           },
           "isAggregate": false
         },
@@ -184,11 +208,11 @@
           "isAggregate": false
         },
         {
-          "year": 2015,
-          "count": 51695,
-          "value": 13.9,
-          "lowerCi": 13.8,
-          "upperCi": 14.1,
+          "year": 2016,
+          "count": 51470,
+          "value": 13.8,
+          "lowerCi": 13.7,
+          "upperCi": 14,
           "ageBand": "All ages",
           "deprivation": {
             "sequence": 1,
@@ -201,7 +225,7 @@
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
-            "benchmarkValue": 13.5
+            "benchmarkValue": 13.4
           },
           "isAggregate": false
         },
@@ -250,28 +274,6 @@
           "isAggregate": false
         },
         {
-          "year": 2016,
-          "count": 51470,
-          "value": 13.8,
-          "lowerCi": 13.7,
-          "upperCi": 14,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Male",
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 13.4
-          },
-          "isAggregate": false
-        },
-        {
           "year": 2017,
           "count": 113910,
           "value": 14,
@@ -292,28 +294,6 @@
             "benchmarkValue": 13.6
           },
           "isAggregate": true
-        },
-        {
-          "year": 2017,
-          "count": 59865,
-          "value": 13.7,
-          "lowerCi": 13.6,
-          "upperCi": 13.8,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Female",
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Better",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14
-          },
-          "isAggregate": false
         },
         {
           "year": 2017,
@@ -338,11 +318,11 @@
           "isAggregate": false
         },
         {
-          "year": 2018,
-          "count": 65925,
-          "value": 14.3,
-          "lowerCi": 14.1,
-          "upperCi": 14.4,
+          "year": 2017,
+          "count": 59865,
+          "value": 13.7,
+          "lowerCi": 13.6,
+          "upperCi": 13.8,
           "ageBand": "All ages",
           "deprivation": {
             "sequence": 1,
@@ -355,7 +335,7 @@
             "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.6
+            "benchmarkValue": 14
           },
           "isAggregate": false
         },
@@ -383,6 +363,28 @@
         },
         {
           "year": 2018,
+          "count": 65925,
+          "value": 14.3,
+          "lowerCi": 14.1,
+          "upperCi": 14.4,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Female",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.6
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2018,
           "count": 59680,
           "value": 14.9,
           "lowerCi": 14.8,
@@ -400,28 +402,6 @@
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14.6
-          },
-          "isAggregate": false
-        },
-        {
-          "year": 2019,
-          "count": 58405,
-          "value": 14.9,
-          "lowerCi": 14.8,
-          "upperCi": 15.1,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Male",
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.7
           },
           "isAggregate": false
         },
@@ -468,6 +448,28 @@
             "benchmarkValue": 14.3
           },
           "isAggregate": true
+        },
+        {
+          "year": 2019,
+          "count": 58405,
+          "value": 14.9,
+          "lowerCi": 14.8,
+          "upperCi": 15.1,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Male",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.7
+          },
+          "isAggregate": false
         },
         {
           "year": 2020,
@@ -559,28 +561,6 @@
         },
         {
           "year": 2021,
-          "count": 53920,
-          "value": 15.5,
-          "lowerCi": 15.3,
-          "upperCi": 15.6,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Male",
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.9
-          },
-          "isAggregate": false
-        },
-        {
-          "year": 2021,
           "count": 112175,
           "value": 14.9,
           "lowerCi": 14.8,
@@ -602,11 +582,11 @@
           "isAggregate": true
         },
         {
-          "year": 2022,
-          "count": 49830,
-          "value": 14.9,
-          "lowerCi": 14.8,
-          "upperCi": 15,
+          "year": 2021,
+          "count": 53920,
+          "value": 15.5,
+          "lowerCi": 15.3,
+          "upperCi": 15.6,
           "ageBand": "All ages",
           "deprivation": {
             "sequence": 1,
@@ -619,7 +599,7 @@
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.5
+            "benchmarkValue": 14.9
           },
           "isAggregate": false
         },
@@ -639,6 +619,28 @@
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.5
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2022,
+          "count": 49830,
+          "value": 14.9,
+          "lowerCi": 14.8,
+          "upperCi": 15,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Male",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14.5
@@ -669,28 +671,6 @@
         },
         {
           "year": 2023,
-          "count": 53205,
-          "value": 15.3,
-          "lowerCi": 15.2,
-          "upperCi": 15.5,
-          "ageBand": "All ages",
-          "deprivation": {
-            "sequence": 1,
-            "value": "All",
-            "type": "All"
-          },
-          "sex": "Male",
-          "trend": "Cannot be calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.8
-          },
-          "isAggregate": false
-        },
-        {
-          "year": 2023,
           "count": 58765,
           "value": 14.4,
           "lowerCi": 14.3,
@@ -705,6 +685,28 @@
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.8
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2023,
+          "count": 53205,
+          "value": 15.3,
+          "lowerCi": 15.2,
+          "upperCi": 15.5,
+          "ageBand": "All ages",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Male",
+          "trend": "Cannot be calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14.8

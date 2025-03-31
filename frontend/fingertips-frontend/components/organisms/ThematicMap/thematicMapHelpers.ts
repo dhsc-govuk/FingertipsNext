@@ -19,7 +19,10 @@ import {
 import {
   getBenchmarkColour,
   getIndicatorDataForAreasForMostRecentYearOnly,
+  getAreaIndicatorDataForYear,
+  getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
+import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -166,15 +169,17 @@ function getBenchmarkColourScale(
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
   return getIndicatorDataForAreasForMostRecentYearOnly(data).map((areaData) => {
-    const [firstDataPoint] = areaData.healthData;
+    const [mostRecentDataPoint] = areaData.healthData;
     return {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
-      value: firstDataPoint.value,
-      benchmarkComparisonOutcome: firstDataPoint.benchmarkComparison?.outcome,
+      value: mostRecentDataPoint.value,
+      year: mostRecentDataPoint.year,
+      benchmarkComparisonOutcome:
+        mostRecentDataPoint.benchmarkComparison?.outcome,
       benchmarkColourCode:
         mapBenchmarkToColourRef[
-          firstDataPoint?.benchmarkComparison?.outcome ??
+          mostRecentDataPoint?.benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared
         ],
     };
@@ -182,11 +187,14 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
 }
 
 export function createThematicMapChartOptions(
-  mapData: MapGeographyData,
   healthIndicatorData: HealthDataForArea[],
-  groupType: AreaTypeKeysForMapMeta,
+  mapGeographyData: MapGeographyData,
+  areaType: AreaTypeKeysForMapMeta,
   benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  polarity: IndicatorPolarity
+  polarity: IndicatorPolarity,
+  measurementUnit?: string,
+  benchmarkIndicatorData?: HealthDataForArea,
+  groupIndicatorData?: HealthDataForArea
 ): Highcharts.Options {
   const data = prepareThematicMapSeriesData(healthIndicatorData);
   const options: Highcharts.Options = {
@@ -204,7 +212,7 @@ export function createThematicMapChartOptions(
     },
     mapView: {
       projection: { name: 'Miller' },
-      fitToGeometry: mapData.mapGroupBoundary.features[0].geometry,
+      fitToGeometry: mapGeographyData.mapGroupBoundary.features[0].geometry,
       padding: 20,
     },
     mapNavigation: { enabled: true },
@@ -216,7 +224,7 @@ export function createThematicMapChartOptions(
         type: 'map',
         name: 'basemap',
         showInLegend: false,
-        mapData: mapData.mapFile,
+        mapData: mapGeographyData.mapFile,
         borderColor: GovukColours.Black,
         borderWidth: 0.2,
       },
@@ -224,7 +232,7 @@ export function createThematicMapChartOptions(
         type: 'map',
         name: 'group border',
         showInLegend: false,
-        mapData: mapData.mapGroupBoundary,
+        mapData: mapGeographyData.mapGroupBoundary,
         borderColor: GovukColours.Black,
         borderWidth: 6,
       },
@@ -232,9 +240,9 @@ export function createThematicMapChartOptions(
         type: 'map',
         colorKey: 'benchmarkColourCode',
         name: 'data',
-        mapData: mapData.mapFile,
+        mapData: mapGeographyData.mapFile,
         data: data,
-        joinBy: [mapMetaDataEncoder[groupType].joinKey, 'areaCode'],
+        joinBy: [mapMetaDataEncoder[areaType].joinKey, 'areaCode'],
         borderColor: GovukColours.Black,
         allAreas: false,
         borderWidth: 0.5,
@@ -244,16 +252,108 @@ export function createThematicMapChartOptions(
             borderColor: GovukColours.Black,
           },
         },
-        tooltip: {
-          headerFormat:
-            '<span style="font-size: large; font-weight: bold">{point.areaName}</span><br />',
-          pointFormat:
-            `<br /><span>benchmark method: ${benchmarkComparisonMethod}</span>` +
-            '<br /><span>benchmark outcome: {point.benchmarkComparisonOutcome}</span>',
-        },
       },
     ],
+    tooltip: {
+      headerFormat: '',
+      useHTML: true,
+      pointFormatter: function (this: Highcharts.Point) {
+        return generateThematicMapTooltipString(
+          this,
+          benchmarkIndicatorData,
+          groupIndicatorData,
+          benchmarkComparisonMethod,
+          polarity,
+          measurementUnit
+        );
+      },
+    },
   };
 
   return options;
+}
+
+export function generateThematicMapTooltipString(
+  // any required to allow customisation of Highcharts tooltips
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  point: any,
+  benchmarkIndicatorData: HealthDataForArea | undefined,
+  groupIndicatorData: HealthDataForArea | undefined,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  polarity: IndicatorPolarity,
+  measurementUnit?: string
+): string {
+  const benchmarkArea = benchmarkIndicatorData?.areaName ?? 'England';
+  const benchmarkConfidenceLimit = getConfidenceLimitNumber(
+    benchmarkComparisonMethod
+  );
+  const benchmarkConfidenceLimitLabel = benchmarkConfidenceLimit
+    ? `${benchmarkConfidenceLimit}%`
+    : null;
+
+  const areaMarkerSymbol =
+    (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
+    BenchmarkOutcome.NotCompared
+      ? symbolEncoder.multiplicationX
+      : symbolEncoder.circle;
+
+  const groupMarkerSymbol =
+    groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
+    BenchmarkOutcome.NotCompared
+      ? symbolEncoder.multiplicationX
+      : symbolEncoder.diamond;
+
+  const tooltipString = [
+    `<br /><span style="font-weight: bold">${point.areaName}</span>` +
+      `<br /><span>${point.year}</span>` +
+      `<br /><span style="color: ${
+        getBenchmarkColour(
+          benchmarkComparisonMethod,
+          point.benchmarkComparisonOutcome,
+          polarity
+        ) ?? GovukColours.Black
+      }; font-size: large;">${areaMarkerSymbol}</span>` +
+      `<span>${point.value} ${measurementUnit}</span>` +
+      `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
+      `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
+  ];
+
+  if (groupIndicatorData !== undefined) {
+    const groupIndicatorDataForYear = getAreaIndicatorDataForYear(
+      groupIndicatorData,
+      point.year
+    );
+    tooltipString.unshift(
+      `<br /><span style="font-weight: bold">Group: ${groupIndicatorDataForYear.areaName}</span>` +
+        `<br /><span>${groupIndicatorDataForYear.healthData[0].year}</span>` +
+        `<br /><span style="color: ${
+          getBenchmarkColour(
+            benchmarkComparisonMethod,
+            groupIndicatorDataForYear.healthData[0].benchmarkComparison
+              ?.outcome ?? 'NotCompared',
+            polarity
+          ) ?? GovukColours.Black
+        }; font-size: large;">${groupMarkerSymbol}</span>` +
+        `<span>${groupIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
+        `<br /><span>${
+          groupIndicatorDataForYear.healthData[0].benchmarkComparison?.outcome
+        } than ${benchmarkArea}</span>` +
+        `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`
+    );
+  }
+
+  if (benchmarkIndicatorData !== undefined) {
+    const benchmarkIndicatorDataForYear = getAreaIndicatorDataForYear(
+      benchmarkIndicatorData,
+      point.year
+    );
+    tooltipString.unshift(
+      `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
+        `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
+        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.circle}</span>` +
+        `<span>${benchmarkIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>`
+    );
+  }
+
+  return tooltipString.join('');
 }

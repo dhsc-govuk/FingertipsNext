@@ -507,6 +507,10 @@ components:
       type: object
       description: Indicator information with area health data
       properties:
+        indicatorId:
+          type: integer
+          example: 21404
+          description: Unique ID of the indicator
         name:
           type: string
           example: Emergency readmissions within 30 days of discharge from hospital

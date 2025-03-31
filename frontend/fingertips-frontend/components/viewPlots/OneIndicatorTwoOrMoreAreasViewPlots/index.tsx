@@ -7,7 +7,7 @@ import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTa
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { H3, Paragraph } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
@@ -23,6 +23,8 @@ import {
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState, useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -67,7 +69,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   );
 
   const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
       ? healthIndicatorData.find(
           (areaData) => areaData.areaCode === selectedGroupCode
         )
@@ -97,7 +99,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
 
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartbeShown && (
         <>
           <H3>Indicator data over time</H3>
@@ -151,8 +152,13 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
           areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
-          benchmarkComparisonMethod={benchmarkMethod}
-          polarity={polarity}
+          benchmarkComparisonMethod={
+            benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
+          }
+          polarity={polarity ?? IndicatorPolarity.Unknown}
+          measurementUnit={indicatorMetadata?.unitLabel}
+          benchmarkIndicatorData={englandBenchmarkData}
+          groupIndicatorData={groupData}
         />
       )}
       <BarChartEmbeddedTable

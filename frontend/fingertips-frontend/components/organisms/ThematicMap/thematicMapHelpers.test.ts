@@ -9,6 +9,7 @@ import { GeoJSON } from 'highcharts';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
+  generateThematicMapTooltipString,
   getMapGeographyData,
   MapGeographyData,
   prepareThematicMapSeriesData,
@@ -19,17 +20,20 @@ import {
 } from '@/mock/data/mapGroupBoundaries';
 import {
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
   HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
+import { GovukColours } from '@/lib/styleHelpers/colours';
+import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
 
 const mockMapData: MapGeographyData = {
   mapFile: regionsMap,
   mapGroupBoundary: mockMapGroupBoundaries.regions,
 };
-describe('getMapData', () => {
+describe('getMapGeographyData', () => {
   it.each<[AreaTypeKeysForMapMeta, string[], GeoJSON]>([
     ['regions', ['E12000008', 'E12000009'], regionsMap],
     [
@@ -163,25 +167,31 @@ describe('prepareThematicMapSeriesData', () => {
 
   const expected = [
     {
-      areaCode: 'E92000001',
-      areaName: 'England',
-      benchmarkComparisonOutcome: 'Higher',
+      areaName: mockHealthData[0].areaName,
+      areaCode: mockHealthData[0].areaCode,
+      value: mockHealthData[0].healthData[1].value,
+      year: mockHealthData[0].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[0].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 55,
-      value: 800.232,
     },
     {
-      areaCode: 'E12000001',
-      areaName: 'North East region (statistical)',
-      benchmarkComparisonOutcome: 'NotCompared',
+      areaName: mockHealthData[1].areaName,
+      areaCode: mockHealthData[1].areaCode,
+      value: mockHealthData[1].healthData[1].value,
+      year: mockHealthData[1].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[1].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 5,
-      value: 767.343,
     },
     {
-      areaCode: 'E12000003',
-      areaName: 'Yorkshire and the Humber region (statistical)',
-      benchmarkComparisonOutcome: 'Worse',
+      areaName: mockHealthData[2].areaName,
+      areaCode: mockHealthData[2].areaCode,
+      value: mockHealthData[2].healthData[1].value,
+      year: mockHealthData[2].healthData[1].year,
+      benchmarkComparisonOutcome:
+        mockHealthData[2].healthData[1].benchmarkComparison?.outcome,
       benchmarkColourCode: 35,
-      value: 643.434,
     },
   ];
   it('should return the expected series data, for the most recent year', () => {
@@ -194,14 +204,161 @@ describe('prepareThematicMapSeriesData', () => {
 describe('createThematicMapChartOptions', () => {
   it('should return an object with the correct map', () => {
     const options = createThematicMapChartOptions(
-      mockMapData,
       mockHealthData[108],
+      mockMapData,
       'regions',
       BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
-      IndicatorPolarity.NoJudgement
+      IndicatorPolarity.NoJudgement,
+      'units'
     );
 
     expect(options).toBeDefined();
     expect(options.series?.[0].mapData).toEqual(mockMapData.mapFile);
+  });
+});
+describe('generateThematicMapTooltipString', () => {
+  const mockHcPoint = {
+    areaName: 'area',
+    year: 2004,
+    benchmarkComparisonOutcome: BenchmarkOutcome.Better,
+    value: 10,
+  };
+
+  const mockGroupDataForYear: HealthDataForArea = {
+    ...mockHealthData[108][1],
+    healthData: [
+      {
+        ...mockHealthData[108][1].healthData[0],
+        benchmarkComparison: { outcome: 'Worse' },
+      },
+    ],
+  };
+
+  const mockBenchmarkDataForYear: HealthDataForArea = {
+    ...mockHealthData[108][0],
+    healthData: [
+      {
+        ...mockHealthData[108][1].healthData[0],
+        benchmarkComparison: { outcome: 'Worse' },
+      },
+    ],
+  };
+
+  const expectedAreaTooltip =
+    `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
+    `<br /><span>${mockHcPoint.year}</span>` +
+    `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${symbolEncoder.circle}</span>` +
+    `<span>${mockHcPoint.value} mock units</span>` +
+    `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
+
+  const expectedGroupTooltip =
+    `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
+    `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
+    `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${symbolEncoder.diamond}</span>` +
+    `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
+    `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
+
+  const expectedBenchmarkTooltip =
+    `<span style=\"font-weight: bold\">Benchmark: ${mockBenchmarkDataForYear.areaName}</span>` +
+    `<br /><span>${mockBenchmarkDataForYear.healthData[0].year}</span><br />` +
+    `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.circle}</span>` +
+    `<span>${mockBenchmarkDataForYear.healthData[0].value} mock units</span>`;
+
+  it('should return the expected tooltip for an area', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      undefined,
+      undefined,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(expectedAreaTooltip);
+  });
+  it('should return the expected tooltip for an area which is "not compared"', () => {
+    const mockHcPoint = {
+      areaName: 'area',
+      year: 1979,
+      benchmarkComparisonOutcome: BenchmarkOutcome.NotCompared,
+      value: 10,
+    };
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      undefined,
+      undefined,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    const expectedAreaToolTip =
+      `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
+      `<br /><span>${mockHcPoint.year}</span>` +
+      `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.multiplicationX}</span>` +
+      `<span>${mockHcPoint.value} mock units</span>` +
+      `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
+    expect(actual).toEqual(expectedAreaToolTip);
+  });
+  it('should return the expected tooltip for an area and group', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      undefined,
+      mockGroupDataForYear,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
+  });
+  it('should return the expected tooltip for an area and group for an area where benchmarking outcome is "not compared"', () => {
+    const mockGroupDataForYear: HealthDataForArea = {
+      ...mockHealthData[108][1],
+      healthData: [
+        {
+          ...mockHealthData[108][1].healthData[0],
+          benchmarkComparison: { outcome: 'NotCompared' },
+        },
+      ],
+    };
+
+    const expectedGroupTooltip =
+      `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
+      `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
+      `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.multiplicationX}</span>` +
+      `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
+      `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
+
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      undefined,
+      mockGroupDataForYear,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
+  });
+  it('should return the expected tootip for an area and benchmark', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      mockBenchmarkDataForYear,
+      undefined,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(expectedBenchmarkTooltip + expectedAreaTooltip);
+  });
+  it('should return the expected tootip for an area, group and benchmark', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      mockBenchmarkDataForYear,
+      mockGroupDataForYear,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(
+      expectedBenchmarkTooltip + expectedGroupTooltip + expectedAreaTooltip
+    );
   });
 });
