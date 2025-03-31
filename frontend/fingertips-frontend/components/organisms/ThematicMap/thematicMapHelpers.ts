@@ -169,16 +169,17 @@ function getBenchmarkColourScale(
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
   return getIndicatorDataForAreasForMostRecentYearOnly(data).map((areaData) => {
-    const [firstDataPoint] = areaData.healthData;
+    const [mostRecentDataPoint] = areaData.healthData;
     return {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
-      value: firstDataPoint.value,
-      year: firstDataPoint.year,
-      benchmarkComparisonOutcome: firstDataPoint.benchmarkComparison?.outcome,
+      value: mostRecentDataPoint.value,
+      year: mostRecentDataPoint.year,
+      benchmarkComparisonOutcome:
+        mostRecentDataPoint.benchmarkComparison?.outcome,
       benchmarkColourCode:
         mapBenchmarkToColourRef[
-          firstDataPoint?.benchmarkComparison?.outcome ??
+          mostRecentDataPoint?.benchmarkComparison?.outcome ??
             BenchmarkOutcome.NotCompared
         ],
     };
@@ -291,13 +292,14 @@ export function generateThematicMapTooltipString(
     : null;
 
   const areaMarkerSymbol =
-    (point.benchmarkComparisonOutcome as BenchmarkOutcome) === 'NotCompared'
+    (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
+    BenchmarkOutcome.NotCompared
       ? symbolEncoder.multiplicationX
       : symbolEncoder.circle;
 
   const groupMarkerSymbol =
     groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
-    'NotCompared'
+    BenchmarkOutcome.NotCompared
       ? symbolEncoder.multiplicationX
       : symbolEncoder.diamond;
 

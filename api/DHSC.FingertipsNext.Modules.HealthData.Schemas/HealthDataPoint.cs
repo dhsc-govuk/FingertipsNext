@@ -42,7 +42,7 @@ public class HealthDataPoint
     ///     Age band which the data are for.
     /// </summary>
     [JsonPropertyName("ageBand")]
-    public string AgeBand { get; init; } = string.Empty;
+    public Age AgeBand { get; init; }
 
     /// <summary>
     ///     Deprivation category which the data are for.
@@ -54,7 +54,7 @@ public class HealthDataPoint
     ///     Sex which the data are for.
     /// </summary>
     [JsonPropertyName("sex")]
-    public string Sex { get; init; } = string.Empty;
+    public Sex Sex { get; init; }
 
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.

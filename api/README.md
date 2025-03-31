@@ -31,3 +31,5 @@ The .http files include embedded scripts to validate the responses. To execute t
 `npx httpyac send ./**/*.http --all --json --output-failed short --output short > httpyacresults.json`
 
 This will execute the .http test files and build an output report file.
+
+Note that these tests are executed in the push and pull_request pipelines, once the docker services have been started, and before the e2e tests run.

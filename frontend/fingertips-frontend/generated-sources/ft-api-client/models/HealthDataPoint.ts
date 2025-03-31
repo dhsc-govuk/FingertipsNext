@@ -27,6 +27,20 @@ import {
     DeprivationDataToJSON,
     DeprivationDataToJSONTyped,
 } from './DeprivationData';
+import type { SexData } from './SexData';
+import {
+    SexDataFromJSON,
+    SexDataFromJSONTyped,
+    SexDataToJSON,
+    SexDataToJSONTyped,
+} from './SexData';
+import type { AgeData } from './AgeData';
+import {
+    AgeDataFromJSON,
+    AgeDataFromJSONTyped,
+    AgeDataToJSON,
+    AgeDataToJSONTyped,
+} from './AgeData';
 
 /**
  * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
@@ -65,17 +79,17 @@ export interface HealthDataPoint {
      */
     upperCi?: number;
     /**
-     * Age band which the data are for.
-     * @type {string}
+     * 
+     * @type {AgeData}
      * @memberof HealthDataPoint
      */
-    ageBand: string;
+    ageBand: AgeData;
     /**
-     * Sex which the data are for.
-     * @type {string}
+     * 
+     * @type {SexData}
      * @memberof HealthDataPoint
      */
-    sex: string;
+    sex: SexData;
     /**
      * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
      * @type {string}
@@ -147,8 +161,8 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
         'value': json['value'] == null ? undefined : json['value'],
         'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
         'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
-        'ageBand': json['ageBand'],
-        'sex': json['sex'],
+        'ageBand': AgeDataFromJSON(json['ageBand']),
+        'sex': SexDataFromJSON(json['sex']),
         'trend': json['trend'],
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
@@ -172,8 +186,8 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
         'value': value['value'],
         'lowerCi': value['lowerCi'],
         'upperCi': value['upperCi'],
-        'ageBand': value['ageBand'],
-        'sex': value['sex'],
+        'ageBand': AgeDataToJSON(value['ageBand']),
+        'sex': SexDataToJSON(value['sex']),
         'trend': value['trend'],
         'isAggregate': value['isAggregate'],
         'benchmarkComparison': HealthDataPointBenchmarkComparisonToJSON(value['benchmarkComparison']),
