@@ -113,7 +113,7 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         ageBand: allAgesAge,
-        sex: personsSex,
+        sex: maleSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
       },

@@ -625,7 +625,7 @@ describe('getAggregatePointInfo', () => {
     expect(result).toHaveProperty('aggregateKey', 'Persons');
   });
 
-  it('should return the inequalityDimensions sorted alphabetically is sequence is not present', () => {
+  it('should return the inequalityDimensions sorted alphabetically if sequence is not present', () => {
     const result = getAggregatePointInfo(testData);
 
     expect(result).toHaveProperty('inequalityDimensions', ['Female', 'Male']);
