@@ -1,6 +1,6 @@
 // ArrowExpander.test.tsx
 'use client';
-import React from 'react';
+import React, { act } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ArrowExpander } from './index';
 
@@ -16,10 +16,14 @@ describe('ArrowExpander', () => {
     expect(screen.getByText('Show')).toBeInTheDocument();
     expect(screen.queryByText(contentText)).not.toBeInTheDocument();
 
+    expect(screen.getByText('Show')).toBeInTheDocument();
     fireEvent.click(screen.getByTestId('arrow-toggle-button'));
 
     expect(screen.getByText('Hide')).toBeInTheDocument();
     expect(screen.getByText(contentText)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId('arrow-toggle-button'));
+    expect(screen.getByText('Show')).toBeInTheDocument();
   });
 
   it('take a snapshot', () => {
