@@ -1,0 +1,299 @@
+{
+  "name": "People reporting Alzheimer's disease or dementia",
+  "polarity": "NoJudgement",
+  "benchmarkMethod": "Quintiles",
+  "areaHealthData": [
+    {
+      "areaCode": "A84022",
+      "areaName": "Coquet Medical Group",
+      "healthData": [
+        {
+          "year": 2012,
+          "count": 0,
+          "value": 0,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Lowest",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2013,
+          "count": 0,
+          "value": 0,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Lowest",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2014,
+          "count": 0.90831625,
+          "value": 0.54227734,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2015,
+          "count": 1.3527756,
+          "value": 0.7906153,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2016,
+          "count": 0.92594296,
+          "value": 0.5583846,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2017,
+          "count": 1.8118536,
+          "value": 1.1026069,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Higher",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2018,
+          "count": 0.75562173,
+          "value": 0.52468115,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2019,
+          "count": 1.6188695,
+          "value": 1.0681634,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Higher",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2020,
+          "count": 0.7972896,
+          "value": 0.6185888,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2021,
+          "count": 0.8656672,
+          "value": 0.535168,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Similar",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2022,
+          "count": 1.6182072,
+          "value": 1.1822581,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Highest",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2023,
+          "count": 1.6803281,
+          "value": 1.2014,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Highest",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        },
+        {
+          "year": 2024,
+          "count": 0.97068,
+          "value": 0.72082,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": "16+ yrs",
+          "deprivation": {
+            "sequence": 1,
+            "value": "All",
+            "type": "All"
+          },
+          "sex": "Persons",
+          "trend": "No significant change",
+          "benchmarkComparison": {
+            "outcome": "Higher",
+            "benchmarkAreaCode": "E92000001",
+            "benchmarkAreaName": "England",
+            "benchmarkValue": null
+          },
+          "isAggregate": true
+        }
+      ]
+    }
+  ]
+}

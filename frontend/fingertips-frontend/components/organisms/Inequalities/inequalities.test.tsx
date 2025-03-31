@@ -3,6 +3,7 @@ import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
@@ -10,27 +11,37 @@ const state: SearchStateParams = {
   [SearchParams.AreasSelected]: ['A1245'],
 };
 
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
 describe('Inequalities suite', () => {
-  it('should render inequalities component', () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
-      />
-    );
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(state);
+  });
+
+  it('should render inequalities component', async () => {
+    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesLineChart-component')
+      await screen.findByTestId('inequalitiesLineChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('inequalitiesBarChartTable-component')
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('inequalitiesBarChart-component')
+      await screen.findByTestId('inequalitiesBarChart-component')
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
@@ -41,12 +52,7 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
-      />
-    );
+    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
@@ -60,7 +66,6 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
         measurementUnit="kg"
       />
     );

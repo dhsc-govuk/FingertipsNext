@@ -2,10 +2,11 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
 import { render, screen, waitFor } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import regionsMap from '@/assets/maps/Regions_December_2023_Boundaries_EN_BUC_1958740832896680092.geo.json';
-import { MapData } from '@/lib/thematicMapUtils/getMapData';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { SearchStateContext } from '@/context/SearchStateContext';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -16,8 +17,17 @@ jest.mock('next/navigation', () => {
   };
 });
 
-const mockMapData: MapData = {
-  mapJoinKey: 'RGN23CD',
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
+const mockMapGeographyData: MapGeographyData = {
   mapFile: regionsMap,
   mapGroupBoundary: regionsMap,
 };
@@ -39,17 +49,16 @@ const mockMetaData = {
 const mockSearch = 'test';
 const mockIndicator = ['108'];
 const mockAreas = ['E12000001', 'E12000003'];
-const testHealthData: HealthDataForArea[] = [
-  mockHealthData['108'][1],
-  mockHealthData['108'][2],
-];
+const testHealthData: IndicatorWithHealthDataForArea = {
+  areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
+};
 
 const searchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: mockIndicator,
 };
 
-const lineChartTestId = 'lineChart-component';
+const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
 const lineChartContainerTitle = 'Indicator data over time';
@@ -82,30 +91,11 @@ const assertLineChartAndTableNotInDocument = async () => {
 };
 
 describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <OneIndicatorTwoOrMoreAreasViewPlots
-        healthIndicatorData={testHealthData}
-        searchState={searchState}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('oneIndicatorTwoOrMoreAreasViewPlots-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   describe('LineChart components', () => {
     it('should render the LineChart components when there are 2 areas', async () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={{
             ...searchState,
             [SearchParams.AreasSelected]: mockAreas,
@@ -119,7 +109,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should display data source in the LineChart when metadata exists', async () => {
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={{
             ...searchState,
             [SearchParams.AreasSelected]: mockAreas,
@@ -134,13 +124,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     });
 
     it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
-      const MOCK_DATA = [
-        {
-          areaCode: 'A1',
-          areaName: 'Area 1',
-          healthData: [mockHealthData['1'][0].healthData[0]],
-        },
-      ];
+      const MOCK_DATA = {
+        areaHealthData: [
+          {
+            areaCode: 'A1',
+            areaName: 'Area 1',
+            healthData: [mockHealthData['1'][0].healthData[0]],
+          },
+        ],
+      };
 
       const state: SearchStateParams = {
         [SearchParams.IndicatorsSelected]: ['0'],
@@ -149,7 +141,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={MOCK_DATA}
+          indicatorData={MOCK_DATA}
           searchState={state}
         />
       );
@@ -166,14 +158,33 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={searchState}
           indicatorMetadata={mockMetaData}
         />
       );
 
-      await assertLineChartAndTableNotInDocument();
+      await waitFor(() => assertLineChartAndTableNotInDocument());
     });
+  });
+
+  it('should render the title for BarChartEmbeddedTable/ThematicMap', async () => {
+    const searchState: SearchStateParams = {
+      [SearchParams.SearchedIndicator]: mockSearch,
+      [SearchParams.IndicatorsSelected]: mockIndicator,
+      [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
+    };
+
+    render(
+      <OneIndicatorTwoOrMoreAreasViewPlots
+        indicatorData={testHealthData}
+        searchState={searchState}
+      />
+    );
+
+    expect(
+      await screen.findByText('Compare an indicator by areas')
+    ).toBeInTheDocument();
   });
 
   describe('BarChartEmbeddedTable', () => {
@@ -186,32 +197,13 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
+          indicatorData={testHealthData}
           searchState={searchState}
         />
       );
 
       expect(
         await screen.findByTestId(barChartEmbeddedTable)
-      ).toBeInTheDocument();
-    });
-
-    it('should render the title for BarChartEmbeddedTable', async () => {
-      const searchState: SearchStateParams = {
-        [SearchParams.SearchedIndicator]: mockSearch,
-        [SearchParams.IndicatorsSelected]: mockIndicator,
-        [SearchParams.AreasSelected]: ['A1245', 'A1246', 'A1427'],
-      };
-
-      render(
-        <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={testHealthData}
-          searchState={searchState}
-        />
-      );
-
-      expect(
-        screen.getByText('Compare an indicator by areas')
       ).toBeInTheDocument();
     });
   });
@@ -225,13 +217,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={[
-            mockHealthData[108][1],
-            mockHealthData[108][2],
-            mockHealthData[108][3],
-          ]}
+          indicatorData={{
+            areaHealthData: [
+              mockHealthData[108][1],
+              mockHealthData[108][2],
+              mockHealthData[108][3],
+            ],
+          }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
       expect(
@@ -247,13 +241,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
       render(
         <OneIndicatorTwoOrMoreAreasViewPlots
-          healthIndicatorData={[
-            mockHealthData[108][1],
-            mockHealthData[108][2],
-            mockHealthData[108][3],
-          ]}
+          indicatorData={{
+            areaHealthData: [
+              mockHealthData[108][1],
+              mockHealthData[108][2],
+              mockHealthData[108][3],
+            ],
+          }}
           searchState={searchState}
-          mapData={mockMapData}
+          mapGeographyData={mockMapGeographyData}
         />
       );
 

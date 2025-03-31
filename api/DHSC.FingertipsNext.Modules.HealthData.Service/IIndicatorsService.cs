@@ -14,17 +14,15 @@ public interface IIndicatorsService
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes.</param>
+    /// <param name="areaType">The area type which the codes are taken from.</param>
     /// <param name="years">A list of years.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    /// <remarks>
-    ///     If more than 10 years are supplied only data for the first 10 distinct years will be returned.
-    ///     If more than 10 area codes are supplied only data for the first 10 distinct area codes will be returned.
-    /// </remarks>
-    Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(int indicatorId,
-        IEnumerable<string> areaCodes, IEnumerable<int> years,
+    Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(int indicatorId,
+        IEnumerable<string> areaCodes,
+        string areaType,
+        IEnumerable<int> years,
         IEnumerable<string> inequalities);
-
 }

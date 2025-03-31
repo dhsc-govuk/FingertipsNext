@@ -13,6 +13,11 @@ import React from 'react';
 import { InequalitiesBarChartTableHead } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBarChartTableHead';
 import { InequalitiesBenchmarkLabel } from '@/components/molecules/Inequalities/BarChart/Table/InequalitiesBenchmarkLabel';
 import styled from 'styled-components';
+import {
+  BenchmarkComparisonMethod,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
+import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
 
 export const StyledAlignLeftTableCellNoPadding = styled(
   StyledAlignLeftTableCell
@@ -25,12 +30,16 @@ interface InequalitiesBarChartTableProps {
   tableData: InequalitiesBarChartData;
   type?: InequalitiesTypes;
   measurementUnit?: string;
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export function InequalitiesBarChartTable({
   tableData,
   type = InequalitiesTypes.Sex,
   measurementUnit,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesBarChartTableProps>) {
   const { areaName, data } = tableData;
   const inequalities = { ...data.inequalities };
@@ -48,6 +57,9 @@ export function InequalitiesBarChartTable({
           <InequalitiesBarChartTableHead
             areaName={areaName}
             measurementUnit={measurementUnit}
+            confidenceLimit={getConfidenceLimitNumber(
+              benchmarkComparisonMethod
+            )}
           />
         }
       >
@@ -57,7 +69,9 @@ export function InequalitiesBarChartTable({
             <StyledAlignLeftTableCellNoPadding>
               {inequalityDimensions.includes(key) ? (
                 <InequalitiesBenchmarkLabel
+                  benchmarkComparisonMethod={benchmarkComparisonMethod}
                   comparison={inequalities[key]?.benchmarkComparison}
+                  polarity={polarity}
                 />
               ) : null}
             </StyledAlignLeftTableCellNoPadding>

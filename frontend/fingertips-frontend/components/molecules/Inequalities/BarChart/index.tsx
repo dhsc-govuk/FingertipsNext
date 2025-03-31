@@ -10,17 +10,27 @@ import {
   getPlotline,
 } from '@/components/molecules/Inequalities/BarChart/barChartHelpers';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { BenchmarkLabelType } from '@/components/organisms/BenchmarkLabel/BenchmarkLabelTypes';
 import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
-import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
+import { ConfidenceIntervalCheckbox } from '../../ConfidenceIntervalCheckbox';
+import { useEffect, useState } from 'react';
+import {
+  generateConfidenceIntervalSeries,
+  getBenchmarkColour,
+  loadHighchartsModules,
+} from '@/lib/chartHelpers/chartHelpers';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 
 interface InequalitiesBarChartProps {
   barChartData: InequalitiesBarChartData;
   yAxisLabel: string;
-  benchmarkValue?: number;
   type?: InequalitiesTypes;
   measurementUnit?: string;
-  areasSelected?: string[];
+  benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 const mapToXAxisTitle: Record<InequalitiesTypes, string> = {
@@ -45,11 +55,16 @@ export function InequalitiesBarChart({
   yAxisLabel,
   measurementUnit,
   type = InequalitiesTypes.Sex,
+  benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
+  polarity = IndicatorPolarity.Unknown,
 }: Readonly<InequalitiesBarChartProps>) {
   const xAxisTitlePrefix = 'Inequality type:';
   const { inequalities } = barChartData.data;
   const { benchmarkValue, inequalityDimensions: barChartFields } =
     getAggregatePointInfo(inequalities);
+  const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
+    useState<boolean>(false);
+  const [options, setOptions] = useState<Highcharts.Options>();
 
   // for sex inequality we always want Male, Female which is reverse alphabetical order
   // pending a better solution where an order key is supplied by API
@@ -60,13 +75,16 @@ export function InequalitiesBarChart({
     benchmarkValue,
   ]);
 
+  const comparedTo = `${barChartData.areaName} persons`;
+
   const seriesData: Highcharts.SeriesOptionsType[] = [
     {
       type: 'bar',
       data: barChartFields.map((field) => {
         const color = getBenchmarkColour(
-          inequalities[field]?.benchmarkComparison
-            ?.outcome as BenchmarkLabelType
+          benchmarkComparisonMethod,
+          inequalities[field]?.benchmarkComparison?.outcome as BenchmarkOutcome,
+          polarity
         );
         return {
           name: field,
@@ -75,6 +93,14 @@ export function InequalitiesBarChart({
         };
       }),
     },
+    generateConfidenceIntervalSeries(
+      barChartData.areaName,
+      barChartFields.map((field) => [
+        inequalities[field]?.lower,
+        inequalities[field]?.upper,
+      ]),
+      showConfidenceIntervalsData
+    ),
   ];
 
   const barChartOptions: Highcharts.Options = {
@@ -95,7 +121,7 @@ export function InequalitiesBarChart({
       max: yAxisMaxValue + 0.2 * yAxisMaxValue,
       plotLines: [
         {
-          ...getPlotline(`${barChartData.areaName} persons`, benchmarkValue),
+          ...getPlotline(comparedTo, benchmarkValue),
           events: {
             mouseover: function (
               this: Highcharts.PlotLineOrBand,
@@ -156,15 +182,35 @@ export function InequalitiesBarChart({
     },
   };
 
+  useEffect(() => {
+    loadHighchartsModules(() => {
+      setOptions(barChartOptions);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showConfidenceIntervalsData]);
+
+  if (!options) {
+    return null;
+  }
+
   return (
     <div data-testid="inequalitiesBarChart-component">
-      <BenchmarkLegend rag />
+      <BenchmarkLegend
+        title={`Compared to ${comparedTo}`}
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
+      <ConfidenceIntervalCheckbox
+        chartName="inequalitiesBarChart"
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+      ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-inequalitiesBarChart',
         }}
         highcharts={Highcharts}
-        options={barChartOptions}
+        options={options}
       />
     </div>
   );

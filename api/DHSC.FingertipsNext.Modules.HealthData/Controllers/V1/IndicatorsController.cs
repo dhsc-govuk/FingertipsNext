@@ -25,6 +25,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
     /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
     /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns></returns>
@@ -40,6 +41,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     public async Task<IActionResult> GetIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
+        [FromQuery(Name = "area_type")] string areaType = "",
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null)
     {
@@ -61,6 +63,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         (
             indicatorId,
             areaCodes ?? [],
+            areaType,
             years ?? [],
             inequalities ?? []
         );
