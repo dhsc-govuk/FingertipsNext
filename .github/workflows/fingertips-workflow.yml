@@ -260,7 +260,7 @@ jobs:
           needs.check-changes.outputs.search_changed == 'true'
         )
       )
-    uses: ./.github/workflows/e2e-tests.yml
+    uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
       playwright-mode: docker
     secrets:
@@ -663,7 +663,7 @@ jobs:
         deploy-api-dev,
         deploy-frontend-dev,
       ]
-    uses: ./.github/workflows/e2e-tests.yml
+    uses: ./.github/workflows/e2e-and-api-tests.yml
     if: >
       always() &&
       contains(needs.*.result, 'success') &&
