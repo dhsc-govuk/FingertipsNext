@@ -93,7 +93,7 @@ export function SparklineChart({
   };
 
   useEffect(() => {
-    loadHighchartsModules(() => {
+    void loadHighchartsModules(() => {
       setOptions(sparklineOptions);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

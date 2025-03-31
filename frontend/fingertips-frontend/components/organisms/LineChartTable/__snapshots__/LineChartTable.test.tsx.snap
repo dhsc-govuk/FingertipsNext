@@ -551,7 +551,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           <td
             class="c18 c19 c23"
           >
-            703.420759
+            703.42
           </td>
           <td
             class="c18 c19 c23"
@@ -567,7 +567,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c21 c19 c23 c24"
             data-testid="grey-table-cell"
           >
-            904.874
+            904.87
           </td>
         </tr>
         <tr
@@ -595,7 +595,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           <td
             class="c18 c19 c23"
           >
-            890.305692
+            890.31
           </td>
           <td
             class="c18 c19 c23"
@@ -611,7 +611,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c21 c19 c23 c24"
             data-testid="grey-table-cell"
           >
-            965.9843
+            965.98
           </td>
         </tr>
       </tbody>
@@ -1267,7 +1267,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c19 c20 c25"
           >
-            703.420759
+            703.42
           </td>
           <td
             class="c19 c20 c25"
@@ -1296,7 +1296,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c19 c20 c25"
           >
-            135.149304
+            135.15
           </td>
           <td
             class="c19 c20 c25"
@@ -1312,7 +1312,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c22 c20 c25 c26"
             data-testid="grey-table-cell"
           >
-            904.874
+            904.87
           </td>
         </tr>
         <tr
@@ -1340,7 +1340,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c19 c20 c25"
           >
-            890.305692
+            890.31
           </td>
           <td
             class="c19 c20 c25"
@@ -1369,7 +1369,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           <td
             class="c19 c20 c25"
           >
-            135.149304
+            135.15
           </td>
           <td
             class="c19 c20 c25"
@@ -1385,7 +1385,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c22 c20 c25 c26"
             data-testid="grey-table-cell"
           >
-            965.9843
+            965.98
           </td>
         </tr>
       </tbody>

@@ -22,6 +22,7 @@ import {
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -346,10 +347,10 @@ export function LineChartTable({
                   polarity
                 )}
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].count}
+                  {formatNumber(sortedAreaData[index].count)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
-                  {sortedAreaData[index].value}
+                  {formatNumber(sortedAreaData[index].value)}
                 </StyledAlignRightTableCell>
                 <StyledAlignRightTableCell numeric>
                   {sortedAreaData[index].lower}
@@ -361,11 +362,11 @@ export function LineChartTable({
             ))}
             {groupIndicatorData ? (
               <StylesGroupValueTableCell>
-                {sortedGroupData[index].value}
+                {formatNumber(sortedGroupData[index].value)}
               </StylesGroupValueTableCell>
             ) : null}
             <StyledGreyTableCellValue data-testid="grey-table-cell">
-              {sortedEnglandData[index].value}
+              {formatNumber(sortedEnglandData[index].value)}
             </StyledGreyTableCellValue>
           </Table.Row>
         ))}

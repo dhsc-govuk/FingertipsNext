@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -162,9 +163,11 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentBenchmarkData.count} />
             <CheckValueInTableCell
-              value={mostRecentBenchmarkData.value}
+              value={formatNumber(mostRecentBenchmarkData.count)}
+            />
+            <CheckValueInTableCell
+              value={formatNumber(mostRecentBenchmarkData.value)}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
@@ -199,9 +202,11 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentGroupData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={mostRecentGroupData.count} />
             <CheckValueInTableCell
-              value={mostRecentGroupData.value}
+              value={formatNumber(mostRecentGroupData.count)}
+            />
+            <CheckValueInTableCell
+              value={formatNumber(mostRecentGroupData.value)}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
@@ -232,9 +237,9 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={item.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={item.count} />
+            <CheckValueInTableCell value={formatNumber(item.count)} />
             <CheckValueInTableCell
-              value={item.value}
+              value={formatNumber(item.value)}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
