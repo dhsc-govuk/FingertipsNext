@@ -15,10 +15,14 @@ describe('Spine chart table suite', () => {
   describe('Spine chart table header', () => {
     it('should contain the expected elements', () => {
       render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableHeader
+              areaName={mockHeaderData.area}
+              groupName={mockHeaderData.group}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('empty-header')).toHaveTextContent('');
@@ -39,10 +43,14 @@ describe('Spine chart table suite', () => {
 
     it('should have grey cell color for benchmark column', () => {
       render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableHeader
+              areaName={mockHeaderData.area}
+              groupName={mockHeaderData.group}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('england-header')).toHaveStyle(
@@ -62,10 +70,14 @@ describe('Spine chart table suite', () => {
 
     it('should have light grey cell color for the group column', () => {
       render(
-        <SpineChartTableHeader
-          areaName={mockHeaderData.area}
-          groupName={mockHeaderData.group}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableHeader
+              areaName={mockHeaderData.area}
+              groupName={mockHeaderData.group}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('group-header')).toHaveStyle(
