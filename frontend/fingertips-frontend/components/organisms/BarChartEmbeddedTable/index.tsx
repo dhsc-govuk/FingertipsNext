@@ -13,12 +13,14 @@ import {
   sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
+import {
+  CheckValueInTableCell,
+  FormatNumberInTableCell,
+} from '@/components/molecules/CheckValueInTableCell';
 import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
-import { formatNumber } from '@/lib/numberFormatter';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -163,11 +165,9 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentBenchmarkData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell
-              value={formatNumber(mostRecentBenchmarkData.count)}
-            />
-            <CheckValueInTableCell
-              value={formatNumber(mostRecentBenchmarkData.value)}
+            <FormatNumberInTableCell value={mostRecentBenchmarkData.count} />
+            <FormatNumberInTableCell
+              value={mostRecentBenchmarkData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
@@ -202,11 +202,9 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={mostRecentGroupData.trend} />
             </Table.Cell>
-            <CheckValueInTableCell
-              value={formatNumber(mostRecentGroupData.count)}
-            />
-            <CheckValueInTableCell
-              value={formatNumber(mostRecentGroupData.value)}
+            <FormatNumberInTableCell value={mostRecentGroupData.count} />
+            <FormatNumberInTableCell
+              value={mostRecentGroupData.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
@@ -237,9 +235,9 @@ export function BarChartEmbeddedTable({
             <Table.Cell>
               <TrendTag trendFromResponse={item.trend} />
             </Table.Cell>
-            <CheckValueInTableCell value={formatNumber(item.count)} />
-            <CheckValueInTableCell
-              value={formatNumber(item.value)}
+            <FormatNumberInTableCell value={item.count} />
+            <FormatNumberInTableCell
+              value={item.value}
               style={{ textAlign: 'right', paddingRight: '0px' }}
             />
             <Table.Cell style={{ paddingRight: '0px' }}>
