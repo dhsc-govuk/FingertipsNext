@@ -75,14 +75,10 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async checkRecentTrends(areaMode: AreaMode) {
-    if (areaMode !== AreaMode.TWO_PLUS_AREAS) {
-      // Raise comment in PR and agree e2e test approach
-      // Hopefully this is sufficient for now, there would be some intricacy to actually
-      // asserting the trend that is returned for each indicator
-      await expect(
-        this.page.getByText('Recent trend for selected area')
-      ).toBeVisible();
-    }
+    const trendsShouldBeVisible = areaMode !== AreaMode.TWO_PLUS_AREAS;
+    await expect(
+      this.page.getByText('Recent trend for selected area')
+    ).toBeVisible({ visible: trendsShouldBeVisible });
   }
 
   async clickBackLink() {
