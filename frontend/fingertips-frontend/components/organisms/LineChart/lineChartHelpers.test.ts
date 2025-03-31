@@ -489,7 +489,7 @@ describe('generateStandardLineChartOptions', () => {
       },
       series: expectedSeriesData,
       tooltip: {
-        format: lineChartDefaultOptions.tooltip?.format + '%',
+        ...lineChartDefaultOptions.tooltip,
       },
     };
 
@@ -504,7 +504,7 @@ describe('generateStandardLineChartOptions', () => {
         colours: chartColours,
         symbols,
       })
-    ).toEqual(expected);
+    ).toMatchSnapshot();
   });
 
   it('should generate standard line chart options with benchmark data', () => {

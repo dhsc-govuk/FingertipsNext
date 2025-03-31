@@ -11,6 +11,7 @@ export function formatNumber(value?: number): string {
   maps tooltips - no special formatting. examples had values such as '14.2 units'
   SpineChartTableRow - no special number formatting, 'X' used for undefined
   LineChartTable - no special number formatting
+  lineChartsHelper - custom formatter for tooltip
   BarChartEmbeddedTable - no special number formatting
 
 
