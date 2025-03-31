@@ -36,8 +36,7 @@ interface SparklineChartProps {
 export const sparklineTooltipContent = (
   benchmarkOutcome: BenchmarkOutcome,
   label: string,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
-  measurementUnit: string | undefined
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
 ) => {
   let category = '';
   let benchmarkLabel = '';
@@ -55,16 +54,16 @@ export const sparklineTooltipContent = (
 
   if (benchmarkOutcome === BenchmarkOutcome.Similar) {
     benchmarkLabel = `${outcome} to England`;
-    comparisonLabel = `(${comparison}${measurementUnit})`;
+    comparisonLabel = `(${comparison}%)`;
   } else if (
     benchmarkOutcome &&
     benchmarkOutcome !== BenchmarkOutcome.NotCompared
   ) {
     benchmarkLabel = `${outcome} than England`;
-    comparisonLabel = `(${comparison}${measurementUnit})`;
+    comparisonLabel = `(${comparison}%)`;
   }
 
-  return { benchmarkLabel, category, comparisonLabel, measurementUnit };
+  return { benchmarkLabel, category, comparisonLabel };
 };
 
 export function SparklineChart({
@@ -92,8 +91,7 @@ export function SparklineChart({
       sparklineTooltipContent(
         benchmarkOutcome,
         label,
-        benchmarkComparisonMethod,
-        measurementUnit
+        benchmarkComparisonMethod
       );
 
     return [

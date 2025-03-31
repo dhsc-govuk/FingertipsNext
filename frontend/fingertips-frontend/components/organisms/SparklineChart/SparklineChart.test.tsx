@@ -9,7 +9,6 @@ import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
-import { act } from 'react';
 
 describe('SparklineChart', () => {
   const mockValue = [48];
@@ -36,44 +35,17 @@ describe('SparklineChart', () => {
   });
 
   describe('sparklineTooltipContent', () => {
-    const measurementUnit = '%';
-    it('should return the category "Benchmark" prefix and an empty benchmark label when benchmark data is present', async () => {
+    it('should return the category "Benchmark" prefix and an empty benchmark label when benchmark data is present', () => {
       const benchmarkOutcome = BenchmarkOutcome.Similar;
       const benchmarkComparisonMethod =
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
-      render(
-        <SparklineChart
-          value={mockValue}
-          maxValue={maxValue}
-          confidenceIntervalValues={[5, 10]}
-          showConfidenceIntervalsData={true}
-          label={SparklineLabelEnum.Benchmark}
-          area={'mockArea'}
-          year={2000}
-          measurementUnit={''}
-        />
-      );
 
       const result = sparklineTooltipContent(
         benchmarkOutcome,
         SparklineLabelEnum.Benchmark,
-        benchmarkComparisonMethod,
-        measurementUnit
+        benchmarkComparisonMethod
       );
-      await act(async () => {
-        render(
-          <SparklineChart
-            value={mockValue}
-            maxValue={maxValue}
-            confidenceIntervalValues={[5, 10]}
-            showConfidenceIntervalsData={true}
-            label={SparklineLabelEnum.Benchmark}
-            area={'mockArea'}
-            year={2000}
-            measurementUnit={''}
-          />
-        );
-      });
+
       expect(result).toEqual({
         benchmarkLabel: '',
         category: 'Benchmark: ',
@@ -81,138 +53,74 @@ describe('SparklineChart', () => {
       });
     });
 
-    it('should return the category "Group" prefix when group data is present', async () => {
+    it('should return the category "Group" prefix when group data is present', () => {
       const benchmarkOutcome = BenchmarkOutcome.NotCompared;
       const benchmarkComparisonMethod =
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
-      render(
-        <SparklineChart
-          value={mockValue}
-          maxValue={maxValue}
-          confidenceIntervalValues={[5, 10]}
-          showConfidenceIntervalsData={true}
-          label={SparklineLabelEnum.Group}
-          area={'mockArea'}
-          year={2000}
-          measurementUnit={''}
-        />
-      );
 
       const result = sparklineTooltipContent(
         benchmarkOutcome,
         SparklineLabelEnum.Group,
-        benchmarkComparisonMethod,
-        measurementUnit
+        benchmarkComparisonMethod
       );
-      await act(async () => {
-        render(
-          <SparklineChart
-            value={mockValue}
-            maxValue={maxValue}
-            confidenceIntervalValues={[5, 10]}
-            showConfidenceIntervalsData={true}
-            label={SparklineLabelEnum.Group}
-            area={'mockArea'}
-            year={2000}
-            measurementUnit={''}
-          />
-        );
-      });
+
       expect(result).toEqual({
         benchmarkLabel: '',
         category: 'Group: ',
         comparisonLabel: '',
-        measurementUnit: '%',
       });
     });
 
-    it('should return "Similar to England" benchmark label when the benchmark outcome is Similar', async () => {
+    it('should return "Similar to England" benchmark label when the benchmark outcome is Similar', () => {
       const benchmarkOutcome = BenchmarkOutcome.Similar;
       const benchmarkComparisonMethod =
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
-      render(
-        <SparklineChart
-          value={mockValue}
-          maxValue={maxValue}
-          confidenceIntervalValues={[5, 10]}
-          showConfidenceIntervalsData={true}
-          label={SparklineLabelEnum.Area}
-          area={'mockArea'}
-          year={2000}
-          measurementUnit={''}
-        />
-      );
 
       const result = sparklineTooltipContent(
         benchmarkOutcome,
         SparklineLabelEnum.Area,
-        benchmarkComparisonMethod,
-        measurementUnit
+        benchmarkComparisonMethod
       );
-      await act(async () => {
-        render(
-          <SparklineChart
-            value={mockValue}
-            maxValue={maxValue}
-            confidenceIntervalValues={[5, 10]}
-            showConfidenceIntervalsData={true}
-            label={SparklineLabelEnum.Area}
-            area={'mockArea'}
-            year={2000}
-            measurementUnit={''}
-          />
-        );
-      });
+
       expect(result).toEqual({
         benchmarkLabel: 'Similar to England',
         category: '',
         comparisonLabel: '(95%)',
-        measurementUnit: '%',
       });
     });
 
-    it('should return comparison label of "95%" when benchmark comparison method is CIOverlappingReferenceValue95', async () => {
+    it('should return comparison label of "95%" when benchmark comparison method is CIOverlappingReferenceValue95', () => {
       const benchmarkOutcome = BenchmarkOutcome.Similar;
       const benchmarkComparisonMethod =
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
-      render(
-        <SparklineChart
-          value={mockValue}
-          maxValue={maxValue}
-          confidenceIntervalValues={[5, 10]}
-          showConfidenceIntervalsData={true}
-          label={SparklineLabelEnum.Area}
-          area={'mockArea'}
-          year={2000}
-          measurementUnit={''}
-        />
-      );
 
       const result = sparklineTooltipContent(
         benchmarkOutcome,
         SparklineLabelEnum.Area,
-        benchmarkComparisonMethod,
-        measurementUnit
+        benchmarkComparisonMethod
       );
-      await act(async () => {
-        render(
-          <SparklineChart
-            value={mockValue}
-            maxValue={maxValue}
-            confidenceIntervalValues={[5, 10]}
-            showConfidenceIntervalsData={true}
-            label={SparklineLabelEnum.Area}
-            area={'mockArea'}
-            year={2000}
-            measurementUnit={''}
-          />
-        );
-      });
+
       expect(result).toEqual({
         benchmarkLabel: 'Similar to England',
         category: '',
         comparisonLabel: '(95%)',
-        measurementUnit: '%',
+      });
+    });
+
+    it('should not return a comparison label or benchmark label when the benchmark outcome method of "Not compared" is passed in', () => {
+      const benchmarkOutcome = BenchmarkOutcome.NotCompared;
+      const benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown;
+
+      const result = sparklineTooltipContent(
+        benchmarkOutcome,
+        SparklineLabelEnum.Benchmark,
+        benchmarkComparisonMethod
+      );
+
+      expect(result).toEqual({
+        benchmarkLabel: '',
+        category: 'Benchmark: ',
+        comparisonLabel: '',
       });
     });
   });
