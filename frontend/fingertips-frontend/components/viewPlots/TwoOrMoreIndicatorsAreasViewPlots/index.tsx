@@ -4,9 +4,12 @@ import {
   SpineChartTableProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 export const mapToSpineChartTableProps = (): SpineChartTableProps => {
   const mockIndicatorData = [
@@ -24,7 +27,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
 
   const mockUnits = ['kg', 'per 1000'];
 
-  const mockHealthData = [
+  const mockHealthData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
@@ -35,8 +38,8 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           value: 890.305692,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -52,8 +55,8 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           value: 690.305692,
           lowerCi: 341.69151,
           upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -61,7 +64,7 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
     },
   ];
 
-  const mockGroup = [
+  const mockGroup: HealthDataForArea[] = [
     {
       areaCode: '90210',
       areaName: 'Manchester',
@@ -72,8 +75,8 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           value: 980.305692,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -89,8 +92,8 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
           value: 690.305692,
           lowerCi: 341.69151,
           upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },

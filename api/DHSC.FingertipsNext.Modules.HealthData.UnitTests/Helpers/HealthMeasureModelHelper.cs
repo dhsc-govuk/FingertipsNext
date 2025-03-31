@@ -53,15 +53,17 @@ public class HealthMeasureModelHelper(
         short? ageKey = null,
         string name = "age name",
         short ageId = 0,
-        bool hasValue = false
+        bool hasValue = false,
+        bool ageIsAggregate = true
     )
     {
         return WithAgeDimension(new AgeDimensionModel
         {
-            AgeKey = ageKey ?? (short) key,
+            AgeKey = ageKey ?? (short)key,
             Name = name,
             AgeID = ageId,
-            HasValue = hasValue
+            HasValue = hasValue,
+            IsAggregate = ageIsAggregate
         });
     }
 
@@ -72,7 +74,8 @@ public class HealthMeasureModelHelper(
             AgeKey = (short)key,
             Name = "All ages",
             AgeID = 0,
-            HasValue = false
+            HasValue = false,
+            IsAggregate = true
         };
     }
 
@@ -80,10 +83,10 @@ public class HealthMeasureModelHelper(
     public HealthMeasureModelHelper WithIndicatorDimension(IndicatorDimensionModel indicatorDimension)
     {
         _indicatorDimension = indicatorDimension;
-        
+
         return this;
     }
-    
+
     public HealthMeasureModelHelper WithIndicatorDimension(
         string name = "indicator name",
         short indicatorId = 1
@@ -110,20 +113,22 @@ public class HealthMeasureModelHelper(
     public HealthMeasureModelHelper WithSexDimension(SexDimensionModel sexDimension)
     {
         _sexDimension = sexDimension;
-        
+
         return this;
     }
 
     public HealthMeasureModelHelper WithSexDimension(
         byte? sexKey = null,
         string name = "Persons",
-        bool hasValue = false)
+        bool hasValue = false,
+        bool sexIsAggregate = true)
     {
         return WithSexDimension(new SexDimensionModel
         {
-            SexKey = sexKey ?? (byte) key,
+            SexKey = sexKey ?? (byte)key,
             Name = name,
-            HasValue = hasValue
+            HasValue = hasValue,
+            IsAggregate = sexIsAggregate
         });
     }
 
@@ -133,7 +138,8 @@ public class HealthMeasureModelHelper(
         {
             SexKey = (byte)key,
             Name = "Persons",
-            HasValue = false
+            HasValue = false,
+            IsAggregate = true
         };
     }
 
@@ -150,7 +156,7 @@ public class HealthMeasureModelHelper(
     public HealthMeasureModelHelper WithDeprivationDimension(DeprivationDimensionModel deprivationDimension)
     {
         _deprivationDimension = deprivationDimension;
-        
+
         return this;
     }
 
@@ -158,7 +164,8 @@ public class HealthMeasureModelHelper(
         string name = "All",
         string type = "Deprivation Deciles",
         byte sequence = 1,
-        bool hasValue = false)
+        bool hasValue = false,
+        bool deprivationIsAggregate = true)
     {
         _deprivationDimension = new DeprivationDimensionModel
         {
@@ -166,7 +173,8 @@ public class HealthMeasureModelHelper(
             Name = name,
             Type = type,
             Sequence = sequence,
-            HasValue = hasValue
+            HasValue = hasValue,
+            IsAggregate = deprivationIsAggregate
         };
 
         return this;
@@ -180,7 +188,8 @@ public class HealthMeasureModelHelper(
             Name = "All",
             Type = "All",
             Sequence = 1,
-            HasValue = false
+            HasValue = false,
+            IsAggregate = true
         };
     }
 
