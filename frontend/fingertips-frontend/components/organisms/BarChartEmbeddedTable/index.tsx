@@ -29,6 +29,12 @@ export enum BarChartEmbeddedTableHeadingEnum {
   Upper = 'Upper',
 }
 
+export enum SparklineLabelEnum {
+  Benchmark = 'Benchmark',
+  Group = 'Group',
+  Area = 'Area',
+}
+
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
   benchmarkData?: HealthDataForArea;
@@ -181,6 +187,10 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Benchmark}
+                area={benchmarkData?.areaName}
+                year={mostRecentBenchmarkData.year}
+                measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -218,6 +228,10 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Group}
+                area={groupIndicatorData?.areaName}
+                year={mostRecentGroupData.year}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -246,6 +260,10 @@ export function BarChartEmbeddedTable({
                 benchmarkOutcome={item.benchmarkComparison?.outcome}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Area}
+                area={item.area}
+                year={item.period}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
