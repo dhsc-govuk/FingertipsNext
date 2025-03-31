@@ -78,7 +78,7 @@
     "jest-mock-extended": "^4.0.0-beta1",
     "jest-styled-components": "^7.2.0",
     "msw": "^2.6.8",
-    "playwright-ctrf-json-reporter": "^0.0.18",
+    "playwright-ctrf-json-reporter": "^0.0.19",
     "playwright-webkit": "^1.51.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
