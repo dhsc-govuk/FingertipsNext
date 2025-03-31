@@ -55,3 +55,23 @@ export enum QuintileColours {
   Better = '#812972',
   Best = '#561950',
 }
+
+export function getTextColour(backgroundColour: string) {
+  switch (backgroundColour) {
+    case GovukColours.Green:
+    case GovukColours.Red:
+    case GovukColours.LightBlue:
+    case GovukColours.DarkBlue:
+    case GovukColours.Blue:
+
+    case TagColours.DarkRed:
+
+    case QuintileColours.High:
+    case QuintileColours.Highest:
+    case QuintileColours.MiddleWithValue:
+    case QuintileColours.Better:
+    case QuintileColours.Best:
+      return GovukColours.White;
+  }
+  return GovukColours.Black;
+}
