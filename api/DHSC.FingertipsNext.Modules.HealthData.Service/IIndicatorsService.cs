@@ -20,7 +20,7 @@ public interface IIndicatorsService
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(int indicatorId,
+    Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
         IEnumerable<int> years,

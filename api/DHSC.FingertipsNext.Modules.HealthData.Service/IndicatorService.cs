@@ -54,6 +54,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         var areaHealthData = ((await GetIndicatorAreaDataAsync(
             indicatorId,
             areaCodes,
+            areaType,
             years,
             inequalities,
             method,
@@ -66,8 +67,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             Content = new IndicatorWithHealthDataForAreas(){
                 IndicatorId = indicatorData.IndicatorId,
                 Name = indicatorData.Name,
-                StartDate = indicatorData.StartDate,
-                EndDate = indicatorData.EndDate,
                 Polarity = polarity,
                 BenchmarkMethod = method,
                 AreaHealthData = areaHealthData
