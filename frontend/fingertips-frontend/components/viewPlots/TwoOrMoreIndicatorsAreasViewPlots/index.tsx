@@ -13,7 +13,6 @@ import {
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2 } from 'govuk-react';
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
@@ -99,7 +98,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       <SpineChartTable rowData={spineTableData.rowData} />
     </section>
   );

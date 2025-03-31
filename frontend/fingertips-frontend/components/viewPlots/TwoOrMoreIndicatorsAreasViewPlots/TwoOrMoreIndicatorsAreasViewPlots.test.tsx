@@ -149,26 +149,6 @@ const mockMetaData = [
 ];
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        searchState={mockSearchParams}
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('twoOrMoreIndicatorsAreasViewPlot-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   it('should render the SpineChartTable components', async () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
