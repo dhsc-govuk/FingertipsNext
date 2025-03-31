@@ -234,6 +234,16 @@ describe('generateThematicMapTooltipString', () => {
     ],
   };
 
+  const mockBenchmarkDataForYear: HealthDataForArea = {
+    ...mockHealthData[108][0],
+    healthData: [
+      {
+        ...mockHealthData[108][1].healthData[0],
+        benchmarkComparison: { outcome: 'Worse' },
+      },
+    ],
+  };
+
   const expectedAreaTooltip =
     `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
     `<br /><span>${mockHcPoint.year}</span>` +
@@ -247,6 +257,12 @@ describe('generateThematicMapTooltipString', () => {
     `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${symbolEncoder.diamond}</span>` +
     `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
     `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
+
+  const expectedBenchmarkTooltip =
+    `<span style=\"font-weight: bold\">Benchmark: ${mockBenchmarkDataForYear.areaName}</span>` +
+    `<br /><span>${mockBenchmarkDataForYear.healthData[0].year}</span><br />` +
+    `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.circle}</span>` +
+    `<span>${mockBenchmarkDataForYear.healthData[0].value} mock units</span>`;
 
   it('should return the expected tooltip for an area', () => {
     const actual = generateThematicMapTooltipString(
@@ -321,5 +337,28 @@ describe('generateThematicMapTooltipString', () => {
     );
     expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
   });
-  it.todo('should return the expected tootip for an area, group and benchmark');
+  it('should return the expected tootip for an area and benchmark', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      mockBenchmarkDataForYear,
+      undefined,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(expectedBenchmarkTooltip + expectedAreaTooltip);
+  });
+  it('should return the expected tootip for an area, group and benchmark', () => {
+    const actual = generateThematicMapTooltipString(
+      mockHcPoint,
+      mockBenchmarkDataForYear,
+      mockGroupDataForYear,
+      BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      IndicatorPolarity.Unknown,
+      'mock units'
+    );
+    expect(actual).toEqual(
+      expectedBenchmarkTooltip + expectedGroupTooltip + expectedAreaTooltip
+    );
+  });
 });
