@@ -4,11 +4,9 @@ import { Pill } from '../Pill';
 import styled from 'styled-components';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { Link } from 'govuk-react';
-import {
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { SearchStateManager } from '@/lib/searchStateManager';
 import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyleIndicatorLink = styled(Link)({
   fontSize: 16,
@@ -17,15 +15,15 @@ const StyleIndicatorLink = styled(Link)({
 interface IndicatorSelectedPillProps {
   indicator: IndicatorDocument;
   isFullWidth?: boolean;
-  searchState?: SearchStateParams;
 }
 
 export const IndicatorSelectedPill = ({
   indicator,
   isFullWidth,
-  searchState,
 }: Readonly<IndicatorSelectedPillProps>) => {
-  const stateManager = SearchStateManager.initialise(searchState);
+  const stateManager = SearchStateManager.initialise(
+    useSearchState().getSearchState()
+  );
   const { setIsLoading } = useLoadingState();
 
   const indicatorInfoLink = stateManager.generatePath(

@@ -67,7 +67,7 @@ describe('SelectedIndicatorsPanel', () => {
       />
     );
 
-    expect(screen.getByText('Selected indicators')).toBeInTheDocument();
+    expect(screen.getByText('Selected indicators (2)')).toBeInTheDocument();
   });
 
   it('should render the pill for each indicator', () => {
