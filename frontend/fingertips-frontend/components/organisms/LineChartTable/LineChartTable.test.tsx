@@ -254,7 +254,6 @@ describe('Line chart table suite', () => {
           }
         />
       );
-      screen.debug();
 
       expect(screen.getByRole('table')).toBeInTheDocument();
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(

@@ -171,7 +171,7 @@ const CellHeader: FC<CellHeaderProps> = ({ heading, index, units = '' }) => {
     <CellHeaderComponent data-testid={`header-${heading}-${index + 1}`}>
       {heading}
       {heading === LineChartTableHeadingEnum.AreaValue ? (
-        <StyledSpan>{`(${units})`}</StyledSpan>
+        <StyledSpan>{` ${units}`}</StyledSpan>
       ) : null}
     </CellHeaderComponent>
   );
@@ -343,7 +343,7 @@ export function LineChartTable({
                 data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
               >
                 {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>({measurementUnit})</StyledSpan>
+                <StyledSpan>{measurementUnit}</StyledSpan>
               </StyledStickyRightHeader>
             </Table.Row>
           </>
