@@ -261,7 +261,7 @@ describe('extractingCombinedHealthData', () => {
       orderedHealthData: [
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
-      orderedMetadata: [undefined],
+      orderedMetadata: mockValidMetaData,
     };
 
     expect(

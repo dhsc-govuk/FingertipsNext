@@ -65,7 +65,7 @@ export const extractingCombinedHealthData = (
 
     orderedMetadata[index] = unsortedMetaData.find(
       (indicatorMetaData) =>
-        indicatorMetaData?.indicatorID === indicator.indicatorId
+        Number(indicatorMetaData?.indicatorID) === indicator.indicatorId
     );
   });
 
