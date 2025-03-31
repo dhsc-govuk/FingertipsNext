@@ -27,8 +27,16 @@ public class IndicatorControllerTests
                         Value = 1,
                         LowerConfidenceInterval = 1.1111f,
                         UpperConfidenceInterval = 2.2222f,
-                        AgeBand = "Sample Age Band",
-                        Sex = "Sample Sex",
+                        AgeBand = new Age
+                        {
+                            Value = "4-5",
+                            IsAggregate = false
+                        },
+                        Sex = new Sex
+                        {
+                            Value = "Persons",
+                            IsAggregate = true
+                        },
                         Trend = "Sample Trend",
                         Deprivation = new Deprivation
                         {

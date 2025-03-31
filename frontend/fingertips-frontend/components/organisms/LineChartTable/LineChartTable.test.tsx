@@ -18,7 +18,7 @@ import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
-import { noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('Line chart table suite', () => {
   const mockHealthData: HealthDataForArea[] = [
@@ -32,8 +32,8 @@ describe('Line chart table suite', () => {
           value: 890.305692,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -43,8 +43,8 @@ describe('Line chart table suite', () => {
           value: 703.420759,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },
@@ -60,8 +60,8 @@ describe('Line chart table suite', () => {
           value: 135.149304,
           lowerCi: 441.69151,
           upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
+          ageBand: allAgesAge,
+          sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
         },

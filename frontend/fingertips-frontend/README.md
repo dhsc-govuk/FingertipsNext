@@ -122,7 +122,7 @@ To run the e2e tests locally, which uses a local dockerised container fingertips
 ```bash
 npm run test-e2e-local-docker
 ```
-You will need to have docker running first before executing this command.
+You will need to have all the docker services running first before executing this command.
 
 If you wish to use ui mode when running against a dockerised container fingertips instance you will need to add the --ui parameter to the `playwright test` part of the command in the `test-e2e-local-docker` script.
 
