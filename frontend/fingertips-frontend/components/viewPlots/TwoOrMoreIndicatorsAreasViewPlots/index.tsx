@@ -1,7 +1,7 @@
 'use client';
 
 import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SpineChartTableProps,
@@ -119,28 +119,52 @@ export const mapToSpineChartTableProps = (): SpineChartTableProps => {
 };
 
 interface TwoOrMoreIndicatorsAreasViewPlotsProps {
+  indicatorData: IndicatorWithHealthDataForArea[];
   indicatorMetadata: IndicatorDocument[];
-  healthData: HealthDataForArea[][];
   groupAreaCode?: string;
 }
 
 const buildHeatmapIndicatorData = (
-  indicatorMetadata: IndicatorDocument[],
-  healthData: HealthDataForArea[][]
+  allIndicatorData: IndicatorWithHealthDataForArea[],
+  indicatorMetadata: IndicatorDocument[]
 ): HeatmapIndicatorData[] => {
-  return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
+  return allIndicatorData.map((indicatorData) => {
+    const metadata = indicatorMetadata.find((metadata) => {
+      return metadata.indicatorID === indicatorData.indicatorId?.toString();
+    });
+
+    // TODO BAD USE OF TERNERY
+    const indicatorId: string = metadata?.indicatorID
+      ? metadata?.indicatorID
+      : indicatorData.indicatorId !== undefined
+        ? indicatorData.indicatorId.toString()
+        : 'undefined indicator id';
+
+    // TODO BAD USE OF TERNERY
+    const indicatorName: string = metadata?.indicatorName
+      ? metadata.indicatorName
+      : indicatorData.name
+        ? indicatorData.name
+        : 'undefined indicator name';
+
     return {
-      indicatorId: metadata.indicatorID,
-      indicatorName: metadata.indicatorName,
-      healthDataForAreas: healthData[index],
-      unitLabel: metadata.unitLabel,
+      indicatorId: indicatorId,
+      indicatorName: indicatorName,
+      healthDataForAreas: indicatorData.areaHealthData
+        ? indicatorData.areaHealthData
+        : [],
+      unitLabel: metadata?.unitLabel
+        ? metadata.unitLabel
+        : 'undefined unit label',
+      method: indicatorData.benchmarkMethod,
+      polarity: indicatorData.polarity,
     };
   });
 };
 
 export function TwoOrMoreIndicatorsAreasViewPlots({
+  indicatorData,
   indicatorMetadata,
-  healthData,
   groupAreaCode,
 }: TwoOrMoreIndicatorsAreasViewPlotsProps) {
   const spineTableData = mapToSpineChartTableProps();
@@ -148,7 +172,10 @@ export function TwoOrMoreIndicatorsAreasViewPlots({
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <Heatmap
-        indicatorData={buildHeatmapIndicatorData(indicatorMetadata, healthData)}
+        indicatorData={buildHeatmapIndicatorData(
+          indicatorData,
+          indicatorMetadata
+        )}
         groupAreaCode={groupAreaCode}
       />
       <SpineChartTable

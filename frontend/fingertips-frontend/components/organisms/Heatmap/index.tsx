@@ -7,15 +7,22 @@ import {
 } from './heatmapUtil';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
+import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
 
 export interface HeatmapIndicatorData {
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
+  method?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export interface HeatmapProps {
@@ -66,6 +73,11 @@ export function Heatmap({
                     key={cell.key}
                     cellType={cell.type}
                     content={cell.content}
+                    textColour={
+                      cell.backgroundColour
+                        ? getTextColour(cell.backgroundColour)
+                        : GovukColours.Black
+                    }
                     backgroundColour={cell.backgroundColour}
                   />
                 );

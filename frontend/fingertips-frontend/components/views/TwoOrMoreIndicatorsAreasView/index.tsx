@@ -7,7 +7,7 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
@@ -39,25 +39,30 @@ export default async function TwoOrMoreIndicatorsAreasView({
   }
 
   await connection();
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const getHealthDataForIndicator = async (indicatorId: string) => {
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-    let healthIndicatorData: HealthDataForArea[] | undefined;
+    let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
     try {
-      healthIndicatorData = (
-        await Promise.all(
-          chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
-            (requestAreas) =>
-              indicatorApi.getHealthDataForAnIndicator(
-                {
-                  indicatorId: Number(indicatorId),
-                  areaCodes: [...requestAreas],
-                },
-                API_CACHE_CONFIG
-              )
-          )
+      const healthIndicatorDataChunks = await Promise.all(
+        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+          (requestAreas) =>
+            indicatorApi.getHealthDataForAnIndicator(
+              {
+                indicatorId: Number(indicatorId),
+                areaCodes: [...requestAreas],
+              },
+              API_CACHE_CONFIG
+            )
         )
-      )
+      );
+
+      healthIndicatorData = healthIndicatorDataChunks[0];
+      if (!healthIndicatorData.indicatorId) {
+        healthIndicatorData.indicatorId = Number(indicatorId);
+      }
+
+      healthIndicatorData.areaHealthData = healthIndicatorDataChunks
         .map((indicatorData) => indicatorData?.areaHealthData ?? [])
         .flat();
     } catch (error) {
@@ -83,8 +88,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   return (
     <TwoOrMoreIndicatorsAreasViewPlots
+      indicatorData={healthDataForAllIndicators}
       indicatorMetadata={selectedIndicatorsData}
-      healthData={healthDataForAllIndicators}
       groupAreaCode={groupAreaCode}
     />
   );

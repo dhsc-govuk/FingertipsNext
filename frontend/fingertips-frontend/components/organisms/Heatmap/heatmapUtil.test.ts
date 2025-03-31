@@ -1,4 +1,8 @@
-import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  HealthDataPoint,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
 import {
   extractSortedAreasIndicatorsAndDataPoints,
   generateHeaders,
@@ -21,12 +25,16 @@ describe('generate headers and rows', () => {
       name: 'Indicator 1',
       unitLabel: 'per 100',
       latestDataPeriod: 1234,
+      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      polarity: IndicatorPolarity.HighIsGood,
     },
     {
       id: '2',
       name: 'Indicator 2',
       unitLabel: 'per 1000',
       latestDataPeriod: 5678,
+      method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+      polarity: IndicatorPolarity.LowIsGood,
     },
   ];
 
@@ -139,6 +147,8 @@ const indicator1 = {
   name: 'Very Verbose Indicator Name With an Extreeeeeeeme Number of Words to Try And Trip Up The View. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius magna massa, commodo consectetur erat hendrerit id. In semper, nibh eu efficitur sagittis, quam lectus semper augue, quis vestibulum ipsum urna ut orci.',
   unitLabel: 'per 1000',
   latestDataPeriod: 2004,
+  method: BenchmarkComparisonMethod.Quintiles,
+  polarity: IndicatorPolarity.NoJudgement,
 };
 
 const indicator2 = {
@@ -146,12 +156,16 @@ const indicator2 = {
   name: 'Rate of walkers tripping over sheep',
   unitLabel: 'per 100',
   latestDataPeriod: 2002,
+  method: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+  polarity: IndicatorPolarity.LowIsGood,
 };
 const indicator3 = {
   id: 'indicator3',
   name: 'Donkey / Goose ratio',
   unitLabel: '%',
   latestDataPeriod: 2002,
+  method: BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
+  polarity: IndicatorPolarity.HighIsGood,
 };
 
 const areaEngland = { code: 'E92000001', name: 'England' };
@@ -243,6 +257,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[0][3],
       },
     ],
+    method: indicator1.method,
+    polarity: indicator1.polarity,
   },
   {
     indicatorId: indicator2.id,
@@ -270,6 +286,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[1][3],
       },
     ],
+    method: indicator2.method,
+    polarity: indicator2.polarity,
   },
   {
     indicatorId: indicator3.id,
@@ -297,6 +315,8 @@ export const placeholderHeatmapIndicatorData = [
         healthData: data[2][3],
       },
     ],
+    method: indicator3.method,
+    polarity: indicator3.polarity,
   },
 ];
 

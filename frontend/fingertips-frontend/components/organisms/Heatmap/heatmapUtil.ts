@@ -1,4 +1,10 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  HealthDataForArea,
+  IndicatorPolarity,
+} from '@/generated-sources/ft-api-client';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
@@ -24,6 +30,8 @@ interface IndicatorData {
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
+  method?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 interface Row {
@@ -56,12 +64,21 @@ interface Indicator {
   name: string;
   unitLabel: string;
   latestDataPeriod: number;
+  method?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 interface DataPoint {
   value?: number;
   areaCode: string;
   indicatorId: string;
+  benchmark?: Benchmark;
+}
+
+interface Benchmark {
+  outcome: BenchmarkOutcome;
+  method?: BenchmarkComparisonMethod;
+  polarity?: IndicatorPolarity;
 }
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
@@ -129,7 +146,10 @@ export const generateRows = (
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
         content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
-        backgroundColour: generateBackgroundColor(areaIndex, indicatorIndex),
+        backgroundColour:
+          areaIndex === 0
+            ? GovukColours.MidGrey
+            : generatedDataBackgroundColor(dataPoints[indicator.id][area.code]),
       };
     });
     rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
@@ -140,11 +160,29 @@ export const generateRows = (
 
 const formatValue = (value?: number): string => {
   return value !== undefined ? value.toFixed(1) : 'X';
-  //return value !== undefined ? value.toString() : 'X';
 };
 
-const generateBackgroundColor = (x: number, y: number): string => {
-  return x % 2 == y % 2 ? GovukColours.Yellow : GovukColours.LightGrey;
+const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
+  console.log(dataPoint);
+
+  if (
+    !dataPoint.value ||
+    !dataPoint.benchmark ||
+    !dataPoint.benchmark.method ||
+    !dataPoint.benchmark.polarity
+  ) {
+    return GovukColours.White;
+  }
+
+  console.log('HERE');
+  const colour = getBenchmarkColour(
+    dataPoint.benchmark.method,
+    dataPoint.benchmark.outcome,
+    dataPoint.benchmark.polarity
+  );
+
+  console.log(`COL:${colour}`);
+  return colour ? colour : GovukColours.White;
 };
 
 const extractAreasIndicatorsAndDataPoints = (
@@ -165,6 +203,12 @@ const extractAreasIndicatorsAndDataPoints = (
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
+        method: indicatorData.method
+          ? indicatorData.method
+          : BenchmarkComparisonMethod.Unknown,
+        polarity: indicatorData.polarity
+          ? indicatorData.polarity
+          : IndicatorPolarity.Unknown,
       };
 
       dataPoints[indicatorData.indicatorId] = {};
@@ -197,11 +241,22 @@ const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
+      const healthDataForYear =
+        healthData.healthData[0].year === latestDataPeriod
+          ? healthData.healthData[0]
+          : undefined;
+
+      const benchmark: Benchmark = {
+        outcome: healthDataForYear?.benchmarkComparison?.outcome
+          ? healthDataForYear.benchmarkComparison.outcome
+          : BenchmarkOutcome.NotCompared,
+        method: indicatorData.method,
+        polarity: indicatorData.polarity,
+      };
+
       dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
-        value:
-          healthData.healthData[0].year === latestDataPeriod
-            ? healthData.healthData[0].value
-            : undefined,
+        value: healthDataForYear?.value,
+        benchmark: benchmark,
         areaCode: healthData.areaCode,
         indicatorId: indicatorData.indicatorId,
       };
