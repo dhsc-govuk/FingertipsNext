@@ -7,6 +7,7 @@ import {
 import { Table } from 'govuk-react';
 import { BarChartEmbeddedTableHeadingEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import React from 'react';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export enum EnglandAreaTypeTableEnum {
   Indicator = 'Indicator',
@@ -18,7 +19,7 @@ export enum EnglandAreaTypeTableEnum {
 }
 
 interface EnglandAreaTypeTableProps {
-  indicators: Indicator[];
+  indicators: IndicatorDocument[];
   measurementUnit: string | undefined;
   englandBenchmarkData: HealthDataForArea | undefined;
 }

@@ -6,7 +6,7 @@ import { ViewProps } from '../ViewsContext';
 import { API_CACHE_CONFIG, ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 
-export default async function TwoOrMoreIndicatorsEnglandView({
+export default async function TwoOrMoreIndicatorsEnglandView({ 
                                                                selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {

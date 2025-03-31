@@ -24,10 +24,15 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
   // pull indicators through and add to component 
   const indicators = indicatorData
   
+  console.log('indicators', indicatorData)
+  
+  
   const healthIndicatorData = englandIndicatorData?.areaHealthData ?? [];
+ 
   const englandBenchmarkData = healthIndicatorData.find(
     (areaData) => areaData.areaCode === areaCodeForEngland
   );
+  console.log('englandBenchmarkData', englandBenchmarkData)
   
   return (<section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
     
