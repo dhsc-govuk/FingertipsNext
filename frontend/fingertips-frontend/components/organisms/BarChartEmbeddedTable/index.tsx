@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -111,6 +112,10 @@ export function BarChartEmbeddedTable({
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
+      <BenchmarkLegend
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={showConfidenceIntervalsData}

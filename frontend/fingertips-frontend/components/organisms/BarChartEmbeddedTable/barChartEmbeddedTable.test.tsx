@@ -261,7 +261,7 @@ describe('BarChartEmbeddedTable', () => {
     expect(noValueCells).toHaveLength(2);
   });
 
-  it('should render the SparklineChart bars for each area displayed in the table', async () => {
+  it('should render the SparklineChart bars for each area displayed in the table and benchmark legend', async () => {
     render(
       <BarChartEmbeddedTable
         healthIndicatorData={mockHealthIndicatorData}
@@ -274,6 +274,7 @@ describe('BarChartEmbeddedTable', () => {
     );
 
     expect(sparkline).toHaveLength(4);
+    expect(screen.getByTestId('benchmarkLegend-component')).toBeInTheDocument();
   });
 
   it('should render the checkbox', async () => {
