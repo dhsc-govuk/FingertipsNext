@@ -13,6 +13,9 @@ it('should render the ThematicMap component', async () => {
       healthIndicatorData={mockHealthData['92420']}
       mapGeographyData={mockMapGeographyData}
       areaType="regions"
+      benchmarkComparisonMethod={'Unknown'}
+      polarity={'Unknown'}
+      measurementUnit={''}
     />
   );
 
@@ -28,6 +31,9 @@ it('should render the benchmark legend', async () => {
       healthIndicatorData={mockHealthData['92420']}
       mapGeographyData={mockMapGeographyData}
       areaType="regions"
+      benchmarkComparisonMethod={'Unknown'}
+      polarity={'Unknown'}
+      measurementUnit={''}
     />
   );
 
