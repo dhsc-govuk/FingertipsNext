@@ -286,7 +286,7 @@ export function sortAlphabetically(array: (string | null)[]) {
 
 export function getIndicatorNameById(
   indicatorId: string,
-  indicators: IndicatorDocument[]
+  indicators: RawIndicatorDocument[]
 ): string | undefined {
   const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
   return indicator ? indicator.indicatorName : undefined;
