@@ -28,6 +28,8 @@ export default class IndicatorPage extends BasePage {
 
   async clickBackLink() {
     await expect(this.page.getByTestId(this.backLink)).toBeVisible();
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 }

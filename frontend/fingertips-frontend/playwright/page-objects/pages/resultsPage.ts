@@ -257,13 +257,12 @@ export default class ResultsPage extends AreaFilter {
     if (!indicatorName) {
       throw new Error(`Indicator with ID ${indicatorId} not found`);
     }
-    const pillContainer = this.page
-      .getByTestId(this.pillContainer)
-      .filter({ hasText: indicatorName });
 
-    const viewBackgroundInfoLink = pillContainer.getByTestId(
-      this.viewBackgroundInfoLink
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(this.pillContainer)
+        .getByText(indicatorName)
+        .getByRole('link', { name: 'View background information' })
     );
-    await viewBackgroundInfoLink.click();
   }
 }
