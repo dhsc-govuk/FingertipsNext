@@ -307,6 +307,11 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
 }
 
 .c7 {
+  font-weight: 500;
+  font-size: 19px;
+}
+
+.c8 {
   color: #505A5F;
 }
 
@@ -405,9 +410,14 @@ exports[`SelectedAreasPanel When there is a group area selected snapshot test 1`
           <p
             style="margin: 0px;"
           >
-            All areas in  
             <span
               class="c7"
+            >
+              All areas in 
+            </span>
+             
+            <span
+              class="c8"
             >
               NHS Primary Care Networks
             </span>

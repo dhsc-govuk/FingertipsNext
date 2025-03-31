@@ -5,7 +5,7 @@ import { spacing } from '@govuk-react/lib';
 import styled from 'styled-components';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { AreaAutoCompleteInputField } from '@/components/molecules/AreaAutoCompleteInputField';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { SearchFormState } from '@/components/forms/SearchForm/searchActions';
 import { SelectedAreasPanel } from '@/components/molecules/SelectedAreasPanel';
 import { AreaWithRelations } from '@/generated-sources/ft-api-client';
@@ -15,24 +15,35 @@ import {
 } from '@/components/molecules/SelectAreasFilterPanel';
 import { ShowHideContainer } from '@/components/molecules/ShowHideContainer';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
+import { useEffect } from 'react';
 
 const StyledInputField = styled(InputField)(
   spacing.withWhiteSpace({ marginBottom: 6 })
 );
 
 interface SearchFormProps {
-  searchState?: SearchStateParams;
   formState: SearchFormState;
   selectedAreasData?: AreaWithRelations[];
   areaFilterData?: AreaFilterData;
 }
 
 export const SearchForm = ({
-  searchState,
   formState,
   selectedAreasData,
   areaFilterData,
 }: Readonly<SearchFormProps>) => {
+  const { setIsLoading } = useLoadingState();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+
+  useEffect(() => {
+    if (formState.message) {
+      setIsLoading(false);
+    }
+  });
+
   const selectedAreas = searchState?.[SearchParams.AreasSelected];
 
   const inputSuggestionDefaultValue =
@@ -73,7 +84,6 @@ export const SearchForm = ({
       <AreaAutoCompleteInputField
         key={`area-auto-complete-${JSON.stringify(searchState)}`}
         inputFieldErrorStatus={!!formState.message}
-        searchState={searchState}
         selectedAreaName={inputSuggestionDefaultValue}
       />
 
@@ -81,7 +91,6 @@ export const SearchForm = ({
       searchState?.[SearchParams.GroupAreaSelected] === ALL_AREAS_SELECTED ? (
         <SelectedAreasPanel
           key={`selected-area-panel-${JSON.stringify(searchState)}`}
-          searchState={searchState}
           areaFilterData={areaFilterData}
           selectedAreasData={selectedAreasData}
           isFullWidth={false}
@@ -92,7 +101,6 @@ export const SearchForm = ({
         <SelectAreasFilterPanel
           key={`area-filter-panel-${JSON.stringify(searchState)}`}
           areaFilterData={areaFilterData}
-          searchState={searchState}
         />
       </ShowHideContainer>
 
@@ -100,6 +108,7 @@ export const SearchForm = ({
         type="submit"
         data-testid="search-form-button-submit"
         style={{ marginTop: '25px' }}
+        onClick={() => setIsLoading(true)}
       >
         Search
       </Button>

@@ -15,9 +15,9 @@ const StyleAreaType = styled('span')({
   color: GovukColours.DarkGrey,
 });
 
-interface AreaSelectedPillProps {
+export interface AreaSelectedPillProps {
   area: AreaWithRelations;
-  onRemoveFilter: (filterID: string) => void;
+  onRemoveFilter?: (filterID: string) => void;
   isFullWidth?: boolean;
 }
 

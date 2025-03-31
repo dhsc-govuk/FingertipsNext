@@ -21,6 +21,8 @@ import {
   SearchStateManager,
   SearchStateParams,
 } from '@/lib/searchStateManager';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useSearchState } from '@/context/SearchStateContext';
 
 export type IndicatorDefinitionProps = {
   indicatorName: string;
@@ -80,15 +82,19 @@ export function IndicatorDefinition({
   indicatorDefinitionProps,
   searchState,
 }: Readonly<IndicatorProps>) {
+  const { setIsLoading } = useLoadingState();
+  const { setSearchState } = useSearchState();
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
 
   const stateManager = SearchStateManager.initialise(searchState);
 
   return (
     <>
       <BackLink
+        onClick={() => setIsLoading(true)}
         href={stateManager.generatePath('/chart')}
         data-testid="search-results-back-link"
       />

@@ -80,7 +80,7 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await chartPage.expectNoAccessibilityViolations(axeBuilder);
 
       await resultsPage.fillIndicatorSearch(subjectSearchTerm);
-      await resultsPage.clickIndicatorSearchButtonAndWait(subjectSearchTerm);
+      await resultsPage.clickIndicatorSearchButton();
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
     });
 

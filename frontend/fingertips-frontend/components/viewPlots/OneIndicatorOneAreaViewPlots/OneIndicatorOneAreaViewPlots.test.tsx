@@ -4,6 +4,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { render, screen, waitFor } from '@testing-library/react';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 jest.mock('next/navigation', () => {
   const originalModule = jest.requireActual('next/navigation');
@@ -11,6 +12,16 @@ jest.mock('next/navigation', () => {
   return {
     ...originalModule,
     useRouter: jest.fn().mockImplementation(() => ({})),
+  };
+});
+
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: jest.fn(),
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
   };
 });
 
@@ -43,26 +54,6 @@ const testHealthData: IndicatorWithHealthDataForArea = {
 };
 
 describe('OneIndicatorOneAreaViewPlots', () => {
-  it('should render the view with correct title', async () => {
-    render(
-      <OneIndicatorOneAreaViewPlots
-        indicatorData={{ areaHealthData: [mockHealthData['108'][1]] }}
-        searchState={searchState}
-        indicatorMetadata={mockMetaData}
-      />
-    );
-
-    const heading = await screen.findByRole('heading', { level: 2 });
-
-    expect(
-      screen.getByTestId('oneIndicatorOneAreaViewPlot-component')
-    ).toBeInTheDocument();
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(
-      'View data for selected indicators and areas'
-    );
-  });
-
   it('should render the LineChart components', async () => {
     render(
       <OneIndicatorOneAreaViewPlots

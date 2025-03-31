@@ -50,7 +50,9 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 
   /**
@@ -101,7 +103,7 @@ export default class ResultsPage extends AreaFilter {
       await expect(checkbox).toBeEditable();
       await expect(checkbox).toBeChecked({ checked: false });
 
-      await checkbox.check({ force: true, timeout: 2000 });
+      await this.checkAndAwaitLoadingComplete(checkbox);
 
       await expect(checkbox).toBeChecked();
       await this.waitForURLToContain(indicatorID);
@@ -115,54 +117,20 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async clickViewChartsButton() {
-    await this.page.getByTestId(this.viewChartsButton).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.viewChartsButton)
+    );
   }
 
   async clearIndicatorSearchBox() {
-    await this.page.getByTestId(this.indicatorSearchBox).clear();
+    await this.clearAndAwaitLoadingComplete(
+      this.page.getByTestId(this.indicatorSearchBox)
+    );
   }
 
   async clickIndicatorSearchButton() {
-    await this.page.getByTestId(this.indicatorSearchButton).click();
-  }
-
-  async clickIndicatorSearchButtonAndWait(searchTerm: string) {
-    await this.clickIndicatorSearchButton();
-
-    await this.waitForSearchRequestAndResponse(searchTerm);
-  }
-
-  async waitForSearchRequestAndResponse(searchTerm: string) {
-    const requestPromise = this.page.waitForRequest(
-      (request) =>
-        request
-          .url()
-          .includes(
-            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
-          ) && request.method() === 'GET'
-    );
-    const request = await requestPromise;
-    expect(
-      request
-        .url()
-        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
-    );
-
-    const responsePromise = this.page.waitForResponse(
-      (response) =>
-        response
-          .url()
-          .includes(
-            `results?${SearchParams.SearchedIndicator}=${searchTerm}`
-          ) &&
-        response.status() === 200 &&
-        response.request().method() === 'GET'
-    );
-    const response = await responsePromise;
-    expect(
-      response
-        .url()
-        .includes(`results?${SearchParams.SearchedIndicator}=${searchTerm}`)
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.indicatorSearchButton)
     );
   }
 
@@ -173,14 +141,17 @@ export default class ResultsPage extends AreaFilter {
   }
 
   async fillIndicatorSearch(text: string) {
-    await this.page.getByTestId(this.indicatorSearchBox).fill(text);
+    await this.fillAndAwaitLoadingComplete(
+      this.page.getByTestId(this.indicatorSearchBox),
+      text
+    );
   }
 
   async selectSelectAllCheckbox() {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await selectAllCheckbox.check();
+    await this.checkAndAwaitLoadingComplete(selectAllCheckbox);
     await expect(selectAllCheckbox).toBeChecked();
   }
 
@@ -188,7 +159,7 @@ export default class ResultsPage extends AreaFilter {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
-    await selectAllCheckbox.uncheck();
+    await this.uncheckAndAwaitLoadingComplete(selectAllCheckbox);
     await expect(selectAllCheckbox).not.toBeChecked();
   }
 
@@ -247,8 +218,7 @@ export default class ResultsPage extends AreaFilter {
     const indicatorCheckbox = this.page.getByTestId(
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
-    await indicatorCheckbox.check();
-    await this.page.waitForLoadState();
+    await this.checkAndAwaitLoadingComplete(indicatorCheckbox);
     await expect(indicatorCheckbox).toBeChecked();
   }
 
@@ -256,8 +226,7 @@ export default class ResultsPage extends AreaFilter {
     const indicatorCheckbox = this.page.getByTestId(
       `${this.indicatorCheckboxPrefix}-${indicatorId}`
     );
-    await indicatorCheckbox.uncheck();
-    await this.page.waitForLoadState();
+    await this.uncheckAndAwaitLoadingComplete(indicatorCheckbox);
     await expect(indicatorCheckbox).not.toBeChecked();
   }
 

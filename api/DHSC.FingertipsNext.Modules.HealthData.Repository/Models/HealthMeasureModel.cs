@@ -54,4 +54,6 @@ public class HealthMeasureModel
     public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
 
     public bool IsAggregate { get; set; }
+    [NotMapped] 
+    public BenchmarkComparisonModel? BenchmarkComparison { get; set; }
 }

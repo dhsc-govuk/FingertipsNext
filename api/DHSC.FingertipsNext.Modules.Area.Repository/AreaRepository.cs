@@ -22,7 +22,7 @@ public class AreaRepository : IAreaRepository
     public async Task<List<string>> GetHierarchiesAsync() =>
         await _dbContext.AreaType
             .Select(areaType => areaType.HierarchyType)
-            .Where(areaType => areaType != InternalHierarchyTypes.All)
+            .Where(areaType => areaType != InternalHierarchyTypes.Both)
             .Distinct()
             .ToListAsync();
 
@@ -36,7 +36,7 @@ public class AreaRepository : IAreaRepository
         IQueryable<AreaTypeModel> areaTypes;
         if (!string.IsNullOrEmpty(hierarchyType))
             areaTypes = _dbContext.AreaType
-                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.All);
+                .Where(areaType => areaType.HierarchyType == hierarchyType || areaType.HierarchyType == InternalHierarchyTypes.Both);
         else
             areaTypes = _dbContext.AreaType;
 

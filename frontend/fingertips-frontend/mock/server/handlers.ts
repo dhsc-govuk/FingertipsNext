@@ -230,6 +230,7 @@ export function getGetHealthDataForAnIndicator200Response(
     areaCodes.includes(healthData.areaCode)
   );
   return {
+    indicatorId: Number(indicatorId),
     name: 'Indicator Name',
     benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     areaHealthData: !isAreaCodesEmpty(areaCodes)
