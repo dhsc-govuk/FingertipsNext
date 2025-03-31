@@ -74,12 +74,11 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
-    );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+      );
       // click tab to view the table view if checking a none embedded table component
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
@@ -127,6 +126,9 @@ export default class ChartPage extends AreaFilter {
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
+      );
       await expect(
         this.page.getByTestId(hiddenComponent.componentLocator)
       ).toBeVisible({
