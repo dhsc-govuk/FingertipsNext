@@ -195,16 +195,16 @@ export function InequalitiesBarChart({
 
   return (
     <div data-testid="inequalitiesBarChart-component">
+      <ConfidenceIntervalCheckbox
+        chartName="inequalitiesBarChart"
+        showConfidenceIntervalsData={showConfidenceIntervalsData}
+        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+      />
       <BenchmarkLegend
         title={`Compared to ${comparedTo}`}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
       />
-      <ConfidenceIntervalCheckbox
-        chartName="inequalitiesBarChart"
-        showConfidenceIntervalsData={showConfidenceIntervalsData}
-        setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
-      ></ConfidenceIntervalCheckbox>
       <HighchartsReact
         containerProps={{
           'data-testid': 'highcharts-react-component-inequalitiesBarChart',

@@ -112,14 +112,14 @@ export function BarChartEmbeddedTable({
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
   return (
     <div data-testid={'barChartEmbeddedTable-component'}>
-      <BenchmarkLegend
-        benchmarkComparisonMethod={benchmarkComparisonMethod}
-        polarity={polarity}
-      />
       <ConfidenceIntervalCheckbox
         chartName={chartName}
         showConfidenceIntervalsData={showConfidenceIntervalsData}
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
+      />
+      <BenchmarkLegend
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
       />
       <Table
         head={
