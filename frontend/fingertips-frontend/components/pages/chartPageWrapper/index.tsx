@@ -76,7 +76,6 @@ export function ChartPageWrapper({
           ) : null}
           {children}
         </GridCol>
-        <GridCol setWidth={'two-thirds'}>{children}</GridCol>
       </GridRow>
     </>
   );
