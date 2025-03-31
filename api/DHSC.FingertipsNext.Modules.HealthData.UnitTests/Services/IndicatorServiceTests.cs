@@ -270,12 +270,12 @@ public class IndicatorServiceTests
         dataResults.ShouldNotBeEmpty();
         dataResults.Count().ShouldBe(2);
 
-        var areaDataResult = dataResults.ElementAt(1);
-        areaDataResult.AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
-        areaDataResult.AreaName.ShouldBeEquivalentTo(expectedAreaName);
-        areaDataResult.HealthData.Count().ShouldBe(6);
-
-        var personsResult2022 = areaDataResult.HealthData.ElementAt(0);
+        var areaResults = dataResults.ElementAt(1);
+        areaResults.AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
+        areaResults.AreaName.ShouldBeEquivalentTo(expectedAreaName);
+        areaResults.HealthData.Count().ShouldBe(6);
+        
+        var personsResult2022 = areaResults.HealthData.ElementAt(0);
         personsResult2022.Sex.ShouldBeEquivalentTo(new Sex
         {
             Value = "Persons",
@@ -365,7 +365,7 @@ public class IndicatorServiceTests
             BenchmarkValue = 2
         });
 
-        var engResults = areaDataResults[0];
+        var engResults = dataResults.ElementAt(0);
         engResults.AreaCode.ShouldBeEquivalentTo(benchmarkAreaCode);
         engResults.AreaName.ShouldBeEquivalentTo(benchmarkAreaName);
         engResults.HealthData.Count().ShouldBe(4);
