@@ -55,11 +55,8 @@ public class TrendDataProcessor(
             var mostRecentDataPoints = hmGroup
                 .OrderByDescending(hm => hm.Year)
                 .Take(TrendCalculator.RequiredNumberOfDataPoints);
-            
-            if (
-                !mostRecentDataPoints.Any() ||
-                mostRecentDataPoints.First().TrendDimension.Name != Constants.Trend.NotYetCalculated
-            ) { continue; }
+
+            if (!mostRecentDataPoints.Any()) { continue; }
 
             var trend = trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
             healthMeasureRepository.UpdateTrendKey(mostRecentDataPoints.First(), (byte) trend);
@@ -91,7 +88,9 @@ public class TrendDataProcessor(
     public async Task Process(ServiceProvider serviceProvider)
     {
         var indicators = await _indicatorRepo.GetAll();
-        var tasks = indicators.Select(indicator => 
+        var tasks = indicators
+        .Where(indicator => !Constants.Indicator.IdsToSkip.Contains(indicator.IndicatorId))
+        .Select(indicator => 
         {
             return Task.Run(async () =>
             {
