@@ -293,8 +293,7 @@ describe('generateThematicMapTooltipString', () => {
     );
     expect(actual).toEqual(expectedGroupTooltip + expectedAreaTooltip);
   });
-  it('should return the expected tooltip for an area and group for an area which is "not compared"', () => {
-    // TODO: modify mockGroupDataForYear to have outcome NotCompared and test for X and colour
+  it('should return the expected tooltip for an area and group for an area where benchmarking outcome is "not compared"', () => {
     const mockGroupDataForYear: HealthDataForArea = {
       ...mockHealthData[108][1],
       healthData: [

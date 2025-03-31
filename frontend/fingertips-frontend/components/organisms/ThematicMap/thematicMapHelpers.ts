@@ -290,11 +290,16 @@ export function generateThematicMapTooltipString(
     ? `${benchmarkConfidenceLimit}%`
     : null;
 
-  // TODO: refactor to function which can also be used for group
   const areaMarkerSymbol =
     (point.benchmarkComparisonOutcome as BenchmarkOutcome) === 'NotCompared'
       ? symbolEncoder.multiplicationX
       : symbolEncoder.circle;
+
+  const groupMarkerSymbol =
+    groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
+    'NotCompared'
+      ? symbolEncoder.multiplicationX
+      : symbolEncoder.diamond;
 
   const tooltipString = [
     `<br /><span style="font-weight: bold">${point.areaName}</span>` +
@@ -319,12 +324,14 @@ export function generateThematicMapTooltipString(
     tooltipString.unshift(
       `<br /><span style="font-weight: bold">Group: ${groupIndicatorDataForYear.areaName}</span>` +
         `<br /><span>${groupIndicatorDataForYear.healthData[0].year}</span>` +
-        `<br /><span style="color: ${getBenchmarkColour(
-          benchmarkComparisonMethod,
-          groupIndicatorDataForYear.healthData[0].benchmarkComparison
-            ?.outcome ?? 'NotCompared',
-          polarity
-        )}; font-size: large;">${symbolEncoder.diamond}</span>` +
+        `<br /><span style="color: ${
+          getBenchmarkColour(
+            benchmarkComparisonMethod,
+            groupIndicatorDataForYear.healthData[0].benchmarkComparison
+              ?.outcome ?? 'NotCompared',
+            polarity
+          ) ?? GovukColours.Black
+        }; font-size: large;">${groupMarkerSymbol}</span>` +
         `<span>${groupIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
         `<br /><span>${
           groupIndicatorDataForYear.healthData[0].benchmarkComparison?.outcome
