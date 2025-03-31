@@ -51,18 +51,22 @@ describe('Spine chart table suite', () => {
 
     it('should have light grey cell color for benchmark column', () => {
       render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={mockRowData.count}
-          value={mockRowData.value}
-          groupValue={mockRowData.groupValue}
-          benchmarkValue={mockRowData.benchmarkValue}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-          benchmarkBest={mockRowData.benchmarkBest}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableRow
+              indicatorId={mockRowData.indicatorId}
+              indicator={mockRowData.indicator}
+              unit={mockRowData.unit}
+              period={mockRowData.period}
+              count={mockRowData.count}
+              value={mockRowData.value}
+              groupValue={mockRowData.groupValue}
+              benchmarkValue={mockRowData.benchmarkValue}
+              benchmarkWorst={mockRowData.benchmarkWorst}
+              benchmarkBest={mockRowData.benchmarkBest}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('group-value-cell')).toHaveStyle(
@@ -72,18 +76,22 @@ describe('Spine chart table suite', () => {
 
     it('should have X for missing data', () => {
       render(
-        <SpineChartTableRow
-          indicatorId={mockRowData.indicatorId}
-          indicator={mockRowData.indicator}
-          unit={mockRowData.unit}
-          period={mockRowData.period}
-          count={undefined}
-          value={undefined}
-          groupValue={undefined}
-          benchmarkValue={undefined}
-          benchmarkWorst={mockRowData.benchmarkWorst}
-          benchmarkBest={mockRowData.benchmarkBest}
-        />
+        <table>
+          <tbody>
+            <SpineChartTableRow
+              indicatorId={mockRowData.indicatorId}
+              indicator={mockRowData.indicator}
+              unit={mockRowData.unit}
+              period={mockRowData.period}
+              count={undefined}
+              value={undefined}
+              groupValue={undefined}
+              benchmarkValue={undefined}
+              benchmarkWorst={mockRowData.benchmarkWorst}
+              benchmarkBest={mockRowData.benchmarkBest}
+            />
+          </tbody>
+        </table>
       );
 
       expect(screen.getByTestId('count-cell')).toHaveTextContent(`X`);
