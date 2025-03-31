@@ -117,6 +117,7 @@ test.describe(`Search via`, () => {
           allIndicatorIDs,
           indicatorMode
         );
+        await resultsPage.checkRecentTrends(areaMode);
 
         await resultsPage.clickViewChartsButton();
       });
