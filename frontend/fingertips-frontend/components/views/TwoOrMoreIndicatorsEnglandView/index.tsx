@@ -3,22 +3,28 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import { API_CACHE_CONFIG, ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-export default async function TwoOrMoreIndicatorsEnglandView({ 
-                                                               selectedIndicatorsData,
+export default async function TwoOrMoreIndicatorsEnglandView({
+  selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.AreasSelected]: areasSelected, [SearchParams.IndicatorsSelected]: indicatorsSelected, } =
-    stateManager.getSearchState();
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected,
+  } = stateManager.getSearchState();
 
   if (
     !indicatorsSelected ||
     indicatorsSelected?.length < 2 ||
-    areasSelected?.length !== 1 &&
-    areasSelected?.[0] !== areaCodeForEngland
+    (areasSelected?.length !== 1 && areasSelected?.[0] !== areaCodeForEngland)
   ) {
     throw new Error('Invalid parameters provided to view');
   }
@@ -27,7 +33,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   await connection();
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  
+
+  let combinedIndicatorData: IndicatorWithHealthDataForArea[];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return indicatorApi.getHealthDataForAnIndicator(
@@ -39,12 +46,13 @@ export default async function TwoOrMoreIndicatorsEnglandView({
       );
     });
 
-    await Promise.all(promises);
+    combinedIndicatorData = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
 
+  let indicatorMetadata: (IndicatorDocument | undefined)[];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return SearchServiceFactory.getIndicatorSearchService().getIndicator(
@@ -52,17 +60,21 @@ export default async function TwoOrMoreIndicatorsEnglandView({
       );
     });
 
-    await Promise.all(promises);
+    indicatorMetadata = await Promise.all(promises);
   } catch (error) {
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-
-  const indicatorMetadata = selectedIndicatorsData?.[1];
+  
 
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
-  return <TwoOrMoreIndicatorsEnglandViewPlots indicatorData={indicatorsSelected} searchState={searchState}
-                                              indicatorMetadata={indicatorMetadata}/>;
+  return (
+    <TwoOrMoreIndicatorsEnglandViewPlots
+      indicatorData={combinedIndicatorData}
+      searchState={searchState}
+      indicatorMetadata={indicatorMetadata}
+    />
+  );
 }
