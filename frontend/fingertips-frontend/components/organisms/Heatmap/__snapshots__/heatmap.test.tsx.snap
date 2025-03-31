@@ -124,8 +124,8 @@ exports[`snapshot test 1`] = `
 
 .c18 {
   text-align: center;
-  width: 60px;
   min-height: 70px;
+  width: 100%;
   padding: 0;
 }
 
@@ -139,6 +139,8 @@ exports[`snapshot test 1`] = `
 
 .c20 {
   min-width: 60px;
+  max-width: 80px;
+  display: inline;
 }
 
 .c15 {
@@ -156,14 +158,13 @@ exports[`snapshot test 1`] = `
 }
 
 .c2 {
-  overflow-x: scroll;
   display: block;
-  padding-bottom: 12px;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .c0 {
-  width: 630px;
-  display: block;
+  overflow-x: scroll;
 }
 
 @media print {

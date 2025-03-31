@@ -24,14 +24,13 @@ export interface HeatmapProps {
 }
 
 const StyledTable = styled(Table)({
-  overflowX: 'scroll',
   display: 'block',
-  paddingBottom: '12px',
+  width: '100%',
+  tableLayout: 'fixed',
 });
 
-const BlockDiv = styled.div({
-  width: '630px', // TODO - not sure this should be hardcoded, is it'll break on smaller screens.
-  display: 'block',
+const StyledDivTableContainer = styled.div({
+  overflowX: 'scroll',
 });
 
 export function Heatmap({
@@ -45,7 +44,7 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <BlockDiv>
+    <StyledDivTableContainer>
       <StyledTable data-testid="heatmap-component">
         <Table.Row>
           {headers.map((header) => {
@@ -75,6 +74,6 @@ export function Heatmap({
           );
         })}
       </StyledTable>
-    </BlockDiv>
+    </StyledDivTableContainer>
   );
 }

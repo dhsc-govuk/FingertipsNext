@@ -51,7 +51,7 @@ export function ChartPageWrapper({
             searchState={searchState}
           />
         </GridCol>
-        <GridCol>{children}</GridCol>
+        <GridCol setWidth={'two-thirds'}>{children}</GridCol>
       </GridRow>
     </>
   );

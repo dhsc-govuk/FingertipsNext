@@ -15,8 +15,8 @@ const StyledCellText = styled(Table.Cell)({
 
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
-  width: heatmapDataColumnWidth,
   minHeight: '70px',
+  width: '100%',
   padding: 0,
 });
 
@@ -29,6 +29,8 @@ const StyledCellDataWithBackground = styled(StyledCellNumeric)<{
 
 const StyledDivDataCellContent = styled.div({
   minWidth: '60px',
+  maxWidth: '80px',
+  display: 'inline',
 });
 
 const StyledDivIndicatorTitleCellContent = styled.div({
