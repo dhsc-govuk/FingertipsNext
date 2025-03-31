@@ -65,7 +65,6 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-  
 
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);

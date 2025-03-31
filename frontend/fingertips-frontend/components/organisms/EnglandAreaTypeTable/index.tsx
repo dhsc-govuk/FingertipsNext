@@ -18,13 +18,15 @@ export enum EnglandAreaTypeTableEnum {
   RecentTrend = 'Recent trend',
 }
 
-interface EnglandAreaTypeTableProps {
-  indicators: IndicatorDocument[];
-  measurementUnit: string | undefined;
-  englandBenchmarkData: HealthDataForArea | undefined;
+export interface EnglandAreaTypeTableProps {
+  indicator: Indicator;
+  measurementUnit: string;
+  healthIndicatorData: HealthDataForArea;
+  englandBenchmarkData: HealthDataForArea;
 }
 export function EnglandAreaTypeTable({
-  indicators,
+  healthIndicatorData,
+  indicator,
   englandBenchmarkData,
   measurementUnit,
 }: Readonly<EnglandAreaTypeTableProps>) {
