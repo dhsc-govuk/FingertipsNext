@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import { SparklineChart } from '@/components/organisms/SparklineChart';
 import { ConfidenceIntervalCheckbox } from '@/components/molecules/ConfidenceIntervalCheckbox';
 import { TrendTag } from '@/components/molecules/TrendTag';
+import { BenchmarkLegend } from '@/components/organisms/BenchmarkLegend';
 
 export enum BarChartEmbeddedTableHeadingEnum {
   AreaName = 'Area',
@@ -27,6 +28,12 @@ export enum BarChartEmbeddedTableHeadingEnum {
   Value = 'Value',
   Lower = 'Lower',
   Upper = 'Upper',
+}
+
+export enum SparklineLabelEnum {
+  Benchmark = 'Benchmark',
+  Group = 'Group',
+  Area = 'Area',
 }
 
 interface BarChartEmbeddedTableProps {
@@ -110,6 +117,10 @@ export function BarChartEmbeddedTable({
         showConfidenceIntervalsData={showConfidenceIntervalsData}
         setShowConfidenceIntervalsData={setShowConfidenceIntervalsData}
       />
+      <BenchmarkLegend
+        benchmarkComparisonMethod={benchmarkComparisonMethod}
+        polarity={polarity}
+      />
       <Table
         head={
           <React.Fragment>
@@ -181,6 +192,10 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Benchmark}
+                area={benchmarkData?.areaName}
+                year={mostRecentBenchmarkData.year}
+                measurementUnit={measurementUnit}
               ></SparklineChart>
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentBenchmarkData.lowerCi} />
@@ -218,6 +233,10 @@ export function BarChartEmbeddedTable({
                 }
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Group}
+                area={groupIndicatorData?.areaName}
+                year={mostRecentGroupData.year}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={mostRecentGroupData.lowerCi} />
@@ -246,6 +265,10 @@ export function BarChartEmbeddedTable({
                 benchmarkOutcome={item.benchmarkComparison?.outcome}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 polarity={polarity}
+                label={SparklineLabelEnum.Area}
+                area={item.area}
+                year={item.period}
+                measurementUnit={measurementUnit}
               />
             </Table.Cell>
             <CheckValueInTableCell value={item.lowerCi} />
