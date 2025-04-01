@@ -13,7 +13,7 @@
     "start-local-mocks": "cross-env MOCK_SERVER=true next start",
     "api:start": "COMPOSE_BAKE=true docker compose --profile api up --build",
     "api:stop": "docker compose --profile api down",
-    "start:all": "COMPOSE_BAKE=true docker compose --profile all up --build --remove-orphans --wait -d",
+    "start:all": "COMPOSE_BAKE=false docker compose --profile all up --build --remove-orphans --wait -d",
     "stop:all": "docker compose --profile all down",
     "lint": "eslint",
     "typecheck": "tsc",
@@ -55,7 +55,7 @@
     "@eslint/js": "^9.17.0",
     "@estruyf/github-actions-reporter": "^1.10.0",
     "@faker-js/faker": "^9.3.0",
-    "@openapitools/openapi-generator-cli": "2.18.3",
+    "@openapitools/openapi-generator-cli": "^2.18.4",
     "@playwright/test": "^1.51.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -96,6 +96,6 @@
       "styled-components": "^5.3.0"
     },
     "whatwg-url": "^14.0.0",
-    "@openapitools/openapi-generator-cli": "2.18.3"
+    "@nestjs/common": "^11.0.12"
   }
 }

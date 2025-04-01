@@ -116,6 +116,7 @@ describe('Results Page', () => {
 
       expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
         'testing',
+        false,
         undefined
       );
       expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
@@ -140,7 +141,31 @@ describe('Results Page', () => {
 
       expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
         'testing',
+        false,
         ['E40000007', 'E40000003']
+      );
+      expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
+    });
+
+    it('should call the search service with the correct params when no areas selected but England is selected group', async () => {
+      mockIndicatorSearchService.searchWith.mockResolvedValue(
+        mockIndicatorSearchResults
+      );
+
+      const searchState: SearchStateParams = {
+        ...searchParams,
+        [SearchParams.IndicatorsSelected]: ['1', '2'],
+        [SearchParams.GroupSelected]: 'E92000001',
+      };
+
+      const page = await ResultsPage({
+        searchParams: generateSearchParams(searchState),
+      });
+
+      expect(mockIndicatorSearchService.searchWith).toHaveBeenCalledWith(
+        'testing',
+        true,
+        undefined
       );
       expect(page.props.searchResults).toEqual(mockIndicatorSearchResults);
     });

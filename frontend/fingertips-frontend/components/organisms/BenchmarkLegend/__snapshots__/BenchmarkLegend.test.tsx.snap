@@ -98,7 +98,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 95 1`] =
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -258,7 +258,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB 99.8 1`]
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -424,7 +424,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI BOB quintile
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -584,7 +584,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 95 1`] =
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -744,7 +744,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG 99.8 1`]
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -910,7 +910,7 @@ exports[`Testing the benchmark component Snapshot testing of the UI RAG quintile
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }
@@ -1277,7 +1277,7 @@ exports[`Testing the benchmark component Snapshot testing of the legend with all
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
-  margin: 1em 0.1em 0.1em 0.1em;
+  margin: 1em 0.1em 0.1em 0;
   font-family: nta,Arial,sans-serif;
   font-weight: 300;
 }

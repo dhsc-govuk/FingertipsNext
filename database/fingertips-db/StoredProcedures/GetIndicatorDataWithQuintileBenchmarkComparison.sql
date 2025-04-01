@@ -19,7 +19,7 @@ BEGIN
 		Polarity
 	FROM
 		dbo.IndicatorDimension AS ind
-	WHERE 
+	WHERE
 		ind.IndicatorId = @RequestedIndicatorId
     ),
 	--- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
@@ -31,13 +31,16 @@ BEGIN
 		    areaDim.Name AS AreaDimensionName,
 		    sex.Name AS SexDimensionName,
 		    sex.HasValue AS SexDimensionHasValue,
+				hm.IsSexAggregatedOrSingle AS SexDimensionIsAggregate,
 		    trendDim.Name AS TrendDimensionName,
 		    ageDim.Name AS AgeDimensionName,
 		    ageDim.HasValue AS AgeDimensionHasValue,
+				hm.IsAgeAggregatedOrSingle AS AgeDimensionIsAggregate,
 		    imd.Name AS DeprivationDimensionName,
 		    imd.[Type] AS DeprivationDimensionType,
 		    imd.[Sequence] AS DeprivationDimensionSequence,
 		    imd.HasValue AS DeprivationDimensionHasValue,
+				hm.IsDeprivationAggregatedOrSingle AS DeprivationDimensionIsAggregate,
 		    Count,
 		    Value,
 		    LowerCi,
@@ -46,7 +49,7 @@ BEGIN
 	FROM
 		    dbo.HealthMeasure AS hm
 	JOIN
-            RequestedIndicator AS ind
+        RequestedIndicator AS ind
         ON
 		    hm.IndicatorKey = ind.IndicatorKey
 	JOIN
@@ -78,10 +81,10 @@ BEGIN
         (
             areaDim.AreaType = @RequestedAreaType
         --- This is special case handling for data which has a dual identity as both district and county.
-            OR 
+            OR
 			(
                @RequestedAreaType = 'districts-and-unitary-authorities'
-               AND 
+               AND
 			   IsDistrictAndCounty = 1
             )
         )
@@ -110,13 +113,16 @@ BEGIN
 		hd.AreaDimensionName,
 		hd.SexDimensionName,
 		hd.SexDimensionHasValue,
+		hd.SexDimensionIsAggregate,
 		hd.TrendDimensionName,
 		hd.AgeDimensionName,
 		hd.AgeDimensionHasValue,
+		hd.AgeDimensionIsAggregate,
 		hd.DeprivationDimensionName,
 		hd.DeprivationDimensionType,
 		hd.DeprivationDimensionSequence,
 		hd.DeprivationDimensionHasValue,
+		hd.DeprivationDimensionIsAggregate,
 		hd.Count,
 		hd.Value,
 		hd.LowerCi,
@@ -170,6 +176,6 @@ JOIN
 CROSS JOIN
 	    RequestedIndicator ind
 ORDER BY
-		AreaDimensionName, 
+		AreaDimensionName,
 		hd.Year DESC
 END

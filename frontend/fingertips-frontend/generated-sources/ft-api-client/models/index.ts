@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AgeData';
 export * from './Area';
 export * from './AreaType';
 export * from './AreaWithRelations';
@@ -19,3 +20,4 @@ export * from './IndicatorSummary';
 export * from './IndicatorWithHealthDataForArea';
 export * from './QuartileData';
 export * from './RootArea';
+export * from './SexData';
