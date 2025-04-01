@@ -8,6 +8,7 @@ import {
 } from '@/components/organisms/SpineChartTable';
 import {
   HealthDataForArea,
+  Indicator,
 } from '@/generated-sources/ft-api-client';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 import { IndicatorDocument } from '@/lib/search/searchTypes';

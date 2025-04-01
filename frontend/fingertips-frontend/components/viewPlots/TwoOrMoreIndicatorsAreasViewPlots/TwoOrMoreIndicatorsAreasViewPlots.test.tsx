@@ -6,7 +6,7 @@ import {
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 jest.mock('next/navigation', () => {
@@ -39,8 +39,8 @@ const mockGroupHealthData: HealthDataForArea = {
       value: 890.305692,
       lowerCi: 441.69151,
       upperCi: 578.32766,
-      ageBand: 'All',
-      sex: 'All',
+      ageBand: allAgesAge,
+      sex: personsSex,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -57,8 +57,8 @@ const mockEnglandHealthData: HealthDataForArea = {
       value: 890.305692,
       lowerCi: 441.69151,
       upperCi: 578.32766,
-      ageBand: 'All',
-      sex: 'All',
+      ageBand: allAgesAge,
+      sex: personsSex,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
     },
@@ -76,8 +76,8 @@ const mockAreaHealthData: HealthDataForArea[] = [
         value: 890.305692,
         lowerCi: 441.69151,
         upperCi: 578.32766,
-        ageBand: 'All',
-        sex: 'All',
+        ageBand: allAgesAge,
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
       },
@@ -93,8 +93,8 @@ const mockAreaHealthData: HealthDataForArea[] = [
         value: 690.305692,
         lowerCi: 341.69151,
         upperCi: 478.32766,
-        ageBand: 'All',
-        sex: 'All',
+        ageBand: allAgesAge,
+        sex: personsSex,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
         deprivation: noDeprivation,
       },
