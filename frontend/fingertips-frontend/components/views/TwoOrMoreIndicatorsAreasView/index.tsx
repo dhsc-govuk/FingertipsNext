@@ -7,18 +7,28 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorPolarity,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import {
   chunkArray,
   maxNumAreasThatCanBeRequestedAPI,
 } from '@/lib/ViewsHelpers';
+import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
-export interface BenchmarkStatisticsProps {
-  indicatorId: string;
-  best: number;
-  percentile25th: number;
-  percentile75th: number;
-  worst: number;
+export interface QuartileData {
+  indicatorId: number;
+  polarity: IndicatorPolarity;
+  q0Value: number;
+  q1Value: number;
+  q2Value: number;
+  q3Value: number;
+  q4Value: number;
+  areaValue: number;
+  ancestorValue: number;
+  englandValue: number;
 }
 
 export default async function TwoOrMoreIndicatorsAreasView({

@@ -23,7 +23,7 @@ export function mapToSpineChartTableProps(
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
   indicatorMetadata: (IndicatorDocument | undefined)[],
-  benchmarkStatistics: SpineChartProps[],
+  benchmarkStatistics: SpineChartProps[]
 ): SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);

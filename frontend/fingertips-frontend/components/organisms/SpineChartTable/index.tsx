@@ -41,7 +41,7 @@ export const mapToSpineChartTableData = (
     value: item.indicatorHealthData.healthData[0].value,
     groupValue: item.groupIndicatorData.healthData[0].value,
     benchmarkValue: item.englandBenchmarkData.healthData[0].value,
-    benchmarkStatistics: item.benchmarkStatistics
+    benchmarkStatistics: item.benchmarkStatistics,
   }));
 
 const sortByIndicator = (tableRowData: SpineChartTableRowData[]) =>

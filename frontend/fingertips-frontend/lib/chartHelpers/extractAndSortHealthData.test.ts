@@ -2,12 +2,14 @@ import { extractAndSortHealthData } from './extractAndSortHealthData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   HealthDataForArea,
+  IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 
 const mockAreaCode = 'A001';
 const mockGroupCode = 'G001';
 const mockIndicatorId = 1;
+const mockInvalidIndicatorId = 1337;
 
 const mockAreaData: HealthDataForArea = {
   areaCode: mockAreaCode,
@@ -51,7 +53,7 @@ const mockValidMetaData = [
 
 const mockInvalidMetaData = [
   {
-    indicatorID: '1337',
+    indicatorID: String(mockInvalidIndicatorId),
     indicatorName: 'pizzas eaten',
     indicatorDefinition: 'number of pizzas consumed',
     dataSource: 'BJSS Leeds',
@@ -65,14 +67,35 @@ const mockInvalidMetaData = [
   },
 ];
 
-const mockBenchmarkStatistics = [
+const mockQuartileData = [
   {
-    best: 1666,
-    percentile25th: 1000,
-    percentile75th: 969,
-    worst: 959,   
+    indicatorId: mockIndicatorId,
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 1,
+    q1Value: 2,
+    q2Value: 3,
+    q3Value: 4,
+    q4Value: 5,
+    areaValue: 6,
+    ancestorValue: 7,
+    englandValue: 8,
   },
-]
+];
+
+const mockInvalidQuartileData = [
+  {
+    indicatorId: mockInvalidIndicatorId,
+    polarity: IndicatorPolarity.LowIsGood,
+    q0Value: 1,
+    q1Value: 2,
+    q2Value: 3,
+    q3Value: 4,
+    q4Value: 5,
+    areaValue: 6,
+    ancestorValue: 7,
+    englandValue: 8,
+  },
+];
 
 describe('extractAndSortHealthData', () => {
   it('empty data should raise an error', () => {
@@ -81,6 +104,7 @@ describe('extractAndSortHealthData', () => {
     expect(() => {
       extractAndSortHealthData(
         [indicatorData],
+        [],
         [],
         [mockAreaCode],
         mockGroupCode
@@ -98,6 +122,7 @@ describe('extractAndSortHealthData', () => {
       extractAndSortHealthData(
         [indicatorData],
         [],
+        [],
         [mockAreaCode],
         mockGroupCode
       );
@@ -113,6 +138,7 @@ describe('extractAndSortHealthData', () => {
     expect(() => {
       extractAndSortHealthData(
         [indicatorData],
+        [],
         [],
         [mockAreaCode],
         mockGroupCode
@@ -130,6 +156,7 @@ describe('extractAndSortHealthData', () => {
       extractAndSortHealthData(
         [indicatorData],
         [],
+        [],
         [mockAreaCode],
         mockGroupCode
       );
@@ -145,6 +172,7 @@ describe('extractAndSortHealthData', () => {
     expect(() => {
       extractAndSortHealthData(
         [indicatorData],
+        [],
         [],
         [mockAreaCode],
         mockGroupCode
@@ -162,10 +190,45 @@ describe('extractAndSortHealthData', () => {
       extractAndSortHealthData(
         [indicatorData],
         [],
+        [],
         [mockAreaCode],
         mockGroupCode
       );
     }).toThrow('Missing England health data for indicator');
+  });
+
+  it('missing quartile data should raise an error', () => {
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      indicatorId: mockIndicatorId,
+      areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
+    };
+
+    expect(() => {
+      extractAndSortHealthData(
+        [indicatorData],
+        [],
+        [],
+        [mockAreaCode],
+        mockGroupCode
+      );
+    }).toThrow('Missing quartile data for indicator');
+  });
+
+  it('mismatched quartile data should raise an error', () => {
+    const indicatorData: IndicatorWithHealthDataForArea = {
+      indicatorId: mockIndicatorId,
+      areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
+    };
+
+    expect(() => {
+      extractAndSortHealthData(
+        [indicatorData],
+        [],
+        mockInvalidQuartileData,
+        [mockAreaCode],
+        mockGroupCode
+      );
+    }).toThrow('Missing quartile data for indicator');
   });
 
   it('missing metadata should pass', () => {
@@ -185,46 +248,34 @@ describe('extractAndSortHealthData', () => {
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
       orderedMetadata: [undefined],
-      orderedBenchmarkStatistics: [],
+      orderedQuartileData: mockQuartileData,
     };
 
     expect(
       extractAndSortHealthData(
         [indicatorData],
         [],
+        mockQuartileData,
         [mockAreaCode],
         mockGroupCode
       )
     ).toStrictEqual(expectedResult);
   });
 
-  it('missing indicator ID should pass', () => {
+  it('missing indicator ID should fail', () => {
     const indicatorData: IndicatorWithHealthDataForArea = {
       areaHealthData: [mockAreaData, mockGroupData, mockEnglandData],
     };
 
-    const expectedResult = {
-      orderedEnglandData: [
-        { areaCode: 'E92000001', areaName: 'england', healthData: [] },
-      ],
-      orderedGroupData: [
-        { areaCode: 'G001', areaName: 'group', healthData: [] },
-      ],
-      orderedHealthData: [
-        { areaCode: 'A001', areaName: 'area', healthData: [] },
-      ],
-      orderedMetadata: [undefined],
-      orderedBenchmarkStatistics: [],
-    };
-
-    expect(
+    expect(() => {
       extractAndSortHealthData(
         [indicatorData],
         mockValidMetaData,
+        mockQuartileData,
         [mockAreaCode],
         mockGroupCode
-      )
-    ).toStrictEqual(expectedResult);
+      );
+    }).toThrow('Missing quartile data for indicator');
   });
 
   it('no matching metadata should pass', () => {
@@ -244,13 +295,14 @@ describe('extractAndSortHealthData', () => {
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
       orderedMetadata: [undefined],
-      orderedBenchmarkStatistics: [],
+      orderedQuartileData: mockQuartileData,
     };
 
     expect(
       extractAndSortHealthData(
         [indicatorData],
         mockInvalidMetaData,
+        mockQuartileData,
         [mockAreaCode],
         mockGroupCode
       )
@@ -274,13 +326,14 @@ describe('extractAndSortHealthData', () => {
         { areaCode: 'A001', areaName: 'area', healthData: [] },
       ],
       orderedMetadata: mockValidMetaData,
-      orderedBenchmarkStatistics: [],
+      orderedQuartileData: mockQuartileData,
     };
 
     expect(
       extractAndSortHealthData(
         [indicatorData],
         mockValidMetaData,
+        mockQuartileData,
         [mockAreaCode],
         mockGroupCode
       )

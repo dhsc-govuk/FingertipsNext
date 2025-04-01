@@ -1,4 +1,4 @@
-import { SpineChartProps } from '@/components/organisms/SpineChart';
+import { QuartileData } from '@/components/views/TwoOrMoreIndicatorsAreasView';
 import {
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
@@ -11,12 +11,13 @@ type ExtractedHealthData = {
   orderedGroupData: HealthDataForArea[];
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
-  orderedBenchmarkStatistics: SpineChartProps[];
+  orderedQuartileData: QuartileData[];
 };
 
 export const extractAndSortHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
   unsortedMetaData: (IndicatorDocument | undefined)[],
+  unsortedQuartileData: QuartileData[],
   areasSelected: string[],
   selectedGroupCode?: string
 ): ExtractedHealthData => {
@@ -32,7 +33,9 @@ export const extractAndSortHealthData = (
   const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
     combinedIndicatorData.length
   );
-  const orderedBenchmarkStatistics: SpineChartProps[] = []
+  const orderedQuartileData: QuartileData[] = new Array(
+    combinedIndicatorData.length
+  );
 
   combinedIndicatorData.forEach((indicator, index) => {
     if (!indicator.areaHealthData) {
@@ -70,6 +73,15 @@ export const extractAndSortHealthData = (
       (indicatorMetaData) =>
         Number(indicatorMetaData?.indicatorID) === indicator.indicatorId
     );
+
+    const quartileData = unsortedQuartileData.find(
+      (data) => data.indicatorId === indicator.indicatorId
+    );
+
+    if (!quartileData) {
+      throw new Error('Missing quartile data for indicator');
+    }
+    orderedQuartileData[index] = quartileData;
   });
 
   return {
@@ -77,6 +89,6 @@ export const extractAndSortHealthData = (
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
-    orderedBenchmarkStatistics,
+    orderedQuartileData,
   };
 };

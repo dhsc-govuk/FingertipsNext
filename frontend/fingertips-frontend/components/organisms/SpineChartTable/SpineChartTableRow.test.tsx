@@ -21,7 +21,7 @@ describe('Spine chart table suite', () => {
       percentile25th: 760,
       percentile75th: 500,
       worst: 345,
-    }
+    },
   };
 
   describe('Spine chart table row', () => {

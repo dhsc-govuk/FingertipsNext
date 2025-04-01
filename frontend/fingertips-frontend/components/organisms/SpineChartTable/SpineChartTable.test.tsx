@@ -104,15 +104,15 @@ describe('Spine chart table suite', () => {
       best: 1666,
       percentile25th: 1000,
       percentile75th: 969,
-      worst: 959,   
+      worst: 959,
     },
     {
       best: 22,
       percentile25th: 40,
       percentile75th: 60,
-      worst: 100,   
+      worst: 100,
     },
-  ]
+  ];
 
   const mockTableData = [
     {
@@ -158,7 +158,7 @@ describe('Spine chart table suite', () => {
   describe('mapToSpineChartTableData', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
-        { 
+        {
           benchmarkStatistics: {
             best: 1666,
             percentile25th: 1000,
