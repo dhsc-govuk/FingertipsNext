@@ -125,7 +125,7 @@ exports[`snapshot test 1`] = `
 .c18 {
   text-align: center;
   min-height: 70px;
-  width: 100%;
+  width: 60px;
   padding: 0;
 }
 
