@@ -2,7 +2,6 @@ import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
   generateSeriesData,
   generateStandardLineChartOptions,
-  lineChartDefaultOptions,
 } from './lineChartHelpers';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { mockIndicatorData, mockBenchmarkData, mockParentData } from './mocks';

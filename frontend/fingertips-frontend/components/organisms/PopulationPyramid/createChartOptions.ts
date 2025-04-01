@@ -1,7 +1,7 @@
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
 import Highcharts, { SeriesOptionsType } from 'highcharts';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
-import { generatePopPyramidTooltipStringList } from '.';
+import { generatePopPyramidTooltipForPoint } from '.';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 
 const createChartSeriesOptions = (
@@ -98,7 +98,7 @@ const createChartSeriesOptions = (
             </span>
         <span>Age {key}</span><div>`,
       pointFormatter: function (this: Highcharts.Point) {
-        return pointFormatterHelper(this, generatePopPyramidTooltipStringList);
+        return pointFormatterHelper(this, generatePopPyramidTooltipForPoint);
       },
       useHTML: true,
     },
