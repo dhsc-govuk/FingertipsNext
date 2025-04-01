@@ -128,6 +128,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasTimePeriodDropDown: false,
       },
     },
     // Pending
