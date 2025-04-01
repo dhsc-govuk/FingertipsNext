@@ -160,7 +160,7 @@ BEGIN
 	)
 	--- Now combine data to return
 	SELECT 
-	    ri.IndicatorId AS IndicatorId,
+	    rii.IndicatorId AS IndicatorId,
 	    ri.Polarity AS Polarity,
 	    qd.Year AS Year,
 	    qd.Minimum AS Q0Value,
@@ -172,20 +172,24 @@ BEGIN
 	    ancestor.Value AS AncestorValue,
 	    england.Value AS EnglandValue
 	FROM
-	    QuartileData AS qd
-	JOIN
+        @RequestedIndicatorIds As rii
+    LEFT JOIN
 	    RequestedIndicators AS ri
+    ON 
+        rii.IndicatorId = ri.IndicatorId
+	LEFT JOIN
+	    QuartileData AS qd
 	ON
 	    qd.IndicatorKey = ri.IndicatorKey
-	JOIN
+	LEFT JOIN
 	    ComparisonArea AS ca
 	ON
 	    qd.IndicatorKey = ca.IndicatorKey
-	JOIN
+	LEFT JOIN
 	    ComparisonAncestor AS ancestor
 	ON
 	    qd.IndicatorKey = ancestor.IndicatorKey	
-	JOIN
+	LEFT JOIN
 	    EnglandValue AS england
 	ON
 	    qd.IndicatorKey = england.IndicatorKey
