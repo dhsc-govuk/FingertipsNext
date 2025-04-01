@@ -3,6 +3,7 @@ import { Table } from 'govuk-react';
 import styled from 'styled-components';
 import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
 import { JSX } from 'react';
+import { HeatmapHover, HeatmapHoverProps } from './heatmapHover';
 
 const StyledCellText = styled(Table.Cell)({
   minHeight: '70px',
@@ -14,6 +15,7 @@ const StyledCellNumeric = styled(Table.Cell)({
   minHeight: '70px',
   width: '100%',
   padding: 0,
+  position: 'relative',
 });
 
 const StyledCellData = styled(StyledCellNumeric)<{
@@ -50,6 +52,7 @@ interface HeatmapCellProps {
   content: string;
   textColour?: string;
   backgroundColour?: string;
+  hoverProps?: HeatmapHoverProps;
 }
 
 export const HeatmapCell = ({
@@ -57,7 +60,9 @@ export const HeatmapCell = ({
   content,
   textColour,
   backgroundColour,
+  hoverProps,
 }: HeatmapCellProps): JSX.Element => {
+  console.log(hoverProps);
   switch (cellType) {
     case CellType.IndicatorTitle:
       return (
@@ -75,11 +80,36 @@ export const HeatmapCell = ({
           </StyledDivIndicatorInformationCellContent>
         </StyledCellText>
       );
-    case CellType.Data:
-      return (
-        <StyledCellData $color={textColour} $backgroundColor={backgroundColour}>
-          <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
-        </StyledCellData>
-      );
+    case CellType.Data: {
+      if (hoverProps) {
+        return (
+          <StyledCellData
+            $color={textColour}
+            $backgroundColor={backgroundColour}
+          >
+            <StyledDivDataCellContent>
+              <HeatmapHover
+                areaName={hoverProps.areaName}
+                period={hoverProps.period}
+                indicatorName={hoverProps.indicatorName}
+                value={hoverProps.value}
+                unitLabel={hoverProps.unitLabel}
+                benchmark={hoverProps.benchmark}
+              >
+                {content}
+              </HeatmapHover>
+            </StyledDivDataCellContent>
+          </StyledCellData>
+        );
+      } else
+        return (
+          <StyledCellData
+            $color={textColour}
+            $backgroundColor={backgroundColour}
+          >
+            <StyledDivDataCellContent>{content}</StyledDivDataCellContent>
+          </StyledCellData>
+        );
+    }
   }
 };

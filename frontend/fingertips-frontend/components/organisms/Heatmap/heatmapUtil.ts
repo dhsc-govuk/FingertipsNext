@@ -7,6 +7,7 @@ import {
 import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { HeatmapHoverProps } from './heatmapHover';
 
 export const heatmapIndicatorTitleColumnWidth = '240px';
 export const heatmapDataColumnWidth = '60px';
@@ -44,6 +45,7 @@ interface Cell {
   type: CellType;
   content: string;
   backgroundColour?: string; // not yet implemented
+  hoverProps?: HeatmapHoverProps;
 }
 
 interface Header {
@@ -142,14 +144,25 @@ export const generateRows = (
     });
 
     areas.forEach((area, areaIndex) => {
+      const formattedValue = formatValue(
+        dataPoints[indicator.id][area.code].value
+      ); // TODO format numbers
       cols[areaIndex + leadingCols.length] = {
         key: `col-${indicator.id}-${area.code}`,
         type: CellType.Data,
-        content: formatValue(dataPoints[indicator.id][area.code].value), // TODO format numbers
+        content: formattedValue,
         backgroundColour:
           areaIndex === 0
             ? GovukColours.MidGrey
             : generatedDataBackgroundColor(dataPoints[indicator.id][area.code]),
+        hoverProps: {
+          areaName: getHoverAreaName(area),
+          period: indicator.latestDataPeriod.toString(),
+          indicatorName: indicator.name,
+          value: formattedValue,
+          unitLabel: indicator.unitLabel,
+          benchmark: {},
+        },
       };
     });
     rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
@@ -163,8 +176,6 @@ const formatValue = (value?: number): string => {
 };
 
 const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
-  console.log(dataPoint);
-
   if (
     !dataPoint.value ||
     !dataPoint.benchmark ||
@@ -174,15 +185,27 @@ const generatedDataBackgroundColor = (dataPoint: DataPoint): string => {
     return GovukColours.White;
   }
 
-  console.log('HERE');
   const colour = getBenchmarkColour(
     dataPoint.benchmark.method,
     dataPoint.benchmark.outcome,
     dataPoint.benchmark.polarity
   );
 
-  console.log(`COL:${colour}`);
   return colour ? colour : GovukColours.White;
+};
+
+const getHoverAreaName = (area: Area, groupAreaCode?: string): string => {
+  if (area.code === areaCodeForEngland) {
+    return `Benchmark: ${area.name}`;
+  }
+
+  console.log(groupAreaCode);
+
+  if (groupAreaCode && area.code === groupAreaCode) {
+    return `Group: ${area.name}`;
+  }
+
+  return area.name;
 };
 
 const extractAreasIndicatorsAndDataPoints = (

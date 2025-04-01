@@ -5,7 +5,7 @@ import {
   generateHeaders,
   generateRows,
 } from './heatmapUtil';
-import { Table } from 'govuk-react';
+import { SectionBreak, Table } from 'govuk-react';
 import styled from 'styled-components';
 import {
   BenchmarkComparisonMethod,
@@ -35,10 +35,17 @@ const StyledTable = styled(Table)({
   display: 'block',
   width: '100%',
   tableLayout: 'fixed',
+  overflow: 'visible',
 });
 
 const StyledDivTableContainer = styled.div({
+  overflowY: 'visible',
   overflowX: 'scroll',
+});
+
+const StyledDivHeatmapContainer = styled.div({
+  paddingBottom: '100px',
+  overflow: 'visible',
 });
 
 export function Heatmap({
@@ -52,7 +59,7 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <>
+    <StyledDivHeatmapContainer>
       <BenchmarkLegend />
       <StyledDivTableContainer>
         <StyledTable data-testid="heatmap-component">
@@ -82,6 +89,7 @@ export function Heatmap({
                           : GovukColours.Black
                       }
                       backgroundColour={cell.backgroundColour}
+                      hoverProps={cell.hoverProps}
                     />
                   );
                 })}
@@ -89,7 +97,8 @@ export function Heatmap({
             );
           })}
         </StyledTable>
+        <SectionBreak />
       </StyledDivTableContainer>
-    </>
+    </StyledDivHeatmapContainer>
   );
 }
