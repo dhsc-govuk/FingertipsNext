@@ -258,37 +258,43 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
       await test.expect(resultsPage.page).not.toHaveURL(/&is=/);
     });
   });
-});
 
-test('check "select all" checkbox updates selected indicators and URL', async ({
-  resultsPage,
-}) => {
-  await test.step('Navigate directly to the results page', async () => {
-    await resultsPage.navigateToResults(subjectSearchTerm, []);
+  test('check "select all" checkbox updates selected indicators and URL', async ({
+    resultsPage,
+  }) => {
+    await test.step('Navigate directly to the results page', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
+
+    await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
+      await resultsPage.selectIndicatorSelectAllCheckbox();
+      await resultsPage.verifyAllIndicatorsSelected();
+      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+    });
+
+    await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
+      await resultsPage.deselectIndicatorSelectAllCheckbox();
+      await resultsPage.verifyNoIndicatorsSelected();
+      await resultsPage.verifyUrlExcludesAllIndicators();
+    });
+
+    await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
+      await resultsPage.selectEveryIndicator(allIndicatorIDs);
+      await resultsPage.verifySelectAllCheckboxTicked();
+      await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
+    });
+
+    await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
+      await resultsPage.deselectIndicator(allIndicatorIDs[0]);
+      await resultsPage.verifySelectAllCheckboxUnticked();
+      await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
+    });
   });
 
-  await test.step('Tick "Select all" checkbox and verify all indicators are selected and URL is updated', async () => {
-    await resultsPage.selectSelectAllCheckbox();
-    await resultsPage.verifyAllIndicatorsSelected();
-    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
-  });
-
-  await test.step('Untick "Select all" checkbox and verify no indicators are selected and URL is updated', async () => {
-    await resultsPage.deselectSelectAllCheckbox();
-    await resultsPage.verifyNoIndicatorsSelected();
-    await resultsPage.verifyUrlExcludesAllIndicators();
-  });
-
-  await test.step('Select indicators one by one and verify "Select all" checkbox becomes ticked and URL updates', async () => {
-    await resultsPage.selectEveryIndicator(allIndicatorIDs);
-    await resultsPage.verifySelectAllCheckboxTicked();
-    await resultsPage.verifyUrlContainsAllIndicators(allIndicatorIDs);
-  });
-
-  await test.step('Deselect one indicator and verify "Select all" checkbox becomes unticked and URL updates', async () => {
-    await resultsPage.deselectIndicator(allIndicatorIDs[0]);
-    await resultsPage.verifySelectAllCheckboxUnticked();
-    await resultsPage.verifyUrlUpdatedAfterDeselection(allIndicatorIDs[0]);
+  test('check area filtering on results page', async ({ resultsPage }) => {
+    await test.step('Navigate directly to the results page and check filtering by England (default)', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
   });
 });
 

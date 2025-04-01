@@ -179,7 +179,7 @@ export default class ResultsPage extends AreaFilter {
     );
   }
 
-  async selectSelectAllCheckbox() {
+  async selectIndicatorSelectAllCheckbox() {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );
@@ -187,7 +187,7 @@ export default class ResultsPage extends AreaFilter {
     await expect(selectAllCheckbox).toBeChecked();
   }
 
-  async deselectSelectAllCheckbox() {
+  async deselectIndicatorSelectAllCheckbox() {
     const selectAllCheckbox = this.page.getByTestId(
       this.selectAllIndicatorsCheckbox
     );

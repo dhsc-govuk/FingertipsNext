@@ -79,6 +79,16 @@ export default class BasePage {
     await expect(this.page.getByText('Loading')).toHaveCount(0);
   }
 
+  async selectOptionAndAwaitLoadingComplete(locator: Locator, option: string) {
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+
+    await locator.selectOption(option);
+
+    await this.page.waitForLoadState();
+    await expect(this.page.getByText('Loading')).toHaveCount(0);
+  }
+
   async expectNoAccessibilityViolations(
     axeBuilder: AxeBuilder,
     allowList: string[] = []

@@ -76,13 +76,12 @@ export default class AreaFilter extends BasePage {
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.waitForURLToContain(searchTerm);
 
-      await this.page
-        .getByTestId(this.areaTypeSelector)
-        .selectOption(areaTypeFilter);
+      await this.selectOptionAndAwaitLoadingComplete(
+        this.page.getByTestId(this.areaTypeSelector),
+        areaTypeFilter
+      );
 
       await this.waitForURLToContain(areaTypeFilter);
-
-      // For group type filter currently defaults to using England due to picking regions for area type above - this will be refactored in DHSCFT-416
 
       // Select appropriate number of checkboxes based on area mode
       const areaCheckboxList = this.page
@@ -108,16 +107,16 @@ export default class AreaFilter extends BasePage {
 
       // England area mode
       if (AreaMode.ENGLAND_AREA === areaMode) {
-        await this.page
-          .getByTestId(this.areaTypeSelector)
-          .selectOption('England');
-        await this.page
-          .getByTestId(this.groupTypeSelector)
-          .selectOption('England');
+        await this.selectOptionAndAwaitLoadingComplete(
+          this.page.getByTestId(this.areaTypeSelector),
+          'England'
+        );
+        await this.selectOptionAndAwaitLoadingComplete(
+          this.page.getByTestId(this.groupTypeSelector),
+          'England'
+        );
         await this.waitForURLToContain('England');
       }
-
-      await this.waitForURLToContain(searchTerm);
     } else if (
       searchMode === SearchMode.ONLY_AREA &&
       areaMode === AreaMode.TWO_PLUS_AREAS
@@ -127,8 +126,6 @@ export default class AreaFilter extends BasePage {
         .getByTestId(this.areaFilterContainer)
         .getByRole('checkbox');
       await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1)); // as first checkbox is 'All'
-
-      await this.page.waitForLoadState();
 
       await expect(
         this.page.getByTestId(this.areaFilterContainer)
