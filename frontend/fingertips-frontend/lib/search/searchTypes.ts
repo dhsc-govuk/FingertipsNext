@@ -16,7 +16,6 @@ export interface AreaCodeWithTrend {
   trend: HealthDataPointTrendEnum;
 }
 
-// Indicator data as returned by the search backend
 export type RawIndicatorDocument = {
   indicatorID: string;
   indicatorName: string;

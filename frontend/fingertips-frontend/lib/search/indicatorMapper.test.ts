@@ -1,22 +1,28 @@
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { IndicatorMapper } from './indicatorMapper';
+import {
+  generateIndicatorDocument,
+  generateRawIndicatorDocument,
+} from './mockDataHelper';
+import { RawIndicatorDocument } from './searchTypes';
 
 describe('indicatorMapper tests', () => {
   describe('toEntities method tests', () => {
     // Indicator Mapper does not store state, so single instance can be used by all tests
     const indicatorMapper = new IndicatorMapper();
+    const baseMockRawIndicators: RawIndicatorDocument[] = [
+      generateRawIndicatorDocument('1'),
+      generateRawIndicatorDocument('2'),
+    ];
+    const baseExpectedMappedIndicators = [
+      generateIndicatorDocument('1'),
+      generateIndicatorDocument('2'),
+    ];
 
     it('maps multiple raw indicators to entities successfully', () => {
       const mockRawIndicators = [
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseMockRawIndicators[0],
           associatedAreaCodes: ['Area1'],
           trendsByArea: [
             {
@@ -24,18 +30,9 @@ describe('indicatorMapper tests', () => {
               trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
             },
           ],
-          unitLabel: '',
-          hasInequalities: false,
-          usedInPoc: true,
         },
         {
-          indicatorID: '2',
-          indicatorName: 'Perp count',
-          indicatorDefinition: 'Perps brought to justice by Red Angel',
-          earliestDataPeriod: '1977',
-          latestDataPeriod: '2022',
-          dataSource: 'Mega City 1',
-          lastUpdatedDate: new Date('November 5, 2023'),
+          ...baseMockRawIndicators[1],
           associatedAreaCodes: ['Area1', 'Area2'],
           trendsByArea: [
             {
@@ -47,9 +44,6 @@ describe('indicatorMapper tests', () => {
               trend: HealthDataPointTrendEnum.NoSignificantChange,
             },
           ],
-          unitLabel: '',
-          hasInequalities: true,
-          usedInPoc: true,
         },
       ];
 
@@ -61,44 +55,20 @@ describe('indicatorMapper tests', () => {
 
       expect(result).toEqual([
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseExpectedMappedIndicators[0],
           trend: 'Increasing and getting worse',
-          unitLabel: '',
-          hasInequalities: false,
         },
         {
-          indicatorID: '2',
-          indicatorName: 'Perp count',
-          indicatorDefinition: 'Perps brought to justice by Red Angel',
-          earliestDataPeriod: '1977',
-          latestDataPeriod: '2022',
-          dataSource: 'Mega City 1',
-          lastUpdatedDate: new Date('November 5, 2023'),
+          ...baseExpectedMappedIndicators[1],
           trend: 'Decreasing',
-          unitLabel: '',
-          hasInequalities: true,
         },
       ]);
     });
 
-    it('maps trend to undefined when a user has requested more an indicator in more than one area', () => {
+    it('maps trend to undefined when a user has requested an indicator in more than one area', () => {
       const mockRawIndicators = [
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseMockRawIndicators[0],
           associatedAreaCodes: ['Area1', 'Area2'],
           trendsByArea: [
             {
@@ -110,9 +80,6 @@ describe('indicatorMapper tests', () => {
               trend: HealthDataPointTrendEnum.NoSignificantChange,
             },
           ],
-          unitLabel: '',
-          hasInequalities: false,
-          usedInPoc: true,
         },
       ];
 
@@ -124,17 +91,8 @@ describe('indicatorMapper tests', () => {
 
       expect(result).toEqual([
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseExpectedMappedIndicators[0],
           trend: undefined,
-          unitLabel: '',
-          hasInequalities: false,
         },
       ]);
     });
@@ -144,14 +102,7 @@ describe('indicatorMapper tests', () => {
     it('maps trend to undefined when no trend can be found for the area code', () => {
       const mockRawIndicators = [
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseMockRawIndicators[0],
           associatedAreaCodes: ['Area1', 'Area2'],
           trendsByArea: [
             {
@@ -159,9 +110,6 @@ describe('indicatorMapper tests', () => {
               trend: HealthDataPointTrendEnum.IncreasingAndGettingWorse,
             },
           ],
-          unitLabel: '',
-          hasInequalities: false,
-          usedInPoc: true,
         },
       ];
 
@@ -173,17 +121,8 @@ describe('indicatorMapper tests', () => {
 
       expect(result).toEqual([
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseExpectedMappedIndicators[0],
           trend: undefined,
-          unitLabel: '',
-          hasInequalities: false,
         },
       ]);
     });
@@ -192,14 +131,7 @@ describe('indicatorMapper tests', () => {
     it('retrieves the trend for England when no area has been specificed but England chosen as group', () => {
       const mockRawIndicators = [
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseMockRawIndicators[0],
           associatedAreaCodes: ['Area1', 'Area2', 'E92000001'],
           trendsByArea: [
             {
@@ -215,9 +147,6 @@ describe('indicatorMapper tests', () => {
               trend: HealthDataPointTrendEnum.DecreasingAndGettingBetter,
             },
           ],
-          unitLabel: '',
-          hasInequalities: false,
-          usedInPoc: true,
         },
       ];
 
@@ -225,17 +154,8 @@ describe('indicatorMapper tests', () => {
 
       expect(result).toEqual([
         {
-          indicatorID: '1',
-          indicatorName: 'Red faced',
-          indicatorDefinition:
-            'Count of people who did something they are embarrassed by',
-          earliestDataPeriod: '1938',
-          latestDataPeriod: '2023',
-          dataSource: 'The Beano',
-          lastUpdatedDate: new Date('December 6, 2024'),
+          ...baseExpectedMappedIndicators[0],
           trend: 'Decreasing and getting better',
-          unitLabel: '',
-          hasInequalities: false,
         },
       ]);
     });

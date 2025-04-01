@@ -71,11 +71,6 @@ const GreyTag = styled(Tag)({
   backgroundColor: TagColours.GreyBackground,
 });
 
-const IndicatorAndTrendContainer = styled.span({
-  display: 'flex',
-  justifyContent: 'space-between',
-});
-
 export function SearchResult({
   result,
   showTrends,
@@ -118,59 +113,57 @@ export function SearchResult({
     <ListItem data-testid="search-result">
       <PrimaryRow>
         <GridCol>
-          <IndicatorAndTrendContainer>
-            <Checkbox
-              id={`search-results-indicator-${result.indicatorID.toString()}`}
-              data-testid={`search-results-indicator-${result.indicatorID}`}
-              name="indicator"
-              value={result.indicatorID}
-              defaultChecked={indicatorSelected}
-              onChange={(e) => {
-                handleClick(result.indicatorID.toString(), e.target.checked);
-              }}
-              className=""
-            >
-              <H5>
-                <Link
-                  onClick={() => setIsLoading(true)}
-                  href={generateIndicatorChartPath(
-                    result.indicatorID.toString()
-                  )}
-                >
-                  {result.indicatorName}
-                </Link>
-              </H5>
-              <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
-              <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
-              <TagRow>
-                {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
-                  <TagsColumn>
-                    <GreyTag data-testid="tag-recent-indicator">
-                      Updated in last month
-                    </GreyTag>
-                  </TagsColumn>
-                ) : (
-                  <></>
-                )}
-                {result.hasInequalities ? (
-                  <TagsColumn>
-                    <GreyTag data-testid="tag-has-inequalities">
-                      Contains inequality data
-                    </GreyTag>
-                  </TagsColumn>
-                ) : (
-                  <></>
-                )}
-              </TagRow>
-            </Checkbox>
-            {showTrends ? (
-              <TrendTag
-                trendFromResponse={
-                  result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
-                }
-              />
-            ) : null}
-          </IndicatorAndTrendContainer>
+          <Checkbox
+            id={`search-results-indicator-${result.indicatorID.toString()}`}
+            data-testid={`search-results-indicator-${result.indicatorID}`}
+            name="indicator"
+            value={result.indicatorID}
+            defaultChecked={indicatorSelected}
+            onChange={(e) => {
+              handleClick(result.indicatorID.toString(), e.target.checked);
+            }}
+            className=""
+          >
+            <H5>
+              <Link
+                onClick={() => setIsLoading(true)}
+                href={generateIndicatorChartPath(result.indicatorID.toString())}
+              >
+                {result.indicatorName}
+              </Link>
+            </H5>
+            <StyledParagraph>{`Data period: ${formatDataPeriod(result.earliestDataPeriod, result.latestDataPeriod)}`}</StyledParagraph>
+            <FinalParagraph>{`Last updated: ${formatDate(result.lastUpdatedDate)}`}</FinalParagraph>
+            <TagRow>
+              {isWithinOneMonth(currentDate, result.lastUpdatedDate) ? (
+                <TagsColumn>
+                  <GreyTag data-testid="tag-recent-indicator">
+                    Updated in last month
+                  </GreyTag>
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
+              {result.hasInequalities ? (
+                <TagsColumn>
+                  <GreyTag data-testid="tag-has-inequalities">
+                    Contains inequality data
+                  </GreyTag>
+                </TagsColumn>
+              ) : (
+                <></>
+              )}
+            </TagRow>
+          </Checkbox>
+        </GridCol>
+        <GridCol setWidth="one-quarter">
+          {showTrends ? (
+            <TrendTag
+              trendFromResponse={
+                result.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
+              }
+            />
+          ) : null}
         </GridCol>
       </PrimaryRow>
       <SectionBreak visible={true} />

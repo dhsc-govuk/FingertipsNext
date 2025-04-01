@@ -51,7 +51,7 @@ export class IndicatorMapper {
       (trendWithArea) => trendWithArea.areaCode === areaCodeToMatch
     );
 
-    return !matchedElement ? undefined : matchedElement.trend;
+    return matchedElement ? matchedElement.trend : undefined;
   }
 
   public toEntity(

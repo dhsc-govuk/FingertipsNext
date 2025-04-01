@@ -2,7 +2,7 @@
 
 exports[`Indicator Checkbox snapshot test 1`] = `
 <DocumentFragment>
-  .c5 {
+  .c4 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,7 +17,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin-bottom: 10px;
 }
 
-.c6 {
+.c5 {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -28,22 +28,22 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   cursor: pointer;
 }
 
-.c6:checked + span:after {
+.c5:checked + span:after {
   opacity: 1;
 }
 
-.c6:focus + span:before {
+.c5:focus + span:before {
   outline: 3px solid transparent;
   outline-offset: 3px;
   box-shadow: 0 0 0 3px #ffdd00;
 }
 
-.c6 + span {
+.c5 + span {
   opacity: 1;
   pointer-events: auto;
 }
 
-.c7 {
+.c6 {
   display: inline-block;
   cursor: pointer;
   padding: 8px 15px 5px;
@@ -51,7 +51,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   touch-action: manipulation;
 }
 
-.c7::before {
+.c6::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
@@ -63,7 +63,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   background: transparent;
 }
 
-.c7::after {
+.c6::after {
   content: '';
   position: absolute;
   top: 11px;
@@ -90,7 +90,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin-bottom: 5px;
 }
 
-.c8 {
+.c7 {
   color: #0b0c0c;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -103,39 +103,39 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c9 {
+.c8 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.c9:focus {
+.c8:focus {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   background-color: #ffdd00;
 }
 
-.c9:link {
+.c8:link {
   color: #1d70b8;
 }
 
-.c9:visited {
+.c8:visited {
   color: #4c2c92;
 }
 
-.c9:hover {
+.c8:hover {
   color: #2b8cc4;
 }
 
-.c9:active {
+.c8:active {
   color: #2b8cc4;
 }
 
-.c9:focus {
+.c8:focus {
   color: #0b0c0c;
 }
 
-.c10 {
+.c9 {
   margin: 0;
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -146,11 +146,11 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   margin-bottom: 15px;
 }
 
-.c10 > p {
+.c9 > p {
   margin: 0;
 }
 
-.c10 > p > code {
+.c9 > p > code {
   padding: 0.2em 0.4em;
   margin: 0;
   font-size: 85%;
@@ -158,7 +158,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c10 > pre {
+.c9 > pre {
   padding: 16px;
   overflow: auto;
   font-size: 85%;
@@ -167,7 +167,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   border-radius: 3px;
 }
 
-.c10 > pre > code {
+.c9 > pre > code {
   display: inline;
   padding: 0;
   margin: 0;
@@ -178,6 +178,12 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 .c3 {
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.c13 {
   box-sizing: border-box;
   padding-right: 15px;
   padding-left: 15px;
@@ -200,7 +206,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   border-bottom: 1px solid #bfc1c3;
 }
 
-.c11 {
+.c10 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -209,7 +215,7 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   line-height: 1;
 }
 
-.c12 {
+.c11 {
   margin-bottom: 10px;
 }
 
@@ -218,39 +224,28 @@ exports[`Indicator Checkbox snapshot test 1`] = `
   padding-bottom: 0;
 }
 
-.c13 {
+.c12 {
   margin-top: 5px;
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.c4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
 @media print {
-  .c5 {
+  .c4 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c4 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c5 {
+  .c4 {
     margin-bottom: 10px;
   }
 }
@@ -270,41 +265,41 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media print {
-  .c8 {
+  .c7 {
     color: #000;
   }
 }
 
 @media print {
-  .c8 {
+  .c7 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c7 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c8 {
+  .c7 {
     margin-bottom: 20px;
   }
 }
 
 @media print {
-  .c9 {
+  .c8 {
     font-family: sans-serif;
   }
 }
 
 @media print {
-  .c9[href^="/"]::after,
-  .c9[href^="http://"]::after,
-  .c9[href^="https://"]::after {
+  .c8[href^="/"]::after,
+  .c8[href^="http://"]::after,
+  .c8[href^="https://"]::after {
     content: " (" attr(href) ")";
     font-size: 90%;
     word-wrap: break-word;
@@ -312,21 +307,21 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media print {
-  .c10 {
+  .c9 {
     font-size: 14px;
     line-height: 1.15;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c9 {
     font-size: 19px;
     line-height: 1.3157894736842106;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c10 {
+  .c9 {
     margin-bottom: 20px;
   }
 }
@@ -344,6 +339,19 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
+  .c13 {
+    width: 25%;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (min-width:641px) {
   .c1 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
@@ -352,21 +360,21 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media print {
-  .c11 {
+  .c10 {
     font-size: 14px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c11 {
+  .c10 {
     font-size: 19px;
     line-height: 1;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c12 {
+  .c11 {
     margin-bottom: 10px;
   }
 }
@@ -384,19 +392,19 @@ exports[`Indicator Checkbox snapshot test 1`] = `
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c12 {
     margin-top: 5px;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c12 {
     padding-top: 0;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c13 {
+  .c12 {
     padding-bottom: 0;
   }
 }
@@ -411,54 +419,53 @@ exports[`Indicator Checkbox snapshot test 1`] = `
       <div
         class="c3"
       >
-        <span
+        <label
           class="c4"
         >
-          <label
+          <input
             class="c5"
+            data-testid="search-results-indicator-1"
+            id="search-results-indicator-1"
+            name="indicator"
+            type="checkbox"
+            value="1"
+          />
+          <span
+            class="c6"
           >
-            <input
-              class="c6"
-              data-testid="search-results-indicator-1"
-              id="search-results-indicator-1"
-              name="indicator"
-              type="checkbox"
-              value="1"
-            />
-            <span
+            <h5
               class="c7"
             >
-              <h5
+              <a
                 class="c8"
+                href="/chart?si=test&is=1&as=Area1"
               >
-                <a
-                  class="c9"
-                  href="/chart?si=test&is=1&as=Area1"
-                >
-                  NHS
-                </a>
-              </h5>
-              <div
-                class="c10 c11"
-              >
-                <p>
-                  Data period: 1999 to 2023
-                </p>
-              </div>
-              <div
-                class="c10 c11 c12"
-              >
-                <p>
-                  Last updated: 06 December 2024
-                </p>
-              </div>
-              <div
-                class="c1 c13"
-              />
-            </span>
-          </label>
-        </span>
+                NHS
+              </a>
+            </h5>
+            <div
+              class="c9 c10"
+            >
+              <p>
+                Data period: 1999 to 2023
+              </p>
+            </div>
+            <div
+              class="c9 c10 c11"
+            >
+              <p>
+                Last updated: 06 December 2024
+              </p>
+            </div>
+            <div
+              class="c1 c12"
+            />
+          </span>
+        </label>
       </div>
+      <div
+        class="c13"
+      />
     </div>
     <hr
       class="c14"
