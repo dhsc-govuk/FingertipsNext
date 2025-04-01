@@ -21,17 +21,19 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (
-    !indicatorsSelected ||
-    indicatorsSelected.length < 2 ||
-    !areasSelected ||
-    areasSelected.length < 1
-  ) {
-    throw new Error('Invalid parameters provided to view');
+  if (!indicatorsSelected || indicatorsSelected.length < 2) {
+    throw new Error('Invalid indicators selected passed to view');
   }
 
-  if (!selectedIndicatorsData) {
-    throw new Error('Unable to retrieve indicator metadata');
+  if (!areasSelected || areasSelected.length < 1) {
+    throw new Error('Invalid areas selected passed to view');
+  }
+
+  if (
+    !selectedIndicatorsData ||
+    selectedIndicatorsData.length !== indicatorsSelected.length
+  ) {
+    throw new Error('Invalid indicator metadata passed to view');
   }
 
   const areaCodesToRequest = [...areasSelected];
@@ -83,8 +85,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
       return getHealthDataForIndicator(indicator);
     })
   );
-
-  console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
     <TwoOrMoreIndicatorsAreasViewPlot
