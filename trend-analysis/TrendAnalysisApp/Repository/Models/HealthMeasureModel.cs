@@ -25,6 +25,9 @@ public class HealthMeasureModel
     public TrendDimensionModel? TrendDimension { get; set; }
     [ForeignKey("TrendDimension")]
     public byte TrendKey { get; set; }
+    public bool IsSexAggregatedOrSingle { get; set; } = true;
+    public bool IsAgeAggregatedOrSingle { get; set; } = true;
+    public bool IsDeprivationAggregatedOrSingle { get; set; } = true;
     public double? Count { get; set; }
     public double? Denominator { get; set; }
     public double Value { get; set; }

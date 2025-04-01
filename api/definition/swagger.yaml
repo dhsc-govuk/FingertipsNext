@@ -235,6 +235,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/indicator_id"
         - $ref: "#/components/parameters/area_codes"
+        - $ref: "#/components/parameters/area_type"
         - $ref: "#/components/parameters/years"
         - $ref: "#/components/parameters/inequalities"
       operationId: getHealthDataForAnIndicator
@@ -406,13 +407,9 @@ components:
           example: 578.32766
           description: The upper confidence interval
         ageBand:
-          type: string
-          example: 0-4
-          description: Age band which the data are for.
+          $ref: "#/components/schemas/AgeData"
         sex:
-          type: string
-          example: Female
-          description: Sex which the data are for.
+          $ref: "#/components/schemas/SexData"
         trend:
           type: string
           example: Increasing
@@ -466,6 +463,7 @@ components:
         - sequence
         - value
         - type
+        - isAggregate
       properties:
         sequence:
           type: number
@@ -480,6 +478,40 @@ components:
           type: string
           example: District & UA deprivation deciles in England (IMD2019, 4/21 geography)
           description: The deprivation category that this data point's deprivation value belongs to.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the deprivation dimension.
+    SexData:
+      type: object
+      description: Details of the sex category that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: Female
+          description: Sex which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the sex dimension.
+    AgeData:
+      type: object
+      description: Details of the age band that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the age dimension.
     HealthDataForArea:
       type: object
       description: Associates a list of health data points with the relevant
@@ -506,18 +538,14 @@ components:
       type: object
       description: Indicator information with area health data
       properties:
+        indicatorId:
+          type: integer
+          example: 21404
+          description: Unique ID of the indicator
         name:
           type: string
           example: Emergency readmissions within 30 days of discharge from hospital
           description: Name of the indicator
-        startDate:
-          type: string
-          example: 2015-03-19T16:50:02.92
-          description: start date of the indicator
-        endDate:
-          type: string
-          example: 2035-03-19T16:50:02.92
-          description: end date of the indicator
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         benchmarkMethod:
@@ -610,6 +638,12 @@ components:
           type: string
           example: G82109
         maxItems: 10
+    area_type:
+      in: query
+      name: area_type
+      description: The area type which the areas belong to
+      schema:
+        type: string
     indicator_id:
       in: path
       name: indicator_id

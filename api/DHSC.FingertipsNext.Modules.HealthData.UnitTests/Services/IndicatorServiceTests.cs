@@ -7,6 +7,7 @@ using DHSC.FingertipsNext.Modules.HealthData.Service;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using NSubstitute;
 using Shouldly;
+using BenchmarkComparison = DHSC.FingertipsNext.Modules.HealthData.Schemas.BenchmarkComparison;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Services;
 
@@ -21,7 +22,7 @@ public class IndicatorServiceTests
     private IndicatorDimensionModel testIndicator = new IndicatorDimensionModel()
     {
         Name = "Name",
-        IndicatorKey =123,
+        IndicatorKey = 123,
         IndicatorId = 123,
         StartDate = DateTime.Today,
         EndDate = DateTime.Today,
@@ -59,7 +60,7 @@ public class IndicatorServiceTests
         new object[] { null, 2, 3, false },
         new object[] { 1, 2, null, false }
     };
-    
+
     [Fact]
     public async Task GetIndicatorData_ShouldReturnExpectedResult()
     {
@@ -78,7 +79,7 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns([healthMeasure]);
 
-        var result = await _indicatorService.GetIndicatorDataAsync(1, [], [], []);
+        var result = await _indicatorService.GetIndicatorDataAsync(1, [], "", [], []);
         result.AreaHealthData.ShouldNotBeEmpty();
         result.AreaHealthData.Count().ShouldBe(1);
         result.AreaHealthData.ElementAt(0).ShouldBeEquivalentTo(expected);
@@ -123,7 +124,7 @@ public class IndicatorServiceTests
             new List<HealthMeasureModel>
                 { healthMeasure1, healthMeasure2, healthMeasure3 });
 
-        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], [], []));
+        var result = (await _indicatorService.GetIndicatorDataAsync(1, [], "", [], []));
         result.AreaHealthData.ShouldNotBeEmpty();
         result.AreaHealthData.Count().ShouldBe(2);
         result.AreaHealthData.ShouldBeEquivalentTo(expected);
@@ -153,10 +154,10 @@ public class IndicatorServiceTests
         testIndicator.Polarity = polarity;
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
-        
+
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
-        var areaDataResult = result.AreaHealthData.ToList(); 
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], []);
+        var areaDataResult = result.AreaHealthData.ToList();
         result.AreaHealthData.ShouldNotBeEmpty();
         result.AreaHealthData.Count().ShouldBe(1);
         areaDataResult[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
@@ -188,9 +189,9 @@ public class IndicatorServiceTests
 
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], []).Returns(mockHealthData);
-        
+
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], []);
         var areaDataResult = result.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
@@ -204,53 +205,82 @@ public class IndicatorServiceTests
     {
         const string benchmarkAreaCode = IndicatorService.AreaCodeEngland;
         const string benchmarkAreaName = "Eng";
-        
+
         var englandDataPoint2022 =
             new HealthMeasureModelHelper(year: 2022, lowerCi: 40, value: 50, upperCi: 60)
                 .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
-        
+
+        var englandMaleDataPoint2022 = new HealthMeasureModelHelper(year: 2022, lowerCi: 10, value: 20, upperCi: 30, isAggregate: false)
+            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
+            .WithSexDimension(name:  "Male", sexIsAggregate: false)
+            .Build();
+
+        var englandFemaleDataPoint2022 = new HealthMeasureModelHelper(year: 2022, lowerCi: 10, value: 20, upperCi: 30, isAggregate: false)
+            .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName)
+            .WithSexDimension(name: "Female", sexIsAggregate: false)
+            .Build();
+
         var personsDataPoint2022 =
             new HealthMeasureModelHelper(year: 2022, lowerCi: 70, value: 80, upperCi: 90)
                 .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension().Build();
         var maleDataPoint2022 =
             new HealthMeasureModelHelper(year: 2022, lowerCi: 10, value: 20, upperCi: 30, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithSexDimension(null, name: "Male", sexIsAggregate: false)
+                .Build();
         var femaleDataPoint2022 =
             new HealthMeasureModelHelper(year: 2022, lowerCi: 300, value: 400, upperCi: 500, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Female").Build();
-        
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithSexDimension(null, name: "Female", sexIsAggregate: false)
+                .Build();
+
         var englandDataPoint2023 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6)
                 .WithAreaDimension(benchmarkAreaCode, benchmarkAreaName).Build();
-        
+
         var personsDataPoint2023 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3)
                 .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension().Build();
         var maleDataPoint2023 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 2, value: 3, upperCi: 4, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithSexDimension(null, name: "Male", sexIsAggregate: false)
+                .Build();
         var femaleDataPoint2023 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 3, value: 4, upperCi: 5, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Female").Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithSexDimension(null, name: "Female", sexIsAggregate: false)
+                .Build();
 
         var mockHealthData = new List<HealthMeasureModel>
-            {englandDataPoint2022, personsDataPoint2022, maleDataPoint2022, femaleDataPoint2022, englandDataPoint2023, personsDataPoint2023, maleDataPoint2023, femaleDataPoint2023 };
+            {
+                englandDataPoint2022,
+                personsDataPoint2022, maleDataPoint2022, femaleDataPoint2022,
+                englandDataPoint2023, personsDataPoint2023, maleDataPoint2023, femaleDataPoint2023,
+                englandMaleDataPoint2022, englandFemaleDataPoint2022
+            };
 
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
-        
-        var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Sex"]);
-        var areaDataResult = result.AreaHealthData.ToList();
-        areaDataResult.ShouldNotBeEmpty();
-        areaDataResult.Count().ShouldBe(1);
-        areaDataResult[0].AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
-        areaDataResult[0].AreaName.ShouldBeEquivalentTo(expectedAreaName);
-        areaDataResult[0].HealthData.Count().ShouldBe(6);
 
-        var personsResult2022 = areaDataResult[0].HealthData.ElementAt(0);
-        personsResult2022.Sex.ShouldBe("sex name");
+        var result =
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode, benchmarkAreaCode], "", [], ["Sex"]);
+        var areaDataResults = result.AreaHealthData.ToList();
+        areaDataResults.ShouldNotBeEmpty();
+        areaDataResults.Count().ShouldBe(2);
+
+        var areaResults = areaDataResults[1];
+        areaResults.AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
+        areaResults.AreaName.ShouldBeEquivalentTo(expectedAreaName);
+        areaResults.HealthData.Count().ShouldBe(6);
+
+        var personsResult2022 = areaResults.HealthData.ElementAt(0);
+        personsResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Persons",
+            IsAggregate = true
+        });
         personsResult2022.Year.ShouldBe(2022);
         personsResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -260,8 +290,12 @@ public class IndicatorServiceTests
             BenchmarkValue = 50
         });
 
-        var maleResult2022 = areaDataResult[0].HealthData.ElementAt(1);
-        maleResult2022.Sex.ShouldBe("Male");
+        var maleResult2022 = areaResults.HealthData.ElementAt(1);
+        maleResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Male",
+            IsAggregate = false
+        });
         maleResult2022.Year.ShouldBe(2022);
         maleResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -271,8 +305,12 @@ public class IndicatorServiceTests
             BenchmarkValue = 80
         });
 
-        var femaleResult2022 = areaDataResult[0].HealthData.ElementAt(2);
-        femaleResult2022.Sex.ShouldBe("Female");
+        var femaleResult2022 = areaResults.HealthData.ElementAt(2);
+        femaleResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Female",
+            IsAggregate = false
+        });
         femaleResult2022.Year.ShouldBe(2022);
         femaleResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -281,9 +319,13 @@ public class IndicatorServiceTests
             BenchmarkAreaName = expectedAreaName,
             BenchmarkValue = 80
         });
-        
-        var personsResult2023 = areaDataResult[0].HealthData.ElementAt(3);
-        personsResult2023.Sex.ShouldBe("sex name");
+
+        var personsResult2023 = areaResults.HealthData.ElementAt(3);
+        personsResult2023.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Persons",
+            IsAggregate = true
+        });
         personsResult2023.Year.ShouldBe(2023);
         personsResult2023.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -293,8 +335,12 @@ public class IndicatorServiceTests
             BenchmarkValue = 5
         });
 
-        var maleResult2023 = areaDataResult[0].HealthData.ElementAt(4);
-        maleResult2023.Sex.ShouldBe("Male");
+        var maleResult2023 = areaResults.HealthData.ElementAt(4);
+        maleResult2023.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Male",
+            IsAggregate = false
+        });
         maleResult2023.Year.ShouldBe(2023);
         maleResult2023.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -304,8 +350,12 @@ public class IndicatorServiceTests
             BenchmarkValue = 2
         });
 
-        var femaleResult2023 = areaDataResult[0].HealthData.ElementAt(5);
-        femaleResult2023.Sex.ShouldBe("Female");
+        var femaleResult2023 = areaResults.HealthData.ElementAt(5);
+        femaleResult2023.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Female",
+            IsAggregate = false
+        });
         femaleResult2023.Year.ShouldBe(2023);
         femaleResult2023.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -313,6 +363,50 @@ public class IndicatorServiceTests
             BenchmarkAreaCode = expectedAreaCode,
             BenchmarkAreaName = expectedAreaName,
             BenchmarkValue = 2
+        });
+
+        var engResults = areaDataResults[0];
+        engResults.AreaCode.ShouldBeEquivalentTo(benchmarkAreaCode);
+        engResults.AreaName.ShouldBeEquivalentTo(benchmarkAreaName);
+        engResults.HealthData.Count().ShouldBe(4);
+
+        var personsEngResult2022 = engResults.HealthData.ElementAt(0);
+        personsEngResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Persons",
+            IsAggregate = true
+        });
+        personsEngResult2022.Year.ShouldBe(2022);
+        personsEngResult2022.BenchmarkComparison.ShouldBeNull();
+
+        var maleEngResult2022 = engResults.HealthData.ElementAt(2);
+        maleEngResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Male",
+            IsAggregate = false
+        });
+        maleEngResult2022.Year.ShouldBe(2022);
+        maleEngResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Worse,
+            BenchmarkAreaCode = benchmarkAreaCode,
+            BenchmarkAreaName = benchmarkAreaName,
+            BenchmarkValue = 50
+        });
+
+        var femaleEngResult2022 = engResults.HealthData.ElementAt(3);
+        femaleEngResult2022.Sex.ShouldBeEquivalentTo(new Sex
+        {
+            Value = "Female",
+            IsAggregate = false
+        });
+        femaleEngResult2022.Year.ShouldBe(2022);
+        femaleEngResult2022.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
+        {
+            Outcome = BenchmarkOutcome.Worse,
+            BenchmarkAreaCode = benchmarkAreaCode,
+            BenchmarkAreaName = benchmarkAreaName,
+            BenchmarkValue = 50
         });
     }
 
@@ -333,7 +427,9 @@ public class IndicatorServiceTests
 
         var disAggregatePoint =
             new HealthMeasureModelHelper(year: 2023, lowerCi: lowerCi, value: 3, upperCi: upperCi, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithSexDimension(null, "Male").Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithSexDimension(null, name: "Male", sexIsAggregate: false)
+                .Build();
 
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint };
@@ -341,15 +437,19 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
-        
+
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Sex"]);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Sex"]);
         var areaDataResult = result.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
         if (shouldBenchmark)
         {
-            areaDataResult.First().HealthData.ElementAt(1).Sex.ShouldBe("Male");
+            areaDataResult.First().HealthData.ElementAt(1).Sex.ShouldBeEquivalentTo(new Sex
+            {
+                Value = "Male",
+                IsAggregate = false
+            });
             areaDataResult.First().HealthData.ElementAt(1).BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
             {
                 Outcome = BenchmarkOutcome.Similar,
@@ -369,19 +469,27 @@ public class IndicatorServiceTests
     {
         var englandPoint =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 2, upperCi: 3, isAggregate: true)
-                .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng").WithDeprivationDimension().Build();
-        
+                .WithAreaDimension(IndicatorService.AreaCodeEngland, "Eng")
+                .WithDeprivationDimension()
+                .Build();
+
         var aggregatePoint =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 4, value: 5, upperCi: 6, isAggregate: true)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension().Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithDeprivationDimension()
+                .Build();
 
         var disAggregatePoint1 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 7, value: 8, upperCi: 9, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension("one").Build();
-        
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithDeprivationDimension(name: "one", deprivationIsAggregate: false)
+                .Build();
+
         var disAggregatePoint2 =
             new HealthMeasureModelHelper(year: 2023, lowerCi: 1, value: 3, upperCi: 4, isAggregate: false)
-                .WithAreaDimension(expectedAreaCode, expectedAreaName).WithDeprivationDimension("two").Build();
+                .WithAreaDimension(expectedAreaCode, expectedAreaName)
+                .WithDeprivationDimension(name: "two", deprivationIsAggregate: false)
+                .Build();
 
         var mockHealthData = new List<HealthMeasureModel>
             { englandPoint, aggregatePoint, disAggregatePoint1, disAggregatePoint2 };
@@ -389,9 +497,9 @@ public class IndicatorServiceTests
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(testIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
-        
+
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], ["Deprivation"]);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], ["Deprivation"]);
         var areaDataResult = result.AreaHealthData.ToList();
         areaDataResult.ShouldNotBeEmpty();
         areaDataResult.Count().ShouldBe(1);
@@ -402,6 +510,7 @@ public class IndicatorServiceTests
             Sequence = 1,
             Value = "All",
             Type = "Deprivation Deciles",
+            IsAggregate = true
         });
         aggregatePointResult.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -410,13 +519,14 @@ public class IndicatorServiceTests
             BenchmarkAreaName = "Eng",
             BenchmarkValue = 2
         });
-        
+
         var disAggregatePointResult1 = areasResults.ElementAt(1);
         disAggregatePointResult1.Deprivation.ShouldBeEquivalentTo(new Deprivation
         {
             Sequence = 1,
             Value = "one",
             Type = "Deprivation Deciles",
+            IsAggregate = false
         });
         disAggregatePointResult1.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -425,13 +535,14 @@ public class IndicatorServiceTests
             BenchmarkAreaName = expectedAreaName,
             BenchmarkValue = 5
         });
-        
+
         var disAggregatePointResult2 = areasResults.ElementAt(2);
         disAggregatePointResult2.Deprivation.ShouldBeEquivalentTo(new Deprivation
         {
             Sequence = 1,
             Value = "two",
             Type = "Deprivation Deciles",
+            IsAggregate = false
         });
         disAggregatePointResult2.BenchmarkComparison.ShouldBeEquivalentTo(new BenchmarkComparison
         {
@@ -441,7 +552,7 @@ public class IndicatorServiceTests
             BenchmarkValue = 5
         });
     }
-    
+
     public static IEnumerable<object[]> IndicatorTestData => new List<object[]>
     {
         new object[] { "Foo", "High is good", IndicatorPolarity.HighIsGood, "Confidence intervals overlapping reference value (95.0)", BenchmarkComparisonMethod.CIOverlappingReferenceValue95  },
@@ -451,7 +562,7 @@ public class IndicatorServiceTests
         new object[] { "Foo", "High is good", IndicatorPolarity.HighIsGood, "Confidence intervals overlapping reference value (95.0)", BenchmarkComparisonMethod.CIOverlappingReferenceValue95  },
         new object[] { "Foo", "", IndicatorPolarity.Unknown, "Quintiles", BenchmarkComparisonMethod.Quintiles  },
     };
-    
+
     [Theory]
     [MemberData(nameof(IndicatorTestData))]
     public async Task GetIndicatorDataAsync_ShouldIncludeIndicatorInfo(
@@ -469,14 +580,14 @@ public class IndicatorServiceTests
             BenchmarkComparisonMethod = testMethod
         };
         var mockHealthData = new List<HealthMeasureModel>
-            {  };
+        { };
 
         _healthDataRepository.GetIndicatorDimensionAsync(1).Returns(theIndicator);
         _healthDataRepository.GetIndicatorDataAsync(1, Arg.Any<string[]>(), [], Arg.Any<string[]>())
             .Returns(mockHealthData);
-        
+
         var result =
-            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], [], []);
+            await _indicatorService.GetIndicatorDataAsync(1, [expectedAreaCode], "", [], []);
         result.Name.ShouldBe(name);
         result.Polarity.ShouldBeEquivalentTo(expectedPolarity);
         result.BenchmarkMethod.ShouldBeEquivalentTo(expectedMethod);

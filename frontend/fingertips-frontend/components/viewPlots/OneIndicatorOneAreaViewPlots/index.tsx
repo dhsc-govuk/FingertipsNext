@@ -9,10 +9,10 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { H2, H3, Paragraph } from 'govuk-react';
+import { H3, Paragraph } from 'govuk-react';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import { ViewPlotProps } from '../ViewPlotProps';
+import { OneIndicatorViewPlotProps } from '../ViewPlotProps';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
@@ -23,9 +23,13 @@ import {
   generateStandardLineChartOptions,
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
-import { useState } from 'react';
-import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { useState, useEffect } from 'react';
+import {
+  getAllDataWithoutInequalities,
+  InequalitiesTypes,
+} from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { useSearchState } from '@/context/SearchStateContext';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -46,11 +50,18 @@ export function OneIndicatorOneAreaViewPlots({
   searchState,
   indicatorMetadata,
   populationHealthDataForArea,
-}: Readonly<ViewPlotProps>) {
+}: Readonly<OneIndicatorViewPlotProps>) {
+  const { setSearchState } = useSearchState();
+
+  useEffect(() => {
+    setSearchState(searchState ?? {});
+  }, [searchState, setSearchState]);
+
   const stateManager = SearchStateManager.initialise(searchState);
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -59,6 +70,12 @@ export function OneIndicatorOneAreaViewPlots({
     showStandardLineChartConfidenceIntervalsData,
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
+
+  // This will be updated when we add the dropdown to select inequality types
+  const inequalityType =
+    inequalityTypeSelected === 'deprivation'
+      ? InequalitiesTypes.Deprivation
+      : InequalitiesTypes.Sex;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -71,7 +88,7 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const groupData =
-    selectedGroupCode && selectedGroupCode != areaCodeForEngland
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
       ? healthIndicatorData.find(
           (areaData) => areaData.areaCode === selectedGroupCode
         )
@@ -105,7 +122,6 @@ export function OneIndicatorOneAreaViewPlots({
   );
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <H2>View data for selected indicators and areas</H2>
       {shouldLineChartBeShown(
         areaDataWithoutInequalities,
         englandBenchmarkWithoutInequalities
@@ -164,10 +180,10 @@ export function OneIndicatorOneAreaViewPlots({
             ? dataWithoutEnglandOrGroup[0]
             : healthIndicatorData[0]
         }
-        searchState={searchState}
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
+        type={inequalityType}
       />
 
       <PopulationPyramidWithTable

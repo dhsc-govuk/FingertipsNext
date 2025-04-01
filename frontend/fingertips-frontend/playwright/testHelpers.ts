@@ -123,9 +123,15 @@ export function getScenarioConfig(
         hasTimePeriodDropDown: false,
       },
     },
+    {
+      componentLocator: ChartPage.spineChartTableComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+      },
+    },
     // Pending
     // ChartPage.basicTableComponent,
-    // ChartPage.spineChartComponent,
     // ChartPage.heatMapComponent,
   ];
 
@@ -197,15 +203,15 @@ export function getScenarioConfig(
     indicatorMode === IndicatorMode.TWO_PLUS_INDICATORS &&
     areaMode === AreaMode.TWO_PLUS_AREAS
   ) {
-    // visibleComponents = allComponents.filter((component) =>
-    //   [
-    //     // Pending
-    //     // ChartPage.spineChartComponent,
-    //     // ChartPage.heatMapComponent,
-    //     // Enable in DHSCFT-148
-    //     // ChartPage.populationPyramidComponent,
-    //   ].includes(component.componentLocator)
-    // );
+    visibleComponents = allComponents.filter((component) =>
+      [
+        ChartPage.spineChartTableComponent,
+        // Pending
+        // ChartPage.heatMapComponent,
+        // Enable in DHSCFT-148
+        // ChartPage.populationPyramidComponent,
+      ].includes(component.componentLocator)
+    );
   } else {
     throw new Error(
       `Combination of indicator mode: ${indicatorMode} + area mode: ${areaMode} is not supported.`
@@ -276,4 +282,12 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
+}
+
+export function getIndicatorNameById(
+  indicatorId: string,
+  indicators: IndicatorDocument[]
+): string | undefined {
+  const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
+  return indicator ? indicator.indicatorName : undefined;
 }

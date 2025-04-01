@@ -3,12 +3,24 @@ import { expect } from '@jest/globals';
 import { Inequalities } from '.';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const state: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'testing',
   [SearchParams.IndicatorsSelected]: ['333'],
   [SearchParams.AreasSelected]: ['A1245'],
 };
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -27,13 +39,12 @@ jest.mock('next/navigation', () => {
 });
 
 describe('Inequalities suite', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(state);
+  });
+
   it('should render inequalities component', async () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
-      />
-    );
+    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(screen.getByTestId('inequalities-component')).toBeInTheDocument();
     expect(
@@ -57,12 +68,7 @@ describe('Inequalities suite', () => {
   });
 
   it('should render expected text', () => {
-    render(
-      <Inequalities
-        healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
-      />
-    );
+    render(<Inequalities healthIndicatorData={MOCK_HEALTH_DATA[1]} />);
 
     expect(
       screen.getByText(/Inequalities data for a single time period/i)
@@ -76,7 +82,6 @@ describe('Inequalities suite', () => {
     render(
       <Inequalities
         healthIndicatorData={MOCK_HEALTH_DATA[1]}
-        searchState={state}
         measurementUnit="kg"
       />
     );

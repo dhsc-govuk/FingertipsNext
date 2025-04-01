@@ -6,12 +6,12 @@ const mockFilterRemoveFunction = jest.fn();
 const selectedFilterName = 'Dementia';
 const selectedFilterId = '001';
 
-const renderPill = () =>
+const renderPill = (flags: { asViewOnly: boolean } = { asViewOnly: false }) =>
   render(
     <Pill
       ariaLabelPostfix={'Some Test Area'}
       selectedFilterId={selectedFilterId}
-      removeFilter={mockFilterRemoveFunction}
+      removeFilter={flags.asViewOnly ? undefined : mockFilterRemoveFunction}
     >
       {selectedFilterName}
     </Pill>
@@ -29,6 +29,15 @@ describe('Pill Suite', () => {
     expect(screen.getByTestId('filter-name')).toBeInTheDocument();
     expect(screen.getByTestId('remove-icon-div')).toBeInTheDocument();
     expect(screen.getByTestId('x-icon')).toBeInTheDocument();
+  });
+
+  it('should not render close icon if view only', () => {
+    renderPill({ asViewOnly: true });
+
+    expect(screen.getByTestId('pill-container')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-name')).toBeInTheDocument();
+    expect(screen.queryByTestId('remove-icon-div')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('x-icon')).not.toBeInTheDocument();
   });
 
   it('should render child text passed in as prop', () => {

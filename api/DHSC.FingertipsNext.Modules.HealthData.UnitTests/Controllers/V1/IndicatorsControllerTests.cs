@@ -27,8 +27,16 @@ public class IndicatorControllerTests
                         Value = 1,
                         LowerConfidenceInterval = 1.1111f,
                         UpperConfidenceInterval = 2.2222f,
-                        AgeBand = "Sample Age Band",
-                        Sex = "Sample Sex",
+                        AgeBand = new Age
+                        {
+                            Value = "4-5",
+                            IsAggregate = false
+                        },
+                        Sex = new Sex
+                        {
+                            Value = "Persons",
+                            IsAggregate = true
+                        },
                         Trend = "Sample Trend",
                         Deprivation = new Deprivation
                         {
@@ -54,7 +62,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_DelegatesToService_WhenAllParametersSpecified()
     {
-        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], [1999, 2024], ["age", "sex"]);
+        await _controller.GetIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", [1999, 2024], ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -62,6 +70,7 @@ public class IndicatorControllerTests
             .GetIndicatorDataAsync(
                 1,
                 ArgEx.IsEquivalentTo<string[]>(["ac1", "ac2"]),
+                "someAreaType",
                 ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
                 ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
@@ -73,14 +82,14 @@ public class IndicatorControllerTests
         await _controller.GetIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", [], []);
     }
 
     [Fact]
     public async Task GetIndicatorData_ReturnsOkResponse_IfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(SampleHealthData);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -94,7 +103,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsNotFoundResponse_IfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<int[]>(), Arg.Any<string[]>())
             .Returns(null as IndicatorWithHealthDataForAreas);
 
         var response = await _controller.GetIndicatorDataAsync(3) as ObjectResult;
@@ -106,7 +115,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10YearsSupplied()
     {
-        var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"],
+        var response = await _controller.GetIndicatorDataAsync(3, ["areaCode1"], "",
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) as BadRequestObjectResult;
         
         response?.StatusCode.ShouldBe(400);
@@ -117,7 +126,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorData_ReturnsBadResponse_WhenMoreThan10CodesSupplied()
     {
         var response = await _controller.GetIndicatorDataAsync(3,
-            ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"],
+            ["areaCode1", "ac2", "ac3", "ac4", "ac5", "ac6", "ac7", "ac8", "ac9", "ac10", "ac11"], "",
             [1]) as BadRequestObjectResult;
         
         response?.StatusCode.ShouldBe(400);

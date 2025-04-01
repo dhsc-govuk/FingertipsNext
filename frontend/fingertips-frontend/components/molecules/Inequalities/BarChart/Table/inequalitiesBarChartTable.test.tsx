@@ -96,6 +96,9 @@ describe('Inequalities bar chart table suite', () => {
           tableData={getTestData()}
           type={InequalitiesTypes.Sex}
           measurementUnit="kg"
+          benchmarkComparisonMethod={
+            BenchmarkComparisonMethod.CIOverlappingReferenceValue95
+          }
         />
       );
 
@@ -136,6 +139,30 @@ describe('Inequalities bar chart table suite', () => {
         expect(screen.queryByText('Better')).toBeNull();
         expect(screen.getByText('Worse')).toBeInTheDocument();
         expect(screen.getByText('Similar')).toBeInTheDocument();
+      });
+
+      it('should render 99.8% confidence', () => {
+        render(
+          <InequalitiesBarChartTable
+            tableData={getTestData()}
+            type={InequalitiesTypes.Sex}
+            benchmarkComparisonMethod={
+              BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
+            }
+          />
+        );
+        expect(screen.getByText('99.8% confidence limits')).toBeInTheDocument();
+      });
+
+      it('should not render confidence limits if missing', () => {
+        render(
+          <InequalitiesBarChartTable
+            tableData={getTestData()}
+            type={InequalitiesTypes.Sex}
+            benchmarkComparisonMethod={BenchmarkComparisonMethod.Unknown}
+          />
+        );
+        expect(screen.queryByText('confidence limits')).not.toBeInTheDocument();
       });
     });
   });

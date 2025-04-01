@@ -94,7 +94,7 @@ export const getBenchmarkColour = (
 };
 
 export function generateConfidenceIntervalSeries(
-  areaName: string,
+  areaName: string | undefined,
   data: (number | undefined)[][],
   showConfidenceIntervalsData?: boolean,
   optionalParams?: {
@@ -133,26 +133,50 @@ function getMostRecentYearForAreas(
   }, healthDataForAreas[0].healthData[0].year);
 }
 
-function getIndicatorDataForYear(
+function getAreasIndicatorDataForYear(
   healthDataForAreas: HealthDataForArea[],
   year: number
 ): HealthDataForArea[] {
-  return healthDataForAreas.map((healthDataForArea) => {
-    const dataPointForMostRecentYear = healthDataForArea.healthData.find(
-      (healthDataPoint) => healthDataPoint.year === year
-    );
-    return dataPointForMostRecentYear
-      ? {
-          ...healthDataForArea,
-          healthData: [{ ...dataPointForMostRecentYear }],
-        }
-      : { ...healthDataForArea, healthData: [] };
-  });
+  return healthDataForAreas.map((healthDataForArea) =>
+    getAreaIndicatorDataForYear(healthDataForArea, year)
+  );
+}
+
+export function getAreaIndicatorDataForYear(
+  healthDataForArea: HealthDataForArea,
+  year: number
+): HealthDataForArea {
+  const dataPointForMostRecentYear = healthDataForArea.healthData.find(
+    (healthDataPoint) => healthDataPoint.year === year
+  );
+
+  return {
+    ...healthDataForArea,
+    healthData: dataPointForMostRecentYear
+      ? [{ ...dataPointForMostRecentYear }]
+      : [],
+  };
 }
 
 export function getIndicatorDataForAreasForMostRecentYearOnly(
   healthDataForAreas: HealthDataForArea[]
 ): HealthDataForArea[] {
   const mostRecentYearForAreas = getMostRecentYearForAreas(healthDataForAreas);
-  return getIndicatorDataForYear(healthDataForAreas, mostRecentYearForAreas);
+  return getAreasIndicatorDataForYear(
+    healthDataForAreas,
+    mostRecentYearForAreas
+  );
 }
+
+export const getConfidenceLimitNumber = (
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): number => {
+  switch (benchmarkComparisonMethod) {
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8:
+      return 99.8;
+    case BenchmarkComparisonMethod.CIOverlappingReferenceValue95:
+      return 95;
+    default:
+      return 0;
+  }
+};

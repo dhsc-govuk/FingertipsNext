@@ -740,6 +740,7 @@ exports[`SearchForm snapshot test - renders the form 1`] = `
     </div>
     <details
       class="c8 c9"
+      data-testid="select-areas-filter-panel-label"
     >
       <summary
         class="c10 c11"

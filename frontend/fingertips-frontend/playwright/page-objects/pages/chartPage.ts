@@ -31,6 +31,7 @@ export default class ChartPage extends AreaFilter {
   static readonly heatMapComponent = 'heatmapChart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
+  static readonly spineChartTableComponent = 'spineChartTable-component';
   static readonly inequalitiesForSingleTimePeriodComponent =
     'inequalitiesForSingleTimePeriod-component';
   static readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
@@ -50,7 +51,9 @@ export default class ChartPage extends AreaFilter {
   }
 
   async clickBackLink() {
-    await this.page.getByTestId(this.backLink).click();
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.backLink)
+    );
   }
 
   /**
@@ -84,13 +87,35 @@ export default class ChartPage extends AreaFilter {
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+      );
       // if its one of the chart components that you need to click on the tab first to see it then click it
       if (visibleComponent.componentProps.isTabTable) {
-        await this.page
-          .getByTestId(
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
             `tabTitle-${visibleComponent.componentLocator.replace('-component', '')}`
           )
-          .click();
+        );
+      }
+      // if its one of the chart components that has a single time period dropdown then select the last in the list
+      if (visibleComponent.componentProps.hasTimePeriodDropDown) {
+        const combobox = this.page
+          .getByTestId(ChartPage.timePeriodDropDownComponent)
+          .getByRole('combobox');
+        // get the options from the combobox
+        const dropdownOptions = await combobox.evaluate(
+          (select: HTMLSelectElement) => {
+            return Array.from(select.options).map((option) => ({
+              value: option.value,
+              text: option.text,
+            }));
+          }
+        );
+
+        await combobox.selectOption({
+          value: dropdownOptions[dropdownOptions.length - 1].value,
+        });
       }
       // if its one of the chart components that has a single time period dropdown then select the last in the list
       if (visibleComponent.componentProps.hasTimePeriodDropDown) {
@@ -113,11 +138,11 @@ export default class ChartPage extends AreaFilter {
       }
       // if its one of the chart components that has a confidence interval checkbox then click it
       if (visibleComponent.componentProps.hasConfidenceIntervals) {
-        await this.page
-          .getByTestId(
+        await this.clickAndAwaitLoadingComplete(
+          this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
-          .click();
+        );
       }
 
       // check chart component is now visible
@@ -131,7 +156,9 @@ export default class ChartPage extends AreaFilter {
       console.log(
         `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
-      await this.page.waitForTimeout(750); // change this to wait for loading spinner to no longer appear in DHSCFT-490
+      await this.page.waitForLoadState();
+      await expect(this.page.getByText('Loading')).toHaveCount(0);
+      await this.page.waitForTimeout(750); // delete this line in DHSCFT-510 once animations are disabled
 
       // for now just warn if visual comparisons do not match
       try {
@@ -150,6 +177,9 @@ export default class ChartPage extends AreaFilter {
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
+      );
       await expect(
         this.page.getByTestId(hiddenComponent.componentLocator)
       ).toBeVisible({

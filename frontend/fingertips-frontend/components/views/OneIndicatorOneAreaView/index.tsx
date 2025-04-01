@@ -37,7 +37,7 @@ export default async function OneIndicatorOneAreaView({
   if (!areaCodesToRequest.includes(areaCodeForEngland)) {
     areaCodesToRequest.push(areaCodeForEngland);
   }
-  if (selectedGroupCode && selectedGroupCode != areaCodeForEngland) {
+  if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     areaCodesToRequest.push(selectedGroupCode);
   }
 
@@ -50,7 +50,10 @@ export default async function OneIndicatorOneAreaView({
       {
         indicatorId: Number(indicatorSelected[0]),
         areaCodes: areaCodesToRequest,
-        inequalities: [GetHealthDataForAnIndicatorInequalitiesEnum.Sex],
+        inequalities: [
+          GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+          GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+        ],
       },
       API_CACHE_CONFIG
     );
