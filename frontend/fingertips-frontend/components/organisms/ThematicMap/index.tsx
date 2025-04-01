@@ -49,7 +49,7 @@ export function ThematicMap({
   // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
   // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
-    loadHighchartsModules(async () => {
+    void loadHighchartsModules(async () => {
       if (areaType) {
         setOptions(
           createThematicMapChartOptions(
@@ -65,8 +65,16 @@ export function ThematicMap({
         );
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [areaType]);
+  }, [
+    healthIndicatorData,
+    mapGeographyData,
+    areaType,
+    benchmarkComparisonMethod,
+    polarity,
+    measurementUnit,
+    benchmarkIndicatorData,
+    groupIndicatorData,
+  ]);
 
   // This prevents errors from trying to render before the module is loaded in the useEffect callback
   if (!options) {
