@@ -456,8 +456,8 @@ describe('generateStandardLineChartOptions', () => {
       }
     );
 
-    expect(generatedOptions.yAxis!.title.text).toBe('yAxis');
-    expect(generatedOptions.xAxis!.title.text).toBe('xAxis');
+    expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
+    expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
 
     expect(generatedOptions).toMatchSnapshot();

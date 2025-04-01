@@ -1,4 +1,5 @@
-import { pointFormatterHelper } from './pointFormatterHelper';
+import {pointFormatterHelper, SymbolsEnum} from './pointFormatterHelper';
+import Highcharts from "highcharts";
 
 const mockPoint = {
   graphic: {
@@ -20,22 +21,22 @@ const mockGenerateTooltipList = jest
 
 describe('pointFormatterHelper', () => {
   it('should return a string with the default symbol code for circle when symbolName is empty string', () => {
-    const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
-    expect(actual).toContain('\u25CF');
-    expect(mockGenerateTooltipList).toHaveBeenCalledWith(mockPoint, '\u25CF');
+    const actual = pointFormatterHelper(mockPoint as unknown as Highcharts.Point, mockGenerateTooltipList);
+    expect(actual).toContain(SymbolsEnum.Circle);
+    expect(mockGenerateTooltipList).toHaveBeenCalledWith(mockPoint, SymbolsEnum.Circle);
   });
 
   it.each([
-    ['circle', '\u25CF'],
-    ['square', '\u25a0'],
-    ['diamond', '\u25c6'],
-    ['triangle', '\u25b2'],
-    ['triangle-down', '\u25bC'],
+    ['circle', SymbolsEnum.Circle],
+    ['square', SymbolsEnum.Square],
+    ['diamond', SymbolsEnum.Diamond],
+    ['triangle', SymbolsEnum.Triangle],
+    ['triangle-down', SymbolsEnum.TriangleDown],
   ])(
     'should return a string with the correct symbol code',
     (symbolName, symbolCode) => {
       mockPoint.graphic.symbolName = symbolName;
-      const actual = pointFormatterHelper(mockPoint, mockGenerateTooltipList);
+      const actual = pointFormatterHelper(mockPoint as unknown as Highcharts.Point, mockGenerateTooltipList);
       expect(actual).toContain(symbolCode);
       expect(mockGenerateTooltipList).toHaveBeenCalledWith(
         mockPoint,
