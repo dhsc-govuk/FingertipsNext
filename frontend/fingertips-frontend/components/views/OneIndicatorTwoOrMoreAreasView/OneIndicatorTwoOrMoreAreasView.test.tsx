@@ -170,7 +170,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     );
   });
 
-  it.skip('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
+  it('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
     const testIndicators = '1';
     const testAreas = new Array(15).fill('a', 0, 15);
     const testGroup = 'G001';
@@ -189,7 +189,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     });
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      2
+      4
     );
 
     const expected1 = {
@@ -198,7 +198,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     };
 
     const expected2 = {
-      areaCodes: ['a', 'a', 'a', 'a', 'a', 'E92000001', 'G001'],
+      areaCodes: ['a', 'a', 'a', 'a', 'a'],
       indicatorId: Number(testIndicators),
     };
 
