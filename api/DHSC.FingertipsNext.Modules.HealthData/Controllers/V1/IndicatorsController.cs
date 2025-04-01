@@ -10,11 +10,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
-    private const int MaxNumberAreas = 10;
-    private const int MaxNumberYears = 10;
+    private const int MaxNumberAreas = 100;
+    private const int MaxNumberYears = 20;
     private const int MaxNumberIndicators = 50;
-    private const string TooManyParametersMessage =
-        "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
 
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
@@ -24,9 +22,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
-    /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaCodes">A list of area codes. Up to 100 distinct area codes can be requested.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
+    /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns></returns>
     /// <remarks>

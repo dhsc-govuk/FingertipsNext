@@ -226,10 +226,10 @@ paths:
               examples:
                 Too many area_codes:
                   value:
-                    message: Too many values supplied for parameter area_codes. The maximum is 10 but 11 supplied.
+                    message: Too many values supplied for parameter area_codes. The maximum is 100 but 101 supplied.
                 Too many years:
                   value:
-                    message: Too many values supplied for parameter years. The maximum is 10 but 11 supplied.
+                    message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
         "500":
           $ref: "#/components/responses/InternalServerError"
       parameters:
@@ -637,14 +637,14 @@ components:
     years:
       in: query
       name: years
-      description: A list of years, up to 10 years can be requested
+      description: A list of years, up to 20 years can be requested
       style: form
       schema:
         type: array
         items:
           type: integer
           example: 2023
-        maxItems: 10
+        maxItems: 20
     ancestor_code:
       in: path
       name: ancestor_code
@@ -709,14 +709,14 @@ components:
     area_codes:
       in: query
       name: area_codes
-      description: A list of area codes, up to 10 area codes can be requested
+      description: A list of area codes, up to 100 area codes can be requested
       style: form
       schema:
         type: array
         items:
           type: string
           example: G82109
-        maxItems: 10
+        maxItems: 100
     area_type:
       in: query
       name: area_type
