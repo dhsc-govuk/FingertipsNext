@@ -17,8 +17,9 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockGetSearchState = jest.fn();
 const mockSearchStateContext: SearchStateContext = {
-  getSearchState: jest.fn(),
+  getSearchState: mockGetSearchState,
   setSearchState: jest.fn(),
 };
 jest.mock('@/context/SearchStateContext', () => {
@@ -209,6 +210,11 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
   });
 
   describe('ThematicMap', () => {
+    beforeEach(() => {
+      mockGetSearchState.mockReturnValue({
+        [SearchParams.AreaTypeSelected]: 'regions',
+      });
+    });
     it('should render the ThematicMap when all areas in a group are selected', async () => {
       const searchState: SearchStateParams = {
         [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,

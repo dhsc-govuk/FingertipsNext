@@ -12,11 +12,12 @@ import {
 import { BenchmarkLegend } from '../BenchmarkLegend';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
 import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
+import { useSearchState } from '@/context/SearchStateContext';
+import { SearchParams } from '@/lib/searchStateManager';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];
   mapGeographyData: MapGeographyData;
-  areaType: AreaTypeKeysForMapMeta;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   measurementUnit?: string;
@@ -31,13 +32,18 @@ const loadHighchartsModules = async (callback: () => void) => {
 export function ThematicMap({
   healthIndicatorData,
   mapGeographyData,
-  areaType,
   benchmarkComparisonMethod,
   polarity,
   measurementUnit,
   benchmarkIndicatorData,
   groupIndicatorData,
 }: Readonly<ThematicMapProps>) {
+  const { getSearchState } = useSearchState();
+  const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
+  if (!areaType) {
+    throw new Error('cannot display ThematicMap if areaType is undefined');
+  }
+
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
   // See: https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531711517
@@ -51,7 +57,7 @@ export function ThematicMap({
         createThematicMapChartOptions(
           healthIndicatorData,
           mapGeographyData,
-          areaType,
+          areaType as AreaTypeKeysForMapMeta,
           benchmarkComparisonMethod,
           polarity,
           measurementUnit,
