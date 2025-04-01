@@ -21,6 +21,7 @@ import {
 import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { getConfidenceLimitNumber } from '@/lib/chartHelpers/chartHelpers';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -34,7 +35,7 @@ export enum LineChartTableHeadingEnum {
 
 export interface LineChartTableProps {
   healthIndicatorData: HealthDataForArea[];
-  englandBenchmarkData: HealthDataForArea | undefined;
+  englandBenchmarkData?: HealthDataForArea;
   groupIndicatorData?: HealthDataForArea;
   measurementUnit?: string;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
@@ -160,15 +161,19 @@ const getCellHeaderComponent = (
 
 interface CellHeaderProps {
   heading: LineChartTableHeadingEnum;
-  index: number;
+  areaIndex: number;
   units?: string;
 }
 
-const CellHeader: FC<CellHeaderProps> = ({ heading, index, units = '' }) => {
-  const CellHeaderComponent = getCellHeaderComponent(heading, index);
+const CellHeader: FC<CellHeaderProps> = ({
+  heading,
+  areaIndex,
+  units = '',
+}) => {
+  const CellHeaderComponent = getCellHeaderComponent(heading, areaIndex);
 
   return (
-    <CellHeaderComponent data-testid={`header-${heading}-${index + 1}`}>
+    <CellHeaderComponent data-testid={`header-${heading}-${areaIndex}`}>
       {heading}
       {heading === LineChartTableHeadingEnum.AreaValue ? (
         <StyledSpan>{` ${units}`}</StyledSpan>
@@ -243,17 +248,22 @@ export function LineChartTable({
   const tableData = healthIndicatorData.map((areaData) =>
     mapToLineChartTableData(areaData)
   );
-  const englandData = englandBenchmarkData
-    ? mapToLineChartTableData(englandBenchmarkData)
-    : [];
+
   const groupData = groupIndicatorData
     ? mapToLineChartTableData(groupIndicatorData)
     : [];
+
   const sortedDataPerArea = tableData.map((area) => sortPeriod(area));
-  const sortedEnglandData = sortPeriod(englandData);
+  const sortedEnglandData = sortedDataPerArea[0].map((row) => ({
+    period: row.period,
+    benchmarkValue: row.benchmarkComparison?.benchmarkValue,
+  }));
   const sortedGroupData = sortPeriod(groupData);
 
   const confidenceLimit = getConfidenceLimitNumber(benchmarkComparisonMethod);
+  const showBenchmarkColumn =
+    healthIndicatorData[0]?.areaCode !== areaCodeForEngland &&
+    benchmarkComparisonMethod !== BenchmarkComparisonMethod.Quintiles;
 
   return (
     <StyledDivWithScrolling data-testid="lineChartTable-component">
@@ -289,26 +299,28 @@ export function LineChartTable({
                   Group: {groupIndicatorData.areaName}
                 </StyledGroupNameHeader>
               ) : null}
-              <StyledStickyRightHeader data-testid="england-header">
-                Benchmark: <br /> England
-              </StyledStickyRightHeader>
+              {showBenchmarkColumn ? (
+                <StyledStickyRightHeader data-testid="england-header">
+                  Benchmark: <br /> England
+                </StyledStickyRightHeader>
+              ) : null}
             </Table.Row>
-            <Table.Row>
-              {healthIndicatorData.map((area, index) => (
-                <React.Fragment key={area.areaName}>
-                  <Table.CellHeader
-                    colSpan={getConfidenceLimitCellSpan(index)}
-                  ></Table.CellHeader>
-                  <StyledConfidenceLimitsHeader colSpan={2}>
-                    {confidenceLimit
-                      ? `${confidenceLimit}% confidence limits`
-                      : null}
-                  </StyledConfidenceLimitsHeader>
-                </React.Fragment>
-              ))}
-              {groupIndicatorData ? <StyledLightGreyHeader /> : null}
-              <StyledStickyRightHeader></StyledStickyRightHeader>
-            </Table.Row>
+            {confidenceLimit ? (
+              <Table.Row>
+                {healthIndicatorData.map((area, index) => (
+                  <React.Fragment key={area.areaName}>
+                    <Table.CellHeader
+                      colSpan={getConfidenceLimitCellSpan(index)}
+                    ></Table.CellHeader>
+                    <StyledConfidenceLimitsHeader colSpan={2}>
+                      {confidenceLimit}% confidence limits
+                    </StyledConfidenceLimitsHeader>
+                  </React.Fragment>
+                ))}
+                {groupIndicatorData ? <StyledLightGreyHeader /> : null}
+                {showBenchmarkColumn ? <StyledGreyHeader /> : null}
+              </Table.Row>
+            ) : null}
 
             {/* The header rendering is here */}
             <Table.Row>
@@ -318,18 +330,18 @@ export function LineChartTable({
               >
                 {LineChartTableHeadingEnum.AreaPeriod}
               </StyledAlignStickyLeftHeader>
-              {healthIndicatorData.map(() =>
+              {healthIndicatorData.map((_, areaIndex) =>
                 Object.values(LineChartTableHeadingEnum)
                   .filter(
                     (value) =>
                       value !== LineChartTableHeadingEnum.AreaPeriod &&
                       value !== LineChartTableHeadingEnum.BenchmarkValue
                   )
-                  .map((heading, index) => (
+                  .map((heading) => (
                     <CellHeader
                       key={`header-${heading}`}
                       heading={heading}
-                      index={index}
+                      areaIndex={areaIndex}
                       units={measurementUnit}
                     />
                   ))
@@ -339,12 +351,12 @@ export function LineChartTable({
                   Value ({measurementUnit})
                 </StyledLightGreySubHeader>
               ) : null}
-              <StyledStickyRightHeader
-                data-testid={`header-${LineChartTableHeadingEnum.BenchmarkValue}-${6}`}
-              >
-                {LineChartTableHeadingEnum.BenchmarkValue}{' '}
-                <StyledSpan>{measurementUnit}</StyledSpan>
-              </StyledStickyRightHeader>
+              {showBenchmarkColumn ? (
+                <StyledStickyRightHeader data-testid={`header-benchmark-value`}>
+                  {LineChartTableHeadingEnum.BenchmarkValue}{' '}
+                  <StyledSpan>{measurementUnit}</StyledSpan>
+                </StyledStickyRightHeader>
+              ) : null}
             </Table.Row>
           </>
         }
@@ -385,9 +397,11 @@ export function LineChartTable({
                 {sortedGroupData[index].value}
               </StylesGroupValueTableCell>
             ) : null}
-            <StyledStickyRight data-testid="grey-table-cell">
-              {sortedEnglandData[index].value}
-            </StyledStickyRight>
+            {showBenchmarkColumn ? (
+              <StyledStickyRight data-testid="grey-table-cell">
+                {point.benchmarkValue}
+              </StyledStickyRight>
+            ) : null}
           </Table.Row>
         ))}
       </StyledTable>

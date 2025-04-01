@@ -492,7 +492,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             95% confidence limits
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c14 c15"
           />
         </tr>
         <tr
@@ -506,19 +506,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           </th>
           <th
             class="c3 c4 c5 c19"
-            data-testid="header-Compared to benchmark-1"
+            data-testid="header-Compared to benchmark-0"
           >
             Compared to benchmark
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Count-2"
+            data-testid="header-Count-0"
           >
             Count
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Value-3"
+            data-testid="header-Value-0"
           >
             Value
             <span
@@ -529,19 +529,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Lower-4"
+            data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Upper-5"
+            data-testid="header-Upper-0"
           >
             Upper
           </th>
           <th
             class="c3 5 c4 c14 c15 c16"
-            data-testid="header-Value -6"
+            data-testid="header-benchmark-value"
           >
             Value  
             <span
@@ -729,7 +729,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c21 {
+.c22 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: right;
@@ -739,17 +739,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   font-weight: 400;
 }
 
-.c21:last-child {
+.c22:last-child {
   padding-right: 0;
 }
 
-.c25 {
+.c26 {
   padding: 10px 20px 10px 0;
   border-bottom: 1px solid #bfc1c3;
   text-align: left;
 }
 
-.c25:last-child {
+.c26:last-child {
   padding-right: 0;
 }
 
@@ -790,7 +790,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   width: 16%;
 }
 
-.c22 {
+.c23 {
   font-family: "nta",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -800,17 +800,17 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-right: 0;
 }
 
-.c27 {
+.c28 {
   text-align: right;
   padding-right: 10px;
 }
 
-.c29 {
+.c30 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
 }
 
-.c23 {
+.c24 {
   text-align: left;
   width: 10%;
 }
@@ -820,7 +820,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   vertical-align: top;
 }
 
-.c26 {
+.c27 {
   padding: 5px 8px 4px 8px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -882,6 +882,11 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-left: 0.5em;
 }
 
+.c21 {
+  border-left: solid black 1px;
+  width: 18%;
+}
+
 .c17 {
   width: 22%;
   padding: 0.5em;
@@ -905,7 +910,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding-left: 8px;
 }
 
-.c28 {
+.c29 {
   border-left: solid black 1px;
 }
 
@@ -913,7 +918,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   display: block;
 }
 
-.c24 {
+.c25 {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
@@ -931,7 +936,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   border-right: solid black 1px;
 }
 
-.c30 {
+.c31 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
@@ -991,7 +996,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c21 {
+  .c22 {
     font-family: sans-serif;
   }
 }
@@ -1037,14 +1042,14 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
 }
 
 @media print {
-  .c22 {
+  .c23 {
     font-size: 14px;
     line-height: 1.2;
   }
 }
 
 @media only screen and (min-width:641px) {
-  .c22 {
+  .c23 {
     font-size: 16px;
     line-height: 1.25;
   }
@@ -1196,7 +1201,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             95% confidence limits
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c14 c15"
           />
         </tr>
         <tr
@@ -1210,19 +1215,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
           <th
             class="c3 c4 c5 c19"
-            data-testid="header-Compared to benchmark-1"
+            data-testid="header-Compared to benchmark-0"
           >
             Compared to benchmark
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Count-2"
+            data-testid="header-Count-0"
           >
             Count
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Value-3"
+            data-testid="header-Value-0"
           >
             Value
             <span
@@ -1233,31 +1238,31 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Lower-4"
+            data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Upper-5"
+            data-testid="header-Upper-0"
           >
             Upper
           </th>
           <th
-            class="c3 c4 c5 c19"
+            class="c3 c4 c5 c19 c21"
             data-testid="header-Compared to benchmark-1"
           >
             Compared to benchmark
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Count-2"
+            data-testid="header-Count-1"
           >
             Count
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Value-3"
+            data-testid="header-Value-1"
           >
             Value
             <span
@@ -1268,19 +1273,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Lower-4"
+            data-testid="header-Lower-1"
           >
             Lower
           </th>
           <th
             class="c3 c4 c14"
-            data-testid="header-Upper-5"
+            data-testid="header-Upper-1"
           >
             Upper
           </th>
           <th
             class="c3 5 c4 c14 c15 c16"
-            data-testid="header-Value -6"
+            data-testid="header-benchmark-value"
           >
             Value  
             <span
@@ -1298,70 +1303,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="2 c21 c22 c23 c24"
+            class="2 c22 c23 c24 c25"
           >
             2004
           </td>
           <td
-            class="c25 c22 c23"
+            class="c26 c23 c24"
           >
             <strong
-              class="c8 c26"
+              class="c8 c27"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             267
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             703.420759
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             441.69151
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             578.32766
           </td>
           <td
-            class="c25 c22 c23 c28"
+            class="c26 c23 c24 c29"
           >
             <strong
-              class="c8 c26"
+              class="c8 c27"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             222
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             135.149304
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             441.69151
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             578.32766
           </td>
           <td
-            class="4 c25 c22 c27 c29 c30"
+            class="4 c26 c23 c28 c30 c31"
             data-testid="grey-table-cell"
           >
             904.874
@@ -1371,70 +1376,70 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
           class=""
         >
           <td
-            class="2 c21 c22 c23 c24"
+            class="2 c22 c23 c24 c25"
           >
             2008
           </td>
           <td
-            class="c25 c22 c23"
+            class="c26 c23 c24"
           >
             <strong
-              class="c8 c26"
+              class="c8 c27"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             222
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             890.305692
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             441.69151
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             578.32766
           </td>
           <td
-            class="c25 c22 c23 c28"
+            class="c26 c23 c24 c29"
           >
             <strong
-              class="c8 c26"
+              class="c8 c27"
             >
               Not compared
             </strong>
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             222
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             135.149304
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             441.69151
           </td>
           <td
-            class="c21 c22 c27"
+            class="c22 c23 c28"
           >
             578.32766
           </td>
           <td
-            class="4 c25 c22 c27 c29 c30"
+            class="4 c26 c23 c28 c30 c31"
             data-testid="grey-table-cell"
           >
             965.9843

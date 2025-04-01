@@ -36,6 +36,9 @@ describe('Line chart table suite', () => {
           sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
+          benchmarkComparison: {
+            benchmarkValue: 965.9843,
+          },
         },
         {
           year: 2004,
@@ -47,6 +50,9 @@ describe('Line chart table suite', () => {
           sex: personsSex,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
           deprivation: noDeprivation,
+          benchmarkComparison: {
+            benchmarkValue: 904.874,
+          },
         },
       ],
     },
@@ -122,11 +128,11 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * CELLS_PER_ROW
       );
-      Object.values(LineChartTableHeadingEnum).forEach((heading, index) =>
-        expect(
-          screen.getByTestId(`header-${heading}-${index}`)
-        ).toBeInTheDocument()
-      );
+      Object.values(LineChartTableHeadingEnum)
+        .filter((h) => h !== LineChartTableHeadingEnum.BenchmarkValue)
+        .forEach((heading) =>
+          expect(screen.getByTestId(`header-${heading}-0`)).toBeInTheDocument()
+        );
     });
 
     it('should render the expected elements when England is the only area and 99.8%', () => {
@@ -148,12 +154,6 @@ describe('Line chart table suite', () => {
     });
 
     it('should have grey cell color for benchmark column', () => {
-      const benchmarkValueIndex = Object.values(
-        LineChartTableHeadingEnum
-      ).findIndex(
-        (value) => value === LineChartTableHeadingEnum.BenchmarkValue
-      );
-
       render(
         <LineChartTable
           healthIndicatorData={[mockHealthData[0]]}
@@ -167,11 +167,9 @@ describe('Line chart table suite', () => {
           `background-color: ${GovukColours.MidGrey}`
         );
       });
-      expect(
-        screen.getByTestId(
-          `header-${LineChartTableHeadingEnum.BenchmarkValue}-${benchmarkValueIndex}`
-        )
-      ).toHaveStyle(`background-color: ${GovukColours.MidGrey}`);
+      expect(screen.getByTestId(`header-benchmark-value`)).toHaveStyle(
+        `background-color: ${GovukColours.MidGrey}`
+      );
       expect(screen.getByTestId('england-header')).toHaveStyle(
         `background-color: ${GovukColours.MidGrey}`
       );
@@ -273,36 +271,13 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * CELLS_PER_ROW
       );
-      Object.values(LineChartTableHeadingEnum).forEach((heading, index) =>
-        expect(
-          screen.getAllByTestId(`header-${heading}-${index}`)[0]
-        ).toBeInTheDocument()
-      );
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.BenchmarkTrend}-1`
-        )[1]
-      ).toBeInTheDocument();
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.AreaCount}-2`
-        )[1]
-      ).toBeInTheDocument();
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.AreaValue}-3`
-        )[1]
-      ).toBeInTheDocument();
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.AreaLower}-4`
-        )[1]
-      ).toBeInTheDocument();
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.AreaUpper}-5`
-        )[1]
-      ).toBeInTheDocument();
+      Object.values(LineChartTableHeadingEnum)
+        .filter((h) => h !== LineChartTableHeadingEnum.BenchmarkValue)
+        .forEach((heading) =>
+          expect(
+            screen.getAllByTestId(`header-${heading}-0`)[0]
+          ).toBeInTheDocument()
+        );
     });
 
     it('should have single period and benchmark columns', () => {
@@ -318,11 +293,7 @@ describe('Line chart table suite', () => {
           `header-${LineChartTableHeadingEnum.AreaPeriod}-0`
         )
       ).toHaveLength(1);
-      expect(
-        screen.getAllByTestId(
-          `header-${LineChartTableHeadingEnum.BenchmarkValue}-6`
-        )
-      ).toHaveLength(1);
+      expect(screen.getAllByTestId(`header-benchmark-value`)).toHaveLength(1);
     });
 
     it('should display table with periods sorted in ascending order', () => {
@@ -456,4 +427,22 @@ describe('Line chart table suite', () => {
       );
     }
   };
+
+  describe('LineChartTable when given quintiles data', () => {
+    it('should not render the benchmark column', () => {
+      render(
+        <LineChartTable
+          healthIndicatorData={[mockHealthData[0]]}
+          englandBenchmarkData={MOCK_ENGLAND_DATA}
+          measurementUnit="%"
+          benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+        />
+      );
+
+      expect(
+        screen.queryByTestId(`header-benchmark-value`)
+      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId('england-header')).not.toBeInTheDocument();
+    });
+  });
 });
