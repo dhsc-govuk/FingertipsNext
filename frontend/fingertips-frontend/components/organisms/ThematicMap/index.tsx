@@ -40,9 +40,6 @@ export function ThematicMap({
 }: Readonly<ThematicMapProps>) {
   const { getSearchState } = useSearchState();
   const { [SearchParams.AreaTypeSelected]: areaType } = getSearchState();
-  if (!areaType) {
-    throw new Error('cannot display ThematicMap if areaType is undefined');
-  }
 
   const [options, setOptions] = useState<Highcharts.Options>();
   // useEffect and async loading of map module to address issue with Highcharts 12 with Next 15.
@@ -52,22 +49,24 @@ export function ThematicMap({
   // the lint directive doesn't really apply here, and having either no dependency array, or mapOptions as a dependency
   // causes it to loop infinitely. (https://react.dev/reference/react/useEffect#examples-dependencies)
   useEffect(() => {
-    loadHighchartsModules(async () =>
-      setOptions(
-        createThematicMapChartOptions(
-          healthIndicatorData,
-          mapGeographyData,
-          areaType as AreaTypeKeysForMapMeta,
-          benchmarkComparisonMethod,
-          polarity,
-          measurementUnit,
-          benchmarkIndicatorData,
-          groupIndicatorData
-        )
-      )
-    );
+    loadHighchartsModules(async () => {
+      if (areaType) {
+        setOptions(
+          createThematicMapChartOptions(
+            healthIndicatorData,
+            mapGeographyData,
+            areaType as AreaTypeKeysForMapMeta,
+            benchmarkComparisonMethod,
+            polarity,
+            measurementUnit,
+            benchmarkIndicatorData,
+            groupIndicatorData
+          )
+        );
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [areaType]);
 
   // This prevents errors from trying to render before the module is loaded in the useEffect callback
   if (!options) {
