@@ -45,7 +45,7 @@ export function Heatmap({
 
   return (
     <StyledDivTableContainer>
-      <StyledTable data-testid="heatmap-component">
+      <StyledTable data-testid="heatmapChart-component">
         <Table.Row>
           {headers.map((header) => {
             return (

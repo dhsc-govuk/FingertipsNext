@@ -187,8 +187,7 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.spineChartTableComponent,
-        // Pending
-        // ChartPage.heatMapComponent,
+        ChartPage.heatMapComponent,
         // Enable in DHSCFT-148
         // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
