@@ -136,7 +136,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         )}
         groupAreaCode={groupAreaCode}
       />
-      {areasSelected.length < 2 ? (
+      {areasSelected.length < 3 ? (
         <SpineChartTable
           rowData={buildSpineTableRowData(
             indicatorData,

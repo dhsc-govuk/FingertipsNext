@@ -19,7 +19,7 @@ jest.mock('next/navigation', () => {
 });
 
 const indicatorIds = ['123', '321'];
-const mockAreas = ['A001'];
+const mockAreas = ['A001', 'A002', 'A003'];
 const mockGroupArea = 'G001';
 
 const mockSearchParams: SearchStateParams = {
@@ -151,7 +151,10 @@ const mockMetaData = [
 ];
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
-  it('should render the SpineChartTable components', async () => {
+  it('should render all components with 2 areas selected', () => {
+    const areas = [mockAreas[0], mockAreas[1]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         searchState={mockSearchParams}
@@ -161,5 +164,21 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
     expect(screen.getByTestId('heatmap-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
+  });
+  it('should not render the spine chart component with more than 2 areas selected', () => {
+    const areas = [mockAreas[0], mockAreas[1], mockAreas[2]];
+    mockSearchParams[SearchParams.AreasSelected] = areas;
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        searchState={mockSearchParams}
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+      />
+    );
+    expect(screen.getByTestId('heatmap-component')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('spineChartTable-component')
+    ).not.toBeInTheDocument();
   });
 });
