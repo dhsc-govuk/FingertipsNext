@@ -18,10 +18,22 @@ export default class HomePage extends AreaFilter {
         subjectSearchTerm!
       );
     }
-    //   cannot enable only area until DHSCFT-458 is actioned
-    // if (searchMode === SearchMode.ONLY_AREA) {
-    //   await this.page.getByTestId(this.areaSearchField).fill(areaSearchTerm!);
-    // }
+    if (searchMode === SearchMode.ONLY_AREA) {
+      await this.fillAndAwaitLoadingComplete(
+        this.page.getByTestId(this.areaSearchField).getByRole('textbox'),
+        areaSearchTerm!
+      );
+
+      await expect(
+        this.page.getByTestId(this.suggestedAreasPanel)
+      ).toContainText(areaSearchTerm!, { ignoreCase: true });
+
+      await this.clickAndAwaitLoadingComplete(
+        this.page
+          .getByTestId(this.suggestedAreasPanel)
+          .getByText(areaSearchTerm!)
+      );
+    }
     if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
       await this.fillAndAwaitLoadingComplete(
         this.page.getByTestId(this.subjectSearchField),

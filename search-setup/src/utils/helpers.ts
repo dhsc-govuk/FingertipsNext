@@ -31,7 +31,7 @@ export function getEnvironmentVariable(variableName: string, defaultValue?: stri
  */
 export function getIndicatorsJsonData(): object {
   const runningLocally = getEnvironmentVariable('RUNNING_BUILD_LOCALLY', 'false');
-  const jsonFilePath = runningLocally ? path.resolve(__dirname, '../../assets/indicators.json') : '/tmp/workflow/assets/indicators.json';
+  const jsonFilePath = runningLocally === 'true' ? path.resolve(__dirname, '../../assets/indicators.json') : '/tmp/workflow/assets/indicators.json';
 
   return JSON.parse(readFileSync(jsonFilePath, 'utf-8'));
 }

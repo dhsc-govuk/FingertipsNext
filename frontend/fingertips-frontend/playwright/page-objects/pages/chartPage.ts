@@ -85,6 +85,10 @@ export default class ChartPage extends AreaFilter {
         .join(', ')} are displayed and that`,
       `chart components: ${hiddenComponents.map((component) => component.componentLocator).join(', ')} are not displayed. Also checking the visible components via screenshot snapshot testing.`
     );
+    // click the hide filters pane before asserting visibility and taking screenshots
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId('area-filter-pane-hidefilters')
+    );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
       console.log(
@@ -142,6 +146,15 @@ export default class ChartPage extends AreaFilter {
           this.page.getByTestId(
             `confidence-interval-checkbox-${visibleComponent.componentLocator.replace('-component', '')}`
           )
+        );
+      }
+      // if its one of the chart components that has a details expander then click it
+      if (visibleComponent.componentProps.hasDetailsExpander) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page
+            .getByTestId('oneIndicatorOneAreaViewPlot-component')
+            .locator('summary')
+            .getByText('Population data')
         );
       }
 

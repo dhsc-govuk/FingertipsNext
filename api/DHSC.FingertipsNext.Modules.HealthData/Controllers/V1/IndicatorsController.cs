@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+﻿using System.Net;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,9 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 [Route("indicators")]
 public class IndicatorsController(IIndicatorsService indicatorsService) : ControllerBase
 {
-    private const int MaxNumberAreas = 10;
-    private const int MaxNumberYears = 10;
-    private const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
+    private const int MaxNumberAreas = 100;
+    private const int MaxNumberYears = 20;
+
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
@@ -20,9 +21,9 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// supplying one or more area codes and one or more years in the query string.
     /// </summary>
     /// <param name="indicatorId">The unique identifier of the indicator.</param>
-    /// <param name="areaCodes">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaCodes">A list of area codes. Up to 100 distinct area codes can be requested.</param>
     /// <param name="areaType">The area type the area codes belong to.</param>
-    /// <param name="years">A list of years. Up to 10 distinct years can be requested.</param>
+    /// <param name="years">A list of years. Up to 20 distinct years can be requested.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <returns></returns>
     /// <remarks>
@@ -41,11 +42,19 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null)
     {
-        if(areaCodes is { Length: > MaxNumberAreas })
-            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied." });
+        if (areaCodes is {Length: > MaxNumberAreas})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
+            });
 
-        if (years is { Length: > MaxNumberYears })
-            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied." });
+        if (years is {Length: > MaxNumberYears})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied."
+            });
 
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync
         (
@@ -56,6 +65,12 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities ?? []
         );
 
-        return indicatorData == null ? NotFound() : Ok(indicatorData);
+        return indicatorData?.Status switch
+        {
+            ResponseStatus.Success => Ok(indicatorData?.Content),
+            ResponseStatus.NoDataForIndicator => Ok(indicatorData?.Content),
+            ResponseStatus.IndicatorDoesNotExist => NotFound(),
+            _ => StatusCode(500)
+        };
     }
 }

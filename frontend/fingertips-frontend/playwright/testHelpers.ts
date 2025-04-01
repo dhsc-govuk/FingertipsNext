@@ -1,4 +1,4 @@
-import { IndicatorDocument, AreaDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 import ChartPage from './page-objects/pages/chartPage';
 
 export enum SearchMode {
@@ -22,6 +22,7 @@ export enum AreaMode {
 type componentProps = {
   hasConfidenceIntervals: boolean;
   isTabTable: boolean;
+  hasDetailsExpander: boolean;
   hasTimePeriodDropDown: boolean;
 };
 
@@ -46,6 +47,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -54,6 +56,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -62,6 +65,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -70,6 +74,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -79,6 +84,7 @@ export function getScenarioConfig(
         hasConfidenceIntervals: false,
         isTabTable: false,
         hasTimePeriodDropDown: true,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -86,6 +92,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -94,6 +101,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -102,16 +110,25 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
-    // Enable in DHSCFT-148
-    // ChartPage.populationPyramidComponent,
+    {
+      componentLocator: ChartPage.populationPyramidComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: true,
+        hasTimePeriodDropDown: false,
+      },
+    },
     {
       componentLocator: ChartPage.thematicMapComponent,
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -120,6 +137,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
@@ -128,11 +146,13 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
         hasTimePeriodDropDown: false,
       },
     },
-    // Pending
+    // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
+    // Enable in DHSCFT-230
     // ChartPage.heatMapComponent,
   ];
 
@@ -153,8 +173,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
         ChartPage.inequalitiesForSingleTimePeriodComponent,
-        // Enable in DHSCFT-148
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -165,11 +184,11 @@ export function getScenarioConfig(
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        // Enable in DHSCFT-148
-        // ChartPage.populationPyramidComponent,
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -182,6 +201,8 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -192,9 +213,9 @@ export function getScenarioConfig(
   ) {
     // visibleComponents = allComponents.filter((component) =>
     //   [
-    //     // Pending
+    //     // Enable in DHSCFT-237
     //     // ChartPage.basicTableComponent,
-    //     // Enable in DHSCFT-148
+    //     // Enable in DHSCFT-225
     //     // ChartPage.populationPyramidComponent,
     //   ].includes(component.componentLocator)
     // );
@@ -207,9 +228,9 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.spineChartTableComponent,
-        // Pending
+        // Enable in DHSCFT-230
         // ChartPage.heatMapComponent,
-        // Enable in DHSCFT-148
+        // Enable in DHSCFT-225
         // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -233,9 +254,9 @@ export function getScenarioConfig(
 }
 
 function filterIndicatorsByName(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
-): IndicatorDocument[] {
+): RawIndicatorDocument[] {
   if (!searchTerm) return [];
 
   const normalizedSearchTerm = searchTerm.toLowerCase();
@@ -251,7 +272,7 @@ function filterIndicatorsByName(
 }
 
 export function getAllIndicatorIdsForSearchTerm(
-  indicators: IndicatorDocument[],
+  indicators: RawIndicatorDocument[],
   searchTerm: string
 ): string[] {
   return filterIndicatorsByName(indicators, searchTerm).map(
@@ -287,7 +308,7 @@ export function sortAlphabetically(array: (string | null)[]) {
 
 export function getIndicatorNameById(
   indicatorId: string,
-  indicators: IndicatorDocument[]
+  indicators: RawIndicatorDocument[]
 ): string | undefined {
   const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
   return indicator ? indicator.indicatorName : undefined;
