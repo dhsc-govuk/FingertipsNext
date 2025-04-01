@@ -4,6 +4,7 @@ import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlo
 import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
 import {
   HealthDataForArea,
+  Indicator,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -12,7 +13,6 @@ import {
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { Indicator } from '@/generated-sources/ft-api-client';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';

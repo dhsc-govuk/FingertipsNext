@@ -140,7 +140,6 @@ export const generateRows = (
 
 const formatValue = (value?: number): string => {
   return value !== undefined ? value.toFixed(1) : 'X';
-  //return value !== undefined ? value.toString() : 'X';
 };
 
 const generateBackgroundColor = (x: number, y: number): string => {
