@@ -118,10 +118,19 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       2
     );
 
+    const expected1 = {
+      areaCodes: new Array(100).fill('a', 0, 100),
+      indicatorId: Number(testIndicators),
+    };
+
     const expected2 = {
       areaCodes: ['a', 'E92000001', 'G001'],
       indicatorId: Number(testIndicators),
     };
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicator
+    ).toHaveBeenNthCalledWith(1, expected1, API_CACHE_CONFIG);
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
