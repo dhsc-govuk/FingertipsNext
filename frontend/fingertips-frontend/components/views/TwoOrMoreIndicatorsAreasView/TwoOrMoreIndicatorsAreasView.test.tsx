@@ -51,10 +51,8 @@ const mockIndicatorDocument = (indicatorId: string): IndicatorDocument => {
     earliestDataPeriod: '1',
     latestDataPeriod: '1',
     lastUpdatedDate: new Date(),
-    associatedAreaCodes: ['A001'],
     hasInequalities: false,
     unitLabel: '1',
-    usedInPoc: false,
   };
 };
 
