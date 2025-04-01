@@ -6,11 +6,15 @@ import {
   SearchMode,
 } from '../../testHelpers';
 import indicators from '../../../../../search-setup/assets/indicators.json';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { AreaDocument, RawIndicatorDocument } from '@/lib/search/searchTypes';
 //@ts-expect-error don't care about type checking this json file
-const indicatorData = indicators as IndicatorDocument[];
+const indicatorData = indicators as RawIndicatorDocument[];
 const subjectSearchTerm = 'hospital';
-const areaSearchTerm = 'north west region';
+const areaSearchTerm: AreaDocument = {
+  areaCode: 'E12000002',
+  areaType: 'Regions',
+  areaName: 'north west region',
+};
 let allIndicatorIDs: string[];
 
 interface TestParams {
@@ -38,19 +42,19 @@ const coreTestJourneys: TestParams[] = [
   {
     indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
     areaMode: AreaMode.TWO_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
+    searchMode: SearchMode.ONLY_AREA,
   },
   // {
+  // enable once DHSCFT-237 and DHSCFT-225 are done
   //   indicatorMode: IndicatorMode.TWO_PLUS_INDICATORS,
   //   areaMode: AreaMode.ENGLAND_AREA,
-  //   cannot enable only area until DHSCFT-458 is actioned
   //   searchMode: SearchMode.ONLY_AREA,
   // },
 ];
 
 /**
  * This tests, in parallel, the indicator + area scenario combinations from
- * https://confluence.collab.test-and-trace.nhs.uk/pages/viewpage.action?spaceKey=FTN&title=Frontend+Application+-+Displaying+Charts
+ * https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448170/Frontend+Application+-+Displaying+Charts
  * These scenario combinations are know as core journeys and are defined above in coreTestJourneys,
  * they were chosen as they are happy paths covering lots of chart components, they also cover the three different search mode scenarios.
  * All 15 journeys are covered in lower level unit testing.
@@ -59,7 +63,7 @@ test.beforeAll(
   `return all matching indicatorIDs from the real data source based on the subjectSearchTerm: ${subjectSearchTerm}`,
   () => {
     const typedIndicatorData = indicatorData.map(
-      (indicator: IndicatorDocument) => {
+      (indicator: RawIndicatorDocument) => {
         return {
           ...indicator,
           lastUpdated: new Date(indicator.lastUpdatedDate),
@@ -87,14 +91,21 @@ test.describe(`Search via`, () => {
         await homePage.searchForIndicators(
           searchMode,
           subjectSearchTerm,
-          areaSearchTerm
+          areaSearchTerm.areaName
         );
         await homePage.clickSearchButton();
       });
 
-      await test.step(`check results page and select ${areaMode} then ${indicatorMode}`, async () => {
-        await resultsPage.waitForURLToContain(subjectSearchTerm);
-        await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
+      await test.step(`check results page based off search Mode and select ${areaMode} then ${indicatorMode}`, async () => {
+        await resultsPage.waitForURLToContainBasedOnSearchMode(
+          searchMode,
+          subjectSearchTerm,
+          areaSearchTerm.areaCode
+        );
+        await resultsPage.checkSearchResultsTitleBasedOnSearchMode(
+          searchMode,
+          subjectSearchTerm
+        );
 
         await resultsPage.selectAreasFiltersIfRequired(
           searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
@@ -105,6 +116,7 @@ test.describe(`Search via`, () => {
           allIndicatorIDs,
           indicatorMode
         );
+        await resultsPage.checkRecentTrends(areaMode);
 
         await resultsPage.clickViewChartsButton();
       });

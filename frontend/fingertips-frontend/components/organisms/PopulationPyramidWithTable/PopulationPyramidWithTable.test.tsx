@@ -2,27 +2,25 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { PopulationPyramidWithTable } from './index';
 import {
   HealthDataForArea,
+  HealthDataPoint,
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
 import '@testing-library/jest-dom';
 import { AreaDocument } from '@/lib/search/searchTypes';
+import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 
-const mockHealthDataPoint = [
+const mockHealthDataPoint: HealthDataPoint[] = [
   {
     year: 2025,
     count: 200,
     value: 0,
     lowerCi: 0,
     upperCi: 0,
-    ageBand: '0-4',
-    sex: 'Female',
+    ageBand: disaggregatedAge('0-4'),
+    sex: femaleSex,
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: {
-      sequence: 1,
-      value: 'string;',
-      type: '',
-    },
+    deprivation: noDeprivation,
   },
   {
     year: 2023,
@@ -30,14 +28,10 @@ const mockHealthDataPoint = [
     value: 0,
     lowerCi: 0,
     upperCi: 0,
-    ageBand: '5-9',
-    sex: 'Female',
+    ageBand: disaggregatedAge('5-9'),
+    sex: femaleSex,
     trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: {
-      sequence: 1,
-      value: 'string;',
-      type: '',
-    },
+    deprivation: noDeprivation,
   },
 ];
 

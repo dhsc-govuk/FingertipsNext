@@ -8,24 +8,29 @@ import {
   IIndicatorSearchService,
   INDICATOR_SEARCH_INDEX_NAME,
   IndicatorDocument,
+  RawIndicatorDocument,
 } from './searchTypes';
+import { IndicatorMapper } from './indicatorMapper';
 
 export class IndicatorSearchService implements IIndicatorSearchService {
-  readonly searchClient: SearchClient<IndicatorDocument>;
+  private readonly searchClient: SearchClient<RawIndicatorDocument>;
+  private readonly mapper: IndicatorMapper;
 
   constructor(fingertipsAzureAiSearchUrl: string, apiKey: string) {
     const indexName = INDICATOR_SEARCH_INDEX_NAME;
     const credentials = new AzureKeyCredential(apiKey);
 
-    this.searchClient = new SearchClient<IndicatorDocument>(
+    this.searchClient = new SearchClient<RawIndicatorDocument>(
       fingertipsAzureAiSearchUrl,
       indexName,
       credentials
     );
+    this.mapper = new IndicatorMapper();
   }
 
   async searchWith(
     searchTerm: string,
+    isEnglandSelectedAsGroup: boolean,
     areaCodes?: string[]
   ): Promise<IndicatorDocument[]> {
     // Search with both full search term and wildcard for now to allow for
@@ -41,7 +46,7 @@ export class IndicatorSearchService implements IIndicatorSearchService {
       return `associatedAreaCodes/any(a: ${areaCodeEqualityStrings.join(' or ')})`;
     };
 
-    const searchOptions: SearchOptions<IndicatorDocument> = {
+    const searchOptions: SearchOptions<RawIndicatorDocument> = {
       queryType: 'full',
       includeTotalCount: true,
       top: 100,
@@ -49,24 +54,34 @@ export class IndicatorSearchService implements IIndicatorSearchService {
     };
 
     const searchResponse = await this.searchClient.search(query, searchOptions);
-    const results: IndicatorDocument[] = [];
+    const results: RawIndicatorDocument[] = [];
 
     for await (const result of searchResponse.results) {
-      results.push(result.document as IndicatorDocument);
+      results.push(result.document as RawIndicatorDocument);
     }
 
-    return results.slice(0, 20);
+    return this.mapper.toEntities(
+      results.slice(0, 20),
+      areaCodes ?? [],
+      isEnglandSelectedAsGroup
+    );
   }
 
   async getIndicator(
     indicatorId: string
   ): Promise<IndicatorDocument | undefined> {
-    const indicatorDocument = await this.searchClient
-      .getDocument(indicatorId)
-      .catch(() => {
-        return undefined;
-      });
+    let rawIndicatorDocument: RawIndicatorDocument;
+    try {
+      rawIndicatorDocument = (await this.searchClient.getDocument(
+        indicatorId
+      )) as RawIndicatorDocument;
+    } catch (e) {
+      console.log(
+        `Error occurred getting indicator from search. Error message: ${(<Error>e).message}`
+      );
+      return undefined;
+    }
 
-    return indicatorDocument;
+    return this.mapper.toEntity(rawIndicatorDocument, [], false);
   }
 }
