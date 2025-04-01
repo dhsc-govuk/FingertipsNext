@@ -34,6 +34,12 @@ export interface QuartileData {
      */
     indicatorId?: number;
     /**
+     * The year that the data point is for
+     * @type {number}
+     * @memberof QuartileData
+     */
+    year?: number;
+    /**
      * 
      * @type {IndicatorPolarity}
      * @memberof QuartileData
@@ -109,6 +115,7 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
+        'year': json['year'] == null ? undefined : json['year'],
         'polarity': json['polarity'] == null ? undefined : IndicatorPolarityFromJSON(json['polarity']),
         'q0Value': json['q0Value'] == null ? undefined : json['q0Value'],
         'q1Value': json['q1Value'] == null ? undefined : json['q1Value'],
@@ -133,6 +140,7 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
     return {
         
         'indicatorId': value['indicatorId'],
+        'year': value['year'],
         'polarity': IndicatorPolarityToJSON(value['polarity']),
         'q0Value': value['q0Value'],
         'q1Value': value['q1Value'],
