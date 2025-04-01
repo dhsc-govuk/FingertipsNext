@@ -131,8 +131,14 @@ export function getScenarioConfig(
     },
     // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
-    // Enable in DHSCFT-230
-    // ChartPage.heatMapComponent,
+    {
+      componentLocator: ChartPage.heatMapComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: false,
+      },
+    },
   ];
 
   let visibleComponents: component[] = [];
