@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Schemas;
+﻿using System.Net;
+using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,10 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 {
     private const int MaxNumberAreas = 10;
     private const int MaxNumberYears = 10;
-    private const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
+
+    private const string TooManyParametersMessage =
+        "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
+
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
     /// <summary>
@@ -41,11 +45,19 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         [FromQuery] int[]? years = null,
         [FromQuery] string[]? inequalities = null)
     {
-        if(areaCodes is { Length: > MaxNumberAreas })
-            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied." });
+        if (areaCodes is {Length: > MaxNumberAreas})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter area_codes. The maximum is {MaxNumberAreas} but {areaCodes.Length} supplied."
+            });
 
-        if (years is { Length: > MaxNumberYears })
-            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied." });
+        if (years is {Length: > MaxNumberYears})
+            return new BadRequestObjectResult(new SimpleError
+            {
+                Message =
+                    $"Too many values supplied for parameter years. The maximum is {MaxNumberYears} but {years.Length} supplied."
+            });
 
         var indicatorData = await _indicatorsService.GetIndicatorDataAsync
         (
@@ -56,6 +68,12 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             inequalities ?? []
         );
 
-        return indicatorData == null ? NotFound() : Ok(indicatorData);
+        return indicatorData?.Status switch
+        {
+            ResponseStatus.Success => Ok(indicatorData?.Content),
+            ResponseStatus.NoDataForIndicator => Ok(indicatorData?.Content),
+            ResponseStatus.IndicatorDoesNotExist => NotFound(),
+            _ => StatusCode(500)
+        };
     }
 }
