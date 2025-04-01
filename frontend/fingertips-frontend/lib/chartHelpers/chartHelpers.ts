@@ -33,6 +33,15 @@ export function sortHealthDataByYearDescending(
   }));
 }
 
+export function latestSingleHealthDataPoint(
+  data: HealthDataForArea[] = []
+): HealthDataForArea[] {
+  return data.map((item) => ({
+    ...item,
+    healthData: [item.healthData[0]]
+  }));
+}
+
 export function sortHealthDataPointsByDescendingYear(
   data: HealthDataPoint[] | undefined
 ): HealthDataPoint[] {

@@ -8,48 +8,34 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 type ExtractedIndicatorHealthData = {
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
-  orderedHealthData: HealthDataForArea[];
 };
 
 export const extractingIndicatorHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
   unsortedMetaData: (IndicatorDocument | undefined)[] | undefined,
-  areasSelected?: string[]
 ): ExtractedIndicatorHealthData => {
+  
   const orderedEnglandData: HealthDataForArea[] = new Array(
     combinedIndicatorData.length
   );
+  
   const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
     combinedIndicatorData.length
   );
-
-  const orderedHealthData: HealthDataForArea[] = new Array(
-    combinedIndicatorData.length
-  );
+  
 
   combinedIndicatorData.forEach((indicator, index) => {
     if (!indicator.areaHealthData) {
       throw new Error('Missing health data for indicator');
     }
 
-    let healthData;
-    if (areasSelected) {
-      healthData = indicator.areaHealthData.find(
-        (areaData) => areaData.areaCode === areasSelected[0]
-      );
-    }
-
-    if (!healthData) {
-      throw new Error('Missing area health data for indicator');
-    }
-    orderedHealthData[index] = healthData;
 
     const englandData = indicator.areaHealthData.find(
       (areaData) => areaData.areaCode === areaCodeForEngland
     );
 
     if (!englandData) {
-      throw new Error('Missing England health data for indicator');
+      return []
     }
     orderedEnglandData[index] = englandData;
 
@@ -62,6 +48,5 @@ export const extractingIndicatorHealthData = (
   return {
     orderedEnglandData,
     orderedMetadata,
-    orderedHealthData,
   };
 };
