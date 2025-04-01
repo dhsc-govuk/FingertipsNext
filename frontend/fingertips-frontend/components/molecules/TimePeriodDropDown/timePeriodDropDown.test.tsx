@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { TimePeriodDropDown } from '.';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
+import { SearchStateContext } from '@/context/SearchStateContext';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -20,14 +21,29 @@ jest.mock('next/navigation', () => {
 });
 
 const mockSearchState = {
-  [SearchParams.YearSelected]: '2023',
+  [SearchParams.InequalityYearSelected]: '2023',
 };
+
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
 
 const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(mockSearchState);
+  });
+
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
+    render(<TimePeriodDropDown years={years} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -40,12 +56,13 @@ describe('TimePeriodDropDown suite', () => {
   });
 
   it('should add selected year to the url', async () => {
-    const expectedPath = [mockPath, `?${SearchParams.YearSelected}=2022`].join(
-      ''
-    );
+    const expectedPath = [
+      mockPath,
+      `?${SearchParams.InequalityYearSelected}=2022`,
+    ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} searchState={mockSearchState} />);
+    render(<TimePeriodDropDown years={years} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 

@@ -24,10 +24,7 @@ import {
   LineChartVariant,
 } from '@/components/organisms/LineChart/lineChartHelpers';
 import { useState, useEffect } from 'react';
-import {
-  getAllDataWithoutInequalities,
-  InequalitiesTypes,
-} from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { getAllDataWithoutInequalities } from '@/components/organisms/Inequalities/inequalitiesHelpers';
 import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
 import { useSearchState } from '@/context/SearchStateContext';
 
@@ -61,7 +58,7 @@ export function OneIndicatorOneAreaViewPlots({
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
+    // [SearchParams.InequalityTypeSelected]: inequalityTypeSelected,
   } = stateManager.getSearchState();
   const polarity = indicatorData.polarity as IndicatorPolarity;
   const benchmarkComparisonMethod =
@@ -71,11 +68,11 @@ export function OneIndicatorOneAreaViewPlots({
     setShowStandardLineChartConfidenceIntervalsData,
   ] = useState<boolean>(false);
 
-  // This will be updated when we add the dropdown to select inequality types
-  const inequalityType =
-    inequalityTypeSelected === 'deprivation'
-      ? InequalitiesTypes.Deprivation
-      : InequalitiesTypes.Sex;
+  // // This will be updated when we add the dropdown to select inequality types
+  // const inequalityType =
+  //   inequalityTypeSelected === 'deprivation'
+  //     ? InequalitiesTypes.Deprivation
+  //     : InequalitiesTypes.Sex;
 
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const dataWithoutEnglandOrGroup = seriesDataWithoutEnglandOrGroup(
@@ -183,7 +180,6 @@ export function OneIndicatorOneAreaViewPlots({
         measurementUnit={indicatorMetadata?.unitLabel}
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
-        type={inequalityType}
       />
 
       <PopulationPyramidWithTable

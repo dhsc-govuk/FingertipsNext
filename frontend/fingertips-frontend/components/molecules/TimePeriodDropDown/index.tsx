@@ -1,15 +1,11 @@
-import {
-  SearchParams,
-  SearchStateManager,
-  SearchStateParams,
-} from '@/lib/searchStateManager';
+import { useSearchState } from '@/context/SearchStateContext';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { H5, Select } from 'govuk-react';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 interface TimePeriodDropDownProps {
   years: (number | string)[];
-  searchState: SearchStateParams;
 }
 
 const StyledSelect = styled(Select)({
@@ -19,28 +15,33 @@ const StyledSelect = styled(Select)({
 
 export function TimePeriodDropDown({
   years,
-  searchState,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
   const { replace } = useRouter();
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
 
   const searchStateManager = SearchStateManager.initialise(searchState);
-  const { [SearchParams.YearSelected]: selectedYear } = searchState;
 
   const setSelectedYear = (selectedYear: string) => {
     searchStateManager.addParamValueToState(
-      SearchParams.YearSelected,
+      SearchParams.InequalityYearSelected,
       selectedYear
     );
     replace(searchStateManager.generatePath(pathname), { scroll: false });
   };
+
+  const { [SearchParams.InequalityYearSelected]: selectedYear } =
+    searchStateManager.getSearchState();
+
   return (
     <div data-testid="timePeriod-dropDown-component">
       <H5>Select a time period</H5>
       <StyledSelect
+        data-testid="timePeriod-dropDown-select"
         label=""
         input={{
-          defaultValue: selectedYear,
+          value: selectedYear,
           onChange: (e) => {
             setSelectedYear(e.target.value);
           },

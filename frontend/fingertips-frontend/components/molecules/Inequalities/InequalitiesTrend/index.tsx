@@ -4,7 +4,7 @@ import { LineChartVariant } from '@/components/organisms/LineChart/lineChartHelp
 import { H4 } from 'govuk-react';
 import { InequalitiesLineChartTable } from '../LineChart/Table';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { useState } from 'react';
 import {
   generateInequalitiesLineChartOptions,
@@ -14,12 +14,17 @@ import {
   InequalitiesChartData,
   InequalitiesTypes,
   mapToInequalitiesTableData,
+  valueSelectorForInequality,
+  sequenceSelectorForInequality,
+  filterHealthData,
+  healthDataFilterFunctionGeneratorForInequality,
 } from '@/components/organisms/Inequalities/inequalitiesHelpers';
+import { useSearchState } from '@/context/SearchStateContext';
 
 interface InequalitiesTrendProps {
   healthIndicatorData: HealthDataForArea;
-  searchState: SearchStateParams;
   measurementUnit?: string;
+  type?: InequalitiesTypes;
 }
 
 const generateInequalitiesLineChartTooltipStringList = (
@@ -33,11 +38,46 @@ const generateInequalitiesLineChartTooltipStringList = (
 
 export function InequalitiesTrend({
   healthIndicatorData,
-  searchState,
   measurementUnit,
+  type = InequalitiesTypes.Sex,
 }: Readonly<InequalitiesTrendProps>) {
-  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
-  const type = InequalitiesTypes.Sex;
+  const { getSearchState } = useSearchState();
+  const searchState = getSearchState();
+  const stateManager = SearchStateManager.initialise(searchState);
+  const { [SearchParams.AreasSelected]: areasSelected } =
+    stateManager.getSearchState();
+
+  let inequalityCategory = '';
+  if (type == InequalitiesTypes.Deprivation) {
+    // This value will ultimately come from the inequality type dropdown
+    // For now, we just use the first deprivation type available
+    const disaggregatedDeprivationData = filterHealthData(
+      healthIndicatorData.healthData,
+      (data) => !data.deprivation.isAggregate
+    );
+    const deprivationTypes = Object.keys(
+      Object.groupBy(
+        disaggregatedDeprivationData,
+        (data) => data.deprivation.type
+      )
+    );
+    inequalityCategory = deprivationTypes[0];
+  }
+
+  const filterFunctionGenerator =
+    healthDataFilterFunctionGeneratorForInequality[type];
+  const healthIndicatorDataWithoutOtherInequalities = {
+    ...healthIndicatorData,
+    healthData: filterHealthData(
+      healthIndicatorData.healthData,
+      filterFunctionGenerator(inequalityCategory)
+    ),
+  };
+
+  const yearlyHealthdata = groupHealthDataByYear(
+    healthIndicatorDataWithoutOtherInequalities.healthData
+  );
+
   const [
     showInequalitiesLineChartConfidenceIntervals,
     setShowInequalitiesLineChartConfidenceIntervals,
@@ -45,18 +85,22 @@ export function InequalitiesTrend({
 
   const yearlyHealthDataGroupedByInequalities =
     getYearDataGroupedByInequalities(
-      groupHealthDataByYear(healthIndicatorData.healthData),
-      type
+      yearlyHealthdata,
+      valueSelectorForInequality[type]
     );
 
+  const sequenceSelector = sequenceSelectorForInequality[type];
   const dynamicKeys = getDynamicKeys(
     yearlyHealthDataGroupedByInequalities,
-    type
+    sequenceSelector
   );
 
   const lineChartData: InequalitiesChartData = {
     areaName: healthIndicatorData.areaName,
-    rowData: mapToInequalitiesTableData(yearlyHealthDataGroupedByInequalities),
+    rowData: mapToInequalitiesTableData(
+      yearlyHealthDataGroupedByInequalities,
+      sequenceSelector
+    ),
   };
 
   const inequalitiesLineChartOptions: Highcharts.Options =

@@ -1,12 +1,9 @@
 import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import { InequalitiesForSingleTimePeriod } from '.';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-
-const state: SearchStateParams = {
-  [SearchParams.YearSelected]: '2008',
-};
+import { SearchStateContext } from '@/context/SearchStateContext';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const mockPath = 'some-mock-path';
 const mockReplace = jest.fn();
@@ -24,14 +21,31 @@ jest.mock('next/navigation', () => {
   };
 });
 
+const mockGetSearchState = jest.fn();
+const mockSearchStateContext: SearchStateContext = {
+  getSearchState: mockGetSearchState,
+  setSearchState: jest.fn(),
+};
+jest.mock('@/context/SearchStateContext', () => {
+  return {
+    useSearchState: () => mockSearchStateContext,
+  };
+});
+
+const mockSearchState = {
+  [SearchParams.InequalityYearSelected]: '2008',
+};
+
 describe('InequalitiesForSingleTimePeriod suite', () => {
+  beforeEach(() => {
+    mockGetSearchState.mockReturnValue(mockSearchState);
+  });
   it('should render expected elements', async () => {
     const years = ['2008', '2004'];
 
     render(
       <InequalitiesForSingleTimePeriod
         healthIndicatorData={MOCK_HEALTH_DATA[0]}
-        searchState={state}
       />
     );
 

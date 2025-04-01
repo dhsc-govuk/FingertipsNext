@@ -103,15 +103,6 @@ export const healthDataFilterFunctionGeneratorForInequality: Record<
     (data.deprivation.isAggregate || data.deprivation.type == category),
 };
 
-const groupHealthDataByInequalitiesMapping: Record<
-  InequalitiesTypes,
-  (point: HealthDataPoint) => string
-> = {
-  [InequalitiesTypes.Sex]: (point: HealthDataPoint) => point.sex,
-  [InequalitiesTypes.Deprivation]: (point: HealthDataPoint) =>
-    point.deprivation.value, // to be changed
-};
-
 export const groupHealthDataByYear = (healthData: HealthDataPoint[]) =>
   Object.groupBy(healthData, (data) => data.year);
 
