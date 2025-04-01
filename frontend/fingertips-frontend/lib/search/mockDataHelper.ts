@@ -1,6 +1,8 @@
 import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
 import { IndicatorDocument, RawIndicatorDocument } from './searchTypes';
 
+const currentDate = new Date();
+
 export const generateIndicatorDocument = (id: string): IndicatorDocument => ({
   indicatorID: id,
   indicatorName: `indicator name for id ${id}`,
@@ -8,7 +10,7 @@ export const generateIndicatorDocument = (id: string): IndicatorDocument => ({
   dataSource: `Some data source for id ${id}`,
   earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
-  lastUpdatedDate: new Date(),
+  lastUpdatedDate: currentDate,
   unitLabel: 'some unit label',
   hasInequalities: true,
 });
@@ -22,7 +24,7 @@ export const generateRawIndicatorDocument = (
   dataSource: `Some data source for id ${id}`,
   earliestDataPeriod: '2022',
   latestDataPeriod: '2023',
-  lastUpdatedDate: new Date(),
+  lastUpdatedDate: currentDate,
   unitLabel: 'some unit label',
   hasInequalities: true,
   usedInPoc: true,
