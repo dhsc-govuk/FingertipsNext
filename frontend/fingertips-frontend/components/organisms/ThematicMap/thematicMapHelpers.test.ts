@@ -29,6 +29,7 @@ import { mockHealthData } from '@/mock/data/healthdata';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import {formatNumber} from "@/lib/numberFormatter";
 
 const mockMapData: MapGeographyData = {
   mapFile: regionsMap,
@@ -256,14 +257,14 @@ describe('generateThematicMapTooltipString', () => {
     `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
     `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
     `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${SymbolsEnum.Diamond}</span>` +
-    `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
+    `<span>${formatNumber(mockGroupDataForYear.healthData[0].value)} mock units</span>` +
     `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
 
   const expectedBenchmarkTooltip =
     `<span style=\"font-weight: bold\">Benchmark: ${mockBenchmarkDataForYear.areaName}</span>` +
     `<br /><span>${mockBenchmarkDataForYear.healthData[0].year}</span><br />` +
     `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${SymbolsEnum.Circle}</span>` +
-    `<span>${mockBenchmarkDataForYear.healthData[0].value} mock units</span>`;
+    `<span>${formatNumber(mockBenchmarkDataForYear.healthData[0].value)} mock units</span>`;
 
   it('should return the expected tooltip for an area', () => {
     const actual = generateThematicMapTooltipString(
@@ -325,7 +326,7 @@ describe('generateThematicMapTooltipString', () => {
       `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
       `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
       `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${SymbolsEnum.MultiplicationX}</span>` +
-      `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
+      `<span>${formatNumber(mockGroupDataForYear.healthData[0].value)} mock units</span>` +
       `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
 
     const actual = generateThematicMapTooltipString(

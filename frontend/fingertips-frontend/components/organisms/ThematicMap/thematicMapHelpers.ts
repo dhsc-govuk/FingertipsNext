@@ -23,6 +23,7 @@ import {
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
+import { formatNumber } from '@/lib/numberFormatter';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -313,7 +314,7 @@ export function generateThematicMapTooltipString(
           polarity
         ) ?? GovukColours.Black
       }; font-size: large;">${areaMarkerSymbol}</span>` +
-      `<span>${point.value} ${measurementUnit}</span>` +
+      `<span>${formatNumber(point.value)} ${measurementUnit}</span>` +
       `<br /><span>${point.benchmarkComparisonOutcome} than ${benchmarkArea}</span>` +
       `<br /><span>(${benchmarkConfidenceLimitLabel})</span>`,
   ];
@@ -334,7 +335,7 @@ export function generateThematicMapTooltipString(
             polarity
           ) ?? GovukColours.Black
         }; font-size: large;">${groupMarkerSymbol}</span>` +
-        `<span>${groupIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>` +
+        `<span>${formatNumber(groupIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>` +
         `<br /><span>${
           groupIndicatorDataForYear.healthData[0].benchmarkComparison?.outcome
         } than ${benchmarkArea}</span>` +
@@ -351,7 +352,7 @@ export function generateThematicMapTooltipString(
       `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
         `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
         `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.Circle}</span>` +
-        `<span>${benchmarkIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>`
+        `<span>${formatNumber(benchmarkIndicatorDataForYear.healthData[0].value)} ${measurementUnit}</span>`
     );
   }
 
