@@ -12,7 +12,10 @@ import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
 export default async function OneIndicatorTwoOrMoreAreasView({
@@ -50,7 +53,7 @@ export default async function OneIndicatorTwoOrMoreAreasView({
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
     const healthIndicatorDataChunks = await Promise.all(
-      chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+      chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
         (requestAreas) =>
           indicatorApi.getHealthDataForAnIndicator(
             {
