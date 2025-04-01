@@ -6,14 +6,14 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 
 export type OneIndicatorViewPlotProps = {
-  indicatorData: IndicatorWithHealthDataForArea;
   searchState: SearchStateParams;
+  indicatorData: IndicatorWithHealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   populationHealthDataForArea?: HealthDataForArea[];
 };
 
-export type TwoOrMoreIndicatorsAreasViewPlot = {
-  indicatorData: IndicatorWithHealthDataForArea[];
+export type TwoOrMoreIndicatorsViewPlotProps = {
   searchState: SearchStateParams;
-  indicatorMetadata?: IndicatorDocument[];
+  indicatorData: IndicatorWithHealthDataForArea[];
+  indicatorMetadata: (IndicatorDocument | undefined)[];
 };
