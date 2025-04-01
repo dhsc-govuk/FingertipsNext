@@ -118,6 +118,21 @@ export default class AreaFilter extends BasePage {
       }
 
       await this.waitForURLToContain(searchTerm);
+    } else if (
+      searchMode === SearchMode.ONLY_AREA &&
+      areaMode === AreaMode.TWO_PLUS_AREAS
+    ) {
+      // Need to select an additional checkbox for this scenario, as one is already selected
+      const areaCheckboxList = this.page
+        .getByTestId(this.areaFilterContainer)
+        .getByRole('checkbox');
+      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1)); // as first checkbox is 'All'
+
+      await this.page.waitForLoadState();
+
+      await expect(
+        this.page.getByTestId(this.areaFilterContainer)
+      ).toContainText('Selected areas (2)');
     }
   }
 }
