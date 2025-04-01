@@ -1,0 +1,83 @@
+### check GET health data with quintile comparison -- existing site doesn't expose this data to allow us to validate against -- this test fails intermitently becasue lots of data has 'zero count' making it indeterminate if a value is Lowest or Lower
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85008&area_type=gps&ancestor_code=U79121
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 15.789474,
+            "q1Value": 65.25573,
+            "q2Value": 71.98212,
+            "q3Value": 77.030815,
+            "q4Value": 88.64353,
+            "areaValue": 76.190475,
+            "ancestorValue": 76.455025,
+            "englandValue": 69.89724
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check quartile calculation for two areas
+GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        const expected = [
+        {
+            "indicatorId": 94063,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 15.789474,
+            "q1Value": 65.25573,
+            "q2Value": 71.98212,
+            "q3Value": 77.030815,
+            "q4Value": 88.64353,
+            "areaValue": 76.190475,
+            "ancestorValue": 76.455025,
+            "englandValue": 69.89724
+        },
+        {
+            "indicatorId": 90453,
+            "polarity": "NoJudgement",
+            "year": 2024,
+            "q0Value": 3.34934,
+            "q1Value": 24.39231,
+            "q2Value": 29.19334,
+            "q3Value": 33.39454,
+            "q4Value": 50.264,
+            "areaValue": 28.93029,
+            "ancestorValue": 29.827448,
+            "englandValue": 27.15399
+        }
+        ];
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### check GET health data with quintile comparison 
+GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N85008&area_type=gps&ancestor_code=U79121
+
+> {%
+    client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
+        const expected = [{
+            "indicatorId": 241,
+            "polarity": "NoJudgement",
+            "year": 2023,
+            "q0Value": 0.51393,
+            "q1Value": 6.91506,
+            "q2Value": 8.04286,
+            "q3Value": 9.10618,
+            "q4Value": 17.51457,
+            "areaValue": 7.27034,
+            "ancestorValue": 7.6553946,
+            "englandValue": 7.6553946
+        }]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
