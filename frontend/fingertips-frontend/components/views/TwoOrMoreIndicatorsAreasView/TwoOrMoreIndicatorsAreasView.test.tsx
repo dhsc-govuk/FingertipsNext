@@ -11,11 +11,7 @@ import { mockDeep } from 'jest-mock-extended';
 import TwoOrMoreIndicatorsAreasView from '.';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
-import {
-  IIndicatorSearchService,
-  IndicatorDocument,
-} from '@/lib/search/searchTypes';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
@@ -63,7 +59,7 @@ const mockIndicatorDocument = (indicatorId: string): IndicatorDocument => {
 };
 
 describe('TwoOrMoreIndicatorsAreasView', () => {
-  it.only('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
+  it('should call TwoOrMoreIndicatorsAreasViewPlots with the correct props', async () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1', '2'],
       [SearchParams.AreasSelected]: ['A001'],
