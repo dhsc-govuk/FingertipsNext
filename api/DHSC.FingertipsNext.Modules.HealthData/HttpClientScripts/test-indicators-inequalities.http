@@ -107,6 +107,7 @@ GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalitie
             {value: "All ages", ageIsAggregate: true, isAggregate: true},
             {value: "0-4 yrs", ageIsAggregate: false, isAggregate: false},
             {value: "5-9 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "10-14 yrs", ageIsAggregate: false, isAggregate: false},
             {value: "15-19 yrs", ageIsAggregate: false, isAggregate: false},
             {value: "20-24 yrs", ageIsAggregate: false, isAggregate: false},
             {value: "25-29 yrs", ageIsAggregate: false, isAggregate: false},
