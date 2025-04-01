@@ -1,7 +1,11 @@
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { CellType, heatmapIndicatorTitleColumnWidth } from './heatmapUtil';
+import {
+  CellType,
+  heatmapDataColumnWidth,
+  heatmapIndicatorTitleColumnWidth,
+} from './heatmapUtil';
 import { JSX } from 'react';
 
 const StyledCellText = styled(Table.Cell)({
@@ -12,7 +16,7 @@ const StyledCellText = styled(Table.Cell)({
 const StyledCellNumeric = styled(Table.Cell)({
   textAlign: 'center',
   minHeight: '70px',
-  width: '100%',
+  width: `${heatmapDataColumnWidth}px`,
   padding: 0,
 });
 
@@ -32,7 +36,7 @@ const StyledDivDataCellContent = styled.div({
 const StyledDivIndicatorTitleCellContent = styled.div({
   textOverflow: 'ellipsis',
   overflow: 'hidden',
-  width: heatmapIndicatorTitleColumnWidth,
+  width: `${heatmapIndicatorTitleColumnWidth}px`,
   display: '-webkit-box',
   WebkitLineClamp: 4,
   WebkitBoxOrient: 'vertical',
