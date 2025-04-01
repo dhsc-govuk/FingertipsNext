@@ -9,10 +9,10 @@ public class IndicatorQuartileData
 
     [JsonPropertyName("polarity")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public IndicatorPolarity Polarity { get; set; }
+    public IndicatorPolarity? Polarity { get; set; }
 
     [JsonPropertyName("year")]
-    public short Year { get; init; }
+    public short? Year { get; init; }
 
     [JsonPropertyName("q0Value")]
     public float? Q0Value { get; init; }
