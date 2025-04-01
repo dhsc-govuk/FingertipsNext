@@ -161,4 +161,39 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             polarity
         );
     }
+
+    /// <summary>
+    ///     Obtain health point data for a single indicator.
+    /// </summary>
+    /// <param name="indicatorId"></param>
+    /// <param name="areaCodes">
+    ///     An array of upto 10 area codes. If more than 10 elements exist,
+    ///     only the first 10 are used. If the array is empty all area codes are retrieved.
+    /// </param>
+    /// <param name="areaType">
+    ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
+    ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
+    /// </param>
+    /// <param name="years">
+    ///     An array of upto 10 years. If more than 10 elements exist,
+    ///     only the first 10 are used. If the array is empty all years are retrieved.
+    /// </param>
+    /// <param name="inequalities">
+    ///     An array of inequality dimensions to return. If the array is empty only data with no
+    ///     inequality dimensions is retrieved.
+    /// </param>
+    /// <returns>
+    ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
+    /// </returns>
+    public async Task<IEnumerable<IndicatorQuartileData>> GetQuartileDataAsync(
+        IEnumerable<int> indicatorIds,
+        string areaCode,
+        string areaType,
+        string ancestorCode
+        )
+    {
+        var quartileData = await healthDataRepository.GetQuartileDataAsync(indicatorIds, areaCode, areaType, ancestorCode);
+        if (quartileData == null) return null;
+        return _mapper.Map<IEnumerable<IndicatorQuartileData>>(quartileData.ToList());
+    }
 }

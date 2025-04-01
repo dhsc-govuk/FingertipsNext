@@ -47,5 +47,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Sex, options => options.MapFrom(src => src.SexDimension.Name))
             .ForMember(dest => dest.Trend, options => options.MapFrom(src => src.TrendDimension.Name))
             .ForMember(dest => dest.Deprivation, options => options.MapFrom(src => src.DeprivationDimension));
+
+        CreateMap<QuartileDataModel, IndicatorQuartileData>();
     }
 }

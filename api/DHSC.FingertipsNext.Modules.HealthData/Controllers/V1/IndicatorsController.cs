@@ -11,6 +11,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
 {
     private const int MaxNumberAreas = 10;
     private const int MaxNumberYears = 10;
+    private const int MaxNumberIndicators = 50;
     private const string TooManyParametersMessage = "Too many values supplied for parameter {0}. The maximum is 10 but {1} supplied.";
     private readonly IIndicatorsService _indicatorsService = indicatorsService;
 
@@ -57,5 +58,47 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
         );
 
         return indicatorData == null ? NotFound() : Ok(indicatorData);
+    }
+
+    /// <summary>
+    /// Get data for a public health indicator. Returns all data for all
+    /// areas and all years for the indicators. Optionally filter the results by
+    /// supplying one or more area codes and one or more years in the query string.
+    /// </summary>
+    /// <param name="indicatorIds">The unique identifier of the indicator.</param>
+    /// <param name="areaCode">A list of area codes. Up to 10 distinct area codes can be requested.</param>
+    /// <param name="areaType">The area type the area codes belong to.</param>
+    /// <param name="ancestorCode">A list of desired inequalities.</param>
+    /// <returns></returns>
+    /// <remarks>
+    /// If more than 10 years are supplied the request will fail.
+    /// If more than 10 area codes are supplied the request will fail.
+    /// </remarks>
+    [HttpGet]
+    [Route("quartiles")]
+    [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetQuartileDataAsync(
+        [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
+        [FromQuery(Name = "area_code")] string areaCode = "",
+        [FromQuery(Name = "area_type")] string areaType = "",
+        [FromQuery(Name = "ancestor_code")] string ancestorCode = "")
+    {
+        if (indicatorIds is { Length: 0 })
+            return new BadRequestObjectResult(new SimpleError { Message = $"Parameter indicator_ids must be supplied." });
+
+        if (indicatorIds is { Length: > MaxNumberIndicators })
+            return new BadRequestObjectResult(new SimpleError { Message = $"Too many values supplied for parameter indicator_ids. The maximum is {MaxNumberIndicators} but {indicatorIds.Length} supplied." });
+
+        var quartileData = await _indicatorsService.GetQuartileDataAsync
+        (
+            indicatorIds,
+            areaCode,
+            areaType,
+            ancestorCode
+        );
+
+        return quartileData == null ? NotFound() : Ok(quartileData);
     }
 }

@@ -561,6 +561,11 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
+        year:
+          type: integer
+          format: int32
+          example: 2023
+          description: The year that the data point is for        
         polarity:
           $ref: "#/components/schemas/IndicatorPolarity"
         q0Value:
