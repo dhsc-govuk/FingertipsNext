@@ -456,9 +456,9 @@ describe('generateStandardLineChartOptions', () => {
       }
     );
 
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    // eslint-disable  @typescript-eslint/no-explicit-any
     expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    // eslint-disable  @typescript-eslint/no-explicit-any
     expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
 
