@@ -72,12 +72,10 @@ export default class AreaFilter extends BasePage {
     searchTerm: string,
     areaTypeFilter: string = 'regions'
   ) {
-    // For area type filter currently defaulting to using regions (except for England area mode) - this will be refactored in DHSCFT-416
-
-    await this.waitForURLToContain(searchTerm);
-
     // only do the following for SearchMode.ONLY_SUBJECT as SearchMode.ONLY_AREA/BOTH_SUBJECT_AND_AREA already have area filters selected
     if (searchMode === SearchMode.ONLY_SUBJECT) {
+      await this.waitForURLToContain(searchTerm);
+
       await this.page
         .getByTestId(this.areaTypeSelector)
         .selectOption(areaTypeFilter);
