@@ -14,7 +14,9 @@ export function formatNumber(value?: number): string {
   ~~~~~~~~~~~~~~~~
   only 1 decimal place, so look at other values that I previously ignored
 
-  To ask about
-  ~~~~~~~~~~~~
-  SparklineChart tooptip - just uses default tooltip
+generateInequalitiesLineChartTooltipStringList
+pointFormatterHelper
+
+
+SparklineChart - unsure what the values are
  */

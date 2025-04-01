@@ -27,6 +27,7 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { LineChart } from '../LineChart';
 import { LineChartVariant } from '../LineChart/lineChartHelpers';
 import { useSearchState } from '@/context/SearchStateContext';
+import {formatNumber} from "@/lib/numberFormatter";
 
 interface InequalitiesProps {
   healthIndicatorData: HealthDataForArea;
@@ -36,13 +37,13 @@ interface InequalitiesProps {
   polarity?: IndicatorPolarity;
 }
 
-const generateInequalitiesLineChartTooltipStringList = (
+const generateInequalitiesLineChartTooltipForPoint = (
   point: Highcharts.Point,
   symbol: string
 ) => [
   `<div style="display: flex; margin-top: 7px; align-items: center;"><div style="margin-right: 10px;">
   <span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>`,
-  `<div><span>${point.series.name}</br>Value: ${point.y}`,
+  `<div><span>${point.series.name}</br>Value: ${formatNumber(point.y)}`,
 ];
 
 export function Inequalities({
@@ -128,7 +129,7 @@ export function Inequalities({
       dynamicKeys,
       type,
       showInequalitiesLineChartConfidenceIntervals,
-      generateInequalitiesLineChartTooltipStringList,
+      generateInequalitiesLineChartTooltipForPoint,
       {
         areasSelected,
         yAxisTitleText: 'Value',

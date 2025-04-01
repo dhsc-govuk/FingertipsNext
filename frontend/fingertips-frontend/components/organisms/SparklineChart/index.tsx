@@ -18,6 +18,7 @@ import {
 import { SparklineLabelEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
+import {formatNumber} from "@/lib/numberFormatter";
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -54,13 +55,13 @@ export const sparklineTooltipContent = (
 
   if (benchmarkOutcome === BenchmarkOutcome.Similar) {
     benchmarkLabel = `${outcome} to England`;
-    comparisonLabel = `(${comparison}%)`;
+    comparisonLabel = `(${formatNumber(comparison)}%)`;
   } else if (
     benchmarkOutcome &&
     benchmarkOutcome !== BenchmarkOutcome.NotCompared
   ) {
     benchmarkLabel = `${outcome} than England`;
-    comparisonLabel = `(${comparison}%)`;
+    comparisonLabel = `(${formatNumber(comparison)}%)`;
   }
 
   return { benchmarkLabel, category, comparisonLabel };
@@ -95,7 +96,7 @@ export function SparklineChart({
       );
 
     return [
-      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span><span> ${value}${measurementUnit}</span><br/><span>${benchmarkLabel}</span><br/><span>${comparisonLabel}</span>`,
+      `<b>${category}${area}</b><br/>${year}<br/><br/><span style="color:${point.color}">${symbol}</span><span> ${formatNumber(value[0])}${measurementUnit}</span><br/><span>${benchmarkLabel}</span><br/><span>${comparisonLabel}</span>`,
     ];
   };
 
