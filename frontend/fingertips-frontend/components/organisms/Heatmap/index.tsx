@@ -15,6 +15,7 @@ import {
 import { HeatmapHeader } from './heatmapHeader';
 import { HeatmapCell } from './heatmapCell';
 import { getTextColour, GovukColours } from '@/lib/styleHelpers/colours';
+import { BenchmarkLegend } from '../BenchmarkLegend';
 
 export interface HeatmapIndicatorData {
   indicatorId: string;
@@ -51,41 +52,44 @@ export function Heatmap({
   const rows = generateRows(areas, indicators, dataPoints);
 
   return (
-    <StyledDivTableContainer>
-      <StyledTable data-testid="heatmap-component">
-        <Table.Row>
-          {headers.map((header) => {
+    <>
+      <BenchmarkLegend />
+      <StyledDivTableContainer>
+        <StyledTable data-testid="heatmap-component">
+          <Table.Row>
+            {headers.map((header) => {
+              return (
+                <HeatmapHeader
+                  key={header.key}
+                  headerType={header.type}
+                  content={header.content}
+                />
+              );
+            })}
+          </Table.Row>
+          {rows.map((row) => {
             return (
-              <HeatmapHeader
-                key={header.key}
-                headerType={header.type}
-                content={header.content}
-              />
+              <Table.Row key={row.key}>
+                {row.cells.map((cell) => {
+                  return (
+                    <HeatmapCell
+                      key={cell.key}
+                      cellType={cell.type}
+                      content={cell.content}
+                      textColour={
+                        cell.backgroundColour
+                          ? getTextColour(cell.backgroundColour)
+                          : GovukColours.Black
+                      }
+                      backgroundColour={cell.backgroundColour}
+                    />
+                  );
+                })}
+              </Table.Row>
             );
           })}
-        </Table.Row>
-        {rows.map((row) => {
-          return (
-            <Table.Row key={row.key}>
-              {row.cells.map((cell) => {
-                return (
-                  <HeatmapCell
-                    key={cell.key}
-                    cellType={cell.type}
-                    content={cell.content}
-                    textColour={
-                      cell.backgroundColour
-                        ? getTextColour(cell.backgroundColour)
-                        : GovukColours.Black
-                    }
-                    backgroundColour={cell.backgroundColour}
-                  />
-                );
-              })}
-            </Table.Row>
-          );
-        })}
-      </StyledTable>
-    </StyledDivTableContainer>
+        </StyledTable>
+      </StyledDivTableContainer>
+    </>
   );
 }
