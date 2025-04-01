@@ -13,15 +13,17 @@ import {
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants'; 
+import { extractAndSortHealthData } from '@/lib/chartHelpers/extractAndSortHealthData';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { SpineChartProps } from '@/components/organisms/SpineChart';
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
   groupIndicatorData: HealthDataForArea[],
   englandIndicatorData: HealthDataForArea[],
-  indicatorMetadata: (IndicatorDocument | undefined)[]
+  indicatorMetadata: (IndicatorDocument | undefined)[],
+  benchmarkStatistics: SpineChartProps[],
 ): SpineChartTableProps {
   const numberOfIndicators = healthIndicatorData.length;
   const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
@@ -55,8 +57,7 @@ export function mapToSpineChartTableProps(
       indicatorHealthData: indicatorData,
       groupIndicatorData: groupIndicatorData[index],
       englandBenchmarkData: englandIndicatorData[index],
-      best: 100,
-      worst: 0,
+      benchmarkStatistics: benchmarkStatistics[index],
     };
 
     tableData[index] = row;
@@ -69,6 +70,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
   indicatorMetadata,
+  benchmarkStatistics,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -80,44 +82,17 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     throw new Error('Invalid parameters provided to view plot');
   }
 
-  const buildHeatmapIndicatorData = (
-    indicatorData: IndicatorWithHealthDataForArea[],
-    indicatorMetadata: IndicatorDocument[]
-  ): HeatmapIndicatorData[] => {
-    return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
-      return {
-        indicatorId: metadata.indicatorID,
-        indicatorName: metadata.indicatorName,
-        healthDataForAreas: indicatorData[index].areaHealthData
-          ? indicatorData[index].areaHealthData
-          : [],
-        unitLabel: metadata.unitLabel,
-      };
-    });
-  };
-
-  const groupAreaCode =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? selectedGroupCode
-      : undefined;
-
-  const buildSpineTableRowData = (
-    indicatorData: IndicatorWithHealthDataForArea[],
-    indicatorMetadata: IndicatorDocument[],
-    areasSelected: string[],
-    selectedGroupCode: string | undefined
-  ) => {
-    const {
-      orderedHealthData,
-      orderedGroupData,
-      orderedEnglandData,
-      orderedMetadata,
-    } = extractingCombinedHealthData(
-      indicatorData,
-      indicatorMetadata,
-      areasSelected,
-      selectedGroupCode
-    );
+  const {
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata,
+  } = extractingCombinedHealthData(
+    indicatorData,
+    indicatorMetadata,
+    areasSelected,
+    selectedGroupCode
+  );
 
     return mapToSpineChartTableProps(
       orderedHealthData,

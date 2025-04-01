@@ -1,3 +1,4 @@
+import { SpineChartProps } from '@/components/organisms/SpineChart';
 import {
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
@@ -10,9 +11,10 @@ type ExtractedHealthData = {
   orderedGroupData: HealthDataForArea[];
   orderedEnglandData: HealthDataForArea[];
   orderedMetadata: (IndicatorDocument | undefined)[];
+  orderedBenchmarkStatistics: SpineChartProps[];
 };
 
-export const extractingCombinedHealthData = (
+export const extractAndSortHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
   unsortedMetaData: (IndicatorDocument | undefined)[],
   areasSelected: string[],
@@ -30,6 +32,7 @@ export const extractingCombinedHealthData = (
   const orderedMetadata: (IndicatorDocument | undefined)[] = new Array(
     combinedIndicatorData.length
   );
+  const orderedBenchmarkStatistics: SpineChartProps[] = []
 
   combinedIndicatorData.forEach((indicator, index) => {
     if (!indicator.areaHealthData) {
@@ -74,5 +77,6 @@ export const extractingCombinedHealthData = (
     orderedGroupData,
     orderedEnglandData,
     orderedMetadata,
+    orderedBenchmarkStatistics,
   };
 };

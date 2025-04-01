@@ -13,6 +13,14 @@ import {
   maxNumAreasThatCanBeRequestedAPI,
 } from '@/lib/ViewsHelpers';
 
+export interface BenchmarkStatisticsProps {
+  indicatorId: string;
+  best: number;
+  percentile25th: number;
+  percentile75th: number;
+  worst: number;
+}
+
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
   selectedIndicatorsData,

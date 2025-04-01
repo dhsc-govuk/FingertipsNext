@@ -99,9 +99,20 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockBest = [1666, 22];
-
-  const mockWorst = [959, 100];
+  const mockBenchmarkStatistics = [
+    {
+      best: 1666,
+      percentile25th: 1000,
+      percentile75th: 969,
+      worst: 959,   
+    },
+    {
+      best: 22,
+      percentile25th: 40,
+      percentile75th: 60,
+      worst: 100,   
+    },
+  ]
 
   const mockTableData = [
     {
@@ -110,8 +121,7 @@ describe('Spine chart table suite', () => {
       indicatorHealthData: mockHealthData[0],
       groupIndicatorData: mockGroup[0],
       englandBenchmarkData: MOCK_HEALTH_DATA[0],
-      best: mockBest[0],
-      worst: mockWorst[0],
+      benchmarkStatistics: mockBenchmarkStatistics[0],
     },
     {
       indicator: mockIndicatorData[1],
@@ -119,8 +129,7 @@ describe('Spine chart table suite', () => {
       indicatorHealthData: mockHealthData[1],
       groupIndicatorData: mockGroup[1],
       englandBenchmarkData: MOCK_HEALTH_DATA[1],
-      best: mockBest[1],
-      worst: mockWorst[1],
+      benchmarkStatistics: mockBenchmarkStatistics[1],
     },
   ];
 
@@ -149,10 +158,14 @@ describe('Spine chart table suite', () => {
   describe('mapToSpineChartTableData', () => {
     it('should map to spine chart table row data', () => {
       const expectedRowData: SpineChartTableRowData[] = [
-        {
-          benchmarkBest: 1666,
+        { 
+          benchmarkStatistics: {
+            best: 1666,
+            percentile25th: 1000,
+            percentile75th: 969,
+            worst: 959,
+          },
           benchmarkValue: 890.305692,
-          benchmarkWorst: 959,
           count: 222,
           groupValue: 980.305692,
           indicator: 'Test indicator 1',
@@ -162,9 +175,13 @@ describe('Spine chart table suite', () => {
           value: 890.305692,
         },
         {
-          benchmarkBest: 22,
+          benchmarkStatistics: {
+            best: 22,
+            percentile25th: 40,
+            percentile75th: 60,
+            worst: 100,
+          },
           benchmarkValue: 135.149304,
-          benchmarkWorst: 100,
           count: 111,
           groupValue: 690.305692,
           indicator: 'Test indicator 2',
