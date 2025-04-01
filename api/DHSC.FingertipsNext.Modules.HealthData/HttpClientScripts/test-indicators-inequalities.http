@@ -3,12 +3,69 @@
 GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=deprivation&years=2016
 
 > {%
-    const expected = require ('./test-indicators-inequalities-deprivation_expected-response.json');
-
     client.test("Expected health data returned with deprivation inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
+        client.assert(response.body.areaHealthData[0].healthData.length == 21, "HealthData doesn't contain twenty-one records");
+
+        const expectedResults = [
+            { sequence: 10, value: "Most deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 9, value: "Second most deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 8, value: "Third more deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 7, value: "Fourth more deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence:6, value: "Fifth more deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 5, value: "Fifth less deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 4, value: "Fourth less deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 3, value: "Third less deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 2, value: "Second least deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 1, value: "Least deprived decile (IMD2019)",
+            type: "Counties and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+
+            { sequence: 10, value: "Most deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 9, value: "Second most deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 8, value: "Third more deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 7, value: "Fourth more deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence:6, value: "Fifth more deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 5, value: "Fifth less deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 4, value: "Fourth less deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 3, value: "Third less deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 2, value: "Second least deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+            { sequence: 1, value: "Least deprived decile (IMD2019)",
+            type: "Districts and Unitary Authorities deprivation deciles: Apr 2023 geography (Index of Multiple Deprivation 2019)", deprivationIsAggregate: false, isAggregate: false },
+
+            { sequence: 10, value: "All", type: "All", deprivationIsAggregate: true, isAggregate: true },
+        ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData[0]
+                .healthData.find(dataPoint => dataPoint.deprivation.sequence === expected.sequence
+                                              && dataPoint.deprivation.value === expected.value
+                                              && dataPoint.deprivation.type === expected.type
+                                              && dataPoint.deprivation.isAggregate === expected.deprivationIsAggregate
+                                              && dataPoint.isAggregate === expected.isAggregate
+                                ),
+                `HealthData doesn't contain a deprivation.sequence ${expected.sequence}, deprivation.value ${expected.value}, deprivation.type ${expected.type}, deprivation.isAggregate ${expected.deprivationIsAggregate} and isAggregate ${expected.isAggregate}`
+            );
+        });
     });
 %}
 
@@ -16,12 +73,24 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
 GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=sex&years=2016
 
 > {%
-    const expected = require ('./test-indicators-inequalities-sex_expected-response.json');
-
     client.test("Expected health data returned with sex inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
+        client.assert(response.body.areaHealthData[0].healthData.length == 3, "HealthData doesn't contain three records");
+
+        const expectedResults = [
+            {value: "Persons", isAggregate: true},
+            {value: "Male", isAggregate: false},
+            {value: "Female", isAggregate: false},
+        ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData[0]
+                .healthData.find(dataPoint => dataPoint.sex.value === expected.value && dataPoint.sex.isAggregate === expected.isAggregate),
+                `HealthData doesn't contain a sex with value ${expected.value} and isAggregate ${expected.isAggregate}`
+            );
+        });
     });
 %}
 
@@ -29,11 +98,42 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
 GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalities=age&years=2016
 
 > {%
-    const expected = require ('./test-indicators-inequalities-age_expected-response.json');
-
     client.test("Expected health data returned with age inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.length === expected.length, "Response length does not match");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
+        client.assert(response.body.areaHealthData[0].healthData.length == 20, "HealthData doesn't contain twenty records");
+
+        const expectedResults = [
+            {value: "All ages", ageIsAggregate: true, isAggregate: true},
+            {value: "0-4 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "5-9 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "15-19 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "20-24 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "25-29 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "30-34 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "35-39 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "40-44 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "45-49 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "50-54 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "55-59 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "60-64 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "65-69 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "70-74 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "75-79 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "80-84 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "85-89 yrs", ageIsAggregate: false, isAggregate: false},
+            {value: "90+ yrs", ageIsAggregate: false, isAggregate: false},
+        ];
+
+        expectedResults.forEach((expected) => {
+             client.assert(
+                response.body.areaHealthData[0]
+                .healthData.find(dataPoint => dataPoint.ageBand.value === expected.value
+                                              && dataPoint.ageBand.isAggregate === expected.ageIsAggregate
+                                              && dataPoint.isAggregate === expected.isAggregate
+                                ),
+                `HealthData doesn't contain an age.value ${expected.value}, age.isAggregate ${expected.ageIsAggregate} and isAggregate ${expected.isAggregate}`
+            );
+        });
     });
 %}
