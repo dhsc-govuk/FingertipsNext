@@ -118,11 +118,6 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       2
     );
 
-    const expected1 = {
-      areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
-      indicatorId: Number(testIndicators),
-    };
-
     const expected2 = {
       areaCodes: ['a', 'E92000001', 'G001'],
       indicatorId: Number(testIndicators),
