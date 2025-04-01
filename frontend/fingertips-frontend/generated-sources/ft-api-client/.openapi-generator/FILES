@@ -20,6 +20,7 @@ models/Indicator.ts
 models/IndicatorPolarity.ts
 models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
+models/QuartileData.ts
 models/RootArea.ts
 models/index.ts
 runtime.ts
