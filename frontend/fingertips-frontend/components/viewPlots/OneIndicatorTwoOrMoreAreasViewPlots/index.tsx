@@ -24,7 +24,10 @@ import {
 import { useState, useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorPolarity,
+  JSONApiResponse,
+} from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -53,7 +56,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.AreaTypeSelected]: areasTypeSelected,
   } = stateManager.getSearchState();
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const { benchmarkMethod, polarity } = indicatorData;
@@ -151,7 +153,6 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
         <ThematicMap
           healthIndicatorData={dataWithoutEnglandOrGroup}
           mapGeographyData={mapGeographyData}
-          areaType={areasTypeSelected as AreaTypeKeysForMapMeta}
           benchmarkComparisonMethod={
             benchmarkMethod ?? BenchmarkComparisonMethod.Unknown
           }
