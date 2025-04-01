@@ -274,7 +274,6 @@ public class IndicatorServiceTests
         areaResults.AreaCode.ShouldBeEquivalentTo(expectedAreaCode);
         areaResults.AreaName.ShouldBeEquivalentTo(expectedAreaName);
         areaResults.HealthData.Count().ShouldBe(6);
-        
         var personsResult2022 = areaResults.HealthData.ElementAt(0);
         personsResult2022.Sex.ShouldBeEquivalentTo(new Sex
         {
