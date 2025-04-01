@@ -183,15 +183,15 @@ namespace DataCreator
 
                 if (!matchingIndicator.HasMultipleDeprivation) //the associated indicator only has 1 deprivation value
                     healthMeasure.IsDeprivationAggregatedOrSingle = true;
-                else //the associated indicator has more than 1 deprivation, the health measure could be for 'All', or others. If it is 'All' set the flag to true, otherwise false
-                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "All";
+                else //the associated indicator has more than 1 deprivation, the health measure could be for 'England', or others. If it is 'England' set the flag to true, otherwise false
+                    healthMeasure.IsDeprivationAggregatedOrSingle = healthMeasure.CategoryType == "England";
             }
         }
 
         private static void CreateCategoryData(List<HealthMeasureEntity> healthMeasures)
         {
             var categoryData = new List<CategoryEntity>();
-            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "All"))
+            foreach (var healthMeasure in healthMeasures.Where(hm => hm.Category != "England"))
             {
                 healthMeasure.CategoryType = CleanCategoryTypeName(healthMeasure.CategoryType);
                 if (categoryData.FirstOrDefault(cd =>
@@ -205,7 +205,6 @@ namespace DataCreator
                         Sequence = CreateSequenceForCategory(healthMeasure.Category)
                     });
                 }
-                
             }
             //clean up the names and make GDS compliant - ticket 412
             DataFileManager.WriteCategoryCsvData("categories", categoryData);

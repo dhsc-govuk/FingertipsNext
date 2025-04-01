@@ -66,7 +66,7 @@ namespace DataCreator
         /// <returns></returns>
         public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, int yearFrom, Dictionary<string,string> areasDict)
         {
-            const string ALL = "All";
+            const string ENGLAND = "England";
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = @$"{InFilePath}\temp\{indicatorId}.csv";
             if (!File.Exists(filePath))
@@ -98,8 +98,8 @@ namespace DataCreator
                     continue;  //we only care about data that has a category type of decile or no category type
                 if (categoryType == string.Empty)
                 {
-                    categoryType = ALL;
-                    category = ALL;
+                    categoryType = ENGLAND;
+                    category = ENGLAND;
                 }
 
                 var age = split[8].Trim();

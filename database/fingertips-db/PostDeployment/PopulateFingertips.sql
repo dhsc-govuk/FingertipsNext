@@ -150,19 +150,19 @@ SET @sqlDeprivation = 'BULK INSERT #TempDeprivationData FROM ''' + @filePathDepr
 EXEC sp_executesql @sqlDeprivation;
 
 --manually insert the ALL deprivation value
-INSERT [dbo].[DeprivationDimension] 
+INSERT [dbo].[DeprivationDimension]
 (
     [Name],
     [Type],
     [HasValue],
     [Sequence]
-) 
-VALUES 
+)
+VALUES
 (
-    N'All',
-    N'All',
+    N'England',
+    N'England',
     0,
-    10
+    11
 )
 
 INSERT INTO [dbo].[DeprivationDimension] 
