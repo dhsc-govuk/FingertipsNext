@@ -30,5 +30,5 @@ export type MultiIndicatorViewPlotProps = {
 export type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
   searchState: SearchStateParams;
-  indicatorMetadata?: (IndicatorDocument | undefined)[];
+  indicatorMetadata: (IndicatorDocument | undefined)[];
 };

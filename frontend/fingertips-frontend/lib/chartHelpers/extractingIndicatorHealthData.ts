@@ -12,7 +12,7 @@ type ExtractedIndicatorHealthData = {
 
 export const extractingIndicatorHealthData = (
   combinedIndicatorData: IndicatorWithHealthDataForArea[],
-  unsortedMetaData: (IndicatorDocument | undefined)[] | undefined,
+  unsortedMetaData: (IndicatorDocument | undefined)[],
 ): ExtractedIndicatorHealthData => {
   
   const orderedEnglandData: HealthDataForArea[] = new Array(
@@ -44,6 +44,9 @@ export const extractingIndicatorHealthData = (
         Number(indicatorMetaData?.indicatorID) === indicator.indicatorId
     );
   });
+  
+  console.log(orderedEnglandData);
+  console.log(orderedMetadata);
 
   return {
     orderedEnglandData,

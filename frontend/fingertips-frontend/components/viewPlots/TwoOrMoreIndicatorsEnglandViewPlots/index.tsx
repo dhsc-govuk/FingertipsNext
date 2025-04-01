@@ -1,16 +1,11 @@
 'use client';
 
-import { H2 } from 'govuk-react';
 import { TwoOrMoreIndicatorsEnglandViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import {
+  EnglandAreaTypeIndicatorData,
   EnglandAreaTypeTable,
 } from '@/components/organisms/EnglandAreaTypeTable';
-import { extractingIndicatorHealthData } from '@/lib/chartHelpers/extractingIndicatorHealthData';
-import {
-  Indicator,
-} from '@/generated-sources/ft-api-client';
-
 
 export function TwoOrMoreIndicatorsEnglandViewPlots({
   indicatorData,
@@ -23,34 +18,38 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
   } = stateManager.getSearchState();
 
-  const { orderedEnglandData, orderedMetadata } =
-    extractingIndicatorHealthData(
-      indicatorData,
-      indicatorMetadata,
-    );
+  // const { orderedEnglandData, orderedMetadata } =
+  //   extractingIndicatorHealthData(
+  //     indicatorData,
+  //     indicatorMetadata,
+  //   );
   
 // console.log('orderedMetadata',orderedMetadata)
-//   console.log('orderedEnglandData',orderedEnglandData)
-//   console.log('indicatorData',indicatorData)
-//   console.log('indicatorMetadata',indicatorMetadata)
+// console.log('orderedEnglandData',orderedEnglandData)
+  console.log('indicatorData',indicatorData)
+  console.log('indicatorMetadata',indicatorMetadata)
 //   console.log('searchState',searchState)
   
-  const indicatorInfo: (Indicator | undefined)[] =  orderedMetadata.map((item) => ({
-    indicatorId: item?.indicatorID,
-    title: item?.indicatorName,
-    definition: item?.indicatorDefinition
-  }));
 
-console.log('indicatorInfo',indicatorInfo)
-
-  const measurementUnit =
-    orderedMetadata.map((item) => (
-       item?.unitLabel
-    ));
+  
+  const englandIndicatorData: EnglandAreaTypeIndicatorData[] = indicatorData.map((indicator) =>{
+    const metaDataForIndicator = indicatorMetadata.find((indicatorMeta) => indicatorMeta?.indicatorID === indicator.indicatorId?.toString())
+    const latestPeriod = metaDataForIndicator?.latestDataPeriod
+    const latestData = indicator.areaHealthData?.[0].healthData?.find((item) => item.year.toString() === latestPeriod )
+    console.log('metaDataForIndicator',metaDataForIndicator)
+    console.log('latestEnglandHealthData',latestData)
+    return {
+      indicatorId: indicator.indicatorId,
+      indicatorName: indicator.name,
+      period: latestPeriod,
+      latestEnglandHealthData: latestData,
+      unitLabel: metaDataForIndicator?.unitLabel
+    }
+  })
 
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
-      <EnglandAreaTypeTable englandBenchmarkData={orderedEnglandData} indicator={indicatorInfo} measurementUnit={measurementUnit} />
+      <EnglandAreaTypeTable indicator={englandIndicatorData} />
     </section>
   );
 }

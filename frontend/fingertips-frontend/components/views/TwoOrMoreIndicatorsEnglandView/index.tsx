@@ -12,7 +12,6 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default async function TwoOrMoreIndicatorsEnglandView({
-  selectedIndicatorsData,
   searchState,
 }: Readonly<ViewProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
@@ -51,8 +50,10 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
+  
+  console.log('combinedIndicatorData', combinedIndicatorData)
 
-  let indicatorMetadata: (IndicatorDocument | undefined)[];
+  let indicatorMetadata: (IndicatorDocument | undefined)[] = [];
   try {
     const promises = indicatorsSelected.map((indicator) => {
       return SearchServiceFactory.getIndicatorSearchService().getIndicator(
@@ -65,7 +66,8 @@ export default async function TwoOrMoreIndicatorsEnglandView({
     console.error('error getting health indicator data for areas', error);
     throw new Error('error getting health indicator data for areas');
   }
-
+  console.log('indicatorMetadata', indicatorMetadata)
+  
   console.log('TODO: fetch health data with inequalites');
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 

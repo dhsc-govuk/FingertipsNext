@@ -1,19 +1,15 @@
 'use client';
 
 import {
-  HealthDataForArea,
+  HealthDataForArea, type HealthDataPoint,
   Indicator,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
-import { BarChartEmbeddedTableHeadingEnum } from '@/components/organisms/BarChartEmbeddedTable';
 import React from 'react';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { CheckValueInTableCell } from '@/components/molecules/CheckValueInTableCell';
 import {
   latestSingleHealthDataPoint,
   sortHealthDataByYearDescending,
-  sortHealthDataByYearDescending1,
-  sortHealthDataPointsByDescendingYear,
 } from '@/lib/chartHelpers/chartHelpers';
 
 export enum EnglandAreaTypeTableEnum {
@@ -25,39 +21,45 @@ export enum EnglandAreaTypeTableEnum {
   RecentTrend = 'Recent trend',
 }
 
+export interface EnglandAreaTypeIndicatorData {
+  indicatorId: number | undefined;
+  indicatorName: string | undefined;
+  period: string | undefined;
+  latestEnglandHealthData: HealthDataPoint | undefined;
+  unitLabel: string | undefined;
+}
+
 export interface EnglandAreaTypeTableProps {
-  indicator: (Indicator | undefined)[];
-  measurementUnit: (string | undefined) [];
-  englandBenchmarkData: HealthDataForArea[];
+  indicator: EnglandAreaTypeIndicatorData[];
+  // englandBenchmarkData: HealthDataForArea[];
 }
 export function EnglandAreaTypeTable({
   indicator,
-  englandBenchmarkData,
-  measurementUnit,
+  // englandBenchmarkData,
 }: Readonly<EnglandAreaTypeTableProps>) {
   
   console.log('EnglandAreaTypeTableIndicator', indicator);
-  console.log('EnglandAreaTypeTableenglandBenchmarkData', englandBenchmarkData);
-  console.log('EnglandAreaTypeTablemeasurementUnit', measurementUnit);
+  // console.log('EnglandAreaTypeTableenglandBenchmarkData', englandBenchmarkData);
   
-  const orderedEnglandBenchmarkData =  sortHealthDataByYearDescending(englandBenchmarkData)
-  console.log('ordered', orderedEnglandBenchmarkData);
-  const sortedEnglandBenchmarkData = latestSingleHealthDataPoint(orderedEnglandBenchmarkData)
-  console.log('sort', sortedEnglandBenchmarkData)
+  // const orderedEnglandBenchmarkData =  sortHealthDataByYearDescending(englandBenchmarkData)
+  // console.log('ordered', orderedEnglandBenchmarkData);
+  // const sortedEnglandBenchmarkData = latestSingleHealthDataPoint(orderedEnglandBenchmarkData)
+  // console.log('sort', sortedEnglandBenchmarkData)
   
-  const mappedSortedEnglandBenchmarkData = sortedEnglandBenchmarkData.map((item) => ({
-    period: item.healthData[0].year,
-    count: item.healthData[0].count,
-    value: item.healthData[0].value,
-    trend: item.healthData[0].trend,
-  }))
+  // const mappedSortedEnglandBenchmarkData = sortedEnglandBenchmarkData.map((item) => ({
+  //   period: item.healthData[0].year,
+  //   count: item.healthData[0].count,
+  //   value: item.healthData[0].value,
+  //   trend: item.healthData[0].trend,
+  // }))
   
   
-  //loop through array
-  // check if there is data
-  // if data then loop through the health data points
-  // order from latest to oldest 
-  // return the first data point (latest)
+  // const rowData = indicator.map((item, index) => {
+  //   return mappedSortedEnglandBenchmarkData[index] || []
+  // });
+  //
+  
+  
   
   return (
     <div data-testid={'EnglandAreaTypeTable-component'}>
@@ -92,24 +94,18 @@ export function EnglandAreaTypeTable({
             </Table.Row>
           </React.Fragment>
         }>
+        
         {indicator.map((item, index) => (
             <Table.Row>
-              <CheckValueInTableCell value={item?.title}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.indicatorName}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.period}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.latestEnglandHealthData?.count}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.unitLabel}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.latestEnglandHealthData?.value}></CheckValueInTableCell>
+              <CheckValueInTableCell value={item?.latestEnglandHealthData?.trend}></CheckValueInTableCell>
             </Table.Row>
           ))
         }
-
-        {mappedSortedEnglandBenchmarkData.map((item, index) => (
-          <Table.Row>
-            <CheckValueInTableCell value={item.period}></CheckValueInTableCell>
-          </Table.Row>
-        ))}
-
-
-
-
-
-
 
       </Table>
     </div>
