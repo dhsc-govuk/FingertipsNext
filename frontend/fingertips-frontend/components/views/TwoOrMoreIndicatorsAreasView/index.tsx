@@ -1,4 +1,4 @@
-import { TwoOrMoreIndicatorsAreasViewPlots } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
+import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -87,9 +87,10 @@ export default async function TwoOrMoreIndicatorsAreasView({
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
-    <TwoOrMoreIndicatorsAreasViewPlots
-      indicatorMetadata={indicatorMetadata}
-      healthData={healthDataForAllIndicators}
+    <TwoOrMoreIndicatorsAreasViewPlot
+      searchState={searchState}
+      indicatorData={combinedIndicatorData}
+      indicatorMetadata={selectedIndicatorsData}
       groupAreaCode={groupAreaCode}
     />
   );

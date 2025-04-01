@@ -2,19 +2,18 @@
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SpineChartTableProps,
   SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import {
-  HealthDataForArea,
-  Indicator,
-} from '@/generated-sources/ft-api-client';
+import { Indicator } from '@/generated-sources/ft-api-client';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
 export function mapToSpineChartTableProps(
@@ -69,6 +68,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
   indicatorMetadata,
+  groupAreaCode,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -99,10 +99,29 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     orderedMetadata
   );
 
+  const buildHeatmapIndicatorData = (
+    indicatorData: IndicatorWithHealthDataForArea[],
+    indicatorMetadata: IndicatorDocument[]
+  ): HeatmapIndicatorData[] => {
+    return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
+      return {
+        indicatorId: metadata.indicatorID,
+        indicatorName: metadata.indicatorName,
+        healthDataForAreas: indicatorData[index].areaHealthData
+          ? indicatorData[index].areaHealthData
+          : [],
+        unitLabel: metadata.unitLabel,
+      };
+    });
+  };
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <Heatmap
-        indicatorData={buildHeatmapIndicatorData(indicatorMetadata, healthData)}
+        indicatorData={buildHeatmapIndicatorData(
+          indicatorData,
+          indicatorMetadata
+        )}
         groupAreaCode={groupAreaCode}
       />
       <SpineChartTable rowData={spineTableData.rowData} />
