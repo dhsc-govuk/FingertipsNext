@@ -30,7 +30,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
             client.assert(area.healthData.length === responseArea.healthData.length, `Area ${area.areaCode} expected to have ${area.healthData.length} but has ${responseArea.healthData.length}`);
             client.assert(responseArea, `Could not find matching response Area ${area.areaCode}`);
             area.healthData.forEach((dataPoint)=> {
-                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.year === dataPoint.year) && (rspData.sex === dataPoint.sex)));
+                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.year === dataPoint.year) && (rspData.sex.value === dataPoint.sex.value)));
                 client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.year} : ${dataPoint.sex}`);
                 client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
             })

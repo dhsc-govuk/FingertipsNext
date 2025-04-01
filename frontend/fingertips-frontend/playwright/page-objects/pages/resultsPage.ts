@@ -3,11 +3,14 @@ import { expect } from '../pageFactory';
 import {
   IndicatorMode,
   returnIndicatorIDsByIndicatorMode,
+  SearchMode,
 } from '@/playwright/testHelpers';
 import AreaFilter from '../components/areaFilter';
+import { getIndicatorNameById } from '../../testHelpers';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export default class ResultsPage extends AreaFilter {
-  readonly resultsText = 'Search results for';
+  readonly resultsText = 'Search results';
   readonly backLink = 'search-results-back-link';
   readonly searchResult = 'search-result';
   readonly indicatorCheckboxPrefix = 'search-results-indicator';
@@ -27,6 +30,7 @@ export default class ResultsPage extends AreaFilter {
   readonly pillContainer = 'pill-container';
   readonly filterName = 'filter-name';
   readonly removeIcon = 'x-icon';
+  readonly viewBackgroundInfoLink = 'view-background-info-link';
 
   async navigateToResults(
     searchIndicator: string,
@@ -45,8 +49,28 @@ export default class ResultsPage extends AreaFilter {
 
   async checkSearchResultsTitle(searchTerm: string) {
     await expect(
-      this.page.getByText(this.resultsText + ` ${searchTerm}`)
+      this.page.getByText(this.resultsText + ` for ${searchTerm}`)
     ).toBeVisible();
+  }
+
+  async checkSearchResultsTitleBasedOnSearchMode(
+    searchMode: SearchMode,
+    searchTerm: string
+  ) {
+    const heading = this.page.getByRole('heading', { level: 1 });
+    if (searchMode === SearchMode.ONLY_SUBJECT) {
+      await expect(heading).toContainText(
+        this.resultsText + ` for ${searchTerm}`
+      );
+    }
+    if (searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) {
+      await expect(heading).toContainText(
+        this.resultsText + ` for ${searchTerm}`
+      );
+    }
+    if (searchMode === SearchMode.ONLY_AREA) {
+      await expect(heading).toContainText(this.resultsText);
+    }
   }
 
   async clickBackLink() {
@@ -243,6 +267,23 @@ export default class ResultsPage extends AreaFilter {
   async verifyUrlUpdatedAfterDeselection(deselectedIndicator: string) {
     await expect(this.page).not.toHaveURL(
       new RegExp(`&is=${deselectedIndicator}`)
+    );
+  }
+
+  async clickViewBackgroundInformationLinkForIndicator(
+    indicatorId: string,
+    typedIndicatorData: IndicatorDocument[]
+  ) {
+    const indicatorName = getIndicatorNameById(indicatorId, typedIndicatorData);
+    if (!indicatorName) {
+      throw new Error(`Indicator with ID ${indicatorId} not found`);
+    }
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(this.pillContainer)
+        .getByText(indicatorName)
+        .getByRole('link', { name: 'View background information' })
     );
   }
 }

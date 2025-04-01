@@ -224,7 +224,7 @@ exports[`snapshot test 1`] = `
   >
     <table
       class="c1 c2"
-      data-testid="heatmap-component"
+      data-testid="heatmapChart-component"
     >
       <tbody
         class=""

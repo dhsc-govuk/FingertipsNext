@@ -4,6 +4,7 @@
 
 import {
   BenchmarkComparisonMethod,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorPolarity,
   IndicatorsApi,
 } from '@/generated-sources/ft-api-client';
@@ -69,7 +70,10 @@ describe('OneIndicatorOneAreaView', () => {
         {
           areaCodes: expectedAreaCodes,
           indicatorId: 1,
-          inequalities: ['sex'],
+          inequalities: [
+            GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+            GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+          ],
         },
         API_CACHE_CONFIG
       );

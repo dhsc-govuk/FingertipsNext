@@ -74,12 +74,15 @@ export default class ChartPage extends AreaFilter {
       indicatorMode,
       areaMode
     );
-    console.log(
-      `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart components: ${visibleComponents} are displayed and that`,
-      `chart components: ${hiddenComponents} are not displayed. Also checking the visible components via screenshot snapshot testing.`
+    // click the hide filters pane before asserting visibility and taking screenshots
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId('area-filter-pane-hidefilters')
     );
     // Check that components expected to be visible are displayed
     for (const visibleComponent of visibleComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${visibleComponent.componentLocator} is displayed.`
+      );
       // click tab to view the table view if checking a none embedded table component
       if (visibleComponent.componentProps.isTabTable) {
         await this.clickAndAwaitLoadingComplete(
@@ -96,6 +99,15 @@ export default class ChartPage extends AreaFilter {
           )
         );
       }
+      // if its one of the chart components that has a details expander then click it
+      if (visibleComponent.componentProps.hasDetailsExpander) {
+        await this.clickAndAwaitLoadingComplete(
+          this.page
+            .getByTestId('oneIndicatorOneAreaViewPlot-component')
+            .locator('summary')
+            .getByText('Population data')
+        );
+      }
       await expect(
         this.page.getByTestId(visibleComponent.componentLocator)
       ).toBeVisible({
@@ -104,7 +116,7 @@ export default class ChartPage extends AreaFilter {
 
       // screenshot snapshot comparisons are skipped when running against deployed azure environments
       console.log(
-        `checking component:${visibleComponent} for unexpected visual changes - see directory README.md for details.`
+        `checking component:${visibleComponent.componentLocator} for unexpected visual changes - see directory README.md for details.`
       );
       await this.page.waitForLoadState();
       await expect(this.page.getByText('Loading')).toHaveCount(0);
@@ -127,6 +139,9 @@ export default class ChartPage extends AreaFilter {
 
     // Check that components expected not to be visible are not displayed
     for (const hiddenComponent of hiddenComponents) {
+      console.log(
+        `for indicator mode: ${indicatorMode} + area mode: ${areaMode} - checking that chart component: ${hiddenComponent.componentLocator} is not displayed.`
+      );
       await expect(
         this.page.getByTestId(hiddenComponent.componentLocator)
       ).toBeVisible({

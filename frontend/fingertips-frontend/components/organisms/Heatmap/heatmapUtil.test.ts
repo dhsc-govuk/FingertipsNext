@@ -10,6 +10,7 @@ import {
   HeaderType,
 } from './heatmapUtil';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
 describe('generate headers and rows', () => {
   const groupAreaCode = 'groupAreaCode';
@@ -131,14 +132,10 @@ const newHealthDataPoint = ({
   return {
     year: year,
     value: value,
-    ageBand: '',
-    sex: '',
+    ageBand: allAgesAge,
+    sex: personsSex,
     trend: 'Not yet calculated',
-    deprivation: {
-      sequence: 0,
-      value: '',
-      type: '',
-    },
+    deprivation: noDeprivation,
   };
 };
 
