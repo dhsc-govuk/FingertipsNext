@@ -129,16 +129,16 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   padding: 0.625em 0;
 }
 
-.c14 {
+.c13 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c15 {
+.c14 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
-  width: 16%;
+  vertical-align: top;
 }
 
 .c22 {
@@ -222,21 +222,20 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   border-collapse: separate;
 }
 
-.c13 {
-  width: 10%;
-  padding: 1em 0;
+.c16 {
+  border-top: solid #F3F2F1 2px;
   text-align: center;
 }
 
 .c19 {
-  width: 27%;
   padding-left: 0.5em;
 }
 
 .c17 {
-  width: 22%;
   padding: 0.5em;
   text-align: center;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 .c7 {
@@ -254,6 +253,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   align-items: center;
   gap: 8px;
   padding-left: 8px;
+  white-space: nowrap;
 }
 
 .c20 {
@@ -267,6 +267,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   background-color: #FFFFFF;
   z-index: 10;
   border-right: solid black 1px;
+  padding-right: 0.5em;
 }
 
 .c18 {
@@ -276,6 +277,7 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   background-color: #FFFFFF;
   z-index: 10;
   border-right: solid black 1px;
+  padding-right: 0.5em;
 }
 
 .c29 {
@@ -284,14 +286,18 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
   right: 0;
   z-index: 10;
   border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
 }
 
-.c16 {
+.c15 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
   z-index: 10;
   border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
 }
 
 .c6 {
@@ -426,12 +432,15 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
         >
           <th
             class="c3 c4 c5 c6"
+          />
+          <th
+            class="c3 c4 c5 c6"
             colspan="5"
           >
             <div
               class="c7"
             >
-              Recent trend: 
+              Recent trend:
               <div
                 data-testid="trendTag-container"
               >
@@ -456,6 +465,9 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
               </div>
             </div>
           </th>
+          <th
+            class="c3 c4 c13 c14 c15"
+          />
         </tr>
         <tr
           class=""
@@ -464,13 +476,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c3"
           />
           <th
-            class="c3 c4 c5 c13"
+            class="c3 c4 c5 c16"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c13 c14 c15"
             data-testid="england-header"
           >
             Benchmark: 
@@ -489,10 +501,14 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             class="c3 c4 c5 c17"
             colspan="2"
           >
-            95% confidence limits
+            95%
+            <br />
+            confidence
+            <br />
+            limits
           </th>
           <th
-            class="c3 c4 c14 c15"
+            class="c3 c4 c13 c14 c15"
           />
         </tr>
         <tr
@@ -511,13 +527,13 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             Compared to benchmark
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Count-0"
           >
             Count
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Value-0"
           >
             Value
@@ -528,19 +544,19 @@ exports[`Line chart table suite 1 Indicator, 1 Area snapshot test - should match
             </span>
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Upper-0"
           >
             Upper
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c13 c14 c15"
             data-testid="header-benchmark-value"
           >
             Value  
@@ -778,16 +794,16 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   padding: 0.625em 0;
 }
 
-.c14 {
+.c13 {
   text-align: right;
   padding-right: 10px;
   vertical-align: top;
 }
 
-.c15 {
+.c14 {
   background-color: #B1B4B6;
   border-top: solid #F3F2F1 2px;
-  width: 16%;
+  vertical-align: top;
 }
 
 .c23 {
@@ -871,26 +887,24 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   border-collapse: separate;
 }
 
-.c13 {
-  width: 10%;
-  padding: 1em 0;
+.c16 {
+  border-top: solid #F3F2F1 2px;
   text-align: center;
 }
 
 .c19 {
-  width: 27%;
   padding-left: 0.5em;
 }
 
 .c21 {
   border-left: solid black 1px;
-  width: 18%;
 }
 
 .c17 {
-  width: 22%;
   padding: 0.5em;
   text-align: center;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 .c7 {
@@ -908,6 +922,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   align-items: center;
   gap: 8px;
   padding-left: 8px;
+  white-space: nowrap;
 }
 
 .c29 {
@@ -925,6 +940,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   background-color: #FFFFFF;
   z-index: 10;
   border-right: solid black 1px;
+  padding-right: 0.5em;
 }
 
 .c18 {
@@ -934,6 +950,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   background-color: #FFFFFF;
   z-index: 10;
   border-right: solid black 1px;
+  padding-right: 0.5em;
 }
 
 .c31 {
@@ -942,14 +959,18 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
   right: 0;
   z-index: 10;
   border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
 }
 
-.c16 {
+.c15 {
   position: -webkit-sticky;
   position: sticky;
   right: 0;
   z-index: 10;
   border-left: solid black 1px;
+  padding-left: 0.5em;
+  padding-right: 0.5em !important;
 }
 
 .c6 {
@@ -1092,7 +1113,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <div
               class="c7"
             >
-              Recent trend: 
+              Recent trend:
               <div
                 data-testid="trendTag-container"
               >
@@ -1124,7 +1145,7 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             <div
               class="c7"
             >
-              Recent trend: 
+              Recent trend:
               <div
                 data-testid="trendTag-container"
               >
@@ -1149,6 +1170,9 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
               </div>
             </div>
           </th>
+          <th
+            class="c3 c4 c13 c14 c15"
+          />
         </tr>
         <tr
           class=""
@@ -1157,19 +1181,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c3"
           />
           <th
-            class="c3 c4 c5 c13"
+            class="c3 c4 c5 c16"
             colspan="5"
           >
             Greater Manchester ICB - 00T
           </th>
           <th
-            class="c3 c4 c5 c13"
+            class="c3 c4 c5 c16"
             colspan="5"
           >
             South FooBar
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c13 c14 c15"
             data-testid="england-header"
           >
             Benchmark: 
@@ -1188,7 +1212,11 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c3 c4 c5 c17"
             colspan="2"
           >
-            95% confidence limits
+            95%
+            <br />
+            confidence
+            <br />
+            limits
           </th>
           <th
             class="c3"
@@ -1198,10 +1226,14 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             class="c3 c4 c5 c17"
             colspan="2"
           >
-            95% confidence limits
+            95%
+            <br />
+            confidence
+            <br />
+            limits
           </th>
           <th
-            class="c3 c4 c14 c15"
+            class="c3 c4 c13 c14 c15"
           />
         </tr>
         <tr
@@ -1220,13 +1252,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Compared to benchmark
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Count-0"
           >
             Count
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Value-0"
           >
             Value
@@ -1237,13 +1269,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             </span>
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Lower-0"
           >
             Lower
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Upper-0"
           >
             Upper
@@ -1255,13 +1287,13 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             Compared to benchmark
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Count-1"
           >
             Count
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Value-1"
           >
             Value
@@ -1272,19 +1304,19 @@ exports[`Line chart table suite 1 Indicator, 2 Areas snapshot test - should matc
             </span>
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Lower-1"
           >
             Lower
           </th>
           <th
-            class="c3 c4 c14"
+            class="c3 c4 c13"
             data-testid="header-Upper-1"
           >
             Upper
           </th>
           <th
-            class="c3 5 c4 c14 c15 c16"
+            class="c3 c4 c13 c14 c15"
             data-testid="header-benchmark-value"
           >
             Value  

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import {
   LineChartTable,
@@ -117,13 +117,19 @@ describe('Line chart table suite', () => {
       );
 
       expect(screen.getByRole('table')).toBeInTheDocument();
-      expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        'Recent trend: No trend data available'
-      );
-      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        mockHealthData[0].areaName
-      );
-      expect(screen.getByText(/95% confidence limits/i)).toBeInTheDocument();
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(6);
+      expect(
+        within(rows[0]).getByText('No trend data available')
+      ).toBeInTheDocument();
+
+      expect(
+        within(rows[1]).getByText(mockHealthData[0].areaName)
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByText(/95\s*%\s*confidence\s*limits/i)
+      ).toBeInTheDocument();
       expect(screen.getByText(/England/i)).toBeInTheDocument();
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * CELLS_PER_ROW
@@ -147,10 +153,12 @@ describe('Line chart table suite', () => {
         />
       );
 
-      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[3]).toHaveTextContent(
         'England'
       );
-      expect(screen.getByText(/99.8% confidence limits/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/99.8%\s*confidence\s*limits/i)
+      ).toBeInTheDocument();
     });
 
     it('should have grey cell color for benchmark column', () => {
@@ -218,9 +226,7 @@ describe('Line chart table suite', () => {
 
       // Right-facing arrow for the 'no significant change' trend
       expect(screen.getByTestId('arrow-right')).toBeVisible();
-      expect(screen.getAllByRole('columnheader')[0]).toHaveTextContent(
-        'Recent trend: No significant change'
-      );
+      expect(screen.getByText('No significant change')).toBeInTheDocument();
     });
   });
 
@@ -253,20 +259,20 @@ describe('Line chart table suite', () => {
         />
       );
 
+      const rows = screen.getAllByRole('row');
       expect(screen.getByRole('table')).toBeInTheDocument();
-      expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        'Recent trend: No trend data available'
-      );
-      expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        'Recent trend: No trend data available'
-      );
-      expect(screen.getAllByRole('columnheader')[4]).toHaveTextContent(
-        mockHealthData[0].areaName
-      );
-      expect(screen.getAllByRole('columnheader')[5]).toHaveTextContent(
-        mockHealthData[1].areaName
-      );
-      expect(screen.getAllByText(/95% confidence limits/i)).toHaveLength(2);
+      expect(
+        within(rows[0]).getAllByText('No trend data available')
+      ).toHaveLength(2);
+      expect(
+        within(rows[1]).getByText(mockHealthData[0].areaName)
+      ).toBeInTheDocument();
+
+      expect(
+        within(rows[1]).getByText(mockHealthData[1].areaName)
+      ).toBeInTheDocument();
+
+      expect(screen.getAllByText(/95%\s*confidence\s*limits/i)).toHaveLength(2);
       expect(screen.getByText(/England/i)).toBeInTheDocument();
       expect(screen.getAllByRole('cell')).toHaveLength(
         mockHealthData[0].healthData.length * CELLS_PER_ROW
@@ -324,10 +330,10 @@ describe('Line chart table suite', () => {
       expect(screen.getAllByTestId('arrow-up')).toHaveLength(1);
 
       expect(screen.getAllByRole('columnheader')[1]).toHaveTextContent(
-        'Recent trend: No significant change'
+        'Recent trend:No significant change'
       );
       expect(screen.getAllByRole('columnheader')[2]).toHaveTextContent(
-        'Recent trend: Increasing and getting worse'
+        'Recent trend:Increasing and getting worse'
       );
     });
   });
@@ -342,7 +348,8 @@ describe('Line chart table suite', () => {
           measurementUnit="%"
         />
       );
-      expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
+
+      expect(screen.getAllByRole('columnheader')[8]).toHaveTextContent(
         MOCK_PARENT_DATA.areaName
       );
     });
@@ -354,7 +361,7 @@ describe('Line chart table suite', () => {
           measurementUnit="%"
         />
       );
-      expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
+      expect(screen.getAllByRole('columnheader')[7]).toHaveTextContent(
         MOCK_ENGLAND_DATA.areaName
       );
     });

@@ -56,17 +56,17 @@ const StyledTable = styled(Table)({
 });
 
 const StyledAreaNameHeader = styled(StyledAlignLeftHeader)({
-  width: '10%',
-  padding: '1em 0',
+  borderTop: `solid #F3F2F1 2px`, // aligns top to match grey heading cells
   textAlign: 'center',
 });
 
 const StyledGroupNameHeader = styled(StyledAreaNameHeader)({
   background: GovukColours.LightGrey,
+  paddingRight: '0.5em',
+  paddingLeft: '0.5em',
 });
 
 const StyledBenchmarkTrendHeader = styled(StyledAlignLeftHeader)({
-  width: '27%',
   paddingLeft: '0.5em',
 });
 
@@ -74,21 +74,22 @@ const StyledBenchmarkTrendHeaderMultipleAreas = styled(
   StyledBenchmarkTrendHeader
 )({
   borderLeft: 'solid black 1px',
-  width: '18%',
 });
 
 const StyledConfidenceLimitsHeader = styled(StyledAlignLeftHeader)({
-  width: '22%',
   padding: '0.5em',
   textAlign: 'center',
+  verticalAlign: 'top',
+  whiteSpace: 'nowrap',
 });
 
-const StyledDivContainer = styled('div')({
+const StyledTrendContainer = styled('div')({
   display: 'flex',
   justifyContent: 'left',
   alignItems: 'center',
   gap: 8,
   paddingLeft: 8,
+  whiteSpace: 'nowrap',
 });
 
 const StyledLightGreyHeader = styled(StyledGreyHeader)({
@@ -98,13 +99,14 @@ const StyledLightGreyHeader = styled(StyledGreyHeader)({
 
 const StyledLightGreySubHeader = styled(StyledLightGreyHeader)({
   borderLeft: 'solid black 1px',
+  paddingLeft: '0.5em',
 });
 
 const StyledBenchmarkCellMultipleAreas = styled(StyledAlignLeftTableCell)({
   borderLeft: 'solid black 1px',
 });
 
-const StylesGroupValueTableCell = styled(StyledAlignRightTableCell)({
+const StyledGroupValueTableCell = styled(StyledAlignRightTableCell)({
   backgroundColor: GovukColours.LightGrey,
   borderLeft: `solid black 1px`,
 });
@@ -119,6 +121,7 @@ const stickyLeft = {
   backgroundColor: GovukColours.White,
   zIndex: 10,
   borderRight: 'solid black 1px',
+  paddingRight: '0.5em',
 };
 
 const stickyRight = {
@@ -126,6 +129,8 @@ const stickyRight = {
   right: 0,
   zIndex: 10,
   borderLeft: 'solid black 1px',
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em !important', // overrides the :last-child declaration which removes right padding
 };
 
 const StyledAlignLeftStickyTableCell = styled(StyledAlignLeftTableCell)(
@@ -222,7 +227,7 @@ export const mapToLineChartTableData = (
     benchmarkComparison: healthPoint.benchmarkComparison,
   }));
 
-const StyledTitleRow = styled(StyledAlignLeftHeader)({
+const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',
 });
 const StyledDivWithScrolling = styled('div')({
@@ -271,21 +276,21 @@ export function LineChartTable({
         head={
           <>
             <Table.Row>
-              {healthIndicatorData.length > 1 ? (
-                <StyledTitleRow></StyledTitleRow>
-              ) : null}
+              <StyledTitleCell />
               {healthIndicatorData.map((area, index) => (
-                <StyledTitleRow colSpan={5} key={area.areaName + index}>
-                  <StyledDivContainer>
-                    {'Recent trend: '}
+                <StyledTitleCell colSpan={5} key={area.areaName + index}>
+                  <StyledTrendContainer>
+                    Recent trend:
                     <TrendTag
                       trendFromResponse={
                         area.healthData[area.healthData.length - 1].trend
                       }
                     />
-                  </StyledDivContainer>
-                </StyledTitleRow>
+                  </StyledTrendContainer>
+                </StyledTitleCell>
               ))}
+              {groupIndicatorData ? <StyledTitleCell /> : null}
+              {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
             </Table.Row>
             <Table.Row>
               <Table.CellHeader />
@@ -311,14 +316,17 @@ export function LineChartTable({
                   <React.Fragment key={area.areaName}>
                     <Table.CellHeader
                       colSpan={getConfidenceLimitCellSpan(index)}
-                    ></Table.CellHeader>
+                    />
                     <StyledConfidenceLimitsHeader colSpan={2}>
-                      {confidenceLimit}% confidence limits
+                      {confidenceLimit}%<br />
+                      confidence
+                      <br />
+                      limits
                     </StyledConfidenceLimitsHeader>
                   </React.Fragment>
                 ))}
                 {groupIndicatorData ? <StyledLightGreyHeader /> : null}
-                {showBenchmarkColumn ? <StyledGreyHeader /> : null}
+                {showBenchmarkColumn ? <StyledStickyRightHeader /> : null}
               </Table.Row>
             ) : null}
 
@@ -393,9 +401,9 @@ export function LineChartTable({
               </React.Fragment>
             ))}
             {groupIndicatorData ? (
-              <StylesGroupValueTableCell>
+              <StyledGroupValueTableCell>
                 {sortedGroupData[index].value}
-              </StylesGroupValueTableCell>
+              </StyledGroupValueTableCell>
             ) : null}
             {showBenchmarkColumn ? (
               <StyledStickyRight data-testid="grey-table-cell">
