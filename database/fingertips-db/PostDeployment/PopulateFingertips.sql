@@ -162,7 +162,7 @@ VALUES
     N'All',
     N'All',
     0,
-    1
+    10
 )
 
 INSERT INTO [dbo].[DeprivationDimension] 
