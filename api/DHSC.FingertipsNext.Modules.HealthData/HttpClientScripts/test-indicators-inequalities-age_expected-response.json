@@ -1,0 +1,494 @@
+{
+  "indicatorId": 92708,
+  "name": "Resident population",
+  "polarity": "Unknown",
+  "benchmarkMethod": "Unknown",
+  "areaHealthData": [
+    {
+      "areaCode": "E92000001",
+      "areaName": "England",
+      "healthData": [
+        {
+          "year": 2016,
+          "count": 3428266,
+          "value": 3428266,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "5-9 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3070254,
+          "value": 3070254,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "10-14 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3179410,
+          "value": 3179410,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "15-19 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3559956,
+          "value": 3559956,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "20-24 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3811587,
+          "value": 3811587,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "25-29 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3749623,
+          "value": 3749623,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "30-34 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3557011,
+          "value": 3557011,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "35-39 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3535266,
+          "value": 3535266,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "40-44 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3883079,
+          "value": 3883079,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "45-49 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3873095,
+          "value": 3873095,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "50-54 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3377660,
+          "value": 3377660,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "55-59 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 2930973,
+          "value": 2930973,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "60-64 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3032055,
+          "value": 3032055,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "65-69 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 2381289,
+          "value": 2381289,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "70-74 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 1796046,
+          "value": 1796046,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "75-79 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 1345359,
+          "value": 1345359,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "80-84 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 840246,
+          "value": 840246,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "85-89 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 487846,
+          "value": 487846,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "90+ yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 3429046,
+          "value": 3429046,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "0-4 yrs",
+            "isAggregate": false
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "count": 55268068,
+          "value": 55268068,
+          "lowerCi": null,
+          "upperCi": null,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 10,
+            "value": "All",
+            "type": "All",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": true
+        }
+      ]
+    }
+  ]
+}
