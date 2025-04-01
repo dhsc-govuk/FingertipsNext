@@ -11,13 +11,16 @@ public class DenormalisedHealthMeasureModel
     public required string IndicatorDimensionName { get; set; }
     public required string SexDimensionName { get; set; }
     public required bool SexDimensionHasValue { get; set; }
+    public required bool SexDimensionIsAggregate { get; set; }
     public required string TrendDimensionName { get; set; }
     public required string AgeDimensionName { get; set; }
     public required bool AgeDimensionHasValue { get; set; }
+    public required bool AgeDimensionIsAggregate { get; set; }
     public required string DeprivationDimensionName { get; set; }
     public required string DeprivationDimensionType { get; set; }
     public required byte DeprivationDimensionSequence { get; set; }
     public required bool DeprivationDimensionHasValue { get; set; }
+    public required bool DeprivationDimensionIsAggregate{ get; set; }
     public required double? Count { get; set; }
     public required double? Value { get; set; }
     public required double? LowerCi { get; set; }
@@ -28,7 +31,7 @@ public class DenormalisedHealthMeasureModel
     public required string BenchmarkComparisonAreaCode { get; set; }
     public required string BenchmarkComparisonAreaName { get; set; }
 
-    public HealthMeasureModel Normalise() 
+    public HealthMeasureModel Normalise()
     {
         return new HealthMeasureModel()
         {
@@ -37,18 +40,20 @@ public class DenormalisedHealthMeasureModel
             Count = Count,
             LowerCi = LowerCi,
             UpperCi = UpperCi,
-            AgeDimension = new AgeDimensionModel() { 
+            AgeDimension = new AgeDimensionModel() {
                 Name = AgeDimensionName,
                 HasValue = AgeDimensionHasValue,
+                IsAggregate = AgeDimensionIsAggregate,
             },
-            SexDimension = new SexDimensionModel() { 
+            SexDimension = new SexDimensionModel() {
                 Name = SexDimensionName,
-                HasValue = SexDimensionHasValue
+                HasValue = SexDimensionHasValue,
+                IsAggregate = SexDimensionIsAggregate
             },
-            IndicatorDimension = new IndicatorDimensionModel() { 
+            IndicatorDimension = new IndicatorDimensionModel() {
                 Name = IndicatorDimensionName,
             },
-            AreaDimension = new AreaDimensionModel() { 
+            AreaDimension = new AreaDimensionModel() {
                 Name = AreaDimensionName,
                 Code = AreaDimensionCode,
             },
@@ -57,6 +62,7 @@ public class DenormalisedHealthMeasureModel
                 Type = DeprivationDimensionType,
                 Sequence = DeprivationDimensionSequence,
                 HasValue = DeprivationDimensionHasValue,
+                IsAggregate = DeprivationDimensionIsAggregate,
             },
             TrendDimension = new TrendDimensionModel()
             {
@@ -66,7 +72,7 @@ public class DenormalisedHealthMeasureModel
             {
                 Outcome = BenchmarkComparisonOutcome,
                 BenchmarkAreaCode = BenchmarkComparisonAreaCode,
-                BenchmarkAreaName = BenchmarkComparisonAreaName,    
+                BenchmarkAreaName = BenchmarkComparisonAreaName,
             },
             IsAggregate = true
         };

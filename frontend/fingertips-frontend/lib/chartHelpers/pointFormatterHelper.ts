@@ -10,6 +10,7 @@ export enum SymbolNames {
   Triangle = 'triangle',
   TriangleDown = 'triangle-down',
   PlotLine = 'plot-line',
+  MultiplicationX = 'multiplicationX',
 }
 
 export enum SymbolsEnum {
@@ -19,6 +20,7 @@ export enum SymbolsEnum {
   Triangle = '\u25b2',
   TriangleDown = '\u25bC',
   PlotLine = '\ufe31',
+  MultiplicationX = '\u2715',
 }
 
 const SymbolMapping: Record<string, string> = {
@@ -28,6 +30,7 @@ const SymbolMapping: Record<string, string> = {
   [SymbolNames.Triangle]: SymbolsEnum.Triangle,
   [SymbolNames.TriangleDown]: SymbolsEnum.TriangleDown,
   [SymbolNames.PlotLine]: SymbolsEnum.PlotLine,
+  [SymbolNames.MultiplicationX]: SymbolsEnum.MultiplicationX,
 };
 
 export const pointFormatterHelper = (

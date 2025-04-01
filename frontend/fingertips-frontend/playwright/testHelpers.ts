@@ -22,6 +22,7 @@ export enum AreaMode {
 type componentProps = {
   hasConfidenceIntervals: boolean;
   isTabTable: boolean;
+  hasDetailsExpander: boolean;
 };
 
 type component = {
@@ -45,6 +46,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -52,6 +54,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -59,6 +62,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -66,6 +70,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -73,6 +78,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -80,6 +86,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -87,15 +94,23 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: true,
+        hasDetailsExpander: false,
       },
     },
-    // Enable in DHSCFT-148
-    // ChartPage.populationPyramidComponent,
+    {
+      componentLocator: ChartPage.populationPyramidComponent,
+      componentProps: {
+        hasConfidenceIntervals: false,
+        isTabTable: false,
+        hasDetailsExpander: true,
+      },
+    },
     {
       componentLocator: ChartPage.thematicMapComponent,
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -103,6 +118,7 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: true,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
     {
@@ -110,10 +126,12 @@ export function getScenarioConfig(
       componentProps: {
         hasConfidenceIntervals: false,
         isTabTable: false,
+        hasDetailsExpander: false,
       },
     },
-    // Pending
+    // Enable in DHSCFT-237
     // ChartPage.basicTableComponent,
+    // Enable in DHSCFT-230
     // ChartPage.heatMapComponent,
   ];
 
@@ -133,8 +151,7 @@ export function getScenarioConfig(
         ChartPage.inequalitiesLineChartComponent,
         ChartPage.inequalitiesBarChartTableComponent,
         ChartPage.inequalitiesLineChartTableComponent,
-        // Enable in DHSCFT-148
-        // ChartPage.populationPyramidComponent,
+        ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -145,11 +162,11 @@ export function getScenarioConfig(
   ) {
     visibleComponents = allComponents.filter((component) =>
       [
-        // Enable in DHSCFT-148
-        // ChartPage.populationPyramidComponent,
         ChartPage.lineChartComponent,
         ChartPage.lineChartTableComponent,
         ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -162,6 +179,8 @@ export function getScenarioConfig(
       [
         ChartPage.thematicMapComponent,
         ChartPage.barChartEmbeddedTableComponent,
+        // Enable in DHSCFT-225
+        // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
   }
@@ -172,9 +191,9 @@ export function getScenarioConfig(
   ) {
     // visibleComponents = allComponents.filter((component) =>
     //   [
-    //     // Pending
+    //     // Enable in DHSCFT-237
     //     // ChartPage.basicTableComponent,
-    //     // Enable in DHSCFT-148
+    //     // Enable in DHSCFT-225
     //     // ChartPage.populationPyramidComponent,
     //   ].includes(component.componentLocator)
     // );
@@ -187,9 +206,9 @@ export function getScenarioConfig(
     visibleComponents = allComponents.filter((component) =>
       [
         ChartPage.spineChartTableComponent,
-        // Pending
+        // Enable in DHSCFT-230
         // ChartPage.heatMapComponent,
-        // Enable in DHSCFT-148
+        // Enable in DHSCFT-225
         // ChartPage.populationPyramidComponent,
       ].includes(component.componentLocator)
     );
@@ -263,4 +282,12 @@ export function returnIndicatorIDsByIndicatorMode(
 
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
+}
+
+export function getIndicatorNameById(
+  indicatorId: string,
+  indicators: IndicatorDocument[]
+): string | undefined {
+  const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
+  return indicator ? indicator.indicatorName : undefined;
 }

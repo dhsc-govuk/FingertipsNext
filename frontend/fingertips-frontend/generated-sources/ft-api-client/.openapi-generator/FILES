@@ -3,6 +3,7 @@ apis/IndicatorsApi.ts
 apis/SystemApi.ts
 apis/index.ts
 index.ts
+models/AgeData.ts
 models/Area.ts
 models/AreaType.ts
 models/AreaWithRelations.ts
@@ -21,5 +22,6 @@ models/IndicatorPolarity.ts
 models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
 models/RootArea.ts
+models/SexData.ts
 models/index.ts
 runtime.ts

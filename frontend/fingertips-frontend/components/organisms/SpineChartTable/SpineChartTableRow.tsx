@@ -27,8 +27,8 @@ export interface SpineChartTableRowData {
   value?: number;
   groupValue?: number;
   benchmarkValue?: number;
-  benchmarkWorst?: number;
   benchmarkBest?: number;
+  benchmarkWorst?: number;
 }
 
 export function SpineChartMissingValue({

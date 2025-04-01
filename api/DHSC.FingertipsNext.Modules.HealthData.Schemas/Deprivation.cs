@@ -25,4 +25,10 @@ public class Deprivation
     /// </summary>
     [JsonPropertyName("type")]
     public string Type { get; init; }
+
+    /// <summary>
+    ///     Indicates if the datapoint is an aggregated value for the deprivation dimension
+    /// </summary>
+    [JsonPropertyName("isAggregate")]
+    public bool IsAggregate { get; init; }
 }
