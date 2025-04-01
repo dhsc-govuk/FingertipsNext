@@ -31,7 +31,7 @@ interface FormatNumberInTableCellProps {
 export function FormatNumberInTableCell({
   value,
   style,
-}: FormatNumberInTableCellProps) {
+}: Readonly<FormatNumberInTableCellProps>) {
   return (
     <Table.Cell
       style={style}
