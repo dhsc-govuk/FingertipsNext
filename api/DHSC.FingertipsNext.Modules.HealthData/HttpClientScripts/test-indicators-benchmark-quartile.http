@@ -181,20 +181,10 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
-        const expected = [{
-            "indicatorId": 90453,
-            "polarity": "NoJudgement",
-            "year": null,
-            "q0Value": null,
-            "q1Value": null,
-            "q2Value": null,
-            "q3Value": null,
-            "q4Value": null,
-            "areaValue": null,
-            "ancestorValue": null,
-            "englandValue": null
-        }]
-        client.assert(response.status === 200, "Response status is not 200");
+        const expected = {
+            "message": "Parameter area_type must be supplied."
+            }
+        client.assert(response.status === 400, "Response status is not 400");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
@@ -204,20 +194,10 @@ GET http://localhost:5144/indicators/quartiles?
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
-        const expected = [{
-            "indicatorId": 90453,
-            "polarity": "NoJudgement",
-            "year": null,
-            "q0Value": null,
-            "q1Value": null,
-            "q2Value": null,
-            "q3Value": null,
-            "q4Value": null,
-            "areaValue": null,
-            "ancestorValue": null,
-            "englandValue": null
-        }]
-        client.assert(response.status === 200, "Response status is not 200");
+        const expected = {
+            "message": "Parameter indicator_ids must be supplied."
+        }
+        client.assert(response.status === 400, "Response status is not 400");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
