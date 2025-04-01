@@ -65,11 +65,13 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 {
                     Name = healthMeasure.AgeDimension.Name,
                     HasValue = healthMeasure.AgeDimension.HasValue,
+                    IsAggregate = healthMeasure.IsAgeAggregatedOrSingle
                 },
                 SexDimension = new SexDimensionModel
                 {
                     Name = healthMeasure.SexDimension.Name,
-                    HasValue = healthMeasure.SexDimension.HasValue
+                    HasValue = healthMeasure.SexDimension.HasValue,
+                    IsAggregate = healthMeasure.IsSexAggregatedOrSingle
                 },
                 IndicatorDimension = new IndicatorDimensionModel
                 {
@@ -89,7 +91,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                     Name = healthMeasure.DeprivationDimension.Name,
                     Type = healthMeasure.DeprivationDimension.Type,
                     Sequence = healthMeasure.DeprivationDimension.Sequence,
-                    HasValue = healthMeasure.DeprivationDimension.HasValue
+                    HasValue = healthMeasure.DeprivationDimension.HasValue,
+                    IsAggregate = healthMeasure.IsDeprivationAggregatedOrSingle
                 },
                 IsAggregate = healthMeasure.IsAgeAggregatedOrSingle && healthMeasure.IsSexAggregatedOrSingle && healthMeasure.IsDeprivationAggregatedOrSingle
             })

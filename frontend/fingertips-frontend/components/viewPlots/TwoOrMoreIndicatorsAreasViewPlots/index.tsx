@@ -1,149 +1,103 @@
 'use client';
 
+import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import { Heatmap, HeatmapIndicatorData } from '@/components/organisms/Heatmap';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   SpineChartTableProps,
+  SpineChartTableRowProps,
   SpineChartTable,
 } from '@/components/organisms/SpineChartTable';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
-import { MOCK_HEALTH_DATA } from '@/lib/tableHelpers/mocks';
-import { noDeprivation } from '@/lib/mocks';
+import {
+  HealthDataForArea,
+  Indicator,
+} from '@/generated-sources/ft-api-client';
+import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 
-export const mapToSpineChartTableProps = (): SpineChartTableProps => {
-  const mockIndicatorData = [
-    {
-      indicatorId: 2,
-      title: 'Test indicator 1',
-      definition: '',
-    },
-    {
-      indicatorId: 1,
-      title: 'Test indicator 2',
-      definition: '',
-    },
-  ];
+export function mapToSpineChartTableProps(
+  healthIndicatorData: HealthDataForArea[],
+  groupIndicatorData: HealthDataForArea[],
+  englandIndicatorData: HealthDataForArea[],
+  indicatorMetadata: (IndicatorDocument | undefined)[]
+): SpineChartTableProps {
+  const numberOfIndicators = healthIndicatorData.length;
+  const tableData: SpineChartTableRowProps[] = new Array(numberOfIndicators);
 
-  const mockUnits = ['kg', 'per 1000'];
+  healthIndicatorData.forEach((indicatorData, index) => {
+    const metadata = indicatorMetadata[index];
 
-  const mockHealthData = [
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2008,
-          count: 222,
-          value: 890.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: 'A1425',
-      areaName: 'Greater Manchester ICB - 00T',
-      healthData: [
-        {
-          year: 2024,
-          count: 111,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowIndicatorId: number =
+      metadata?.indicatorID !== undefined ? Number(metadata?.indicatorID) : 0;
 
-  const mockGroup = [
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2008,
-          count: 111,
-          value: 980.305692,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-    {
-      areaCode: '90210',
-      areaName: 'Manchester',
-      healthData: [
-        {
-          year: 2024,
-          count: 3333,
-          value: 690.305692,
-          lowerCi: 341.69151,
-          upperCi: 478.32766,
-          ageBand: 'All',
-          sex: 'All',
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-        },
-      ],
-    },
-  ];
+    const rowTitle: string =
+      metadata?.indicatorName !== undefined ? metadata?.indicatorName : '';
 
-  const mockBest = [1666, 22];
+    const rowIndicatorDefinition: string =
+      metadata?.indicatorDefinition !== undefined
+        ? metadata?.indicatorDefinition
+        : '';
 
-  const mockWorst = [959, 100];
+    const rowMeasurementUnit: string =
+      metadata !== undefined ? metadata?.unitLabel : '';
 
-  const data: SpineChartTableProps = {
-    indicators: mockIndicatorData,
-    measurementUnits: mockUnits,
-    indicatorHealthData: mockHealthData,
-    groupIndicatorData: mockGroup,
-    englandBenchmarkData: MOCK_HEALTH_DATA,
-    worst: mockWorst,
-    best: mockBest,
-  };
+    const rowIndicator: Indicator = {
+      indicatorId: rowIndicatorId,
+      title: rowTitle,
+      definition: rowIndicatorDefinition,
+    };
 
-  return data;
-};
+    const row: SpineChartTableRowProps = {
+      indicator: rowIndicator,
+      measurementUnit: rowMeasurementUnit,
+      indicatorHealthData: indicatorData,
+      groupIndicatorData: groupIndicatorData[index],
+      englandBenchmarkData: englandIndicatorData[index],
+      best: 100,
+      worst: 0,
+    };
 
-interface TwoOrMoreIndicatorsAreasViewPlotsProps {
-  indicatorMetadata: IndicatorDocument[];
-  healthData: HealthDataForArea[][];
-  groupAreaCode?: string;
+    tableData[index] = row;
+  });
+
+  return { rowData: tableData };
 }
 
-const buildHeatmapIndicatorData = (
-  indicatorMetadata: IndicatorDocument[],
-  healthData: HealthDataForArea[][]
-): HeatmapIndicatorData[] => {
-  return indicatorMetadata.map((metadata, index): HeatmapIndicatorData => {
-    return {
-      indicatorId: metadata.indicatorID,
-      indicatorName: metadata.indicatorName,
-      healthDataForAreas: healthData[index],
-      unitLabel: metadata.unitLabel,
-    };
-  });
-};
-
-export function TwoOrMoreIndicatorsAreasViewPlots({
+export function TwoOrMoreIndicatorsAreasViewPlot({
+  searchState,
+  indicatorData,
   indicatorMetadata,
-  healthData,
-  groupAreaCode,
-}: TwoOrMoreIndicatorsAreasViewPlotsProps) {
-  const spineTableData = mapToSpineChartTableProps();
+}: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
+  const stateManager = SearchStateManager.initialise(searchState);
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+  } = stateManager.getSearchState();
+
+  if (!areasSelected) {
+    throw new Error('Invalid parameters provided to view plot');
+  }
+
+  const {
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata,
+  } = extractingCombinedHealthData(
+    indicatorData,
+    indicatorMetadata,
+    areasSelected,
+    selectedGroupCode
+  );
+
+  const spineTableData = mapToSpineChartTableProps(
+    orderedHealthData,
+    orderedGroupData,
+    orderedEnglandData,
+    orderedMetadata
+  );
 
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
@@ -151,15 +105,7 @@ export function TwoOrMoreIndicatorsAreasViewPlots({
         indicatorData={buildHeatmapIndicatorData(indicatorMetadata, healthData)}
         groupAreaCode={groupAreaCode}
       />
-      <SpineChartTable
-        indicators={spineTableData.indicators}
-        measurementUnits={spineTableData.measurementUnits}
-        indicatorHealthData={spineTableData.indicatorHealthData}
-        groupIndicatorData={spineTableData.groupIndicatorData}
-        englandBenchmarkData={spineTableData.englandBenchmarkData}
-        best={spineTableData.best}
-        worst={spineTableData.worst}
-      />
+      <SpineChartTable rowData={spineTableData.rowData} />
     </section>
   );
 }
