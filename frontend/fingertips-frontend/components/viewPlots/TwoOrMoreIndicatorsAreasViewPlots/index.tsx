@@ -15,6 +15,7 @@ import {
 import { Indicator } from '@/generated-sources/ft-api-client';
 import { extractingCombinedHealthData } from '@/lib/chartHelpers/extractHealthDataForArea';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export function mapToSpineChartTableProps(
   healthIndicatorData: HealthDataForArea[],
@@ -68,7 +69,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   searchState,
   indicatorData,
   indicatorMetadata,
-  groupAreaCode,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const stateManager = SearchStateManager.initialise(searchState);
   const {
@@ -79,25 +79,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   if (!areasSelected) {
     throw new Error('Invalid parameters provided to view plot');
   }
-
-  const {
-    orderedHealthData,
-    orderedGroupData,
-    orderedEnglandData,
-    orderedMetadata,
-  } = extractingCombinedHealthData(
-    indicatorData,
-    indicatorMetadata,
-    areasSelected,
-    selectedGroupCode
-  );
-
-  const spineTableData = mapToSpineChartTableProps(
-    orderedHealthData,
-    orderedGroupData,
-    orderedEnglandData,
-    orderedMetadata
-  );
 
   const buildHeatmapIndicatorData = (
     indicatorData: IndicatorWithHealthDataForArea[],
@@ -115,6 +96,37 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     });
   };
 
+  const groupAreaCode =
+    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
+      ? selectedGroupCode
+      : undefined;
+
+  const buildSpineTableRowData = (
+    indicatorData: IndicatorWithHealthDataForArea[],
+    indicatorMetadata: IndicatorDocument[],
+    areasSelected: string[],
+    selectedGroupCode: string | undefined
+  ) => {
+    const {
+      orderedHealthData,
+      orderedGroupData,
+      orderedEnglandData,
+      orderedMetadata,
+    } = extractingCombinedHealthData(
+      indicatorData,
+      indicatorMetadata,
+      areasSelected,
+      selectedGroupCode
+    );
+
+    return mapToSpineChartTableProps(
+      orderedHealthData,
+      orderedGroupData,
+      orderedEnglandData,
+      orderedMetadata
+    ).rowData;
+  };
+
   return (
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <Heatmap
@@ -124,7 +136,16 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         )}
         groupAreaCode={groupAreaCode}
       />
-      <SpineChartTable rowData={spineTableData.rowData} />
+      {areasSelected.length < 2 ? (
+        <SpineChartTable
+          rowData={buildSpineTableRowData(
+            indicatorData,
+            indicatorMetadata,
+            areasSelected,
+            selectedGroupCode
+          )}
+        />
+      ) : null}
     </section>
   );
 }

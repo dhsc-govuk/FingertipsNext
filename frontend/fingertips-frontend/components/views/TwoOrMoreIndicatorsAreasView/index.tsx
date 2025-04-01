@@ -21,7 +21,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
     [SearchParams.GroupSelected]: selectedGroupCode,
   } = stateManager.getSearchState();
 
-  if (!indicatorsSelected || indicatorsSelected.length < 2 || !areasSelected) {
+  if (
+    !indicatorsSelected ||
+    indicatorsSelected.length < 2 ||
+    !areasSelected ||
+    areasSelected.length < 1
+  ) {
     throw new Error('Invalid parameters provided to view');
   }
 
@@ -79,11 +84,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
     })
   );
 
-  const groupAreaCode =
-    selectedGroupCode && selectedGroupCode !== areaCodeForEngland
-      ? selectedGroupCode
-      : undefined;
-
   console.log(`TODO: fetch population data for areas: [${areaCodesToRequest}]`);
 
   return (
@@ -91,7 +91,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
       searchState={searchState}
       indicatorData={combinedIndicatorData}
       indicatorMetadata={selectedIndicatorsData}
-      groupAreaCode={groupAreaCode}
     />
   );
 }

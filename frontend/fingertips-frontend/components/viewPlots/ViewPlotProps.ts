@@ -16,5 +16,4 @@ export type TwoOrMoreIndicatorsViewPlotProps = {
   searchState: SearchStateParams;
   indicatorData: IndicatorWithHealthDataForArea[];
   indicatorMetadata: IndicatorDocument[];
-  groupAreaCode?: string;
 };
