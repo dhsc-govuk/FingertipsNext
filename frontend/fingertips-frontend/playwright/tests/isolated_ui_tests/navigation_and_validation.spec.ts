@@ -100,17 +100,23 @@ test.describe(`Navigation, accessibility and validation tests`, () => {
     });
 
     await test.step('Select "View background information" link, verify indicator page title and Return to charts page', async () => {
+      const indicator = typedIndicatorData.find(
+        (ind) => ind.indicatorID === filteredIndicatorIds[0]
+      );
+
+      if (!indicator) {
+        throw new Error(
+          `Indicator with ID ${filteredIndicatorIds[0]} not found`
+        );
+      }
+
       await resultsPage.clickViewBackgroundInformationLinkForIndicator(
-        filteredIndicatorIds[0],
-        typedIndicatorData
+        indicator
       );
 
       await indicatorPage.waitForURLToContain('indicator');
 
-      await indicatorPage.checkIndicatorNameTitle(
-        filteredIndicatorIds[0],
-        typedIndicatorData
-      );
+      await indicatorPage.checkIndicatorNameTitle(indicator);
 
       await indicatorPage.clickBackLink();
     });

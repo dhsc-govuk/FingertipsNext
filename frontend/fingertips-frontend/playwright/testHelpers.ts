@@ -264,11 +264,3 @@ export function returnIndicatorIDsByIndicatorMode(
 export function sortAlphabetically(array: (string | null)[]) {
   array.sort((a, b) => a!.localeCompare(b!));
 }
-
-export function getIndicatorNameById(
-  indicatorId: string,
-  indicators: IndicatorDocument[]
-): string | undefined {
-  const indicator = indicators.find((ind) => ind.indicatorID === indicatorId);
-  return indicator ? indicator.indicatorName : undefined;
-}
