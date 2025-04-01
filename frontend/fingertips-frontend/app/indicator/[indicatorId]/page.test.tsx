@@ -19,10 +19,8 @@ const mockGetIndicatorResponse: IndicatorDocument = {
   earliestDataPeriod: '1988',
   latestDataPeriod: '1993',
   lastUpdatedDate: new Date('March 17, 2007'),
-  associatedAreaCodes: [],
   hasInequalities: false,
   unitLabel: 'miles',
-  usedInPoc: false,
 };
 
 mockIndicatorSearchService.getIndicator.mockResolvedValue(
