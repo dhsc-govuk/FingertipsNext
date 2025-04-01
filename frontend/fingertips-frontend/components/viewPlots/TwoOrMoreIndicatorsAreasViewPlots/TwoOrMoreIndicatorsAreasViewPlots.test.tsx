@@ -162,7 +162,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-    expect(screen.getByTestId('heatmap-component')).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
   it('should not render the spine chart component with more than 2 areas selected', () => {
@@ -176,7 +176,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
-    expect(screen.getByTestId('heatmap-component')).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
