@@ -41,10 +41,8 @@ const mockMetaData = {
   earliestDataPeriod: '2025',
   latestDataPeriod: '2025',
   lastUpdatedDate: new Date('March 4, 2025'),
-  associatedAreaCodes: ['E06000047'],
   unitLabel: 'pancakes',
   hasInequalities: true,
-  usedInPoc: true,
 };
 
 const mockSearch = 'test';

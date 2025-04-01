@@ -15,7 +15,7 @@ const LegendContainer = styled.div({
 
 const BenchmarkLegendHeader = styled('h4')({
   alignSelf: 'stretch',
-  margin: '1em 0.1em 0.1em 0.1em',
+  margin: '1em 0.1em 0.1em 0',
   fontFamily: 'nta,Arial,sans-serif',
   fontWeight: 300,
 });

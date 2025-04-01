@@ -12,7 +12,10 @@ import {
   AreaTypeKeysForMapMeta,
   getMapGeographyData,
 } from '@/components/organisms/ThematicMap/thematicMapHelpers';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 

@@ -34,7 +34,6 @@ describe('ThematicMap', () => {
         mapGeographyData={mockMapGeographyData}
         benchmarkComparisonMethod={'Unknown'}
         polarity={'Unknown'}
-        measurementUnit={''}
       />
     );
 

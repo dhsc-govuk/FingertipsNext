@@ -172,7 +172,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
 
   it('should make appropriate number of calls to the healthIndicatorApi with the expected parameters with a long list of areas', async () => {
     const testIndicators = '1';
-    const testAreas = new Array(15).fill('a', 0, 15);
+    const testAreas = new Array(101).fill('a', 0, 101);
     const testGroup = 'G001';
 
     const searchState: SearchStateParams = {
@@ -193,7 +193,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     );
 
     const expected1 = {
-      areaCodes: ['a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
+      areaCodes: new Array(100).fill('a', 0, 100),
       indicatorId: Number(testIndicators),
     };
 
@@ -205,6 +205,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(1, expected1, API_CACHE_CONFIG);
+
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(2, expected2, API_CACHE_CONFIG);

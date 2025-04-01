@@ -14,22 +14,20 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Service;
 public class IndicatorService(IHealthDataRepository healthDataRepository, IMapper _mapper) : IIndicatorsService
 {
     public const string AreaCodeEngland = "E92000001";
-    
+
     /// <summary>
     ///     Obtain health point data for a single indicator.
     /// </summary>
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes">
-    ///     An array of upto 10 area codes. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all area codes are retrieved.
+    ///     An array of area codes. If the array is empty all area codes are retrieved.
     /// </param>
     /// <param name="areaType">
     ///     The areaType which these codes should be compared against. This is important to specify to discriminate between
     ///     counties and districts which introduce amiguity to the areaType by duplicating areas.
     /// </param>
     /// <param name="years">
-    ///     An array of upto 10 years. If more than 10 elements exist,
-    ///     only the first 10 are used. If the array is empty all years are retrieved.
+    ///     An array of years. If the array is empty all years are retrieved.
     /// </param>
     /// <param name="inequalities">
     ///     An array of inequality dimensions to return. If the array is empty only data with no
@@ -38,7 +36,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
     /// <returns>
     ///     <c>IndicatorWithHealthDataForArea</c> matching the criteria
     /// </returns>
-    public async Task<IndicatorWithHealthDataForAreas?> GetIndicatorDataAsync(
+    public async Task<ServiceResponse<IndicatorWithHealthDataForAreas>> GetIndicatorDataAsync(
         int indicatorId,
         IEnumerable<string> areaCodes,
         string areaType,
@@ -46,28 +44,34 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         IEnumerable<string> inequalities)
     {
         var indicatorData = await healthDataRepository.GetIndicatorDimensionAsync(indicatorId);
-        if (indicatorData == null) return null;
+        if (indicatorData == null) return new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist);
+
         var method = _mapper.Map<BenchmarkComparisonMethod>(indicatorData.BenchmarkComparisonMethod);
-        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity); 
-        
-        return new IndicatorWithHealthDataForAreas()
+        var polarity = _mapper.Map<IndicatorPolarity>(indicatorData.Polarity);
+
+        var areaHealthData = ((await GetIndicatorAreaDataAsync(
+            indicatorId,
+            areaCodes,
+            areaType,
+            years,
+            inequalities,
+            method,
+            polarity
+        )) ?? []).ToList();
+
+        return new ServiceResponse<IndicatorWithHealthDataForAreas>()
         {
-            IndicatorId = indicatorData.IndicatorId,
-            Name = indicatorData.Name,
-            Polarity = polarity,
-            BenchmarkMethod = method,
-            AreaHealthData = await GetIndicatorAreaDataAsync(
-                indicatorId, 
-                areaCodes,
-                areaType,
-                years,
-                inequalities, 
-                method,
-                polarity
-                )
+            Status = areaHealthData.Any() ? ResponseStatus.Success : ResponseStatus.NoDataForIndicator,
+            Content = new IndicatorWithHealthDataForAreas(){
+                IndicatorId = indicatorData.IndicatorId,
+                Name = indicatorData.Name,
+                Polarity = polarity,
+                BenchmarkMethod = method,
+                AreaHealthData = areaHealthData
+            }
         };
-    } 
-    
+    }
+
 
     private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataAsync
     (
@@ -128,10 +132,10 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
             inequalities.Distinct().ToArray());
 
         var healthDataForAreas = healthMeasureData
-            .GroupBy(healthMeasure => new 
+            .GroupBy(healthMeasure => new
             {
                 code = healthMeasure.AreaDimension.Code,
-                name = healthMeasure.AreaDimension.Name 
+                name = healthMeasure.AreaDimension.Name
             })
             .Select(group => new HealthDataForArea
             {
@@ -152,7 +156,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IMappe
         //if the benchmark area was not in the original request then remove the benchmark data
         if (!wasBenchmarkAreaCodeRequested)
             healthDataForAreas.RemoveAll(data => data.AreaCode == benchmarkAreaCode);
-        
+
         // enrich the data with benchmark comparison
         return BenchmarkComparisonEngine.ProcessBenchmarkComparisons
         (
