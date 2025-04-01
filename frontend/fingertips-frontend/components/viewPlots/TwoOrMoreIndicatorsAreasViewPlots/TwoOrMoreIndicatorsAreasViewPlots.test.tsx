@@ -104,6 +104,7 @@ const mockAreaHealthData: HealthDataForArea[] = [
 
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   {
+    indicatorId: Number(indicatorIds[0]),
     areaHealthData: [
       mockAreaHealthData[0],
       mockGroupHealthData,
@@ -111,6 +112,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
     ],
   },
   {
+    indicatorId: Number(indicatorIds[1]),
     areaHealthData: [
       mockAreaHealthData[1],
       mockGroupHealthData,
@@ -157,6 +159,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
         indicatorMetadata={mockMetaData}
       />
     );
+    expect(screen.getByTestId('heatmap-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
 });
