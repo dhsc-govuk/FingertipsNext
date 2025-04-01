@@ -6,15 +6,12 @@ import { LineChartTable } from '@/components/organisms/LineChartTable';
 import { BarChartEmbeddedTable } from '@/components/organisms/BarChartEmbeddedTable';
 import { seriesDataWithoutEnglandOrGroup } from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { H3, Paragraph } from 'govuk-react';
 import { OneIndicatorViewPlotProps } from '@/components/viewPlots/ViewPlotProps';
 import styled from 'styled-components';
 import { typography } from '@govuk-react/lib';
-import {
-  AreaTypeKeysForMapMeta,
-  MapGeographyData,
-} from '@/components/organisms/ThematicMap/thematicMapHelpers';
+import { MapGeographyData } from '@/components/organisms/ThematicMap/thematicMapHelpers';
 import { ThematicMap } from '@/components/organisms/ThematicMap';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
@@ -24,10 +21,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useSearchState } from '@/context/SearchStateContext';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import {
-  IndicatorPolarity,
-  JSONApiResponse,
-} from '@/generated-sources/ft-api-client';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 
 const StyledParagraphDataSource = styled(Paragraph)(
   typography.font({ size: 16 })
@@ -50,13 +44,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
     setSearchState(searchState ?? {});
   }, [searchState, setSearchState]);
 
-  const stateManager = SearchStateManager.initialise(searchState);
-
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: selectedGroupArea,
     [SearchParams.AreasSelected]: areasSelected,
-  } = stateManager.getSearchState();
+  } = searchState;
   const healthIndicatorData = indicatorData?.areaHealthData ?? [];
   const { benchmarkMethod, polarity } = indicatorData;
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
