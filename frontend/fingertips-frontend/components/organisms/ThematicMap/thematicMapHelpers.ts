@@ -22,7 +22,7 @@ import {
   getAreaIndicatorDataForYear,
   getConfidenceLimitNumber,
 } from '@/lib/chartHelpers/chartHelpers';
-import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -294,14 +294,14 @@ export function generateThematicMapTooltipString(
   const areaMarkerSymbol =
     (point.benchmarkComparisonOutcome as BenchmarkOutcome) ===
     BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.circle;
+      ? SymbolsEnum.MultiplicationX
+      : SymbolsEnum.Circle;
 
   const groupMarkerSymbol =
     groupIndicatorData?.healthData[0].benchmarkComparison?.outcome ===
     BenchmarkOutcome.NotCompared
-      ? symbolEncoder.multiplicationX
-      : symbolEncoder.diamond;
+      ? SymbolsEnum.MultiplicationX
+      : SymbolsEnum.Diamond;
 
   const tooltipString = [
     `<br /><span style="font-weight: bold">${point.areaName}</span>` +
@@ -350,7 +350,7 @@ export function generateThematicMapTooltipString(
     tooltipString.unshift(
       `<span style="font-weight: bold">Benchmark: ${benchmarkIndicatorDataForYear.areaName}</span>` +
         `<br /><span>${benchmarkIndicatorDataForYear.healthData[0].year}</span>` +
-        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.circle}</span>` +
+        `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.Circle}</span>` +
         `<span>${benchmarkIndicatorDataForYear.healthData[0].value} ${measurementUnit}</span>`
     );
   }

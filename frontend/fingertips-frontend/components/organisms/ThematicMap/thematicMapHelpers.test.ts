@@ -27,8 +27,8 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { symbolEncoder } from '@/lib/chartHelpers/pointFormatterHelper';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
+import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 
 const mockMapData: MapGeographyData = {
   mapFile: regionsMap,
@@ -248,21 +248,21 @@ describe('generateThematicMapTooltipString', () => {
   const expectedAreaTooltip =
     `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
     `<br /><span>${mockHcPoint.year}</span>` +
-    `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${symbolEncoder.circle}</span>` +
+    `<br /><span style="color: ${GovukColours.Green}; font-size: large;">${SymbolsEnum.Circle}</span>` +
     `<span>${mockHcPoint.value} mock units</span>` +
     `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
 
   const expectedGroupTooltip =
     `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
     `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
-    `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${symbolEncoder.diamond}</span>` +
+    `<span style=\"color: ${GovukColours.Red}; font-size: large;\">${SymbolsEnum.Diamond}</span>` +
     `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
     `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
 
   const expectedBenchmarkTooltip =
     `<span style=\"font-weight: bold\">Benchmark: ${mockBenchmarkDataForYear.areaName}</span>` +
     `<br /><span>${mockBenchmarkDataForYear.healthData[0].year}</span><br />` +
-    `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.circle}</span>` +
+    `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${SymbolsEnum.Circle}</span>` +
     `<span>${mockBenchmarkDataForYear.healthData[0].value} mock units</span>`;
 
   it('should return the expected tooltip for an area', () => {
@@ -294,7 +294,7 @@ describe('generateThematicMapTooltipString', () => {
     const expectedAreaToolTip =
       `<br /><span style="font-weight: bold">${mockHcPoint.areaName}</span>` +
       `<br /><span>${mockHcPoint.year}</span>` +
-      `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${symbolEncoder.multiplicationX}</span>` +
+      `<br /><span style="color: ${GovukColours.Black}; font-size: large;">${SymbolsEnum.MultiplicationX}</span>` +
       `<span>${mockHcPoint.value} mock units</span>` +
       `<br /><span>${mockHcPoint.benchmarkComparisonOutcome} than England</span><br /><span>(95%)</span>`;
     expect(actual).toEqual(expectedAreaToolTip);
@@ -324,7 +324,7 @@ describe('generateThematicMapTooltipString', () => {
     const expectedGroupTooltip =
       `<br /><span style=\"font-weight: bold\">Group: ${mockGroupDataForYear.areaName}</span>` +
       `<br /><span>${mockGroupDataForYear.healthData[0].year}</span><br />` +
-      `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${symbolEncoder.multiplicationX}</span>` +
+      `<span style=\"color: ${GovukColours.Black}; font-size: large;\">${SymbolsEnum.MultiplicationX}</span>` +
       `<span>${mockGroupDataForYear.healthData[0].value} mock units</span>` +
       `<br /><span>${mockGroupDataForYear.healthData[0].benchmarkComparison?.outcome} than England</span><br /><span>(95%)</span>`;
 
