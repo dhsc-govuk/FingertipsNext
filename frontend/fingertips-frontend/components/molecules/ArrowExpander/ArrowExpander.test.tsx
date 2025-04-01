@@ -1,6 +1,6 @@
 // ArrowExpander.test.tsx
 'use client';
-import React, { act } from 'react';
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ArrowExpander } from './index';
 
