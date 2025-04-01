@@ -38,8 +38,8 @@ export function TimePeriodDropDown({
     <div data-testid="timePeriod-dropDown-component">
       <H5>Select a time period</H5>
       <StyledSelect
-        data-testid="select-timePeriod-dropDown"
-        label="Select a time period..."
+        aria-label="select-timePeriod"
+        label=""
         input={{
           value: selectedYear,
           onChange: (e) => {
