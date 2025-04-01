@@ -8,7 +8,10 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { chunkArray, maxIndicatorAPIRequestSize } from '@/lib/ViewsHelpers';
+import {
+  chunkArray,
+  maxNumAreasThatCanBeRequestedAPI,
+} from '@/lib/ViewsHelpers';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -52,7 +55,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
     let healthIndicatorData: IndicatorWithHealthDataForArea | undefined;
     try {
       const healthIndicatorDataChunks = await Promise.all(
-        chunkArray(areaCodesToRequest, maxIndicatorAPIRequestSize).map(
+        chunkArray(areaCodesToRequest, maxNumAreasThatCanBeRequestedAPI).map(
           (requestAreas) =>
             indicatorApi.getHealthDataForAnIndicator(
               {
