@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SeriesLineOptions, SymbolKeyValue } from 'highcharts';
 import {
   generateSeriesData,
@@ -456,9 +457,7 @@ describe('generateStandardLineChartOptions', () => {
       }
     );
 
-    // eslint-disable  @typescript-eslint/no-explicit-any
     expect((generatedOptions.yAxis as any)!.title.text).toBe('yAxis');
-    // eslint-disable  @typescript-eslint/no-explicit-any
     expect((generatedOptions.xAxis as any)!.title.text).toBe('xAxis');
     expect(generatedOptions.accessibility!.description).toBe('accessibility');
 
